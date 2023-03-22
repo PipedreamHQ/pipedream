@@ -295,6 +295,21 @@ export default {
         ...opts,
       });
     },
+    async searchInvoices({
+      paginate = false, ...opts
+    } = {}) {
+      if (paginate) {
+        return this.paginate({
+          fn: this.searchInvoices,
+          ...opts,
+        });
+      }
+      return this._makeRequest({
+        path: "/invoices/search",
+        method: "post",
+        ...opts,
+      });
+    },
     async listLocations({
       paginate = false, ...opts
     } = {}) {

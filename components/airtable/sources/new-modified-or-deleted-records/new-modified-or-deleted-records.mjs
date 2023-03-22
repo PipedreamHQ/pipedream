@@ -1,5 +1,5 @@
 import moment from "moment";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import Bottleneck from "bottleneck";
 
 import common from "../common.mjs";
@@ -13,7 +13,7 @@ export default {
   ...common,
   name: "New, Modified or Deleted Records",
   key: "airtable-new-modified-or-deleted-records",
-  version: "0.1.1",
+  version: "0.2.0",
   type: "source",
   description:
     "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",
@@ -55,7 +55,7 @@ export default {
     const lastTimestamp = this.db.get("lastTimestamp");
     config.params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`;
 
-    const { data } = await axios(config);
+    const data = await axios(this, config);
 
     let allRecordIds = [],
       newRecordsCount = 0,
@@ -84,7 +84,7 @@ export default {
     delete config.params.filterByFormula;
 
     while (allRecordIds.length === 0 || config.params.offset) {
-      const { data } = await axiosRateLimiter(config);
+      const data = await axiosRateLimiter(this, config);
       if (!data.records.length || data.records.length === 0) return;
       allRecordIds = [
         ...allRecordIds,

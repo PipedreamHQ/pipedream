@@ -42,7 +42,9 @@ export default {
         const profiles = await this.getProfiles();
 
         return profiles.map((profile) => ({
-          label: profile.details.firstName + " " + profile.details.lastName,
+          label: profile.type == "personal"
+            ? `${profile.details.firstName} ${profile.details.lastName}`
+            : `${profile.details.name}`,
           value: profile.id,
         }));
       },
@@ -57,6 +59,24 @@ export default {
         return accounts.map((account) => ({
           label: `${account.accountHolderName} - ${account.currency}`,
           value: account.id,
+        }));
+      },
+    },
+    balanceId: {
+      label: "Balance ID",
+      description: "The balance ID",
+      type: "string",
+      async options({ profileId }) {
+        const balances = await this.getBalances({
+          profileId,
+          params: {
+            types: "STANDARD",
+          },
+        });
+
+        return balances.map((balance) => ({
+          label: balance.currency,
+          value: balance.id,
         }));
       },
     },
@@ -109,6 +129,22 @@ export default {
         ...args,
       });
     },
+    async getBalances({
+      profileId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/v4/profiles/${profileId}/balances`,
+        ...args,
+      });
+    },
+    async getBalance({
+      profileId, balanceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/v4/profiles/${profileId}/balances/${balanceId}`,
+        ...args,
+      });
+    },
     async getCurrencies(args = {}) {
       return this._makeRequest({
         path: "/v1/currency-pairs",
@@ -138,6 +174,15 @@ export default {
     async createTransfer({ ...args }) {
       return this._makeRequest({
         path: "/v1/transfers",
+        method: "post",
+        ...args,
+      });
+    },
+    async fundTransfer({
+      profileId, transferId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/v3/profiles/${profileId}/transfers/${transferId}/payments`,
         method: "post",
         ...args,
       });

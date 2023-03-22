@@ -293,7 +293,7 @@ export default {
     },
     unfurl_media: {
       type: "boolean",
-      label: "Unful Media",
+      label: "Unfurl Media",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of media content.",
       optional: true,
     },
@@ -341,8 +341,8 @@ export default {
       description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
       optional: true,
       async options() {
-        return await this.getCustomEmojis()
-      }
+        return await this.getCustomEmojis();
+      },
     },
     content: {
       label: "File Path",
@@ -750,10 +750,10 @@ export default {
         ...args,
       });
     },
-    async getCustomEmojis(cursor) {
+    async getCustomEmojis() {
       const resp = await this.sdk().emoji.list();
 
-      return Object.keys(resp.emoji)
+      return Object.keys(resp.emoji);
     },
   },
 };

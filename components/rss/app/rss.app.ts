@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import FeedParser from "feedparser";
 import { Item } from "feedparser";
 import hash from "object-hash";
@@ -53,7 +53,7 @@ export default defineApp({
       return hash(item);
     },
     async fetchFeed(url: string): Promise<any> {
-      const res = await axios({
+      const res = await axios(this, {
         url,
         method: "GET",
         headers: {
@@ -61,6 +61,7 @@ export default defineApp({
         },
         validateStatus: () => true, // does not throw on any bad status code
         responseType: "stream", // stream is required for feedparser
+        returnResponse: true,
       });
 
       // Handle status codes as error codes
