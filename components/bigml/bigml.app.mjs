@@ -5,6 +5,31 @@ export default {
   type: "app",
   app: "bigml",
   propDefinitions: {
+    sourceId: {
+      type: "string",
+      label: "Source ID",
+      description: "The ID of the source",
+      async options({ prevContext }) {
+        const {
+          meta,
+          objects: sources,
+        } = await this.listSources({
+          params: {
+            limit: constants.ASYNC_OPTIONS_LIMIT,
+            offset: prevContext.offset,
+          },
+        });
+        return {
+          context: {
+            offset: meta.offset + meta.limit,
+          },
+          options: sources.map((source) => ({
+            label: source.name,
+            value: source.resource,
+          })),
+        };
+      },
+    },
     datasetId: {
       type: "string",
       label: "Dataset ID",
@@ -26,6 +51,31 @@ export default {
           options: datasets.map((dataset) => ({
             label: dataset.name,
             value: dataset.resource,
+          })),
+        };
+      },
+    },
+    modelId: {
+      type: "string",
+      label: "Model ID",
+      description: "The ID of the model",
+      async options({ prevContext }) {
+        const {
+          meta,
+          objects: models,
+        } = await this.listModels({
+          params: {
+            limit: constants.ASYNC_OPTIONS_LIMIT,
+            offset: prevContext.offset,
+          },
+        });
+        return {
+          context: {
+            offset: meta.offset + meta.limit,
+          },
+          options: models.map((model) => ({
+            label: model.name,
+            value: model.resource,
           })),
         };
       },
@@ -79,6 +129,20 @@ export default {
         }
       }
     },
+    async listSources({
+      paginate = false, ...opts
+    } = {}) {
+      if (paginate) {
+        return this.paginate({
+          fn: this.listSources,
+          ...opts,
+        });
+      }
+      return this._makeRequest({
+        ...opts,
+        path: "/source",
+      });
+    },
     async listDatasets({
       paginate = false, ...opts
     } = {}) {
@@ -91,6 +155,20 @@ export default {
       return this._makeRequest({
         ...opts,
         path: "/dataset",
+      });
+    },
+    async listModels({
+      paginate = false, ...opts
+    } = {}) {
+      if (paginate) {
+        return this.paginate({
+          fn: this.listModels,
+          ...opts,
+        });
+      }
+      return this._makeRequest({
+        ...opts,
+        path: "/model",
       });
     },
     async getResource({
