@@ -3,15 +3,20 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "sitecreator_io",
-  propDefinitions: {},
+  propDefinitions: {
+    siteId: {
+      type: "string",
+      label: "Site ID",
+      description: "Identifier of a website. Present in the URL when editing your site from the [Websites List](https://admin.sitecreator.io/pages/websites/list) page.",
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://api.sitecreator.io/v1";
     },
     _headers() {
       return {
-        //"Your_Api_Key": this.$auth.api_key,
-        Authorization: `Bearer ${this.$auth.api_key}`,
+        apikey: this.$auth.api_key,
       };
     },
     async _makeRequest({
@@ -35,14 +40,8 @@ export default {
     },
     createSite(args = {}) {
       return this._makeRequest({
-        path: "/sites",
+        path: "/site",
         method: "POST",
-        ...args,
-      });
-    },
-    getSites(args = {}) {
-      return this._makeRequest({
-        path: "/sites",
         ...args,
       });
     },

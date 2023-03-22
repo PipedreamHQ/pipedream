@@ -1,4 +1,5 @@
 import sitecreator from "../../sitecreator_io.app.mjs";
+import constants from "../common/constants.mjs";
 import * as locale from "locale-codes";
 
 export default {
@@ -38,6 +39,71 @@ export default {
       type: "string",
       label: "Site Data",
       description: "Site data for the new site",
+      optional: true,
+      default: "empty",
+    },
+    accent: {
+      type: "string",
+      label: "Accent",
+      description: "Site Style accent color",
+      optional: true,
+      default: constants.SITE_STYLE_DEFAULTS.ACCENT,
+    },
+    gradientBg: {
+      type: "string",
+      label: "Grandient Background",
+      description: "Site Style gradient background color",
+      optional: true,
+      default: constants.SITE_STYLE_DEFAULTS.GRADIENTBG,
+    },
+    gradientImage: {
+      type: "string",
+      label: "Grandient Image",
+      description: "Site Style gradient image",
+      optional: true,
+      default: constants.SITE_STYLE_DEFAULTS.GRANDIENTIMAGE,
+    },
+    lightBg: {
+      type: "string",
+      label: "Light Background",
+      description: "Site Style light background color",
+      optional: true,
+      default: constants.SITE_STYLE_DEFAULTS.LIGHTBG,
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Site Style name",
+      optional: true,
+      default: constants.SITE_STYLE_DEFAULTS.NAME,
+    },
+    primaryBg: {
+      type: "string",
+      label: "Primary Background",
+      description: "Site Style primary background color",
+      optional: true,
+      default: constants.SITE_STYLE_DEFAULTS.PRIMARYBG,
+    },
+    primaryText: {
+      type: "string",
+      label: "Primary Text",
+      description: "Site Style primary text color",
+      optional: true,
+      default: constants.SITE_STYLE_DEFAULTS.PRIMARYTEXT,
+    },
+    secondaryBg: {
+      type: "string",
+      label: "Secondary Background",
+      description: "Site Style secondary background color",
+      optional: true,
+      default: constants.SITE_STYLE_DEFAULTS.SECONDARYBG,
+    },
+    secondaryText: {
+      type: "string",
+      label: "Sedondary Text",
+      description: "Site Style secondary text color",
+      optional: true,
+      default: constants.SITE_STYLE_DEFAULTS.SECONDARYTEXT,
     },
   },
   methods: {
@@ -60,15 +126,15 @@ export default {
       language: this.language,
       siteData: this.siteData,
       siteStyle: {
-        accent: "#536DFE",
-        gradientBg: "#9c27b0",
-        gradientImage: "radial-gradient(circle at 50% 60%, #f44336, #e91e63, #9c27b0 100%)",
-        lightBg: "#f4f4f4",
-        name: "Purple Indigo",
-        primaryBg: "#9C27B0",
-        primaryText: "#ffffff",
-        secondaryBg: "#7B1FA2",
-        secondaryText: "#000000",
+        accent: this.accent,
+        gradientBg: this.gradientBg,
+        gradientImage: this.gradientImage,
+        lightBg: this.lightBg,
+        name: this.name,
+        primaryBg: this.primaryBg,
+        primaryText: this.primaryText,
+        secondaryBg: this.secondaryBg,
+        secondaryText: this.secondaryText,
       },
     };
 

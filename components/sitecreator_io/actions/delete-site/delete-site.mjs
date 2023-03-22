@@ -9,9 +9,10 @@ export default {
   props: {
     sitecreator,
     siteId: {
-      type: "string",
-      label: "Site ID",
-      description: "ID of the site to be deleted",
+      propDefinition: [
+        sitecreator,
+        "siteId",
+      ],
     },
   },
   async run({ $ }) {
