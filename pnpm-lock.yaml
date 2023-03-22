@@ -2141,6 +2141,12 @@ importers:
       '@pipedream/platform': 1.2.0
       node-mailjet: 3.4.1
 
+  components/mailmodo:
+    specifiers:
+      '@pipedream/platform': ^1.4.0
+    dependencies:
+      '@pipedream/platform': 1.4.0
+
   components/mailrefine:
     specifiers: {}
 

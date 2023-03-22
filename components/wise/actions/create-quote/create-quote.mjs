@@ -4,7 +4,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Quote",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "wise-create-quote",
   description: "Creates a quote. [See docs here](https://api-docs.wise.com/api-reference/quote#create-authenticated)",
   type: "action",
@@ -49,7 +49,7 @@ export default {
     },
     payoutType: {
       label: "Payout Type",
-     description: "Preferred payout method. Default value is `BANK_TRANSFER`. If you are funding the transfer from a Multi Currency Balance, you must set the `payOut` as `BALANCE` in order to get the correct pricing in the quote . By not doing so, it will default to `BANK_TRANSFER` and the fees will be inconsistent between quote and transfer.",
+      description: "Preferred payout method. Default value is `BANK_TRANSFER`. If you are funding the transfer from a Multi Currency Balance, you must set the `payOut` as `BALANCE` in order to get the correct pricing in the quote . By not doing so, it will default to `BANK_TRANSFER` and the fees will be inconsistent between quote and transfer.",
       type: "string",
       options: constants.PAYOUT_TYPES,
       default: constants.PAYOUT_TYPES[0],
