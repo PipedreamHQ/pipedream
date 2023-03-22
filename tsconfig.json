@@ -1640,6 +1640,9 @@
     },
     {
       "path": "components/webscraper_io"
+    },
+    {
+      "path": "components/gravity_forms"
     }
   ]
 }
