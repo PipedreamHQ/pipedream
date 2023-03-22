@@ -1,28 +1,35 @@
-import gorgias from "../../gorgias.app.mjs";
+import gorgias_oauth from "../../gorgias_oauth.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   dedupe: "unique",
   props: {
-    gorgias,
+    gorgias_oauth,
     db: "$.service.db",
     http: "$.interface.http",
   },
   hooks: {
     async deploy() {
       console.log("Retrieving historical events...");
-      const events = this.gorgias.paginate({
-        fn: this.gorgias.getEvents,
+      const { data: historicalEvents } = await this.gorgias_oauth.getEvents({
         params: {
+          order_by: "created_datetime:desc",
+          limit: constants.HISTORICAL_EVENTS_LIMIT,
           types: this.getEventType(),
         },
       });
-      for await (const event of events) {
-        await this.processHistoricalEvent(event);
+
+      const events = await Promise.all(
+        historicalEvents.map((event) => this.processHistoricalEvent(event)),
+      );
+
+      for (const event of events.reverse()) {
+        this.processEvent(event);
       }
     },
     async activate() {
       console.log("Creating webhook...");
-      const { id } = await this.gorgias.createWebhook({
+      const { id } = await this.gorgias_oauth.createWebhook({
         url: this.http.endpoint,
         eventType: this.getEventType(),
       });
@@ -32,7 +39,7 @@ export default {
     async deactivate() {
       const id = this.getWebhookId();
       console.log(`Deleting webhook ${id}...`);
-      await this.gorgias.deleteWebhook({
+      await this.gorgias_oauth.deleteWebhook({
         id,
       });
       this.setWebhookId();
@@ -61,15 +68,12 @@ export default {
       this.db.set("webhookId", webhookId);
     },
     async retrieveTicket(id) {
-      console.log(`Received ${this.getEventType()} for ticket ${id}`);
-      console.log(`Fetching data for ticket ${id}`);
-      return this.gorgias.retrieveTicket({
+      return this.gorgias_oauth.retrieveTicket({
         id,
       });
     },
     emitEvent(event) {
-      console.log(`Emitting event ${event.id}:`);
-      console.log(event);
+      console.log(`Emitting event ${event.id}`);
       const ts = Date.parse(event[this.getTimestampKey()]);
       this.$emit(event, {
         id: `${event.id}_${ts}`,
@@ -79,8 +83,6 @@ export default {
     },
   },
   async run(event) {
-    console.log("Raw received event:");
-    console.log(event);
     return this.processEvent(event.body);
   },
 };
