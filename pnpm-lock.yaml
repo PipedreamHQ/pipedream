@@ -3166,7 +3166,10 @@ importers:
     specifiers: {}
 
   components/rest_countries_pe:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/rev:
     specifiers:
