@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "beanstalkapp",
+  app: "gravity_forms",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
