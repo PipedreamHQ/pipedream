@@ -1,5 +1,4 @@
 import base from "../common/base.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   ...base,
@@ -9,22 +8,11 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  hooks: {
-    async deploy() {
-      this.setLastDate(new Date());
-      console.log("Retrieving historical events...");
-      const { objects: models } = await this.bigml.listModels({
-        params: {
-          limit: constants.HISTORICAL_EVENTS_LIMIT,
-        },
-      });
-      for (const model of models.reverse()) {
-        this.emitEvent(model);
-      }
-    },
-  },
   methods: {
     ...base.methods,
+    listingFunction() {
+      return this.bigml.listModels;
+    },
     emitEvent(model) {
       this.$emit(model, {
         id: model.resource,
@@ -32,33 +20,5 @@ export default {
         ts: model.created,
       });
     },
-  },
-  async run() {
-    let offset = 0;
-
-    while (true) {
-      const lastDate = this.getLastDate();
-      const currentDate = new Date();
-
-      const { objects: models } = await this.bigml.listModels({
-        paginate: true,
-        params: {
-          offset,
-          limit: constants.MAX_LIMIT,
-          created__gte: lastDate,
-        },
-      });
-
-      this.setLastDate(currentDate);
-      offset += models.length;
-
-      if (models.length === 0) {
-        return;
-      }
-
-      for (const model of models) {
-        this.emitEvent(model);
-      }
-    }
   },
 };
