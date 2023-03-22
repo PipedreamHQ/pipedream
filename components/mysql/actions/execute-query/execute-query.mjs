@@ -5,7 +5,7 @@ export default {
   name: "Execute Query",
   description: "Find row(s) via a custom query. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     mysql,
     table: {
@@ -27,12 +27,19 @@ export default {
         "whereValues",
       ],
     },
+    rejectUnauthorized: {
+      propDefinition: [
+        mysql,
+        "rejectUnauthorized",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       table,
       condition,
       values,
+      rejectUnauthorized,
     } = this;
 
     const numberOfQuestionMarks = condition?.match(/\?/g)?.length;
@@ -53,6 +60,7 @@ export default {
       table,
       condition,
       values,
+      rejectUnauthorized,
     });
 
     $.export("$summary", `Successfully found ${result.length} row(s) from table ${table}`);
