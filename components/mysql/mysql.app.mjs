@@ -100,7 +100,7 @@ export default {
     },
   },
   methods: {
-    async getConnection({ rejectUnauthorized } = {}) {
+    async getConnection(rejectUnauthorized = false) {
       const {
         host,
         port,
