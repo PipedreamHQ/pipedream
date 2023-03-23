@@ -50,20 +50,16 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    _getParamsSerializer() {
-      return (p) =>
-        qs.stringify(p, {
-          arrayFormat: "brackets",
-        });
-    },
     async _makeRequest(method, endpoint, params = {}) {
       const config = {
         method,
         url: `${this._getBaseUrl()}/${endpoint}`,
         headers: this._getHeaders(),
         params,
-        paramsSerializer: {
-          serializer: this._getParamsSerializer(params),
+        paramsSerializer: function (params) {
+          return qs.stringify(params, {
+            arrayFormat: "brackets",
+          });
         },
         returnFullResponse: true,
       };

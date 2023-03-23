@@ -42,7 +42,9 @@ export default {
         const profiles = await this.getProfiles();
 
         return profiles.map((profile) => ({
-          label: profile.type == 'personal' ? `${profile.details.firstName} ${profile.details.lastName}` : `${profile.details.name}`,
+          label: profile.type == "personal"
+            ? `${profile.details.firstName} ${profile.details.lastName}`
+            : `${profile.details.name}`,
           value: profile.id,
         }));
       },

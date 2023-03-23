@@ -6,7 +6,7 @@ export default {
   key: "twitch-new-follower",
   description: "Emit new event when a new user follows your channel.",
   type: "source",
-  version: "0.1.0",
+  version: "0.1.1",
   methods: {
     ...common.methods,
     async getTopics() {
