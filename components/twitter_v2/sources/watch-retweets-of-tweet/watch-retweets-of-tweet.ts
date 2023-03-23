@@ -61,8 +61,8 @@ export default defineSource({
       }
 
       const {
-        referenced_tweets: referencedTweets, includes: { tweets },
-      }: Tweet = await this.app.getTweet(params);
+        data: { referenced_tweets: referencedTweets }, includes: { tweets },
+      } = await this.app.getTweet(params);
 
       const retweetIds = referencedTweets.filter(({ type }) => type === "retweeted").map(({ id }) => id);
 

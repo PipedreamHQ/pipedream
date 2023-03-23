@@ -49,7 +49,8 @@ export default defineSource({
         params.params = this.getUserFields();
       }
 
-      return this.app.getUserFollowing(params);
+      const { data } = await this.app.getUserFollowing(params);
+      return data;
     },
   },
 });

@@ -47,7 +47,8 @@ export default defineSource({
         userId: this.getUserId(),
       };
 
-      return this.app.getUserFollowers(params);
+      const { data } = await this.app.getUserFollowers(params);
+      return data;
     },
     async getAndProcessData(emit = false) {
       const data: User[] = await this.getResources(emit);

@@ -49,7 +49,8 @@ export default defineSource({
         params.params = this.getTweetFields();
       }
 
-      return this.app.getListTweets(params);
+      const { data } = await this.app.getListTweets(params);
+      return data;
     },
   },
 });

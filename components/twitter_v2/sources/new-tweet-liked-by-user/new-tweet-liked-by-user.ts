@@ -49,7 +49,8 @@ export default defineSource({
         params.params = this.getTweetFields();
       }
 
-      return this.app.getUserLikedTweets(params);
+      const { data } = await this.app.getUserLikedTweets(params);
+      return data;
     },
   },
 });

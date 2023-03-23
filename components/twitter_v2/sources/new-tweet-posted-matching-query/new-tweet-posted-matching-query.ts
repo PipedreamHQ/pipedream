@@ -51,7 +51,8 @@ export default defineSource({
         };
       }
 
-      return this.app.searchTweets(params);
+      const { data } = await this.app.searchTweets(params);
+      return data;
     },
   },
 });

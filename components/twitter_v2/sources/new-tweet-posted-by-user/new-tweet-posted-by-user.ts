@@ -76,7 +76,8 @@ export default defineSource({
         };
       }
 
-      return this.app.getUserTweets(params);
+      const { data } = await this.app.getUserTweets(params);
+      return data;
     },
   },
 });
