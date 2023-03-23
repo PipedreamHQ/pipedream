@@ -18,9 +18,6 @@
     "@pipedream/types": "^0.1.4",
     "openai": "^3.2.1"
   },
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "devDependencies": {
     "@types/node": "^17.0.45"
   }
