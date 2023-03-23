@@ -115,7 +115,7 @@ export default {
         password,
         database,
         ssl: {
-          rejectUnauthorized: rejectUnauthorized ?? false,
+          rejectUnauthorized,
         },
       });
     },
