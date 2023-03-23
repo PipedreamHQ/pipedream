@@ -196,5 +196,12 @@ export default {
         path: `/${resource}`,
       });
     },
+    async createModel(opts) {
+      return this._makeRequest({
+        ...opts,
+        path: "/model",
+        method: "post",
+      });
+    },
   },
 };
