@@ -2541,7 +2541,12 @@ importers:
     specifiers: {}
 
   components/onfleet:
-    specifiers: {}
+    specifiers:
+      '@onfleet/node-onfleet': ^1.3.3
+      moment: ^2.29.4
+    dependencies:
+      '@onfleet/node-onfleet': 1.3.3
+      moment: 2.29.4
 
   components/ongage:
     specifiers:
@@ -10166,6 +10171,15 @@ packages:
 
   /@octokit/webhooks-definitions/3.67.3:
     resolution: {integrity: sha512-do4Z1r2OVhuI0ihJhQ8Hg+yPWnBYEBNuFNCrvtPKoYT1w81jD7pBXgGe86lYuuNirkDHb0Nxt+zt4O5GiFJfgA==}
+    dev: false
+
+  /@onfleet/node-onfleet/1.3.3:
+    resolution: {integrity: sha512-0pcg+J9pdNEMAt/GYq96l4rmBsrsDwnTCWrjZhRCKmTlZq0QHBN/8u8smR7RPubg+DsMc5MOSPXXoLsfn03YIg==}
+    dependencies:
+      bottleneck: 2.19.5
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@opentelemetry/api/1.1.0:
