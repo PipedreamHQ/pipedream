@@ -41,7 +41,8 @@ export default defineApp({
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum amount of items to return. The maximum amount of requests that can be made is 5.",
+      description: "Maximum total amount of items to return. The maximum amount of requests that can be made is 5.",
+      optional: true,
     },
     listId: {
       type: "string",
@@ -170,9 +171,7 @@ export default defineApp({
       do {
         const perPage = Math.min(maxResults - resultCount, maxPerPage);
 
-        const {
-          data, next_token,
-        }: PaginatedResponse = await this._httpRequest({
+        const { data, meta: { next_token } }: PaginatedResponse = await this._httpRequest({
           params: {
             ...params,
             max_results: perPage,
@@ -180,7 +179,9 @@ export default defineApp({
           },
           ...args,
         });
-        result.push(...data);
+
+        if (!data) break;
+        result.push(...(Array.isArray(data) ? data : [data]));
         paginationToken = next_token;
         resultCount += perPage;
       } while (paginationToken && resultCount < maxResults);

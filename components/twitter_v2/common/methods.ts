@@ -1,15 +1,15 @@
+import { ConfigurationError } from "@pipedream/platform";
+
 export async function getUserId(): Promise<string> {
-  const { userNameOrId } = this;
+  let { userNameOrId: id } = this;
 
-  let id = userNameOrId;
-
-  if (userNameOrId === "me") {
-    id = await this.app.getAuthenticatedUserId();
-  } else if (userNameOrId.startsWith("@")) {
-    id = await this.app.getUserByUsername(userNameOrId.slice(1));
-  }
-
-  if (!id) throw new Error("User not found");
+    if (id === "me" || id === undefined) {
+      id = await this.app.getAuthenticatedUserId();
+    } else if (id.startsWith("@")) {
+      const userData = await this.app.getUserByUsername(id.slice(1));
+      if (!userData) throw new ConfigurationError("**User not found!** Check the `User Name or ID` prop.");
+      id = userData.id;
+    }
 
   return id;
 }

@@ -28,6 +28,9 @@ export interface User extends TwitterEntity {
 }
 
 export interface PaginatedResponse {
-  data: object[];
-  next_token: string;
+  data?: TwitterEntity[];
+  meta: {
+    next_token?: string;
+    result_count: number;
+  };
 }
