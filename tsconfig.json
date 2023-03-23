@@ -1646,6 +1646,9 @@
     },
     {
       "path": "components/gravity_forms"
+    },
+    {
+      "path": "components/twitter_v2"
     }
   ]
 }

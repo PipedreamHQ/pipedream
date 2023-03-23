@@ -1,17 +1,16 @@
 {
   "name": "@pipedream/twitter_v2",
   "version": "0.0.1",
-  "description": "Pipedream Twitter V2 Components",
+  "description": "Pipedream Twitter v2 Components",
   "main": "dist/app/twitter_v2.app.mjs",
   "keywords": [
     "pipedream",
-    "twitter"
+    "twitter_v2"
   ],
-  "files": [
-    "dist"
-  ],
-  "homepage": "https://pipedream.com/apps/twitter",
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/twitter_v2",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
