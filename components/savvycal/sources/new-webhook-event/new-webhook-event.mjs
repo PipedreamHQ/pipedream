@@ -3,7 +3,7 @@ import options from "../../common/options.mjs";
 import crypto from "crypto";
 
 export default {
-  key: "savvycal-new-comment",
+  key: "savvycal-new-webhook-event",
   name: "New Webhook Event (Instant)",
   description: "Emit new event when a new webhook event occurs.",
   version: "0.0.1",
