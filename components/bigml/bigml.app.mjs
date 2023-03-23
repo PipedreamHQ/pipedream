@@ -203,5 +203,12 @@ export default {
         method: "post",
       });
     },
+    async createBatchPrediction(opts) {
+      return this._makeRequest({
+        ...opts,
+        path: "/batchprediction",
+        method: "post",
+      });
+    },
   },
 };
