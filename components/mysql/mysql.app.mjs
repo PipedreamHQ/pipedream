@@ -108,7 +108,6 @@ export default {
         password,
         database,
       } = this.$auth;
-      console.log(rejectUnauthorized);
       return mysqlClient.createConnection({
         host,
         port,
