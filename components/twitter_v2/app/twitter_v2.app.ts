@@ -31,7 +31,7 @@ import {
   TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
 } from "../common/expansions";
 import {
-  List, PaginatedResponse, Tweet, TwitterEntity, User,
+  List, PaginatedResponseObject, ResponseObject, Tweet, TwitterEntity, User,
 } from "../common/types/responseSchemas";
 
 export default defineApp({
@@ -154,7 +154,7 @@ export default defineApp({
     async _httpRequest({
       $ = this,
       ...args
-    }: HttpRequestParams): Promise<object> {
+    }: HttpRequestParams): Promise<ResponseObject<TwitterEntity>> {
       return axios($, {
         baseURL: this._getBaseUrl(),
         headers: this._getHeaders(),
@@ -163,15 +163,17 @@ export default defineApp({
     },
     async _paginatedRequest({
       maxResults = 100, maxPerPage = 100, params, ...args
-    }: PaginatedRequestParams): Promise<TwitterEntity[]> {
-      const result = [];
+    }: PaginatedRequestParams): Promise<PaginatedResponseObject<TwitterEntity>> {
+      const totalData = [], totalIncludes = {};
       let paginationToken: string;
       let resultCount = 0;
 
       do {
         const perPage = Math.min(maxResults - resultCount, maxPerPage);
 
-        const { data, meta: { next_token } }: PaginatedResponse = await this._httpRequest({
+        const {
+          data, meta: { next_token }, includes,
+        }: PaginatedResponseObject<TwitterEntity> = await this._httpRequest({
           params: {
             ...params,
             max_results: perPage,
@@ -181,53 +183,67 @@ export default defineApp({
         });
 
         if (!data) break;
-        result.push(...(Array.isArray(data) ? data : [data]));
+        totalData.push(...(Array.isArray(data)
+          ? data
+          : [
+            data,
+          ]));
+
+        if (includes) {
+          Object.entries(includes).forEach(([
+            key,
+            value]: [string, TwitterEntity[]
+]) => {
+            if (!totalIncludes[key]) totalIncludes[key] = [];
+            totalIncludes[key].push(...value);
+          });
+        }
+
         paginationToken = next_token;
         resultCount += perPage;
       } while (paginationToken && resultCount < maxResults);
 
-      return result;
+      return {
+        data: totalData,
+        includes: totalIncludes,
+      };
     },
     async addUserToList({
       listId, ...args
     }: AddUserToListParams): Promise<object> {
-      const response = await this._httpRequest({
+      return this._httpRequest({
         method: "POST",
         url: `/lists/${listId}/members`,
         ...args,
       });
-      return response.data;
     },
     async createTweet(args: CreateTweetParams): Promise<object> {
-      const response = await this._httpRequest({
+      return this._httpRequest({
         method: "POST",
         url: "/tweets",
         ...args,
       });
-      return response.data;
     },
     async deleteTweet({
       tweetId, ...args
     }: DeleteTweetParams): Promise<object> {
-      const response = await this._httpRequest({
+      return this._httpRequest({
         method: "DELETE",
         url: `/tweets/${tweetId}`,
         ...args,
       });
-      return response.data;
     },
     async followUser(args: FollowUserParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
-      const response = await this._httpRequest({
+      return this._httpRequest({
         method: "POST",
         url: `/users/${id}/following`,
         ...args,
       });
-      return response.data;
     },
     async getListTweets({
       listId, ...args
-    }: GetListTweetsParams): Promise<Tweet[]> {
+    }: GetListTweetsParams): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: `/lists/${listId}/tweets`,
         ...args,
@@ -235,12 +251,11 @@ export default defineApp({
     },
     async getTweet({
       tweetId, ...args
-    }: GetTweetParams): Promise<Tweet> {
-      const response = await this._httpRequest({
+    }: GetTweetParams): Promise<ResponseObject<Tweet>> {
+      return this._httpRequest({
         url: `/tweets/${tweetId}`,
         ...args,
       });
-      return response.data;
     },
     async getAuthenticatedUserId(): Promise<User["id"]> {
       const response = await this._httpRequest({
@@ -250,7 +265,7 @@ export default defineApp({
     },
     async getUserLikedTweets({
       userId, ...args
-    }: GetUserLikedTweetParams): Promise<Tweet[]> {
+    }: GetUserLikedTweetParams): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: `/users/${userId}/liked_tweets`,
         ...args,
@@ -258,16 +273,15 @@ export default defineApp({
     },
     async getUserOwnedLists({
       userId, ...args
-    }: GetUserOwnedListsParams): Promise<List[]> {
-      const response = await this._httpRequest({
+    }: GetUserOwnedListsParams): Promise<PaginatedResponseObject<List>> {
+      return this._httpRequest({
         url: `/users/${userId}/owned_lists`,
         ...args,
       });
-      return response.data;
     },
     async getUserFollowedLists({
       userId, ...args
-    }: GetUserFollowedListsParams): Promise<List[]> {
+    }: GetUserFollowedListsParams): Promise<PaginatedResponseObject<List>> {
       return this._paginatedRequest({
         url: `/users/${userId}/followed_lists`,
         ...args,
@@ -275,7 +289,7 @@ export default defineApp({
     },
     async getUserMentions({
       userId, ...args
-    }: GetUserMentionsParams): Promise<Tweet[]> {
+    }: GetUserMentionsParams): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: `/users/${userId}/mentions`,
         ...args,
@@ -283,39 +297,36 @@ export default defineApp({
     },
     async getUserTweets({
       userId, ...args
-    }: GetUserTweetsParams): Promise<Tweet[]> {
+    }: GetUserTweetsParams): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: `/users/${userId}/tweets`,
         ...args,
       });
     },
-    async getUserByUsername(username: string): Promise<User> {
-      const response = await this._httpRequest({
+    async getUserByUsername(username: string): Promise<ResponseObject<User>> {
+      return this._httpRequest({
         url: `/users/by/username/${username}`,
       });
-      return response.data;
     },
     async getUser({
       userId, ...args
-    }: GetUserParams): Promise<User> {
-      const response = await this._httpRequest({
+    }: GetUserParams): Promise<ResponseObject<User>> {
+      return this._httpRequest({
         url: `/users/${userId}`,
         ...args,
       });
-      return response.data;
     },
     async likeTweet(args: LikeTweetParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
-      const response = await this._httpRequest({
+      return this._httpRequest({
         method: "POST",
         url: `/users/${id}/likes`,
         ...args,
       });
-      return response.data;
     },
     async getUserFollowers({
       userId, ...args
-    }: GetUserFollowersParams): Promise<User[]> {
+    }: GetUserFollowersParams): Promise<PaginatedResponseObject<User>> {
       return this._paginatedRequest({
         url: `/users/${userId}/followers`,
         ...args,
@@ -323,7 +334,7 @@ export default defineApp({
     },
     async getUserFollowing({
       userId, ...args
-    }: GetUserFollowingParams): Promise<User[]> {
+    }: GetUserFollowingParams): Promise<PaginatedResponseObject<User>> {
       return this._paginatedRequest({
         url: `/users/${userId}/following`,
         ...args,
@@ -331,44 +342,40 @@ export default defineApp({
     },
     async retweet(args: RetweetParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
-      const response = await this._httpRequest({
+      return this._httpRequest({
         method: "POST",
         url: `/users/${id}/retweets`,
         ...args,
       });
-      return response.data;
     },
     async searchTweets(
       args
     : SearchTweetsParams,
-    ): Promise<Tweet[]> {
-      const response = await this._paginatedRequest({
+    ): Promise<PaginatedResponseObject<Tweet>> {
+      return this._paginatedRequest({
         url: "/tweets/search/recent",
         ...args,
       });
-      return response.data;
     },
     async unfollowUser({
       userId, ...args
     }: UnfollowUserParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
-      const response = await this._httpRequest({
+      return this._httpRequest({
         method: "DELETE",
         url: `/users/${id}/following/${userId}`,
         ...args,
       });
-      return response.data;
     },
     async unlikeTweet({
       tweetId, ...args
     }: UnlikeTweetParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
-      const response = await this._httpRequest({
+      return this._httpRequest({
         method: "DELETE",
         url: `/users/${id}/likes/${tweetId}`,
         ...args,
       });
-      return response.data;
     },
   },
 });

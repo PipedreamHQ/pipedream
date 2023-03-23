@@ -6,7 +6,9 @@ import {
 } from "../../common/methods";
 import { tweetFieldProps } from "../../common/propGroups";
 import { GetUserMentionsParams } from "../../common/types/requestParams";
-import { Tweet } from "../../common/types/responseSchemas";
+import {
+  PaginatedResponseObject, Tweet,
+} from "../../common/types/responseSchemas";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-mentions";
@@ -43,7 +45,7 @@ export default defineAction({
     getUserId,
     getTweetFields,
   },
-  async run({ $ }): Promise<Tweet[]> {
+  async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
     const userId = await this.getUserId();
 
     const params: GetUserMentionsParams = {

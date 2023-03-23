@@ -5,7 +5,9 @@ import {
 } from "../../common/methods";
 import { GetUserFollowersParams } from "../../common/types/requestParams";
 import { userFieldProps } from "../../common/propGroups";
-import { User } from "../../common/types/responseSchemas";
+import {
+  PaginatedResponseObject, User,
+} from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-followers";
@@ -42,7 +44,7 @@ export default defineAction({
     getUserId,
     getUserFields,
   },
-  async run({ $ }): Promise<User[]> {
+  async run({ $ }): Promise<PaginatedResponseObject<User>> {
     const userId = await this.getUserId();
 
     const params: GetUserFollowersParams = {

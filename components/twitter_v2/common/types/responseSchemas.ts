@@ -27,10 +27,24 @@ export interface User extends TwitterEntity {
   username: string;
 }
 
-export interface PaginatedResponse {
-  data?: TwitterEntity[];
-  meta: {
+interface ResponseIncludes {
+  users?: User[];
+  tweets?: Tweet[];
+}
+
+interface ResponseBase {
+  includes?: ResponseIncludes;
+  errors?: object;
+}
+
+export type ResponseObject<T extends TwitterEntity> = ResponseBase & {
+  data?: T | T[];
+};
+
+export type PaginatedResponseObject<T extends TwitterEntity> = ResponseBase & {
+  data?: T[];
+  meta?: {
     next_token?: string;
     result_count: number;
   };
-}
+};

@@ -5,7 +5,9 @@ import {
 } from "../../common/methods";
 import { tweetFieldProps } from "../../common/propGroups";
 import { GetUserLikedTweetParams } from "../../common/types/requestParams";
-import { Tweet } from "../../common/types/responseSchemas";
+import {
+  PaginatedResponseObject, Tweet,
+} from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/get-users-id-liked_tweets";
@@ -42,7 +44,7 @@ export default defineAction({
     getUserId,
     getTweetFields,
   },
-  async run({ $ }): Promise<Tweet[]> {
+  async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
     const userId = await this.getUserId();
 
     const params: GetUserLikedTweetParams = {

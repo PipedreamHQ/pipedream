@@ -3,7 +3,9 @@ import { defineAction } from "@pipedream/types";
 import { getTweetFields } from "../../common/methods";
 import { tweetFieldProps } from "../../common/propGroups";
 import { GetListTweetsParams } from "../../common/types/requestParams";
-import { Tweet } from "../../common/types/responseSchemas";
+import {
+  PaginatedResponseObject, Tweet,
+} from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/lists/list-tweets/api-reference/get-lists-id-tweets";
@@ -44,7 +46,7 @@ export default defineAction({
   methods: {
     getTweetFields,
   },
-  async run({ $ }): Promise<Tweet[]> {
+  async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
     const {
       listId, searchTerms,
     } = this;
@@ -56,8 +58,9 @@ export default defineAction({
       params: this.getTweetFields(),
     };
 
-    const tweets: Tweet[] = await this.app.getListTweets(params);
-    const filteredTweets = tweets.filter(({ text }) => searchTerms.every((term) => term.split("|").some((splitTerm) => text.includes(splitTerm))));
+    const response = await this.app.getListTweets(params);
+    const { data } = response;
+    const filteredTweets = data.filter(({ text }) => searchTerms.every((term) => term.split("|").some((splitTerm) => text.includes(splitTerm))));
     const { length } = filteredTweets;
 
     const summary = length
@@ -67,6 +70,9 @@ export default defineAction({
       : "No tweets found matching the given input";
     $.export("$summary", summary);
 
-    return filteredTweets;
+    return {
+      ...filteredTweets,
+      data: filteredTweets,
+    };
   },
 });
