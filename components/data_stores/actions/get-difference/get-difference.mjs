@@ -5,8 +5,7 @@ export default {
   key: "data_stores-get-difference",
   name: "Get Difference",
   description: "Get the difference between two data stores. Result contains key/value pairs where the key exists in one data store, but not the other. [Pipedream Data Stores](https://pipedream.com/data-stores/).",
-  //version: "0.0.1",
-  version: "0.0.10",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
