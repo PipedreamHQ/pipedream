@@ -2,16 +2,21 @@
   "name": "@pipedream/spoonacular",
   "version": "0.0.1",
   "description": "Pipedream Spoonacular Components",
-  "main": "dist/app/spoonacular.app.mjs",
+  "main": "spoonacular.app.mjs",
   "keywords": [
     "pipedream",
     "spoonacular"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/spoonacular",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
   }
 }
