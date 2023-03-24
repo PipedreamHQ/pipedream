@@ -230,7 +230,6 @@ export default {
         headers: this._getHeaders(headers),
         ...args,
       };
-      console.log("Config!!!", JSON.stringify(config, null, 2));
       return axios($, config);
     },
     async createHook({
