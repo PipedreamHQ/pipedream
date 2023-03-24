@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "bigml",
+  app: "twitter_v2",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
