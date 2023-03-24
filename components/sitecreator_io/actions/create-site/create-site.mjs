@@ -1,6 +1,7 @@
 import sitecreator from "../../sitecreator_io.app.mjs";
 import constants from "../common/constants.mjs";
 import * as locale from "locale-codes";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "sitecreator_io-create-site",
@@ -12,8 +13,8 @@ export default {
     sitecreator,
     siteUrl: {
       type: "string",
-      label: "Site URL",
-      description: "Domain name of the new site",
+      label: "Site Domain",
+      description: "Domain name of the new site. This is what will appear between \"https://\" and \".sitecreator.io\". Example: `https://<your-site-domain>.sitecreator.io`",
     },
     siteName: {
       type: "string",
@@ -116,6 +117,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.siteUrl.includes(".")) {
+      throw new ConfigurationError("Site Domain cannot contain periods.");
+    }
+
     if (!(await this.checkAvailability(this.siteUrl))) {
       throw new Error("Domain already in use");
     }
