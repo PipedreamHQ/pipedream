@@ -1,40 +1,32 @@
 import exact from "../../exact.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "exact-new-subscriber-created",
   name: "New Subscriber Created",
-  description: "Emit new event each time a new subscriber is created. [See the docs](https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=WebhooksWebhookSubscriptions)",
+  description: "Emit new event each time a new subscriber/account is created. [See the docs](https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=CRMAccounts)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     exact,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
     db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
   },
-  /*  hooks: {
-    async activate() {
+  hooks: {
+    async deploy() {
       const division = await this.exact.getDivision();
-      const hook = await this.exact.createWebhook(division, {
-        data: {
-          CallbackURL: this.http.endpoint,
-          Topic: "Subscriptions",
-        },
-      });
-      console.log(hook);
       this._setDivision(division);
-      this._setHookId(hook.Content.Key);
+
+      const accounts = await this.exact.listAccounts(division);
+      this.processAccounts(accounts.slice(-25));
     },
-    async deactivate() {
-      const division = this._getDivision();
-      const key = this._getHookId();
-      const x = await this.exact.deleteWebhook(division, key);
-      console.log(x);
-    },
-  }, */
+  },
   methods: {
     _getDivision() {
       return this.db.get("division");
@@ -42,20 +34,41 @@ export default {
     _setDivision(division) {
       this.db.set("division", division);
     },
-    _getHookId() {
-      return this.db.get("hookId");
+    _getLastCreated() {
+      return this.db.get("lastCreated");
     },
-    _setHookId(hookId) {
-      this.db.set("hookId", hookId);
+    _setLastCreated(lastCreated) {
+      this.db.set("lastCreated", lastCreated);
+    },
+    getCreatedTs(account) {
+      return account.Created.match(/\d+/)[0];
+    },
+    generateMeta(account) {
+      return {
+        id: account.ID,
+        summary: account.Name,
+        ts: this.getCreatedTs(account),
+      };
+    },
+    processAccounts(accounts, lastCreated = 0) {
+      let maxTs = lastCreated;
+      for (const account of accounts) {
+        const created = this.getCreatedTs(account);
+        if (created > lastCreated) {
+          const meta = this.generateMeta(account);
+          this.$emit(account, meta);
+        }
+        if (created > maxTs) {
+          maxTs = created;
+        }
+      }
+      this._setLastCreated(maxTs);
     },
   },
   async run() {
-  /*  const { body } = event;
-
-    this.http.respond({
-      status: 200,
-    }); */
-    const division = await this.exact.getDivision();
-    const x = await this.exact.getSubscriptions(division); console.log(x.d.results);
+    const division = this._getDivision();
+    const lastCreated = this._getLastCreated();
+    const accounts = await this.exact.listAccounts(division);
+    this.processAccounts(accounts, lastCreated);
   },
 };
