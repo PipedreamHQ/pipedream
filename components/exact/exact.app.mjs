@@ -24,11 +24,11 @@ export default {
       };
       return axios($, config);
     },
-    async getDivision() {
-      const { d: { results } } = await this._makeRequest({
-        path: "/current/Me?$select=CurrentDivision",
+    getDivision(args = {}) {
+      return this._makeRequest({
+        path: "/current/Me",
+        ...args,
       });
-      return results[0].CurrentDivision;
     },
     async listAccounts(division, args = {}) {
       const { d: { results } } = await this._makeRequest({

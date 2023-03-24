@@ -20,10 +20,20 @@ export default {
   },
   hooks: {
     async deploy() {
-      const division = await this.exact.getDivision();
-      this._setDivision(division);
+      const {
+        d: {
+          results: [
+            { CurrentDivision: currentDivision } = {},
+          ] = [],
+        },
+      } = await this.exact.getDivision({
+        params: {
+          ["$select"]: "CurrentDivision",
+        },
+      });
+      this._setDivision(currentDivision);
 
-      const accounts = await this.exact.listAccounts(division);
+      const accounts = await this.exact.listAccounts(currentDivision);
       this.processAccounts(accounts.slice(-25));
     },
   },
