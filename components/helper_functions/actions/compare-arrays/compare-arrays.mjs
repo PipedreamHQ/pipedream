@@ -87,8 +87,6 @@ export default {
       throw new Error(`Unknown action type: ${this.actionType}`);
     }
 
-    return [
-      ...results,
-    ];
+    return Array.from(results);
   },
 };
