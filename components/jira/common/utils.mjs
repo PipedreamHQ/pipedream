@@ -1,4 +1,25 @@
+function addProperty({
+  src, predicate, addition,
+}) {
+  return predicate
+    ? {
+      ...src,
+      ...addition,
+    }
+    : src;
+}
+
 export default {
+  parse(str) {
+    if (!str) {
+      return;
+    }
+    try {
+      return JSON.parse(str);
+    } catch (err) {
+      console.log(`Error when trying to parse: ${str}`, err);
+    }
+  },
   parseOne(obj) {
     let parsed;
     try {
@@ -26,5 +47,27 @@ export default {
       return `/tmp/${filename}`;
     }
     return filename;
+  },
+  reduceProperties({
+    initialProps = {}, additionalProps = {},
+  }) {
+    return Object.entries(additionalProps)
+      .reduce((src, [
+        key,
+        context,
+      ]) => {
+        const isArrayContext = Array.isArray(context);
+        return addProperty({
+          src,
+          predicate: isArrayContext
+            ? context[1]
+            : context,
+          addition: {
+            [key]: isArrayContext
+              ? context[0]
+              : context,
+          },
+        });
+      }, initialProps);
   },
 };

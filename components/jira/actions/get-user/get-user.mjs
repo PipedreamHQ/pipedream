@@ -4,23 +4,23 @@ export default {
   key: "jira-get-user",
   name: "Get User",
   description: "Gets details of user, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-users/#api-rest-api-3-user-get)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     jira,
     cloudId: {
       propDefinition: [
         jira,
-        "cloudId"
-      ]
+        "cloudId",
+      ],
     },
     accountId: {
       propDefinition: [
         jira,
         "accountId",
         (c) => ({
-          cloudId: c.cloudId
-        })
+          cloudId: c.cloudId,
+        }),
       ],
     },
     expand: {
