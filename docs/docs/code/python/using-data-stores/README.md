@@ -3,19 +3,17 @@ short_description: Store and read data with data stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
 ---
 
+[[toc]]
+
 # Using Data Stores
 
-:::warning
+[Data Stores](/data-stores/) are built-in key-value stores, provided by Pipedream. You can store any JSON-serializable data in a data store. You can use it to store data in one workflow execution, and read that data in the next run. You can also share data stores across _multiple_ workflows, setting data in one workflow, and reading it in another.
 
-This is an experimental feature and is available to to enable or disable in the [alpha](https://pipedream.com/dashboard).
+To use data stores in Python, select the **Add Data Store** option at the top of any Python code step:
 
-There may be changes to this feature while we prepare it for a full release.
+![Adding a datastore to a Python step](https://res.cloudinary.com/pipedreamin/image/upload/v1658954673/docs/components/CleanShot_2022-07-27_at_16.44.16_olfejo.gif)
 
-:::
-
-In Python code steps, you can also store and retrieve data from [Data Stores](/data-stores/) without connecting to a 3rd party database.
-
-Add a data store as a input to a Python step, then access it in your Python `handler` with `pd.inputs["data_store"]`.
+You can use `pd.inputs["data_store"]` to access the data store.
 
 ```python
 def handler(pd: "pipedream"):
@@ -29,14 +27,6 @@ def handler(pd: "pipedream"):
   print(data_store["key"])
 
 ```
-
-## Adding a Data Store
-
-In the _inputs_ select the _Add Data Store_ option.
-
-![Adding a datastore to a Python step](https://res.cloudinary.com/pipedreamin/image/upload/v1658954673/docs/components/CleanShot_2022-07-27_at_16.44.16_olfejo.gif)
-
-This will add the selected Data Store to your Python code step.
 
 ## Saving data
 
@@ -56,6 +46,7 @@ def handler(pd: "pipedream"):
 ## Retrieving keys
 
 Fetch all the keys in a given Data Store using the `keys` method:
+
 ```python
 def handler(pd: "pipedream"):
   # Access the data store under the pd.inputs
@@ -93,7 +84,7 @@ def handler(pd: "pipedream"):
 
   # Retrieve the timestamp value by the key name
   last_ran_at = data_store["last_ran_at"]
-  
+
   # Print the timestamp
   print(f"Last ran at {last_ran_at")
 ```
@@ -107,28 +98,28 @@ def handler(pd: "pipedream"):
 
   # Retrieve the timestamp value by the key name
   last_ran_at = data_store.get("last_ran_at")
-  
-  # Print the timestamp
-  print(f"Last ran at {last_ran_at") 
-```
 
+  # Print the timestamp
+  print(f"Last ran at {last_ran_at")
+```
 
 ::: tip
 What's the difference between `data_store["key"]` and `data_store.get("key")`?
 
-* `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the Data Store.
-* `data_store.get("key")` will instead return `None` if the key doesn't exist in the Data Store.
-* `data_store.get("key", "default_value")` will return `"default_value"` if the key doesn't exist on the Data Store.
-:::
+- `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the Data Store.
+- `data_store.get("key")` will instead return `None` if the key doesn't exist in the Data Store.
+- `data_store.get("key", "default_value")` will return `"default_value"` if the key doesn't exist on the Data Store.
+  :::
 
 ## Deleting or updating values within a record
 
 To delete or update the _value_ of an individual record, assign `key` a new value or `''` to remove the value but retain the key.
+
 ```python
 def handler(pd: "pipedream"):
   # Access the data store under the pd.inputs
   data_store = pd.inputs["data_store"]
-  
+
   # Assign a new value to the key
   data_store["myKey"] = "newValue"
 
@@ -139,6 +130,7 @@ def handler(pd: "pipedream"):
 ## Deleting specific records
 
 To delete individual records in a Data Store, use the `del` operation for a specific `key`:
+
 ```python
 def handler(pd: "pipedream"):
   # Access the data store under the pd.inputs
@@ -151,6 +143,7 @@ def handler(pd: "pipedream"):
 ## Deleting all records from a specific Data Store
 
 If you need to delete all records in a given Data Store, you can use the `clear` method.
+
 ```python
 def handler(pd: "pipedream"):
   # Access the data store under the pd.inputs
@@ -223,16 +216,14 @@ def handler(pd: "pipedream"):
 
 Pipedream Data Stores are currently in Preview and are subject to change.
 
-Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
-
 ### Supported data types
 
 Data stores can hold any JSON-serializable data within the storage limits. This includes data types including:
 
-* Strings
-* Dictionaries
-* Lists
-* Integers
-* Floats
+- Strings
+- Dictionaries
+- Lists
+- Integers
+- Floats
 
 But you cannot serialize Modules, Functions, Classes, or other more complex objects.

@@ -8,9 +8,9 @@ It's useful for counting values, summing up data between run, or tracking unique
 
 Data stores are:
 
-* Persisted between workflow runs
-* Shareable between workflows
-* Quick to get started, since they don't require any setup or external connections
+- Persisted between workflow runs
+- Shareable between workflows
+- Quick to get started, since they don't require any setup or external connections
 
 You can also use native pre-built actions to store, update, and clear data without code.
 
@@ -44,7 +44,7 @@ The **Key** should always evaluate to a string.
 
 However, you can use dynamic keys as well by passing a path to another step's exports. For instance, retrieving an `id` entry in the body of an HTTP Webhook trigger:
 
-::: v-pre 
+::: v-pre
 `{{ steps.trigger.event.body.id }}`
 :::
 
@@ -121,23 +121,23 @@ In order to free up this Data Store to be deleted manually, you'll need to remov
 
 ### Using with Data Stores in Code Steps
 
-[Refer to our Node.js Data Store documentation](/code/nodejs/using-data-stores/) to learn how to use props to define Data Stores in custom code steps in your workflows.
+Refer to our [Node.js](/code/nodejs/using-data-stores/) and [Python](/code/nodejs/using-data-stores/) docs to learn how to use Data Stores in custom code steps in your workflows.
 
 ## Data store limitations
 
 Pipedream Data Stores are currently in Preview and are subject to change.
 
-Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Bash](/code/bash/) or [Go](/code/go/).
+Data Stores are only currently available in Node.js and Python code steps. They are not yet available in other languages like [Bash](/code/bash/) or [Go](/code/go/).
 
 ### Supported data types
 
 Data stores can hold any JSON-serializable data within the storage limits. This includes data types including:
 
-* Strings
-* Objects
-* Arrays
-* Dates
-* Integers
-* Floats
+- Strings
+- Objects
+- Arrays
+- Dates
+- Integers
+- Floats
 
 But you cannot serialize Functions, Classes, or other more complex objects.
