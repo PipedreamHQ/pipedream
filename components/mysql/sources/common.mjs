@@ -10,6 +10,12 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    rejectUnauthorized: {
+      propDefinition: [
+        mysql,
+        "rejectUnauthorized",
+      ],
+    },
   },
   methods: {
     _getLastResult() {
@@ -43,6 +49,7 @@ export default {
         this.table,
         column,
         lastResult,
+        this.rejectUnauthorized,
       );
       this._setLastResult(rows, column);
       this.iterateAndEmitEvents(rows);
@@ -52,6 +59,7 @@ export default {
         this.table,
         column,
         maxCount,
+        this.rejectUnauthorized,
       );
       this._setLastResult(rows, column);
       this.iterateAndEmitEvents(rows);

@@ -6,7 +6,7 @@ export default {
   name: "New Table",
   description: "Emit new event when a new table is added to a database. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -14,7 +14,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      const tables = await this.mysql.listTopTables();
+      const tables = await this.mysql.listTopTables(10, this.rejectUnauthorized);
       this.iterateAndEmitEvents(tables);
       this._setLastResult(tables, "CREATE_TIME");
     },
@@ -24,8 +24,8 @@ export default {
     async listResults() {
       const lastResult = this._getLastResult();
       const tables = lastResult ?
-        await this.mysql.listBaseTables(lastResult) :
-        await this.mysql.listTopTables();
+        await this.mysql.listBaseTables(lastResult, this.rejectUnauthorized) :
+        await this.mysql.listTopTables(10, this.rejectUnauthorized);
       this.iterateAndEmitEvents(tables);
       this._setLastResult(tables, "CREATE_TIME");
     },
