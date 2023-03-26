@@ -1,6 +1,6 @@
 import { getUserId } from "../../common/methods";
 
-async function getCachedUserId() {
+async function getCachedUserId(): Promise<string> {
   const { userNameOrId: name } = this;
   const cache = this.db.get("cachedUser");
 
