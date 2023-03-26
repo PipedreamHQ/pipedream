@@ -28,6 +28,7 @@ import {
   MEDIA_FIELD_OPTIONS, PLACE_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
 } from "../common/dataFields";
 import {
+  LIST_EXPANSION_OPTIONS,
   TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
 } from "../common/expansions";
 import {
@@ -78,6 +79,14 @@ export default defineApp({
       type: "string",
       label: "Query",
       description: "One query for matching Tweets. See the [Twitter API guide on building queries](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query).",
+    },
+    listExpansions: {
+      type: "string[]",
+      label: "Expansions",
+      optional: true,
+      description:
+        "Additional data objects related to the List(s) to be included in the response.",
+      options: LIST_EXPANSION_OPTIONS,
     },
     tweetExpansions: {
       type: "string[]",

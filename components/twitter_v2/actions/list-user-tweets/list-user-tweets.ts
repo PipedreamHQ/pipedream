@@ -57,7 +57,7 @@ export default defineAction({
 
     const response = await this.app.getUserTweets(params);
 
-    $.export("$summary", `Successfully retrieved ${response.length} tweets`);
+    $.export("$summary", `Successfully retrieved ${response.data?.length} tweets`);
 
     return response;
   },
