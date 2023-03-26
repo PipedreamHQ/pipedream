@@ -3,9 +3,7 @@ import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
 import { tweetFieldProps } from "../../common/propGroups";
-import {
-  getUserId, getTweetFields,
-} from "../../common/methods";
+import { getTweetFields } from "../../common/methods";
 import { GetListTweetsParams } from "../../common/types/requestParams";
 import { Tweet } from "../../common/types/responseSchemas";
 import {
@@ -31,7 +29,6 @@ export default defineSource({
   },
   methods: {
     ...common.methods,
-    getUserId,
     getTweetFields,
     getEntityName() {
       return "Tweet";

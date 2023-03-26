@@ -6,9 +6,9 @@ import {
   DOCS_LINK,
   MAX_RESULTS_PER_PAGE,
 } from "../../actions/list-followers/list-followers";
-import { getUserId } from "../../common/methods";
 import { User } from "../../common/types/responseSchemas";
 import { GetUserFollowersParams } from "../../common/types/requestParams";
+import cacheUserId from "../common/cacheUserId";
 
 export default defineSource({
   ...common,
@@ -28,7 +28,7 @@ export default defineSource({
   },
   methods: {
     ...common.methods,
-    getUserId,
+    ...cacheUserId,
     getItemSummary,
     getEntityName() {
       return "Unfollower";
@@ -40,11 +40,12 @@ export default defineSource({
       this.db.set("savedUsers", data);
     },
     async getResources(): Promise<User[]> {
+      const userId = await this.getCachedUserId();
       const params: GetUserFollowersParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
-        userId: this.getUserId(),
+        userId,
       };
 
       const { data } = await this.app.getUserFollowers(params);

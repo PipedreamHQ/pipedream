@@ -4,10 +4,9 @@ import common from "../common/base";
 import { getListSummary as getItemSummary } from "../common/getItemSummary";
 import { listFieldProps } from "../../common/propGroups";
 import { List } from "../../common/types/responseSchemas";
-import {
-  getUserId, getListFields,
-} from "../../common/methods";
+import { getListFields } from "../../common/methods";
 import { GetUserFollowedListsParams } from "../../common/types/requestParams";
+import cacheUserId from "../common/cacheUserId";
 
 const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/lists/list-follows/api-reference/get-users-id-followed_lists";
 const MAX_RESULTS_PER_PAGE = 100;
@@ -31,18 +30,19 @@ export default defineSource({
   },
   methods: {
     ...common.methods,
-    getUserId,
+    ...cacheUserId,
     getListFields,
     getItemSummary,
     getEntityName() {
       return "List Followed";
     },
     async getResources(customize: boolean): Promise<List[]> {
+      const userId = await this.getCachedUserId();
       const params: GetUserFollowedListsParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
-        userId: this.getUserId(),
+        userId,
       };
 
       if (customize) {

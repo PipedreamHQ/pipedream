@@ -3,14 +3,13 @@ import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getUserSummary as getItemSummary } from "../common/getItemSummary";
 import { userFieldProps } from "../../common/propGroups";
-import {
-  getUserId, getUserFields,
-} from "../../common/methods";
+import { getUserFields } from "../../common/methods";
 import { GetUserFollowersParams } from "../../common/types/requestParams";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
 } from "../../actions/list-followers/list-followers";
 import { User } from "../../common/types/responseSchemas";
+import cacheUserId from "../common/cacheUserId";
 
 export default defineSource({
   ...common,
@@ -31,18 +30,19 @@ export default defineSource({
   },
   methods: {
     ...common.methods,
-    getUserId,
+    ...cacheUserId,
     getUserFields,
     getItemSummary,
     getEntityName() {
       return "Follower";
     },
     async getResources(customize: boolean): Promise<User[]> {
+      const userId = await this.getCachedUserId();
       const params: GetUserFollowersParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
-        userId: this.getUserId(),
+        userId,
       };
 
       if (customize) {

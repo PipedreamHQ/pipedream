@@ -11,8 +11,8 @@ const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/tweets/look
 
 export default defineSource({
   ...common,
-  key: "twitter_v2-watch-retweets-of-tweet",
-  name: "Watch Retweets of Tweet",
+  key: "twitter_v2-new-retweet-posted",
+  name: "New Retweet Posted",
   description: `Emit new event when the specified Tweet is retweeted [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",

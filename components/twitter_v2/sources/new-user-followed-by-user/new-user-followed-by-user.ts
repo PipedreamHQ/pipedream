@@ -3,11 +3,10 @@ import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getUserSummary as getItemSummary } from "../common/getItemSummary";
 import { userFieldProps } from "../../common/propGroups";
-import {
-  getUserId, getUserFields,
-} from "../../common/methods";
+import { getUserFields } from "../../common/methods";
 import { GetUserFollowingParams } from "../../common/types/requestParams";
 import { User } from "../../common/types/responseSchemas";
+import cacheUserId from "../common/cacheUserId";
 
 const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-following";
 const MAX_RESULTS_PER_PAGE = 1000;
@@ -31,18 +30,19 @@ export default defineSource({
   },
   methods: {
     ...common.methods,
-    getUserId,
+    ...cacheUserId,
     getUserFields,
     getEntityName() {
       return "User Followed";
     },
     getItemSummary,
     async getResources(customize: boolean): Promise<User[]> {
+      const userId = await this.getCachedUserId();
       const params: GetUserFollowingParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
-        userId: this.getUserId(),
+        userId,
       };
 
       if (customize) {

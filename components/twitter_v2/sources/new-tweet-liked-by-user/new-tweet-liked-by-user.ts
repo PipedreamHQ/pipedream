@@ -3,14 +3,13 @@ import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
 import { tweetFieldProps } from "../../common/propGroups";
-import {
-  getUserId, getTweetFields,
-} from "../../common/methods";
+import { getTweetFields } from "../../common/methods";
 import { GetUserLikedTweetParams } from "../../common/types/requestParams";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
 } from "../../actions/list-liked-tweets/list-liked-tweets";
 import { Tweet } from "../../common/types/responseSchemas";
+import cacheUserId from "../common/cacheUserId";
 
 export default defineSource({
   ...common,
@@ -31,18 +30,19 @@ export default defineSource({
   },
   methods: {
     ...common.methods,
-    getUserId,
+    ...cacheUserId,
     getTweetFields,
     getItemSummary,
     getEntityName() {
       return "Tweet Liked";
     },
     async getResources(customize: boolean): Promise<Tweet[]> {
+      const userId = await this.getCachedUserId();
       const params: GetUserLikedTweetParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
-        userId: this.getUserId(),
+        userId,
       };
 
       if (customize) {
