@@ -65,7 +65,9 @@ export default defineApp({
       type: "string",
       label: "User Name or ID",
       description:
-        "A Twitter username (handle) prefixed with `@` (e.g. `@pipedream`). You can also use the string `me` to use the authenticated user, or reference a numeric User ID from a previous step.",
+        "A Twitter username (handle) prefixed with `@` (e.g. `@pipedream`). You can also use the string `me` to use the authenticated user (default), or a numeric User ID.",
+      optional: true,
+      default: "me",
     },
     tweetId: {
       type: "string",
