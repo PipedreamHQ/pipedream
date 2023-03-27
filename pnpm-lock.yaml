@@ -3718,7 +3718,10 @@ importers:
       '@pipedream/platform': 1.2.1
 
   components/spoonacular:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/sportsdata:
     specifiers: {}
