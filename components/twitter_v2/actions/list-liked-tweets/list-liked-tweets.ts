@@ -1,7 +1,7 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import {
-  getUserId, getTweetFields,
+  getMultiItemSummary, getUserId, getTweetFields,
 } from "../../common/methods";
 import { tweetFieldProps } from "../../common/propGroups";
 import { GetUserLikedTweetParams } from "../../common/types/requestParams";
@@ -41,6 +41,7 @@ export default defineAction({
     },
   },
   methods: {
+    getMultiItemSummary,
     getUserId,
     getTweetFields,
   },
@@ -57,7 +58,7 @@ export default defineAction({
 
     const response = await this.app.getUserLikedTweets(params);
 
-    $.export("$summary", `Successfully obtained ${response.length} liked tweets`);
+    $.export("$summary", this.getMultiItemSummary("liked tweet", response.data.length));
 
     return response;
   },

@@ -1,6 +1,7 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import {
+  getMultiItemSummary,
   getUserId,
   getTweetFields,
 } from "../../common/methods";
@@ -42,6 +43,7 @@ export default defineAction({
     },
   },
   methods: {
+    getMultiItemSummary,
     getUserId,
     getTweetFields,
   },
@@ -57,8 +59,7 @@ export default defineAction({
     };
 
     const response = await this.app.getUserMentions(params);
-
-    $.export("$summary", `Successfully retrieved ${response.length} mentions`);
+    $.export("$summary", this.getMultiItemSummary("mention", response.data.length));
 
     return response;
   },

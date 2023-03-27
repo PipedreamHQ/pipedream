@@ -14,6 +14,14 @@ export async function getUserId(): Promise<string> {
   return id;
 }
 
+export function getMultiItemSummary(name: string, length: number) {
+  return length
+    ? `Successfully obtained ${length} ${name}${length === 1
+      ? ""
+      : "s"}`
+    : `No ${name}s were found`;
+}
+
 export function getListFields() {
   const {
     expansions, listFields, userFields,

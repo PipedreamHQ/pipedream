@@ -1,7 +1,7 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import {
-  getUserId, getListFields,
+  getMultiItemSummary, getUserId, getListFields,
 } from "../../common/methods";
 import { listFieldProps } from "../../common/propGroups";
 import { GetUserOwnedListsParams } from "../../common/types/requestParams";
@@ -41,6 +41,7 @@ export default defineAction({
     },
   },
   methods: {
+    getMultiItemSummary,
     getUserId,
     getListFields,
   },
@@ -57,7 +58,7 @@ export default defineAction({
 
     const response = await this.app.getUserOwnedLists(params);
 
-    $.export("$summary", `Successfully obtained ${response.length} lists`);
+    $.export("$summary", this.getMultiItemSummary("list", response.data.length));
 
     return response;
   },

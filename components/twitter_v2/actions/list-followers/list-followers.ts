@@ -1,7 +1,7 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import {
-  getUserId, getUserFields,
+  getMultiItemSummary, getUserId, getUserFields,
 } from "../../common/methods";
 import { GetUserFollowersParams } from "../../common/types/requestParams";
 import { userFieldProps } from "../../common/propGroups";
@@ -41,6 +41,7 @@ export default defineAction({
     },
   },
   methods: {
+    getMultiItemSummary,
     getUserId,
     getUserFields,
   },
@@ -57,10 +58,7 @@ export default defineAction({
 
     const response = await this.app.getUserFollowers(params);
 
-    $.export(
-      "$summary",
-      `Successfully retrieved ${response.length} followers`,
-    );
+    $.export("$summary", this.getMultiItemSummary("follower", response.data.length));
 
     return response;
   },

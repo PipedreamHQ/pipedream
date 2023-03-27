@@ -1,6 +1,8 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
-import { getTweetFields } from "../../common/methods";
+import {
+  getMultiItemSummary, getTweetFields,
+} from "../../common/methods";
 import { tweetFieldProps } from "../../common/propGroups";
 import { SearchTweetsParams } from "../../common/types/requestParams";
 import {
@@ -39,6 +41,7 @@ export default defineAction({
     },
   },
   methods: {
+    getMultiItemSummary,
     getTweetFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
@@ -52,14 +55,8 @@ export default defineAction({
     };
 
     const response = await this.app.searchTweets(params);
-    const { length } = response;
 
-    const summary = length
-      ? `Successfully retrieved ${length} tweet${length === 1
-        ? ""
-        : "s"}`
-      : "No tweets found";
-    $.export("$summary", summary);
+    $.export("$summary", this.getMultiItemSummary("tweet", response.data.length));
 
     return response;
   },
