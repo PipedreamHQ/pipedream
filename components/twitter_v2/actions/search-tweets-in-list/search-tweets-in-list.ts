@@ -68,7 +68,6 @@ export default defineAction({
     $.export("$summary", this.getMultiItemSummary("tweet", filteredTweets.length));
 
     return {
-      ...filteredTweets,
       data: filteredTweets,
     };
   },
