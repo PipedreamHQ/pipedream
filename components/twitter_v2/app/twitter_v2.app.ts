@@ -73,7 +73,7 @@ export default defineApp({
     tweetId: {
       type: "string",
       label: "Tweet ID",
-      description: "The numerical ID of the tweet (also known as \"status\")",
+      description: "The numerical ID of the tweet.",
     },
     query: {
       type: "string",
