@@ -22,13 +22,13 @@ export default {
     diet: {
       type: "string",
       label: "Diet",
-      description: "The diet to follow for the meal plan",
+      description: "The diet to follow for the meal plan. e.g vegetarian",
       optional: true,
     },
     exclude: {
       type: "string",
       label: "Exclude",
-      description: "A comma-separated list of ingredients to exclude from the meal plan",
+      description: "A comma-separated list of ingredients to exclude from the meal plan. e.g shellfish, olives",
       optional: true,
     },
     timeFrame: {
