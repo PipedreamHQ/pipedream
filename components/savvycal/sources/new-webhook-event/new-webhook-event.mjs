@@ -5,7 +5,7 @@ import crypto from "crypto";
 export default {
   key: "savvycal-new-webhook-event",
   name: "New Webhook Event (Instant)",
-  description: "Emit new event when a new webhook event occurs.",
+  description: "Emit new event when a new webhook event occurs. Please add this Source URL as one of your webhook in [SavvyCal Integration](https://savvycal.com/integrations) > Webhooks.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
