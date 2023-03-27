@@ -18,12 +18,12 @@ export default {
       label: "Longitude",
       description: "The longitude of the location for which to fetch historical weather data.",
     },
-    start_date: {
+    startDate: {
       type: "string",
       label: "Start Date",
       description: "The start date of the date range for which to fetch historical weather data (format: YYYY-MM-DD).",
     },
-    end_date: {
+    endDate: {
       type: "string",
       label: "End Date",
       description: "The end date of the date range for which to fetch historical weather data (format: YYYY-MM-DD).",
@@ -35,8 +35,8 @@ export default {
       params: {
         lat: this.latitude,
         lon: this.longitude,
-        start_date: this.start_date,
-        end_date: this.end_date,
+        start_date: this.startDate,
+        end_date: this.endDate,
       },
     });
 

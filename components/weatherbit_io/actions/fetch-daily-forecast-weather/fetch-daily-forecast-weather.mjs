@@ -3,7 +3,7 @@ import weatherbit_io from "../../weatherbit_io.app.mjs";
 export default {
   name: "Fetch Daily Forecast Weather",
   version: "0.0.1",
-  key: "weatherbit_io-fetch_daily_forecast_weather",
+  key: "weatherbit_io-fetch-daily-forecast-weather",
   description: "Fetch daily forecast weather from a location. [See docs here](https://www.weatherbit.io/api/weather-forecast-16-day)",
   type: "action",
   props: {
