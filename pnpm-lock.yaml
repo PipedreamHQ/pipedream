@@ -3326,7 +3326,10 @@ importers:
     specifiers: {}
 
   components/savvycal:
-    specifiers: {}
+    specifiers:
+      crypto: ^1.0.1
+    dependencies:
+      crypto: 1.0.1
 
   components/scalr:
     specifiers: {}
