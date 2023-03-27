@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/weatherbit_io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Weatherbit.io Components",
   "main": "weatherbit_io.app.mjs",
   "keywords": [
