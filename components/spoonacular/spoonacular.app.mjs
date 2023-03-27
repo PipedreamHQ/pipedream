@@ -35,7 +35,7 @@ export default {
         ...args,
       });
     },
-    async searchRecipes({ ...args }) {
+    searchRecipes(args = {}) {
       return this._makeRequest({
         path: "/recipes/findByIngredients",
         ...args,
