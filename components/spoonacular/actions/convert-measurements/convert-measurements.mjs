@@ -11,22 +11,22 @@ export default {
     ingredient: {
       type: "string",
       label: "Ingredient",
-      description: "The ingredient to convert measurements for",
+      description: "The ingredient to convert measurements for. e.g flour",
     },
     sourceUnit: {
       type: "string",
       label: "Source Unit",
-      description: "The source unit of the ingredient measurement",
+      description: "The source unit of the ingredient measurement. e.g cups",
     },
     targetUnit: {
       type: "string",
       label: "Target Unit",
-      description: "The target unit to convert the ingredient measurement to",
+      description: "The target unit to convert the ingredient measurement to. e.g grams",
     },
     amount: {
       type: "integer",
       label: "Amount",
-      description: "The amount of the ingredient to convert",
+      description: "The amount of the ingredient to convert. e.g 2.5",
     },
   },
   async run({ $ }) {
