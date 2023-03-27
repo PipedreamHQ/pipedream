@@ -81,7 +81,7 @@ export default {
       type: "string",
       label: "Stored Procedure",
       description: "List of stored procedures in the current database",
-      async options({ rejectUnauthorized }) {
+      async options({ rejectUnauthorized = false }) {
         return this.listStoredProcedures(rejectUnauthorized);
       },
     },
@@ -138,9 +138,7 @@ export default {
       let connection;
 
       try {
-        connection = await this.getConnection({
-          rejectUnauthorized,
-        });
+        connection = await this.getConnection(rejectUnauthorized);
 
         return await this.executeQuery({
           connection,
@@ -153,7 +151,7 @@ export default {
         }
       }
     },
-    async listStoredProcedures(rejectUnauthorized) {
+    async listStoredProcedures(rejectUnauthorized = false) {
       const preparedStatement = {
         sql: "SHOW PROCEDURE STATUS",
       };
@@ -171,7 +169,7 @@ export default {
         };
       });
     },
-    async listTables(rejectUnauthorized) {
+    async listTables(rejectUnauthorized = false) {
       const preparedStatement = {
         sql: "SHOW FULL TABLES",
       };

@@ -1155,7 +1155,10 @@ importers:
       crypto: 1.0.1
 
   components/exact:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/expensify:
     specifiers:
@@ -3329,7 +3332,10 @@ importers:
     specifiers: {}
 
   components/savvycal:
-    specifiers: {}
+    specifiers:
+      crypto: ^1.0.1
+    dependencies:
+      crypto: 1.0.1
 
   components/scalr:
     specifiers: {}
@@ -3568,7 +3574,10 @@ importers:
     specifiers: {}
 
   components/sitecreator_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.0
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/siteleaf:
     specifiers:
@@ -3709,7 +3718,10 @@ importers:
       '@pipedream/platform': 1.2.1
 
   components/spoonacular:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/sportsdata:
     specifiers: {}

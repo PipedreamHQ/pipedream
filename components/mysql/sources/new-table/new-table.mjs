@@ -6,7 +6,7 @@ export default {
   name: "New Table",
   description: "Emit new event when a new table is added to a database. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,

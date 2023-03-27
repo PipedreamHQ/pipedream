@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "savvycal",
+  app: "automatic_data_extraction",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
