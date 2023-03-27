@@ -23,7 +23,7 @@ export default {
         },
       });
     },
-    async createMealPlan({ ...args }) {
+    createMealPlan(args = {}) {
       return this._makeRequest({
         path: "/mealplanner/generate",
         ...args,
