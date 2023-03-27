@@ -11,12 +11,12 @@ export default {
     ingredients: {
       type: "string",
       label: "Ingredients",
-      description: "A comma-separated list of ingredients to search for recipes",
+      description: "A comma-separated list of ingredients to search for recipes. e.g tomato, cheese",
     },
     cuisine: {
       type: "string",
       label: "Cuisine",
-      description: "The cuisine of the recipes to search for",
+      description: "The cuisine of the recipes to search for. e.g italian",
       optional: true,
     },
     otherCriteria: {
