@@ -5,7 +5,7 @@ export default {
   name: "Execute Query",
   description: "Find row(s) via a custom query. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     mysql,
     table: {

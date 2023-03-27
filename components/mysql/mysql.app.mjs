@@ -169,7 +169,7 @@ export default {
         };
       });
     },
-    async listTables(rejectUnauthorized) {
+    async listTables(rejectUnauthorized = false) {
       const preparedStatement = {
         sql: "SHOW FULL TABLES",
       };
