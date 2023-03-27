@@ -29,7 +29,7 @@ export default {
         ...args,
       });
     },
-    async convertMeasurements({ ...args }) {
+    convertMeasurements(args = {}) {
       return this._makeRequest({
         path: "/recipes/convert",
         ...args,
