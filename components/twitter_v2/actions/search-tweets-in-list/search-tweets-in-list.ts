@@ -16,7 +16,7 @@ const DEFAULT_RESULTS = 100;
 export const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
-  key: "twitter_v2-search-tweets",
+  key: "twitter_v2-search-tweets-in-list",
   name: "Search Tweets",
   description: `Search Tweets by text in a list. [See docs here](${DOCS_LINK})`,
   version: "0.0.1",

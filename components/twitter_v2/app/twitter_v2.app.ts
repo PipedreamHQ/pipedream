@@ -203,8 +203,7 @@ export default defineApp({
         if (includes) {
           Object.entries(includes).forEach(([
             key,
-            value]: [string, TwitterEntity[]
-]) => {
+            value]: [string, TwitterEntity[]]) => {
             if (!totalIncludes[key]) totalIncludes[key] = [];
             totalIncludes[key].push(...value);
           });
