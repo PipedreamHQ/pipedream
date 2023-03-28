@@ -12,6 +12,13 @@ export default {
       },
     },
   },
+  hooks: {
+    async deploy() {
+      await this.emitHistoricalEvents({
+        limit: 25,
+      });
+    },
+  },
   methods: {
     _getPreviousIds() {
       return this.db.get("previousIds") || {};

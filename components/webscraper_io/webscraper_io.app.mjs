@@ -3,7 +3,24 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "webscraper_io",
-  propDefinitions: {},
+  propDefinitions: {
+    sitemapId: {
+      type: "string",
+      label: "Sitemap ID",
+      description: "Identifier of a sitemap",
+      async options({ page }) {
+        const { data } = await this.getSitemaps({
+          params: page + 1,
+        });
+        return data?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+      },
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://api.webscraper.io/api/v1";
@@ -23,9 +40,29 @@ export default {
         ...args,
       });
     },
+    getSitemaps(args = {}) {
+      return this._makeRequest({
+        path: "/sitemaps",
+        ...args,
+      });
+    },
     getScrapingJobs(args = {}) {
       return this._makeRequest({
         path: "/scraping-jobs",
+        ...args,
+      });
+    },
+    createSitemap(args = {}) {
+      return this._makeRequest({
+        path: "/sitemap",
+        method: "POST",
+        ...args,
+      });
+    },
+    createScrapingJob(args = {}) {
+      return this._makeRequest({
+        path: "/scraping-job",
+        method: "POST",
         ...args,
       });
     },
