@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/humor_api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Humor API Components",
   "main": "humor_api.app.mjs",
   "keywords": [
