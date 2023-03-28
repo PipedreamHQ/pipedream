@@ -5,7 +5,7 @@ export default {
   name: "New Payment",
   version: "0.0.1",
   key: "maintainx-new-work-order-completed",
-  description: "Emit new event on each new work order is completed.",
+  description: "Emit new event each time a new work order is completed.",
   type: "source",
   dedupe: "unique",
   props: {

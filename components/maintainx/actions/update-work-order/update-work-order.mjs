@@ -5,7 +5,7 @@ export default {
   name: "Update Work Order",
   version: "0.0.1",
   key: "maintainx-update-work-order",
-  description: "Updates a client. [See docs here](https://api.getmaintainx.com/v1/docs#tag/Work-Orders/paths/~1workorders~1{id}/patch)",
+  description: "Updates a work order. [See docs here](https://api.getmaintainx.com/v1/docs#tag/Work-Orders/paths/~1workorders~1{id}/patch)",
   type: "action",
   props: {
     maintainx,
