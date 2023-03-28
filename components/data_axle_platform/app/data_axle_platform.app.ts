@@ -15,6 +15,11 @@ export default defineApp({
       label: "Packages",
       description: "Packages of fields that provide which fields will be returned. By default, every field on a package is returned.",
     },
+    personId: {
+      type: "string",
+      label: "Person Id",
+      description: "The unique identifier for the person.",
+    },
   },
   methods: {
     _apiUrl() {
@@ -37,10 +42,10 @@ export default defineApp({
       return axios($, config);
     },
     getPersonById({
-      placeId, ...opts
+      personId, ...opts
     }) {
       return this._makeRequest({
-        path: `people/${placeId}`,
+        path: `people/${personId}`,
         ...opts,
       });
     },
