@@ -89,14 +89,15 @@ export default {
         },
       });
 
-      if (history) {
-        this._setLastHistoryId(historyId);
-        const responseArray = history.filter((item) => item.labelsAdded);
-        responseArray.forEach((item) => {
-          const meta = this.generateMeta(item);
-          this.$emit(item, meta);
-        });
+      if (!history) {
+         return;
       }
+      this._setLastHistoryId(historyId);
+      const responseArray = history.filter((item) => item.labelsAdded);
+      responseArray.forEach((item) => {
+        const meta = this.generateMeta(item);
+        this.$emit(item, meta);
+      });
     },
   },
   hooks: {
