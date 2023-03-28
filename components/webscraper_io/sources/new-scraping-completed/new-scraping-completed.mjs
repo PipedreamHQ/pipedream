@@ -2,7 +2,7 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "webscraper-new-scraping-completed",
+  key: "webscraper_io-new-scraping-completed",
   name: "New Scraping Completed",
   description: "Emit new event when a page scraping job has completed. [See the docs here](https://webscraper.io/documentation/web-scraper-cloud/api)",
   version: "0.0.1",

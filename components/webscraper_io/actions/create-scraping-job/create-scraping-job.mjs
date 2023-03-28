@@ -1,7 +1,7 @@
 import webscraper from "../../webscraper_io.app.mjs";
 
 export default {
-  key: "webscraper-create-scraping-job",
+  key: "webscraper_io-create-scraping-job",
   name: "Create Scraping Job",
   description: "Creates a scraping job (scrapes a sitemap). [See the docs here](https://webscraper.io/documentation/web-scraper-cloud/api)",
   version: "0.0.1",
