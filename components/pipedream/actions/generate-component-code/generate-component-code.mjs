@@ -12,12 +12,12 @@ export default {
     prompt: {
       type: "string",
       label: "Prompt",
-      description: "The prompt that will be sent to the AI. Try to be very specific with your prompt.",
+      description: "The prompt that will be sent to the AI. Try to be very specific with your prompt. For example, `Send a message to Slack`.",
     },
     app: {
       type: "string",
       label: "App",
-      description: "The name of the app integration that the AI model will use as context.",
+      description: "The name of the app integration that the AI model will use as context. For example, `slack`.",
       optional: true,
     },
   },
