@@ -409,7 +409,10 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/bigml:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/bill:
     specifiers: {}
@@ -1152,7 +1155,10 @@ importers:
       crypto: 1.0.1
 
   components/exact:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/expensify:
     specifiers:
@@ -2547,7 +2553,12 @@ importers:
     specifiers: {}
 
   components/onfleet:
-    specifiers: {}
+    specifiers:
+      '@onfleet/node-onfleet': ^1.3.3
+      moment: ^2.29.4
+    dependencies:
+      '@onfleet/node-onfleet': 1.3.3
+      moment: 2.29.4
 
   components/ongage:
     specifiers:
@@ -2831,6 +2842,14 @@ importers:
 
   components/planso_forms:
     specifiers: {}
+
+  components/planview_leankit:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 1.3.0
+      moment: 2.29.4
 
   components/planyo_online_booking:
     specifiers:
@@ -3316,7 +3335,10 @@ importers:
     specifiers: {}
 
   components/savvycal:
-    specifiers: {}
+    specifiers:
+      crypto: ^1.0.1
+    dependencies:
+      crypto: 1.0.1
 
   components/scalr:
     specifiers: {}
@@ -3555,7 +3577,10 @@ importers:
     specifiers: {}
 
   components/sitecreator_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.0
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/siteleaf:
     specifiers:
@@ -3696,7 +3721,10 @@ importers:
       '@pipedream/platform': 1.2.1
 
   components/spoonacular:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/sportsdata:
     specifiers: {}
@@ -8793,7 +8821,14 @@ packages:
     resolution: {integrity: sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
+    dev: false
+
+  /@babel/runtime/7.21.0:
+    resolution: {integrity: sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.11
     dev: false
 
   /@babel/template/7.18.6:
@@ -8871,14 +8906,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
+<<<<<<< HEAD
   /@definitelytyped/header-parser/0.0.158:
     resolution: {integrity: sha512-Tc0M/UTnA/h5RzjI77Ss0dWWagEdBlHT8rfLRDnV0Z3GW9HqOOAqT/BhikSD3ik/3dsTgG4xkmdN9ql12MJikw==}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.158
+=======
+  /@definitelytyped/header-parser/0.0.157:
+    resolution: {integrity: sha512-7wzMY7tTrvyDAznTPw5OQPRyVTLXvOcmiq2EwjtKwgAMR5Yq9px8S9mOPwdsY0NRyMOX/VGUigb8YTgKZhTutA==}
+    dependencies:
+      '@definitelytyped/typescript-versions': 0.0.157
+>>>>>>> master
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
+<<<<<<< HEAD
   /@definitelytyped/typescript-versions/0.0.158:
     resolution: {integrity: sha512-8TmzGXcVRqbFRXlQRH0BtLB54Ocm6RLlCpxE6qhNTW3Rgf9X67qEjhysZlaXgSrJxamx5Ro6oZ5Hm2vh7FiPew==}
     dev: true
@@ -8887,6 +8930,16 @@ packages:
     resolution: {integrity: sha512-tnK9Iq093cx55oNCJdL/mSMp7qdZoraJE0MSLlAYbl1h/2i+xyfL4S0TR6ClX5ppFkrmJOKeV6wUzODyhe0Jbg==}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.158
+=======
+  /@definitelytyped/typescript-versions/0.0.157:
+    resolution: {integrity: sha512-IHnGLv4TJY7iK++u6e01ICGHFW2hVwruBOeNGwXIZlAWpsdQ8Wc7ZdDXuN/4tTlIM/A6Hx4LDB9BhB6VufTUww==}
+    dev: true
+
+  /@definitelytyped/utils/0.0.157:
+    resolution: {integrity: sha512-oCmx3j6ScEBw5qNqYBqf566u0jhhTBAof98Fhy+tKwK9G9X8vaqpCiEgxoA6iw85O43dqMvVDR8EfkK0EwIayQ==}
+    dependencies:
+      '@definitelytyped/typescript-versions': 0.0.157
+>>>>>>> master
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -10175,6 +10228,15 @@ packages:
 
   /@octokit/webhooks-definitions/3.67.3:
     resolution: {integrity: sha512-do4Z1r2OVhuI0ihJhQ8Hg+yPWnBYEBNuFNCrvtPKoYT1w81jD7pBXgGe86lYuuNirkDHb0Nxt+zt4O5GiFJfgA==}
+    dev: false
+
+  /@onfleet/node-onfleet/1.3.3:
+    resolution: {integrity: sha512-0pcg+J9pdNEMAt/GYq96l4rmBsrsDwnTCWrjZhRCKmTlZq0QHBN/8u8smR7RPubg+DsMc5MOSPXXoLsfn03YIg==}
+    dependencies:
+      bottleneck: 2.19.5
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@opentelemetry/api/1.1.0:
@@ -11750,7 +11812,7 @@ packages:
       ajv: 4.11.8 - 8
     dependencies:
       '@babel/code-frame': 7.18.6
-      '@babel/runtime': 7.18.9
+      '@babel/runtime': 7.21.0
       '@humanwhocodes/momoa': 2.0.4
       ajv: 8.11.0
       chalk: 4.1.2
@@ -14889,7 +14951,11 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
+<<<<<<< HEAD
       '@definitelytyped/header-parser': 0.0.158
+=======
+      '@definitelytyped/header-parser': 0.0.157
+>>>>>>> master
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -14905,9 +14971,15 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
+<<<<<<< HEAD
       '@definitelytyped/header-parser': 0.0.158
       '@definitelytyped/typescript-versions': 0.0.158
       '@definitelytyped/utils': 0.0.158
+=======
+      '@definitelytyped/header-parser': 0.0.157
+      '@definitelytyped/typescript-versions': 0.0.157
+      '@definitelytyped/utils': 0.0.157
+>>>>>>> master
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -21584,7 +21656,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
       long: 4.0.0
     dev: false
 
@@ -22145,14 +22217,14 @@ packages:
     resolution: {integrity: sha512-zrceR/XhGYU/d/opr2EKO7aRHUeiBI8qjtfHqADTwZd6Szfy16la6kqD0MIUs5z5hx6AaKa+PixpPrR289+I0A==}
     dev: false
 
-  /regenerator-runtime/0.13.9:
-    resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
+  /regenerator-runtime/0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
     dev: false
 
   /regenerator-transform/0.15.0:
     resolution: {integrity: sha512-LsrGtPmbYg19bcPHwdtmXwbW+TqNvtY4riE3P83foeHRroMbH6/2ddFBfab3t7kbzc7v7p4wbkIecHImqt0QNg==}
     dependencies:
-      '@babel/runtime': 7.18.9
+      '@babel/runtime': 7.21.0
     dev: false
 
   /regexp-tree/0.1.24:
@@ -25037,6 +25109,7 @@ packages:
 
   /which/1.3.1:
     resolution: {integrity: sha512-HxJdYWq1MTIQbJ3nw0cqssHoTNU267KlrDuGZ1WYlxDStUtKUhOaJmh112/TZmHxxUfuJqPXSOm7tDyas0OSIQ==}
+    hasBin: true
     dependencies:
       isexe: 2.0.0
     dev: true
@@ -25044,6 +25117,7 @@ packages:
   /which/2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
+    hasBin: true
     dependencies:
       isexe: 2.0.0
     dev: true
