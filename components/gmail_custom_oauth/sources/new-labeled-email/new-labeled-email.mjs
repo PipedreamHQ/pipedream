@@ -2,7 +2,6 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import gmail from "../../gmail_custom_oauth.app.mjs";
 
 export default {
-  gmail,
   key: "gmail_custom_oauth-new-labeled-email",
   name: "New Labeled Email",
   description: "Emit new event when a new email is labeled.",
