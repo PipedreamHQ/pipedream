@@ -65,12 +65,11 @@ export default {
       };
     },
     async getHistoryId() {
-      const test = await this.listMessages({
+      const { messages } = await this.listMessages({
         params: {
           labelIds: this.label,
         },
       });
-      const { messages } = test;
       if (messages.length > 25) messages.length = 25;
       const { id } = messages[messages.length - 1];
       const { historyId } = await this.getMessage({
