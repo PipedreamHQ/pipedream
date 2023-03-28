@@ -277,6 +277,82 @@ export function defineAction<
   return component;
 }`;
 
+  const pipedreamPlatformAxiosTypeDefs = `import axios from "axios";
+import { AxiosRequestConfig as AxiosConfig } from "axios";
+
+interface AxiosRequestConfig extends AxiosConfig {
+  debug?: boolean;
+  body?: any;
+  returnFullResponse?: boolean;
+}
+
+function convertAxiosError(err) {
+  delete err.response.request;
+  err.name = \`\${err.name} - \${err.message}\`;
+  try {
+    err.message = JSON.stringify(err.response.data);
+  }
+  catch (error) {
+    console.error("Error trying to convert \`err.response.data\` to string");
+  }
+  return err;
+}
+
+function create(config?: AxiosRequestConfig, signConfig?: any) {
+  const axiosInstance = axios.create(config);
+
+  if (config?.debug) {
+    stepExport(this, config, "debug_config");
+  }
+
+  axiosInstance.interceptors.request.use(async (config) => {
+    if (signConfig) {
+      const oauthSignature = await getOauthSignature(config, signConfig);
+      if (!config.headers) config.headers = {};
+      config.headers.Authorization = oauthSignature;
+    }
+
+    cleanObject(config.headers);
+    cleanObject(config.params);
+    if (typeof config.data === "object") {
+      cleanObject(config.data);
+    }
+    removeSearchFromUrl(config);
+
+    return config;
+  });
+
+  axiosInstance.interceptors.response.use((response) => {
+    const config: AxiosRequestConfig = response.config;
+
+    if (config.debug) {
+      stepExport(this, response.data, "debug_response");
+    }
+
+    return config.returnFullResponse
+      ? response
+      : response.data;
+  }, (error) => {
+    if (error.response) {
+      convertAxiosError(error);
+      stepExport(this, error.response, "debug");
+    }
+
+    throw error;
+  });
+
+  return axiosInstance;
+}
+`;
+
+  const axiosInstructions = `Use the \`axios\` constructor from the \`@pipedream/platform\` package to make any HTTP requests. Make sure to include the following import at the top of your Node.js code, above the component:
+
+import { axios } from "@pipedream/platform";
+
+@pipedream/platform axios TypeScript types:
+
+${pipedreamPlatformAxiosTypeDefs}`;
+
   // Query for an app
   if (appData && Object.keys(appData).length > 0) {
     const {
@@ -300,9 +376,7 @@ ${typeDefs}
 
 First, I need to teach you what a Pipedream component is. All Pipedream components are Node.js modules that have a default export: \`defineComponent\`. \`defineComponent\` is provided to the environment as a global — you do not need to import \`defineComponent\`. \`defineComponent\` is a function that takes an object — a Pipedream component — as its single argument. The object contains a \`props\` property, which defines a single prop of type "app". This lets the user connect their ${app} account to the step, authorizing requests to the ${app} API (${description}). ${authText}. Don't reference the \`steps\` and \`$\` variables passed to the \`run\` method.
 
-Use the \`axios\` constructor from the \`@pipedream/platform\` package to make the API request. Make sure to include the following import at the top of your Node.js code, above the component:
-
-import { axios } from "@pipedream/platform";
+${axiosInstructions}
 
 Here's an example Pipedream component that makes a test request against the Slack API:
 
@@ -385,9 +459,11 @@ ${typeDefs}
 
 First, I need to teach you what a Pipedream component is. All Pipedream components are Node.js modules that have a default export: \`defineComponent\`. \`defineComponent\` is provided to the environment as a global — you do not need to import \`defineComponent\`. \`defineComponent\` is a function that takes an object — a Pipedream component — as its single argument. 
 
-Here's an example Pipedream component that makes a test request using axios:
+${axiosInstructions}
 
-import axios from "axios";
+Here's an example Pipedream component that makes a test request using @pipedream/platform axios:
+
+import { axios } from "@pipedream/platform";
 
 export default defineComponent({
   // Remember that props are not required. Use if the example requires human input.
@@ -405,7 +481,7 @@ export default defineComponent({
     // Your code should be placed here
     // Example code — returns the value of the input prop to the user
     const upper = this.test.toUpperCase()
-    return await axios({
+    return await axios($, {
       method: "GET",
       url: this.url,
       params: {
