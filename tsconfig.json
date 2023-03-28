@@ -1655,6 +1655,9 @@
     },
     {
       "path": "components/maintainx"
+    },
+    {
+      "path": "components/adp"
     }
   ]
 }
