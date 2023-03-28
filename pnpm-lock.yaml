@@ -112,6 +112,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/adp:
+    specifiers: {}
+
   components/adroll:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -281,6 +284,9 @@ importers:
     specifiers: {}
 
   components/autoklose:
+    specifiers: {}
+
+  components/automatic_data_extraction:
     specifiers: {}
 
   components/avochato:
@@ -726,6 +732,9 @@ importers:
       '@pipedream/platform': 1.3.0
 
   components/coderpad:
+    specifiers: {}
+
+  components/cohere_platform:
     specifiers: {}
 
   components/coinbase:
@@ -2157,6 +2166,9 @@ importers:
       '@pipedream/platform': 1.4.0
 
   components/mailrefine:
+    specifiers: {}
+
+  components/maintainx:
     specifiers: {}
 
   components/mainwp:
@@ -8906,22 +8918,14 @@ packages:
       kuler: 2.0.0
     dev: false
 
-<<<<<<< HEAD
   /@definitelytyped/header-parser/0.0.158:
     resolution: {integrity: sha512-Tc0M/UTnA/h5RzjI77Ss0dWWagEdBlHT8rfLRDnV0Z3GW9HqOOAqT/BhikSD3ik/3dsTgG4xkmdN9ql12MJikw==}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.158
-=======
-  /@definitelytyped/header-parser/0.0.157:
-    resolution: {integrity: sha512-7wzMY7tTrvyDAznTPw5OQPRyVTLXvOcmiq2EwjtKwgAMR5Yq9px8S9mOPwdsY0NRyMOX/VGUigb8YTgKZhTutA==}
-    dependencies:
-      '@definitelytyped/typescript-versions': 0.0.157
->>>>>>> master
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-<<<<<<< HEAD
   /@definitelytyped/typescript-versions/0.0.158:
     resolution: {integrity: sha512-8TmzGXcVRqbFRXlQRH0BtLB54Ocm6RLlCpxE6qhNTW3Rgf9X67qEjhysZlaXgSrJxamx5Ro6oZ5Hm2vh7FiPew==}
     dev: true
@@ -8930,16 +8934,6 @@ packages:
     resolution: {integrity: sha512-tnK9Iq093cx55oNCJdL/mSMp7qdZoraJE0MSLlAYbl1h/2i+xyfL4S0TR6ClX5ppFkrmJOKeV6wUzODyhe0Jbg==}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.158
-=======
-  /@definitelytyped/typescript-versions/0.0.157:
-    resolution: {integrity: sha512-IHnGLv4TJY7iK++u6e01ICGHFW2hVwruBOeNGwXIZlAWpsdQ8Wc7ZdDXuN/4tTlIM/A6Hx4LDB9BhB6VufTUww==}
-    dev: true
-
-  /@definitelytyped/utils/0.0.157:
-    resolution: {integrity: sha512-oCmx3j6ScEBw5qNqYBqf566u0jhhTBAof98Fhy+tKwK9G9X8vaqpCiEgxoA6iw85O43dqMvVDR8EfkK0EwIayQ==}
-    dependencies:
-      '@definitelytyped/typescript-versions': 0.0.157
->>>>>>> master
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -14951,11 +14945,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-<<<<<<< HEAD
       '@definitelytyped/header-parser': 0.0.158
-=======
-      '@definitelytyped/header-parser': 0.0.157
->>>>>>> master
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -14971,15 +14961,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-<<<<<<< HEAD
       '@definitelytyped/header-parser': 0.0.158
       '@definitelytyped/typescript-versions': 0.0.158
       '@definitelytyped/utils': 0.0.158
-=======
-      '@definitelytyped/header-parser': 0.0.157
-      '@definitelytyped/typescript-versions': 0.0.157
-      '@definitelytyped/utils': 0.0.157
->>>>>>> master
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
