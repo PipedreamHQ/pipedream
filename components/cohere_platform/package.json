@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/cohere_platform",
+  "version": "0.0.1",
+  "description": "Pipedream Cohere Components",
+  "main": "dist/app/cohere_platform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cohere_platform"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/cohere_platform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
