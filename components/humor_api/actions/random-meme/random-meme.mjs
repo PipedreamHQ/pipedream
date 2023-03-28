@@ -1,9 +1,9 @@
 import app from "../../humor_api.app.mjs";
 
 export default {
-  key: "humor_api-search-memes",
-  name: "Search Memes",
-  description: "Searches for memes based on user-defined criteria. [See the docs here](https://humorapi.com/docs/#Search-Memes).",
+  key: "humor_api-random-meme",
+  name: "Random Meme",
+  description: "Searches for a random meme every time. [See the docs here](https://humorapi.com/docs/#Random-Meme).",
   type: "action",
   version: "0.0.1",
   props: {
@@ -32,18 +32,6 @@ export default {
         "minRating",
       ],
     },
-    offset: {
-      propDefinition: [
-        app,
-        "offset",
-      ],
-    },
-    number: {
-      propDefinition: [
-        app,
-        "number",
-      ],
-    },
   },
   async run({ $ }) {
     const {
@@ -51,23 +39,19 @@ export default {
       keywordsInImage,
       mediaType,
       minRating,
-      offset,
-      number,
     } = this;
 
-    const response = await this.app.searchMemes({
+    const response = await this.app.randomMeme({
       $,
       params: {
         "keywords": (keywords || []).join(","),
         "keywords-in-image": keywordsInImage,
         "media-type": mediaType,
         "min-rating": minRating,
-        "offset": offset,
-        "number": number,
       },
     });
 
-    $.export("$summary", `Successfully fetched ${response.memes.length} memes`);
+    $.export("$summary", `Successfully fetched a random meme with ID: ${response.id}`);
 
     return response;
   },
