@@ -11,7 +11,9 @@ interface CustomFieldsJSON {
 }
 
 export const componentMaker = (appData: AppData) => {
-  const typeDefs = `export type JSONValue =
+  const typeDefs = `Here are TypeScript type definitions for Pipedream components:
+  
+export type JSONValue =
   | string
   | number
   | boolean
@@ -277,7 +279,9 @@ export function defineAction<
   return component;
 }`;
 
-  const pipedreamPlatformAxiosTypeDefs = `import axios from "axios";
+  const pipedreamPlatformAxiosTypeDefs = `@pipedream/platform axios TypeScript types:
+  
+import axios from "axios";
 import { AxiosRequestConfig as AxiosConfig } from "axios";
 
 interface AxiosRequestConfig extends AxiosConfig {
@@ -345,13 +349,16 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
 }
 `;
 
-  const axiosInstructions = `Use the \`axios\` constructor from the \`@pipedream/platform\` package to make any HTTP requests. Make sure to include the following import at the top of your Node.js code, above the component:
+  const axiosInstructions = `Use the \`axios\` constructor from the \`@pipedream/platform\` package to make any HTTP requests. Make sure to include the following import at the top of your Node.js code, above the component, in this exact format:
 
 import { axios } from "@pipedream/platform";
 
-@pipedream/platform axios TypeScript types:
+You MUST use that import format when importing axios. Do NOT attempt to import any other package like \`import axios from "@pipedream/platform/axios"\`
 
 ${pipedreamPlatformAxiosTypeDefs}`;
+
+  const desiredLanguage = "language: Node.js v14";
+  const outputInstructions = "output: Node.js code and ONLY Node.js code. You produce Pipedream component code and ONLY Pipedream component code. You MUST NOT include English before or after code, and MUST NOT include Markdown (like ```javascript) surrounding the code. I just want the code!";
 
   // Query for an app
   if (appData && Object.keys(appData).length > 0) {
@@ -367,10 +374,8 @@ ${pipedreamPlatformAxiosTypeDefs}`;
     } else if (auth_type === "oauth") {
       authText += `${app} is an OAuth app. For OAuth integrations, this object exposes the OAuth access token in the variable \`this.${name_slug}.$auth.oauth_access_token\`. When you make the API request, make sure to use the format from the ${app} docs, e.g. you may need to pass the OAuth access token as a Bearer token in the Authorization header. Consult the docs`;
     }
-    return `language: Node.js v14.
-output: Node.js code
-      
-You should output Pipedream component code. Here's the TypeScript type definitions:
+    return `${desiredLanguage}
+${outputInstructions}
 
 ${typeDefs}
 
@@ -450,10 +455,8 @@ Only return Node.js code. DO NOT include any English text before or after the No
   }
 
   // Query when an app isn't provided (general code)
-  return `language: Node.js v14.
-output: Node.js code
-
-The code should be Node.js, and should be formatted as a Pipedream component. Here are the TypeScript type definitions:
+  return `${desiredLanguage}
+${outputInstructions}
 
 ${typeDefs}
 
