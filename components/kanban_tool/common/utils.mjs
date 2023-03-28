@@ -4,8 +4,7 @@ export default {
   async asyncPropHandler({
     resourceFn, resourceKey, page, labelVal, params,
   } = {}) {
-    let resp;
-    resp = await resourceFn({
+    let resp = await resourceFn({
       ...params,
       params: {
         ...params?.params,
@@ -57,10 +56,11 @@ export default {
         return;
       pageVal = pagingCfg?.newVal?.(resources) ?? pageVal + 1;
       for (const resource of resources) {
-        if (resourceLimit && resourceLimit < ++resourceCount)
+        if (resourceLimit && resourceLimit < ++resourceCount) {
           return;
-        else
+        } else {
           yield resource;
+        }
       }
       if (resources?.length < PAGE_SIZE || pagingCfg?.noPaging) {
         return;

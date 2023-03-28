@@ -32,7 +32,6 @@ export default {
       };
     },
     getComparable(item) {
-      //return new Date(item?.created_at).getTime();
       return item.id;
     },
     getMeta(item) {

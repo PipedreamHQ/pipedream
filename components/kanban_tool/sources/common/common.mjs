@@ -43,7 +43,7 @@ export default {
     },
   },
   async run() {
-    let lastComparable = this.getLastComparable();
+    const lastComparable = this.getLastComparable();
     let newLastComparable = lastComparable;
     const resourcesStream = utils.getResourcesStream({
       ...this.getResourceFnConfig(),
