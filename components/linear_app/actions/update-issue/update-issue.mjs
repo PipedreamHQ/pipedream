@@ -9,7 +9,7 @@ export default {
   props: {
     linearApp,
     teamId: {
-      label: "Current Team ID",
+      label: "Current Team",
       propDefinition: [
         linearApp,
         "teamId",
