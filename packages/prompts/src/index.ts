@@ -279,6 +279,80 @@ export function defineAction<
   return component;
 }`;
 
+  const asyncOptionsText = `The \`options\` method is an optional method that can be defined on a prop. It is used to dynamically generate the options for a prop and can return a static array of options or a Promise that resolves to an array of options.
+  
+Recall from the type definitions that the options method has the following signature:
+
+options?: PropOptions | ((this: any, opts: OptionsMethodArgs) => Promise<PropOptions>);
+
+PropOptions can return an array of strings, which will be used as both the value of the prop in the \`run\` method and the label of the option in the UI. PropOptions can also return an array of objects of the following format:
+
+\`\`\`
+[
+  {
+    label: "Option 1",
+    value: "option1",
+  },
+  {
+    label: "Option 2",
+    value: "option2",
+  },
+]
+\`\`\`
+
+Where the \`label\` is the label of the option in the UI and the \`value\` is the value of the prop in the \`run\` method.
+
+You SHOULD define an \`async\` options method if an API endpoint exists that can be used to fetch the options for the prop. This allows Pipedream to make an API call to fetch the options for the prop when the user is configuring the component, rather than forcing the user to enter values for the option manually.
+
+Example async options methods:
+
+\`\`\`
+msg: {
+  type: "string",
+  label: "Message",
+  description: "Select a message to \`console.log()\`",
+  async options() {
+    // write any node code that returns a string[] or object[] (with label/value keys)
+    return ["This is option 1", "This is option 2"];
+  },
+},
+\`\`\`
+
+Another example:
+
+\`\`\`
+board: {
+  type: "string",
+  label: "Board",
+  async options(opts) {
+    const boards = await this.getBoards(this.$auth.oauth_uid);
+    const activeBoards = boards.filter((board) => board.closed === false);
+    return activeBoards.map((board) => {
+      return { label: board.name, value: board.id };
+    });
+  },
+},
+\`\`\`
+
+And another:
+
+\`\`\`
+async options(opts) {
+  const response = await axios(this, {
+    method: "GET",
+    url: \`https://api.spotify.com/v1/me/playlists\`,
+    headers: {
+      Authorization: \`Bearer \${this.spotify.$auth.oauth_access_token}\`,
+    },
+  });
+  return response.items.map((playlist) => {
+    return { label: playlist.name, value: playlist.id };
+  });
+},
+\`\`\`
+
+`;
+
   const pipedreamPlatformAxiosTypeDefs = `@pipedream/platform axios TypeScript types:
   
 import axios from "axios";
@@ -442,6 +516,8 @@ Use ESM for all imports, not CommonJS.
 Make sure to include all required headers and parameters in the API request. Please pass literal values as the values of all required params. Use the proper types of values, e.g. "test" for strings and true for booleans. Do not reference \`steps\`, \`$\`, \`this\`, or any other variable in the scope of the \`run\` method.
 
 The object _may_ contain an optional a \`props\` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the \`props\` object. Props must include a human-readable \`label\` and a \`type\` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are "string[]", "boolean[]", and "integer[]" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. Optionally, props can have a human-readable \`description\` describing the param. Optional parameters that correspond to the test code should be declared with \`optional: true\`.
+
+${asyncOptionsText}
 
 Make sure to use the correct HTTP method in the \`axios\` request, comparing this to other examples you've been trained on.
 
