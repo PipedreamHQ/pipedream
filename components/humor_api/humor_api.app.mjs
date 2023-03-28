@@ -43,5 +43,11 @@ export default {
         ...args,
       });
     },
+    searchMemes(args = {}) {
+      return this.makeRequest({
+        path: "/memes/search",
+        ...args,
+      });
+    },
   },
 };

@@ -1,9 +1,9 @@
 import app from "../../humor_api.app.mjs";
 
 export default {
-  key: "humor_api-search-jokes",
-  name: "Search Jokes",
-  description: "Searches for jokes based on user-defined criteria. [See the docs here](https://humorapi.com/docs/#Search-Jokes).",
+  key: "humor_api-search-memes",
+  name: "Search Memes",
+  description: "Searches for memes based on user-defined criteria. [See the docs here](https://humorapi.com/docs/#Search-Memes).",
   type: "action",
   version: "0.0.1",
   props: {
@@ -14,23 +14,24 @@ export default {
       description: "A comma-separated list of words that must occur in the joke.",
       optional: true,
     },
-    includeTags: {
-      type: "string[]",
-      label: "Included Tags",
-      description: "A comma-separated list of tags the jokes should have.",
+    keywordsInImage: {
+      type: "boolean",
+      label: "Keywords In Image",
+      description: "Whether the keywords must occur in the image.",
       optional: true,
     },
-    excludeTags: {
-      type: "string[]",
-      label: "Excluded Tags",
-      description: "A comma-separated list of tags the jokes must not have.",
+    mediaType: {
+      type: "string",
+      label: "Media Type",
+      description: "The media type (either 'image', 'video' or even specific format such as 'jpg', 'png', or 'gif').",
       optional: true,
-    },
-    maxLength: {
-      type: "integer",
-      label: "Maximum length",
-      description: "The maximum length of the joke in letters.",
-      optional: true,
+      options: [
+        "image",
+        "video",
+        "jpg",
+        "png",
+        "gif",
+      ],
     },
     minRating: {
       type: "integer",
@@ -60,28 +61,26 @@ export default {
   async run({ $ }) {
     const {
       keywords,
-      includeTags,
-      excludeTags,
-      maxLength,
+      keywordsInImage,
+      mediaType,
       minRating,
       offset,
       number,
     } = this;
 
-    const response = await this.app.searchJokes({
+    const response = await this.app.searchMemes({
       $,
       params: {
         "keywords": (keywords || []).join(","),
-        "include-tags": (includeTags || []).join(","),
-        "exclude-tags": (excludeTags || []).join(","),
-        "max-length": maxLength,
+        "keywords-in-image": keywordsInImage,
+        "media-type": mediaType,
         "min-rating": minRating,
         "offset": offset,
         "number": number,
       },
     });
 
-    $.export("$summary", `Successfully fetched ${response.jokes.length} jokes`);
+    $.export("$summary", `Successfully fetched ${response.memes.length} memes`);
 
     return response;
   },
