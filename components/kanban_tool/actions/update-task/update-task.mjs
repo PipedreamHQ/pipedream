@@ -68,6 +68,7 @@ export default {
         app,
         "priority",
       ],
+      optional: false,
     },
     tags: {
       propDefinition: [
@@ -88,7 +89,7 @@ export default {
       ],
     },
   },
-  async run ({ $ }) {
+  async run({ $ }) {
     const resp = await this.app.updateTask({
       $,
       taskId: this.taskId,
@@ -99,7 +100,7 @@ export default {
         workflow_stage_id: this.stageId,
         assigned_user_id: this.boardUserId,
         priority: parseInt(this.priority),
-        tags: this.tags.join(","),
+        tags: this.tags?.join(","),
         time_estimate: this.timeEstimate,
         due_date: this.dueDate,
       },
