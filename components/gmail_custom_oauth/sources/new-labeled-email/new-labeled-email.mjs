@@ -27,7 +27,6 @@ export default {
     },
   },
   methods: {
-    ...gmail.methods,
     _getLastHistoryId() {
       return this.db.get("lastHistoryId");
     },
