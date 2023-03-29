@@ -16,7 +16,7 @@ export default {
     kind: {
       type: "string",
       label: "Kind",
-      description: "Select if its either a joke or a meme that you are rating.",
+      description: "Select if it's either a joke or a meme that you are rating.",
       options: [
         "jokes",
         "memes",
@@ -25,7 +25,7 @@ export default {
     vote: {
       type: "string",
       label: "Vote",
-      description: "Select if its an upvote or downvote",
+      description: "Select if it's an upvote or downvote",
       options: [
         "upvote",
         "downvote",
@@ -46,7 +46,7 @@ export default {
       vote,
     });
 
-    $.export("$summary", `Successfully ${vote} ${kind.slice(0, -1)} with ID: ${id}`);
+    $.export("$summary", `Successfully rated the ${kind.slice(0, -1)} with ${vote} and ID "${id}"`);
 
     return response;
   },

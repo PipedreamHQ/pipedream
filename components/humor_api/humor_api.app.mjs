@@ -80,22 +80,15 @@ export default {
       const baseUrl = "https://api.humorapi.com";
       return `${baseUrl}${path}`;
     },
-    getHeaders(headers = {}) {
-      return {
-        ...headers,
-      };
-    },
     makeRequest(customConfig) {
       const {
         $ = this,
         path,
-        headers,
         params,
         ...otherConfig
       } = customConfig;
 
       const config = {
-        headers: this.getHeaders(headers),
         url: this.getBaseUrl(path),
         params: {
           ...params,

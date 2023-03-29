@@ -67,7 +67,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully fetched ${response.memes.length} memes`);
+    $.export("$summary", `Successfully fetched ${response.memes.length} meme(s)`);
 
     return response;
   },

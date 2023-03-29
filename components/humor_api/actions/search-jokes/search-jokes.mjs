@@ -75,7 +75,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully fetched ${response.jokes.length} jokes`);
+    $.export("$summary", `Successfully fetched ${response.jokes.length} joke(s)`);
 
     return response;
   },
