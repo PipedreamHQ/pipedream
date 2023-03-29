@@ -249,13 +249,13 @@ export type SourceHttpRunOptions = {
   body?: {
     [key: string]: JSONValue;
   };
-}
+};
 
 // https://pipedream.com/docs/components/api/#timer
 export type SourceTimerRunOptions = {
   timestamp: number;
   interval_seconds: number;
-}
+};
 
 export type SourceRunOptions = SourceHttpRunOptions | SourceTimerRunOptions;
 
