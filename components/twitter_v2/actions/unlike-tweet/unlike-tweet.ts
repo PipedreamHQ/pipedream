@@ -6,7 +6,7 @@ const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/delete-users-id-likes-tweet_id";
 
 export default defineAction({
-  key: "twitter_v2-like-tweet",
+  key: "twitter_v2-unlike-tweet",
   name: "Like Tweet",
   description: `Unlike a tweet specified by its ID. [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
