@@ -48,6 +48,28 @@ export default {
       }
     },
     /**
+     * Checks if the asm object is properly configuroed group_id is
+     * required when groups_to_show is set and returns an error if not set
+     *
+     * @param {asm} ASM object
+     * @param {asmGroupId} asmGroupId param value
+     * @param {asmGroupsToDisplay} asmGroupsToDisplay param value
+     *
+     * @returns {arrayValidatorMsg: string} the validation error if asm.groups_to_display
+     * or asmGroupsToDisplay is set but asm.group_id or asmGroupId is not set
+     */
+    validateAsm(asm, asmGroupId,  asmGroupsToDisplay) {
+      const asmValidatorMsg = "if asm object or asmGroupsToDisplay param is set, group_id key or asmGroupId param is required to be set";
+      if ((asm && asm.groups_to_display) || asmGroupsToDisplay) {
+        // asmGroupsToDisplay or asm.groups_to_display are set, check for asm.group_id or asmGroupId
+        if (asm.group_id || asmGroupId) {
+          return null;
+        }
+        return asmValidatorMsg;
+      }
+      return null;
+    },
+    /**
      * Returns a validation message
      *
      * @param {object} validationResults a validation results object from validate.js library
@@ -101,5 +123,52 @@ export default {
       });
       return object;
     },
+    /**
+     * Prepares the asm object or the asmGroupId. Sendgrid API requires the
+     * params to be an int, so make sure it can be parsed as one
+     *
+     * @returns an object with the asm configuration, or `undefined` if none
+     */
+    getAsmConfig() {
+      //
+      //
+      let asmConfig = undefined;
+      if (this.asm) {
+        if (this.asm.group_id) {
+          const groupId = parseInt(this.asm.group_id, 10);
+          if (!isNaN(groupId)) {
+            asmConfig = {
+              group_id: groupId,
+            };
+          }
+        }
+        //If the asmGroupId param was set, configure that
+        if (this.asmGroupId) {
+          asmConfig = {
+            group_id: this.asmGroupId,
+          };
+        }
+        //If asm.groups_to_display is configured, parse that and copy over
+        if (this.asm?.groups_to_display) {
+          const groups = JSON.parse(this.asm.groups_to_display);
+          const groupIds = [];
+          for (let i = 0; i < groups.length; i++) {
+            const groupId = parseInt(groups[i], 10);
+            if (!isNaN(groupId)) {
+              groupIds.push(groupId);
+            }
+          }
+          if (groupIds.length > 0) {
+            asmConfig.groups_to_display = groupIds;
+          }
+        }
+        //if asmGroupsToDisplay is configured, copy that over
+        if (this.asmGroupsToDisplay) {
+          asmConfig.groups_to_display = this.asmGroupsToDisplay;
+        }
+      }
+      return asmConfig;
+    },
+
   },
 };
