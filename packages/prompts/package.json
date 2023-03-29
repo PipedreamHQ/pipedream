@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/prompts",
-  "version": "0.0.4",
+  "version": "0.0.10",
   "description": "Pipedream LLM prompts",
   "type": "module",
   "exports": "./dist/index.js",
