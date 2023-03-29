@@ -32,6 +32,15 @@ export default {
         "assigneeId",
       ],
     },
+    stateId: {
+      propDefinition: [
+        linearApp,
+        "stateId",
+        ({ teamId }) => ({
+          teamId,
+        }),
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -39,6 +48,7 @@ export default {
       description,
       teamId,
       assigneeId,
+      stateId,
     } = this;
 
     const response =
@@ -47,6 +57,7 @@ export default {
         title,
         description,
         assigneeId,
+        stateId,
       });
 
     const summary = response.success
