@@ -1652,6 +1652,12 @@
     },
     {
       "path": "components/automatic_data_extraction"
+    },
+    {
+      "path": "components/maintainx"
+    },
+    {
+      "path": "components/adp"
     }
   ]
 }
