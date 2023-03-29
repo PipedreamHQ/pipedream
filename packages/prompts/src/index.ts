@@ -4,6 +4,8 @@ interface AppData {
   auth_type: string;
   description: string;
   custom_fields_json: string;
+  component_code_scaffold_raw: string;
+  test_request_json: string;
 }
 
 interface CustomFieldsJSON {
@@ -302,7 +304,7 @@ PropOptions can return an array of strings, which will be used as both the value
 
 Where the \`label\` is the label of the option in the UI and the \`value\` is the value of the prop in the \`run\` method.
 
-You SHOULD define an \`async\` options method if an API endpoint exists that can be used to fetch the options for the prop. This allows Pipedream to make an API call to fetch the options for the prop when the user is configuring the component, rather than forcing the user to enter values for the option manually.
+You MUST define an \`async\` options method if an API endpoint exists that can be used to fetch the options for the prop. This allows Pipedream to make an API call to fetch the options for the prop when the user is configuring the component, rather than forcing the user to enter values for the option manually.
 
 Example async options methods:
 
@@ -434,15 +436,32 @@ ${pipedreamPlatformAxiosTypeDefs}`;
   const desiredLanguage = "language: Node.js v14";
   const outputInstructions = "output: Node.js code and ONLY Node.js code. You produce Pipedream component code and ONLY Pipedream component code. You MUST NOT include English before or after code, and MUST NOT include Markdown (like ```javascript) surrounding the code. I just want the code!";
 
-  const propsText = "The object _may_ contain an optional a `props` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the `props` object. Props must include a human-readable `label` and a `type` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are \"string[]\", \"boolean[]\", and \"integer[]\" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. If the user asks you to provide an array of object, ALWAYS provide a `type` of string[]. Optionally, props can have a human-readable `description` describing the param. Optional parameters that correspond to the test code should be declared with `optional: true`.";
+  const propsText = "The object _may_ contain an optional a `props` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the `props` object. Props must include a human-readable `label` and a `type` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are \"string[]\", \"boolean[]\", and \"integer[]\" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. If the user asks you to provide an array of object, ALWAYS provide a `type` of string[]. Optionally, props can have a human-readable `description` describing the param. Optional parameters that correspond to the test code should be declared with `optional: true`. Recall that props may contain an `options` method. You MUST define an async options method when the input can be listed from the API (like a list of boards). The options method must return an array of objects with a `label` and `value` property.";
 
   // Query for an app
   if (appData && Object.keys(appData).length > 0) {
     const {
-      name: app, name_slug, auth_type, description, custom_fields_json,
+      name: app, name_slug, auth_type, description, custom_fields_json, component_code_scaffold_raw, test_request_json,
     } = appData;
 
+    let testRequestURL;
+    let testRequestVerb;
+    try {
+      const parsedTestRequestJSON = JSON.parse(test_request_json);
+      testRequestURL = parsedTestRequestJSON?.url;
+      testRequestVerb = parsedTestRequestJSON?.http_method;
+    } catch {
+      // no op
+    }
+
     let authText = `Within the run method, this exposes the user's ${app} credentials in the object \`this.${name_slug}.$auth\`. For integrations where users provide static API keys / tokens, the $auth object contains properties for each key / token the user enters. For OAuth integrations, this object exposes the OAuth access token in the oauth_access_token property of the $auth object. `;
+    let testRequestCode;
+    if (component_code_scaffold_raw) {
+      testRequestCode = `Here's an example Pipedream component that makes a test request against the ${app} API:\n\n${component_code_scaffold_raw}`;
+    }
+    if (testRequestURL && testRequestVerb) {
+      authText += `The test request below makes a ${testRequestVerb} request to ${testRequestURL}. You should use the same base URL in other API requests, and based on the documentation provided / other code on the internet. `;
+    }
     if (auth_type === "keys") {
       const customFields = JSON.parse(custom_fields_json);
       const customFieldsText = customFields.map((o: CustomFieldsJSON) => o["name"]).join(", ");
@@ -459,9 +478,9 @@ First, I need to teach you what a Pipedream component is. All Pipedream componen
 
 ${axiosInstructions}
 
-Here's an example Pipedream component that makes a test request against the Slack API:
+${testRequestCode}
 
-import { axios } from "@pipedream/platform";
+Here's an example Pipedream component that makes a test request against the Slack API:
 
 export default defineComponent({
   props: {
