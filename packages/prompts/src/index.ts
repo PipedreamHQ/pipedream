@@ -287,22 +287,22 @@ Recall from the type definitions that the options method has the following signa
 
 options?: PropOptions | ((this: any, opts: OptionsMethodArgs) => Promise<PropOptions>);
 
-PropOptions can return an array of strings, which will be used as both the value of the prop in the \`run\` method and the label of the option in the UI. PropOptions can also return an array of objects of the following format:
+PropOptions can return an array of strings, which will be used as both the value of the prop in the \`run\` method and the human-readable label of the option in the UI. PropOptions can also return an array of objects of the following format:
 
 \`\`\`
 [
   {
-    label: "Option 1",
-    value: "option1",
+    label: "Human-readable option 1",
+    value: "unique identifier 1",
   },
   {
-    label: "Option 2",
-    value: "option2",
+    label: "Human-readable option 2",
+    value: "unique identifier 2",
   },
 ]
 \`\`\`
 
-Where the \`label\` is the label of the option in the UI and the \`value\` is the value of the prop in the \`run\` method.
+The \`label\` MUST BE a human-readable name of the option presented to the user in the UI, and the \`value\` is the value of the prop in the \`run\` method. The \`label\` MUST be set to the property that defines the name of the object, and the \`value\` should be the property that defines the unique identifier of the object.
 
 You MUST define an \`async\` options method if an API endpoint exists that can be used to fetch the options for the prop. This allows Pipedream to make an API call to fetch the options for the prop when the user is configuring the component, rather than forcing the user to enter values for the option manually.
 
@@ -430,6 +430,13 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
 import { axios } from "@pipedream/platform";
 
 You MUST use that import format when importing axios. Do NOT attempt to import any other package like \`import axios from "@pipedream/platform/axios"\`
+
+The \`axios\` constructor takes two arguments:
+
+1. \`this\` - the \`this\` context of the component.
+2. \`config\` - an AxiosRequestConfig object that defines the request to be made. The \`config\` object is the same as the \`config\` object passed to the \`axios\` constructor in the \`axios\` package, with some extra properties.
+
+\`@pipedream/platform\` axios returns a Promise that resolves to the HTTP response data. You MUST NOT assume there's a \`data\` property in the response that contains the data. The data from the HTTP response is returned directly in the response, not in the \`data\` property. If you want to access the full axios response object, set \`config.returnFullResponse\` to \`true\`.
 
 ${pipedreamPlatformAxiosTypeDefs}`;
 
