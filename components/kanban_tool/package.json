@@ -1,13 +1,14 @@
 {
-  "name": "@pipedream/humor_api",
-  "version": "0.0.2",
-  "description": "Pipedream Humor API Components",
-  "main": "humor_api.app.mjs",
+  "name": "@pipedream/kanban_tool",
+  "version": "0.0.1",
+  "description": "Pipedream Kanban Tool Components",
+  "main": "kanban_tool.app.mjs",
   "keywords": [
     "pipedream",
-    "humor_api"
+    "kanban_tool",
+    "kanban"
   ],
-  "homepage": "https://pipedream.com/apps/humor_api",
+  "homepage": "https://pipedream.com/apps/kanban-tool",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
