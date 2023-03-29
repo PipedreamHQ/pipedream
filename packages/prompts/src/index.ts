@@ -312,7 +312,7 @@ msg: {
   label: "Message",
   description: "Select a message to \`console.log()\`",
   async options() {
-    // write any node code that returns a string[] or object[] (with label/value keys)
+    // write any node code that returns a string[] (with label/value keys)
     return ["This is option 1", "This is option 2"];
   },
 },
@@ -434,6 +434,8 @@ ${pipedreamPlatformAxiosTypeDefs}`;
   const desiredLanguage = "language: Node.js v14";
   const outputInstructions = "output: Node.js code and ONLY Node.js code. You produce Pipedream component code and ONLY Pipedream component code. You MUST NOT include English before or after code, and MUST NOT include Markdown (like ```javascript) surrounding the code. I just want the code!";
 
+  const propsText = "The object _may_ contain an optional a `props` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the `props` object. Props must include a human-readable `label` and a `type` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are \"string[]\", \"boolean[]\", and \"integer[]\" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. If the user asks you to provide an array of object, ALWAYS provide a `type` of string[]. Optionally, props can have a human-readable `description` describing the param. Optional parameters that correspond to the test code should be declared with `optional: true`.";
+
   // Query for an app
   if (appData && Object.keys(appData).length > 0) {
     const {
@@ -515,7 +517,7 @@ Use ESM for all imports, not CommonJS.
 
 Make sure to include all required headers and parameters in the API request. Please pass literal values as the values of all required params. Use the proper types of values, e.g. "test" for strings and true for booleans. Do not reference \`steps\`, \`$\`, \`this\`, or any other variable in the scope of the \`run\` method.
 
-The object _may_ contain an optional a \`props\` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the \`props\` object. Props must include a human-readable \`label\` and a \`type\` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are "string[]", "boolean[]", and "integer[]" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. Optionally, props can have a human-readable \`description\` describing the param. Optional parameters that correspond to the test code should be declared with \`optional: true\`.
+${propsText}
 
 ${asyncOptionsText}
 
@@ -570,7 +572,7 @@ export default defineComponent({
   },
 });
 
-The object _may_ contain an optional a \`props\` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the \`props\` object. Props must include a human-readable \`label\` and a \`type\` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are "string[]", "boolean[]", and "integer[]" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. Optionally, props can have a human-readable \`description\` describing the param. Optional parameters that correspond to the test code should be declared with \`optional: true\`.
+${propsText}
 
 Within the run method, the \`this\` variable refers to the component code. All props are exposed at \`this.<name of the key in the props object>\`. e.g. \`this.input\` in the example above.
 
