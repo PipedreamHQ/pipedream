@@ -1917,6 +1917,12 @@ importers:
   components/kakao:
     specifiers: {}
 
+  components/kanban_tool:
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
+
   components/kanbanflow:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2811,10 +2817,10 @@ importers:
 
   components/pipedream:
     specifiers:
-      '@pipedream/platform': ^1.4.0
+      '@pipedream/platform': ^1.4.1
       uuidv4: ^6.2.13
     dependencies:
-      '@pipedream/platform': 1.4.0
+      '@pipedream/platform': 1.4.1
       uuidv4: 6.2.13
 
   components/pipedrive:
@@ -4449,7 +4455,10 @@ importers:
     specifiers: {}
 
   components/weatherbit_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/webflow:
     specifiers:
@@ -9535,7 +9544,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.8.1
@@ -12238,7 +12247,7 @@ packages:
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
     dev: true
 
   /@types/glob/7.2.0:
@@ -12305,7 +12314,7 @@ packages:
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
     dev: false
 
   /@types/lodash-es/4.17.6:
@@ -12398,7 +12407,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
     dev: false
 
   /@types/retry/0.12.0:
@@ -18594,7 +18603,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
       chalk: 4.1.2
       ci-info: 3.3.2
       graceful-fs: 4.2.10
@@ -21683,7 +21692,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
       long: 4.0.0
     dev: false
 

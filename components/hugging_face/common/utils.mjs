@@ -1,3 +1,39 @@
+function isJson(value) {
+  value =
+    typeof(value) !== "string"
+      ? JSON.stringify(value)
+      : value;
+
+  try {
+    value = JSON.parse(value);
+  } catch (e) {
+    return false;
+  }
+
+  return typeof(value) === "object" && value !== null;
+}
+
+function valueToObject(value) {
+  if (!isJson(value)) {
+    return value;
+  }
+  return JSON.parse(value);
+}
+
+function parseFields(fields) {
+  if (!fields) {
+    return;
+  }
+  return Object.entries(fields)
+    .reduce((props, [
+      key,
+      value,
+    ]) => ({
+      ...props,
+      [key]: valueToObject(value),
+    }), {});
+}
+
 function strToFloat(str) {
   const floatNum = parseFloat(str);
 
@@ -84,4 +120,5 @@ export default {
   getDataFromStream,
   strToFloat,
   parseLinkHeader,
+  parseFields,
 };
