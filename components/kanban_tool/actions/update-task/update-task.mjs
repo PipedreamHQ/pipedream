@@ -4,7 +4,7 @@ export default {
   key: "kanban_tool-update-task",
   version: "0.0.1",
   type: "action",
-  name: "Create Task",
+  name: "Update Task",
   description: "Updates a task with the given parameters [See the docs here](https://kanbantool.com/developer/api-v3#updating-tasks)",
   props: {
     app,
