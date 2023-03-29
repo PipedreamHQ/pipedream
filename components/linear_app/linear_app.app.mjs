@@ -8,7 +8,7 @@ export default {
   propDefinitions: {
     teamId: {
       type: "string",
-      label: "Team ID",
+      label: "Team",
       description: "The identifier or key of the team associated with the issue",
       async options({ prevContext }) {
         return this.listResourcesOptions({
@@ -25,8 +25,8 @@ export default {
     },
     issueId: {
       type: "string",
-      label: "Issue ID",
-      description: "The issue ID to update",
+      label: "Issue",
+      description: "The issue to update",
       async options({
         teamId, prevContext,
       }) {
@@ -53,7 +53,7 @@ export default {
     },
     projectId: {
       type: "string",
-      label: "Project ID",
+      label: "Project",
       description: "The identifier or key of the project associated with the issue",
       optional: true,
       async options({ prevContext }) {
@@ -76,8 +76,8 @@ export default {
     },
     assigneeId: {
       type: "string",
-      label: "Assignee ID",
-      description: "The identifier of the user to assign the issue to",
+      label: "Assignee",
+      description: "The user to assign to the issue",
       optional: true,
       async options({ prevContext }) {
         return this.listResourcesOptions({
@@ -94,8 +94,8 @@ export default {
     },
     stateId: {
       type: "string",
-      label: "State ID",
-      description: "The identifier of the state to move the issue to",
+      label: "State (Status)",
+      description: "The state (status) to assign to the issue",
       optional: true,
       async options({
         teamId, prevContext,
