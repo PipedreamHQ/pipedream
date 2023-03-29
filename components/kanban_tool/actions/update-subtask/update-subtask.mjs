@@ -39,12 +39,6 @@ export default {
       ],
       optional: true,
     },
-    taskVersion: {
-      propDefinition: [
-        app,
-        "taskVersion",
-      ],
-    },
     boardUserId: {
       propDefinition: [
         app,
@@ -52,12 +46,6 @@ export default {
         (configuredProps) => ({
           boardId: configuredProps.boardId,
         }),
-      ],
-    },
-    position: {
-      propDefinition: [
-        app,
-        "position",
       ],
     },
     isCompleted: {
@@ -72,7 +60,9 @@ export default {
       $,
       subtaskId: this.subtaskId,
       data: {
-        is_completed: true,
+        name: this.name,
+        assigned_user_id: this.boardUserId,
+        is_completed: this.isCompleted,
       },
     });
     $.export("$summary", `The subtask(ID: ${resp.id}) has been updated.`);
