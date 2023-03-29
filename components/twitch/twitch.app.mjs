@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import crypto from "crypto";
 import qs from "qs";
 
@@ -50,23 +50,20 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    _getParamsSerializer() {
-      return (p) =>
-        qs.stringify(p, {
-          arrayFormat: "brackets",
-        });
-    },
     async _makeRequest(method, endpoint, params = {}) {
       const config = {
         method,
         url: `${this._getBaseUrl()}/${endpoint}`,
         headers: this._getHeaders(),
         params,
-        paramsSerializer: {
-          serializer: this._getParamsSerializer(params),
+        paramsSerializer: function (params) {
+          return qs.stringify(params, {
+            arrayFormat: "brackets",
+          });
         },
+        returnFullResponse: true,
       };
-      return await axios(config);
+      return axios(this, config);
     },
     // Uses Twitch API to create or delete webhook subscriptions.
     // Set mode to "subscribe" to create a webhook and "unsubscribe" to delete it.

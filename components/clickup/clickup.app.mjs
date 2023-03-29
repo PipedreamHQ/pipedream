@@ -296,6 +296,8 @@ export default {
       label: "Custom Field",
       description: "Select a custom field",
       async options({ listId }) {
+        if (!listId) return [];
+
         const fields = await this.getCustomFields({
           listId,
         });

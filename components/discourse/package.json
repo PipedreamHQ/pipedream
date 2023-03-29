@@ -1,18 +1,21 @@
 {
   "name": "@pipedream/discourse",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Pipedream Discourse Components",
-  "main": "dist/app/discourse.app.mjs",
+  "main": "discourse.app.mjs",
   "keywords": [
     "pipedream",
     "discourse"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/discourse",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.0",
+    "lodash.get": "^4.4.2",
+    "lodash.sortby": "^4.7.0",
+    "nanoid": "^4.0.1"
   }
 }

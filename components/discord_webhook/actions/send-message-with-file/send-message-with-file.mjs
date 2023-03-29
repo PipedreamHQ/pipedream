@@ -1,5 +1,5 @@
 import common from "../send-message-common.mjs";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import fs from "fs";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   key: "discord_webhook-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "0.2.1",
+  version: "0.3.0",
   type: "action",
   props: {
     ...common.props,
@@ -49,11 +49,11 @@ export default {
     }
 
     const file = fileUrl
-      ? (await axios({
+      ? await axios($, {
         method: "get",
         url: fileUrl,
         responseType: "stream",
-      })).data
+      })
       : fs.createReadStream(filePath);
 
     try {

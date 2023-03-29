@@ -6,7 +6,7 @@ export default {
   name: "Create Row",
   description: "Adds a new row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.4",
   props: {
     mysql,
     table: {
@@ -17,6 +17,12 @@ export default {
       ],
       reloadProps: true,
     },
+    rejectUnauthorized: {
+      propDefinition: [
+        mysql,
+        "rejectUnauthorized",
+      ],
+    },
   },
   async additionalProps() {
     return await this.getColumnProps(this.table);
@@ -25,7 +31,9 @@ export default {
     ...utils,
   },
   async run({ $ }) {
-    const { table } = this;
+    const {
+      table, rejectUnauthorized,
+    } = this;
 
     const {
       columns, values,
@@ -35,6 +43,7 @@ export default {
       table,
       columns,
       values,
+      rejectUnauthorized,
     });
 
     $.export("$summary", `Successfully added ${result.affectedRows} row(s) to table ${table}`);
