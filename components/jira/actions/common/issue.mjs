@@ -50,36 +50,113 @@ export default {
     },
   },
   methods: {
+    getResourcesInfo(key) {
+      switch (key) {
+      case constants.FIELD_KEY.PARENT:
+        return {
+          fn: this.app.getIssues,
+          args: {
+            cloudId: this.cloudId,
+            params: {
+              maxResults: 100,
+            },
+          },
+          map: ({ issues }) =>
+            issues?.map(({
+              id: value, key: label,
+            }) => ({
+              value,
+              label,
+            })),
+        };
+      case constants.FIELD_KEY.LABELS:
+        return {
+          fn: this.app.getLabels,
+          args: {
+            cloudId: this.cloudId,
+            params: {
+              maxResults: 100,
+            },
+          },
+          map: ({ values }) => values,
+        };
+      default:
+        return {};
+      }
+    },
     getPropType(schemaType) {
       return constants.TYPE[schemaType] || "object";
     },
-    getDynamicFields({
-      fields, fieldFilter = (field) => field,
+    async getDynamicFields({
+      fields, predicate = (field) => field,
     } = {}) {
+      const schemaTypes = Object.keys(constants.SCHEMA);
+
+      const keysForResourceRequest = [
+        constants.FIELD_KEY.PARENT,
+        constants.FIELD_KEY.LABELS,
+      ];
+
       return Object.values(fields)
-        .filter(fieldFilter)
-        .reduce((props, {
-          schema, name: label, key, required,
+        .filter(predicate)
+        .reduce(async (props, {
+          schema, name: label, key, required, autoCompleteUrl,
         }) => {
           const {
             type: schemaType,
             custom,
           } = schema;
 
-          key = custom?.includes(":")
+          const newKey = custom?.includes(":")
             ? `${key}_${custom.split(":")[1]}`
             : key;
 
-          return {
-            ...props,
-            [key]: {
-              type: this.getPropType(schemaType),
-              label,
-              description: "Set your field value",
-              optional: !required,
-            },
+          const value = {
+            type: this.getPropType(schemaType),
+            label,
+            description: "Set your field value",
+            optional: !required,
           };
-        }, {});
+
+          // Requests by URL
+          if (schemaTypes.includes(schemaType)) {
+            const resources = await this.app._makeRequest({
+              url: autoCompleteUrl,
+            });
+
+            return Promise.resolve({
+              ...await props,
+              [newKey]: {
+                ...value,
+                options: resources.map(constants.SCHEMA[schemaType].mapping),
+              },
+            });
+          }
+
+          // Requests by Resource
+          if (keysForResourceRequest.includes(key)) {
+            const {
+              fn: resourcesFn,
+              args: resourcesFnArgs,
+              map: resourcesFnMap,
+            } = this.getResourcesInfo(key);
+
+            const response = await resourcesFn(resourcesFnArgs);
+
+            return Promise.resolve({
+              ...await props,
+              [newKey]: {
+                ...value,
+                options: resourcesFnMap(response),
+              },
+            });
+          }
+
+          return Promise.resolve({
+            ...await props,
+            [newKey]: value,
+          });
+        }, Promise.resolve({}));
     },
     formatFields(fields) {
       const keysToFormat = [
@@ -89,6 +166,12 @@ export default {
 
       const fieldTypesToFormat = [
         constants.FIELD_TYPE.TEXTAREA,
+      ];
+
+      const keysToCheckForId = [
+        constants.FIELD_KEY.ASSIGNEE,
+        constants.FIELD_KEY.REPORTER,
+        constants.FIELD_KEY.PARENT,
       ];
 
       return Object.entries(fields)
@@ -113,7 +196,11 @@ export default {
                 this.atlassianDocumentFormat(value),
                 value,
               ]
-              : value,
+              : keysToCheckForId.includes(fieldName)
+                ? {
+                  id: value,
+                }
+                : value,
           };
         }, {});
     },

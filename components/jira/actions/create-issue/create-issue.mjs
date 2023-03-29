@@ -71,7 +71,7 @@ export default {
 
     return this.getDynamicFields({
       fields,
-      fieldFilter: ({ key }) => !keys.includes(key),
+      predicate: ({ key }) => !keys.includes(key),
     });
   },
   async run({ $ }) {

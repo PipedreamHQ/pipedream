@@ -223,10 +223,10 @@ export default {
       return `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3`;
     },
     _makeRequest({
-      $ = this, path, headers, cloudId, ...args
+      $ = this, url, path, headers, cloudId, ...args
     } = {}) {
       const config = {
-        url: `${this._getUrl(cloudId)}${path}`,
+        url: url || `${this._getUrl(cloudId)}${path}`,
         headers: this._getHeaders(headers),
         ...args,
       };
