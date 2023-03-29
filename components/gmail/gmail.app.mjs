@@ -1,12 +1,12 @@
 import gmail from "@googleapis/gmail";
-import MailComposer from "nodemailer/lib/mail-composer/index.js";
-import { convert } from "html-to-text";
 import {
   axios,
   ConfigurationError,
 } from "@pipedream/platform";
-import constants from "./common/constants.mjs";
+import { convert } from "html-to-text";
 import mime from "mime";
+import MailComposer from "nodemailer/lib/mail-composer/index.js";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -250,6 +250,13 @@ export default {
       const { data } = await this._client().users.messages.get({
         userId: constants.USER_ID,
         id,
+      });
+      return data;
+    },
+    async listHistory(opts = {}) {
+      const { data } = await this._client().users.history.list({
+        userId: constants.USER_ID,
+        ...opts,
       });
       return data;
     },

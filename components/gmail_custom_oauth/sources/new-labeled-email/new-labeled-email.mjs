@@ -28,26 +28,6 @@ export default {
   },
   methods: {
     ...gmail.methods,
-    getMessage({
-      messageId, ...opts
-    }) {
-      return this.gmail._makeRequest({
-        path: `messages/${messageId}`,
-        ...opts,
-      });
-    },
-    listMessages(opts = {}) {
-      return this.gmail._makeRequest({
-        path: "messages",
-        ...opts,
-      });
-    },
-    listHistories(opts = {}) {
-      return this.gmail._makeRequest({
-        path: "history",
-        ...opts,
-      });
-    },
     _getLastHistoryId() {
       return this.db.get("lastHistoryId");
     },
@@ -64,31 +44,29 @@ export default {
       };
     },
     async getHistoryId() {
-      const { messages } = await this.listMessages({
+      const { messages } = await this.gmail.listMessages({
         params: {
           labelIds: this.label,
         },
       });
       if (messages.length > 25) messages.length = 25;
       const { id } = messages[messages.length - 1];
-      const { historyId } = await this.getMessage({
-        messageId: id,
+      const { historyId } = await this.gmail.getMessage({
+        id,
       });
       return historyId;
     },
     async emitHistories(startHistoryId) {
       const {
         history, historyId,
-      } = await this.listHistories({
-        params: {
-          startHistoryId,
-          historyTypes: "labelAdded",
-          labelId: this.label,
-        },
+      } = await this.gmail.listHistory({
+        startHistoryId,
+        historyTypes: "labelAdded",
+        labelId: this.label,
       });
 
       if (!history) {
-         return;
+        return;
       }
       this._setLastHistoryId(historyId);
       const responseArray = history.filter((item) => item.labelsAdded);
