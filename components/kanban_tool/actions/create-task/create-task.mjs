@@ -58,6 +58,7 @@ export default {
         app,
         "priority",
       ],
+      optional: false,
     },
     tags: {
       propDefinition: [
@@ -89,7 +90,7 @@ export default {
         workflow_stage_id: this.stageId,
         assigned_user_id: this.boardUserId,
         priority: parseInt(this.priority),
-        tags: this.tags.join(","),
+        tags: this.tags?.join(",") || "",
         time_estimate: this.timeEstimate,
         due_date: this.dueDate,
       },
