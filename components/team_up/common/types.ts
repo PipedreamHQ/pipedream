@@ -9,3 +9,22 @@ export interface HttpRequestParams extends PdAxiosRequest {
   data?: object;
   params?: object;
 }
+
+interface CalendarRequest {
+  calendarKey: string;
+}
+interface EventRequest extends CalendarRequest {
+  eventId: string;
+}
+
+export interface DeleteEventParams extends PdAxiosRequest, EventRequest { }
+export interface GetEventParams extends PdAxiosRequest, EventRequest { }
+export interface ListEventsParams extends PdAxiosRequest, CalendarRequest { }
+export interface UpdateEventParams extends PdAxiosRequest, EventRequest {
+  data: object;
+}
+
+export interface Event {
+  id: string;
+  title: string;
+}
