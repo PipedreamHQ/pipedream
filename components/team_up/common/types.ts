@@ -17,6 +17,9 @@ interface EventRequest extends CalendarRequest {
   eventId: string;
 }
 
+export interface CreateEventParams extends PdAxiosRequest, CalendarRequest {
+  data: object;
+}
 export interface DeleteEventParams extends PdAxiosRequest, EventRequest { }
 export interface GetEventParams extends PdAxiosRequest, EventRequest { }
 export interface ListEventsParams extends PdAxiosRequest, CalendarRequest { }

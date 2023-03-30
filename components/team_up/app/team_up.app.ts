@@ -1,6 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
+  CreateEventParams,
   DeleteEventParams, Event, GetEventParams, HttpRequestParams, ListEventsParams, UpdateEventParams,
 } from "../common/types";
 
@@ -47,6 +48,15 @@ export default defineApp({
       return axios($, {
         baseURL: this._getBaseUrl(),
         headers: this._getHeaders(),
+        ...args,
+      });
+    },
+    async createEvent({
+      calendarKey, ...args
+    }: CreateEventParams) {
+      return this._httpRequest({
+        method: "POST",
+        url: `/${calendarKey}/events`,
         ...args,
       });
     },
