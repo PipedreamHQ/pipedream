@@ -6,7 +6,7 @@ export default {
   key: "automatic_data_extraction-extract-data-from-url",
   name: "Extract Data From URL",
   version: "0.0.1",
-  description: "Initiates the process of extracting data from a specified URL [See the docs here](https://docs.zyte.com/automatic-extraction-integrations.html#node-js)",
+  description: "Extract data from a specified URL [See the docs here](https://docs.zyte.com/automatic-extraction-integrations.html#node-js)",
   type: "action",
   props: {
     automaticDataExtraction,
