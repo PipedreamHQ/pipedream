@@ -20,6 +20,10 @@ export default {
   },
   methods: {
     emitEvent(data) {
+      if (!data.completedAt) {
+        return;
+      }
+
       this._setLastWorkOrderId(data.id);
 
       this.$emit(data, {
