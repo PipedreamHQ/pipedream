@@ -1,3 +1,5 @@
+import automaticDataExtraction from "../../automatic_data_extraction.app.mjs";
+import { PAGE_TYPES } from "../../common/constants.mjs";
 import { clearObj } from "../../common/utils.mjs";
 
 export default {
@@ -7,6 +9,7 @@ export default {
   description: "Initiates the process of extracting data from a specified URL [See the docs here](https://docs.zyte.com/automatic-extraction-integrations.html#node-js)",
   type: "action",
   props: {
+    automaticDataExtraction,
     url: {
       type: "string",
       label: "URL",
@@ -16,18 +19,7 @@ export default {
       type: "string",
       label: "Page Type",
       description: "Type of extraction to perform.",
-      options: [
-        "article",
-        "articleList",
-        "comments",
-        "forumPosts",
-        "jobPosting",
-        "product",
-        "productList",
-        "realEstate",
-        "reviews",
-        "vehicle",
-      ],
+      options: PAGE_TYPES,
     },
     meta: {
       type: "string",

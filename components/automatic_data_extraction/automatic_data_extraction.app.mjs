@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "automatic_data_extraction",
