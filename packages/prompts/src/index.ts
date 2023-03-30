@@ -4,6 +4,8 @@ interface AppData {
   auth_type: string;
   description: string;
   custom_fields_json: string;
+  component_code_scaffold_raw: string;
+  test_request_json: string;
 }
 
 interface CustomFieldsJSON {
@@ -11,7 +13,9 @@ interface CustomFieldsJSON {
 }
 
 export const componentMaker = (appData: AppData) => {
-  const typeDefs = `export type JSONValue =
+  const typeDefs = `Here are TypeScript type definitions for Pipedream components:
+  
+export type JSONValue =
   | string
   | number
   | boolean
@@ -277,13 +281,187 @@ export function defineAction<
   return component;
 }`;
 
+  const asyncOptionsText = `The \`options\` method is an optional method that can be defined on a prop. It is used to dynamically generate the options for a prop and can return a static array of options or a Promise that resolves to an array of options.
+  
+Recall from the type definitions that the options method has the following signature:
+
+options?: PropOptions | ((this: any, opts: OptionsMethodArgs) => Promise<PropOptions>);
+
+PropOptions can return an array of strings, which will be used as both the value of the prop in the \`run\` method and the label of the option in the UI. PropOptions can also return an array of objects of the following format:
+
+\`\`\`
+[
+  {
+    label: "Option 1",
+    value: "option1",
+  },
+  {
+    label: "Option 2",
+    value: "option2",
+  },
+]
+\`\`\`
+
+Where the \`label\` is the label of the option in the UI and the \`value\` is the value of the prop in the \`run\` method.
+
+You MUST define an \`async\` options method if an API endpoint exists that can be used to fetch the options for the prop. This allows Pipedream to make an API call to fetch the options for the prop when the user is configuring the component, rather than forcing the user to enter values for the option manually.
+
+Example async options methods:
+
+\`\`\`
+msg: {
+  type: "string",
+  label: "Message",
+  description: "Select a message to \`console.log()\`",
+  async options() {
+    // write any node code that returns a string[] (with label/value keys)
+    return ["This is option 1", "This is option 2"];
+  },
+},
+\`\`\`
+
+Another example:
+
+\`\`\`
+board: {
+  type: "string",
+  label: "Board",
+  async options(opts) {
+    const boards = await this.getBoards(this.$auth.oauth_uid);
+    const activeBoards = boards.filter((board) => board.closed === false);
+    return activeBoards.map((board) => {
+      return { label: board.name, value: board.id };
+    });
+  },
+},
+\`\`\`
+
+And another:
+
+\`\`\`
+async options(opts) {
+  const response = await axios(this, {
+    method: "GET",
+    url: \`https://api.spotify.com/v1/me/playlists\`,
+    headers: {
+      Authorization: \`Bearer \${this.spotify.$auth.oauth_access_token}\`,
+    },
+  });
+  return response.items.map((playlist) => {
+    return { label: playlist.name, value: playlist.id };
+  });
+},
+\`\`\`
+
+`;
+
+  const pipedreamPlatformAxiosTypeDefs = `@pipedream/platform axios TypeScript types:
+  
+import axios from "axios";
+import { AxiosRequestConfig as AxiosConfig } from "axios";
+
+interface AxiosRequestConfig extends AxiosConfig {
+  debug?: boolean;
+  body?: any;
+  returnFullResponse?: boolean;
+}
+
+function convertAxiosError(err) {
+  delete err.response.request;
+  err.name = \`\${err.name} - \${err.message}\`;
+  try {
+    err.message = JSON.stringify(err.response.data);
+  }
+  catch (error) {
+    console.error("Error trying to convert \`err.response.data\` to string");
+  }
+  return err;
+}
+
+function create(config?: AxiosRequestConfig, signConfig?: any) {
+  const axiosInstance = axios.create(config);
+
+  if (config?.debug) {
+    stepExport(this, config, "debug_config");
+  }
+
+  axiosInstance.interceptors.request.use(async (config) => {
+    if (signConfig) {
+      const oauthSignature = await getOauthSignature(config, signConfig);
+      if (!config.headers) config.headers = {};
+      config.headers.Authorization = oauthSignature;
+    }
+
+    cleanObject(config.headers);
+    cleanObject(config.params);
+    if (typeof config.data === "object") {
+      cleanObject(config.data);
+    }
+    removeSearchFromUrl(config);
+
+    return config;
+  });
+
+  axiosInstance.interceptors.response.use((response) => {
+    const config: AxiosRequestConfig = response.config;
+
+    if (config.debug) {
+      stepExport(this, response.data, "debug_response");
+    }
+
+    return config.returnFullResponse
+      ? response
+      : response.data;
+  }, (error) => {
+    if (error.response) {
+      convertAxiosError(error);
+      stepExport(this, error.response, "debug");
+    }
+
+    throw error;
+  });
+
+  return axiosInstance;
+}
+`;
+
+  const axiosInstructions = `Use the \`axios\` constructor from the \`@pipedream/platform\` package to make any HTTP requests. Make sure to include the following import at the top of your Node.js code, above the component, in this exact format:
+
+import { axios } from "@pipedream/platform";
+
+You MUST use that import format when importing axios. Do NOT attempt to import any other package like \`import axios from "@pipedream/platform/axios"\`
+
+${pipedreamPlatformAxiosTypeDefs}`;
+
+  const desiredLanguage = "language: Node.js v14";
+  const outputInstructions = "output: Node.js code and ONLY Node.js code. You produce Pipedream component code and ONLY Pipedream component code. You MUST NOT include English before or after code, and MUST NOT include Markdown (like ```javascript) surrounding the code. I just want the code!";
+
+  const propsText = "The object _may_ contain an optional a `props` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the `props` object. Props must include a human-readable `label` and a `type` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are \"string[]\", \"boolean[]\", and \"integer[]\" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. If the user asks you to provide an array of object, ALWAYS provide a `type` of string[]. Optionally, props can have a human-readable `description` describing the param. Optional parameters that correspond to the test code should be declared with `optional: true`. Recall that props may contain an `options` method. You MUST define an async options method when the input can be listed from the API (like a list of boards). The options method must return an array of objects with a `label` and `value` property.";
+
   // Query for an app
   if (appData && Object.keys(appData).length > 0) {
     const {
-      name: app, name_slug, auth_type, description, custom_fields_json,
+      name: app, name_slug, auth_type, description, custom_fields_json, component_code_scaffold_raw, test_request_json,
     } = appData;
 
+    let testRequestURL;
+    let testRequestVerb;
+    try {
+      const parsedTestRequestJSON = JSON.parse(test_request_json);
+      testRequestURL = parsedTestRequestJSON?.url;
+      testRequestVerb = parsedTestRequestJSON?.http_method;
+    } catch {
+      // no op
+    }
+
     let authText = `Within the run method, this exposes the user's ${app} credentials in the object \`this.${name_slug}.$auth\`. For integrations where users provide static API keys / tokens, the $auth object contains properties for each key / token the user enters. For OAuth integrations, this object exposes the OAuth access token in the oauth_access_token property of the $auth object. `;
+    let testRequestCode;
+    if (component_code_scaffold_raw) {
+      testRequestCode = `Here's an example Pipedream component that makes a test request against the ${app} API:\n\n${component_code_scaffold_raw}`;
+    }
+    if (testRequestURL && testRequestVerb) {
+      authText += `The test request below makes a ${testRequestVerb} request to ${testRequestURL}. You should use the same base URL in other API requests, and based on the documentation provided / other code on the internet. `;
+    }
     if (auth_type === "keys") {
       const customFields = JSON.parse(custom_fields_json);
       const customFieldsText = customFields.map((o: CustomFieldsJSON) => o["name"]).join(", ");
@@ -291,22 +469,18 @@ export function defineAction<
     } else if (auth_type === "oauth") {
       authText += `${app} is an OAuth app. For OAuth integrations, this object exposes the OAuth access token in the variable \`this.${name_slug}.$auth.oauth_access_token\`. When you make the API request, make sure to use the format from the ${app} docs, e.g. you may need to pass the OAuth access token as a Bearer token in the Authorization header. Consult the docs`;
     }
-    return `language: Node.js v14.
-output: Node.js code
-      
-You should output Pipedream component code. Here's the TypeScript type definitions:
+    return `${desiredLanguage}
+${outputInstructions}
 
 ${typeDefs}
 
 First, I need to teach you what a Pipedream component is. All Pipedream components are Node.js modules that have a default export: \`defineComponent\`. \`defineComponent\` is provided to the environment as a global — you do not need to import \`defineComponent\`. \`defineComponent\` is a function that takes an object — a Pipedream component — as its single argument. The object contains a \`props\` property, which defines a single prop of type "app". This lets the user connect their ${app} account to the step, authorizing requests to the ${app} API (${description}). ${authText}. Don't reference the \`steps\` and \`$\` variables passed to the \`run\` method.
 
-Use the \`axios\` constructor from the \`@pipedream/platform\` package to make the API request. Make sure to include the following import at the top of your Node.js code, above the component:
+${axiosInstructions}
 
-import { axios } from "@pipedream/platform";
+${testRequestCode}
 
 Here's an example Pipedream component that makes a test request against the Slack API:
-
-import { axios } from "@pipedream/platform";
 
 export default defineComponent({
   props: {
@@ -362,7 +536,9 @@ Use ESM for all imports, not CommonJS.
 
 Make sure to include all required headers and parameters in the API request. Please pass literal values as the values of all required params. Use the proper types of values, e.g. "test" for strings and true for booleans. Do not reference \`steps\`, \`$\`, \`this\`, or any other variable in the scope of the \`run\` method.
 
-The object _may_ contain an optional a \`props\` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the \`props\` object. Props must include a human-readable \`label\` and a \`type\` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are "string[]", "boolean[]", and "integer[]" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. Optionally, props can have a human-readable \`description\` describing the param. Optional parameters that correspond to the test code should be declared with \`optional: true\`.
+${propsText}
+
+${asyncOptionsText}
 
 Make sure to use the correct HTTP method in the \`axios\` request, comparing this to other examples you've been trained on.
 
@@ -376,18 +552,18 @@ Only return Node.js code. DO NOT include any English text before or after the No
   }
 
   // Query when an app isn't provided (general code)
-  return `language: Node.js v14.
-output: Node.js code
-
-The code should be Node.js, and should be formatted as a Pipedream component. Here are the TypeScript type definitions:
+  return `${desiredLanguage}
+${outputInstructions}
 
 ${typeDefs}
 
 First, I need to teach you what a Pipedream component is. All Pipedream components are Node.js modules that have a default export: \`defineComponent\`. \`defineComponent\` is provided to the environment as a global — you do not need to import \`defineComponent\`. \`defineComponent\` is a function that takes an object — a Pipedream component — as its single argument. 
 
-Here's an example Pipedream component that makes a test request using axios:
+${axiosInstructions}
 
-import axios from "axios";
+Here's an example Pipedream component that makes a test request using @pipedream/platform axios:
+
+import { axios } from "@pipedream/platform";
 
 export default defineComponent({
   // Remember that props are not required. Use if the example requires human input.
@@ -405,7 +581,7 @@ export default defineComponent({
     // Your code should be placed here
     // Example code — returns the value of the input prop to the user
     const upper = this.test.toUpperCase()
-    return await axios({
+    return await axios($, {
       method: "GET",
       url: this.url,
       params: {
@@ -415,7 +591,7 @@ export default defineComponent({
   },
 });
 
-The object _may_ contain an optional a \`props\` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the \`props\` object. Props must include a human-readable \`label\` and a \`type\` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are "string[]", "boolean[]", and "integer[]" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. Optionally, props can have a human-readable \`description\` describing the param. Optional parameters that correspond to the test code should be declared with \`optional: true\`.
+${propsText}
 
 Within the run method, the \`this\` variable refers to the component code. All props are exposed at \`this.<name of the key in the props object>\`. e.g. \`this.input\` in the example above.
 
