@@ -19,17 +19,20 @@ export default {
       type: "string",
       label: "Title",
       description: "The title of the work order",
+      optional: true,
     },
     description: {
       type: "string",
       label: "Description",
       description: "The description of the work order",
+      optional: true,
     },
     priority: {
       type: "string",
       label: "Priority",
       description: "The priority of the work order. E.g. `LOW`",
       options: constants.PRIORITIES,
+      optional: true,
     },
   },
   async run({ $ }) {
