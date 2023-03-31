@@ -201,7 +201,7 @@ export default {
             value: group.id,
           }));
         }
-        return undefined;
+        return [];
       },
     },
     asmGroupsToDisplay: {
@@ -217,7 +217,7 @@ export default {
             value: group.id,
           }));
         }
-        return undefined;
+        return [];
       },
     },
     ipPoolName: {
