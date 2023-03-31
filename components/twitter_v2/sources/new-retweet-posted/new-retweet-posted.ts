@@ -33,7 +33,7 @@ export default defineSource({
     getEntityName() {
       return "Retweet";
     },
-    async getResources(customize: boolean): Promise<Tweet[]> {
+    async getResources(): Promise<Tweet[]> {
       const tweetFields = this.tweetFields ?? [];
       if (!tweetFields.includes("referenced_tweets")) {
         tweetFields.push("referenced_tweets");
@@ -48,17 +48,10 @@ export default defineSource({
         $: this,
         tweetId: this.tweetId,
         params: {
-          "expansions": expansions,
-          "tweet.fields": tweetFields,
+          "expansions": expansions.join(),
+          "tweet.fields": tweetFields.join(),
         },
       };
-
-      if (customize) {
-        params.params = {
-          ...this.getTweetFields(),
-          ...params.params,
-        };
-      }
 
       const {
         data: { referenced_tweets: referencedTweets }, includes: { tweets },
