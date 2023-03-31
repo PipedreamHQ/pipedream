@@ -10,9 +10,10 @@ export default {
   props: {
     app,
     projectName: {
-      type: "string",
-      label: "Project Name",
-      description: "The name of the project.",
+      propDefinition: [
+        app,
+        "projectName",
+      ],
     },
     streetAddress1: {
       type: "string",
@@ -20,16 +21,16 @@ export default {
       description: "The first line of the street address.",
     },
     coordinateLat: {
-      type: "string",
-      label: "Coordinate Latitude",
-      description: "The latitude of the project.",
-      optional: true,
+      propDefinition: [
+        app,
+        "coordinateLat",
+      ],
     },
     coordinateLon: {
-      type: "string",
-      label: "Coordinate Longitude",
-      description: "The longitude of the project.",
-      optional: true,
+      propDefinition: [
+        app,
+        "coordinateLon",
+      ],
     },
     geofenceLat: {
       type: "string",

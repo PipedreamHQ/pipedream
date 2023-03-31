@@ -27,16 +27,18 @@ export default {
       default: String(Date.now()),
     },
     coordinateLat: {
-      type: "string",
-      label: "Coordinate Latitude",
       description: "The latitude of the photo.",
-      optional: true,
+      propDefinition: [
+        app,
+        "coordinateLat",
+      ],
     },
     coordinateLon: {
-      type: "string",
-      label: "Coordinate Longitude",
       description: "The longitude of the photo.",
-      optional: true,
+      propDefinition: [
+        app,
+        "coordinateLon",
+      ],
     },
   },
   methods: {

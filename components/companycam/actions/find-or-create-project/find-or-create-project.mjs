@@ -9,9 +9,10 @@ export default {
   props: {
     app,
     projectName: {
-      type: "string",
-      label: "Project Name",
-      description: "The name of the project.",
+      propDefinition: [
+        app,
+        "projectName",
+      ],
     },
   },
   async run({ $: step }) {

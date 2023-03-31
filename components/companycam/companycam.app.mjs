@@ -27,6 +27,23 @@ export default {
         }));
       },
     },
+    projectName: {
+      type: "string",
+      label: "Project Name",
+      description: "The name of the project.",
+    },
+    coordinateLat: {
+      type: "string",
+      label: "Coordinate Latitude",
+      description: "The latitude of the project.",
+      optional: true,
+    },
+    coordinateLon: {
+      type: "string",
+      label: "Coordinate Longitude",
+      description: "The longitude of the project.",
+      optional: true,
+    },
   },
   methods: {
     getBaseUrl() {
