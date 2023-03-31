@@ -7,7 +7,7 @@ const DOCS_LINK =
 
 export default defineAction({
   key: "twitter_v2-unlike-tweet",
-  name: "Like Tweet",
+  name: "Unlike Tweet",
   description: `Unlike a tweet specified by its ID. [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "action",
