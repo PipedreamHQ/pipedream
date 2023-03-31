@@ -19,8 +19,8 @@ export default {
     generateMeta(resource) {
       const { payload } = resource;
       return {
-        id: payload.id,
-        summary: `New Document: ${payload.name}`,
+        id: payload.document.id,
+        summary: `New Document: ${payload.document.name}`,
         ts: resource.created_at,
       };
     },

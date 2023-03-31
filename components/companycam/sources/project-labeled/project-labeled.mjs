@@ -18,10 +18,10 @@ export default {
     },
     generateMeta(resource) {
       const { payload } = resource;
-      const ts = resource.updated_at;
+      const ts = resource.created_at;
       return {
-        id: ts,
-        summary: `Project Labeled: ${payload.name}`,
+        id: `${payload.label.id}-${ts}`,
+        summary: `Project Labeled: ${payload.label.value}`,
         ts,
       };
     },

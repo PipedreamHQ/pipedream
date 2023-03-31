@@ -18,9 +18,10 @@ export default {
     },
     generateMeta(resource) {
       const { payload } = resource;
+      console.log("payload", payload);
       return {
-        id: payload.id,
-        summary: `New Photo: ${payload.name}`,
+        id: payload.photo.id,
+        summary: `New Photo: ${payload.photo.id}`,
         ts: resource.created_at,
       };
     },

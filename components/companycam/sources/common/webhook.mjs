@@ -10,10 +10,7 @@ export default {
   ...common,
   props: {
     ...common.props,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
+    http: "$.interface.http",
   },
   hooks: {
     async activate() {
@@ -42,15 +39,6 @@ export default {
   },
   methods: {
     ...common.methods,
-    isSignatureValid(data, signature) {
-      const hash =
-        createHmac("sha1", this.getToken())
-          .update(data)
-          .digest("base64");
-      console.log("hash!!!", hash);
-      console.log("signature!!!", signature);
-      return timingSafeEqual(Buffer.from(hash), Buffer.from(signature));
-    },
     setWebhookId(value) {
       this.db.set(constants.WEBHOOK_ID, value);
     },
@@ -80,6 +68,13 @@ export default {
         ...args,
       });
     },
+    isSignatureValid(data, signature) {
+      const hash =
+        createHmac("sha1", this.getToken())
+          .update(data)
+          .digest("base64");
+      return timingSafeEqual(Buffer.from(hash), Buffer.from(signature));
+    },
   },
   async run({
     body, headers, bodyRaw,
@@ -90,10 +85,6 @@ export default {
       console.log("Invalid signature");
       return;
     }
-
-    this.http.respond({
-      status: 200,
-    });
 
     this.$emit(body, this.generateMeta(body));
   },
