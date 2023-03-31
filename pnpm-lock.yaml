@@ -248,6 +248,9 @@ importers:
   components/announcekit:
     specifiers: {}
 
+  components/anthropic:
+    specifiers: {}
+
   components/apex_27:
     specifiers: {}
 
@@ -754,6 +757,16 @@ importers:
 
   components/commercehq:
     specifiers: {}
+
+  components/companycam:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+      crypto: ^1.0.1
+      uuid: ^9.0.0
+    dependencies:
+      '@pipedream/platform': 1.4.1
+      crypto: 1.0.1
+      uuid: 9.0.0
 
   components/confection:
     specifiers:
