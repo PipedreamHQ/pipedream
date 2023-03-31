@@ -38,8 +38,7 @@ export default {
     getHeaders(headers) {
       return {
         "Content-Type": "application/json",
-        // "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        "Authorization": "Bearer fsyayEjeSJKADqSS37-bBm9MzjnG4nGJUluysIq-QNE",
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         ...headers,
       };
     },
@@ -52,7 +51,6 @@ export default {
         url: this.getUrl(path, url),
         ...args,
       };
-      console.log("config!!!", config);
 
       return axios(step, config);
     },
