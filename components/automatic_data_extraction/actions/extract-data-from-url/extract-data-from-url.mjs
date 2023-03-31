@@ -59,7 +59,7 @@ export default {
       ]),
     });
 
-    $.export("$summary", "The process of extracting data was successfully extracted!");
+    $.export("$summary", "The data was successfully extracted!");
     return response;
   },
 };
