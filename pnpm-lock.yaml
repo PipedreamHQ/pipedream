@@ -248,6 +248,9 @@ importers:
   components/announcekit:
     specifiers: {}
 
+  components/anthropic:
+    specifiers: {}
+
   components/apex_27:
     specifiers: {}
 
@@ -287,7 +290,10 @@ importers:
     specifiers: {}
 
   components/automatic_data_extraction:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/avochato:
     specifiers: {}
