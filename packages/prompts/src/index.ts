@@ -442,8 +442,8 @@ ${pipedreamPlatformAxiosTypeDefs}`;
 
   const desiredLanguage = "language: Node.js v14";
   const outputInstructions = "output: Node.js code and ONLY Node.js code. You produce Pipedream component code and ONLY Pipedream component code. You MUST NOT include English before or after code, and MUST NOT include Markdown (like ```javascript) surrounding the code. I just want the code!";
-
   const propsText = "The object _may_ contain an optional a `props` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the `props` object. Props must include a human-readable `label` and a `type` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are \"string[]\", \"boolean[]\", and \"integer[]\" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. If the user asks you to provide an array of object, ALWAYS provide a `type` of string[]. Optionally, props can have a human-readable `description` describing the param. Optional parameters that correspond to the test code should be declared with `optional: true`. Recall that props may contain an `options` method. You MUST define an async options method when the input can be listed from the API (like a list of boards). The options method must return an array of objects with a `label` and `value` property.";
+  const alwaysWriteFilestoTmpDir = "If you produce any output files, or if a library produces output files, you MUST write files to the /tmp directory. You MUST NOT write files to `./` or any relative directory. Always write to `/tmp`.";
 
   // Query for an app
   if (appData && Object.keys(appData).length > 0) {
@@ -547,6 +547,8 @@ ${propsText}
 
 ${asyncOptionsText}
 
+${alwaysWriteFilestoTmpDir}
+
 Make sure to use the correct HTTP method in the \`axios\` request, comparing this to other examples you've been trained on.
 
 Double-check the code against known Node.js examples you've been trained on, both from ${app} examples, GitHub, and any other real code you find.
@@ -609,6 +611,8 @@ imports should be placed at the top of the file. Use ESM for all imports, not Co
 If the code requires you make an HTTP request, use \`axios\` to make the request.
 
 The example code should be placed within the \`run\` method of the Pipedream component.
+
+${alwaysWriteFilestoTmpDir}
 
 Double-check the code against known Node.js examples you've been trained on, e.g. from GitHub and any other real code you find.
 
