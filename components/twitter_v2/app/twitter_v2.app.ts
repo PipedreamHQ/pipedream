@@ -166,11 +166,21 @@ export default defineApp({
       $ = this,
       ...args
     }: HttpRequestParams): Promise<ResponseObject<TwitterEntity>> {
-      return axios($, {
+      let response: ResponseObject<TwitterEntity>, counter = 1;
+      const request = () => axios($, {
         baseURL: this._getBaseUrl(),
         headers: this._getHeaders(),
         ...args,
       });
+      do {
+        try {
+          response = await request();
+        } catch (err) {
+          console.log(`Request error on attempt #${counter}: `, err);
+        }
+      } while (!response && ++counter < 3);
+      if (!response) response = await request();
+      return response;
     },
     async _paginatedRequest({
       maxResults = 100, maxPerPage = 100, params, ...args
@@ -203,7 +213,8 @@ export default defineApp({
         if (includes) {
           Object.entries(includes).forEach(([
             key,
-            value]: [string, TwitterEntity[]]) => {
+            value]: [string, TwitterEntity[]
+]) => {
             if (!totalIncludes[key]) totalIncludes[key] = [];
             totalIncludes[key].push(...value);
           });
