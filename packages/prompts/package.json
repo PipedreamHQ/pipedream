@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/prompts",
-  "version": "0.0.12",
+  "version": "0.0.17",
   "description": "Pipedream LLM prompts",
   "type": "module",
   "exports": "./dist/index.js",
@@ -24,5 +24,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "devDependencies": {
+    "typescript": "^5.0.3"
+  }
 }

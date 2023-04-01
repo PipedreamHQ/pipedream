@@ -1658,6 +1658,12 @@
     },
     {
       "path": "components/adp"
+    },
+    {
+      "path": "components/anthropic"
+    },
+    {
+      "path": "components/wesupply"
     }
   ]
 }
