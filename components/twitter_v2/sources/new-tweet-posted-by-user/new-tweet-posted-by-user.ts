@@ -36,25 +36,6 @@ export default defineSource({
     getEntityName() {
       return "Tweet";
     },
-    getLastEntityId(): string {
-      return this.db.get("lastEntityId");
-    },
-    setLastEntityId(data: string) {
-      this.db.set("lastEntityId", data);
-    },
-    async getAndProcessData(emit = false) {
-      const data: Tweet[] = await this.getResources(emit);
-      if (data) {
-        const latestId = data[0].id;
-        this.setLastEntityId(latestId);
-
-        if (emit) {
-          data.reverse().forEach((obj) => {
-            this.emitEvent(obj);
-          });
-        }
-      }
-    },
     async getResources(customize: boolean): Promise<Tweet[]> {
       const userId = await this.getCachedUserId();
       const params: GetUserTweetsParams = {
@@ -64,16 +45,8 @@ export default defineSource({
         userId,
       };
 
-      const sinceId = this.getLastEntityId();
-      if (sinceId) params.params = {
-        since_id: sinceId,
-      };
-
       if (customize) {
-        params.params = {
-          ...params.params,
-          ...this.getTweetFields(),
-        };
+        params.params = this.getTweetFields();
       }
 
       const { data } = await this.app.getUserTweets(params);
