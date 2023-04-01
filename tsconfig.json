@@ -1646,6 +1646,21 @@
     },
     {
       "path": "components/twitter_v2"
+    },
+    {
+      "path": "components/cohere_platform"
+    },
+    {
+      "path": "components/automatic_data_extraction"
+    },
+    {
+      "path": "components/maintainx"
+    },
+    {
+      "path": "components/adp"
+    },
+    {
+      "path": "components/anthropic"
     }
   ]
 }

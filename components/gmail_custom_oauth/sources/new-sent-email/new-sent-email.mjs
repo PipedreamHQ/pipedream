@@ -1,5 +1,5 @@
-import app from "../../gmail_custom_oauth.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import app from "../../gmail_custom_oauth.app.mjs";
 
 export default {
   key: "gmail_custom_oauth-new-sent-email",
