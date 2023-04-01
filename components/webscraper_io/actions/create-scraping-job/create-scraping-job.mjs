@@ -34,6 +34,7 @@ export default {
         page_load_delay: 2000,
         request_interval: 2000,
       },
+      $,
     });
 
     if (response) {

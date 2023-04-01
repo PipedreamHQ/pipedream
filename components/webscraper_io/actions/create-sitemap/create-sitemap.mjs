@@ -40,6 +40,7 @@ export default {
           },
         ],
       },
+      $,
     });
 
     if (response) {

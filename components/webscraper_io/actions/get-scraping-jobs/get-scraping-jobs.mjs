@@ -34,6 +34,7 @@ export default {
           sitemap_id: this.sitemapId,
           page,
         },
+        $,
       });
       jobs.push(...data);
       if (currentPage === lastPage || jobs.length >= this.maxResults) {
