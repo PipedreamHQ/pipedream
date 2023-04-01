@@ -7,8 +7,8 @@ export async function getUserId(): Promise<string> {
     id = await this.app.getAuthenticatedUserId();
   } else if (id.startsWith("@")) {
     const userData = await this.app.getUserByUsername(id.slice(1));
-    if (!userData) throw new ConfigurationError("**User not found!** Check the `User Name or ID` prop.");
-    id = userData.data.id;
+    id = userData?.data?.id;
+    if (!id) throw new ConfigurationError("**User not found!** Check the `User Name or ID` prop.");
   }
 
   return id;
