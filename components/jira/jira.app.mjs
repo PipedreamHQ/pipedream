@@ -10,12 +10,12 @@ export default {
       description: "The cloud ID.",
       useQuery: true,
       async options() {
-        const clouds = await this.getClouds()
+        const clouds = await this.getClouds();
 
-        return clouds.map(cloud => ({
+        return clouds.map((cloud) => ({
           label: cloud.name,
           value: cloud.id,
-        }))
+        }));
       },
     },
     projectID: {
@@ -24,7 +24,7 @@ export default {
       description: "The project ID.",
       useQuery: true,
       async options({
-        prevContext, query, cloudId
+        prevContext, query, cloudId,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
@@ -54,15 +54,20 @@ export default {
       type: "string",
       label: "Issue Type",
       description: "An ID identifying the type of issue, [Check the API docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post) to see available options",
-      async options({ projectID, cloudId }) {
-        const resp = await this.getIssueTypes({
+      async options({
+        cloudId, projectId,
+      }) {
+        const issueTypes = await this.getProjectIssueTypes({
           cloudId,
-          projectID,
+          params: {
+            projectId,
+          },
         });
-        // Because we select a project, we get issue types for only that and only one project
-        return resp.projects[0].issuetypes.map((issuetype) => ({
-          label: issuetype.name,
-          value: issuetype.id,
+        return issueTypes.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -80,7 +85,9 @@ export default {
       type: "string",
       label: "Issue id or key",
       description: "The ID or key of the issue where the attachment will be added to.",
-      async options({ prevContext, cloudId }) {
+      async options({
+        prevContext, cloudId,
+      }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getIssues({
@@ -110,7 +117,7 @@ export default {
       description: "The account ID of the user, which uniquely identifies the user across all Atlassian products, For example, `5b10ac8d82e05b22cc7d4ef5`",
       useQuery: true,
       async options({
-        prevContext, query, cloudId
+        prevContext, query, cloudId,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
@@ -137,7 +144,7 @@ export default {
       },
     },
     properties: {
-      type: "any",
+      type: "string",
       label: "Properties",
       description: "A list of properties.",
       optional: true,
@@ -167,6 +174,9 @@ export default {
       async options({
         prevContext, issueIdOrKey, cloudId,
       }) {
+        if (!issueIdOrKey) {
+          return [];
+        }
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getTransitions({
@@ -200,30 +210,6 @@ export default {
   },
 
   methods: {
-    parseObject(obj) {
-      for (let o in obj) {
-        try {
-          obj[o] = JSON.parse(obj[o]);
-        } catch (err) {
-          // do nothing, if cannot parsed as json, it must remain the same.
-        }
-      }
-      return obj;
-    },
-    async _getCloudId($) {
-      // First we must make a request to get our the cloud instance ID tied
-      // to our connected account, which allows us to construct the correct REST API URL.
-      // See Section 3.2 of
-      // https://developer.atlassian.com/cloud/jira/platform/oauth-2-authorization-code-grants-3lo-for-apps/
-      const resp = await axios($ ?? this, {
-        url: "https://api.atlassian.com/oauth/token/accessible-resources",
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
-      // Assumes the access token has access to a single instance
-      return resp[0].id;
-    },
     _getHeaders(headers = {}) {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
@@ -236,42 +222,32 @@ export default {
     _getUrl(cloudId) {
       return `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3`;
     },
-    async _makeRequest({
-      $,
-      path,
-      headers,
-      cloudId,
-      ...otherConfig
+    _makeRequest({
+      $ = this, url, path, headers, cloudId, ...args
     } = {}) {
       const config = {
-        url: `${this._getUrl(cloudId)}${path}`,
+        url: url || `${this._getUrl(cloudId)}${path}`,
         headers: this._getHeaders(headers),
-        ...otherConfig,
+        ...args,
       };
-      return axios($ ?? this, config);
+      return axios($, config);
     },
-    async createHook({ cloudId, ...opts }) {
-      const {
-        url,
-        events,
-        jqlFilter,
-        //fieldIdsFilter,
-      } = opts;
-      const requestBody = {
-        url,
-      };
-      const webhookObj = {
-        events,
-        jqlFilter,
-      };
-      requestBody.webhooks = [
-        webhookObj,
-      ];
+    async createHook({
+      cloudId, url, events, jqlFilter,
+    } = {}) {
       const response = await this._makeRequest({
         cloudId,
         method: "POST",
         path: "/webhook",
-        data: requestBody,
+        data: {
+          url,
+          webhooks: [
+            {
+              events,
+              jqlFilter,
+            },
+          ],
+        },
       });
       if (response?.webhookRegistrationResult[0]?.errors) {
         throw new Error(`Could not create trigger(s). ${response.webhookRegistrationResult[0].errors}`);
@@ -280,46 +256,41 @@ export default {
         hookId: response?.webhookRegistrationResult[0]?.createdWebhookId,
       };
     },
-    async deleteHook({cloudId, ...opts}) {
-      const { hookId } = opts;
-      const requestBody = {
-        webhookIds: [
-          hookId,
-        ],
-      };
-      return await this._makeRequest({
+    deleteHook({
+      cloudId, hookId,
+    } = {}) {
+      return this._makeRequest({
         cloudId,
         method: "DELETE",
         path: "/webhook",
-        data: requestBody,
+        data: {
+          webhookIds: [
+            hookId,
+          ],
+        },
       });
     },
-    async assignIssue({
-      issueIdOrKey,
-      ...args
+    assignIssue({
+      issueIdOrKey, ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "PUT",
         path: `/issue/${issueIdOrKey}/assignee`,
         ...args,
       });
     },
-    async addWatcher({
-      issueIdOrKey,
-      accountId,
-      ...args
+    addWatcher({
+      issueIdOrKey, accountId, ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: `/issue/${issueIdOrKey}/watchers`,
         data: `"${accountId}"`,
         ...args,
       });
     },
-    async addAttachmentToIssue({
-      cloudId,
-      issueIdOrKey,
-      ...args
+    addAttachmentToIssue({
+      cloudId, issueIdOrKey, ...args
     } = {}) {
       return this._makeRequest({
         cloudId,
@@ -328,188 +299,170 @@ export default {
         ...args,
       });
     },
-    async addCommentToIssue({
-      cloudId,
-      issueIdOrKey,
-      ...args
+    addCommentToIssue({
+      issueIdOrKey, ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: `/issue/${issueIdOrKey}/comment`,
         ...args,
       });
     },
-    async createIssue({ ...args } = {}) {
-      return await this._makeRequest({
+    createIssue(args = {}) {
+      return this._makeRequest({
         method: "POST",
         path: "/issue",
         ...args,
       });
     },
-    async createVersion({ ...args } = {}) {
-      return await this._makeRequest({
+    createVersion({ ...args } = {}) {
+      return this._makeRequest({
         method: "POST",
         path: "/version",
         ...args,
       });
     },
-    async deleteProject({
-      projectIdOrKey,
-      ...args
+    deleteProject({
+      projectIdOrKey, ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "DELETE",
         path: `/project/${projectIdOrKey}`,
         ...args,
       });
     },
-    async getAllProjects({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "GET",
+    getAllProjects(args = {}) {
+      return this._makeRequest({
         path: "/project/search",
         ...args,
       });
     },
-    async getLabels({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "GET",
+    getLabels(args = {}) {
+      return this._makeRequest({
         path: "/label",
         ...args,
       });
     },
-    async getUsers({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "GET",
+    getUsers(args = {}) {
+      return this._makeRequest({
         path: "/users/search",
         ...args,
       });
     },
-    async getIssue({
-      issueIdOrKey,
-      ...args
+    getIssue({
+      issueIdOrKey, ...args
     } = {}) {
-      return await this._makeRequest({
-        method: "GET",
+      return this._makeRequest({
         path: `/issue/${issueIdOrKey}`,
         ...args,
       });
     },
-    async getIssues({ ...args } = {}) {
+    getIssues(args = {}) {
       return this._makeRequest({
-        method: "GET",
         path: "/search",
         ...args,
       });
     },
-    async getTask({
-      taskId,
-      ...args
+    getTask({
+      taskId, ...args
     } = {}) {
-      return await this._makeRequest({
-        method: "GET",
+      return this._makeRequest({
         path: `/task/${taskId}`,
         ...args,
       });
     },
-    async getTransitions({
-      issueIdOrKey,
-      ...args
+    getTransitions({
+      issueIdOrKey, ...args
     } = {}) {
-      return await this._makeRequest({
-        method: "GET",
+      return this._makeRequest({
         path: `/issue/${issueIdOrKey}/transitions`,
         ...args,
       });
     },
-    async getUser({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "GET",
+    getUser(args = {}) {
+      return this._makeRequest({
         path: "/user",
         ...args,
       });
     },
-    async listIssueComments({
-      issueIdOrKey,
-      ...args
+    listIssueComments({
+      issueIdOrKey, ...args
     } = {}) {
-      return await this._makeRequest({
-        method: "GET",
+      return this._makeRequest({
         path: `/issue/${issueIdOrKey}/comment`,
         ...args,
       });
     },
-    async transitionIssue({
-      issueIdOrKey,
-      ...args
+    transitionIssue({
+      issueIdOrKey, ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: `/issue/${issueIdOrKey}/transitions`,
         ...args,
       });
     },
-    async updateComment({
-      issueIdOrKey,
-      commentId,
-      ...args
+    updateComment({
+      issueIdOrKey, commentId, ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "PUT",
         path: `/issue/${issueIdOrKey}/comment/${commentId}`,
         ...args,
       });
     },
     async updateIssue({
-      cloudId,
-      issueIdOrKey,
-      transition,
-      ...args
+      cloudId, issueIdOrKey, transition, ...args
     } = {}) {
       if (transition) {
-        await this._makeRequest({
-          $: args.$,
+        await this.transitionIssue({
           cloudId,
-          method: "POST",
-          path: `/issue/${issueIdOrKey}/transitions`,
+          issueIdOrKey,
           data: {
             transition,
           },
         });
       }
-      return await this._makeRequest({
+      return this._makeRequest({
         cloudId,
         method: "PUT",
         path: `/issue/${issueIdOrKey}`,
         ...args,
       });
     },
-    async getIssueTypes({
-      projectID,
-      ...args
+    getEditIssueMetadata({
+      issueIdOrKey, ...args
     } = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/issue/createmeta",
-        params: {
-          projectIds: projectID,
-        },
+        path: `/issue/${issueIdOrKey}/editmeta`,
         ...args,
       });
     },
-    async getWebhook(args = {}) {
+    getCreateIssueMetadata(args = {}) {
       return this._makeRequest({
-        method: "GET",
+        path: "/issue/createmeta",
+        ...args,
+      });
+    },
+    getProjectIssueTypes(args = {}) {
+      return this._makeRequest({
+        path: "/issuetype/project",
+        ...args,
+      });
+    },
+    getWebhook(args = {}) {
+      return this._makeRequest({
         path: "/webhook",
         ...args,
       });
     },
-    async getClouds(args = {}) {
+    getClouds(args = {}) {
       return axios(this, {
         url: "https://api.atlassian.com/oauth/token/accessible-resources",
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
-        ...args
+        ...args,
       });
     },
     async *getResourcesStream({
