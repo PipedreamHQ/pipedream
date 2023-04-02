@@ -287,22 +287,22 @@ Recall from the type definitions that the options method has the following signa
 
 options?: PropOptions | ((this: any, opts: OptionsMethodArgs) => Promise<PropOptions>);
 
-PropOptions can return an array of strings, which will be used as both the value of the prop in the \`run\` method and the label of the option in the UI. PropOptions can also return an array of objects of the following format:
+PropOptions can return an array of strings, which will be used as both the value of the prop in the \`run\` method and the human-readable label of the option in the UI. PropOptions can also return an array of objects of the following format:
 
 \`\`\`
 [
   {
-    label: "Option 1",
-    value: "option1",
+    label: "Human-readable option 1",
+    value: "unique identifier 1",
   },
   {
-    label: "Option 2",
-    value: "option2",
+    label: "Human-readable option 2",
+    value: "unique identifier 2",
   },
 ]
 \`\`\`
 
-Where the \`label\` is the label of the option in the UI and the \`value\` is the value of the prop in the \`run\` method.
+The \`label\` MUST BE a human-readable name of the option presented to the user in the UI, and the \`value\` is the value of the prop in the \`run\` method. The \`label\` MUST be set to the property that defines the name of the object, and the \`value\` should be the property that defines the unique identifier of the object.
 
 You MUST define an \`async\` options method if an API endpoint exists that can be used to fetch the options for the prop. This allows Pipedream to make an API call to fetch the options for the prop when the user is configuring the component, rather than forcing the user to enter values for the option manually.
 
@@ -431,12 +431,19 @@ import { axios } from "@pipedream/platform";
 
 You MUST use that import format when importing axios. Do NOT attempt to import any other package like \`import axios from "@pipedream/platform/axios"\`
 
+The \`axios\` constructor takes two arguments:
+
+1. \`this\` - the \`this\` context of the component.
+2. \`config\` - an AxiosRequestConfig object that defines the request to be made. The \`config\` object is the same as the \`config\` object passed to the \`axios\` constructor in the \`axios\` package, with some extra properties.
+
+\`@pipedream/platform\` axios returns a Promise that resolves to the HTTP response data. You MUST NOT assume there's a \`data\` property in the response that contains the data. The data from the HTTP response is returned directly in the response, not in the \`data\` property. If you want to access the full axios response object, set \`config.returnFullResponse\` to \`true\`.
+
 ${pipedreamPlatformAxiosTypeDefs}`;
 
   const desiredLanguage = "language: Node.js v14";
   const outputInstructions = "output: Node.js code and ONLY Node.js code. You produce Pipedream component code and ONLY Pipedream component code. You MUST NOT include English before or after code, and MUST NOT include Markdown (like ```javascript) surrounding the code. I just want the code!";
-
   const propsText = "The object _may_ contain an optional a `props` property, which in this example defines an example string prop. The props object is not required. Include it only if the function / method in the example requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the `props` object. Props must include a human-readable `label` and a `type` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are \"string[]\", \"boolean[]\", and \"integer[]\" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. If the user asks you to provide an array of object, ALWAYS provide a `type` of string[]. Optionally, props can have a human-readable `description` describing the param. Optional parameters that correspond to the test code should be declared with `optional: true`. Recall that props may contain an `options` method. You MUST define an async options method when the input can be listed from the API (like a list of boards). The options method must return an array of objects with a `label` and `value` property.";
+  const alwaysWriteFilestoTmpDir = "If you produce any output files, or if a library produces output files, you MUST write files to the /tmp directory. You MUST NOT write files to `./` or any relative directory. Always write to `/tmp`.";
 
   // Query for an app
   if (appData && Object.keys(appData).length > 0) {
@@ -540,6 +547,8 @@ ${propsText}
 
 ${asyncOptionsText}
 
+${alwaysWriteFilestoTmpDir}
+
 Make sure to use the correct HTTP method in the \`axios\` request, comparing this to other examples you've been trained on.
 
 Double-check the code against known Node.js examples you've been trained on, both from ${app} examples, GitHub, and any other real code you find.
@@ -602,6 +611,8 @@ imports should be placed at the top of the file. Use ESM for all imports, not Co
 If the code requires you make an HTTP request, use \`axios\` to make the request.
 
 The example code should be placed within the \`run\` method of the Pipedream component.
+
+${alwaysWriteFilestoTmpDir}
 
 Double-check the code against known Node.js examples you've been trained on, e.g. from GitHub and any other real code you find.
 
