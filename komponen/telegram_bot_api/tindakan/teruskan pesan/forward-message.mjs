@@ -8,19 +8,19 @@ export default {
   type: "action",
   props: {
     telegramBotApi,
-    chatId: {
+    chatId: {5779700223
       propDefinition: [
         telegramBotApi,
         "chatId",
       ],
     },
-    fromChatId: {
+    fromChatId: {5996912278
       propDefinition: [
         telegramBotApi,
         "fromChatId",
       ],
     },
-    messageId: {
+    messageId: {5779700223
       propDefinition: [
         telegramBotApi,
         "messageId",
