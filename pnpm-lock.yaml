@@ -2185,7 +2185,10 @@ importers:
     specifiers: {}
 
   components/maintainx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/mainwp:
     specifiers: {}
