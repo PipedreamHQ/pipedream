@@ -1,6 +1,6 @@
 import app from "../../app/team_up.app";
 import { defineAction } from "@pipedream/types";
-import { DeleteEventParams } from "../../common/types";
+import { DeleteEventParams } from "../../common/requestParams";
 
 const DOCS_LINK = "https://apidocs.teamup.com/docs/api/260f3631bec7b-delete-an-event";
 

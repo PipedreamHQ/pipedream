@@ -27,7 +27,4 @@ export interface UpdateEventParams extends PdAxiosRequest, EventRequest {
   data: object;
 }
 
-export interface Event {
-  id: string;
-  title: string;
-}
+export interface ListSubCalendarsParams extends PdAxiosRequest, CalendarRequest { }

@@ -2,8 +2,11 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreateEventParams,
-  DeleteEventParams, Event, GetEventParams, HttpRequestParams, ListEventsParams, UpdateEventParams,
-} from "../common/types";
+  DeleteEventParams, GetEventParams, HttpRequestParams, ListEventsParams, ListSubCalendarsParams, UpdateEventParams,
+} from "../common/requestParams";
+import {
+  Event, SubCalendar,
+} from "../common/responseSchemas";
 
 export default defineApp({
   type: "app",
@@ -19,13 +22,29 @@ export default defineApp({
       label: "Event",
       description: "Select an **Event** from the list, or provide a custom *Event ID*.",
       async options({ calendarKey }) {
-        const events = await this.listEvents({
+        const items = await this.listEvents({
           calendarKey,
         });
-        return events.map(({
+        return items.map(({
           id, title,
         }) => ({
           label: title,
+          value: id,
+        }));
+      },
+    },
+    subcalendarIds: {
+      label: "Sub-calendar IDs",
+      description: "A list of ids of sub-calendars to which the event is assigned.",
+      type: "string[]",
+      async options({ calendarKey }) {
+        const items = await this.listSubCalendars({
+          calendarKey,
+        });
+        return items.map(({
+          id, name,
+        }) => ({
+          label: name,
           value: id,
         }));
       },
@@ -94,6 +113,15 @@ export default defineApp({
         url: `/${calendarKey}/events/${eventId}`,
         ...args,
       });
+    },
+    async listSubCalendars({
+      calendarKey, ...args
+    }: ListSubCalendarsParams): Promise<SubCalendar[]> {
+      const response = await this._httpRequest({
+        url: `/${calendarKey}/subcalendars`,
+        ...args,
+      });
+      return response.subcalendars;
     },
   },
 });

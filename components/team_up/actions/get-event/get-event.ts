@@ -2,7 +2,7 @@ import app from "../../app/team_up.app";
 import { defineAction } from "@pipedream/types";
 import {
   Event, GetEventParams,
-} from "../../common/types";
+} from "../../common/requestParams";
 
 const DOCS_LINK = "https://apidocs.teamup.com/docs/api/016e0077fd9cc-returns-a-single-event";
 
