@@ -49,17 +49,18 @@ export default defineApp({
       type: "string",
       label: "List ID",
       description: "Select a **List** owned by the authenticated user, or use a custom *List ID*.",
-      async options() {
+      async options(): Promise<{ label: string; value: string; }[]> {
         const userId = await this.getAuthenticatedUserId();
-        const lists: List[] = await this.getUserOwnedLists({
+        const lists = await this.getUserOwnedLists({
           userId,
         });
-        return lists.map(({
+
+        return lists.data?.map(({
           id, name,
-        }) => ({
+        }: List) => ({
           label: name,
           value: id,
-        }));
+        })) ?? [];
       },
     },
     userNameOrId: {

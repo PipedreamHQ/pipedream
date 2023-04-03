@@ -54,12 +54,16 @@ export default defineSource({
       };
 
       const {
-        data: { referenced_tweets: referencedTweets }, includes: { tweets },
+        data: { referenced_tweets: referencedTweets }, includes,
       } = await this.app.getTweet(params);
 
-      const retweetIds = referencedTweets.filter(({ type }) => type === "retweeted").map(({ id }) => id);
+      const retweetIds = referencedTweets?.filter(({ type }) => type === "retweeted").map(({ id }) => id);
 
-      const retweets = tweets.filter(({ id }) => retweetIds.includes(id));
+      let retweets = [];
+      if (retweetIds && includes) {
+        retweets = includes.tweets.filter(({ id }) => retweetIds.includes(id));
+      }
+
       return retweets;
     },
   },
