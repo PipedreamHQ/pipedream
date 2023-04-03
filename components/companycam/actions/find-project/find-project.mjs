@@ -3,7 +3,7 @@ import app from "../../companycam.app.mjs";
 export default {
   key: "companycam-find-project",
   name: "Find Project",
-  description: "Find a project by name. [See the docs](https://docs.companycam.com/reference/getproject).",
+  description: "Find a project by name. [See the docs](https://docs.companycam.com/reference/listprojects).",
   type: "action",
   version: "0.0.1",
   props: {

@@ -3,9 +3,9 @@ import scopes from "../common/scopes.mjs";
 
 export default {
   ...common,
-  key: "companycam-new-project",
-  name: "New Project",
-  description: "Emit new event when a new project is created. [See the docs](https://docs.companycam.com/docs/webhooks-1).",
+  key: "companycam-new-photo-created",
+  name: "New Photo Created (Instant)",
+  description: "Emit new event when a new photo is uploaded. [See the docs](https://docs.companycam.com/docs/webhooks-1).",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
@@ -13,14 +13,14 @@ export default {
     ...common.methods,
     getScopes() {
       return [
-        scopes.PROJECT_CREATED,
+        scopes.PHOTO_CREATED,
       ];
     },
     generateMeta(resource) {
       const { payload } = resource;
       return {
-        id: payload.project.id,
-        summary: `New Project: ${payload.project.name}`,
+        id: payload.photo.id,
+        summary: `New Photo: ${payload.photo.id}`,
         ts: resource.created_at,
       };
     },

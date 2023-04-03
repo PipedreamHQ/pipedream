@@ -3,8 +3,8 @@ import scopes from "../common/scopes.mjs";
 
 export default {
   ...common,
-  key: "companycam-new-document",
-  name: "New Document",
+  key: "companycam-new-document-created",
+  name: "New Document Created (Instant)",
   description: "Emit new event when a new document is created. [See the docs](https://docs.companycam.com/docs/webhooks-1).",
   type: "source",
   version: "0.0.1",

@@ -20,6 +20,30 @@ export default {
       label: "Street Address 1",
       description: "The first line of the street address.",
     },
+    city: {
+      type: "string",
+      label: "City",
+      description: "The city of the project.",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The state of the project.",
+      optional: true,
+    },
+    postalCode: {
+      type: "string",
+      label: "Postal Code",
+      description: "The postal code of the project.",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "The country of the project.",
+      optional: true,
+    },
     coordinateLat: {
       propDefinition: [
         app,
@@ -67,6 +91,10 @@ export default {
     const {
       projectName,
       streetAddress1,
+      city,
+      state,
+      postalCode,
+      country,
       coordinateLat,
       coordinateLon,
       geofenceLat,
@@ -111,6 +139,10 @@ export default {
         name: projectName,
         address: {
           street_address_1: streetAddress1,
+          city,
+          state,
+          postal_code: postalCode,
+          country,
         },
         ...data,
       },

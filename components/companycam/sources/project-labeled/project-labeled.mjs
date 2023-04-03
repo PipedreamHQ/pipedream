@@ -4,7 +4,7 @@ import scopes from "../common/scopes.mjs";
 export default {
   ...common,
   key: "companycam-project-labeled",
-  name: "Project Labeled",
+  name: "Project Labeled (Instant)",
   description: "Emit new event when a project is labeled. [See the docs](https://docs.companycam.com/docs/webhooks-1).",
   type: "source",
   version: "0.0.1",
