@@ -54,7 +54,7 @@ export default {
         }) => ({
           label: name,
           value: id,
-        }));
+        })) || [];
       },
     },
     workspaceId: {
@@ -73,7 +73,7 @@ export default {
         }) => ({
           label: name,
           value: id,
-        }));
+        })) || [];
       },
     },
     folderId: {
@@ -92,7 +92,7 @@ export default {
         }) => ({
           label: name,
           value: id,
-        }));
+        })) || [];
       },
     },
   },
