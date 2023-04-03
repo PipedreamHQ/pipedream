@@ -33,28 +33,15 @@ export default {
       };
     },
     async getScrapingJobs() {
-      const previousIds = this._getPreviousIds();
-      let page = 1;
       const jobs = [];
+      const previousIds = this._getPreviousIds();
 
-      while (true) {
-        const {
-          data, current_page: currentPage, last_page: lastPage,
-        } = await this.webscraper.getScrapingJobs({
-          params: {
-            page,
-          },
-        });
-        for (const job of data) {
-          if (this.isRelevant(job, previousIds)) {
-            previousIds[job.id] = true;
-            jobs.push(job);
-          }
+      const results = await this.webscraper.paginate(this.webscraper.getScrapingJobs);
+      for (const job of results) {
+        if (this.isRelevant(job, previousIds)) {
+          previousIds[job.id] = true;
+          jobs.push(job);
         }
-        if (currentPage === lastPage) {
-          break;
-        }
-        page++;
       }
 
       this._setPreviousIds(previousIds);

@@ -23,28 +23,9 @@ export default {
     },
   },
   async run({ $ }) {
-    let page = 1;
-    const jobs = [];
-
-    while (true) {
-      const {
-        data, current_page: currentPage, last_page: lastPage,
-      } = await this.webscraper.getScrapingJobs({
-        params: {
-          sitemap_id: this.sitemapId,
-          page,
-        },
-        $,
-      });
-      jobs.push(...data);
-      if (currentPage === lastPage || jobs.length >= this.maxResults) {
-        break;
-      }
-      page++;
-    }
-    if (jobs.length > this.maxResults) {
-      jobs.length = this.maxResults;
-    }
+    const jobs = await this.webscraper.paginate(this.webscraper.getScrapingJobs, {
+      sitemap_id: this.sitemapId,
+    }, this.maxResults);
 
     $.export("$summary", `Successfully retrieved ${jobs.length} scraping job${jobs.length === 1
       ? ""

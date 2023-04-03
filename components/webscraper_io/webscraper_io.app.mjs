@@ -66,5 +66,31 @@ export default {
         ...args,
       });
     },
+    async paginate(resourceFn, params = {}, maxResults = 1000) {
+      let page = 1;
+      const jobs = [];
+
+      while (true) {
+        const {
+          data, current_page: currentPage, last_page: lastPage,
+        } = await resourceFn({
+          params: {
+            ...params,
+            page,
+          },
+        });
+        jobs.push(...data);
+        if (currentPage === lastPage || jobs.length >= maxResults) {
+          break;
+        }
+        page++;
+      }
+
+      if (jobs.length > maxResults) {
+        jobs.length = maxResults;
+      }
+
+      return jobs;
+    },
   },
 };
