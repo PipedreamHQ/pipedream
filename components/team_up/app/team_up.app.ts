@@ -28,12 +28,12 @@ export default defineApp({
         return items.map(({
           id, title,
         }) => ({
-          label: title,
+          label: title ?? id,
           value: id,
         }));
       },
     },
-    subcalendarIds: {
+    subCalendarIds: {
       label: "Sub-calendar IDs",
       description: "A list of ids of sub-calendars to which the event is assigned.",
       type: "string[]",
@@ -44,7 +44,7 @@ export default defineApp({
         return items.map(({
           id, name,
         }) => ({
-          label: name,
+          label: name ?? id,
           value: id,
         }));
       },

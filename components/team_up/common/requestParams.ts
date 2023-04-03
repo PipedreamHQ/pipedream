@@ -1,4 +1,5 @@
 import { Pipedream } from "@pipedream/types";
+import { EventBody } from "./responseSchemas";
 
 interface PdAxiosRequest {
   $: Pipedream;
@@ -18,13 +19,13 @@ interface EventRequest extends CalendarRequest {
 }
 
 export interface CreateEventParams extends PdAxiosRequest, CalendarRequest {
-  data: object;
+  data: EventBody;
 }
 export interface DeleteEventParams extends PdAxiosRequest, EventRequest { }
 export interface GetEventParams extends PdAxiosRequest, EventRequest { }
 export interface ListEventsParams extends PdAxiosRequest, CalendarRequest { }
 export interface UpdateEventParams extends PdAxiosRequest, EventRequest {
-  data: object;
+  data: EventBody;
 }
 
 export interface ListSubCalendarsParams extends PdAxiosRequest, CalendarRequest { }
