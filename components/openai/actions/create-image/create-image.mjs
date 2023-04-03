@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Image",
-  version: "0.1.0",
+  version: "0.1.1",
   key: "openai-create-image",
   description: "Creates an image given a prompt. returns a URL to the image. [See docs here](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
@@ -19,6 +19,7 @@ export default {
       description: "The number of images to generate. Must be between 1 and 10.",
       type: "integer",
       optional: true,
+      default: 1,
     },
     size: {
       label: "Size",
@@ -26,6 +27,7 @@ export default {
       type: "string",
       optional: true,
       options: constants.IMAGE_SIZES,
+      default: "1024x1024",
     },
   },
   async run({ $ }) {

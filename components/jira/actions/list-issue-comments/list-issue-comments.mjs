@@ -4,23 +4,23 @@ export default {
   key: "jira-list-issue-comments",
   name: "List Issue Comments",
   description: "Lists all comments for an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-get)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     jira,
     cloudId: {
       propDefinition: [
         jira,
-        "cloudId"
-      ]
+        "cloudId",
+      ],
     },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
         (c) => ({
-          cloudId: c.cloudId
-        })
+          cloudId: c.cloudId,
+        }),
       ],
     },
     orderBy: {
