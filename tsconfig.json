@@ -1664,6 +1664,9 @@
     },
     {
       "path": "components/wesupply"
+    },
+    {
+      "path": "components/blockchain_exchange"
     }
   ]
 }
