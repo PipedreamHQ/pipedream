@@ -58,7 +58,7 @@ export default defineAction({
 
     const response = await this.app.getUserFollowers(params);
 
-    $.export("$summary", this.getMultiItemSummary("follower", response.data.length));
+    $.export("$summary", this.getMultiItemSummary("follower", response.data?.length));
 
     return response;
   },

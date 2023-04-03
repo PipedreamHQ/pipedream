@@ -59,7 +59,7 @@ export default defineAction({
     };
 
     const response = await this.app.getUserMentions(params);
-    $.export("$summary", this.getMultiItemSummary("mention", response.data.length));
+    $.export("$summary", this.getMultiItemSummary("mention", response.data?.length));
 
     return response;
   },

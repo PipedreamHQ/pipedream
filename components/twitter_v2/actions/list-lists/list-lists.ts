@@ -58,7 +58,7 @@ export default defineAction({
 
     const response = await this.app.getUserOwnedLists(params);
 
-    $.export("$summary", this.getMultiItemSummary("list", response.data.length));
+    $.export("$summary", this.getMultiItemSummary("list", response.data?.length));
 
     return response;
   },

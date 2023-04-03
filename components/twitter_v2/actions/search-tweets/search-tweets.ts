@@ -56,7 +56,7 @@ export default defineAction({
 
     const response = await this.app.searchTweets(params);
 
-    $.export("$summary", this.getMultiItemSummary("tweet", response.data.length));
+    $.export("$summary", this.getMultiItemSummary("tweet", response.data?.length));
 
     return response;
   },

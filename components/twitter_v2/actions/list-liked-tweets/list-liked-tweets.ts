@@ -58,7 +58,7 @@ export default defineAction({
 
     const response = await this.app.getUserLikedTweets(params);
 
-    $.export("$summary", this.getMultiItemSummary("liked tweet", response.data.length));
+    $.export("$summary", this.getMultiItemSummary("liked tweet", response.data?.length));
 
     return response;
   },
