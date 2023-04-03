@@ -5,7 +5,7 @@ import options from "../../common/options.mjs";
 
 export default {
   name: "Search News",
-  description: "Search and filter news. [See the docs here](https://worldnewsapi.com/docs/)",
+  description: "Search and filter news. [See the docs here](https://worldnewsapi.com/docs/#Search-News). **Calling this endpoint requires 1 point**",
   key: "world_news_api-search-news",
   version: "0.0.1",
   type: "action",
@@ -111,7 +111,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
+    const params = {
       "text": this.text,
       "source-countries": this.sourceCountries?.join(","), // comma-separated list
       "language": this.language,
@@ -128,7 +128,7 @@ export default {
       "offset": this.offset,
       "number": this.number,
     };
-    const res = await this.app.searchNews(data, $);
+    const res = await this.app.searchNews(params, $);
     $.export("$summary", `Found ${res.available} news`);
     return res;
   },

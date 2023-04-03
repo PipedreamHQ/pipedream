@@ -37,5 +37,12 @@ export default {
         params,
       }, ctx);
     },
+    async extractNews(params, ctx = this) {
+      return this._makeHttpRequest({
+        path: "/extract-news",
+        method: "GET",
+        params,
+      }, ctx);
+    },
   },
 };
