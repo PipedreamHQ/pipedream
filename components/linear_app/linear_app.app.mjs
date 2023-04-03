@@ -6,26 +6,9 @@ export default {
   type: "app",
   app: "linear_app",
   propDefinitions: {
-    issueId: {
-      type: "string",
-      label: "Issue ID",
-      description: "The issue ID to update",
-      async options({ prevContext }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listIssues,
-          resouceMapper: ({
-            id, title,
-          }) => ({
-            label: title,
-            value: id,
-          }),
-        });
-      },
-    },
     teamId: {
       type: "string",
-      label: "Team ID",
+      label: "Team",
       description: "The identifier or key of the team associated with the issue",
       async options({ prevContext }) {
         return this.listResourcesOptions({
@@ -40,9 +23,37 @@ export default {
         });
       },
     },
+    issueId: {
+      type: "string",
+      label: "Issue",
+      description: "The issue to update",
+      async options({
+        teamId, prevContext,
+      }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listIssues,
+          resourcesArgs: teamId && {
+            filter: {
+              team: {
+                id: {
+                  eq: teamId,
+                },
+              },
+            },
+          },
+          resouceMapper: ({
+            id, title,
+          }) => ({
+            label: title,
+            value: id,
+          }),
+        });
+      },
+    },
     projectId: {
       type: "string",
-      label: "Project ID",
+      label: "Project",
       description: "The identifier or key of the project associated with the issue",
       optional: true,
       async options({ prevContext }) {
@@ -65,8 +76,8 @@ export default {
     },
     assigneeId: {
       type: "string",
-      label: "Assignee ID",
-      description: "The identifier of the user to assign the issue to",
+      label: "Assignee",
+      description: "The user to assign to the issue",
       optional: true,
       async options({ prevContext }) {
         return this.listResourcesOptions({
@@ -77,6 +88,35 @@ export default {
           }) => ({
             label: name,
             value: id,
+          }),
+        });
+      },
+    },
+    stateId: {
+      type: "string",
+      label: "State (Status)",
+      description: "The state (status) to assign to the issue",
+      optional: true,
+      async options({
+        teamId, prevContext,
+      }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listStates,
+          resourcesArgs: teamId && {
+            filter: {
+              team: {
+                id: {
+                  eq: teamId,
+                },
+              },
+            },
+          },
+          resouceMapper: ({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
           }),
         });
       },
@@ -184,6 +224,9 @@ export default {
     async listUsers(variables = {}) {
       return this.client().users(variables);
     },
+    async listStates(variables = {}) {
+      return this.client().workflowStates(variables);
+    },
     async listIssues(variables = {}) {
       return this.client().issues(variables);
     },
@@ -194,8 +237,8 @@ export default {
       return this.client().comments(variables);
     },
     async listResourcesOptions({
-      prevContext, resourcesFn, resouceMapper,
-    }) {
+      prevContext, resourcesFn, resourcesArgs, resouceMapper,
+    } = {}) {
       const {
         after,
         hasNextPage,
@@ -212,6 +255,7 @@ export default {
         await resourcesFn({
           after,
           first: constants.DEFAULT_LIMIT,
+          ...resourcesArgs,
         });
 
       return {
