@@ -44,5 +44,12 @@ export default {
         params,
       }, ctx);
     },
+    async getGeoCoordinates(params, ctx = this) {
+      return this._makeHttpRequest({
+        path: "/geo-coordinates",
+        method: "GET",
+        params,
+      }, ctx);
+    },
   },
 };
