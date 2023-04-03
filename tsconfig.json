@@ -1661,6 +1661,9 @@
     },
     {
       "path": "components/anthropic"
+    },
+    {
+      "path": "components/wesupply"
     }
   ]
 }
