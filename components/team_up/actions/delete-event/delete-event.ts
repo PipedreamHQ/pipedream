@@ -1,6 +1,7 @@
 import app from "../../app/team_up.app";
 import { defineAction } from "@pipedream/types";
 import { DeleteEventParams } from "../../common/requestParams";
+import calendarKeyOptions from "../../common/calendarKeyOptions";
 
 const DOCS_LINK = "https://apidocs.teamup.com/docs/api/260f3631bec7b-delete-an-event";
 
@@ -22,9 +23,7 @@ export default defineAction({
       propDefinition: [
         app,
         "eventId",
-        ({ calendarKey }) => ({
-          calendarKey,
-        }),
+        calendarKeyOptions,
       ],
     },
   },

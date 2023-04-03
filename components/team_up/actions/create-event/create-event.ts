@@ -1,12 +1,11 @@
 import app from "../../app/team_up.app";
 import { defineAction } from "@pipedream/types";
-import {
-  CreateEventParams,
-} from "../../common/requestParams";
+import { CreateEventParams } from "../../common/requestParams";
 import { Event } from "../../common/responseSchemas";
 import {
   EVENT_PROPS, getEventProps,
 } from "../../common/eventProps";
+import calendarKeyOptions from "../../common/calendarKeyOptions";
 
 const DOCS_LINK = "https://apidocs.teamup.com/docs/api/3269d0159ae9f-create-an-event";
 
@@ -28,9 +27,7 @@ export default defineAction({
       propDefinition: [
         app,
         "subCalendarIds",
-        ({ calendarKey }) => ({
-          calendarKey,
-        }),
+        calendarKeyOptions,
       ],
     },
     ...EVENT_PROPS,

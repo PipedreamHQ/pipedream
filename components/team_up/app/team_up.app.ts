@@ -21,8 +21,8 @@ export default defineApp({
       type: "string",
       label: "Event",
       description: "Select an **Event** from the list, or provide a custom *Event ID*.",
-      async options({ calendarKey }) {
-        const items = await this.listEvents({
+      async options({ calendarKey }: Record<string, string>) {
+        const items: Event[] = await this.listEvents({
           calendarKey,
         });
         return items.map(({
@@ -37,8 +37,8 @@ export default defineApp({
       label: "Sub-calendar IDs",
       description: "A list of ids of sub-calendars to which the event is assigned.",
       type: "string[]",
-      async options({ calendarKey }) {
-        const items = await this.listSubCalendars({
+      async options({ calendarKey }: Record<string, string>) {
+        const items: SubCalendar[] = await this.listSubCalendars({
           calendarKey,
         });
         return items.map(({
@@ -54,7 +54,7 @@ export default defineApp({
     _getBaseUrl() {
       return "https://api.teamup.com";
     },
-    _getHeaders() {
+    _getHeaders(): Record<string, string> {
       return {
         "Content-Type": "application/json",
         "Teamup-Token": this.team_up.$auth.api_key,
@@ -72,7 +72,7 @@ export default defineApp({
     },
     async createEvent({
       calendarKey, ...args
-    }: CreateEventParams) {
+    }: CreateEventParams): Promise<Event> {
       return this._httpRequest({
         method: "POST",
         url: `/${calendarKey}/events`,
@@ -81,7 +81,7 @@ export default defineApp({
     },
     async deleteEvent({
       calendarKey, eventId, ...args
-    }: DeleteEventParams) {
+    }: DeleteEventParams): Promise<object> {
       return this._httpRequest({
         method: "DELETE",
         url: `/${calendarKey}/events/${eventId}`,
@@ -107,7 +107,7 @@ export default defineApp({
     },
     async updateEvent({
       calendarKey, eventId, ...args
-    }: UpdateEventParams) {
+    }: UpdateEventParams): Promise<Event> {
       return this._httpRequest({
         method: "PUT",
         url: `/${calendarKey}/events/${eventId}`,

@@ -42,11 +42,10 @@ export function getEventProps() {
   const {
     startDate,
     endDate,
-    subcalendarIds,
     title,
     location,
     additionalOptionsAsJson,
-  } = this;
+  }: Record<string, string> = this;
 
   let additionalOptions: Record<string, string> = this.additionalOptions;
 
@@ -72,7 +71,6 @@ export function getEventProps() {
   return {
     start_dt: startDate,
     end_dt: endDate,
-    subcalendar_ids: subcalendarIds,
     title,
     location,
     ...additionalOptions,

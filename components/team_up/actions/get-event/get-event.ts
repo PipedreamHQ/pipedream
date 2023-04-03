@@ -2,6 +2,7 @@ import app from "../../app/team_up.app";
 import { defineAction } from "@pipedream/types";
 import { GetEventParams } from "../../common/requestParams";
 import { Event } from "../../common/responseSchemas";
+import calendarKeyOptions from "../../common/calendarKeyOptions";
 
 const DOCS_LINK = "https://apidocs.teamup.com/docs/api/016e0077fd9cc-returns-a-single-event";
 
@@ -23,9 +24,7 @@ export default defineAction({
       propDefinition: [
         app,
         "eventId",
-        ({ calendarKey }) => ({
-          calendarKey,
-        }),
+        calendarKeyOptions,
       ],
     },
   },
