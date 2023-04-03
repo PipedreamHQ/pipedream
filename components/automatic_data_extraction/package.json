@@ -1,17 +1,18 @@
 {
   "name": "@pipedream/automatic_data_extraction",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Automatic Data Extraction Components",
-  "main": "dist/app/automatic_data_extraction.app.mjs",
+  "main": "automatic_data_extraction.app.mjs",
   "keywords": [
     "pipedream",
     "automatic_data_extraction"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/automatic_data_extraction",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
   }
 }
