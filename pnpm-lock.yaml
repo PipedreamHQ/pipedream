@@ -290,7 +290,10 @@ importers:
     specifiers: {}
 
   components/automatic_data_extraction:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/avochato:
     specifiers: {}
@@ -9598,14 +9601,14 @@ packages:
       '@jest/test-result': 29.1.2
       '@jest/transform': 29.1.2
       '@jest/types': 29.1.2
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.3.2
       exit: 0.1.2
       graceful-fs: 4.2.10
       jest-changed-files: 29.0.0
-      jest-config: 29.1.2_@types+node@17.0.45
+      jest-config: 29.1.2_@types+node@18.0.6
       jest-haste-map: 29.1.2
       jest-message-util: 29.1.2
       jest-regex-util: 29.0.0
@@ -9915,7 +9918,7 @@ packages:
       '@jest/schemas': 29.0.0
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
       '@types/yargs': 17.0.13
       chalk: 4.1.2
     dev: true
@@ -12473,7 +12476,7 @@ packages:
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
     dev: false
 
   /@types/yargs-parser/21.0.0:
@@ -18036,7 +18039,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-config/29.1.2_@types+node@17.0.45:
+  /jest-config/29.1.2_@types+node@18.0.6:
     resolution: {integrity: sha512-EC3Zi86HJUOz+2YWQcJYQXlf0zuBhJoeyxLM6vb6qJsVmpP7KcCP1JnyF0iaqTaXdBP8Rlwsvs7hnKWQWWLwwA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -18051,7 +18054,7 @@ packages:
       '@babel/core': 7.18.9
       '@jest/test-sequencer': 29.1.2
       '@jest/types': 29.1.2
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
       babel-jest: 29.1.2_@babel+core@7.18.9
       chalk: 4.1.2
       ci-info: 3.3.2
