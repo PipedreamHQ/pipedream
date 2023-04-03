@@ -116,6 +116,27 @@ export default {
         ...args,
       });
     },
+    createWebhook(args = {}) {
+      return this._makeRequest({
+        path: "/webhooks",
+        method: "POST",
+        ...args,
+      });
+    },
+    updateWebhook(webhookId, args = {}) {
+      return this._makeRequest({
+        path: `/webhooks/${webhookId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    deleteWebhook(webhookId, args = {}) {
+      return this._makeRequest({
+        path: `/webhooks/${webhookId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
     getRow(sheetId, rowId, args = {}) {
       return this._makeRequest({
         path: `/sheets/${sheetId}/rows/${rowId}`,
