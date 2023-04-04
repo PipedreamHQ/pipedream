@@ -1667,6 +1667,9 @@
     },
     {
       "path": "components/blockchain_exchange"
+    },
+    {
+      "path": "components/urlbox_io"
     }
   ]
 }
