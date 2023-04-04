@@ -17,6 +17,12 @@ export default {
       ],
       optional: false,
     },
+    reply_broadcast: {
+      propDefinition: [
+        slack,
+        "reply_broadcast",
+      ],
+    },
     conversation: {
       propDefinition: [
         slack,
