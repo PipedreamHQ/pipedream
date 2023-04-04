@@ -177,19 +177,15 @@ export default {
         const resourcesInfo = await Promise.all(
           channels
             .filter(channelsFilter)
-            .map(async ({
-              id: channelId,
-              is_im: isIm,
-              user,
-            }) => ({
-              channelId,
-              resource: isIm
+            .map(async (channel) => ({
+              channelId: channel.id,
+              resource: channel.is_im
                 ? await this.usersInfo({
-                  user,
+                  user: channel.user,
                 })
-                : await this.conversationsInfo({
-                  channel: channelId,
-                }),
+                : {
+                  channel,
+                },
             })),
         );
 
