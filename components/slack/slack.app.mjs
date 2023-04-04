@@ -356,9 +356,10 @@ export default {
       optional: true,
     },
     reply_broadcast: {
-      type: "string",
+      type: "boolean",
       label: "Reply Broadcasts",
       description: "Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to false.",
+      default: false,
       optional: true,
     },
     reply_channel: {
