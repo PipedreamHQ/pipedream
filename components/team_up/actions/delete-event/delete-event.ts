@@ -9,7 +9,7 @@ export default defineAction({
   name: "Delete Event",
   description: `Delete an event [See docs here](${DOCS_LINK})`,
   key: "team_up-delete-event",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

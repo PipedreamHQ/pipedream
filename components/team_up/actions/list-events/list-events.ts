@@ -11,7 +11,7 @@ export default defineAction({
   name: "List Events",
   description: `Get a list of events based on search criteria [See docs here](${DOCS_LINK})`,
   key: "team_up-list-events",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

@@ -13,7 +13,7 @@ export default defineAction({
   name: "Update Event",
   description: `Update an event [See docs here](${DOCS_LINK})`,
   key: "team_up-update-event",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -44,7 +44,10 @@ export default defineAction({
       $,
       calendarKey,
       eventId,
-      data: this.getEventProps(),
+      data: {
+        id: eventId,
+        ...this.getEventProps(),
+      },
     };
 
     const data = await this.app.updateEvent(params);

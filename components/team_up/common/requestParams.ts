@@ -32,7 +32,9 @@ export interface ListEventsParams extends PdAxiosRequest, CalendarRequest {
   };
 }
 export interface UpdateEventParams extends PdAxiosRequest, EventRequest {
-  data: EventBody;
+  data: EventBody & {
+    id: string;
+  };
 }
 
 export interface ListSubCalendarsParams extends PdAxiosRequest, CalendarRequest { }

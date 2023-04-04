@@ -5,7 +5,6 @@ import { Event } from "../../common/responseSchemas";
 import {
   EVENT_PROPS, getEventProps,
 } from "../../common/eventProps";
-import calendarKeyOptions from "../../common/calendarKeyOptions";
 
 const DOCS_LINK = "https://apidocs.teamup.com/docs/api/3269d0159ae9f-create-an-event";
 
@@ -13,7 +12,7 @@ export default defineAction({
   name: "Create Event",
   description: `Create an event [See docs here](${DOCS_LINK})`,
   key: "team_up-create-event",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
