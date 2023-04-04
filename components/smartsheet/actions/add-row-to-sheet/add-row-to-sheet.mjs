@@ -22,9 +22,18 @@ export default {
       optional: true,
       default: false,
     },
+    cells: {
+      type: "string[]",
+      label: "Cells",
+      description: "Array of objects representing cell values. Use to manually create row when `sheetId` is entered as a custom expression. Example: `{{ [{\"columnId\": 7960873114331012,\"value\": \"New status\"}] }}`",
+      optional: true,
+    },
   },
   async additionalProps() {
     const props = {};
+    if (isNaN(this.sheetId)) {
+      return props;
+    }
     const { data: columns } = await this.smartsheet.listColumns(this.sheetId, {
       params: {
         include: "columnType",
@@ -57,18 +66,26 @@ export default {
     return props;
   },
   async run({ $ }) {
-    /* eslint-disable no-unused-vars */
     const {
       sheetId,
       toTop,
+      cells = [],
       smartsheet,
       ...columnProps
     } = this;
 
     const data = {
-      toTop,
       cells: [],
     };
+    if (toTop) {
+      data.toTop = true;
+    }
+    for (const cell of cells) {
+      const cellValue = typeof cell === "object"
+        ? cell
+        : JSON.parse(cell);
+      data.cells.push(cellValue);
+    }
     for (const key of Object.keys(columnProps)) {
       data.cells.push({
         columnId: key,
@@ -76,7 +93,7 @@ export default {
       });
     }
 
-    const response = await this.smartsheet.addRow(this.sheetId, {
+    const response = await smartsheet.addRow(sheetId, {
       data,
       $,
     });

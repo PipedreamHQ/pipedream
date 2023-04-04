@@ -24,9 +24,18 @@ export default {
       ],
       reloadProps: true,
     },
+    cells: {
+      type: "string[]",
+      label: "Cells",
+      description: "Array of objects representing cell values. Use to manually update row when `sheetId` is entered as a custom expression. Example: `{{ [{\"columnId\": 7960873114331012,\"value\": \"New status\"}] }}`",
+      optional: true,
+    },
   },
   async additionalProps() {
     const props = {};
+    if (isNaN(this.rowId)) {
+      return props;
+    }
     const {
       cells, columns,
     } = await this.smartsheet.getRow(this.sheetId, this.rowId, {
@@ -62,10 +71,10 @@ export default {
     return props;
   },
   async run({ $ }) {
-    /* eslint-disable no-unused-vars */
     const {
       sheetId,
       rowId,
+      cells = [],
       smartsheet,
       ...columnProps
     } = this;
@@ -74,6 +83,12 @@ export default {
       id: rowId,
       cells: [],
     };
+    for (const cell of cells) {
+      const cellValue = typeof cell === "object"
+        ? cell
+        : JSON.parse(cell);
+      data.cells.push(cellValue);
+    }
     for (const key of Object.keys(columnProps)) {
       data.cells.push({
         columnId: key,
@@ -81,7 +96,7 @@ export default {
       });
     }
 
-    const response = await this.smartsheet.updateRow(this.sheetId, {
+    const response = await smartsheet.updateRow(sheetId, {
       data,
       $,
     });

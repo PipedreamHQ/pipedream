@@ -27,6 +27,9 @@ export default {
       label: "Row",
       description: "Identifier of a row in a sheet",
       async options({ sheetId }) {
+        if (isNaN(sheetId)) {
+          return [];
+        }
         const { rows } = await this.getSheet(sheetId);
         return rows?.map(({ id }) => id.toString()) || [];
       },
