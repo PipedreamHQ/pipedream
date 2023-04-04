@@ -231,7 +231,7 @@ export default {
 };
 ```
 
-##### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
+##### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.mjs))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 
