@@ -4487,7 +4487,10 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/webscraper_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/webscraping_ai:
     specifiers: {}
