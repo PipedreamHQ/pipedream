@@ -1,13 +1,26 @@
 import { ConfigurationError } from "@pipedream/platform";
+import app from "../app/team_up.app";
+import calendarKeyOptions from "./calendarKeyOptions";
 
 export const EVENT_PROPS = {
+  subCalendarIds: {
+    propDefinition: [
+      app,
+      "subCalendarIds",
+      calendarKeyOptions,
+    ],
+  },
   startDate: {
-    type: "string",
-    label: "Start Date",
+    propDefinition: [
+      app,
+      "startDate",
+    ],
   },
   endDate: {
-    type: "string",
-    label: "End Date",
+    propDefinition: [
+      app,
+      "endDate",
+    ],
   },
   title: {
     type: "string",
@@ -40,6 +53,7 @@ export const EVENT_PROPS = {
 
 export function getEventProps() {
   const {
+    subCalendarIds,
     startDate,
     endDate,
     title,
@@ -69,6 +83,7 @@ export function getEventProps() {
   }
 
   return {
+    subcalendar_ids: subCalendarIds,
     start_dt: startDate,
     end_dt: endDate,
     title,

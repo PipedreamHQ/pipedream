@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreateEventParams,
-  DeleteEventParams, GetEventParams, HttpRequestParams, ListEventsParams, ListSubCalendarsParams, UpdateEventParams,
+   DeleteEventParams, HttpRequestParams, ListEventsParams, ListSubCalendarsParams, UpdateEventParams,
 } from "../common/requestParams";
 import {
   Event, SubCalendar,
@@ -20,7 +20,7 @@ export default defineApp({
     eventId: {
       type: "string",
       label: "Event",
-      description: "Select an **Event** from the list, or provide a custom *Event ID*.",
+      description: "By default, only events from the current day are listed. You can use the **List Events** action to obtain other events and use their *Event ID* here.",
       async options({ calendarKey }: Record<string, string>) {
         const items: Event[] = await this.listEvents({
           calendarKey,
@@ -48,6 +48,16 @@ export default defineApp({
           value: id,
         }));
       },
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "Starting date/time of the event in ISO format, e.g. `2023-04-04T14:00:00Z`",
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description: "End date/time of the event in ISO format, e.g. `2023-04-04T14:00:00Z`",
     },
   },
   methods: {
@@ -84,14 +94,6 @@ export default defineApp({
     }: DeleteEventParams): Promise<object> {
       return this._httpRequest({
         method: "DELETE",
-        url: `/${calendarKey}/events/${eventId}`,
-        ...args,
-      });
-    },
-    async getEvent({
-      calendarKey, eventId, ...args
-    }: GetEventParams): Promise<Event> {
-      return this._httpRequest({
         url: `/${calendarKey}/events/${eventId}`,
         ...args,
       });

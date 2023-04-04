@@ -13,7 +13,7 @@ export default defineAction({
   name: "Update Event",
   description: `Update an event [See docs here](${DOCS_LINK})`,
   key: "team_up-update-event",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -30,31 +30,21 @@ export default defineAction({
         calendarKeyOptions,
       ],
     },
-    subCalendarIds: {
-      propDefinition: [
-        app,
-        "subCalendarIds",
-        calendarKeyOptions,
-      ],
-    },
     ...EVENT_PROPS,
   },
   methods: {
-    getEventProps
+    getEventProps,
   },
   async run({ $ }): Promise<Event> {
     const {
-      calendarKey, eventId, subCalendarIds,
+      calendarKey, eventId,
     } = this;
 
     const params: UpdateEventParams = {
       $,
       calendarKey,
       eventId,
-      data: {
-        subcalendar_ids: subCalendarIds,
-        ...this.getEventProps(),
-      },
+      data: this.getEventProps(),
     };
 
     const data = await this.app.updateEvent(params);

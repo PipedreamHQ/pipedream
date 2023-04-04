@@ -13,7 +13,7 @@ export default defineAction({
   name: "Create Event",
   description: `Create an event [See docs here](${DOCS_LINK})`,
   key: "team_up-create-event",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -23,35 +23,25 @@ export default defineAction({
         "calendarKey",
       ],
     },
-    subCalendarIds: {
-      propDefinition: [
-        app,
-        "subCalendarIds",
-        calendarKeyOptions,
-      ],
-    },
     ...EVENT_PROPS,
   },
   methods: {
-    getEventProps
+    getEventProps,
   },
   async run({ $ }): Promise<Event> {
-    const {
-      calendarKey, subCalendarIds,
-    } = this;
+    const { calendarKey } = this;
 
     const params: CreateEventParams = {
       $,
       calendarKey,
-      data: {
-        subcalendar_ids: subCalendarIds,
-        ...this.getEventProps(),
-      },
+      data: this.getEventProps(),
     };
 
     const data = await this.app.createEvent(params);
     const {
-      event: { id, title },
+      event: {
+        id, title,
+      },
     } = data;
 
     $.export("$summary", `Successfully created event ${title
