@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreateEventParams,
-   DeleteEventParams, HttpRequestParams, ListEventsParams, ListSubCalendarsParams, UpdateEventParams,
+  DeleteEventParams, HttpRequestParams, ListEventsParams, ListSubCalendarsParams, UpdateEventParams,
 } from "../common/requestParams";
 import {
   Event, SubCalendar,
@@ -34,9 +34,9 @@ export default defineApp({
       },
     },
     subCalendarIds: {
+      type: "string[]",
       label: "Sub-calendar IDs",
       description: "A list of ids of sub-calendars to which the event is assigned.",
-      type: "string[]",
       async options({ calendarKey }: Record<string, string>) {
         const items: SubCalendar[] = await this.listSubCalendars({
           calendarKey,

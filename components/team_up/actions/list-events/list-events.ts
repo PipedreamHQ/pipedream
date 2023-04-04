@@ -2,8 +2,10 @@ import app from "../../app/team_up.app";
 import { defineAction } from "@pipedream/types";
 import { ListEventsParams } from "../../common/requestParams";
 import { Event } from "../../common/responseSchemas";
+import calendarKeyOptions from "../../common/calendarKeyOptions";
 
-const DOCS_LINK = "https://apidocs.teamup.com/docs/api/0f9f896800ffe-get-events-collection-get-events-changed-search-events";
+const DOCS_LINK =
+  "https://apidocs.teamup.com/docs/api/0f9f896800ffe-get-events-collection-get-events-changed-search-events";
 
 export default defineAction({
   name: "List Events",
@@ -19,13 +21,54 @@ export default defineAction({
         "calendarKey",
       ],
     },
+    subcalendarId: {
+      propDefinition: [
+        app,
+        "subCalendarIds",
+        calendarKeyOptions,
+      ],
+      optional: true,
+    },
+    query: {
+      type: "string",
+      label: "Query",
+      description:
+        "Query string used to search for events. See the [Search Guide](https://calendar.teamup.com/kb/searching-teamup-calendar/) for supported query syntax and features.",
+      optional: true,
+    },
+    startDate: {
+      propDefinition: [
+        app,
+        "startDate",
+      ],
+      optional: true,
+      description:
+        "The start of the date range to list events from, in `YYYY-MM-DD` format. Default is `today`.",
+    },
+    endDate: {
+      propDefinition: [
+        app,
+        "endDate",
+      ],
+      optional: true,
+      description:
+        "The end of the date range to list events from (inclusive), in `YYYY-MM-DD` format. Default is `today+1day`.",
+    },
   },
   async run({ $ }): Promise<Event[]> {
-    const { calendarKey } = this;
+    const {
+      calendarKey, subcalendarId, query, startDate, endDate,
+    } = this;
 
     const params: ListEventsParams = {
       $,
       calendarKey,
+      params: {
+        subcalendarId,
+        query,
+        startDate,
+        endDate,
+      },
     };
 
     const data: Event[] = await this.app.listEvents(params);
