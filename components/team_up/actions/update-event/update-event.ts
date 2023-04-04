@@ -39,6 +39,9 @@ export default defineAction({
     },
     ...EVENT_PROPS,
   },
+  methods: {
+    getEventProps
+  },
   async run({ $ }): Promise<Event> {
     const {
       calendarKey, eventId, subCalendarIds,
@@ -50,12 +53,12 @@ export default defineAction({
       eventId,
       data: {
         subcalendar_ids: subCalendarIds,
-        ...getEventProps(),
+        ...this.getEventProps(),
       },
     };
 
     const data = await this.app.updateEvent(params);
-    const { title } = data;
+    const { event: { title } } = data;
 
     $.export("$summary", `Successfully updated event ${title
       ? `"${title}"`

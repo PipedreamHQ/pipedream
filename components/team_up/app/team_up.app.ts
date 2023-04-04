@@ -57,7 +57,7 @@ export default defineApp({
     _getHeaders(): Record<string, string> {
       return {
         "Content-Type": "application/json",
-        "Teamup-Token": this.team_up.$auth.api_key,
+        "Teamup-Token": this.$auth.api_key,
       };
     },
     async _httpRequest({
