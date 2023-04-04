@@ -45,7 +45,7 @@ export const EVENT_PROPS = {
     type: "boolean",
     label: "Parse Additional Options as JSON",
     description:
-      "If true, the values provided in `Additional Options` will be parsed as a JSON string. This allows you to pass object, integer and boolean values with their real type instead of stringified.",
+      "If true, the values provided in `Additional Options` will be parsed as a JSON string. This allows you to pass object, integer and boolean values with their actual type instead of stringified.",
     optional: true,
     default: false,
   },

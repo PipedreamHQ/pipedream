@@ -1,7 +1,7 @@
 import app from "../../app/team_up.app";
 import { defineAction } from "@pipedream/types";
 import { CreateEventParams } from "../../common/requestParams";
-import { Event } from "../../common/responseSchemas";
+import { CreateEventResponse } from "../../common/responseSchemas";
 import {
   EVENT_PROPS, getEventProps,
 } from "../../common/eventProps";
@@ -27,7 +27,7 @@ export default defineAction({
   methods: {
     getEventProps,
   },
-  async run({ $ }): Promise<Event> {
+  async run({ $ }) {
     const { calendarKey } = this;
 
     const params: CreateEventParams = {
@@ -36,7 +36,7 @@ export default defineAction({
       data: this.getEventProps(),
     };
 
-    const data = await this.app.createEvent(params);
+    const data: CreateEventResponse = await this.app.createEvent(params);
     const {
       event: {
         id, title,

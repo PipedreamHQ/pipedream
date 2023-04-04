@@ -1,7 +1,7 @@
 import app from "../../app/team_up.app";
 import { defineAction } from "@pipedream/types";
 import { UpdateEventParams } from "../../common/requestParams";
-import { Event } from "../../common/responseSchemas";
+import { UpdateEventResponse } from "../../common/responseSchemas";
 import {
   EVENT_PROPS, getEventProps,
 } from "../../common/eventProps";
@@ -35,7 +35,7 @@ export default defineAction({
   methods: {
     getEventProps,
   },
-  async run({ $ }): Promise<Event> {
+  async run({ $ }) {
     const {
       calendarKey, eventId,
     } = this;
@@ -50,7 +50,7 @@ export default defineAction({
       },
     };
 
-    const data = await this.app.updateEvent(params);
+    const data: UpdateEventResponse = await this.app.updateEvent(params);
     const { event: { title } } = data;
 
     $.export("$summary", `Successfully updated event ${title

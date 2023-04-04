@@ -5,7 +5,9 @@ import {
   DeleteEventParams, HttpRequestParams, ListEventsParams, ListSubCalendarsParams, UpdateEventParams,
 } from "../common/requestParams";
 import {
-  Event, SubCalendar,
+  CreateEventResponse,
+  DeleteEventResponse,
+  Event, ListEventsResponse, SubCalendar, UpdateEventResponse,
 } from "../common/responseSchemas";
 
 export default defineApp({
@@ -82,7 +84,7 @@ export default defineApp({
     },
     async createEvent({
       calendarKey, ...args
-    }: CreateEventParams): Promise<Event> {
+    }: CreateEventParams): Promise<CreateEventResponse> {
       return this._httpRequest({
         method: "POST",
         url: `/${calendarKey}/events`,
@@ -91,7 +93,7 @@ export default defineApp({
     },
     async deleteEvent({
       calendarKey, eventId, ...args
-    }: DeleteEventParams): Promise<object> {
+    }: DeleteEventParams): Promise<DeleteEventResponse> {
       return this._httpRequest({
         method: "DELETE",
         url: `/${calendarKey}/events/${eventId}`,
@@ -100,16 +102,16 @@ export default defineApp({
     },
     async listEvents({
       calendarKey, ...args
-    }: ListEventsParams): Promise<Event[]> {
+    }: ListEventsParams): Promise<ListEventsResponse> {
       const response = await this._httpRequest({
         url: `/${calendarKey}/events`,
         ...args,
       });
-      return response.events;
+      return response;
     },
     async updateEvent({
       calendarKey, eventId, ...args
-    }: UpdateEventParams): Promise<Event> {
+    }: UpdateEventParams): Promise<UpdateEventResponse> {
       return this._httpRequest({
         method: "PUT",
         url: `/${calendarKey}/events/${eventId}`,

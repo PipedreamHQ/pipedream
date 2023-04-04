@@ -1,10 +1,10 @@
 import app from "../../app/team_up.app";
 import { defineAction } from "@pipedream/types";
 import { ListEventsParams } from "../../common/requestParams";
-import { Event } from "../../common/responseSchemas";
+import { ListEventsResponse } from "../../common/responseSchemas";
 import calendarKeyOptions from "../../common/calendarKeyOptions";
 
-const DOCS_LINK =
+export const DOCS_LINK =
   "https://apidocs.teamup.com/docs/api/0f9f896800ffe-get-events-collection-get-events-changed-search-events";
 
 export default defineAction({
@@ -55,7 +55,7 @@ export default defineAction({
         "The end of the date range to list events from (inclusive), in `YYYY-MM-DD` format. Default is `today+1day`.",
     },
   },
-  async run({ $ }): Promise<Event[]> {
+  async run({ $ }): Promise<ListEventsResponse> {
     const {
       calendarKey, subcalendarId, query, startDate, endDate,
     } = this;
@@ -71,8 +71,8 @@ export default defineAction({
       },
     };
 
-    const data: Event[] = await this.app.listEvents(params);
-    $.export("$summary", `Successfully obtained ${data.length} events`);
+    const data: ListEventsResponse = await this.app.listEvents(params);
+    $.export("$summary", `Successfully obtained ${data.events.length} events`);
     return data;
   },
 });
