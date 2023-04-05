@@ -90,8 +90,21 @@ export default {
     return props;
   },
   methods: {
+    createForm({
+      file, outputDir,
+    }) {
+      const form = new FormData();
+      form.append("model", "whisper-1");
+      if (this.prompt) form.append("prompt", this.prompt);
+      if (this.temperature) form.append("temperature", this.temperature);
+      if (this.language) form.append("language", this.language);
+      if (this.responseFormat) form.append("response_format", this.responseFormat);
+      const readStream = fs.createReadStream(join(outputDir, file));
+      form.append("file", readStream);
+      return form;
+    },
     async chunkFileAndTranscribe({
-      file, form, $,
+      file, $,
     }) {
       const outputDir = join("/tmp", "chunks");
       await execAsync(`mkdir -p ${outputDir}`);
@@ -106,7 +119,6 @@ export default {
       const transcription = await this.transcribeFiles({
         files,
         outputDir,
-        form,
         $,
       });
 
@@ -143,24 +155,22 @@ export default {
       await execAsync(command);
     },
     async transcribeFiles({
-      files, outputDir, form, $,
+      files, outputDir, $,
     }) {
-      const transcriptions = await Promise.all(
-        files.map((file) => this.transcribe({
-          file,
-          outputDir,
-          form,
-          $,
-        })),
-      );
-
+      const transcriptions = await Promise.all(files.map((file) => this.transcribe({
+        file,
+        outputDir,
+        $,
+      })));
       return transcriptions.join(" ");
     },
     async transcribe({
-      file, outputDir, form, $,
+      file, outputDir, $,
     }) {
-      const readStream = fs.createReadStream(join(outputDir, file));
-      form.append("file", readStream);
+      const form = this.createForm({
+        file,
+        outputDir,
+      });
       const response = await this.openai.createTranscription({
         $,
         form,
@@ -177,13 +187,6 @@ export default {
     if (!url && !path) {
       throw new Error("Must specify either File URL or File Path");
     }
-
-    const form = new FormData();
-    form.append("model", "whisper-1");
-    if (this.prompt) form.append("prompt", this.prompt);
-    if (this.temperature) form.append("temperature", this.temperature);
-    if (this.language) form.append("language", this.language);
-    if (this.responseFormat) form.append("response_format", this.responseFormat);
 
     let file;
 
@@ -215,7 +218,6 @@ export default {
 
     const response = await this.chunkFileAndTranscribe({
       file,
-      form,
       $,
     });
 
