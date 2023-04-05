@@ -1,11 +1,13 @@
 import app from "../../crimeometer.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "crimeometer-retrieve-raw-data",
   name: "Retrieve Raw Data",
   description: "Provides incidents raw data. [See the docs](https://www.crimeometer.com/crime-data-api-documentation) and [here](https://documenter.getpostman.com/view/12755833/TzK2auPn#0486d39c-a839-4fa6-a26b-104821b1813f).",
   type: "action",
-  version: "0.0.1",
+  // version: "0.0.1",
+  version: "0.0.6",
   props: {
     app,
     lat: {
@@ -38,10 +40,10 @@ export default {
         "distance",
       ],
     },
-    page: {
+    max: {
       propDefinition: [
         app,
-        "page",
+        "max",
       ],
     },
   },
@@ -60,23 +62,28 @@ export default {
       datetimeIni,
       datetimeEnd,
       distance,
-      page,
+      max,
     } = this;
 
-    const response = await this.getRawData({
-      step,
-      params: {
-        lat,
-        lon,
-        datetime_ini: datetimeIni,
-        datetime_end: datetimeEnd,
-        distance,
-        page,
-      },
-    });
+    const incidents = await utils.streamIterator(
+      this.app.getResourcesStream({
+        max,
+        resourceFn: this.getRawData,
+        resourceFnArgs: {
+          step,
+          params: {
+            lat,
+            lon,
+            datetime_ini: datetimeIni,
+            datetime_end: datetimeEnd,
+            distance,
+          },
+        },
+      }),
+    );
 
-    step.export("$summary", `Successfully retrieved ${response.incidents?.length} incident(s).`);
+    step.export("$summary", `Successfully retrieved ${incidents.length} incident(s).`);
 
-    return response;
+    return incidents;
   },
 };

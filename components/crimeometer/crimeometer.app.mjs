@@ -32,12 +32,13 @@ export default {
       label: "Distance",
       description: "Distance from the center of the search area. Must be in the format `<number><unit>`, where `<number>` is a positive integer and `<unit>` is one of the following: `mi` (miles), `km` (kilometers), `ft` (feet), or `m` (meters).",
     },
-    page: {
+    max: {
       type: "integer",
-      label: "Page",
-      description: "Page number of the results. Must be a positive integer.",
+      label: "Max records",
+      description: "Max number of records in the whole pagination",
+      optional: false,
+      default: constants.DEFAULT_MAX_RECORDS,
       min: 1,
-      default: 1,
     },
   },
   methods: {
@@ -71,6 +72,44 @@ export default {
       };
 
       return axios(step, config);
+    },
+    async *getResourcesStream({
+      resourceFn,
+      resourceFnArgs,
+      resourceName = constants.DEFAULT_RESOURCE_NAME,
+      max = constants.DEFAULT_MAX_RECORDS,
+    }) {
+      let page = 1;
+      let resourcesCount = 0;
+
+      while (true) {
+        const {
+          total_pages: totalPages,
+          [resourceName]: nextResources,
+        } = await resourceFn({
+          ...resourceFnArgs,
+          params: {
+            page,
+            ...resourceFnArgs.params,
+          },
+        });
+
+        if (!nextResources?.length) {
+          console.log("No more resources");
+          return;
+        }
+
+        for (const resource of nextResources) {
+          yield resource;
+          resourcesCount += 1;
+        }
+
+        if (page >= totalPages || resourcesCount >= max) {
+          return;
+        }
+
+        page += 1;
+      }
     },
   },
 };

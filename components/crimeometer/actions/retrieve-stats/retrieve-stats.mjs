@@ -39,12 +39,6 @@ export default {
         "distance",
       ],
     },
-    page: {
-      propDefinition: [
-        app,
-        "page",
-      ],
-    },
   },
   methods: {
     getStats(args = {}) {
@@ -62,7 +56,6 @@ export default {
       datetimeIni,
       datetimeEnd,
       distance,
-      page,
     } = this;
 
     const response = await this.getStats({
@@ -73,11 +66,10 @@ export default {
         datetime_ini: datetimeIni,
         datetime_end: datetimeEnd,
         distance,
-        page,
       },
     });
 
-    step.export("$summary", `Successfully retrieved ${response.incidents_count} incidents.`);
+    step.export("$summary", `Successfully retrieved stats for ${response.incidents_count} incidents.`);
 
     return response;
   },
