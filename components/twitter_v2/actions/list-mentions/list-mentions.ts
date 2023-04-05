@@ -20,7 +20,7 @@ const MAX_RESULTS_PER_PAGE = 100;
 export default defineAction({
   key: "twitter_v2-list-mentions",
   name: "List Mentions",
-  description: `Return the 10 most recent mentions for the authenticated user. [See docs here](${DOCS_LINK})`,
+  description: `Return the most recent mentions for the specified user. [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "action",
   props: {
