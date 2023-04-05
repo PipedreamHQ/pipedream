@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/world_news_api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream World News API Components",
   "main": "dist/app/world_news_api.app.mjs",
   "keywords": [

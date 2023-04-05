@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   name: "New News",
   description: "Emit new event when a new news is fetched. Calling this endpoint requires 1 point per page, up to 1000 news.",
-  key: "world_news_api-new-news",
+  key: "world_news_api-news-event",
   version: "0.0.1",
   type: "source",
   props: {
