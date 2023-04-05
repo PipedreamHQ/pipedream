@@ -164,6 +164,7 @@ export default {
       async options({
         prevContext, types = [], channelsFilter = (channel) => channel, excludeArchived = true,
       }) {
+        const userNames = prevContext.userNames || await this.userNames();
         const {
           channels,
           response_metadata: { next_cursor: cursor },
@@ -174,37 +175,20 @@ export default {
           exclude_archived: excludeArchived,
         });
 
-        const resourcesInfo = await Promise.all(
-          channels
-            .filter(channelsFilter)
-            .map(async ({
-              id: channelId,
-              is_im: isIm,
-              user,
-            }) => ({
-              channelId,
-              resource: isIm
-                ? await this.usersInfo({
-                  user,
-                })
-                : await this.conversationsInfo({
-                  channel: channelId,
-                }),
-            })),
-        );
-
-        const options =
-          resourcesInfo.map(({
-            channelId, resource,
-          }) => ({
-            value: channelId,
-            label: this.getChannelLabel(resource),
+        const options = channels
+          .filter(channelsFilter)
+          .map((c) => ({
+            value: c.id,
+            label: c.is_im
+              ? `@${userNames[c.user]}`
+              : c.name,
           }));
 
         return {
           options,
           context: {
             cursor,
+            userNames,
           },
         };
       },
