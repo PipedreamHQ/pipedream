@@ -2,7 +2,7 @@ import { Pipedream } from "@pipedream/types";
 import { EventBody } from "./responseSchemas";
 
 interface PdAxiosRequest {
-  $: Pipedream;
+  $?: Pipedream;
 }
 
 export interface HttpRequestParams extends PdAxiosRequest {
@@ -29,6 +29,7 @@ export interface ListEventsParams extends PdAxiosRequest, CalendarRequest {
     query?: string;
     startDate?: string;
     endDate?: string;
+    modifiedSince?: number;
   };
 }
 export interface UpdateEventParams extends PdAxiosRequest, EventRequest {
