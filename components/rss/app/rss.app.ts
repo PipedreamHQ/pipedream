@@ -61,7 +61,7 @@ export default defineApp({
         },
         validateStatus: () => true, // does not throw on any bad status code
         responseType: "stream", // stream is required for feedparser
-        returnResponse: true,
+        returnFullResponse: true,
       });
 
       // Handle status codes as error codes

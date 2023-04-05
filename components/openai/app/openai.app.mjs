@@ -56,6 +56,7 @@ export default {
         headers: {
           ...this._commonHeaders(),
         },
+        maxBodyLength: Infinity,
         ...args,
       });
     },
