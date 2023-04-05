@@ -102,15 +102,15 @@ export default {
   async run({ $ }) {
     const params = {
       "text": this.text,
-      "source-countries": this.sourceCountries?.join(","), // comma-separated list
+      "source-countries": this.sourceCountries?.join(","),
       "language": this.language,
       "min-sentiment": this.minSentiment,
       "max-sentiment": this.maxSentiment,
       "earliest-published-date": this.earliestPublishedDate,
       "latest-published-date": this.latestPublishedDate,
-      "news-sources": this.newsSources?.join(","), // comma-separated list
-      "authors": this.authors?.join(","), // comma-separated list
-      "entities": this.entities?.join(","), // comma-separated list
+      "news-sources": this.newsSources?.join(","),
+      "authors": this.authors?.join(","),
+      "entities": this.entities?.join(","),
       "location-filter": this.locationFilter,
       "sort": this.sort,
       "sort-direction": this.sortDirection,

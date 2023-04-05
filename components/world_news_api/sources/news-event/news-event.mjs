@@ -1,9 +1,11 @@
 import app from "../../world_news_api.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import { getCommaSeparatedListFromArray } from "../../common/helpers.mjs";
 
 export default {
-  name: "New News",
-  description: "Emit new event when a new news is fetched. Calling this endpoint requires 1 point per page, up to 1000 news.",
+  // eslint-disable-next-line pipedream/source-name
+  name: "News Event",
+  description: "Emit new event when a new news is fetched. Calling this endpoint requires 1 point per page, up to 1000 news. [See the docs here](https://worldnewsapi.com/docs/#Search-News)",
   key: "world_news_api-news-event",
   version: "0.0.1",
   type: "source",
@@ -11,7 +13,7 @@ export default {
     app,
     timer: {
       label: "Polling Interval",
-      description: "Pipedream will poll the Docusign API on this schedule",
+      description: "Pipedream will poll the World News API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
@@ -99,66 +101,76 @@ export default {
     getLastId() {
       return this.db.get("lastId");
     },
+    async getCurrentPageRawData(offset, itemsPerPage, $) {
+      const params = {
+        "text": this.text || undefined,
+        "source-countries": getCommaSeparatedListFromArray(this.sourceCountries),
+        "language": this.language || undefined,
+        "min-sentiment": this.minSentiment || undefined,
+        "max-sentiment": this.maxSentiment || undefined,
+        "earliest-published-date": this.earliestPublishedDate || undefined,
+        "latest-published-date": this.latestPublishedDate || undefined,
+        "news-sources": getCommaSeparatedListFromArray(this.newsSources),
+        "authors": getCommaSeparatedListFromArray(this.authors),
+        "entities": getCommaSeparatedListFromArray(this.entities),
+        "location-filter": this.locationFilter || undefined,
+        "offset": offset,
+        "number": itemsPerPage,
+        "sort": "publish-time",
+        "sort-direction": "DESC",
+      };
+      const res = await this.app.searchNews(params, $);
+      return res;
+    },
+    getCurrentPageNewsArray(res, lastEmmitedId) {
+      const news = [];
+      let foundLastEmmitedId = false;
+      for (const news of res.news) {
+        if (news.id === lastEmmitedId) {
+          foundLastEmmitedId = true;
+          break;
+        }
+        news.unshift(news);
+      }
+
+      return {
+        news,
+        foundLastEmmitedId,
+      };
+    },
   },
   async run({ $ }) {
     const ITEMS_PER_PAGE = 100;
     const MAX_CALLS_PER_EXECUTION = 10;
     const MAX_OFFSET = MAX_CALLS_PER_EXECUTION * ITEMS_PER_PAGE;
+
+    const lastEmmitedId = this.getLastId();
+    const newsToEmit = [];
     let offset = 0;
 
-    let available = 0;
-    let currentCallLastId;
-    const beforeCallLastId = this.getLastId();
-    const newsArr = [];
-    loop1:
     do {
-      const params = {
-        "text": this.text || undefined,
-        "source-countries": this.sourceCountries?.length > 0
-          ? this.sourceCountries.join(",")
-          : undefined,
-        "language": this.language ?? undefined,
-        "min-sentiment": this.minSentiment || undefined,
-        "max-sentiment": this.maxSentiment || undefined,
-        "earliest-published-date": this.earliestPublishedDate || undefined,
-        "latest-published-date": this.latestPublishedDate || undefined,
-        "news-sources": this.newsSource?.length > 0
-          ? this.newsSource
-          : undefined,
-        "authors": this.authors?.length > 0
-          ? this.authors.join(",")
-          : undefined,
-        "entities": this.entities?.length > 0
-          ? this.entities.join(",")
-          : undefined,
-        "location-filter": this.locationFilter || undefined,
-        "offset": offset,
-        "number": ITEMS_PER_PAGE,
-        "sort": "publish-time",
-        "sort-direction": "DESC",
-      };
-      const res = await this.app.searchNews(params, $);
-      console.log(res);
-      available = res.available;
-
+      const res = await this.getCurrentPageRawData(offset, ITEMS_PER_PAGE, $);
       if (res.news.length === 0) {
-        break loop1;
+        break;
       }
 
-      for (const news of res.news) {
-        if (!currentCallLastId) {
-          currentCallLastId = news.id;
-        }
-        if (news.id === beforeCallLastId) {
-          break loop1;
-        }
-        newsArr.unshift(news);
+      const {
+        news,
+        foundLastEmmitedId,
+      } = this.getCurrentPageNewsArray(res, lastEmmitedId);
+      if (foundLastEmmitedId) {
+        break;
       }
+
+      newsToEmit.push(...news);
       offset += ITEMS_PER_PAGE;
-    } while (offset <= available && offset <= MAX_OFFSET);
-    this.setLastId(currentCallLastId);
+    } while (offset <= MAX_OFFSET);
 
-    for (const news of newsArr.reverse()) {
+    if (newsToEmit.length > 0) {
+      this.setLastId(newsToEmit[0].id);
+    }
+
+    for (const news of newsToEmit.reverse()) {
       this.emit(news);
     }
   },
