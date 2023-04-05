@@ -1,18 +1,27 @@
+import axios from "axios";
 import fs from "fs";
-import got from "got";
-import { extname } from "path";
+import {
+  join, extname,
+} from "path";
 import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 import lang from "../common/lang.mjs";
 import openai from "../../app/openai.app.mjs";
+import { promisify } from "util";
+import stream from "stream";
+import { exec } from "child_process";
+import ffmpegInstaller from "@ffmpeg-installer/ffmpeg";
 
 const COMMON_AUDIO_FORMATS_TEXT = "Your audio file must be in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.";
 
+const execAsync = promisify(exec);
+const pipelineAsync = promisify(stream.pipeline);
+
 export default {
   name: "Create Transcription",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
@@ -38,6 +47,39 @@ export default {
         label: l.label,
         value: l.value,
       })),
+    },
+  },
+  methods: {
+    async chunkFileAndTranscribe({
+      file, form, $,
+    }) {
+      const ffmpegPath = ffmpegInstaller.path;
+      const ext = extname(file);
+      const outputDir = join("/tmp", "chunks");
+      await execAsync(`mkdir -p ${outputDir}`);
+
+      const command = `${ffmpegPath} -i ${file} -f segment -segment_time 60 -c copy ${outputDir}/chunk-%03d${ext}`;
+      try {
+        await execAsync(command);
+      } catch (err) {
+        throw new Error(err);
+      }
+
+      const files = await fs.promises.readdir(outputDir);
+      let transcription = "";
+      for (const file of files) {
+        const readStream = fs.createReadStream(join(outputDir, file));
+        form.append("file", readStream);
+        const response = await this.openai.createTranscription({
+          $,
+          form,
+        });
+        transcription += response.data?.text;
+      }
+
+      return {
+        transcription,
+      };
     },
   },
   async additionalProps() {
@@ -97,31 +139,41 @@ export default {
     if (this.language) form.append("language", this.language);
     if (this.responseFormat) form.append("response_format", this.responseFormat);
 
+    let file;
     if (path) {
       if (!fs.existsSync(path)) {
         throw new Error(`${path} does not exist`);
       }
-      const readStream = fs.createReadStream(path);
-      form.append("file", readStream);
+      file = path;
     } else if (url) {
       const ext = extname(url);
-      // OpenAI only supports a few audio formats and uses the extension to determine the format
-      const tempFilePath = `/tmp/audioFile${ext}`;
 
-      const writeStream = fs.createWriteStream(tempFilePath);
-      const responseStream = got.stream(url);
-      responseStream.pipe(writeStream);
-      await new Promise((resolve, reject) => {
-        writeStream.on("finish", resolve);
-        writeStream.on("error", reject);
-        responseStream.on("error", reject);
+      const response = await axios({
+        method: "GET",
+        url,
+        responseType: "stream",
+        timeout: 250000,
       });
-      const readStream = fs.createReadStream(tempFilePath);
-      form.append("file", readStream);
+
+      const bufferStream = new stream.PassThrough();
+      response.data.pipe(bufferStream);
+
+      const downloadPath = join("/tmp", `audio.${ext}`);
+      const writeStream = fs.createWriteStream(downloadPath);
+
+      try {
+        await pipelineAsync(bufferStream, writeStream);
+      } catch (err) {
+        throw new Error(err);
+      }
+
+      file = downloadPath;
     }
-    const response = await this.openai.createTranscription({
-      $,
+
+    const response = await this.chunkFileAndTranscribe({
+      file,
       form,
+      $,
     });
 
     if (response) {
