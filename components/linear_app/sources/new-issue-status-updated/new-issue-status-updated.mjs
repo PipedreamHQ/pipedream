@@ -7,7 +7,7 @@ export default {
   name: "New Issue Status Updated (Instant)",
   description: "Emit new event when the status of an issue is updated. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
