@@ -12,7 +12,7 @@ const COMMON_AUDIO_FORMATS_TEXT = "Your audio file must be in one of these forma
 
 export default {
   name: "Create Transcription",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
