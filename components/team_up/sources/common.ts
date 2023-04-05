@@ -1,7 +1,9 @@
 import app from "../app/team_up.app";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import { ListEventsParams } from "../common/requestParams";
-import { Event, EventTimestamps, ListEventsResponse } from "../common/responseSchemas";
+import {
+  Event, EventTimestamps, ListEventsResponse,
+} from "../common/responseSchemas";
 
 export default {
   props: {
@@ -27,7 +29,7 @@ export default {
   },
   methods: {
     getEntityName(): string {
-      return "obtained"
+      return "obtained";
     },
     getFilterField(): keyof EventTimestamps {
       return undefined;
@@ -69,4 +71,4 @@ export default {
 
     this.setTimestamp(ts);
   },
-}
+};

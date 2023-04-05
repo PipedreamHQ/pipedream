@@ -1,8 +1,6 @@
 import { defineSource } from "@pipedream/types";
 import { DOCS_LINK } from "../../actions/list-events/list-events";
-import {
-  EventTimestamps,
-} from "../../common/responseSchemas";
+import { EventTimestamps } from "../../common/responseSchemas";
 import common from "../common";
 
 export default defineSource({
@@ -20,5 +18,5 @@ export default defineSource({
     getFilterField(): keyof EventTimestamps {
       return "update_td";
     },
-  }
+  },
 });
