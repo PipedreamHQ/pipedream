@@ -57,8 +57,8 @@ export default {
           resourceKey: "companies",
           labelVal: {
             value: returnId
-            ? "id"
-            : "name",
+              ? "id"
+              : "name",
           },
         });
       },
@@ -199,6 +199,15 @@ export default {
     async getCompanies(args = {}) {
       return this._makeRequest({
         path: "/Companies",
+        ...args,
+      });
+    },
+    async getCompany({
+      companyId,
+      ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/Companies/${companyId}`,
         ...args,
       });
     },

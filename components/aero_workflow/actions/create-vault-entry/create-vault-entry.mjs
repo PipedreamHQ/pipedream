@@ -3,7 +3,7 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "aero_workflow-create-vault-entry",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   name: "Create Vault Entry",
   description: "Creates a vault entry for selected company [See the docs here](https://api.aeroworkflow.com/swagger/index.html)",
@@ -55,7 +55,7 @@ export default {
       description: "Link",
       optional: true,
     },
-    userName:{
+    userName: {
       type: "string",
       label: "User Name",
       description: "User name",

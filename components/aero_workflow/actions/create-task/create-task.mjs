@@ -3,7 +3,7 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "aero_workflow-create-task",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   name: "Create Task",
   description: "Creates a task [See the docs here](https://api.aeroworkflow.com/swagger/index.html)",

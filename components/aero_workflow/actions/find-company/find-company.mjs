@@ -19,7 +19,7 @@ export default {
       label: "Active",
       description: "Is active",
       optional: true,
-    }
+    },
   },
   async run ({ $ }) {
     const params = utils.extractProps(this);
