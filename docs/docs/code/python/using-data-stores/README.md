@@ -3,9 +3,9 @@ short_description: Store and read data with data stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
 ---
 
-[[toc]]
-
 # Using Data Stores
+
+[[toc]]
 
 [Data Stores](/data-stores/) are built-in key-value stores, provided by Pipedream. You can store any JSON-serializable data in a data store. You can use it to store data in one workflow execution, and read that data in the next run. You can also share data stores across _multiple_ workflows, setting data in one workflow, and reading it in another.
 

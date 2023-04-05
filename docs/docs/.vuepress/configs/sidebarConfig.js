@@ -64,20 +64,6 @@ const docsNav = [
       "/environment-variables/",
     ],
   },
-  {
-    title: "Integrations",
-    type: "group",
-    children: [
-      "/apps/all-apps/",
-      "/apps/discord/",
-      "/apps/hubspot/",
-      "/apps/servicenow/",
-      "/apps/slack/",
-      "/apps/strava/",
-      "/apps/twitter/",
-      "/apps/zoom/",
-    ],
-  },
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
   {
