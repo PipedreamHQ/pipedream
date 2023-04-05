@@ -49,39 +49,6 @@ export default {
       })),
     },
   },
-  methods: {
-    async chunkFileAndTranscribe({
-      file, form, $,
-    }) {
-      const ffmpegPath = ffmpegInstaller.path;
-      const ext = extname(file);
-      const outputDir = join("/tmp", "chunks");
-      await execAsync(`mkdir -p ${outputDir}`);
-
-      const command = `${ffmpegPath} -i ${file} -f segment -segment_time 60 -c copy ${outputDir}/chunk-%03d${ext}`;
-      try {
-        await execAsync(command);
-      } catch (err) {
-        throw new Error(err);
-      }
-
-      const files = await fs.promises.readdir(outputDir);
-      let transcription = "";
-      for (const file of files) {
-        const readStream = fs.createReadStream(join(outputDir, file));
-        form.append("file", readStream);
-        const response = await this.openai.createTranscription({
-          $,
-          form,
-        });
-        transcription += response.data?.text;
-      }
-
-      return {
-        transcription,
-      };
-    },
-  },
   async additionalProps() {
     const props = {};
     switch (this.uploadType) {
@@ -122,6 +89,85 @@ export default {
 
     return props;
   },
+  methods: {
+    async chunkFileAndTranscribe({
+      file, form, $,
+    }) {
+      const outputDir = join("/tmp", "chunks");
+      await execAsync(`mkdir -p ${outputDir}`);
+      await execAsync(`rm -f ${outputDir}/*`);
+
+      await this.chunkFile({
+        file,
+        outputDir,
+      });
+
+      const files = await fs.promises.readdir(outputDir);
+      const transcription = await this.transcribeFiles({
+        files,
+        outputDir,
+        form,
+        $,
+      });
+
+      return {
+        transcription,
+      };
+    },
+    async chunkFile({
+      file, outputDir,
+    }) {
+      const ffmpegPath = ffmpegInstaller.path;
+      const ext = extname(file);
+
+      const fileSizeInMB = fs.statSync(file).size / (1024 * 1024);
+      const numberOfChunks = Math.ceil(fileSizeInMB / 24);
+
+      if (numberOfChunks === 1) {
+        await execAsync(`cp ${file} ${outputDir}/chunk-000${ext}`);
+        return;
+      }
+
+      const { stdout } = await execAsync(`${ffmpegPath} -i ${file} 2>&1 | grep "Duration"`);
+      const duration = stdout.match(/\d{2}:\d{2}:\d{2}\.\d{2}/s)[0];
+      const [
+        hours,
+        minutes,
+        seconds,
+      ] = duration.split(":").map(parseFloat);
+
+      const totalSeconds = (hours * 60 * 60) + (minutes * 60) + seconds;
+      const segmentTime = Math.ceil(totalSeconds / numberOfChunks);
+
+      const command = `${ffmpegPath} -i ${file} -f segment -segment_time ${segmentTime} -c copy ${outputDir}/chunk-%03d${ext}`;
+      await execAsync(command);
+    },
+    async transcribeFiles({
+      files, outputDir, form, $,
+    }) {
+      const transcriptions = await Promise.all(
+        files.map((file) => this.transcribe({
+          file,
+          outputDir,
+          form,
+          $,
+        })),
+      );
+
+      return transcriptions.join(" ");
+    },
+    async transcribe({
+      file, outputDir, form, $,
+    }) {
+      const readStream = fs.createReadStream(join(outputDir, file));
+      form.append("file", readStream);
+      const response = await this.openai.createTranscription({
+        $,
+        form,
+      });
+      return response.text;
+    },
+  },
   async run({ $ }) {
     const {
       url,
@@ -140,6 +186,7 @@ export default {
     if (this.responseFormat) form.append("response_format", this.responseFormat);
 
     let file;
+
     if (path) {
       if (!fs.existsSync(path)) {
         throw new Error(`${path} does not exist`);
@@ -158,14 +205,10 @@ export default {
       const bufferStream = new stream.PassThrough();
       response.data.pipe(bufferStream);
 
-      const downloadPath = join("/tmp", `audio.${ext}`);
+      const downloadPath = join("/tmp", `audio${ext}`);
       const writeStream = fs.createWriteStream(downloadPath);
 
-      try {
-        await pipelineAsync(bufferStream, writeStream);
-      } catch (err) {
-        throw new Error(err);
-      }
+      await pipelineAsync(bufferStream, writeStream);
 
       file = downloadPath;
     }
