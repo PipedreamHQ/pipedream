@@ -12,6 +12,7 @@ export default defineSource({
   type: "source",
   dedupe: "unique",
   methods: {
+    ...common.methods,
     getEntityName(): string {
       return "updated";
     },
