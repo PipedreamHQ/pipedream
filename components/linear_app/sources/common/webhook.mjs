@@ -1,6 +1,7 @@
 import linearApp from "../../linear_app.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
+const getAdditionalIssueInformation = utils.getAdditionalIssueInformation;
 
 export default {
   props: {
@@ -23,6 +24,7 @@ export default {
     db: "$.service.db",
   },
   methods: {
+    getAdditionalIssueInformation,
     setWebhookId(teamId, id) {
       this.db.set(`webhook-${teamId}`, id);
     },
@@ -65,7 +67,11 @@ export default {
         resourcesFn: this.getResourcesFn(),
         resourcesFnArgs: this.getResourcesFnArgs(),
       });
-      const resources = await utils.streamIterator(stream);
+      let resources = await utils.streamIterator(stream);
+
+      if (this.getResourceTypes().includes(constants.RESOURCE_TYPE.ISSUE)) {
+        resources = await this.getAdditionalIssueInformation(resources);
+      }
 
       resources
         .reverse()
