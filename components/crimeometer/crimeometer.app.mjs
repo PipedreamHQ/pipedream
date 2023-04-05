@@ -36,7 +36,6 @@ export default {
       type: "integer",
       label: "Max records",
       description: "Max number of records in the whole pagination",
-      optional: false,
       default: constants.DEFAULT_MAX_RECORDS,
       min: 1,
     },
