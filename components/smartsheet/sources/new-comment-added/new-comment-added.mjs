@@ -6,7 +6,7 @@ export default {
   name: "New Comment Added (Instant)",
   description: "Emit new event when a comment is added in a sheet.",
   version: "0.0.1",
-  type: "action",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,

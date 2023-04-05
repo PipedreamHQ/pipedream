@@ -5,7 +5,7 @@ export default {
   app: "smartsheet",
   propDefinitions: {
     sheetId: {
-      type: "string",
+      type: "integer",
       label: "Sheet",
       description: "Select a sheet",
       async options({ page }) {
@@ -23,7 +23,7 @@ export default {
       },
     },
     rowId: {
-      type: "string",
+      type: "integer",
       label: "Row",
       description: "Identifier of a row in a sheet",
       async options({ sheetId }) {
@@ -35,7 +35,7 @@ export default {
       },
     },
     templateId: {
-      type: "string",
+      type: "integer",
       label: "Template",
       description: "Select a template",
       async options() {
@@ -61,7 +61,7 @@ export default {
       },
     },
     workspaceId: {
-      type: "string",
+      type: "integer",
       label: "Workspace",
       description: "Select a workspace",
       optional: true,
@@ -80,7 +80,7 @@ export default {
       },
     },
     folderId: {
-      type: "string",
+      type: "integer",
       label: "Folder",
       description: "Select a folder",
       optional: true,

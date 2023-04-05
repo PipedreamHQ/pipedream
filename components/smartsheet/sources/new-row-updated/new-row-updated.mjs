@@ -6,7 +6,7 @@ export default {
   name: "New Row Updated (Instant)",
   description: "Emit new event when a row is upedated in a sheet.",
   version: "0.0.1",
-  type: "action",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -19,10 +19,11 @@ export default {
       return objectType === "row" && eventType === "updated";
     },
     generateMeta(event) {
+      const ts = Date.parse(event.timestamp);
       return {
-        id: event.id,
+        id: `${event.id}-${ts}`,
         summary: `Row ${event.id} updated`,
-        ts: Date.parse(event.timestamp),
+        ts,
       };
     },
   },

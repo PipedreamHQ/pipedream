@@ -6,7 +6,7 @@ export default {
   name: "New Row Added (Instant)",
   description: "Emit new event when a row is added to a sheet.",
   version: "0.0.1",
-  type: "action",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
