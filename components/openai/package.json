@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/openai",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Pipedream OpenAI Components",
   "main": "app/openai.app.mjs",
   "keywords": [
