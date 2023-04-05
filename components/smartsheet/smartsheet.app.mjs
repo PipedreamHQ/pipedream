@@ -27,11 +27,11 @@ export default {
       label: "Row",
       description: "Identifier of a row in a sheet",
       async options({ sheetId }) {
-        if (isNaN(sheetId)) {
-          return [];
-        }
         const { rows } = await this.getSheet(sheetId);
-        return rows?.map(({ id }) => id.toString()) || [];
+        return rows?.map(({ id }) => ({
+          label: `Row ID ${id}`,
+          value: id,
+        }));
       },
     },
     templateId: {
@@ -108,6 +108,9 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
+    _validateId(id) {
+      return !isNaN(id);
+    },
     async _makeRequest({
       $ = this,
       path,
@@ -141,12 +144,18 @@ export default {
       });
     },
     getRow(sheetId, rowId, args = {}) {
+      if (!this._validateId(sheetId)) {
+        return {};
+      }
       return this._makeRequest({
         path: `/sheets/${sheetId}/rows/${rowId}`,
         ...args,
       });
     },
     getSheet(sheetId, args = {}) {
+      if (!this._validateId(sheetId)) {
+        return {};
+      }
       return this._makeRequest({
         path: `/sheets/${sheetId}`,
         ...args,
@@ -159,6 +168,9 @@ export default {
       });
     },
     listColumns(sheetId, args = {}) {
+      if (!this._validateId(sheetId)) {
+        return {};
+      }
       return this._makeRequest({
         path: `/sheets/${sheetId}/columns`,
         ...args,

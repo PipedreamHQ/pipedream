@@ -43,6 +43,9 @@ export default {
         include: "columns, columnType",
       },
     });
+    if (!columns) {
+      return props;
+    }
     for (const column of columns) {
       props[column.id] = {
         type: "string",

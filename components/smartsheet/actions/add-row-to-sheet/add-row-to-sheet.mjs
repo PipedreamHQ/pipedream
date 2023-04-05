@@ -31,14 +31,14 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (isNaN(this.sheetId)) {
-      return props;
-    }
     const { data: columns } = await this.smartsheet.listColumns(this.sheetId, {
       params: {
         include: "columnType",
       },
     });
+    if (!columns) {
+      return props;
+    }
     for (const column of columns) {
       props[column.id] = {
         type: "string",
