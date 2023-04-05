@@ -290,7 +290,10 @@ importers:
     specifiers: {}
 
   components/automatic_data_extraction:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/avochato:
     specifiers: {}
@@ -443,6 +446,9 @@ importers:
       package-lock-only: 0.0.4
 
   components/bitrix24:
+    specifiers: {}
+
+  components/blockchain_exchange:
     specifiers: {}
 
   components/blogger:
@@ -2612,10 +2618,12 @@ importers:
       '@pipedream/platform': ^1.2.1
       '@pipedream/types': ^0.1.4
       '@types/node': ^17.0.45
+      got: ^12.6.0
       openai: ^3.2.1
     dependencies:
       '@pipedream/platform': 1.2.1
       '@pipedream/types': 0.1.4
+      got: 12.6.0
       openai: 3.2.1
     devDependencies:
       '@types/node': 17.0.45
@@ -4338,6 +4346,9 @@ importers:
   components/upwave:
     specifiers: {}
 
+  components/urlbox_io:
+    specifiers: {}
+
   components/user_com:
     specifiers: {}
 
@@ -4489,9 +4500,15 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/webscraper_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/webscraping_ai:
+    specifiers: {}
+
+  components/wesupply:
     specifiers: {}
 
   components/weworkbook:
@@ -9603,14 +9620,14 @@ packages:
       '@jest/test-result': 29.1.2
       '@jest/transform': 29.1.2
       '@jest/types': 29.1.2
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.3.2
       exit: 0.1.2
       graceful-fs: 4.2.10
       jest-changed-files: 29.0.0
-      jest-config: 29.1.2_@types+node@17.0.45
+      jest-config: 29.1.2_@types+node@18.0.6
       jest-haste-map: 29.1.2
       jest-message-util: 29.1.2
       jest-regex-util: 29.0.0
@@ -9920,7 +9937,7 @@ packages:
       '@jest/schemas': 29.0.0
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
       '@types/yargs': 17.0.13
       chalk: 4.1.2
     dev: true
@@ -12478,7 +12495,7 @@ packages:
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
     dev: false
 
   /@types/yargs-parser/21.0.0:
@@ -13669,6 +13686,19 @@ packages:
       keyv: 4.5.0
       mimic-response: 4.0.0
       normalize-url: 7.2.0
+      responselike: 3.0.0
+    dev: false
+
+  /cacheable-request/10.2.9:
+    resolution: {integrity: sha512-CaAMr53AS1Tb9evO1BIWFnZjSr8A4pbXofpsNVWPMDZZj3ZQKHwsQG9BrTqQ4x5ZYJXz1T2b8LLtTZODxSpzbg==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      '@types/http-cache-semantics': 4.0.1
+      get-stream: 6.0.1
+      http-cache-semantics: 4.1.1
+      keyv: 4.5.2
+      mimic-response: 4.0.0
+      normalize-url: 8.0.0
       responselike: 3.0.0
     dev: false
 
@@ -16798,6 +16828,23 @@ packages:
       responselike: 3.0.0
     dev: false
 
+  /got/12.6.0:
+    resolution: {integrity: sha512-WTcaQ963xV97MN3x0/CbAriXFZcXCfgxVp91I+Ze6pawQOa7SgzwSx2zIJJsX+kTajMnVs0xcFD1TxZKFqhdnQ==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      '@sindresorhus/is': 5.3.0
+      '@szmarczak/http-timer': 5.0.1
+      cacheable-lookup: 7.0.0
+      cacheable-request: 10.2.9
+      decompress-response: 6.0.0
+      form-data-encoder: 2.1.2
+      get-stream: 6.0.1
+      http2-wrapper: 2.1.11
+      lowercase-keys: 3.0.0
+      p-cancelable: 3.0.0
+      responselike: 3.0.0
+    dev: false
+
   /got/6.7.1:
     resolution: {integrity: sha512-Y/K3EDuiQN9rTZhBvPRWMLXIKdeD1Rj0nzunfoi0Yyn5WBEbzxXKU9Ub2X41oZBagVWOBU3MuDonFMgPWQFnwg==}
     engines: {node: '>=4'}
@@ -17098,6 +17145,10 @@ packages:
 
   /http-cache-semantics/4.1.0:
     resolution: {integrity: sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==}
+    dev: false
+
+  /http-cache-semantics/4.1.1:
+    resolution: {integrity: sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==}
     dev: false
 
   /http-errors/2.0.0:
@@ -18041,7 +18092,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-config/29.1.2_@types+node@17.0.45:
+  /jest-config/29.1.2_@types+node@18.0.6:
     resolution: {integrity: sha512-EC3Zi86HJUOz+2YWQcJYQXlf0zuBhJoeyxLM6vb6qJsVmpP7KcCP1JnyF0iaqTaXdBP8Rlwsvs7hnKWQWWLwwA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -18056,7 +18107,7 @@ packages:
       '@babel/core': 7.18.9
       '@jest/test-sequencer': 29.1.2
       '@jest/types': 29.1.2
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
       babel-jest: 29.1.2_@babel+core@7.18.9
       chalk: 4.1.2
       ci-info: 3.3.2
@@ -19129,6 +19180,12 @@ packages:
 
   /keyv/4.5.0:
     resolution: {integrity: sha512-2YvuMsA+jnFGtBareKqgANOEKe1mk3HKiXu2fRmAfyxG0MJAywNhi5ttWA3PMjl4NmpyjZNbFifR2vNjW1znfA==}
+    dependencies:
+      json-buffer: 3.0.1
+    dev: false
+
+  /keyv/4.5.2:
+    resolution: {integrity: sha512-5MHbFaKn8cNSmVW7BYnijeAVlE4cYA/SVkifVgrh7yotnfhKmjuXpDKjrABLnT0SfHWV21P8ow07OGfRrNDg8g==}
     dependencies:
       json-buffer: 3.0.1
     dev: false
@@ -20750,6 +20807,11 @@ packages:
   /normalize-url/7.2.0:
     resolution: {integrity: sha512-uhXOdZry0L6M2UIo9BTt7FdpBDiAGN/7oItedQwPKh8jh31ZlvC8U9Xl/EJ3aijDHaywXTW3QbZ6LuCocur1YA==}
     engines: {node: '>=12.20'}
+    dev: false
+
+  /normalize-url/8.0.0:
+    resolution: {integrity: sha512-uVFpKhj5MheNBJRTiMZ9pE/7hD1QTeEvugSJW/OmLzAp78PB5O6adfMNTvmfKhXBkvCzC+rqifWcVYpGFwTjnw==}
+    engines: {node: '>=14.16'}
     dev: false
 
   /npm-normalize-package-bin/1.0.1:
