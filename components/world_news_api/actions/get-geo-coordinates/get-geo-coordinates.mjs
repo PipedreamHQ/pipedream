@@ -3,7 +3,7 @@ import app from "../../world_news_api.app.mjs";
 export default {
   name: "Get Geo Coordinates",
   description: "Retrieve the latitude and longitude of a location name. [See the docs here](https://worldnewsapi.com/docs/#Get-Geo-Coordinates). **Calling this endpoint requires 1 point.**",
-  key: "world_news_get-geo-coordinates",
+  key: "world_news_api-get-geo-coordinates",
   version: "0.0.1",
   type: "action",
   props: {

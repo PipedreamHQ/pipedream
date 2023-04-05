@@ -1,226 +1,226 @@
 export default [
   {
     "label": "Afar",
-    "key": "aa",
+    "value": "aa",
   },
   {
     "label": "Amharic",
-    "key": "am",
+    "value": "am",
   },
   {
     "label": "Arabic",
-    "key": "ar",
+    "value": "ar",
   },
   {
     "label": "Bengali",
-    "key": "bn",
+    "value": "bn",
   },
   {
     "label": "Bosnian",
-    "key": "bs",
+    "value": "bs",
   },
   {
     "label": "Bulgarian",
-    "key": "bg",
+    "value": "bg",
   },
   {
     "label": "Burmese",
-    "key": "my",
+    "value": "my",
   },
   {
     "label": "Chinese",
-    "key": "zh",
+    "value": "zh",
   },
   {
     "label": "Croatian",
-    "key": "hr",
+    "value": "hr",
   },
   {
     "label": "Czech",
-    "key": "cs",
+    "value": "cs",
   },
   {
     "label": "Danish",
-    "key": "da",
+    "value": "da",
   },
   {
     "label": "Dutch",
-    "key": "nl",
+    "value": "nl",
   },
   {
     "label": "English",
-    "key": "en",
+    "value": "en",
   },
   {
     "label": "Estonian",
-    "key": "et",
+    "value": "et",
   },
   {
     "label": "Finnish",
-    "key": "fi",
+    "value": "fi",
   },
   {
     "label": "French",
-    "key": "fr",
+    "value": "fr",
   },
   {
     "label": "German",
-    "key": "de",
+    "value": "de",
   },
   {
     "label": "Greek",
-    "key": "el",
+    "value": "el",
   },
   {
     "label": "Hebrew",
-    "key": "he",
+    "value": "he",
   },
   {
     "label": "Hindi",
-    "key": "hi",
+    "value": "hi",
   },
   {
     "label": "Hungarian",
-    "key": "hu",
+    "value": "hu",
   },
   {
     "label": "Icelandic",
-    "key": "is",
+    "value": "is",
   },
   {
     "label": "Indonesian",
-    "key": "id",
+    "value": "id",
   },
   {
     "label": "Italian",
-    "key": "it",
+    "value": "it",
   },
   {
     "label": "Japanese",
-    "key": "ja",
+    "value": "ja",
   },
   {
     "label": "Korean",
-    "key": "ko",
+    "value": "ko",
   },
   {
     "label": "Lao",
-    "key": "lo",
+    "value": "lo",
   },
   {
     "label": "Latvian",
-    "key": "lv",
+    "value": "lv",
   },
   {
     "label": "Lithuanian",
-    "key": "lt",
+    "value": "lt",
   },
   {
     "label": "Macedonian",
-    "key": "mk",
+    "value": "mk",
   },
   {
     "label": "Malay",
-    "key": "ms",
+    "value": "ms",
   },
   {
     "label": "Maltese",
-    "key": "mt",
+    "value": "mt",
   },
   {
     "label": "Marathi",
-    "key": "mr",
+    "value": "mr",
   },
   {
     "label": "Māori",
-    "key": "mi",
+    "value": "mi",
   },
   {
     "label": "Nepali",
-    "key": "ne",
+    "value": "ne",
   },
   {
     "label": "Norwegian Bokmål",
-    "key": "nb",
+    "value": "nb",
   },
   {
     "label": "Norwegian",
-    "key": "no",
+    "value": "no",
   },
   {
     "label": "Persian",
-    "key": "fa",
+    "value": "fa",
   },
   {
     "label": "Polish",
-    "key": "pl",
+    "value": "pl",
   },
   {
     "label": "Portuguese",
-    "key": "pt",
+    "value": "pt",
   },
   {
     "label": "Romanian",
-    "key": "ro",
+    "value": "ro",
   },
   {
     "label": "Russian",
-    "key": "ru",
+    "value": "ru",
   },
   {
     "label": "Serbian",
-    "key": "sr",
+    "value": "sr",
   },
   {
     "label": "Sinhalese",
-    "key": "si",
+    "value": "si",
   },
   {
     "label": "Slovak",
-    "key": "sk",
+    "value": "sk",
   },
   {
     "label": "Slovene",
-    "key": "sl",
+    "value": "sl",
   },
   {
     "label": "Somali",
-    "key": "so",
+    "value": "so",
   },
   {
     "label": "Spanish",
-    "key": "es",
+    "value": "es",
   },
   {
     "label": "Swedish",
-    "key": "sv",
+    "value": "sv",
   },
   {
     "label": "Tajik",
-    "key": "tg",
+    "value": "tg",
   },
   {
     "label": "Tamil",
-    "key": "ta",
+    "value": "ta",
   },
   {
     "label": "Telugu",
-    "key": "te",
+    "value": "te",
   },
   {
     "label": "Thai",
-    "key": "th",
+    "value": "th",
   },
   {
     "label": "Ukrainian",
-    "key": "uk",
+    "value": "uk",
   },
   {
     "label": "Urdu",
-    "key": "ur",
+    "value": "ur",
   },
   {
     "label": "Vietnamese",
-    "key": "vi",
+    "value": "vi",
   },
 ];
