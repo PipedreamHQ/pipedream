@@ -6,7 +6,13 @@ export interface EventBody {
   location?: string;
 }
 
-export interface Event extends EventBody {
+export interface EventTimestamps {
+  creation_dt?: string;
+  update_td?: string;
+  delete_dt?: string;
+}
+
+export interface Event extends EventBody, EventTimestamps {
   id?: string;
 }
 

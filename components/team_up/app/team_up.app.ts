@@ -7,7 +7,7 @@ import {
 import {
   CreateEventResponse,
   DeleteEventResponse,
-  Event, ListEventsResponse, SubCalendar, UpdateEventResponse,
+  ListEventsResponse, SubCalendar, UpdateEventResponse,
 } from "../common/responseSchemas";
 
 export default defineApp({
@@ -24,10 +24,10 @@ export default defineApp({
       label: "Event",
       description: "By default, only events from the current day are listed. You can use the **List Events** action to obtain other events and use their *Event ID* here.",
       async options({ calendarKey }: Record<string, string>) {
-        const items: Event[] = await this.listEvents({
+        const response: ListEventsResponse = await this.listEvents({
           calendarKey,
         });
-        return items.map(({
+        return response?.events.map(({
           id, title,
         }) => ({
           label: title ?? id,
@@ -43,7 +43,7 @@ export default defineApp({
         const items: SubCalendar[] = await this.listSubCalendars({
           calendarKey,
         });
-        return items.map(({
+        return items?.map(({
           id, name,
         }) => ({
           label: name ?? id,
