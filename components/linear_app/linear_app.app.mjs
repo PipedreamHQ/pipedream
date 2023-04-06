@@ -209,6 +209,18 @@ export default {
     async getIssue(id) {
       return this.client().issue(id);
     },
+    async getUser(id) {
+      return this.client().user(id);
+    },
+    async getProject(id) {
+      return this.client().project(id);
+    },
+    async getState(id) {
+      return this.client().workflowState(id);
+    },
+    async getTeam(id) {
+      return this.client().team(id);
+    },
     async listTeams(variables = {}) {
       return this.client().teams(variables);
     },
