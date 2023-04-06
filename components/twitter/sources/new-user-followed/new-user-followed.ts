@@ -4,19 +4,19 @@ import common from "../common/base";
 import { getUserSummary as getItemSummary } from "../common/getItemSummary";
 import { userFieldProps } from "../../common/propGroups";
 import { getUserFields } from "../../common/methods";
-import { GetUserFollowersParams } from "../../common/types/requestParams";
-import {
-  DOCS_LINK, MAX_RESULTS_PER_PAGE,
-} from "../../actions/list-followers/list-followers";
+import { GetUserFollowingParams } from "../../common/types/requestParams";
 import { User } from "../../common/types/responseSchemas";
 import cacheUserId from "../common/cacheUserId";
 
+const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-following";
+const MAX_RESULTS_PER_PAGE = 1000;
+
 export default defineSource({
   ...common,
-  key: "twitter-new-follower-received-by-user",
-  name: "New Follower Received by User",
-  description: `Emit new event when the specified User receives a Follower [See docs here](${DOCS_LINK})`,
-  version: "0.0.1",
+  key: "twitter-new-user-followed",
+  name: "New User Followed by User",
+  description: `Emit new event when the specified User follows another User [See docs here](${DOCS_LINK})`,
+  version: "1.0.0",
   type: "source",
   props: {
     ...common.props,
@@ -32,13 +32,13 @@ export default defineSource({
     ...common.methods,
     ...cacheUserId,
     getUserFields,
-    getItemSummary,
     getEntityName() {
-      return "Follower";
+      return "User Followed";
     },
+    getItemSummary,
     async getResources(customize: boolean): Promise<User[]> {
       const userId = await this.getCachedUserId();
-      const params: GetUserFollowersParams = {
+      const params: GetUserFollowingParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
@@ -49,7 +49,7 @@ export default defineSource({
         params.params = this.getUserFields();
       }
 
-      const { data } = await this.app.getUserFollowers(params);
+      const { data } = await this.app.getUserFollowing(params);
       return data;
     },
   },

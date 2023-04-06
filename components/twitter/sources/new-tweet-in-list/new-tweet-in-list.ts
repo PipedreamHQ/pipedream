@@ -12,10 +12,10 @@ import {
 
 export default defineSource({
   ...common,
-  key: "twitter-new-tweet-posted-in-list",
+  key: "twitter-new-tweet-in-list",
   name: "New Tweet Posted in List",
   description: `Emit new event when a Tweet is posted in the specified list [See docs here](${DOCS_LINK})`,
-  version: "0.0.1",
+  version: "1.0.0",
   type: "source",
   props: {
     ...common.props,

@@ -13,10 +13,10 @@ const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineSource({
   ...common,
-  key: "twitter-new-list-followed-by-user",
+  key: "twitter-new-list-followed",
   name: "New List Followed by User",
   description: `Emit new event when the specified User follows a List [See docs here](${DOCS_LINK})`,
-  version: "0.0.1",
+  version: "1.0.0",
   type: "source",
   props: {
     ...common.props,
