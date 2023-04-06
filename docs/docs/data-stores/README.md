@@ -121,11 +121,11 @@ In order to free up this Data Store to be deleted manually, you'll need to remov
 
 ### Using with Data Stores in Code Steps
 
-[Refer to our Node.js Data Store documentation](/code/nodejs/using-data-stores/) to learn how to use props to define Data Stores in custom code steps in your workflows.
+Refer to the [Node.js](/code/nodejs/using-data-stores/) and [Python](/code/python/using-data-stores/) Data Store documentation to learn how to use Data Stores in code steps in your workflows.
 
 ## Data store limitations
 
-Pipedream Data Stores are currently in Preview and are subject to change.
+Pipedream Data Stores are currently in Beta and are subject to change.
 
 Data Stores are only currently available in [Node.js](/code/nodejs/using-data-stores/) and [Python](/code/python/using-data-stores/) code steps. They are not yet available in other languages like [Bash](/code/bash/) or [Go](/code/go/).
 

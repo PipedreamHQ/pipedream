@@ -7,7 +7,7 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/
 
 :::warning
 
-This is an experimental feature and is available to to enable or disable in the [alpha](https://pipedream.com/dashboard).
+This is an feature in Beta and is available to to enable or disable in the [alpha](https://pipedream.com/dashboard).
 
 There may be changes to this feature while we prepare it for a full release.
 
@@ -84,7 +84,19 @@ def handler(pd: "pipedream"):
 
 ## Retrieving data
 
-You can retrieve data with the Data Store by key name:
+Data Stores are very performant at retrieving single records by keys. However you can also use key iteration to retrieve all records within a Data Store as well.
+
+::: tip
+
+Data Stores are intended to be a fast and convienent data storage option for quickly adding data storage capability to your workflows without adding another database dependency.
+
+However, if you need more advanced querying capabilities, consider using a full fledged database. Pipedream can integrate with MySQL, Postgres, DynamoDb, MongoDB and more.
+
+:::
+
+### Get a single record
+
+You can retrieve single records from a Data Store by key:
 
 ```python
 def handler(pd: "pipedream"):
@@ -113,12 +125,44 @@ def handler(pd: "pipedream"):
 ```
 
 
+
+
 ::: tip
 What's the difference between `data_store["key"]` and `data_store.get("key")`?
 
 * `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the Data Store.
 * `data_store.get("key")` will instead return `None` if the key doesn't exist in the Data Store.
 * `data_store.get("key", "default_value")` will return `"default_value"` if the key doesn't exist on the Data Store.
+:::
+
+### Retrieving all records
+
+You can retrieve all records within a Data Store by iterating over all keys within the Data Store.
+
+For example, use the `data_store.keys()` method to retrieve all keys, then iterate over each to build a dictionary of records:
+
+```python
+def handler(pd: "pipedream"):
+  data_store = pd.inputs['data_store']
+
+  records = {}
+  keys = data_store.keys()
+
+  # iterate through all keys within the Data Store to generate a new dictionary
+  for key in keys:
+    records[key] = data_store[key]
+
+  return records
+```
+
+This code step example exports all records within the data store as a dictionary. 
+
+::: warning
+
+The `datastore.keys()` method does not return a list, but instead it returns a `Keys` iterable object. You cannot export a `data_store` or `data_store.keys()` from a Python code step at this time.
+
+Instead build a dictionary or list using the `data_store.keys()` method.
+
 :::
 
 ## Deleting or updating values within a record
@@ -134,6 +178,49 @@ def handler(pd: "pipedream"):
 
   # Remove the value but retain the key
   data_store["myKey"] = ""
+```
+
+### Working with nested dictionaries
+
+You can store dictionaries within a record. This allows you to create complex records.
+
+However, to update specific attributes within a nested dictionary, you'll need to replace the record entirely.
+
+For example the below will **not** update the `name` attribute on the stored dictionary stored under the key `pokemon`:
+
+```python
+def handler(pd: "pipedream"):
+  # The current dictionary looks like this:
+  # pokemon: {
+  #  "name": "Charmander"
+  #  "type": "fire"
+  # }
+
+  # You'll see "Charmander" in the logs
+  print(pd.inputs['data_store']['pokemon']['name'])
+
+  # attempting to overwrite the pokemon's name will not apply
+  pd.inputs['data_store']['pokemon']['name'] = 'Bulbasaur'
+
+  # Exports "Charmander"
+  return pd.inputs['data_store']['pokemon']['name']
+```
+
+Instead, _overwrite_ the entire record to modify attributes:
+
+```python
+def handler(pd: "pipedream"):
+  # retrieve the record item by it's key first
+  pokemon = pd.inputs['data_store']['pokemon']
+
+  # now update the record's attribute
+  pokemon['name'] = 'Bulbasaur'
+
+  # and out right replace the record with the new modified dictionary
+  pd.inputs['data_store']['pokemon'] = pokemon
+
+  # Now we'll see "Bulbasaur" exported
+  return pd.inputs['data_store']['pokemon']['name']
 ```
 
 ## Deleting specific records
@@ -241,4 +328,4 @@ But you cannot serialize Modules, Functions, Classes, or other more complex obje
 
 You can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} records within a single query.
 
-The `pd.inputs["data_store"].keys()` and `pd.inputs["data_store"].keys()` functions allow you to retrieve all keys and records from your data store. However, using this method with a data store with over {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys will result in a 426 error.
+The `pd.inputs["data_store"].keys()` function allow you to retrieve all keys from your data store. However, using this method with a data store with over {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys will result in a 426 error.
