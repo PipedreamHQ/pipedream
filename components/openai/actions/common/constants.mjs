@@ -1,4 +1,5 @@
 export default {
+  MAXIMUM_TRANSCRIPTION_FILE_SIZE: 25000000,
   IMAGE_SIZES: [
     "256x256",
     "512x512",

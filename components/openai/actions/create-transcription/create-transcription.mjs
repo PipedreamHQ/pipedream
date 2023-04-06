@@ -12,7 +12,7 @@ const COMMON_AUDIO_FORMATS_TEXT = "Your audio file must be in one of these forma
 
 export default {
   name: "Create Transcription",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
@@ -97,16 +97,19 @@ export default {
     if (this.language) form.append("language", this.language);
     if (this.responseFormat) form.append("response_format", this.responseFormat);
 
+    let readStream;
+    let tempFilePath = path;
+
     if (path) {
       if (!fs.existsSync(path)) {
         throw new Error(`${path} does not exist`);
       }
-      const readStream = fs.createReadStream(path);
-      form.append("file", readStream);
+
+      readStream = fs.createReadStream(path);
     } else if (url) {
       const ext = extname(url);
       // OpenAI only supports a few audio formats and uses the extension to determine the format
-      const tempFilePath = `/tmp/audioFile${ext}`;
+      tempFilePath = `/tmp/audioFile${ext}`;
 
       const writeStream = fs.createWriteStream(tempFilePath);
       const responseStream = got.stream(url);
@@ -116,9 +119,19 @@ export default {
         writeStream.on("error", reject);
         responseStream.on("error", reject);
       });
-      const readStream = fs.createReadStream(tempFilePath);
-      form.append("file", readStream);
+
+      readStream = fs.createReadStream(tempFilePath);
     }
+
+    console.log(fs.statSync(tempFilePath));
+    console.log(fs.statSync(tempFilePath).size);
+
+    if (fs.statSync(tempFilePath).size > constants.MAXIMUM_TRANSCRIPTION_FILE_SIZE) {
+      throw new ConfigurationError("The maximum file size to transcription must be `25 MB`");
+    }
+
+    form.append("file", readStream);
+
     const response = await this.openai.createTranscription({
       $,
       form,
