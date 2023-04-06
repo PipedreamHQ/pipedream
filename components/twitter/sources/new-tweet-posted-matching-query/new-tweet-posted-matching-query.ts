@@ -8,7 +8,7 @@ import { SearchTweetsParams } from "../../common/types/requestParams";
 import { Tweet } from "../../common/types/responseSchemas";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
-} from "../../actions/search-tweets/search-tweets";
+} from "../../actions/simple-search/simple-search";
 
 export default defineSource({
   ...common,

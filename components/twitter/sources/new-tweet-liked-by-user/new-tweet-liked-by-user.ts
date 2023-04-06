@@ -7,7 +7,7 @@ import { getTweetFields } from "../../common/methods";
 import { GetUserLikedTweetParams } from "../../common/types/requestParams";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
-} from "../../actions/list-liked-tweets/list-liked-tweets";
+} from "../../actions/list-favorites/list-favorites";
 import { Tweet } from "../../common/types/responseSchemas";
 import cacheUserId from "../common/cacheUserId";
 

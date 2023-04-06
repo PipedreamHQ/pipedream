@@ -8,7 +8,7 @@ import { GetListTweetsParams } from "../../common/types/requestParams";
 import { Tweet } from "../../common/types/responseSchemas";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
-} from "../../actions/search-tweets-in-list/search-tweets-in-list";
+} from "../../actions/simple-search-in-list/simple-search-in-list";
 
 export default defineSource({
   ...common,
