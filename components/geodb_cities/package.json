@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/geodb_cities",
   "version": "0.0.1",
-  "description": "Pipedream GeoDB Cities Components",
-  "main": "dist/app/geodb_cities.app.mjs",
+  "description": "Pipedream Geodb_cities Components",
+  "main": "geodb_cities.app.mjs",
   "keywords": [
-    "pipedream",
-    "geodb_cities"
+		"pipedream",
+		"geodb_cities"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/geodb_cities",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
   "publishConfig": {
     "access": "public"
   }
