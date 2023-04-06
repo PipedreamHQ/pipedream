@@ -1676,6 +1676,9 @@
     },
     {
       "path": "components/geodb_cities"
+    },
+    {
+      "path": "components/world_news_api"
     }
   ]
 }
