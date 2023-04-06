@@ -744,7 +744,10 @@ importers:
     specifiers: {}
 
   components/cohere_platform:
-    specifiers: {}
+    specifiers:
+      cohere-ai: ^6.1.0
+    dependencies:
+      cohere-ai: 6.1.0
 
   components/coinbase:
     specifiers:
@@ -2561,6 +2564,12 @@ importers:
 
   components/oksign:
     specifiers: {}
+
+  components/omniconvert:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/oncehub:
     specifiers:
@@ -14154,6 +14163,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
     optional: true
+
+  /cohere-ai/6.1.0:
+    resolution: {integrity: sha512-1hx13cEB0QqxkW213JhAOw8Q2jzCeo6GUFSQ5lsOQPNtDFhSZZusTD/+DcAvd8IVw2y/Cm+pfK3tofPngVG3BA==}
+    dev: false
 
   /collect-v8-coverage/1.0.1:
     resolution: {integrity: sha512-iBPtljfCNcTKNAto0KEtDfZ3qzjJvqE3aTGZsbhjSBlorqpXJlaWWtPO35D+ZImoC3KWejX64o+yPGxhWSTzfg==}
