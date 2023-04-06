@@ -2,7 +2,7 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "aero_workflow-new-company",
+  key: "aero_workflow-new-company-created",
   name: "New Company Created Event",
   description: "Emit new events when a new company is created. [See the docs](https://api.aeroworkflow.com/swagger/index.html)",
   version: "0.0.1",
@@ -21,7 +21,7 @@ export default {
     },
     getMeta(item) {
       return {
-        id: item?.id,
+        id: item.id,
         summary: `New company was created: ${item.name}(ID: ${item.id})`,
         ts: new Date().getTime(),
       };

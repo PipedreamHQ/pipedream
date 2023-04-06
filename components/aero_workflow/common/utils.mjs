@@ -23,8 +23,7 @@ export default {
   async asyncPropHandler({
     resourceFn, labelVal, params, resourceKey,
   } = {}) {
-    let resp;
-    resp = await resourceFn({
+    const resp = await resourceFn({
       params: {
         ...params,
       },
