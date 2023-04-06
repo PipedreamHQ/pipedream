@@ -10,7 +10,6 @@ export default defineSource({
   description: `Emit new event when an event is deleted [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",
-  dedupe: "unique",
   methods: {
     ...common.methods,
     getEntityName(): string {
