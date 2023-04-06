@@ -68,7 +68,7 @@ export default {
       });
     }
 
-    $.export("$summary", `Successfully updated row with ID ${response.result.id}`);
+    $.export("$summary", `Successfully created sheet with ID ${response.result.id}`);
 
     return response;
   },
