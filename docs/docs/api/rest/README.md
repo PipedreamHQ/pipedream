@@ -71,11 +71,17 @@ including all fields). Pass as a string of comma-separated values:
 
 ---
 
-`org_id` **string**
+`workspace_id` **string**
 
-Some endpoints require you to specify [your workspace ID](/workspaces/#finding-your-workspace-s-id) you want the operation to take effect in. For example, if you're creating a new event source in a specific workspace, you'll want to pass the workspace ID in the `org_id` query string parameter.
+Some endpoints require you to specify [your workspace ID](/workspaces/#finding-your-workspace-s-id) you want the operation to take effect in. For example, if you're creating a new event source in a specific workspace, you'll want to pass the workspace ID in the `workspace_id` query string parameter.
 
 [Find your workspace's ID here](/workspaces/#finding-your-workspace-s-id).
+
+::: tip
+
+If your organization is on one of our legacy plans like the Free Teams or Teams plan, the `workspace_id` is synonymous with your `org_id`. Just pass your organization ID as the same parameter.
+
+:::
 
 ## Working with resources owned by a workspace
 
@@ -502,6 +508,38 @@ code in response to any deletion requests.
 
 [Workspaces](/workspaces/) provide your team a way to manage resources in a shared workspace. Any resources created by the workspace are owned by the workspace and accessible to its members.
 
+### Get a Workspace
+
+Programmatically view your workspace's current credit usage for the billing period in real time.
+
+#### Endpoint
+
+```
+GET /v1/workspaces/<workspace_id>
+```
+
+#### Path Parameters
+
+`workspaces_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+#### Example Response
+
+```
+{
+	"data": {
+		"id": "o_Qa8I1Z",
+		"orgname": "asdf",
+		"name": "asdf",
+		"email": "makedev@pipedream.com",
+		"daily_credits_quota": 100,
+		"daily_credits_used": 0
+	}
+}
+```
+
+
 ### Get Workspaces's Subscriptions
 
 ---
@@ -511,19 +549,19 @@ Retrieve all the [subscriptions](#subscriptions) configured for a specific works
 #### Endpoint
 
 ```
-GET /orgs/<workspace_id>/subscriptions
+GET /workspaces/<workspace_id>/subscriptions
 ```
 
 #### Path Parameters
 
-`org_id` **string**
+`workspaces_id` **string**
 
 [Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
 
 #### Example Request
 
 ```shell
-curl 'https://api.pipedream.com/v1/orgs/o_abc123/subscriptions' \
+curl 'https://api.pipedream.com/v1/workspaces/o_abc123/subscriptions' \
   -H 'Authorization: Bearer <api_key>'
 ```
 
@@ -1369,18 +1407,33 @@ Free user:
     "id": "u_abc123",
     "username": "dylburger",
     "email": "dylan@pipedream.com",
-    "orgs": [
-      {
-        "name": "MyTestOrg",
-        "id": "o_abc123",
-        "orgname": "mytestorg",
-        "email": "test@pipedream.com"
-      }
-    ],
     "daily_compute_time_quota": 95400000,
     "daily_compute_time_used": 8420300,
     "daily_invocations_quota": 27344,
     "daily_invocations_used": 24903
+    "orgs": [
+      {
+        "name": "MyWorkspace",
+        "id": "o_abc123",
+        "orgname": "myworkspace",
+        "email": "workspace@pipedream.com",
+        "daily_credits_quota": 100,
+        "daily_credits_used": 0
+      },
+      {
+        "name": "MyTeam",
+        "id": "o_edf456",
+        "orgname": "myteam",
+        "email": "team@pipedream.com",
+        "daily_credits_quota": 100,
+        "daily_credits_used": 0,
+        "daily_compute_time_quota": 1800000,
+        "daily_compute_time_used": 0,
+        "daily_invocations_quota": 100,
+        "daily_invocations_used": 0
+      }
+    ],
+
   }
 }
 ```
@@ -1391,11 +1444,11 @@ Paid user:
 {
   "data": {
     "id": "u_abc123",
-    "username": "dylburger",
+    "username": "user-35b7389db9e5222d42df6b3f0cfa8143"
     "email": "dylan@pipedream.com",
     "billing_period_start_ts": 1610154978,
     "billing_period_end_ts": 1612833378,
-    "billing_period_invocations": 12345
+    "billing_period_credits": 12345
   }
 }
 ```
