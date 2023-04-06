@@ -104,16 +104,15 @@ GET requests typically are for retrieving data from an API. Below is an example.
 ```python
 import requests
 
-def handler(pd: "pipedream"):
-  url = 'https://swapi.dev/api/people/1'
+url = 'https://swapi.dev/api/people/1'
 
-  r = requests.get(url)
+r = requests.get(url)
 
-  # The response is logged in your Pipedream step results:
-  print(r.text)
+# The response is logged in your Pipedream step results:
+print(r.text)
 
-  # The response status code is logged in your Pipedream step results:
-  print(r.status)
+# The response status code is logged in your Pipedream step results:
+print(r.status)
 ```
 
 ### Making a POST request
@@ -121,19 +120,18 @@ def handler(pd: "pipedream"):
 ```python
 import requests
 
-def handler(pd: "pipedream"):
-  # This a POST request to this URL will echo back whatever data we send to it
-  url = 'https://postman-echo.com/post'
+# This a POST request to this URL will echo back whatever data we send to it
+url = 'https://postman-echo.com/post'
 
-  data = {"name": "Bulbasaur"}
+data = {"name": "Bulbasaur"}
 
-  r = requests.post(url, data)
+r = requests.post(url, data)
 
-  # The response is logged in your Pipedream step results:
-  print(r.text)
+# The response is logged in your Pipedream step results:
+print(r.text)
 
-  # The response status code is logged in your Pipedream step results:
-  print(r.status)
+# The response status code is logged in your Pipedream step results:
+print(r.status)
 ```
 
 ### Sending files
@@ -145,15 +143,11 @@ An example of sending a previously stored file in the workflow's `/tmp` director
 ```python
 import requests
 
-def handler(pd: "pipedream"):
-  # Retrieving a previously saved file from workflow storage
-  files = {'image': open('/tmp/python-logo.png', 'rb')}
+# Retrieving a previously saved file from workflow storage
+files = {'image': open('/tmp/python-logo.png', 'rb')}
 
-  r = requests.post(url='https://api.imgur.com/3/image', files=files)
+r = requests.post(url='https://api.imgur.com/3/image', files=files)
 ```
-
-
-
 
 ## Returning HTTP responses
 
@@ -203,12 +197,14 @@ In this example, we'll pretend this data is coming into our workflow's HTTP trig
 In our Python step, we can access this data in the `exports` variable from the `pd.steps` object passed into the `handler`. Specifically, this data from the POST request into our workflow is available in the `trigger` dictionary item. 
 
 ```python
-def handler(pd: "pipedream"):
-  # retrieve the data from the HTTP request in the initial workflow trigger 
-  pokemon_name = pd.steps["trigger"]["event"]["name"]
-  pokemon_type = pd.steps["trigger"]["event"]["type"]
+# The pipedream package includes helpers to use exported data from other steps, as well as export data from this step
+from pipedream.script_helpers import (steps, export)
 
-  print(f"{pokemon_name} is a {pokemon_type} type Pokemon")
+# retrieve the data from the HTTP request in the initial workflow trigger 
+pokemon_name = steps["trigger"]["event"]["name"]
+pokemon_type = steps["trigger"]["event"]["type"]
+
+print(f"{pokemon_name} is a {pokemon_type} type Pokemon")
 ```
 
 ### Sending data downstream to other steps
@@ -217,17 +213,17 @@ To share data created, retrieved, transformed or manipulated by a step to others
 
 ```python
 # This step is named "code" in the workflow
+from pipedream.script_helpers import (steps, export)
 
-def handler(pd: "pipedream"):
-  r = requests.get("https://pokeapi.co/api/v2/pokemon/charizard")
-  # Store the JSON contents into a variable called "pokemon"
-  pokemon = r.json()
+r = requests.get("https://pokeapi.co/api/v2/pokemon/charizard")
+# Store the JSON contents into a variable called "pokemon"
+pokemon = r.json()
 
-  # Expose the data to other steps in the "pokemon" key from this step
-  pd.export('pokemon', pokemon)
+# Expose the data to other steps in the "pokemon" key from this step
+export('pokemon', pokemon)
 ```
 
-Now this `pokemon` data is accessible to downstream steps within `pd.steps["code"]["pokemon"]`
+Now this `pokemon` data is accessible to downstream steps within `steps["code"]["pokemon"]`
 
 ::: warning
 You can only export JSON-serializable data from steps. Things like:
@@ -248,10 +244,9 @@ To access them, use the `os` module.
 import os
 import requests
 
-def handler(pd: "pipedream"):
-  token = os.environ['TWITTER_API_KEY']
+token = os.environ['TWITTER_API_KEY']
 
-  print(token)
+print(token)
 ```
 
 Or an even more useful example, using the stored environment variable to make an authenticated API request.
@@ -266,15 +261,14 @@ This proves your identity to the service so you can interact with it:
 import requests
 import os
 
-def handler(pd: "pipedream"):
-  token = os.environ['TWITTER_API_KEY']
+token = os.environ['TWITTER_API_KEY']
 
-  url = 'https://api.twitter.com/2/users/@pipedream/mentions'
+url = 'https://api.twitter.com/2/users/@pipedream/mentions'
 
-  headers { 'Authorization': f"Bearer {token}"}
-  r = requests.get(url, headers=headers)
+headers { 'Authorization': f"Bearer {token}"}
+r = requests.get(url, headers=headers)
 
-  print(r.text)
+print(r.text)
 ```
 
 :::tip
@@ -347,14 +341,13 @@ You have full access to read and write both files in `/tmp`.
 ```python
 import requests
 
-def handler(pd: "pipedream"):
-  # Download the Python logo
-  r = requests.get('https://www.python.org/static/img/python-logo@2x.png')
+# Download the Python logo
+r = requests.get('https://www.python.org/static/img/python-logo@2x.png')
 
-  # Create a new file python-logo.png in the /tmp/data directory
-  with open('/tmp/python-logo.png', 'wb') as f:
-    # Save the content of the HTTP response into the file
-    f.write(r.content)
+# Create a new file python-logo.png in the /tmp/data directory
+with open('/tmp/python-logo.png', 'wb') as f:
+  # Save the content of the HTTP response into the file
+  f.write(r.content)
 ```
 
 Now `/tmp/python-logo.png` holds the official Python logo.
@@ -366,10 +359,9 @@ You can also open files you have previously stored in the `/tmp` directory. Let'
 ```python
 import os
 
-def handler(pd: "pipedream"):
-  with open('/tmp/python-logo.png') as f:
-    # Store the contents of the file into a variable
-    file_data = f.read()
+with open('/tmp/python-logo.png') as f:
+  # Store the contents of the file into a variable
+  file_data = f.read()
 ```
 
 ### Listing files in /tmp
@@ -379,9 +371,8 @@ If you need to check what files are currently in `/tmp` you can list them and pr
 ```python
 import os
 
-def handler(pd: "pipedream"):
-  # Prints the files in the tmp directory
-  print(os.listdir('/tmp'))
+# Prints the files in the tmp directory
+print(os.listdir('/tmp'))
 ```
 
 :::warning
