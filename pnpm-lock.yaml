@@ -744,7 +744,10 @@ importers:
     specifiers: {}
 
   components/cohere_platform:
-    specifiers: {}
+    specifiers:
+      cohere-ai: ^6.1.0
+    dependencies:
+      cohere-ai: 6.1.0
 
   components/coinbase:
     specifiers:
@@ -2565,6 +2568,12 @@ importers:
   components/oksign:
     specifiers: {}
 
+  components/omniconvert:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.4.1
+
   components/oncehub:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -3671,6 +3680,12 @@ importers:
 
   components/smartrmail:
     specifiers: {}
+
+  components/smartsheet:
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/smartsuite:
     specifiers: {}
@@ -12435,7 +12450,7 @@ packages:
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
     dev: false
 
   /@types/lodash-es/4.17.6:
@@ -12528,7 +12543,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
     dev: false
 
   /@types/retry/0.12.0:
@@ -12608,7 +12623,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
     dev: false
     optional: true
 
@@ -14160,6 +14175,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
     optional: true
+
+  /cohere-ai/6.1.0:
+    resolution: {integrity: sha512-1hx13cEB0QqxkW213JhAOw8Q2jzCeo6GUFSQ5lsOQPNtDFhSZZusTD/+DcAvd8IVw2y/Cm+pfK3tofPngVG3BA==}
+    dev: false
 
   /collect-v8-coverage/1.0.1:
     resolution: {integrity: sha512-iBPtljfCNcTKNAto0KEtDfZ3qzjJvqE3aTGZsbhjSBlorqpXJlaWWtPO35D+ZImoC3KWejX64o+yPGxhWSTzfg==}
