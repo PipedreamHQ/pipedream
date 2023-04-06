@@ -21,18 +21,20 @@ However, you can't delay or retry steps, or take advantage of other features ava
 
 ## Python Code Step Structure
 
-A new Python Code step will have the following structure, with a `handler` method and a `pd` argument passed into it:
+A new Python Code step will have the following structure, with an import from the `pipedream` package:
 
 ```python
+# The pipedream package includes helpers to use exported data from other steps, as well as export data from this step
+from pipedream.script_helpers import (steps, export)
 
-def handler(pd: "pipedream"):
-  # Exports a variable called message with contents "Hello, World!"
-  pd.export("message", "Hello, World!")
+# Export a variable from this step named "message" containing the string "Hello, World!"
+pd.export("message", "Hello, World!")
 
 ```
 
-The `handler` method is called during the step's execution, and the `pd` object contains helper methods to [use Data Stores](/code/python/using-data-stores/) and make [authenticated API requests to apps](/code/python/auth/).
+You can also perform more complex operations, including [leveraging your connected accounts to make authenticated API requests](/code/python/auth/), [accessing Data Stores](/code/python/using-data-stores/) and [installing PyPi packages](/code/python/#using-third-party-packages).
 
+* [Install PyPi Packages](/code/python/#using-third-party-packages)
 * [Import data exported from other steps](/code/python/#using-data-from-another-step)
 * [Export data to downstream steps](/code/python/#sending-data-downstream-to-other-steps)
 * [Retrieve data from a data store](/code/python/using-data-stores/#retrieving-data)

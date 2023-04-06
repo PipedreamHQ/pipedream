@@ -237,3 +237,9 @@ Data stores can hold any JSON-serializable data within the storage limits. This 
 * Floats
 
 But you cannot serialize Functions, Classes, or other more complex objects.
+
+### Querying records
+
+You can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} records within a single query.
+
+The `this.data.entries()` and `this.data.keys()` functions allow you to retrieve all keys and records from your data store. However, using this method with a data store with over {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys will result in a 426 error.

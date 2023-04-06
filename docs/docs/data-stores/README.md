@@ -127,7 +127,7 @@ In order to free up this Data Store to be deleted manually, you'll need to remov
 
 Pipedream Data Stores are currently in Preview and are subject to change.
 
-Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Bash](/code/bash/) or [Go](/code/go/).
+Data Stores are only currently available in [Node.js](/code/nodejs/using-data-stores/) and [Python](/code/python/using-data-stores/) code steps. They are not yet available in other languages like [Bash](/code/bash/) or [Go](/code/go/).
 
 ### Supported data types
 
@@ -141,3 +141,9 @@ Data stores can hold any JSON-serializable data within the storage limits. This 
 * Floats
 
 But you cannot serialize Functions, Classes, or other more complex objects.
+
+### Retrieving a large number of keys
+
+Data stores can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys in a single query.
+
+If you're using a pre-built action or code to retrieve all records or keys, and your Data Store contains more than {{$site.themeConfig.DATA_STORES_MAX_KEYS}} records, you'll receive a 426 error.
