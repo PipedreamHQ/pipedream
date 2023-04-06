@@ -4,9 +4,9 @@ import { getCommaSeparatedListFromArray } from "../../common/helpers.mjs";
 
 export default {
   // eslint-disable-next-line pipedream/source-name
-  name: "News Event",
-  description: "Emit new event when a new news is fetched. Calling this endpoint requires 1 point per page, up to 1000 news. [See the docs here](https://worldnewsapi.com/docs/#Search-News)",
-  key: "world_news_api-news-event",
+  name: "Published News",
+  description: "Emit new event whenever recent news are published. Calling this endpoint requires 1 point per page, up to 1000 news. [See the docs here](https://worldnewsapi.com/docs/#Search-News)",
+  key: "world_news_api-published-news",
   version: "0.0.1",
   type: "source",
   props: {
@@ -123,18 +123,18 @@ export default {
       return res;
     },
     getCurrentPageNewsArray(res, lastEmmitedId) {
-      const news = [];
+      const newsArr = [];
       let foundLastEmmitedId = false;
       for (const news of res.news) {
         if (news.id === lastEmmitedId) {
           foundLastEmmitedId = true;
           break;
         }
-        news.unshift(news);
+        newsArr.unshift(news);
       }
 
       return {
-        news,
+        news: newsArr,
         foundLastEmmitedId,
       };
     },
@@ -163,6 +163,7 @@ export default {
       }
 
       newsToEmit.push(...news);
+
       offset += ITEMS_PER_PAGE;
     } while (offset <= MAX_OFFSET);
 
