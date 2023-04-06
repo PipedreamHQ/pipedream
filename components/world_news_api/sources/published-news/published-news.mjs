@@ -125,7 +125,7 @@ export default {
     getCurrentPageNewsArray(res, lastEmmitedId) {
       const newsArr = [];
       let foundLastEmmitedId = false;
-      for (const news of res.news) {
+      for (const news of res.news.reverse()) {
         if (news.id === lastEmmitedId) {
           foundLastEmmitedId = true;
           break;
@@ -162,16 +162,16 @@ export default {
         break;
       }
 
-      newsToEmit.push(...news);
+      newsToEmit.unshift(...news);
 
       offset += ITEMS_PER_PAGE;
     } while (offset <= MAX_OFFSET);
 
     if (newsToEmit.length > 0) {
-      this.setLastId(newsToEmit[0].id);
+      this.setLastId(newsToEmit[newsToEmit.length - 1].id);
     }
 
-    for (const news of newsToEmit.reverse()) {
+    for (const news of newsToEmit) {
       this.emit(news);
     }
   },

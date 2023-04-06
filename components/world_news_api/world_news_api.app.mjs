@@ -125,7 +125,7 @@ export default {
         headers: this._getHeaders(),
         params: {
           ...opts.params,
-          "api-key": "929633f0625843ebaa2f10dcffa64b75", // this._getApiKey(),
+          "api-key": this._getApiKey(),
         },
       };
       return axios(ctx, axiosOpts);
