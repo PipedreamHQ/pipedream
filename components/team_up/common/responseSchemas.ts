@@ -8,7 +8,7 @@ export interface EventBody {
 
 export interface EventTimestamps {
   creation_dt?: string;
-  update_td?: string;
+  update_dt?: string;
   delete_dt?: string;
 }
 

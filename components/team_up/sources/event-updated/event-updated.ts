@@ -17,7 +17,7 @@ export default defineSource({
       return "updated";
     },
     getFilterField(): keyof EventTimestamps {
-      return "update_td";
+      return "update_dt";
     },
   },
 });

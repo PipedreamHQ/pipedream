@@ -54,12 +54,12 @@ export default defineApp({
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "Starting date/time of the event in ISO format, e.g. `2023-04-04T14:00:00Z`",
+      description: "Start date/time of the event in ISO format, e.g. `2023-04-15T14:00:00Z`",
     },
     endDate: {
       type: "string",
       label: "End Date",
-      description: "End date/time of the event in ISO format, e.g. `2023-04-04T14:00:00Z`",
+      description: "End date/time of the event in ISO format, e.g. `2023-04-15T14:00:00Z`",
     },
   },
   methods: {
