@@ -1,4 +1,5 @@
 import app from "../../world_news_api.app.mjs";
+import { getCommaSeparatedListFromArray } from "../../common/helpers.mjs";
 
 export default {
   name: "Search News",
@@ -101,21 +102,21 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      "text": this.text,
-      "source-countries": this.sourceCountries?.join(","),
-      "language": this.language,
-      "min-sentiment": this.minSentiment,
-      "max-sentiment": this.maxSentiment,
-      "earliest-published-date": this.earliestPublishedDate,
-      "latest-published-date": this.latestPublishedDate,
-      "news-sources": this.newsSources?.join(","),
-      "authors": this.authors?.join(","),
-      "entities": this.entities?.join(","),
-      "location-filter": this.locationFilter,
-      "sort": this.sort,
-      "sort-direction": this.sortDirection,
-      "offset": this.offset,
-      "number": this.number,
+      "text": this.text || undefined,
+      "source-countries": getCommaSeparatedListFromArray(this.sourceCountries),
+      "language": this.language || undefined,
+      "min-sentiment": this.minSentiment || undefined,
+      "max-sentiment": this.maxSentiment || undefined,
+      "earliest-published-date": this.earliestPublishedDate || undefined,
+      "latest-published-date": this.latestPublishedDate || undefined,
+      "news-sources": getCommaSeparatedListFromArray(this.newsSources),
+      "authors": getCommaSeparatedListFromArray(this.authors),
+      "entities": getCommaSeparatedListFromArray(this.entities),
+      "location-filter": this.locationFilter || undefined,
+      "sort": this.sort || undefined,
+      "sort-direction": this.sortDirection || undefined,
+      "offset": this.offset || undefined,
+      "number": this.number || undefined,
     };
     const res = await this.app.searchNews(params, $);
     $.export("$summary", `Found ${res.available} news`);
