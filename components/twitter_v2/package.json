@@ -1,14 +1,14 @@
 {
-  "name": "@pipedream/twitter_v2",
-  "version": "0.0.2",
-  "description": "Pipedream Twitter v2 Components",
-  "main": "dist/app/twitter_v2.app.mjs",
+  "name": "@pipedream/twitter",
+  "version": "2.0.0",
+  "description": "Pipedream Twitter Components",
+  "main": "dist/app/twitter.app.mjs",
   "keywords": [
     "pipedream",
-    "twitter_v2"
+    "twitter"
   ],
   "files": ["dist"],
-  "homepage": "https://pipedream.com/apps/twitter_v2",
+  "homepage": "https://pipedream.com/apps/twitter",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
