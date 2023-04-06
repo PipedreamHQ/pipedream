@@ -158,11 +158,10 @@ export default {
         news,
         foundLastEmmitedId,
       } = this.getCurrentPageNewsArray(res, lastEmmitedId);
+      newsToEmit.unshift(...news);
       if (foundLastEmmitedId) {
         break;
       }
-
-      newsToEmit.unshift(...news);
 
       offset += ITEMS_PER_PAGE;
     } while (offset <= MAX_OFFSET);
