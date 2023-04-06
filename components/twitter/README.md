@@ -11,5 +11,13 @@ In order to connect your Twitter account to Pipedream, you'll need to create a d
 5. Select the appropriate app permissions based on your use case
 6. Select "**Web App, Automated App or Bot**" in the "Type of App" section
 7. Enter this URI in the "Callback URI / Redirect URI": `https://api.pipedream.com/connect/oauth/oa_gk6iBa/callback`
-8. Note the Client ID and Client Secret you are shown on the next page, and paste them below
-9. Refer to [Twitter's documentation on **Scopes**](https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code) and paste the scopes you'd like to include **separated by spaces** below. For example, `tweet.write follows.read like.read like.write`. ***Note that the `offline.access users.read tweet.read` are already included.**
+8. Note the Client ID and Client Secret you are shown on the next page, and paste them when connecting your account
+
+## Determining the right scopes to use
+- To default the scopes to those that are required for the built-in triggers and actions in Pipedream's registry, paste these scopes when connecting your account:
+```
+tweet.write follows.read follows.write like.read like.write list.read list.write
+```
+- For greater customization, refer to [Twitter's documentation on **Scopes**](https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code) to determine the specific scopes you'd like to include.
+**Make sure to separate each scope by a spaces**. For example, `tweet.write follows.read like.read like.write`. 
+**Note that the `offline.access users.read tweet.read` are already included.**
