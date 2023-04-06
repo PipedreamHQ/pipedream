@@ -1679,6 +1679,9 @@
     },
     {
       "path": "components/world_news_api"
+    },
+    {
+      "path": "components/ezeep_blue"
     }
   ]
 }
