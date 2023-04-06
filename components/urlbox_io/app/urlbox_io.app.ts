@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "webscraper_io",
+  app: "urlbox_io",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

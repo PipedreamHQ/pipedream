@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/anthropic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Anthropic (Claude) Components",
-  "main": "dist/app/anthropic.app.mjs",
+  "main": "app/anthropic.app.mjs",
   "keywords": [
     "pipedream",
     "anthropic"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/anthropic",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

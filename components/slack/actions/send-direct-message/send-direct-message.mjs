@@ -5,7 +5,7 @@ export default {
   key: "slack-send-direct-message",
   name: "Send a Direct Message",
   description: "Send a direct message to a single user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.13",
+  version: "0.2.15",
   type: "action",
   props: {
     ...common.props,

@@ -1,14 +1,23 @@
+import axios from "axios";
 import fs from "fs";
-import got from "got";
-import { extname } from "path";
+import {
+  join, extname,
+} from "path";
 import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 import lang from "../common/lang.mjs";
 import openai from "../../app/openai.app.mjs";
+import { promisify } from "util";
+import stream from "stream";
+import { exec } from "child_process";
+import ffmpegInstaller from "@ffmpeg-installer/ffmpeg";
 
 const COMMON_AUDIO_FORMATS_TEXT = "Your audio file must be in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.";
+
+const execAsync = promisify(exec);
+const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription",
@@ -80,6 +89,95 @@ export default {
 
     return props;
   },
+  methods: {
+    createForm({
+      file, outputDir,
+    }) {
+      const form = new FormData();
+      form.append("model", "whisper-1");
+      if (this.prompt) form.append("prompt", this.prompt);
+      if (this.temperature) form.append("temperature", this.temperature);
+      if (this.language) form.append("language", this.language);
+      if (this.responseFormat) form.append("response_format", this.responseFormat);
+      const readStream = fs.createReadStream(join(outputDir, file));
+      form.append("file", readStream);
+      return form;
+    },
+    async chunkFileAndTranscribe({
+      file, $,
+    }) {
+      const outputDir = join("/tmp", "chunks");
+      await execAsync(`mkdir -p ${outputDir}`);
+      await execAsync(`rm -f ${outputDir}/*`);
+
+      await this.chunkFile({
+        file,
+        outputDir,
+      });
+
+      const files = await fs.promises.readdir(outputDir);
+      const transcription = await this.transcribeFiles({
+        files,
+        outputDir,
+        $,
+      });
+
+      return {
+        transcription,
+      };
+    },
+    async chunkFile({
+      file, outputDir,
+    }) {
+      const ffmpegPath = ffmpegInstaller.path;
+      const ext = extname(file);
+
+      const fileSizeInMB = fs.statSync(file).size / (1024 * 1024);
+      const numberOfChunks = Math.ceil(fileSizeInMB / 24);
+
+      if (numberOfChunks === 1) {
+        await execAsync(`cp ${file} ${outputDir}/chunk-000${ext}`);
+        return;
+      }
+
+      const { stdout } = await execAsync(`${ffmpegPath} -i ${file} 2>&1 | grep "Duration"`);
+      const duration = stdout.match(/\d{2}:\d{2}:\d{2}\.\d{2}/s)[0];
+      const [
+        hours,
+        minutes,
+        seconds,
+      ] = duration.split(":").map(parseFloat);
+
+      const totalSeconds = (hours * 60 * 60) + (minutes * 60) + seconds;
+      const segmentTime = Math.ceil(totalSeconds / numberOfChunks);
+
+      const command = `${ffmpegPath} -i ${file} -f segment -segment_time ${segmentTime} -c copy ${outputDir}/chunk-%03d${ext}`;
+      await execAsync(command);
+    },
+    async transcribeFiles({
+      files, outputDir, $,
+    }) {
+      const transcriptions = await Promise.all(files.map((file) => this.transcribe({
+        file,
+        outputDir,
+        $,
+      })));
+      return transcriptions.join(" ");
+    },
+    async transcribe({
+      file, outputDir, $,
+    }) {
+      const form = this.createForm({
+        file,
+        outputDir,
+      });
+      const response = await this.openai.createTranscription({
+        $,
+        form,
+      });
+      return response.text;
+    },
+  },
   async run({ $ }) {
     const {
       url,
@@ -90,12 +188,7 @@ export default {
       throw new Error("Must specify either File URL or File Path");
     }
 
-    const form = new FormData();
-    form.append("model", "whisper-1");
-    if (this.prompt) form.append("prompt", this.prompt);
-    if (this.temperature) form.append("temperature", this.temperature);
-    if (this.language) form.append("language", this.language);
-    if (this.responseFormat) form.append("response_format", this.responseFormat);
+    let file;
 
     let readStream;
     let tempFilePath = path;
@@ -123,9 +216,6 @@ export default {
       readStream = fs.createReadStream(tempFilePath);
     }
 
-    console.log(fs.statSync(tempFilePath));
-    console.log(fs.statSync(tempFilePath).size);
-
     if (fs.statSync(tempFilePath).size > constants.MAXIMUM_TRANSCRIPTION_FILE_SIZE) {
       throw new ConfigurationError("The maximum file size to transcription must be `25 MB`");
     }
@@ -134,7 +224,6 @@ export default {
 
     const response = await this.openai.createTranscription({
       $,
-      form,
     });
 
     if (response) {

@@ -1661,6 +1661,21 @@
     },
     {
       "path": "components/anthropic"
+    },
+    {
+      "path": "components/wesupply"
+    },
+    {
+      "path": "components/blockchain_exchange"
+    },
+    {
+      "path": "components/urlbox_io"
+    },
+    {
+      "path": "components/recreation_gov"
+    },
+    {
+      "path": "components/geodb_cities"
     }
   ]
 }
