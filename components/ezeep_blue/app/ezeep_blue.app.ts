@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "cohere_platform",
+  app: "ezeep_blue",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

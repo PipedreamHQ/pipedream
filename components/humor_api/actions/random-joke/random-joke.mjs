@@ -5,7 +5,7 @@ export default {
   name: "Random Joke",
   description: "Searches for a random joke every time. [See the docs here](https://humorapi.com/docs/#Random-Joke).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     includeTags: {

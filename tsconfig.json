@@ -1676,6 +1676,15 @@
     },
     {
       "path": "components/geodb_cities"
+    },
+    {
+      "path": "components/world_news_api"
+    },
+    {
+      "path": "components/ezeep_blue"
+    },
+    {
+      "path": "components/instagram_business"
     }
   ]
 }

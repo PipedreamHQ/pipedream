@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "geodb_cities",
+  app: "instagram_business",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

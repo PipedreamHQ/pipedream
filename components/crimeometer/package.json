@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/crimeometer",
-  "version": "0.0.1",
-  "description": "Pipedream CrimeoMeter Components",
-  "main": "dist/app/crimeometer.app.mjs",
+  "version": "0.0.2",
+  "description": "Pipedream Crimeometer Components",
+  "main": "crimeometer.app.mjs",
   "keywords": [
-    "pipedream",
-    "crimeometer"
+		"pipedream",
+		"crimeometer"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/crimeometer",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
   "publishConfig": {
     "access": "public"
   }
