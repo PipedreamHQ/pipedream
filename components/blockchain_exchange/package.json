@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/blockchain_exchange",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Blockchain Exchange Components",
-  "main": "dist/app/blockchain_exchange.app.mjs",
+  "main": "blockchain_exchange.app.mjs",
   "keywords": [
     "pipedream",
     "blockchain_exchange"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/blockchain_exchange",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1",
+    "ws": "^8.13.0"
+  },
   "publishConfig": {
     "access": "public"
   }
