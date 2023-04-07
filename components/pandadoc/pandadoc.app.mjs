@@ -128,6 +128,13 @@ export default {
         ...args,
       });
     },
+    createFolder(args = {}) {
+      return this.makeRequest({
+        path: "/documents/folders",
+        method: "POST",
+        ...args,
+      });
+    },
     createOrUpdateContact(args = {}) {
       return this.makeRequest({
         path: "/contacts",
