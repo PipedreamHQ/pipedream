@@ -4022,7 +4022,12 @@ importers:
     specifiers: {}
 
   components/team_up:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.4.1
+      '@pipedream/types': 0.1.4
 
   components/teamdeck:
     specifiers: {}
