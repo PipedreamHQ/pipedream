@@ -14,7 +14,7 @@ export default {
         "documentFolderId",
       ],
       label: "Parent Folder ID",
-      descriptioN: "The ID of a parent folder whose folders to list. If not set, the root folder will be used.",
+      description: "The ID of a parent folder whose folders to list. If not set, the root folder will be used.",
       optional: true,
     },
   },

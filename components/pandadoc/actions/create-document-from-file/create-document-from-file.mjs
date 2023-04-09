@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../pandadoc.app.mjs";
 import createDocumentAttachment from "../create-document-attachment/create-document-attachment.mjs";
 
@@ -44,9 +45,16 @@ export default {
       fileUrl,
     } = this;
 
+    let parsedRecipients;
+    try {
+      parsedRecipients = recipients.map((s) => JSON.parse(s));
+    } catch (err) {
+      throw new ConfigurationError("**Error parsing recipients** - each must be a valid JSON-stringified object");
+    }
+
     let data, contentType, json = {
       name,
-      recipients,
+      recipients: parsedRecipients,
     };
 
     if (fileUrl) {

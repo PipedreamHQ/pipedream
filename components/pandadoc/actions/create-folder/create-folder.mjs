@@ -5,7 +5,7 @@ export default {
   name: "Create Folder",
   description: "Create a new folder to store your documents. [See the docs here](https://developers.pandadoc.com/reference/create-documents-folder)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.1",
   props: {
     app,
     name: {
@@ -19,7 +19,7 @@ export default {
         "documentFolderId",
       ],
       label: "Parent Folder ID",
-      descriptioN: "The ID of a parent folder. If not set, the new folder will be created in the root folder.",
+      description: "The ID of a parent folder. If not set, the new folder will be created in the root folder.",
       optional: true,
     },
   },
