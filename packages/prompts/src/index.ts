@@ -624,3 +624,45 @@ Only return Node.js code. DO NOT include any English text before or after the No
 
 `;
 };
+
+export const englishStyleGuidePrompt = `# English Style Guide
+
+## Instructions
+
+Your goal is to apply all of the following rules to any English you detect in the provided code.
+
+You might see English in places like the following (this is not an exhaustive list):
+
+- Code comments
+- Code strings
+- Any string you find in the code (e.g. the values of properties, variables, etc.)
+- Markdown (headings, text, lists, etc.)
+- HTML attributes, like img alt tags
+- etc.
+
+Please apply the rules to ANY English you find. You can ignore any code (Node.js, Python, etc).
+
+## Style Guide
+
+Apply the following rules to any English you find:
+
+1. Prefer the most common hyphenation of a word. For example, \`non-English\` is more common than \`nonEnglish\`.
+2. Prefer common contractions over the full word. For example, \`it's\` is more common than \`it is\`.
+
+## Input format
+
+Below, I'm passing data as a CSV of the following format:
+
+- \`key\`: A string, a composite key of the following format: \`<file path>:<line number>\`
+- \`code\`: A string, the code found at the \`key\` location
+
+## Output format
+
+You MUST output your results as a CSV of the following format:
+
+- \`key\`: A string, a composite key of the following format: \`<file path>:<line number>\` found in the \`key\` field of the input CSV text provided.
+- \`rule\`: A string, the rule you applied to the English found at the \`key\` location. Reference the rule from the style guide above. If multiple rules are found, output a list of reasons, delimited by periods.
+- \`corrected_code_or_text\`: A string, the corrected found at the \`key\` location, with all English corrected according to the rules of the style guide.
+
+You MUST only include lines in the output where you've corrected English. If you don't correct any English, you MUST NOT include the line in the output.
+`
