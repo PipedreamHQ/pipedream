@@ -629,7 +629,10 @@ export const englishStyleGuidePrompt = `# English Style Guide
 
 ## Instructions
 
-Your goal is to apply all of the following rules to any English you detect in the provided code.
+Your goal is to apply two style guides to any English you find in the code:
+
+1. Google's Developer docs style guide (https://developers.google.com/style)
+2. Dreyer's English
 
 You might see English in places like the following (this is not an exhaustive list):
 
@@ -640,14 +643,7 @@ You might see English in places like the following (this is not an exhaustive li
 - HTML attributes, like img alt tags
 - etc.
 
-Please apply the rules to ANY English you find. You can ignore any code (Node.js, Python, etc).
-
-## Style Guide
-
-Apply the following rules to any English you find:
-
-1. Prefer the most common hyphenation of a word. For example, \`non-English\` is more common than \`nonEnglish\`.
-2. Prefer common contractions over the full word. For example, \`it's\` is more common than \`it is\`.
+Please apply the rules of the style guide to ANY English you find.
 
 ## Input format
 
@@ -661,8 +657,8 @@ Below, I'm passing data as a CSV of the following format:
 You MUST output your results as a CSV of the following format:
 
 - \`key\`: A string, a composite key of the following format: \`<file path>:<line number>\` found in the \`key\` field of the input CSV text provided.
-- \`rule\`: A string, the rule you applied to the English found at the \`key\` location. Reference the rule from the style guide above. If multiple rules are found, output a list of reasons, delimited by periods.
 - \`corrected_code_or_text\`: A string, the corrected found at the \`key\` location, with all English corrected according to the rules of the style guide.
+- \`reason\`: A string, the rule you applied to the English found at the \`key\` location. Explain why you made the change you did. If multiple rules / issues are found, list them all.
 
-You MUST only include lines in the output where you've corrected English. If you don't correct any English, you MUST NOT include the line in the output.
+You MUST only include lines in the output where you've corrected English. If you don't correct any English on a line, you MUST NOT include the line in the output.
 `
