@@ -64,7 +64,7 @@ export default {
     } else {
       data = this.getFormData(file);
       contentType = `multipart/form-data; boundary=${data._boundary}`;
-      data.append("data", json);
+      data.append("data", JSON.stringify(json));
     }
 
     const response = await this.app.createDocument({
