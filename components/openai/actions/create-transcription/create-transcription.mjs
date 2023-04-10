@@ -1,4 +1,5 @@
 import axios from "axios";
+import Bottleneck from "bottleneck";
 import fs from "fs";
 import {
   join, extname,
@@ -21,7 +22,7 @@ const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription",
-  version: "0.0.3",
+  version: "0.0.5",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
@@ -157,11 +158,18 @@ export default {
     async transcribeFiles({
       files, outputDir, $,
     }) {
-      const transcriptions = await Promise.all(files.map((file) => this.transcribe({
-        file,
-        outputDir,
-        $,
-      })));
+      const limiter = new Bottleneck({
+        maxConcurrent: 1,
+        minTime: 1000 / 59,
+      });
+
+      const transcriptions = await Promise.all(files.map((file) => {
+        return limiter.schedule(() => this.transcribe({
+          file,
+          outputDir,
+          $,
+        }));
+      }));
       return transcriptions.join(" ");
     },
     async transcribe({
@@ -175,6 +183,7 @@ export default {
         $,
         form,
       });
+      console.log(response);
       return response.text;
     },
   },
@@ -194,6 +203,7 @@ export default {
       if (!fs.existsSync(path)) {
         throw new Error(`${path} does not exist`);
       }
+
       file = path;
     } else if (url) {
       const ext = extname(url);
