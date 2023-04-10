@@ -658,7 +658,7 @@ You must only output your results as a CSV of the following format:
 
 - \`key\`: A string, a composite key of the following format: \`<file path>:<line number>\` found in the \`key\` field of the input CSV text provided.
 - \`corrected_code_or_text\`: A string, the corrected found at the \`key\` location, with all English corrected according to the rules of the style guide.
-- \`reason\`: A string, the rule you applied to the English found at the \`key\` location. Explain why you made the change you did. If multiple rules / issues are found, list them all.
+- `reason`: A string, the rule(s) you applied to the English found at the `key` location. Explain why you made the change(s). If multiple rules or issues are found, list them all.
 
 You MUST only include lines in the output where you've corrected English. If you don't correct any English on a line, you MUST NOT include the line in the output.
 
