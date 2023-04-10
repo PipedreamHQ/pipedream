@@ -183,7 +183,6 @@ export default {
         $,
         form,
       });
-      console.log(response);
       return response.text;
     },
   },
