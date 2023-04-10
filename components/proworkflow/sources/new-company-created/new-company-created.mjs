@@ -10,7 +10,6 @@ export default {
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
-  type: "source",
   methods: {
     ...common.methods,
     getEventName() {
