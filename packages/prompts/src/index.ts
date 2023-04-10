@@ -631,7 +631,7 @@ export const englishStyleGuidePrompt = `# English Style Guide
 
 Your goal is to apply the following style guides to any English you find in the code:
 
-1. Google Developer Documentation Style Guide (https://developers.google.com/style)
+1. Google's Developer docs style guide (https://developers.google.com/style)
 2. Dreyer's English
 
 You might see English in places like the following (this is not an exhaustive list):
