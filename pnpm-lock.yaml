@@ -2588,12 +2588,6 @@ importers:
   components/oksign:
     specifiers: {}
 
-  components/omniconvert:
-    specifiers:
-      '@pipedream/platform': ^1.3.0
-    dependencies:
-      '@pipedream/platform': 1.4.1
-
   components/oncehub:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -2810,6 +2804,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/pdfmonkey:
+    specifiers: {}
+
+  components/perry_github_test:
     specifiers: {}
 
   components/persistiq:
