@@ -197,7 +197,7 @@ $send.s3({
 });
 ```
 
-Pipedream supports the following destinations: 
+Pipedream supports the following destinations:
 
 - [Amazon S3](https://docs.pipedream.com/destinations/s3/)
 - [Snowflake](https://docs.pipedream.com/destinations/snowflake/)
