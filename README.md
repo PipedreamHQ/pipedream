@@ -54,7 +54,7 @@ Workflows are sequences of linear [steps](https://pipedream.com/docs/workflows/s
 
 [See our workflow quickstart](https://pipedream.com/docs/quickstart/) to get started. 
 
-### Event Sources 
+### Event Sources
 
 [Event Sources](https://pipedream.com/docs/sources/) watch for new data from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When a source finds a new event, it emits it, triggering any linked workflows. 
 
