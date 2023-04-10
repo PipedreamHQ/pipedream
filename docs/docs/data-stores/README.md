@@ -144,6 +144,6 @@ But you cannot serialize Functions, Classes, or other more complex objects.
 
 ### Retrieving a large number of keys
 
-Data stores can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys in a single query.
+You can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys from a data store in a single query.
 
 If you're using a pre-built action or code to retrieve all records or keys, and your Data Store contains more than {{$site.themeConfig.DATA_STORES_MAX_KEYS}} records, you'll receive a 426 error.

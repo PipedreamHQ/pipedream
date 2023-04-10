@@ -21,7 +21,7 @@ However, you can't delay or retry steps, or take advantage of other features ava
 
 ## Python Code Step Structure
 
-A new Python Code step will have the following structure, with an import from the `pipedream` package:
+A new Python Code step will have the following structure:
 
 ```python
 # The pipedream package includes helpers to use exported data from other steps, as well as export data from this step
@@ -32,9 +32,9 @@ pd.export("message", "Hello, World!")
 
 ```
 
-You can also perform more complex operations, including [leveraging your connected accounts to make authenticated API requests](/code/python/auth/), [accessing Data Stores](/code/python/using-data-stores/) and [installing PyPi packages](/code/python/#using-third-party-packages).
+You can also perform more complex operations, including [leveraging your connected accounts to make authenticated API requests](/code/python/auth/), [accessing Data Stores](/code/python/using-data-stores/) and [installing PyPI packages](/code/python/#using-third-party-packages).
 
-* [Install PyPi Packages](/code/python/#using-third-party-packages)
+* [Install PyPI Packages](/code/python/#using-third-party-packages)
 * [Import data exported from other steps](/code/python/#using-data-from-another-step)
 * [Export data to downstream steps](/code/python/#sending-data-downstream-to-other-steps)
 * [Retrieve data from a data store](/code/python/using-data-stores/#retrieving-data)
@@ -53,13 +53,13 @@ The output for the `print` **logs** will appear in the `Results` section just be
 
 ## Using third party packages
 
-You can use any packages from [PyPi](https://pypi.org) in your Pipedream workflows. This includes popular choices such as:
+You can use any packages from [PyPI](https://pypi.org) in your Pipedream workflows. This includes popular choices such as:
 
 * [`requests` for making HTTP requests](https://pypi.org/project/requests/)
 * [`sqlalchemy`for retrieving or inserting data in a SQL database](https://pypi.org/project/sqlalchemy/)
 * [`pandas` for working with complex datasets](https://pypi.org/project/pandas/)
 
-To use a PyPi package, just include it in your step's code:
+To use a PyPI package, just include it in your step's code:
 
 ```python
 import requests
@@ -155,12 +155,12 @@ You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/t
 
 ```python
 def handler(pd: 'pipedream'):
-  pd.respond({
-    'status': 200,
-    'body': {
-      'message': 'Everything is ok'
-    }
-  })
+    pd.respond({
+        'status': 200,
+        'body': {
+            'message': 'Everything is ok'
+        }
+    })
 ```
 
 Please note to always include at least the `body` and `status` keys in your `pd.respond` argument. The `body` must also be a JSON serializable object or dictionary.
@@ -244,7 +244,7 @@ To access them, use the `os` module.
 import os
 import requests
 
-token = os.environ['TWITTER_API_KEY']
+token = os.environ['AIRTABLE_API_KEY']
 
 print(token)
 ```
@@ -261,9 +261,9 @@ This proves your identity to the service so you can interact with it:
 import requests
 import os
 
-token = os.environ['TWITTER_API_KEY']
+token = os.environ['AIRTABLE_API_KEY']
 
-url = 'https://api.twitter.com/2/users/@pipedream/mentions'
+url = 'https://api.airtable.com/v0/your-airtable-base/your-table'
 
 headers { 'Authorization': f"Bearer {token}"}
 r = requests.get(url, headers=headers)
@@ -305,27 +305,27 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 
 ```python
 def handler(pd: 'pipedream'):
-  return pd.flow.exit()
-  print("This code will not run, since pd.flow.exit() was called above it")
+    return pd.flow.exit()
+    print("This code will not run, since pd.flow.exit() was called above it")
 ```
 
 You can pass any string as an argument to `pd.flow.exit()`:
 
 ```python
 def handler(pd: 'pipedream'):
-  return pd.flow.exit('Exiting early. Goodbye.')
-  print("This code will not run, since pd.flow.exit() was called above it")
+    return pd.flow.exit('Exiting early. Goodbye.')
+    print("This code will not run, since pd.flow.exit() was called above it")
 ```
 
 Or exit the workflow early within a conditional:
 
 ```python
 def handler(pd: 'pipedream'):
-  # Flip a coin, running $.flow.exit() for 50% of events
-  if random.randint(0, 100) <= 50:
-    return pd.flow.exit()
-  
-  print("This code will only run 50% of the time");
+    # Flip a coin, running $.flow.exit() for 50% of events
+    if random.randint(0, 100) <= 50:
+        return pd.flow.exit()
+    
+    print("This code will only run 50% of the time");
 ```
 
 ## File storage
@@ -346,8 +346,8 @@ r = requests.get('https://www.python.org/static/img/python-logo@2x.png')
 
 # Create a new file python-logo.png in the /tmp/data directory
 with open('/tmp/python-logo.png', 'wb') as f:
-  # Save the content of the HTTP response into the file
-  f.write(r.content)
+    # Save the content of the HTTP response into the file
+    f.write(r.content)
 ```
 
 Now `/tmp/python-logo.png` holds the official Python logo.
@@ -360,8 +360,8 @@ You can also open files you have previously stored in the `/tmp` directory. Let'
 import os
 
 with open('/tmp/python-logo.png') as f:
-  # Store the contents of the file into a variable
-  file_data = f.read()
+    # Store the contents of the file into a variable
+    file_data = f.read()
 ```
 
 ### Listing files in /tmp
