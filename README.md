@@ -139,7 +139,7 @@ Most integrations require custom logic. Code is often the best way to express th
   </tr>
 </table>
 
-You can import any package from the languages' package managers by declaring the imports directly in code. Pipedream will parse and download the necessary dependencies. 
+You can import any package from the languages' package managers by declaring the imports directly in code. Pipedream will parse and download the necessary dependencies.
 
 ```javascript
 // Node.js
