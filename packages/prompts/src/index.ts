@@ -654,7 +654,7 @@ Below, I'm passing data as a CSV of the following format:
 
 ## Output format
 
-You MUST ONLY output your results as a CSV of the following format:
+You must only output your results as a CSV of the following format:
 
 - \`key\`: A string, a composite key of the following format: \`<file path>:<line number>\` found in the \`key\` field of the input CSV text provided.
 - \`corrected_code_or_text\`: A string, the corrected found at the \`key\` location, with all English corrected according to the rules of the style guide.
