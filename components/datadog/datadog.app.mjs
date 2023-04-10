@@ -1,6 +1,9 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import { v4 as uuid } from "uuid";
 import constants from "./actions/common/constants.mjs";
+import regions from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -32,12 +35,15 @@ export default {
       type: "string",
       label: "Metric",
       description: "The name of the timeseries",
-      async options({ host }) {
+      async options({
+        host, region,
+      }) {
         const { metrics } = await this.listActiveMetrics({
-          query: {
+          params: {
             from: 1,
             host,
           },
+          region,
         });
         return metrics;
       },
@@ -47,11 +53,14 @@ export default {
       label: "Tags",
       description: "A list of tags associated with the metric",
       optional: true,
-      async options({ hostName }) {
+      async options({
+        hostName, region,
+      }) {
         const { tags } = await this.listTags({
           query: {
             hostName,
           },
+          region,
         });
         return tags;
       },
@@ -66,19 +75,30 @@ export default {
       type: "integer[]",
       label: "Monitors",
       description: "The monitors to observe for notifications",
-      async options({ page }) {
+      async options({
+        page, region,
+      }) {
         const monitors = await this.listMonitors({
           query: {
             page,
             pageSize: 1000,
           },
+          region,
         });
-
+        if (!(monitors?.length > 0)) {
+          throw new ConfigurationError("No Monitors Found");
+        }
         return monitors.map((monitor) => ({
           label: monitor.name,
           value: monitor.id,
         }));
       },
+    },
+    region: {
+      type: "string",
+      label: "Region",
+      description: "The regional site for a Datadog customer",
+      options: regions.REGION_OPTIONS,
     },
   },
   methods: {
@@ -88,14 +108,14 @@ export default {
     _applicationKey() {
       return this.$auth.application_key;
     },
-    _apiUrl() {
-      return "https://api.datadoghq.com/api";
+    _apiUrl(region) {
+      return `https://api.${region}/api`;
     },
     async _makeRequest({
-      $ = this, path, ...args
+      $ = this, path, region, ...args
     }) {
       return axios($ ?? this, {
-        url: `${this._apiUrl()}${path}`,
+        url: `${this._apiUrl(region)}${path}`,
         headers: {
           "DD-API-KEY": this._apiKey(),
           "DD-APPLICATION-KEY": this._applicationKey(),
@@ -113,9 +133,10 @@ export default {
       const { headers } = event;
       return headers[this._webhookSecretKeyHeader()] === secretKey;
     },
-    async _getMonitor(monitorId) {
+    async _getMonitor(monitorId, region) {
       return this._makeRequest({
         path: `/v1/monitor/${monitorId}`,
+        region,
       });
     },
     async _editMonitor({
@@ -156,6 +177,7 @@ export default {
     async createWebhook(
       url,
       payloadFormat = null,
+      region,
       secretKey = uuid(),
     ) {
       const name = `pd-${uuid()}`;
@@ -171,6 +193,7 @@ export default {
           name,
           url,
         },
+        region,
       });
 
       return {
@@ -178,16 +201,17 @@ export default {
         secretKey,
       };
     },
-    async deleteWebhook(webhookName) {
+    async deleteWebhook(webhookName, region) {
       if (!webhookName) return;
 
       await this._makeRequest({
         path: `/v1/integration/webhooks/configuration/webhooks/${webhookName}`,
         method: "delete",
+        region,
       });
     },
-    async addWebhookNotification(webhookName, monitorId) {
-      const { message } = await this._getMonitor(monitorId);
+    async addWebhookNotification(webhookName, monitorId, region) {
+      const { message } = await this._getMonitor(monitorId, region);
       const webhookTagPattern = this._webhookTagPattern(webhookName);
       if (new RegExp(webhookTagPattern).test(message)) {
         // Monitor is already notifying this webhook
@@ -201,9 +225,10 @@ export default {
         data: {
           message: newMessage,
         },
+        region,
       });
     },
-    async removeWebhookNotifications(webhookName) {
+    async removeWebhookNotifications(webhookName, region) {
       // Users could have manually added this webhook in other monitors, or
       // removed the webhook from the monitors specified as user props. Hence,
       // we need to search through all the monitors that notify this webhook and
@@ -215,10 +240,11 @@ export default {
         query: {
           query: webhookName,
         },
+        region,
       });
       for await (const monitorInfo of monitorSearchResults) {
         const { id: monitorId } = monitorInfo;
-        const { message } = await this._getMonitor(monitorId);
+        const { message } = await this._getMonitor(monitorId, region);
 
         if (!new RegExp(webhookTagPattern).test(message)) {
           // Monitor is not notifying this webhook, skip it...
@@ -229,7 +255,11 @@ export default {
         const monitorChanges = {
           message: newMessage,
         };
-        await this._editMonitor(monitorId, monitorChanges);
+        await this._editMonitor({
+          monitorId,
+          data: monitorChanges,
+          region,
+        });
       }
     },
     daysAgo(days) {
