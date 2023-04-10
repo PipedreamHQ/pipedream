@@ -1,12 +1,11 @@
 import aweberApp from "../../aweber.app.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   key: "aweber-create-or-update-subscriber",
   name: "Create Or Update Subscriber",
   description: "Create subscriber if the subscriber email is not existing or update the information for the specified subscriber by email. [See the docs here](https://api.aweber.com/#tag/Subscribers/paths/~1accounts~1{accountId}~1lists~1{listId}~1subscribers/patch).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.5",
   props: {
     aweberApp,
     accountId: {
@@ -42,18 +41,6 @@ export default {
         "subscriberName",
       ],
     },
-    tags: {
-      propDefinition: [
-        aweberApp,
-        "subscriberTags",
-      ],
-    },
-    notes: {
-      type: "string",
-      label: "Notes",
-      description: "Miscellaneous notes about the subscriber",
-      optional: true,
-    },
   },
   async run({ $ }) {
     const {
@@ -61,12 +48,21 @@ export default {
       listId,
       email,
       name,
-      notes,
     } = this;
 
-    const tags = utils.parse(this.tags);
+    const subscribers = await this.aweberApp.getSubscribersForAccount({
+      accountId,
+      params: {
+        "ws.op": "findSubscribers",
+        email,
+      },
+    });
 
-    const response = await this.aweberApp.updateSubscriber({
+    let requestFn = subscribers?.entries?.length
+      ? this.aweberApp.updateSubscriber
+      : this.aweberApp.addSubscriber;
+
+    const response = await requestFn({
       $,
       accountId,
       listId,
@@ -74,10 +70,6 @@ export default {
       data: {
         email,
         name,
-        tags: {
-          add: tags,
-        },
-        misc_notes: notes,
       },
     });
 
