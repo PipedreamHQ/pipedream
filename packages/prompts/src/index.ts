@@ -629,7 +629,7 @@ export const englishStyleGuidePrompt = `# English Style Guide
 
 ## Instructions
 
-Your goal is to apply two style guides to any English you find in the code:
+Your goal is to apply the following style guides to any English you find in the code:
 
 1. Google's Developer docs style guide (https://developers.google.com/style)
 2. Dreyer's English
