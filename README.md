@@ -7,9 +7,9 @@
   <a href="https://angel.co/company/pipedreamhq/jobs/"><img src="https://img.shields.io/badge/%F0%9F%91%8B%F0%9F%8F%BC%20We're%20hiring!-Join%20us-brightgreen"></a>
 </p>
 
-Pipedream is an integration platform for developers.
+Pipedream is an integration platform for developers. 
 
-Pipedream provides a free, hosted platform for connecting apps and developing event-driven automations. The platform has over 1,000 fully-integrated applications, so you can use pre-built components to quickly send messages to Slack, add a new row to Google Sheets, and more. You can also run any Node.js, Python, Golang, or Bash code when you need custom logic. Pipedream has demonstrated SOC 2 compliance and can provide a SOC 2 Type 2 report upon request (please email support@pipedream.com).
+Pipedream provides a free, hosted platform for connecting apps and developing event-driven automations. The platform has over 1,000 fully-integrated applications, so you can use pre-built components to quickly send messages to Slack, add a new row to Google Sheets, and more. You can also run any Node.js, Python, Golang, or Bash code when you need custom logic. Pipedream has demonstrated SOC 2 compliance and can provide a SOC 2 Type 2 report upon request (please email support@pipedream.com). 
 
 <p align="center">
   <br />
@@ -19,27 +19,27 @@ Pipedream provides a free, hosted platform for connecting apps and developing ev
 
 This repo contains:
 
-- [The code for all pre-built integration components](https://github.com/PipedreamHQ/pipedream/tree/master/components)
-- [The product roadmap](https://github.com/PipedreamHQ/pipedream/issues)
-- [The Pipedream docs](https://github.com/PipedreamHQ/pipedream/tree/master/docs)
-- And other source code related to Pipedream.
+- [The code for all pre-built integration components](https://github.com/PipedreamHQ/pipedream/tree/master/components) 
+- [The product roadmap](https://github.com/PipedreamHQ/pipedream/issues) 
+- [The Pipedream docs](https://github.com/PipedreamHQ/pipedream/tree/master/docs) 
+- And other source code related to Pipedream. 
 
-This `README` explains the key features of the platform and how to get started.
+This `README` explains the key features of the platform and how to get started. 
 
-To get support, please visit [https://pipedream.com/support](https://pipedream.com/support).
+To get support, please visit [https://pipedream.com/support](https://pipedream.com/support). 
 
 ## Key Features
 
-- [Workflows](#workflows) - Workflows run automations. Workflows are sequence of steps - pre-built actions or custom [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code - triggered by an event (HTTP request, timer, when a new row is added to a Google Sheets, and more).
-- [Event Sources](#event-sources) - Sources trigger workflows. They emit events from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When you want to run a workflow when an event happens in any third-party app, you're using an event source.
-- [Actions](#actions) - Actions are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 1,000+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
-- [Custom code](#code) - Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run any [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code. You can import any package from the languages' package managers, connect to any Pipedream connected app, and more. Pipedream is "low-code" in the best way: you can use pre-built components when you're performing common actions, but you can write custom code when you need to.
-- [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email
-- [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
+- [Workflows](#workflows) - Workflows run automations. Workflows are sequence of steps - pre-built actions or custom [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code - triggered by an event (HTTP request, timer, when a new row is added to a Google Sheets, and more). 
+- [Event Sources](#event-sources) - Sources trigger workflows. They emit events from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When you want to run a workflow when an event happens in any third-party app, you're using an event source. 
+- [Actions](#actions) - Actions are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 1,000+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps). 
+- [Custom code](#code) - Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run any [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code. You can import any package from the languages' package managers, connect to any Pipedream connected app, and more. Pipedream is "low-code" in the best way: you can use pre-built components when you're performing common actions, but you can write custom code when you need to. 
+- [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email. 
+- [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/)) 
 
 ## Demo
 
-Click the image below to watch a brief demo on YouTube.
+Click the image below to watch a brief demo on YouTube. 
 
 <p align="center">
   <br />
@@ -50,17 +50,17 @@ Click the image below to watch a brief demo on YouTube.
 
 ### Workflows
 
-Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 1,000+ integrated apps.
+Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 1,000+ integrated apps. 
 
-[See our workflow quickstart](https://pipedream.com/docs/quickstart/) to get started.
+[See our workflow quickstart](https://pipedream.com/docs/quickstart/) to get started. 
 
-### Event Sources
+### Event Sources 
 
-[Event Sources](https://pipedream.com/docs/sources/) watch for new data from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When a source finds a new event, it emits it, triggering any linked workflows.
+[Event Sources](https://pipedream.com/docs/sources/) watch for new data from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When a source finds a new event, it emits it, triggering any linked workflows. 
 
-You can also consume events emitted by sources using [Pipedream's REST API](https://pipedream.com/docs/api/rest/) or a private, real-time [SSE stream](https://pipedream.com/docs/api/sse/).
+You can also consume events emitted by sources using [Pipedream's REST API](https://pipedream.com/docs/api/rest/) or a private, real-time [SSE stream](https://pipedream.com/docs/api/sse/). 
 
-When a pre-built source doesn't exist for your use case, [you can build your own](https://pipedream.com/docs/components/quickstart/nodejs/sources/). Here is the simplest event source: it exposes an HTTP endpoint you can send any request to, and prints the contents of the request when invoked:
+When a pre-built source doesn't exist for your use case, [you can build your own](https://pipedream.com/docs/components/quickstart/nodejs/sources/). Here is the simplest event source: it exposes an HTTP endpoint you can send any request to, and prints the contents of the request when invoked: 
 
 ```javascript
 export default {
@@ -70,22 +70,22 @@ export default {
     http: "$.interface.http",
   },
   run(event) {
-    console.log(event); // event contains the method, payload, etc.
+    console.log(event); // event contains the method, payload, etc. 
   },
 };
 ```
 
 <a href="https://pipedream.com/sources/new?app=http"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
-You can find the code for all pre-built sources in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process).
+You can find the code for all pre-built sources in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process). 
 
 ### Actions
 
-[Actions](https://pipedream.com/docs/components/actions/) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 500+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
+[Actions](https://pipedream.com/docs/components/actions/) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 500+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps). 
 
-You can [create your own actions](https://pipedream.com/docs/components/quickstart/nodejs/actions/), which you can re-use across workflows. You can also [publish actions to the entire Pipedream community](https://pipedream.com/docs/components/guidelines/), making them available for anyone to use.
+You can [create your own actions](https://pipedream.com/docs/components/quickstart/nodejs/actions/), which you can re-use across workflows. You can also [publish actions to the entire Pipedream community](https://pipedream.com/docs/components/guidelines/), making them available for anyone to use. 
 
-Here's an action that accepts a `name` as input and prints it to the workflow's logs:
+Here's an action that accepts a `name` as input and prints it to the workflow's logs: 
 
 ```javascript
 export default {
@@ -106,11 +106,11 @@ export default {
 };
 ```
 
-You can find the code for all pre-built actions in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process).
+You can find the code for all pre-built actions in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process). 
 
 ### Custom code
 
-Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run custom code in a workflow using:
+Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run custom code in a workflow using: 
 
 <table align="center">
   <tr>
@@ -139,7 +139,7 @@ Most integrations require custom logic. Code is often the best way to express th
   </tr>
 </table>
 
-You can import any package from the languages' package managers by declaring the imports directly in code. Pipedream will parse and download the necessary dependencies.
+You can import any package from the languages' package managers by declaring the imports directly in code. Pipedream will parse and download the necessary dependencies. 
 
 ```javascript
 // Node.js
@@ -159,14 +159,14 @@ import (
 )
 ```
 
-You can also [connect to any Pipedream connected app in custom code steps](https://pipedream.com/docs/code/nodejs/auth/). For example, you can connect your Slack account and send a message to a channel:
+You can also [connect to any Pipedream connected app in custom code steps](https://pipedream.com/docs/code/nodejs/auth/). For example, you can connect your Slack account and send a message to a channel: 
 
 ```javascript
 import { WebClient } from "@slack/web-api";
 
 export default defineComponent({
   props: {
-    // This creates a connection called "slack" that connects a Slack account.
+    // This creates a connection called "slack" that connects a Slack account. 
     slack: {
       type: "app",
       app: "slack",
@@ -185,9 +185,9 @@ export default defineComponent({
 
 ### Destinations
 
-[Destinations](https://pipedream.com/docs/destinations/), like actions, abstract the connection, batching, and delivery logic required to send events to services like Amazon S3, or targets like HTTP and email.
+[Destinations](https://pipedream.com/docs/destinations/), like actions, abstract the connection, batching, and delivery logic required to send events to services like Amazon S3, or targets like HTTP and email. 
 
-For example, sending data to an Amazon S3 bucket is as simple as calling `$send.s3()`:
+For example, sending data to an Amazon S3 bucket is as simple as calling `$send.s3()`: 
 
 ```javascript
 $send.s3({
@@ -197,7 +197,7 @@ $send.s3({
 });
 ```
 
-Pipedream supports the following destinations:
+Pipedream supports the following destinations: 
 
 - [Amazon S3](https://docs.pipedream.com/destinations/s3/)
 - [Snowflake](https://docs.pipedream.com/destinations/snowflake/)
@@ -207,7 +207,7 @@ Pipedream supports the following destinations:
 
 ## Contributors
 
-Thank you to everyone who has contributed to the Pipedream codebase. We appreciate you!
+Thank you to everyone who has contributed to the Pipedream codebase. We appreciate you! 
 
 <a href="https://github.com/PipedreamHQ/pipedream/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=PipedreamHQ/pipedream" />
@@ -215,22 +215,22 @@ Thank you to everyone who has contributed to the Pipedream codebase. We apprecia
 
 ## Pricing
 
-Pipedream has a [generous free tier](https://pipedream.com/docs/pricing/#developer-tier). You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](https://pipedream.com/docs/pricing/).
+Pipedream has a [generous free tier](https://pipedream.com/docs/pricing/#developer-tier). You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](https://pipedream.com/docs/pricing/). 
 
 ## Limits
 
-The Pipedream platform imposes some runtime limits on sources and workflows. [Read more about those in our docs](https://pipedream.com/docs/limits/).
+The Pipedream platform imposes some runtime limits on sources and workflows. [Read more about those in our docs](https://pipedream.com/docs/limits/). 
 
-## Found a Bug? Have a Feature to suggest?
+## Found a Bug? Have a Feature to suggest? 
 
-Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/pipedream/issues) or [reach out to our team](https://pipedream.com/support/) to see if a similar request already exists.
+Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/pipedream/issues) or [reach out to our team](https://pipedream.com/support/) to see if a similar request already exists. 
 
-If an issue exists, please [add a reaction](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-conversations-on-github) or add a comment detailing your specific use case.
+If an issue exists, please [add a reaction](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-conversations-on-github) or add a comment detailing your specific use case. 
 
-If an issue _doesn't_ yet exist and you need to create one, please [use the issue templates](https://github.com/PipedreamHQ/pipedream/issues/new/choose).
+If an issue _doesn't_ yet exist and you need to create one, please [use the issue templates](https://github.com/PipedreamHQ/pipedream/issues/new/choose). 
 
 ## Security
 
-You can read about our platform security and privacy [here](https://pipedream.com/docs/privacy-and-security/).
+You can read about our platform security and privacy [here](https://pipedream.com/docs/privacy-and-security/). 
 
-If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact our security team at **security@pipedream.com**.
+If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact our security team at **security@pipedream.com**. 
