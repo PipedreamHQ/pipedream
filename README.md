@@ -110,7 +110,7 @@ You can find the code for all pre-built actions in [the `components` directory](
 
 ### Custom code
 
-Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run custom code in a workflow using: 
+Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run custom code in a workflow using:
 
 <table align="center">
   <tr>
