@@ -20,7 +20,9 @@ export default {
       id: this.memberId,
     });
 
-    data && $.export("$summary", `Successfully deleted member with ID ${data.id}.`);
+    if (data) {
+      $.export("$summary", `Successfully deleted member with ID ${data.id}.`);
+    }
 
     return data;
   },

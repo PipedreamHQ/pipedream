@@ -66,7 +66,9 @@ export default {
       throw new Error(e.message);
     }
 
-    response && $.export("$summary", `Successfully created member with ID ${response?.id}.`);
+    if (response) {
+      $.export("$summary", `Successfully created member with ID ${response?.id}.`);
+    }
 
     return response;
   },
