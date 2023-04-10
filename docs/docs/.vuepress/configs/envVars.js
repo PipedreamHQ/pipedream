@@ -12,7 +12,7 @@ module.exports = {
     seconds: 30,
   },
 
-  DATA_STORES_MAX_KEYS: "1,204",
+  DATA_STORES_MAX_KEYS: "1,024",
 
   DAILY_CREDITS_LIMIT: "100",
 
