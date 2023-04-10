@@ -185,7 +185,7 @@ export default defineComponent({
 
 ### Destinations
 
-[Destinations](https://pipedream.com/docs/destinations/), like actions, abstract the connection, batching, and delivery logic required to send events to services like Amazon S3, or targets like HTTP and email. 
+[Destinations](https://pipedream.com/docs/destinations/), like actions, abstract the connection, batching, and delivery logic required to send events to services like Amazon S3, or targets like HTTP and email.
 
 For example, sending data to an Amazon S3 bucket is as simple as calling `$send.s3()`: 
 
