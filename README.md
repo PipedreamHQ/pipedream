@@ -207,7 +207,7 @@ Pipedream supports the following destinations:
 
 ## Contributors
 
-Thank you to everyone who has contributed to the Pipedream codebase. We appreciate you! 
+Thank you to everyone who has contributed to the Pipedream codebase. We appreciate you!
 
 <a href="https://github.com/PipedreamHQ/pipedream/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=PipedreamHQ/pipedream" />
