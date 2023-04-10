@@ -85,7 +85,7 @@ You can find the code for all pre-built sources in [the `components` directory](
 
 You can [create your own actions](https://pipedream.com/docs/components/quickstart/nodejs/actions/), which you can re-use across workflows. You can also [publish actions to the entire Pipedream community](https://pipedream.com/docs/components/guidelines/), making them available for anyone to use.
 
-Here's an action that accepts a `name` as input and prints it to the workflow's logs: 
+Here's an action that accepts a `name` as input and prints it to the workflow's logs:
 
 ```javascript
 export default {
