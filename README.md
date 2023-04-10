@@ -83,7 +83,7 @@ You can find the code for all pre-built sources in [the `components` directory](
 
 [Actions](https://pipedream.com/docs/components/actions/) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 500+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
 
-You can [create your own actions](https://pipedream.com/docs/components/quickstart/nodejs/actions/), which you can re-use across workflows. You can also [publish actions to the entire Pipedream community](https://pipedream.com/docs/components/guidelines/), making them available for anyone to use. 
+You can [create your own actions](https://pipedream.com/docs/components/quickstart/nodejs/actions/), which you can re-use across workflows. You can also [publish actions to the entire Pipedream community](https://pipedream.com/docs/components/guidelines/), making them available for anyone to use.
 
 Here's an action that accepts a `name` as input and prints it to the workflow's logs: 
 
