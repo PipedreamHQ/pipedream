@@ -662,7 +662,7 @@ You must only output your results as a CSV of the following format:
 
 You MUST only include lines in the output where you've corrected English. If you don't correct any English on a line, you MUST NOT include the line in the output.
 
-Do not include any other English text before or after the CSV. ONLY return the CSV.
+Do not include any other English text before or after the CSV. Only return the CSV.
 
 ## Input Data:
 
