@@ -1,16 +1,14 @@
 {
   "name": "@pipedream/wesupply",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream WeSupply Components",
-  "main": "dist/app/wesupply.app.mjs",
+  "main": "wesupply.app.mjs",
   "keywords": [
     "pipedream",
     "wesupply"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/wesupply",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

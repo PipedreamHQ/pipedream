@@ -1685,6 +1685,9 @@
     },
     {
       "path": "components/instagram_business"
+    },
+    {
+      "path": "components/perry_github_test"
     }
   ]
 }
