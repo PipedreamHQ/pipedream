@@ -70,7 +70,7 @@ export default {
     http: "$.interface.http",
   },
   run(event) {
-    console.log(event); // event contains the method, payload, etc. 
+    console.log(event); // event contains the method, payload, etc.
   },
 };
 ```
