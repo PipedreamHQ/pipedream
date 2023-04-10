@@ -166,7 +166,7 @@ import { WebClient } from "@slack/web-api";
 
 export default defineComponent({
   props: {
-    // This creates a connection called "slack" that connects a Slack account. 
+    // This creates a connection called "slack" that connects a Slack account.
     slack: {
       type: "app",
       app: "slack",
