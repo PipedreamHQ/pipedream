@@ -643,7 +643,7 @@ You might see English in places like the following (this is not an exhaustive li
 - HTML attributes, like img alt tags
 - etc.
 
-Please apply the rules of the style guide to ANY English you find.
+Apply the rules of the style guides to any English you find.
 
 ## Input format
 
