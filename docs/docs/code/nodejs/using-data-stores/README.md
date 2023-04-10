@@ -221,7 +221,7 @@ export default defineComponent({
 
 ## Data store limitations
 
-Pipedream Data Stores are currently in Preview and are subject to change.
+Data stores are in beta. There may be changes to this feature while we prepare it for a full release.
 
 Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
 
@@ -237,3 +237,9 @@ Data stores can hold any JSON-serializable data within the storage limits. This 
 * Floats
 
 But you cannot serialize Functions, Classes, or other more complex objects.
+
+### Querying records
+
+You can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} records within a single query.
+
+The `this.data.entries()` and `this.data.keys()` functions allow you to retrieve all keys and records from your data store. However, using these methods with a data store with over {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys will result in a 426 error.
