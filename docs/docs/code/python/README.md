@@ -321,7 +321,7 @@ Or exit the workflow early within a conditional:
 
 ```python
 def handler(pd: 'pipedream'):
-    # Flip a coin, running $.flow.exit() for 50% of events
+    # Flip a coin, running pd.flow.exit() for 50% of events
     if random.randint(0, 100) <= 50:
         return pd.flow.exit()
     
