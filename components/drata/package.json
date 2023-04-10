@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/drata",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Drata Components",
-  "main": "dist/app/drata.app.mjs",
+  "main": "drata.app.mjs",
   "keywords": [
     "pipedream",
     "drata"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/drata",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
   }
 }

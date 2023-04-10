@@ -1065,7 +1065,10 @@ importers:
     specifiers: {}
 
   components/drata:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/dribbble:
     specifiers:
