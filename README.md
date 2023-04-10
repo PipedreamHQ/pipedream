@@ -159,7 +159,7 @@ import (
 )
 ```
 
-You can also [connect to any Pipedream connected app in custom code steps](https://pipedream.com/docs/code/nodejs/auth/). For example, you can connect your Slack account and send a message to a channel: 
+You can also [connect to any Pipedream connected app in custom code steps](https://pipedream.com/docs/code/nodejs/auth/). For example, you can connect your Slack account and send a message to a channel:
 
 ```javascript
 import { WebClient } from "@slack/web-api";
