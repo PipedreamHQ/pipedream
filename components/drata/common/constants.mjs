@@ -3,6 +3,7 @@ export default {
   DEPLOY_LIMIT: 25,
   PAGINATION_LIMIT: 50,
   SORT_CRITERIA: {
+    CREATED: "CREATED",
     START_DATE: "START_DATE",
   },
 };

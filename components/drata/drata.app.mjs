@@ -60,5 +60,19 @@ export default {
         path: "/personnel",
       });
     },
+    async listAssets({
+      paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate({
+          ...opts,
+          fn: this.listAssets,
+        });
+      }
+      return this._makeRequest({
+        ...opts,
+        path: "/assets",
+      });
+    },
   },
 };
