@@ -457,9 +457,6 @@ importers:
   components/blockchain_exchange:
     specifiers: {}
 
-  components/blockchain_exchange:
-    specifiers: {}
-
   components/blogger:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -765,6 +762,9 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/coinbase_commerce:
+    specifiers: {}
+
+  components/coinmarketcal:
     specifiers: {}
 
   components/college_football_data:
@@ -4405,9 +4405,6 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.4.1
-
-  components/urlbox_io:
-    specifiers: {}
 
   components/user_com:
     specifiers: {}
