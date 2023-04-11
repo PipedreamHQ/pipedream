@@ -1691,6 +1691,9 @@
     },
     {
       "path": "components/businesslogic"
+    },
+    {
+      "path": "components/coinmarketcal"
     }
   ]
 }
