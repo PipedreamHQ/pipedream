@@ -4,14 +4,23 @@ export default {
   key: "datadog-post-metric-data",
   name: "Post Metric Data",
   description: "The metrics end-point allows you to post time-series data that can be graphed on Datadog's dashboards. [See docs](https://docs.datadoghq.com/metrics)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     datadog,
+    region: {
+      propDefinition: [
+        datadog,
+        "region",
+      ],
+    },
     metric: {
       propDefinition: [
         datadog,
         "metric",
+        (c) => ({
+          region: c.region,
+        }),
       ],
     },
     points: {
@@ -22,10 +31,10 @@ export default {
   },
   methods: {
     convertMetricPoints(points) {
-      return Object.keys(points).map((point) => ([
-        parseFloat(point),
-        parseFloat(points[point]),
-      ]));
+      return Object.keys(points).map((point) => ({
+        timestamp: parseFloat(point),
+        value: parseFloat(points[point]),
+      }));
     },
   },
   async run({ $ }) {
@@ -39,6 +48,7 @@ export default {
           },
         ],
       },
+      region: this.region,
     });
 
     $.export("$summary", `Posted to ${this.metric} timeseries`);
