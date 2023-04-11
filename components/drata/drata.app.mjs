@@ -4,7 +4,24 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "drata",
-  propDefinitions: {},
+  propDefinitions: {
+    controlId: {
+      type: "string",
+      label: "Control ID",
+      description: "The ID of the control.",
+      async options({ page }) {
+        const response = await this.listControls({
+          params: {
+            page: ++page,
+          },
+        });
+        return response.data.map((control) => ({
+          label: control.name,
+          value: control.id,
+        }));
+      },
+    },
+  },
   methods: {
     async _makeRequest({
       $ = this, path = "/", ...opts
@@ -94,6 +111,21 @@ export default {
       return this._makeRequest({
         ...opts,
         path: "/controls",
+      });
+    },
+    async listEvidencesForControl({
+      controlId, paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate({
+          ...opts,
+          controlId,
+          fn: this.listEvidencesForControl,
+        });
+      }
+      return this._makeRequest({
+        ...opts,
+        path: `/controls/${controlId}/external-evidence`,
       });
     },
   },
