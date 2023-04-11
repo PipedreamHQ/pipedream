@@ -74,5 +74,19 @@ export default {
         path: "/assets",
       });
     },
+    async listControls({
+      paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate({
+          ...opts,
+          fn: this.listControls,
+        });
+      }
+      return this._makeRequest({
+        ...opts,
+        path: "/controls",
+      });
+    },
   },
 };
