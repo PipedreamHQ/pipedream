@@ -1,0 +1,8 @@
+export default {
+  ASYNC_OPTIONS_LIMIT: 20,
+  DEPLOY_LIMIT: 25,
+  PAGINATION_LIMIT: 50,
+  SORT_CRITERIA: {
+    START_DATE: "START_DATE",
+  },
+};
