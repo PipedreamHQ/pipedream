@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     _client() {
-      return memberstackAdmin.init(this.$auth["X-API-KEY"]);
+      return memberstackAdmin.init(this.$auth["secret_key"]);
     },
     async getMember(args = {}) {
       return this._client().members.retrieve(args);
