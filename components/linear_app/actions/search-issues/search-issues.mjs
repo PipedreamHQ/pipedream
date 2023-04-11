@@ -1,12 +1,14 @@
-import constants from "../../common/constants.mjs";
 import linearApp from "../../linear_app.app.mjs";
+import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
+const getAdditionalIssueInformation = utils.getAdditionalIssueInformation;
 
 export default {
   key: "linear_app-search-issues",
   name: "Search Issues",
   description: "Search issues (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
   type: "action",
-  version: "0.2.0",
+  version: "0.2.1",
   props: {
     linearApp,
     query: {
@@ -54,6 +56,7 @@ export default {
     },
   },
   methods: {
+    getAdditionalIssueInformation,
     buildFilter() {
       return {
         title: {
@@ -112,6 +115,6 @@ export default {
 
     $.export("$summary", `Found ${issues.length} issues`);
 
-    return issues;
+    return await this.getAdditionalIssueInformation(issues);
   },
 };

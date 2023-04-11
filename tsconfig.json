@@ -1670,6 +1670,30 @@
     },
     {
       "path": "components/urlbox_io"
+    },
+    {
+      "path": "components/recreation_gov"
+    },
+    {
+      "path": "components/geodb_cities"
+    },
+    {
+      "path": "components/world_news_api"
+    },
+    {
+      "path": "components/ezeep_blue"
+    },
+    {
+      "path": "components/instagram_business"
+    },
+    {
+      "path": "components/perry_github_test"
+    },
+    {
+      "path": "components/businesslogic"
+    },
+    {
+      "path": "components/coinmarketcal"
     }
   ]
 }

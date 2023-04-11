@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/recreation_gov",
+  "version": "0.0.1",
+  "description": "Pipedream Recreation.gov Components",
+  "main": "dist/app/recreation_gov.app.mjs",
+  "keywords": [
+    "pipedream",
+    "recreation_gov"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/recreation_gov",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
