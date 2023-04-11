@@ -21,30 +21,38 @@ export default {
     async paginate({
       fn, ...opts
     }) {
-      const results = [];
-      let page = opts.params?.page || 1;
+      const { total } = await fn.call(this, {
+        ...opts,
+        params: {
+          ...opts.params,
+          limit: 1,
+        },
+      });
 
-      while (true) {
-        const response = await fn.call(this, {
+      const promises = [];
+      const numberOfPages = Math.ceil(total / constants.PAGINATION_LIMIT);
+      for (let page = 1; page <= numberOfPages; page++) {
+        promises.push(fn.call(this, {
           ...opts,
           params: {
             ...opts.params,
             limit: constants.PAGINATION_LIMIT,
             page,
           },
-        });
-
-        results.push(...response.data);
-
-        if (response.data.length < constants.PAGINATION_LIMIT) {
-          return {
-            ...response,
-            data: results,
-          };
-        }
-
-        page++;
+        }));
       }
+
+      const responses = await Promise.all(promises);
+      const results = responses.reduce((results, { data }) => ([
+        ...results,
+        ...data,
+      ]), []);
+
+      return {
+        data: results,
+        page: numberOfPages,
+        total,
+      };
     },
     async listPersonnel({
       paginate = false, ...opts
