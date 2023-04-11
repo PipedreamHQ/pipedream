@@ -3,14 +3,13 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "businesslogic",
-  propDefinitions: {},
   methods: {
     _baseUrl() {
       return "https://api.businesslogic.online";
     },
     _headers() {
       return {
-        "X-Auth-Token": `${this.businesslogic.$auth.live_token}`,
+        "X-Auth-Token": `${this.$auth.live_token}`,
       };
     },
     async _makeRequest({
@@ -19,7 +18,7 @@ export default {
       ...args
     }) {
       return axios($, {
-        url: `${this._baseUrl()}/${path}`,
+        url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...args,
       });

@@ -13,7 +13,7 @@ export default {
     const response = await this.businesslogic.describeEndpoint({
       $,
     });
-    $.export("$summary", "Successfully retrieved webservice description");
+    $.export("$summary", "Successfully retrieved webservice schemas.");
     return response;
   },
 };

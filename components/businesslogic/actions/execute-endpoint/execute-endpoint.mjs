@@ -8,9 +8,15 @@ export default {
   type: "action",
   props: {
     businesslogic,
+    data: {
+      type: "object",
+      label: "Data",
+      description: "Input parameters for the uploaded Excel document",
+    },
   },
   async run({ $ }) {
     const response = await this.businesslogic.executeEndpoint({
+      data: this.data,
       $,
     });
     $.export("$summary", "Successfully executed webservice.");
