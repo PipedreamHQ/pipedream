@@ -2,13 +2,10 @@
   "name": "@pipedream/godial",
   "version": "0.0.3",
   "description": "Pipedream GoDial Components",
-  "main": "dist/app/godial.app.mjs",
+  "main": "app/godial.app.mjs",
   "keywords": [
     "pipedream",
     "godial"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/godial",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
