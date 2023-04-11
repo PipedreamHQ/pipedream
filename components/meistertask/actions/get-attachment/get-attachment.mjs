@@ -46,8 +46,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.meistertask.getAttachment(this.attachmentId, {
+    const response = await this.meistertask.getAttachment({
       $,
+      attachmentId: this.attachmentId,
     });
     if (response) {
       $.export("$summary", `Successfully retrieved attachment with ID ${this.attachmentId}`);

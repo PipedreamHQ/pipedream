@@ -37,7 +37,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.meistertask.getTask(this.taskId, {
+    const response = await this.meistertask.getTask({
+      taskId: this.taskId,
       $,
     });
     if (response) {

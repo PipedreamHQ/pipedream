@@ -34,7 +34,8 @@ export default {
           page: page + 1,
         };
         const projects = projectId
-          ? await this.listProjectSections(projectId, {
+          ? await this.listProjectSections({
+            projectId,
             params,
           })
           : await this.listSections({
@@ -60,12 +61,14 @@ export default {
         };
         const tasks = [];
         if (sectionId) {
-          const sectionTasks = await this.listSectionTasks(sectionId, {
+          const sectionTasks = await this.listSectionTasks({
+            sectionId,
             params,
           });
           tasks.push(...sectionTasks);
         } else if (projectId) {
-          const projectTasks = await this.listProjectTasks(projectId, {
+          const projectTasks = await this.listProjectTasks({
+            projectId,
             params,
           });
           tasks.push(...projectTasks);
@@ -90,7 +93,8 @@ export default {
       async options({
         page, taskId,
       }) {
-        const attachments = await this.listAttachments(taskId, {
+        const attachments = await this.listAttachments({
+          taskId,
           params: {
             page: page + 1,
           },
@@ -114,10 +118,12 @@ export default {
           page: page + 1,
         };
         const labels = taskId
-          ? await this.listTaskLabels(taskId, {
+          ? await this.listTaskLabels({
+            taskId,
             params,
           })
-          : await this.listProjectLabels(projectId, {
+          : await this.listProjectLabels({
+            projectId,
             params,
           });
         return labels?.map(({
@@ -139,7 +145,8 @@ export default {
           page: page + 1,
         };
         const persons = projectId
-          ? await this.listProjectPersons(projectId, {
+          ? await this.listProjectPersons({
+            projectId,
             params,
           })
           : await this.listPersons({
@@ -188,31 +195,41 @@ export default {
         ...args,
       });
     },
-    getAttachment(attachmentId, args = {}) {
+    getAttachment({
+      attachmentId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/attachments/${attachmentId}`,
         ...args,
       });
     },
-    getPerson(personId, args = {}) {
+    getPerson({
+      personId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/persons/${personId}`,
         ...args,
       });
     },
-    getLabel(labelId, args = {}) {
+    getLabel({
+      labelId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/labels/${labelId}`,
         ...args,
       });
     },
-    getTask(taskId, args = {}) {
+    getTask({
+      taskId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/tasks/${taskId}`,
         ...args,
       });
     },
-    listAttachments(taskId, args = {}) {
+    listAttachments({
+      taskId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/tasks/${taskId}/attachments`,
         ...args,
@@ -224,13 +241,17 @@ export default {
         ...args,
       });
     },
-    listProjectTasks(projectId, args = {}) {
+    listProjectTasks({
+      projectId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/projects/${projectId}/tasks`,
         ...args,
       });
     },
-    listSectionTasks(sectionId, args = {}) {
+    listSectionTasks({
+      sectionId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/sections/${sectionId}/tasks`,
         ...args,
@@ -248,19 +269,25 @@ export default {
         ...args,
       });
     },
-    listProjectSections(projectId, args = {}) {
+    listProjectSections({
+      projectId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/projects/${projectId}/sections`,
         ...args,
       });
     },
-    listProjectChecklists(projectId, args = {}) {
+    listProjectChecklists({
+      projectId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/projects/${projectId}/checklists`,
         ...args,
       });
     },
-    listTaskChecklists(taskId, args = {}) {
+    listTaskChecklists({
+      taskId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/tasks/${taskId}/checklists`,
         ...args,
@@ -272,59 +299,77 @@ export default {
         ...args,
       });
     },
-    listProjectPersons(projectId, args = {}) {
+    listProjectPersons({
+      projectId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/projects/${projectId}/persons`,
         ...args,
       });
     },
-    listProjectLabels(projectId, args = {}) {
+    listProjectLabels({
+      projectId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/projects/${projectId}/labels`,
         ...args,
       });
     },
-    listTaskLabels(taskId, args = {}) {
+    listTaskLabels({
+      taskId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/tasks/${taskId}/labels`,
         ...args,
       });
     },
-    listComments(taskId, args = {}) {
-      return this._makeRequest({
-        path: `/tasks/${taskId}/labels`,
-        ...args,
-      });
-    },
-    createAttachment(taskId, args = {}) {
+    listComments({
+      taskId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/tasks/${taskId}/comments`,
+        ...args,
+      });
+    },
+    createAttachment({
+      taskId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/tasks/${taskId}/attachments`,
         method: "POST",
         ...args,
       });
     },
-    createLabel(projectId, args = {}) {
+    createLabel({
+      projectId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/projects/${projectId}/labels`,
         method: "POST",
         ...args,
       });
     },
-    createTask(sectionId, args = {}) {
+    createTask({
+      sectionId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/sections/${sectionId}/tasks`,
         method: "POST",
         ...args,
       });
     },
-    addLabelToTask(taskId, args = {}) {
+    addLabelToTask({
+      taskId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/tasks/${taskId}/task_labels`,
         method: "POST",
         ...args,
       });
     },
-    updateTask(taskId, args = {}) {
+    updateTask({
+      taskId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/tasks/${taskId}`,
         method: "PUT",

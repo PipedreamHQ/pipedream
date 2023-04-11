@@ -82,9 +82,10 @@ export default {
       status: this.status,
       label_ids: this.labels,
     };
-    const response = await this.meistertask.createTask(this.sectionId, {
+    const response = await this.meistertask.createTask({
       $,
       data,
+      sectionId: this.sectionId,
     });
     if (response) {
       $.export("$summary", `Successfully created task with ID ${response.id}`);

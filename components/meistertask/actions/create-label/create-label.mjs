@@ -31,9 +31,10 @@ export default {
       name: this.name,
       color: this.labelColor,
     };
-    const response = await this.meistertask.createLabel(this.projectId, {
+    const response = await this.meistertask.createLabel({
       $,
       data,
+      projectId: this.projectId,
     });
     if (response) {
       $.export("$summary", `Successfully created label with ID ${response.id}`);

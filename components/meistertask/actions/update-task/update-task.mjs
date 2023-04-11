@@ -96,9 +96,10 @@ export default {
       section_id: this.sectionId,
       status: this.status,
     };
-    const response = await this.meistertask.updateTask(this.taskId, {
+    const response = await this.meistertask.updateTask({
       $,
       data,
+      taskId: this.taskId,
     });
     if (response) {
       $.export("$summary", `Successfully updated task with ID ${response.id}`);

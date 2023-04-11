@@ -26,7 +26,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.meistertask.getPerson(this.personId, {
+    const response = await this.meistertask.getPerson({
+      personId: this.personId,
       $,
     });
     if (response) {

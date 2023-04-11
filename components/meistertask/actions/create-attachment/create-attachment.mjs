@@ -84,7 +84,8 @@ export default {
       "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
     };
 
-    const response = await this.meistertask.createAttachment(taskId, {
+    const response = await this.meistertask.createAttachment({
+      taskId,
       data,
       headers,
     });

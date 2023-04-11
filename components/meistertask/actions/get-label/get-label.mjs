@@ -47,7 +47,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.meistertask.getLabel(this.labelId, {
+    const response = await this.meistertask.getLabel({
+      labelId: this.labelId,
       $,
     });
     if (response) {

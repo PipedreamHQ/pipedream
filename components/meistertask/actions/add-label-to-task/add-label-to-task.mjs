@@ -46,11 +46,11 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      task_id: this.taskId,
       label_id: this.labelId,
     };
-    const response = await this.meistertask.addLabelToTask(this.taskId, {
+    const response = await this.meistertask.addLabelToTask({
       $,
+      taskId: this.taskId,
       data,
     });
     if (response) {
