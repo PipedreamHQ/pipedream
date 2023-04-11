@@ -128,5 +128,18 @@ export default {
         path: `/controls/${controlId}/external-evidence`,
       });
     },
+    async listVendors({
+      paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate({
+          ...opts,
+          fn: this.listVendors,
+        });
+      }
+      return this._makeRequest({
+        path: "/vendors",
+      });
+    },
   },
 };
