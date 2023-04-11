@@ -86,6 +86,11 @@ export default {
         "locationFilter",
       ],
     },
+    maxExecutions: {
+      type: "integer",
+      label: "Max pages to fetch per run",
+      description: "The maximum number of pages to fetch per run. **Note**: this component will emit a maximum of 1000 news per run, which means 10 pages.",
+    },
   },
   methods: {
     emit(data) {
@@ -108,8 +113,8 @@ export default {
         "language": this.language || undefined,
         "min-sentiment": this.minSentiment || undefined,
         "max-sentiment": this.maxSentiment || undefined,
-        "earliest-published-date": this.earliestPublishedDate || undefined,
-        "latest-published-date": this.latestPublishedDate || undefined,
+        "earliest-publish-date": this.earliestPublishedDate || undefined,
+        "latest-publish-date": this.latestPublishedDate || undefined,
         "news-sources": getCommaSeparatedListFromArray(this.newsSources),
         "authors": getCommaSeparatedListFromArray(this.authors),
         "entities": getCommaSeparatedListFromArray(this.entities),
@@ -142,7 +147,7 @@ export default {
   async run({ $ }) {
     const ITEMS_PER_PAGE = 100;
     const MAX_CALLS_PER_EXECUTION = 10;
-    const MAX_OFFSET = MAX_CALLS_PER_EXECUTION * ITEMS_PER_PAGE;
+    const MAX_OFFSET = Math.min(MAX_CALLS_PER_EXECUTION, this.maxExecutions) * ITEMS_PER_PAGE;
 
     const lastEmmitedId = this.getLastId();
     const newsToEmit = [];
