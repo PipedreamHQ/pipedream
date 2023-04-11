@@ -5,5 +5,6 @@ export default {
   SORT_CRITERIA: {
     CREATED: "CREATED",
     START_DATE: "START_DATE",
+    SEPARATION_DATE: "SEPARATION_DATE",
   },
 };

@@ -85,6 +85,14 @@ export default {
         path: "/personnel",
       });
     },
+    async getPersonnelById({
+      id, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/personnel/${id}`,
+      });
+    },
     async listAssets({
       paginate = false, ...opts
     }) {
