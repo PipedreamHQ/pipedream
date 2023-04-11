@@ -11,10 +11,31 @@ export default {
   type: "action",
   props: {
     meistertask,
+    projectId: {
+      propDefinition: [
+        meistertask,
+        "projectId",
+      ],
+      optional: true,
+    },
+    sectionId: {
+      propDefinition: [
+        meistertask,
+        "sectionId",
+        (c) => ({
+          projectId: c.projectId,
+        }),
+      ],
+      optional: true,
+    },
     taskId: {
       propDefinition: [
         meistertask,
         "taskId",
+        (c) => ({
+          projectId: c.projectId,
+          sectionId: c.sectionId,
+        }),
       ],
     },
     filepath: {
