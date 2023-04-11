@@ -1679,6 +1679,18 @@
     },
     {
       "path": "components/world_news_api"
+    },
+    {
+      "path": "components/ezeep_blue"
+    },
+    {
+      "path": "components/instagram_business"
+    },
+    {
+      "path": "components/perry_github_test"
+    },
+    {
+      "path": "components/businesslogic"
     }
   ]
 }
