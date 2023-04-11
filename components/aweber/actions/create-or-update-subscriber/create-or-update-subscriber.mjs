@@ -40,6 +40,21 @@ export default {
         aweberApp,
         "subscriberName",
       ],
+      optional: true,
+    },
+    tags: {
+      propDefinition: [
+        aweberApp,
+        "subscriberTags",
+      ],
+      optional: true,
+
+    },
+    notes: {
+      type: "string",
+      label: "Notes",
+      description: "Miscellaneous notes about the subscriber",
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -48,6 +63,8 @@ export default {
       listId,
       email,
       name,
+      tags,
+      notes,
     } = this;
 
     const subscribers = await this.aweberApp.getSubscribersForAccount({
@@ -70,6 +87,8 @@ export default {
       data: {
         email,
         name,
+        tags,
+        notes,
       },
     });
 
