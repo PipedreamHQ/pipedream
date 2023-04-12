@@ -6,7 +6,7 @@ export default {
   name: "Supplier Updated",
   key: "dear-supplier-updated",
   type: "source",
-  description: "Emit new event when a supplier is updated.",
+  description: "Emit a new event when a supplier is updated.",
   version: "0.0.1",
   dedupe: "unique",
   methods: {
