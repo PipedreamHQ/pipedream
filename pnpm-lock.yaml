@@ -767,6 +767,9 @@ importers:
   components/coinmarketcal:
     specifiers: {}
 
+  components/coinmarketcal_demo_app:
+    specifiers: {}
+
   components/college_football_data:
     specifiers: {}
 
@@ -2335,6 +2338,9 @@ importers:
       '@pipedream/platform': 1.2.0
       isomorphic-fetch: 3.0.0
 
+  components/mindmeister:
+    specifiers: {}
+
   components/miro_custom_app:
     specifiers: {}
 
@@ -2595,6 +2601,12 @@ importers:
 
   components/oksign:
     specifiers: {}
+
+  components/omniconvert:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/oncehub:
     specifiers:
