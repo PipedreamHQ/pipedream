@@ -6,6 +6,25 @@ export default {
   type: "app",
   app: "drata",
   propDefinitions: {
+    personnelId: {
+      type: "string",
+      label: "Personnel ID",
+      description: "The ID of the personnel.",
+      async options({
+        page, ...opts
+      }) {
+        const response = await this.listPersonnel({
+          params: {
+            ...opts,
+            page: ++page,
+          },
+        });
+        return response.data.map((personnel) => ({
+          label: this.getPersonnelName(personnel),
+          value: personnel.id,
+        }));
+      },
+    },
     controlId: {
       type: "string",
       label: "Control ID",
@@ -149,6 +168,15 @@ export default {
       }
       return this._makeRequest({
         path: "/vendors",
+      });
+    },
+    async uploadBackgroundCheck({
+      personnelId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/background-check/${personnelId}/manual`,
+        method: "POST",
       });
     },
   },
