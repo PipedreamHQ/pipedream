@@ -7,6 +7,7 @@ export default {
   description: "Emit new event when a new comment is created. [See the docs](https://developers.meistertask.com/reference/get-task-comments)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     projectId: {
@@ -50,11 +51,11 @@ export default {
         taskId: this.taskId,
       };
     },
-    generateMeta(task) {
+    generateMeta(comment) {
       return {
-        id: task.id,
-        summary: task.name,
-        ts: Date.parse(task.created_at),
+        id: comment.id,
+        summary: comment.text,
+        ts: Date.parse(comment.created_at),
       };
     },
   },

@@ -72,7 +72,7 @@ export default {
     };
 
     while (true) {
-      const events = await resourceFn(args);
+      const events = await resourceFn(args); console.log(events);
       if (!(events?.length > 0)) {
         return;
       }

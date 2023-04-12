@@ -7,6 +7,7 @@ export default {
   description: "Emit new event when a new section is created. [See the docs](https://developers.meistertask.com/reference/get-sections)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     projectId: {

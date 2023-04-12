@@ -2,11 +2,12 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "meister-new-section-created",
-  name: "New Section Created",
-  description: "Emit new event when a new section is created. [See the docs](https://developers.meistertask.com/reference/get-tasks)",
+  key: "meister-new-task-created",
+  name: "New Task Created",
+  description: "Emit new event when a new task is created. [See the docs](https://developers.meistertask.com/reference/get-tasks)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     projectId: {

@@ -52,7 +52,7 @@ export default {
       $,
     });
     if (response) {
-      $.export("$summary", `Successfully retrieved labelwith ID ${this.labelId}`);
+      $.export("$summary", `Successfully retrieved label with ID ${this.labelId}`);
     }
     return response;
   },

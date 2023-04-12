@@ -74,11 +74,11 @@ export default {
 
     const file = fs.createReadStream(path);
     const stats = fs.statSync(path);
-    data.append("file", file, {
+    data.append("local", file, {
       knownLength: stats.size,
     });
     if (name) {
-      data.append("name", file);
+      data.append("name", name);
     }
     const headers = {
       "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
