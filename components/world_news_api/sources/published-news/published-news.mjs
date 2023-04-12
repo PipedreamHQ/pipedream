@@ -89,7 +89,7 @@ export default {
     maxExecutions: {
       type: "integer",
       label: "Max pages to fetch per run",
-      description: "The maximum number of pages to fetch per run. **Note**: this component will emit a maximum of 1000 news per run, which means 10 pages.",
+      description: "The maximum number of pages to fetch per run. **Note**: this component will emit a maximum of 1000 news per run, which means 10.",
     },
   },
   methods: {
@@ -169,7 +169,7 @@ export default {
       }
 
       offset += ITEMS_PER_PAGE;
-    } while (offset <= MAX_OFFSET);
+    } while (offset < MAX_OFFSET);
 
     if (newsToEmit.length > 0) {
       this.setLastId(newsToEmit[newsToEmit.length - 1].id);
