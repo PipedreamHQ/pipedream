@@ -83,5 +83,13 @@ export default {
         ...args,
       });
     },
+    async getContacts({
+      listId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/externals/contact/list/${listId}`,
+        ...args,
+      });
+    },
   },
 };
