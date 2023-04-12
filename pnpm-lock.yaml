@@ -2801,6 +2801,9 @@ importers:
   components/pdfmonkey:
     specifiers: {}
 
+  components/perry_github_test:
+    specifiers: {}
+
   components/persistiq:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -12458,7 +12461,7 @@ packages:
   /@types/jsonwebtoken/8.5.8:
     resolution: {integrity: sha512-zm6xBQpFDIDM6o9r6HSgDeIcLy82TKWctCXEPbJJcXb5AKmi5BNNdLXneixK4lplX3PqIVcwLBCGE/kAGnlD4A==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
     dev: false
 
   /@types/keyv/3.1.4:

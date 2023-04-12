@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/mindmeister",
+  "version": "0.0.1",
+  "description": "Pipedream MindMeister Components",
+  "main": "dist/app/mindmeister.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mindmeister"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/mindmeister",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
