@@ -6,7 +6,7 @@ export default {
   name: "Available Stock Level Change",
   key: "dear-available-stock-level-change",
   type: "source",
-  description: "Emit new event when available stock level is changed.",
+  description: "Emit a new event when the available stock level changes.",
   version: "0.0.1",
   dedupe: "unique",
   methods: {
