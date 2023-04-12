@@ -1700,6 +1700,15 @@
     },
     {
       "path": "components/coinmarketcal_demo_app"
+    },
+    {
+      "path": "components/census_bureau"
+    },
+    {
+      "path": "components/data_police_uk"
+    },
+    {
+      "path": "components/budgets_ai"
     }
   ]
 }
