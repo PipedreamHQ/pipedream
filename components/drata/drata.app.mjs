@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import utils from "./common/utils.mjs";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -23,6 +24,7 @@ export default {
     },
   },
   methods: {
+    ...utils.methods,
     async _makeRequest({
       $ = this, path = "/", ...opts
     }) {
