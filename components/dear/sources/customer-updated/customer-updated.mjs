@@ -6,7 +6,7 @@ export default {
   name: "Customer Updated",
   key: "dear-customer-updated",
   type: "source",
-  description: "Emit new event when a customer is updated.",
+  description: "Emit a new event when a customer is updated.",
   version: "0.0.1",
   dedupe: "unique",
   methods: {
