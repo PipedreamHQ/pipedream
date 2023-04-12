@@ -1694,6 +1694,12 @@
     },
     {
       "path": "components/coinmarketcal"
+    },
+    {
+      "path": "components/mindmeister"
+    },
+    {
+      "path": "components/coinmarketcal_demo_app"
     }
   ]
 }
