@@ -9,6 +9,7 @@ export default {
   key: "world_news_api-published-news",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     app,
     timer: {
@@ -106,7 +107,7 @@ export default {
     getLastId() {
       return this.db.get("lastId");
     },
-    async getCurrentPageRawData(offset, itemsPerPage, $) {
+    async getCurrentPageRawData(offset, itemsPerPage) {
       const params = {
         "text": this.text || undefined,
         "source-countries": getCommaSeparatedListFromArray(this.sourceCountries),
@@ -124,7 +125,7 @@ export default {
         "sort": "publish-time",
         "sort-direction": "DESC",
       };
-      const res = await this.app.searchNews(params, $);
+      const res = await this.app.searchNews(params);
       return res;
     },
     getCurrentPageNewsArray(res, lastEmmitedId) {
@@ -143,40 +144,49 @@ export default {
         foundLastEmmitedId,
       };
     },
+    async fetchNews(itemsPerPage, maxCallsPerExecution, updateLastId = true) {
+      const ITEMS_PER_PAGE = itemsPerPage ?? 100;
+      const MAX_CALLS_PER_EXECUTION = maxCallsPerExecution ?? 10;
+      const MAX_OFFSET = Math.min(MAX_CALLS_PER_EXECUTION, this.maxExecutions) * ITEMS_PER_PAGE;
+      console.log(`Fetching news... (up to ${MAX_OFFSET}),`);
+
+      const lastEmmitedId = this.getLastId();
+      const newsToEmit = [];
+      let offset = 0;
+
+      do {
+        const res = await this.getCurrentPageRawData(offset, ITEMS_PER_PAGE);
+        if (res.news.length === 0) {
+          break;
+        }
+
+        const {
+          news,
+          foundLastEmmitedId,
+        } = this.getCurrentPageNewsArray(res, lastEmmitedId);
+        newsToEmit.unshift(...news);
+        if (foundLastEmmitedId) {
+          break;
+        }
+
+        offset += ITEMS_PER_PAGE;
+      } while (offset < MAX_OFFSET);
+
+      if (newsToEmit.length > 0 && updateLastId) {
+        this.setLastId(newsToEmit[newsToEmit.length - 1].id);
+      }
+
+      for (const news of newsToEmit) {
+        this.emit(news);
+      }
+    },
   },
-  async run({ $ }) {
-    const ITEMS_PER_PAGE = 100;
-    const MAX_CALLS_PER_EXECUTION = 10;
-    const MAX_OFFSET = Math.min(MAX_CALLS_PER_EXECUTION, this.maxExecutions) * ITEMS_PER_PAGE;
-
-    const lastEmmitedId = this.getLastId();
-    const newsToEmit = [];
-    let offset = 0;
-
-    do {
-      const res = await this.getCurrentPageRawData(offset, ITEMS_PER_PAGE, $);
-      if (res.news.length === 0) {
-        break;
-      }
-
-      const {
-        news,
-        foundLastEmmitedId,
-      } = this.getCurrentPageNewsArray(res, lastEmmitedId);
-      newsToEmit.unshift(...news);
-      if (foundLastEmmitedId) {
-        break;
-      }
-
-      offset += ITEMS_PER_PAGE;
-    } while (offset < MAX_OFFSET);
-
-    if (newsToEmit.length > 0) {
-      this.setLastId(newsToEmit[newsToEmit.length - 1].id);
-    }
-
-    for (const news of newsToEmit) {
-      this.emit(news);
-    }
+  hooks: {
+    async activate() {
+      await this.fetchNews(20, 1, false);
+    },
+  },
+  async run() {
+    await this.fetchNews();
   },
 };
