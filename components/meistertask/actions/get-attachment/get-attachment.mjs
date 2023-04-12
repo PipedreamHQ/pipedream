@@ -1,7 +1,7 @@
 import meistertask from "../../meistertask.app.mjs";
 
 export default {
-  key: "meister-get-attachment",
+  key: "meistertask-get-attachment",
   name: "Get Attachment",
   description: "Retrieves information about an attachment. [See the docs](https://developers.meistertask.com/reference/get-attachment)",
   version: "0.0.1",

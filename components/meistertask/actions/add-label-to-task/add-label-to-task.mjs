@@ -1,7 +1,7 @@
 import meistertask from "../../meistertask.app.mjs";
 
 export default {
-  key: "meister-add-label-to-task",
+  key: "meistertask-add-label-to-task",
   name: "Add Label To Task",
   description: "Adds a project label to a task. [See the docs](https://developers.meistertask.com/reference/post-task-label)",
   version: "0.0.1",

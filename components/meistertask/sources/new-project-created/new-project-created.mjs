@@ -2,7 +2,7 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "meister-new-project-created",
+  key: "meistertask-new-project-created",
   name: "New Project Created",
   description: "Emit new event when a new project is created. [See the docs](https://developers.meistertask.com/reference/get-projects)",
   version: "0.0.1",

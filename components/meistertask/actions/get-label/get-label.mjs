@@ -1,7 +1,7 @@
 import meistertask from "../../meistertask.app.mjs";
 
 export default {
-  key: "meister-get-label",
+  key: "meistertask-get-label",
   name: "Get Label",
   description: "Retrieves information about a label. [See the docs](https://developers.meistertask.com/reference/get-label)",
   version: "0.0.1",

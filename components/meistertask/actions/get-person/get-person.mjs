@@ -1,7 +1,7 @@
 import meistertask from "../../meistertask.app.mjs";
 
 export default {
-  key: "meister-get-person",
+  key: "meistertask-get-person",
   name: "Get Person",
   description: "Retrieves information about a person. [See the docs](https://developers.meistertask.com/reference/get-person)",
   version: "0.0.1",

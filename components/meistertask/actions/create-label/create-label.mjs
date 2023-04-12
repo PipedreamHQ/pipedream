@@ -1,7 +1,7 @@
 import meistertask from "../../meistertask.app.mjs";
 
 export default {
-  key: "meister-create-label",
+  key: "meistertask-create-label",
   name: "Create Label",
   description: "Create a new label in a project. [See the docs](https://developers.meistertask.com/reference/post-label)",
   version: "0.0.1",

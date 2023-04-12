@@ -2,7 +2,7 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "meister-new-section-created",
+  key: "meistertask-new-section-created",
   name: "New Section Created",
   description: "Emit new event when a new section is created. [See the docs](https://developers.meistertask.com/reference/get-sections)",
   version: "0.0.1",

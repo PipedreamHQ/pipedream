@@ -4,7 +4,7 @@ import fs from "fs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "meister-create-attachment",
+  key: "meistertask-create-attachment",
   name: "Create Attachment",
   description: "Create a new attachment. [See the docs](https://developers.meistertask.com/reference/post-attachment)",
   version: "0.0.1",

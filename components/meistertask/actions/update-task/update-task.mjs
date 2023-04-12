@@ -1,7 +1,7 @@
 import meistertask from "../../meistertask.app.mjs";
 
 export default {
-  key: "meister-update-task",
+  key: "meistertask-update-task",
   name: "Update Task",
   description: "Updaets an existing task in a project section. [See the docs](https://developers.meistertask.com/reference/put-task)",
   version: "0.0.1",

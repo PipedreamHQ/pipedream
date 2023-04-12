@@ -2,7 +2,7 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "meister-new-comment-created",
+  key: "meistertask-new-comment-created",
   name: "New Comment Created",
   description: "Emit new event when a new comment is created. [See the docs](https://developers.meistertask.com/reference/get-task-comments)",
   version: "0.0.1",

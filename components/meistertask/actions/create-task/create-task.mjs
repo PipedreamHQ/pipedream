@@ -1,7 +1,7 @@
 import meistertask from "../../meistertask.app.mjs";
 
 export default {
-  key: "meister-create-task",
+  key: "meistertask-create-task",
   name: "Create Task",
   description: "Create a new task in a project section. [See the docs](https://developers.meistertask.com/reference/post-task)",
   version: "0.0.1",
