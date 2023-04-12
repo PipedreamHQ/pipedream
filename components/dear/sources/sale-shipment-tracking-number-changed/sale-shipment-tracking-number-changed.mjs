@@ -6,7 +6,7 @@ export default {
   name: "Shipment Tracking Number Change",
   key: "dear-sale-shipment-tracking-number-change",
   type: "source",
-  description: "Emit new event when a shipment tracking number changes.",
+  description: "Emit a new event when a shipment tracking number changes.",
   version: "0.0.1",
   dedupe: "unique",
   methods: {
