@@ -53,7 +53,7 @@ export default {
       for (const personnel of response.data.reverse()) {
         this.$emit(personnel, {
           id: personnel.id,
-          summary: `Historical terminated employee added event: ${this.getPersonnelName(personnel)}`,
+          summary: `Historical terminated employee added event: ${this.drata.getPersonnelName(personnel)}`,
           ts: personnel.updatedAt,
         });
       }
@@ -65,13 +65,6 @@ export default {
     },
     _setLastCurrentEmployees(lastCurrentEmployees) {
       this.db.set("lastCurrentEmployees", Array.from(lastCurrentEmployees));
-    },
-    getPersonnelName(personnel) {
-      let name = personnel.user.firstName;
-      if (personnel.user.lastName) {
-        name += ` ${personnel.user.lastName}`;
-      }
-      return name;
     },
     getDifference(setA, setB) {
       return new Set(
@@ -117,7 +110,7 @@ export default {
       lastCurrentEmployees.delete(employee.id);
       this.$emit(employee, {
         id: employee.id,
-        summary: `Employee terminated: ${this.getPersonnelName(employee)}`,
+        summary: `Employee terminated: ${this.drata.getPersonnelName(employee)}`,
         ts: employee.updatedAt,
       });
     }
