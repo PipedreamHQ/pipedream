@@ -189,6 +189,10 @@
     {
       "source": "/docs/apps/zoom/",
       "destination": "https://pipedream.com/apps/zoom#getting-started"
+    },
+    {
+      "source": "/docs/apps/all-apps/",
+      "destination": "/docs/apps/"
     }
   ]
 }
