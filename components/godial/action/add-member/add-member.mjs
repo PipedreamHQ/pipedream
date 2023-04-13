@@ -4,7 +4,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Add Member",
-  version: "0.0.13",
+  version: "0.0.1",
   key: "godial-add-member",
   description: "Adds a member. [See docs here](https://godial.stoplight.io/docs/godial/b3A6MzAzMTY1Ng-accounts-add)",
   type: "action",
