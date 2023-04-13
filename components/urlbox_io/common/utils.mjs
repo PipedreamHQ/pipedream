@@ -4,6 +4,7 @@ import qs from "qs";
 /*
 toQueryString generates the stringified params data
 which is used to generate the hmacSha1 token and send it in the request
+See here (https://github.com/urlbox/urlbox-screenshots-node/blob/master/src/index.js#L48)
 */
 export const toQueryString = (options) => {
   return qs.stringify(options, {
