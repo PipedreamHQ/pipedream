@@ -39,14 +39,14 @@ export default {
       maxResults,
     };
 
-    const data = await this.youtubeDataApi.getPlaylistItems(params);
-    const { length } = data;
+    const { data: { items } } = await this.youtubeDataApi.getPlaylistItems(params);
+    const { length } = items;
     const summary = length
-      ? `Successfully fetched ${data.length} video${length === 1
+      ? `Successfully fetched ${length} video${length === 1
         ? ""
         : "s"}`
       : "No videos found";
     $.export("$summary", summary);
-    return data;
+    return items;
   },
 };
