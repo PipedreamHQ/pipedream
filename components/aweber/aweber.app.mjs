@@ -34,9 +34,9 @@ export default {
       optional: true,
     },
     subscriberTags: {
-      type: "string[]",
+      type: "object",
       label: "Tags",
-      description: "This field is used to apply a list of tags to a Subscriber. With Campaigns, you can trigger a series of messages based on what Tags have been applied to your subscribers.",
+      description: "This field is used to apply a list of tags to a Subscriber. With existing subscriber, you can add or remove the tag with this sample expression `{{ {\"add\": [\"tag1\"], \"remove\": [\"tag2\"]} }}`. With the new subscriber, you can add the tag with the array `{{ [\"tag1\", \"tag2\"] }}`",
       optional: true,
     },
     accountId: {
