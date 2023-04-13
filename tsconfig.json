@@ -1724,6 +1724,12 @@
     },
     {
       "path": "components/oauth_app_demo_1"
+    },
+    {
+      "path": "components/omnisend"
+    },
+    {
+      "path": "components/formstack_documents"
     }
   ]
 }
