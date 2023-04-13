@@ -48,13 +48,13 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.teamsId?.length) {
-      throw new ConfigurationError("TeamsId is required");
-    }
-
     this.teamsId = typeof this.teamsId === "string"
       ? JSON.parse(this.teamsId)
       : this.teamsIds;
+
+    if (!this.teamsId || !this.teamsId?.length) {
+      throw new ConfigurationError("TeamsId is required");
+    }
 
     const response = await this.godial.addMember({
       $,
