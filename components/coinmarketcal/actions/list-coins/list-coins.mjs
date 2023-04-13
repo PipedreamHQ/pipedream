@@ -14,7 +14,7 @@ export default {
       $,
     });
 
-    $.export("$summary", "Coins were successfully fetched!");
+    $.export("$summary", `${response.body.length} coins were successfully fetched!`);
     return response;
   },
 };

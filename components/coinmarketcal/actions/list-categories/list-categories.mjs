@@ -14,7 +14,7 @@ export default {
       $,
     });
 
-    $.export("$summary", "Categories were successfully fetched!");
+    $.export("$summary", `${response.body.length} categories were successfully fetched!`);
     return response;
   },
 };
