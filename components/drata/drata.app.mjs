@@ -179,5 +179,17 @@ export default {
         method: "POST",
       });
     },
+    async uploadUserComplianceDocument({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/users/${userId}/documents`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+    },
   },
 };
