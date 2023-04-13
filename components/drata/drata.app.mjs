@@ -191,5 +191,17 @@ export default {
         },
       });
     },
+    async uploadDeviceComplianceDocument({
+      deviceId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/devices/${deviceId}/documents`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+    },
   },
 };
