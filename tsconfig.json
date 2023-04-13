@@ -1730,6 +1730,12 @@
     },
     {
       "path": "components/formstack_documents"
+    },
+    {
+      "path": "components/holded"
+    },
+    {
+      "path": "components/signrequest"
     }
   ]
 }
