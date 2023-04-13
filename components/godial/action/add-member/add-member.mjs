@@ -4,7 +4,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Add Member",
-  version: "0.0.1",
+  version: "0.0.13",
   key: "godial-add-member",
   description: "Adds a member. [See docs here](https://godial.stoplight.io/docs/godial/b3A6MzAzMTY1Ng-accounts-add)",
   type: "action",
@@ -48,9 +48,10 @@ export default {
     },
   },
   async run({ $ }) {
+    console.log(this.teamsId);
     this.teamsId = typeof this.teamsId === "string"
       ? JSON.parse(this.teamsId)
-      : this.teamsIds;
+      : this.teamsId;
 
     if (!this.teamsId || !this.teamsId?.length) {
       throw new ConfigurationError("TeamsId is required");
