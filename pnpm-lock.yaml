@@ -528,7 +528,10 @@ importers:
     specifiers: {}
 
   components/businesslogic:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/buy_me_a_coffee:
     specifiers:
