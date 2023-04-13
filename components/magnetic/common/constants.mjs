@@ -1,11 +1,9 @@
-const COMMENT_TYPES = [
-  "CALL",
-  "COMMENT",
-  "ATTEMPTEDCALL",
-  "CHECKIN",
-  "BULKEMAIL",
-];
+const API_PATH = {
+  CORE_API: "/coreAPI",
+  TASKS_API: "/tasksAPI",
+  CLIENTS_API: "/clientsAPI",
+};
 
 export default {
-  COMMENT_TYPES,
+  API_PATH,
 };

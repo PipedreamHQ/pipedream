@@ -30,6 +30,7 @@ export default {
         magnetic,
         "user",
       ],
+      optional: true,
     },
     billable: {
       type: "boolean",
@@ -37,13 +38,13 @@ export default {
       description: "Whether the time tracked on this task is billable or not",
       optional: true,
     },
-    timeMinutes: {
+    trackedTime: {
       type: "integer",
       label: "Time Estimate",
       description: "The estimated time for the task in minutes",
       optional: true,
     },
-    trackedTime: {
+    timeMinutes: {
       type: "integer",
       label: "Tracked Time",
       description: "The time in minutes that the Task Owner has already tracked",
@@ -63,21 +64,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const grouping = this.grouping
-      ? await this.magnetic.getGrouping({
-        params: {
-          id: this.grouping,
-        },
-      })
-      : undefined;
-    const user = this.user
-      ? await this.magnetic.getUser({
-        params: {
-          id: this.user,
-        },
-      })
-      : undefined;
-
     const data = {
       task: this.name,
       description: this.description,
@@ -86,11 +72,19 @@ export default {
       effortMinutes: this.trackedTime,
       startDate: this.startDate,
       endDate: this.endDate,
-      grouping,
-      user,
+      grouping: this.grouping
+        ? {
+          id: this.grouping,
+        }
+        : undefined,
+      user: this.user
+        ? {
+          id: this.user,
+        }
+        : undefined,
     };
 
-    const response = await this.magnetic.createTask({
+    const response = await this.magnetic.createOrUpdateTask({
       data,
       $,
     });
