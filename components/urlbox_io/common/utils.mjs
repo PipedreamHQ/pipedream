@@ -1,6 +1,10 @@
 import hmacSha1 from "crypto-js/hmac-sha1.js";
 import qs from "qs";
 
+/*
+toQueryString generates the stringified params data
+which is used to generate the hmacSha1 token and send it in the request
+*/
 export const toQueryString = (options) => {
   return qs.stringify(options, {
     encoder: (str) => {
