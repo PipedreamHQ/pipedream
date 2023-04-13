@@ -91,6 +91,7 @@ export default {
       type: "integer",
       label: "Max pages to fetch per run",
       description: "The maximum number of pages to fetch per run. **Note**: this component will emit a maximum of 1000 news per run, which means 10.",
+      max: 10,
     },
   },
   methods: {
