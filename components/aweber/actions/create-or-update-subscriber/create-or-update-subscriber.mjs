@@ -1,12 +1,11 @@
 import aweberApp from "../../aweber.app.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
-  key: "aweber-update-subscriber",
-  name: "Update Subscriber",
-  description: "Update the information for the specified subscriber by email. [See the docs here](https://api.aweber.com/#tag/Subscribers/paths/~1accounts~1{accountId}~1lists~1{listId}~1subscribers/patch).",
+  key: "aweber-create-or-update-subscriber",
+  name: "Create Or Update Subscriber",
+  description: "Create subscriber if the subscriber email is not existing or update the information for the specified subscriber by email. [See the docs here](https://api.aweber.com/#tag/Subscribers/paths/~1accounts~1{accountId}~1lists~1{listId}~1subscribers/patch).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.1",
   props: {
     aweberApp,
     accountId: {
@@ -41,12 +40,15 @@ export default {
         aweberApp,
         "subscriberName",
       ],
+      optional: true,
     },
     tags: {
       propDefinition: [
         aweberApp,
         "subscriberTags",
       ],
+      optional: true,
+
     },
     notes: {
       type: "string",
@@ -61,12 +63,23 @@ export default {
       listId,
       email,
       name,
+      tags,
       notes,
     } = this;
 
-    const tags = utils.parse(this.tags);
+    const subscribers = await this.aweberApp.getSubscribersForAccount({
+      accountId,
+      params: {
+        "ws.op": "findSubscribers",
+        email,
+      },
+    });
 
-    const response = await this.aweberApp.updateSubscriber({
+    let requestFn = subscribers?.entries?.length
+      ? this.aweberApp.updateSubscriber
+      : this.aweberApp.addSubscriber;
+
+    const response = await requestFn({
       $,
       accountId,
       listId,
@@ -74,14 +87,12 @@ export default {
       data: {
         email,
         name,
-        tags: {
-          add: tags,
-        },
-        misc_notes: notes,
+        tags,
+        notes,
       },
     });
 
-    $.export("$summary", `Successfully updated subscriber with email ${email}.`);
+    $.export("$summary", `Successfully created/updated subscriber with email ${email}.`);
 
     return response;
   },
