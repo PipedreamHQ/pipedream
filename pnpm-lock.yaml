@@ -764,6 +764,9 @@ importers:
   components/coinbase_commerce:
     specifiers: {}
 
+  components/coinmarketcal:
+    specifiers: {}
+
   components/college_football_data:
     specifiers: {}
 
@@ -2275,6 +2278,16 @@ importers:
   components/meetup:
     specifiers: {}
 
+  components/memberstack:
+    specifiers:
+      '@memberstack/admin': ^1.2.2
+      '@pipedream/platform': ^1.4.1
+      lodash.pickby: ^4.6.0
+    dependencies:
+      '@memberstack/admin': 1.2.2
+      '@pipedream/platform': 1.4.1
+      lodash.pickby: 4.6.0
+
   components/membervault:
     specifiers: {}
 
@@ -2726,10 +2739,10 @@ importers:
 
   components/pandadoc:
     specifiers:
-      '@pipedream/platform': ^1.3.0
+      '@pipedream/platform': ^1.4.1
       form-data: ^4.0.0
     dependencies:
-      '@pipedream/platform': 1.3.0
+      '@pipedream/platform': 1.4.1
       form-data: 4.0.0
 
   components/paperform:
@@ -10144,6 +10157,15 @@ packages:
       superagent: 3.8.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@memberstack/admin/1.2.2:
+    resolution: {integrity: sha512-3kfjzgb8yhChDthFHwGyex0i7mpVlrwYitRyDZ1meSOqr/yu2wBMr/UtDrr56DrDc6LMvq1E2iiM0hK3h10tPA==}
+    dependencies:
+      axios: 0.21.4
+      jose: 3.20.4
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /@microsoft/microsoft-graph-client/3.0.2:
@@ -18934,6 +18956,10 @@ packages:
     engines: {node: '>=10.13.0 < 13 || >=13.7.0'}
     dependencies:
       '@panva/asn1.js': 1.0.0
+    dev: false
+
+  /jose/3.20.4:
+    resolution: {integrity: sha512-PRnyOQwWGD3EZnnSpKOOLqQ0RT9chbB8f8AzY4bEHY0I2FCtrcp1ojG0nBgAMn2MtuPpE3wOwIhhW0G7AGzbLw==}
     dev: false
 
   /js-base64/3.7.2:
