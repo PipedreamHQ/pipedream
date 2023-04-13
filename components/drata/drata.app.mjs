@@ -6,6 +6,22 @@ export default {
   type: "app",
   app: "drata",
   propDefinitions: {
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "The ID of the workspace.",
+      async options({ page }) {
+        const response = await this.listWorkspaces({
+          params: {
+            page: ++page,
+          },
+        });
+        return response.data.map((workspace) => ({
+          label: workspace.name,
+          value: workspace.id,
+        }));
+      },
+    },
     personnelId: {
       type: "string",
       label: "Personnel ID",
@@ -92,6 +108,20 @@ export default {
         total,
       };
     },
+    async listWorkspaces({
+      paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate({
+          ...opts,
+          fn: this.listPersonnel,
+        });
+      }
+      return this._makeRequest({
+        ...opts,
+        path: "/workspaces",
+      });
+    },
     async listPersonnel({
       paginate = false, ...opts
     }) {
@@ -140,6 +170,15 @@ export default {
       return this._makeRequest({
         ...opts,
         path: "/controls",
+      });
+    },
+    async createControl({
+      workspaceId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/workspaces/${workspaceId}/controls`,
+        method: "POST",
       });
     },
     async listEvidencesForControl({
