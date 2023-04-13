@@ -158,21 +158,25 @@ export default defineApp({
     _getBaseUrl() {
       return "https://api.twitter.com/2";
     },
-    _getHeaders() {
+    _getAuthParams() {
       return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        oauthSignerUri: this.$auth.oauth_signer_uri,
+        token: {
+          key: this.$auth.oauth_access_token,
+          secret: this.$auth.oauth_refresh_token,
+        },
       };
     },
     async _httpRequest({
       $ = this,
       ...args
     }: HttpRequestParams): Promise<ResponseObject<TwitterEntity>> {
-      let response: ResponseObject<TwitterEntity>, counter = 1;
       const request = () => axios($, {
         baseURL: this._getBaseUrl(),
-        headers: this._getHeaders(),
         ...args,
-      });
+      }, this._getAuthParams());
+
+      let response: ResponseObject<TwitterEntity>, counter = 1;
       do {
         try {
           response = await request();
