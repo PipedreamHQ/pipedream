@@ -1751,6 +1751,15 @@
     },
     {
       "path": "components/visualping"
+    },
+    {
+      "path": "components/scrapingbot"
+    },
+    {
+      "path": "components/dock_certs"
+    },
+    {
+      "path": "components/big_data_cloud"
     }
   ]
 }
