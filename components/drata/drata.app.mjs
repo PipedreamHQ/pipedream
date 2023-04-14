@@ -158,6 +158,13 @@ export default {
         path: "/assets",
       });
     },
+    async createAsset(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: "/assets",
+        method: "POST",
+      });
+    },
     async listControls({
       paginate = false, ...opts
     }) {
