@@ -4,8 +4,8 @@
   "description": "Pipedream Megaventory Components",
   "main": "megaventory.app.mjs",
   "keywords": [
-		"pipedream",
-		"megaventory"
+    "pipedream",
+    "megaventory"
   ],
   "homepage": "https://pipedream.com/apps/megaventory",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

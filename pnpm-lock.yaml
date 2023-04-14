@@ -4456,7 +4456,10 @@ importers:
     specifiers: {}
 
   components/urlbox_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/user_com:
     specifiers: {}
