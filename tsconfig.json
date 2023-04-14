@@ -1645,7 +1645,7 @@
       "path": "components/gravity_forms"
     },
     {
-      "path": "components/twitter_v2"
+      "path": "components/twitter"
     },
     {
       "path": "components/cohere_platform"
@@ -1736,6 +1736,21 @@
     },
     {
       "path": "components/signrequest"
+    },
+    {
+      "path": "components/habitify"
+    },
+    {
+      "path": "components/scrape_it_cloud"
+    },
+    {
+      "path": "components/utradea"
+    },
+    {
+      "path": "components/currencyscoop"
+    },
+    {
+      "path": "components/visualping"
     }
   ]
 }
