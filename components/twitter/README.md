@@ -1,7 +1,5 @@
-# Overview
-In order to connect your Twitter account to Pipedream, you'll need to create a developer project and app.
-
 # Getting Started
+In order to connect your Twitter account to Pipedream, you'll need to create a developer project and app.
 1. First, visit Twitter's [developer dashboard](https://developer.twitter.com/en/portal/dashboard) and sign in
 2. Next, [create a new project](https://developer.twitter.com/en/portal/projects/new) and give it a name, select a use case, and provide a description
 
