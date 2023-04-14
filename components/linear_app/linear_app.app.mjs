@@ -203,11 +203,39 @@ export default {
     }) {
       return this.client().updateIssue(issueId, input);
     },
-    async searchIssues(variables) {
-      return this.client().issues(variables);
+    async listIssues(variables) {
+      const { data: { issues } } = await this.makeAxiosRequest({
+        method: "POST",
+        data: {
+          query: `
+          { 
+            issues(${variables}) { 
+              nodes {
+                ${constants.ISSUE_NODES}
+              }
+              pageInfo {
+                hasNextPage
+                endCursor
+              }
+            } 
+          }`,
+        },
+      });
+      return issues;
     },
     async getIssue(id) {
-      return this.client().issue(id);
+      const { data: { issue } } = await this.makeAxiosRequest({
+        method: "POST",
+        data: {
+          query: `
+          { 
+            issue(id: "${id}") { 
+              ${constants.ISSUE_NODES}
+            } 
+          }`,
+        },
+      });
+      return issue;
     },
     async getUser(id) {
       return this.client().user(id);
@@ -238,9 +266,6 @@ export default {
     },
     async listStates(variables = {}) {
       return this.client().workflowStates(variables);
-    },
-    async listIssues(variables = {}) {
-      return this.client().issues(variables);
     },
     async listIssueLabels(variables = {}) {
       return this.client().issueLabels(variables);
@@ -278,23 +303,70 @@ export default {
         },
       };
     },
+    buildFilter(args) {
+      const title = args.query
+        ? `title: { containsIgnoreCase: "${args.query}" }`
+        : "";
+      const teamId = args.teamId
+        ? `, team: { id: { eq: "${args.teamId}" } }`
+        : "";
+      const projectId = args.projectId
+        ? `, project: { id: { eq: "${args.projectId}" } }`
+        : "";
+      const team = args.team
+        ? `, team: { id: { in: "${args.team.id.in}" } }`
+        : "";
+      const project = args.project
+        ? `, project: { id: { eq: "${args.project.id.eq}" } }`
+        : "";
+      const state = args.state
+        ? `, state: { id: { eq: "${args.state.id.eq}" } }`
+        : "";
+      const assigneeId = args.assigneeId
+        ? `, assignee: { id: { eq: "${args.assigneeId}" } }`
+        : "";
+      const issueLabels = args.issueLabels
+        ? `, labels: { name: { in: ${JSON.stringify(args.issueLabels)} } }`
+        : "";
+      let filter = `${title}${teamId}${projectId}${team}${project}${state}${assigneeId}${issueLabels}`;
+      if (filter[0] === ",") {
+        filter = filter.substring(2, filter.length);
+      }
+      return filter;
+    },
+    buildVariables(endCursor, args) {
+      const orderBy = args.orderBy
+        ? `, orderBy: ${args.orderBy}`
+        : "";
+      const includeArchived = args.includeArchived
+        ? `, includeArchived: ${args.includeArchived}`
+        : "";
+      const after = endCursor
+        ? `, after: ${endCursor}`
+        : "";
+      return `filter: { ${this.buildFilter(args.filter)} }, first: ${constants.DEFAULT_LIMIT}${orderBy}${includeArchived}${after}`;
+    },
     async *paginateResources({
       resourcesFn,
       resourcesFnArgs,
       max = constants.DEFAULT_MAX_RECORDS,
+      useGraphQl = true,
     }) {
       let counter = 0;
       let hasNextPage;
       let endCursor;
       do {
+        const variables = useGraphQl
+          ? this.buildVariables(endCursor, resourcesFnArgs)
+          : {
+            after: endCursor,
+            first: constants.DEFAULT_LIMIT,
+            ...resourcesFnArgs,
+          };
         const {
           nodes,
           pageInfo,
-        } = await resourcesFn({
-          after: endCursor,
-          first: constants.DEFAULT_LIMIT,
-          ...resourcesFnArgs,
-        });
+        } = await resourcesFn(variables);
         for (const node of nodes) {
           counter += 1;
           yield node;

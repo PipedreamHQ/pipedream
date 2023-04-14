@@ -43,6 +43,45 @@ const ORDER_BY_OPTIONS = [
   },
 ];
 
+const ISSUE_NODES = `
+  id
+  title
+  description
+  boardOrder
+  branchName
+  createdAt
+  customerTicketCount
+  identifier
+  number
+  priority
+  priorityLabel
+  sortOrder
+  updatedAt
+  url
+  assignee {
+    id
+    name
+    email
+  }
+  creator {
+    id
+    name
+    email
+  }
+  project {
+    id
+    name
+  }
+  state {
+    id
+    name
+  }
+  team {
+    id
+    name
+  }
+`;
+
 export default {
   WEBHOOK_ID,
   LINEAR_DELIVERY_HEADER,
@@ -54,4 +93,5 @@ export default {
   CLIENT_IPS,
   ORDER_BY_OPTIONS,
   FIELD,
+  ISSUE_NODES,
 };
