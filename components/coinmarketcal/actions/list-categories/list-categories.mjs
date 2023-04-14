@@ -14,7 +14,11 @@ export default {
       $,
     });
 
-    $.export("$summary", `${response.body.length} categories were successfully fetched!`);
+    const length = response.body.length;
+
+    $.export("$summary", `${length} categor${length === 1
+      ? "y was"
+      : "ies were"} successfully fetched!`);
     return response;
   },
 };

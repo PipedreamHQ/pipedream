@@ -14,7 +14,11 @@ export default {
       $,
     });
 
-    $.export("$summary", `${response.body.length} coins were successfully fetched!`);
+    const length = response.body.length;
+
+    $.export("$summary", `${length} coin${length === 1
+      ? " was"
+      : "s were"} successfully fetched!`);
     return response;
   },
 };
