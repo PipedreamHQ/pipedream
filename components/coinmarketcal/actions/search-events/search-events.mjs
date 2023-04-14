@@ -8,7 +8,7 @@ import {
 export default {
   key: "coinmarketcal-search-events",
   name: "Search Events",
-  version: "0.0.5",
+  version: "0.0.1",
   description: "Retrieve a list of events based on specified filters. [See the docs here](https://coinmarketcal.com/en/doc/redoc#/paths/~1events/get)",
   type: "action",
   props: {
