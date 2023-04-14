@@ -27,14 +27,24 @@ import {
 } from "../common/types/requestParams";
 import {
   LIST_FIELD_OPTIONS,
-  MEDIA_FIELD_OPTIONS, PLACE_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
+  MEDIA_FIELD_OPTIONS,
+  PLACE_FIELD_OPTIONS,
+  POLL_FIELD_OPTIONS,
+  TWEET_FIELD_OPTIONS,
+  USER_FIELD_OPTIONS,
 } from "../common/dataFields";
 import {
   LIST_EXPANSION_OPTIONS,
-  TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
+  TWEET_EXPANSION_OPTIONS,
+  USER_EXPANSION_OPTIONS,
 } from "../common/expansions";
 import {
-  List, PaginatedResponseObject, ResponseObject, Tweet, TwitterEntity, User,
+  List,
+  PaginatedResponseObject,
+  ResponseObject,
+  Tweet,
+  TwitterEntity,
+  User,
 } from "../common/types/responseSchemas";
 
 export default defineApp({
@@ -44,25 +54,29 @@ export default defineApp({
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum total amount of items to return. The maximum amount of requests that can be made is 5.",
+      description:
+        "Maximum total amount of items to return. The maximum amount of requests that can be made is 5.",
       optional: true,
     },
     listId: {
       type: "string",
       label: "List ID",
-      description: "Select a **List** owned by the authenticated user, or use a custom *List ID*.",
+      description:
+        "Select a **List** owned by the authenticated user, or use a custom *List ID*.",
       async options(): Promise<{ label: string; value: string; }[]> {
         const userId = await this.getAuthenticatedUserId();
         const lists = await this.getUserOwnedLists({
           userId,
         });
 
-        return lists.data?.map(({
-          id, name,
-        }: List) => ({
-          label: name,
-          value: id,
-        })) ?? [];
+        return (
+          lists.data?.map(({
+            id, name,
+          }: List) => ({
+            label: name,
+            value: id,
+          })) ?? []
+        );
       },
     },
     userNameOrId: {
@@ -81,7 +95,8 @@ export default defineApp({
     query: {
       type: "string",
       label: "Query",
-      description: "One query for matching Tweets. See the [Twitter API guide on building queries](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query).",
+      description:
+        "One query for matching Tweets. See the [Twitter API guide on building queries](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query).",
     },
     listExpansions: {
       type: "string[]",
@@ -214,9 +229,15 @@ export default defineApp({
       return response;
     },
     async _paginatedRequest({
-      maxResults = 100, maxPerPage = 100, params, ...args
-    }: PaginatedRequestParams): Promise<PaginatedResponseObject<TwitterEntity>> {
-      const totalData = [], totalIncludes = {};
+      maxResults = 100,
+      maxPerPage = 100,
+      params,
+      ...args
+    }: PaginatedRequestParams): Promise<
+      PaginatedResponseObject<TwitterEntity>
+    > {
+      const totalData = [],
+        totalIncludes = {};
       let paginationToken: string;
       let resultCount = 0;
 
@@ -224,7 +245,9 @@ export default defineApp({
         const perPage = Math.min(maxResults - resultCount, maxPerPage);
 
         const {
-          data, meta: { next_token }, includes,
+          data,
+          meta: { next_token },
+          includes,
         }: PaginatedResponseObject<TwitterEntity> = await this._httpRequest({
           params: {
             ...params,
@@ -242,13 +265,15 @@ export default defineApp({
           ]));
 
         if (includes) {
-          Object.entries(includes).forEach(([
-            key,
-            value]: [string, TwitterEntity[]
+          Object.entries(includes).forEach(
+            ([
+              key,
+              value]: [string, TwitterEntity[]
 ]) => {
-            if (!totalIncludes[key]) totalIncludes[key] = [];
-            totalIncludes[key].push(...value);
-          });
+              if (!totalIncludes[key]) totalIncludes[key] = [];
+              totalIncludes[key].push(...value);
+            },
+          );
         }
 
         paginationToken = next_token;
@@ -261,7 +286,8 @@ export default defineApp({
       };
     },
     async addUserToList({
-      listId, ...args
+      listId,
+      ...args
     }: AddUserToListParams): Promise<object> {
       return this._httpRequest({
         method: "POST",
@@ -277,7 +303,8 @@ export default defineApp({
       });
     },
     async deleteTweet({
-      tweetId, ...args
+      tweetId,
+      ...args
     }: DeleteTweetParams): Promise<object> {
       return this._httpRequest({
         method: "DELETE",
@@ -294,7 +321,8 @@ export default defineApp({
       });
     },
     async getListTweets({
-      listId, ...args
+      listId,
+      ...args
     }: GetListTweetsParams): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: `/lists/${listId}/tweets`,
@@ -302,7 +330,8 @@ export default defineApp({
       });
     },
     async getTweet({
-      tweetId, ...args
+      tweetId,
+      ...args
     }: GetTweetParams): Promise<ResponseObject<Tweet>> {
       return this._httpRequest({
         url: `/tweets/${tweetId}`,
@@ -316,7 +345,8 @@ export default defineApp({
       return response.data.id;
     },
     async getUserLikedTweets({
-      userId, ...args
+      userId,
+      ...args
     }: GetUserLikedTweetParams): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: `/users/${userId}/liked_tweets`,
@@ -324,7 +354,8 @@ export default defineApp({
       });
     },
     async getUserOwnedLists({
-      userId, ...args
+      userId,
+      ...args
     }: GetUserOwnedListsParams): Promise<PaginatedResponseObject<List>> {
       return this._httpRequest({
         url: `/users/${userId}/owned_lists`,
@@ -332,7 +363,8 @@ export default defineApp({
       });
     },
     async getUserFollowedLists({
-      userId, ...args
+      userId,
+      ...args
     }: GetUserFollowedListsParams): Promise<PaginatedResponseObject<List>> {
       return this._paginatedRequest({
         url: `/users/${userId}/followed_lists`,
@@ -340,7 +372,8 @@ export default defineApp({
       });
     },
     async getUserMentions({
-      userId, ...args
+      userId,
+      ...args
     }: GetUserMentionsParams): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: `/users/${userId}/mentions`,
@@ -348,7 +381,8 @@ export default defineApp({
       });
     },
     async getUserTweets({
-      userId, ...args
+      userId,
+      ...args
     }: GetUserTweetsParams): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: `/users/${userId}/tweets`,
@@ -361,7 +395,8 @@ export default defineApp({
       });
     },
     async getUser({
-      userId, ...args
+      userId,
+      ...args
     }: GetUserParams): Promise<ResponseObject<User>> {
       return this._httpRequest({
         url: `/users/${userId}`,
@@ -377,7 +412,8 @@ export default defineApp({
       });
     },
     async getUserFollowers({
-      userId, ...args
+      userId,
+      ...args
     }: GetUserFollowersParams): Promise<PaginatedResponseObject<User>> {
       return this._paginatedRequest({
         url: `/users/${userId}/followers`,
@@ -385,7 +421,8 @@ export default defineApp({
       });
     },
     async getUserFollowing({
-      userId, ...args
+      userId,
+      ...args
     }: GetUserFollowingParams): Promise<PaginatedResponseObject<User>> {
       return this._paginatedRequest({
         url: `/users/${userId}/following`,
@@ -401,8 +438,7 @@ export default defineApp({
       });
     },
     async searchTweets(
-      args
-    : SearchTweetsParams,
+      args: SearchTweetsParams,
     ): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: "/tweets/search/recent",
@@ -410,7 +446,8 @@ export default defineApp({
       });
     },
     async unfollowUser({
-      userId, ...args
+      userId,
+      ...args
     }: UnfollowUserParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
       return this._httpRequest({
@@ -420,7 +457,8 @@ export default defineApp({
       });
     },
     async unlikeTweet({
-      tweetId, ...args
+      tweetId,
+      ...args
     }: UnlikeTweetParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
       return this._httpRequest({

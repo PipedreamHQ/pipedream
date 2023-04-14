@@ -4362,9 +4362,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.4.1
       '@pipedream/types': ^0.1.4
+      oauth-1.0a: ^2.2.6
     dependencies:
       '@pipedream/platform': 1.4.1
       '@pipedream/types': 0.1.5
+      oauth-1.0a: 2.2.6
 
   components/twitter_developer_app:
     specifiers:
@@ -11644,7 +11646,7 @@ packages:
   /@types/whatwg-url/8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 17.0.45
       '@types/webidl-conversions': 7.0.0
     dev: false
 
