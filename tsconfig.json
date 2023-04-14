@@ -1700,6 +1700,42 @@
     },
     {
       "path": "components/coinmarketcal_demo_app"
+    },
+    {
+      "path": "components/census_bureau"
+    },
+    {
+      "path": "components/data_police_uk"
+    },
+    {
+      "path": "components/budgets_ai"
+    },
+    {
+      "path": "components/key_app_demo_1"
+    },
+    {
+      "path": "components/slack_demo_app"
+    },
+    {
+      "path": "components/slack_demo_app_1"
+    },
+    {
+      "path": "components/oauth_app_demo"
+    },
+    {
+      "path": "components/oauth_app_demo_1"
+    },
+    {
+      "path": "components/omnisend"
+    },
+    {
+      "path": "components/formstack_documents"
+    },
+    {
+      "path": "components/holded"
+    },
+    {
+      "path": "components/signrequest"
     }
   ]
 }

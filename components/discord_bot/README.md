@@ -64,3 +64,8 @@ Make sure your bot has the required privileges:
 ![Example of bot priviledges](https://res.cloudinary.com/pipedreamin/image/upload/v1671660179/au5lekhader3nzaljmao.png)
 
 If you have issues with this integration, please join our public Slack and ask for help.
+
+## Limitations of the Bot integration on Pipedream
+Right now, the Discord Bot integration cannot utilize the [Discord Gateway](https://discordapp.com/developers/docs/topics/gateway) to receive events via websockets or make API requests that require an initial connection to the gateway.
+
+[Please reach out](https://github.com/PipedreamHQ/pipedream/issues/new/choose) if prevents you from building a workflow. We're happy to prioritize support for this in the future.
