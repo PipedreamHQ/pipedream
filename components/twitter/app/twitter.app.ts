@@ -1,3 +1,5 @@
+import OAuth from "oauth-1.0a";
+import crypto from "crypto";
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
@@ -155,28 +157,52 @@ export default defineApp({
     },
   },
   methods: {
+    async _getAuthHeader(config: HttpRequestParams) {
+      const {
+        oauth_access_token: key, oauth_refresh_token: secret,
+      } =
+        this.$auth;
+
+      const consumer = {
+        key,
+        secret,
+      };
+
+      const oauth = new OAuth({
+        consumer,
+        signature_method: "HMAC-SHA1",
+        hash_function(base_string, key) {
+          return crypto
+            .createHmac("sha1", key)
+            .update(base_string)
+            .digest("base64");
+        },
+      });
+
+      if (!config.method) config.method = "GET";
+
+      return oauth.toHeader(oauth.authorize(config, consumer));
+    },
     _getBaseUrl() {
       return "https://api.twitter.com/2";
-    },
-    _getAuthParams() {
-      return {
-        oauthSignerUri: this.$auth.oauth_signer_uri,
-        token: {
-          key: this.$auth.oauth_access_token,
-          secret: this.$auth.oauth_refresh_token,
-        },
-      };
     },
     async _httpRequest({
       $ = this,
       ...args
     }: HttpRequestParams): Promise<ResponseObject<TwitterEntity>> {
-      const request = () => axios($, {
+      const config = {
         baseURL: this._getBaseUrl(),
         ...args,
-      }, this._getAuthParams());
+      };
+      const headers = this._getAuthHeader(config);
 
-      let response: ResponseObject<TwitterEntity>, counter = 1;
+      const request = () => axios($, {
+        ...config,
+        headers,
+      });
+
+      let response: ResponseObject<TwitterEntity>,
+        counter = 1;
       do {
         try {
           response = await request();

@@ -7,7 +7,9 @@
     "pipedream",
     "twitter"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/twitter",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
@@ -15,6 +17,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.4.1",
-    "@pipedream/types": "^0.1.4"
+    "@pipedream/types": "^0.1.4",
+    "oauth-1.0a": "^2.2.6"
   }
 }

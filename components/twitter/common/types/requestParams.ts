@@ -16,6 +16,7 @@ interface PaginatedRequest extends PdAxiosRequest, PaginationParams {}
 
 export interface HttpRequestParams extends PdAxiosRequest {
   url: string;
+  method: string;
   data?: object | string;
   params?: object;
 }
