@@ -209,6 +209,13 @@ export default {
         path: "/vendors",
       });
     },
+    async createVendor(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: "/vendors",
+        method: "POST",
+      });
+    },
     async uploadBackgroundCheck({
       personnelId, ...opts
     }) {
