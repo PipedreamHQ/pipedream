@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/holded",
+  "version": "0.0.1",
+  "description": "Pipedream Holded Components",
+  "main": "dist/app/holded.app.mjs",
+  "keywords": [
+    "pipedream",
+    "holded"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/holded",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

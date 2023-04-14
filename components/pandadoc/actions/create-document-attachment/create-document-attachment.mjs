@@ -9,7 +9,7 @@ export default {
   name: "Create Document Attachment",
   description: "Adds an attachment to a document. [See the docs here](https://developers.pandadoc.com/reference/create-document-attachment)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     documentId: {
@@ -19,9 +19,10 @@ export default {
       ],
     },
     file: {
-      type: "string",
-      label: "File",
-      description: "The file to upload to Box, please provide a file from `/tmp`. To upload a file to `/tmp` folder, please follow the doc [here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      propDefinition: [
+        app,
+        "file",
+      ],
     },
     fileName: {
       type: "string",
@@ -49,6 +50,22 @@ export default {
         size: stats.size,
       };
     },
+    getFormData(file, fileName) {
+      const fileValidation = this.isValidFile(file);
+      if (!fileValidation) {
+        throw new ConfigurationError("`file` must be a valid file path!");
+      }
+
+      const fileMeta = this.getFileMeta(fileValidation);
+      const fileContent = this.getFileStream(fileValidation);
+      const data = new FormData();
+      if (fileName) data.append("name", fileName);
+      data.append("file", fileContent, {
+        knownLength: fileMeta.size,
+      });
+
+      return data;
+    },
   },
   async run({ $ }) {
     const {
@@ -57,17 +74,7 @@ export default {
       fileName,
     } = this;
 
-    const fileValidation = this.isValidFile(file);
-    if (!fileValidation) {
-      throw new ConfigurationError("`file` must be a valid file path!");
-    }
-    const fileMeta = this.getFileMeta(fileValidation);
-    const fileContent = this.getFileStream(fileValidation);
-    const data = new FormData();
-    data.append("name", fileName);
-    data.append("file", fileContent, {
-      knownLength: fileMeta.size,
-    });
+    const data = this.getFormData(file, fileName);
 
     const response = await this.app.createDocumentAttachments({
       $,
