@@ -512,6 +512,9 @@ importers:
       '@pipedream/platform': 1.4.0
       puppeteer-core: 19.7.5
 
+  components/budgets_ai:
+    specifiers: {}
+
   components/bugsnag:
     specifiers: {}
 
@@ -597,6 +600,9 @@ importers:
     specifiers: {}
 
   components/cdr_platform:
+    specifiers: {}
+
+  components/census_bureau:
     specifiers: {}
 
   components/cflow:
@@ -770,6 +776,9 @@ importers:
   components/coinmarketcal:
     specifiers: {}
 
+  components/coinmarketcal_demo_app:
+    specifiers: {}
+
   components/college_football_data:
     specifiers: {}
 
@@ -877,6 +886,9 @@ importers:
     specifiers: {}
 
   components/data_axle_platform:
+    specifiers: {}
+
+  components/data_police_uk:
     specifiers: {}
 
   components/data_stores:
@@ -1346,6 +1358,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/formstack_documents:
+    specifiers: {}
+
   components/foxy:
     specifiers: {}
 
@@ -1776,6 +1791,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/holded:
+    specifiers: {}
+
   components/hotspotsystem:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1993,6 +2011,9 @@ importers:
     specifiers: {}
 
   components/keen_io:
+    specifiers: {}
+
+  components/key_app_demo_1:
     specifiers: {}
 
   components/klaviyo:
@@ -2338,6 +2359,9 @@ importers:
       '@pipedream/platform': 1.2.0
       isomorphic-fetch: 3.0.0
 
+  components/mindmeister:
+    specifiers: {}
+
   components/miro_custom_app:
     specifiers: {}
 
@@ -2593,17 +2617,20 @@ importers:
   components/nusii_proposals:
     specifiers: {}
 
+  components/oauth_app_demo:
+    specifiers: {}
+
+  components/oauth_app_demo_1:
+    specifiers: {}
+
   components/octopus_deploy:
     specifiers: {}
 
   components/oksign:
     specifiers: {}
 
-  components/omniconvert:
-    specifiers:
-      '@pipedream/platform': ^1.3.0
-    dependencies:
-      '@pipedream/platform': 1.4.1
+  components/omnisend:
+    specifiers: {}
 
   components/oncehub:
     specifiers:
@@ -3655,6 +3682,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/signrequest:
+    specifiers: {}
+
   components/signwell:
     specifiers: {}
 
@@ -3699,6 +3729,12 @@ importers:
       '@slack/web-api': ^5.15.0
     dependencies:
       '@slack/web-api': 5.15.0
+
+  components/slack_demo_app:
+    specifiers: {}
+
+  components/slack_demo_app_1:
+    specifiers: {}
 
   components/slicktext:
     specifiers: {}
