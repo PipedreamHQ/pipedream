@@ -149,6 +149,50 @@
     {
       "source": "/docs/pricing/#developer-tier",
       "destination": "/docs/pricing/#free-tier"
+    },
+    {
+      "source": "/docs/apps/discord/",
+      "destination": "https://pipedream.com/apps/discord#getting-started"
+    },
+    {
+      "source": "/docs/apps/hubspot/",
+      "destination": "https://pipedream.com/apps/hubspot#getting-started"
+    },
+    {
+      "source": "/docs/apps/intercom/",
+      "destination": "https://pipedream.com/apps/intercom#getting-started"
+    },
+    {
+      "source": "/docs/apps/servicenow/",
+      "destination": "https://pipedream.com/apps/servicenow#getting-started"
+    },
+    {
+      "source": "/docs/apps/slack/",
+      "destination": "https://pipedream.com/apps/slack#getting-started"
+    },
+    {
+      "source": "/docs/apps/strava/",
+      "destination": "https://pipedream.com/apps/strava#getting-started"
+    },
+    {
+      "source": "/docs/apps/zoho_books/",
+      "destination": "https://pipedream.com/apps/zoho_books#getting-started"
+    },
+    {
+      "source": "/docs/apps/zoho_crm/",
+      "destination": "https://pipedream.com/apps/zoho-crm#getting-started"
+    },
+    {
+      "source": "/docs/apps/zoho_mail/",
+      "destination": "https://pipedream.com/apps/zoho_mail#getting-started"
+    },
+    {
+      "source": "/docs/apps/zoom/",
+      "destination": "https://pipedream.com/apps/zoom#getting-started"
+    },
+    {
+      "source": "/docs/apps/all-apps/",
+      "destination": "/docs/apps/"
     }
   ]
 }
