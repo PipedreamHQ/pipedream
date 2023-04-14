@@ -216,6 +216,15 @@ export default {
         method: "POST",
       });
     },
+    async updateVendor({
+      vendorId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/vendors/${vendorId}`,
+        method: "PUT",
+      });
+    },
     async uploadBackgroundCheck({
       personnelId, ...opts
     }) {
