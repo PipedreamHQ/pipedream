@@ -1736,6 +1736,21 @@
     },
     {
       "path": "components/signrequest"
+    },
+    {
+      "path": "components/habitify"
+    },
+    {
+      "path": "components/scrape_it_cloud"
+    },
+    {
+      "path": "components/utradea"
+    },
+    {
+      "path": "components/currencyscoop"
+    },
+    {
+      "path": "components/visualping"
     }
   ]
 }
