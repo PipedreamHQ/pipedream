@@ -12,7 +12,7 @@ export default {
   props: {
     drata,
     deviceId: {
-      type: "string",
+      type: "integer",
       label: "Device ID",
       description: "The ID of the device.",
     },

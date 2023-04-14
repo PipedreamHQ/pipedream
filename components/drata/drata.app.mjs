@@ -7,7 +7,7 @@ export default {
   app: "drata",
   propDefinitions: {
     workspaceId: {
-      type: "string",
+      type: "integer",
       label: "Workspace ID",
       description: "The ID of the workspace.",
       async options({ page }) {
@@ -23,7 +23,7 @@ export default {
       },
     },
     personnelId: {
-      type: "string",
+      type: "integer",
       label: "Personnel ID",
       description: "The ID of the personnel.",
       async options({
@@ -42,7 +42,7 @@ export default {
       },
     },
     controlId: {
-      type: "string",
+      type: "integer",
       label: "Control ID",
       description: "The ID of the control.",
       async options({ page }) {
