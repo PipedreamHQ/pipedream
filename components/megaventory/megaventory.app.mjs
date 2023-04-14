@@ -1,14 +1,96 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+// import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "megaventory",
   propDefinitions: {
-    commonProperty: {
-      type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
+    product: {
+      type: "integer",
+      label: "Product ID",
+      description: "The ID of the product to update. If the product does not exist, it will be created.",
+      async options({
+        mapper = ({
+          ProductID: value, ProductDescription: label,
+        }) => ({
+          label,
+          value,
+        }),
+      }) {
+        const { mvProducts } = await this.listProducts();
+        return mvProducts.map(mapper);
+      },
+    },
+    purchaseOrderId: {
+      type: "integer",
+      label: "Purchase Order ID",
+      description: "The ID of the purchase order to update. If the purchase order does not exist, it will be created.",
+      async options() {
+        const { mvPurchaseOrders } = await this.listPurchaseOrders();
+        return mvPurchaseOrders.map(({
+          PurchaseOrderId: value, PurchaseOrderNo: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    salesOrderId: {
+      type: "integer",
+      label: "Sales Order ID",
+      description: "The ID of the sales order to update.",
+      async options() {
+        const { mvSalesOrders } = await this.listSalesOrders();
+        return mvSalesOrders.map(({
+          SalesOrderId: value, SalesOrderNo: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    supplierClientId: {
+      type: "integer",
+      label: "Supplier Client ID",
+      description: "The ID of the supplier client.",
+      async options({ args }) {
+        const { mvSupplierClients } = await this.listSupplierClients(args);
+        return mvSupplierClients.map(({
+          SupplierClientID: value, SupplierClientName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    documentTypeId: {
+      type: "integer",
+      label: "Document Type ID",
+      description: "The ID of the document type.",
+      async options({ args }) {
+        const { mvDocumentTypes } = await this.listDocumentTypes(args);
+        return mvDocumentTypes.map(({
+          DocumentTypeID: value, DocumentTypeDescription: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    inventoryLocationId: {
+      type: "integer",
+      label: "Inventory Location ID",
+      description: "The ID of the inventory location.",
+      async options() {
+        const { mvInventoryLocations } = await this.listInventoryLocations();
+        return mvInventoryLocations.map(({
+          InventoryLocationID: value, InventoryLocationName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
@@ -24,47 +106,71 @@ export default {
         ...headers,
       };
     },
-    getApiKey(params = {}) {
+    getParams(params) {
       return {
         APIKEY: this.$auth.api_key,
         ...params,
       };
     },
-    makeRequest({
-      step = this, path, headers, params, data, url, ...args
+    async makeRequest({
+      step = this, path, headers, params, url, ...args
     } = {}) {
 
       const config = {
         headers: this.getHeaders(headers),
         url: this.getUrl(path, url),
-        params: this.getApiKey(params),
-        data: this.getApiKey(data),
+        params: this.getParams(params),
         ...args,
       };
 
-      return axios(step, config);
+      const response = await axios(step, config);
+
+      // If ErrorCode is zero (0), then the response is successful.
+      if (parseInt(response.ResponseStatus?.ErrorCode, 10)) {
+        throw new Error(JSON.stringify(response.ResponseStatus, null, 2));
+      }
+
+      return response;
     },
-    create(args = {}) {
+    post(args = {}) {
       return this.makeRequest({
         method: "post",
         ...args,
       });
     },
-    update(args = {}) {
-      return this.makeRequest({
-        method: "put",
+    listProducts(args = {}) {
+      return this.post({
+        path: "/Product/ProductGet",
         ...args,
       });
     },
-    delete(args = {}) {
-      return this.makeRequest({
-        method: "delete",
+    listPurchaseOrders(args = {}) {
+      return this.post({
+        path: "/PurchaseOrder/PurchaseOrderGet",
         ...args,
       });
     },
-    patch(args = {}) {
-      return this.makeRequest({
-        method: "patch",
+    listSalesOrders(args = {}) {
+      return this.post({
+        path: "/SalesOrder/SalesOrderGet",
+        ...args,
+      });
+    },
+    listSupplierClients(args = {}) {
+      return this.post({
+        path: "/SupplierClient/SupplierClientGet",
+        ...args,
+      });
+    },
+    listDocumentTypes(args = {}) {
+      return this.post({
+        path: "/DocumentType/DocumentTypeGet",
+        ...args,
+      });
+    },
+    listInventoryLocations(args = {}) {
+      return this.post({
+        path: "/InventoryLocation/InventoryLocationGet",
         ...args,
       });
     },
@@ -72,45 +178,17 @@ export default {
       resourceFn,
       resourceFnArgs,
       resourceName,
-      lastCreatedAt,
-      max = constants.DEFAULT_MAX,
     }) {
-      let page = 1;
-      let resourcesCount = 0;
+      const { [resourceName]: resources = [] } =
+        await resourceFn(resourceFnArgs);
 
-      while (true) {
-        const response =
-          await resourceFn({
-            ...resourceFnArgs,
-            params: {
-              ...resourceFnArgs.params,
-              page,
-            },
-          });
+      if (!resources?.length) {
+        console.log("No resources found");
+        return;
+      }
 
-        const nextResources = resourceName && response[resourceName] || response;
-
-        if (!nextResources?.length) {
-          console.log("No more resources found");
-          return;
-        }
-
-        for (const resource of nextResources) {
-          const dateFilter =
-            lastCreatedAt
-            && Date.parse(resource.created_at) > Date.parse(lastCreatedAt);
-
-          if (!lastCreatedAt || dateFilter) {
-            yield resource;
-            resourcesCount += 1;
-          }
-
-          if (resourcesCount >= max) {
-            return;
-          }
-        }
-
-        page += 1;
+      for (const resource of resources) {
+        yield resource;
       }
     },
   },

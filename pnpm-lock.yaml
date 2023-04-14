@@ -764,6 +764,12 @@ importers:
   components/coinbase_commerce:
     specifiers: {}
 
+  components/coinmarketcal:
+    specifiers: {}
+
+  components/coinmarketcal_demo_app:
+    specifiers: {}
+
   components/college_football_data:
     specifiers: {}
 
@@ -2275,6 +2281,12 @@ importers:
   components/meetup:
     specifiers: {}
 
+  components/megaventory:
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
+
   components/membervault:
     specifiers: {}
 
@@ -2321,6 +2333,9 @@ importers:
       '@microsoft/microsoft-graph-client': 3.0.2
       '@pipedream/platform': 1.2.0
       isomorphic-fetch: 3.0.0
+
+  components/mindmeister:
+    specifiers: {}
 
   components/miro_custom_app:
     specifiers: {}

@@ -19,11 +19,6 @@ export default {
       },
     },
   },
-  hooks: {
-    async deploy() {},
-    async activate() {},
-    async deactivate() {},
-  },
   methods: {
     ...common.methods,
     setLastCreatedAt(value) {
@@ -39,7 +34,24 @@ export default {
       throw new ConfigurationError("getResourceFn is not implemented");
     },
     getResourceFnArgs() {
-      throw new ConfigurationError("getResourceFnArgs is not implemented");
+      const lastCreatedAt = this.getLastCreatedAt();
+      if (!lastCreatedAt) {
+        return;
+      }
+      return {
+        data: {
+          Filters: [
+            {
+              FieldName: this.getCreatedAtFieldName(),
+              SearchOperator: "GreaterThan",
+              SearchValue: this.timestampToDate(this.extractTimestamp(lastCreatedAt)),
+            },
+          ],
+        },
+      };
+    },
+    getCreatedAtFieldName() {
+      throw new ConfigurationError("getCreatedAtFieldName is not implemented");
     },
     processEvent(resource) {
       const meta = this.generateMeta(resource);
@@ -49,11 +61,12 @@ export default {
       const resources = await utils.streamIterator(resourcesStream);
 
       const [
-        lastResource,
+        lastResource = {},
       ] = resources;
 
-      if (lastResource?.created_at) {
-        this.setLastCreatedAt(lastResource.created_at);
+      const lastCreatedAt = lastResource[this.getCreatedAtFieldName()];
+      if (lastCreatedAt) {
+        this.setLastCreatedAt(lastCreatedAt);
       }
 
       resources.reverse().forEach(this.processEvent);

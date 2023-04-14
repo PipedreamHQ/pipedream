@@ -11,19 +11,23 @@ export default {
   methods: {
     ...common.methods,
     getResourceName() {
-      return "resource";
+      return "mvProducts";
     },
     getResourceFn() {
-      return this.app.listResources;
+      return this.app.listProducts;
     },
-    getResourceFnArgs() {
-      return {};
+    getCreatedAtFieldName() {
+      return "ProductCreationDate";
     },
     generateMeta(resource) {
+      const {
+        ProductID: id,
+        [this.getCreatedAtFieldName()]: createdAt,
+      } = resource;
       return {
-        id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        id,
+        summary: `New Product: ${id}`,
+        ts: this.extractTimestamp(createdAt),
       };
     },
   },

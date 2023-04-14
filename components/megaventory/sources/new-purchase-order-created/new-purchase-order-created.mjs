@@ -11,19 +11,23 @@ export default {
   methods: {
     ...common.methods,
     getResourceName() {
-      return "resource";
+      return "mvPurchaseOrders";
     },
     getResourceFn() {
-      return this.app.listResources;
+      return this.app.listPurchaseOrders;
     },
-    getResourceFnArgs() {
-      return {};
+    getCreatedAtFieldName() {
+      return "PurchaseOrderCreationDate";
     },
     generateMeta(resource) {
+      const {
+        PurchaseOrderId: id,
+        [this.getCreatedAtFieldName()]: createdAt,
+      } = resource;
       return {
-        id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        id,
+        summary: `New Purchase Order: ${id}`,
+        ts: this.extractTimestamp(createdAt),
       };
     },
   },
