@@ -209,11 +209,17 @@ export default defineApp({
         baseURL: this._getBaseUrl(),
         ...args,
       };
-      const headers = this._getAuthHeader(config);
+      //const headers = this._getAuthHeader(config);
 
       const request = () => axios($, {
         ...config,
-        headers,
+        //headers,
+      }, {
+        oauthSignerUri: this.$auth.oauth_signer_uri,
+        token: {
+          key: this.$auth.oauth_access_token,
+          secret: this.$auth.oauth_refresh_token,
+        },
       });
 
       let response: ResponseObject<TwitterEntity>,
