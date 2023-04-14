@@ -1,4 +1,5 @@
 import linearApp from "../../linear_app.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-search-issues",
@@ -58,7 +59,7 @@ export default {
     let after;
 
     do {
-      const variables = this.linearApp.buildVariables(after, {
+      const variables = utils.buildVariables(after, {
         filter: {
           query: this.query,
           teamId: this.teamId,

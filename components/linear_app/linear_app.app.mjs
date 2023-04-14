@@ -1,5 +1,6 @@
 import { LinearClient } from "@linear/sdk";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -303,49 +304,6 @@ export default {
         },
       };
     },
-    buildFilter(args) {
-      const title = args.query
-        ? `title: { containsIgnoreCase: "${args.query}" }`
-        : "";
-      const teamId = args.teamId
-        ? `, team: { id: { eq: "${args.teamId}" } }`
-        : "";
-      const projectId = args.projectId
-        ? `, project: { id: { eq: "${args.projectId}" } }`
-        : "";
-      const team = args.team
-        ? `, team: { id: { in: "${args.team.id.in}" } }`
-        : "";
-      const project = args.project
-        ? `, project: { id: { eq: "${args.project.id.eq}" } }`
-        : "";
-      const state = args.state
-        ? `, state: { id: { eq: "${args.state.id.eq}" } }`
-        : "";
-      const assigneeId = args.assigneeId
-        ? `, assignee: { id: { eq: "${args.assigneeId}" } }`
-        : "";
-      const issueLabels = args.issueLabels
-        ? `, labels: { name: { in: ${JSON.stringify(args.issueLabels)} } }`
-        : "";
-      let filter = `${title}${teamId}${projectId}${team}${project}${state}${assigneeId}${issueLabels}`;
-      if (filter[0] === ",") {
-        filter = filter.substring(2, filter.length);
-      }
-      return filter;
-    },
-    buildVariables(endCursor, args) {
-      const orderBy = args.orderBy
-        ? `, orderBy: ${args.orderBy}`
-        : "";
-      const includeArchived = args.includeArchived
-        ? `, includeArchived: ${args.includeArchived}`
-        : "";
-      const after = endCursor
-        ? `, after: ${endCursor}`
-        : "";
-      return `filter: { ${this.buildFilter(args.filter)} }, first: ${constants.DEFAULT_LIMIT}${orderBy}${includeArchived}${after}`;
-    },
     async *paginateResources({
       resourcesFn,
       resourcesFnArgs,
@@ -357,7 +315,7 @@ export default {
       let endCursor;
       do {
         const variables = useGraphQl
-          ? this.buildVariables(endCursor, resourcesFnArgs)
+          ? utils.buildVariables(endCursor, resourcesFnArgs)
           : {
             after: endCursor,
             first: constants.DEFAULT_LIMIT,
