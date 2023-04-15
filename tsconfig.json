@@ -1760,6 +1760,9 @@
     },
     {
       "path": "components/big_data_cloud"
+    },
+    {
+      "path": "components/shotstack"
     }
   ]
 }
