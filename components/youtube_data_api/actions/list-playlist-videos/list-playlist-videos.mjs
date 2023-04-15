@@ -2,7 +2,7 @@ import youtubeDataApi from "../../youtube_data_api.app.mjs";
 
 export default {
   key: "youtube_data_api-list-playlist-videos",
-  name: "List Playlist",
+  name: "List Playlist Videos",
   description: "List videos in a playlist. [See the docs](https://developers.google.com/youtube/v3/docs/playlistItems/list) for more information",
   version: "0.0.1",
   type: "action",
