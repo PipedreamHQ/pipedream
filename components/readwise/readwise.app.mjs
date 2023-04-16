@@ -59,7 +59,7 @@ export default {
     },
     _getHeaders() {
       return {
-        "Authorization": `Token ${this.$auth.accesss_token}`,
+        "Authorization": `Token ${this.$auth.access_token}`,
       };
     },
     async _makeRequest({
