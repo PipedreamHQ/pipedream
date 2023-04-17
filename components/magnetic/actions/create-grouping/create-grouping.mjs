@@ -45,6 +45,7 @@ export default {
   async run({ $ }) {
     const data = {
       name: this.name,
+      extra: this.description,
       owner: {
         id: this.user,
       },
