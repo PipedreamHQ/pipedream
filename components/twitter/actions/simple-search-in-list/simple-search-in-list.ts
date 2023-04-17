@@ -3,7 +3,9 @@ import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getTweetFields,
 } from "../../common/methods";
-import { includeAllFields, tweetAdditionalProps as additionalProps } from "../../common/propGroups";
+import {
+  includeAllFields, tweetAdditionalProps as additionalProps,
+} from "../../common/propGroups";
 import { GetListTweetsParams } from "../../common/types/requestParams";
 import {
   PaginatedResponseObject, Tweet,

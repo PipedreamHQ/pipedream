@@ -3,7 +3,9 @@ import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getUserId, getListFields,
 } from "../../common/methods";
-import { includeAllFields, listAdditionalProps as additionalProps } from "../../common/propGroups";
+import {
+  includeAllFields, listAdditionalProps as additionalProps,
+} from "../../common/propGroups";
 import { GetUserOwnedListsParams } from "../../common/types/requestParams";
 import {
   List, PaginatedResponseObject,

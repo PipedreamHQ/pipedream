@@ -5,7 +5,9 @@ import {
   getUserId,
   getTweetFields,
 } from "../../common/methods";
-import { includeAllFields, tweetAdditionalProps as additionalProps } from "../../common/propGroups";
+import {
+  includeAllFields, tweetAdditionalProps as additionalProps,
+} from "../../common/propGroups";
 import { GetUserMentionsParams } from "../../common/types/requestParams";
 import {
   PaginatedResponseObject, Tweet,

@@ -1,6 +1,10 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { LIST_FIELD_OPTIONS, MEDIA_FIELD_OPTIONS, PLACE_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS } from "./dataFields";
-import { LIST_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS } from "./expansions";
+import {
+  LIST_FIELD_OPTIONS, MEDIA_FIELD_OPTIONS, PLACE_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
+} from "./dataFields";
+import {
+  LIST_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
+} from "./expansions";
 
 export async function getUserId(): Promise<string> {
   let { userNameOrId: id } = this;

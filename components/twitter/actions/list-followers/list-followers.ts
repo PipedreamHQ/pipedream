@@ -4,7 +4,9 @@ import {
   getMultiItemSummary, getUserId, getUserFields,
 } from "../../common/methods";
 import { GetUserFollowersParams } from "../../common/types/requestParams";
-import { includeAllFields, userAdditionalProps as additionalProps } from "../../common/propGroups";
+import {
+  includeAllFields, userAdditionalProps as additionalProps,
+} from "../../common/propGroups";
 import {
   PaginatedResponseObject, User,
 } from "../../common/types/responseSchemas";

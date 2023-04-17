@@ -2,7 +2,9 @@ import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
-import { includeAllFields, tweetAdditionalProps as additionalProps } from "../../common/propGroups";
+import {
+  includeAllFields, tweetAdditionalProps as additionalProps,
+} from "../../common/propGroups";
 import { getTweetFields } from "../../common/methods";
 import { GetUserLikedTweetParams } from "../../common/types/requestParams";
 import {

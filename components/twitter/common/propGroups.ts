@@ -1,7 +1,10 @@
 import app from "../app/twitter.app";
 
 export const includeAllFields = {
-  propDefinition: [app, "includeAllFields"],
+  propDefinition: [
+    app,
+    "includeAllFields",
+  ],
 };
 
 function checkForAdditionalProps() {
@@ -11,62 +14,98 @@ function checkForAdditionalProps() {
 export async function listAdditionalProps(): Promise<Record<string, any>> {
   return checkForAdditionalProps()
     ? {
-        expansions: {
-          propDefinition: [app, "listExpansions"],
-        },
-        listFields: {
-          propDefinition: [app, "listFields"],
-        },
-        userFields: {
-          propDefinition: [app, "userFields"],
-          description:
+      expansions: {
+        propDefinition: [
+          app,
+          "listExpansions",
+        ],
+      },
+      listFields: {
+        propDefinition: [
+          app,
+          "listFields",
+        ],
+      },
+      userFields: {
+        propDefinition: [
+          app,
+          "userFields",
+        ],
+        description:
             "Specific [user fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/user) to be included in the returned user object. Only applicable if you've requested the `owner_id` expansion.",
-        },
-      }
+      },
+    }
     : {};
 }
 
 export async function tweetAdditionalProps(): Promise<Record<string, any>> {
   return checkForAdditionalProps()
     ? {
-        expansions: {
-          propDefinition: [app, "tweetExpansions"],
-        },
-        mediaFields: {
-          propDefinition: [app, "mediaFields"],
-        },
-        placeFields: {
-          propDefinition: [app, "placeFields"],
-        },
-        pollFields: {
-          propDefinition: [app, "pollFields"],
-        },
-        tweetFields: {
-          propDefinition: [app, "tweetFields"],
-        },
-        userFields: {
-          propDefinition: [app, "userFields"],
-        },
-      }
+      expansions: {
+        propDefinition: [
+          app,
+          "tweetExpansions",
+        ],
+      },
+      mediaFields: {
+        propDefinition: [
+          app,
+          "mediaFields",
+        ],
+      },
+      placeFields: {
+        propDefinition: [
+          app,
+          "placeFields",
+        ],
+      },
+      pollFields: {
+        propDefinition: [
+          app,
+          "pollFields",
+        ],
+      },
+      tweetFields: {
+        propDefinition: [
+          app,
+          "tweetFields",
+        ],
+      },
+      userFields: {
+        propDefinition: [
+          app,
+          "userFields",
+        ],
+      },
+    }
     : {};
 }
 
 export async function userAdditionalProps(): Promise<Record<string, any>> {
   return checkForAdditionalProps()
     ? {
-        expansions: {
-          propDefinition: [app, "userExpansions"],
-        },
-        tweetFields: {
-          propDefinition: [app, "tweetFields"],
-          description:
+      expansions: {
+        propDefinition: [
+          app,
+          "userExpansions",
+        ],
+      },
+      tweetFields: {
+        propDefinition: [
+          app,
+          "tweetFields",
+        ],
+        description:
             "Specific [tweet fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet) to be included in the returned pinned Tweet. Only applicable if the user has a pinned Tweet and you've requested the `referenced_tweets.id` expansion.",
-        },
-        userFields: {
-          propDefinition: [app, "userFields"],
-          description:
+      },
+      userFields: {
+        propDefinition: [
+          app,
+          "userFields",
+        ],
+        description:
             "Specific [user fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/user) to be included in the returned user object.",
-        },
-      }
+      },
+    }
     : {};
 }
