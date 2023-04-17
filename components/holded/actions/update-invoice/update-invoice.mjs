@@ -68,7 +68,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully updated invoice with ID ${response.id}`);
+    step.export("$summary", `Successfully updated invoice`);
 
     return response;
   },
