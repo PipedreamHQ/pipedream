@@ -1,9 +1,9 @@
 const PRIORITY = {
-  LOWEST: -2,
-  LOW: -1,
-  DEFAULT: 0,
-  HIGH: 1,
-  EMERGENCY: 2,
+  LOWEST: "-2",
+  LOW: "-1",
+  DEFAULT: "0",
+  HIGH: "1",
+  EMERGENCY: "2",
 };
 
 const PRIORITY_OPTIONS = [
