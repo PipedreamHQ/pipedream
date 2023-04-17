@@ -1,4 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { LIST_FIELD_OPTIONS, MEDIA_FIELD_OPTIONS, PLACE_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS } from "./dataFields";
+import { LIST_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS } from "./expansions";
 
 export async function getUserId(): Promise<string> {
   let { userNameOrId: id } = this;
@@ -27,9 +29,9 @@ export function getListFields() {
     expansions, listFields, userFields,
   }: Record<string, string[]> = this;
   return {
-    "expansions": expansions?.join(),
-    "list.fields": listFields?.join(),
-    "user.fields": userFields?.join(),
+    "expansions": (expansions ?? LIST_EXPANSION_OPTIONS).join(),
+    "list.fields": (listFields ?? LIST_FIELD_OPTIONS).join(),
+    "user.fields": (userFields ?? USER_FIELD_OPTIONS).join(),
   };
 }
 
@@ -43,12 +45,12 @@ export function getTweetFields() {
     userFields,
   }: Record<string, string[]> = this;
   return {
-    "expansions": expansions?.join(),
-    "media.fields": mediaFields?.join(),
-    "place.fields": placeFields?.join(),
-    "poll.fields": pollFields?.join(),
-    "tweet.fields": tweetFields?.join(),
-    "user.fields": userFields?.join(),
+    "expansions": (expansions ?? LIST_EXPANSION_OPTIONS).join(),
+    "media.fields": (mediaFields ?? MEDIA_FIELD_OPTIONS).join(),
+    "place.fields": (placeFields ?? PLACE_FIELD_OPTIONS).join(),
+    "poll.fields": (pollFields ?? POLL_FIELD_OPTIONS).join(),
+    "tweet.fields": (tweetFields ?? TWEET_FIELD_OPTIONS).join(),
+    "user.fields": (userFields ?? USER_FIELD_OPTIONS).join(),
   };
 }
 
@@ -57,8 +59,8 @@ export function getUserFields() {
     expansions, tweetFields, userFields,
   }: Record<string, string[]> = this;
   return {
-    "expansions": expansions?.join(),
-    "tweet.fields": tweetFields?.join(),
-    "user.fields": userFields?.join(),
+    "expansions": (expansions ?? USER_EXPANSION_OPTIONS).join(),
+    "tweet.fields": (tweetFields ?? TWEET_FIELD_OPTIONS).join(),
+    "user.fields": (userFields ?? USER_FIELD_OPTIONS).join(),
   };
 }

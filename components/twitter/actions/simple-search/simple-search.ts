@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getTweetFields,
 } from "../../common/methods";
-import { tweetFieldProps } from "../../common/propGroups";
+import { includeAllFields, tweetAdditionalProps as additionalProps } from "../../common/propGroups";
 import { SearchTweetsParams } from "../../common/types/requestParams";
 import {
   PaginatedResponseObject, Tweet,
@@ -29,7 +29,7 @@ export default defineAction({
         "query",
       ],
     },
-    ...tweetFieldProps,
+    includeAllFields,
     maxResults: {
       propDefinition: [
         app,
@@ -40,6 +40,7 @@ export default defineAction({
       default: DEFAULT_RESULTS,
     },
   },
+  additionalProps,
   methods: {
     getMultiItemSummary,
     getTweetFields,
