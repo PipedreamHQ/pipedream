@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/big_data_cloud",
+  "version": "0.0.1",
+  "description": "Pipedream Big Data Cloud Components",
+  "main": "dist/app/big_data_cloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "big_data_cloud"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/big_data_cloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
