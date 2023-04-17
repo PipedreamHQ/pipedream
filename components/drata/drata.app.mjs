@@ -114,7 +114,7 @@ export default {
       if (paginate) {
         return this.paginate({
           ...opts,
-          fn: this.listPersonnel,
+          fn: this.listWorkspaces,
         });
       }
       return this._makeRequest({
