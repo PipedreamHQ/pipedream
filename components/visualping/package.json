@@ -2,12 +2,11 @@
   "name": "@pipedream/visualping",
   "version": "0.0.1",
   "description": "Pipedream VisualPing Components",
-  "main": "dist/app/visualping.app.mjs",
+  "main": "app/visualping.app.mjs",
   "keywords": [
     "pipedream",
     "visualping"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/visualping",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
