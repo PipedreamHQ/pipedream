@@ -51,6 +51,7 @@ export default defineAction({
       maxResults: this.maxResults,
       params: {
         query: this.query,
+        ...this.getTweetFields(),
       },
     };
 
