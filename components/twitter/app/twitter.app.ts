@@ -87,7 +87,7 @@ export default defineApp({
       optional: true,
       default: "me",
     },
-    useAllFields: {
+    includeAllFields: {
       type: "boolean",
       label: "Include All Metadata",
       description: "If set to `false`, you can choose which fields will be returned for each data type.",
