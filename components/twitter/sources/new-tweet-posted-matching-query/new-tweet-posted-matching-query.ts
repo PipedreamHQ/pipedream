@@ -34,22 +34,16 @@ export default defineSource({
       return "Tweet";
     },
     getItemSummary,
-    async getResources(customize: boolean): Promise<Tweet[]> {
+    async getResources(maxResults?: number): Promise<Tweet[]> {
       const params: SearchTweetsParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: MAX_RESULTS_PER_PAGE,
+        maxResults: maxResults ?? MAX_RESULTS_PER_PAGE,
         params: {
           query: this.query,
+          ...this.getTweetFields()
         },
       };
-
-      if (customize) {
-        params.params = {
-          ...params.params,
-          ...this.getTweetFields(),
-        };
-      }
 
       const { data } = await this.app.searchTweets(params);
       return data;

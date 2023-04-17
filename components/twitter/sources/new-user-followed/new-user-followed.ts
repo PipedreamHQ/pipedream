@@ -36,18 +36,15 @@ export default defineSource({
       return "User Followed";
     },
     getItemSummary,
-    async getResources(customize: boolean): Promise<User[]> {
+    async getResources(maxResults?: number): Promise<User[]> {
       const userId = await this.getCachedUserId();
       const params: GetUserFollowingParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: MAX_RESULTS_PER_PAGE,
+        maxResults: maxResults ?? MAX_RESULTS_PER_PAGE,
+        params: this.getUserFields(),
         userId,
       };
-
-      if (customize) {
-        params.params = this.getUserFields();
-      }
 
       const { data } = await this.app.getUserFollowing(params);
       return data;

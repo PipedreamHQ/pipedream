@@ -36,18 +36,15 @@ export default defineSource({
     getEntityName() {
       return "List Followed";
     },
-    async getResources(customize: boolean): Promise<List[]> {
+    async getResources(maxResults?: number): Promise<List[]> {
       const userId = await this.getCachedUserId();
       const params: GetUserFollowedListsParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: MAX_RESULTS_PER_PAGE,
+        maxResults: maxResults ?? MAX_RESULTS_PER_PAGE,
+        params: this.getListFields(),
         userId,
       };
-
-      if (customize) {
-        params.params = this.getListFields();
-      }
 
       const { data } = await this.app.getUserFollowedLists(params);
       return data;

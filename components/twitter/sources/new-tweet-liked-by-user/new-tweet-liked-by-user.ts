@@ -36,18 +36,15 @@ export default defineSource({
     getEntityName() {
       return "Tweet Liked";
     },
-    async getResources(customize: boolean): Promise<Tweet[]> {
+    async getResources(maxResults?: number): Promise<Tweet[]> {
       const userId = await this.getCachedUserId();
       const params: GetUserLikedTweetParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: MAX_RESULTS_PER_PAGE,
+        maxResults: maxResults ?? MAX_RESULTS_PER_PAGE,
+        params: this.getTweetFields(),
         userId,
       };
-
-      if (customize) {
-        params.params = this.getTweetFields();
-      }
 
       const { data } = await this.app.getUserLikedTweets(params);
       return data;
