@@ -154,6 +154,18 @@ export default {
         "no-answer",
       ],
     },
+    serviceSid: {
+      type: "string",
+      label: "Service SID",
+      description: "The SID of the service to which the verification belongs",
+      async options() {
+        const services = await this.listServices();
+        return services.map((service) => ({
+          label: service.friendlyName,
+          value: service.sid,
+        }));
+      },
+    },
   },
   methods: {
     validateRequest({
@@ -344,6 +356,19 @@ export default {
     listRecordingTranscriptions(sid, params) {
       const client = this.getClient();
       return client.recordings(sid).transcriptions.list(params);
+    },
+
+    async sendSmsVerificationCode(serviceSid, to) {
+      const client = this.getClient();
+      return client.verify.v2.services(serviceSid).verifications.create({
+        to,
+        channel: "sms",
+      });
+    },
+
+    async listServices() {
+      const client = this.getClient();
+      return client.verify.v2.services.list();
     },
   },
 };
