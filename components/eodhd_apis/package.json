@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/eodhd_apis",
+  "version": "0.0.1",
+  "description": "Pipedream EODHD APIs Components",
+  "main": "dist/app/eodhd_apis.app.mjs",
+  "keywords": [
+    "pipedream",
+    "eodhd_apis"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/eodhd_apis",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
