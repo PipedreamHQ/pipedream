@@ -7,12 +7,8 @@ export const includeAllFields = {
   ],
 };
 
-function checkForAdditionalProps() {
-  return this.includeAllFields === false;
-}
-
 export async function listAdditionalProps(): Promise<Record<string, any>> {
-  return checkForAdditionalProps()
+  return this.includeAllFields === false
     ? {
       expansions: {
         propDefinition: [
@@ -39,7 +35,7 @@ export async function listAdditionalProps(): Promise<Record<string, any>> {
 }
 
 export async function tweetAdditionalProps(): Promise<Record<string, any>> {
-  return checkForAdditionalProps()
+  return this.includeAllFields === false
     ? {
       expansions: {
         propDefinition: [
@@ -82,7 +78,7 @@ export async function tweetAdditionalProps(): Promise<Record<string, any>> {
 }
 
 export async function userAdditionalProps(): Promise<Record<string, any>> {
-  return checkForAdditionalProps()
+  return this.includeAllFields === false
     ? {
       expansions: {
         propDefinition: [
