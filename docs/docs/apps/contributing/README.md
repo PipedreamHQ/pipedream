@@ -457,7 +457,7 @@ Examples:
   understand what values they can enter, with specific values highlighted using
   backticks and links to external content.
 
-  ![image-20210326151706682](./images/image-20210326151706682.png)
+  ![image-20210326151706682](https://res.cloudinary.com/pipedreamin/image/upload/v1681746148/o7nal2b37knhj0jc69vi.png)
 
 #### Optional vs Required Props
 
