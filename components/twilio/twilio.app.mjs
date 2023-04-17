@@ -358,6 +358,13 @@ export default {
       return client.recordings(sid).transcriptions.list(params);
     },
 
+    /**
+     * Send a verification code via sms
+     *
+     * @param {String} serviceSid Service SID
+     * @param {String} to Number to send the code to
+     * @returns {Promise<*>} Twilio response object
+     */
     async sendSmsVerificationCode(serviceSid, to) {
       const client = this.getClient();
       return client.verify.v2.services(serviceSid).verifications.create({
@@ -366,9 +373,30 @@ export default {
       });
     },
 
+    /**
+     * List all services
+     *
+     * @returns {Promise<*>} List of services
+     */
     async listServices() {
       const client = this.getClient();
       return client.verify.v2.services.list();
+    },
+
+    /**
+     * Check whether the verification token is valid
+     *
+     * @param {String} serviceSid Service SID
+     * @param {String} to The number to check the token for
+     * @param {String} code The Code to check against
+     * @returns {Promise<*>} Twilio response object
+     */
+    async checkVerificationToken(serviceSid, to, code) {
+      const client = this.getClient();
+      return client.verify.v2.services(serviceSid).verificationChecks.create({
+        to,
+        code,
+      });
     },
   },
 };
