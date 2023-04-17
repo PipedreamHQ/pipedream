@@ -288,6 +288,55 @@ But other libraries will _not_ raise clear errors. In these cases, you may need 
 
 In general, **imagine you are a user troubleshooting an issue. Is the error easy-to-understand? If not, `throw` a better error**.
 
+#### `README` files
+
+New actions and sources should include `README.md` files within the same directory to describe how to use the action or source to users.
+
+Here's an example `README.md` structure:
+
+```markdown
+
+# Overview
+
+# Getting Started
+
+# Troubleshooting
+
+```
+
+These sections will appear within the correponding app, source and action page, along with any subheadings and content. 
+
+Here's an example of an [app `README.md` within the `discord` component on the Pipedream registry](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord/README.md). That same content is rendered within the [Pipedream integration page for the Discord app](https://pipedream.com/apps/discord).
+
+You can add additional subheadings to each of the top level `Overview`, `Getting Started` and `Troubleshooting` headings:
+
+```markdown
+# Overview
+
+## Limitations
+
+Perhaps there are some limitations about the API that users should know about.
+
+# Getting Started
+
+## Generating an API key
+
+Instructions on how to generate an API key from within the service's dashboard.
+
+# Troubleshooting
+
+## Required OAuth scopes
+
+Please take note, you'll need to have sufficient privileges in order to complete authentication.
+
+```
+
+::: tip
+
+Only these three top level headings `Overview`, `Getting Starting` and `Troubleshooting` will appear within the corresponding App Marketplace page. All other headings will be ignored.
+
+:::
+
 #### Pagination
 
 When making API requests, handle pagination to ensure all data/events are
@@ -311,6 +360,7 @@ logic should:
   same Microsoft OneDrive example, check the `processEvent` method [in this
   component](https://github.com/PipedreamHQ/pipedream/tree/master/components/microsoft_onedrive/sources/new-file/new-file.mjs)
   for an example.
+
 
 #### Capturing Sensitive Data
 
