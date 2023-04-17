@@ -107,7 +107,7 @@ jobs:
       - name: Compile TypeScript
         run: npm run build
       - name: Lint Code Base
-        uses: github/super-linter@v4
+        uses: github/super-linter@v5
         env:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
