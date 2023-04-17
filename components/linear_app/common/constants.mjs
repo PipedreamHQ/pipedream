@@ -82,6 +82,26 @@ const ISSUE_NODES = `
   }
 `;
 
+const COMMENT_NODES = `
+  id
+  body
+  createdAt
+  reactionData
+  updatedAt
+  issue {
+    id
+    title
+    project {
+      id
+      name
+    }
+  }
+  user {
+    id
+    name
+  }
+`;
+
 export default {
   WEBHOOK_ID,
   LINEAR_DELIVERY_HEADER,
@@ -94,4 +114,5 @@ export default {
   ORDER_BY_OPTIONS,
   FIELD,
   ISSUE_NODES,
+  COMMENT_NODES,
 };

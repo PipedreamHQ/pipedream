@@ -123,7 +123,7 @@ export default {
       return;
     }
 
-    if (!this.isFromProject(body) || !this.isRelevant(body)) {
+    if (!(await this.isFromProject(body)) || !this.isRelevant(body)) {
       return;
     }
 

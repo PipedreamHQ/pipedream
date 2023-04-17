@@ -274,6 +274,20 @@ export default {
     async listComments(variables = {}) {
       return this.client().comments(variables);
     },
+    async getComment(id) {
+      const { data: { comment } } = await this.makeAxiosRequest({
+        method: "POST",
+        data: {
+          query: `
+          { 
+            comment(id: "${id}") { 
+              ${constants.COMMENT_NODES}
+            } 
+          }`,
+        },
+      });
+      return comment;
+    },
     async listResourcesOptions({
       prevContext, resourcesFn, resourcesArgs, resouceMapper,
     } = {}) {

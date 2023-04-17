@@ -19,7 +19,7 @@ function buildVariables(endCursor, args) {
     ? `, project: { id: { eq: "${args.filter.projectId}" } }`
     : "";
   const team = args.filter.team
-    ? `, team: { id: { in: "${args.filter.team.id.in}" } }`
+    ? `, team: { id: { in: ${JSON.stringify(args.filter.team.id.in)} } }`
     : "";
   const project = args.filter.project
     ? `, project: { id: { eq: "${args.filter.project.id.eq}" } }`

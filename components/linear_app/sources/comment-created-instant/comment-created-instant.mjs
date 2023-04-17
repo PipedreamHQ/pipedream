@@ -25,6 +25,10 @@ export default {
     useGraphQl() {
       return false;
     },
+    async isFromProject(body) {
+      const comment = await this.linearApp.getComment(body.data.id);
+      return !this.projectId || comment?.issue?.project?.id == this.projectId;
+    },
     getResourcesFnArgs() {
       return {
         sortBy: "createdAt",
