@@ -65,7 +65,10 @@ const docsNav = [
       "/environment-variables/",
     ],
   },
-  ['/apps/', 'Integrations'],
+  {title: 'Integrations', type: "group", children: [
+    "/apps/",
+    "/apps/contributing/",
+  ]},
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
   {
@@ -86,7 +89,6 @@ const referenceNav = [
       "/components/quickstart/nodejs/actions/",
       "/components/quickstart/nodejs/sources/",
       "/components/api/",
-      "/components/guidelines/",
       "/pipedream-axios/",
       "/components/typescript/",
     ],

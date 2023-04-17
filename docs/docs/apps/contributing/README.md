@@ -1,45 +1,25 @@
-# Contributing to the Pipedream Registry
+# Pipedream Registry
 
-This document is intended for a technical audience (including those interested
-in learning how to author and edit components). It defines guidelines and
-patterns developers should follow when building components for the Pipedream
-registry.
+When developing workflows with pre-built actions and triggers, under the hood you're using [components](/docs/components) from the [Pipedream Registry Github Repository](https://github.com/pipedreamhq/pipedream).
 
-Developers may create, deploy and share [components](#components) that do not
-conform to these guidelines, but they will not be eligible to be listed in the
-curated registry (e.g., they may be hosted in a Github repo). If you develop a
-component that does not adhere to these guidelines, but you believe there is
-value to the broader community, please [reach out in our community
-forum](https://pipedream.com/community/c/dev/11).
+Components contributed to the [Pipedream Registry Github Repository](https://github.com/pipedreamhq/pipedream) are published to the [Pipedream marketplace](https://pipedream.com/apps) and are listed in
+Pipedream's UI when building workflows.
 
-[[toc]]
+## Components
 
-## Overview
-
-[Pipedream](https://pipedream.com) is a low code integration platform that makes
-it easy to connect APIs remarkably fast. Users can select from thousands of
-customizable, source-available components for hundreds of apps and orchestrate their
-execution in workflows. Developers can
-[contribute](https://pipedream.com/contributing) to these open source components
-on [Github](https://github.com/pipedreamhq/pipedream) by:
-
-- Creating new components (sources and actions)
-- Updating existing components (e.g., fixing bugs, enhancing functionality)
-- Adding or updating metadata (e.g., descriptions, labels)
-
-Once a PR is merged to the `master` branch of the
-[`pipedreamhq/pipedream`](https://github.com/PipedreamHQ/pipedream) repo, the
-components are automatically registered and immediately become available to the
-150k+ users of the Pipedream platform.
-
-### Components
-
-Components are [Node.js modules](../api/#component-structure) that run on
+Components are [Node.js modules](/docs/components/api/#component-structure) that run on
 Pipedream's serverless infrastructure. They may use Pipedream managed auth for
 [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/explore) and [use most npm
 packages](../api/#using-npm-packages) with no `npm install` or `package.json`
 required. Pipedream currently supports two types of components — sources and
 actions.
+
+### Getting Started
+
+When you're ready to build a component for the Pipedream registry, we recommend
+starting with our Quickstart Guides for [sources](/components/quickstart/nodejs/sources/)
+and [actions](/components/quickstart/nodejs/actions/). Then review the [Component API
+Reference](/api/).
 
 #### Sources
 
@@ -51,37 +31,14 @@ actions.
   strategies](../api/#dedupe-strategies)
 - Can be [triggered](../api/#interface-props) on HTTP requests, timers, cron
   schedules, or manually
-- May store and retrieve state using the [built-in key-value store](../api/#db)
+- May store and retrieve state using the [built-in key-value store](/components/api/#db)
 
 #### Actions
 
 - May be used as [steps](/workflows/steps/) in [workflows](/workflows/) to
   perform common functions (e.g., get or modify data in an app)
 - [Data returned by actions](/workflows/steps/#step-exports) may be inspected
-  and used in future workflow steps
-
-### Pipedream Registry
-
-The Pipedream registry consists of sources and actions that have been curated
-for the community. Registered components are verified by Pipedream through the
-[Github PR process](#process) and:
-
-- Can be trusted by end users
-- Follow consistent patterns for usability
-- Are supported by Pipedream if issues arise
-
-Registered components also appear in the Pipedream marketplace and are listed in
-Pipedream's UI when building workflows.
-
-## Getting Started
-
-**If you're new to Pipedream, we recommend watching this [5 minute
-demo](https://www.youtube.com/watch?v=hJ-KRbp6EO8).**
-
-If you're ready to build a component for the Pipedream registry, we recommend
-starting with our Quickstart Guides for [source](../quickstart/nodejs/sources/)
-and [actions](../quickstart/nodejs/actions/). Then review the [Component API
-Reference](../api/).
+  and used in future workflow steps.
 
 ### Prerequisites
 
@@ -133,7 +90,7 @@ run the following commands at the root of the project:
    Keep in mind that not all issues can be automatically fixed by the linter
    since they could alter the behaviour of the code.
 
-### Process
+### Component Publishing Process
 
 Anyone from the community can build [sources](/sources/) and [actions](/components#actions) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)").
 
@@ -179,7 +136,10 @@ actions for Pipedream's registry.
 | [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.mjs)                        | Google Docs   |
 | [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.mjs)                             | HTTP          |
 
-## Guidelines & Patterns
+
+## Components Guidelines & Patterns
+
+For a component to be accepted into the Pipedream registry, it should follow these guidelines below. These guidelines help ensure components are high quality, are intutive for both Pipedream users and component developers to use and extend.
 
 ### General
 
