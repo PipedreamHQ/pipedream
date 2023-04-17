@@ -7,7 +7,7 @@ export default {
   key: "whatsapp_business-send-text-using-template",
   name: "Send Text Using Template",
   description: `Send a text message using a pre-defined template. Variables can be sent only as text. [See the docs.](${docLink})`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     whatsapp,
@@ -49,6 +49,18 @@ export default {
         continue;
       }
 
+      if (component.type === "BUTTONS") {
+        for (const button of component.buttons) {
+          if (button.url.match(regex)) {
+            props[`button_${button.text}`] = {
+              type: "string",
+              label: button.url,
+              description: `Dynamic URL text: **${button.url}**`,
+            };
+          }
+        }
+      }
+
       const matches = component.text?.match(regex);
       for (const match of matches ?? []) {
         props[match] = {
@@ -79,6 +91,21 @@ export default {
       components.push({
         type: "header",
         parameters: headerParameters,
+      });
+    }
+
+    const buttonParameters = Object.keys(this)
+      .filter((key) => key.includes("button_"))
+      .map((key) => ({
+        type: "URL",
+        text: key.replace("button_", ""),
+        url: this[key],
+      }));
+
+    if (buttonParameters.length) {
+      components.push({
+        type: "buttons",
+        parameters: buttonParameters,
       });
     }
 
