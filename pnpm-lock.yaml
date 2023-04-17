@@ -4718,7 +4718,10 @@ importers:
     specifiers: {}
 
   components/world_news_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/woxo:
     specifiers:
