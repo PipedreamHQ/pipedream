@@ -21,7 +21,7 @@ function buildVariables(endCursor, args) {
   const team = args.filter.team
     ? `, team: { id: { in: ${JSON.stringify(args.filter.team.id.in)} } }`
     : "";
-  const project = args.filter.project
+  const project = args.filter.project && args.filter.project.id.eq
     ? `, project: { id: { eq: "${args.filter.project.id.eq}" } }`
     : "";
   const state = args.filter.state
@@ -45,7 +45,7 @@ function buildVariables(endCursor, args) {
     ? `, includeArchived: ${args.includeArchived}`
     : "";
   const after = endCursor
-    ? `, after: ${endCursor}`
+    ? `, after: "${endCursor}"`
     : "";
   return `filter: { ${filter} }, first: ${constants.DEFAULT_LIMIT}${orderBy}${includeArchived}${after}`;
 }
