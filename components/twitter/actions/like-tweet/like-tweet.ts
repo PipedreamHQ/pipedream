@@ -21,16 +21,17 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const { tweetId } = this;
     const params: LikeTweetParams = {
       $,
       data: {
-        tweet_id: this.tweetId,
+        tweet_id: tweetId,
       },
     };
 
     const response = await this.app.likeTweet(params);
 
-    $.export("$summary", "Successfully liked tweet");
+    $.export("$summary", `Successfully liked tweet (ID ${tweetId})`);
 
     return response;
   },

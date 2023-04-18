@@ -43,7 +43,9 @@ export default defineAction({
 
     const response = await this.app.addUserToList(params);
 
-    $.export("$summary", "Successfully added user to list");
+    $.export("$summary", response.data?.is_member !== true
+      ? "User not added to list"
+      : "Successfully added user to list");
 
     return response;
   },

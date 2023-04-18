@@ -21,14 +21,15 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const { tweetId } = this;
     const params: UnlikeTweetParams = {
       $,
-      tweetId: this.tweetId,
+      tweetId,
     };
 
     const response = await this.app.unlikeTweet(params);
 
-    $.export("$summary", "Successfully unliked tweet");
+    $.export("$summary", `Successfully unliked tweet ${tweetId}`);
 
     return response;
   },

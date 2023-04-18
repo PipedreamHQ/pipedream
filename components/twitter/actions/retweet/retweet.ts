@@ -22,16 +22,19 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const { tweetId } = this;
     const params: RetweetParams = {
       $,
       data: {
-        tweet_id: this.tweetId,
+        tweet_id: tweetId,
       },
     };
 
     const response = await this.app.retweet(params);
 
-    $.export("$summary", "Tweet successfully retweeted");
+    $.export("$summary", response.data?.retweeted !== true
+      ? "Retweet failed"
+      : "Tweet successfully retweeted");
 
     return response;
   },

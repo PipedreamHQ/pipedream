@@ -91,7 +91,7 @@ export default defineAction({
 
     const response = await this.app.createTweet(params);
 
-    $.export("$summary", "Successfully posted tweet");
+    $.export("$summary", `Successfully posted tweet (ID ${response.data?.id})`);
 
     return response;
   },

@@ -39,7 +39,7 @@ export default defineAction({
     $.export(
       "$summary",
       `Successfully ${
-        response.following
+        response.data?.following
           ? "followed"
           : "requested to follow"
       } user`,

@@ -21,14 +21,15 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const { tweetId } = this;
     const params: DeleteTweetParams = {
       $,
-      tweetId: this.tweetId,
+      tweetId,
     };
 
     const response = await this.app.deleteTweet(params);
 
-    $.export("$summary", "Successfully deleted tweet");
+    $.export("$summary", `Successfully deleted tweet (ID ${tweetId})`);
 
     return response;
   },

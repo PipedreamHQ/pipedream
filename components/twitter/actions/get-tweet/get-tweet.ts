@@ -37,7 +37,7 @@ export default defineAction({
 
     const response = await this.app.getTweet(params);
 
-    $.export("$summary", `Successfully retrieved tweet ${tweetId}`);
+    $.export("$summary", `Successfully retrieved tweet (ID ${tweetId})`);
 
     return response;
   },
