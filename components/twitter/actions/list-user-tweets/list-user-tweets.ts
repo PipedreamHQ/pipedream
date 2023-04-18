@@ -3,7 +3,6 @@ import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getUserId, getTweetFields,
 } from "../../common/methods";
-import { tweetFieldProps } from "../../common/propGroups";
 import { GetUserTweetsParams } from "../../common/types/requestParams";
 import {
   PaginatedResponseObject, Tweet,
@@ -19,7 +18,7 @@ export default defineAction({
   key: "twitter-list-user-tweets",
   name: "List User Tweets",
   description: `Return a collection of the most recent tweets posted by a user. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.1.0",
   type: "action",
   props: {
     app,
@@ -29,7 +28,6 @@ export default defineAction({
         "userNameOrId",
       ],
     },
-    ...tweetFieldProps,
     maxResults: {
       propDefinition: [
         app,
