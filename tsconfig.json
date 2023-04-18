@@ -1769,6 +1769,12 @@
     },
     {
       "path": "components/selectpdf"
+    },
+    {
+      "path": "components/nasdaq_data_link_time_series_and_table_data_"
+    },
+    {
+      "path": "components/mailwizz"
     }
   ]
 }

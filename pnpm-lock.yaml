@@ -518,6 +518,9 @@ importers:
   components/budgets_ai:
     specifiers: {}
 
+  components/budgets_ai:
+    specifiers: {}
+
   components/bugsnag:
     specifiers: {}
 
@@ -1373,6 +1376,9 @@ importers:
   components/formstack_documents:
     specifiers: {}
 
+  components/formstack_documents:
+    specifiers: {}
+
   components/foxy:
     specifiers: {}
 
@@ -1811,6 +1817,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.4.1
+
+  components/holded:
+    specifiers: {}
 
   components/hotspotsystem:
     specifiers:
