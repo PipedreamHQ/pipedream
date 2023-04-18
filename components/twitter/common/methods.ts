@@ -30,17 +30,18 @@ export function getMultiItemSummary(name: string, length: number) {
 
 export function getListFields() {
   const {
-    expansions, listFields, userFields,
+    includeAllFields, expansions, listFields, userFields,
   }: Record<string, string[]> = this;
   return {
-    "expansions": (expansions ?? LIST_EXPANSION_OPTIONS).join(),
-    "list.fields": (listFields ?? LIST_FIELD_OPTIONS).join(),
-    "user.fields": (userFields ?? USER_FIELD_OPTIONS).join(),
+    "expansions": (includeAllFields ? LIST_EXPANSION_OPTIONS : expansions).join(),
+    "list.fields": (includeAllFields ? LIST_FIELD_OPTIONS : listFields).join(),
+    "user.fields": (includeAllFields ? USER_FIELD_OPTIONS : userFields).join(),
   };
 }
 
 export function getTweetFields() {
   const {
+    includeAllFields,
     expansions,
     mediaFields,
     placeFields,
@@ -49,22 +50,22 @@ export function getTweetFields() {
     userFields,
   }: Record<string, string[]> = this;
   return {
-    "expansions": (expansions ?? LIST_EXPANSION_OPTIONS).join(),
-    "media.fields": (mediaFields ?? MEDIA_FIELD_OPTIONS).join(),
-    "place.fields": (placeFields ?? PLACE_FIELD_OPTIONS).join(),
-    "poll.fields": (pollFields ?? POLL_FIELD_OPTIONS).join(),
-    "tweet.fields": (tweetFields ?? TWEET_FIELD_OPTIONS).join(),
-    "user.fields": (userFields ?? USER_FIELD_OPTIONS).join(),
+    "expansions": (includeAllFields ? LIST_EXPANSION_OPTIONS : expansions).join(),
+    "media.fields": (includeAllFields ? MEDIA_FIELD_OPTIONS : mediaFields).join(),
+    "place.fields": (includeAllFields ? PLACE_FIELD_OPTIONS : placeFields).join(),
+    "poll.fields": (includeAllFields ? POLL_FIELD_OPTIONS : pollFields).join(),
+    "tweet.fields": (includeAllFields ? TWEET_FIELD_OPTIONS : tweetFields).join(),
+    "user.fields": (includeAllFields ? USER_FIELD_OPTIONS : userFields).join(),
   };
 }
 
 export function getUserFields() {
   const {
-    expansions, tweetFields, userFields,
+    includeAllFields, expansions, tweetFields, userFields,
   }: Record<string, string[]> = this;
   return {
-    "expansions": (expansions ?? USER_EXPANSION_OPTIONS).join(),
-    "tweet.fields": (tweetFields ?? TWEET_FIELD_OPTIONS).join(),
-    "user.fields": (userFields ?? USER_FIELD_OPTIONS).join(),
+    "expansions": (includeAllFields ? USER_EXPANSION_OPTIONS : expansions).join(),
+    "tweet.fields": (includeAllFields ? TWEET_FIELD_OPTIONS : tweetFields).join(),
+    "user.fields": (includeAllFields ? USER_FIELD_OPTIONS : userFields).join(),
   };
 }
