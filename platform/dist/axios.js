@@ -71,7 +71,7 @@ function transformConfigForOauth(config) {
         requestData.data = querystring.parse(config.data);
     }
     config.paramsSerializer = oauth1ParamsSerializer;
-    return config;
+    return requestData;
 }
 exports.transformConfigForOauth = transformConfigForOauth;
 async function getOauthSignature(config, signConfig) {
