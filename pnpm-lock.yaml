@@ -4408,11 +4408,11 @@ importers:
 
   components/twitter:
     specifiers:
-      '@pipedream/platform': ^1.4.1
+      '@pipedream/platform': ^1.5.1
       '@pipedream/types': ^0.1.4
       oauth-1.0a: ^2.2.6
     dependencies:
-      '@pipedream/platform': 1.5.0
+      '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.5
       oauth-1.0a: 2.2.6
 
@@ -9658,8 +9658,8 @@ packages:
       - debug
     dev: false
 
-  /@pipedream/platform/1.5.0:
-    resolution: {integrity: sha512-GyIf+atrN9WNrjwImjsc+rd3y/Yhw5pCcMHlmRVuX7q+GW6m/SgcWSXQDU29En2btgG3mk2BzdRhxecimqAmFQ==}
+  /@pipedream/platform/1.5.1:
+    resolution: {integrity: sha512-wTDEaO0nWMJcEOebAQCEq8EkPgRrtnK/rIxbTL3ox7O92GK6mLXjEfcVw8XSh9Odlgmw+nU71nZt5zx7la7E4g==}
     dependencies:
       axios: 0.21.4
       fp-ts: 2.13.1
