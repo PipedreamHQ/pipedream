@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Chat",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "anthropic-chat",
   description: "The Chat API. [See docs here](https://console.anthropic.com/docs/api/reference#-v1-complete)",
   type: "action",
@@ -11,7 +11,7 @@ export default {
     anthropic,
     model: {
       label: "Model",
-      description: "Which version of Claude answers your request. E.g. `claude-v1`",
+      description: "Select the model to use for your query. Defaults to the `claude-v1` model, which is recommended by Anthropic, and always uses their latest stable version.",
       type: "string",
       options: constants.COMPLETION_MODELS,
       default: constants.COMPLETION_MODELS[0],
