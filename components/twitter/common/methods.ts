@@ -30,9 +30,11 @@ export function getMultiItemSummary(name: string, length: number) {
 
 export function getListFields() {
   // See comment on "../common/additionalProps.ts"
-  // const {
-  //   includeAllFields, expansions, listFields, userFields,
-  // }: Record<string, string[]> = this;
+  /*
+  const {
+    includeAllFields, expansions, listFields, userFields,
+  }: Record<string, string[]> = this;
+  */
   return {
     "expansions": LIST_EXPANSION_OPTIONS.join(),
     "list.fields": LIST_FIELD_OPTIONS.join(),
@@ -41,15 +43,17 @@ export function getListFields() {
 }
 
 export function getTweetFields() {
-  // const {
-  //   includeAllFields,
-  //   expansions,
-  //   mediaFields,
-  //   placeFields,
-  //   pollFields,
-  //   tweetFields,
-  //   userFields,
-  // }: Record<string, string[]> = this;
+  /*
+  const {
+    includeAllFields,
+    expansions,
+    mediaFields,
+    placeFields,
+    pollFields,
+    tweetFields,
+    userFields,
+  }: Record<string, string[]> = this;
+  */
   return {
     "expansions": LIST_EXPANSION_OPTIONS.join(),
     "media.fields": MEDIA_FIELD_OPTIONS.join(),
@@ -61,9 +65,11 @@ export function getTweetFields() {
 }
 
 export function getUserFields() {
-  // const {
-  //   includeAllFields, expansions, tweetFields, userFields,
-  // }: Record<string, string[]> = this;
+  /*
+  const {
+    includeAllFields, expansions, tweetFields, userFields,
+  }: Record<string, string[]> = this;
+  */
   return {
     "expansions": USER_EXPANSION_OPTIONS.join(),
     "tweet.fields": TWEET_FIELD_OPTIONS.join(),
