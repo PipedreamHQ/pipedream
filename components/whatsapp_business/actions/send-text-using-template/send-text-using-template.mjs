@@ -51,12 +51,14 @@ export default {
 
       if (component.type === "BUTTONS") {
         for (const button of component.buttons) {
-          if (button.url.match(regex)) {
-            props[`button_${button.text}`] = {
+          if (button.type === "URL" && button.url.match(regex)) {
+            // only 1 dynamic url button possible
+            props["button_{{1}}"] = {
               type: "string",
-              label: button.url,
-              description: `Dynamic URL text: **${button.url}**`,
+              label: button.text,
+              description: `Dynamic URL: **${button.url}** Enter the dynamic text only.`,
             };
+            continue;
           }
         }
       }
@@ -97,14 +99,15 @@ export default {
     const buttonParameters = Object.keys(this)
       .filter((key) => key.includes("button_"))
       .map((key) => ({
-        type: "URL",
-        text: key.replace("button_", ""),
-        url: this[key],
+        type: "text",
+        text: this[key],
       }));
 
     if (buttonParameters.length) {
       components.push({
-        type: "buttons",
+        type: "button",
+        sub_type: "url",
+        index: 0,
         parameters: buttonParameters,
       });
     }
