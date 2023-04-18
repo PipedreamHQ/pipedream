@@ -5,9 +5,7 @@ import {
   getUserId,
   getTweetFields,
 } from "../../common/methods";
-import {
-  includeAllFields, tweetAdditionalProps as additionalProps,
-} from "../../common/propGroups";
+import { tweetAdditionalProps as additionalProps } from "../../common/additionalProps";
 import { GetUserMentionsParams } from "../../common/types/requestParams";
 import {
   PaginatedResponseObject, Tweet,
@@ -33,7 +31,12 @@ export default defineAction({
         "userNameOrId",
       ],
     },
-    includeAllFields,
+    includeAllFields: {
+      propDefinition: [
+        app,
+        "includeAllFields",
+      ],
+    },
     maxResults: {
       propDefinition: [
         app,

@@ -2,9 +2,7 @@ import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
-import {
-  includeAllFields, tweetAdditionalProps as additionalProps,
-} from "../../common/propGroups";
+import { tweetAdditionalProps as additionalProps } from "../../common/additionalProps";
 import { getTweetFields } from "../../common/methods";
 import { GetListTweetsParams } from "../../common/types/requestParams";
 import { Tweet } from "../../common/types/responseSchemas";
@@ -27,7 +25,12 @@ export default defineSource({
         "listId",
       ],
     },
-    includeAllFields,
+    includeAllFields: {
+      propDefinition: [
+        app,
+        "includeAllFields",
+      ],
+    },
   },
   additionalProps,
   methods: {

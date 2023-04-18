@@ -4,9 +4,7 @@ import {
   getMultiItemSummary, getUserId, getUserFields,
 } from "../../common/methods";
 import { GetUserFollowersParams } from "../../common/types/requestParams";
-import {
-  includeAllFields, userAdditionalProps as additionalProps,
-} from "../../common/propGroups";
+import { userAdditionalProps as additionalProps } from "../../common/additionalProps";
 import {
   PaginatedResponseObject, User,
 } from "../../common/types/responseSchemas";
@@ -31,7 +29,12 @@ export default defineAction({
         "userNameOrId",
       ],
     },
-    includeAllFields,
+    includeAllFields: {
+      propDefinition: [
+        app,
+        "includeAllFields",
+      ],
+    },
     maxResults: {
       propDefinition: [
         app,

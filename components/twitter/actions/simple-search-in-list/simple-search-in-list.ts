@@ -3,9 +3,7 @@ import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getTweetFields,
 } from "../../common/methods";
-import {
-  includeAllFields, tweetAdditionalProps as additionalProps,
-} from "../../common/propGroups";
+import { tweetAdditionalProps as additionalProps } from "../../common/additionalProps";
 import { GetListTweetsParams } from "../../common/types/requestParams";
 import {
   PaginatedResponseObject, Tweet,
@@ -36,7 +34,12 @@ export default defineAction({
       type: "string[]",
       description: "Text to filter tweets by. If you include more than one item in this array, only tweets that match all items will be returned. You can use the pipe character `|` to define multiple strings within an item, and it will be considered a match if the tweet contains any of them.",
     },
-    includeAllFields,
+    includeAllFields: {
+      propDefinition: [
+        app,
+        "includeAllFields",
+      ],
+    },
     maxResults: {
       propDefinition: [
         app,

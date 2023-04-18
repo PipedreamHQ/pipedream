@@ -27,19 +27,6 @@ import {
   GetAuthenticatedUserParams,
 } from "../common/types/requestParams";
 import {
-  LIST_FIELD_OPTIONS,
-  MEDIA_FIELD_OPTIONS,
-  PLACE_FIELD_OPTIONS,
-  POLL_FIELD_OPTIONS,
-  TWEET_FIELD_OPTIONS,
-  USER_FIELD_OPTIONS,
-} from "../common/dataFields";
-import {
-  LIST_EXPANSION_OPTIONS,
-  TWEET_EXPANSION_OPTIONS,
-  USER_EXPANSION_OPTIONS,
-} from "../common/expansions";
-import {
   List,
   PaginatedResponseObject,
   ResponseObject,
@@ -106,78 +93,6 @@ export default defineApp({
       label: "Query",
       description:
         "One query for matching Tweets. See the [Twitter API guide on building queries](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query).",
-    },
-    listExpansions: {
-      type: "string[]",
-      label: "Expansions",
-      optional: true,
-      description:
-        "Additional data objects related to the List(s) to be included in the response.",
-      options: LIST_EXPANSION_OPTIONS,
-    },
-    tweetExpansions: {
-      type: "string[]",
-      label: "Expansions",
-      optional: true,
-      description:
-        "Additional data objects related to the Tweet(s) to be included in the response.",
-      options: TWEET_EXPANSION_OPTIONS,
-    },
-    userExpansions: {
-      type: "string[]",
-      label: "Expansions",
-      optional: true,
-      description:
-        "Additional data objects related to the User(s) to be included in the response.",
-      options: USER_EXPANSION_OPTIONS,
-    },
-    listFields: {
-      type: "string[]",
-      label: "List Fields",
-      description:
-        "Specific [list fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/lists) to be included in the returned list object.",
-      optional: true,
-      options: LIST_FIELD_OPTIONS,
-    },
-    mediaFields: {
-      type: "string[]",
-      label: "Media Fields",
-      description:
-        "Specific [media fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/media) to be included in the returned Tweet(s). Only applicable if the Tweet contains media and you've requested the `attachments.media_keys` expansion.",
-      optional: true,
-      options: MEDIA_FIELD_OPTIONS,
-    },
-    placeFields: {
-      type: "string[]",
-      label: "Place Fields",
-      description:
-        "Specific [place fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/place) to be included in the returned Tweet(s). Only applicable if the Tweet contains a place and you've requested the `geo.place_id` expansion.",
-      optional: true,
-      options: PLACE_FIELD_OPTIONS,
-    },
-    pollFields: {
-      type: "string[]",
-      label: "Poll Fields",
-      description:
-        "Specific [poll fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll) to be included in the returned Tweet(s). Only applicable if the Tweet contains a poll and you've requested the `attachments.poll_ids` expansion.",
-      optional: true,
-      options: POLL_FIELD_OPTIONS,
-    },
-    tweetFields: {
-      type: "string[]",
-      label: "Tweet Fields",
-      description:
-        "Specific [tweet fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet) to be included in the returned Tweet(s). If you've requested the `referenced_tweets.id` expansion, these fields will also be returned for any included referenced Tweets.",
-      optional: true,
-      options: TWEET_FIELD_OPTIONS,
-    },
-    userFields: {
-      type: "string[]",
-      label: "User Fields",
-      description:
-        "Specific [user fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/user) to be included in the returned Tweet(s). Only applicable if you've requested one of the user expansions: `author_id`, `entities.mentions.username`, `in_reply_to_user_id`, `referenced_tweets.id.author_id`.",
-      optional: true,
-      options: USER_FIELD_OPTIONS,
     },
   },
   methods: {
@@ -356,7 +271,7 @@ export default defineApp({
     async getAuthenticatedUser(args: GetAuthenticatedUserParams): Promise<ResponseObject<User>> {
       return this._httpRequest({
         url: "/users/me",
-        ...args
+        ...args,
       });
     },
     async getAuthenticatedUserId(): Promise<User["id"]> {

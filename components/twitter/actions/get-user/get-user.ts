@@ -4,9 +4,7 @@ import {
   getUserId, getUserFields,
 } from "../../common/methods";
 import { GetUserParams } from "../../common/types/requestParams";
-import {
-  includeAllFields, userAdditionalProps as additionalProps,
-} from "../../common/propGroups";
+import { userAdditionalProps as additionalProps } from "../../common/additionalProps";
 import {
   ResponseObject, User,
 } from "../../common/types/responseSchemas";
@@ -28,7 +26,12 @@ export default defineAction({
         "userNameOrId",
       ],
     },
-    includeAllFields,
+    includeAllFields: {
+      propDefinition: [
+        app,
+        "includeAllFields",
+      ],
+    },
   },
   additionalProps,
   methods: {
@@ -44,7 +47,7 @@ export default defineAction({
     if (this.userNameOrId === "me") {
       response = await this.app.getAuthenticatedUser(params);
     } else {
-      (params as GetUserParams).userId = await this.getUserId(); 
+      (params as GetUserParams).userId = await this.getUserId();
       response = await this.app.getUser(params);
     }
 
