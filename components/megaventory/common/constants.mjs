@@ -23,10 +23,6 @@ const MV_RECORD_ACTION = {
 };
 
 const ORDER_STATUS = {
-  VALID_STATUS: {
-    label: "Valid Status",
-    value: "ValidStatus",
-  },
   PENDING: {
     label: "Pending",
     value: "Pending",
@@ -34,14 +30,6 @@ const ORDER_STATUS = {
   VERIFIED: {
     label: "Verified",
     value: "Verified",
-  },
-  PARTIALLY_INVOICED: {
-    label: "Partially Invoiced",
-    value: "PartiallyInvoiced",
-  },
-  FULLY_INVOICED: {
-    label: "Fully Invoiced",
-    value: "FullyInvoiced",
   },
   CLOSED: {
     label: "Closed",
@@ -51,37 +39,25 @@ const ORDER_STATUS = {
     label: "Cancelled",
     value: "Cancelled",
   },
+  REOPENED: {
+    label: "ReOpened",
+    value: "ReOpened",
+  },
 };
 
 const PURCHASE_ORDER_STATUS = {
   ...ORDER_STATUS,
-  PARTIALLY_RECEIVED: {
-    label: "Partially Received",
-    value: "PartiallyReceived",
-  },
-  PARTIALLY_RECEIVED_AND_PARTIALLY_INVOICED: {
-    label: "Partially Received and Partially Invoiced",
-    value: "PartiallyReceivedAndPartiallyInvoiced",
-  },
-  FULLY_RECEIVED: {
-    label: "Fully Received",
-    value: "FullyReceived",
+  RECEIVED: {
+    label: "Received",
+    value: "Received",
   },
 };
 
 const SALES_ORDER_STATUS = {
   ...ORDER_STATUS,
-  PARTIALLY_SHIPPED: {
-    label: "Partially Shipped",
-    value: "PartiallyShipped",
-  },
-  PARTIALLY_SHIPPED_AND_PARTIALLY_INVOICED: {
-    label: "Partially Shipped and Partially Invoiced",
-    value: "PartiallyShippedAndPartiallyInvoiced",
-  },
-  FULLY_SHIPPED: {
-    label: "Fully Shipped",
-    value: "FullyShipped",
+  SHIPPED: {
+    label: "Shipped",
+    value: "Shipped",
   },
 };
 
