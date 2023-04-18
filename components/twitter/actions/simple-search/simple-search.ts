@@ -18,7 +18,7 @@ export default defineAction({
   key: "twitter-simple-search",
   name: "Search Tweets",
   description: `Retrieve Tweets from the last seven days that match a query. [See docs here](${DOCS_LINK})`,
-  version: "1.1.0",
+  version: "1.1.1",
   type: "action",
   props: {
     app,
