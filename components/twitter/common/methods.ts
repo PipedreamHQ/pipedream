@@ -3,7 +3,7 @@ import {
   LIST_FIELD_OPTIONS, MEDIA_FIELD_OPTIONS, PLACE_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
 } from "./dataFields";
 import {
-  LIST_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
+  LIST_EXPANSION_OPTIONS, TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
 } from "./expansions";
 
 export async function getUserId(): Promise<string> {
@@ -55,7 +55,7 @@ export function getTweetFields() {
   }: Record<string, string[]> = this;
   */
   return {
-    "expansions": LIST_EXPANSION_OPTIONS.join(),
+    "expansions": TWEET_EXPANSION_OPTIONS.join(),
     "media.fields": MEDIA_FIELD_OPTIONS.join(),
     "place.fields": PLACE_FIELD_OPTIONS.join(),
     "poll.fields": POLL_FIELD_OPTIONS.join(),
