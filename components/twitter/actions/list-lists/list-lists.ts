@@ -3,7 +3,6 @@ import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getUserId, getListFields,
 } from "../../common/methods";
-import { listAdditionalProps as additionalProps } from "../../common/additionalProps";
 import { GetUserOwnedListsParams } from "../../common/types/requestParams";
 import {
   List, PaginatedResponseObject,
@@ -29,12 +28,6 @@ export default defineAction({
         "userNameOrId",
       ],
     },
-    includeAllFields: {
-      propDefinition: [
-        app,
-        "includeAllFields",
-      ],
-    },
     maxResults: {
       propDefinition: [
         app,
@@ -45,7 +38,6 @@ export default defineAction({
       default: DEFAULT_RESULTS,
     },
   },
-  additionalProps,
   methods: {
     getMultiItemSummary,
     getUserId,

@@ -75,14 +75,15 @@ export default defineApp({
       optional: true,
       default: "me",
     },
-    includeAllFields: {
-      type: "boolean",
-      label: "Include All Metadata",
-      description: "If set to `false`, you can choose which fields will be returned for each data type.",
-      optional: true,
-      default: true,
-      reloadProps: true,
-    },
+    // See comment on "../common/additionalProps.ts"
+    // includeAllFields: {
+    //   type: "boolean",
+    //   label: "Include All Metadata",
+    //   description: "If set to `false`, you can choose which fields will be returned for each data type.",
+    //   optional: true,
+    //   default: true,
+    //   reloadProps: true,
+    // },
     tweetId: {
       type: "string",
       label: "Tweet ID",

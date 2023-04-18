@@ -1,3 +1,6 @@
+// This is no longer being used. Requests send all the available fields by default.
+// If it ever makes sense to allow customizing which fields are sent, this can be re-enabled
+
 import {
   LIST_FIELD_OPTIONS,
   MEDIA_FIELD_OPTIONS,

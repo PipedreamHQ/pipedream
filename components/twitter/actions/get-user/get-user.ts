@@ -4,7 +4,6 @@ import {
   getUserId, getUserFields,
 } from "../../common/methods";
 import { GetUserParams } from "../../common/types/requestParams";
-import { userAdditionalProps as additionalProps } from "../../common/additionalProps";
 import {
   ResponseObject, User,
 } from "../../common/types/responseSchemas";
@@ -26,14 +25,7 @@ export default defineAction({
         "userNameOrId",
       ],
     },
-    includeAllFields: {
-      propDefinition: [
-        app,
-        "includeAllFields",
-      ],
-    },
   },
-  additionalProps,
   methods: {
     getUserId,
     getUserFields,

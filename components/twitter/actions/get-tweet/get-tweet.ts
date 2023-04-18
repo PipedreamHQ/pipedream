@@ -1,7 +1,6 @@
 import app from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 import { GetTweetParams } from "../../common/types/requestParams";
-import { tweetAdditionalProps as additionalProps } from "../../common/additionalProps";
 import { getTweetFields } from "../../common/methods";
 import {
   ResponseObject, Tweet,
@@ -24,14 +23,7 @@ export default defineAction({
         "tweetId",
       ],
     },
-    includeAllFields: {
-      propDefinition: [
-        app,
-        "includeAllFields",
-      ],
-    },
   },
-  additionalProps,
   methods: {
     getTweetFields,
   },

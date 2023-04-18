@@ -29,67 +29,44 @@ export function getMultiItemSummary(name: string, length: number) {
 }
 
 export function getListFields() {
-  const {
-    includeAllFields, expansions, listFields, userFields,
-  }: Record<string, string[]> = this;
+  // See comment on "../common/additionalProps.ts"
+  // const {
+  //   includeAllFields, expansions, listFields, userFields,
+  // }: Record<string, string[]> = this;
   return {
-    "expansions": (includeAllFields
-      ? LIST_EXPANSION_OPTIONS
-      : expansions)?.join(),
-    "list.fields": (includeAllFields
-      ? LIST_FIELD_OPTIONS
-      : listFields)?.join(),
-    "user.fields": (includeAllFields
-      ? USER_FIELD_OPTIONS
-      : userFields)?.join(),
+    "expansions": LIST_EXPANSION_OPTIONS.join(),
+    "list.fields": LIST_FIELD_OPTIONS.join(),
+    "user.fields": USER_FIELD_OPTIONS.join(),
   };
 }
 
 export function getTweetFields() {
-  const {
-    includeAllFields,
-    expansions,
-    mediaFields,
-    placeFields,
-    pollFields,
-    tweetFields,
-    userFields,
-  }: Record<string, string[]> = this;
+  // const {
+  //   includeAllFields,
+  //   expansions,
+  //   mediaFields,
+  //   placeFields,
+  //   pollFields,
+  //   tweetFields,
+  //   userFields,
+  // }: Record<string, string[]> = this;
   return {
-    "expansions": (includeAllFields
-      ? LIST_EXPANSION_OPTIONS
-      : expansions)?.join(),
-    "media.fields": (includeAllFields
-      ? MEDIA_FIELD_OPTIONS
-      : mediaFields)?.join(),
-    "place.fields": (includeAllFields
-      ? PLACE_FIELD_OPTIONS
-      : placeFields)?.join(),
-    "poll.fields": (includeAllFields
-      ? POLL_FIELD_OPTIONS
-      : pollFields)?.join(),
-    "tweet.fields": (includeAllFields
-      ? TWEET_FIELD_OPTIONS
-      : tweetFields)?.join(),
-    "user.fields": (includeAllFields
-      ? USER_FIELD_OPTIONS
-      : userFields)?.join(),
+    "expansions": LIST_EXPANSION_OPTIONS.join(),
+    "media.fields": MEDIA_FIELD_OPTIONS.join(),
+    "place.fields": PLACE_FIELD_OPTIONS.join(),
+    "poll.fields": POLL_FIELD_OPTIONS.join(),
+    "tweet.fields": TWEET_FIELD_OPTIONS.join(),
+    "user.fields": USER_FIELD_OPTIONS.join(),
   };
 }
 
 export function getUserFields() {
-  const {
-    includeAllFields, expansions, tweetFields, userFields,
-  }: Record<string, string[]> = this;
+  // const {
+  //   includeAllFields, expansions, tweetFields, userFields,
+  // }: Record<string, string[]> = this;
   return {
-    "expansions": (includeAllFields
-      ? USER_EXPANSION_OPTIONS
-      : expansions)?.join(),
-    "tweet.fields": (includeAllFields
-      ? TWEET_FIELD_OPTIONS
-      : tweetFields)?.join(),
-    "user.fields": (includeAllFields
-      ? USER_FIELD_OPTIONS
-      : userFields)?.join(),
+    "expansions": USER_EXPANSION_OPTIONS.join(),
+    "tweet.fields": TWEET_FIELD_OPTIONS.join(),
+    "user.fields": USER_FIELD_OPTIONS.join(),
   };
 }
