@@ -426,6 +426,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.4.1
 
+  components/big_data_cloud:
+    specifiers: {}
+
   components/bigml:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -858,6 +861,9 @@ importers:
   components/currencyapi:
     specifiers: {}
 
+  components/currencyscoop:
+    specifiers: {}
+
   components/customer_guru:
     specifiers: {}
 
@@ -1045,6 +1051,9 @@ importers:
       nanoid: 4.0.2
 
   components/dispatch:
+    specifiers: {}
+
+  components/dock_certs:
     specifiers: {}
 
   components/docraptor:
@@ -1740,6 +1749,9 @@ importers:
     specifiers: {}
 
   components/habitica:
+    specifiers: {}
+
+  components/habitify:
     specifiers: {}
 
   components/hacker_news:
@@ -3485,10 +3497,16 @@ importers:
   components/scoro:
     specifiers: {}
 
+  components/scrape_it_cloud:
+    specifiers: {}
+
   components/scrapeninja:
     specifiers: {}
 
   components/scrapingbee:
+    specifiers: {}
+
+  components/scrapingbot:
     specifiers: {}
 
   components/segment:
@@ -3678,6 +3696,9 @@ importers:
       clubhouse-lib: 0.12.0
       lodash: 4.17.21
       validate.js: 0.13.1
+
+  components/shotstack:
+    specifiers: {}
 
   components/showpad:
     specifiers: {}
@@ -4455,6 +4476,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.4.1
 
+  components/utradea:
+    specifiers: {}
+
   components/vbout:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4519,6 +4543,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.4.1
       moment: 2.29.4
+
+  components/visualping:
+    specifiers: {}
 
   components/vivifyscrum:
     specifiers: {}
