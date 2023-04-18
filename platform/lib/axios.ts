@@ -74,7 +74,7 @@ export function transformConfigForOauth(config: AxiosRequestConfig) {
     (requestData as any).data = querystring.parse(config.data);
   }
   config.paramsSerializer = oauth1ParamsSerializer;
-  return config;
+  return requestData;
 }
 
 async function getOauthSignature(config: AxiosRequestConfig, signConfig: any) {
