@@ -18,7 +18,7 @@ export default defineAction({
   key: "twitter-get-user",
   name: "Get User",
   description: `Get information about a user. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     app,
@@ -36,17 +36,19 @@ export default defineAction({
     getUserFields,
   },
   async run({ $ }): Promise<ResponseObject<User>> {
-    const userId = await this.getUserId();
-
-    const params: GetUserParams = {
+    let response: ResponseObject<User>;
+    const params = {
       $,
       params: this.getUserFields(),
-      userId,
     };
+    if (this.userNameOrId === "me") {
+      response = await this.app.getAuthenticatedUser(params);
+    } else {
+      (params as GetUserParams).userId = await this.getUserId(); 
+      response = await this.app.getUser(params);
+    }
 
-    const response = await this.app.getUser(params);
-
-    $.export("$summary", "Successfully retrieved user");
+    $.export("$summary", `Successfully retrieved user "${(response.data as User)?.username}"`);
 
     return response;
   },

@@ -24,6 +24,7 @@ import {
   UnfollowUserParams,
   UnlikeTweetParams,
   GetListTweetsParams,
+  GetAuthenticatedUserParams,
 } from "../common/types/requestParams";
 import {
   LIST_FIELD_OPTIONS,
@@ -352,10 +353,14 @@ export default defineApp({
         ...args,
       });
     },
-    async getAuthenticatedUserId(): Promise<User["id"]> {
-      const response = await this._httpRequest({
+    async getAuthenticatedUser(args: GetAuthenticatedUserParams): Promise<ResponseObject<User>> {
+      return this._httpRequest({
         url: "/users/me",
+        ...args
       });
+    },
+    async getAuthenticatedUserId(): Promise<User["id"]> {
+      const response = await this.getAuthenticatedUser();
       return response.data.id;
     },
     async getUserLikedTweets({
