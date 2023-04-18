@@ -1177,6 +1177,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.4.1
 
+  components/eodhd_apis:
+    specifiers: {}
+
   components/esendex:
     specifiers: {}
 
@@ -3523,6 +3526,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/selectpdf:
+    specifiers: {}
 
   components/sellix:
     specifiers: {}
