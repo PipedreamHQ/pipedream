@@ -31,11 +31,16 @@ export default {
       });
     },
     async listAccounts(division, args = {}) {
-      const { d: { results } } = await this._makeRequest({
+      return this._makeRequest({
         path: `/${division}/crm/Accounts`,
         ...args,
       });
-      return results;
+    },
+    async listContacts(division, args = {}) {
+      return this._makeRequest({
+        path: `/${division}/crm/Contacts`,
+        ...args,
+      });
     },
   },
 };
