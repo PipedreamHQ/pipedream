@@ -1763,6 +1763,12 @@
     },
     {
       "path": "components/shotstack"
+    },
+    {
+      "path": "components/eodhd_apis"
+    },
+    {
+      "path": "components/selectpdf"
     }
   ]
 }

@@ -5,7 +5,7 @@ export default {
   key: "pushover-push-notification",
   name: "Push Notification",
   description: "Sends a Push Notification to devices with Pushover. More information at [Pushing Messages](https://pushover.net/api#messages)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     pushover,
@@ -40,7 +40,7 @@ export default {
       ],
     },
     priority: {
-      type: "integer",
+      type: "string",
       label: "Priority",
       description: "The message priority. More information at [Pushover API](https://pushover.net/api#priority)",
       optional: true,

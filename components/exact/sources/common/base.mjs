@@ -2,12 +2,6 @@ import exact from "../../exact.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  key: "exact-new-subscriber-created",
-  name: "New Subscriber Created",
-  description: "Emit new event each time a new subscriber/account is created. [See the docs](https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=CRMAccounts)",
-  version: "0.0.1",
-  type: "source",
-  dedupe: "unique",
   props: {
     exact,
     db: "$.service.db",
@@ -33,8 +27,8 @@ export default {
       });
       this._setDivision(currentDivision);
 
-      const accounts = await this.exact.listAccounts(currentDivision);
-      this.processAccounts(accounts.slice(-25));
+      const { d: { results } } = await this.getResults(currentDivision);
+      this.processResults(results.slice(-25));
     },
   },
   methods: {
@@ -50,23 +44,13 @@ export default {
     _setLastCreated(lastCreated) {
       this.db.set("lastCreated", lastCreated);
     },
-    getCreatedTs(account) {
-      return account.Created.match(/\d+/)[0];
-    },
-    generateMeta(account) {
-      return {
-        id: account.ID,
-        summary: account.Name,
-        ts: this.getCreatedTs(account),
-      };
-    },
-    processAccounts(accounts, lastCreated = 0) {
+    processResults(results, lastCreated = 0) {
       let maxTs = lastCreated;
-      for (const account of accounts) {
-        const created = this.getCreatedTs(account);
+      for (const result of results) {
+        const created = this.getCreatedTs(result);
         if (created > lastCreated) {
-          const meta = this.generateMeta(account);
-          this.$emit(account, meta);
+          const meta = this.generateMeta(result);
+          this.$emit(result, meta);
         }
         if (created > maxTs) {
           maxTs = created;
@@ -74,11 +58,38 @@ export default {
       }
       this._setLastCreated(maxTs);
     },
+    async paginateResults(division, args = {}) {
+      const allResults = [];
+      while (true) {
+        const {
+          d: {
+            results, __next: next,
+          },
+        } = await this.getResults(division, {
+          args,
+        });
+        allResults.push(...results);
+        if (!next) {
+          break;
+        }
+        args.url = next;
+      }
+      return allResults;
+    },
+    getResults() {
+      throw new Error("getResults() is not implemented");
+    },
+    getCreatedTs() {
+      throw new Error("getCreatedTs() is not implemented");
+    },
+    generateMeta() {
+      throw new Error("generateMeta() is not implemented");
+    },
   },
   async run() {
     const division = this._getDivision();
     const lastCreated = this._getLastCreated();
-    const accounts = await this.exact.listAccounts(division);
-    this.processAccounts(accounts, lastCreated);
+    const results = await this.paginateResults(division);
+    this.processResults(results, lastCreated);
   },
 };
