@@ -1,7 +1,7 @@
 import OAuth from "oauth-1.0a";
 import crypto from "crypto";
 import { defineApp } from "@pipedream/types";
-import { axios, transformConfigForOauth } from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 import {
   AddUserToListParams,
   CreateTweetParams,
@@ -121,8 +121,9 @@ export default defineApp({
         },
       });
 
-      const requestData = transformConfigForOauth(config);
-      return oauth.toHeader(oauth.authorize(requestData, consumer));
+      if (!config.method) config.method = "GET";
+
+      return oauth.toHeader(oauth.authorize(config, consumer));
     },
     _getBaseUrl() {
       return "https://api.twitter.com/2";
@@ -135,18 +136,18 @@ export default defineApp({
         baseURL: this._getBaseUrl(),
         ...args,
       };
-      const headers = this._getAuthHeader(config);
+      // const headers = this._getAuthHeader(config);
 
       const request = () => axios($, {
         ...config,
-        headers,
-      }/*, {
+        // headers,
+      }, {
         oauthSignerUri: this.$auth.oauth_signer_uri,
         token: {
           key: this.$auth.oauth_access_token,
           secret: this.$auth.oauth_refresh_token,
         },
-      }*/);
+      });
 
       let response: ResponseObject<TwitterEntity>,
         counter = 1;
