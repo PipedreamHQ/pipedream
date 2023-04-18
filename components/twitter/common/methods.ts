@@ -33,9 +33,15 @@ export function getListFields() {
     includeAllFields, expansions, listFields, userFields,
   }: Record<string, string[]> = this;
   return {
-    "expansions": (includeAllFields ? LIST_EXPANSION_OPTIONS : expansions).join(),
-    "list.fields": (includeAllFields ? LIST_FIELD_OPTIONS : listFields).join(),
-    "user.fields": (includeAllFields ? USER_FIELD_OPTIONS : userFields).join(),
+    "expansions": (includeAllFields
+      ? LIST_EXPANSION_OPTIONS
+      : expansions)?.join(),
+    "list.fields": (includeAllFields
+      ? LIST_FIELD_OPTIONS
+      : listFields)?.join(),
+    "user.fields": (includeAllFields
+      ? USER_FIELD_OPTIONS
+      : userFields)?.join(),
   };
 }
 
@@ -50,12 +56,24 @@ export function getTweetFields() {
     userFields,
   }: Record<string, string[]> = this;
   return {
-    "expansions": (includeAllFields ? LIST_EXPANSION_OPTIONS : expansions).join(),
-    "media.fields": (includeAllFields ? MEDIA_FIELD_OPTIONS : mediaFields).join(),
-    "place.fields": (includeAllFields ? PLACE_FIELD_OPTIONS : placeFields).join(),
-    "poll.fields": (includeAllFields ? POLL_FIELD_OPTIONS : pollFields).join(),
-    "tweet.fields": (includeAllFields ? TWEET_FIELD_OPTIONS : tweetFields).join(),
-    "user.fields": (includeAllFields ? USER_FIELD_OPTIONS : userFields).join(),
+    "expansions": (includeAllFields
+      ? LIST_EXPANSION_OPTIONS
+      : expansions)?.join(),
+    "media.fields": (includeAllFields
+      ? MEDIA_FIELD_OPTIONS
+      : mediaFields)?.join(),
+    "place.fields": (includeAllFields
+      ? PLACE_FIELD_OPTIONS
+      : placeFields)?.join(),
+    "poll.fields": (includeAllFields
+      ? POLL_FIELD_OPTIONS
+      : pollFields)?.join(),
+    "tweet.fields": (includeAllFields
+      ? TWEET_FIELD_OPTIONS
+      : tweetFields)?.join(),
+    "user.fields": (includeAllFields
+      ? USER_FIELD_OPTIONS
+      : userFields)?.join(),
   };
 }
 
@@ -64,8 +82,14 @@ export function getUserFields() {
     includeAllFields, expansions, tweetFields, userFields,
   }: Record<string, string[]> = this;
   return {
-    "expansions": (includeAllFields ? USER_EXPANSION_OPTIONS : expansions).join(),
-    "tweet.fields": (includeAllFields ? TWEET_FIELD_OPTIONS : tweetFields).join(),
-    "user.fields": (includeAllFields ? USER_FIELD_OPTIONS : userFields).join(),
+    "expansions": (includeAllFields
+      ? USER_EXPANSION_OPTIONS
+      : expansions)?.join(),
+    "tweet.fields": (includeAllFields
+      ? TWEET_FIELD_OPTIONS
+      : tweetFields)?.join(),
+    "user.fields": (includeAllFields
+      ? USER_FIELD_OPTIONS
+      : userFields)?.join(),
   };
 }
