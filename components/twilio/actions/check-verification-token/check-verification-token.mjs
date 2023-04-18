@@ -32,7 +32,7 @@ export default {
       this.to,
       this.code,
     );
-    $.export("$summary", `Successfully fetch SMS verification of "${this.to}"`);
+    $.export("$summary", `Successfully fetched SMS verification of "${this.to}"`);
     return res;
   },
 };
