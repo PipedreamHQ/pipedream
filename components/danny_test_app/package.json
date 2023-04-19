@@ -1,0 +1,18 @@
+{
+    "name": "@pipedream/darwinbox",
+    "version": "0.0.1",
+    "description": "Pipedream Danny Test App components",
+    "main": "dist/app/danny_test_app.app.mjs",
+    "keywords": [
+      "pipedream",
+      "danny_test_app"
+    ],
+    "files": [
+      "dist"
+    ],
+    "homepage": "https://pipedream.com/apps/danny-test-app",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "publishConfig": {
+      "access": "public"
+    }
+  }
