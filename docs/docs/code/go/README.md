@@ -1,11 +1,11 @@
 # Go
 
-**Anything you can do in Go, you can do in a Pipedream Workflow**. You can use any of [Go packages available](https://pkg.go.dev/) with a simple `import` — no `go get` needed.
+**Anything you can do in Go, you can do in a Pipedream Workflow**. You can use any of the [Go packages available](https://pkg.go.dev/) with a simple `import` — no `go get` needed.
 
 Pipedream supports [Go v{{$site.themeConfig.GO_LANG_VERSION}}](https://go.dev) in workflows.
 
 ::: warning
-Go steps are in **beta**. There may be changes while we prepare it for a full release.
+Go steps are in **beta**. There might be changes while we prepare it for a full release.
 
 You can still run Go scripts, [share data between steps](/code/bash/#sharing-data-between-steps), and [access environment variables](/code/bash/#using-environment-variables).
 

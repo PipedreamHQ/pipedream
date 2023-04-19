@@ -7,7 +7,7 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763806/docs/
 
 :::warning
 
-This feature is in **beta**. There may be changes while we prepare it for a full release.
+This feature is in **beta**. There might be changes while we prepare it for a full release.
 
 If you have any feedback on the Python runtime, please let us know in [our community](https://pipedream.com/support).
 

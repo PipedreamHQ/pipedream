@@ -1,11 +1,11 @@
 # Python
 
-**Anything you can do in Python can be done in a Pipedream workflow**. This includes using any of the [350,000+ packages available on PyPi](https://pypi.org/).
+**Anything you can do in Python can be done in a Pipedream workflow**. This includes using any of the [350,000+ packages available on PyPI](https://pypi.org/).
 
 Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.python.org) in workflows.
 
 ::: warning
-Python steps are in **beta**. There may be changes while we prepare it for a full release.
+Python steps are in **beta**. There might be changes while we prepare it for a full release.
 
 If you have any feedback on the Python runtime, please let us know in [our community](https://pipedream.com/support).
 :::

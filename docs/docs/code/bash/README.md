@@ -5,7 +5,7 @@ Prefer to write quick scripts in Bash? We've got you covered.
 You can run any Bash in a Pipedream step within your workflows.
 
 ::: warning
-Bash steps are in **beta**. There may be changes while we prepare it for a full release.
+Bash steps are in **beta**. There might be changes while we prepare it for a full release.
 
 You can still run Bash scripts, [share data between steps](/code/bash/#sharing-data-between-steps), and [access environment variables](/code/bash/#using-environment-variables).
 
