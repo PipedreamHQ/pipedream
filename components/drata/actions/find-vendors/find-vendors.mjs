@@ -6,8 +6,8 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-find-vendors",
   name: "Find Vendors",
-  description: `Find Vendors. [See docs here](${docsLink}).`,
-  version: "0.0.1",
+  description: `Find Vendors. [See the documentation](${docsLink}).`,
+  version: "0.0.2",
   type: "action",
   props: {
     drata,

@@ -5,8 +5,8 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-create-vendor",
   name: "Create Vendor",
-  description: `Create a new Vendor. [See docs here](${docsLink}).`,
-  version: "0.0.1",
+  description: `Create a new Vendor. [See the documentation](${docsLink}).`,
+  version: "0.0.2",
   type: "action",
   props: {
     drata,
