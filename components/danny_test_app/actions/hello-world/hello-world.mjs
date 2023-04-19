@@ -1,4 +1,4 @@
-import app from "../../danny_test_app.app.mjs";
+import app from "../../app/danny_test_app.app.mjs";
 
 export default {
   name: "hello world",
