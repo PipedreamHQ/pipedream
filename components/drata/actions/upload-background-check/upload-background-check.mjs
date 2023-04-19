@@ -27,7 +27,7 @@ export default {
     filedAt: {
       type: "string",
       label: "Filed At",
-      description: "The date the background check was filed.",
+      description: "The ISO 8601 date the background check was filed. E.g. 2021-01-01",
       optional: true,
     },
   },

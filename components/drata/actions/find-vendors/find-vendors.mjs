@@ -84,7 +84,7 @@ export default {
     renewalDate: {
       type: "string",
       label: "Renewal Date",
-      description: "Vendor renewal date",
+      description: "Vendor renewal ISO 8601 datetime. E.g. 2021-01-01T00:00:00.000Z",
       optional: true,
     },
     renewalScheduleType: {

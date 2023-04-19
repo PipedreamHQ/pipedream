@@ -67,7 +67,7 @@ export default {
     removedAt: {
       type: "string",
       label: "Removed At",
-      description: "The date the asset was removed",
+      description: "The ISO 8601 datetime the asset was removed. E.g. 2021-01-01T00:00:00.000Z",
       optional: true,
     },
     externalId: {
