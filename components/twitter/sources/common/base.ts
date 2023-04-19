@@ -34,16 +34,15 @@ export default {
     setSavedIds(data: string[]) {
       this.db.set("savedEntityIds", data);
     },
-    async getAndProcessData(emit = false) {
-      const data: TwitterEntity[] = await this.getResources(emit);
+    async getAndProcessData(maxResults?: number) {
+      const data: TwitterEntity[] = await this.getResources(maxResults);
       if (data) {
         const savedIds: string[] = this.getSavedIds() ?? [];
 
         data.filter(({ id }) => !savedIds.includes(id)).reverse()
           .forEach((obj) => {
-            if (emit) this.emitEvent(obj);
-            const { id } = obj;
-            savedIds.push(id);
+            this.emitEvent(obj);
+            savedIds.push(obj.id);
           });
 
         this.setSavedIds(savedIds);
@@ -60,6 +59,6 @@ export default {
     },
   },
   async run() {
-    await this.getAndProcessData(true);
+    await this.getAndProcessData(50);
   },
 };

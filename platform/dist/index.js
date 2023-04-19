@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.$sendConfigRuntimeTypeChecker = exports.$send = exports.$end = exports.END_NEEDLE = exports.$event = exports.sendTypeMap = exports.SendConfigSSE = exports.SendConfigSnowflake = exports.SendConfigSQL = exports.SendConfigS3 = exports.SendConfigHTTP = exports.HTTP_METHODS = exports.SendConfigEmit = exports.SendConfigEmit_optional = exports.SendConfigEmit_required = exports.SendConfigEmail = exports.axios = void 0;
+exports.$sendConfigRuntimeTypeChecker = exports.$send = exports.$end = exports.END_NEEDLE = exports.$event = exports.sendTypeMap = exports.SendConfigSSE = exports.SendConfigSnowflake = exports.SendConfigSQL = exports.SendConfigS3 = exports.SendConfigHTTP = exports.HTTP_METHODS = exports.SendConfigEmit = exports.SendConfigEmit_optional = exports.SendConfigEmit_required = exports.SendConfigEmail = exports.transformConfigForOauth = exports.axios = void 0;
 const t = require("io-ts");
 const axios_1 = require("./axios");
 exports.axios = axios_1.default;
+Object.defineProperty(exports, "transformConfigForOauth", { enumerable: true, get: function () { return axios_1.transformConfigForOauth; } });
 var utils_1 = require("./utils");
 Object.defineProperty(exports, "cloneSafe", { enumerable: true, get: function () { return utils_1.cloneSafe; } });
 Object.defineProperty(exports, "jsonStringifySafe", { enumerable: true, get: function () { return utils_1.jsonStringifySafe; } });
