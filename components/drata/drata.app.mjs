@@ -204,6 +204,20 @@ export default {
         method: "POST",
       });
     },
+    async listMonitors({
+      paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate({
+          ...opts,
+          fn: this.listMonitors,
+        });
+      }
+      return this._makeRequest({
+        ...opts,
+        path: "/monitors",
+      });
+    },
     async listEvidencesForControl({
       controlId, paginate = false, ...opts
     }) {
