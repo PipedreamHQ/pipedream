@@ -7,7 +7,7 @@ export default {
   name: "Create Document From File",
   description: "Create a document from a file or public file URL. [See the docs here](https://developers.pandadoc.com/reference/create-document-from-pdf)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.3",
   props: {
     app,
     name: {
@@ -35,6 +35,12 @@ export default {
       description: "A public file URL to use instead of a local file.",
       optional: true,
     },
+    documentFolderId: {
+      propDefinition: [
+        app,
+        "documentFolderId",
+      ],
+    },
   },
   methods: createDocumentAttachment.methods,
   async run({ $ }) {
@@ -43,6 +49,7 @@ export default {
       recipients,
       file,
       fileUrl,
+      documentFolderId,
     } = this;
 
     let parsedRecipients;
@@ -55,6 +62,7 @@ export default {
     let data, contentType, json = {
       name,
       recipients: parsedRecipients,
+      folder_uuid: documentFolderId,
     };
 
     if (fileUrl) {
