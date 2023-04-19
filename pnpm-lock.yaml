@@ -24,6 +24,7 @@ importers:
       husky: ^7.0.4
       jest: ^27.5.1
       lint-staged: ^12.3.4
+      mailersend: ^2.0.5
       pnpm: ^7.22.0
       putout: '>=20'
       renamer: ^4.0.0
@@ -39,6 +40,7 @@ importers:
       '@sentry/node': 7.7.0
       '@types/node': 17.0.45
       crypto: 1.0.1
+      mailersend: 2.0.5
       uuid: 8.3.2
       vue: 2.7.7
     devDependencies:
@@ -19922,6 +19924,17 @@ packages:
       snakecase-keys: 5.4.2
     transitivePeerDependencies:
       - debug
+    dev: false
+
+  /mailersend/2.0.5:
+    resolution: {integrity: sha512-oQ80hbiOn4KMaFEX2XIc0espdVZxq2tX8fGRhJHt5DasbXubQyPceV2Cn+Jh4Ofi8QNaaKejqwU5Ob4LYrBnEQ==}
+    dependencies:
+      gaxios: 5.0.2
+      isomorphic-unfetch: 3.1.0
+      qs: 6.11.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /mailgun.js/3.7.3:
