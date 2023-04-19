@@ -3,7 +3,6 @@ import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getUserId, getListFields,
 } from "../../common/methods";
-import { listFieldProps } from "../../common/propGroups";
 import { GetUserOwnedListsParams } from "../../common/types/requestParams";
 import {
   List, PaginatedResponseObject,
@@ -19,7 +18,7 @@ export default defineAction({
   key: "twitter-list-lists",
   name: "List Lists",
   description: `Get all lists owned by a user. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.1.2",
   type: "action",
   props: {
     app,
@@ -29,14 +28,13 @@ export default defineAction({
         "userNameOrId",
       ],
     },
-    ...listFieldProps,
     maxResults: {
       propDefinition: [
         app,
         "maxResults",
       ],
       min: MIN_RESULTS,
-      max: MAX_RESULTS_PER_PAGE * 5,
+      description: `Maximum amount of items to return. Each request can return up to ${MAX_RESULTS_PER_PAGE} items.`,
       default: DEFAULT_RESULTS,
     },
   },

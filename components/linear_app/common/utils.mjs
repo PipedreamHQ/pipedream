@@ -1,3 +1,5 @@
+import constants from "./constants.mjs";
+
 async function streamIterator(stream) {
   const resources = [];
   for await (const resource of stream) {
@@ -6,33 +8,49 @@ async function streamIterator(stream) {
   return resources;
 }
 
-async function getAdditionalIssueInformation(issues = []) {
-  const updatedIssues = [];
-  for (const issue of issues) {
-    const {
-      _assignee, _creator, _project, _state, _team,
-    } = issue;
-    if (_assignee?.id) {
-      issue._assignee = await this.linearApp.getUser(_assignee.id);
-    }
-    if (_creator?.id) {
-      issue._creator = await this.linearApp.getUser(_creator.id);
-    }
-    if (_project?.id) {
-      issue._project = await this.linearApp.getProject(_project.id);
-    }
-    if (_state?.id) {
-      issue._state = await this.linearApp.getState(_state.id);
-    }
-    if (_team?.id) {
-      issue._team = await this.linearApp.getTeam(_team.id);
-    }
-    updatedIssues.push(issue);
+function buildVariables(endCursor, args) {
+  const title = args.filter.query
+    ? `title: { containsIgnoreCase: "${args.filter.query}" }`
+    : "";
+  const teamId = args.filter.teamId
+    ? `, team: { id: { eq: "${args.filter.teamId}" } }`
+    : "";
+  const projectId = args.filter.projectId
+    ? `, project: { id: { eq: "${args.filter.projectId}" } }`
+    : "";
+  const team = args.filter.team
+    ? `, team: { id: { in: ${JSON.stringify(args.filter.team.id.in)} } }`
+    : "";
+  const project = args.filter.project && args.filter.project.id.eq
+    ? `, project: { id: { eq: "${args.filter.project.id.eq}" } }`
+    : "";
+  const state = args.filter.state
+    ? `, state: { id: { eq: "${args.filter.state.id.eq}" } }`
+    : "";
+  const assigneeId = args.filter.assigneeId
+    ? `, assignee: { id: { eq: "${args.filter.assigneeId}" } }`
+    : "";
+  const issueLabels = args.filter.issueLabels
+    ? `, labels: { name: { in: ${JSON.stringify(args.filter.issueLabels)} } }`
+    : "";
+  let filter = `${title}${teamId}${projectId}${team}${project}${state}${assigneeId}${issueLabels}`;
+  if (filter[0] === ",") {
+    filter = filter.substring(2, filter.length);
   }
-  return updatedIssues;
+
+  const orderBy = args.orderBy
+    ? `, orderBy: ${args.orderBy}`
+    : "";
+  const includeArchived = args.includeArchived
+    ? `, includeArchived: ${args.includeArchived}`
+    : "";
+  const after = endCursor
+    ? `, after: "${endCursor}"`
+    : "";
+  return `filter: { ${filter} }, first: ${constants.DEFAULT_LIMIT}${orderBy}${includeArchived}${after}`;
 }
 
 export default {
   streamIterator,
-  getAdditionalIssueInformation,
+  buildVariables,
 };

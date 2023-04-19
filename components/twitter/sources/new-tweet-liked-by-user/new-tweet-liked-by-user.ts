@@ -2,7 +2,6 @@ import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
-import { tweetFieldProps } from "../../common/propGroups";
 import { getTweetFields } from "../../common/methods";
 import { GetUserLikedTweetParams } from "../../common/types/requestParams";
 import {
@@ -16,7 +15,7 @@ export default defineSource({
   key: "twitter-new-tweet-liked-by-user",
   name: "New Tweet Liked by User",
   description: `Emit new event when a Tweet is liked by the specified User [See docs here](${DOCS_LINK})`,
-  version: "0.0.1",
+  version: "0.1.2",
   type: "source",
   props: {
     ...common.props,
@@ -26,7 +25,6 @@ export default defineSource({
         "userNameOrId",
       ],
     },
-    ...tweetFieldProps,
   },
   methods: {
     ...common.methods,
@@ -36,18 +34,15 @@ export default defineSource({
     getEntityName() {
       return "Tweet Liked";
     },
-    async getResources(customize: boolean): Promise<Tweet[]> {
+    async getResources(maxResults?: number): Promise<Tweet[]> {
       const userId = await this.getCachedUserId();
       const params: GetUserLikedTweetParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: MAX_RESULTS_PER_PAGE,
+        maxResults: maxResults ?? MAX_RESULTS_PER_PAGE,
+        params: this.getTweetFields(),
         userId,
       };
-
-      if (customize) {
-        params.params = this.getTweetFields();
-      }
 
       const { data } = await this.app.getUserLikedTweets(params);
       return data;

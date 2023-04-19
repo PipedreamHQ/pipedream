@@ -9,7 +9,7 @@ export default defineAction({
   key: "twitter-unlike-tweet",
   name: "Unlike Tweet",
   description: `Unlike a tweet specified by its ID. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.0.2",
   type: "action",
   props: {
     app,
@@ -21,14 +21,15 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const { tweetId } = this;
     const params: UnlikeTweetParams = {
       $,
-      tweetId: this.tweetId,
+      tweetId,
     };
 
     const response = await this.app.unlikeTweet(params);
 
-    $.export("$summary", "Successfully unliked tweet");
+    $.export("$summary", `Successfully unliked tweet ${tweetId}`);
 
     return response;
   },

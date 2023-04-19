@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "danny_test_app",
+  app: "nasdaq_data_link_time_series_and_table_data_",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

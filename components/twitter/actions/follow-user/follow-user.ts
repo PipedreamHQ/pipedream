@@ -10,7 +10,7 @@ export default defineAction({
   key: "twitter-follow-user",
   name: "Follow User",
   description: `Follow a user. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.0.3",
   type: "action",
   props: {
     app,
@@ -39,7 +39,7 @@ export default defineAction({
     $.export(
       "$summary",
       `Successfully ${
-        response.following
+        response.data?.following
           ? "followed"
           : "requested to follow"
       } user`,
