@@ -6,7 +6,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-failed-monitor",
   name: "Failed Monitor",
-  description: `Emit new event whenever a monitor fails. [See docs here](${docsLink}).`,
+  description: `Emit a new event whenever a monitor fails. [See the documentation](${docsLink}).`,
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
