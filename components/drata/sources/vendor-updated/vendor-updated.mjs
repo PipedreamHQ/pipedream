@@ -7,9 +7,9 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-vendor-updated",
   name: "Vendor Updated",
-  description: `Emit new event when a vendor is updated. [See docs here](${docsLink}).`,
+  description: `Emit a new event when a vendor is updated. [See the documentation](${docsLink}).`,
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     drata,
     db: "$.service.db",
