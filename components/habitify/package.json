@@ -2,7 +2,7 @@
   "name": "@pipedream/habitify",
   "version": "0.0.2",
   "description": "Pipedream Habitify Components",
-  "main": "dist/app/habitify.app.mjs",
+  "main": "app/habitify.app.mjs",
   "keywords": [
     "pipedream",
     "habitify"
