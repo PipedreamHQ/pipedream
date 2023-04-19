@@ -1,7 +1,7 @@
 {
     "name": "@pipedream/darwinbox",
     "version": "0.0.1",
-    "description": "Pipedream Danny Test App Components",
+    "description": "Pipedream Danny Test App components",
     "main": "dist/app/danny_test_app.app.mjs",
     "keywords": [
       "pipedream",
