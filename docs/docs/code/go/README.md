@@ -1,17 +1,18 @@
 # Go
 
-**Anything you can do in Go, you can do in a Pipedream Workflow**. You can use any of [Go packages available](https://pkg.go.dev/) with a simple `import` no `go get` needed. 
+**Anything you can do in Go, you can do in a Pipedream Workflow**. You can use any of the [Go packages available](https://pkg.go.dev/) with a simple `import` — no `go get` needed.
 
 Pipedream supports [Go v{{$site.themeConfig.GO_LANG_VERSION}}](https://go.dev) in workflows.
 
 ::: warning
-Go steps are available in a limited alpha release.
+Go steps are in **beta**. There might be changes while we prepare it for a full release.
 
-You can still run arbitrary Go code, including [sharing data between steps](/code/go/#sharing-data-between-steps) as well as [accessing environment variables](/code/go/#using-environment-variables).
+You can still run Go scripts, [share data between steps](/code/bash/#sharing-data-between-steps), and [access environment variables](/code/bash/#using-environment-variables).
 
-However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time. If you have any questions please [contact support](https://pipedream.com/support).
+However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time.
+
+If you have any feedback on the Go runtime, please let us know in [our community](https://pipedream.com/support).
 :::
-
 
 ## Adding a Go code step
 
@@ -37,15 +38,16 @@ Don't forget to import the `fmt` package in order to run `fmt.Println`.
     fmt.Println("Hello World!")
   }
 ```
+
 :::
 
 ## Using third party packages
 
 You can use any packages from [Go package registry](https://pkg.go.dev). This includes popular choices such as:
 
-* [`net/http` for making HTTP requests](https://pkg.go.dev/net/http#pkg-overview/)
-* [`encoding/json` for encoding and decoding JSON](https://pkg.go.dev/encoding/json)
-* [`database/sql` for reading and writing to SQL databases](https://pkg.go.dev/database/sql@go1.17.6)
+- [`net/http` for making HTTP requests](https://pkg.go.dev/net/http#pkg-overview/)
+- [`encoding/json` for encoding and decoding JSON](https://pkg.go.dev/encoding/json)
+- [`database/sql` for reading and writing to SQL databases](https://pkg.go.dev/database/sql@go1.17.6)
 
 To use a Go package, just `import` it in your step's code:
 
@@ -54,7 +56,6 @@ import "net/http"
 ```
 
 And that's it.
-
 
 ### Sending files
 
@@ -122,7 +123,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger via POS
 }
 ```
 
-You can access this data in the `Steps` variable from the `pd` package. Specifically, this data from the POST request into our workflow is available in the `trigger` map. 
+You can access this data in the `Steps` variable from the `pd` package. Specifically, this data from the POST request into our workflow is available in the `trigger` map.
 
 ```go
 package main
@@ -213,7 +214,7 @@ import (
 )
 
 func main() {
-  // Access the Twitter API key from the environment 
+  // Access the Twitter API key from the environment
   const apiKey := os.Getenv('TWITTER_API_KEY'))
 
   // JSON encode our payload
@@ -224,7 +225,7 @@ func main() {
 
   // Send the POST request
   req, err := http.NewRequest("POST", "https://api.twitter.com/2/users/@pipedream/mentions'", payloadBuf)
-   
+
   // Build the headers in order to authenticate properly
   req.Header = http.Header{
     "Content-Type": []string{"application/json"},
@@ -233,7 +234,7 @@ func main() {
 
   client := http.Client{}
   resp, err := client.Do(req)
-  
+
   if err != nil {
     log.Fatalln(err)
   }
@@ -273,14 +274,13 @@ func main() {
 
 The step will quit at the time `os.Exit` is called. In this example, the exit code `1` will appear in the **Results** of the step.
 
-
 ## File storage
 
 You can also store and read files with Go steps. This means you can upload photos, retrieve datasets, accept files from an HTTP request and more.
 
 The `/tmp` directory is accessible from your workflow steps for saving and retrieving files.
 
-You have full access to read and write both files in `/tmp`. 
+You have full access to read and write both files in `/tmp`.
 
 ### Writing a file to `/tmp`
 
@@ -297,7 +297,7 @@ func main() {
   // Define where the file is and where to save it
 	fileUrl := "https://golangcode.com/go-logo.svg"
   filePath := "/tmp/go-logo.svg"
-  
+
 	// Download the file
 	resp, err := http.Get(fileUrl)
 	if err != nil {

@@ -49,10 +49,7 @@ function oauth1ParamsSerializer(p: any) {
     .replace(/\*/g, "%2A");
 }
 
-async function getOauthSignature(config: AxiosRequestConfig, signConfig: any) {
-  const {
-    oauthSignerUri, token,
-  } = signConfig;
+export function transformConfigForOauth(config: AxiosRequestConfig) {
   const {
     baseURL, url,
   } = config;
@@ -77,6 +74,16 @@ async function getOauthSignature(config: AxiosRequestConfig, signConfig: any) {
     (requestData as any).data = querystring.parse(config.data);
   }
   config.paramsSerializer = oauth1ParamsSerializer;
+  return requestData;
+}
+
+async function getOauthSignature(config: AxiosRequestConfig, signConfig: any) {
+  const {
+    oauthSignerUri, token,
+  } = signConfig;
+
+  const requestData = transformConfigForOauth(config);
+  
   const payload = {
     requestData,
     token,

@@ -3,7 +3,6 @@ import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getTweetFields,
 } from "../../common/methods";
-import { tweetFieldProps } from "../../common/propGroups";
 import { GetListTweetsParams } from "../../common/types/requestParams";
 import {
   PaginatedResponseObject, Tweet,
@@ -19,7 +18,7 @@ export default defineAction({
   key: "twitter-simple-search-in-list",
   name: "Search Tweets in List",
   description: `Search Tweets by text in a list. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.1.1",
   type: "action",
   props: {
     app,
@@ -34,7 +33,6 @@ export default defineAction({
       type: "string[]",
       description: "Text to filter tweets by. If you include more than one item in this array, only tweets that match all items will be returned. You can use the pipe character `|` to define multiple strings within an item, and it will be considered a match if the tweet contains any of them.",
     },
-    ...tweetFieldProps,
     maxResults: {
       propDefinition: [
         app,
