@@ -11,7 +11,7 @@ export default {
     hello: {
       type: "string",
       label: "Hello",
-      description: "Hello world",
+      description: "Hello World",
     },
   },
   async run() {
