@@ -127,7 +127,7 @@ Generate new app and component files from templates.
 
 #### `pd init app`
 
-Creates a directory and [an app file](/components/guidelines/#app-files) from a template
+Creates a directory and [an app file](/apps/guidelines/#app-files) from a template
 
 ```
 # Creates google_calendar/ directory and google_calendar.mjs file

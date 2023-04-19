@@ -149,6 +149,6 @@ Publishing reusable actions from Node.js code steps allows you to quickly scaffo
 
 However, there are some differences.
 
-1. Node.js code step actions cannot make use of [app files to further reduce redundancy](/components/guidelines/#promoting-reusability).
-2. Node.js code step actions cannot be published to the [Pipedream Component Registry](/components/guidelines/#contributing-to-the-pipedream-registry).
+1. Node.js code step actions cannot make use of [app files to further reduce redundancy](/apps/guidelines/#promoting-reusability).
+2. Node.js code step actions cannot be published to the [Pipedream Component Registry](/apps/guidelines/#contributing-to-the-pipedream-registry).
 3. Node.js code step actions have a slightly different structure than [action components](/components/api/#component-api).

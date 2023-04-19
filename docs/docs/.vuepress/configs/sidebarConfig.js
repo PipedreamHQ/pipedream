@@ -133,7 +133,7 @@ module.exports = {
   "/components/quickstart/nodejs/actions/": referenceNav,
   "/components/quickstart/nodejs/sources/": referenceNav,
   "/components/api/": referenceNav,
-  "/components/guidelines/": referenceNav,
+  "/apps/guidelines/": referenceNav,
   "/pipedream-axios/": referenceNav,
   "/api/": referenceNav,
   "/api/auth/": referenceNav,
