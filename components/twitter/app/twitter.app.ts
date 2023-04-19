@@ -193,19 +193,19 @@ export default defineApp({
         });
 
         if (data) {
-        totalData.push(...(Array.isArray(data)
-          ? data
-          : [
-            data,
-          ]));
+          totalData.push(...(Array.isArray(data)
+            ? data
+            : [
+              data,
+            ]));
         }
 
         if (errors) {
           totalErrors.push(...(Array.isArray(errors)
-          ? errors
-          : [
-            errors,
-          ]))
+            ? errors
+            : [
+              errors,
+            ]));
         }
 
         if (includes) {
