@@ -885,9 +885,6 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
-  components/danny_test_app:
-    specifiers: {}
-
   components/darwinbox:
     specifiers: {}
 
