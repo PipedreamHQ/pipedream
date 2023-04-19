@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/megaventory",
+  "version": "0.0.1",
+  "description": "Pipedream Megaventory Components",
+  "main": "megaventory.app.mjs",
+  "keywords": [
+    "pipedream",
+    "megaventory"
+  ],
+  "homepage": "https://pipedream.com/apps/megaventory",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

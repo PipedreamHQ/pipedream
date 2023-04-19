@@ -15,7 +15,7 @@ export default defineSource({
   key: "twitter-new-follower-of-user",
   name: "New Follower Received by User",
   description: `Emit new event when the specified User receives a Follower [See docs here](${DOCS_LINK})`,
-  version: "1.1.1",
+  version: "1.1.2",
   type: "source",
   props: {
     ...common.props,

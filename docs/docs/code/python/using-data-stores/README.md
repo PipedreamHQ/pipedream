@@ -3,17 +3,15 @@ short_description: Store and read data with data stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
 ---
 
-# Using Data Stores
-
 :::warning
 
-This is an feature in Beta and is available to to enable or disable in the [alpha](https://pipedream.com/dashboard).
+This feature is in **beta**. There might be changes while we prepare it for a full release.
 
-There may be changes to this feature while we prepare it for a full release.
+If you have any feedback on the Python runtime, please let us know in [our community](https://pipedream.com/support).
 
 :::
 
-In Python code steps, you can also store and retrieve data from [Data Stores](/data-stores/) without connecting to a 3rd party database.
+You can store and retrieve data from [Data Stores](/data-stores/) in Python without connecting to a 3rd party database.
 
 Add a data store as a input to a Python step, then access it in your Python `handler` with `pd.inputs["data_store"]`.
 
@@ -56,6 +54,7 @@ def handler(pd: "pipedream"):
 ## Retrieving keys
 
 Fetch all the keys in a given Data Store using the `keys` method:
+
 ```python
 def handler(pd: "pipedream"):
     # Access the data store under the pd.inputs
@@ -105,7 +104,7 @@ def handler(pd: "pipedream"):
 
     # Retrieve the timestamp value by the key name
     last_ran_at = data_store["last_ran_at"]
-    
+
     # Print the timestamp
     print(f"Last ran at {last_ran_at")
 ```
@@ -119,20 +118,19 @@ def handler(pd: "pipedream"):
 
     # Retrieve the timestamp value by the key name
     last_ran_at = data_store.get("last_ran_at")
-    
+
     # Print the timestamp
-    print(f"Last ran at {last_ran_at") 
+    print(f"Last ran at {last_ran_at")
 ```
 
 ::: tip
 
 What's the difference between `data_store["key"]` and `data_store.get("key")`?
 
-* `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the Data Store.
-* `data_store.get("key")` will instead return `None` if the key doesn't exist in the Data Store.
-* `data_store.get("key", "default_value")` will return `"default_value"` if the key doesn't exist on the Data Store.
-* 
-:::
+- `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the Data Store.
+- `data_store.get("key")` will instead return `None` if the key doesn't exist in the Data Store.
+- `data_store.get("key", "default_value")` will return `"default_value"` if the key doesn't exist on the Data Store.
+- :::
 
 ### Retrieving all records
 
@@ -154,7 +152,7 @@ def handler(pd: "pipedream"):
     return records
 ```
 
-This code step example exports all records within the data store as a dictionary. 
+This code step example exports all records within the data store as a dictionary.
 
 ::: warning
 
@@ -172,7 +170,7 @@ To delete or update the _value_ of an individual record, assign `key` a new valu
 def handler(pd: "pipedream"):
     # Access the data store under the pd.inputs
     data_store = pd.inputs["data_store"]
-    
+
     # Assign a new value to the key
     data_store["myKey"] = "newValue"
 
@@ -320,11 +318,11 @@ Data Stores are only currently available in Node.js code steps. They are not yet
 
 Data stores can hold any JSON-serializable data within the storage limits. This includes data types including:
 
-* Strings
-* Dictionaries
-* Lists
-* Integers
-* Floats
+- Strings
+- Dictionaries
+- Lists
+- Integers
+- Floats
 
 But you cannot serialize Modules, Functions, Classes, or other more complex objects.
 

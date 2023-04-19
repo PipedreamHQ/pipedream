@@ -7,8 +7,37 @@ export default {
   name: "New Issue Status Updated (Instant)",
   description: "Emit new event when the status of an issue is updated. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
+  props: {
+    linearApp: common.props.linearApp,
+    http: common.props.http,
+    db: common.props.db,
+    teamId: {
+      label: "Team ID",
+      type: "string",
+      propDefinition: [
+        common.props.linearApp,
+        "teamId",
+      ],
+    },
+    projectId: {
+      propDefinition: [
+        common.props.linearApp,
+        "projectId",
+      ],
+    },
+    stateId: {
+      propDefinition: [
+        common.props.linearApp,
+        "stateId",
+        ({ teamId }) => ({
+          teamId,
+        }),
+      ],
+      description: "Emit issues that are updated to this state",
+    },
+  },
   methods: {
     ...common.methods,
     getResourceTypes() {
@@ -28,7 +57,9 @@ export default {
         filter: {
           team: {
             id: {
-              in: this.teamIds,
+              in: [
+                this.teamId,
+              ],
             },
           },
           project: {
@@ -36,11 +67,16 @@ export default {
               eq: this.projectId,
             },
           },
+          state: {
+            id: {
+              eq: this.stateId,
+            },
+          },
         },
       };
     },
     isRelevant(body) {
-      return body?.updatedFrom?.stateId;
+      return body?.updatedFrom?.stateId && (!this.stateId || body.data.stateId === this.stateId);
     },
     getMetadata(resource) {
       const {
