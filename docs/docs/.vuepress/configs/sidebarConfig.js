@@ -68,6 +68,7 @@ const docsNav = [
   {title: 'Integrations', type: "group", children: [
     "/apps/",
     "/apps/contributing/",
+    "/apps/guidelines/"
   ]},
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
