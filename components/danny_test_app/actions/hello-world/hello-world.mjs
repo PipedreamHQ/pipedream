@@ -4,7 +4,7 @@ export default {
   name: "hello world",
   version: "0.0.1",
   key: "danny_test_app-hello-world",
-  description: "hello world test",
+  description: "Hello World test",
   type: "action",
   props: {
     app,
