@@ -5,8 +5,8 @@ const docsLink = "https://developers.drata.com/docs/developer-portal/add-backgro
 export default {
   key: "drata-upload-background-check",
   name: "Upload Background Check",
-  description: `Upload background check for a personnel. [See docs here](${docsLink}).`,
-  version: "0.0.1",
+  description: `Upload background check for a personnel. [See the documentation](${docsLink}).`,
+  version: "0.0.2",
   type: "action",
   props: {
     drata,

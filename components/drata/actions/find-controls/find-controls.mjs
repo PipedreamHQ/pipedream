@@ -6,8 +6,8 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-find-controls",
   name: "Find Controls",
-  description: `Find Controls. [See docs here](${docsLink}).`,
-  version: "0.0.1",
+  description: `Find Controls. [See the documentation](${docsLink}).`,
+  version: "0.0.2",
   type: "action",
   props: {
     drata,
