@@ -1,5 +1,4 @@
 const BASE_URL = "https://api.shotstack.io";
-const VERSION_PATH = "";
 const LAST_CREATED_AT = "lastCreatedAt";
 const DEFAULT_MAX = 600;
 
@@ -32,15 +31,17 @@ const API = {
   },
 };
 
+const SEP = "-";
+
 export default {
   BASE_URL,
   VERSION_PLACEHOLDER,
   API,
-  VERSION_PATH,
   DEFAULT_MAX,
   LAST_CREATED_AT,
   FILE_PROP_NAMES,
   CONTENT_TYPE_KEY_HEADER,
   MULTIPART_FORM_DATA_VALUE_HEADER,
   MULTIPART_FORM_DATA_HEADERS,
+  SEP,
 };

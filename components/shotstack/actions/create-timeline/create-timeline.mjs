@@ -1,4 +1,7 @@
 import app from "../../shotstack.app.mjs";
+import constants from "../../common/constants.mjs";
+
+const { SEP } = constants;
 
 export default {
   key: "shotstack-create-timeline",
@@ -33,26 +36,24 @@ export default {
         length: this[trackHowManyVideoClips],
       }).map((_, index) => {
         const clipNumber = index + 1;
-        const assetType = "VideoAsset";
-        const clipName = `${trackName}${assetType}Clip${clipNumber}`;
-        // track1VideoAssetClip1AssetSrc - track1-clip1-video-src
-        const clipAssetSrc = `${clipName}AssetSrc`;
-        const clipAssetStart = `${clipName}AssetStart`;
-        const clipAssetLength = `${clipName}AssetLength`;
+        const clipName = `${trackName}${SEP}clip${clipNumber}${SEP}video`;
+        const clipAssetSrc = `${clipName}${SEP}src`;
+        const clipAssetStart = `${clipName}${SEP}start`;
+        const clipAssetLength = `${clipName}${SEP}length`;
         return {
           [clipAssetSrc]: {
             type: "string",
-            label: `Track ${trackNumber} Video Clip ${clipNumber} Asset Source`,
+            label: `Track ${trackNumber}: Video Clip ${clipNumber} Source`,
             description: "The source of the asset.",
           },
           [clipAssetStart]: {
             type: "integer",
-            label: `Track ${trackNumber} Video Clip ${clipNumber} Asset Start`,
+            label: `Track ${trackNumber}: Video Clip ${clipNumber} Start`,
             description: "The start time of the asset.",
           },
           [clipAssetLength]: {
             type: "integer",
-            label: `Track ${trackNumber} Video Clip ${clipNumber} Asset Length`,
+            label: `Track ${trackNumber}: Video Clip ${clipNumber} Length`,
             description: "The length of the asset.",
           },
         };
@@ -62,25 +63,24 @@ export default {
         length: this[trackHowManyImageClips],
       }).map((_, index) => {
         const clipNumber = index + 1;
-        const assetType = "ImageAsset";
-        const clipName = `${trackName}${assetType}Clip${clipNumber}`;
-        const clipAssetSrc = `${clipName}AssetSrc`;
-        const clipAssetStart = `${clipName}AssetStart`;
-        const clipAssetLength = `${clipName}AssetLength`;
+        const clipName = `${trackName}${SEP}clip${clipNumber}${SEP}image`;
+        const clipAssetSrc = `${clipName}${SEP}src`;
+        const clipAssetStart = `${clipName}${SEP}start`;
+        const clipAssetLength = `${clipName}${SEP}length`;
         return {
           [clipAssetSrc]: {
             type: "string",
-            label: `Track ${trackNumber} Image Clip ${clipNumber} Asset Source`,
+            label: `Track ${trackNumber}: Image Clip ${clipNumber} Source`,
             description: "The source of the asset.",
           },
           [clipAssetStart]: {
             type: "integer",
-            label: `Track ${trackNumber} Image Clip ${clipNumber} Asset Start`,
+            label: `Track ${trackNumber}: Image Clip ${clipNumber} Start`,
             description: "The start time of the asset.",
           },
           [clipAssetLength]: {
             type: "integer",
-            label: `Track ${trackNumber} Image Clip ${clipNumber} Asset Length`,
+            label: `Track ${trackNumber}: Image Clip ${clipNumber} Length`,
             description: "The length of the asset.",
           },
         };
@@ -90,11 +90,10 @@ export default {
         length: this[trackHowManyAudioClips],
       }).map((_, index) => {
         const clipNumber = index + 1;
-        const assetType = "AudioAsset";
-        const clipName = `${trackName}${assetType}Clip${clipNumber}`;
-        const clipAssetSrc = `${clipName}AssetSrc`;
-        const clipAssetStart = `${clipName}AssetStart`;
-        const clipAssetLength = `${clipName}AssetLength`;
+        const clipName = `${trackName}${SEP}clip${clipNumber}${SEP}audio`;
+        const clipAssetSrc = `${clipName}${SEP}src`;
+        const clipAssetStart = `${clipName}${SEP}start`;
+        const clipAssetLength = `${clipName}${SEP}length`;
         return {
           [clipAssetSrc]: {
             type: "string",
@@ -118,11 +117,10 @@ export default {
         length: this[trackHowManyTitleClips],
       }).map((_, index) => {
         const clipNumber = index + 1;
-        const assetType = "TitleAsset";
-        const clipName = `${trackName}${assetType}Clip${clipNumber}`;
-        const clipAssetText = `${clipName}AssetText`;
-        const clipAssetStart = `${clipName}AssetStart`;
-        const clipAssetLength = `${clipName}AssetLength`;
+        const clipName = `${trackName}${SEP}clip${clipNumber}${SEP}title`;
+        const clipAssetText = `${clipName}${SEP}text`;
+        const clipAssetStart = `${clipName}${SEP}start`;
+        const clipAssetLength = `${clipName}${SEP}length`;
         return {
           [clipAssetText]: {
             type: "string",
@@ -146,11 +144,10 @@ export default {
         length: this[trackHowManyHtmlClips],
       }).map((_, index) => {
         const clipNumber = index + 1;
-        const assetType = "HtmlAsset";
-        const clipName = `${trackName}${assetType}Clip${clipNumber}`;
-        const clipAssetHtml = `${clipName}AssetHtml`;
-        const clipAssetStart = `${clipName}AssetStart`;
-        const clipAssetLength = `${clipName}AssetLength`;
+        const clipName = `${trackName}${SEP}clip${clipNumber}${SEP}html`;
+        const clipAssetHtml = `${clipName}${SEP}html`;
+        const clipAssetStart = `${clipName}${SEP}start`;
+        const clipAssetLength = `${clipName}${SEP}length`;
         return {
           [clipAssetHtml]: {
             type: "string",
@@ -174,11 +171,10 @@ export default {
         length: this[trackHowManyLumaClips],
       }).map((_, index) => {
         const clipNumber = index + 1;
-        const assetType = "LumaAsset";
-        const clipName = `${trackName}${assetType}Clip${clipNumber}`;
-        const clipAssetSrc = `${clipName}AssetSrc`;
-        const clipAssetStart = `${clipName}AssetStart`;
-        const clipAssetLength = `${clipName}AssetLength`;
+        const clipName = `${trackName}${SEP}clip${clipNumber}${SEP}luma`;
+        const clipAssetSrc = `${clipName}${SEP}src`;
+        const clipAssetStart = `${clipName}${SEP}start`;
+        const clipAssetLength = `${clipName}${SEP}length`;
         return {
           [clipAssetSrc]: {
             type: "string",
