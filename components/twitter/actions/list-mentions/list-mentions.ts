@@ -5,7 +5,6 @@ import {
   getUserId,
   getTweetFields,
 } from "../../common/methods";
-import { tweetFieldProps } from "../../common/propGroups";
 import { GetUserMentionsParams } from "../../common/types/requestParams";
 import {
   PaginatedResponseObject, Tweet,
@@ -21,7 +20,7 @@ export default defineAction({
   key: "twitter-list-mentions",
   name: "List Mentions",
   description: `Return the most recent mentions for the specified user. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.1.1",
   type: "action",
   props: {
     app,
@@ -31,7 +30,6 @@ export default defineAction({
         "userNameOrId",
       ],
     },
-    ...tweetFieldProps,
     maxResults: {
       propDefinition: [
         app,

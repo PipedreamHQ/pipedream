@@ -93,9 +93,11 @@ export interface GetUserFollowedListsParams extends PaginatedRequest, UserId {
   params?: ListFields;
 }
 
-export interface GetUserParams extends PdAxiosRequest, UserId {
+export interface GetAuthenticatedUserParams extends PdAxiosRequest {
   params?: UserFields;
 }
+
+export interface GetUserParams extends GetAuthenticatedUserParams, UserId { }
 
 export interface GetTweetParams extends PdAxiosRequest, TweetId {
   params?: TweetFields;
