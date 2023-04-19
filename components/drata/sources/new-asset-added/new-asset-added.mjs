@@ -35,7 +35,7 @@ export default {
       for (const asset of response.data.reverse()) {
         this.$emit(asset, {
           id: asset.id,
-          summary: `Historcal asset: ${asset.name}`,
+          summary: `Historical asset: ${asset.name}`,
           ts: asset.createdAt,
         });
       }
