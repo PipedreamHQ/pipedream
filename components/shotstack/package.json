@@ -2,15 +2,17 @@
   "name": "@pipedream/shotstack",
   "version": "0.0.1",
   "description": "Pipedream Shotstack Components",
-  "main": "dist/app/shotstack.app.mjs",
+  "main": "shotstack.app.mjs",
   "keywords": [
     "pipedream",
     "shotstack"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/shotstack",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
   "publishConfig": {
     "access": "public"
   }
