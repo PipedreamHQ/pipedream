@@ -39,7 +39,7 @@ export default defineAction({
         "maxResults",
       ],
       min: MIN_RESULTS,
-      max: MAX_RESULTS_PER_PAGE * 5,
+      description: `Maximum amount of items to return. Each request can return up to ${MAX_RESULTS_PER_PAGE} items.`,
       default: DEFAULT_RESULTS,
     },
   },

@@ -43,7 +43,7 @@ export default defineApp({
       type: "integer",
       label: "Max Results",
       description:
-        "Maximum total amount of items to return. The maximum amount of requests that can be made is 5.",
+        "Maximum amount of items to return. The maximum amount per request for each endpoint is included in the API documentation.",
       optional: true,
     },
     listId: {
