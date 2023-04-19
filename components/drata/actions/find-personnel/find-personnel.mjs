@@ -6,7 +6,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-find-personnel",
   name: "Find Personnel",
-  description: `Find Personnel. [See docs here.](${docsLink})`,
+  description: `Find Personnel. [See docs here](${docsLink}).`,
   version: "0.0.1",
   type: "action",
   props: {

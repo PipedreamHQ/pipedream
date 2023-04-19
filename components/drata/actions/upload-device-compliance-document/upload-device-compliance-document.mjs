@@ -6,7 +6,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-upload-device-compliance-document",
   name: "Upload Device Compliance Document",
-  description: `Upload a device compliance document. [See docs here.](${docsLink})`,
+  description: `Upload a device compliance document. [See docs here](${docsLink}).`,
   version: "0.0.1",
   type: "action",
   props: {

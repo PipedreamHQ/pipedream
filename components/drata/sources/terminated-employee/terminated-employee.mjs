@@ -7,7 +7,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-terminated-employee",
   name: "Employee Terminated",
-  description: `Emit new event when an employee is terminated. [See docs here.](${docsLink})`,
+  description: `Emit new event when an employee is terminated. [See docs here](${docsLink}).`,
   type: "source",
   version: "0.0.1",
   dedupe: "unique",

@@ -5,7 +5,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-update-vendor",
   name: "Update Vendor",
-  description: `Update a Vendor. [See docs here.](${docsLink})`,
+  description: `Update a Vendor. [See docs here](${docsLink}).`,
   version: "0.0.1",
   type: "action",
   props: {

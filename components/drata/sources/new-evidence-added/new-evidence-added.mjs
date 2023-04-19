@@ -7,7 +7,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-new-evidence-added",
   name: "New Evidence for Control Added",
-  description: `Emit new event for every new evidence for a control. [See docs here.](${docsLink})`,
+  description: `Emit new event for every new evidence for a control. [See docs here](${docsLink}).`,
   type: "source",
   version: "0.0.1",
   dedupe: "unique",

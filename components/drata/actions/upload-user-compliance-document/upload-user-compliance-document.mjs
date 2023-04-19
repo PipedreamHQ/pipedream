@@ -6,7 +6,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-upload-user-compliance-document",
   name: "Upload User Compliance Document",
-  description: `Upload a user compliance document. [See docs here.](${docsLink})`,
+  description: `Upload a user compliance document. [See docs here](${docsLink}).`,
   version: "0.0.1",
   type: "action",
   props: {
