@@ -2272,6 +2272,9 @@ importers:
   components/mailrefine:
     specifiers: {}
 
+  components/mailwizz:
+    specifiers: {}
+
   components/maintainx:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -2499,6 +2502,9 @@ importers:
       '@pipedream/types': 0.1.5
 
   components/nano_nets:
+    specifiers: {}
+
+  components/nasdaq_data_link_time_series_and_table_data_:
     specifiers: {}
 
   components/nectar_crm:
