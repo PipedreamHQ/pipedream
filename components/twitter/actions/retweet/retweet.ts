@@ -9,7 +9,7 @@ export default defineAction({
   key: "twitter-retweet",
   name: "Retweet a tweet",
   description: `Retweet a tweet specified by ID. [See docs here](${DOCS_LINK})`,
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     app,

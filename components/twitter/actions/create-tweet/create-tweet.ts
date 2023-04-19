@@ -9,7 +9,7 @@ export default defineAction({
   key: "twitter-create-tweet",
   name: "Create Tweet",
   description: `Create a new tweet. [See docs here](${DOCS_LINK})`,
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     app,

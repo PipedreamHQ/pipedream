@@ -18,7 +18,7 @@ export default defineAction({
   key: "twitter-simple-search-in-list",
   name: "Search Tweets in List",
   description: `Search Tweets by text in a list. [See docs here](${DOCS_LINK})`,
-  version: "1.1.2",
+  version: "1.1.3",
   type: "action",
   props: {
     app,
