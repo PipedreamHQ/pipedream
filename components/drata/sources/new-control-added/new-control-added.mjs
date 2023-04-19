@@ -7,7 +7,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-new-control-added",
   name: "New Control Added",
-  description: `Emit new event for every new control. [See docs here.](${docsLink})`,
+  description: `Emit new event for every new control. [See docs here](${docsLink}).`,
   type: "source",
   version: "0.0.1",
   dedupe: "unique",

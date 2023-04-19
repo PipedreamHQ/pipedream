@@ -7,7 +7,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-new-asset-added",
   name: "New Asset Added",
-  description: `Emit new event for every new asset. [See docs here.](${docsLink})`,
+  description: `Emit new event for every new asset. [See docs here](${docsLink}).`,
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
@@ -35,7 +35,7 @@ export default {
       for (const asset of response.data.reverse()) {
         this.$emit(asset, {
           id: asset.id,
-          summary: `Historcal asset: ${asset.name}`,
+          summary: `Historical asset: ${asset.name}`,
           ts: asset.createdAt,
         });
       }

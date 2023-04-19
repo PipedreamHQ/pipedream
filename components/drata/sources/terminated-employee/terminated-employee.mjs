@@ -7,7 +7,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-terminated-employee",
   name: "Employee Terminated",
-  description: `Emit new event when an employee is terminated. [See docs here.](${docsLink})`,
+  description: `Emit new event when an employee is terminated. [See docs here](${docsLink}).`,
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
@@ -53,7 +53,7 @@ export default {
       for (const personnel of response.data.reverse()) {
         this.$emit(personnel, {
           id: personnel.id,
-          summary: `Historical terminated employee added event: ${this.getPersonnelName(personnel)}`,
+          summary: `Historical terminated employee added event: ${this.drata.getPersonnelName(personnel)}`,
           ts: personnel.updatedAt,
         });
       }
@@ -65,13 +65,6 @@ export default {
     },
     _setLastCurrentEmployees(lastCurrentEmployees) {
       this.db.set("lastCurrentEmployees", Array.from(lastCurrentEmployees));
-    },
-    getPersonnelName(personnel) {
-      let name = personnel.user.firstName;
-      if (personnel.user.lastName) {
-        name += ` ${personnel.user.lastName}`;
-      }
-      return name;
     },
     getDifference(setA, setB) {
       return new Set(
@@ -117,7 +110,7 @@ export default {
       lastCurrentEmployees.delete(employee.id);
       this.$emit(employee, {
         id: employee.id,
-        summary: `Employee terminated: ${this.getPersonnelName(employee)}`,
+        summary: `Employee terminated: ${this.drata.getPersonnelName(employee)}`,
         ts: employee.updatedAt,
       });
     }

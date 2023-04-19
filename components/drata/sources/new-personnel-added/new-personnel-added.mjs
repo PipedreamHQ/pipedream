@@ -7,7 +7,7 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-new-personnel-added",
   name: "New Personnel Added",
-  description: `Emit new event for every new personnel. [See docs here.](${docsLink})`,
+  description: `Emit new event for every new personnel. [See docs here](${docsLink}).`,
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
@@ -52,7 +52,7 @@ export default {
       for (const personnel of historical) {
         this.$emit(personnel, {
           id: personnel.id,
-          summary: `Historical personnel added event: ${this.getPersonnelName(personnel)}`,
+          summary: `Historical personnel added event: ${this.drata.getPersonnelName(personnel)}`,
           ts: personnel.createdAt,
         });
       }
@@ -82,13 +82,6 @@ export default {
       }
       return employmentStatuses;
     },
-    getPersonnelName(personnel) {
-      let name = personnel.user.firstName;
-      if (personnel.user.lastName) {
-        name += ` ${personnel.user.lastName}`;
-      }
-      return name;
-    },
   },
   async run() {
     const visitedIds = this._getVisitedIds();
@@ -107,7 +100,7 @@ export default {
         visitedIds.add(personnel.id);
         this.$emit(personnel, {
           id: personnel.id,
-          summary: `New personnel added: ${this.getPersonnelName(personnel)}`,
+          summary: `New personnel added: ${this.drata.getPersonnelName(personnel)}`,
           ts: personnel.createdAt,
         });
       }
