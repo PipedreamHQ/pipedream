@@ -43,7 +43,7 @@ export default defineApp({
       type: "integer",
       label: "Max Results",
       description:
-        "Maximum total amount of items to return. The maximum amount of requests that can be made is 5.",
+        "Maximum amount of items to return. The maximum amount per request for each endpoint is included in the API documentation.",
       optional: true,
     },
     listId: {
@@ -170,6 +170,7 @@ export default defineApp({
       PaginatedResponseObject<TwitterEntity>
     > {
       const totalData = [],
+        totalErrors = [],
         totalIncludes = {};
       let paginationToken: string;
       let resultCount = 0;
@@ -179,6 +180,7 @@ export default defineApp({
 
         const {
           data,
+          errors,
           meta: { next_token },
           includes,
         }: PaginatedResponseObject<TwitterEntity> = await this._httpRequest({
@@ -190,12 +192,21 @@ export default defineApp({
           ...args,
         });
 
-        if (!data) break;
-        totalData.push(...(Array.isArray(data)
-          ? data
-          : [
-            data,
-          ]));
+        if (data) {
+          totalData.push(...(Array.isArray(data)
+            ? data
+            : [
+              data,
+            ]));
+        }
+
+        if (errors) {
+          totalErrors.push(...(Array.isArray(errors)
+            ? errors
+            : [
+              errors,
+            ]));
+        }
 
         if (includes) {
           Object.entries(includes).forEach(
@@ -215,6 +226,7 @@ export default defineApp({
 
       return {
         data: totalData,
+        errors: totalErrors,
         includes: totalIncludes,
       };
     },
