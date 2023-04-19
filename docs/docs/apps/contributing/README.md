@@ -1,6 +1,6 @@
 # Pipedream Registry
 
-When developing workflows with pre-built actions and triggers, under the hood you're using [components](/docs/components) from the [Pipedream Registry Github Repository](https://github.com/pipedreamhq/pipedream).
+When developing workflows with pre-built actions and triggers, under the hood you're using [components](/docs/components/) from the [Pipedream Registry Github Repository](https://github.com/pipedreamhq/pipedream).
 
 Components contributed to the [Pipedream Registry Github Repository](https://github.com/pipedreamhq/pipedream) are published to the [Pipedream marketplace](https://pipedream.com/apps) and are listed in
 the Pipedream UI when building workflows.
@@ -33,6 +33,8 @@ airtable
         └── new-records.mjs
 ```
 
+In the example above, the `components/airtable/actions/get-record/get-record.mjs` component is published as the **Get Record** action under the **Airtable** app within the workflow builder in Pipedream.
+
 ::: tip The repository is missing the app directory I'd like to add components for
 
 You can request to have new apps integrated into Pipedream.
@@ -41,7 +43,7 @@ Once the Pipedream team integrates the app, we'll create a directory for the app
 
 :::
 
-## Component Publishing Process
+## Process
 
 Anyone from the community can build [sources](/sources/) and [actions](/components#actions) for integrated apps..
 
@@ -50,7 +52,7 @@ To submit new components or update existing components:
 1. Fork the public [Pipedream Registry Github Repository](https://github.com/pipedreamhq/pipedream).
 2. Create a new component within the corresponding app's directory within the `components` directory (if applicable).
 3. [Create a PR for the Pipedream team to review](https://github.com/PipedreamHQ/pipedream/compare).
-4. Address any feedback provided by Pipedream based on the best practice [Component Guidelines & Patterns](/docs/guidelines/).
+4. Address any feedback provided by Pipedream based on the best practice [Component Guidelines & Patterns](/docs/apps/guidelines/).
 5. Once the review is complete and approved, Pipedream will merge the PR to the `master` branch
 6. The component will be available for use within workflows for all Pipedream developers! :tada:
 
