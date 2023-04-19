@@ -2243,6 +2243,14 @@ importers:
       lodash.pickby: 4.6.0
       mailerlite-api-v2-node: 1.2.0
 
+  components/mailersend:
+    specifiers:
+      crypto: ^1.0.1
+      mailersend: ^2.0.5
+    dependencies:
+      crypto: 1.0.1
+      mailersend: 2.0.5
+
   components/mailgun:
     specifiers:
       '@pipedream/helper_functions': ^0.3.7
