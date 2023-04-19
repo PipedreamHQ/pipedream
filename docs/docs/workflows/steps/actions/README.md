@@ -34,7 +34,7 @@ You can author your own actions on Pipedream, too. Anytime you need to reuse the
 
 Start with our [action development quickstart](/components/quickstart/nodejs/actions/). You can read more about all the capabilities of actions in [our API docs](/components/api/), and review [example actions here](/components/api/#example-components).
 
-You can also publish actions to [the Pipedream registry](/apps/guidelines/#pipedream-registry), which makes them available for anyone on Pipedream to use.
+You can also publish actions to [the Pipedream registry](/apps/contributing/), which makes them available for anyone on Pipedream to use.
 
 ## Reporting a bug / feature request
 
