@@ -48,7 +48,10 @@ export default {
       ],
     },
     ownerId: {
-      type: "integer",
+      propDefinition: [
+        drata,
+        "personnelId",
+      ],
       label: "Owner ID",
       description: "The ID of the owner",
     },

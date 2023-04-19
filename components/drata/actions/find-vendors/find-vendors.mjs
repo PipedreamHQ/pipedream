@@ -64,7 +64,10 @@ export default {
       ],
     },
     userId: {
-      type: "integer",
+      propDefinition: [
+        drata,
+        "personnelId",
+      ],
       label: "User ID",
       description: "Filter data to a person responsible for vendors",
       optional: true,

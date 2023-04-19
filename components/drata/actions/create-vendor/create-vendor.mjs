@@ -58,7 +58,10 @@ export default {
       description: "Is the subprocessor active",
     },
     userId: {
-      type: "integer",
+      propDefinition: [
+        drata,
+        "personnelId",
+      ],
       label: "User ID",
       description: "The user ID of the person responsible for the compliance of this vendor",
     },

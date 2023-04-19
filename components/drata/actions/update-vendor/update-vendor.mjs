@@ -11,9 +11,10 @@ export default {
   props: {
     drata,
     vendorId: {
-      type: "integer",
-      label: "Vendor ID",
-      description: "The ID of the vendor",
+      propDefinition: [
+        drata,
+        "vendorId",
+      ],
     },
     name: {
       type: "string",
@@ -63,7 +64,10 @@ export default {
       description: "Is the subprocessor active",
     },
     userId: {
-      type: "integer",
+      propDefinition: [
+        drata,
+        "personnelId",
+      ],
       label: "User ID",
       description: "The user ID of the person responsible for the compliance of this vendor",
     },

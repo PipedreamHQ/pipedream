@@ -41,6 +41,22 @@ export default {
         }));
       },
     },
+    vendorId: {
+      type: "integer",
+      label: "Vendor ID",
+      description: "The ID of the vendor.",
+      async options({ page }) {
+        const response = await this.listVendors({
+          params: {
+            page: ++page,
+          },
+        });
+        return response.data.map((vendor) => ({
+          label: vendor.name,
+          value: vendor.id,
+        }));
+      },
+    },
     controlId: {
       type: "integer",
       label: "Control ID",
