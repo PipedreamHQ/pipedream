@@ -1,6 +1,6 @@
 # Python
 
-**Anything you can do in Python can be done in a Pipedream workflow**. This includes using any of the [350,000+ PyPi packages available](https://pypi.org/) in your Python powered workflows.
+**Anything you can do in Python can be done in a Pipedream workflow**. This includes using any of the [350,000+ packages available on PyPi](https://pypi.org/).
 
 Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.python.org) in workflows.
 
