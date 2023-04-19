@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/mailwizz",
+  "version": "0.0.1",
+  "description": "Pipedream Mailwizz Components",
+  "main": "dist/app/mailwizz.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailwizz"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/mailwizz",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
