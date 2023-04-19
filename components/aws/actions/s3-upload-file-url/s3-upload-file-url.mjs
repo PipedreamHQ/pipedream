@@ -1,5 +1,6 @@
 import base from "@pipedream/helper_functions/actions/download-file-to-tmp/download-file-to-tmp.mjs";
 import common from "../../common/common-s3.mjs";
+import fs from "fs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 // override base props label and description
@@ -14,7 +15,7 @@ export default {
     Accepts a download link and a filename, downloads it, then uploads to S3.
     [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
   `),
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     aws: common.props.aws,
@@ -27,11 +28,14 @@ export default {
       $,
     });
     const filename = filedata[0];
-    const content = filedata[3];
+    const filepath = filedata[1];
+    const file = fs.readFileSync(filepath, {
+      encoding: "base64",
+    });
     const response = await this.uploadFile({
       Bucket: this.bucket,
       Key: filename,
-      Body: content,
+      Body: Buffer.from(file, "base64"),
     });
     $.export("$summary", `Uploaded file ${filename} to S3`);
     return response;
