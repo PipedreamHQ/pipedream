@@ -73,6 +73,15 @@ export default {
         }));
       },
     },
+    deviceId: {
+      type: "string",
+      label: "Device ID",
+      description: "The ID of the device.",
+      async options() {
+        const devices = await this.listDevices();
+        return devices.map((device) => `${device.id}`);
+      },
+    },
   },
   methods: {
     ...utils.methods,
@@ -203,6 +212,15 @@ export default {
         path: `/workspaces/${workspaceId}/controls`,
         method: "POST",
       });
+    },
+    async listDevices() {
+      const response = await this.listPersonnel({
+        paginate: true,
+      });
+      return response.data
+        .map((personnel) => personnel.devices)
+        .flat()
+        .sort((a, b) => a.id - b.id);
     },
     async listMonitors({
       paginate = false, ...opts
