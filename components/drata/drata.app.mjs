@@ -79,7 +79,13 @@ export default {
       description: "The ID of the device.",
       async options() {
         const devices = await this.listDevices();
-        return devices.map((device) => `${device.id}`);
+        return devices.map((device) => {
+          const deviceId = `${device.id}`;
+          return {
+            label: device.model || deviceId,
+            value: deviceId,
+          };
+        });
       },
     },
   },
