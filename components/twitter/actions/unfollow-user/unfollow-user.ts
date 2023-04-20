@@ -10,7 +10,7 @@ export default defineAction({
   key: "twitter-unfollow-user",
   name: "Unfollow User",
   description: `Unfollow a user. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.0.3",
   type: "action",
   props: {
     app,

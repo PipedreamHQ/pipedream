@@ -3,7 +3,6 @@ import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getTweetFields,
 } from "../../common/methods";
-import { tweetFieldProps } from "../../common/propGroups";
 import { SearchTweetsParams } from "../../common/types/requestParams";
 import {
   PaginatedResponseObject, Tweet,
@@ -19,7 +18,7 @@ export default defineAction({
   key: "twitter-simple-search",
   name: "Search Tweets",
   description: `Retrieve Tweets from the last seven days that match a query. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.1.2",
   type: "action",
   props: {
     app,
@@ -29,14 +28,13 @@ export default defineAction({
         "query",
       ],
     },
-    ...tweetFieldProps,
     maxResults: {
       propDefinition: [
         app,
         "maxResults",
       ],
       min: MIN_RESULTS,
-      max: MAX_RESULTS_PER_PAGE * 5,
+      description: `Maximum amount of items to return. Each request can return up to ${MAX_RESULTS_PER_PAGE} items.`,
       default: DEFAULT_RESULTS,
     },
   },
@@ -51,6 +49,7 @@ export default defineAction({
       maxResults: this.maxResults,
       params: {
         query: this.query,
+        ...this.getTweetFields(),
       },
     };
 

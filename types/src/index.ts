@@ -269,11 +269,11 @@ export interface EmitMetadata {
   id?: string | number;
   name?: string;
   summary?: string;
-  ts: number;
+  ts?: number;
 }
 
 type EmitFunction = {
-  $emit: (event: JSONValue, metadata: EmitMetadata) => Promise<void>;
+  $emit: (event: JSONValue, metadata?: EmitMetadata) => Promise<void>;
 };
 
 type PropThis<Props> = {

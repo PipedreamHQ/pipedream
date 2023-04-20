@@ -1,17 +1,14 @@
 # Python
 
-**Anything you can do in Python can be done in a Pipedream Workflow**. This includes using any of the [350,000+ PyPi packages available](https://pypi.org/) in your Python powered workflows. 
+**Anything you can do in Python can be done in a Pipedream workflow**. This includes using any of the [350,000+ packages available on PyPI](https://pypi.org/).
 
 Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.python.org) in workflows.
 
 ::: warning
-Python steps are available in a limited alpha release.
+Python steps are in **beta**. There might be changes while we prepare it for a full release.
 
-You can still run arbitrary Python code, including [sharing data between steps](/code/python/#sharing-data-between-steps), [send API requests using connected accounts](/code/python/auth/), [use Data Stores](/code/python/using-data-stores/), and [accessing environment variables](/code/python/#using-environment-variables).
-
-However, you can't delay or retry steps, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time. If you have any questions please [contact support](https://pipedream.com/support).
+If you have any feedback on the Python runtime, please let us know in [our community](https://pipedream.com/support).
 :::
-
 
 ## Adding a Python code step
 
@@ -34,12 +31,12 @@ pd.export("message", "Hello, World!")
 
 You can also perform more complex operations, including [leveraging your connected accounts to make authenticated API requests](/code/python/auth/), [accessing Data Stores](/code/python/using-data-stores/) and [installing PyPI packages](/code/python/#using-third-party-packages).
 
-* [Install PyPI Packages](/code/python/#using-third-party-packages)
-* [Import data exported from other steps](/code/python/#using-data-from-another-step)
-* [Export data to downstream steps](/code/python/#sending-data-downstream-to-other-steps)
-* [Retrieve data from a data store](/code/python/using-data-stores/#retrieving-data)
-* [Store data into a data store](/code/python/using-data-stores/#saving-data)
-* [Access API credentials from connected accounts](/code/python/auth/)
+- [Install PyPI Packages](/code/python/#using-third-party-packages)
+- [Import data exported from other steps](/code/python/#using-data-from-another-step)
+- [Export data to downstream steps](/code/python/#sending-data-downstream-to-other-steps)
+- [Retrieve data from a data store](/code/python/using-data-stores/#retrieving-data)
+- [Store data into a data store](/code/python/using-data-stores/#saving-data)
+- [Access API credentials from connected accounts](/code/python/auth/)
 
 ## Logging and debugging
 
@@ -55,9 +52,9 @@ The output for the `print` **logs** will appear in the `Results` section just be
 
 You can use any packages from [PyPI](https://pypi.org) in your Pipedream workflows. This includes popular choices such as:
 
-* [`requests` for making HTTP requests](https://pypi.org/project/requests/)
-* [`sqlalchemy`for retrieving or inserting data in a SQL database](https://pypi.org/project/sqlalchemy/)
-* [`pandas` for working with complex datasets](https://pypi.org/project/pandas/)
+- [`requests` for making HTTP requests](https://pypi.org/project/requests/)
+- [`sqlalchemy`for retrieving or inserting data in a SQL database](https://pypi.org/project/sqlalchemy/)
+- [`pandas` for working with complex datasets](https://pypi.org/project/pandas/)
 
 To use a PyPI package, just include it in your step's code:
 
@@ -138,7 +135,7 @@ print(r.status)
 
 You can also send files within a step.
 
-An example of sending a previously stored file in the workflow's `/tmp` directory: 
+An example of sending a previously stored file in the workflow's `/tmp` directory:
 
 ```python
 import requests
@@ -172,7 +169,7 @@ Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/trigg
 :::
 
 :::tip
-*Don't forget* to [configure your workflow's HTTP trigger to allow a custom response](/workflows/steps/triggers/#http-responses). Otherwise your workflow will return the default response.
+_Don't forget_ to [configure your workflow's HTTP trigger to allow a custom response](/workflows/steps/triggers/#http-responses). Otherwise your workflow will return the default response.
 :::
 
 ## Sharing data between steps
@@ -194,13 +191,13 @@ In this example, we'll pretend this data is coming into our workflow's HTTP trig
 }
 ```
 
-In our Python step, we can access this data in the `exports` variable from the `pd.steps` object passed into the `handler`. Specifically, this data from the POST request into our workflow is available in the `trigger` dictionary item. 
+In our Python step, we can access this data in the `exports` variable from the `pd.steps` object passed into the `handler`. Specifically, this data from the POST request into our workflow is available in the `trigger` dictionary item.
 
 ```python
 # The pipedream package includes helpers to use exported data from other steps, as well as export data from this step
 from pipedream.script_helpers import (steps, export)
 
-# retrieve the data from the HTTP request in the initial workflow trigger 
+# retrieve the data from the HTTP request in the initial workflow trigger
 pokemon_name = steps["trigger"]["event"]["name"]
 pokemon_type = steps["trigger"]["event"]["type"]
 
@@ -228,11 +225,11 @@ Now this `pokemon` data is accessible to downstream steps within `steps["code"][
 ::: warning
 You can only export JSON-serializable data from steps. Things like:
 
-* strings
-* numbers
-* lists 
-* dictionaries
-:::
+- strings
+- numbers
+- lists
+- dictionaries
+  :::
 
 ## Using environment variables
 
@@ -276,7 +273,7 @@ There are 2 different ways of using the `os` module to access your environment v
 
 `os.environ['ENV_NAME_HERE']` will raise an error that stops your workflow if that key doesn't exist in your Pipedream account.
 
-Whereas `os.environ.get('ENV_NAME_HERE')` will _not_ throw an error and instead returns an empty string. 
+Whereas `os.environ.get('ENV_NAME_HERE')` will _not_ throw an error and instead returns an empty string.
 
 If your code relies on the presence of a environment variable, consider using `os.environ['ENV_NAME_HERE']` instead.
 :::
@@ -284,7 +281,6 @@ If your code relies on the presence of a environment variable, consider using `o
 ## Handling errors
 
 You may need to exit a workflow early. In a Python step, just a `raise` an error to halt a step's execution.
-
 
 ```python
 raise NameError('Something happened that should not. Exiting early.')
@@ -324,7 +320,7 @@ def handler(pd: 'pipedream'):
     # Flip a coin, running pd.flow.exit() for 50% of events
     if random.randint(0, 100) <= 50:
         return pd.flow.exit()
-    
+
     print("This code will only run 50% of the time");
 ```
 
@@ -334,7 +330,7 @@ You can also store and read files with Python steps. This means you can upload p
 
 The `/tmp` directory is accessible from your workflow steps for saving and retrieving files.
 
-You have full access to read and write both files in `/tmp`. 
+You have full access to read and write both files in `/tmp`.
 
 ### Writing a file to /tmp
 

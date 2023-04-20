@@ -9,7 +9,7 @@ export default defineAction({
   key: "twitter-create-tweet",
   name: "Create Tweet",
   description: `Create a new tweet. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.0.2",
   type: "action",
   props: {
     app,
@@ -91,7 +91,7 @@ export default defineAction({
 
     const response = await this.app.createTweet(params);
 
-    $.export("$summary", "Successfully posted tweet");
+    $.export("$summary", `Successfully posted tweet (ID ${response.data?.id})`);
 
     return response;
   },

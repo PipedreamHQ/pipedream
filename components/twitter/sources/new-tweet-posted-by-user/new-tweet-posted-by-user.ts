@@ -2,7 +2,6 @@ import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
-import { tweetFieldProps } from "../../common/propGroups";
 import { Tweet } from "../../common/types/responseSchemas";
 import { getTweetFields } from "../../common/methods";
 import { GetUserTweetsParams } from "../../common/types/requestParams";
@@ -16,7 +15,7 @@ export default defineSource({
   key: "twitter-new-tweet-posted-by-user",
   name: "New Tweet Posted by User",
   description: `Emit new event when the specified User posts a Tweet [See docs here](${DOCS_LINK})`,
-  version: "0.0.1",
+  version: "0.1.2",
   type: "source",
   props: {
     ...common.props,
@@ -26,7 +25,6 @@ export default defineSource({
         "userNameOrId",
       ],
     },
-    ...tweetFieldProps,
   },
   methods: {
     ...common.methods,
@@ -36,18 +34,15 @@ export default defineSource({
     getEntityName() {
       return "Tweet";
     },
-    async getResources(customize: boolean): Promise<Tweet[]> {
+    async getResources(maxResults?: number): Promise<Tweet[]> {
       const userId = await this.getCachedUserId();
       const params: GetUserTweetsParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: MAX_RESULTS_PER_PAGE,
+        maxResults: maxResults ?? MAX_RESULTS_PER_PAGE,
+        params: this.getTweetFields(),
         userId,
       };
-
-      if (customize) {
-        params.params = this.getTweetFields();
-      }
 
       const { data } = await this.app.getUserTweets(params);
       return data;

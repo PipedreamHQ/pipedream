@@ -1,5 +1,6 @@
 import { LinearClient } from "@linear/sdk";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -203,11 +204,39 @@ export default {
     }) {
       return this.client().updateIssue(issueId, input);
     },
-    async searchIssues(variables) {
-      return this.client().issues(variables);
+    async listIssues(variables) {
+      const { data: { issues } } = await this.makeAxiosRequest({
+        method: "POST",
+        data: {
+          query: `
+          { 
+            issues(${variables}) { 
+              nodes {
+                ${constants.ISSUE_NODES}
+              }
+              pageInfo {
+                hasNextPage
+                endCursor
+              }
+            } 
+          }`,
+        },
+      });
+      return issues;
     },
     async getIssue(id) {
-      return this.client().issue(id);
+      const { data: { issue } } = await this.makeAxiosRequest({
+        method: "POST",
+        data: {
+          query: `
+          { 
+            issue(id: "${id}") { 
+              ${constants.ISSUE_NODES}
+            } 
+          }`,
+        },
+      });
+      return issue;
     },
     async getUser(id) {
       return this.client().user(id);
@@ -239,14 +268,25 @@ export default {
     async listStates(variables = {}) {
       return this.client().workflowStates(variables);
     },
-    async listIssues(variables = {}) {
-      return this.client().issues(variables);
-    },
     async listIssueLabels(variables = {}) {
       return this.client().issueLabels(variables);
     },
     async listComments(variables = {}) {
       return this.client().comments(variables);
+    },
+    async getComment(id) {
+      const { data: { comment } } = await this.makeAxiosRequest({
+        method: "POST",
+        data: {
+          query: `
+          { 
+            comment(id: "${id}") { 
+              ${constants.COMMENT_NODES}
+            } 
+          }`,
+        },
+      });
+      return comment;
     },
     async listResourcesOptions({
       prevContext, resourcesFn, resourcesArgs, resouceMapper,
@@ -282,19 +322,23 @@ export default {
       resourcesFn,
       resourcesFnArgs,
       max = constants.DEFAULT_MAX_RECORDS,
+      useGraphQl = true,
     }) {
       let counter = 0;
       let hasNextPage;
       let endCursor;
       do {
+        const variables = useGraphQl
+          ? utils.buildVariables(endCursor, resourcesFnArgs)
+          : {
+            after: endCursor,
+            first: constants.DEFAULT_LIMIT,
+            ...resourcesFnArgs,
+          };
         const {
           nodes,
           pageInfo,
-        } = await resourcesFn({
-          after: endCursor,
-          first: constants.DEFAULT_LIMIT,
-          ...resourcesFnArgs,
-        });
+        } = await resourcesFn(variables);
         for (const node of nodes) {
           counter += 1;
           yield node;

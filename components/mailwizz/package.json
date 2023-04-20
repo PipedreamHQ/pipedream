@@ -1,14 +1,14 @@
 {
-  "name": "@pipedream/danny_test_app",
+  "name": "@pipedream/mailwizz",
   "version": "0.0.1",
-  "description": "Pipedream Danny -- Test App Components",
-  "main": "dist/app/danny_test_app.app.mjs",
+  "description": "Pipedream Mailwizz Components",
+  "main": "dist/app/mailwizz.app.mjs",
   "keywords": [
     "pipedream",
-    "danny_test_app"
+    "mailwizz"
   ],
   "files": ["dist"],
-  "homepage": "https://pipedream.com/apps/danny_test_app",
+  "homepage": "https://pipedream.com/apps/mailwizz",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {

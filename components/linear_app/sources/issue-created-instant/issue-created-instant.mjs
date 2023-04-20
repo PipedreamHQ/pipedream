@@ -7,7 +7,7 @@ export default {
   name: "New Created Issue (Instant)",
   description: "Emit new event when a new issue is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.3.1",
+  version: "0.3.2",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -24,7 +24,7 @@ export default {
     },
     getResourcesFnArgs() {
       return {
-        sortBy: "createdAt",
+        orderBy: "createdAt",
         filter: {
           team: {
             id: {
