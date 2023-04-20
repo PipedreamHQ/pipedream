@@ -1,10 +1,10 @@
 import * as t from "io-ts";
 
-import axios from "./axios";
+import axios, { transformConfigForOauth } from "./axios";
 import { AxiosRequestConfig as AxiosConfig } from "axios";
 
 export {
-  axios,
+  axios, transformConfigForOauth,
 };
 export {
   cloneSafe, jsonStringifySafe,

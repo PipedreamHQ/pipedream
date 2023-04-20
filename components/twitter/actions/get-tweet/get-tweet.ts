@@ -1,7 +1,6 @@
 import app from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 import { GetTweetParams } from "../../common/types/requestParams";
-import { tweetFieldProps } from "../../common/propGroups";
 import { getTweetFields } from "../../common/methods";
 import {
   ResponseObject, Tweet,
@@ -14,7 +13,7 @@ export default defineAction({
   key: "twitter-get-tweet",
   name: "Get Tweet",
   description: `Return a single tweet specified by ID. [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.1.2",
   type: "action",
   props: {
     app,
@@ -24,21 +23,21 @@ export default defineAction({
         "tweetId",
       ],
     },
-    ...tweetFieldProps,
   },
   methods: {
     getTweetFields,
   },
   async run({ $ }): Promise<ResponseObject<Tweet>> {
+    const { tweetId } = this;
     const params: GetTweetParams = {
       $,
       params: this.getTweetFields(),
-      tweetId: this.tweetId,
+      tweetId,
     };
 
     const response = await this.app.getTweet(params);
 
-    $.export("$summary", "Successfully retrieved tweet");
+    $.export("$summary", `Successfully retrieved tweet (ID ${tweetId})`);
 
     return response;
   },

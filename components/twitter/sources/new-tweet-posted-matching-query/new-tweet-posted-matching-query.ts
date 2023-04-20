@@ -2,7 +2,6 @@ import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
-import { tweetFieldProps } from "../../common/propGroups";
 import { getTweetFields } from "../../common/methods";
 import { SearchTweetsParams } from "../../common/types/requestParams";
 import { Tweet } from "../../common/types/responseSchemas";
@@ -15,7 +14,7 @@ export default defineSource({
   key: "twitter-new-tweet-posted-matching-query",
   name: "New Tweet Posted Matching Query",
   description: `Emit new event when a new tweet matching the specified query is posted [See docs here](${DOCS_LINK})`,
-  version: "0.0.1",
+  version: "0.1.2",
   type: "source",
   props: {
     ...common.props,
@@ -25,7 +24,6 @@ export default defineSource({
         "query",
       ],
     },
-    ...tweetFieldProps,
   },
   methods: {
     ...common.methods,
@@ -34,22 +32,16 @@ export default defineSource({
       return "Tweet";
     },
     getItemSummary,
-    async getResources(customize: boolean): Promise<Tweet[]> {
+    async getResources(maxResults?: number): Promise<Tweet[]> {
       const params: SearchTweetsParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: MAX_RESULTS_PER_PAGE,
+        maxResults: maxResults ?? MAX_RESULTS_PER_PAGE,
         params: {
           query: this.query,
+          ...this.getTweetFields(),
         },
       };
-
-      if (customize) {
-        params.params = {
-          ...params.params,
-          ...this.getTweetFields(),
-        };
-      }
 
       const { data } = await this.app.searchTweets(params);
       return data;
