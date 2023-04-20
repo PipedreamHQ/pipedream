@@ -5,7 +5,8 @@ import lodash from "lodash";
 export default {
   key: "firebase_admin_sdk-replicate-event-firestore",
   name: "Save Event to Firestore",
-  version: "0.4.2",
+  description: "Replicate event on firestore",
+  version: "0.4.3",
   type: "action",
   props: {
     firebase_admin_sdk: {
@@ -55,16 +56,16 @@ export default {
           updatedAt: (new Date().toISOString()),
         },
       }))
-      .then(function() {
+      .then(function () {
         updates.push("Updated successfully");
-        app.delete().then(function() {
+        app.delete().then(function () {
           updates.push("App deleted successfully");
         })
-          .catch(function(error) {
+          .catch(function (error) {
             updates.push("Error deleting app:", error);
           });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         updates.push("Error writing:", error);
       });
 
