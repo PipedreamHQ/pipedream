@@ -3,7 +3,6 @@ import {
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "@pipedream/platform";
 import common from "./base.mjs";
-import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
@@ -19,19 +18,8 @@ export default {
       },
     },
   },
-  hooks: {
-    async deploy() {},
-    async activate() {},
-    async deactivate() {},
-  },
   methods: {
     ...common.methods,
-    setLastCreatedAt(value) {
-      this.db.set(constants.LAST_CREATED_AT, value);
-    },
-    getLastCreatedAt() {
-      return this.db.get(constants.LAST_CREATED_AT);
-    },
     getResourceName() {
       throw new ConfigurationError("getResourceName is not implemented");
     },
@@ -41,22 +29,17 @@ export default {
     getResourceFnArgs() {
       throw new ConfigurationError("getResourceFnArgs is not implemented");
     },
+    resourceIsRelevant() {
+      return true;
+    },
     processEvent(resource) {
       const meta = this.generateMeta(resource);
       this.$emit(resource, meta);
     },
     async processStreamEvents(resourcesStream) {
       const resources = await utils.streamIterator(resourcesStream);
-
-      const [
-        lastResource,
-      ] = resources;
-
-      if (lastResource?.created_at) {
-        this.setLastCreatedAt(lastResource.created_at);
-      }
-
-      resources.reverse().forEach(this.processEvent);
+      resources.filter(this.resourceIsRelevant).reverse()
+        .forEach(this.processEvent);
     },
   },
   async run() {

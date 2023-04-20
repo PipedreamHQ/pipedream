@@ -11,19 +11,29 @@ export default {
   methods: {
     ...common.methods,
     getResourceName() {
-      return "resource";
+      return "data";
     },
     getResourceFn() {
-      return this.app.listResources;
+      return this.app.listSources;
     },
     getResourceFnArgs() {
       return {};
     },
+    resourceIsRelevant(resource) {
+      const isRelevant = resource.attributes?.status === "ready";
+      if (!isRelevant) {
+        console.log(`Skipping asset ${resource.id} because it is not ready`);
+        console.log(JSON.stringify(resource, null, 2));
+      }
+      return isRelevant;
+    },
     generateMeta(resource) {
+      const { source } = resource.attributes || {};
+      const filename = source?.split("/").pop();
       return {
         id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        summary: `New Asset: ${filename}`,
+        ts: Date.parse(resource.created),
       };
     },
   },

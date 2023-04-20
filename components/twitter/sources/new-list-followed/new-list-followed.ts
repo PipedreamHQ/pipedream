@@ -2,7 +2,6 @@ import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getListSummary as getItemSummary } from "../common/getItemSummary";
-import { listFieldProps } from "../../common/propGroups";
 import { List } from "../../common/types/responseSchemas";
 import { getListFields } from "../../common/methods";
 import { GetUserFollowedListsParams } from "../../common/types/requestParams";
@@ -16,7 +15,7 @@ export default defineSource({
   key: "twitter-new-list-followed",
   name: "New List Followed by User",
   description: `Emit new event when the specified User follows a List [See docs here](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.1.2",
   type: "source",
   props: {
     ...common.props,
@@ -26,7 +25,6 @@ export default defineSource({
         "userNameOrId",
       ],
     },
-    ...listFieldProps,
   },
   methods: {
     ...common.methods,
@@ -36,18 +34,15 @@ export default defineSource({
     getEntityName() {
       return "List Followed";
     },
-    async getResources(customize: boolean): Promise<List[]> {
+    async getResources(maxResults?: number): Promise<List[]> {
       const userId = await this.getCachedUserId();
       const params: GetUserFollowedListsParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: MAX_RESULTS_PER_PAGE,
+        maxResults: maxResults ?? MAX_RESULTS_PER_PAGE,
+        params: this.getListFields(),
         userId,
       };
-
-      if (customize) {
-        params.params = this.getListFields();
-      }
 
       const { data } = await this.app.getUserFollowedLists(params);
       return data;

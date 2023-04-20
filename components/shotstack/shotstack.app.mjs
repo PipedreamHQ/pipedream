@@ -5,10 +5,10 @@ export default {
   type: "app",
   app: "shotstack",
   propDefinitions: {
-    commonProperty: {
+    callback: {
       type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
+      label: "Callback URL",
+      description: "An optional webhook callback URL used to receive status notifications when a render completes or fails.",
     },
   },
   methods: {
@@ -22,6 +22,9 @@ export default {
       return url || `${this.getBaseUrl(apiPath)}${path}`;
     },
     getHeaders(headers) {
+      if (headers === false) {
+        return;
+      }
       return {
         "Content-Type": "application/json",
         "x-api-key": this.$auth.api_key,
@@ -48,67 +51,30 @@ export default {
         ...args,
       });
     },
-    update(args = {}) {
+    listSources(args = {}) {
       return this.makeRequest({
-        method: "put",
-        ...args,
-      });
-    },
-    delete(args = {}) {
-      return this.makeRequest({
-        method: "delete",
-        ...args,
-      });
-    },
-    patch(args = {}) {
-      return this.makeRequest({
-        method: "patch",
+        apiPath: constants.API.INGEST.path,
+        path: "/sources",
         ...args,
       });
     },
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,
-      resourceName,
-      lastCreatedAt,
-      max = constants.DEFAULT_MAX,
+      resourceName = "data",
     }) {
-      let page = 1;
-      let resourcesCount = 0;
 
-      while (true) {
-        const response =
-          await resourceFn({
-            ...resourceFnArgs,
-            params: {
-              ...resourceFnArgs.params,
-              page,
-            },
-          });
+      const response = await resourceFn(resourceFnArgs);
 
-        const nextResources = resourceName && response[resourceName] || response;
+      const nextResources = resourceName && response[resourceName] || response;
 
-        if (!nextResources?.length) {
-          console.log("No more resources found");
-          return;
-        }
+      if (!nextResources?.length) {
+        console.log("No more resources found");
+        return;
+      }
 
-        for (const resource of nextResources) {
-          const dateFilter =
-            lastCreatedAt
-            && Date.parse(resource.created_at) > Date.parse(lastCreatedAt);
-
-          if (!lastCreatedAt || dateFilter) {
-            yield resource;
-            resourcesCount += 1;
-          }
-
-          if (resourcesCount >= max) {
-            return;
-          }
-        }
-
-        page += 1;
+      for (const resource of nextResources) {
+        yield resource;
       }
     },
   },
