@@ -5,6 +5,11 @@ export default {
   type: "app",
   app: "data_police_uk",
   propDefinitions: {
+    date: {
+      type: "string",
+      label: "Date",
+      description: "(YYYY-MM) Limit results to a specific month. The latest month will be shown by default",
+    },
     forceId: {
       type: "string",
       label: "Forces",
@@ -19,6 +24,21 @@ export default {
           value,
         }));
       },
+    },
+    lat: {
+      type: "string",
+      label: "Latitude",
+      description: "Latitude of the requested crime area. You must use either lat/lng or poly, never both.",
+    },
+    lng: {
+      type: "string",
+      label: "Longitude",
+      description: "Longitude of the requested crime area. You must use either lat/lng or poly, never both.",
+    },
+    poly: {
+      type: "string",
+      label: "Poly",
+      description: "The lat/lng pairs which define the boundary of the custom area. The `poly` parameter is formatted in lat/lng pairs, separated by colons: `[lat],[lng]:[lat],[lng]:[lat],[lng]`.  You must use either lat/lng or poly, never both.",
     },
     specificCrimeId: {
       type: "string",
