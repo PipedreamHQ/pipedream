@@ -12,7 +12,7 @@ export default {
     },
   },
   methods: {
-    getBaseUrl(apiPath = constants.API.EDIT.path) {
+    getBaseUrl(apiPath = constants.API.EDIT) {
       const baseUrl = `${constants.BASE_URL}${apiPath}`;
       return baseUrl.replace(constants.VERSION_PLACEHOLDER, this.$auth.version);
     },
@@ -53,7 +53,7 @@ export default {
     },
     listSources(args = {}) {
       return this.makeRequest({
-        apiPath: constants.API.INGEST.path,
+        apiPath: constants.API.INGEST,
         path: "/sources",
         ...args,
       });

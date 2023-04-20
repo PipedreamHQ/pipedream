@@ -26,7 +26,7 @@ export default {
   methods: {
     uploadAsset(args = {}) {
       return this.app.post({
-        apiPath: constants.API.INGEST.path,
+        apiPath: constants.API.INGEST,
         path: "/sources",
         ...args,
       });

@@ -2,18 +2,9 @@ const BASE_URL = "https://api.shotstack.io";
 const VERSION_PLACEHOLDER = "{version}";
 
 const API = {
-  EDIT: {
-    key: "EditApi",
-    path: `/edit/${VERSION_PLACEHOLDER}`,
-  },
-  SERVE: {
-    key: "ServeApi",
-    path: `/serve/${VERSION_PLACEHOLDER}`,
-  },
-  INGEST: {
-    key: "IngestApi",
-    path: `/ingest/${VERSION_PLACEHOLDER}`,
-  },
+  EDIT: `/edit/${VERSION_PLACEHOLDER}`,
+  SERVE: `/serve/${VERSION_PLACEHOLDER}`,
+  INGEST: `/ingest/${VERSION_PLACEHOLDER}`,
 };
 
 const SEP = "_";
