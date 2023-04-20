@@ -512,7 +512,7 @@ importers:
 
   components/browserless:
     specifiers:
-      '@pipedream/platform': ^1.4.0
+      '@pipedream/platform': ^1.4.1
       puppeteer-core: ^19.7.5
     dependencies:
       '@pipedream/platform': 1.5.1
