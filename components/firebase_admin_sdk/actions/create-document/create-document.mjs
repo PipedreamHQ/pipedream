@@ -26,7 +26,7 @@ export default {
     },
     customId: {
       label: "Custom ID",
-      description: "Set this custom ID to the created document",
+      description: "Set this custom ID for the created document",
       type: "string",
       optional: true,
     },
