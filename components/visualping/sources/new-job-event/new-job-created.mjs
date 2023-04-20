@@ -17,10 +17,19 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    workspaceId: {
+      propDefinition: [
+        visualping,
+        "workspaceId",
+      ],
+    },
     jobId: {
       propDefinition: [
         visualping,
         "jobId",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
     },
   },
@@ -35,6 +44,7 @@ export default {
   },
   async run() {
     const { history: events } = await this.visualping.getJob({
+      workspaceId: this.workspaceId,
       jobId: this.jobId,
     });
 

@@ -8,8 +8,11 @@ export default {
       label: "Job ID",
       description: "The job ID",
       type: "string",
-      async options({ page }) {
+      async options({
+        workspaceId, page,
+      }) {
         const { jobs } = await this.getJobs({
+          workspaceId,
           params: {
             pageIndex: page,
             pageSize: 10,
@@ -19,6 +22,19 @@ export default {
         return jobs.map((job) => ({
           value: job.id,
           label: job.url,
+        }));
+      },
+    },
+    workspaceId: {
+      label: "Workspace ID",
+      description: "The workspace ID",
+      type: "string",
+      async options() {
+        const { workspaces } = await this.getWorkspaces();
+
+        return workspaces.map((workspace) => ({
+          value: workspace.id,
+          label: workspace.name,
         }));
       },
     },
@@ -41,34 +57,32 @@ export default {
         ...args,
       });
     },
-    async getCurrentUser(args = {}) {
+    async getWorkspaces(args = {}) {
       return this._makeRequest({
         url: "https://account.api.visualping.io/describe-user",
         ...args,
       });
     },
-    async getJobs(args = {}) {
-      const { organisation: { id } } = await this.getCurrentUser();
-
+    async getJobs({
+      workspaceId, ...args
+    }) {
       return this._makeRequest({
         path: "/v2/jobs",
         ...args,
         params: {
-          organisationId: id,
+          workspaceId,
           ...args.params,
         },
       });
     },
     async getJob({
-      jobId, ...args
+      workspaceId, jobId, ...args
     }) {
-      const { organisation: { id } } = await this.getCurrentUser();
-
       return this._makeRequest({
         path: `/v2/jobs/${jobId}`,
         ...args,
         params: {
-          organisationId: id,
+          workspaceId,
           ...args.params,
         },
       });

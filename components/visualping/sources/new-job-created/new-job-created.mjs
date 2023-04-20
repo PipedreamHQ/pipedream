@@ -17,6 +17,12 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    workspaceId: {
+      propDefinition: [
+        visualping,
+        "workspaceId",
+      ],
+    },
   },
   methods: {
     emitEvent(data) {
@@ -35,17 +41,6 @@ export default {
       return this.db.get("lastResourceId");
     },
   },
-  hooks: {
-    async deploy() {
-      const { jobs } = await this.visualping.getJobs({
-        params: {
-          pageSize: 10,
-        },
-      });
-
-      jobs.reverse().forEach(this.emitEvent);
-    },
-  },
   async run() {
     const lastResourceId = this._getLastResourceId();
 
@@ -53,6 +48,7 @@ export default {
 
     while (page >= 0) {
       const { jobs } = await this.visualping.getJobs({
+        workspaceId: this.workspaceId,
         params: {
           pageIndex: page,
           pageSize: 100,
