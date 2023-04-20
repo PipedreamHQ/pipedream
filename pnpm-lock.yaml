@@ -1572,8 +1572,10 @@ importers:
 
   components/google_analytics:
     specifiers:
+      '@googleapis/analyticsreporting': ^1.0.0
       '@pipedream/platform': ^1.2.0
     dependencies:
+      '@googleapis/analyticsreporting': 1.0.0
       '@pipedream/platform': 1.5.1
 
   components/google_appsheet:
@@ -8660,6 +8662,16 @@ packages:
       - supports-color
     dev: false
 
+  /@googleapis/analyticsreporting/1.0.0:
+    resolution: {integrity: sha512-D3cZrGmzZDyhh5V4aZd0TJ1XuYlEE87BGshCMlSNwo+I21See83XMtbyh+9m6x5GOnVNR5u50MgBzJKxc1XWMA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      googleapis-common: 6.0.4
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@googleapis/calendar/1.0.4:
     resolution: {integrity: sha512-rom4S/+k386GWF+hTswiOhw9Imglv1N4Jz2cmsb8sEg3TzNZn0xxg58XwMBy4lDKjs/dl9acB4En2/De5ayRNQ==}
     engines: {node: '>=10.0.0'}
@@ -8751,7 +8763,7 @@ packages:
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.6
-      '@types/node': 18.15.11
+      '@types/node': 17.0.45
     dev: false
     optional: true
 
@@ -11468,7 +11480,7 @@ packages:
   /@types/express-serve-static-core/4.17.33:
     resolution: {integrity: sha512-TPBqmR/HRYI3eC2E5hmiivIzv+bidAfXofM+sbonAGvyDhySGw9/PQZFt2BLOrjUUR++4eJVpx6KnLQK1Fk9tA==}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 17.0.45
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -11493,7 +11505,7 @@ packages:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.15.11
+      '@types/node': 17.0.45
     dev: false
 
   /@types/glob/8.1.0:
@@ -11696,7 +11708,7 @@ packages:
     resolution: {integrity: sha512-NUo5XNiAdULrJENtJXZZ3fHtfMolzZwczzBbnAeBbqBwG+LaG6YaJtuwzwGSQZ2wsCrxjEhNNjAkKigy3n8teQ==}
     dependencies:
       '@types/mime': 3.0.1
-      '@types/node': 18.15.11
+      '@types/node': 17.0.45
     dev: false
 
   /@types/source-map/0.5.7:
@@ -21225,7 +21237,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 18.15.11
+      '@types/node': 17.0.45
       long: 4.0.0
     dev: false
     optional: true
