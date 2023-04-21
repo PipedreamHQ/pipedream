@@ -4,14 +4,14 @@ export default {
   key: "google_analytics-run-report-in-ga4",
   version: "0.0.1",
   name: "Run Report in GA4",
-  description: "Returns a customized report of your Google Analytics event data. Reports contain statistics derived from data collected by the Google Analytics tracking code. [See the documentation here](https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/runReport)"
+  description: "Returns a customized report of your Google Analytics event data. Reports contain statistics derived from data collected by the Google Analytics tracking code. [See the documentation here](https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/runReport)",
   type: "action",
   props: {
     analytics,
     property: {
       type: "string",
       label: "Property",
-      description: "A Google Analytics GA4 property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, [see where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). Within a batch request, this property should either be unspecified or consistent with the batch-level property."
+      description: "A Google Analytics GA4 property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, [see where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). Within a batch request, this property should either be unspecified or consistent with the batch-level property.",
     },
     startDate: {
       type: "string",
@@ -26,12 +26,12 @@ export default {
     metrics: {
       type: "string[]",
       label: "Metrics",
-      description: "Metrics attributes for your data. Explore the available metrics and dimensions [here](https://ga-dev-tools.web.app/dimensions-metrics-explorer/)"
+      description: "Metrics attributes for your data. Explore the available metrics [here](https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#metrics)",
     },
     dimensions: {
       type: "string[]",
       label: "Dimensions",
-      description: "Dimension attributes for your data. Explore the available metrics and dimensions [here](https://ga-dev-tools.web.app/dimensions-metrics-explorer/)"
+      description: "Dimension attributes for your data. Explore the available dimensions [here](https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#dimensions)",
       optional: true,
     },
   },

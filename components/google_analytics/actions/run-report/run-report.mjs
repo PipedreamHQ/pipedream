@@ -27,12 +27,12 @@ export default {
     metrics: {
       type: "string[]",
       label: "Metrics",
-      description: "Metrics attributes for your data. Explore the available metrics and dimensions [here](https://ga-dev-tools.web.app/dimensions-metrics-explorer/)"
+      description: "Metrics attributes for your data. Explore the available metrics and dimensions [here](https://ga-dev-tools.web.app/dimensions-metrics-explorer/)",
     },
     dimensions: {
       type: "string[]",
       label: "Dimensions",
-      description: "Dimension attributes for your data. Explore the available metrics and dimensions [here](https://ga-dev-tools.web.app/dimensions-metrics-explorer/)"
+      description: "Dimension attributes for your data. Explore the available metrics and dimensions [here](https://ga-dev-tools.web.app/dimensions-metrics-explorer/)",
       optional: true,
     },
   },
