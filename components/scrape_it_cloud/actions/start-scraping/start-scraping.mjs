@@ -84,7 +84,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Succcessfully started scraping for ${url}`);
+    step.export("$summary", `Successfully scraped ${url}.`);
 
     return response;
   },
