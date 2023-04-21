@@ -13,7 +13,7 @@ export default {
     domainId: {
       type: "string",
       label: "Domain ID",
-      description: "The id of a verified domain",
+      description: "The id of a verified domain.",
       async options({ prevContext }) {
         const page = (prevContext?.nextPage || 0);
         const { body: response } = await this.listDomains({
@@ -33,7 +33,7 @@ export default {
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The id of an email template, must select the domain first.",
+      description: "The id of an email template.",
       async options({ domainId }) {
         if (!domainId) {
           return [];
@@ -46,6 +46,38 @@ export default {
           value: item.id,
         }));
       },
+    },
+    fromEmail: {
+      type: "string",
+      label: "From Email",
+      description: "The 'From' email address used to deliver the message. This address should be a verified sender in your MailerSend account.",
+    },
+    fromName: {
+      type: "string",
+      label: "From Name",
+      description: "A name or title associated with the sending email address.",
+    },
+    toEmail: {
+      type: "string",
+      label: "To Email",
+      description: "The intended recipient's email address.",
+    },
+    toName: {
+      type: "string",
+      label: "To Name",
+      description: "The intended recipient's name.",
+      optional: true,
+    },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "The email subject.",
+    },
+    substitutions: {
+      type: "object",
+      label: "Variables Substitutions",
+      description: "Dynamic variables that should be replaced on the email. e.g: `{ \"company\": \"MailerSend\" }`.",
+      optional: true,
     },
   },
   methods: {
@@ -73,7 +105,7 @@ export default {
         },
       });
     },
-    sendEmail({
+    async sendEmail({
       fromEmail,
       fromName,
       toEmail,
@@ -82,8 +114,8 @@ export default {
       subject,
       text,
       html,
+      variables,
     }) {
-
       const sentFrom = new Sender(fromEmail, fromName);
 
       const recipients = [
@@ -93,19 +125,30 @@ export default {
       let emailParams = new EmailParams()
         .setFrom(sentFrom)
         .setTo(recipients)
-        .setReplyTo(sentFrom);
+        .setReplyTo(sentFrom)
+        .setSubject(subject);
+
+      console.log(variables);
+      if (variables && variables.length) {
+        emailParams = emailParams.setVariables(variables);
+      }
 
       if (templateId) {
         emailParams = emailParams
           .setTemplateId(templateId);
       } else {
         emailParams = emailParams
-          .setSubject(subject)
           .setHtml(html)
           .setText(text);
       }
 
-      return this.getClient().email.send(emailParams);
+      try {
+        console.log(emailParams);
+        const response = await this.getClient().email.send(emailParams);
+        return response;
+      } catch (ex) {
+        throw new Error(ex?.body?.message || JSON.stringify(ex));
+      }
     },
     createWebhook({
       url,
@@ -123,6 +166,23 @@ export default {
     },
     deleteWebhook({ webhookId }) {
       return this.getClient().email.webhook.delete(webhookId);
+    },
+    parseVariables(toEmail, substitutions) {
+      const variablesMap = [];
+      if (substitutions && Object.keys(substitutions).length) {
+        const substitutionsMapped = [];
+        for (const key of Object.keys(substitutions)) {
+          substitutionsMapped.push({
+            var: key,
+            value: substitutions[key],
+          });
+        }
+        variablesMap.push({
+          email: toEmail,
+          substitutions: substitutionsMapped,
+        });
+      }
+      return variablesMap;
     },
   },
 };

@@ -1,9 +1,9 @@
 import app from "../../mailersend.app.mjs";
 
 export default {
-  key: "mailersend-send-email-with-template",
-  name: "Send an Email",
-  description: "This action sends a personalized e-mail to the specified recipient. [See the documentation](https://developers.mailersend.com/api/v1/email.html#send-an-email)",
+  key: "mailersend-send-email-from-template",
+  name: "Send Email From Template",
+  description: "This action sends a personalized e-mail to the specified recipient using templates. [See the documentation](https://developers.mailersend.com/api/v1/email.html#send-an-email)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -38,15 +38,20 @@ export default {
         "subject",
       ],
     },
-    text: {
-      type: "string",
-      label: "Text",
-      description: "Email represented in a text (text/plain) format.",
+    domainId: {
+      propDefinition: [
+        app,
+        "domainId",
+      ],
     },
-    html: {
-      type: "string",
-      label: "HTML",
-      description: "Email represented in HTML (text/html) format, you can add variables such as `{$company}` to be replaced.",
+    templateId: {
+      propDefinition: [
+        app,
+        "templateId",
+        ({ domainId }) => ({
+          domainId,
+        }),
+      ],
     },
     substitutions: {
       propDefinition: [
@@ -62,8 +67,7 @@ export default {
       toEmail,
       toName,
       subject,
-      text,
-      html,
+      templateId,
       substitutions,
     } = this;
 
@@ -75,8 +79,7 @@ export default {
       toEmail,
       toName,
       subject,
-      text,
-      html,
+      templateId,
       variables,
     });
     $.export("$summary", `Email successfully sent to ${toEmail}`);
