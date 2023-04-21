@@ -427,7 +427,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/big_data_cloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/bigml:
     specifiers:
