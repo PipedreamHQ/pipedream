@@ -128,7 +128,6 @@ export default {
         .setReplyTo(sentFrom)
         .setSubject(subject);
 
-      console.log(variables);
       if (variables && variables.length) {
         emailParams = emailParams.setVariables(variables);
       }
@@ -143,7 +142,6 @@ export default {
       }
 
       try {
-        console.log(emailParams);
         const response = await this.getClient().email.send(emailParams);
         return response;
       } catch (ex) {
