@@ -43,7 +43,7 @@ Once the Pipedream team integrates the app, we'll create a directory for the app
 
 :::
 
-## Process
+## Contributing Process
 
 Anyone from the community can build [sources](/sources/) and [actions](/components#actions) for integrated apps..
 
@@ -52,19 +52,20 @@ To submit new components or update existing components:
 1. Fork the public [Pipedream Registry Github Repository](https://github.com/pipedreamhq/pipedream).
 2. Create a new component within the corresponding app's directory within the `components` directory (if applicable).
 3. [Create a PR for the Pipedream team to review](https://github.com/PipedreamHQ/pipedream/compare).
-4. Address any feedback provided by Pipedream based on the best practice [Component Guidelines & Patterns](/apps/guidelines/).
+4. Address any feedback provided by Pipedream based on the best practice [Component Guidelines & Patterns](/components/guidelines/).
 5. Once the review is complete and approved, Pipedream will merge the PR to the `master` branch
 6. The component will be available for use within workflows for all Pipedream developers! :tada:
 
-### Component Development Questions? 
+### Component Development Discussion
 
 Join the discussion with other Pipedream component developers at the [#contribute channel](https://pipedream-users.slack.com/archives/C01E5KCTR16) in Slack or [on Discourse](https://pipedream.com/community/c/dev/11).
 
-### What should I build?
+:::tip Not sure what to build?
 
-Check out [sources](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BSOURCE%5D+in%3Atitle)
+Need inspiration? Check out [sources](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BSOURCE%5D+in%3Atitle)
 and [actions](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BACTION%5D+in%3Atitle+) requested by the community!
 
+:::
 
 ## Reference Components
 
