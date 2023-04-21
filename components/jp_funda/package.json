@@ -1,14 +1,14 @@
 {
-  "name": "@pipedream/danny_test_app",
+  "name": "@pipedream/jp_funda",
   "version": "0.0.1",
-  "description": "Pipedream Danny -- Test App Components",
-  "main": "dist/app/danny_test_app.app.mjs",
+  "description": "Pipedream JP Funda Components",
+  "main": "dist/app/jp_funda.app.mjs",
   "keywords": [
     "pipedream",
-    "danny_test_app"
+    "jp_funda"
   ],
   "files": ["dist"],
-  "homepage": "https://pipedream.com/apps/danny_test_app",
+  "homepage": "https://pipedream.com/apps/jp_funda",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {

@@ -7,9 +7,9 @@ const docsLink = "https://developers.drata.com/docs/openapi/reference/operation/
 export default {
   key: "drata-new-personnel-added",
   name: "New Personnel Added",
-  description: `Emit new event for every new personnel. [See docs here](${docsLink}).`,
+  description: `Emit a new event for every new personnel. [See the documentation](${docsLink}).`,
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     drata,
