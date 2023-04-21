@@ -7,7 +7,7 @@ export default {
   key: "whatsapp_business-send-text-using-template",
   name: "Send Text Using Template",
   description: `Send a text message using a pre-defined template. Variables can be sent only as text. [See the docs.](${docLink})`,
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     whatsapp,
@@ -113,7 +113,7 @@ export default {
     }
 
     const bodyParameters = Object.keys(this)
-      .filter((key) => key.match(regex) && key !== "header_{{1}}")
+      .filter((key) => key.match(regex) && key !== "header_{{1}}" && key !== "button_{{1}}")
       .map((key) => ({
         type: "text",
         text: this[key],
