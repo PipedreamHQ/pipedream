@@ -72,8 +72,6 @@ const docsNav = [
   {
     title: 'Integrations',
     type: "group", 
-    collapsable: false,
-    sidebarDepth: 2,
     children: [
       "/apps/",
       "/apps/contributing/",
