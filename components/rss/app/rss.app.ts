@@ -48,7 +48,8 @@ export default defineApp({
       } = item;
       const itemId = id ?? guid ?? link ?? title;
       if (itemId) {
-        return itemId;
+        // reduce itemId length for deduping
+        return itemId.length > 64 ? itemId.slice(-64) : itemId;
       }
       return hash(item);
     },
