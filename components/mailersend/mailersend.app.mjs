@@ -15,7 +15,7 @@ export default {
       label: "Domain ID",
       description: "The id of a verified domain.",
       async options({ prevContext }) {
-        const page = (prevContext?.nextPage || 0);
+        const page = prevContext?.nextPage || 0;
         const { body: response } = await this.listDomains({
           page,
         });

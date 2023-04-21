@@ -17,7 +17,7 @@ export default {
       return {
         id: data.id,
         summary: `${data.type}: ${data.email.subject}`.replace(/(^\w)/g, (m) => m.toUpperCase()),
-        ts: +Date.parse(data.created_at),
+        ts: Date.parse(data.created_at),
       };
     },
     emitEvent(data) {
