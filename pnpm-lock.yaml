@@ -1575,8 +1575,10 @@ importers:
 
   components/google_analytics:
     specifiers:
+      '@googleapis/analyticsreporting': ^1.0.0
       '@pipedream/platform': ^1.2.0
     dependencies:
+      '@googleapis/analyticsreporting': 1.0.0
       '@pipedream/platform': 1.5.1
 
   components/google_appsheet:
@@ -8661,6 +8663,16 @@ packages:
     engines: {node: '>=10.0.0'}
     dependencies:
       googleapis-common: 5.1.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@googleapis/analyticsreporting/1.0.0:
+    resolution: {integrity: sha512-D3cZrGmzZDyhh5V4aZd0TJ1XuYlEE87BGshCMlSNwo+I21See83XMtbyh+9m6x5GOnVNR5u50MgBzJKxc1XWMA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      googleapis-common: 6.0.4
     transitivePeerDependencies:
       - encoding
       - supports-color
