@@ -20,8 +20,8 @@ export default {
     getHookName() {
       throw new Error("Hook name not defined for this source");
     },
-    getHookType() {
-      throw new Error("Hook type not defined for this source");
+    getHookTypes() {
+      throw new Error("Hook types not defined for this source");
     },
     getSummary() {
       throw new Error("Summary not defined for this source");
@@ -32,11 +32,13 @@ export default {
       const data = {
         name: `Pipedream event source (${this.getHookName()})`,
         payload: PAYLOAD_ARRAY,
-        triggers: this.getHookType(),
+        triggers: this.getHookTypes(),
         url: this.http.endpoint,
       };
 
-      const { uuid } = await this.app.createHook(data);
+      const { uuid } = await this.app.createHook({
+        data,
+      });
       this.db.set("hookId", uuid);
     },
     async deactivate() {
@@ -44,12 +46,15 @@ export default {
       await this.app.deleteHook(id);
     },
   },
-  async run(data) {
-    const summary = this.getSummary(data);
-    this.$emit(data, {
-      id: "test" + new Date().valueOf(),
-      summary,
-      ts: new Date().valueOf(),
+  async run({ body }) {
+    body?.forEach?.(({ data }) => {
+      const summary = this.getSummary(data);
+      const { id } = data;
+      this.$emit(data, {
+        id,
+        summary,
+        ts: new Date().valueOf(),
+      });
     });
   },
 };

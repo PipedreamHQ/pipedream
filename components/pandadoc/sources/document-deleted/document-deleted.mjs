@@ -1,4 +1,4 @@
-import common from "../common";
+import common from "../common.mjs";
 
 const DOCS_LINK = "https://developers.pandadoc.com/reference/create-webhooks-subscription";
 
@@ -15,11 +15,13 @@ export default {
     getHookName() {
       return "Document Deleted";
     },
-    getHookType() {
-      return "document_deleted";
+    getHookTypes() {
+      return [
+        "document_deleted",
+      ];
     },
-    getSummary() {
-      return "summary";
+    getSummary({ name }) {
+      return `Document Deleted: ${name}`;
     },
   },
 };
