@@ -1805,6 +1805,9 @@
     },
     {
       "path": "components/snatchbot"
+    },
+    {
+      "path": "components/google_safebrowsing"
     }
   ]
 }
