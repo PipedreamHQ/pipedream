@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "big_data_cloud",
+  app: "jp_funda",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
