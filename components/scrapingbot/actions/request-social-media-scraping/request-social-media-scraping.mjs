@@ -3,9 +3,9 @@ import { ConfigurationError } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
 
 export default {
-  key: "scrapingbot-scrape-social-media",
-  name: "Scrape Social Media",
-  description: "Use ScrapingBot API to extract specific data from a social media site. [See the documentation](https://www.scraping-bot.io/web-scraping-documentation/)",
+  key: "scrapingbot-request-social-media-scraping",
+  name: "Request Social Media Scraping",
+  description: "Use ScrapingBot API to initiate scraping data from a social media site. [See the documentation](https://www.scraping-bot.io/web-scraping-documentation/)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -42,13 +42,6 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    sleep(ms) {
-      return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-      });
-    },
-  },
   async run({ $ }) {
     const {
       scraper,
@@ -74,7 +67,7 @@ export default {
       throw new ConfigurationError(`Hashtag is required for scraper ${scraper}`);
     }
 
-    const { responseId } = await this.scrapingbot.scrapeSocialMedia({
+    const response = await this.scrapingbot.scrapeSocialMedia({
       data: {
         scraper,
         url,
@@ -85,24 +78,8 @@ export default {
       $,
     });
 
-    const params = {
-      scraper,
-      responseId,
-    };
-    let response;
-    do {
-    // checking for response data every 5s or more, there is no need to check more often
-    // as scraping data from social media is quite longer than normal scraping, and
-    // ScrapingBot limits how often you can do those checks
-      await this.sleep(5000);
-      response = await this.scrapingbot.getDataScraperResponse({
-        params,
-        $,
-      });
-    } while (response == null || response.status === "pending");
-
-    if (response) {
-      $.export("$summary", "Successfully scraped social media site.");
+    if (response.responseId) {
+      $.export("$summary", `Successfully initiated scraping with responseId ${response.responseId}. Scraping Job may take a few minutes to complete.`);
     }
     return response;
   },

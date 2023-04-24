@@ -74,7 +74,7 @@ export default {
       $ = this,
       path,
       ...args
-    }) {
+    }) { console.log(args);
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         auth: this._getAuth(),
