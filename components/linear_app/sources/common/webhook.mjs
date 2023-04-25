@@ -1,7 +1,6 @@
 import linearApp from "../../linear_app.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
-const getAdditionalIssueInformation = utils.getAdditionalIssueInformation;
 
 export default {
   props: {
@@ -24,7 +23,6 @@ export default {
     db: "$.service.db",
   },
   methods: {
-    getAdditionalIssueInformation,
     setWebhookId(teamId, id) {
       this.db.set(`webhook-${teamId}`, id);
     },
@@ -38,6 +36,9 @@ export default {
       return !this.projectId || body?.data?.projectId == this.projectId;
     },
     isRelevant() {
+      return true;
+    },
+    useGraphQl() {
       return true;
     },
     getResourceTypes() {
@@ -66,12 +67,9 @@ export default {
       const stream = this.linearApp.paginateResources({
         resourcesFn: this.getResourcesFn(),
         resourcesFnArgs: this.getResourcesFnArgs(),
+        useGraphQl: this.useGraphQl(),
       });
-      let resources = await utils.streamIterator(stream);
-
-      if (this.getResourceTypes().includes(constants.RESOURCE_TYPE.ISSUE)) {
-        resources = await this.getAdditionalIssueInformation(resources);
-      }
+      const resources = await utils.streamIterator(stream);
 
       resources
         .reverse()
@@ -80,7 +78,10 @@ export default {
         });
     },
     async activate() {
-      for (const teamId of this.teamIds) {
+      const teamIds = this.teamIds || [
+        this.teamId,
+      ];
+      for (const teamId of teamIds) {
         const { _webhook: webhook } =
           await this.linearApp.createWebhook({
             teamId,
@@ -92,7 +93,10 @@ export default {
       }
     },
     async deactivate() {
-      for (const teamId of this.teamIds) {
+      const teamIds = this.teamIds || [
+        this.teamId,
+      ];
+      for (const teamId of teamIds) {
         const webhookId = this.getWebhookId(teamId);
         if (webhookId) {
           await this.linearApp.deleteWebhook(webhookId);
@@ -119,7 +123,7 @@ export default {
       return;
     }
 
-    if (!this.isFromProject(body) || !this.isRelevant(body)) {
+    if (!(await this.isFromProject(body)) || !this.isRelevant(body)) {
       return;
     }
 

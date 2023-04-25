@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/snatchbot",
+  "version": "0.0.1",
+  "description": "Pipedream SnatchBot Components",
+  "main": "dist/app/snatchbot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "snatchbot"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/snatchbot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

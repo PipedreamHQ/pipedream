@@ -1763,6 +1763,57 @@
     },
     {
       "path": "components/shotstack"
+    },
+    {
+      "path": "components/eodhd_apis"
+    },
+    {
+      "path": "components/selectpdf"
+    },
+    {
+      "path": "components/nasdaq_data_link_time_series_and_table_data_"
+    },
+    {
+      "path": "components/mailwizz"
+    },
+    {
+      "path": "components/jp_funda"
+    },
+    {
+      "path": "components/leap"
+    },
+    {
+      "path": "components/metatext_ai_inference_api"
+    },
+    {
+      "path": "components/metatext_ai_pre_build_ai_models_api"
+    },
+    {
+      "path": "components/klazify"
+    },
+    {
+      "path": "components/ipbase"
+    },
+    {
+      "path": "components/lettria"
+    },
+    {
+      "path": "components/tisane_labs"
+    },
+    {
+      "path": "components/codeq_natural_language_processing_api"
+    },
+    {
+      "path": "components/snatchbot"
+    },
+    {
+      "path": "components/google_safebrowsing"
+    },
+    {
+      "path": "components/textgain"
+    },
+    {
+      "path": "components/intellexer_api"
     }
   ]
 }

@@ -7,7 +7,7 @@ export default {
   key: "whatsapp_business-send-text-using-template",
   name: "Send Text Using Template",
   description: `Send a text message using a pre-defined template. Variables can be sent only as text. [See the docs.](${docLink})`,
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     whatsapp,
@@ -49,6 +49,20 @@ export default {
         continue;
       }
 
+      if (component.type === "BUTTONS") {
+        for (const button of component.buttons) {
+          if (button.type === "URL" && button.url.match(regex)) {
+            // only 1 dynamic url button possible
+            props["button_{{1}}"] = {
+              type: "string",
+              label: button.text,
+              description: `Dynamic URL: **${button.url}** Enter the dynamic text only.`,
+            };
+            continue;
+          }
+        }
+      }
+
       const matches = component.text?.match(regex);
       for (const match of matches ?? []) {
         props[match] = {
@@ -82,8 +96,24 @@ export default {
       });
     }
 
+    const buttonParameters = Object.keys(this)
+      .filter((key) => key.includes("button_"))
+      .map((key) => ({
+        type: "text",
+        text: this[key],
+      }));
+
+    if (buttonParameters.length) {
+      components.push({
+        type: "button",
+        sub_type: "url",
+        index: 0,
+        parameters: buttonParameters,
+      });
+    }
+
     const bodyParameters = Object.keys(this)
-      .filter((key) => key.match(regex) && key !== "header_{{1}}")
+      .filter((key) => key.match(regex) && key !== "header_{{1}}" && key !== "button_{{1}}")
       .map((key) => ({
         type: "text",
         text: this[key],
