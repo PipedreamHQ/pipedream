@@ -512,7 +512,7 @@ importers:
 
   components/browserless:
     specifiers:
-      '@pipedream/platform': ^1.4.0
+      '@pipedream/platform': ^1.4.1
       puppeteer-core: ^19.7.5
     dependencies:
       '@pipedream/platform': 1.5.1
@@ -2273,6 +2273,14 @@ importers:
       lodash.pickby: 4.6.0
       mailerlite-api-v2-node: 1.2.0
 
+  components/mailersend:
+    specifiers:
+      crypto: ^1.0.1
+      mailersend: ^2.0.5
+    dependencies:
+      crypto: 1.0.1
+      mailersend: 2.0.5
+
   components/mailgun:
     specifiers:
       '@pipedream/helper_functions': ^0.3.7
@@ -3326,7 +3334,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/recreation_gov:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/recurly:
     specifiers:
@@ -3565,7 +3576,10 @@ importers:
     specifiers: {}
 
   components/scrape_it_cloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/scrapeninja:
     specifiers: {}
@@ -19117,6 +19131,17 @@ packages:
       snakecase-keys: 5.4.5
     transitivePeerDependencies:
       - debug
+    dev: false
+
+  /mailersend/2.0.5:
+    resolution: {integrity: sha512-oQ80hbiOn4KMaFEX2XIc0espdVZxq2tX8fGRhJHt5DasbXubQyPceV2Cn+Jh4Ofi8QNaaKejqwU5Ob4LYrBnEQ==}
+    dependencies:
+      gaxios: 5.1.0
+      isomorphic-unfetch: 3.1.0
+      qs: 6.11.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /mailgun.js/3.7.3:

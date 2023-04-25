@@ -1808,6 +1808,12 @@
     },
     {
       "path": "components/google_safebrowsing"
+    },
+    {
+      "path": "components/textgain"
+    },
+    {
+      "path": "components/intellexer_api"
     }
   ]
 }
