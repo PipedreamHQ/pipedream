@@ -2270,6 +2270,14 @@ importers:
       lodash.pickby: 4.6.0
       mailerlite-api-v2-node: 1.2.0
 
+  components/mailersend:
+    specifiers:
+      crypto: ^1.0.1
+      mailersend: ^2.0.5
+    dependencies:
+      crypto: 1.0.1
+      mailersend: 2.0.5
+
   components/mailgun:
     specifiers:
       '@pipedream/helper_functions': ^0.3.7
@@ -19117,6 +19125,17 @@ packages:
       snakecase-keys: 5.4.5
     transitivePeerDependencies:
       - debug
+    dev: false
+
+  /mailersend/2.0.5:
+    resolution: {integrity: sha512-oQ80hbiOn4KMaFEX2XIc0espdVZxq2tX8fGRhJHt5DasbXubQyPceV2Cn+Jh4Ofi8QNaaKejqwU5Ob4LYrBnEQ==}
+    dependencies:
+      gaxios: 5.1.0
+      isomorphic-unfetch: 3.1.0
+      qs: 6.11.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /mailgun.js/3.7.3:
