@@ -2,12 +2,11 @@
   "name": "@pipedream/lettria",
   "version": "0.0.1",
   "description": "Pipedream Lettria Components",
-  "main": "dist/app/lettria.app.mjs",
+  "main": "lettria.app.mjs",
   "keywords": [
     "pipedream",
     "lettria"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/lettria",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
