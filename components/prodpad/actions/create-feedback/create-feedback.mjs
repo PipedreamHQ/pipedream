@@ -5,7 +5,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "prodpad-create-feedback",
   name: "Create Feedback",
-  description: "Creates feedback. [See the documentation](https://app.swaggerhub.com/apis-docs/ProdPad/prodpad/1.0#/Feedback/PostFeedbacks)."
+  description: "Creates feedback. [See the documentation](https://app.swaggerhub.com/apis-docs/ProdPad/prodpad/1.0#/Feedback/PostFeedbacks).",
   type: "action",
   version: "0.0.2",
   props: {
@@ -17,7 +17,7 @@ export default {
       ],
     },
     contactId: {
-      description: "The ID of the contact providing the feedback. Either `Contact ID` or `Contact Name` is required."
+      description: "The ID of the contact providing the feedback. Either `Contact ID` or `Contact Name` is required.",
       optional: true,
       propDefinition: [
         app,
@@ -26,7 +26,7 @@ export default {
     },
     contactName: {
       label: "Contact Name",
-      description: "The name of the contact. Either `Contact ID` or `Contact Name` is required."
+      description: "The name of the contact. Either `Contact ID` or `Contact Name` is required.",
       optional: true,
       propDefinition: [
         app,
@@ -34,7 +34,7 @@ export default {
       ],
     },
     contactEmail: {
-      description: "The email of the contact. It is also used to avoid duplication of contacts and can only be filled in with `Contact Name`."
+      description: "The email of the contact. It is also used to avoid duplication of contacts and can only be filled in with `Contact Name`.",
       optional: true,
       propDefinition: [
         app,
@@ -43,7 +43,7 @@ export default {
     },
     company: {
       label: "Company",
-      description: "The ID of the company to link the contact to. It can only be filled in with `Contact Name`."
+      description: "The ID of the company to link the contact to. It can only be filled in with `Contact Name`.",
       optional: true,
       propDefinition: [
         app,
@@ -99,10 +99,10 @@ export default {
 
     if (!contactName) {
       if (contactEmail) {
-        throw new ConfigurationError("`Contact Email` can only be provided with `Contact Name`.");
+        throw new ConfigurationError("`Contact Email` can only be provided when using `Contact Name`.");
       }
       if (company) {
-        throw new ConfigurationError("`Company` can only be provided with `Contact Name`.");
+        throw new ConfigurationError("`Company` can only be provided when using `Contact Name`.");
       }
     }
 
