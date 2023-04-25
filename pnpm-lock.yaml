@@ -1682,6 +1682,9 @@ importers:
     devDependencies:
       '@pipedream/types': 0.1.6
 
+  components/google_safebrowsing:
+    specifiers: {}
+
   components/google_sheets:
     specifiers:
       '@googleapis/sheets': ^0.3.0
@@ -1938,6 +1941,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/instagram_business:
+    specifiers: {}
+
+  components/intellexer_api:
     specifiers: {}
 
   components/intercom:
@@ -4248,6 +4254,9 @@ importers:
       moment: 2.29.4
 
   components/tettra:
+    specifiers: {}
+
+  components/textgain:
     specifiers: {}
 
   components/textit:
