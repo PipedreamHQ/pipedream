@@ -3323,7 +3323,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/recreation_gov:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/recurly:
     specifiers:
