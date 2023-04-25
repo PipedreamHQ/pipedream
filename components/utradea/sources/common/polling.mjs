@@ -3,8 +3,8 @@ import {
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "@pipedream/platform";
 import common from "./base.mjs";
-import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -21,20 +21,23 @@ export default {
   },
   methods: {
     ...common.methods,
-    setLastCreatedAt(value) {
-      this.db.set(constants.LAST_CREATED_AT, value);
+    setLastEndTimestamp(value) {
+      this.db.set(constants.LAST_END_TS, value);
     },
-    getLastCreatedAt() {
-      return this.db.get(constants.LAST_CREATED_AT);
-    },
-    getResourceName() {
-      throw new ConfigurationError("getResourceName is not implemented");
+    getLastEndTimestamp() {
+      return this.db.get(constants.LAST_END_TS);
     },
     getResourceFn() {
       throw new ConfigurationError("getResourceFn is not implemented");
     },
     getResourceFnArgs() {
       throw new ConfigurationError("getResourceFnArgs is not implemented");
+    },
+    compareFn() {
+      return;
+    },
+    processLastResource() {
+      return;
     },
     processEvent(resource) {
       const meta = this.generateMeta(resource);
@@ -43,22 +46,21 @@ export default {
     async processStreamEvents(resourcesStream) {
       const resources = await utils.streamIterator(resourcesStream);
 
+      const resourcesSorted = Array.from(resources).sort(this.compareFn);
+
       const [
         lastResource,
-      ] = resources;
+      ] = resourcesSorted;
 
-      if (lastResource?.created_at) {
-        this.setLastCreatedAt(lastResource.created_at);
-      }
+      this.processLastResource(lastResource);
 
-      resources.reverse().forEach(this.processEvent);
+      resourcesSorted.reverse().forEach(this.processEvent);
     },
   },
   async run() {
     const resourcesStream = this.app.getResourcesStream({
       resourceFn: this.getResourceFn(),
       resourceFnArgs: this.getResourceFnArgs(),
-      resourceName: this.getResourceName(),
     });
 
     await this.processStreamEvents(resourcesStream);

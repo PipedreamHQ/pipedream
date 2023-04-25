@@ -57,6 +57,18 @@ export default {
         ...headers,
       };
     },
+    listSocialNotifications(args = {}) {
+      return this.makeRequest({
+        path: "/get-social-notifications",
+        ...args,
+      });
+    },
+    listContent(args = {}) {
+      return this.makeRequest({
+        path: "/get-content",
+        ...args,
+      });
+    },
     makeRequest({
       step = this, path, headers, url, ...args
     } = {}) {
@@ -68,6 +80,21 @@ export default {
       };
 
       return axios(step, config);
+    },
+    async *getResourcesStream({
+      resourceFn,
+      resourceFnArgs,
+    }) {
+      const nextResources = await resourceFn(resourceFnArgs);
+
+      if (!nextResources?.length) {
+        console.log("No more resources found");
+        return;
+      }
+
+      for (const resource of nextResources) {
+        yield resource;
+      }
     },
   },
 };

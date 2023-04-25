@@ -1943,6 +1943,9 @@ importers:
   components/instagram_business:
     specifiers: {}
 
+  components/intellexer_api:
+    specifiers: {}
+
   components/intercom:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4259,6 +4262,9 @@ importers:
       moment: 2.29.4
 
   components/tettra:
+    specifiers: {}
+
+  components/textgain:
     specifiers: {}
 
   components/textit:

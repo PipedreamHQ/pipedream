@@ -1,7 +1,6 @@
 const BASE_URL = "http://cloud.utradea.com";
 const VERSION_PATH = "/v1";
-const LAST_CREATED_AT = "lastCreatedAt";
-const DEFAULT_MAX = 600;
+const LAST_END_TS = "lastEndTs";
 
 const TIMEFRAME = {
   ["15m"]: {
@@ -63,8 +62,7 @@ const SENTIMENT = {
 export default {
   BASE_URL,
   VERSION_PATH,
-  DEFAULT_MAX,
-  LAST_CREATED_AT,
+  LAST_END_TS,
   TIMEFRAME,
   SOCIAL_MEDIA,
   SENTIMENT,
