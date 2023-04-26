@@ -2,7 +2,7 @@ import analytics from "../../google_analytics.app.mjs";
 
 export default {
   key: "google_analytics-run-report",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Run Report",
   description: "Return report metrics based on a start and end date. [See the docs here](https://developers.google.com/analytics/devguides/reporting/core/v4/rest?hl=en)",
   type: "action",
@@ -27,12 +27,12 @@ export default {
     metrics: {
       type: "string[]",
       label: "Metrics",
-      description: "Dimension attributes for your data. Explore the availabe metrics and dimensions [here](https://ga-dev-tools.web.app/dimensions-metrics-explorer/)",
+      description: "Metrics attributes for your data. Explore the available metrics and dimensions [here](https://ga-dev-tools.web.app/dimensions-metrics-explorer/)",
     },
     dimensions: {
       type: "string[]",
       label: "Dimensions",
-      description: "Dimension attributes for your data. Explore the availabe metrics and dimensions [here](https://ga-dev-tools.web.app/dimensions-metrics-explorer/)",
+      description: "Dimension attributes for your data. Explore the available metrics and dimensions [here](https://ga-dev-tools.web.app/dimensions-metrics-explorer/)",
       optional: true,
     },
   },
