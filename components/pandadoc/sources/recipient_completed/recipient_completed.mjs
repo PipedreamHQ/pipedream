@@ -20,8 +20,5 @@ export default {
         "recipient_completed",
       ];
     },
-    getSummary({ name }) {
-      return `Recipient Completed: ${name}`;
-    },
   },
 };

@@ -20,8 +20,5 @@ export default {
         "document_state_changed",
       ];
     },
-    getSummary({ name }) {
-      return `Document State Changed: ${name}`;
-    },
   },
 };

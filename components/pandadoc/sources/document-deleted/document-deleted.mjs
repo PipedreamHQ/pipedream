@@ -20,8 +20,5 @@ export default {
         "document_deleted",
       ];
     },
-    getSummary({ name }) {
-      return `Document Deleted: ${name}`;
-    },
   },
 };

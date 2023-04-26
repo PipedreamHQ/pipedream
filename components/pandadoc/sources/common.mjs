@@ -23,8 +23,8 @@ export default {
     getHookTypes() {
       throw new Error("Hook types not defined for this source");
     },
-    getSummary() {
-      throw new Error("Summary not defined for this source");
+    getSummary({ name }) {
+      return `Recipient Completed: ${name}`;
     },
   },
   hooks: {

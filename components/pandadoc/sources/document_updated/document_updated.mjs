@@ -20,8 +20,5 @@ export default {
         "document_updated",
       ];
     },
-    getSummary({ name }) {
-      return `Document Updated: ${name}`;
-    },
   },
 };

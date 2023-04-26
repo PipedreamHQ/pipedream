@@ -20,8 +20,5 @@ export default {
         "document_creation_failed",
       ];
     },
-    getSummary({ name }) {
-      return `Document Creation Failed: ${name}`;
-    },
   },
 };
