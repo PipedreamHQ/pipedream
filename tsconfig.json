@@ -1814,6 +1814,9 @@
     },
     {
       "path": "components/intellexer_api"
+    },
+    {
+      "path": "components/stannp"
     }
   ]
 }
