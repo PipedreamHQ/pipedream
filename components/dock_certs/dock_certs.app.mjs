@@ -13,7 +13,7 @@ export default {
         return this.getPropOptions({
           prevContext,
           resourceFn: this.listProfiles,
-          keys: {
+          keyNames: {
             label: "name",
             value: "did",
           },
@@ -29,7 +29,7 @@ export default {
         return this.getPropOptions({
           prevContext,
           resourceFn: this.listTemplates,
-          keys: {
+          keyNames: {
             label: "name",
             value: "id",
           },
@@ -44,7 +44,7 @@ export default {
         return this.getPropOptions({
           prevContext,
           resourceFn: this.listSchemas,
-          key: "name",
+          keyName: "name",
         });
       },
     },
@@ -58,14 +58,14 @@ export default {
         const data = {
           prevContext,
           resourceFn: this.listCredentials,
-          keys: {
+          keyNamess: {
             label: "subjectRef",
             value: "id",
           },
         };
         if (isRevoked !== null) {
           data.filter = {
-            key: "revoked",
+            keyName: "revoked",
             value: isRevoked,
           };
         }
@@ -80,7 +80,7 @@ export default {
         return this.getPropOptions({
           prevContext,
           resourceFn: this.listRegistries,
-          key: "id",
+          keyName: "id",
         });
       },
     },
@@ -106,7 +106,7 @@ export default {
       });
     },
     async getPropOptions({
-      prevContext, resourceFn, key, keys, filter,
+      prevContext, resourceFn, keyName, keyNames, filter,
     }) {
       const limit = DEFAULT_PAGE_LIMIT;
       const offset = prevContext?.offset || 0;
@@ -117,13 +117,13 @@ export default {
         },
       });
       if (filter) {
-        results = results.filter((result) => result[filter.key] === filter.value);
+        results = results.filter((result) => result[filter.keyName] === filter.value);
       }
-      const options = key
-        ? results?.map((result) => result[key])
+      const options = keyName
+        ? results?.map((result) => result[keyName])
         : results?.map((result) => ({
-          label: result[keys.label],
-          value: result[keys.value],
+          label: result[keyNames.label],
+          value: result[keyNames.value],
         })) || [];
       return {
         options,
