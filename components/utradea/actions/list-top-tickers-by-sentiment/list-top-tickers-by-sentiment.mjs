@@ -6,7 +6,7 @@ export default {
   name: "List Top Tickers By Sentiment",
   description: "Search for top 50 trending bullish/bearish stocks/crypto symbols on Twitter/StockTwits. [See the documentation here](https://utradea.com/api-docs#top-tickers-by-sentiment-115).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     sentiment: {
@@ -52,7 +52,7 @@ export default {
       sentiment, ...args
     } = {}) {
       return this.app.makeRequest({
-        path: `/get-sentiment-tranding/${sentiment}`,
+        path: `/get-sentiment-trending/${sentiment}`,
         ...args,
       });
     },
