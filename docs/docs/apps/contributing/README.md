@@ -43,7 +43,7 @@ Once the Pipedream team integrates the app, we'll create a directory for the app
 
 :::
 
-## Contributing Process
+## Contribution Process
 
 Anyone from the community can build [sources](/sources/) and [actions](/components#actions) for integrated apps..
 

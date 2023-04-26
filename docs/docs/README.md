@@ -51,7 +51,7 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 
 ## Source-available
 
-Pipedream maintains a [source-available component registry](https://github.com/pipedreamhq/pipedream/) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR to contribute new components](/apps/contributing/#process) via GitHub.
+Pipedream maintains a [source-available component registry](https://github.com/pipedreamhq/pipedream/) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR to contribute new components](/apps/contributing/#contribution-process) via GitHub.
 
 ## Contributing
 
