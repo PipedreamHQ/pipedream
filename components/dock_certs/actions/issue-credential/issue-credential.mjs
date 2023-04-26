@@ -2,9 +2,9 @@ import dockCerts from "../../dock_certs.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "dock_certs-issue-certificate",
-  name: "Issue Certificate",
-  description: "Issue a new certificate to a specified user. [See the documentation](https://docs.api.dock.io/#credentials)",
+  key: "dock_certs-issue-credential",
+  name: "Issue Credential",
+  description: "Issue a new credential. [See the documentation](https://docs.api.dock.io/#credentials)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -41,19 +41,6 @@ export default {
         "templateDesign",
       ],
     },
-    algorithm: {
-      type: "string",
-      label: "Algorithm",
-      description: "Specifies which signing algorithm to use to sign the issued credential. Defaults to `ed25519`.",
-      options: [
-        "ed25519",
-        "secp256k1",
-        "sr25519",
-        "dockbbs+",
-      ],
-      default: "ed25519",
-      optional: true,
-    },
     type: {
       propDefinition: [
         dockCerts,
@@ -65,6 +52,20 @@ export default {
       label: "Credential Subject",
       description: "A unique identifier of the recipient. Example: DID, Email Address, National ID Number, Employee ID, Student ID, etc.",
     },
+    status: {
+      propDefinition: [
+        dockCerts,
+        "registry",
+      ],
+      description: "Identifier of the credential's revocation registry",
+      optional: true,
+    },
+    expirationDate: {
+      type: "string",
+      label: "Expiration Date",
+      description: "The date and time in GMT that the credential expired is specified in RFC 3339 format. The default value of the expirationDate will be empty if the user does not provide it.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     if (this.persist && !this.password) {
@@ -72,12 +73,10 @@ export default {
     }
 
     const data = {
-      issuer: this.issuerProfile,
       anchor: this.anchor,
       persist: this.persist,
       password: this.password,
       template: this.template,
-      algorithm: this.algorithm,
       credential: {
         type: [
           this.type,
@@ -85,6 +84,9 @@ export default {
         subject: {
           id: this.subject,
         },
+        status: this.status,
+        issuer: this.issuerProfile,
+        expirationDate: this.expirationDate,
       },
     };
 
@@ -94,7 +96,7 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully issued certificate with ID ${response.id}`);
+      $.export("$summary", `Successfully issued credential with ID ${response.id}.`);
     }
 
     return response;
