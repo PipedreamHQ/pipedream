@@ -133,7 +133,7 @@ export default {
       };
     },
     async paginate({
-      resourceFn, args = {}, maxResults = 100,
+      resourceFn, args = {}, maxResults = 1000,
     }) {
       const limit = DEFAULT_PAGE_LIMIT;
       let offset = 0;
