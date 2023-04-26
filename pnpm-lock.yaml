@@ -1063,7 +1063,10 @@ importers:
     specifiers: {}
 
   components/dock_certs:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/docraptor:
     specifiers: {}
@@ -4031,6 +4034,9 @@ importers:
       axios: 0.21.4
       he: 1.2.0
       lodash: 4.17.21
+
+  components/stannp:
+    specifiers: {}
 
   components/status_hero:
     specifiers:
