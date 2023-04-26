@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/scrape_it_cloud",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Scrape-It.Cloud Components",
-  "main": "dist/app/scrape_it_cloud.app.mjs",
+  "main": "scrape_it_cloud.app.mjs",
   "keywords": [
     "pipedream",
     "scrape_it_cloud"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/scrape_it_cloud",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
   "publishConfig": {
     "access": "public"
   }

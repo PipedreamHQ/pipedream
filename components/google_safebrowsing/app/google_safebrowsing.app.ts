@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "scrape_it_cloud",
+  app: "google_safebrowsing",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
