@@ -7,7 +7,7 @@ export default {
   name: "Document State Changed (Instant)",
   description:
     `Emit new event when a document's state is changed [See docs here](${DOCS_LINK})`,
-  key: "pandadoc-document-state-changed",
+  key: "pandadoc-document-state-changed-instant",
   version: "0.0.1",
   type: "source",
   methods: {

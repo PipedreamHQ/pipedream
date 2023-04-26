@@ -7,7 +7,7 @@ export default {
   name: "Document Updated (Instant)",
   description:
     `Emit new event when a document is updated [See docs here](${DOCS_LINK})`,
-  key: "pandadoc-document-updated",
+  key: "pandadoc-document-updated-instant",
   version: "0.0.1",
   type: "source",
   methods: {
