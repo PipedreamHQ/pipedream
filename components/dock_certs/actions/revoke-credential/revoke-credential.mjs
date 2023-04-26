@@ -2,7 +2,7 @@ import dockCerts from "../../dock_certs.app.mjs";
 
 export default {
   key: "dock_certs-revoke-credential",
-  name: "Revoke Credentail",
+  name: "Revoke Credential",
   description: "Revoke an existing credential. [See the documentation](https://docs.api.dock.io/#revoke-unrevoke-credential)",
   version: "0.0.1",
   type: "action",
