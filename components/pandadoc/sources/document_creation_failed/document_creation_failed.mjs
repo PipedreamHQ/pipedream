@@ -4,24 +4,24 @@ const DOCS_LINK = "https://developers.pandadoc.com/reference/create-webhooks-sub
 
 export default {
   ...common,
-  name: "Document Deleted (Instant)",
+  name: "Document Creation Failed (Instant)",
   description:
-    `Emit new event when a document is deleted [See docs here](${DOCS_LINK})`,
-  key: "pandadoc-document-deleted",
+    `Emit new event when a document failed to be created [See docs here](${DOCS_LINK})`,
+  key: "pandadoc-document-creation-failed",
   version: "0.0.1",
   type: "source",
   methods: {
     ...common.methods,
     getHookName() {
-      return "Document Deleted";
+      return "Document Creation Failed";
     },
     getHookTypes() {
       return [
-        "document_deleted",
+        "document_creation_failed",
       ];
     },
     getSummary({ name }) {
-      return `Document Deleted: ${name}`;
+      return `Document Creation Failed: ${name}`;
     },
   },
 };

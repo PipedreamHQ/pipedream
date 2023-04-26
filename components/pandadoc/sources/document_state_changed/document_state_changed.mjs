@@ -4,24 +4,24 @@ const DOCS_LINK = "https://developers.pandadoc.com/reference/create-webhooks-sub
 
 export default {
   ...common,
-  name: "Document Deleted (Instant)",
+  name: "Document State Changed (Instant)",
   description:
-    `Emit new event when a document is deleted [See docs here](${DOCS_LINK})`,
-  key: "pandadoc-document-deleted",
+    `Emit new event when a document's state is changed [See docs here](${DOCS_LINK})`,
+  key: "pandadoc-document-state-changed",
   version: "0.0.1",
   type: "source",
   methods: {
     ...common.methods,
     getHookName() {
-      return "Document Deleted";
+      return "Document State Changed";
     },
     getHookTypes() {
       return [
-        "document_deleted",
+        "document_state_changed",
       ];
     },
     getSummary({ name }) {
-      return `Document Deleted: ${name}`;
+      return `Document State Changed: ${name}`;
     },
   },
 };
