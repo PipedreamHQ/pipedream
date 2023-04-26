@@ -58,7 +58,7 @@ export default {
         const data = {
           prevContext,
           resourceFn: this.listCredentials,
-          keyNamess: {
+          keyNames: {
             label: "subjectRef",
             value: "id",
           },
