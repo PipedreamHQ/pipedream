@@ -16,7 +16,7 @@ export const PERIODS = [
 
 export const TYPES = [
   "stock",
-  "ETF",
+  "etf",
   "fund",
   "bond",
   "index",

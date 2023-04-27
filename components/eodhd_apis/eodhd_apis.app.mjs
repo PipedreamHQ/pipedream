@@ -99,6 +99,9 @@ export default {
     listTickers(exchangeCode) {
       return this._makeRequest({
         path: `exchange-symbol-list/${exchangeCode}`,
+        params: {
+          fmt: "json",
+        },
       });
     },
     getCompanyFinantials({
