@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  ConfigurationError, axios,
+} from "@pipedream/platform";
 import { clearObj } from "./common/utils.mjs";
 
 export default {
@@ -50,6 +52,15 @@ export default {
         lng,
         poly,
       }) {
+
+        if (!lat && !lng && !poly)
+          throw new ConfigurationError("It is necessary to fill in at least one type of localization, lat/lng or poly");
+
+        const reg = new RegExp(/^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$/);
+
+        if (!reg.exec(lat) || !reg.exec(lng))
+          throw new ConfigurationError("Invalid lat/lng value");
+
         const data = await this.listStreetLevelCrimes({
           params: clearObj({
             date,

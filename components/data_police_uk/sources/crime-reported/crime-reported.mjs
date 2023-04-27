@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import moment from "moment";
 import common from "../common/base.mjs";
 
@@ -18,18 +19,36 @@ export default {
 
       const {
         dataPoliceUK,
-        ...params
+        date,
+        lat,
+        lng,
+        poly,
       } = this;
 
+      if (!lat && !lng && !poly)
+        throw new ConfigurationError("It is necessary to use at least one type of localization, lat/lng or poly");
+
+      const reg = new RegExp(/^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$/);
+
+      if (!reg.exec(lat) || !reg.exec(lng))
+        throw new ConfigurationError("Invalid lat/lng value");
+
       const crimes = await dataPoliceUK.listCrimes({
-        params,
+        params: {
+          date: date
+            ? `${date.split("-")[0]}-${date.split("-")[1]}`
+            : null,
+          lat,
+          lng,
+          poly,
+        },
       });
 
       crimes.sort((a, b) => {
         return a.id - b.id;
       });
 
-      if (maxResults && (crimes.length > maxResults) ) {
+      if (maxResults && (crimes.length > maxResults)) {
         crimes.length = maxResults;
       }
 
