@@ -7,7 +7,7 @@ export default {
   name: "Document Creation Failed (Instant)",
   description:
     `Emit new event when a document failed to be created [See docs here](${DOCS_LINK})`,
-  key: "pandadoc-document-creation-failed-instant",
+  key: "pandadoc-document-creation-failed",
   version: "0.0.1",
   type: "source",
   methods: {
