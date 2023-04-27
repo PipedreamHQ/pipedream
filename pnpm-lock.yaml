@@ -1673,6 +1673,9 @@ importers:
   components/google_forms:
     specifiers: {}
 
+  components/google_maps_platform:
+    specifiers: {}
+
   components/google_recaptcha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -3555,6 +3558,9 @@ importers:
     specifiers: {}
 
   components/samcart:
+    specifiers: {}
+
+  components/sapling_ai:
     specifiers: {}
 
   components/saucelabs:
