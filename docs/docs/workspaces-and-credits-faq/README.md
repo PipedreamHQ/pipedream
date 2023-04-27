@@ -10,7 +10,7 @@ We've renamed organizations to [workspaces](/workspaces), which is more consiste
 
 ## Invocations are now credits
 
-Pipedream previously charged for invocations (number of workflow executions), but not on compute time (how long your executions run). We've combined these into a single metric: [credits](/pricing/#credits). All paid workspaces now have a default credit limit of 50,000 credits per month, an increase of 30,000 credits a month from the Team plan.
+Pipedream previously charged for invocations (number of workflow executions), but not on compute time (how long your executions run). We've combined these into a single metric: [credits](/pricing/#credits). Your workspace now have a default credit limit of 50,000 credits per month, an increase of 30,000 credits a month from the Team plan.
 
 ## Source invocations are now free
 
@@ -24,7 +24,7 @@ As a part of this rollout, we've released new paid plans, and are automatically 
 
 You have access to everything on the Team plan, including:
 
-- 50,000 invocations per month, 30,000 more than the Team plan
+- 50,000 credits per month, 30,000 more than the Team plan
 - Support for annual plans at 33% off the monthly price — you can change to an annual plan after we convert your org to a workspace
 - 5 team members by default, $50 / user / month for extra users ($30 for annual plans)
 - [Auto-retry](/workflows/settings/#error-reruns) on workflow errors
