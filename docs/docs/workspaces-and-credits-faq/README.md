@@ -44,4 +44,4 @@ We developed our old pricing when we first launched organizations, and had limit
 - Data stores, concurrency and execution controls, and automatic retry for failed executions.
 - We'll be launching a GitHub integration, extended event history, warm workers, looping and branching, and much more this year.
 
-Our goal is to build a product that our customers feel is wildly underpriced for ther value we are providing, and we are working every day to make that happen. If there are areas in which our product isn’t delivering, please reach out anytime at `support@pipedream.com`.
+Our goal is to build a product that our customers feel is wildly underpriced for the value we are providing, and we are working every day to make that happen. If there are areas in which our product isn’t delivering, please reach out anytime at `support@pipedream.com`.
