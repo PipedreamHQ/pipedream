@@ -10,7 +10,7 @@ We've renamed organizations to [workspaces](/workspaces), which is more consiste
 
 ## Invocations are now credits
 
-Pipedream previously charged for invocations (number of workflow executions), but not on compute time (how long your executions run). We've combined these into a single metric: [credits](/pricing/#credits). Your workspace now have a default credit limit of 50,000 credits per month, an increase of 30,000 credits a month from the Team plan.
+Pipedream previously charged for invocations (number of workflow executions), but not on compute time (how long your executions run). We've combined these into a single metric: [credits](/pricing/#credits). Your workspace now has a default credit limit of 50,000 credits per month, an increase of 30,000 credits a month from the Team plan.
 
 ## Source invocations are now free
 
