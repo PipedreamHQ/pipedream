@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/jotform",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Jotform Components",
-  "main": "jotform.app.js",
+  "main": "jotform.app.mjs",
   "keywords": [
     "pipedream",
     "jotform"
@@ -10,8 +10,8 @@
   "homepage": "https://pipedream.com/apps/jotform",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "axios": "^0.21.1",
-    "query-string": "^7.1.1"
+    "@pipedream/platform": "^1.5.1",
+    "query-string": "^8.1.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
