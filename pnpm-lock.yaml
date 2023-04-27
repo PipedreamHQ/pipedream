@@ -4032,6 +4032,9 @@ importers:
       he: 1.2.0
       lodash: 4.17.21
 
+  components/stannp:
+    specifiers: {}
+
   components/status_hero:
     specifiers:
       '@pipedream/platform': ^0.10.0
