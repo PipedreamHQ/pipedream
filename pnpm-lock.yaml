@@ -1947,7 +1947,10 @@ importers:
     specifiers: {}
 
   components/intellexer_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/intercom:
     specifiers:
