@@ -1,17 +1,18 @@
 {
   "name": "@pipedream/scrapingbot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream ScrapingBot Components",
-  "main": "dist/app/scrapingbot.app.mjs",
+  "main": "scrapingbot.app.mjs",
   "keywords": [
     "pipedream",
     "scrapingbot"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/scrapingbot",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
   }
 }

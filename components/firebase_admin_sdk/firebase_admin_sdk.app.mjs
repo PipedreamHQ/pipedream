@@ -206,9 +206,12 @@ export default {
       }
       return this.getFirestore().getAll(...documentRefs);
     },
-    async createDocument(collection, data) {
+    async createDocument(collection, data, customId) {
       const collectionRef = this.getCollection(collection);
-      return collectionRef.add(data);
+
+      return customId ?
+        collectionRef.doc(customId).set(data) :
+        collectionRef.add(data);
     },
     async updateDocument(collection, document, data) {
       const doc = this.getDocument({
