@@ -6,7 +6,7 @@ We're excited to announce a new set of foundational changes and features! In sho
 
 ## Orgs are now workspaces
 
-We've renamed organizations to [workspaces](/workspaces), which is more consistent with the language other products use. Anywhere you used to see references to “organizations”, you'll now see “workspaces”.
+We've renamed organizations to [workspaces](/workspaces), which is more consistent with the language other products use. Anywhere you used to see references to "organizations", you'll now see "workspaces".
 
 ## Invocations are now credits
 
