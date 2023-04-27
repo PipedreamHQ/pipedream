@@ -1820,6 +1820,9 @@
     },
     {
       "path": "components/sapling_ai"
+    },
+    {
+      "path": "components/google_maps_platform"
     }
   ]
 }
