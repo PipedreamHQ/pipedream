@@ -1,6 +1,6 @@
 # Workspaces, Credits, and Other New Features for Pipedream Orgs
 
-We're excited to announce a new set of foundational changes and features! In short — orgs are now [workspaces](/workspaces), invocations are now [credits](/pricing/#credits), and you have access to a new features: [free source invocations](/pricing/#source-credit-usage), unlimited team members, and more.
+We're excited to announce a new set of foundational changes and features! In short — orgs are now [workspaces](/workspaces), invocations are now [credits](/pricing/#credits), and you have access to new features: [free source invocations](/pricing/#source-credit-usage), unlimited team members, and more.
 
 [[toc]]
 
