@@ -41,7 +41,7 @@ You can modify a workflow's steps an unlimited times per day, but the computing 
 
 This limit does not affect deployed workflows, only when using the **Test** functionality on individual steps while in the workflow builder.
 
-[Upgrading to any Paid plan](https://pipedream.com/pricing) will remove this restriction and grant unlimited testing compute time.
+[Upgrade to any paid plan](https://pipedream.com/pricing) to remove this restriction and get unlimited testing compute time.
 
 ### Free Tier Polling Interval Limitations
 
