@@ -1676,6 +1676,9 @@ importers:
   components/google_forms:
     specifiers: {}
 
+  components/google_maps_platform:
+    specifiers: {}
+
   components/google_recaptcha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2324,7 +2327,10 @@ importers:
     specifiers: {}
 
   components/mailwizz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/maintainx:
     specifiers:
@@ -2727,6 +2733,12 @@ importers:
 
   components/oksign:
     specifiers: {}
+
+  components/omniconvert:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/omnisend:
     specifiers: {}
@@ -3558,6 +3570,9 @@ importers:
     specifiers: {}
 
   components/samcart:
+    specifiers: {}
+
+  components/sapling_ai:
     specifiers: {}
 
   components/saucelabs:

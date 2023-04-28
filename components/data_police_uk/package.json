@@ -1,16 +1,14 @@
 {
   "name": "@pipedream/data_police_uk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Data.Police.UK Components",
-  "main": "dist/app/data_police_uk.app.mjs",
+  "main": "data_police_uk.app.mjs",
   "keywords": [
     "pipedream",
     "data_police_uk"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/data_police_uk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }
