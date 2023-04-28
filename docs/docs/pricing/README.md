@@ -33,7 +33,7 @@ Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the numb
 
 #### Compute time limits
 
-Additionally Free accounts have a limit on compute time for processing test events in the workflow builder.
+Additionally, free accounts have a limit on compute time for processing test events in the workflow builder.
 
 This limit resets daily, but it does limit the amount of testing possible in a day.
 
