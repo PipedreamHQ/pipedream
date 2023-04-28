@@ -37,7 +37,7 @@ Additionally, free accounts have a limit on compute time for processing test eve
 
 This limit resets daily, but it limits the amount of testing possible in a day.
 
-You can modify a workflow's steps an unlimited times per day, but the computing time to test workflows or individual steps is subject to this limit.
+You can modify a workflow's steps an unlimited number of times per day, but the computing time to test workflows or individual steps is subject to this limit.
 
 This limit does not affect deployed workflows, only when using the **Test** functionality on individual steps while in the workflow builder.
 
