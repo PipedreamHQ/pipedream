@@ -145,3 +145,12 @@ Credit Budgets are configurable limits on your credit usage at the account or wo
 If you're receiving this warning on a source or workflow, this means your allocated Credit Budget has been reached for the defined period.
 
 You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).
+
+
+### Compute Time Limit Exceeded
+
+The Compute Time Limit only applies to **Free** accounts. 
+
+The Compute TimeLimit restricts the amount of testing within the workflow builder, and the limit is refreshed every day.
+
+For more information, please refer to the [Free Tier limits](/pricing#free-tier).
