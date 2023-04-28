@@ -147,7 +147,7 @@ If you're receiving this warning on a source or workflow, this means your alloca
 You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).
 
 
-### Compute Time Limit Exceeded
+### Compute time limit exceeded
 
 The Compute Time Limit only applies to **Free** accounts. 
 
