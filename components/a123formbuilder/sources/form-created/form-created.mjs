@@ -6,7 +6,7 @@ export default {
   name: "Form Created",
   description: "Emit new event for every created form",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...base.methods,
