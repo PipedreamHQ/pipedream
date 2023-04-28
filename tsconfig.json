@@ -1823,6 +1823,9 @@
     },
     {
       "path": "components/google_maps_platform"
+    },
+    {
+      "path": "components/dayschedule"
     }
   ]
 }
