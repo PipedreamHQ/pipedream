@@ -35,7 +35,7 @@ Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the numb
 
 Additionally, free accounts have a limit on compute time for processing test events in the workflow builder.
 
-This limit resets daily, but it does limit the amount of testing possible in a day.
+This limit resets daily, but it limits the amount of testing possible in a day.
 
 You can modify a workflow's steps an unlimited times per day, but the computing time to test workflows or individual steps is subject to this limit.
 
