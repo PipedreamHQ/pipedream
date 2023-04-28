@@ -1,0 +1,50 @@
+import app from "../../sapling_ai.app.mjs";
+
+export default {
+  key: "sapling_ai-request-completion",
+  name: "Request Completion",
+  description: "Provides predictions of the next few characters or words given the current context in a particular editable. The predictions are based on the previous text. [See the documentation here](https://sapling.ai/docs/api/autocomplete#request-completion-post).",
+  type: "action",
+  version: "0.0.1",
+  props: {
+    app,
+    sessionId: {
+      propDefinition: [
+        app,
+        "sessionId",
+      ],
+    },
+    query: {
+      propDefinition: [
+        app,
+        "query",
+      ],
+    },
+  },
+  methods: {
+    requestCompletion(args = {}) {
+      return this.app.post({
+        path: "/complete",
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const {
+      sessionId,
+      query,
+    } = this;
+
+    const response = await this.requestCompletion({
+      step,
+      data: {
+        session_id: sessionId,
+        query,
+      },
+    });
+
+    step.export("$summary", `Successfully requested completion with hash ${response.hash}.`);
+
+    return response;
+  },
+};
