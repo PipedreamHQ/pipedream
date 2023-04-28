@@ -2324,7 +2324,10 @@ importers:
     specifiers: {}
 
   components/mailwizz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/maintainx:
     specifiers:
@@ -2727,6 +2730,12 @@ importers:
 
   components/oksign:
     specifiers: {}
+
+  components/omniconvert:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/omnisend:
     specifiers: {}
