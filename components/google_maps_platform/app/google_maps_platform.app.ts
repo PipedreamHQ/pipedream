@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "eodhd_apis",
+  app: "google_maps_platform",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
