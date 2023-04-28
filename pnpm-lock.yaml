@@ -937,6 +937,9 @@ importers:
   components/datumbox:
     specifiers: {}
 
+  components/dayschedule:
+    specifiers: {}
+
   components/dear:
     specifiers:
       '@pipedream/platform': ^1.2.0
