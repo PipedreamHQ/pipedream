@@ -149,7 +149,7 @@ You can increase this limit at any time in the [billing area of your settings](h
 
 ### Compute time limit exceeded
 
-The Compute Time Limit only applies to **Free** accounts. 
+The compute time limit only applies to **free** accounts.
 
 The Compute TimeLimit restricts the amount of testing within the workflow builder, and the limit is refreshed every day.
 
