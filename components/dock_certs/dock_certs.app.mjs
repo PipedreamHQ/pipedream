@@ -177,11 +177,12 @@ export default {
         ...args,
       });
     },
-    listSchemas(args = {}) {
-      return this._makeRequest({
+    async listSchemas(args = {}) {
+      const results = await this._makeRequest({
         path: "/schemas",
         ...args,
       });
+      return results?.map(({ schema }) => schema) || [];
     },
     listCredentials(args = {}) {
       return this._makeRequest({
