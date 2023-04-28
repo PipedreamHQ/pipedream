@@ -24,7 +24,7 @@ export default {
       throw new Error("Hook types not defined for this source");
     },
     getSummary({ name }) {
-      return `Recipient Completed: ${name}`;
+      return `${this.getHookName()}: ${name}`;
     },
   },
   hooks: {
