@@ -31,7 +31,7 @@ Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and 
 
 Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
 
-#### Compute Time Limits
+#### Compute time limits
 
 Additionally Free accounts have a limit on compute time for processing test events in the workflow builder.
 
