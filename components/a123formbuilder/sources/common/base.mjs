@@ -33,7 +33,7 @@ export default {
     const page = this.getPage();
     const emittedIds = this.getEmittedIds();
     const response = await this.listingFn()({
-      ...this.listingParams(),
+      ...this.listingFnParams(),
       paginate: true,
       params: {
         page,

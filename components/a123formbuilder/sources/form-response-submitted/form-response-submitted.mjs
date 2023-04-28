@@ -29,7 +29,7 @@ export default {
     listingFn() {
       return this.a123formbuilder.getFormResponses;
     },
-    listingParams() {
+    listingFnParams() {
       return {
         form: this.form,
       };

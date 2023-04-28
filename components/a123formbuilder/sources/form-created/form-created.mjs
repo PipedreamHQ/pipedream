@@ -20,7 +20,7 @@ export default {
     listingFn() {
       return this.a123formbuilder.getForms;
     },
-    listingParams() {
+    listingFnParams() {
       return {};
     },
   },
