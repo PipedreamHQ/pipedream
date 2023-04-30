@@ -56,7 +56,7 @@ export default {
     }
 
     const res = await this.dropbox.filesMove({
-      from_path: pathFrom.value,
+      from_path: normalizedPathFrom,
       to_path: normalizedPathTo,
       autorename,
       allow_ownership_transfer: allowOwnershipTransfer,
