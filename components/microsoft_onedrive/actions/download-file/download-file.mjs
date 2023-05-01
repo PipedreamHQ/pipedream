@@ -36,10 +36,11 @@ export default {
     });
 
     const fileName = (newFileName ?? filePath).split("/").pop();
+    const tmpFilePath = `/tmp/${fileName}`;
 
-    fs.writeFileSync(`/tmp/${fileName}`, response);
+    fs.writeFileSync(tmpFilePath, response);
 
-    $.export("$summary", `Returned file contents and saved to "/tmp/${fileName}"`);
+    $.export("$summary", `Returned file contents and saved to "${tmpFilePath}"`);
     return response;
   },
 };
