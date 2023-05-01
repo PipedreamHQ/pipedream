@@ -937,6 +937,9 @@ importers:
   components/datumbox:
     specifiers: {}
 
+  components/dayschedule:
+    specifiers: {}
+
   components/dear:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2730,12 +2733,6 @@ importers:
 
   components/oksign:
     specifiers: {}
-
-  components/omniconvert:
-    specifiers:
-      '@pipedream/platform': ^1.3.0
-    dependencies:
-      '@pipedream/platform': 1.5.1
 
   components/omnisend:
     specifiers: {}
