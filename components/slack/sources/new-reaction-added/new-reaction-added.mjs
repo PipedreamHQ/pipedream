@@ -54,7 +54,7 @@ export default {
       optional: true,
     },
     includeUserData: {
-      description: "Include user object on the response. Default `false`",
+      description: "Include user object in the response. Default `false`",
       type: "boolean",
       optional: true,
       default: false,
