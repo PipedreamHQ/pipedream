@@ -33,14 +33,16 @@ export default {
       headers: {
         Authorization: `Bearer ${this.onedrive.$auth.oauth_access_token}`,
       },
+      responseType: "arraybuffer",
     });
 
     const fileName = (newFileName ?? filePath).split("/").pop();
     const tmpFilePath = `/tmp/${fileName}`;
+    const buffer = Buffer.from(response, "base64");
 
-    fs.writeFileSync(tmpFilePath, response);
+    fs.writeFileSync(tmpFilePath, buffer);
 
     $.export("$summary", `Returned file contents and saved to "${tmpFilePath}"`);
-    return response;
+    return buffer;
   },
 };
