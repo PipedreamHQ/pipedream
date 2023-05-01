@@ -22,7 +22,7 @@ export default {
     name: {
       type: "string",
       label: "File name",
-      description: "Your new file name",
+      description: "The new name of the file to be saved, including it's extension. e.g: `myFile.csv`",
     },
   },
   async run({ $ }) {
