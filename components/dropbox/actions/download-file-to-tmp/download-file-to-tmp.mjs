@@ -30,7 +30,6 @@ export default {
       path: this.getNormalizedPath(this.path, true) + this.name,
     });
 
-
     const { path, cleanup } = await file();
     await fs.promises.appendFile(path, Buffer.from(result.fileBinary))
     await cleanup();
