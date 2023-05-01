@@ -42,7 +42,7 @@ export default {
 
     fs.writeFileSync(tmpFilePath, buffer);
 
-    $.export("$summary", `Returned file contents and saved to "${tmpFilePath}"`);
+    $.export("$summary", `Returned file contents and saved to \`${tmpFilePath}\``);
     return buffer;
   },
 };
