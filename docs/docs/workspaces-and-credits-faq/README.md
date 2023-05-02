@@ -38,7 +38,7 @@ As a part of this rollout, we've released new paid plans, and are automatically 
 
 ### What's in the Basic plan?
 
-You have access to everything you had on the Pro plan. A <a href="https://pipedreamhq.typeform.com/to/XtJ8R9Hq">GitHub integration</a>, folders to organize workflows, and other features are coming soon.
+You have access to everything you had in the Pro plan. A <a href="https://pipedreamhq.typeform.com/to/XtJ8R9Hq">GitHub integration</a>, folders to organize workflows, and other features are coming soon.
 
 ### Why the plan / pricing changes?
 
