@@ -1,0 +1,25 @@
+import constants from "../../common/constants.mjs";
+import base from "../common/webhooks.mjs";
+import { v4 as uuid } from "uuid";
+
+export default {
+  ...base,
+  name: "New Shipment Tracking Number Change",
+  key: "dear-sale-shipment-tracking-number-change",
+  type: "source",
+  description: "Emit new event when a shipment tracking number changes.",
+  version: "0.0.1",
+  methods: {
+    ...base.methods,
+    getWebhookType() {
+      return constants.WEBHOOK_TYPE.SALE_SHIPMENT_TRACKING_NUMBER_CHANGED;
+    },
+    getMetadata(payload) {
+      return {
+        id: uuid(),
+        summary: `${payload.CustomerName} (${payload.SaleOrderNumber})`,
+        ts: Date.now(),
+      };
+    },
+  },
+};
