@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/dayschedule",
+  "version": "0.0.1",
+  "description": "Pipedream DaySchedule Components",
+  "main": "dist/app/dayschedule.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dayschedule"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/dayschedule",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
