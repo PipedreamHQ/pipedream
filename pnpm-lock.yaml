@@ -937,6 +937,9 @@ importers:
   components/datumbox:
     specifiers: {}
 
+  components/dayschedule:
+    specifiers: {}
+
   components/dear:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2730,12 +2733,6 @@ importers:
 
   components/oksign:
     specifiers: {}
-
-  components/omniconvert:
-    specifiers:
-      '@pipedream/platform': ^1.3.0
-    dependencies:
-      '@pipedream/platform': 1.5.1
 
   components/omnisend:
     specifiers: {}
@@ -11849,7 +11846,7 @@ packages:
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
     dev: false
 
   /@types/yargs-parser/21.0.0:
@@ -24689,7 +24686,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
+    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
