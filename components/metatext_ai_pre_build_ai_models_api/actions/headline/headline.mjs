@@ -2,8 +2,8 @@ import app from "../../metatext_ai_pre_build_ai_models_api.app.mjs";
 
 export default {
   key: "metatext_ai_pre_build_ai_models_api-headline",
-  name: "Headline",
-  description: "Generate a short summary for news headlines. [See the documentation here](https://app.metatext.ai/models/headline/inference-api).",
+  name: "Generate Headline",
+  description: "Generate a short summary for news headlines. [See the documentation](https://app.metatext.ai/models/headline/inference-api).",
   type: "action",
   version: "0.0.1",
   props: {

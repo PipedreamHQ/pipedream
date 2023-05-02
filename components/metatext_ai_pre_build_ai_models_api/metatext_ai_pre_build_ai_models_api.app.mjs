@@ -8,7 +8,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "The text to analyze.",
+      description: "The text parameter to be used as base for the request.",
     },
   },
   methods: {

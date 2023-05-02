@@ -3,7 +3,7 @@ import app from "../../metatext_ai_pre_build_ai_models_api.app.mjs";
 export default {
   key: "metatext_ai_pre_build_ai_models_api-extract-keywords",
   name: "Extract Keywords",
-  description: "Identify and extract significant keywords from the given text. [See the documentation here](https://app.metatext.ai/models/keyword-extractor/inference-api).",
+  description: "Identify and extract significant keywords from the given text. [See the documentation](https://app.metatext.ai/models/keyword-extractor/inference-api).",
   type: "action",
   version: "0.0.1",
   props: {
