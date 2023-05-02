@@ -1,7 +1,7 @@
 import dropbox from "../../dropbox.app.mjs";
 import common from "../common/common.mjs";
-import fs from "fs"
-import { file } from 'tmp-promise'
+import fs from "fs";
+import { file } from "tmp-promise";
 
 export default {
   ...common,
@@ -30,13 +30,15 @@ export default {
       path: this.getNormalizedPath(this.path, true) + this.name,
     });
 
-    const { path, cleanup } = await file();
-    await fs.promises.appendFile(path, Buffer.from(result.fileBinary))
+    const {
+      path, cleanup,
+    } = await file();
+    await fs.promises.appendFile(path, Buffer.from(result.fileBinary));
     await cleanup();
 
-    delete result.fileBinary
+    delete result.fileBinary;
 
-    $.export("$summary", `File successfully saved in "${this.path}"`);
+    $.export("$summary", `File successfully saved in "${this.path.label}"`);
 
     return {
       tmpPath: path,
