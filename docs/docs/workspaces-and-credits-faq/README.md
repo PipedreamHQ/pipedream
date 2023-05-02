@@ -32,6 +32,14 @@ You have access to everything on the Team plan, including:
 
 A <a href="https://pipedreamhq.typeform.com/to/XtJ8R9Hq">GitHub integration</a>, folders to organize workflows, and other features are coming soon.
 
+## The Pro plan is now the Basic plan
+
+As a part of this rollout, we've released new paid plans, and are automatically upgrading your existing Pro plan to the Basic Plan. We're grateful to have you as an early customer, and **we're honoring your old price for the next 12 months. You should see no impact to your monthly bill with this change**. If you do, please reach out to `support@pipedream.com`. In 12 months, your workspace will move to the standard Basic plan pricing: currently $29 / month for 10,000 credits, $0.0008 per extra credit.
+
+### What's on the Basic plan?
+
+You have access to everything you had on the Pro plan. A <a href="https://pipedreamhq.typeform.com/to/XtJ8R9Hq">GitHub integration</a>, folders to organize workflows, and other features are coming soon.
+
 ### Why the plan / pricing changes?
 
 Overall, we try to price our products far below the value we are providing, and try to do right by the existing customers who helped us get to where we are.
