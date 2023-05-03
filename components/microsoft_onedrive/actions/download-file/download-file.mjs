@@ -1,6 +1,6 @@
-import { axios } from "@pipedream/platform";
 import fs from "fs";
 import onedrive from "../../microsoft_onedrive.app.mjs";
+import httpRequest from "../../common/httpRequest.js";
 
 export default {
   name: "Download File",
@@ -26,13 +26,11 @@ export default {
     const {
       filePath, newFileName,
     } = this;
-    const url = `https://graph.microsoft.com/v1.0/me/drive/root:/${encodeURI(filePath)}:/content`;
 
-    const response = await axios($, {
+    const url = `/root:/${encodeURI(filePath)}:/content`;
+    const response = await httpRequest({
+      $,
       url,
-      headers: {
-        Authorization: `Bearer ${this.onedrive.$auth.oauth_access_token}`,
-      },
       responseType: "arraybuffer",
     });
 
