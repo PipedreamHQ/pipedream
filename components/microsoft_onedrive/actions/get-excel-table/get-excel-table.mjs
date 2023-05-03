@@ -3,7 +3,7 @@ import onedrive from "../../microsoft_onedrive.app.mjs";
 
 export default {
   name: "Get Table",
-  description: "Retrieve a table from an Excel spreadsheet stored in OneDrive",
+  description: "Retrieve a table from an Excel spreadsheet stored in OneDrive [See the documentation](https://learn.microsoft.com/en-us/graph/api/table-range?view=graph-rest-1.0&tabs=http)",
   key: "microsoft_onedrive-get-excel-table",
   version: "0.0.2",
   type: "action",
