@@ -3,7 +3,7 @@ import app from "../../klazify.app.mjs";
 export default {
   key: "klazify-get-company-domain-info",
   name: "Get Company Domain Info",
-  description: "Get information about a company&#39;s domain. [See the documentation](https://www.klazify.com/category#docs).",
+  description: "Get information about a company's domain. [See the documentation](https://www.klazify.com/category#docs).",
   type: "action",
   version: "0.0.1",
   props: {

@@ -3,7 +3,7 @@ import app from "../../klazify.app.mjs";
 export default {
   key: "klazify-real-time-categorization",
   name: "Real Time Categorization",
-  description: "Analize the URL content or email&#39;s domain (if the input is an email) and classifies it into 385+ possible topic categories. [See the documentation](https://www.klazify.com/category#docs).",
+  description: "Analize the URL content or email's domain (if the input is an email) and classifies it into 385+ possible topic categories. [See the documentation](https://www.klazify.com/category#docs).",
   type: "action",
   version: "0.0.1",
   props: {
