@@ -7,7 +7,7 @@ export default {
   name: "New Customer Updated",
   key: "dear-customer-updated",
   type: "source",
-  description: "Emit new event when a customer is updated.",
+  description: "Emit new event when a customer is updated. [See the documentation](https://dearinventory.docs.apiary.io/#reference/webhooks)",
   version: "0.0.1",
   methods: {
     ...base.methods,

@@ -7,7 +7,7 @@ export default {
   name: "New Shipment Tracking Number Change",
   key: "dear-sale-shipment-tracking-number-change",
   type: "source",
-  description: "Emit new event when a shipment tracking number changes.",
+  description: "Emit new event when a shipment tracking number changes. [See the documentation](https://dearinventory.docs.apiary.io/#reference/webhooks)",
   version: "0.0.1",
   methods: {
     ...base.methods,

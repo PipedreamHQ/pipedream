@@ -7,7 +7,7 @@ export default {
   name: "New Available Stock Level Change",
   key: "dear-available-stock-level-change",
   type: "source",
-  description: "Emit new event when the available stock level changes.",
+  description: "Emit new event when the available stock level changes. [See the documentation](https://dearinventory.docs.apiary.io/#reference/webhooks)",
   version: "0.0.1",
   methods: {
     ...base.methods,
