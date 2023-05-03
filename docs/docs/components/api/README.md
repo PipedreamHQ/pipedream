@@ -1062,7 +1062,7 @@ The event lifecycle applies to deployed sources. Learn about the [source lifecyc
 
 ### Diagram
 
-![image-20200819210516311](./images/image-20200819210516311.png)
+![image-20200819210516311](https://res.cloudinary.com/pipedreamin/image/upload/v1683089643/d0iiggokfkwnmt4kckb5.png)
 
 ### Triggering Sources
 
