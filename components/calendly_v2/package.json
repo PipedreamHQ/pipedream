@@ -16,7 +16,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "package": "^1.0.1"
   }
 }
