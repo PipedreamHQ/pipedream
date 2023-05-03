@@ -1,11 +1,11 @@
+import httpRequest from "../../common/httpRequest.js";
 import onedrive from "../../microsoft_onedrive.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   name: "Get Table",
   description: "Retrieve a table from an Excel spreadsheet stored in OneDrive",
   key: "microsoft_onedrive-get-excel-table",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     onedrive,
@@ -15,11 +15,9 @@ export default {
       description: "Search for the file by name, only xlsx files are supported",
       useQuery: true,
       async options( context ) {
-        const response = await axios(context, {
-          url: `https://graph.microsoft.com/v1.0/me/drive/search(q='${context?.query ?? ""} .xlsx')?select=name,id`,
-          headers: {
-            Authorization: `Bearer ${this.onedrive.$auth.oauth_access_token}`,
-          },
+        const response = await httpRequest({
+          $: context,
+          url: `/search(q='${context?.query ?? ""} .xlsx')?select=name,id`,
         });
         return response.value
           .filter(({ name }) => name.endsWith(".xlsx"))
@@ -36,11 +34,9 @@ export default {
       label: "Table name",
       description: "This is set in the **Table Design** tab of the ribbon.",
       async options( context ) {
-        const response = await axios(context, {
-          url: `https://graph.microsoft.com/v1.0/me/drive/items/${this.itemId}/workbook/tables?$select=name`,
-          headers: {
-            Authorization: `Bearer ${this.onedrive.$auth.oauth_access_token}`,
-          },
+        const response = await httpRequest({
+          $: context,
+          url: `/items/${this.itemId}/workbook/tables?$select=name`,
         });
         return response.value.map(({ name }) => name);
       },
@@ -62,11 +58,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const range = await axios($, {
-      url: `https://graph.microsoft.com/v1.0/me/drive/items/${this.itemId}/workbook/tables/${this.tableName}/range`,
-      headers: {
-        Authorization: `Bearer ${this.onedrive.$auth.oauth_access_token}`,
-      },
+    const range = await httpRequest({
+      $,
+      url: `/items/${this.itemId}/workbook/tables/${this.tableName}/range`,
     });
 
     return this.removeHeaders
