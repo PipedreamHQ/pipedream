@@ -1,4 +1,5 @@
 ////https://developer.calendly.com/api-docs/e2f95ebd44914-get-event
+////https://developer.calendly.com/api-docs/e2f95ebd44914-get-event
 import { axios } from "@pipedream/platform";
 import { ConfigurationError } from "@pipedream/platform";
 import { URL } from "url";
@@ -47,11 +48,15 @@ export default {
 
     const event_uuid = this.event_uuid || getEventUuidFromUrl(this.event_url);
 
-    return await axios($, {
+    const response = await axios($, {
       url: `https://api.calendly.com/scheduled_events/${event_uuid}`,
       headers: {
         Authorization: `Bearer ${this.calendly_v2.$auth.oauth_access_token}`,
       },
     });
+
+    $.export("$summary", "Successfully retrieved event.");
+
+    return response;
   },
 };
