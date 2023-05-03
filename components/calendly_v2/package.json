@@ -15,9 +15,4 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "package": "^1.0.1"
-  }
 }
