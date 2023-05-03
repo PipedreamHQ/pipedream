@@ -34,9 +34,7 @@ export default {
     const response = await this.tisaneLabs.detectLanguage({
       data: {
         content: this.content,
-        languages: this?.languages?.length
-          ? this.languages.join(",")
-          : "",
+        languages: this.languages?.join(",") || "",
         delimiter: this.delimiter,
       },
       $,
