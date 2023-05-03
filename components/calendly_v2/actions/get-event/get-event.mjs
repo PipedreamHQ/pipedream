@@ -1,5 +1,4 @@
 ////https://developer.calendly.com/api-docs/e2f95ebd44914-get-event
-////https://developer.calendly.com/api-docs/e2f95ebd44914-get-event
 import { axios } from "@pipedream/platform";
 import { ConfigurationError } from "@pipedream/platform";
 import { URL } from "url";
@@ -14,8 +13,8 @@ function getEventUuidFromUrl(event_url) {
 }
 
 export default {
-  key: "calendly_v2-get-event-v3",
-  name: "Get Event V2",
+  key: "calendly_v2-get-event",
+  name: "Get Event",
   description: "Gets information about an Event associated with a URI.",
   version: "0.1.3",
   type: "action",
