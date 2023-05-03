@@ -6,9 +6,9 @@ import { file } from "tmp-promise";
 export default {
   ...common,
   name: "Download File To TMP",
-  description: "Download a specific file to the temporary directory. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDownload__anchor)"
+  description: "Download a specific file to the temporary directory. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDownload__anchor)",
   key: "dropbox-download-file-to-tmp",
-  version: "0.0.1",
+  version: "0.0.11",
   type: "action",
   props: {
     dropbox,
@@ -30,10 +30,8 @@ export default {
       path: this.getNormalizedPath(this.path, true) + this.name,
     });
 
-    const {
-      path, cleanup,
-    } = await file();
-    await fs.promises.appendFile(path, Buffer.from(result.fileBinary));
+    const { cleanup } = await file();
+    await fs.promises.appendFile(`/tmp/${result.name}`, Buffer.from(result.fileBinary));
     await cleanup();
 
     delete result.fileBinary;
@@ -41,7 +39,7 @@ export default {
     $.export("$summary", `File successfully saved in "${this.path.label}"`);
 
     return {
-      tmpPath: path,
+      tmpPath: `/tmp/${result.name}`,
       ...result,
     };
   },
