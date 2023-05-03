@@ -58,11 +58,13 @@ export default {
      * @returns {arrayValidatorMsg: string} the validation error if asm.groups_to_display
      * or asmGroupsToDisplay is set but asm.group_id or asmGroupId is not set
      */
-    validateAsm(asm, asmGroupId,  asmGroupsToDisplay) {
-      const asmValidatorMsg = "if asm object or asmGroupsToDisplay param is set, group_id key or asmGroupId param is required to be set";
+    validateAsm(value, {
+      asm, asmGroupId, asmGroupsToDisplay,
+    }) {
+      const asmValidatorMsg = "If asm object or asmGroupsToDisplay param is set, group_id key or asmGroupId param is required to be set";
       if ((asm && asm.groups_to_display) || asmGroupsToDisplay) {
         // asmGroupsToDisplay or asm.groups_to_display are set, check for asm.group_id or asmGroupId
-        if (asm.group_id || asmGroupId) {
+        if (asm?.group_id || asmGroupId) {
           return null;
         }
         return asmValidatorMsg;

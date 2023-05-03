@@ -739,8 +739,7 @@ export default {
         url: "/v3/asm/groups",
       };
 
-      const { result } = (await this._makeClientRequest(config))[1];
-      return result;
+      return (await this._makeClientRequest(config))[1];
     },
     /**
      * Sends an email to the specified recipients.
