@@ -15,7 +15,7 @@ export default {
       description: "Search for the file by name, only xlsx files are supported",
       useQuery: true,
       async options( context ) {
-        const response = await httpRequest({
+        const response = await this.httpRequest({
           $: context,
           url: `/search(q='${context?.query ?? ""} .xlsx')?select=name,id`,
         });
@@ -34,7 +34,7 @@ export default {
       label: "Table name",
       description: "This is set in the **Table Design** tab of the ribbon.",
       async options( context ) {
-        const response = await httpRequest({
+        const response = await this.httpRequest({
           $: context,
           url: `/items/${this.itemId}/workbook/tables?$select=name`,
         });
