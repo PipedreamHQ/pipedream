@@ -32,7 +32,7 @@ Search by **app name** to find triggers associated with your app. For Google Cal
 
 Once you select your trigger, you'll be asked to connect any necessary accounts (for example, Google Calendar sources require you authorize Pipedream access to your Google account), and enter the values for any configuration settings.
 
-Some sources are configured to retrieve an initial set of events when they're created. Others require you to generate events in the app to trigger your workflow. If your source generates an initial set of events, you'll see them appear in the **Select events** dropdown in the **\*Select Event** step:
+Some sources are configured to retrieve an initial set of events when they're created. Others require you to generate events in the app to trigger your workflow. If your source generates an initial set of events, you'll see them appear in the **Select events** dropdown in the **Select Event** step:
 
 ![Choose an event to test your workflow steps against](https://res.cloudinary.com/pipedreamin/image/upload/v1647957381/docs/components/CleanShot_2022-03-22_at_09.55.57_2x_upj35r.png)
 

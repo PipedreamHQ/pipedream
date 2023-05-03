@@ -18,7 +18,7 @@ _Get Started_
 
 - Read our [quickstart](/quickstart/), [docs](/), and/or [FAQ](#faqs) :point_left:
 - Have questions? Ask here or on [Discourse](https://pipedream.com/community) :speech_balloon:
-- As a reminder, all integration components are source-available and [hosted on GitHub](https://github.com/PipedreamHQ/pipedream). You can [contribute your own integrations](/components/guidelines/) or improve existing ones.
+- As a reminder, all integration components are source-available and [hosted on GitHub](https://github.com/PipedreamHQ/pipedream). You can [contribute your own components](/apps/contributing/) or improve existing ones.
 
 Watch a demo:
 

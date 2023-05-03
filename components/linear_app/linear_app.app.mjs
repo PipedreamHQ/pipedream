@@ -1,31 +1,15 @@
 import { LinearClient } from "@linear/sdk";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
   app: "linear_app",
   propDefinitions: {
-    issueId: {
-      type: "string",
-      label: "Issue ID",
-      description: "The issue ID to update",
-      async options({ prevContext }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listIssues,
-          resouceMapper: ({
-            id, title,
-          }) => ({
-            label: title,
-            value: id,
-          }),
-        });
-      },
-    },
     teamId: {
       type: "string",
-      label: "Team ID",
+      label: "Team",
       description: "The identifier or key of the team associated with the issue",
       async options({ prevContext }) {
         return this.listResourcesOptions({
@@ -40,9 +24,37 @@ export default {
         });
       },
     },
+    issueId: {
+      type: "string",
+      label: "Issue",
+      description: "The issue to update",
+      async options({
+        teamId, prevContext,
+      }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listIssues,
+          resourcesArgs: teamId && {
+            filter: {
+              team: {
+                id: {
+                  eq: teamId,
+                },
+              },
+            },
+          },
+          resouceMapper: ({
+            id, title,
+          }) => ({
+            label: title,
+            value: id,
+          }),
+        });
+      },
+    },
     projectId: {
       type: "string",
-      label: "Project ID",
+      label: "Project",
       description: "The identifier or key of the project associated with the issue",
       optional: true,
       async options({ prevContext }) {
@@ -65,8 +77,8 @@ export default {
     },
     assigneeId: {
       type: "string",
-      label: "Assignee ID",
-      description: "The identifier of the user to assign the issue to",
+      label: "Assignee",
+      description: "The user to assign to the issue",
       optional: true,
       async options({ prevContext }) {
         return this.listResourcesOptions({
@@ -77,6 +89,35 @@ export default {
           }) => ({
             label: name,
             value: id,
+          }),
+        });
+      },
+    },
+    stateId: {
+      type: "string",
+      label: "State (Status)",
+      description: "The state (status) to assign to the issue",
+      optional: true,
+      async options({
+        teamId, prevContext,
+      }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listStates,
+          resourcesArgs: teamId && {
+            filter: {
+              team: {
+                id: {
+                  eq: teamId,
+                },
+              },
+            },
+          },
+          resouceMapper: ({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
           }),
         });
       },
@@ -163,11 +204,51 @@ export default {
     }) {
       return this.client().updateIssue(issueId, input);
     },
-    async searchIssues(variables) {
-      return this.client().issues(variables);
+    async listIssues(variables) {
+      const { data: { issues } } = await this.makeAxiosRequest({
+        method: "POST",
+        data: {
+          query: `
+          { 
+            issues(${variables}) { 
+              nodes {
+                ${constants.ISSUE_NODES}
+              }
+              pageInfo {
+                hasNextPage
+                endCursor
+              }
+            } 
+          }`,
+        },
+      });
+      return issues;
     },
     async getIssue(id) {
-      return this.client().issue(id);
+      const { data: { issue } } = await this.makeAxiosRequest({
+        method: "POST",
+        data: {
+          query: `
+          { 
+            issue(id: "${id}") { 
+              ${constants.ISSUE_NODES}
+            } 
+          }`,
+        },
+      });
+      return issue;
+    },
+    async getUser(id) {
+      return this.client().user(id);
+    },
+    async getProject(id) {
+      return this.client().project(id);
+    },
+    async getState(id) {
+      return this.client().workflowState(id);
+    },
+    async getTeam(id) {
+      return this.client().team(id);
     },
     async listTeams(variables = {}) {
       return this.client().teams(variables);
@@ -184,8 +265,8 @@ export default {
     async listUsers(variables = {}) {
       return this.client().users(variables);
     },
-    async listIssues(variables = {}) {
-      return this.client().issues(variables);
+    async listStates(variables = {}) {
+      return this.client().workflowStates(variables);
     },
     async listIssueLabels(variables = {}) {
       return this.client().issueLabels(variables);
@@ -193,9 +274,23 @@ export default {
     async listComments(variables = {}) {
       return this.client().comments(variables);
     },
+    async getComment(id) {
+      const { data: { comment } } = await this.makeAxiosRequest({
+        method: "POST",
+        data: {
+          query: `
+          { 
+            comment(id: "${id}") { 
+              ${constants.COMMENT_NODES}
+            } 
+          }`,
+        },
+      });
+      return comment;
+    },
     async listResourcesOptions({
-      prevContext, resourcesFn, resouceMapper,
-    }) {
+      prevContext, resourcesFn, resourcesArgs, resouceMapper,
+    } = {}) {
       const {
         after,
         hasNextPage,
@@ -212,6 +307,7 @@ export default {
         await resourcesFn({
           after,
           first: constants.DEFAULT_LIMIT,
+          ...resourcesArgs,
         });
 
       return {
@@ -226,19 +322,23 @@ export default {
       resourcesFn,
       resourcesFnArgs,
       max = constants.DEFAULT_MAX_RECORDS,
+      useGraphQl = true,
     }) {
       let counter = 0;
       let hasNextPage;
       let endCursor;
       do {
+        const variables = useGraphQl
+          ? utils.buildVariables(endCursor, resourcesFnArgs)
+          : {
+            after: endCursor,
+            first: constants.DEFAULT_LIMIT,
+            ...resourcesFnArgs,
+          };
         const {
           nodes,
           pageInfo,
-        } = await resourcesFn({
-          after: endCursor,
-          first: constants.DEFAULT_LIMIT,
-          ...resourcesFnArgs,
-        });
+        } = await resourcesFn(variables);
         for (const node of nodes) {
           counter += 1;
           yield node;

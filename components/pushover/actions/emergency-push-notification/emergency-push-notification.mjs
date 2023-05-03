@@ -7,7 +7,7 @@ export default {
   description: `Sends an Emergency Push Notification to devices with Pushover.
     Notifications are repeated until they are acknowledged by the user.
     More information at [Pushing Messages](https://pushover.net/api#messages) and [Message Priority](https://pushover.net/api#priority)`,
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     pushover,

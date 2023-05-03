@@ -4,7 +4,7 @@
 Our TypeScript component API is in **beta**. If you're interested in developing TypeScript components and providing feedback, [see our TypeScript docs](/components/typescript/).
 :::
 
-This document was created to help developers author and use [Pipedream components](/components/). Not only can you develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using the component API, but you can also develop [Node.js steps](/code/nodejs/) right in your workflows - without leaving your browser! You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
+This document was created to help developers author and use [Pipedream components](/components/). Not only can you develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using the component API, but you can also develop [Node.js steps](/code/nodejs/) right in your workflows - without leaving your browser! You can publish components to your account for private use, or [contribute them to the Pipedream registry](/apps/contributing/) for anyone to run.
 
 While sources and actions share the same core component API, they differ in both how they're used and written, so certain parts of the component API apply only to one or the other. [This section of the docs](#differences-between-sources-and-actions) explains the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
@@ -231,7 +231,7 @@ export default {
 };
 ```
 
-##### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
+##### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.mjs))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 

@@ -6,7 +6,7 @@ export default {
   name: "New Monitor Event (Instant)",
   description: "Emit new events captured by a Datadog monitor",
   dedupe: "unique",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   props: {
     datadog,
@@ -15,10 +15,19 @@ export default {
       type: "$.interface.http",
       customResponse: true,
     },
+    region: {
+      propDefinition: [
+        datadog,
+        "region",
+      ],
+    },
     monitors: {
       propDefinition: [
         datadog,
         "monitors",
+        (c) => ({
+          region: c.region,
+        }),
       ],
     },
   },
@@ -30,6 +39,7 @@ export default {
           start: Math.floor(this.datadog.daysAgo(7) / 1000), // one week ago
           end: Math.floor(Date.now() / 1000), // now
         },
+        region: this.region,
       });
       const relevantEvents = events.filter((event) => this.monitors.includes(event.monitor_id));
 
@@ -58,6 +68,7 @@ export default {
       } = await this.datadog.createWebhook(
         this.http.endpoint,
         payloadFormat,
+        this.region,
       );
 
       console.log(`Created webhook "${webhookName}"`);
@@ -66,13 +77,13 @@ export default {
 
       await Promise.all(
         this.monitors.map((monitorId) =>
-          this.datadog.addWebhookNotification(webhookName, monitorId)),
+          this.datadog.addWebhookNotification(webhookName, monitorId, this.region)),
       );
     },
     async deactivate() {
       const webhookName = this._getWebhookName();
-      await this.datadog.removeWebhookNotifications(webhookName);
-      await this.datadog.deleteWebhook(webhookName);
+      await this.datadog.removeWebhookNotifications(webhookName, this.region);
+      await this.datadog.deleteWebhook(webhookName, this.region);
     },
   },
   methods: {

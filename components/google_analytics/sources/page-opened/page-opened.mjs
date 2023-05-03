@@ -3,8 +3,8 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "google_analytics-page-opened",
-  version: "0.0.2",
-  name: "Page Opened",
+  version: "0.0.3",
+  name: "New Page Opened",
   description: "Emit new event when a page is viewed",
   type: "source",
   dedupe: "unique",

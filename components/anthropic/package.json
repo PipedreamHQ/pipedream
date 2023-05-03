@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/anthropic",
+  "version": "0.0.3",
+  "description": "Pipedream Anthropic (Claude) Components",
+  "main": "app/anthropic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "anthropic"
+  ],
+  "homepage": "https://pipedream.com/apps/anthropic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

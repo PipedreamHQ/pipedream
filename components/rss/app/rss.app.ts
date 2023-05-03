@@ -48,7 +48,8 @@ export default defineApp({
       } = item;
       const itemId = id ?? guid ?? link ?? title;
       if (itemId) {
-        return itemId;
+        // reduce itemId length for deduping
+        return itemId.length > 64 ? itemId.slice(-64) : itemId;
       }
       return hash(item);
     },
@@ -61,7 +62,7 @@ export default defineApp({
         },
         validateStatus: () => true, // does not throw on any bad status code
         responseType: "stream", // stream is required for feedparser
-        returnResponse: true,
+        returnFullResponse: true,
       });
 
       // Handle status codes as error codes

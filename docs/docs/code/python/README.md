@@ -1,17 +1,14 @@
 # Python
 
-**Anything you can do in Python can be done in a Pipedream Workflow**. This includes using any of the [350,000+ PyPi packages available](https://pypi.org/) in your Python powered workflows. 
+**Anything you can do in Python can be done in a Pipedream workflow**. This includes using any of the [350,000+ packages available on PyPI](https://pypi.org/).
 
 Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.python.org) in workflows.
 
 ::: warning
-Python steps are available in a limited alpha release.
+Python steps are in **beta**. There might be changes while we prepare it for a full release.
 
-You can still run arbitrary Python code, including [sharing data between steps](/code/python/#sharing-data-between-steps), [send API requests using connected accounts](/code/python/auth/), [use Data Stores](/code/python/using-data-stores/), and [accessing environment variables](/code/python/#using-environment-variables).
-
-However, you can't delay or retry steps, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time. If you have any questions please [contact support](https://pipedream.com/support).
+If you have any feedback on the Python runtime, please let us know in [our community](https://pipedream.com/support).
 :::
-
 
 ## Adding a Python code step
 
@@ -21,23 +18,25 @@ However, you can't delay or retry steps, or take advantage of other features ava
 
 ## Python Code Step Structure
 
-A new Python Code step will have the following structure, with a `handler` method and a `pd` argument passed into it:
+A new Python Code step will have the following structure:
 
 ```python
+# The pipedream package includes helpers to use exported data from other steps, as well as export data from this step
+from pipedream.script_helpers import (steps, export)
 
-def handler(pd: "pipedream"):
-  # Exports a variable called message with contents "Hello, World!"
-  pd.export("message", "Hello, World!")
+# Export a variable from this step named "message" containing the string "Hello, World!"
+pd.export("message", "Hello, World!")
 
 ```
 
-The `handler` method is called during the step's execution, and the `pd` object contains helper methods to [use Data Stores](/code/python/using-data-stores/) and make [authenticated API requests to apps](/code/python/auth/).
+You can also perform more complex operations, including [leveraging your connected accounts to make authenticated API requests](/code/python/auth/), [accessing Data Stores](/code/python/using-data-stores/) and [installing PyPI packages](/code/python/#using-third-party-packages).
 
-* [Import data exported from other steps](/code/python/#using-data-from-another-step)
-* [Export data to downstream steps](/code/python/#sending-data-downstream-to-other-steps)
-* [Retrieve data from a data store](/code/python/using-data-stores/#retrieving-data)
-* [Store data into a data store](/code/python/using-data-stores/#saving-data)
-* [Access API credentials from connected accounts](/code/python/auth/)
+- [Install PyPI Packages](/code/python/#using-third-party-packages)
+- [Import data exported from other steps](/code/python/#using-data-from-another-step)
+- [Export data to downstream steps](/code/python/#sending-data-downstream-to-other-steps)
+- [Retrieve data from a data store](/code/python/using-data-stores/#retrieving-data)
+- [Store data into a data store](/code/python/using-data-stores/#saving-data)
+- [Access API credentials from connected accounts](/code/python/auth/)
 
 ## Logging and debugging
 
@@ -51,13 +50,13 @@ The output for the `print` **logs** will appear in the `Results` section just be
 
 ## Using third party packages
 
-You can use any packages from [PyPi](https://pypi.org) in your Pipedream workflows. This includes popular choices such as:
+You can use any packages from [PyPI](https://pypi.org) in your Pipedream workflows. This includes popular choices such as:
 
-* [`requests` for making HTTP requests](https://pypi.org/project/requests/)
-* [`sqlalchemy`for retrieving or inserting data in a SQL database](https://pypi.org/project/sqlalchemy/)
-* [`pandas` for working with complex datasets](https://pypi.org/project/pandas/)
+- [`requests` for making HTTP requests](https://pypi.org/project/requests/)
+- [`sqlalchemy`for retrieving or inserting data in a SQL database](https://pypi.org/project/sqlalchemy/)
+- [`pandas` for working with complex datasets](https://pypi.org/project/pandas/)
 
-To use a PyPi package, just include it in your step's code:
+To use a PyPI package, just include it in your step's code:
 
 ```python
 import requests
@@ -102,16 +101,15 @@ GET requests typically are for retrieving data from an API. Below is an example.
 ```python
 import requests
 
-def handler(pd: "pipedream"):
-  url = 'https://swapi.dev/api/people/1'
+url = 'https://swapi.dev/api/people/1'
 
-  r = requests.get(url)
+r = requests.get(url)
 
-  # The response is logged in your Pipedream step results:
-  print(r.text)
+# The response is logged in your Pipedream step results:
+print(r.text)
 
-  # The response status code is logged in your Pipedream step results:
-  print(r.status)
+# The response status code is logged in your Pipedream step results:
+print(r.status)
 ```
 
 ### Making a POST request
@@ -119,39 +117,34 @@ def handler(pd: "pipedream"):
 ```python
 import requests
 
-def handler(pd: "pipedream"):
-  # This a POST request to this URL will echo back whatever data we send to it
-  url = 'https://postman-echo.com/post'
+# This a POST request to this URL will echo back whatever data we send to it
+url = 'https://postman-echo.com/post'
 
-  data = {"name": "Bulbasaur"}
+data = {"name": "Bulbasaur"}
 
-  r = requests.post(url, data)
+r = requests.post(url, data)
 
-  # The response is logged in your Pipedream step results:
-  print(r.text)
+# The response is logged in your Pipedream step results:
+print(r.text)
 
-  # The response status code is logged in your Pipedream step results:
-  print(r.status)
+# The response status code is logged in your Pipedream step results:
+print(r.status)
 ```
 
 ### Sending files
 
 You can also send files within a step.
 
-An example of sending a previously stored file in the workflow's `/tmp` directory: 
+An example of sending a previously stored file in the workflow's `/tmp` directory:
 
 ```python
 import requests
 
-def handler(pd: "pipedream"):
-  # Retrieving a previously saved file from workflow storage
-  files = {'image': open('/tmp/python-logo.png', 'rb')}
+# Retrieving a previously saved file from workflow storage
+files = {'image': open('/tmp/python-logo.png', 'rb')}
 
-  r = requests.post(url='https://api.imgur.com/3/image', files=files)
+r = requests.post(url='https://api.imgur.com/3/image', files=files)
 ```
-
-
-
 
 ## Returning HTTP responses
 
@@ -159,12 +152,12 @@ You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/t
 
 ```python
 def handler(pd: 'pipedream'):
-  pd.respond({
-    'status': 200,
-    'body': {
-      'message': 'Everything is ok'
-    }
-  })
+    pd.respond({
+        'status': 200,
+        'body': {
+            'message': 'Everything is ok'
+        }
+    })
 ```
 
 Please note to always include at least the `body` and `status` keys in your `pd.respond` argument. The `body` must also be a JSON serializable object or dictionary.
@@ -176,7 +169,7 @@ Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/trigg
 :::
 
 :::tip
-*Don't forget* to [configure your workflow's HTTP trigger to allow a custom response](/workflows/steps/triggers/#http-responses). Otherwise your workflow will return the default response.
+_Don't forget_ to [configure your workflow's HTTP trigger to allow a custom response](/workflows/steps/triggers/#http-responses). Otherwise your workflow will return the default response.
 :::
 
 ## Sharing data between steps
@@ -198,15 +191,17 @@ In this example, we'll pretend this data is coming into our workflow's HTTP trig
 }
 ```
 
-In our Python step, we can access this data in the `exports` variable from the `pd.steps` object passed into the `handler`. Specifically, this data from the POST request into our workflow is available in the `trigger` dictionary item. 
+In our Python step, we can access this data in the `exports` variable from the `pd.steps` object passed into the `handler`. Specifically, this data from the POST request into our workflow is available in the `trigger` dictionary item.
 
 ```python
-def handler(pd: "pipedream"):
-  # retrieve the data from the HTTP request in the initial workflow trigger 
-  pokemon_name = pd.steps["trigger"]["event"]["name"]
-  pokemon_type = pd.steps["trigger"]["event"]["type"]
+# The pipedream package includes helpers to use exported data from other steps, as well as export data from this step
+from pipedream.script_helpers import (steps, export)
 
-  print(f"{pokemon_name} is a {pokemon_type} type Pokemon")
+# retrieve the data from the HTTP request in the initial workflow trigger
+pokemon_name = steps["trigger"]["event"]["name"]
+pokemon_type = steps["trigger"]["event"]["type"]
+
+print(f"{pokemon_name} is a {pokemon_type} type Pokemon")
 ```
 
 ### Sending data downstream to other steps
@@ -215,26 +210,26 @@ To share data created, retrieved, transformed or manipulated by a step to others
 
 ```python
 # This step is named "code" in the workflow
+from pipedream.script_helpers import (steps, export)
 
-def handler(pd: "pipedream"):
-  r = requests.get("https://pokeapi.co/api/v2/pokemon/charizard")
-  # Store the JSON contents into a variable called "pokemon"
-  pokemon = r.json()
+r = requests.get("https://pokeapi.co/api/v2/pokemon/charizard")
+# Store the JSON contents into a variable called "pokemon"
+pokemon = r.json()
 
-  # Expose the data to other steps in the "pokemon" key from this step
-  pd.export('pokemon', pokemon)
+# Expose the data to other steps in the "pokemon" key from this step
+export('pokemon', pokemon)
 ```
 
-Now this `pokemon` data is accessible to downstream steps within `pd.steps["code"]["pokemon"]`
+Now this `pokemon` data is accessible to downstream steps within `steps["code"]["pokemon"]`
 
 ::: warning
 You can only export JSON-serializable data from steps. Things like:
 
-* strings
-* numbers
-* lists 
-* dictionaries
-:::
+- strings
+- numbers
+- lists
+- dictionaries
+  :::
 
 ## Using environment variables
 
@@ -246,10 +241,9 @@ To access them, use the `os` module.
 import os
 import requests
 
-def handler(pd: "pipedream"):
-  token = os.environ['TWITTER_API_KEY']
+token = os.environ['AIRTABLE_API_KEY']
 
-  print(token)
+print(token)
 ```
 
 Or an even more useful example, using the stored environment variable to make an authenticated API request.
@@ -264,15 +258,14 @@ This proves your identity to the service so you can interact with it:
 import requests
 import os
 
-def handler(pd: "pipedream"):
-  token = os.environ['TWITTER_API_KEY']
+token = os.environ['AIRTABLE_API_KEY']
 
-  url = 'https://api.twitter.com/2/users/@pipedream/mentions'
+url = 'https://api.airtable.com/v0/your-airtable-base/your-table'
 
-  headers { 'Authorization': f"Bearer {token}"}
-  r = requests.get(url, headers=headers)
+headers { 'Authorization': f"Bearer {token}"}
+r = requests.get(url, headers=headers)
 
-  print(r.text)
+print(r.text)
 ```
 
 :::tip
@@ -280,7 +273,7 @@ There are 2 different ways of using the `os` module to access your environment v
 
 `os.environ['ENV_NAME_HERE']` will raise an error that stops your workflow if that key doesn't exist in your Pipedream account.
 
-Whereas `os.environ.get('ENV_NAME_HERE')` will _not_ throw an error and instead returns an empty string. 
+Whereas `os.environ.get('ENV_NAME_HERE')` will _not_ throw an error and instead returns an empty string.
 
 If your code relies on the presence of a environment variable, consider using `os.environ['ENV_NAME_HERE']` instead.
 :::
@@ -288,7 +281,6 @@ If your code relies on the presence of a environment variable, consider using `o
 ## Handling errors
 
 You may need to exit a workflow early. In a Python step, just a `raise` an error to halt a step's execution.
-
 
 ```python
 raise NameError('Something happened that should not. Exiting early.')
@@ -309,27 +301,27 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 
 ```python
 def handler(pd: 'pipedream'):
-  return pd.flow.exit()
-  print("This code will not run, since pd.flow.exit() was called above it")
+    return pd.flow.exit()
+    print("This code will not run, since pd.flow.exit() was called above it")
 ```
 
 You can pass any string as an argument to `pd.flow.exit()`:
 
 ```python
 def handler(pd: 'pipedream'):
-  return pd.flow.exit('Exiting early. Goodbye.')
-  print("This code will not run, since pd.flow.exit() was called above it")
+    return pd.flow.exit('Exiting early. Goodbye.')
+    print("This code will not run, since pd.flow.exit() was called above it")
 ```
 
 Or exit the workflow early within a conditional:
 
 ```python
 def handler(pd: 'pipedream'):
-  # Flip a coin, running $.flow.exit() for 50% of events
-  if random.randint(0, 100) <= 50:
-    return pd.flow.exit()
-  
-  print("This code will only run 50% of the time");
+    # Flip a coin, running pd.flow.exit() for 50% of events
+    if random.randint(0, 100) <= 50:
+        return pd.flow.exit()
+
+    print("This code will only run 50% of the time");
 ```
 
 ## File storage
@@ -338,19 +330,18 @@ You can also store and read files with Python steps. This means you can upload p
 
 The `/tmp` directory is accessible from your workflow steps for saving and retrieving files.
 
-You have full access to read and write both files in `/tmp`. 
+You have full access to read and write both files in `/tmp`.
 
 ### Writing a file to /tmp
 
 ```python
 import requests
 
-def handler(pd: "pipedream"):
-  # Download the Python logo
-  r = requests.get('https://www.python.org/static/img/python-logo@2x.png')
+# Download the Python logo
+r = requests.get('https://www.python.org/static/img/python-logo@2x.png')
 
-  # Create a new file python-logo.png in the /tmp/data directory
-  with open('/tmp/python-logo.png', 'wb') as f:
+# Create a new file python-logo.png in the /tmp/data directory
+with open('/tmp/python-logo.png', 'wb') as f:
     # Save the content of the HTTP response into the file
     f.write(r.content)
 ```
@@ -364,8 +355,7 @@ You can also open files you have previously stored in the `/tmp` directory. Let'
 ```python
 import os
 
-def handler(pd: "pipedream"):
-  with open('/tmp/python-logo.png') as f:
+with open('/tmp/python-logo.png') as f:
     # Store the contents of the file into a variable
     file_data = f.read()
 ```
@@ -377,9 +367,8 @@ If you need to check what files are currently in `/tmp` you can list them and pr
 ```python
 import os
 
-def handler(pd: "pipedream"):
-  # Prints the files in the tmp directory
-  print(os.listdir('/tmp'))
+# Prints the files in the tmp directory
+print(os.listdir('/tmp'))
 ```
 
 :::warning

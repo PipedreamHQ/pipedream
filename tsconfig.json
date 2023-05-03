@@ -1645,7 +1645,7 @@
       "path": "components/gravity_forms"
     },
     {
-      "path": "components/twitter_v2"
+      "path": "components/twitter"
     },
     {
       "path": "components/cohere_platform"
@@ -1658,6 +1658,174 @@
     },
     {
       "path": "components/adp"
+    },
+    {
+      "path": "components/anthropic"
+    },
+    {
+      "path": "components/wesupply"
+    },
+    {
+      "path": "components/blockchain_exchange"
+    },
+    {
+      "path": "components/urlbox_io"
+    },
+    {
+      "path": "components/recreation_gov"
+    },
+    {
+      "path": "components/geodb_cities"
+    },
+    {
+      "path": "components/world_news_api"
+    },
+    {
+      "path": "components/ezeep_blue"
+    },
+    {
+      "path": "components/instagram_business"
+    },
+    {
+      "path": "components/perry_github_test"
+    },
+    {
+      "path": "components/businesslogic"
+    },
+    {
+      "path": "components/coinmarketcal"
+    },
+    {
+      "path": "components/mindmeister"
+    },
+    {
+      "path": "components/coinmarketcal_demo_app"
+    },
+    {
+      "path": "components/census_bureau"
+    },
+    {
+      "path": "components/data_police_uk"
+    },
+    {
+      "path": "components/budgets_ai"
+    },
+    {
+      "path": "components/key_app_demo_1"
+    },
+    {
+      "path": "components/slack_demo_app"
+    },
+    {
+      "path": "components/slack_demo_app_1"
+    },
+    {
+      "path": "components/oauth_app_demo"
+    },
+    {
+      "path": "components/oauth_app_demo_1"
+    },
+    {
+      "path": "components/omnisend"
+    },
+    {
+      "path": "components/formstack_documents"
+    },
+    {
+      "path": "components/holded"
+    },
+    {
+      "path": "components/signrequest"
+    },
+    {
+      "path": "components/habitify"
+    },
+    {
+      "path": "components/scrape_it_cloud"
+    },
+    {
+      "path": "components/utradea"
+    },
+    {
+      "path": "components/currencyscoop"
+    },
+    {
+      "path": "components/visualping"
+    },
+    {
+      "path": "components/scrapingbot"
+    },
+    {
+      "path": "components/dock_certs"
+    },
+    {
+      "path": "components/big_data_cloud"
+    },
+    {
+      "path": "components/shotstack"
+    },
+    {
+      "path": "components/eodhd_apis"
+    },
+    {
+      "path": "components/selectpdf"
+    },
+    {
+      "path": "components/nasdaq_data_link_time_series_and_table_data_"
+    },
+    {
+      "path": "components/mailwizz"
+    },
+    {
+      "path": "components/jp_funda"
+    },
+    {
+      "path": "components/leap"
+    },
+    {
+      "path": "components/metatext_ai_inference_api"
+    },
+    {
+      "path": "components/metatext_ai_pre_build_ai_models_api"
+    },
+    {
+      "path": "components/klazify"
+    },
+    {
+      "path": "components/ipbase"
+    },
+    {
+      "path": "components/lettria"
+    },
+    {
+      "path": "components/tisane_labs"
+    },
+    {
+      "path": "components/codeq_natural_language_processing_api"
+    },
+    {
+      "path": "components/snatchbot"
+    },
+    {
+      "path": "components/google_safebrowsing"
+    },
+    {
+      "path": "components/textgain"
+    },
+    {
+      "path": "components/intellexer_api"
+    },
+    {
+      "path": "components/stannp"
+    },
+    {
+      "path": "components/sapling_ai"
+    },
+    {
+      "path": "components/google_maps_platform"
+    },
+    {
+      "path": "components/dayschedule"
     }
   ]
 }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.transformConfigForOauth = void 0;
 const axios_1 = require("axios");
 const buildURL = require("axios/lib/helpers/buildURL");
 const querystring = require("querystring");
@@ -46,8 +47,7 @@ function oauth1ParamsSerializer(p) {
         .replace(/\)/g, "%29")
         .replace(/\*/g, "%2A");
 }
-async function getOauthSignature(config, signConfig) {
-    const { oauthSignerUri, token, } = signConfig;
+function transformConfigForOauth(config) {
     const { baseURL, url, } = config;
     const newUrl = buildURL((baseURL !== null && baseURL !== void 0 ? baseURL : "") + url, config.params, oauth1ParamsSerializer); // build url as axios will
     const requestData = {
@@ -71,6 +71,12 @@ async function getOauthSignature(config, signConfig) {
         requestData.data = querystring.parse(config.data);
     }
     config.paramsSerializer = oauth1ParamsSerializer;
+    return requestData;
+}
+exports.transformConfigForOauth = transformConfigForOauth;
+async function getOauthSignature(config, signConfig) {
+    const { oauthSignerUri, token, } = signConfig;
+    const requestData = transformConfigForOauth(config);
     const payload = {
         requestData,
         token,

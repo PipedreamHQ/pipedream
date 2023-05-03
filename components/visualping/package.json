@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/visualping",
+  "version": "0.0.2",
+  "description": "Pipedream VisualPing Components",
+  "main": "app/visualping.app.mjs",
+  "keywords": [
+    "pipedream",
+    "visualping"
+  ],
+  "homepage": "https://pipedream.com/apps/visualping",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
