@@ -18,9 +18,9 @@ You can filter by the event's **Status**, **time of initiation** or by the **Wor
 
 ::: tip 
 
-The filters are scoped to the current workspace.
+The filters are scoped to the current [workspace](/workspaces/).
 
-If you're not seeing the events or workflow you're expecting, try switching workspaces.
+If you're not seeing the events or workflow you're expecting, try [switching workspaces](workspaces/#switching-between-workspaces).
 
 :::
 
@@ -77,4 +77,12 @@ You'll need to replay an event to execute the workflow with the latest changes.
 :::
 
 
-## History limits
+## Limits
+
+The amount of events recorded and available for viewing in the Event History depends on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
+
+::: warning Event evictions
+
+Upgrading your plan will allow future events to be included in your Event History. However events evicted from the history before the upgrade will not be recoverable.
+
+:::
