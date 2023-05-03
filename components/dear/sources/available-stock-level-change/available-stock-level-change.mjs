@@ -14,14 +14,10 @@ export default {
     getWebhookType() {
       return constants.WEBHOOK_TYPE.STOCK_AVAILABLE_STOCK_LEVEL_CHANGE;
     },
-    getMetadata(payload) {
-      const id = uuid();
-      const item0 = payload[0];
+    getMetadata(payload = []) {
       return {
-        id: id,
-        summary: item0
-          ? `${item0.Name} (${item0.SKU})`
-          : `No product code (internal uuid:${id})`,
+        id: uuid(),
+        summary: `${payload[0]?.Name} (${payload[0]?.SKU})`,
         ts: Date.now(),
       };
     },
