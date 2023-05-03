@@ -1,4 +1,3 @@
-////https://developer.calendly.com/api-docs/e2f95ebd44914-get-event
 import { axios } from "@pipedream/platform";
 import { ConfigurationError } from "@pipedream/platform";
 import { URL } from "url";
@@ -15,7 +14,7 @@ function getEventUuidFromUrl(event_url) {
 export default {
   key: "calendly_v2-get-event",
   name: "Get Event",
-  description: "Gets information about an Event associated with a URI.",
+  description: "Gets information about an Event associated with a URI. [See docs here](https://developer.calendly.com/api-docs/e2f95ebd44914-get-event).",
   version: "0.1.3",
   type: "action",
   props: {
@@ -41,7 +40,7 @@ export default {
   async run({ $ }) {
     if (!this.event_uuid && !this.event_url) {
       throw new ConfigurationError(
-        "Error: You must provide either Event UUID or Event URL.",
+        "Please provide either the Event UUID or Event URL, then try again.",
       );
     }
 
@@ -54,7 +53,9 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully retrieved event.");
+    const eventName = response.resource.name;
+
+    $.export("$summary", `Retrieved the event, "${eventName}"`);
 
     return response;
   },
