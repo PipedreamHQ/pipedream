@@ -1,4 +1,4 @@
-import httpRequest from "../../common/httpRequest.js";
+import httpRequest from "../../common/httpRequest.mjs";
 import onedrive from "../../microsoft_onedrive.app.mjs";
 
 export default {
@@ -57,8 +57,11 @@ export default {
       description: "Leave blank to return all rows.",
     },
   },
+  methods: {
+    httpRequest,
+  },
   async run({ $ }) {
-    const range = await httpRequest({
+    const range = await this.httpRequest({
       $,
       url: `/items/${this.itemId}/workbook/tables/${this.tableName}/range`,
     });

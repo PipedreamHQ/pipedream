@@ -1,12 +1,12 @@
 import fs from "fs";
 import onedrive from "../../microsoft_onedrive.app.mjs";
-import httpRequest from "../../common/httpRequest.js";
+import httpRequest from "../../common/httpRequest.mjs";
 
 export default {
   name: "Download File",
   description: "Download a file stored in OneDrive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_get_content?view=odsp-graph-online)",
   key: "microsoft_onedrive-download-file",
-  version: "0.0.1",
+  version: "0.1.2",
   type: "action",
   props: {
     onedrive,
@@ -22,13 +22,16 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    httpRequest,
+  },
   async run({ $ }) {
     const {
       filePath, newFileName,
     } = this;
 
     const url = `/root:/${encodeURI(filePath)}:/content`;
-    const response = await httpRequest({
+    const response = await this.httpRequest({
       $,
       url,
       responseType: "arraybuffer",
