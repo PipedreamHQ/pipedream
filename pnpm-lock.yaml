@@ -2430,7 +2430,10 @@ importers:
     specifiers: {}
 
   components/metatext_ai_pre_build_ai_models_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/microsoft_onedrive:
     specifiers:
