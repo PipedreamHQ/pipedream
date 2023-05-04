@@ -1,6 +1,6 @@
-import { axios } from "@pipedream/platform";
 import { ConfigurationError } from "@pipedream/platform";
 import { URL } from "url";
+import calendly from "../../calendly_v2.app.mjs";
 
 export default {
   key: "calendly_v2-get-event",
@@ -9,18 +9,15 @@ export default {
   version: "0.1.2",
   type: "action",
   props: {
-    calendly_v2: {
-      type: "app",
-      app: "calendly_v2",
-    },
-    event_uuid: {
-      type: "string",
-      label: "Event UUID",
-      description:
-        "The event's unique identifier.",
+    calendly,
+    eventId: {
+      propDefinition: [
+        calendly,
+        "eventId",
+      ],
       optional: true,
     },
-    event_url: {
+    eventUrl: {
       type: "string",
       label: "Event URL",
       description: "The URL of the event to retrieve information about. If you are using a Calendly Source in the same workflow, you would use ``{{steps.trigger.event.payload.event}}``.",
@@ -29,31 +26,26 @@ export default {
   },
 
   methods: {
-    getEventUuidFromUrl(event_url) {
-      if (!event_url) {
+    getEventUuidFromUrl(eventUrl) {
+      if (!eventUrl) {
         return null;
       }
 
-      const url = new URL(event_url);
+      const url = new URL(eventUrl);
       return url.pathname.split("/").pop();
     },
   },
 
   async run({ $ }) {
-    if (!this.event_uuid && !this.event_url) {
+    if (!this.eventId && !this.eventUrl) {
       throw new ConfigurationError(
         "Please provide either the Event UUID or Event URL, then try again.",
       );
     }
 
-    const event_uuid = this.event_uuid || this.getEventUuidFromUrl(this.event_url);
+    const eventUuid = this.eventId || this.getEventUuidFromUrl(this.eventUrl);
 
-    const response = await axios($, {
-      url: `https://api.calendly.com/scheduled_events/${event_uuid}`,
-      headers: {
-        Authorization: `Bearer ${this.calendly_v2.$auth.oauth_access_token}`,
-      },
-    });
+    const response = await this.calendly.getEvent(eventUuid, $);
 
     const eventName = response.resource.name;
 
