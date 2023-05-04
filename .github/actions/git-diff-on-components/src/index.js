@@ -94,6 +94,11 @@ async function getFilesContent(filePaths = []) {
 function includesVersion(contents) {
   return contents.match(new RegExp(/version: "\d+\.\d+\.\d+"/g)) || contents.match(new RegExp(/"version": "\d+\.\d+\.\d+"/g));
 }
+
+function getVersion(contents) {
+  return includesVersion(contents)[0].slice(-6, -1)
+}
+
 function increaseVersion(version) {
   console.log("increaseVersion", version)
   return version.slice(0, 4) + (+version.split('.')[2] + 1)
@@ -349,7 +354,7 @@ async function run() {
 
   componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
     const content = await readFile(componentFilePath, "utf-8")
-    const currentVersion = includesVersion(content)
+    const currentVersion = getVersion(content)
     const increasedVersion = increaseVersion(currentVersion)
     // // console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
