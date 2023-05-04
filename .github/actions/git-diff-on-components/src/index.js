@@ -343,11 +343,11 @@ async function run() {
     console.log(`${counter++}) You need to change the version of ${filePath}.`);
   });
 
-  componentsDiffContents.forEach((event) => {
-    console.log(event)
-    // const includesVersiona = includesVersion()
+  componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
+    const content = await readFile(componentFilePath, "utf-8")
+    const includesVersiona = includesVersion(content)
     // // console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
-    // console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${includesVersiona} to ${includesVersiona} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+    console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${includesVersiona} to ${includesVersiona} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
   });
 
   if (totalErrors) {

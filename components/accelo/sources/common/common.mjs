@@ -17,7 +17,7 @@ export default {
       throw new Error("getWebhookEventType is not implemented");
     },
     emitEvent(event) {
-      throw new Error("emitEvent is not implementedaaaasdaddsadddasdaadsaadsasds", event);
+      throw new Error("emitEvent is not implementedaaaasdaddsadddasdaadsaadasdsadsadsadsasds", event);
     },
   },
   hooks: {
