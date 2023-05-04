@@ -50,7 +50,7 @@ export default {
           : lineItem);
       }
     } catch (error) {
-      throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
+      throw new ConfigurationError(`An error occurred while trying to parse the LineItems. Error: ${error}`);
     }
 
     const response = await this.createSalesReceipt({
