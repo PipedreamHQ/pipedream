@@ -16,7 +16,21 @@ const difference = require("lodash.difference");
 // const headCommit = core.getInput("head_commit");
 const allFiles = JSON.parse(core.getInput("all_files"));
 
-import { } from '../../git-diff-on-components/src/index'
+import {
+  getFilteredFilePaths,
+  getExistingFilePaths,
+  getPackageJsonFilePath,
+  processFiles,
+  getFilteredFilePaths,
+  difference,
+  getAllFilePaths,
+  getDependencyFilesDict,
+  getComponentsDependencies,
+  getFilesToBeCheckByDependency,
+  getComponentsThatNeedToBeModified,
+  getComponentsPendingForGitDiff,
+  checkVersionModification,
+} from '../../git-diff-on-components/dist'
 
 // async function execCmd(...args) {
 //   let output = "";

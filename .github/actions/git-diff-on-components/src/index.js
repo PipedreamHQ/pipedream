@@ -343,8 +343,11 @@ async function run() {
     console.log(`${counter++}) You need to change the version of ${filePath}.`);
   });
 
-  componentsDiffContents.forEach(({ dependencyFilePath, componentFilePath }) => {
-    console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+  componentsDiffContents.forEach((event) => {
+    console.log(event)
+    // const includesVersiona = includesVersion()
+    // // console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+    // console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${includesVersiona} to ${includesVersiona} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
   });
 
   if (totalErrors) {
@@ -355,18 +358,18 @@ async function run() {
 run().catch(error => core.setFailed(error ?? error?.message));
 
 
-export default {
-  getFilteredFilePaths,
-  getExistingFilePaths,
-  getPackageJsonFilePath,
-  processFiles,
-  getFilteredFilePaths,
-  difference,
-  getAllFilePaths,
-  getDependencyFilesDict,
-  getComponentsDependencies,
-  getFilesToBeCheckByDependency,
-  getComponentsThatNeedToBeModified,
-  getComponentsPendingForGitDiff,
-  checkVersionModification,
-}
+// export default {
+//   getFilteredFilePaths,
+//   getExistingFilePaths,
+//   getPackageJsonFilePath,
+//   processFiles,
+//   getFilteredFilePaths,
+//   difference,
+//   getAllFilePaths,
+//   getDependencyFilesDict,
+//   getComponentsDependencies,
+//   getFilesToBeCheckByDependency,
+//   getComponentsThatNeedToBeModified,
+//   getComponentsPendingForGitDiff,
+//   checkVersionModification,
+// }
