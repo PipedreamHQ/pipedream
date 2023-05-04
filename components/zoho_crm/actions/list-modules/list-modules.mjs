@@ -1,7 +1,7 @@
 import zohoCrm from "../../zoho_crm.app.mjs";
 
 export default {
-  key: "zoho_crm-list-module",
+  key: "zoho_crm-list-modules",
   name: "List Modules",
   description: "Retrieves a list of all the modules available in your CRM account.",
   version: "0.2.0",
