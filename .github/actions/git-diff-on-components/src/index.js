@@ -343,6 +343,7 @@ async function run() {
     console.log(`${counter++}) A - You need to change the version of ${filePath}.`);
   });
 
+  // here is when a common is changed and need to increase the dependencies
   componentsDiffContents.forEach(({ dependencyFilePath, componentFilePath }) => {
     console.log(`${counter++}) B - You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
   });
