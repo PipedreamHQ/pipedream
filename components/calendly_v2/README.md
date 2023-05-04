@@ -15,4 +15,4 @@ include:
 - A calendar app that allows users to view and manage their Calendly events and
   appointments
 - A to-do list app that allows users to track and manage their Calendly events
-  and appointments 
+  and appointments  
