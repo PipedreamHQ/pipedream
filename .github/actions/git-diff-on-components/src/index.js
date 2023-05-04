@@ -340,11 +340,11 @@ async function run() {
   let counter = 1;
 
   componentsThatDidNotModifyVersion.forEach((filePath) => {
-    console.log(`${counter++}) You need to change the version of ${filePath}.`);
+    console.log(`${counter++}) A - You need to change the version of ${filePath}.`);
   });
 
   componentsDiffContents.forEach(({ dependencyFilePath, componentFilePath }) => {
-    console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+    console.log(`${counter++}) B - You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
   });
 
   if (totalErrors) {
