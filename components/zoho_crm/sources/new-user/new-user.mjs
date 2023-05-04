@@ -1,5 +1,5 @@
 import common from "../common/timer-based/base.mjs";
-import userTypes from "./user-types.mjs";
+import userTypes from "./common-user-types.mjs";
 
 export default {
   ...common,

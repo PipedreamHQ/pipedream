@@ -1,5 +1,5 @@
 import sortBy from "lodash.sortby";
-import base from "./predefined-module.mjs";
+import base from "./common-predefined-module.mjs";
 
 export default {
   ...base,
@@ -10,11 +10,7 @@ export default {
       label: "Module",
       description:
         "The type of module that will trigger this event source when created",
-      async options({ page = 0 }) {
-        if (page !== 0) {
-          return [];
-        }
-
+      async options() {
         const { modules } = await this.zohoCrm.listModules();
         const options = modules
           .filter(this.areEventsSupportedByModule)

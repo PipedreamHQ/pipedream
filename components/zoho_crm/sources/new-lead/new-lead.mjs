@@ -1,5 +1,5 @@
-import common from "../common/http-based/predefined-module.mjs";
-import crudOps from "../common/http-based/crud-operations.mjs";
+import common from "../common/http-based/common-predefined-module.mjs";
+import crudOps from "../common/http-based/common-crud-operations.mjs";
 
 export default {
   ...common,

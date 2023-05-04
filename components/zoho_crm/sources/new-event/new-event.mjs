@@ -1,6 +1,6 @@
 import sortBy from "lodash.sortby";
 import common from "../common/http-based/base.mjs";
-import crudOps from "../common/http-based/crud-operations.mjs";
+import crudOps from "../common/http-based/common-crud-operations.mjs";
 
 export default {
   ...common,
