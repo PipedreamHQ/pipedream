@@ -340,12 +340,11 @@ async function run() {
   let counter = 1;
 
   componentsThatDidNotModifyVersion.forEach((filePath) => {
-    console.log(`${counter++}) A - You need to change the version of ${filePath}.`);
+    console.log(`${counter++}) You need to change the version of ${filePath}.`);
   });
 
-  // here is when a common is changed and need to increase the dependencies
   componentsDiffContents.forEach(({ dependencyFilePath, componentFilePath }) => {
-    console.log(`${counter++}) B - You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+    console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
   });
 
   if (totalErrors) {
@@ -354,3 +353,20 @@ async function run() {
 }
 
 run().catch(error => core.setFailed(error ?? error?.message));
+
+
+export default {
+  getFilteredFilePaths,
+  getExistingFilePaths,
+  getPackageJsonFilePath,
+  processFiles,
+  getFilteredFilePaths,
+  difference,
+  getAllFilePaths,
+  getDependencyFilesDict,
+  getComponentsDependencies,
+  getFilesToBeCheckByDependency,
+  getComponentsThatNeedToBeModified,
+  getComponentsPendingForGitDiff,
+  checkVersionModification,
+}
