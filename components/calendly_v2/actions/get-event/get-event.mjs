@@ -23,28 +23,30 @@ export default {
     event_url: {
       type: "string",
       label: "Event URL",
-      description: "The URL of the event to retrieve information about. If you are using a Calendly Source in the same workflow, you would use *{{steps.trigger.event.payload.event}}*.",
+      description: "The URL of the event to retrieve information about. If you are using a Calendly Source in the same workflow, you would use ``{{steps.trigger.event.payload.event}}``.",
       optional: true,
     },
   },
 
-  async run({ $ }) {
-    function getEventUuidFromUrl(event_url) {
+  methods: {
+    getEventUuidFromUrl(event_url) {
       if (!event_url) {
         return null;
       }
 
       const url = new URL(event_url);
       return url.pathname.split("/").pop();
-    }
+    },
+  },
 
+  async run({ $ }) {
     if (!this.event_uuid && !this.event_url) {
       throw new ConfigurationError(
         "Please provide either the Event UUID or Event URL, then try again.",
       );
     }
 
-    const event_uuid = this.event_uuid || getEventUuidFromUrl(this.event_url);
+    const event_uuid = this.event_uuid || this.getEventUuidFromUrl(this.event_url);
 
     const response = await axios($, {
       url: `https://api.calendly.com/scheduled_events/${event_uuid}`,
