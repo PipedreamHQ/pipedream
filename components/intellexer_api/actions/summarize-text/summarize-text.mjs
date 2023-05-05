@@ -34,14 +34,9 @@ export default {
       optional: true,
     },
     structure: {
-      type: "string",
-      label: "Structure",
-      description: "Specify structure of the text",
-      options: [
-        "News Article",
-        "Research Paper",
-        "Patent",
-        "General",
+      propDefinition: [
+        intellexer,
+        "structure",
       ],
       optional: true,
     },

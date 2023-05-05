@@ -3,7 +3,19 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "intellexer_api",
-  propDefinitions: {},
+  propDefinitions: {
+    structure: {
+      type: "string",
+      label: "Structure",
+      description: "Specify structure of the document / text",
+      options: [
+        "NewsArticle",
+        "ResearchPaper",
+        "Patent",
+        "General",
+      ],
+    },
+  },
   methods: {
     _baseUrl() {
       return "http://api.intellexer.com";
