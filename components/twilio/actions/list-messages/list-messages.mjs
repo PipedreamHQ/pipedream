@@ -47,9 +47,18 @@ export default {
       to = toParsed.phoneNumber;
     }
 
+    let from = this.from;
+    if (this.from) {
+      const fromParsed = phone(this.from);
+      if (!fromParsed || !fromParsed.phoneNumber) {
+        throw new Error(`Phone number ${this.from} couldn't be parsed as a valid number.`);
+      }
+      from = fromParsed.phoneNumber;
+    }
+
     const resp = await this.twilio.listMessages(omitEmptyStringValues({
       to,
-      from: this.from,
+      from,
       limit: this.limit,
     }));
     /* eslint-disable multiline-ternary */

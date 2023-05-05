@@ -39,9 +39,14 @@ export default {
       throw new Error(`Phone number ${this.to} couldn't be parsed as a valid number.`);
     }
 
+    const fromParsed = phone(this.from);
+    if (!fromParsed || !fromParsed.phoneNumber) {
+      throw new Error(`Phone number ${this.from} couldn't be parsed as a valid number.`);
+    }
+
     const data = {
       to: toParsed.phoneNumber,
-      from: this.from,
+      from: fromParsed.phoneNumber,
       body: this.body,
     };
 
