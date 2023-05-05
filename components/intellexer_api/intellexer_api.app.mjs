@@ -15,6 +15,45 @@ export default {
         "General",
       ],
     },
+    loadConceptsTree: {
+      type: "boolean",
+      label: "Load Concepts Tree",
+      description: "Load a tree of concepts. Default: true",
+      default: true,
+      optional: true,
+    },
+    loadNamedEntityTree: {
+      type: "boolean",
+      label: "Load Named Entity Tree",
+      description: "Load a tree of Named Entities. Default: true",
+      default: true,
+      optional: true,
+    },
+    summaryRestriction: {
+      type: "integer",
+      label: "Summary Restriction",
+      description: "Determine size of a summary measured in sentences. Required for `items` to be included in the response.",
+      optional: true,
+    },
+    returnedTopicsCount: {
+      type: "integer",
+      label: "Returned Topics Count",
+      description: "Determine max count of text topics to return",
+      optional: true,
+    },
+    fullTextTrees: {
+      type: "boolean",
+      label: "Full Text Trees",
+      description: "Set to true to load full text trees",
+      optional: true,
+    },
+    wrapConcepts: {
+      type: "boolean",
+      label: "Wrap Concepts",
+      description: "Mark concepts found in the summary with HTML bold tags. Default: false",
+      default: false,
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

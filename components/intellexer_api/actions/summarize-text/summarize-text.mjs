@@ -14,24 +14,22 @@ export default {
       description: "The text to summarize",
     },
     loadConceptsTree: {
-      type: "boolean",
-      label: "Load Concepts Tree",
-      description: "Load a tree of concepts. Default: true",
-      default: true,
-      optional: true,
+      propDefinition: [
+        intellexer,
+        "loadConceptsTree",
+      ],
     },
     loadNamedEntityTree: {
-      type: "boolean",
-      label: "Load Named Entity Tree",
-      description: "Load a tree of Named Entities. Default: true",
-      default: true,
-      optional: true,
+      propDefinition: [
+        intellexer,
+        "loadNamedEntityTree",
+      ],
     },
     summaryRestriction: {
-      type: "integer",
-      label: "Summary Restriction",
-      description: "Determine size of a summary measured in sentences",
-      optional: true,
+      propDefinition: [
+        intellexer,
+        "summaryRestriction",
+      ],
     },
     structure: {
       propDefinition: [
@@ -41,30 +39,29 @@ export default {
       optional: true,
     },
     returnedTopicsCount: {
-      type: "integer",
-      label: "Returned Topics Count",
-      description: "Determine max count of text topics to return",
-      optional: true,
+      propDefinition: [
+        intellexer,
+        "returnedTopicsCount",
+      ],
     },
     fullTextTrees: {
-      type: "boolean",
-      label: "Full Text Trees",
-      description: "Set to true to load full text trees",
-      optional: true,
+      propDefinition: [
+        intellexer,
+        "fullTextTrees",
+      ],
     },
     wrapConcepts: {
-      type: "boolean",
-      label: "Wrap Concepts",
-      description: "Mark concepts found in the summary with HTML bold tags. Default: false",
-      default: false,
-      optional: true,
+      propDefinition: [
+        intellexer,
+        "wrapConcepts",
+      ],
     },
   },
   async run({ $ }) {
     const params = {
       loadConceptsTree: this.loadConceptsTree,
       loadNamedEntityTree: this.loadNamedEntityTree,
-      summaryRestriction: this.summaryRestruction,
+      summaryRestriction: this.summaryRestriction,
       structure: this.structure,
       returnedTopicsCount: this.returnedTopicsCount,
       fullTextTrees: this.fullTextTrees,
