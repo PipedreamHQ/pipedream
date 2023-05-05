@@ -36,7 +36,7 @@ export default {
 
     delete result.fileBinary;
 
-    $.export("$summary", `File successfully saved in "${this.path.label}"`);
+    $.export("$summary", `File successfully saved in "/tmp/${this.name}"`);
 
     return {
       tmpPath: `/tmp/${result.name}`,
