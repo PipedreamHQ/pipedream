@@ -151,6 +151,14 @@ export default {
         params,
       });
     },
+    getFormSubmission({
+      $, submissionId,
+    }) {
+      return this._makeRequest({
+        $,
+        endpoint: `submission/${submissionId}`,
+      });
+    },
     async getFormSubmissions({
       $, formId, params = null,
     }) {

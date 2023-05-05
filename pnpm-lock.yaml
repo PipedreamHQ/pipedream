@@ -937,6 +937,9 @@ importers:
   components/datumbox:
     specifiers: {}
 
+  components/dayschedule:
+    specifiers: {}
+
   components/dear:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1864,9 +1867,12 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.0
       bottleneck: ^2.19.5
+      package: ^1.0.1
     dependencies:
       '@pipedream/platform': 1.5.1
       bottleneck: 2.19.5
+    devDependencies:
+      package: 1.0.1
 
   components/hubspot_developer_app:
     specifiers: {}
@@ -2024,11 +2030,11 @@ importers:
 
   components/jotform:
     specifiers:
-      axios: ^0.21.1
-      query-string: ^7.1.1
+      '@pipedream/platform': ^1.5.1
+      query-string: ^8.1.0
     dependencies:
-      axios: 0.21.4
-      query-string: 7.1.3
+      '@pipedream/platform': 1.5.1
+      query-string: 8.1.0
 
   components/jp_funda:
     specifiers: {}
@@ -2078,7 +2084,10 @@ importers:
       klaviyo-sdk: 1.0.1_@babel+core@7.21.4
 
   components/klazify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/klipfolio:
     specifiers: {}
@@ -2327,7 +2336,10 @@ importers:
     specifiers: {}
 
   components/mailwizz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/maintainx:
     specifiers:
@@ -2424,7 +2436,10 @@ importers:
     specifiers: {}
 
   components/metatext_ai_pre_build_ai_models_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/microsoft_onedrive:
     specifiers:
@@ -9007,14 +9022,14 @@ packages:
       '@jest/test-result': 29.5.0
       '@jest/transform': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.8.0
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.5.0
-      jest-config: 29.5.0_@types+node@17.0.45
+      jest-config: 29.5.0_@types+node@18.15.12
       jest-haste-map: 29.5.0
       jest-message-util: 29.5.0
       jest-regex-util: 29.4.3
@@ -9323,7 +9338,7 @@ packages:
       '@jest/schemas': 29.4.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       '@types/yargs': 17.0.24
       chalk: 4.1.2
     dev: true
@@ -11727,7 +11742,6 @@ packages:
 
   /@types/node/18.15.12:
     resolution: {integrity: sha512-Wha1UwsB3CYdqUm2PPzh/1gujGCNtWVUYF0mB00fJFoR4gTyWTDPjSm+zBF787Ahw8vSGgBja90MkgFwvB86Dg==}
-    dev: false
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -11781,7 +11795,7 @@ packages:
   /@types/sax/1.2.4:
     resolution: {integrity: sha512-pSAff4IAxJjfAXUG6tFkO7dsSbTmf8CtUpfhhZ5VhkRpC4628tJhh3+V6H1E+/Gs9piSzYKT5yzHO5M4GG9jkw==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
     dev: true
 
   /@types/semver/7.3.13:
@@ -11843,7 +11857,7 @@ packages:
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
     dev: false
 
   /@types/yargs-parser/21.0.0:
@@ -17511,7 +17525,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-config/29.5.0_@types+node@17.0.45:
+  /jest-config/29.5.0_@types+node@18.15.12:
     resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -17526,7 +17540,7 @@ packages:
       '@babel/core': 7.21.4
       '@jest/test-sequencer': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       babel-jest: 29.5.0_@babel+core@7.21.4
       chalk: 4.1.2
       ci-info: 3.8.0
@@ -18086,7 +18100,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       chalk: 4.1.2
       ci-info: 3.8.0
       graceful-fs: 4.2.11
@@ -20800,6 +20814,11 @@ packages:
     dependencies:
       chalk: 2.4.2
     dev: false
+
+  /package/1.0.1:
+    resolution: {integrity: sha512-g6xZR6CO7okjie83sIRJodgGvaXqymfE5GLhN8N2TmZGShmHc/V23hO/vWbdnuy3D81As3pfovw72gGi42l9qA==}
+    engines: {node: '>= 0.6.0'}
+    dev: true
 
   /packet-reader/1.0.0:
     resolution: {integrity: sha512-HAKu/fG3HpHFO0AA8WE8q2g+gBJaZ9MG7fcKk+IJPLTGAD6Psw4443l+9DGRbOIh3/aXr7Phy0TjilYivJo5XQ==}
