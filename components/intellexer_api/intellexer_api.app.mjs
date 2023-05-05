@@ -32,6 +32,13 @@ export default {
         ...args,
       });
     },
+    summarizeText(args = {}) {
+      return this._makeRequest({
+        path: "/summarizeText",
+        method: "POST",
+        ...args,
+      });
+    },
     extractNamedEntities(args = {}) {
       return this._makeRequest({
         path: "/recognizeNe",
