@@ -348,6 +348,9 @@ async function run() {
   const totalErrors = componentsThatDidNotModifyVersion.length + componentsDiffContents.length;
   let counter = 1;
 
+  await execCmd("git", ["config", "--global", "user.email", "lucascarezia@gmail.com"]);
+  await execCmd("git", ["config", "--global", "user.name", "Lucas Caresia"]);
+
   componentsThatDidNotModifyVersion.forEach((filePath) => {
     console.log(`${counter++}) You need to change the version of ${filePath}.`);
   });
