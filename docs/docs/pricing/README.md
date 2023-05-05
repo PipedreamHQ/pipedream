@@ -31,6 +31,18 @@ Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and 
 
 Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
 
+#### Compute time limits
+
+Additionally, free accounts have a limit on compute time for processing test events in the workflow builder.
+
+This limit resets daily, but it limits the amount of testing possible in a day.
+
+You can modify a workflow's steps an unlimited number of times per day, but the computing time to test workflows or individual steps is subject to this limit.
+
+This limit does not affect deployed workflows, only when using the **Test** functionality on individual steps while in the workflow builder.
+
+[Upgrade to any paid plan](https://pipedream.com/pricing) to remove this restriction and get unlimited testing compute time.
+
 ### Free Tier Polling Interval Limitations
 
 Free Tier account triggers powered by polling are limited to the longest interval. Paid tiers have an option to polling at a substantially higher frequency.
