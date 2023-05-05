@@ -345,7 +345,7 @@ async function run() {
     componentsDiffContents = await checkVersionModification(componentsPendingForGitDiff, componentsThatDidNotModifyVersion);
   }
 
-  const totalErrors = componentsThatDidNotModifyVersion.length + componentsDiffContents.length;
+  const totalErrors = componentsThatDidNotModifyVersion.length;
   let counter = 1;
 
   await execCmd("git", ["config", "--global", "user.email", "lucascarezia@gmail.com"]);
@@ -356,15 +356,6 @@ async function run() {
   });
 
   if (componentsDiffContents.length) {
-    // componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
-    //   const content = await readFile(componentFilePath, "utf-8")
-    //   const currentVersion = getVersion(content)
-    //   const increasedVersion = increaseVersion(currentVersion)
-
-    //   await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
-
-    //   console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
-    // });
     for ({ dependencyFilePath, componentFilePath } of componentsDiffContents) {
       const content = await readFile(componentFilePath, "utf-8")
       const currentVersion = getVersion(content)
@@ -372,7 +363,7 @@ async function run() {
 
       await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
 
-      console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+      console.log(`✅ Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     };
 
     await execCmd("git", ["add", "."]);
@@ -380,27 +371,9 @@ async function run() {
     await execCmd("git", ["push", "--force-with-lease", "--no-verify"]);
   }
 
-
   if (totalErrors) {
     core.setFailed(`You need to increment the version of ${totalErrors} component(s). Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information.`);
   }
 }
 
 run().catch(error => core.setFailed(error ?? error?.message));
-
-
-// export default {
-//   getFilteredFilePaths,
-//   getExistingFilePaths,
-//   getPackageJsonFilePath,
-//   processFiles,
-//   getFilteredFilePaths,
-//   difference,
-//   getAllFilePaths,
-//   getDependencyFilesDict,
-//   getComponentsDependencies,
-//   getFilesToBeCheckByDependency,
-//   getComponentsThatNeedToBeModified,
-//   getComponentsPendingForGitDiff,
-//   checkVersionModification,
-// }

@@ -13,7 +13,7 @@ export default {
 
         return companies.map((company) => ({
           value: company.id,
-          label: company.name, // just testing, this comment need be removed after adsdasdasdas
+          label: company.name,
         }));
       },
     },

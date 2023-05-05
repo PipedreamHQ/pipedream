@@ -35,12 +35,6 @@ jobs:
         name: Get changed files
         with:
           format: json
-      # - name: Increase actions and sources versions
-      #   uses: ./.github/actions/increase-actions-and-sources-versions
-      #   with:
-      #     all_files: ${{ steps.changed_files.outputs.all }}
-      #     base_commit: ${{ github.event.pull_request.base.sha }}
-      #     head_commit: ${{ github.event.pull_request.head.sha }}
       - name: Check git diff for version changes
         uses: ./.github/actions/git-diff-on-components
         with:
