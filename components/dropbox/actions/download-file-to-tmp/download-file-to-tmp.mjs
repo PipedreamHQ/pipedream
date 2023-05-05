@@ -23,6 +23,7 @@ export default {
       type: "string",
       label: "File name",
       description: "The new name of the file to be saved, including it's extension. e.g: `myFile.csv`",
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -30,8 +31,15 @@ export default {
       path: this.getNormalizedPath(this.path, false),
     });
 
-    const { cleanup } = await file();
-    await fs.promises.appendFile(`/tmp/${this.name}`, Buffer.from(result.fileBinary));
+    const {
+      path, cleanup,
+    } = await file();
+
+    const tmpPath = this.name
+      ? `/tmp/${this.name}`
+      : path;
+
+    await fs.promises.appendFile(tmpPath, Buffer.from(result.fileBinary));
     await cleanup();
 
     delete result.fileBinary;
@@ -39,7 +47,7 @@ export default {
     $.export("$summary", `File successfully saved in "/tmp/${this.name}"`);
 
     return {
-      tmpPath: `/tmp/${this.name}`,
+      tmpPath,
       ...result,
     };
   },
