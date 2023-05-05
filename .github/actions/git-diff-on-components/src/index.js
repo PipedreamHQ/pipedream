@@ -353,16 +353,13 @@ async function run() {
   });
 
   if (componentsDiffContents.length) {
-    await execCmd(`git`, 'status');
-    await execCmd(`ls`, '.');
-
     componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
       const content = await readFile(componentFilePath, "utf-8")
       const currentVersion = getVersion(content)
       const increasedVersion = increaseVersion(currentVersion)
 
+      console.log("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath))
       await execCmd("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath));
-      // console.log(["sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, componentFilePath].join(' '))
 
       // execCmd(`echo "Hello World" >> README.md`);
       // // console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
