@@ -353,8 +353,8 @@ async function run() {
   });
 
   if (componentsDiffContents.length) {
-    await execCmd(`git status`);
-    await execCmd(`ls`);
+    await execCmd(`git`, 'status');
+    await execCmd(`ls`, '.');
 
     componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
       const content = await readFile(componentFilePath, "utf-8")
