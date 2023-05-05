@@ -353,20 +353,15 @@ async function run() {
   });
 
   if (componentsDiffContents.length) {
-    // await execCmd(`ls`);
-    // await execCmd(`pwd`);
     await execCmd(`git status`);
-    // await execCmd(`git clone https://github.com/PipedreamHQ/pipedream`);
-    // await execCmd(`cd pipedream`);
-
-    // await execCmd(`git checkout increase-versions`);
+    await execCmd(`ls`);
 
     componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
       const content = await readFile(componentFilePath, "utf-8")
       const currentVersion = getVersion(content)
       const increasedVersion = increaseVersion(currentVersion)
 
-      // await execCmd("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath));
+      await execCmd("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath));
       // console.log(["sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, componentFilePath].join(' '))
 
       // execCmd(`echo "Hello World" >> README.md`);
