@@ -8,7 +8,7 @@ export default {
   name: "Download File To TMP",
   description: "Download a specific file to the temporary directory. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDownload__anchor)",
   key: "dropbox-download-file-to-tmp",
-  version: "0.0.11",
+  version: "0.0.1",
   type: "action",
   props: {
     dropbox,
