@@ -353,6 +353,9 @@ async function run() {
   });
 
   if (componentsDiffContents.length) {
+    await execCmd(`ls`);
+    await execCmd(`pwd`);
+    await execCmd(`git status`);
     // await execCmd(`git clone https://github.com/PipedreamHQ/pipedream`);
     // await execCmd(`cd pipedream`);
 
@@ -367,7 +370,6 @@ async function run() {
       // console.log(["sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, componentFilePath].join(' '))
 
       // execCmd(`echo "Hello World" >> README.md`);
-      console.log(process.env)
       // // console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
       console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     });
