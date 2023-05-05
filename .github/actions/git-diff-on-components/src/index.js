@@ -353,8 +353,8 @@ async function run() {
   });
 
   if (componentsDiffContents.length) {
-    await execCmd(`ls`);
-    await execCmd(`pwd`);
+    // await execCmd(`ls`);
+    // await execCmd(`pwd`);
     await execCmd(`git status`);
     // await execCmd(`git clone https://github.com/PipedreamHQ/pipedream`);
     // await execCmd(`cd pipedream`);
