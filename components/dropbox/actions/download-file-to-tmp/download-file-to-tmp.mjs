@@ -39,7 +39,7 @@ export default {
     $.export("$summary", `File successfully saved in "/tmp/${this.name}"`);
 
     return {
-      tmpPath: `/tmp/${result.name}`,
+      tmpPath: `/tmp/${this.name}`,
       ...result,
     };
   },
