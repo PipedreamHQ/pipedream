@@ -341,13 +341,6 @@ export default {
       });
       return get(res, "data");
     },
-    async getWebinarParticipantReports(webinarID, params) {
-      const { data } = await this._makeRequest({
-        path: `report/webinars/${webinarID}/participants`,
-        params,
-      });
-      return data;
-    },
     async listWebinarParticipants(webinarID, pageSize, nextPageToken) {
       const { data } = await this._makeRequest({
         path: `/past_webinars/${webinarID}/participants`,
