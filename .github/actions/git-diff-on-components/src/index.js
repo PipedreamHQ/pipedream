@@ -353,10 +353,10 @@ async function run() {
   });
 
   if (componentsDiffContents.length) {
-    await execSync(`git clone https://github.com/PipedreamHQ/pipedream`);
-    await execSync(`cd pipedream`);
+    await execCmd(`git clone https://github.com/PipedreamHQ/pipedream`);
+    await execCmd(`cd pipedream`);
 
-    await execSync(`git checkout increase-versions`);
+    await execCmd(`git checkout increase-versions`);
 
     componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
       const content = await readFile(componentFilePath, "utf-8")
@@ -366,15 +366,15 @@ async function run() {
       await execCmd("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath));
       // console.log(["sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, componentFilePath].join(' '))
 
-      // execSync(`echo "Hello World" >> README.md`);
+      // execCmd(`echo "Hello World" >> README.md`);
 
       // // console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
       console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     });
 
-    execSync(`git add .`);
-    execSync(`git commit -m "Versions updated"`);
-    execSync(`git push --force-with-lease --no-verify`);
+    await execCmd(`git add .`);
+    await execCmd(`git commit -m "Versions updated"`);
+    await execCmd(`git push --force-with-lease --no-verify`);
   }
 
 
