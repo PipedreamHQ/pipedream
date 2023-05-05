@@ -100,7 +100,6 @@ function getVersion(contents) {
 }
 
 function increaseVersion(version) {
-  console.log("increaseVersion", version)
   return version.slice(0, 4) + (+version.split('.')[2] + 1)
 }
 
