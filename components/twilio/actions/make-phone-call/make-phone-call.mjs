@@ -6,7 +6,7 @@ export default {
   key: "twilio-make-phone-call",
   name: "Make a Phone Call",
   description: "Make a phone call, passing text that Twilio will speak to the recipient of the call. [See the docs](https://www.twilio.com/docs/voice/api/call-resource#create-a-call-resource) for more information",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     twilio,
@@ -36,12 +36,12 @@ export default {
     const toParsed = phone(this.to);
     console.log(toParsed);
     if (!toParsed || !toParsed.phoneNumber) {
-      throw new Error(`Phone number ${this.to} couldn't be parsed as a valid number.`);
+      throw new Error(`Phone number ${this.to} could not be parsed as a valid number.`);
     }
 
     const fromParsed = phone(this.from);
     if (!fromParsed || !fromParsed.phoneNumber) {
-      throw new Error(`Phone number ${this.from} couldn't be parsed as a valid number.`);
+      throw new Error(`Phone number ${this.from} could not be parsed as a valid number.`);
     }
 
     const data = {
