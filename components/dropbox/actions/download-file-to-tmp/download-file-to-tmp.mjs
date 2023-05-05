@@ -15,7 +15,7 @@ export default {
     path: {
       propDefinition: [
         dropbox,
-        "pathFolder",
+        "pathFile",
       ],
       description: "The file path in the user's Dropbox to download.",
     },
