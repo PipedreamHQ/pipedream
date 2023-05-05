@@ -356,7 +356,16 @@ async function run() {
   });
 
   if (componentsDiffContents.length) {
-    componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
+    // componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
+    //   const content = await readFile(componentFilePath, "utf-8")
+    //   const currentVersion = getVersion(content)
+    //   const increasedVersion = increaseVersion(currentVersion)
+
+    //   await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
+
+    //   console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+    // });
+    for ({ dependencyFilePath, componentFilePath } of componentsDiffContents) {
       const content = await readFile(componentFilePath, "utf-8")
       const currentVersion = getVersion(content)
       const increasedVersion = increaseVersion(currentVersion)
@@ -364,7 +373,7 @@ async function run() {
       await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
 
       console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
-    });
+    };
 
     await execCmd("git", ["add", "."]);
     await execCmd("git", ["commit", "-m", "Automatically updating actions ans sources versions"]);
