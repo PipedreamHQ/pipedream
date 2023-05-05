@@ -6,11 +6,9 @@ name: Pull Request Checks
 #
 
 on:
-  # pull_request:
-  push:
+  pull_request:
     branches:
-      # - master
-      - increase-versions
+      - master
 
 jobs:
   check_version:
