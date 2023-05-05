@@ -1,18 +1,14 @@
 {
   "name": "@pipedream/calendly_v2",
   "version": "1.0.0",
-  "description": "Pipedream Calendly_v2 Components",
-  "main": "dist/app/calendly_v2.app.mjs",
+  "description": "Pipedream Calendly V2 Components",
+  "main": "calendly_v2.app.mjs",
   "keywords": [
     "pipedream",
     "calendly"
   ],
-  "files": [
-    "dist"
-  ],
   "homepage": "https://pipedream.com/apps/calendly",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
