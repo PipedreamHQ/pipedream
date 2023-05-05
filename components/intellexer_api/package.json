@@ -1,17 +1,18 @@
 {
   "name": "@pipedream/intellexer_api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Intellexer API  Components",
-  "main": "dist/app/intellexer_api.app.mjs",
+  "main": "intellexer_api.app.mjs",
   "keywords": [
     "pipedream",
     "intellexer_api"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/intellexer_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
