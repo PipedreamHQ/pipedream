@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dear",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Dear Components",
   "main": "dear.app.mjs",
   "keywords": [
