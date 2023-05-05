@@ -352,17 +352,30 @@ async function run() {
     console.log(`${counter++}) You need to change the version of ${filePath}.`);
   });
 
-  componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
-    const content = await readFile(componentFilePath, "utf-8")
-    const currentVersion = getVersion(content)
-    const increasedVersion = increaseVersion(currentVersion)
+  if (componentsDiffContents.length) {
+    // execSync(`git clone https://github.com/PipedreamHQ/pipedream`);
+    // execSync(`cd pipedream`);
 
-    console.log(["sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, componentFilePath].join(' '))
+    // execSync(`git checkout ${commitSha}`);
 
-    await execCmd("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, componentFilePath);
-    // // console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
-    console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
-  });
+    componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
+      const content = await readFile(componentFilePath, "utf-8")
+      const currentVersion = getVersion(content)
+      const increasedVersion = increaseVersion(currentVersion)
+
+      // console.log(["sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, componentFilePath].join(' '))
+
+      // execSync(`echo "Hello World" >> README.md`);
+      // execSync(`git add .`);
+      // execSync(`git commit --amend --no-edit`);
+      // execSync(`git push --force-with-lease`);
+
+      // await execCmd("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, componentFilePath);
+      // // console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+      console.log(`${headCommit} - ${baseCommit} ${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+    });
+  }
+
 
   if (totalErrors) {
     core.setFailed(`You need to increment the version of ${totalErrors} component(s). Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information.`);
