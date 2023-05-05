@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/team_up",
+  "version": "0.1.0",
+  "description": "Pipedream Team Up Components",
+  "main": "dist/app/team_up.app.mjs",
+  "keywords": [
+    "pipedream",
+    "team_up"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/team_up",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1",
+    "@pipedream/types": "^0.1.4"
+  }
+}

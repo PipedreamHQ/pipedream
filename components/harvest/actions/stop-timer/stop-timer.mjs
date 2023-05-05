@@ -4,16 +4,23 @@ export default {
   key: "harvest-stop-timer",
   name: "Stop Time Entry",
   description: "Stop a timer entry. [See docs here](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#stop-a-running-time-entry)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     harvest,
+    accountId: {
+      propDefinition: [
+        harvest,
+        "accountId",
+      ],
+    },
     timeEntryId: {
       propDefinition: [
         harvest,
         "timeEntryId",
-        () => ({
+        (c) => ({
           isRunning: true,
+          accountId: c.accountId,
         }),
       ],
     },
@@ -22,6 +29,7 @@ export default {
     const response = await this.harvest.stopTimeEntry({
       $,
       id: this.timeEntryId,
+      accountId: this.accountId,
     });
     response && $.export("$summary", "Successfully ended the time entry");
     return response;

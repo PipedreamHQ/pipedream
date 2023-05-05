@@ -4,7 +4,7 @@ export default {
   key: "confection-get-related-uuids",
   name: "Get Related UUIDs",
   type: "action",
-  version: "0.0.1",
+  version: "0.1.0",
   description:
     "This action will retrieve all UUIDs that have a likeness score of at least 50 (default) with the provided UUID. The likeness score can be customized in configuration.",
   props: {

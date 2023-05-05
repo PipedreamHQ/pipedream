@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/formstack_documents",
+  "version": "0.0.1",
+  "description": "Pipedream Formstack Documents Components",
+  "main": "dist/app/formstack_documents.app.mjs",
+  "keywords": [
+    "pipedream",
+    "formstack_documents"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/formstack_documents",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

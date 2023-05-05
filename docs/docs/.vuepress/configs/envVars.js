@@ -12,6 +12,8 @@ module.exports = {
     seconds: 30,
   },
 
+  DATA_STORES_MAX_KEYS: "1,024",
+
   DAILY_CREDITS_LIMIT: "100",
 
   INSPECTOR_EVENT_EXPIRY_DAYS: "365",
@@ -35,5 +37,5 @@ module.exports = {
   TMP_SIZE_LIMIT: "2GB",
   DELAY_MIN_MAX_TIME:
     "You can pause your workflow for as little as one millisecond, or as long as one year",
-  PUBLIC_APPS: "1000",
+  PUBLIC_APPS: "1200",
 };

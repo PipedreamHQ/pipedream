@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.transformConfigForOauth = void 0;
 const axios_1 = require("axios");
 const buildURL = require("axios/lib/helpers/buildURL");
 const querystring = require("querystring");
@@ -46,8 +47,7 @@ function oauth1ParamsSerializer(p) {
         .replace(/\)/g, "%29")
         .replace(/\*/g, "%2A");
 }
-async function getOauthSignature(config, signConfig) {
-    const { oauthSignerUri, token, } = signConfig;
+function transformConfigForOauth(config) {
     const { baseURL, url, } = config;
     const newUrl = buildURL((baseURL !== null && baseURL !== void 0 ? baseURL : "") + url, config.params, oauth1ParamsSerializer); // build url as axios will
     const requestData = {
@@ -71,6 +71,12 @@ async function getOauthSignature(config, signConfig) {
         requestData.data = querystring.parse(config.data);
     }
     config.paramsSerializer = oauth1ParamsSerializer;
+    return requestData;
+}
+exports.transformConfigForOauth = transformConfigForOauth;
+async function getOauthSignature(config, signConfig) {
+    const { oauthSignerUri, token, } = signConfig;
+    const requestData = transformConfigForOauth(config);
     const payload = {
         requestData,
         token,
@@ -129,7 +135,12 @@ function stepExport(step, message, key) {
 function convertAxiosError(err) {
     delete err.response.request;
     err.name = `${err.name} - ${err.message}`;
-    err.message = JSON.stringify(err.response.data);
+    try {
+        err.message = JSON.stringify(err.response.data);
+    }
+    catch (error) {
+        console.error("Error trying to convert `err.response.data` to string");
+    }
     return err;
 }
 function create(config, signConfig) {
@@ -151,12 +162,6 @@ function create(config, signConfig) {
         }
         removeSearchFromUrl(config);
         return config;
-    }, (error) => {
-        if (error.response) {
-            convertAxiosError(error);
-            stepExport(this, error.response, "debug");
-        }
-        throw error;
     });
     axiosInstance.interceptors.response.use((response) => {
         const config = response.config;

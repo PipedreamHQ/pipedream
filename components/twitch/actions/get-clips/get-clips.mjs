@@ -5,7 +5,7 @@ export default {
   name: "Get Clips",
   key: "twitch-get-clips",
   description: "Gets clip information by clip ID, user ID, or game ID",
-  version: "0.0.3",
+  version: "0.1.1",
   type: "action",
   props: {
     ...common.props,
@@ -28,7 +28,7 @@ export default {
     gameId: {
       type: "string",
       label: "Game ID",
-      description: `ID of the game the clip is of. 
+      description: `ID of the game the clip is of.
         For a query to be valid, id, broadcaster_id, or game_id must be specified. You may specify only one of these parameters.`,
       optional: true,
     },

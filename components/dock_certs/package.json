@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/dock_certs",
+  "version": "0.0.1",
+  "description": "Pipedream Dock Certs Components",
+  "main": "dist/app/dock_certs.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dock_certs"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/dock_certs",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -18,19 +18,21 @@ export default {
   hooks: {
     ...base.hooks,
     async activate() {
+      // 10 years in seconds (max the API supports - https://developers.ringcentral.com/api-reference/Subscriptions/createSubscription)
+      // years * days * hours * minutes * seconds
+      const expiresIn = 10 * 365 * 24 * 60 * 60;
+
       const verificationToken = this._getVerificationToken();
       this.db.set("verificationToken", verificationToken);
 
       const { id: webhookId } = await this.ringcentral.createHook({
         data: {
+          expiresIn,
           eventFilters: this._getEventFilters(),
           deliveryMode: {
             transportType: "WebHook",
             address: this.http.endpoint,
             verificationToken,
-            // 10 years in seconds (max the API supports - https://developers.ringcentral.com/api-reference/Subscriptions/createSubscription)
-            // years * days * hours * minutes * seconds
-            expiresIn: 10 * 365 * 24 * 60 * 60,
           },
         },
       });
@@ -155,7 +157,7 @@ export default {
 
       const meta = this.generateMeta(body);
       this.$emit(body, meta);
-    }
+    },
   },
   async run(event) {
     const isValidEvent = this.validateEvent(event);

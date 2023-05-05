@@ -164,6 +164,7 @@ export default {
       async options({
         prevContext, types = [], channelsFilter = (channel) => channel, excludeArchived = true,
       }) {
+        const userNames = prevContext.userNames || await this.userNames();
         const {
           channels,
           response_metadata: { next_cursor: cursor },
@@ -174,37 +175,20 @@ export default {
           exclude_archived: excludeArchived,
         });
 
-        const resourcesInfo = await Promise.all(
-          channels
-            .filter(channelsFilter)
-            .map(async ({
-              id: channelId,
-              is_im: isIm,
-              user,
-            }) => ({
-              channelId,
-              resource: isIm
-                ? await this.usersInfo({
-                  user,
-                })
-                : await this.conversationsInfo({
-                  channel: channelId,
-                }),
-            })),
-        );
-
-        const options =
-          resourcesInfo.map(({
-            channelId, resource,
-          }) => ({
-            value: channelId,
-            label: this.getChannelLabel(resource),
+        const options = channels
+          .filter(channelsFilter)
+          .map((c) => ({
+            value: c.id,
+            label: c.is_im
+              ? `@${userNames[c.user]}`
+              : c.name,
           }));
 
         return {
           options,
           context: {
             cursor,
+            userNames,
           },
         };
       },
@@ -293,7 +277,7 @@ export default {
     },
     unfurl_media: {
       type: "boolean",
-      label: "Unful Media",
+      label: "Unfurl Media",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of media content.",
       optional: true,
     },
@@ -341,8 +325,8 @@ export default {
       description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
       optional: true,
       async options() {
-        return await this.getCustomEmojis()
-      }
+        return await this.getCustomEmojis();
+      },
     },
     content: {
       label: "File Path",
@@ -356,9 +340,10 @@ export default {
       optional: true,
     },
     reply_broadcast: {
-      type: "string",
+      type: "boolean",
       label: "Reply Broadcasts",
       description: "Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to false.",
+      default: false,
       optional: true,
     },
     reply_channel: {
@@ -750,10 +735,10 @@ export default {
         ...args,
       });
     },
-    async getCustomEmojis(cursor) {
+    async getCustomEmojis() {
       const resp = await this.sdk().emoji.list();
 
-      return Object.keys(resp.emoji)
+      return Object.keys(resp.emoji);
     },
   },
 };

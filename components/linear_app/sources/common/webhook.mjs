@@ -32,6 +32,15 @@ export default {
     isWebhookValid(clientIp) {
       return constants.CLIENT_IPS.includes(clientIp);
     },
+    isFromProject(body) {
+      return !this.projectId || body?.data?.projectId == this.projectId;
+    },
+    isRelevant() {
+      return true;
+    },
+    useGraphQl() {
+      return true;
+    },
     getResourceTypes() {
       throw new Error("getResourceTypes is not implemented");
     },
@@ -58,6 +67,7 @@ export default {
       const stream = this.linearApp.paginateResources({
         resourcesFn: this.getResourcesFn(),
         resourcesFnArgs: this.getResourcesFnArgs(),
+        useGraphQl: this.useGraphQl(),
       });
       const resources = await utils.streamIterator(stream);
 
@@ -68,7 +78,10 @@ export default {
         });
     },
     async activate() {
-      for (const teamId of this.teamIds) {
+      const teamIds = this.teamIds || [
+        this.teamId,
+      ];
+      for (const teamId of teamIds) {
         const { _webhook: webhook } =
           await this.linearApp.createWebhook({
             teamId,
@@ -80,7 +93,10 @@ export default {
       }
     },
     async deactivate() {
-      for (const teamId of this.teamIds) {
+      const teamIds = this.teamIds || [
+        this.teamId,
+      ];
+      for (const teamId of teamIds) {
         const webhookId = this.getWebhookId(teamId);
         if (webhookId) {
           await this.linearApp.deleteWebhook(webhookId);
@@ -104,6 +120,10 @@ export default {
 
     if (!this.isWebhookValid(clientIp)) {
       console.log("Webhook is not valid");
+      return;
+    }
+
+    if (!(await this.isFromProject(body)) || !this.isRelevant(body)) {
       return;
     }
 

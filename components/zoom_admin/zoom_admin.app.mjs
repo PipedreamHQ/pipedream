@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import sortBy from "lodash/sortBy.js";
 import flatten from "lodash/flatten.js";
@@ -252,8 +252,13 @@ export default {
         headers: this._getHeaders(),
       };
     },
-    async _makeRequest(opts) {
-      return axios(this._getAxiosParams(opts));
+    async _makeRequest({
+      $ = this, ...opts
+    }) {
+      return axios($, this._getAxiosParams({
+        ...opts,
+        returnFullResponse: true,
+      }));
     },
     async listMeetings(nextPageToken) {
       const { data } = await this._makeRequest({

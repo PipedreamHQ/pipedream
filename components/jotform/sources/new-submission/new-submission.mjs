@@ -4,7 +4,7 @@ export default {
   key: "jotform-new-submission",
   name: "New Submission (Instant)",
   description: "Emit new event when a form is submitted",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     jotform,
@@ -28,19 +28,12 @@ export default {
         },
       });
       for (const submission of submissions.reverse()) {
-        const body = {
-          formID: form.id,
-          formTitle: form.title,
-          ip: submission.ip,
-          submissionID: submission.id,
-          username: form.username,
-        };
         const meta = {
           id: submission.id,
           summary: form.title,
           ts: Date.now(),
         };
-        this.$emit(body, meta);
+        this.$emit(submission, meta);
       }
     },
     async activate() {
@@ -58,9 +51,11 @@ export default {
   },
   async run(event) {
     const { body } = event;
-    body.formData = JSON.parse(body.rawRequest);
+    const { content: submission } = await this.jotform.getFormSubmission({
+      submissionId: body.submissionID,
+    });
 
-    this.$emit(body, {
+    this.$emit(submission, {
       summary: body.formTitle || JSON.stringify(body),
       id: body.submissionID,
       ts: Date.now(),

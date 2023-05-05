@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/habitify",
+  "version": "0.0.2",
+  "description": "Pipedream Habitify Components",
+  "main": "app/habitify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "habitify"
+  ],
+  "homepage": "https://pipedream.com/apps/habitify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

@@ -5,13 +5,19 @@ export default {
   name: "Delete Ticket",
   description: "Deletes a ticket. [See the docs](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#delete-ticket).",
   type: "action",
-  version: "0.0.1",
+  version: "0.1.0",
   props: {
     app,
     ticketId: {
       propDefinition: [
         app,
         "ticketId",
+      ],
+    },
+    customSubdomain: {
+      propDefinition: [
+        app,
+        "customSubdomain",
       ],
     },
   },
@@ -26,9 +32,15 @@ export default {
     },
   },
   async run({ $: step }) {
+    const {
+      ticketId,
+      customSubdomain,
+    } = this;
+
     await this.deleteTicket({
       step,
-      ticketId: this.ticketId,
+      ticketId,
+      customSubdomain,
     });
 
     step.export("$summary", "Successfully deleted ticket");

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/big_data_cloud",
+  "version": "0.0.2",
+  "description": "Pipedream Big Data Cloud Components",
+  "main": "big_data_cloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "big_data_cloud"
+  ],
+  "homepage": "https://pipedream.com/apps/big_data_cloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

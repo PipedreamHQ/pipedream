@@ -2,7 +2,7 @@ import sentry from "../../sentry.app.mjs";
 
 export default {
   key: "sentry-issue-event",
-  version: "0.0.5",
+  version: "0.1.1",
   name: "New Issue Event (Instant)",
   description: "Emit new events for issues that have been created or updated.",
   type: "source",
@@ -53,28 +53,6 @@ export default {
     getEventSourceName() {
       return "Issue Event (Instant)";
     },
-    generateMeta(event) {
-      const {
-        body,
-        headers,
-      } = event;
-      const {
-        "request-id": id,
-        "sentry-hook-resource": resourceType,
-        "sentry-hook-timestamp": ts,
-      } = headers;
-      const {
-        action,
-        data,
-      } = body;
-      const { [resourceType]: resource } = data;
-      const summary = `${resourceType} #${resource.id} ${action}`;
-      return {
-        id,
-        summary,
-        ts,
-      };
-    },
   },
   async run(event) {
     const clientSecret = this._getClientSecret();
@@ -89,8 +67,14 @@ export default {
       statusCode: 200,
     });
 
-    const { body } = event;
-    const meta = this.generateMeta(event);
-    this.$emit(body, meta);
+    const {
+      body, body: { data: { issue } },
+    } = event;
+
+    this.$emit(body, {
+      id: issue.id,
+      summary: issue.title,
+      ts: Date.parse(issue.lastSeen),
+    });
   },
 };

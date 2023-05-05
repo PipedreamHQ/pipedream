@@ -387,7 +387,7 @@ export default {
       auth: this.github.$auth.oauth_access_token
     })
     
-    return (await octokit.repos.get({
+    return (await octokit.rest.repos.get({
       owner: `pipedreamhq`,
       repo: `pipedream`,
     })).data
@@ -417,7 +417,7 @@ export default {
       auth: this.github.$auth.oauth_access_token
     })
     
-    const { data } = await octokit.repos.get({
+    const { data } = await octokit.rest.repos.get({
       owner: `pipedreamhq`,
       repo: `pipedream`,
     })
@@ -452,7 +452,7 @@ export default {
       auth: this.github.$auth.oauth_access_token
     })
     
-    const { data } = await octokit.repos.get({
+    const { data } = await octokit.rest.repos.get({
       owner: `pipedreamhq`,
       repo: `pipedream`,
     })

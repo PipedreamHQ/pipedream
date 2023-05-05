@@ -249,13 +249,13 @@ export type SourceHttpRunOptions = {
   body?: {
     [key: string]: JSONValue;
   };
-}
+};
 
 // https://pipedream.com/docs/components/api/#timer
 export type SourceTimerRunOptions = {
   timestamp: number;
   interval_seconds: number;
-}
+};
 
 export type SourceRunOptions = SourceHttpRunOptions | SourceTimerRunOptions;
 
@@ -269,11 +269,11 @@ export interface EmitMetadata {
   id?: string | number;
   name?: string;
   summary?: string;
-  ts: number;
+  ts?: number;
 }
 
 type EmitFunction = {
-  $emit: (event: JSONValue, metadata: EmitMetadata) => Promise<void>;
+  $emit: (event: JSONValue, metadata?: EmitMetadata) => Promise<void>;
 };
 
 type PropThis<Props> = {

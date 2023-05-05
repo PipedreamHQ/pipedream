@@ -49,10 +49,7 @@ function oauth1ParamsSerializer(p: any) {
     .replace(/\*/g, "%2A");
 }
 
-async function getOauthSignature(config: AxiosRequestConfig, signConfig: any) {
-  const {
-    oauthSignerUri, token,
-  } = signConfig;
+export function transformConfigForOauth(config: AxiosRequestConfig) {
   const {
     baseURL, url,
   } = config;
@@ -77,6 +74,16 @@ async function getOauthSignature(config: AxiosRequestConfig, signConfig: any) {
     (requestData as any).data = querystring.parse(config.data);
   }
   config.paramsSerializer = oauth1ParamsSerializer;
+  return requestData;
+}
+
+async function getOauthSignature(config: AxiosRequestConfig, signConfig: any) {
+  const {
+    oauthSignerUri, token,
+  } = signConfig;
+
+  const requestData = transformConfigForOauth(config);
+  
   const payload = {
     requestData,
     token,
@@ -141,7 +148,12 @@ function stepExport(step: any, message: any, key: string) {
 function convertAxiosError(err) {
   delete err.response.request;
   err.name = `${err.name} - ${err.message}`;
-  err.message = JSON.stringify(err.response.data);
+  try {
+    err.message = JSON.stringify(err.response.data);
+  }
+  catch (error) {
+    console.error("Error trying to convert `err.response.data` to string");
+  }
   return err;
 }
 
@@ -167,13 +179,6 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
     removeSearchFromUrl(config);
 
     return config;
-  }, (error) => {
-    if (error.response) {
-      convertAxiosError(error);
-      stepExport(this, error.response, "debug");
-    }
-
-    throw error;
   });
 
   axiosInstance.interceptors.response.use((response) => {

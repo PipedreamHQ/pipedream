@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import isNil from "lodash/isNil.js";
 import isArray from "lodash/isArray.js";
@@ -302,8 +302,10 @@ export default {
     async retry(config, retries = 3) {
       let response;
       try {
-        response = await axios(config);
-        return response;
+        return await axios(this, {
+          ...config,
+          returnFullResponse: true,
+        });
       } catch (err) {
         if (retries <= 1) {
           throw new Error(err);
