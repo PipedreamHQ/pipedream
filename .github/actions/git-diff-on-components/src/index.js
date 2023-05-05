@@ -353,27 +353,28 @@ async function run() {
   });
 
   if (componentsDiffContents.length) {
-    // execSync(`git clone https://github.com/PipedreamHQ/pipedream`);
-    // execSync(`cd pipedream`);
+    await execSync(`git clone https://github.com/PipedreamHQ/pipedream`);
+    await execSync(`cd pipedream`);
 
-    // execSync(`git checkout ${commitSha}`);
+    await execSync(`git checkout increase-versions`);
 
     componentsDiffContents.forEach(async ({ dependencyFilePath, componentFilePath }) => {
       const content = await readFile(componentFilePath, "utf-8")
       const currentVersion = getVersion(content)
       const increasedVersion = increaseVersion(currentVersion)
 
+      await execCmd("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath));
       // console.log(["sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, componentFilePath].join(' '))
 
       // execSync(`echo "Hello World" >> README.md`);
-      // execSync(`git add .`);
-      // execSync(`git commit --amend --no-edit`);
-      // execSync(`git push --force-with-lease`);
 
-      // await execCmd("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, componentFilePath);
       // // console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
-      console.log(`${headCommit} - ${baseCommit} ${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+      console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     });
+
+    execSync(`git add .`);
+    execSync(`git commit -m "Versions updated"`);
+    execSync(`git push --force-with-lease --no-verify`);
   }
 
 
