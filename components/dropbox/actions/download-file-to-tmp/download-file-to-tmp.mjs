@@ -31,7 +31,7 @@ export default {
     });
 
     const { cleanup } = await file();
-    await fs.promises.appendFile(`/tmp/${result.name}`, Buffer.from(result.fileBinary));
+    await fs.promises.appendFile(`/tmp/${this.name}`, Buffer.from(result.fileBinary));
     await cleanup();
 
     delete result.fileBinary;
