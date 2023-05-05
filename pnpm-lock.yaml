@@ -575,6 +575,14 @@ importers:
       '@pipedream/platform': 1.5.1
       axios: 0.21.4
 
+  components/calendly_v2:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      url: ^0.11.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      url: 0.11.0
+
   components/call_fire:
     specifiers: {}
 
