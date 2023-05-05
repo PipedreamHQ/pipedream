@@ -363,9 +363,9 @@ async function run() {
       console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     });
 
-    // await execCmd(`git add .`);
-    // await execCmd(`git commit -m "Versions updated"`);
-    // await execCmd(`git push --force-with-lease --no-verify`);
+    await execCmd(`git add .`);
+    await execCmd(`git commit --amend --no-edit`);
+    await execCmd(`git push --force-with-lease --no-verify`);
   }
 
 
