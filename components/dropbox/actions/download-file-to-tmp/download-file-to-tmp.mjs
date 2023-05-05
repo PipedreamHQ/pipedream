@@ -27,7 +27,7 @@ export default {
   },
   async run({ $ }) {
     const { result } = await this.dropbox.downloadFile({
-      path: this.getNormalizedPath(this.path, true) + this.name,
+      path: this.getNormalizedPath(this.path, false),
     });
 
     const { cleanup } = await file();
