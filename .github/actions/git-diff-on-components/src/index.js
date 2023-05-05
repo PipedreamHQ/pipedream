@@ -358,8 +358,7 @@ async function run() {
       const currentVersion = getVersion(content)
       const increasedVersion = increaseVersion(currentVersion)
 
-      console.log("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath))
-      await execCmd("sed", ["-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath)]);
+      await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
 
       console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     });
