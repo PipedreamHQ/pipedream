@@ -359,10 +359,8 @@ async function run() {
       const increasedVersion = increaseVersion(currentVersion)
 
       console.log("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath))
-      await execCmd("sed", "-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath));
+      await execCmd("sed", ["-i", `"0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}"`, getComponentFilePath(componentFilePath)]);
 
-      // execCmd(`echo "Hello World" >> README.md`);
-      // // console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
       console.log(`${counter++}) Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     });
 
