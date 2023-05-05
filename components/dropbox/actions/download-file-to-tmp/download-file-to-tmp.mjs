@@ -6,7 +6,7 @@ import { file } from "tmp-promise";
 export default {
   ...common,
   name: "Download File To TMP",
-  description: "Download a specific file to the temporary directory. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDownload__anchor)",
+  description: "Download a specific file to the temporary directory. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDownload__anchor)."
   key: "dropbox-download-file-to-tmp",
   version: "0.0.1",
   type: "action",
