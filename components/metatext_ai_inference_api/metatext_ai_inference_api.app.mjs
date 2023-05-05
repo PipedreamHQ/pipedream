@@ -14,7 +14,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "The text parameter to be used as base for the request.",
+      description: "The text parameter to be used as the base for the request.",
     },
   },
   methods: {

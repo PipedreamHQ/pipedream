@@ -3,7 +3,7 @@ import app from "../../metatext_ai_inference_api.app.mjs";
 export default {
   key: "metatext_ai_inference_api-request-by-model-type",
   name: "Request By Model Type",
-  description: "Make a request to the Inference API using the given model type. [See the documentation](https://metatext.io/documentation/apis/#apis)",
+  description: "Make a request to the Inference API using the given model type. [See The Documentation](https://metatext.io/documentation/apis/#apis)",
   type: "action",
   version: "0.0.1",
   props: {
@@ -45,7 +45,7 @@ export default {
       },
     });
 
-    step.export("$summary", "Successfully requested by model type.");
+    step.export("$summary", "Successfully made a request by model type.");
 
     return response;
   },
