@@ -821,6 +821,9 @@ importers:
       crypto: 1.0.1
       uuid: 9.0.0
 
+  components/concord:
+    specifiers: {}
+
   components/confection:
     specifiers:
       '@pipedream/platform': ^1.4.0
@@ -2372,6 +2375,9 @@ importers:
   components/marketing_master_io:
     specifiers: {}
 
+  components/marketstack:
+    specifiers: {}
+
   components/mastodon:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -3120,6 +3126,9 @@ importers:
   components/plecto:
     specifiers: {}
 
+  components/plisio:
+    specifiers: {}
+
   components/plivo:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -3152,6 +3161,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/pointerpro:
+    specifiers: {}
+
+  components/portfolio_optimizer:
     specifiers: {}
 
   components/postgresql:
@@ -3894,6 +3906,9 @@ importers:
     specifiers: {}
 
   components/slicktext:
+    specifiers: {}
+
+  components/slybroadcast:
     specifiers: {}
 
   components/smaily:
