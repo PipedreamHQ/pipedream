@@ -8,7 +8,6 @@ import {
 
 const BASE_URL = "https://api.hubapi.com";
 const API_PATH = {
-  CALENDAR: "/calendar/v1",
   PROPERTIES: "/properties/v1",
   CONTACTS: "/contacts/v1",
   ENGAGEMENTS: "/engagements/v1",

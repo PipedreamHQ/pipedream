@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event for each new submission of a form.",
-  version: "0.0.14",
+  version: "0.0.15",
   dedupe: "unique",
   type: "source",
   props: {
