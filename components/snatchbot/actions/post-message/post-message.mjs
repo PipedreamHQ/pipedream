@@ -25,7 +25,9 @@ export default {
       params: {
         user_id: this.userId,
       },
-      data: this.message,
+      data: {
+        message: this.message,
+      },
       $,
     });
 
