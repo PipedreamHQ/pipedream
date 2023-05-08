@@ -43,15 +43,14 @@ export default {
       },
     });
 
-    if (!response) {
-      step.export("$summary", "No response was returned.");
-      return {
-        success: false,
-      };
+    if (response?.hash) {
+      step.export("$summary", `Successfully requested completion with hash ${response.hash}.`);
+      return response;
     }
 
-    step.export("$summary", `Successfully requested completion with hash ${response.hash}.`);
-
-    return response;
+    step.export("$summary", "No response was returned.");
+    return {
+      success: false,
+    };
   },
 };
