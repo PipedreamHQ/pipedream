@@ -34,6 +34,7 @@ export default defineAction({
     const {
       amount, from, to,
     } = this;
+
     const params = {
       $,
       params: {
