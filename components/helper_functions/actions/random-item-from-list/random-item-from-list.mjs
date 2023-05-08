@@ -6,7 +6,7 @@ export default {
   name: "Random Item(s) from List",
   description:
     "Returns a randomly selected value(s) from a user-defined list of options.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     helperFunctions,
