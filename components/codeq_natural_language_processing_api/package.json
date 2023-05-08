@@ -1,16 +1,14 @@
 {
   "name": "@pipedream/codeq_natural_language_processing_api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Codeq Natural Language Processing API Components",
-  "main": "dist/app/codeq_natural_language_processing_api.app.mjs",
+  "main": "codeq_natural_language_processing_api.app.mjs",
   "keywords": [
     "pipedream",
     "codeq_natural_language_processing_api"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/codeq_natural_language_processing_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

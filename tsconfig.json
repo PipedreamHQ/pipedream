@@ -1814,6 +1814,33 @@
     },
     {
       "path": "components/intellexer_api"
+    },
+    {
+      "path": "components/stannp"
+    },
+    {
+      "path": "components/sapling_ai"
+    },
+    {
+      "path": "components/google_maps_platform"
+    },
+    {
+      "path": "components/dayschedule"
+    },
+    {
+      "path": "components/marketstack"
+    },
+    {
+      "path": "components/plisio"
+    },
+    {
+      "path": "components/concord"
+    },
+    {
+      "path": "components/portfolio_optimizer"
+    },
+    {
+      "path": "components/slybroadcast"
     }
   ]
 }

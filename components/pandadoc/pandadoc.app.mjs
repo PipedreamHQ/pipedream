@@ -168,5 +168,18 @@ export default {
         ...args,
       });
     },
+    createHook(args = {}) {
+      return this.makeRequest({
+        path: "/webhook-subscriptions",
+        method: "POST",
+        ...args,
+      });
+    },
+    deleteHook(hookId) {
+      return this.makeRequest({
+        path: `/webhook-subscriptions/${hookId}`,
+        method: "DELETE",
+      });
+    },
   },
 };

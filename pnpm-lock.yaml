@@ -575,6 +575,14 @@ importers:
       '@pipedream/platform': 1.5.1
       axios: 0.21.4
 
+  components/calendly_v2:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      url: ^0.11.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      url: 0.11.0
+
   components/call_fire:
     specifiers: {}
 
@@ -813,6 +821,9 @@ importers:
       crypto: 1.0.1
       uuid: 9.0.0
 
+  components/concord:
+    specifiers: {}
+
   components/confection:
     specifiers:
       '@pipedream/platform': ^1.4.0
@@ -937,6 +948,9 @@ importers:
   components/datumbox:
     specifiers: {}
 
+  components/dayschedule:
+    specifiers: {}
+
   components/dear:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -948,7 +962,10 @@ importers:
       uuid: 8.3.2
 
   components/deepgram:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/deepl:
     specifiers: {}
@@ -1063,7 +1080,10 @@ importers:
     specifiers: {}
 
   components/dock_certs:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/docraptor:
     specifiers: {}
@@ -1122,13 +1142,15 @@ importers:
 
   components/dropbox:
     specifiers:
-      dropbox: ^8.2.0
+      dropbox: ^10.34.0
       isomorphic-fetch: ^3.0.0
       tmp-promise: ^3.0.3
+      lodash: ^4.17.21
     dependencies:
-      dropbox: 8.3.0
+      dropbox: 10.34.0_@types+node-fetch@2.6.3
       isomorphic-fetch: 3.0.0
       tmp-promise: 3.0.3
+      lodash: 4.17.21
 
   components/dynatrace_api:
     specifiers: {}
@@ -1675,6 +1697,9 @@ importers:
   components/google_forms:
     specifiers: {}
 
+  components/google_maps_platform:
+    specifiers: {}
+
   components/google_recaptcha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1863,9 +1888,12 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.0
       bottleneck: ^2.19.5
+      package: ^1.0.1
     dependencies:
       '@pipedream/platform': 1.5.1
       bottleneck: 2.19.5
+    devDependencies:
+      package: 1.0.1
 
   components/hubspot_developer_app:
     specifiers: {}
@@ -1946,7 +1974,10 @@ importers:
     specifiers: {}
 
   components/intellexer_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/intercom:
     specifiers:
@@ -2020,11 +2051,11 @@ importers:
 
   components/jotform:
     specifiers:
-      axios: ^0.21.1
-      query-string: ^7.1.1
+      '@pipedream/platform': ^1.5.1
+      query-string: ^8.1.0
     dependencies:
-      axios: 0.21.4
-      query-string: 7.1.3
+      '@pipedream/platform': 1.5.1
+      query-string: 8.1.0
 
   components/jp_funda:
     specifiers: {}
@@ -2074,7 +2105,10 @@ importers:
       klaviyo-sdk: 1.0.1_@babel+core@7.21.4
 
   components/klazify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/klipfolio:
     specifiers: {}
@@ -2323,7 +2357,10 @@ importers:
     specifiers: {}
 
   components/mailwizz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/maintainx:
     specifiers:
@@ -2341,6 +2378,9 @@ importers:
     specifiers: {}
 
   components/marketing_master_io:
+    specifiers: {}
+
+  components/marketstack:
     specifiers: {}
 
   components/mastodon:
@@ -2420,7 +2460,10 @@ importers:
     specifiers: {}
 
   components/metatext_ai_pre_build_ai_models_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/microsoft_onedrive:
     specifiers:
@@ -3088,6 +3131,9 @@ importers:
   components/plecto:
     specifiers: {}
 
+  components/plisio:
+    specifiers: {}
+
   components/plivo:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -3120,6 +3166,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/pointerpro:
+    specifiers: {}
+
+  components/portfolio_optimizer:
     specifiers: {}
 
   components/postgresql:
@@ -3559,6 +3608,9 @@ importers:
   components/samcart:
     specifiers: {}
 
+  components/sapling_ai:
+    specifiers: {}
+
   components/saucelabs:
     specifiers: {}
 
@@ -3593,7 +3645,10 @@ importers:
     specifiers: {}
 
   components/scrapingbot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/segment:
     specifiers:
@@ -3858,6 +3913,9 @@ importers:
   components/slicktext:
     specifiers: {}
 
+  components/slybroadcast:
+    specifiers: {}
+
   components/smaily:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -3932,7 +3990,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/snatchbot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/snowflake:
     specifiers:
@@ -4030,6 +4091,9 @@ importers:
       axios: 0.21.4
       he: 1.2.0
       lodash: 4.17.21
+
+  components/stannp:
+    specifiers: {}
 
   components/status_hero:
     specifiers:
@@ -4339,7 +4403,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/tisane_labs:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/tmetric:
     specifiers: {}
@@ -11320,7 +11387,7 @@ packages:
     resolution: {integrity: sha512-OkIJpiU2fz6HOJujhlhfIGrc8hB4ibqtf7nnbJQDerG0BqwZCfmgtK5sWzZ0TkXVRBKD5MpLrTmCYyMxoMCgPw==}
     engines: {node: '>= 8.9.0', npm: '>= 5.5.1'}
     dependencies:
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
     dev: false
 
   /@slack/types/1.10.0:
@@ -11604,7 +11671,7 @@ packages:
   /@types/is-stream/1.1.0:
     resolution: {integrity: sha512-jkZatu4QVbR60mpIzjINmtS1ZF4a/FqdTUTBeQDVOQ2PYyidtwFKr0B5G6ERukKwliq+7mIXvxyppwzG5EgRYg==}
     dependencies:
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
     dev: false
 
   /@types/istanbul-lib-coverage/2.0.4:
@@ -11768,7 +11835,7 @@ packages:
   /@types/sax/1.2.4:
     resolution: {integrity: sha512-pSAff4IAxJjfAXUG6tFkO7dsSbTmf8CtUpfhhZ5VhkRpC4628tJhh3+V6H1E+/Gs9piSzYKT5yzHO5M4GG9jkw==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
     dev: true
 
   /@types/semver/7.3.13:
@@ -14413,10 +14480,13 @@ packages:
     resolution: {integrity: sha512-t5ouWOpItmHrm0J0+bX/cFrIjBFWnJkk5LbIJq6bbU/M4aLX2c3LrM4QYsBptwvlPe3WzdpQefQ0v1pe/A5wjg==}
     dev: false
 
-  /dropbox/8.3.0:
-    resolution: {integrity: sha512-dcCc6rEL/Lp72661JNc9piInG8v4/cJZLm+ijk3tqWjUA4uK5D+AtIXi9NrPsqsJNRwb1fHY/tsKgXMLJS/xmw==}
+  /dropbox/10.34.0_@types+node-fetch@2.6.3:
+    resolution: {integrity: sha512-5jb5/XzU0fSnq36/hEpwT5/QIep7MgqKuxghEG44xCu7HruOAjPdOb3x0geXv5O/hd0nHpQpWO+r5MjYTpMvJg==}
     engines: {node: '>=0.10.3'}
+    peerDependencies:
+      '@types/node-fetch': ^2.5.7
     dependencies:
+      '@types/node-fetch': 2.6.3
       node-fetch: 2.6.9
     transitivePeerDependencies:
       - encoding
@@ -20787,6 +20857,11 @@ packages:
     dependencies:
       chalk: 2.4.2
     dev: false
+
+  /package/1.0.1:
+    resolution: {integrity: sha512-g6xZR6CO7okjie83sIRJodgGvaXqymfE5GLhN8N2TmZGShmHc/V23hO/vWbdnuy3D81As3pfovw72gGi42l9qA==}
+    engines: {node: '>= 0.6.0'}
+    dev: true
 
   /packet-reader/1.0.0:
     resolution: {integrity: sha512-HAKu/fG3HpHFO0AA8WE8q2g+gBJaZ9MG7fcKk+IJPLTGAD6Psw4443l+9DGRbOIh3/aXr7Phy0TjilYivJo5XQ==}
