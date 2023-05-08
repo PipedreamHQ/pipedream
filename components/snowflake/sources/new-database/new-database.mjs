@@ -10,7 +10,7 @@ export default {
   version: "0.0.1",
   methods: {
     ...common.methods,
-    alwaysRunInSingleMode() {
+    alwaysRunInSingleProcessMode() {
       return true;
     },
     updateLastExecutionTime() {
@@ -28,7 +28,7 @@ export default {
     },
     getStatement() {
       const lastExecutionTime = this.getLastExecutionTime();
-      if (lastExecutionTime && lastExecutionTime < 0) {
+      if (lastExecutionTime) {
         return {
           sqlText: "select * from INFORMATION_SCHEMA.DATABASES where CREATED > ? order by CREATED ASC",
           binds: [

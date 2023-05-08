@@ -198,7 +198,7 @@ export default {
     processEvent() {
       throw new Error("processEvent is not implemented");
     },
-    alwaysRunInSingleMode() {
+    alwaysRunInSingleProcessMode() {
       return false;
     },
   },
@@ -208,7 +208,7 @@ export default {
     if (this.additionalProccessing) {
       this.additionalProccessing(statement);
     }
-    return this.emitIndividualEvents === true || this.alwaysRunInSingleMode()
+    return this.emitIndividualEvents === true || this.alwaysRunInSingleProcessMode()
       ? this.processSingle(statement, timestamp)
       : this.processCollection(statement, timestamp);
   },
