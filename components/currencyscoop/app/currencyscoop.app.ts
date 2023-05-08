@@ -17,7 +17,7 @@ export default defineApp({
     },
     targetCurrencies: {
       type: "string[]",
-      label: "target Currencies",
+      label: "Target Currencies",
       description: "A list of currencies you will like to see the rates for. [See all supported currencies here.](https://currencybeacon.com/supported-currencies)",
       options: CURRENCIES,
     },
