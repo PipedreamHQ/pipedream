@@ -79,13 +79,8 @@ export default {
         return this.connection;
       }
 
-      const a = {
-        ...this.$auth,
-        warehouse: "TEST",
-        database: "TESTDB",
-      };
       this.connection = snowflake.createConnection({
-        ...a,
+        ...this.$auth,
         application: "PIPEDREAM_PIPEDEAM",
       });
       await promisify(this.connection.connect).bind(this.connection)();
