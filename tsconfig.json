@@ -1826,6 +1826,21 @@
     },
     {
       "path": "components/dayschedule"
+    },
+    {
+      "path": "components/marketstack"
+    },
+    {
+      "path": "components/plisio"
+    },
+    {
+      "path": "components/concord"
+    },
+    {
+      "path": "components/portfolio_optimizer"
+    },
+    {
+      "path": "components/slybroadcast"
     }
   ]
 }

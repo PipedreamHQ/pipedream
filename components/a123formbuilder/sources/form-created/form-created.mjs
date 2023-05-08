@@ -6,7 +6,7 @@ export default {
   name: "Form Created",
   description: "Emit new event for every created form",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...base.methods,
@@ -17,18 +17,11 @@ export default {
         ts: new Date(),
       };
     },
-  },
-  async run() {
-    const page = this.getPage();
-    const response = await this.a123formbuilder.getForms({
-      paginate: true,
-      params: {
-        page,
-      },
-    });
-    this.setPage(this.a123formbuilder.getCurrentPage(response));
-    response.data.forEach((form) => {
-      this.$emit(form, this.getMeta(form));
-    });
+    listingFn() {
+      return this.a123formbuilder.getForms;
+    },
+    listingFnParams() {
+      return {};
+    },
   },
 };

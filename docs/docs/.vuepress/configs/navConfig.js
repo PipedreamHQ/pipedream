@@ -16,7 +16,7 @@ module.exports = {
     {
       text: "Reference",
       items: [
-        { text: "Building Components", link: "/components/" },
+        { text: "Components API", link: "/components/api/" },
         { text: "CLI", link: "/cli/install/" },
         { text: "REST API", link: "/api/" },
         { text: "Limits", link: "/limits/" },

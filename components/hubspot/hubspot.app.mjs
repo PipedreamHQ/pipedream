@@ -331,16 +331,6 @@ export default {
         $,
       });
     },
-    async getCalendarTasks(endDate, $) {
-      const params = {
-        startDate: Date.now(),
-        endDate,
-      };
-      return this.makeRequest(API_PATH.CALENDAR, "/events/task", {
-        params,
-        $,
-      });
-    },
     async getContactProperties($) {
       return this.makeRequest(API_PATH.PROPERTIES, "/contacts/properties", {
         $,
