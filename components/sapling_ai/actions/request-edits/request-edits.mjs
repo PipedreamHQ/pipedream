@@ -1,4 +1,5 @@
 import app from "../../sapling_ai.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "sapling_ai-request-edits",
@@ -15,6 +16,7 @@ export default {
       ],
     },
     sessionId: {
+      optional: true,
       propDefinition: [
         app,
         "sessionId",
@@ -39,7 +41,7 @@ export default {
       step,
       data: {
         text,
-        session_id: sessionId,
+        session_id: utils.generateSessionId(sessionId),
       },
     });
 

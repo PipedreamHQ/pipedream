@@ -1,4 +1,5 @@
 import app from "../../sapling_ai.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "sapling_ai-request-completion",
@@ -9,6 +10,7 @@ export default {
   props: {
     app,
     sessionId: {
+      optional: true,
       propDefinition: [
         app,
         "sessionId",
@@ -38,7 +40,7 @@ export default {
     const response = await this.requestCompletion({
       step,
       data: {
-        session_id: sessionId,
+        session_id: utils.generateSessionId(sessionId),
         query,
       },
     });
