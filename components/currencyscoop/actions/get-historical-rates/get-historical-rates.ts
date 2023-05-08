@@ -38,7 +38,7 @@ export default defineAction({
       params: {
         base,
         date,
-        symbols,
+        symbols: symbols.join(),
       },
     };
 
