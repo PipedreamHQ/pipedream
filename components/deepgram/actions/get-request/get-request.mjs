@@ -32,7 +32,7 @@ export default {
     });
 
     if (request) {
-      $.export("$summary", `Successfully retrieved balance with ID ${this.requestId}`);
+      $.export("$summary", `Successfully retrieved request with ID ${this.requestId}`);
     }
 
     return request;

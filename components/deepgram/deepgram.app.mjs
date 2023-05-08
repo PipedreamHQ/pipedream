@@ -55,6 +55,7 @@ export default {
       type: "string",
       label: "Language",
       description: "BCP-47 language tag that hints at the primary spoken language",
+      options: constants.LANGUAGES,
       optional: true,
     },
     tier: {

@@ -151,7 +151,6 @@ export default {
       label: "Utterances",
       description: "Indicates whether Deepgram will segment speech into meaningful semantic units, which allows the model to interact more naturally and effectively with speakers’ spontaneous speech patterns",
       optional: true,
-
     },
     uttSplit: {
       type: "string",
