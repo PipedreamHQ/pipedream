@@ -44,7 +44,7 @@ curl -d '{
 
 When Pipedream receives the request, it will be available to select from the event selector. 
 
-![image-20220329003748162](./v2/README/image-20220329003748162.png)
+![image-20220329003748162](https://res.cloudinary.com/pipedreamin/image/upload/v1675690554/rf7iackjhukonrspx2od.png)
 
 Click on the drop down menu and select the event you generated.
 
@@ -66,7 +66,7 @@ The selected event will be used to provide autocomplete suggestion as you build 
 
 Before we send data to Google Sheets, let's use the npm [`sentiment`](https://www.npmjs.com/package/sentiment) package to generate a sentiment score for our message. To do that, click **Continue** or the **+** button.
 
-![image-20220329004301119](./v2/README/image-20220329004301119.png)
+![image-20220329004301119](https://res.cloudinary.com/pipedreamin/image/upload/v1675692691/saqcbfkk66a1exfzk4ii.png)
 
 That will open the **Add a step** menu. Select **Run custom code**.
 
@@ -115,7 +115,7 @@ When you **Test** a step, only the current step is executed. Use the caret to te
 
 ## Save data to Google Sheets
 
-Next, create a Google Sheet and add **Timestamp**, **Message** and **Sentiment Score** to the first row. These labels will act as our column headers amd will help us configure the Google Sheets step of the workflow. 
+Next, create a Google Sheet and add **Timestamp**, **Message** and **Sentiment Score** to the first row. These labels act as our column headers amd will help us configure the Google Sheets step of the workflow. 
 
 ![image-20220329010012345](./v2/README/image-20220329010012345.png)
 
@@ -135,7 +135,7 @@ Pipedream will open Google's sign in flow in a new window. Sign in with the acco
 
 <img src="./image-20220125185544800.png" alt="image-20220125185544800" style="zoom: 33%;" />
 
-::: warning Important
+::: warning
 
 If prompted, you must check the box for Pipedream to **See, edit, create and delete all of your Google Drive files**. These permissions are required for configure and use the pre-built actions for Google Sheets.
 
@@ -215,7 +215,7 @@ curl -d '{
 
 The event will instantly appear in the event list. Select it to inspect the workflow execution.
 
-![image-20220329011500931](./v2/README/image-20220329011500931.png)
+![image-20220329011500931](https://res.cloudinary.com/pipedreamin/image/upload/v1675691952/fe9eizdn8fwmwmgegb2m.png)
 
 Finally, you can return to Google Sheets to validate that the new data was automatically inserted.
 
@@ -223,4 +223,4 @@ Finally, you can return to Google Sheets to validate that the new data was autom
 
 ## Next Steps
 
-Congratulations! You completed the quickstart and should now understand the basic patterns for workflow development. Next, try creating your own workflows and check out the docs to learn more!
+Congratulations! You completed the quickstart and should now understand the basic patterns for workflow development. Next, try creating your own workflows and check out the [docs](/) to learn more!
