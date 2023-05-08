@@ -1144,10 +1144,12 @@ importers:
     specifiers:
       dropbox: ^10.34.0
       isomorphic-fetch: ^3.0.0
+      tmp-promise: ^3.0.3
       lodash: ^4.17.21
     dependencies:
       dropbox: 10.34.0_@types+node-fetch@2.6.3
       isomorphic-fetch: 3.0.0
+      tmp-promise: 3.0.3
       lodash: 4.17.21
 
   components/dynatrace_api:
