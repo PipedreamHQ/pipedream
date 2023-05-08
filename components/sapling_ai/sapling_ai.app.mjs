@@ -47,7 +47,7 @@ export default {
     completionId: {
       type: "string",
       label: "Completion ID",
-      description: "ID of completion returned from a **Request Completion**.",
+      description: "ID of completion or hash returned from a **Request Completion**.",
     },
   },
   methods: {
