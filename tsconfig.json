@@ -1841,6 +1841,9 @@
     },
     {
       "path": "components/slybroadcast"
+    },
+    {
+      "path": "components/liondesk"
     }
   ]
 }
