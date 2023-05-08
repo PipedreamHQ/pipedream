@@ -198,11 +198,17 @@ export default {
     processEvent() {
       throw new Error("processEvent is not implemented");
     },
+    alwaysRunInSingleMode() {
+      return false;
+    },
   },
   async run(event) {
     const { timestamp } = event;
     const statement = this.getStatement(event);
-    return this.emitIndividualEvents === true
+    if (this.additionalProccessing) {
+      this.additionalProccessing(statement);
+    }
+    return this.emitIndividualEvents === true || this.alwaysRunInSingleMode()
       ? this.processSingle(statement, timestamp)
       : this.processCollection(statement, timestamp);
   },
