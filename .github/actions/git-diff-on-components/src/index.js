@@ -96,11 +96,14 @@ function includesVersion(contents) {
 }
 
 function getVersion(contents) {
-  return includesVersion(contents)[0].slice(-6, -1)
+  return includesVersion(contents)[0].match(/\d{3}\.\d{3}\.\d{3}/)[0];
 }
 
 function increaseVersion(version) {
-  return version.slice(0, 4) + (+version.split('.')[2] + 1)
+  let versions = version.split('.')
+  versions[2]++
+
+  return versions.join('.')
 }
 
 function getPackageJsonFilePath(filePaths) {
@@ -347,8 +350,8 @@ async function run() {
   const totalErrors = componentsThatDidNotModifyVersion.length;
   let counter = 1;
 
-  await execCmd("git", ["config", "--global", "user.email", "lucascarezia@gmail.com"]);
-  await execCmd("git", ["config", "--global", "user.name", "Lucas Caresia"]);
+  await execCmd("git", ["config", "--global", "user.email", "pipedream@pipedream.com"]);
+  await execCmd("git", ["config", "--global", "user.name", "Pipedream"]);
 
   componentsThatDidNotModifyVersion.forEach((filePath) => {
     console.log(`${counter++}) You need to change the version of ${filePath}.`);
