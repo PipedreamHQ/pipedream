@@ -25,6 +25,36 @@ export default {
         }));
       },
     },
+    blogId: {
+      type: "string",
+      label: "Blog ID",
+      description: "The unique numeric identifier for the blog.",
+      async options() {
+        const { blogs } = await this.listBlogs();
+        return blogs.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    articleId: {
+      type: "string",
+      label: "Article ID",
+      description: "The unique numeric identifier for the article.",
+      async options({ blogId }) {
+        const { articles } = await this.listBlogArticles({
+          blogId,
+        });
+        return articles.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     ...common.methods,
@@ -82,6 +112,14 @@ export default {
     listBlogs(args = {}) {
       return this.makeRequest({
         path: "/blogs",
+        ...args,
+      });
+    },
+    listBlogArticles({
+      blogId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/blogs/${blogId}/articles`,
         ...args,
       });
     },
