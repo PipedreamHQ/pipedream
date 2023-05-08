@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sapling_ai",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Sapling.ai Components",
   "main": "sapling_ai.app.mjs",
   "keywords": [
