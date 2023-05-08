@@ -1,4 +1,5 @@
 import { defineAction } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../app/currencyscoop.app";
 
 export default defineAction({
@@ -10,7 +11,7 @@ export default defineAction({
   props: {
     app,
     amount: {
-      type: "integer",
+      type: "string",
       label: "Amount",
       description:
         "The amount to convert",
@@ -34,6 +35,10 @@ export default defineAction({
     const {
       amount, from, to,
     } = this;
+
+    if (isNaN(Number(amount))) {
+      throw new ConfigurationError("`amount` must be a valid number!");
+    }
 
     const params = {
       $,
