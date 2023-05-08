@@ -3,7 +3,7 @@ import app from "../../app/currencyscoop.app";
 
 export default defineAction({
   name: "Convert Currency",
-  description: `Convert a specified amount from one currency to another [See the documentation](https://currencybeacon.com/api-documentation)`,
+  description: "Convert a specified amount from one currency to another [See the documentation](https://currencybeacon.com/api-documentation)",
   key: "currencyscoop-convert-currency",
   version: "0.0.1",
   type: "action",
@@ -13,25 +13,27 @@ export default defineAction({
       type: "integer",
       label: "Amount",
       description:
-        'The amount to convert',
+        "The amount to convert",
     },
     from: {
       propDefinition: [
         app,
-        "currency"
+        "currency",
       ],
     },
     to: {
       propDefinition: [
         app,
-        "currency"
+        "currency",
       ],
       label: "Target Currency",
-      description: "The currency you would like to convert to"
-    }
+      description: "The currency you would like to convert to",
+    },
   },
   async run({ $ }) {
-    const { amount, from, to } = this;
+    const {
+      amount, from, to,
+    } = this;
     const params = {
       $,
       params: {
@@ -43,7 +45,7 @@ export default defineAction({
 
     const response = await this.app.convertCurrency(params);
 
-    $.export("$summary", `Converted currency`);
+    $.export("$summary", "Converted currency");
 
     return response;
   },

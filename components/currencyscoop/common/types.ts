@@ -15,13 +15,13 @@ export interface GetLatestRatesParams extends PdAxiosRequest {
   params: {
     base: string;
     symbols: string;
-  }
+  };
 }
 
 export interface GetHistoricalRatesParams extends GetLatestRatesParams {
   params: GetLatestRatesParams["params"] & {
     date: string;
-  }
+  };
 }
 
 export interface ConvertCurrencyParams extends PdAxiosRequest {
@@ -29,5 +29,5 @@ export interface ConvertCurrencyParams extends PdAxiosRequest {
     amount: number;
     from: string;
     to: string;
-  }
+  };
 }
