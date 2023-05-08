@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dropbox",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "Pipedream Dropbox Components",
   "main": "dropbox.app.mjs",
   "keywords": [
@@ -11,6 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "dropbox": "^10.34.0",
+    "tmp-promise": "^3.0.3",
     "isomorphic-fetch": "^3.0.0",
     "lodash": "^4.17.21"
   },

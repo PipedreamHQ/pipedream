@@ -962,7 +962,10 @@ importers:
       uuid: 8.3.2
 
   components/deepgram:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/deepl:
     specifiers: {}
@@ -1077,7 +1080,10 @@ importers:
     specifiers: {}
 
   components/dock_certs:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/docraptor:
     specifiers: {}
@@ -1138,10 +1144,12 @@ importers:
     specifiers:
       dropbox: ^10.34.0
       isomorphic-fetch: ^3.0.0
+      tmp-promise: ^3.0.3
       lodash: ^4.17.21
     dependencies:
       dropbox: 10.34.0_@types+node-fetch@2.6.3
       isomorphic-fetch: 3.0.0
+      tmp-promise: 3.0.3
       lodash: 4.17.21
 
   components/dynatrace_api:
@@ -3985,7 +3993,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/snatchbot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/snowflake:
     specifiers:
@@ -11773,6 +11784,7 @@ packages:
 
   /@types/node/18.15.12:
     resolution: {integrity: sha512-Wha1UwsB3CYdqUm2PPzh/1gujGCNtWVUYF0mB00fJFoR4gTyWTDPjSm+zBF787Ahw8vSGgBja90MkgFwvB86Dg==}
+    dev: false
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
