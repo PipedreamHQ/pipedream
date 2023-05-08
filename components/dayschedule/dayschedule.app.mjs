@@ -180,14 +180,25 @@ export default {
       };
 
       do {
-        const response = await this.listResources({
-          params,
-        });
-        total = response.total;
-        count += response.result.length;
+        try {
+          const response = await this.listResources({
+            params,
+          });
+          total = response.total;
+          count += response.result.length;
 
-        const relevantResources = response.result.filter((resource) => resource.type === type);
-        results.push(...relevantResources);
+          const relevantResources = response.result.filter((resource) => resource.type === type);
+          results.push(...relevantResources);
+        } catch (e) {
+          const {
+            statusCode, message,
+          } = JSON.parse(e.message);
+          if (statusCode === 404 && message === "No resources found") {
+            console.log(message);
+            break;
+          }
+          throw new Error(e);
+        }
 
         params.offset += params.limit;
       } while (count < total && results.length < maxResults);
