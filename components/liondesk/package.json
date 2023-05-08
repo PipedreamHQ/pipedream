@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/liondesk",
+  "version": "0.0.1",
+  "description": "Pipedream Liondesk Components",
+  "main": "dist/app/liondesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "liondesk"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/liondesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
