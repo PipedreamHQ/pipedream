@@ -23,8 +23,9 @@ export default {
     hostname: {
       type: "boolean",
       label: "Hostname",
-      description: "If the hostname parameter is set to 1, the API response will contain the hostname of the ip.",
+      description: "If the hostname parameter is set to `TRUE`, the API response will contain the hostname of the ip. Default to `FALSE`",
       optional: true,
+      default: false,
     },
   },
   async run({ $ }) {
