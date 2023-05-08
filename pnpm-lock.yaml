@@ -962,7 +962,10 @@ importers:
       uuid: 8.3.2
 
   components/deepgram:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/deepl:
     specifiers: {}
