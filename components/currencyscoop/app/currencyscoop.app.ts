@@ -1,10 +1,24 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { HttpRequestParams } from "../common/types";
+import { ConvertCurrencyParams, GetHistoricalRatesParams, GetLatestRatesParams, HttpRequestParams } from "../common/types";
+import { CURRENCIES } from "../common/constants";
 
 export default defineApp({
   type: "app",
   app: "currencyscoop",
+  propDefinitions: {
+    currency: {
+      type: "string",
+      label: "Base Currency",
+      description: "The base currency you would like to use for your rates.",
+      options: CURRENCIES
+    },
+    date: {
+      type: "string",
+      label: "Date",
+      description: "The historical date you would like to access, in the `YYYY-MM-DD` format."
+    }
+  },
   methods: {
     async _httpRequest<ResponseType extends object>({
       $ = this,
@@ -21,5 +35,23 @@ export default defineApp({
         ...args,
       });
     },
+    async getLatestRates(args: GetLatestRatesParams) {
+      return this._httpRequest({
+        url: '/latest',
+        ...args
+      })
+    },
+    async getHistoricalRates(args: GetHistoricalRatesParams) {
+      return this._httpRequest({
+        url: '/historical',
+        ...args
+      })
+    },
+    async convertCurrency(args: ConvertCurrencyParams) {
+      return this._httpRequest({
+        url: '/convert',
+        ...args
+      })
+    }
   },
 });
