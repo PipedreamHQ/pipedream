@@ -35,7 +35,7 @@ export default {
           maxLastCreated = ts;
         }
       }
-      this._setLastCreated(maxLastCreated);
+      this._setPrevious(maxLastCreated);
     },
     generateMeta(image) {
       return {
