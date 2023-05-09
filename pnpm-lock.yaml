@@ -2156,7 +2156,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/leap:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/learndash:
     specifiers: {}
