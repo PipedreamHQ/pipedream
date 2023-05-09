@@ -6,7 +6,7 @@ export default {
   name: "Random Item(s) from List",
   description:
     "Returns a randomly selected value(s) from a user-defined list of options.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     helperFunctions,
@@ -24,10 +24,12 @@ export default {
     },
   },
   run() {
-    if(this.quantity > this.list.length){
+    if (this.quantity > this.list.length) {
       throw new ConfigurationError("Quantity must be smaller than the list size");
     }
 
-    return [...Array(this.quantity)].map(() => this.list.splice(Math.floor(Math.random() * this.list.length), 1)[0])
+    return [
+      ...Array(this.quantity),
+    ].map(() => this.list.splice(Math.floor(Math.random() * this.list.length), 1)[0]);
   },
 };
