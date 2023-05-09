@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade New Order",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-trade-new-order",
   description: "Place a New Order [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_1-place-a-new-order).",
   props: {
@@ -43,7 +43,18 @@ export default {
         "action",
       ],
     },
-
+    takerProfitPrice: {
+      label: "Taker Profit Price",
+      description: "The take profit price",
+      type: "string",
+      optional: true,
+    },
+    stopLossPrice: {
+      label: "Stop Loss Price",
+      description: "The take loss price",
+      type: "string",
+      optional: true,
+    },
   },
   type: "action",
   async run({ $ }) {
@@ -56,6 +67,8 @@ export default {
       "entrustVolume": this.bingx.convertToFloat(this.entrustVolume),
       "tradeType": this.tradeType,
       "action": this.action,
+      "takerProfitPrice": this.takerProfitPrice,
+      "stopLossPrice": this.stopLossPrice,
     };
     const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     $.export("$summary", `New Future Order for ${this.symbol}`);
