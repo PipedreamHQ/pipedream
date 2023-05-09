@@ -21,7 +21,7 @@ export default {
     location: {
       type: "string",
       label: "Location",
-      description: "(Optional) The document's location, could be one of: new, later, shortlist, archive, feed",
+      description: "(Optional) The document's location, can be one of: new, later, shortlist, archive, feed",
       optional: true,
     },
     category: {
