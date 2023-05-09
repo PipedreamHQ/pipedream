@@ -1144,13 +1144,13 @@ importers:
     specifiers:
       dropbox: ^10.34.0
       isomorphic-fetch: ^3.0.0
-      tmp-promise: ^3.0.3
       lodash: ^4.17.21
+      tmp-promise: ^3.0.3
     dependencies:
       dropbox: 10.34.0_@types+node-fetch@2.6.3
       isomorphic-fetch: 3.0.0
-      tmp-promise: 3.0.3
       lodash: 4.17.21
+      tmp-promise: 3.0.3
 
   components/dynatrace_api:
     specifiers: {}
@@ -1797,6 +1797,9 @@ importers:
   components/guru:
     specifiers: {}
 
+  components/h_supertools_analytics_tool:
+    specifiers: {}
+
   components/habitica:
     specifiers: {}
 
@@ -1953,6 +1956,9 @@ importers:
       util: 0.12.5
 
   components/imgbb:
+    specifiers: {}
+
+  components/implisense_api:
     specifiers: {}
 
   components/infusionsoft:
@@ -2226,6 +2232,9 @@ importers:
       axios: 1.3.6
 
   components/linqs_cc:
+    specifiers: {}
+
+  components/liondesk:
     specifiers: {}
 
   components/listen_notes:
