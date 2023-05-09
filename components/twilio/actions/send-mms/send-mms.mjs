@@ -7,7 +7,7 @@ export default {
   name: "Send MMS",
   description: "Send an SMS with text and media files. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource) for more information",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   props: {
     twilio,
     from: {
@@ -42,12 +42,17 @@ export default {
     // See https://www.npmjs.com/package/phone
     const toParsed = phone(this.to);
     if (!toParsed || !toParsed.phoneNumber) {
-      throw new Error(`Phone number ${this.to} couldn't be parsed as a valid number.`);
+      throw new Error(`Phone number ${this.to} could not be parsed as a valid number.`);
+    }
+
+    const fromParsed = phone(this.from);
+    if (!fromParsed || !fromParsed.phoneNumber) {
+      throw new Error(`Phone number ${this.from} could not be parsed as a valid number.`);
     }
 
     const data = {
       to: toParsed.phoneNumber,
-      from: this.from,
+      from: fromParsed.phoneNumber,
       body: this.body,
       mediaUrl: this.mediaUrl,
     };
