@@ -949,7 +949,10 @@ importers:
     specifiers: {}
 
   components/dayschedule:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dear:
     specifiers:
@@ -1024,6 +1027,9 @@ importers:
     specifiers: {}
 
   components/digicert:
+    specifiers: {}
+
+  components/digistore24:
     specifiers: {}
 
   components/digital_ocean:
@@ -2156,7 +2162,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/leap:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/learndash:
     specifiers: {}
@@ -3618,7 +3627,10 @@ importers:
     specifiers: {}
 
   components/sapling_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/saucelabs:
     specifiers: {}
