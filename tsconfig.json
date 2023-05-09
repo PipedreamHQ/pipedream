@@ -1850,6 +1850,9 @@
     },
     {
       "path": "components/h_supertools_analytics_tool"
+    },
+    {
+      "path": "components/digistore24"
     }
   ]
 }
