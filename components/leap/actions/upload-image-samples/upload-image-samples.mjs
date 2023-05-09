@@ -39,7 +39,10 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully uploaded ${response.length} image${response.length === 1
+      const length = this.returnInObject
+        ? response.data.length
+        : response.length;
+      $.export("$summary", `Successfully uploaded ${length} image${length === 1
         ? ""
         : "s"}`);
     }
