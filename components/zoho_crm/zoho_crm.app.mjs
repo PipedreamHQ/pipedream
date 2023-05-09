@@ -82,22 +82,15 @@ export default {
     },
     _getLabelValueForModuleRecord(moduleType, record) {
       const value = record.id;
-      let label;
-
-      if (moduleType === "Leads") {
-        label = record.Full_Name;
-      } else if (moduleType === "Accounts") {
-        label = record.Account_Name;
-      } else if (moduleType === "Contacts") {
-        label = record.Full_Name;
-      } else if (moduleType === "users?type=ActiveUsers") {
-        label = record.full_name;
-      } else if (moduleType === "Attachments") {
-        label = record.File_Name;
-      } else {
-        label = value;
-      }
-
+      const fieldSelector = {
+        "Leads": "Full_Name",
+        "Accounts": "Account_Name",
+        "Contacts": "Full_Name",
+        "Attachments": "File_Name",
+        "users?type=\"ActiveUsers\"": "full_name",
+      };
+      const fieldName = fieldSelector[moduleType];
+      const label = record[fieldName] ?? value;
       return {
         label,
         value,
