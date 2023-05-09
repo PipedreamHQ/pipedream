@@ -17,7 +17,7 @@ export default defineAction({
       type: "string",
       label: "Text",
       description:
-        "Text of the Tweet being created. Required if `Media IDs` is not set.",
+        "Text of the Tweet being created. Required if `Media IDs` is not set. TEST",
       optional: true,
     },
     inReplyToTweetId: {
