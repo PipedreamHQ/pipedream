@@ -27,7 +27,7 @@ export default {
     category: {
       type: "string",
       label: "Category",
-      description: "(Optional) The document's category, could be one of: article, email, rss, highlight, note, pdf, epub, tweet, video",
+      description: "(Optional) The document's category, can be one of: article, email, rss, highlight, note, pdf, epub, tweet, video",
       optional: true,
     },
   },
