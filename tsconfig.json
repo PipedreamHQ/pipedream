@@ -1856,6 +1856,9 @@
     },
     {
       "path": "components/accredible"
+    },
+    {
+      "path": "components/kintone"
     }
   ]
 }
