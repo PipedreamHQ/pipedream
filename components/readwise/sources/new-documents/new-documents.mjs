@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   key: "readwise-new-documents",
   name: "New Documents",
-  description: "Emit new Document",
+  description: "Emit new document",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
