@@ -1,9 +1,9 @@
 import app from "../../common/rest-admin.mjs";
 
 export default {
-  key: "shopify-create-article",
-  name: "Create Article",
-  description: "Create a new blog article. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#post-blogs-blog-id-articles)",
+  key: "shopify-update-article",
+  name: "Update Article",
+  description: "Update a blog article. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#put-blogs-blog-id-articles-article-id)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -12,6 +12,15 @@ export default {
       propDefinition: [
         app,
         "blogId",
+      ],
+    },
+    articleId: {
+      propDefinition: [
+        app,
+        "articleId",
+        ({ blogId }) => ({
+          blogId,
+        }),
       ],
     },
     title: {
@@ -30,11 +39,11 @@ export default {
     },
   },
   methods: {
-    createArticle({
-      blogId, ...args
+    updateBlogArticle({
+      blogId, articleId, ...args
     } = {}) {
-      return this.app.post({
-        path: `/blogs/${blogId}/articles`,
+      return this.app.put({
+        path: `/blogs/${blogId}/articles/${articleId}`,
         ...args,
       });
     },
@@ -42,13 +51,15 @@ export default {
   async run({ $: step }) {
     const {
       blogId,
+      articleId,
       title,
       bodyHtml,
     } = this;
 
-    const response = await this.createArticle({
+    const response = await this.updateBlogArticle({
       step,
       blogId,
+      articleId,
       data: {
         article: {
           title,
@@ -57,7 +68,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Created new page with ID ${response.article.id}`);
+    step.export("$summary", `Updated article with ID ${response.article.id}.`);
 
     return response;
   },

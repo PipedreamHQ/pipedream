@@ -127,10 +127,8 @@ export default {
       resourceFn,
       resourceFnArgs,
       resourceName,
-      lastCreatedAt,
       max = constants.DEFAULT_MAX,
     }) {
-      let page = 1;
       let resourcesCount = 0;
 
       while (true) {
@@ -139,7 +137,6 @@ export default {
             ...resourceFnArgs,
             params: {
               ...resourceFnArgs.params,
-              page,
             },
           });
 
@@ -151,21 +148,13 @@ export default {
         }
 
         for (const resource of nextResources) {
-          const dateFilter =
-            lastCreatedAt
-            && Date.parse(resource.created_at) > Date.parse(lastCreatedAt);
-
-          if (!lastCreatedAt || dateFilter) {
-            yield resource;
-            resourcesCount += 1;
-          }
+          yield resource;
+          resourcesCount += 1;
 
           if (resourcesCount >= max) {
             return;
           }
         }
-
-        page += 1;
       }
     },
   },
