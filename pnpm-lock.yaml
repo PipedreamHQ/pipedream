@@ -1029,6 +1029,9 @@ importers:
   components/digicert:
     specifiers: {}
 
+  components/digistore24:
+    specifiers: {}
+
   components/digital_ocean:
     specifiers:
       do-wrapper: ^4.5.1
@@ -1384,14 +1387,14 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.1
       '@pipedream/types': ^0.1.4
-      jsdom: ^21.1.0
+      jsdom@21.1.1: npm:jsdom@21.1.1
       pluralize: ^8.0.0
       showdown: ^2.1.0
       title-case: ^3.0.3
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
-      jsdom: 21.1.1
+      jsdom@21.1.1: /jsdom/21.1.1
       pluralize: 8.0.0
       showdown: 2.1.0
       title-case: 3.0.3
@@ -11799,7 +11802,6 @@ packages:
 
   /@types/node/18.15.12:
     resolution: {integrity: sha512-Wha1UwsB3CYdqUm2PPzh/1gujGCNtWVUYF0mB00fJFoR4gTyWTDPjSm+zBF787Ahw8vSGgBja90MkgFwvB86Dg==}
-    dev: false
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formatting",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Formatting Components",
   "main": "dist/app/formatting.app.mjs",
   "keywords": [
@@ -19,7 +19,7 @@
   "dependencies": {
     "@pipedream/platform": "^1.2.1",
     "@pipedream/types": "^0.1.4",
-    "jsdom": "^21.1.0",
+    "jsdom@21.1.1": "npm:jsdom@21.1.1",
     "pluralize": "^8.0.0",
     "showdown": "^2.1.0",
     "title-case": "^3.0.3"
