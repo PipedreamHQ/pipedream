@@ -72,7 +72,7 @@ export default {
     rejectUnauthorized: {
       type: "boolean",
       label: "Reject Unauthorized",
-      description: "If not false, the server certificate is verified against the list of supplied CAs. If you get the error `Connection terminated unexpectedly` try to set this prop as `false`",
+      description: "If `true`, the server certificate is verified against the list of supplied CAs. If you get the error `Connection terminated unexpectedly` try to set this prop as `false`",
       default: true,
     },
   },
