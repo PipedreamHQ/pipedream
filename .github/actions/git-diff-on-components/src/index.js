@@ -96,7 +96,7 @@ function includesVersion(contents) {
 }
 
 function getVersion(contents) {
-  return includesVersion(contents)[0].match(/\d{3}\.\d{3}\.\d{3}/)[0];
+  return includesVersion(contents)[0].match(/(\d+\.){2}\d+/)[0];
 }
 
 function increaseVersion(version) {
