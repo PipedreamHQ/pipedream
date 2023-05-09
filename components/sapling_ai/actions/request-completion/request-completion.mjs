@@ -33,26 +33,32 @@ export default {
   },
   async run({ $: step }) {
     const {
-      sessionId,
+      sessionId: id,
       query,
     } = this;
+
+    const sessionId =  utils.generateSessionId(id);
 
     const response = await this.requestCompletion({
       step,
       data: {
-        session_id: utils.generateSessionId(sessionId),
+        session_id: sessionId,
         query,
       },
     });
 
     if (response?.hash) {
       step.export("$summary", `Successfully requested completion with hash ${response.hash}.`);
-      return response;
+      return {
+        ...response,
+        sessionId,
+      };
     }
 
     step.export("$summary", "No response was returned.");
     return {
       success: false,
+      sessionId,
     };
   },
 };

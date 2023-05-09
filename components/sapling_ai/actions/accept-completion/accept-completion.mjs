@@ -1,4 +1,5 @@
 import app from "../../sapling_ai.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "sapling_ai-accept-completion",
@@ -15,6 +16,7 @@ export default {
       ],
     },
     sessionId: {
+      optional: true,
       propDefinition: [
         app,
         "sessionId",
@@ -45,10 +47,12 @@ export default {
   async run({ $: step }) {
     const {
       completionId,
-      sessionId,
+      sessionId: id,
       query,
       completion,
     } = this;
+
+    const sessionId =  utils.generateSessionId(id);
 
     const response = await this.acceptCompletion({
       step,
@@ -64,6 +68,9 @@ export default {
 
     step.export("$summary", `Successfully accepted completion with ID ${completionId}.`);
 
-    return response;
+    return {
+      ...response,
+      sessionId,
+    };
   },
 };
