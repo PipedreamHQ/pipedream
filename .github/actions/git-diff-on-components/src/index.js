@@ -369,7 +369,7 @@ async function run() {
     };
 
     await execCmd("git", ["add", "."]);
-    await execCmd("git", ["commit", "-m", "Automatically updating actions ans sources versions"]);
+    await execCmd("git", ["commit", "-m", "Automatically updating actions and sources versions"]);
     await execCmd("git", ["push", "--force-with-lease", "--no-verify"]);
   }
 
