@@ -1,6 +1,7 @@
 import { axios } from "@pipedream/platform";
 import common from "../shopify.app.mjs";
 import constants from "./constants.mjs";
+import utils from "./utils.mjs";
 
 export default {
   ...common,
@@ -81,7 +82,6 @@ export default {
         url: this.getUrl(path, url),
         ...args,
       };
-      console.log("config!!!", JSON.stringify(config, null, 2));
 
       return axios(step, config);
     },
@@ -129,17 +129,21 @@ export default {
       resourceName,
       max = constants.DEFAULT_MAX,
     }) {
+      let url;
       let resourcesCount = 0;
 
       while (true) {
-        const response =
+        const stream =
           await resourceFn({
+            responseType: "stream",
+            url,
             ...resourceFnArgs,
-            params: {
-              ...resourceFnArgs.params,
-            },
           });
 
+        const { headers: { link } } = stream;
+
+        const linkParsed = utils.parseLinkHeader(link);
+        const response = await utils.getDataFromStream(stream);
         const nextResources = resourceName && response[resourceName] || response;
 
         if (!nextResources?.length) {
@@ -155,6 +159,13 @@ export default {
             return;
           }
         }
+
+        if (!linkParsed?.next) {
+          console.log("Pagination complete");
+          return;
+        }
+
+        url = linkParsed.next;
       }
     },
   },

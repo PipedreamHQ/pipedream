@@ -1,4 +1,5 @@
 import app from "../../common/rest-admin.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "shopify-get-articles",
@@ -16,13 +17,19 @@ export default {
     },
   },
   async run({ $: step }) {
-    const response = await this.app.listBlogArticles({
-      step,
-      blogId: this.blogId,
+    const stream = this.app.getResourcesStream({
+      resourceFn: this.app.listBlogArticles,
+      resourceFnArgs: {
+        step,
+        blogId: this.blogId,
+      },
+      resourceName: "articles",
     });
 
-    step.export("$summary", `Successfully retrieved ${response.articles.length} article(s).`);
+    const articles = await utils.streamIterator(stream);
 
-    return response;
+    step.export("$summary", `Successfully retrieved ${articles.length} article(s).`);
+
+    return articles;
   },
 };

@@ -1,4 +1,5 @@
 import app from "../../common/rest-admin.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "shopify-get-pages",
@@ -10,12 +11,18 @@ export default {
     app,
   },
   async run({ $: step }) {
-    const response = await this.app.listPages({
-      step,
+    const stream = this.app.getResourcesStream({
+      resourceFn: this.app.listPages,
+      resourceFnArgs: {
+        step,
+      },
+      resourceName: "pages",
     });
 
-    step.export("$summary", `Successfully retrieved ${response.pages.length} page(s).`);
+    const pages = await utils.streamIterator(stream);
 
-    return response;
+    step.export("$summary", `Successfully retrieved ${pages.length} page(s).`);
+
+    return pages;
   },
 };

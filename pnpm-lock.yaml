@@ -1029,6 +1029,9 @@ importers:
   components/digicert:
     specifiers: {}
 
+  components/digistore24:
+    specifiers: {}
+
   components/digital_ocean:
     specifiers:
       do-wrapper: ^4.5.1
