@@ -4,7 +4,7 @@ export default {
   key: "zoho_crm-list-modules",
   name: "List Modules",
   description: "Retrieves a list of all the modules available in your CRM account.",
-  version: "0.2.0",
+  version: "0.0.1",
   type: "action",
   props: {
     zohoCrm,
