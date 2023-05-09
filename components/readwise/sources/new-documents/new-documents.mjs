@@ -12,7 +12,7 @@ export default {
     readwise,
     timer: {
       label: "Polling interval",
-      description: "Pipedream will poll the Readwise API on this schedule",
+      description: "Pipedream polls the Readwise API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
