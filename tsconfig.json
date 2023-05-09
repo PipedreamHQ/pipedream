@@ -1853,6 +1853,9 @@
     },
     {
       "path": "components/digistore24"
+    },
+    {
+      "path": "components/accredible"
     }
   ]
 }
