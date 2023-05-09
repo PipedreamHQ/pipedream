@@ -1,0 +1,64 @@
+import readwise from "../../readwise.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+
+export default {
+  key: "readwise-new-documents",
+  name: "New Documents",
+  description: "Emit new Document",
+  version: "0.0.1",
+  type: "source",
+  dedupe: "unique",
+  props: {
+    readwise,
+    timer: {
+      label: "Polling interval",
+      description: "Pipedream will poll the Readwise API on this schedule",
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
+    location: {
+      type: "string",
+      label: "Location",
+      description: "(Optional) The document's location, could be one of: new, later, shortlist, archive, feed",
+      optional: true,
+    },
+    category: {
+      type: "string",
+      label: "Category",
+      description: "(Optional) The document's category, could be one of: article, email, rss, highlight, note, pdf, epub, tweet, video",
+      optional: true,
+    },
+  },
+  hooks: {
+    async activate() {
+      await this.processDocuments();
+    },
+  },
+  methods: {
+    async processDocuments(params) {
+      const { results: events } = await this.readwise.listDocuments({
+        params,
+      });
+      for (const event of events) {
+        this.emitEvent(event);
+      }
+    },
+    async processEvent() {
+      await this.processDocuments({
+        location: this.location || "",
+        category: this.category || "",
+      });
+    },
+    emitEvent(event) {
+      this.$emit(event, {
+        id: event.id,
+        summary: `New Document: ${event.id}`,
+      });
+    },
+  },
+  async run() {
+    return this.processEvent();
+  },
+};
