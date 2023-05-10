@@ -5,7 +5,7 @@ export default {
   name: "List Contacts",
   description: "This method lists all contacts within an account. [See the docs here](https://developers.pandadoc.com/reference/list-contacts)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
   },

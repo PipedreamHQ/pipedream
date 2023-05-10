@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-send-email-multiple-recipients",
   name: "Send Email Multiple Recipients",
   description: "This action sends a personalized e-mail to multiple specified recipients. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
@@ -109,6 +109,18 @@ export default {
         "asm",
       ],
     },
+    asmGroupId: {
+      propDefinition: [
+        common.props.sendgrid,
+        "asmGroupId",
+      ],
+    },
+    asmGroupsToDisplay: {
+      propDefinition: [
+        common.props.sendgrid,
+        "asmGroupsToDisplay",
+      ],
+    },
     ipPoolName: {
       propDefinition: [
         common.props.sendgrid,
@@ -149,6 +161,7 @@ export default {
     }
     //Performs validation on parameters.
     validate.validators.arrayValidator = this.validateArray; //custom validator for object arrays
+    validate.validators.asmValidator = this.validateAsm; //custom validator for asm object
     //Defines contraints for required parameters
     const constraints = {
       personalizations: {
@@ -182,6 +195,15 @@ export default {
     this.sendAt = this.convertEmptyStringToUndefined(this.sendAt);
     if (this.sendAt != null) {
       constraints.sendAt = this.getIntegerGtZeroConstraint();
+    }
+    if (this.asm || this.asmGroupsToDisplay) {
+      constraints.asm = {
+        asmValidator: {
+          asm: this.asm,
+          asmGroupId: this.asmGroupId,
+          asmGroupsToDisplay: this.asmGroupsToDisplay,
+        },
+      };
     }
     //Executes validation
     const validationResult = validate(
@@ -234,7 +256,7 @@ export default {
       categories: this.categories,
       custom_args: this.customArgs,
       send_at: this.sendAt,
-      asm: this.asm,
+      asm: this.getAsmConfig(),
       ip_pool_name: this.ipPoolName,
       mail_settings: this.mailSettings,
       tracking_settings: this.trackingSettings,
