@@ -9,7 +9,7 @@ export default {
       label: "Module",
       description: "Module where the record will be created",
       async options() {
-        const { modules } = await this.listModules();
+        const { modules = [] } = await this.listModules();
         return modules.map(({ api_name }) => api_name);
       },
     },
@@ -20,7 +20,7 @@ export default {
       async options({
         module, page,
       }) {
-        const { data } = await this.listRecords(module, page);
+        const { data = [] } = await this.listRecords(module, page);
         return data.map((record) => this._getLabelValueForModuleRecord(module, record));
       },
     },
@@ -31,7 +31,7 @@ export default {
       async options({
         module, recordId, page,
       }) {
-        const { data } = await this.listAttachments(module, recordId, page);
+        const { data = [] } = await this.listAttachments(module, recordId, page);
         return data.map((record) => this._getLabelValueForModuleRecord("Attachments", record));
       },
     },
