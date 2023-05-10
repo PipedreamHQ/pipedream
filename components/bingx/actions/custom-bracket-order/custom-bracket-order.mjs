@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Custom Bracket Order",
-  version: "0.0.3",
+  version: "0.1.0",
   key: "bingx-custom-bracket-order",
   description: "Place bracket order",
   props: {
@@ -62,6 +62,18 @@ export default {
       type: "string",
       optional: false,
     },
+    takerProfitPrice: {
+      label: "Taker Profit Price",
+      description: "The take profit price",
+      type: "string",
+      optional: true,
+    },
+    stopLossPrice: {
+      label: "Stop Loss Price",
+      description: "The take loss price",
+      type: "string",
+      optional: true,
+    },
   },
   type: "action",
   methods: {
@@ -94,6 +106,8 @@ export default {
       "entrustVolume": this.bingx.convertToFloat(this.quantity),
       "tradeType": this.tradeType,
       "action": "Open",
+      "takerProfitPrice": this.takerProfitPrice,
+      "stopLossPrice": this.stopLossPrice,
     };
     const entryOrder = await this.bingx.makeRequest(API_METHOD, API_PATH, entryParameters);
 
@@ -104,8 +118,10 @@ export default {
       "entrustVolume": this.bingx.convertToFloat(this.quantity),
       "tradeType": "Limit",
       "action": "Close",
+      "takerProfitPrice": this.takerProfitPrice,
+      "stopLossPrice": this.stopLossPrice,
     };
-    console.log(takeProfitParameters);
+
     const exitOrder = await this.bingx.makeRequest(API_METHOD, API_PATH, takeProfitParameters);
     const returnValue = {
       "entryOrder": entryOrder,
