@@ -11,19 +11,19 @@ export default {
   key: "dear-new-product",
   type: "source",
   description: "Emit new event when a product is created",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...base.props,
     sku: {
       type: "string",
-      label: "Starting with SKU",
+      label: "“SKU” Starts With”",
       description: "Filter products with the *SKU* starting with this value",
       optional: true,
     },
     name: {
       type: "string",
-      label: "Starting with Name",
+      label: "Name Starts With",
       description: "Filter products with the *Name* starting with this value",
       optional: true,
     },
@@ -60,7 +60,7 @@ export default {
         const { Products: products } = await this.dear.listProducts({
           params: {
             ...params,
-            limit: constants.PAGE_LIMIT,
+            limit: params.limit || constants.PAGE_LIMIT,
           },
         });
 
