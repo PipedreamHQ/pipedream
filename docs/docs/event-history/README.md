@@ -26,7 +26,7 @@ You can filter by the event's **Status**, **time of initiation** or by the **Wor
 
 The filters are scoped to the current [workspace](/workspaces/).
 
-If you're not seeing the events or workflow you're expecting, try [switching workspaces](workspaces/#switching-between-workspaces).
+If you're not seeing the events or workflow you're expecting, try [switching workspaces](/workspaces/#switching-between-workspaces).
 
 :::
 

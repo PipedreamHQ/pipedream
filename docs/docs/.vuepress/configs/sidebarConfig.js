@@ -20,7 +20,7 @@ const docsNav = [
       "/migrate-from-v1/",
     ],
   },
-  "/event-histories/",
+  "/event-history/",
   "/sources/",
   "/connected-accounts/",
   ["/data-stores/", "Data Stores"],
