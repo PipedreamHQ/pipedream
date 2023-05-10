@@ -33,7 +33,7 @@ export default {
   },
   hooks: {
     async activate() {
-      await this.processDocuments();
+      await this.processEvent();
     },
   },
   methods: {
