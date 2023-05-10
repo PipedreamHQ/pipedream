@@ -46,6 +46,7 @@ export default {
     user: {
       propDefinition: [
         zohoCrm,
+        "recordId",
         () => ({
           module: "users?type=ActiveUsers",
         }),
