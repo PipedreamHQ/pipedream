@@ -1856,6 +1856,12 @@
     },
     {
       "path": "components/accredible"
+    },
+    {
+      "path": "components/kintone"
+    },
+    {
+      "path": "components/suitedash"
     }
   ]
 }
