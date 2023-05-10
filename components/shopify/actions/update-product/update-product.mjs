@@ -6,7 +6,7 @@ export default {
   key: "shopify-update-product",
   name: "Update Product",
   description: "Update an existing product. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product#[put]/admin/api/2022-01/products/{product_id}.json)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     shopify,
@@ -40,6 +40,12 @@ export default {
         shopify,
         "productType",
       ],
+    },
+    handle: {
+      type: "string",
+      label: "Handle",
+      description: "A unique human-friendly string for the product that serves as the URL handle. Automatically generated from the product's title.",
+      optional: true,
     },
     status: {
       propDefinition: [
@@ -120,6 +126,7 @@ export default {
       metafields,
       metafields_global_title_tag: this.seoTitle,
       metafields_global_description_tag: this.seoDescription,
+      handle: this.handle,
     };
 
     const response = (await this.shopify.updateProduct(this.productId, product)).result;
