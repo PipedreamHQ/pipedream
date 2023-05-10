@@ -1,5 +1,5 @@
-import visualping from "../../app/visualping.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import visualping from "../../app/visualping.app.mjs";
 
 export default {
   name: "New Job Created",
@@ -46,10 +46,15 @@ export default {
 
     let page = 0;
 
+    const {
+      visualping,
+      workspaceId,
+    } = this;
+
     while (page >= 0) {
-      const { jobs } = await this.visualping.getJobs({
-        workspaceId: this.workspaceId,
+      const { jobs } = await visualping.findJobs({
         params: {
+          workspaceId: workspaceId,
           pageIndex: page,
           pageSize: 100,
         },
