@@ -86,6 +86,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/accredible:
+    specifiers: {}
+
   components/action_builder:
     specifiers: {}
 
@@ -1027,6 +1030,9 @@ importers:
     specifiers: {}
 
   components/digicert:
+    specifiers: {}
+
+  components/digistore24:
     specifiers: {}
 
   components/digital_ocean:
