@@ -103,7 +103,7 @@ The Advanced and Business tiers have an upgraded amount of events in the queue, 
 
 ::: tip
 
-For an extended history of events across all of your workflows, included processed events, with the ability to filter by status and time range, please see the [Event History](/event-history/)
+For an extended history of events across all of your workflows, included processed events, with the ability to filter by status and time range, please see the [Event History](/event-history/).
 
 :::
 

@@ -1,10 +1,10 @@
 # Event History
 
-Monitor all workflow events and their stace traces in one centralized view under the [**Event History**](https://pipedream.com/event-history) section in the dashboard.
+Monitor all workflow events and their stack traces in one centralized view under the [**Event History**](https://pipedream.com/event-history) section in the dashboard.
 
 Within the **Event History**, you'll be able to filter your events by workflow, execution status, within a specific time range.
 
-This includes events in progress for time time visibility into the health of your workflows.
+This includes events in progress for real-time visibility into the health of your workflows.
 
 ::: tip This feature is in beta
 
@@ -18,7 +18,7 @@ Event Histories are currently in **beta** and are only available to Paid workspa
 
 The filters at the top of the screen allow you to search all events processed by your workflows:
 
-![Filtering all events in a workspace by it's status, when it was executed or by workflow ID](https://res.cloudinary.com/pipedreamin/image/upload/v1683747287/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.34.00_2x_voaos3.png)
+![Filtering all events in a workspace by its status, when it was executed or by workflow ID](https://res.cloudinary.com/pipedreamin/image/upload/v1683747287/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.34.00_2x_voaos3.png)
 
 You can filter by the event's **Status**, **time of initiation** or by the **Workflow name**.
 
@@ -59,7 +59,7 @@ This view in particular is helpful for identifying trends of errors, or workflow
 
 ### Within a time frame
 
-Filtering by time frame will only include workflow events _started_ within the define range.
+Filtering by time frame will only include workflow events _started_ within the defined range.
 
 Using this dropdown, you can select between convienent time ranges, or specify a custom range on the right side.
 
@@ -78,7 +78,7 @@ You can also filter events by a specific workflow. You can search by the workflo
 
 ![Search by workflow name in the search bar](https://res.cloudinary.com/pipedreamin/image/upload/v1683747588/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.39.30_2x_yoa1k6.png)
 
-Alternatively, you can filter by workflow from a specific event. First open the menu on the far right, then select **Filter By Workflow**. Then only events processed by that workflow will appear.
+Alternatively, you can filter by workflow from a specific event. First, open the menu on the far right, then select **Filter By Workflow**. Then only events processed by that workflow will appear.
 
 ![Filtering events by workflow by selecting the workflow on the right](https://res.cloudinary.com/pipedreamin/image/upload/v1683747695/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.41.20_2x_ulvdns.png)
 
@@ -111,4 +111,4 @@ During the beta, Paid accounts will have access to view the past 100 events acro
 
 :::
 
-The amount of events recorded and available for viewing in the Event History depends on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
+The number of events recorded and available for viewing in the Event History depends on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
