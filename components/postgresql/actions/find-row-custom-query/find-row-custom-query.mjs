@@ -19,7 +19,6 @@ export default {
         postgresql,
         "values",
       ],
-      optional: true,
     },
     rejectUnauthorized: {
       propDefinition: [

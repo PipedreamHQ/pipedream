@@ -44,6 +44,7 @@ export default {
       type: "string[]",
       label: "Values",
       description: "List of values represented in your SQL Query above",
+      optional: true,
     },
     value: {
       type: "string",
