@@ -40,6 +40,9 @@ export default {
         if (!fileTypes.includes(file[".tag"])) {
           continue;
         }
+        if (this.includeLink) {
+          file.link = await this.getTemporaryLink(file);
+        }
         this.$emit(file, this.getMeta(file.id, file.path_display || file.id));
         count++;
         if (count >= 25) {
