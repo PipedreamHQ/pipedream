@@ -41,7 +41,7 @@ export default {
       const { results: events } = await this.readwise.listDocuments({
         params,
       });
-      for (const event of events) {
+      for (const event of events.splice(0, 100)) {
         this.emitEvent(event);
       }
     },
