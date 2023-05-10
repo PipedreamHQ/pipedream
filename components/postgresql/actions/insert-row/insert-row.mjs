@@ -4,7 +4,7 @@ export default {
   name: "Insert Row",
   key: "postgresql-insert-row",
   description: "Adds a new row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     postgresql,

@@ -1841,6 +1841,27 @@
     },
     {
       "path": "components/slybroadcast"
+    },
+    {
+      "path": "components/liondesk"
+    },
+    {
+      "path": "components/implisense_api"
+    },
+    {
+      "path": "components/h_supertools_analytics_tool"
+    },
+    {
+      "path": "components/digistore24"
+    },
+    {
+      "path": "components/accredible"
+    },
+    {
+      "path": "components/kintone"
+    },
+    {
+      "path": "components/suitedash"
     }
   ]
 }
