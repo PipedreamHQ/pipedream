@@ -341,5 +341,15 @@ export default {
       });
       return get(res, "data");
     },
+    async listWebinarParticipants(webinarID, pageSize, nextPageToken) {
+      const { data } = await this._makeRequest({
+        path: `/past_webinars/${webinarID}/participants`,
+        params: {
+          page_size: pageSize || 300,
+          next_page_token: nextPageToken,
+        },
+      });
+      return data;
+    },
   },
 };

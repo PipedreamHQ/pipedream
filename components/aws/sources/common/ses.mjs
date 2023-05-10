@@ -9,6 +9,7 @@ export default {
   hooks: {
     // We only want to create the S3 bucket once, on deploy
     async deploy() {
+      await base.hooks.deploy.bind(this)();
       await base.hooks.activate.bind(this)();
 
       const bucketName = this._getBucketName();
