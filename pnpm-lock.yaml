@@ -2113,6 +2113,9 @@ importers:
   components/key_app_demo_1:
     specifiers: {}
 
+  components/kintone:
+    specifiers: {}
+
   components/klaviyo:
     specifiers:
       klaviyo-sdk: ^1.0.1
@@ -4169,6 +4172,9 @@ importers:
     specifiers: {}
 
   components/successeve:
+    specifiers: {}
+
+  components/suitedash:
     specifiers: {}
 
   components/supabase:
