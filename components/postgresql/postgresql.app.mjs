@@ -72,7 +72,7 @@ export default {
     rejectUnauthorized: {
       type: "boolean",
       label: "Reject Unauthorized",
-      description: "If `true`, the server certificate is verified against the list of supplied CAs. If you encounter the error `Connection terminated unexpectedly`, try setting this prop to `false`."
+      description: "If `true`, the server certificate is verified against the list of supplied CAs. If you encounter the error `Connection terminated unexpectedly`, try setting this prop to `false`.",
       default: true,
     },
   },
@@ -235,7 +235,7 @@ export default {
       });
       return this.executeQuery({
         text: format(`
-          INSERT INTO %I.%I (${columns}) 
+          INSERT INTO %I.%I (${columns})
             VALUES (${placeholders})
             RETURNING *
         `, schema, table),
