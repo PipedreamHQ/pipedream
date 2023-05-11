@@ -17,7 +17,7 @@ export default {
     advancedScheduleActive: {
       type: "boolean",
       label: "Advanced Schedule Active",
-      description: "Whether advanced schecule is active or not.",
+      description: "Whether advanced schedule is active or not.",
     },
     business: {
       type: "boolean",
