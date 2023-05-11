@@ -137,7 +137,7 @@ export default {
     changedFilterDateMin: {
       type: "string",
       label: "Changed Filter Date Min",
-      description: "Necessary if changedFilter expects a lower bound timestamp.",
+      description: "Necessary if `changedFilter` expects a lower bound timestamp.",
       optional: true,
     },
     changedFilterDateMax: {
