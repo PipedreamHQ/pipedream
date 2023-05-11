@@ -21,13 +21,15 @@ export default {
     location: {
       type: "string",
       label: "Location",
-      description: "(Optional) The document's location, can be one of: new, later, shortlist, archive, feed",
+      description: "(Optional) The document's location, see https://readwise.io/reader_api",
+      options: ["new", "later", "shortlist", "archive", "feed"],
       optional: true,
     },
     category: {
       type: "string",
       label: "Category",
-      description: "(Optional) The document's category, can be one of: article, email, rss, highlight, note, pdf, epub, tweet, video",
+      description: "(Optional) The document's category, see https://readwise.io/reader_api",
+      options: ["article", "email", "rss", "highlight", "note", "pdf", "epub", "tweet", "video"],
       optional: true,
     },
   },
