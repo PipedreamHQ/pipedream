@@ -1704,7 +1704,10 @@ importers:
       uuid: 8.3.2
 
   components/google_forms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_maps_platform:
     specifiers: {}
