@@ -171,7 +171,7 @@ export default {
     useDiscordNotification: {
       type: "boolean",
       label: "Use Discord Notification",
-      description: "If this job use discord notification.",
+      description: "If this job uses discord notification.",
     },
     useSlackAppNotification: {
       type: "boolean",
