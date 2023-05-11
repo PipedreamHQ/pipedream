@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jp_funda",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream JP Funda Components",
   "main": "jp_funda.app.mjs",
   "keywords": [
