@@ -1,7 +1,7 @@
 import googleForms from "../../google_forms.app.mjs";
 
 export default {
-  key: "google_forms_list-form-responses",
+  key: "google_forms-list-form-responses",
   name: "List Form Responses",
   description: "List a form's responses. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms.responses/list)",
   version: "0.0.1",

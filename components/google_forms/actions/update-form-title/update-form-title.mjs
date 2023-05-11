@@ -1,7 +1,7 @@
 import googleForms from "../../google_forms.app.mjs";
 
 export default {
-  key: "google_forms_update-form-title",
+  key: "google_forms-update-form-title",
   name: "Update Form Title",
   description: "Updates the title of a Google Form. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms/batchUpdate)",
   version: "0.0.1",

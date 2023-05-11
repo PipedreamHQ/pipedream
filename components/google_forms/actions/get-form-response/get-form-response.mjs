@@ -1,7 +1,7 @@
 import googleForms from "../../google_forms.app.mjs";
 
 export default {
-  key: "google_forms_get-form-response",
+  key: "google_forms-get-form-response",
   name: "Get Form Response",
   description: "Get a response from a form. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms.responses/get)",
   version: "0.0.1",
