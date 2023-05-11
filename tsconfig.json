@@ -1901,6 +1901,9 @@
     },
     {
       "path": "components/paystack"
+    },
+    {
+      "path": "components/klenty"
     }
   ]
 }
