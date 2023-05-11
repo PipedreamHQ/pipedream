@@ -444,6 +444,9 @@ importers:
   components/bill:
     specifiers: {}
 
+  components/billsby:
+    specifiers: {}
+
   components/bingx:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -485,6 +488,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
       path: 0.12.7
+
+  components/braintree:
+    specifiers: {}
 
   components/brandmentions:
     specifiers: {}
@@ -3310,6 +3316,9 @@ importers:
   components/qstash:
     specifiers: {}
 
+  components/quaderno:
+    specifiers: {}
+
   components/qualaroo:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -4724,6 +4733,9 @@ importers:
       verifalia: 3.2.2
 
   components/verifybee:
+    specifiers: {}
+
+  components/vestaboard:
     specifiers: {}
 
   components/virustotal:
