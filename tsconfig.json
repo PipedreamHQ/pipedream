@@ -1892,6 +1892,15 @@
     },
     {
       "path": "components/icontact"
+    },
+    {
+      "path": "components/zerobounce"
+    },
+    {
+      "path": "components/ecologi"
+    },
+    {
+      "path": "components/paystack"
     }
   ]
 }
