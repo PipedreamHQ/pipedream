@@ -4,7 +4,7 @@ export default {
   key: "zoho_crm-create-object",
   name: "Create Object",
   description: "Create a new object/module entry. [See the docs here](https://www.zoho.com/crm/developer/docs/api/v2/insert-records.html)",
-  version: "0.2.3",
+  version: "0.3.0",
   type: "action",
   props: {
     zohoCrm,
@@ -13,6 +13,7 @@ export default {
         zohoCrm,
         "module",
       ],
+      reloadProps: true,
     },
   },
   async additionalProps() {
@@ -136,7 +137,7 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const props = this.zohoCrm.omitEmptyStringValues({
+    const object = this.zohoCrm.omitEmptyStringValues({
       First_Name: this.firstName,
       Last_Name: this.lastName,
       Email: this.email,
@@ -150,15 +151,13 @@ export default {
       Campaign_Name: this.campaignName,
       ...this.additionalData,
     });
-    const data = {
+    const objectData = {
       data: [
-        {
-          ...props,
-        },
+        object,
       ],
     };
-    const res = await this.zohoCrm.createObject(this.module, data, $);
-    $.export("$summary", `Successfully created new ${this.module.substring(0, this.module.length - 1)}`);
+    const res = await this.zohoCrm.createObject(this.module, objectData, $);
+    $.export("$summary", "Successfully created new object");
     return res;
   },
 };

@@ -38,6 +38,7 @@ export default {
       }
 
       return {
+        rowStream,
         lastResultId,
         rowCount,
       };
@@ -198,12 +199,20 @@ export default {
     processEvent() {
       throw new Error("processEvent is not implemented");
     },
+    alwaysRunInSingleProcessMode() {
+      return false;
+    },
   },
   async run(event) {
     const { timestamp } = event;
     const statement = this.getStatement(event);
-    return this.emitIndividualEvents === true
-      ? this.processSingle(statement, timestamp)
-      : this.processCollection(statement, timestamp);
+    const data = this.emitIndividualEvents === true || this.alwaysRunInSingleProcessMode()
+      ? await this.processSingle(statement, timestamp)
+      : await this.processCollection(statement, timestamp);
+
+    if (this.additionalProccessing) {
+      this.additionalProccessing(data);
+    }
+    return data;
   },
 };
