@@ -100,7 +100,6 @@ export default {
     buildPage(page) {
       const meta = this.buildDatabaseMeta(page);
       const properties = this.buildPageProperties(page.properties);
-      console.log(properties);
       return {
         ...meta,
         properties,
