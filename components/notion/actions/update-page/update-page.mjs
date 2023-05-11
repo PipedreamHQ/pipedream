@@ -42,6 +42,7 @@ export default {
       reloadProps: false,
     },
     propertyTypes: {
+      description: "Select the page properties. E.g. `[\"Status\"]`",
       propDefinition: [
         notion,
         "propertyTypes",
@@ -57,7 +58,7 @@ export default {
     propertyTypesValues: {
       type: "string[]",
       label: "Property Types Values",
-      description: "The values for the selected page properties",
+      description: "The values for the selected page properties. E.g. `[{\"name\": \"Not Started\"}]` or just `Not Started`",
       optional: true,
     },
   },
