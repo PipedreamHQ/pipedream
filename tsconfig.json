@@ -1862,6 +1862,18 @@
     },
     {
       "path": "components/suitedash"
+    },
+    {
+      "path": "components/vestaboard"
+    },
+    {
+      "path": "components/quaderno"
+    },
+    {
+      "path": "components/braintree"
+    },
+    {
+      "path": "components/billsby"
     }
   ]
 }
