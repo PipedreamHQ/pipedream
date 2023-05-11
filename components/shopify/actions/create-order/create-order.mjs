@@ -8,7 +8,7 @@ export default {
     For full order object details [see the docs](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/2022-01/orders.json)
     or [see examples](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/#{api_version}/orders.json_examples)
   `),
-  version: "0.0.8",
+  version: "0.1.0",
   type: "action",
   props: {
     shopify,
@@ -117,6 +117,47 @@ export default {
       description: "The three-letter code ([ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format) for the shop currency",
       optional: true,
     },
+    note: {
+      type: "string",
+      label: "Note",
+      description: "An optional note that a shop owner can attach to the order",
+      optional: true,
+    },
+    noteAttributes: {
+      type: "string[]",
+      label: "Note Attributes",
+      description: "Extra information that is added to the order. Appears in the Additional details section of an order details page. Each array entry must contain an object with `name` and `value` keys.",
+      optional: true,
+    },
+    inventoryBehavior: {
+      type: "string",
+      label: "Inventory Behavior",
+      description: "The behaviour to use when updating inventory",
+      options: [
+        {
+          value: "bypass",
+          label: "Do not claim inventory",
+        },
+        {
+          value: "decrement_ignoring_policy",
+          label: "Ignore the product's inventory policy and claim inventory",
+        },
+        {
+          value: "decrement_obeying_policy",
+          label: "Follow the product's inventory policy and claim inventory, if possible",
+        },
+      ],
+      optional: true,
+    },
+    shippingLines: {
+      type: "string[]",
+      label: "Shipping Lines",
+      description: toSingleLineString(`
+        An array of objects, each of which details a shipping method used.
+        More details when searching **shipping_lines** in [Shopify Order Object](https://shopify.dev/api/admin-rest/2022-01/resources/order#resource_object)
+      `),
+      optional: true,
+    },
   },
   async run({ $ }) {
     let data = {
@@ -136,6 +177,10 @@ export default {
       customer: {
         id: this.customerId,
       },
+      note: this.note,
+      note_attributes: this.shopify.parseArrayOfJSONStrings(this.noteAttributes),
+      inventory_behaviour: this.inventoryBehavior,
+      shipping_lines: this.shopify.parseArrayOfJSONStrings(this.shippingLines),
     };
 
     let response = (await this.shopify.createOrder(data)).result;

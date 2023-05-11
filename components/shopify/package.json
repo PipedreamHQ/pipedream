@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shopify",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Pipedream Shopify Components",
   "main": "shopify.app.mjs",
   "keywords": [
@@ -15,7 +15,7 @@
     "bottleneck": "^2.19.5",
     "lodash.get": "^4.4.2",
     "lodash.topath": "^4.5.2",
-    "shopify-api-node": "^3.11.3"
+    "shopify-api-node": "^3.12.4"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
