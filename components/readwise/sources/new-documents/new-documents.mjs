@@ -21,7 +21,7 @@ export default {
     location: {
       type: "string",
       label: "Location",
-      description: "(Optional) The document's location, see https://readwise.io/reader_api",
+      description: "(Optional) The document's location. [See the documentation](https://readwise.io/reader_api).",
       options: ["new", "later", "shortlist", "archive", "feed"],
       optional: true,
     },
