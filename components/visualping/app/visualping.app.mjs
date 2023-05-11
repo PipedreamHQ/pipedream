@@ -152,10 +152,22 @@ export default {
       label: "Target Device",
       description: "1 for regular desktop crawling of a specific area (used typically in conjunction with a crop area), 4 for full page desktop crawling (mostly used with text jobs), 3 for desktop crawling with special fold extractions. 2 for mobile.",
       options: [
-        "1",
-        "2",
-        "3",
-        "4",
+        {
+          label: "1 - Area",
+          value: "1",
+        },
+        {
+          label: "2 - Mobile",
+          value: "2",
+        },
+        {
+          label: "3 - Specific Fold",
+          value: "3",
+        },
+        {
+          label: "4 - All Page",
+          value: "4",
+        },
       ],
     },
     trigger: {
