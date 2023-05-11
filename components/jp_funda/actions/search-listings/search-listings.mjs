@@ -19,7 +19,7 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (this.dateType && (this.dateType === "date_range")) {
+    if (this.dateType === "date_range") {
       props.startDate = {
         type: "string",
         label: "Start Date",
