@@ -162,7 +162,7 @@ export default {
       return zones;
     },
     async switchInstanceBootStatus(zone, instance, newStatus) {
-      if (newStatus !== "start" && newStatus !== "stop") {
+      if (!["start", "stop"].includes(newStatus)) {
         throw new ConfigurationError("The new VM boot status must be 'start' or 'stop'.");
       }
       const instancesClient = this.instancesClient();
