@@ -1874,6 +1874,15 @@
     },
     {
       "path": "components/billsby"
+    },
+    {
+      "path": "components/convertapi"
+    },
+    {
+      "path": "components/axonaut"
+    },
+    {
+      "path": "components/stealthseminar"
     }
   ]
 }
