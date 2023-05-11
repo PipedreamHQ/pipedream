@@ -1883,6 +1883,15 @@
     },
     {
       "path": "components/stealthseminar"
+    },
+    {
+      "path": "components/messagebird"
+    },
+    {
+      "path": "components/better_uptime"
+    },
+    {
+      "path": "components/icontact"
     }
   ]
 }
