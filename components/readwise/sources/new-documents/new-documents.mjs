@@ -28,7 +28,7 @@ export default {
     category: {
       type: "string",
       label: "Category",
-      description: "(Optional) The document's category, see https://readwise.io/reader_api",
+      description: "(Optional) The document's category. [See the documentation](https://readwise.io/reader_api).",
       options: ["article", "email", "rss", "highlight", "note", "pdf", "epub", "tweet", "video"],
       optional: true,
     },
