@@ -1892,6 +1892,27 @@
     },
     {
       "path": "components/icontact"
+    },
+    {
+      "path": "components/zerobounce"
+    },
+    {
+      "path": "components/ecologi"
+    },
+    {
+      "path": "components/paystack"
+    },
+    {
+      "path": "components/klenty"
+    },
+    {
+      "path": "components/survicate"
+    },
+    {
+      "path": "components/finmo"
+    },
+    {
+      "path": "components/amazing_marvin"
     }
   ]
 }
