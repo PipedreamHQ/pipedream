@@ -3919,6 +3919,9 @@ importers:
   components/showpad:
     specifiers: {}
 
+  components/sierra_interactive:
+    specifiers: {}
+
   components/sifter:
     specifiers:
       '@pipedream/platform': ^0.10.0
