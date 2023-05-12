@@ -101,7 +101,7 @@ function getVersion(contents) {
 
 function increaseVersion(version) {
   let versions = version.split('.')
-  versions[2]++
+  ++versions[2]
 
   return versions.join('.')
 }
@@ -350,9 +350,6 @@ async function run() {
   const totalErrors = componentsThatDidNotModifyVersion.length;
   let counter = 1;
 
-  await execCmd("git", ["config", "--global", "user.email", "pipedream@pipedream.com"]);
-  await execCmd("git", ["config", "--global", "user.name", "Pipedream"]);
-
   componentsThatDidNotModifyVersion.forEach((filePath) => {
     console.log(`${counter++}) You need to change the version of ${filePath}.`);
   });
@@ -367,10 +364,6 @@ async function run() {
 
       console.log(`✅ Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     };
-
-    await execCmd("git", ["add", "."]);
-    await execCmd("git", ["commit", "-m", "Automatically updating actions and sources versions"]);
-    await execCmd("git", ["push", "--force-with-lease", "--no-verify"]);
   }
 
   if (totalErrors) {
