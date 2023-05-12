@@ -2103,7 +2103,10 @@ importers:
       query-string: 8.1.0
 
   components/jp_funda:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/junip:
     specifiers: {}
@@ -2829,6 +2832,12 @@ importers:
 
   components/oksign:
     specifiers: {}
+
+  components/omniconvert:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/omnisend:
     specifiers: {}
