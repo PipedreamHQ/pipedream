@@ -1904,6 +1904,15 @@
     },
     {
       "path": "components/klenty"
+    },
+    {
+      "path": "components/survicate"
+    },
+    {
+      "path": "components/finmo"
+    },
+    {
+      "path": "components/amazing_marvin"
     }
   ]
 }
