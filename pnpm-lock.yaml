@@ -204,6 +204,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/amazing_marvin:
+    specifiers: {}
+
   components/amazon_ses:
     specifiers:
       '@aws-sdk/client-ec2': ^3.89.0
@@ -1188,6 +1191,9 @@ importers:
   components/easyship:
     specifiers: {}
 
+  components/ecologi:
+    specifiers: {}
+
   components/ecwid:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1362,6 +1368,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/finmo:
+    specifiers: {}
 
   components/firebase_admin_sdk:
     specifiers:
@@ -1719,7 +1728,10 @@ importers:
       uuid: 8.3.2
 
   components/google_forms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_maps_platform:
     specifiers: {}
@@ -2145,6 +2157,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/klenty:
+    specifiers: {}
 
   components/klipfolio:
     specifiers: {}
@@ -3007,6 +3022,9 @@ importers:
       uuid: 9.0.0
 
   components/paypro:
+    specifiers: {}
+
+  components/paystack:
     specifiers: {}
 
   components/paytrace:
@@ -4253,6 +4271,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/survicate:
+    specifiers: {}
+
   components/svix:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -5113,6 +5134,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zerobounce:
+    specifiers: {}
 
   components/zerotier:
     specifiers:
