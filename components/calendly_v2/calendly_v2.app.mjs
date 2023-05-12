@@ -249,6 +249,16 @@ export default {
 
       return this._makeRequest(opts, $);
     },
+    async getEvent(uuid, $) {
+      const opts = {
+        path: `/scheduled_events/${uuid}`,
+      };
+
+      return axios(
+        $ ?? this,
+        this._makeRequestOpts(opts),
+      );
+    },
     async listEventInvitees(params, uuid, $) {
       const opts = {
         path: `/scheduled_events/${uuid}/invitees`,
