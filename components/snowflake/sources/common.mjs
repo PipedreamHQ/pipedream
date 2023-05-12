@@ -178,7 +178,7 @@ export default {
             scheduledFrom,
           },
           {
-            id: queryId,
+            id: runId,
             summary: `Failed task ${taskName}`,
             ts: +queryStartTime,
           },
