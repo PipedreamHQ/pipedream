@@ -43,7 +43,6 @@ export default {
       const { results: events } = await this.readwise.listDocuments({
         params,
       });
-      events.reverse();
       for (const event of events.slice(0, 100)) {
         this.emitEvent(event);
       }
