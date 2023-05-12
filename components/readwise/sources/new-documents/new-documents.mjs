@@ -57,7 +57,7 @@ export default {
       this.$emit(event, {
         id: event.id,
         summary: `New Document: ${event.id}`,
-        ts: Date.now(),
+        ts: new Date(event.created_at),
       });
     },
   },
