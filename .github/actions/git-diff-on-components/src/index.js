@@ -364,6 +364,8 @@ async function run() {
 
       console.log(`✅ Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     };
+
+    return
   }
 
   if (totalErrors) {
