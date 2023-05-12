@@ -1874,6 +1874,45 @@
     },
     {
       "path": "components/billsby"
+    },
+    {
+      "path": "components/convertapi"
+    },
+    {
+      "path": "components/axonaut"
+    },
+    {
+      "path": "components/stealthseminar"
+    },
+    {
+      "path": "components/messagebird"
+    },
+    {
+      "path": "components/better_uptime"
+    },
+    {
+      "path": "components/icontact"
+    },
+    {
+      "path": "components/zerobounce"
+    },
+    {
+      "path": "components/ecologi"
+    },
+    {
+      "path": "components/paystack"
+    },
+    {
+      "path": "components/klenty"
+    },
+    {
+      "path": "components/survicate"
+    },
+    {
+      "path": "components/finmo"
+    },
+    {
+      "path": "components/amazing_marvin"
     }
   ]
 }

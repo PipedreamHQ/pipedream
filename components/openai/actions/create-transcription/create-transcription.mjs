@@ -22,7 +22,7 @@ const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription",
-  version: "0.0.5",
+  version: "0.0.6",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
@@ -108,8 +108,8 @@ export default {
       file, $,
     }) {
       const outputDir = join("/tmp", "chunks");
-      await execAsync(`mkdir -p ${outputDir}`);
-      await execAsync(`rm -f ${outputDir}/*`);
+      await execAsync(`mkdir -p "${outputDir}"`);
+      await execAsync(`rm -f "${outputDir}/*"`);
 
       await this.chunkFile({
         file,
@@ -137,11 +137,11 @@ export default {
       const numberOfChunks = Math.ceil(fileSizeInMB / 24);
 
       if (numberOfChunks === 1) {
-        await execAsync(`cp ${file} ${outputDir}/chunk-000${ext}`);
+        await execAsync(`cp "${file}" "${outputDir}/chunk-000${ext}"`);
         return;
       }
 
-      const { stdout } = await execAsync(`${ffmpegPath} -i ${file} 2>&1 | grep "Duration"`);
+      const { stdout } = await execAsync(`${ffmpegPath} -i "${file}" 2>&1 | grep "Duration"`);
       const duration = stdout.match(/\d{2}:\d{2}:\d{2}\.\d{2}/s)[0];
       const [
         hours,
@@ -152,7 +152,7 @@ export default {
       const totalSeconds = (hours * 60 * 60) + (minutes * 60) + seconds;
       const segmentTime = Math.ceil(totalSeconds / numberOfChunks);
 
-      const command = `${ffmpegPath} -i ${file} -f segment -segment_time ${segmentTime} -c copy ${outputDir}/chunk-%03d${ext}`;
+      const command = `${ffmpegPath} -i "${file}" -f segment -segment_time ${segmentTime} -c copy "${outputDir}/chunk-%03d${ext}"`;
       await execAsync(command);
     },
     async transcribeFiles({
