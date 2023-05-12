@@ -1943,6 +1943,9 @@
     },
     {
       "path": "components/ez_texting"
+    },
+    {
+      "path": "components/salesmsg"
     }
   ]
 }
