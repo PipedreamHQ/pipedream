@@ -1937,6 +1937,12 @@
     },
     {
       "path": "components/reflect"
+    },
+    {
+      "path": "components/baselinker"
+    },
+    {
+      "path": "components/ez_texting"
     }
   ]
 }
