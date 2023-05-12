@@ -1916,6 +1916,9 @@
     },
     {
       "path": "components/sierra_interactive"
+    },
+    {
+      "path": "components/hive"
     }
   ]
 }
