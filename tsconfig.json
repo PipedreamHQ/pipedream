@@ -1919,6 +1919,24 @@
     },
     {
       "path": "components/hive"
+    },
+    {
+      "path": "components/order_desk"
+    },
+    {
+      "path": "components/happy_scribe"
+    },
+    {
+      "path": "components/omise"
+    },
+    {
+      "path": "components/thankster"
+    },
+    {
+      "path": "components/segmetrics"
+    },
+    {
+      "path": "components/reflect"
     }
   ]
 }
