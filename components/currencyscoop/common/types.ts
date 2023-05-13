@@ -31,3 +31,20 @@ export interface ConvertCurrencyParams extends PdAxiosRequest {
     to: string;
   };
 }
+
+export interface CurrencyScoopResponse<T extends object> {
+  meta: object;
+  response: T;
+}
+
+export interface GetRatesResponse {
+  base: string;
+  rates: Record<string, number>
+}
+
+export interface ConvertCurrencyResponse {
+  from: string;
+  to: string;
+  amount: number;
+  value: number;
+}
