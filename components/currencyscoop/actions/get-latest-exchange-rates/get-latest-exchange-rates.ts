@@ -37,7 +37,7 @@ export default defineAction({
 
     const response = await this.app.getLatestRates(params);
 
-    $.export("$summary", "Obtained latest rates");
+    $.export("$summary", `Obtained latest rates for ${base}`);
 
     return response;
   },

@@ -44,7 +44,7 @@ export default defineAction({
 
     const response = await this.app.getHistoricalRates(params);
 
-    $.export("$summary", "Obtained historical rates");
+    $.export("$summary", `Obtained historical rates for ${base}`);
 
     return response;
   },

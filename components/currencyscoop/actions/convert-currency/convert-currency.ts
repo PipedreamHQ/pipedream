@@ -51,7 +51,8 @@ export default defineAction({
 
     const response = await this.app.convertCurrency(params);
 
-    $.export("$summary", "Converted currency");
+    const { response: { value }} = response;
+    $.export("$summary", `Converted ${amount} ${from} to ${value} ${to}`);
 
     return response;
   },
