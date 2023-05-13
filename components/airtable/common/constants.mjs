@@ -47,6 +47,7 @@ const FieldType = {
   MULTIPLE_COLLABORATORS: "multipleCollaborators",
   MULTIPLE_RECORD_LINKS: "multipleRecordLinks",
   MULTIPLE_SELECTS: "multipleSelects",
+  LOOKUP: "lookup",
 };
 
 export {
