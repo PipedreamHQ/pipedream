@@ -1,55 +1,34 @@
-// legacy_hash_id: a_EVi70k
-import { axios } from "@pipedream/platform";
+import zohoCrm from "../../zoho_crm.app.mjs";
 
 export default {
   key: "zoho_crm-list-objects",
   name: "List Objects",
   description: "Gets the list of available records from a module.",
-  version: "0.1.2",
+  version: "0.2.0",
   type: "action",
   props: {
-    zoho_crm: {
-      type: "app",
-      app: "zoho_crm",
-    },
+    zohoCrm,
     module: {
-      type: "string",
-      description: "Module to get the list of available records from.",
-      options: [
-        "Leads",
-        "Accounts",
-        "Contacts",
-        "Deals",
-        "Campaigns",
-        "Tasks",
-        "Cases",
-        "Events",
-        "Calls",
-        "Solutions",
-        "Products",
-        "Vendors",
-        "Quotes",
-        "Price_Books",
-        "Quotes",
-        "Sales_Orders",
-        "Purchase_Orders",
-        "Invoices",
-        "Custom",
-        "Activities",
+      propDefinition: [
+        zohoCrm,
+        "module",
       ],
     },
     fields: {
       type: "string",
+      label: "Fields",
       description: "To retrieve specific field values. Comma separated field API names.",
       optional: true,
     },
     ids: {
       type: "string",
+      label: "IDs",
       description: "To retrieve specific records based on their unique ID.",
       optional: true,
     },
-    sort_order: {
+    sortOrder: {
       type: "string",
+      label: "Sort Order",
       description: "To sort the list of records in either ascending or descending order.",
       optional: true,
       options: [
@@ -57,13 +36,15 @@ export default {
         "desc",
       ],
     },
-    sort_by: {
+    sortBy: {
       type: "string",
+      label: "Sort By",
       description: "Specify the API name of the field based on which the records must be sorted.",
       optional: true,
     },
     converted: {
       type: "string",
+      label: "Converted",
       description: "To retrieve the list of converted records.",
       optional: true,
       options: [
@@ -74,6 +55,7 @@ export default {
     },
     approved: {
       type: "string",
+      label: "Approved",
       description: "To retrieve the list of approved records.",
       optional: true,
       options: [
@@ -84,55 +66,51 @@ export default {
     },
     page: {
       type: "string",
+      label: "Page",
       description: "To get the list of records from the respective pages.",
       optional: true,
     },
-    per_page: {
+    perPage: {
       type: "string",
+      label: "Per Page",
       description: "To get the list of records available per page.",
       optional: true,
     },
-    cvid: {
+    cvId: {
       type: "string",
+      label: "Custom View ID",
       description: "To get the list of records in a custom view.",
       optional: true,
     },
-    territory_id: {
+    territoryId: {
       type: "string",
+      label: "Territory ID",
       description: "To get the list of records in a territory.",
       optional: true,
     },
-    include_child: {
+    includeChild: {
       type: "boolean",
+      label: "Include Child",
       description: "To include records from the child territories",
       optional: true,
     },
   },
   async run({ $ }) {
-  //See Zoho CRM API docs at: https://www.zoho.com/crm/developer/docs/api/v2/get-records.html
-
-    if (!this.module) {
-      throw new Error("Must provide module parameter.");
-    }
-
-    return await axios($, {
-      url: `${this.zoho_crm.$auth.api_domain}/crm/v2/${this.module}`,
-      params: {
-        fields: this.fields,
-        ids: this.ids,
-        sort_order: this.sort_order,
-        sort_by: this.sort_by,
-        converted: this.converted,
-        approved: this.approved,
-        page: this.page,
-        per_page: this.per_page,
-        cvid: this.cvid,
-        territory_id: this.territory_id,
-        include_child: this.include_child,
-      },
-      headers: {
-        "Authorization": `Zoho-oauthtoken ${this.zoho_crm.$auth.oauth_access_token}`,
-      },
-    });
+    const params = {
+      fields: this.fields,
+      ids: this.ids,
+      sort_order: this.sortOrder,
+      sort_by: this.sortBy,
+      converted: this.converted,
+      approved: this.approved,
+      page: this.page,
+      per_page: this.perPage,
+      cvid: this.cvId,
+      territory_id: this.territoryId,
+      include_child: this.includeChild,
+    };
+    const response = await this.zohoCrm.listRecords(this.module, this.page, params, $);
+    $.export("$summary", "Successfully listed objects");
+    return response;
   },
 };

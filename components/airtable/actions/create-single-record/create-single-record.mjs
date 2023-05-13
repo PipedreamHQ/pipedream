@@ -4,9 +4,9 @@ import common from "../common.mjs";
 
 export default {
   key: "airtable-create-single-record",
-  name: "Create single record",
+  name: "Create Single Record",
   description: "Adds a record to a table.",
-  version: "1.0.3",
+  version: "1.0.4",
   type: "action",
   props: {
     ...common.props,

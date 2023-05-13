@@ -1,17 +1,16 @@
 {
   "name": "@pipedream/ipbase",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream ipbase Components",
-  "main": "dist/app/ipbase.app.mjs",
+  "main": "ipbase.app.mjs",
   "keywords": [
     "pipedream",
     "ipbase"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/ipbase",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "dependencies": {}
 }
