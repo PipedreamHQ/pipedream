@@ -34,7 +34,9 @@ export interface ConvertCurrencyParams extends PdAxiosRequest {
 
 export interface CurrencyScoopResponse<T extends object> {
   meta: object;
-  response: T;
+  response: T & {
+    date: string;
+  };
 }
 
 export interface GetRatesResponse {
