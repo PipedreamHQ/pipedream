@@ -20,6 +20,7 @@ const docsNav = [
       "/migrate-from-v1/",
     ],
   },
+  "/event-history/",
   "/sources/",
   "/connected-accounts/",
   ["/data-stores/", "Data Stores"],
@@ -30,6 +31,8 @@ const docsNav = [
       {
         title: "Node.js",
         type: "group",
+        collapsable: false,
+        sidebarDepth: 2,
         children: [
           "/code/nodejs/",
           "/code/nodejs/auth/",
@@ -46,6 +49,8 @@ const docsNav = [
       {
         title: "Python",
         type: "group",
+        collapsable: false,
+        sidebarDepth: 2,
         children: [
           "/code/python/",
           "/code/python/auth/",
@@ -65,7 +70,27 @@ const docsNav = [
       "/environment-variables/",
     ],
   },
-  ['/apps/', 'Integrations'],
+  {
+    title: 'Integrations',
+    type: "group", 
+    children: [
+      "/apps/",
+      "/apps/contributing/",
+      {
+        title: "Components", 
+        type: "group", 
+        collapsable: false,
+        children: [
+          "/components/",
+          "/components/quickstart/nodejs/actions/",
+          "/components/quickstart/nodejs/sources/",
+          "/pipedream-axios/",
+          "/components/typescript/",
+          "/components/guidelines/"
+        ]
+      },
+    ]
+  },
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
   {
@@ -80,15 +105,11 @@ const docsNav = [
 
 const referenceNav = [
   {
-    title: "Components",
+    title: "Components API",
     children: [
-      "/components/",
-      "/components/quickstart/nodejs/actions/",
-      "/components/quickstart/nodejs/sources/",
+
       "/components/api/",
-      "/components/guidelines/",
-      "/pipedream-axios/",
-      "/components/typescript/",
+
     ],
   },
   {
@@ -126,11 +147,7 @@ const pricingNav = ["/pricing/"];
 
 module.exports = {
   // reference nav
-  "/components/": referenceNav,
-  "/components/quickstart/nodejs/actions/": referenceNav,
-  "/components/quickstart/nodejs/sources/": referenceNav,
   "/components/api/": referenceNav,
-  "/components/guidelines/": referenceNav,
   "/pipedream-axios/": referenceNav,
   "/api/": referenceNav,
   "/api/auth/": referenceNav,

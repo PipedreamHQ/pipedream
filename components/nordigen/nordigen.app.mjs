@@ -61,7 +61,7 @@ export default {
       description: "Number of days the user agreement will grant access to when listing transactions.",
     },
     accessScope: {
-      type: "string",
+      type: "string[]",
       label: "Access Scope",
       description: "Select an access scope",
       options: [

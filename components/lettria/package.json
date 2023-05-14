@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/lettria",
+  "version": "0.0.2",
+  "description": "Pipedream Lettria Components",
+  "main": "lettria.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lettria"
+  ],
+  "homepage": "https://pipedream.com/apps/lettria",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

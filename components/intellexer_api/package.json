@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/intellexer_api",
+  "version": "0.0.2",
+  "description": "Pipedream Intellexer API  Components",
+  "main": "intellexer_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "intellexer_api"
+  ],
+  "homepage": "https://pipedream.com/apps/intellexer_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

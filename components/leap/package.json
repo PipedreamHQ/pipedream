@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/leap",
+  "version": "0.0.2",
+  "description": "Pipedream Leap Components",
+  "main": "leap.app.mjs",
+  "keywords": [
+    "pipedream",
+    "leap"
+  ],
+  "homepage": "https://pipedream.com/apps/leap",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

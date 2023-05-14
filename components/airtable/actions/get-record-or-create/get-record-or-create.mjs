@@ -4,9 +4,9 @@ import commonActions from "../../common/actions.mjs";
 
 export default {
   key: "airtable-get-record-or-create",
-  name: "Get Record or Create",
+  name: "Get Record Or Create",
   description: "Get a record from a table by record ID or create a new register.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,

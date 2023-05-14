@@ -128,7 +128,7 @@ Contribute to the Pipedream community by publishing and sharing new components, 
 
 ### Verified Components
 
-Pipedream maintains a source-available registry of components (sources and actions) that have been curated for the community. Registered components are verified by Pipedream through the [GitHub PR process](/components/guidelines/#process) and:
+Pipedream maintains a source-available registry of components (sources and actions) that have been curated for the community. Registered components are verified by Pipedream through the [GitHub PR process](/apps/contributing/#contribution-process) and:
 
 - Can be trusted by end users
 - Follow consistent patterns for usability
