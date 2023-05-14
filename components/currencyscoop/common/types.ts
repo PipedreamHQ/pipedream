@@ -41,7 +41,7 @@ export interface CurrencyScoopResponse<T extends object> {
 
 export interface GetRatesResponse {
   base: string;
-  rates: Record<string, number>
+  rates: Record<string, number>;
 }
 
 export interface ConvertCurrencyResponse {

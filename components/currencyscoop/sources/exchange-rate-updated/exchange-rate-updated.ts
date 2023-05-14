@@ -7,7 +7,7 @@ import { GetRatesResponse } from "../../common/types";
 export default defineSource({
   key: "currencyscoop-exchange-rate-updated",
   name: "Exchange Rate Updated",
-  description: `Emit new event when the exchange rate for a currency is updated [See the documentation](https://currencybeacon.com/api-documentation)`,
+  description: "Emit new event when the exchange rate for a currency is updated [See the documentation](https://currencybeacon.com/api-documentation)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -21,10 +21,16 @@ export default defineSource({
     },
     db: "$.service.db",
     base: {
-      propDefinition: [app, "currency"],
+      propDefinition: [
+        app,
+        "currency",
+      ],
     },
     targetCurrency: {
-      propDefinition: [app, "targetCurrency"],
+      propDefinition: [
+        app,
+        "targetCurrency",
+      ],
     },
     threshold: {
       type: "string",
@@ -53,7 +59,9 @@ export default defineSource({
       return this.db.get("lastConfig");
     },
     async getAndProcessData() {
-      const { base, targetCurrency, threshold } = this;
+      const {
+        base, targetCurrency, threshold,
+      } = this;
 
       const params = {
         $: this,
@@ -65,12 +73,13 @@ export default defineSource({
 
       const response = await this.app.getLatestRates(params);
 
-      const {
-        response: { rates },
-      } = response;
+      const { response: { rates } } = response;
       const value = rates[targetCurrency];
 
-      const currentConfig = [base, targetCurrency].join();
+      const currentConfig = [
+        base,
+        targetCurrency,
+      ].join();
       const lastConfig = this.getLastConfig();
       if (currentConfig === lastConfig) {
         const lastValue = this.getLastValue();
@@ -87,9 +96,14 @@ export default defineSource({
     },
     emitEvent(data: CurrencyScoopResponse<GetRatesResponse>) {
       const {
-        response: { date: ts, base, rates },
+        response: {
+          date: ts, base, rates,
+        },
       } = data;
-      const [name, amount] = Object.entries(rates)[0];
+      const [
+        name,
+        amount,
+      ] = Object.entries(rates)[0];
       this.$emit(data, {
         id: ts,
         summary: `New rate: 1 ${base} = ${amount} ${name}`,
