@@ -42,7 +42,7 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
            commit_message: Automatically updating actions and sources versions
-           commit_options:  '--no-verify --signoff'
+           commit_options:  '--no-verify'
            commit_user_name: Pipedream [Bot]
            commit_user_email: pipedream@pipedream.com
            commit_author: Pipedream [Bot] <pipedream@pipedream.com>
