@@ -4,68 +4,36 @@ export default {
   type: "app",
   app: "zoho_crm",
   propDefinitions: {
-    lead: {
-      type: "string",
-      label: "Lead",
-      description: "Unique identifier of the lead record to be converted",
-      async options({ page }) {
-        const { data: leads } = await this.listRecords("Leads", page);
-        return leads.map((lead) => ({
-          label: lead.Full_Name ?? lead.id,
-          value: lead.id,
-        }));
-      },
-    },
-    account: {
-      type: "string",
-      label: "Account",
-      description: "Use this key to associate an account with the lead being converted. Pass the unique and valid account ID.",
-      async options({ page }) {
-        const { data: accounts } = await this.listRecords("Accounts", page);
-        return accounts.map((account) => ({
-          label: account.Account_Name ?? account.id,
-          value: account.id,
-        }));
-      },
-    },
-    contact: {
-      type: "string",
-      label: "Contact",
-      description: "Use this key to associate a contact with the lead being converted. Pass the unique and valid contact ID.",
-      async options({ page }) {
-        const { data: contacts } = await this.listRecords("Contacts", page);
-        return contacts.map((contact) => ({
-          label: contact.Full_Name ?? contact.id,
-          value: contact.id,
-        }));
-      },
-    },
-    user: {
-      type: "string",
-      label: "User",
-      description: "Use this key to assign record owner for the new contact and account. Pass the unique and valid user ID.",
-      async options({ page }) {
-        const { users } = await this.listRecords("users?type=ActiveUsers", page);
-        return users.map((user) => ({
-          label: user.full_name ?? user.id,
-          value: user.id,
-        }));
-      },
-    },
     module: {
       type: "string",
       label: "Module",
       description: "Module where the record will be created",
-      options: [
-        "Leads",
-        "Accounts",
-        "Contacts",
-        "Deals",
-        "Campaigns",
-        "Tasks",
-        "Calls",
-      ],
-      reloadProps: true,
+      async options() {
+        const { modules = [] } = await this.listModules();
+        return modules.map(({ api_name }) => api_name);
+      },
+    },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "The ID of the record",
+      async options({
+        module, page,
+      }) {
+        const { data = [] } = await this.listRecords(module, page);
+        return data.map((record) => this._getLabelValueForModuleRecord(module, record));
+      },
+    },
+    attachmentId: {
+      type: "string",
+      label: "Attachment ID",
+      description: "The ID of the attachment",
+      async options({
+        module, recordId, page,
+      }) {
+        const { data = [] } = await this.listAttachments(module, recordId, page);
+        return data.map((record) => this._getLabelValueForModuleRecord("Attachments", record));
+      },
     },
   },
   methods: {
@@ -110,6 +78,22 @@ export default {
         ...baseRequestConfig,
         url: `${this._apiUrl()}${path}`,
         ...extraOpts,
+      };
+    },
+    _getLabelValueForModuleRecord(moduleType, record) {
+      const value = record.id;
+      const fieldSelector = {
+        "Leads": "Full_Name",
+        "Accounts": "Account_Name",
+        "Contacts": "Full_Name",
+        "Attachments": "File_Name",
+        "users?type=\"ActiveUsers\"": "full_name",
+      };
+      const fieldName = fieldSelector[moduleType];
+      const label = record[fieldName] ?? value;
+      return {
+        label,
+        value,
       };
     },
     async genericApiGetCall(url, params = {}) {
@@ -303,7 +287,7 @@ export default {
         data: requestData,
         ...requestConfig,
       };
-      const data  = await axios(this, config);
+      const data = await axios(this, config);
       const watch = data.watch[0];
       console.log(watch);
       console.log(watch.details);
@@ -312,11 +296,20 @@ export default {
       }
       return data;
     },
-    async listRecords(moduleType, page = 0, $) {
+    async listFields(moduleType, $) {
+      return axios($ ?? this, this._getRequestParams({
+        path: "/settings/fields",
+        params: {
+          module: moduleType,
+        },
+      }));
+    },
+    async listRecords(moduleType, page = 0, params, $) {
       return axios($ ?? this, this._getRequestParams({
         path: `/${moduleType}`,
-        data: {
+        params: {
           page: page + 1,
+          ...params,
         },
       }));
     },
@@ -327,6 +320,11 @@ export default {
         data,
       }));
     },
+    async getObject(moduleType, recordId, $) {
+      return axios($ ?? this, this._getRequestParams({
+        path: `/${moduleType}/${recordId}`,
+      }));
+    },
     async createObject(moduleType, data, $) {
       return axios($ ?? this, this._getRequestParams({
         method: "POST",
@@ -334,11 +332,47 @@ export default {
         data,
       }));
     },
+    async updateObject(moduleType, recordId, object, $) {
+      return axios($ ?? this, this._getRequestParams({
+        method: "PUT",
+        path: `/${moduleType}`,
+        data: {
+          data: [
+            {
+              ...object,
+              id: recordId,
+            },
+          ],
+        },
+      }));
+    },
+    async searchObjects(moduleType, criteria, $) {
+      return axios($ ?? this, this._getRequestParams({
+        path: `/${moduleType}/search`,
+        params: {
+          criteria,
+        },
+      }));
+    },
+    async listAttachments(moduleType, recordId, page = 0, $) {
+      return axios($ ?? this, this._getRequestParams({
+        path: `/${moduleType}/${recordId}/Attachments`,
+        params: {
+          page: page + 1,
+        },
+      }));
+    },
+    async downloadAttachment(moduleType, recordId, attachmentId, $) {
+      return axios($ ?? this, this._getRequestParams({
+        path: `/${moduleType}/${recordId}/Attachments/${attachmentId}`,
+        responseType: "arraybuffer",
+      }));
+    },
     omitEmptyStringValues(obj) {
       return Object.entries(obj).reduce((a, [
         k,
         v,
-      ]) => (v !== ""
+      ]) => (v != null && v !== ""
         ? (a[k] = v, a)
         : a), {});
     },

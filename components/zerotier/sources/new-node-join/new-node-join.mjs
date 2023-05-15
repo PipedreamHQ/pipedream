@@ -4,11 +4,10 @@ export default {
   ...common,
   key: "zerotier-new-node-join",
   name: "New Node Join",
-  description:
-    "Emit new event when a node joins a network. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkMemberList)",
+  description: "Emit new event when a node joins a network. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkMemberList)",
   type: "source",
   dedupe: "unique",
-  version: "0.0.5",
+  version: "0.0.6",
   async run() {
     const nodes = await this.zerotier.getNetworkNodes({
       networkId: this.networkId,

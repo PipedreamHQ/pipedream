@@ -4,7 +4,7 @@ export default {
   key: "nordigen-get-account-transactions",
   name: "Get Account Transactions",
   description: "Get the transactions of a Nordigen account. [See the docs](https://ob.nordigen.com/api/docs#/accounts/accounts_transactions_retrieve)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     nordigen,

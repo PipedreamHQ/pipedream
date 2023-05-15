@@ -7,7 +7,7 @@ export default {
   key: "calendly_v2-invitee-action",
   name: "New Invitee Action",
   description: "Emit new event when a invitee takes some action.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
