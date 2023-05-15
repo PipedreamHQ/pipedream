@@ -38,6 +38,7 @@ export default {
       }
 
       return {
+        rowStream,
         lastResultId,
         rowCount,
       };
@@ -177,7 +178,7 @@ export default {
             scheduledFrom,
           },
           {
-            id: queryId,
+            id: runId,
             summary: `Failed task ${taskName}`,
             ts: +queryStartTime,
           },
@@ -205,11 +206,13 @@ export default {
   async run(event) {
     const { timestamp } = event;
     const statement = this.getStatement(event);
+    const data = this.emitIndividualEvents === true || this.alwaysRunInSingleProcessMode()
+      ? await this.processSingle(statement, timestamp)
+      : await this.processCollection(statement, timestamp);
+
     if (this.additionalProccessing) {
-      this.additionalProccessing(statement);
+      this.additionalProccessing(data);
     }
-    return this.emitIndividualEvents === true || this.alwaysRunInSingleProcessMode()
-      ? this.processSingle(statement, timestamp)
-      : this.processCollection(statement, timestamp);
+    return data;
   },
 };

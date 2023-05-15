@@ -174,21 +174,19 @@ export default {
       return this.collectRows(statement);
     },
     async getFailedTasksInDatabase({
-      startTime, endTime, database, schema,
+      startTime, database, schema,
     }) {
       const sqlText = `SELECT *
       FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY())
-      WHERE QUERY_START_TIME >= to_timestamp_ltz(:1, 3)
-      AND QUERY_START_TIME < to_timestamp_ltz(:2, 3)
+      WHERE COMPLETED_TIME >= to_timestamp_ltz(:1, 3)
       AND state = 'FAILED'
-      AND database_name = :3
-      AND schema_name = :4
-      ORDER BY QUERY_START_TIME ASC;`;
+      AND database_name = :2
+      AND schema_name = :3
+      ORDER BY COMPLETED_TIME ASC;`;
       const statement = {
         sqlText,
         binds: [
           startTime,
-          endTime,
           database,
           schema,
         ],
