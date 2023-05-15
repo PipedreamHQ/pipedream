@@ -20,18 +20,20 @@ export default {
     },
   },
   methods: {
-    async addValueToObject(key, value) {
-      const db = this.db.get("values");
-      if (!db) {
-        this.db.set("values", {});
-      }
-
-      db[key] = value;
-      this.db.set("values", db);
+    async getDbValues() {
+      return this.db.get("dbValues") ?? {};
     },
-    async fetchData() {
-      return this.snowflake.getRows({
-        sqlText: "show roles",
+    async setDbValues(values) {
+      return this.db.set("dbValues", values);
+    },
+    getSqlText() {
+      return "show roles";
+    },
+    emit(event) {
+      this.$emit(event, {
+        summary: event.name,
+        id: uuid(),
+        ts: Date.now(),
       });
     },
     async getArrayFromStream(stream) {
@@ -41,16 +43,23 @@ export default {
       }
       return array;
     },
+    async fetchData() {
+      return this.snowflake.getRows({
+        sqlText: this.getSqlText(),
+      });
+    },
     async updateRoles() {
+      const db = await this.getDbValues();
       const rows = await this.fetchData();
       const roles = await this.getArrayFromStream(rows);
       for (const role of roles) {
-        this.addValueToObject(role.name, role);
+        db[role.name] = role;
       }
+      await this.setDbValues(db);
       return roles;
     },
     async checkMissingRoles(currentRoles) {
-      const db = this.db.get("values");
+      const db = await this.getDbValues();
       const dbKeys = Object.keys(db);
 
       // Check keys in dbKeys that are not in currentRowsStream
@@ -64,14 +73,7 @@ export default {
         delete db[key];
       }
 
-      this.db.set("values", db);
-    },
-    emit(event) {
-      this.$emit(event, {
-        summary: event.name,
-        id: uuid(),
-        ts: Date.now(),
-      });
+      await this.setDbValues(db);
     },
   },
   async run() {
