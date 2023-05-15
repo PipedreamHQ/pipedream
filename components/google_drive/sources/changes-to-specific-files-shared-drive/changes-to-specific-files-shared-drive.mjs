@@ -25,7 +25,7 @@ export default {
   key: "google_drive-changes-to-specific-files-shared-drive",
   name: "Changes to Specific Files (Shared Drive)",
   description: "Watches for changes to specific files in a shared drive, emitting an event any time a change is made to one of those files",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -40,7 +40,9 @@ export default {
       default: [],
       options({ prevContext }) {
         const { nextPageToken } = prevContext;
-        const baseOpts = {};
+        const baseOpts = {
+          q: "mimeType != 'application/vnd.google-apps.folder' and trashed = false",
+        };
         const opts = this.isMyDrive()
           ? baseOpts
           : {
@@ -53,6 +55,20 @@ export default {
         return this.googleDrive.listFilesOptions(nextPageToken, opts);
       },
     },
+  },
+  hooks: {
+    async deploy() {
+      console.log("Deploying...");
+
+      const { data } = await this.googleDrive.drive().files.list({
+        q: "mimeType != 'application/vnd.google-apps.folder' and trashed = false",
+        fields: "files",
+        pageSize: 10,
+      });
+
+      await this.processChanges(data.files);
+    },
+    ...common.hooks,
   },
   methods: {
     ...common.methods,
@@ -69,30 +85,40 @@ export default {
         name: fileName,
         modifiedTime: tsString,
       } = data;
-      const {
-        "x-goog-message-number": eventId,
-        "x-goog-resource-state": resourceState,
-      } = headers;
+      const ts = Date.parse(tsString);
+      const eventId = headers && headers["x-goog-message-number"];
+      const resourceState = headers && headers["x-goog-resource-state"];
+
+      const summary = resourceState
+        ? `${resourceState.toUpperCase()} - ${fileName || "Untitled"}`
+        : fileName || "Untitled";
 
       return {
-        id: `${fileId}-${eventId}`,
-        summary: `${resourceState.toUpperCase()} - ${
-          fileName || "Untitled"
-        }`,
-        ts: Date.parse(tsString),
+        id: `${fileId}-${eventId || ts}`,
+        summary,
+        ts,
       };
     },
     isFileRelevant(file) {
       return this.files.includes(file.id);
     },
-    async processChange(file, headers) {
-      const eventToEmit = {
-        file,
+    getChanges(headers) {
+      if (!headers) {
+        return;
+      }
+      return {
         change: {
           state: headers["x-goog-resource-state"],
           resourceURI: headers["x-goog-resource-uri"],
           changed: headers["x-goog-changed"], // "Additional details about the changes. Possible values: content, parents, children, permissions"
         },
+      };
+    },
+    async processChange(file, headers) {
+      const changes = this.getChanges(headers);
+      const eventToEmit = {
+        file,
+        ...changes,
       };
       const meta = this.generateMeta(file, headers);
       this.$emit(eventToEmit, meta);

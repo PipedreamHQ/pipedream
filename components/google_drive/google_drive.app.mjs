@@ -442,7 +442,7 @@ export default {
           pageToken,
         );
 
-        for (const drive in drives) {
+        for (const drive of drives) {
           yield drive;
         }
 
