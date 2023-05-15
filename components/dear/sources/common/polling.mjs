@@ -1,5 +1,5 @@
-import dear from "../../dear.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import dear from "../../dear.app.mjs";
 
 export default {
   props: {
@@ -18,7 +18,10 @@ export default {
       const params = this.defaultParams();
 
       console.log(`Retrieving historical data with the following params: ${JSON.stringify(params)}`);
-      const data = await this.pollFunction(params);
+      const data = await this.pollFunction({
+        ...params,
+        limit: 25,
+      });
       this.emitEvents(data);
     },
   },

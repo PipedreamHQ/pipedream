@@ -1,6 +1,6 @@
+import { v4 as uuid } from "uuid";
 import constants from "../../common/constants.mjs";
 import base from "../common/webhooks.mjs";
-import { v4 as uuid } from "uuid";
 
 export default {
   ...base,
@@ -8,7 +8,7 @@ export default {
   key: "dear-available-stock-level-change",
   type: "source",
   description: "Emit new event when the available stock level changes. [See the documentation](https://dearinventory.docs.apiary.io/#reference/webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...base.methods,
     getWebhookType() {

@@ -3,16 +3,16 @@ import base from "../common/webhooks.mjs";
 
 export default {
   ...base,
-  name: "New Authorized Sale Order",
-  key: "dear-new-authorized-sale-order",
+  name: "New Authorized Sale Quote",
+  key: "dear-new-authorized-sale-quote",
   type: "source",
-  description: "Emit new event when a sale order is created and authorized",
-  version: "0.0.3",
+  description: "Emit new event when a sale quote is created and authorized",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...base.methods,
     getWebhookType() {
-      return constants.WEBHOOK_TYPE.SALE_ORDER_AUTHORISED;
+      return constants.WEBHOOK_TYPE.SALE_QUOTE_AUTHORISED;
     },
     getMetadata(payload) {
       const {
@@ -25,7 +25,7 @@ export default {
 
       return {
         id: compositeId,
-        summary: `A new sale order with OrderNumber: ${SaleOrderNumber} was successfully authorized!`,
+        summary: `A new sale quote with OrderNumber: ${SaleOrderNumber} was successfully authorized!`,
         ts: Date.now(),
       };
     },
