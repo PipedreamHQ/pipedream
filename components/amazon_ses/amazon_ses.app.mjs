@@ -25,6 +25,7 @@ export default {
       async options({
         prevContext, region,
       }) {
+        console.log("aaaa");
         const {
           NextToken,
           TemplatesMetadata: templates,
