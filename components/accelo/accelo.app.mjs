@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
 
+console.log("test");
+
 export default {
   type: "app",
   app: "accelo",
