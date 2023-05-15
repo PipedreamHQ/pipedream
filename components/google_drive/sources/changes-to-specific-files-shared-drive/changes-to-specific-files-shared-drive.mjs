@@ -58,8 +58,6 @@ export default {
   },
   hooks: {
     async deploy() {
-      console.log("Deploying...");
-
       const { data } = await this.googleDrive.drive().files.list({
         q: "mimeType != 'application/vnd.google-apps.folder' and trashed = false",
         fields: "files",

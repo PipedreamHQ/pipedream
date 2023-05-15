@@ -24,8 +24,6 @@ export default {
   dedupe: "unique",
   hooks: {
     async deploy() {
-      console.log("Deploying...");
-
       const daysAgo = new Date();
       daysAgo.setDate(daysAgo.getDate() - 7);
       const timeString = daysAgo.toISOString();
