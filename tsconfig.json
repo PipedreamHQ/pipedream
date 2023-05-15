@@ -1952,6 +1952,9 @@
     },
     {
       "path": "components/handwrytten"
+    },
+    {
+      "path": "components/focuster"
     }
   ]
 }
