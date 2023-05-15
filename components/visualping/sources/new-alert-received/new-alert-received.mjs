@@ -2,10 +2,10 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import visualping from "../../app/visualping.app.mjs";
 
 export default {
-  name: "New Job Event",
-  version: "0.0.2",
-  key: "visualping-new-job-event",
-  description: "Emit new event for each new job event.",
+  name: "New Alert Received",
+  version: "0.0.1",
+  key: "visualping-new-alert-received",
+  description: "Emit new event when a change alert is sent.",
   type: "source",
   dedupe: "unique",
   props: {
@@ -37,7 +37,7 @@ export default {
     emitEvent(data) {
       this.$emit(data, {
         id: data.process_id,
-        summary: `New event with ID ${data.process_id}`,
+        summary: `New alert sent with ID ${data.process_id}`,
         ts: Date.parse(data.process_created),
       });
     },
@@ -48,6 +48,7 @@ export default {
       jobId: this.jobId,
     });
 
-    events.reverse().forEach(this.emitEvent);
+    events.reverse().filter((event) => event.notification_send)
+      .forEach(this.emitEvent);
   },
 };
