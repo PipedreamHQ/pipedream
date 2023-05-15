@@ -2848,12 +2848,6 @@ importers:
   components/omise:
     specifiers: {}
 
-  components/omniconvert:
-    specifiers:
-      '@pipedream/platform': ^1.3.0
-    dependencies:
-      '@pipedream/platform': 1.5.1
-
   components/omnisend:
     specifiers: {}
 
@@ -3518,7 +3512,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/reflect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/regfox:
     specifiers:

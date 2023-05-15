@@ -3,7 +3,7 @@ import reflect from "../../reflect.app.mjs";
 export default {
   key: "reflect-get-user",
   name: "Get User",
-  description: "Retieves information about the authenticated user. [See the documentation](https://openpm.ai/apis/reflect#/graphs/{graphId}/links)",
+  description: "Retieves information about the authenticated user. [See the documentation](https://openpm.ai/apis/reflect#/users/me)",
   version: "0.0.1",
   type: "action",
   props: {
