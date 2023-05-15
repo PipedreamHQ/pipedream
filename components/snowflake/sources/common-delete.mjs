@@ -25,6 +25,9 @@ export default {
     getSqlText() {
       throw new Error("getSqlText() not implemented");
     },
+    lookUpKey() {
+      return "name";
+    },
     emit(event) {
       this.$emit(event, {
         summary: event.name,
@@ -44,26 +47,25 @@ export default {
         sqlText: this.getSqlText(),
       });
     },
-    async updateRoles() {
+    async updateData() {
       const db = await this.getDbValues();
       const rows = await this.fetchData();
-      const roles = await this.getArrayFromStream(rows);
-      for (const role of roles) {
-        db[role.name] = role;
+      const data = await this.getArrayFromStream(rows);
+
+      for (const item of data) {
+        db[item[this.lookUpKey()]] = item;
       }
       await this.setDbValues(db);
-      return roles;
+      return data;
     },
-    async checkMissingRoles(currentRoles) {
+    async checkMissingData(currentData) {
       const db = await this.getDbValues();
       const dbKeys = Object.keys(db);
 
-      // Check keys in dbKeys that are not in currentRowsStream
       const missingKeys = dbKeys.filter((key) => {
-        return !currentRoles.includes(key);
+        return !currentData.includes(key);
       });
 
-      // Delete missing keys from db
       for (const key of missingKeys) {
         this.emit(db[key]);
         delete db[key];
@@ -73,9 +75,9 @@ export default {
     },
   },
   async run() {
-    const roles = await this.updateRoles();
-    const roleNames = roles.map((role) => role.name);
-    await this.checkMissingRoles(roleNames);
+    const data = await this.updateData();
+    const dataKeysToCheck = data.map((item) => item[this.lookUpKey()]);
+    await this.checkMissingData(dataKeysToCheck);
   },
 };
 
