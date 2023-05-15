@@ -8,7 +8,7 @@ export default {
     snowflake,
     db: "$.service.db",
     timer: {
-      description: "Monitor for changes on this schedule",
+      description: "Monitor for changes on this schedule.",
       type: "$.interface.timer",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
