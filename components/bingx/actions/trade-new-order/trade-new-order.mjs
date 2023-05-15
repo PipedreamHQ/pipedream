@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade New Order",
-  version: "0.1.0",
+  version: "0.1.1",
   key: "bingx-trade-new-order",
   description: "Place a New Order [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_1-place-a-new-order).",
   props: {
@@ -60,6 +60,15 @@ export default {
   async run({ $ }) {
     const API_METHOD = "POST";
     const API_PATH = "/api/v1/user/trade";
+
+    if (this.takerProfitPrice) {
+      this.takerProfitPrice = parseFloat(this.takerProfitPrice.replace(",", "."));
+    }
+
+    if (this.stopLossPrice) {
+      this.stopLossPrice = parseFloat(this.stopLossPrice.replace(",", "."));
+    }
+
     const parameters = {
       "symbol": this.symbol,
       "side": this.side,
