@@ -188,22 +188,22 @@ export default {
     useSlackAppNotification: {
       type: "boolean",
       label: "Use Slack App Notification",
-      description: "If this job use slack app notification.",
+      description: "If this job uses slack app notification.",
     },
     useSlackNotification: {
       type: "boolean",
       label: "Use Slack Notification",
-      description: "If this job use slack notification.",
+      description: "If this job uses slack notification.",
     },
     useTeamsNotification: {
       type: "boolean",
       label: "Use Teams Notification",
-      description: "If this job use teams notification.",
+      description: "If this job uses teams notification.",
     },
     useWebhookNotification: {
       type: "boolean",
       label: "Use Webhook Notification",
-      description: "If this job use webhook notification.",
+      description: "If this job uses webhook notification.",
     },
     waitTime: {
       type: "integer",

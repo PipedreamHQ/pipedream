@@ -143,7 +143,7 @@ export default {
     changedFilterDateMax: {
       type: "string",
       label: "Changed Filter Date Max",
-      description: "Necessary if changedFilter expects an upper bound timestamp.",
+      description: "Necessary if `changedFilter` expects an upper bound timestamp.",
       optional: true,
     },
     fullTextSearchFilter: {
