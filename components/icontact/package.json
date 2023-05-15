@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/icontact",
+  "version": "0.0.1",
+  "description": "Pipedream iContact Components",
+  "main": "dist/app/icontact.app.mjs",
+  "keywords": [
+    "pipedream",
+    "icontact"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/icontact",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

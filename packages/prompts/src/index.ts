@@ -436,7 +436,7 @@ The \`axios\` constructor takes two arguments:
 1. \`this\` - the \`this\` context of the component.
 2. \`config\` - an AxiosRequestConfig object that defines the request to be made. The \`config\` object is the same as the \`config\` object passed to the \`axios\` constructor in the \`axios\` package, with some extra properties.
 
-\`@pipedream/platform\` axios returns a Promise that resolves to the HTTP response data. You MUST NOT assume there's a \`data\` property in the response that contains the data. The data from the HTTP response is returned directly in the response, not in the \`data\` property. If you want to access the full axios response object, set \`config.returnFullResponse\` to \`true\`.
+\`@pipedream/platform\` axios returns a Promise that resolves to the HTTP response data. Remember, @pipedream/platform axios does NOT return a data property / object. The data from the HTTP response is returned directly in the response, not in the \`data\` property. If you want to access the standard axios response object, set \`config.returnFullResponse\` to \`true\`.
 
 ${pipedreamPlatformAxiosTypeDefs}`;
 
