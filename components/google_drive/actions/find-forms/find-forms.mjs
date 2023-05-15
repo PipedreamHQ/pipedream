@@ -5,7 +5,7 @@ export default {
   key: "google_drive-find-forms",
   name: "Find Forms",
   description: "List Google Form documents or search for a Form by name. [See the docs](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
