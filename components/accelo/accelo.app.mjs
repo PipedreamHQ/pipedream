@@ -96,6 +96,7 @@ export default {
       return this.$auth.oauth_access_token;
     },
     _apiUrl() {
+      console.log("");
       return `https://${this._hostname()}.api.accelo.com/api/v0`;
     },
     async _makeRequest({
@@ -110,6 +111,8 @@ export default {
       });
     },
     async createWebhook({ ...args }) {
+      console.log("");
+      console.log("");
       return this._makeRequest({
         path: "/webhooks/subscriptions",
         method: "post",

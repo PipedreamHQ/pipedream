@@ -16,7 +16,7 @@ export default {
     },
     messageData: {
       label: "Message Data",
-      description: "The data of the message",
+      description: "The data of the messagedasdsadaas",
       type: "string",
     },
   },
@@ -33,6 +33,8 @@ export default {
     async _makeRequest({
       $ = this, path, ...args
     }) {
+      console.log("");
+      console.log("");
       return axios($, {
         url: `${this._apiUrl()}${path}`,
         auth: {

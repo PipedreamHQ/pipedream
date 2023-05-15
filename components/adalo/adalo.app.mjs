@@ -32,6 +32,9 @@ export default {
       const limit = requestArgs.params?.limit ?? 100;
       const offset = (requestArgs.params?.offset ?? 0) + limit;
 
+      console.log("");
+      console.log("");
+
       const { [resourceName]: resources } =
         await requestFn({
           ...requestArgs,

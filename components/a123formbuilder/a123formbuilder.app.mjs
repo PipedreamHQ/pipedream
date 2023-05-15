@@ -30,6 +30,7 @@ export default {
   },
   methods: {
     _baseUrl() {
+      console.log("aaa");
       return `https://${this._region()}.123formbuilder.com/v2`;
     },
     _region() {
