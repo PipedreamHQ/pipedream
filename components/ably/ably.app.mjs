@@ -22,6 +22,7 @@ export default {
   },
   methods: {
     _apiKeyInitial() {
+      console.log("Testing");
       return this.$auth.api_key_initial;
     },
     _apiKeyRemaining() {

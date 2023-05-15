@@ -96,6 +96,7 @@ export default {
       return this.$auth.oauth_access_token;
     },
     _apiUrl() {
+      console.log("aass");
       return `https://${this._hostname()}.api.accelo.com/api/v0`;
     },
     async _makeRequest({
