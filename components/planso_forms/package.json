@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/planso_forms",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream PlanSo Forms Components",
   "main": "dist/app/planso_forms.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/planso_forms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

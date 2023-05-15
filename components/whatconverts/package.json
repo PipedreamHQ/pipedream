@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/whatconverts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream WhatConverts Components",
   "main": "dist/app/whatconverts.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/whatconverts",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

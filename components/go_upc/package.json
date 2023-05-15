@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/go_upc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Go-UPC Components",
   "main": "dist/app/go_upc.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/go_upc",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

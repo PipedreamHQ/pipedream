@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/simple_analytics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Simple Analytics Components",
   "main": "dist/app/simple_analytics.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/simple_analytics",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

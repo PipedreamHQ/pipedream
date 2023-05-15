@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/watchsignals",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream WatchSignals Components",
   "main": "dist/app/watchsignals.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/watchsignals",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }
