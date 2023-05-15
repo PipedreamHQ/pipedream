@@ -14,7 +14,8 @@ export default {
       this.db.set("webhookId", webhookId);
     },
     getWebhookEventType() {
-      throw new Error("getWebhookEventType is not implemented");
+      console.log("dsadsa");
+      throw new Error("getWebhookEventType is not implementeddsadas");
     },
     emitEvent(event) {
       throw new Error("emitEvent is not implemented", event);
