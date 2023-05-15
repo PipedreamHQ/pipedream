@@ -46,6 +46,7 @@ jobs:
            commit_user_name: Pipedream [Bot]
            commit_user_email: pipedream@pipedream.com
            commit_author: Pipedream [Bot] <pipedream@pipedream.com>
+           push_options: '--force'
 
   spellcheck:
     name: Spellcheck
