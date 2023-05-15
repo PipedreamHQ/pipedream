@@ -354,6 +354,8 @@ async function run() {
     console.log(`${counter++}) You need to change the version of ${filePath}.`);
   });
 
+  console.log("Uéee:", componentsDiffContents.length)
+
   if (componentsDiffContents.length) {
     for ({ dependencyFilePath, componentFilePath } of componentsDiffContents) {
       const content = await readFile(componentFilePath, "utf-8")
