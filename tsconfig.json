@@ -1826,6 +1826,126 @@
     },
     {
       "path": "components/dayschedule"
+    },
+    {
+      "path": "components/marketstack"
+    },
+    {
+      "path": "components/plisio"
+    },
+    {
+      "path": "components/concord"
+    },
+    {
+      "path": "components/portfolio_optimizer"
+    },
+    {
+      "path": "components/slybroadcast"
+    },
+    {
+      "path": "components/liondesk"
+    },
+    {
+      "path": "components/implisense_api"
+    },
+    {
+      "path": "components/h_supertools_analytics_tool"
+    },
+    {
+      "path": "components/digistore24"
+    },
+    {
+      "path": "components/accredible"
+    },
+    {
+      "path": "components/kintone"
+    },
+    {
+      "path": "components/suitedash"
+    },
+    {
+      "path": "components/vestaboard"
+    },
+    {
+      "path": "components/quaderno"
+    },
+    {
+      "path": "components/braintree"
+    },
+    {
+      "path": "components/billsby"
+    },
+    {
+      "path": "components/convertapi"
+    },
+    {
+      "path": "components/axonaut"
+    },
+    {
+      "path": "components/stealthseminar"
+    },
+    {
+      "path": "components/messagebird"
+    },
+    {
+      "path": "components/better_uptime"
+    },
+    {
+      "path": "components/icontact"
+    },
+    {
+      "path": "components/zerobounce"
+    },
+    {
+      "path": "components/ecologi"
+    },
+    {
+      "path": "components/paystack"
+    },
+    {
+      "path": "components/klenty"
+    },
+    {
+      "path": "components/survicate"
+    },
+    {
+      "path": "components/finmo"
+    },
+    {
+      "path": "components/amazing_marvin"
+    },
+    {
+      "path": "components/sierra_interactive"
+    },
+    {
+      "path": "components/hive"
+    },
+    {
+      "path": "components/order_desk"
+    },
+    {
+      "path": "components/happy_scribe"
+    },
+    {
+      "path": "components/omise"
+    },
+    {
+      "path": "components/thankster"
+    },
+    {
+      "path": "components/segmetrics"
+    },
+    {
+      "path": "components/reflect"
+    },
+    {
+      "path": "components/baselinker"
+    },
+    {
+      "path": "components/ez_texting"
+    },
+    {
+      "path": "components/salesmsg"
     }
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/ecologi",
+  "version": "0.0.1",
+  "description": "Pipedream Ecologi Components",
+  "main": "dist/app/ecologi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ecologi"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/ecologi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

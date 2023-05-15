@@ -36,13 +36,17 @@ export default {
     for (const node of nodes) {
       const {
         clock,
-        online,
+        lastSeen,
         nodeId,
         name,
         networkId,
       } = node;
       const previousStatus = this._getNodeStatus(nodeId);
       const rightStatus = this.getRightStatus();
+
+      const online = previousStatus || lastSeen === 0
+        ? lastSeen - 180000 > previousStatus
+        : true;
 
       if (online != previousStatus) {
         this._setNodeStatus(nodeId, online);

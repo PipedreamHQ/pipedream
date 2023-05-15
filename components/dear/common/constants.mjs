@@ -17,7 +17,7 @@ const WEBHOOK_TYPE = {
   SALE_VOIDED: "Sale/Voided",
   SALE_BACKORDERED: "Sale/Backordered",
   SALE_SHIPMENT_AUTHORISED: "Sale/ShipmentAuthorised",
-  SALE_INVOICEA_UTHORISED: "Sale/InvoiceAuthorised",
+  SALE_INVOICE_AUTHORISED: "Sale/InvoiceAuthorised",
   SALE_PICK_AUTHORISED: "Sale/PickAuthorised",
   SALE_PACK_AUTHORISED: "Sale/PackAuthorised",
   SALE_CREDIT_NOTE_AUTHORISED: "Sale/CreditNoteAuthorised",
