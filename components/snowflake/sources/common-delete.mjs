@@ -1,13 +1,9 @@
-import snowflake from "../../snowflake.app.mjs";
+import snowflake from "../snowflake.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import { v4 as uuid } from "uuid";
 
 export default {
   type: "source",
-  key: "snowflake-new-user",
-  name: "New User",
-  description: "Emit new event when a user is created",
-  version: "0.0.1",
   props: {
     snowflake,
     db: "$.service.db",
@@ -27,7 +23,7 @@ export default {
       return this.db.set("dbValues", values);
     },
     getSqlText() {
-      return "show roles";
+      throw new Error("getSqlText() not implemented");
     },
     emit(event) {
       this.$emit(event, {
