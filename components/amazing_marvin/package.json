@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/amazing_marvin",
+  "version": "0.0.1",
+  "description": "Pipedream Amazing Marvin Components",
+  "main": "dist/app/amazing_marvin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "amazing_marvin"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/amazing_marvin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

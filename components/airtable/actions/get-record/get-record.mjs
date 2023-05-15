@@ -6,7 +6,7 @@ export default {
   key: "airtable-get-record",
   name: "Get Record",
   description: "Get a record from a table by record ID.",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     ...common.props,
