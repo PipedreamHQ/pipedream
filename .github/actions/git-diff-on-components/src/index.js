@@ -360,12 +360,14 @@ async function run() {
       const currentVersion = getVersion(content)
       const increasedVersion = increaseVersion(currentVersion)
 
-      await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
+      console.log(getComponentFilePath(componentFilePath), currentVersion, increasedVersion)
 
-      console.log(`✅ Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+      // await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
+
+      // console.log(`✅ Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     };
 
-    return
+    // return
   }
 
   if (totalErrors) {

@@ -33,6 +33,7 @@ export default {
     async _makeRequest({
       $ = this, path, ...args
     }) {
+      console.log("");
       return axios($, {
         url: `${this._apiUrl()}${path}`,
         auth: {
