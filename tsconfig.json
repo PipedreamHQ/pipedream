@@ -1946,6 +1946,15 @@
     },
     {
       "path": "components/salesmsg"
+    },
+    {
+      "path": "components/signaturit"
+    },
+    {
+      "path": "components/handwrytten"
+    },
+    {
+      "path": "components/focuster"
     }
   ]
 }
