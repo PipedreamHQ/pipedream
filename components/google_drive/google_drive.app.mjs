@@ -633,7 +633,7 @@ export default {
         pageSize: 100,
       };
 
-      if (startModifiedTime !== null) {
+      if (startModifiedTime !== null && startModifiedTime !== undefined) {
         opts.startModifiedTime = new Date(startModifiedTime).toISOString();
       }
 

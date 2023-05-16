@@ -41,10 +41,13 @@ export default {
   },
   hooks: {
     async deploy() {
+      const daysAgo = new Date();
+      daysAgo.setDate(daysAgo.getDate() - 30);
+      const timeString = daysAgo.toISOString();
+
       const { data } = await this.googleDrive.drive().files.list({
-        q: "trashed = false",
+        q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files(id)",
-        pageSize: 10,
       });
 
       await this.processChanges(data.files);
