@@ -111,7 +111,7 @@ You cannot run `$.respond` after running `$.flow.delay`. Pipedream ends the orig
 
 > $.respond() not called for this invocation
 
-If you need to set a delay on an HTTP request triggered workflow, consider using using [`setTimeout`](#settimeout) instead.
+If you need to set a delay on an HTTP request triggered workflow, consider using [`setTimeout`](#settimeout) instead.
 
 ## `setTimeout`
 
