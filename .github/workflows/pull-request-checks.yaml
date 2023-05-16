@@ -28,7 +28,7 @@ jobs:
           # There's no native way to do this in the checkout action, so
           # we have to fetch the entire history. See
           # https://github.com/actions/checkout/issues/266#issuecomment-638346893
-          fetch-depth: 0
+          # fetch-depth: 0
       - uses: jitterbit/get-changed-files@v1
         id: changed_files
         name: Get changed files
