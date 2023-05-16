@@ -117,7 +117,7 @@ If you need to set a delay on an HTTP request triggered workflow, consider using
 
 Alternatively, you can use `setTimeout` instead of using `$.flow.delay` to delay individual workflow steps.
 
-However, there are some drawbacks to using `setTimeout` instead of `$.flow.delay`. `setTimeout` will count towards your workflows compute time, for example:
+However, there are some drawbacks to using `setTimeout` instead of `$.flow.delay`. `setTimeout` will count towards your workflow's compute time, for example:
 
 ```javascript
 export default defineComponent({
