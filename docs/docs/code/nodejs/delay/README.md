@@ -40,7 +40,7 @@ export default defineComponent({
 
 ::: tip Paused workflow state
 
-When `$.flow.delay` is executed in a Node.js step, the workflow itself will enter in a **Paused** state.
+When `$.flow.delay` is executed in a Node.js step, the workflow itself will enter a **Paused** state.
 
 While the workflow is paused, it will not incur any credits towards compute time. You can also [view all paused workflows in the Event History](/event-history/#filtering-by-status).
 
