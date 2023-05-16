@@ -107,7 +107,7 @@ You'll need to replay an event to execute the workflow with the latest changes.
 
 ::: tip Beta access
 
-During the beta, Paid accounts will have access to view the past 7 days of events across all of their workflows. This limit will increase as this trial continues.
+During the beta, paid accounts will have access to view the past 7 days of events across all of their workflows. This limit will increase as this trial continues.
 
 :::
 
