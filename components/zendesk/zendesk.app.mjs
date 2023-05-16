@@ -7,7 +7,7 @@ export default {
   propDefinitions: {
     categoryId: {
       type: "string",
-      label: "Trigger category ID",
+      label: "Trigger Category ID",
       description: "The ID of the trigger category. [See the docs here](https://developer.zendesk.com/api-reference/ticketing/business-rules/trigger_categories/#list-trigger-categories)",
       async options({ prevContext }) {
         const { afterCursor } = prevContext;
@@ -64,6 +64,37 @@ export default {
             id, subject,
           }) => ({
             label: subject || `Ticket #${id}`,
+            value: id,
+          })),
+        };
+      },
+    },
+    viewId: {
+      type: "string",
+      label: "View ID",
+      description: "The ID of the view",
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+
+        const {
+          views,
+          meta,
+        } =
+          await this.listViews({
+            params: {
+              [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+              [constants.PAGE_AFTER_PARAM]: afterCursor,
+            },
+          });
+
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: views.map(({
+            id, title,
+          }) => ({
+            label: title || `View #${id}`,
             value: id,
           })),
         };
@@ -158,6 +189,20 @@ export default {
     listTickets(args = {}) {
       return this.makeRequest({
         path: "/tickets",
+        ...args,
+      });
+    },
+    listViews(args = {}) {
+      return this.makeRequest({
+        path: "/views",
+        ...args,
+      });
+    },
+    listTicketsInView({
+      viewId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/views/${viewId}/tickets`,
         ...args,
       });
     },

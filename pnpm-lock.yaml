@@ -3518,7 +3518,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/reflect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/regfox:
     specifiers:
