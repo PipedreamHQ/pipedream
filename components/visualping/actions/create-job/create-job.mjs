@@ -3,7 +3,7 @@ import visualping from "../../app/visualping.app.mjs";
 export default {
   key: "visualping-create-job",
   name: "Create A New Job",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Creates a new job that will belong to a given user or workspace. [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/post)",
   type: "action",
   props: {
@@ -97,7 +97,7 @@ export default {
     targetDevice: {
       propDefinition: [
         visualping,
-        "ttargetDevice",
+        "targetDevice",
       ],
       reloadProps: true,
     },
