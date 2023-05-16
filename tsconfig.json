@@ -1961,6 +1961,9 @@
     },
     {
       "path": "components/wealthbox"
+    },
+    {
+      "path": "components/wati"
     }
   ]
 }
