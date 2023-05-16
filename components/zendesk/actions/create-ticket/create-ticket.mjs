@@ -5,7 +5,7 @@ export default {
   name: "Create Ticket",
   description: "Creates a ticket. [See the docs](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#create-ticket).",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   props: {
     app,
     ticketCommentBody: {
