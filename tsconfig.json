@@ -1964,6 +1964,9 @@
     },
     {
       "path": "components/wati"
+    },
+    {
+      "path": "components/hotjar"
     }
   ]
 }
