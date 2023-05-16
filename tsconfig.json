@@ -1955,6 +1955,12 @@
     },
     {
       "path": "components/focuster"
+    },
+    {
+      "path": "components/retool"
+    },
+    {
+      "path": "components/wealthbox"
     }
   ]
 }
