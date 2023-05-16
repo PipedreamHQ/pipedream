@@ -1857,6 +1857,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/handwrytten:
+    specifiers: {}
+
   components/happy_scribe:
     specifiers: {}
 
@@ -3512,7 +3515,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/reflect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/regfox:
     specifiers:
@@ -3957,6 +3963,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/signaturit:
+    specifiers: {}
 
   components/signrequest:
     specifiers: {}
