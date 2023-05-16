@@ -38,6 +38,22 @@ export default defineComponent({
 });
 ```
 
+::: tip Paused workflow state
+
+When `$.flow.delay` is executed in a Node.js step, the workflow itself will enter in a **Paused** state.
+
+While the workflow is paused, it will not incur any credits towards compute time. You can also [view all paused workflows in the Event History](/event-history/#filtering-by-status).
+
+:::
+
+### Credit usage
+
+The length of time a workflow is delayed from `$.flow.delay` does _not_ impact your credit usage. For example, delaying a 256 megabyte workflow for five minutes will **not** incur ten credits.
+
+However, using `$.flow.delay` in a workflow will incur two credits.
+
+One credit is used to initially start the workflow, then the second credit is used when the workflow resumes after its pause period has ended.
+
 ## `cancel_url` and `resume_url`
 
 Both the built-in **Delay** actions and `$.flow.delay` return a `cancel_url` and `resume_url` that lets you cancel or resume paused executions.
@@ -94,3 +110,29 @@ export default defineComponent({
 You cannot run `$.respond` after running `$.flow.delay`. Pipedream ends the original execution of the workflow when `$.flow.delay` is called and issues the following response to the client to indicate this state:
 
 > $.respond() not called for this invocation
+
+If you need to set a delay on an HTTP request triggered workflow, consider using using [`setTimeout`](#settimeout) instead.
+
+## `setTimeout`
+
+Alternatively, you can use `setTimeout` instead of using `$.flow.delay` to delay individual workflow steps.
+
+However, there are some drawbacks to using `setTimeout` instead of `$.flow.delay`. `setTimeout` will count towards your workflows compute time, for example:
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    // delay this step for 30 seconds
+    const delay = 30000;
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('timer ended')
+      }, delay)
+    })
+  }
+});
+
+```
+
+The Node.js step above will hold the workflow's execution for this step for 30 seconds; however, 30 seconds will also _contribute_ to your credit usage. Also consider that workflows have a hard limit of {{$site.themeConfig.MAX_WORKFLOW_EXECUTION_LIMIT}} seconds.
