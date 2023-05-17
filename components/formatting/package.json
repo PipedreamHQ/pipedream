@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formatting",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Formatting Components",
   "main": "dist/app/formatting.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/formatting",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/instagram_business",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Instagram for Business Components",
   "main": "dist/app/instagram_business.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/instagram_business",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

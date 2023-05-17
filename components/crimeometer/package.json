@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/crimeometer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Crimeometer Components",
   "main": "crimeometer.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/crimeometer",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.4.1"
   },

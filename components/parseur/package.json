@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/parseur",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Parseur Components",
   "main": "parseur.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/parseur",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.3.0"
   },

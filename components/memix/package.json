@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/memix",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Memix Components",
   "main": "dist/app/memix.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/memix",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }
