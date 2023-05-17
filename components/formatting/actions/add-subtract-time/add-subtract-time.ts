@@ -1,4 +1,5 @@
 import { defineAction } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../app/formatting.app";
 import commonDateTime from "../../common/date-time/commonDateTime";
 import {
@@ -82,17 +83,21 @@ export default defineAction({
     const result = value + amount;
 
     const format = outputFormat ?? this.inputFormat ?? DEFAULT_FORMAT_VALUE;
-    const { outputFn } = DATE_FORMAT_PARSE_MAP.get(format);
-    const output = outputFn(new Date(result));
+    try {
+      const { outputFn } = DATE_FORMAT_PARSE_MAP.get(format);
+      const output = outputFn(new Date(result));
 
-    $.export(
-      "$summary",
-      `Successfully ${
-        operation === OPERATION_OPTIONS.SUBTRACT
-          ? "subtracted"
-          : "added"
-      } time`,
-    );
-    return output;
+      $.export(
+        "$summary",
+        `Successfully ${
+          operation === OPERATION_OPTIONS.SUBTRACT
+            ? "subtracted"
+            : "added"
+        } time`,
+      );
+      return output;
+    } catch (err) {
+      throw new ConfigurationError("**Parse error** - check your input and if the selected format is correct.");
+    }
   },
 });
