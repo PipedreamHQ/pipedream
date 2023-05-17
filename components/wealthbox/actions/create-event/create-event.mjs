@@ -64,6 +64,7 @@ export default {
         all_day: this.allDay,
         repeats: this.repeats,
         state: this.state,
+        description: this.description,
       },
       $,
     });

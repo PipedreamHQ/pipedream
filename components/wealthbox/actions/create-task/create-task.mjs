@@ -3,7 +3,7 @@ import wealthbox from "../../wealthbox.app.mjs";
 export default {
   key: "wealthbox-create-task",
   name: "Create Task",
-  description: "Create a new task. [See the documentation](http://dev.wealthbox.com/#tasks-collection-get)",
+  description: "Create a new task. [See the documentation](http://dev.wealthbox.com/#tasks-collection-post)",
   version: "0.0.1",
   type: "action",
   props: {

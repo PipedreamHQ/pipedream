@@ -75,6 +75,7 @@ export default {
           break;
         }
       }
+      params.page += 1;
     } while (total === params.per_page);
 
     this._setLastCreated(maxLastCreated);
