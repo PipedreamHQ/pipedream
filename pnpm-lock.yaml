@@ -1923,6 +1923,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/hotjar:
+    specifiers: {}
+
   components/hotspotsystem:
     specifiers:
       '@pipedream/platform': ^1.2.1
