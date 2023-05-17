@@ -3577,6 +3577,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/retool:
+    specifiers: {}
+
   components/rev:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -4903,6 +4906,9 @@ importers:
     specifiers: {}
 
   components/watchsignals:
+    specifiers: {}
+
+  components/wealthbox:
     specifiers: {}
 
   components/weatherbit_io:
