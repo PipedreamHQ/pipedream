@@ -1976,6 +1976,9 @@
     },
     {
       "path": "components/respond_io"
+    },
+    {
+      "path": "components/sakari_sms"
     }
   ]
 }
