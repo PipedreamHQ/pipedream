@@ -1967,6 +1967,12 @@
     },
     {
       "path": "components/hotjar"
+    },
+    {
+      "path": "components/caspio"
+    },
+    {
+      "path": "components/cloze"
     }
   ]
 }
