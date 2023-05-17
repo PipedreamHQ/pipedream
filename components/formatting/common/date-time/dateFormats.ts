@@ -96,6 +96,16 @@ const DATE_FORMATS: DateFormat[] = [
     },
   },
   {
+    label: "2006-01-22 23:04",
+    value: "YYYY-MM-DD HH:mm",
+    outputFn(dateObj) {
+      return dateObj
+        .toISOString()
+        .replace(/T/g, " ")
+        .replace(/:[0-9]{2}\.[0-9]{3}Z/, "");
+    },
+  },
+  {
     label: "2006-01-22",
     value: "YYYY-MM-DD",
     outputFn(dateObj) {
