@@ -909,7 +909,12 @@ importers:
     specifiers: {}
 
   components/currencyscoop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      '@pipedream/types': ^0.1.6
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      '@pipedream/types': 0.1.6
 
   components/customer_guru:
     specifiers: {}

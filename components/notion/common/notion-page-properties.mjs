@@ -92,7 +92,9 @@ const NOTION_PAGE_PROPERTIES = {
     type: "boolean",
     options: () => undefined,
     convertToNotion: (property) => ({
-      checkbox: property.value,
+      checkbox: !property.value || property.value === "false"
+        ? false
+        : true,
     }),
   },
   url: {
