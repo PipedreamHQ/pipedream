@@ -1961,6 +1961,21 @@
     },
     {
       "path": "components/wealthbox"
+    },
+    {
+      "path": "components/wati"
+    },
+    {
+      "path": "components/hotjar"
+    },
+    {
+      "path": "components/caspio"
+    },
+    {
+      "path": "components/cloze"
+    },
+    {
+      "path": "components/respond_io"
     }
   ]
 }

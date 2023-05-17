@@ -6,7 +6,7 @@ export default {
   name: "List Cloud Recordings",
   description: "Search cloud recordings from a meeting or webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingslist)",
   key: "zoom_admin-list-cloud-recordings",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zoomAdmin,
