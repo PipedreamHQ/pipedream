@@ -10,7 +10,7 @@ export default defineAction({
   description:
     "Split the text on a character or word and return one or all segments",
   key: "formatting-split-text",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
