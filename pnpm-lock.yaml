@@ -909,7 +909,12 @@ importers:
     specifiers: {}
 
   components/currencyscoop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      '@pipedream/types': ^0.1.6
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      '@pipedream/types': 0.1.6
 
   components/customer_guru:
     specifiers: {}
@@ -1404,6 +1409,9 @@ importers:
   components/fluent_support:
     specifiers: {}
 
+  components/focuster:
+    specifiers: {}
+
   components/follow_up_boss:
     specifiers: {}
 
@@ -1856,6 +1864,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/handwrytten:
+    specifiers: {}
 
   components/happy_scribe:
     specifiers: {}
@@ -3512,7 +3523,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/reflect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/regfox:
     specifiers:
@@ -3957,6 +3971,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/signaturit:
+    specifiers: {}
 
   components/signrequest:
     specifiers: {}
