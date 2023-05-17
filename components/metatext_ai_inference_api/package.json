@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/metatext_ai_inference_api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Metatext.AI Inference API Components",
   "main": "dist/app/metatext_ai_inference_api.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/metatext_ai_inference_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

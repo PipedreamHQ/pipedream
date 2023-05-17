@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/t2m_url_shortener",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream T2M URL Shortener Components",
   "main": "dist/app/t2m_url_shortener.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/t2m_url_shortener",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }
