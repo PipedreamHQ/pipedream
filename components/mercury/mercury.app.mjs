@@ -48,7 +48,6 @@ export default {
     },
     async getAccounts() {
       const { accounts } = await this._makeRequest({
-        ctx: this,
         endpoint: "/accounts",
       });
       return accounts;
