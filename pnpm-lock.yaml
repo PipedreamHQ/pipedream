@@ -631,6 +631,9 @@ importers:
   components/cascade_strategy:
     specifiers: {}
 
+  components/caspio:
+    specifiers: {}
+
   components/cdc_national_environmental_public_health_tracking:
     specifiers: {}
 
@@ -782,6 +785,9 @@ importers:
       form-data: 4.0.0
 
   components/cloudtalk:
+    specifiers: {}
+
+  components/cloze:
     specifiers: {}
 
   components/clubworx:
@@ -1230,6 +1236,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/emelia:
+    specifiers: {}
+
+  components/encharge:
     specifiers: {}
 
   components/enedis:
@@ -1750,6 +1759,14 @@ importers:
   components/google_maps_platform:
     specifiers: {}
 
+  components/google_photos:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      mime: ^3.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      mime: 3.0.0
+
   components/google_recaptcha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1922,6 +1939,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/hotjar:
+    specifiers: {}
 
   components/hotspotsystem:
     specifiers:
@@ -3571,11 +3591,17 @@ importers:
   components/resend:
     specifiers: {}
 
+  components/respond_io:
+    specifiers: {}
+
   components/rest_countries_pe:
     specifiers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/retool:
+    specifiers: {}
 
   components/rev:
     specifiers:
@@ -3672,6 +3698,9 @@ importers:
     specifiers: {}
 
   components/sailpoint_personal_token:
+    specifiers: {}
+
+  components/sakari_sms:
     specifiers: {}
 
   components/sales_simplify:
@@ -4903,6 +4932,12 @@ importers:
     specifiers: {}
 
   components/watchsignals:
+    specifiers: {}
+
+  components/wati:
+    specifiers: {}
+
+  components/wealthbox:
     specifiers: {}
 
   components/weatherbit_io:
@@ -8425,22 +8460,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.159:
-    resolution: {integrity: sha512-y+zr9ahjiFz7BLW1HeMWrx7xNxfBTDU0loJqzRh9WPHVdSrMsk+JQBSlubed/EZ1hgFZ6m93FRzBRCGIj8kBYg==}
+  /@definitelytyped/header-parser/0.0.160:
+    resolution: {integrity: sha512-VhWtup4T3LxRnWZxhLz710h56WsVXatUakOMPzALO3qgy9xKT19nP8ufUxrP9IJfOINZx6LRkQDgbbTHt+vlrA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.159
+      '@definitelytyped/typescript-versions': 0.0.160
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.159:
-    resolution: {integrity: sha512-9TWRPpOo3CWYUyS3QCu8goJbAhS3qAE/LWFc+Qy6Wb8vsUAwMTioCtPPsYyqrPDbatXvPFrOr182hE1OFvEFSA==}
+  /@definitelytyped/typescript-versions/0.0.160:
+    resolution: {integrity: sha512-Uk10J/JzjdrwzftCI56CSVdCuIq2apAveL/bluu1F76QUoBT7WUWrVCh/GB9tVcUq8fKjdUMF8IIXugijlezJA==}
     dev: true
 
-  /@definitelytyped/utils/0.0.159:
-    resolution: {integrity: sha512-zm+Gsw39sD2EANlJmmNXgtpIzXO3QmBq5nZx6Y95RD/s2AypDaBw0eauO1wWji6I45tJOAgPZEvfmjjaxfoyhA==}
+  /@definitelytyped/utils/0.0.160:
+    resolution: {integrity: sha512-qhjoWxqnuUOPfX5Omm2aip57GlNP5MuWuE7vvqGFWe3U+ep+2207wnf6CNbh8PjuNDQGS68rPks2uQdPbXfL4Q==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.159
+      '@definitelytyped/typescript-versions': 0.0.160
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.42
       charm: 1.0.2
@@ -14629,7 +14664,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.159
+      '@definitelytyped/header-parser': 0.0.160
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -14645,9 +14680,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.159
-      '@definitelytyped/typescript-versions': 0.0.159
-      '@definitelytyped/utils': 0.0.159
+      '@definitelytyped/header-parser': 0.0.160
+      '@definitelytyped/typescript-versions': 0.0.160
+      '@definitelytyped/utils': 0.0.160
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
