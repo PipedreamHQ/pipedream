@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ably",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Ably Components",
   "main": "ably.app.mjs",
   "keywords": [
