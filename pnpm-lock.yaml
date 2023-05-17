@@ -631,6 +631,9 @@ importers:
   components/cascade_strategy:
     specifiers: {}
 
+  components/caspio:
+    specifiers: {}
+
   components/cdc_national_environmental_public_health_tracking:
     specifiers: {}
 
@@ -782,6 +785,9 @@ importers:
       form-data: 4.0.0
 
   components/cloudtalk:
+    specifiers: {}
+
+  components/cloze:
     specifiers: {}
 
   components/clubworx:
@@ -1230,6 +1236,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/emelia:
+    specifiers: {}
+
+  components/encharge:
     specifiers: {}
 
   components/enedis:
@@ -1922,6 +1931,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/hotjar:
+    specifiers: {}
 
   components/hotspotsystem:
     specifiers:
@@ -3571,11 +3583,17 @@ importers:
   components/resend:
     specifiers: {}
 
+  components/respond_io:
+    specifiers: {}
+
   components/rest_countries_pe:
     specifiers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/retool:
+    specifiers: {}
 
   components/rev:
     specifiers:
@@ -3672,6 +3690,9 @@ importers:
     specifiers: {}
 
   components/sailpoint_personal_token:
+    specifiers: {}
+
+  components/sakari_sms:
     specifiers: {}
 
   components/sales_simplify:
@@ -4903,6 +4924,12 @@ importers:
     specifiers: {}
 
   components/watchsignals:
+    specifiers: {}
+
+  components/wati:
+    specifiers: {}
+
+  components/wealthbox:
     specifiers: {}
 
   components/weatherbit_io:
