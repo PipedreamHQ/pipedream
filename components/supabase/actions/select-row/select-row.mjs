@@ -45,15 +45,10 @@ export default {
       description: "Column name to order by",
     },
     sortOrder: {
-      type: "string",
-      label: "Sort Order",
-      description: "Sort ascending or descending",
-      options: [
-        "ascending",
-        "descending",
+      propDefinition: [
+        supabase,
+        "orderBy",
       ],
-      optional: true,
-      default: "ascending",
     },
     max: {
       type: "integer",

@@ -31,6 +31,17 @@ export default {
       description: "Filter type for the query",
       options: constants.FILTER_OPTIONS,
     },
+    sortOrder: {
+      type: "string",
+      label: "Sort Order",
+      description: "Sort ascending or descending",
+      options: [
+        "ascending",
+        "descending",
+      ],
+      optional: true,
+      default: "ascending",
+    },
   },
   methods: {
     async _client() {
