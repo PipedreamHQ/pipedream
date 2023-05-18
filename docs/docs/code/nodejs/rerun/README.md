@@ -79,7 +79,7 @@ export default defineComponent({
 
 Use `$.flow.rerun` when you want to run a specific step of a workflow multiple times. This is useful when you need to start a job in an external API and poll for its completion, or have the service call back to the step and let you process the HTTP request within the step.
 
-### Retrying a failed API request
+### Retrying a Failed API Request
 
 `$.flow.rerun` can be used to conditionally retry a failed API request due to a service outage or rate limit reached. Place the `$.flow.rerun` call within a `catch` block to only retry the API request if an error is thrown:
 
