@@ -1238,6 +1238,9 @@ importers:
   components/emelia:
     specifiers: {}
 
+  components/encharge:
+    specifiers: {}
+
   components/enedis:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -3388,7 +3391,10 @@ importers:
     specifiers: {}
 
   components/quaderno:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/qualaroo:
     specifiers:
@@ -3687,6 +3693,9 @@ importers:
     specifiers: {}
 
   components/sailpoint_personal_token:
+    specifiers: {}
+
+  components/sakari_sms:
     specifiers: {}
 
   components/sales_simplify:
