@@ -637,6 +637,8 @@ export default {
         opts.startModifiedTime = new Date(startModifiedTime).toISOString();
       }
 
+      console.log("listComments opts!!", JSON.stringify(opts, null, 2));
+
       while (true) {
         const { data } = await drive.comments.list(opts);
         const {
