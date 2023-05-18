@@ -65,25 +65,36 @@ export default {
         ...args,
       });
     },
-    isSignatureValid(authKey, body, signature) {
-      console.log("body", body);
-      console.log("signature", signature);
-      const hash = createHmac("sha1", authKey)
-        .update(JSON.stringify(body))
+    isSignatureValid(signature, data, skip = true) {
+      // skip signature validation for now. Due to the following issue:
+      // https://github.com/quaderno/quaderno-api/issues/54
+      if (skip) {
+        return true;
+      }
+      const authKey = this.getAuthKey();
+      const computedSignature = createHmac("sha1", authKey)
+        .update(data)
         .digest("base64");
-      return hash === signature;
+
+      return computedSignature === signature;
     },
     processEvent(event) {
       this.$emit(event, this.generateMeta(event.data?.object || event));
     },
   },
   async run({
-    body, headers,
+    method, url, body, headers, bodyRaw,
   }) {
-    const authKey = this.getAuthKey();
-    const signature = headers["X-Quaderno-Signature"];
+    if (method === "HEAD") {
+      return this.http.respond({
+        status: 200,
+      });
+    }
 
-    if (!this.isSignatureValid(authKey, body, signature)) {
+    const signature = headers["x-quaderno-signature"];
+    const data = `${url}${bodyRaw}`;
+
+    if (!this.isSignatureValid(signature, data)) {
       throw new Error("Invalid signature");
     }
 

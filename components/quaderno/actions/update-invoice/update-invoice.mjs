@@ -8,13 +8,13 @@ export default {
   type: "action",
   version: "0.0.1",
   props: {
+    ...common.props,
     invoiceId: {
       propDefinition: [
         common.props.app,
         "invoiceId",
       ],
     },
-    ...common.props,
     howManyItems: {
       optional: true,
       propDefinition: [
@@ -70,7 +70,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully created invoice with ID ${response.id}`);
+    step.export("$summary", `Successfully updated invoice with ID ${response.id}`);
 
     return response;
   },

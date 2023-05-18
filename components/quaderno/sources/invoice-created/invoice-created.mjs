@@ -12,7 +12,7 @@ export default {
   hooks: {
     async deploy() {
       const invoices = await this.app.listInvoices();
-      invoices.forEach(this.processEvent);
+      invoices.reverse().forEach(this.processEvent);
     },
     ...common.hooks,
   },

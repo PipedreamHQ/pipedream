@@ -7,14 +7,14 @@ export default {
   props: {
     app,
     firstName: {
-      descriptions: "The customer's first name who will be billed.",
+      description: "The customer's first name who will be billed.",
       propDefinition: [
         app,
         "firstName",
       ],
     },
     lastName: {
-      descriptions: "The customer's last name who will be billed.",
+      description: "The customer's last name who will be billed.",
       propDefinition: [
         app,
         "lastName",

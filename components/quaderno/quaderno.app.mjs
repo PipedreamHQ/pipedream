@@ -11,7 +11,14 @@ export default {
       description: "The ID of the invoice to retrieve.",
       async options() {
         const invoices = await this.listInvoices();
-        return invoices.map(({ id  }) => id);
+        return invoices.map(({
+          id, contact,
+        }) => ({
+          value: String(id),
+          label: contact?.full_name
+            ? `${id} (${contact.full_name})`
+            : id,
+        }));
       },
     },
     firstName: {
@@ -130,7 +137,6 @@ export default {
       return {
         "Content-Type": "application/json",
         "Accept": `application/json; api_version=${constants.API_VERSION}`,
-        // "Authorization": `Basic ${this.$auth.api_key}`,
         ...headers,
       };
     },
