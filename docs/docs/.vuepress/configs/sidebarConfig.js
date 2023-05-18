@@ -12,7 +12,7 @@ const docsNav = [
       "/workflows/steps/using-props/",
       "/workflows/events/",
       "/workflows/events/inspect/",
-      "/workflows/built-in-functions/",
+      "/workflows/flow-control/",
       "/workflows/errors/",
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
@@ -70,6 +70,7 @@ const docsNav = [
       "/environment-variables/",
     ],
   },
+  "/http/",
   {
     title: 'Integrations',
     type: "group", 

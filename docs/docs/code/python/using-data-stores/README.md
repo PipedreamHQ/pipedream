@@ -3,6 +3,8 @@ short_description: Store and read data with data stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
 ---
 
+# Using Data Stores
+
 :::warning
 
 This feature is in **beta**. There might be changes while we prepare it for a full release.
