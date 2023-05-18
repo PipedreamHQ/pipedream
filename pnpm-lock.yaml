@@ -1238,6 +1238,9 @@ importers:
   components/emelia:
     specifiers: {}
 
+  components/encharge:
+    specifiers: {}
+
   components/enedis:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -2592,6 +2595,12 @@ importers:
       '@pipedream/platform': 1.5.1
       isomorphic-fetch: 3.0.0
 
+  components/miestro:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/mindmeister:
     specifiers: {}
 
@@ -3687,6 +3696,9 @@ importers:
     specifiers: {}
 
   components/sailpoint_personal_token:
+    specifiers: {}
+
+  components/sakari_sms:
     specifiers: {}
 
   components/sales_simplify:
