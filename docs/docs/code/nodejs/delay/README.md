@@ -9,7 +9,7 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841376/docs/
 
 Use `$.flow.delay` to [delay a step in a workflow](/workflows/flow-control/#delay).
 
-These docs show you how write Node.js code to handle delays. If you don't need to write code, see [our built-in delay actions](/workflows/flow-control/#delay-actions).
+These docs show you how to write Node.js code to handle delays. If you don't need to write code, see [our built-in delay actions](/workflows/flow-control/#delay-actions).
 
 [[toc]]
 
