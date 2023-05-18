@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/humor_api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Humor API Components",
   "main": "humor_api.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/humor_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.4.1"
   },

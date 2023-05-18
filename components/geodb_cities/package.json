@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/geodb_cities",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Geodb_cities Components",
   "main": "geodb_cities.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/geodb_cities",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.4.1"
   },

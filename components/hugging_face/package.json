@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hugging_face",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Hugging_face Components",
   "main": "hugging_face.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/hugging_face",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@huggingface/inference": "^1.6.1",
     "@pipedream/platform": "^1.3.0",

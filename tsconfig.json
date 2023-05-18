@@ -1952,6 +1952,36 @@
     },
     {
       "path": "components/handwrytten"
+    },
+    {
+      "path": "components/focuster"
+    },
+    {
+      "path": "components/retool"
+    },
+    {
+      "path": "components/wealthbox"
+    },
+    {
+      "path": "components/wati"
+    },
+    {
+      "path": "components/hotjar"
+    },
+    {
+      "path": "components/caspio"
+    },
+    {
+      "path": "components/cloze"
+    },
+    {
+      "path": "components/respond_io"
+    },
+    {
+      "path": "components/sakari_sms"
+    },
+    {
+      "path": "components/encharge"
     }
   ]
 }

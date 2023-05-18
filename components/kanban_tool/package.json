@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kanban_tool",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Kanban Tool Components",
   "main": "kanban_tool.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   ],
   "homepage": "https://pipedream.com/apps/kanban-tool",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.4.1"
   },
