@@ -2,9 +2,9 @@
 short_description: Use Pipedream built-in functions to filter, delay, and perform other common operations.
 ---
 
-# Built-In Functions
+# Flow control 
 
-Use Pipedream built-in functions to filter, delay, and perform other common operations.
+Use Pipedream built-in functions to filter, delay, and perform other common flow control operations.
 
 [[toc]]
 
@@ -76,4 +76,3 @@ For example, to only process orders with a `status = ready`
 ### Continue Workflow on Condition
 
 With this action, only when values that _pass_ a set condition will the workflow continue to execute steps after this filter.
-
