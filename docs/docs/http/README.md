@@ -20,7 +20,7 @@ Now with a few clicks and some text you've integrated Slack into a Pipedream wor
 
 ::: tip Pre-built actions are open source
 
-All pre-built actions are published from the [Pipedream Component Registry](/apps/contributing/), so you can read and modify their source code. You can even publish your own from [Node.js code steps privately to your own workspace](/nodejs/sharing-code/).
+All pre-built actions are published from the [Pipedream Component Registry](/apps/contributing/), so you can read and modify their source code. You can even publish your own from [Node.js code steps privately to your own workspace](/code/nodejs/sharing-code/).
 
 :::
 
@@ -154,7 +154,7 @@ export default defineComponent({
 
 ::: tip Subscribing to all errors
 
-[You can use a subscription](/docs/api/rest/#subscriptions) to subscribe a workflow to all errors through the `$errors` channel, instead of handling each error individually.
+[You can use a subscription](/api/rest/#subscriptions) to subscribe a workflow to all errors through the `$errors` channel, instead of handling each error individually.
 
 :::
 
