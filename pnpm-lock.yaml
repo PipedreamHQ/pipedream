@@ -3689,6 +3689,9 @@ importers:
   components/sailpoint_personal_token:
     specifiers: {}
 
+  components/sakari_sms:
+    specifiers: {}
+
   components/sales_simplify:
     specifiers: {}
 
