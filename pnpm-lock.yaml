@@ -1238,6 +1238,9 @@ importers:
   components/emelia:
     specifiers: {}
 
+  components/encharge:
+    specifiers: {}
+
   components/enedis:
     specifiers:
       '@pipedream/platform': ^1.2.1
