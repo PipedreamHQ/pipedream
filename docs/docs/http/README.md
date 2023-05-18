@@ -4,7 +4,7 @@ Integrate and automate any API using Pipedream workflows. Use app specific pre-b
 
 ## Pre-built actions
 
-Pre-built actions are the most convienent option for integrating your workflow with an API. Pre-built actions can use your connected accounts to perform API requests, and are configured through props.
+Pre-built actions are the most convenient option for integrating your workflow with an API. Pre-built actions can use your connected accounts to perform API requests, and are configured through props.
 
 Pre-built actions are the fastest way to get started building workflows, but they may not fit your use case if a prop is missing or is handling data in a way that doesn't fit your needs.
 
