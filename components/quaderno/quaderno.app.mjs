@@ -165,12 +165,6 @@ export default {
         ...args,
       });
     },
-    patch(args = {}) {
-      return this.makeRequest({
-        method: "patch",
-        ...args,
-      });
-    },
     listInvoices(args = {}) {
       return this.makeRequest({
         path: "/invoices",
