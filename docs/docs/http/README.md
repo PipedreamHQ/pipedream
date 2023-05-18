@@ -51,7 +51,7 @@ Finally modify the body of the request to specify the `channel` and `message` fo
 HTTP Request actions can be used to quickly scaffold API requests, but are not as flexible as code for a few reasons:
 
 * Conditionally sending requests - The HTTP request action will always request, to send requests conditionally you'll need to use code.
-* Workflow execution halts - if a HTTP request fails the entire workflow cancels
+* Workflow execution halts - if an HTTP request fails, the entire workflow cancels
 * Automatically retrying - `$.flow.retry` isn't available in the HTTP Request action to retry automatically if the request fails
 * Error handling - It's not possible to set up a secondary action if an HTTP request fails.
 
