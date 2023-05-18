@@ -2,7 +2,7 @@
 short_description: Use Pipedream built-in functions to filter, delay, and perform other common operations.
 ---
 
-# Flow control 
+# Flow Control
 
 Use Pipedream built-in functions to filter, delay, and perform other common flow control operations.
 
