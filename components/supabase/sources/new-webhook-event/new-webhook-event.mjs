@@ -1,4 +1,4 @@
-import supabase from "../../supabase.app.mjs";
+import base from "../common/base.mjs";
 
 export default {
   key: "supabase-new-webhook-event",
@@ -7,22 +7,9 @@ export default {
   version: "0.0.1",
   type: "source",
   props: {
-    supabase,
+    ...base.props,
     http: {
       type: "$.interface.http",
-    },
-    table: {
-      propDefinition: [
-        supabase,
-        "table",
-      ],
-      description: "The name of the table to watch for new rows",
-    },
-    rowIdentifier: {
-      type: "string",
-      label: "Row Identifier",
-      description: "The column name to use as the row identifier",
-      optional: true,
     },
   },
   async run(event) {

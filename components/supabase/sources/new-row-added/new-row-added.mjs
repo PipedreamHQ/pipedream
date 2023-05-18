@@ -1,4 +1,4 @@
-import supabase from "../../supabase.app.mjs";
+import base from "../common/base.mjs";
 import {
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
   ConfigurationError,
@@ -12,45 +12,31 @@ export default {
   version: "0.0.1",
   type: "source",
   props: {
-    supabase,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    table: {
-      propDefinition: [
-        supabase,
-        "table",
-      ],
-      description: "The name of the table to watch for new rows",
-    },
+    ...base.props,
     column: {
       propDefinition: [
-        supabase,
+        base.props.supabase,
         "column",
       ],
       optional: true,
     },
     filter: {
       propDefinition: [
-        supabase,
+        base.props.supabase,
         "filter",
       ],
       optional: true,
     },
     value: {
       propDefinition: [
-        supabase,
+        base.props.supabase,
         "value",
       ],
       optional: true,
     },
     orderBy: {
       propDefinition: [
-        supabase,
+        base.props.supabase,
         "column",
       ],
       label: "Order By",
@@ -58,15 +44,16 @@ export default {
     },
     sortOrder: {
       propDefinition: [
-        supabase,
+        base.props.supabase,
         "sortOrder",
       ],
     },
-    rowIdentifier: {
-      type: "string",
-      label: "Row Identifier",
-      description: "The column name to use as the row identifier",
-      optional: true,
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
   },
   methods: {
