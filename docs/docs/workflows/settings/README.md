@@ -69,10 +69,14 @@ For example, if you upload a file named `test.csv`, Pipedream will expose the _f
 ```javascript
 import fs from "fs";
 
-const fileData = fs
-  .readFileSync(steps.trigger.context.attachments["test.csv"])
-  .toString();
-console.log(fileData);
+export default defineComponent({
+  async run({ steps, $ }) {
+    const fileData = fs
+      .readFileSync(steps.trigger.context.attachments["test.csv"])
+      .toString();
+    console.log(fileData);
+  },
+})
 ```
 
 <div>
