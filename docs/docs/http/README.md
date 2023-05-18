@@ -26,7 +26,7 @@ All pre-built actions are published from the [Pipedream Component Registry](/app
 
 ## HTTP Request Action
 
-The HTTP request action is the next most convienent option. Use a Postman-like interface to configure an HTTP request - including the headers, body, and even connecting an account. 
+The HTTP request action is the next most convenient option. Use a Postman-like interface to configure an HTTP request - including the headers, body, and even connecting an account.
 
 ![Finding the HTTP request builder action](https://res.cloudinary.com/pipedreamin/image/upload/v1684420462/docs/docs/http/CleanShot_2023-05-18_at_10.33.50_vigdf7.png)
 
