@@ -1,4 +1,5 @@
 import base from "../common/base.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "supabase-new-webhook-event",
@@ -10,6 +11,21 @@ export default {
     ...base.props,
     http: {
       type: "$.interface.http",
+    },
+  },
+  hooks: {
+    async deploy() {
+      const client = await this.supabase._client();
+      const query = client
+        .from(this.table)
+        .select()
+        .range(0, constants.HISTORICAL_EVENT_LIMIT);
+      const { data } = await query;
+      for (const row of data) {
+        this.$emit(row, {
+          summary: "Historical row in table",
+        });
+      }
     },
   },
   async run(event) {

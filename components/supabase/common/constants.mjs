@@ -36,4 +36,5 @@ const FILTER_OPTIONS = [
 export default {
   FILTER_OPTIONS,
   MAX_OFFSET: 1000,
+  HISTORICAL_EVENT_LIMIT: 25,
 };
