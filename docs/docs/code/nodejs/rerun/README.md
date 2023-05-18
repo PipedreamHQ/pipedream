@@ -112,7 +112,7 @@ export default defineComponent({
       const MAX_RETRIES = 3
       const DELAY = 1000 * 30
 
-      // Retry the request again every 30 seconds, for up to 3 times
+      // Retry the request every 30 seconds, for up to 3 times
       $.flow.rerun(DELAY, null, MAX_RETRIES)
     }
   },
