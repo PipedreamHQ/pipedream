@@ -4,7 +4,7 @@ import { prepareData } from "../../common/utils.mjs";
 export default {
   key: "visualping-update-job",
   name: "Update Job",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Update an existing job. [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs~1%7BjobId%7D/put)",
   type: "action",
   props: {
