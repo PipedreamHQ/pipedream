@@ -21,13 +21,13 @@ export default {
     password: {
       type: "string",
       label: "Password",
-      description: "Password",
+      description: "Password of the account",
       secret: true,
     },
     role: {
       type: "string",
       label: "Role",
-      description: "Role",
+      description: "Role of the user",
       options: [
         {
           label: "User",

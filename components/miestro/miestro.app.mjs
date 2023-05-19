@@ -8,7 +8,7 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "User ID",
+      description: "Related user ID",
       async options({ page }) {
         return utils.asyncPropHandler({
           resourceFn: this.getUsers,
@@ -24,7 +24,7 @@ export default {
     courseId: {
       type: "string",
       label: "Course ID",
-      description: "Course ID",
+      description: "Related course ID",
       async options({ page }) {
         return utils.asyncPropHandler({
           resourceFn: this.getCourses,
