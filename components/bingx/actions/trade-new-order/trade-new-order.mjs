@@ -1,6 +1,7 @@
 import bingx from "../../bingx.app.mjs";
 
 export default {
+  type: "action",
   name: "BingX Trade New Order",
   version: "0.1.2",
   key: "bingx-trade-new-order",
@@ -56,12 +57,21 @@ export default {
       optional: true,
     },
   },
-  type: "action",
+  methods: {
+    // fix for error: "signature not match"
+    cleanObject(o) {
+      for (var k in o || {}) {
+        if (typeof o[k] === "undefined") {
+          delete o[k];
+        }
+      }
+    },
+  },
   async run({ $ }) {
     const API_METHOD = "POST";
     const API_PATH = "/api/v1/user/trade";
 
-    const parameters = {
+    const parameters = this.cleanObject({
       "symbol": this.symbol,
       "side": this.side,
       "entrustPrice": this.bingx.convertToFloat(this.entrustPrice),
@@ -70,7 +80,7 @@ export default {
       "action": this.action,
       "takerProfitPrice": this.bingx.convertToFloat(this.takerProfitPrice?.toString().replace(",", ".")),
       "stopLossPrice": this.bingx.convertToFloat(this.stopLossPrice?.toString().replace(",", ".")),
-    };
+    });
     const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     $.export("$summary", `New Future Order for ${this.symbol}`);
     return returnValue;
