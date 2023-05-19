@@ -62,19 +62,19 @@ export default {
     memo: {
       type: "string",
       label: "Memo",
-      description: "A short description",
+      description: "A short description.",
       optional: true,
     },
     cleared: {
       type: "boolean",
       label: "Cleared",
-      description: "Marking a transaction as cleared means it has posted to your bank account",
+      description: "Mark a transaction as cleared when it has posted to your bank account.",
       optional: true,
     },
     approved: {
       type: "boolean",
       label: "Approved",
-      description: "Approve it directly?",
+      description: "Approve the transaction directly?",
       optional: true,
     },
   },
@@ -92,10 +92,10 @@ export default {
         cleared: this.cleared,
         approved: this.approved,
       });
-      $.export("$summary", `Transaction ${this.transactionId} updated`);
+      $.export("$summary", `Transaction ${this.transactionId} updated.`);
       return response;
     } catch (error) {
-      console.error("Error updating transaction", error);
+      console.error("Error updating the transaction", error);
       if (error.error) {
         this.app.throwFormattedError(error.error);
       }
