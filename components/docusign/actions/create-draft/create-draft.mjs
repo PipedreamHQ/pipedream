@@ -5,7 +5,7 @@ export default {
   key: "docusign-create-draft",
   version: "0.0.1",
   name: "Create Draft",
-  description: "Create and send an envelope or create a draft envelope. [See the documentation here](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/)"
+  description: "Create and send an envelope or create a draft envelope. [See the documentation here](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/)",
   type: "action",
   methods: {
     ...createSignatureRequest.methods,
