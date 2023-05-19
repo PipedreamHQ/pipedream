@@ -212,6 +212,30 @@ export default {
       );
       return response.data;
     },
+    async updateTransaction({
+      budgetId, transactionId, accountId, categoryId, payee, cleared, amount, ...data
+    }) {
+      const transaction = {
+        account_id: accountId,
+        category_id: categoryId,
+        amount: this._convertToMilliunit(amount),
+        ...data,
+      };
+      if (cleared) transaction.cleared = "cleared";
+      if (this._isUUID(payee)) {
+        transaction.payee_id = payee;
+      } else {
+        transaction.payee_name = payee;
+      }
+      const response = await this._client().transactions.updateTransaction(
+        budgetId,
+        transactionId,
+        {
+          transaction,
+        },
+      );
+      return response.data;
+    },
     async updateCategoryBudget({
       budgetId, categoryId, month, budget,
     }) {
