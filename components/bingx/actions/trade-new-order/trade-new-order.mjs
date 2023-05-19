@@ -1,11 +1,11 @@
 import bingx from "../../bingx.app.mjs";
 
 export default {
-  type: "action",
   name: "BingX Trade New Order",
-  version: "0.1.2",
   key: "bingx-trade-new-order",
-  description: "Place a New Order [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_1-place-a-new-order).",
+  description: "Place a New Order. [See the documentation](https://bingx-api.github.io/docs/swap/trade-api.html#_1-place-a-new-order)",
+  version: "0.1.3",
+  type: "action",
   props: {
     bingx,
     symbol: {
