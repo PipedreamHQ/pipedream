@@ -71,7 +71,7 @@ export default {
     const API_METHOD = "POST";
     const API_PATH = "/api/v1/user/trade";
 
-    const parameters = this.cleanObject({
+    const parameters = {
       "symbol": this.symbol,
       "side": this.side,
       "entrustPrice": this.bingx.convertToFloat(this.entrustPrice),
@@ -80,7 +80,8 @@ export default {
       "action": this.action,
       "takerProfitPrice": this.bingx.convertToFloat(this.takerProfitPrice?.toString().replace(",", ".")),
       "stopLossPrice": this.bingx.convertToFloat(this.stopLossPrice?.toString().replace(",", ".")),
-    });
+    };
+    this.cleanObject(parameters);
     const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     $.export("$summary", `New Future Order for ${this.symbol}`);
     return returnValue;
