@@ -29,7 +29,7 @@ export default {
       },
     });
     const { nextPageToken } = resp;
-    const items = resourceKey.split(".").reduce((acc, curr) => acc?.[curr], resp);
+    const items = resourceKey.split(".").reduce((acc, curr) => acc?.[curr], resp) || [];
     const label = labelVal?.label ?? "name";
     const value = labelVal?.value ?? "id";
     const options = items.map((item) => ({
