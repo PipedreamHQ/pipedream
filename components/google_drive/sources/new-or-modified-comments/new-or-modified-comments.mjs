@@ -17,7 +17,8 @@ export default {
   name: "New or Modified Comments",
   description:
     "Emits a new event any time a file comment is added, modified, or deleted in your linked Google Drive",
-  version: "0.1.1",
+  // version: "0.1.1",
+  version: "0.1.3",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -28,14 +29,15 @@ export default {
       daysAgo.setDate(daysAgo.getDate() - 30);
       const timeString = daysAgo.toISOString();
 
-      const { data } = await this.googleDrive.drive().files.list({
+      const args = this.getFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files",
       });
 
+      const { data } = await this.googleDrive.drive().files.list(args);
+
       await this.processChanges(data.files);
     },
-    ...common.hooks,
     async activate() {
       await common.hooks.activate.bind(this)();
       this._setInitTime(Date.now());

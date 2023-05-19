@@ -40,19 +40,7 @@ export default {
       default: [],
       options({ prevContext }) {
         const { nextPageToken } = prevContext;
-        const baseOpts = {
-          q: "mimeType != 'application/vnd.google-apps.folder' and trashed = false",
-        };
-        const opts = this.isMyDrive()
-          ? baseOpts
-          : {
-            ...baseOpts,
-            corpora: "drive",
-            driveId: this.getDriveId(),
-            includeItemsFromAllDrives: true,
-            supportsAllDrives: true,
-          };
-        return this.googleDrive.listFilesOptions(nextPageToken, opts);
+        return this.googleDrive.listFilesOptions(nextPageToken, this.getFilesOpts());
       },
     },
   },
@@ -62,12 +50,14 @@ export default {
       daysAgo.setDate(daysAgo.getDate() - 30);
       const timeString = daysAgo.toISOString();
 
-      const { data } = await this.googleDrive.drive().files.list({
+      const args = this.getFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files",
       });
 
-      await this.processChanges(data.files);
+      const { data } = await this.googleDrive.drive().files.list(args);
+
+      this.processChanges(data.files);
     },
     ...common.hooks,
   },
@@ -115,7 +105,7 @@ export default {
         },
       };
     },
-    async processChange(file, headers) {
+    processChange(file, headers) {
       const changes = this.getChanges(headers);
       const eventToEmit = {
         file,
@@ -124,7 +114,10 @@ export default {
       const meta = this.generateMeta(file, headers);
       this.$emit(eventToEmit, meta);
     },
-    async processChanges(changedFiles, headers) {
+    processChanges(changedFiles, headers) {
+      console.log(`Processing ${changedFiles.length} changed files`);
+      console.log(`Changed files: ${JSON.stringify(changedFiles, null, 2)}!!!`);
+      console.log(`Files: ${this.files}!!!`);
       for (const file of changedFiles) {
         if (!this.isFileRelevant(file)) {
           console.log(`Skipping event for irrelevant file ${file.id}`);
