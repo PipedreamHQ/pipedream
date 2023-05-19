@@ -51,7 +51,6 @@ export default {
         wealthbox,
         "opportunityStage",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
