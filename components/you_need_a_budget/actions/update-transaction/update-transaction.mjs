@@ -49,9 +49,9 @@ export default {
         "categoryId",
         (c) => ({
           budgetId: c.budgetId,
-          optional: true,
         }),
       ],
+      optional: true,
     },
     amount: {
       propDefinition: [
