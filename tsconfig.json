@@ -1988,6 +1988,9 @@
     },
     {
       "path": "components/sellercloud"
+    },
+    {
+      "path": "components/constant_contact"
     }
   ]
 }
