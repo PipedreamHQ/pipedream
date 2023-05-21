@@ -46,38 +46,41 @@ export default {
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
-  },
-  async run() {
-    const lastCreated = this._getLastCreated() || 0;
-    let maxLastCreated = lastCreated;
-    let total;
-    const params = {
-      per_page: 25,
-      page: 1,
-    };
+    async processEvent(sorted = true) {
+      const lastCreated = this._getLastCreated() || 0;
+      let maxLastCreated = lastCreated;
+      let total;
+      const params = {
+        per_page: 25,
+        page: 1,
+      };
 
-    do {
-      const events = await this.getEvents({
-        params,
-      });
-      if (!(events?.length > 0)) {
-        break;
-      }
-      total = events.length;
-      for (const event of events) {
-        const ts = this.getCreatedAtTs(event);
-        if (ts > lastCreated) {
-          this.emitEvent(event);
-          if (ts > maxLastCreated) {
-            maxLastCreated = ts;
-          }
-        } else {
+      do {
+        const events = await this.getEvents({
+          params,
+        });
+        if (!(events?.length > 0)) {
           break;
         }
-      }
-      params.page += 1;
-    } while (total === params.per_page);
+        total = events.length;
+        for (const event of events) {
+          const ts = this.getCreatedAtTs(event);
+          if (ts > lastCreated) {
+            this.emitEvent(event);
+            if (ts > maxLastCreated) {
+              maxLastCreated = ts;
+            }
+          } else if (sorted === true) {
+            break;
+          }
+        }
+        params.page += 1;
+      } while (total === params.per_page);
 
-    this._setLastCreated(maxLastCreated);
+      this._setLastCreated(maxLastCreated);
+    },
+  },
+  async run() {
+    await this.processEvent();
   },
 };

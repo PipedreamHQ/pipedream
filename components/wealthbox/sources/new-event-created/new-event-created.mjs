@@ -13,7 +13,7 @@ export default {
     async getEvents({ params }) {
       params = {
         ...params,
-        order: "desc",
+        order: "created",
       };
       const { events } = await this.wealthbox.listEvents({
         params,

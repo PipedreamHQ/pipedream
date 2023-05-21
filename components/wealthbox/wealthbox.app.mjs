@@ -30,12 +30,7 @@ export default {
         const { contact_types: types } = await this.listCustomizableCategory({
           type: "contact_types",
         });
-        return types.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
+        return types.map(({ name }) =>  name );
       },
     },
     opportunityStage: {

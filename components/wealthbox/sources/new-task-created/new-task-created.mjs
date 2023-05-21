@@ -11,10 +11,6 @@ export default {
   methods: {
     ...common.methods,
     async getEvents({ params }) {
-      params = {
-        ...params,
-        order: "desc",
-      };
       const { tasks } = await this.wealthbox.listTasks({
         params,
       });
@@ -27,5 +23,8 @@ export default {
         ts: this.getCreatedAtTs(task),
       };
     },
+  },
+  async run() {
+    await this.processEvent(false);
   },
 };

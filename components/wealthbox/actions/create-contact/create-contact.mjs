@@ -61,7 +61,7 @@ export default {
           },
         ],
         company: this.company,
-        type: this.type,
+        contact_type: this.type,
       },
       $,
     });

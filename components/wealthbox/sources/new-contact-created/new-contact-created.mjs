@@ -13,7 +13,7 @@ export default {
     async getEvents({ params }) {
       params = {
         ...params,
-        order: "desc",
+        order: "created",
       };
       const { contacts } = await this.wealthbox.listContacts({
         params,
@@ -23,7 +23,7 @@ export default {
     generateMeta(contact) {
       return {
         id: contact.id,
-        summary: `New Contact - ${contact.first_name} ${contact.last_name}`,
+        summary: `New Contact - ${contact.name}`,
         ts: this.getCreatedAtTs(contact),
       };
     },
