@@ -6,7 +6,7 @@ export default {
   key: "drata-create-control",
   name: "Create Control",
   description: `Create a new Control. [See the documentation](${docsLink}).`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     drata,

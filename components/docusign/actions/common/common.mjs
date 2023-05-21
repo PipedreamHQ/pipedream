@@ -7,6 +7,9 @@ export default {
     return this._buildTemplateTabsProps(tabs);
   },
   methods: {
+    _getStatusType() {
+      throw new Error("_getStatusType is not defined");
+    },
     // iterates through template tabs
     _buildTemplateTabsProps(originalTabs, props = {}) {
       for (const documentTabs of originalTabs) {
@@ -147,7 +150,7 @@ export default {
     const tabs = this._setTemplateTabs(originalTabs, this);
 
     const data = {
-      status: "sent",
+      status: this._getStatusType(),
       templateId: this.template,
       templateRoles: [
         {

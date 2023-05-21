@@ -1759,6 +1759,14 @@ importers:
   components/google_maps_platform:
     specifiers: {}
 
+  components/google_photos:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      mime: ^3.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      mime: 3.0.0
+
   components/google_recaptcha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2594,6 +2602,12 @@ importers:
       '@microsoft/microsoft-graph-client': 3.0.5
       '@pipedream/platform': 1.5.1
       isomorphic-fetch: 3.0.0
+
+  components/miestro:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mindmeister:
     specifiers: {}
@@ -4846,7 +4860,10 @@ importers:
     specifiers: {}
 
   components/vestaboard:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/virustotal:
     specifiers: {}

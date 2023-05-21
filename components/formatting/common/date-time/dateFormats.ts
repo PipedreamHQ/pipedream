@@ -10,7 +10,7 @@ export const DEFAULT_FORMAT_VALUE = "YYYY-MM-DDTHH:mm:ssZ";
 export const DEFAULT_INPUT_FUNCTION: DateFormat["inputFn"] = (str) => {
   const num = Number(str);
   return new Date(num * 1000 || str);
-}
+};
 
 // https://tc39.es/ecma402/#table-datetimeformat-components
 
@@ -93,6 +93,16 @@ const DATE_FORMATS: DateFormat[] = [
         .toISOString()
         .replace(/T|(\.[0-9]{3})/g, " ")
         .replace(/Z/, "-0000");
+    },
+  },
+  {
+    label: "2006-01-22 23:04",
+    value: "YYYY-MM-DD HH:mm",
+    outputFn(dateObj) {
+      return dateObj
+        .toISOString()
+        .replace(/T/g, " ")
+        .replace(/:[0-9]{2}\.[0-9]{3}Z/, "");
     },
   },
   {
