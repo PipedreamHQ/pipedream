@@ -1,4 +1,5 @@
 import app from "../../baselinker.app.mjs";
+import method from "../../common/method.mjs";
 
 export default {
   key: "baselinker-delete-inventory-product",
@@ -8,6 +9,50 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    inventoryId: {
+      propDefinition: [
+        app,
+        "inventoryId",
+      ],
+    },
+    productId: {
+      propDefinition: [
+        app,
+        "productId",
+        ({ inventoryId }) => ({
+          inventoryId,
+        }),
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    deleteInventoryProduct(args = {}) {
+      return this.app.connector({
+        ...args,
+        data: {
+          method: method.DELETE_INVENTORY_PRODUCT,
+          ...args.data,
+        },
+      });
+    },
+  },
+  async run({ $: step }) {
+    const {
+      inventoryId,
+      productId,
+    } = this;
+
+    const response = await this.deleteInventoryProduct({
+      data: {
+        parameters: {
+          inventory_id: inventoryId,
+          product_id: productId,
+        },
+      },
+    });
+
+    step.export("$summary", `Successfully deleted product ${productId} from inventory ${inventoryId}.`);
+
+    return response;
+  },
 };

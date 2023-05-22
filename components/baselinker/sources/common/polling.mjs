@@ -19,18 +19,13 @@ export default {
       },
     },
   },
-  hooks: {
-    async deploy() {},
-    async activate() {},
-    async deactivate() {},
-  },
   methods: {
     ...common.methods,
-    setLastCreatedAt(value) {
-      this.db.set(constants.LAST_CREATED_AT, value);
+    setLastLogId(value) {
+      this.db.set(constants.LAST_LOG_ID, value);
     },
-    getLastCreatedAt() {
-      return this.db.get(constants.LAST_CREATED_AT);
+    getLastLogId() {
+      return this.db.get(constants.LAST_LOG_ID);
     },
     getResourceName() {
       throw new ConfigurationError("getResourceName is not implemented");
@@ -41,22 +36,30 @@ export default {
     getResourceFnArgs() {
       throw new ConfigurationError("getResourceFnArgs is not implemented");
     },
-    processEvent(resource) {
+    async getResourceByEvent() {
+      throw new ConfigurationError("getResourceByEvent is not implemented");
+    },
+    processResource(resource) {
+      if (!resource) {
+        return;
+      }
       const meta = this.generateMeta(resource);
       this.$emit(resource, meta);
     },
     async processStreamEvents(resourcesStream) {
-      const resources = await utils.streamIterator(resourcesStream);
+      const events = await utils.streamIterator(resourcesStream);
+
+      const resources = await Promise.all(events.map(this.getResourceByEvent));
 
       const [
-        lastResource,
-      ] = resources;
+        lastEvent,
+      ] = Array.from(events).reverse();
 
-      if (lastResource?.created_at) {
-        this.setLastCreatedAt(lastResource.created_at);
+      if (lastEvent?.log_id) {
+        this.setLastLogId(lastEvent.log_id);
       }
 
-      resources.reverse().forEach(this.processEvent);
+      resources.forEach(this.processResource);
     },
   },
   async run() {

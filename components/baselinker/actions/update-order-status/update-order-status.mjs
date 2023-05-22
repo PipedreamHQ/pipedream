@@ -1,4 +1,5 @@
 import app from "../../baselinker.app.mjs";
+import method from "../../common/method.mjs";
 
 export default {
   key: "baselinker-update-order-status",
@@ -8,6 +9,48 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    orderId: {
+      propDefinition: [
+        app,
+        "orderId",
+      ],
+    },
+    statusId: {
+      propDefinition: [
+        app,
+        "orderStatusId",
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    updateOrderStatus(args = {}) {
+      return this.app.connector({
+        ...args,
+        data: {
+          method: method.SET_ORDER_STATUS,
+          ...args.data,
+        },
+      });
+    },
+  },
+  async run({ $: step }) {
+    const {
+      orderId,
+      statusId,
+    } = this;
+
+    const response = await this.updateOrderStatus({
+      step,
+      data: {
+        parameters: {
+          order_id: orderId,
+          status_id: statusId,
+        },
+      },
+    });
+
+    step.export("$summary", `Successfully updated order ${orderId} status to ${statusId}.`);
+
+    return response;
+  },
 };

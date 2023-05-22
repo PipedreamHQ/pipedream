@@ -12,7 +12,6 @@ export default {
       description: "The ID of the inventory.",
       async options() {
         const response = await this.listInventories();
-        console.log("response!!!", JSON.stringify(response, null, 2));
         return response?.inventories?.map(({
           inventory_id: value, name: label,
         }) => ({
@@ -20,6 +19,60 @@ export default {
           value,
         }));
       },
+    },
+    productId: {
+      type: "string",
+      label: "Product ID",
+      description: "The ID of the product.",
+      async options({
+        inventoryId, page,
+      }) {
+        const response = await this.listInventoryProducts({
+          data: {
+            parameters: {
+              page,
+              inventory_id: inventoryId,
+            },
+          },
+        });
+        return Object.entries(response.products)
+          .map(([
+            , {
+              id: value, name: label,
+            },
+          ]) => ({
+            label,
+            value,
+          }));
+      },
+    },
+    orderStatusId: {
+      type: "string",
+      label: "Order Status ID",
+      description: "The ID of the order status.",
+      async options() {
+        const response = await this.listOrderStatuses();
+        return response?.statuses?.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    orderId: {
+      type: "string",
+      label: "Order ID",
+      description: "The ID of the order.",
+      async options() {
+        const response = await this.listOrders();
+        return response?.orders?.map(({ order_id: value }) => String(value));
+      },
+    },
+    currency: {
+      type: "string",
+      label: "Currency",
+      description: "3-letter currency symbol (e.g. `EUR`, `PLN`)",
     },
   },
   methods: {
@@ -50,7 +103,7 @@ export default {
       const params = new URLSearchParams(init);
       return params.toString();
     },
-    makeRequest({
+    async makeRequest({
       step = this, path, headers, url, data, ...args
     } = {}) {
 
@@ -61,8 +114,13 @@ export default {
         ...args,
       };
 
-      console.log("config!!!", JSON.stringify(config, null, 2));
-      return axios(step, config);
+      const response = await axios(step, config);
+
+      if (response.status !== "SUCCESS") {
+        throw new Error(JSON.stringify(response, null, 2));
+      }
+
+      return response;
     },
     post(args = {}) {
       return this.makeRequest({
@@ -85,49 +143,58 @@ export default {
         },
       });
     },
+    listInventoryProducts(args = {}) {
+      return this.connector({
+        ...args,
+        data: {
+          method: method.GET_INVENTORY_PRODUCTS_LIST,
+          ...args.data,
+        },
+      });
+    },
+    listOrderStatuses(args = {}) {
+      return this.connector({
+        ...args,
+        data: {
+          method: method.GET_ORDER_STATUS_LIST,
+          ...args.data,
+        },
+      });
+    },
+    listOrders(args = {}) {
+      return this.connector({
+        ...args,
+        data: {
+          method: method.GET_ORDERS,
+          ...args.data,
+        },
+      });
+    },
+    listJournal(args = {}) {
+      return this.connector({
+        ...args,
+        data: {
+          method: method.GET_JOURNAL_LIST,
+          ...args.data,
+        },
+      });
+    },
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,
       resourceName,
-      lastCreatedAt,
-      max = constants.DEFAULT_MAX,
     }) {
-      let page = 1;
-      let resourcesCount = 0;
+      const response = await resourceFn(resourceFnArgs);
 
-      while (true) {
-        const response =
-          await resourceFn({
-            ...resourceFnArgs,
-            params: {
-              ...resourceFnArgs.params,
-              page,
-            },
-          });
+      const nextResources = resourceName && response[resourceName] || response;
 
-        const nextResources = resourceName && response[resourceName] || response;
+      if (!nextResources?.length) {
+        console.log("No more resources found");
+        return;
+      }
 
-        if (!nextResources?.length) {
-          console.log("No more resources found");
-          return;
-        }
-
-        for (const resource of nextResources) {
-          const dateFilter =
-            lastCreatedAt
-            && Date.parse(resource.created_at) > Date.parse(lastCreatedAt);
-
-          if (!lastCreatedAt || dateFilter) {
-            yield resource;
-            resourcesCount += 1;
-          }
-
-          if (resourcesCount >= max) {
-            return;
-          }
-        }
-
-        page += 1;
+      for (const resource of nextResources) {
+        yield resource;
       }
     },
   },

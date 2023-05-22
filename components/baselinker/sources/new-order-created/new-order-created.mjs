@@ -1,4 +1,5 @@
 import common from "../common/polling.mjs";
+import events from "../common/events.mjs";
 
 export default {
   ...common,
@@ -11,20 +12,40 @@ export default {
   methods: {
     ...common.methods,
     getResourceName() {
-      return "resource";
+      return "logs";
     },
     getResourceFn() {
-      return this.app.listResources;
+      return this.app.listJournal;
     },
     getResourceFnArgs() {
-      return {};
+      return {
+        data: {
+          parameters: {
+            last_log_id: this.getLastLogId(),
+            logs_types: [
+              events.ORDER_CREATION,
+            ],
+          },
+        },
+      };
     },
     generateMeta(resource) {
       return {
-        id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        id: resource.order_id,
+        summary: `New Order: ${resource.order_id}`,
+        ts: Date.now(),
       };
+    },
+    async getResourceByEvent(event) {
+      const { orders } = await this.app.listOrders({
+        data: {
+          parameters: {
+            order_id: event.order_id,
+            get_unconfirmed_orders: true,
+          },
+        },
+      });
+      return orders[0];
     },
   },
 };
