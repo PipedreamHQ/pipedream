@@ -4959,7 +4959,10 @@ importers:
     specifiers: {}
 
   components/wealthbox:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/weatherbit_io:
     specifiers:
