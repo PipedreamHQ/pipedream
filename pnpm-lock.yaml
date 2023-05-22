@@ -866,6 +866,9 @@ importers:
   components/congress_gov:
     specifiers: {}
 
+  components/constant_contact:
+    specifiers: {}
+
   components/convertapi:
     specifiers: {}
 
@@ -1762,6 +1765,17 @@ importers:
   components/google_maps_platform:
     specifiers: {}
 
+  components/google_palm_api:
+    specifiers: {}
+
+  components/google_photos:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      mime: ^3.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      mime: 3.0.0
+
   components/google_recaptcha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2598,6 +2612,12 @@ importers:
       '@pipedream/platform': 1.5.1
       isomorphic-fetch: 3.0.0
 
+  components/miestro:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/mindmeister:
     specifiers: {}
 
@@ -3394,7 +3414,10 @@ importers:
     specifiers: {}
 
   components/quaderno:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/qualaroo:
     specifiers:
@@ -3560,6 +3583,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/replicate:
+    specifiers: {}
 
   components/reply_io:
     specifiers:
@@ -3794,6 +3820,9 @@ importers:
     specifiers: {}
 
   components/selectpdf:
+    specifiers: {}
+
+  components/sellercloud:
     specifiers: {}
 
   components/sellix:
@@ -4936,7 +4965,10 @@ importers:
     specifiers: {}
 
   components/wealthbox:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/weatherbit_io:
     specifiers:
