@@ -21,6 +21,7 @@ export default {
         common.props.app,
         "howManyItems",
       ],
+      description: "The items here will be ADDED to the existing invoice items",
     },
   },
   methods: {
