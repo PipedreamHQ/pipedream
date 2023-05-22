@@ -1762,6 +1762,9 @@ importers:
   components/google_maps_platform:
     specifiers: {}
 
+  components/google_palm_api:
+    specifiers: {}
+
   components/google_photos:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3408,7 +3411,10 @@ importers:
     specifiers: {}
 
   components/quaderno:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/qualaroo:
     specifiers:
@@ -4961,7 +4967,10 @@ importers:
     specifiers: {}
 
   components/wealthbox:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/weatherbit_io:
     specifiers:

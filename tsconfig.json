@@ -1991,6 +1991,12 @@
     },
     {
       "path": "components/constant_contact"
+    },
+    {
+      "path": "components/google_palm_api"
+    },
+    {
+      "path": "components/imagga"
     }
   ]
 }
