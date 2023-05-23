@@ -1,9 +1,7 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../../app/twitter.app";
 import { TwitterEntity } from "../../common/types/responseSchemas";
-
-export const ERROR_MESSAGE =
-  "Check if your app is properly configured on the Twitter Developer Portal, and if your plan has access to the endpoint used by this component.";
+import { ERROR_MESSAGE } from "../../common/errorMessage";
 
 export default {
   props: {

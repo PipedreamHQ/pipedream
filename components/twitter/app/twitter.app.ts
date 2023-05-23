@@ -36,10 +36,6 @@ import {
   TwitterEntity,
   User,
 } from "../common/types/responseSchemas";
-import { ERROR_MESSAGE } from "../sources/common/base";
-
-export const ACTION_ERROR_MESSAGE =
-  `${ERROR_MESSAGE} Additional debugging information has been exported from the step.`;
 
 export default defineApp({
   type: "app",

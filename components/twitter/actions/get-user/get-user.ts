@@ -1,4 +1,5 @@
-import app, { ACTION_ERROR_MESSAGE } from "../../app/twitter.app";
+import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
   getUserId, getUserFields,
