@@ -67,7 +67,7 @@ export default {
     try {
       await this.getAndProcessData(50);
     } catch (err) {
-      throw new Error(`${ERROR_MESSAGE} Error response: ${err}`);
+      throw new Error(`${ERROR_MESSAGE} Error response: ${JSON.stringify(err)}`);
     }
   },
 };
