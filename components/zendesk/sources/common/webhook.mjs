@@ -197,6 +197,9 @@ export default {
         ) === 0
       );
     },
+    isRelevant() {
+      return true;
+    },
   },
   async run(event) {
     const {
@@ -218,6 +221,11 @@ export default {
 
     if (!isValid) {
       console.log("Skipping event due to invalid signature");
+      return;
+    }
+
+    const isRelevant = await this.isRelevant(payload);
+    if (!isRelevant) {
       return;
     }
 

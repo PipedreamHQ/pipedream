@@ -9,7 +9,7 @@ export default {
   name: "New Asset Added",
   description: `Emit a new event for every new asset. [See the documentation](${docsLink}).`,
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     drata,

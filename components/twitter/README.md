@@ -17,6 +17,8 @@ In order to connect your Twitter account to Pipedream, you'll need to create a d
 6. Click "Done" (the Client ID and Client Secret that are shown on the next page are not required for this setup)
 7. Enter the API Key and API Key Secret when prompted in Pipedream (if you lose them and need to regenerate new keys, you can do so from the "Keys and tokens" tab in your app's settings in Twitter's developer dashboard, in the "Consumer Keys" section)
 
+![Consumer API key](https://res.cloudinary.com/dpenc2lit/image/upload/v1684365722/Screenshot_2023-05-17_at_4.19.52_PM_jlvbvw.png)
+
 # Troubleshooting
 Below are some of the most common issues we see.
 

@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/constant_contact",
+  "version": "0.0.1",
+  "description": "Pipedream Constant Contact Components",
+  "main": "dist/app/constant_contact.app.mjs",
+  "keywords": [
+    "pipedream",
+    "constant_contact"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/constant_contact",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

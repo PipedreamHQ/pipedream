@@ -7,6 +7,8 @@ module.exports = {
   MEMORY_ABSOLUTE_LIMIT: "10GB",
   EMAIL_PAYLOAD_SIZE_LIMIT: "30MB",
 
+  MAX_WORKFLOW_EXECUTION_LIMIT: "750",
+
   base_credits_price: {
     memory: 256,
     seconds: 30,

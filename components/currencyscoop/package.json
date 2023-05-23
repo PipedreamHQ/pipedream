@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/currencyscoop",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Pipedream CurrencyScoop Components",
   "main": "dist/app/currencyscoop.app.mjs",
   "keywords": [
@@ -10,8 +10,11 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/currencyscoop",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "@pipedream/types": "^0.1.6"
   }
 }

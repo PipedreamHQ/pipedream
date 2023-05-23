@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/budgets_ai",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Budgets.ai Components",
   "main": "dist/app/budgets_ai.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/budgets_ai",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

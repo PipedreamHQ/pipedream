@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/reviews_io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Reviews.io Components",
   "main": "dist/app/reviews_io.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/reviews_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }
