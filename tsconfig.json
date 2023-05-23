@@ -1997,6 +1997,9 @@
     },
     {
       "path": "components/imagga"
+    },
+    {
+      "path": "components/unbounce"
     }
   ]
 }
