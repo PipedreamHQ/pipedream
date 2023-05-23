@@ -9,7 +9,7 @@ export default {
   version: "0.0.1",
   methods: {
     ...common.methods,
-    lookUpKey() {
+    getLookUpKey() {
       return "name";
     },
     getSqlText() {

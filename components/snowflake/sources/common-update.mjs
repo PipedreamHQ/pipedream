@@ -31,14 +31,14 @@ export default {
       const db = await this.getDbValues();
       const rows = await this.fetchData();
       for await (const item of rows) {
-        const key = item[this.lookUpKey()];
+        const key = item[this.getLookUpKey()];
         db[key] = item;
       }
       await this.setDbValues(db);
     },
     async checkForDifferentData(db, rows) {
       for await (const item of rows) {
-        const currentLookUpKey = item[this.lookUpKey()];
+        const currentLookUpKey = item[this.getLookUpKey()];
         const isNewItem = !db[currentLookUpKey];
         if (isNewItem) {
           this.emitNewEvent(item);
@@ -77,7 +77,7 @@ export default {
         ? "created"
         : "updated";
       this.$emit(event, {
-        summary: `${newData[this.lookUpKey()]} was ${createOrUpdatedString}`,
+        summary: `${newData[this.getLookUpKey()]} was ${createOrUpdatedString}`,
         id: uuid(),
         ts: Date.now(),
       });
@@ -88,8 +88,8 @@ export default {
     emitUpdatedEvent(newData, oldData, changedKeys) {
       this.emit(false, newData, oldData, changedKeys);
     },
-    lookUpKey() {
-      throw new Error("lookUpKey must be implemented");
+    getLookUpKey() {
+      throw new Error("getLookUpKey must be implemented");
     },
     getSqlText() {
       throw new Error("getSqlText must be implemented");
