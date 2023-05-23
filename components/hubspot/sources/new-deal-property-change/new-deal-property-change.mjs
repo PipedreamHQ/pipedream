@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-deal-property-change",
   name: "New Deal Property Change",
   description: "Emit new event when a specified property is provided or updated on a deal. [See the docs here](https://developers.hubspot.com/docs/api/crm/deals)",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {
@@ -58,18 +58,28 @@ export default {
       };
     },
     async processResults(after, params) {
-      const { results } = await this.hubspot.listObjectsInPage("deals", null, params);
-
       let maxTs = after;
-      for (const result of results) {
-        if (this.isRelevant(result, after)) {
-          this.emitEvent(result);
-          const ts = this.getTs(result);
-          if (ts > maxTs) {
-            maxTs = ts;
+      const limiter = this._limiter();
+
+      do {
+        const {
+          results, paging,
+        } = await limiter.schedule(async () => await this.hubspot.listObjectsInPage("deals", null, params));
+        if (paging) {
+          params.after = paging.next.after;
+        } else {
+          delete params.after;
+        }
+        for (const result of results) {
+          if (this.isRelevant(result, after)) {
+            this.emitEvent(result);
+            const ts = this.getTs(result);
+            if (ts > maxTs) {
+              maxTs = ts;
+            }
           }
         }
-      }
+      } while (params.after);
 
       this._setAfter(maxTs);
     },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lifterlms",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream LifterLMS  Components",
   "main": "dist/app/lifterlms.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/lifterlms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/mercury",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Mercury Components",
-  "main": "mercury.app.js",
+  "main": "mercury.app.mjs",
   "keywords": [
     "pipedream",
     "mercury"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/mercury",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

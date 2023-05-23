@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/google_palm_api",
+  "version": "0.0.1",
+  "description": "Pipedream Google PaLM Components",
+  "main": "dist/app/google_palm_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_palm_api"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/google_palm_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
