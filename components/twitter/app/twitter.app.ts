@@ -36,9 +36,10 @@ import {
   TwitterEntity,
   User,
 } from "../common/types/responseSchemas";
+import { ERROR_MESSAGE } from "../sources/common/base";
 
-export const GLOBAL_ERROR_MESSAGE =
-  "Check if your app is properly configured on the Twitter Developer Portal, and if your plan has access to the endpoint used by this component. Additional debugging information has been exported from the step.";
+export const ACTION_ERROR_MESSAGE =
+  `${ERROR_MESSAGE} Additional debugging information has been exported from the step.`;
 
 export default defineApp({
   type: "app",

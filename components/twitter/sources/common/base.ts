@@ -2,6 +2,9 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../../app/twitter.app";
 import { TwitterEntity } from "../../common/types/responseSchemas";
 
+export const ERROR_MESSAGE =
+  "Check if your app is properly configured on the Twitter Developer Portal, and if your plan has access to the endpoint used by this component.";
+
 export default {
   props: {
     app,
@@ -39,7 +42,9 @@ export default {
       if (data) {
         const savedIds: string[] = this.getSavedIds() ?? [];
 
-        data.filter(({ id }) => !savedIds.includes(id)).reverse()
+        data
+          .filter(({ id }) => !savedIds.includes(id))
+          .reverse()
           .forEach((obj) => {
             this.emitEvent(obj);
             savedIds.push(obj.id);
@@ -59,6 +64,10 @@ export default {
     },
   },
   async run() {
-    await this.getAndProcessData(50);
+    try {
+      await this.getAndProcessData(50);
+    } catch (err) {
+      throw new Error(`${ERROR_MESSAGE} Error response: ${err}`);
+    }
   },
 };

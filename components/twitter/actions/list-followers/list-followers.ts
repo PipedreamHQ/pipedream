@@ -1,4 +1,4 @@
-import app, { GLOBAL_ERROR_MESSAGE } from "../../app/twitter.app";
+import app, { ACTION_ERROR_MESSAGE } from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary,
@@ -68,7 +68,7 @@ export default defineAction({
       return response;
     } catch (err) {
       $.export("error", err);
-      throw new Error(GLOBAL_ERROR_MESSAGE);
+      throw new Error(ACTION_ERROR_MESSAGE);
     }
   },
 });
