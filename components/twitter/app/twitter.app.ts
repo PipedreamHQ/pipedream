@@ -36,6 +36,7 @@ import {
   TwitterEntity,
   User,
 } from "../common/types/responseSchemas";
+import { ERROR_MESSAGE  } from "../common/errorMessage";
 
 export default defineApp({
   type: "app",
@@ -54,19 +55,23 @@ export default defineApp({
       description:
         "Select a **List** owned by the authenticated user, or use a custom *List ID*.",
       async options(): Promise<{ label: string; value: string; }[]> {
-        const userId = await this.getAuthenticatedUserId();
-        const lists = await this.getUserOwnedLists({
-          userId,
-        });
+        try {
+          const userId = await this.getAuthenticatedUserId();
+          const lists = await this.getUserOwnedLists({
+            userId,
+          });
 
-        return (
-          lists.data?.map(({
-            id, name,
-          }: List) => ({
-            label: name,
-            value: id,
-          })) ?? []
-        );
+          return (
+            lists.data?.map(({
+              id, name,
+            }: List) => ({
+              label: name,
+              value: id,
+            })) ?? []
+          );
+        } catch (error) {
+          throw new Error(ERROR_MESSAGE);
+        }
       },
     },
     userNameOrId: {
@@ -217,7 +222,7 @@ export default defineApp({
             ([
               key,
               value]: [string, TwitterEntity[]
-]) => {
+              ]) => {
               if (!totalIncludes[key]) totalIncludes[key] = [];
               totalIncludes[key].push(...value);
             },
