@@ -1,11 +1,12 @@
-import app from "../../app/twitter.app";
+import app, { GLOBAL_ERROR_MESSAGE } from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getTweetFields,
 } from "../../common/methods";
 import { SearchTweetsParams } from "../../common/types/requestParams";
 import {
-  PaginatedResponseObject, Tweet,
+  PaginatedResponseObject,
+  Tweet,
 } from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
@@ -43,20 +44,28 @@ export default defineAction({
     getTweetFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
-    const params: SearchTweetsParams = {
-      $,
-      maxPerPage: MAX_RESULTS_PER_PAGE,
-      maxResults: this.maxResults,
-      params: {
-        query: this.query,
-        ...this.getTweetFields(),
-      },
-    };
+    try {
+      const params: SearchTweetsParams = {
+        $,
+        maxPerPage: MAX_RESULTS_PER_PAGE,
+        maxResults: this.maxResults,
+        params: {
+          query: this.query,
+          ...this.getTweetFields(),
+        },
+      };
 
-    const response = await this.app.searchTweets(params);
+      const response = await this.app.searchTweets(params);
 
-    $.export("$summary", this.getMultiItemSummary("tweet", response.data?.length));
+      $.export(
+        "$summary",
+        this.getMultiItemSummary("tweet", response.data?.length),
+      );
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(GLOBAL_ERROR_MESSAGE);
+    }
   },
 });

@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import app, { GLOBAL_ERROR_MESSAGE } from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { FollowUserParams } from "../../common/types/requestParams";
@@ -25,26 +25,31 @@ export default defineAction({
     getUserId,
   },
   async run({ $ }): Promise<object> {
-    const userId = await this.getUserId();
+    try {
+      const userId = await this.getUserId();
 
-    const params: FollowUserParams = {
-      $,
-      data: {
-        target_user_id: userId,
-      },
-    };
+      const params: FollowUserParams = {
+        $,
+        data: {
+          target_user_id: userId,
+        },
+      };
 
-    const response = await this.app.followUser(params);
+      const response = await this.app.followUser(params);
 
-    $.export(
-      "$summary",
-      `Successfully ${
-        response.data?.following
-          ? "followed"
-          : "requested to follow"
-      } user`,
-    );
+      $.export(
+        "$summary",
+        `Successfully ${
+          response.data?.following
+            ? "followed"
+            : "requested to follow"
+        } user`,
+      );
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(GLOBAL_ERROR_MESSAGE);
+    }
   },
 });

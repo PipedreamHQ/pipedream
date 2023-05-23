@@ -37,6 +37,9 @@ import {
   User,
 } from "../common/types/responseSchemas";
 
+export const GLOBAL_ERROR_MESSAGE =
+  "Check if your app is properly configured on the Twitter Developer Portal, and if your plan has access to the endpoint used by this component. Additional debugging information has been exported from the step.";
+
 export default defineApp({
   type: "app",
   app: "twitter",
@@ -103,9 +106,11 @@ export default defineApp({
   methods: {
     _getAuthHeader(config: HttpRequestParams) {
       const {
-        developer_consumer_key: devKey, developer_consumer_secret: devSecret, oauth_access_token: key, oauth_refresh_token: secret,
-      } =
-        this.$auth;
+        developer_consumer_key: devKey,
+        developer_consumer_secret: devSecret,
+        oauth_access_token: key,
+        oauth_refresh_token: secret,
+      } = this.$auth;
 
       const consumer = {
         key: devKey,
@@ -145,10 +150,11 @@ export default defineApp({
       };
       const headers = this._getAuthHeader(config);
 
-      const request = () => axios($, {
-        ...config,
-        headers,
-      });
+      const request = () =>
+        axios($, {
+          ...config,
+          headers,
+        });
 
       let response: ResponseObject<TwitterEntity>,
         counter = 1;
@@ -284,7 +290,9 @@ export default defineApp({
         ...args,
       });
     },
-    async getAuthenticatedUser(args: GetAuthenticatedUserParams): Promise<ResponseObject<User>> {
+    async getAuthenticatedUser(
+      args: GetAuthenticatedUserParams,
+    ): Promise<ResponseObject<User>> {
       return this._httpRequest({
         url: "/users/me",
         ...args,

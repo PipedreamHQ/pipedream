@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import app, { GLOBAL_ERROR_MESSAGE } from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 import { RetweetParams } from "../../common/types/requestParams";
 
@@ -22,20 +22,28 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const { tweetId } = this;
-    const params: RetweetParams = {
-      $,
-      data: {
-        tweet_id: tweetId,
-      },
-    };
+    try {
+      const { tweetId } = this;
+      const params: RetweetParams = {
+        $,
+        data: {
+          tweet_id: tweetId,
+        },
+      };
 
-    const response = await this.app.retweet(params);
+      const response = await this.app.retweet(params);
 
-    $.export("$summary", response.data?.retweeted !== true
-      ? "Retweet failed"
-      : "Tweet successfully retweeted");
+      $.export(
+        "$summary",
+        response.data?.retweeted !== true
+          ? "Retweet failed"
+          : "Tweet successfully retweeted",
+      );
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(GLOBAL_ERROR_MESSAGE);
+    }
   },
 });

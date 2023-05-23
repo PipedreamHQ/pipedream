@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import app, { GLOBAL_ERROR_MESSAGE } from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 import { GetTweetParams } from "../../common/types/requestParams";
 import { getTweetFields } from "../../common/methods";
@@ -28,17 +28,22 @@ export default defineAction({
     getTweetFields,
   },
   async run({ $ }): Promise<ResponseObject<Tweet>> {
-    const { tweetId } = this;
-    const params: GetTweetParams = {
-      $,
-      params: this.getTweetFields(),
-      tweetId,
-    };
+    try {
+      const { tweetId } = this;
+      const params: GetTweetParams = {
+        $,
+        params: this.getTweetFields(),
+        tweetId,
+      };
 
-    const response = await this.app.getTweet(params);
+      const response = await this.app.getTweet(params);
 
-    $.export("$summary", `Successfully retrieved tweet (ID ${tweetId})`);
+      $.export("$summary", `Successfully retrieved tweet (ID ${tweetId})`);
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(GLOBAL_ERROR_MESSAGE);
+    }
   },
 });

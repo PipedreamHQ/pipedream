@@ -1,11 +1,14 @@
-import app from "../../app/twitter.app";
+import app, { GLOBAL_ERROR_MESSAGE } from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 import {
-  getMultiItemSummary, getUserId, getTweetFields,
+  getMultiItemSummary,
+  getUserId,
+  getTweetFields,
 } from "../../common/methods";
 import { GetUserLikedTweetParams } from "../../common/types/requestParams";
 import {
-  PaginatedResponseObject, Tweet,
+  PaginatedResponseObject,
+  Tweet,
 } from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
@@ -44,20 +47,28 @@ export default defineAction({
     getTweetFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
-    const userId = await this.getUserId();
+    try {
+      const userId = await this.getUserId();
 
-    const params: GetUserLikedTweetParams = {
-      $,
-      maxPerPage: MAX_RESULTS_PER_PAGE,
-      maxResults: this.maxResults,
-      params: this.getTweetFields(),
-      userId,
-    };
+      const params: GetUserLikedTweetParams = {
+        $,
+        maxPerPage: MAX_RESULTS_PER_PAGE,
+        maxResults: this.maxResults,
+        params: this.getTweetFields(),
+        userId,
+      };
 
-    const response = await this.app.getUserLikedTweets(params);
+      const response = await this.app.getUserLikedTweets(params);
 
-    $.export("$summary", this.getMultiItemSummary("liked tweet", response.data?.length));
+      $.export(
+        "$summary",
+        this.getMultiItemSummary("liked tweet", response.data?.length),
+      );
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(GLOBAL_ERROR_MESSAGE);
+    }
   },
 });

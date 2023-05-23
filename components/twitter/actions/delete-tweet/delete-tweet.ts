@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import app, { GLOBAL_ERROR_MESSAGE } from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 import { DeleteTweetParams } from "../../common/types/requestParams";
 
@@ -21,16 +21,21 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const { tweetId } = this;
-    const params: DeleteTweetParams = {
-      $,
-      tweetId,
-    };
+    try {
+      const { tweetId } = this;
+      const params: DeleteTweetParams = {
+        $,
+        tweetId,
+      };
 
-    const response = await this.app.deleteTweet(params);
+      const response = await this.app.deleteTweet(params);
 
-    $.export("$summary", `Successfully deleted tweet (ID ${tweetId})`);
+      $.export("$summary", `Successfully deleted tweet (ID ${tweetId})`);
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(GLOBAL_ERROR_MESSAGE);
+    }
   },
 });

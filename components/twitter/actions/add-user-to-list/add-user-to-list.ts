@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import app, { GLOBAL_ERROR_MESSAGE } from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { AddUserToListParams } from "../../common/types/requestParams";
@@ -31,22 +31,30 @@ export default defineAction({
     getUserId,
   },
   async run({ $ }): Promise<object> {
-    const userId = await this.getUserId();
+    try {
+      const userId = await this.getUserId();
 
-    const params: AddUserToListParams = {
-      $,
-      data: {
-        user_id: userId,
-      },
-      listId: this.listId,
-    };
+      const params: AddUserToListParams = {
+        $,
+        data: {
+          user_id: userId,
+        },
+        listId: this.listId,
+      };
 
-    const response = await this.app.addUserToList(params);
+      const response = await this.app.addUserToList(params);
 
-    $.export("$summary", response.data?.is_member !== true
-      ? "User not added to list"
-      : "Successfully added user to list");
+      $.export(
+        "$summary",
+        response.data?.is_member !== true
+          ? "User not added to list"
+          : "Successfully added user to list",
+      );
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(GLOBAL_ERROR_MESSAGE);
+    }
   },
 });
