@@ -1,6 +1,8 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { HttpRequestParams } from "../common/types";
+import {
+  HttpRequestParams, SendEmailParams,
+} from "../common/types";
 
 export default defineApp({
   type: "app",
@@ -20,6 +22,13 @@ export default defineApp({
       return axios($, {
         baseURL: "https://api.resend.com",
         headers: this._getHeaders(),
+        ...args,
+      });
+    },
+    async sendEmail(args: SendEmailParams) {
+      return this._httpRequest({
+        method: "POST",
+        url: "/emails",
         ...args,
       });
     },
