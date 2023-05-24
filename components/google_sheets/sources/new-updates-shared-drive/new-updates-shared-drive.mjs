@@ -8,7 +8,7 @@ export default {
   type: "source",
   name: "New Updates (Shared Drive, Instant)",
   description: "Emit new event each time a row or cell is updated in a spreadsheet in a shared drive",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   props: {
     ...httpBase.props,
