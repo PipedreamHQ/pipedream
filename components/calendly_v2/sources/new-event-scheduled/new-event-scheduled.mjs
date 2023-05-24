@@ -57,7 +57,7 @@ export default {
 
       if (
         events.length < 100 ||
-        events.filter((event) => event.uri === lastResourceId)
+        events.find(({ uri }) => uri === lastResourceId)
       ) {
         nextPage = null;
         return;
