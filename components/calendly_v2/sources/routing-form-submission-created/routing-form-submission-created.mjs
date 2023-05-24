@@ -19,8 +19,9 @@ export default {
       return "organization";
     },
     generateMeta(body) {
+      const submissionId = body.payload.uri.split("/").pop();
       return {
-        id: `${body.event}-${body.payload.uri}`,
+        id: submissionId,
         summary: body.event,
         ts: Date.now(),
       };
