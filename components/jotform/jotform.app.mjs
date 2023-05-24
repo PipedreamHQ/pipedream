@@ -1,6 +1,7 @@
 import { axios } from "@pipedream/platform";
 import querystring from "query-string";
 import crypto from "crypto";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -205,11 +206,11 @@ export default {
         return submission;
       }
 
-      if (!privateKey.includes("-----BEGIN RSA PRIVATE KEY-----\n")) {
-        privateKey = privateKey.replace("-----BEGIN RSA PRIVATE KEY-----", "-----BEGIN RSA PRIVATE KEY-----\n");
+      if (!privateKey.includes(`${constants.KEY_HEADER}\n`)) {
+        privateKey = privateKey.replace(constants.KEY_HEADER, `${constants.KEY_HEADER}\n`);
       }
-      if (!privateKey.includes("\n-----END RSA PRIVATE KEY-----")) {
-        privateKey = privateKey.replace("-----END RSA PRIVATE KEY-----", "\n-----END RSA PRIVATE KEY-----");
+      if (!privateKey.includes(`\n${constants.KEY_FOOTER}`)) {
+        privateKey = privateKey.replace(constants.KEY_FOOTER, `\n${constants.KEY_FOOTER}`);
       }
 
       for (const answer of Object.keys(answers)) {

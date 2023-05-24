@@ -1,5 +1,4 @@
 import common from "../common.mjs";
-import jotform from "../../jotform.app.mjs";
 
 export default {
   ...common,
@@ -12,19 +11,19 @@ export default {
     ...common.props,
     formId: {
       propDefinition: [
-        jotform,
+        common.props.jotform,
         "formId",
       ],
     },
     max: {
       propDefinition: [
-        jotform,
+        common.props.jotform,
         "max",
       ],
     },
     encrypted: {
       propDefinition: [
-        jotform,
+        common.props.jotform,
         "encrypted",
       ],
       reloadProps: true,
@@ -33,7 +32,7 @@ export default {
   async additionalProps() {
     const props = {};
     if (this.encrypted) {
-      props.privateKey = jotform.propDefinitions.privateKey;
+      props.privateKey = common.props.jotform.propDefinitions.privateKey;
     }
     return props;
   },
