@@ -27,3 +27,7 @@ export interface SendEmailParams extends PdAxiosRequest {
 export interface SendEmailResponse {
   id: string;
 }
+
+export interface RetrieveEmailParams extends PdAxiosRequest {
+  emailId: string;
+}

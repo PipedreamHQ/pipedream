@@ -1,7 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  HttpRequestParams, SendEmailParams, SendEmailResponse,
+  HttpRequestParams, RetrieveEmailParams, SendEmailParams, SendEmailResponse,
 } from "../common/types";
 
 export default defineApp({
@@ -28,6 +28,14 @@ export default defineApp({
       return this._httpRequest({
         method: "POST",
         url: "/emails",
+        ...args,
+      });
+    },
+    async retrieveEmail({
+      emailId, ...args
+    }: RetrieveEmailParams): Promise<object> {
+      return this._httpRequest({
+        url: `/emails/${emailId}`,
         ...args,
       });
     },

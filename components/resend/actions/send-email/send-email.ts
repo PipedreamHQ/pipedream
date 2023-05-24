@@ -4,7 +4,7 @@ import app from "../../app/resend.app";
 export default defineAction({
   name: "Send Email",
   description:
-    "Send an emal [See the documentation](https://resend.com/docs/api-reference/emails/send-email)",
+    "Send an email [See the documentation](https://resend.com/docs/api-reference/emails/send-email)",
   key: "resend-send-email",
   version: "0.0.1",
   type: "action",
