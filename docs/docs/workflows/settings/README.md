@@ -40,7 +40,15 @@ On error, the step will export a `$summary` property that tells you how many tim
 
 If the step execution succeeds during any retry, the execution will proceed to the next step of the workflow.
 
-If the step fails on all 8 retries, it throws the final error, and you should receive [an error notification](/workflows/errors/) through your standard notification channel.
+If the step fails on all 8 retries, and throws a final error, you'll receive [an error notification](/workflows/errors/) through your standard notification channel.
+
+### Send error notifications on the first error
+
+By default, if a step fails on all 8 retries, and throws a final error, you'll receive [an error notification](/workflows/errors/) through your standard notification channel. But sometimes you need to investigate errors as soon as they happen. If you're connecting to your database, and receive an error that the DB is down, you may want to investigate that immediately.
+
+On any workflow with auto-rerun enabled, you can optionally choose to **Send notifications on first error**. This is disabled by default so you don't get emails for transient errors, but you can enable for critical workflows where you want visibility into all errors.
+
+For custom control over error handling, you can implement error logic in code steps (e.g. `try` / `catch` statements in Node.js code), or [create your own custom error workflow](/workflows/errors/#process-errors-with-custom-logic-instead-of-email).
 
 ## Execution Controls
 

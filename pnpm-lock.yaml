@@ -1946,6 +1946,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/hootsuite:
+    specifiers: {}
+
   components/hotjar:
     specifiers: {}
 
@@ -2028,6 +2031,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/imagga:
+    specifiers: {}
 
   components/imap:
     specifiers:
@@ -4462,6 +4468,9 @@ importers:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
 
+  components/teamleader_focus:
+    specifiers: {}
+
   components/teamwave:
     specifiers: {}
 
@@ -4784,6 +4793,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/unbounce:
+    specifiers: {}
+
   components/unisender:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -5053,6 +5065,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wix:
+    specifiers: {}
+
+  components/wix_api_key:
     specifiers: {}
 
   components/woocommerce:
