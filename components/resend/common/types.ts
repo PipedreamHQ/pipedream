@@ -23,3 +23,7 @@ export interface SendEmailParams extends PdAxiosRequest {
     reply_to?: string[];
   };
 }
+
+export interface SendEmailResponse {
+  id: string;
+}

@@ -77,7 +77,8 @@ export default defineAction({
     };
 
     const response = await this.app.sendEmail(params);
-    $.export("$summary", "Sent email");
+    const { id } = response;
+    $.export("$summary", `Sent email (ID: ${id})`);
     return response;
   },
 });

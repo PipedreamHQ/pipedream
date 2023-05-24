@@ -1,17 +1,16 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  HttpRequestParams, SendEmailParams,
+  HttpRequestParams, SendEmailParams, SendEmailResponse,
 } from "../common/types";
 
 export default defineApp({
   type: "app",
   app: "resend",
-  propDefinitions: {},
   methods: {
     _getHeaders() {
       return {
-        "Authorization": `Bearer ${this.$auth.$api_key}`,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
         "Content-Type": "application/json",
       };
     },
@@ -25,7 +24,7 @@ export default defineApp({
         ...args,
       });
     },
-    async sendEmail(args: SendEmailParams) {
+    async sendEmail(args: SendEmailParams): Promise<SendEmailResponse> {
       return this._httpRequest({
         method: "POST",
         url: "/emails",
