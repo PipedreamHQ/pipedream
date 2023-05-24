@@ -1,5 +1,8 @@
 import snowflake from "../snowflake.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  ConfigurationError,
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "@pipedream/platform";
 import { v4 as uuid } from "uuid";
 
 export default {
@@ -16,10 +19,10 @@ export default {
     },
   },
   methods: {
-    async getDbValues() {
+    getDbValues() {
       return this.db.get("dbValues") ?? {};
     },
-    async setDbValues(values) {
+    setDbValues(values) {
       return this.db.set("dbValues", values);
     },
     async fetchData() {
@@ -28,13 +31,13 @@ export default {
       });
     },
     async updateDbValues() {
-      const db = await this.getDbValues();
+      const db = this.getDbValues();
       const rows = await this.fetchData();
       for await (const item of rows) {
         const key = item[this.getLookUpKey()];
         db[key] = item;
       }
-      await this.setDbValues(db);
+      this.setDbValues(db);
     },
     async checkForDifferentData(db, rows) {
       for await (const item of rows) {
@@ -89,10 +92,10 @@ export default {
       this.emit(false, newData, oldData, changedKeys);
     },
     getLookUpKey() {
-      throw new Error("getLookUpKey must be implemented");
+      throw new ConfigurationError("getLookUpKey must be implemented");
     },
     getSqlText() {
-      throw new Error("getSqlText must be implemented");
+      throw new ConfigurationError("getSqlText must be implemented");
     },
   },
   hooks: {
@@ -101,7 +104,7 @@ export default {
     },
   },
   async run() {
-    const db = await this.getDbValues();
+    const db = this.getDbValues();
     const rows = await this.fetchData();
     await this.checkForDifferentData(db, rows);
     await this.updateDbValues();
