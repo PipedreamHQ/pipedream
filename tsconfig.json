@@ -1994,6 +1994,21 @@
     },
     {
       "path": "components/google_palm_api"
+    },
+    {
+      "path": "components/imagga"
+    },
+    {
+      "path": "components/unbounce"
+    },
+    {
+      "path": "components/hootsuite"
+    },
+    {
+      "path": "components/wix_api_key"
+    },
+    {
+      "path": "components/teamleader_focus"
     }
   ]
 }
