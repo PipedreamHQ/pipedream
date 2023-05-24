@@ -10,7 +10,7 @@ But Pipedream-integrated apps provide a few benefits:
 
 ## Premium Apps
 
-The vast majority of integrated apps on Pipedream are free to use in your workflows across any plan. However, in order to use any of the below apps in an active workflow, you'll need to be on the Advanced plan or higher:
+The vast majority of integrated apps on Pipedream are free to use in your workflows across any plan. However, in order to use any of the below apps in an active workflow, your workspace will need to have an Advanced plan or higher:
 
 - [ActiveCampaign](https://pipedream.com/apps/activecampaign)
 - [Asana](https://pipedream.com/apps/asana)
