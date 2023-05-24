@@ -20,8 +20,6 @@ export default {
   },
   methods: {
     emitEvent(data) {
-      this._setLastResourceId(data.uri);
-
       const id = data.uri.split("/").reverse()[0];
 
       this.$emit(data, {
@@ -53,7 +51,11 @@ export default {
         },
       });
 
-      events.forEach(this.emitEvent);
+      if (events.length) {
+        this._setLastResourceId(events[events.length - 1].uri);
+
+        events.forEach(this.emitEvent);
+      }
 
       if (
         events.length < 100 ||
