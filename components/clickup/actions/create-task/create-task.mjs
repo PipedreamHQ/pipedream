@@ -6,7 +6,7 @@ export default {
   key: "clickup-create-task",
   name: "Create Task",
   description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks / Create Task** section.",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
@@ -69,6 +69,18 @@ export default {
       ],
       optional: true,
     },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "Due date of the task in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601). e.g. `2023-05-13T23:45:44Z`",
+      optional: true,
+    },
+    dueDateTime: {
+      type: "boolean",
+      label: "Due Date Time",
+      description: "If set `true`, due date will be given with time. If not it will only be the closest date",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -80,7 +92,10 @@ export default {
       tags,
       status,
       parent,
+      dueDate,
+      dueDateTime: due_date_time,
     } = this;
+    const due_date = (new Date(dueDate)).getTime();
 
     const response = await this.clickup.createTask({
       $,
@@ -93,6 +108,8 @@ export default {
         tags,
         status,
         parent,
+        due_date,
+        due_date_time,
       },
     });
 
