@@ -70,9 +70,9 @@ export default {
       optional: true,
     },
     dueDate: {
-      type: "integer",
+      type: "string",
       label: "Due Date",
-      description: "Due date of the task in timestamp. e.g. `1684975718213`",
+      description: "Due date of the task in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601). e.g. `2023-05-13T23:45:44Z`",
       optional: true,
     },
     dueDateTime: {
@@ -92,9 +92,10 @@ export default {
       tags,
       status,
       parent,
-      dueDate: due_date,
+      dueDate,
       dueDateTime: due_date_time,
     } = this;
+    const due_date = (new Date(dueDate)).getTime();
 
     const response = await this.clickup.createTask({
       $,
