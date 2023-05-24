@@ -58,7 +58,6 @@ export default {
     },
   },
   methods: {
-    // Fix for error: "signature not match"
     cleanObject(o) {
       for (var k in o || {}) {
         if (typeof o[k] === "undefined") {
