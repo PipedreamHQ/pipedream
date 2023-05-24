@@ -1946,6 +1946,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/hootsuite:
+    specifiers: {}
+
   components/hotjar:
     specifiers: {}
 
@@ -4789,6 +4792,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/unbounce:
+    specifiers: {}
+
   components/unisender:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -5058,6 +5064,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wix:
+    specifiers: {}
+
+  components/wix_api_key:
     specifiers: {}
 
   components/woocommerce:
