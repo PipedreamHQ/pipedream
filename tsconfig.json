@@ -2006,6 +2006,9 @@
     },
     {
       "path": "components/wix_api_key"
+    },
+    {
+      "path": "components/teamleader_focus"
     }
   ]
 }
