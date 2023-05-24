@@ -40,7 +40,7 @@ On error, the step will export a `$summary` property that tells you how many tim
 
 If the step execution succeeds during any retry, the execution will proceed to the next step of the workflow.
 
-If the step fails on all 8 retries, and throws a final error, you'll receive [an error notification](/workflows/errors/) through your standard notification channel.
+If the step fails on all 8 retries and throws a final error, you'll receive [an error notification](/workflows/errors/) through your standard notification channel.
 
 ### Send error notifications on the first error
 
