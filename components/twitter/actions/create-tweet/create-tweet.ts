@@ -1,4 +1,5 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { CreateTweetParams } from "../../common/types/requestParams";
 
@@ -9,7 +10,7 @@ export default defineAction({
   key: "twitter-create-tweet",
   name: "Create Tweet",
   description: `Create a new tweet. [See docs here](${DOCS_LINK})`,
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     app,
@@ -56,43 +57,51 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const {
-      text,
-      inReplyToTweetId,
-      excludeReplyUserIds,
-      mediaIds,
-      placeId,
-      taggedUserIds,
-    } = this;
-
-    const params: CreateTweetParams = {
-      $,
-      data: {
+    try {
+      const {
         text,
-        ...((inReplyToTweetId || excludeReplyUserIds) && {
-          reply: {
-            exclude_reply_user_ids: excludeReplyUserIds,
-            in_reply_to_tweet_id: inReplyToTweetId,
-          },
-        }),
-        ...((mediaIds || taggedUserIds) && {
-          media: {
-            media_ids: mediaIds,
-            tagged_user_ids: taggedUserIds,
-          },
-        }),
-        ...(placeId && {
-          geo: {
-            place_id: placeId,
-          },
-        }),
-      },
-    };
+        inReplyToTweetId,
+        excludeReplyUserIds,
+        mediaIds,
+        placeId,
+        taggedUserIds,
+      } = this;
 
-    const response = await this.app.createTweet(params);
+      const params: CreateTweetParams = {
+        $,
+        data: {
+          text,
+          ...((inReplyToTweetId || excludeReplyUserIds) && {
+            reply: {
+              exclude_reply_user_ids: excludeReplyUserIds,
+              in_reply_to_tweet_id: inReplyToTweetId,
+            },
+          }),
+          ...((mediaIds || taggedUserIds) && {
+            media: {
+              media_ids: mediaIds,
+              tagged_user_ids: taggedUserIds,
+            },
+          }),
+          ...(placeId && {
+            geo: {
+              place_id: placeId,
+            },
+          }),
+        },
+      };
 
-    $.export("$summary", `Successfully posted tweet (ID ${response.data?.id})`);
+      const response = await this.app.createTweet(params);
 
-    return response;
+      $.export(
+        "$summary",
+        `Successfully posted tweet (ID ${response.data?.id})`,
+      );
+
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(ACTION_ERROR_MESSAGE);
+    }
   },
 });
