@@ -44,6 +44,6 @@ Any `console.log()` statements or other output of code steps is attached to the 
 
 ## Limits
 
-Pipedream retains a limited history of events for a given workflow. See the [limits docs](/limits/#event-execution-history) for more information.
+Pipedream retains a limited history of events for a given workflow. See the [limits docs](/docs/limits/#event-execution-history) for more information.
 
 <Footer />

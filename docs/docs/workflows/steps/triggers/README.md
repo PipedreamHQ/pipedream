@@ -126,7 +126,7 @@ Pipedream will automatically lowercase header keys for consistency.
 
 #### Limits
 
-You can send any content, up to the [HTTP payload size limit](/limits/#http-request-body-size), as a part of the form request. The content of uploaded images or other binary files does not contribute to this limit — the contents of the file will be uploaded at a Pipedream URL you have access to within your source or workflow. See the section on [Large File Support](#large-file-support) for more detail.
+You can send any content, up to the [HTTP payload size limit](/docs/limits/#http-request-body-size), as a part of the form request. The content of uploaded images or other binary files does not contribute to this limit — the contents of the file will be uploaded at a Pipedream URL you have access to within your source or workflow. See the section on [Large File Support](#large-file-support) for more detail.
 
 ### Sending large payloads
 
@@ -186,7 +186,7 @@ Your raw payload is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.am
 
 #### Limits
 
-**You can upload payloads up to 5TB in size**. However, payloads that large may trigger [other Pipedream limits](/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
+**You can upload payloads up to 5TB in size**. However, payloads that large may trigger [other Pipedream limits](/docs/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
 
 ### Large File Support
 
@@ -247,7 +247,7 @@ await pipeline(
 
 Since large files are uploaded using a `Content-Type` of `multipart/form-data`, the limits that apply to [form data](#how-pipedream-handles-multipart-form-data) also apply here.
 
-The content of the file itself does not contribute to the HTTP payload limit imposed for forms. **You can upload files up to 5TB in size**. However, files that large may trigger [other Pipedream limits](/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
+The content of the file itself does not contribute to the HTTP payload limit imposed for forms. **You can upload files up to 5TB in size**. However, files that large may trigger [other Pipedream limits](/docs/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
 
 ### Cross-Origin HTTP Requests
 
@@ -311,7 +311,7 @@ The value of the `body` property can be either a string, object, a [Buffer](http
 In the case where you return a Readable stream:
 
 - You must `await` the `$.respond` function (`await $.respond({ ... }`)
-- The stream must close and be finished reading within your [workflow execution timeout](/limits/#time-per-execution).
+- The stream must close and be finished reading within your [workflow execution timeout](/docs/limits/#time-per-execution).
 - You cannot return a Readable and use the [`immediate: true`](#returning-a-response-immediately) property of `$.respond`.
 
 You can **Copy** [this example workflow](https://pipedream.com/@dylburger/issue-an-http-response-from-a-workflow-p_ljCRdv/edit) and make an HTTP request to its endpoint URL to experiment with this.
@@ -411,7 +411,7 @@ We'll also issue a 404 response on workflows with an HTTP trigger that have been
 
 #### Too Many Requests
 
-If you send too many requests to your HTTP source within a small period of time, we may issue a `429 Too Many Requests` response. [Review our limits](/limits/) to understand the conditions where you might be throttled.
+If you send too many requests to your HTTP source within a small period of time, we may issue a `429 Too Many Requests` response. [Review our limits](/docs/limits/) to understand the conditions where you might be throttled.
 
 You can also [reach out](https://pipedream.com/support/) to inquire about raising this rate limit.
 
@@ -559,7 +559,7 @@ Your email is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.c
 
 ### Email attachments
 
-You can attach any files to your email, up to [the total email size limit](/limits/#email-triggers).
+You can attach any files to your email, up to [the total email size limit](/docs/limits/#email-triggers).
 
 Attachments are stored in `steps.trigger.event.attachments`, which provides an array of attachment objects. Each attachment in that array exposes key properties:
 

@@ -372,5 +372,5 @@ print(os.listdir('/tmp'))
 ```
 
 :::warning
-The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/limits/#disk) for details.
+The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/docs/limits/#disk) for details.
 :::

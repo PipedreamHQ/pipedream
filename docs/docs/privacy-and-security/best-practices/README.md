@@ -49,7 +49,7 @@ The same follows for [npm](https://www.npmjs.com/) packages. Before you use a ne
 
 ## Limit what you log and return from steps
 
-[Pipedream retains a limited history of event data](/limits/#event-execution-history) and associated logs for event sources and workflows. But if you cannot log specific data in Pipedream for privacy / security reasons, or if you want to limit risk, remember that **Pipedream only stores data returned from or logged in steps**. Specifically, Pipedream will only store:
+[Pipedream retains a limited history of event data](/docs/limits/#event-execution-history) and associated logs for event sources and workflows. But if you cannot log specific data in Pipedream for privacy / security reasons, or if you want to limit risk, remember that **Pipedream only stores data returned from or logged in steps**. Specifically, Pipedream will only store:
 
 - The event data emitted from event sources, and any `console` logs / errors
 - The event data that triggers your workflow, any `console` logs / errors, [step exports](/workflows/steps/#step-exports), and any data included in error stack traces.

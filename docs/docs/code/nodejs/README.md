@@ -435,7 +435,7 @@ See the [Environment Variables](/environment-variables/) docs for more informati
 
 ## Limitations of code steps
 
-Code steps operate within the [general constraints on workflows](/limits/#workflows). As long as you stay within those limits and abide by our [acceptable use policy](/limits/#acceptable-use), you can add any number of code steps in a workflow to do virtually anything you'd be able to do in Node.js.
+Code steps operate within the [general constraints on workflows](/docs/limits/#workflows). As long as you stay within those limits and abide by our [acceptable use policy](/docs/limits/#acceptable-use), you can add any number of code steps in a workflow to do virtually anything you'd be able to do in Node.js.
 
 If you're trying to run code that doesn't work or you have questions about any limits on code steps, [please reach out](https://pipedream.com/support/).
 

@@ -17,7 +17,7 @@ To support these goals, **Pipedream offers a generous free tier**. You can run s
 
 Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers. 
 
-But Free account have a [daily limit of free credits](/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
+But Free account have a [daily limit of free credits](/docs/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/docs/limits/) apply to Free Accounts as well.
 
 **To lift the daily credit limit and increase the number of workflows and connected accounts [upgrade to a paid tier](https://pipedream.com/pricing)**.
 
@@ -27,7 +27,7 @@ Free Tier accounts can connect up to 3 different service accounts like Twitter, 
 
 ### Free Tier Workflow Limitations
 
-Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have the lowest amount of active workflows available.
+Free Tier accounts have a [daily credit limit](/docs/limits#daily-credits-limit) and have the lowest amount of active workflows available.
 
 Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
 
@@ -178,7 +178,7 @@ When you sign up for a paid plan, you pay a platform fee at the start of each [b
 
 ### Additional Credits
 
-Any credits you run over your [included credit](/limits/#daily-credits-limit) are called **additional credits**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed-for-paid-plans).
+Any credits you run over your [included credit](/docs/limits/#daily-credits-limit) are called **additional credits**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed-for-paid-plans).
 
 ### Data Store Keys
 
@@ -196,7 +196,7 @@ Pipedream charges credits proportional to the memory configuration. If you run y
 
 ### Are there any limits on paid tiers?
 
-**You can run any number of credits for any amount of compute time** on any paid tier. [Other platform limits](/limits/) apply.
+**You can run any number of credits for any amount of compute time** on any paid tier. [Other platform limits](/docs//limits/) apply.
 
 ### When am I invoiced / billed for paid plans?
 

@@ -77,17 +77,17 @@ See the reference on [running asynchronous code on Pipedream](/code/nodejs/async
 
 ## Pipedream Internal Errors
 
-Pipedream sets [limits](/limits/) on runtime, memory, and other execution-related properties. If you exceed these limits, you'll receive one of the errors below. [See the limits doc](/limits/) for details on specific limits.
+Pipedream sets [limits](/docs/limits/) on runtime, memory, and other execution-related properties. If you exceed these limits, you'll receive one of the errors below. [See the limits doc](/docs/limits/) for details on specific limits.
 
 ### Quota Exceeded
 
-On the Free tier, Pipedream imposes a limit on the [daily credits](/limits/#daily-credits-limit) across all workflows and sources. If you hit this limit, you'll see a **Quota Exceeded** error.
+On the Free tier, Pipedream imposes a limit on the [daily credits](/docs/limits/#daily-credits-limit) across all workflows and sources. If you hit this limit, you'll see a **Quota Exceeded** error.
 
 Paid plans have no credit limit. [Upgrade here](https://pipedream.com/pricing).
 
 ### Timeout
 
-Event sources and workflows have a [default time limit on a given execution](/limits/#time-per-execution). If your code exceeds that limit, you may encounter a **Timeout** error.
+Event sources and workflows have a [default time limit on a given execution](/docs/limits/#time-per-execution). If your code exceeds that limit, you may encounter a **Timeout** error.
 
 To address timeouts, you'll either need to:
 
@@ -96,7 +96,7 @@ To address timeouts, you'll either need to:
 
 ### Out of Memory
 
-Pipedream [limits the default memory](/limits/#memory) available to workflows and event sources. If you exceed this memory, you'll see an **Out of Memory** error. **You can raise the memory of your workflow [in your workflow's Settings](/workflows/settings/#memory)**.
+Pipedream [limits the default memory](/docs/limits/#memory) available to workflows and event sources. If you exceed this memory, you'll see an **Out of Memory** error. **You can raise the memory of your workflow [in your workflow's Settings](/workflows/settings/#memory)**.
 
 This can happen for two main reasons:
 
@@ -105,7 +105,7 @@ This can happen for two main reasons:
 
 ### Rate Limit Exceeded
 
-Pipedream limits the number of events that can be processed by a given interface (e.g. HTTP endpoints) during a given interval. This limit is most commonly reached for HTTP interfaces - see the [QPS limits documentation](/limits/#qps-queries-per-second) for more information on that limit.
+Pipedream limits the number of events that can be processed by a given interface (e.g. HTTP endpoints) during a given interval. This limit is most commonly reached for HTTP interfaces - see the [QPS limits documentation](/docs/limits/#qps-queries-per-second) for more information on that limit.
 
 **This limit can be raised for HTTP endpoints**. [Reach out to our team](https://pipedream.com/support/) to request an increase.
 
@@ -113,7 +113,7 @@ Pipedream limits the number of events that can be processed by a given interface
 
 By default, Pipedream limits the size of incoming HTTP payloads. If you exceed this limit, you'll see a **Request Entity Too Large** error.
 
-Pipedream supports two different ways to bypass this limit. Both of these interfaces support uploading data up to `5TB`, though you may encounter other [platform limits](/limits/).
+Pipedream supports two different ways to bypass this limit. Both of these interfaces support uploading data up to `5TB`, though you may encounter other [platform limits](/docs/limits/).
 
 - You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/steps/triggers/#sending-large-payloads).
 - You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/steps/triggers/#large-file-support).

@@ -93,7 +93,7 @@ You can chat about source development with the Pipedream team in the `#contribut
 
 ## Limits
 
-Event sources are subject to the [same limits as Pipedream workflows](/limits/), except:
+Event sources are subject to the [same limits as Pipedream workflows](/docs/limits/), except:
 
 - Sources have a default timeout of 5 min.
 - Memory is fixed at 256MB.

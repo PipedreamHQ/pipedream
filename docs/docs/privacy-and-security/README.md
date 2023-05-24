@@ -157,7 +157,7 @@ Pipedream provides annual security training to all employees. Developers go thro
 
 Pipedream retains data only for as long as necessary to provide the core service. Pipedream stores your workflow code, data in data stores, and other data indefinitely, until you choose to delete it.
 
-Event data and the logs associated with workflow executions are stored according to [the retention rules on your account](/limits/#event-execution-history).
+Event data and the logs associated with workflow executions are stored according to [the retention rules on your account](/docs/limits/#event-execution-history).
 
 Pipedream deletes most internal application logs and logs tied to subprocessors within 30 days. We retain a subset of logs for longer periods where required for security investigations.
 

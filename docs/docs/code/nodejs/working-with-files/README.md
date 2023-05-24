@@ -90,4 +90,4 @@ export default defineComponent({
 
 [This workflow](https://pipedream.com/@dylan/upload-email-attachments-to-s3-p_V9CGAQ/edit) is triggered by incoming emails. When copied, you'll get a workflow-specific email address you can send any email to. This workflow takes any attachments included with inbound emails, saves them to `/tmp`, and uploads them to Amazon S3.
 
-You should also be aware of the [inbound payload limits](/limits/#email-triggers) associated with the email trigger.
+You should also be aware of the [inbound payload limits](/docs/limits/#email-triggers) associated with the email trigger.

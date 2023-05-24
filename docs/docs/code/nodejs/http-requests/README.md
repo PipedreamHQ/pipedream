@@ -530,7 +530,7 @@ By default, [HTTP requests made from Pipedream can come from a large range of IP
 
 Sometimes you need to upload a downloaded file directly to another service, without processing the downloaded file. You could [download the file](#download-a-file-to-the-tmp-directory) and then [upload it](#upload-a-file-from-the-tmp-directory) to the other URL, but these intermediate steps are unnecessary: you can just stream the download to the other service directly, without saving the file to disk.
 
-This method is especially effective for large files that exceed the [limits of the `/tmp` directory](/limits/#disk).
+This method is especially effective for large files that exceed the [limits of the `/tmp` directory](/docs/limits/#disk).
 
 [Copy this workflow](https://pipedream.com/@dylburger/stream-download-to-upload-p_5VCLoa1/edit) or paste this code into a [new Node.js code step](/code/nodejs/):
 

@@ -46,9 +46,9 @@ If the step fails on all 8 retries, it throws the final error, and you should re
 
 ### Execution Timeout Limit
 
-Workflows have a default [execution limit](/limits/#time-per-execution), which defines the time the workflow can run for a single execution until it's timed out.
+Workflows have a default [execution limit](/docs/limits/#time-per-execution), which defines the time the workflow can run for a single execution until it's timed out.
 
-If your workflow times out, and needs to run for longer than the [default limit](/limits/#time-per-execution), you can change that limit here.
+If your workflow times out, and needs to run for longer than the [default limit](/docs/limits/#time-per-execution), you can change that limit here.
 
 ### Memory
 

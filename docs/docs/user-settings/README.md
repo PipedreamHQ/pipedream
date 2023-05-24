@@ -40,7 +40,7 @@ Environment variables allow you to securely store secrets or other config values
 
 ## Billing and Usage
 
-You'll find information on your usage data (for specific [Pipedream limits](/limits/)) in your [Billing Settings](https://pipedream.com/settings/billing). You can also upgrade to [paid plans](https://pipedream.com/pricing) from this page.
+You'll find information on your usage data (for specific [Pipedream limits](/docs/limits/)) in your [Billing Settings](https://pipedream.com/settings/billing). You can also upgrade to [paid plans](https://pipedream.com/pricing) from this page.
 
 ### Subscription
 
@@ -86,6 +86,6 @@ In an example scenario, with cap set at 20 credits and long running workflow tha
 
 ### Limits
 
-For users on the [Free tier](/pricing/#free-tier), this section displays your usage towards your [credits quota](/limits/#daily-credits-limit) for the current UTC day.
+For users on the [Free tier](/pricing/#free-tier), this section displays your usage towards your [credits quota](/docs/limits/#daily-credits-limit) for the current UTC day.
 
 <Footer />
