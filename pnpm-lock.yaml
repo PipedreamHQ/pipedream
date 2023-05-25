@@ -4486,7 +4486,10 @@ importers:
       moment: 2.29.4
 
   components/teamleader_focus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/teamwave:
     specifiers: {}
