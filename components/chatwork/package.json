@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/chatwork",
+  "version": "0.0.1",
+  "description": "Pipedream Chatwork Components",
+  "main": "dist/app/chatwork.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatwork"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/chatwork",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

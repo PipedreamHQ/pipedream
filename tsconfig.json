@@ -2009,6 +2009,24 @@
     },
     {
       "path": "components/teamleader_focus"
+    },
+    {
+      "path": "components/fastfield_mobile_forms"
+    },
+    {
+      "path": "components/trakt"
+    },
+    {
+      "path": "components/iauditor_by_safetyculture"
+    },
+    {
+      "path": "components/callrail"
+    },
+    {
+      "path": "components/wave"
+    },
+    {
+      "path": "components/chatwork"
     }
   ]
 }
