@@ -2021,6 +2021,12 @@
     },
     {
       "path": "components/callrail"
+    },
+    {
+      "path": "components/wave"
+    },
+    {
+      "path": "components/chatwork"
     }
   ]
 }
