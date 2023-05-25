@@ -1,25 +1,12 @@
 import app from "../../calendly_v2.app.mjs";
 import { v4 as uuidv4 } from "uuid";
 import crypto from "crypto";
-import constants from "../../common/constants.mjs";
 
 export default {
-  key: "calendly_v2-invitee-action",
-  name: "New Invitee Action",
-  description: "Emit new event when a invitee takes some action.",
-  version: "0.0.2",
-  type: "source",
-  dedupe: "unique",
   props: {
     app,
     http: "$.interface.http",
     db: "$.service.db",
-    events: {
-      type: "string[]",
-      label: "Events",
-      description: "Events to listen to",
-      options: constants.webhookEvents,
-    },
   },
   methods: {
     _getWebhook() {
@@ -48,9 +35,6 @@ export default {
       return res;
     },
     async _registerWebhook() {
-      if (!this.events || this.events.length === 0) {
-        throw new Error("No events to listen to, please choose at least one.");
-      }
       console.log("Generating signature key...");
       const uuidKey = uuidv4();
       this._setSignatureKey(uuidKey);
@@ -60,11 +44,12 @@ export default {
 
       console.log("Registering webhook...");
       const webhook = await this.app.createWebhookSubscription(
-        this.events,
+        this.getEvent(),
         this.http.endpoint,
         userInfo.resource.current_organization,
         userInfo.resource.uri,
         uuidKey,
+        this.getScope(),
       );
 
       this._setWebhook(webhook.resource);
@@ -120,6 +105,15 @@ export default {
         throw new Error("Invalid Timestamp Signature. The signature's timestamp is outside of the tolerance zone.");
       }
     },
+    getEvent() {
+      throw new Error("getEvent is not implemented");
+    },
+    getScope() {
+      throw new Error("getScope is not implemented");
+    },
+    generateMeta() {
+      throw new Error("generateMeta is not implemented");
+    },
   },
   hooks: {
     async activate() {
@@ -134,6 +128,7 @@ export default {
       const previousWebhook = this._getWebhook();
       if (previousWebhook) {
         await this._deactivateWebhook(previousWebhook);
+        this._setWebhook(null);
       }
     },
   },
@@ -149,11 +144,9 @@ export default {
     this._checkHmac(t, signature, event.bodyRaw);
     this._checkReplayAttack(t);
 
-    this.$emit(event.body, {
-      id: `${event.body.event}-${event.body.payload.uri}`,
-      summary: `${event.body.payload.name} - ${event.body.event}`,
-      ts: Date.now(),
-    });
+    const meta = this.generateMeta(event.body);
+    this.$emit(event.body, meta);
+
     console.log("Event processed");
   },
 };
