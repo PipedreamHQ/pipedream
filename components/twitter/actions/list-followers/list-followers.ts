@@ -1,11 +1,15 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
-  getMultiItemSummary, getUserId, getUserFields,
+  getMultiItemSummary,
+  getUserId,
+  getUserFields,
 } from "../../common/methods";
 import { GetUserFollowersParams } from "../../common/types/requestParams";
 import {
-  PaginatedResponseObject, User,
+  PaginatedResponseObject,
+  User,
 } from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
@@ -18,7 +22,7 @@ export default defineAction({
   key: "twitter-list-followers",
   name: "List Followers",
   description: `Return a collection of user objects for users following the specified user. [See docs here](${DOCS_LINK})`,
-  version: "1.1.2",
+  version: "1.1.3",
   type: "action",
   props: {
     app,
@@ -44,20 +48,28 @@ export default defineAction({
     getUserFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<User>> {
-    const userId = await this.getUserId();
+    try {
+      const userId = await this.getUserId();
 
-    const params: GetUserFollowersParams = {
-      $,
-      maxPerPage: MAX_RESULTS_PER_PAGE,
-      maxResults: this.maxResults,
-      params: this.getUserFields(),
-      userId,
-    };
+      const params: GetUserFollowersParams = {
+        $,
+        maxPerPage: MAX_RESULTS_PER_PAGE,
+        maxResults: this.maxResults,
+        params: this.getUserFields(),
+        userId,
+      };
 
-    const response = await this.app.getUserFollowers(params);
+      const response = await this.app.getUserFollowers(params);
 
-    $.export("$summary", this.getMultiItemSummary("follower", response.data?.length));
+      $.export(
+        "$summary",
+        this.getMultiItemSummary("follower", response.data?.length),
+      );
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(ACTION_ERROR_MESSAGE);
+    }
   },
 });

@@ -3,8 +3,8 @@ import threads from "../../threads.app.mjs";
 export default {
   key: "threads-post-chat-message",
   name: "Post a Chat Message",
-  description: "Post a message to a chat. First, make sure you add your Bot user to the chat.",
-  version: "0.0.4",
+  description: "Post a message to a chat. First, make sure you add your Bot user to the chat. [See the Documentation](https://github.com/ThreadsHQ/api-documentation#post-chat-message)",
+  version: "0.0.5",
   type: "action",
   props: {
     threads,

@@ -7,7 +7,7 @@ export default {
   key: "google_drive-create-file",
   name: "Create a New File",
   description: "Create a new file from a URL or /tmp/filepath. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     googleDrive,

@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/daffy",
+  "version": "0.0.1",
+  "description": "Pipedream Daffy Components",
+  "main": "dist/app/daffy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "daffy"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/daffy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
