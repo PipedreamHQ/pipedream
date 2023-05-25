@@ -1,4 +1,4 @@
-import app from "../../app/paypal.app.mjs";
+import app from "../../paypal.app.mjs";
 
 export default {
   props: {

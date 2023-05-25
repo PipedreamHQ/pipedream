@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/paypal",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Paypal Components",
-  "main": "app/paypal.app.mjs",
+  "main": "paypal.app.mjs",
   "keywords": [
     "pipedream",
     "paypal"
