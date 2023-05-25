@@ -1,5 +1,7 @@
 import chatwork from "../../chatwork.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   props: {
@@ -29,14 +31,14 @@ export default {
       const meta = this.generateMeta(event);
       this.$emit(event, meta);
     },
-    listResources() {
-      throw new Error("listResources is not implemented");
+    getResources() {
+      throw new ConfigurationError("getResources is not implemented");
     },
     getTs() {
-      throw new Error("getTs is not implemented");
+      throw new ConfigurationError("getTs is not implemented");
     },
     generateMeta() {
-      throw new Error("generateMeta is not implemented");
+      throw new ConfigurationError("generateMeta is not implemented");
     },
   },
   async run() {
