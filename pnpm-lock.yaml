@@ -616,6 +616,9 @@ importers:
   components/callingly:
     specifiers: {}
 
+  components/callrail:
+    specifiers: {}
+
   components/campayn:
     specifiers:
       '@pipedream/platform': ^1.4.0
@@ -668,6 +671,9 @@ importers:
     specifiers: {}
 
   components/chatsonic:
+    specifiers: {}
+
+  components/chatwork:
     specifiers: {}
 
   components/cheddar:
@@ -942,6 +948,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/daffy:
+    specifiers: {}
 
   components/darwinbox:
     specifiers: {}
@@ -1350,6 +1359,9 @@ importers:
     specifiers: {}
 
   components/faire:
+    specifiers: {}
+
+  components/fastfield_mobile_forms:
     specifiers: {}
 
   components/faunadb:
@@ -2012,6 +2024,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/hygraph:
+    specifiers: {}
+
+  components/iauditor_by_safetyculture:
     specifiers: {}
 
   components/icontact:
@@ -4471,7 +4486,10 @@ importers:
       moment: 2.29.4
 
   components/teamleader_focus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/teamwave:
     specifiers: {}
@@ -4650,6 +4668,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/trainual:
+    specifiers: {}
+
+  components/trakt:
     specifiers: {}
 
   components/transform:
@@ -4973,6 +4994,9 @@ importers:
     specifiers: {}
 
   components/wati:
+    specifiers: {}
+
+  components/wave:
     specifiers: {}
 
   components/wealthbox:
