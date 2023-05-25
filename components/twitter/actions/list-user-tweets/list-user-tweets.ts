@@ -1,11 +1,15 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
-  getMultiItemSummary, getUserId, getTweetFields,
+  getMultiItemSummary,
+  getUserId,
+  getTweetFields,
 } from "../../common/methods";
 import { GetUserTweetsParams } from "../../common/types/requestParams";
 import {
-  PaginatedResponseObject, Tweet,
+  PaginatedResponseObject,
+  Tweet,
 } from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
@@ -18,7 +22,7 @@ export default defineAction({
   key: "twitter-list-user-tweets",
   name: "List User Tweets",
   description: `Return a collection of the most recent tweets posted by a user. [See docs here](${DOCS_LINK})`,
-  version: "1.1.2",
+  version: "1.1.3",
   type: "action",
   props: {
     app,
@@ -44,20 +48,28 @@ export default defineAction({
     getTweetFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
-    const userId = await this.getUserId();
+    try {
+      const userId = await this.getUserId();
 
-    const params: GetUserTweetsParams = {
-      $,
-      maxPerPage: MAX_RESULTS_PER_PAGE,
-      maxResults: this.maxResults,
-      params: this.getTweetFields(),
-      userId,
-    };
+      const params: GetUserTweetsParams = {
+        $,
+        maxPerPage: MAX_RESULTS_PER_PAGE,
+        maxResults: this.maxResults,
+        params: this.getTweetFields(),
+        userId,
+      };
 
-    const response = await this.app.getUserTweets(params);
+      const response = await this.app.getUserTweets(params);
 
-    $.export("$summary", this.getMultiItemSummary("tweet", response.data?.length));
+      $.export(
+        "$summary",
+        this.getMultiItemSummary("tweet", response.data?.length),
+      );
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(ACTION_ERROR_MESSAGE);
+    }
   },
 });
