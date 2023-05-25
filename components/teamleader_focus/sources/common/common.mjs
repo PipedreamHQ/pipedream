@@ -18,9 +18,7 @@ export default {
       await this.teamleaderFocus.createWebhook({
         data: {
           url: this.http.endpoint,
-          types: [
-            this.getEventType(),
-          ],
+          types: this.getEventTypes(),
         },
       });
     },
@@ -28,9 +26,7 @@ export default {
       await this.teamleaderFocus.deleteWebhook({
         data: {
           url: this.http.endpoint,
-          types: [
-            this.getEventType(),
-          ],
+          types: this.getEventTypes(),
         },
       });
     },
@@ -39,8 +35,8 @@ export default {
     getHistoricalEvents() {
       throw new Error("getHistoricalEvents is not implemented");
     },
-    getEventType() {
-      throw new Error("getEventType is not implemented");
+    getEventTypes() {
+      throw new Error("getEventTypes is not implemented");
     },
     getResource() {
       throw new Error("getResource is not implemented");

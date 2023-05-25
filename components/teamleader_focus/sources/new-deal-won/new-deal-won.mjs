@@ -22,8 +22,10 @@ export default {
       });
       return data?.filter(({ status }) => status === "won") || [];
     },
-    getEventType() {
-      return "deal.won";
+    getEventTypes() {
+      return [
+        "deal.won",
+      ];
     },
     async getResource(body) {
       const dealId = body.subject.id;

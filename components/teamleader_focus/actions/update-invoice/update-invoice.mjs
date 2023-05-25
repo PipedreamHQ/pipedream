@@ -40,7 +40,7 @@ export default {
   async additionalProps() {
     const props = {};
     if (this.paymentTermType) {
-      const { data: terms } = await this.teamleaderFocus.listPaymentTerms(); console.log(terms);
+      const { data: terms } = await this.teamleaderFocus.listPaymentTerms();
       const termDayOptions = terms.filter(({ type }) => type === this.paymentTermType).map(({ days }) => `${days}`);
       props.paymentTermDays = {
         type: "string",

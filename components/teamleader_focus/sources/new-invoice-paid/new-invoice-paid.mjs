@@ -22,8 +22,10 @@ export default {
       });
       return data?.filter(({ paid }) => paid) || [];
     },
-    getEventType() {
-      return "invoice.paymentRegistered";
+    getEventTypes() {
+      return [
+        "invoice.paymentRegistered",
+      ];
     },
     async getResource(body) {
       const invoiceId = body.subject.id;
