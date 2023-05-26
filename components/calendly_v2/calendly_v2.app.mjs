@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -66,10 +67,7 @@ export default {
       label: "Event Status",
       description: "Whether the scheduled event is `active` or `canceled`",
       optional: true,
-      options: [
-        "active",
-        "canceled",
-      ],
+      options: constants.statuses,
     },
     maxEventCount: {
       type: "integer",
@@ -88,6 +86,12 @@ export default {
       label: "Max Results",
       description: "The number of rows to return",
       optional: true,
+    },
+    scope: {
+      type: "string",
+      label: "Scope",
+      description: "Indicates if the webhook subscription scope will be `organization` or `user`",
+      options: constants.scopes,
     },
   },
   methods: {
@@ -292,13 +296,13 @@ export default {
         this._makeRequestOpts(opts),
       );
     },
-    async createWebhookSubscription(events, url, organization, user, signatureKey) {
+    async createWebhookSubscription(events, url, organization, user, signatureKey, scope) {
       const data = {
         url,
         events,
         organization,
-        scope: "user",
         user,
+        scope,
         signing_key: signatureKey,
       };
 

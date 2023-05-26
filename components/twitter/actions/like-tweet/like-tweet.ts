@@ -1,4 +1,5 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { LikeTweetParams } from "../../common/types/requestParams";
 
@@ -9,7 +10,7 @@ export default defineAction({
   key: "twitter-like-tweet",
   name: "Like Tweet",
   description: `Like a tweet specified by its ID. [See docs here](${DOCS_LINK})`,
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     app,
@@ -21,18 +22,23 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const { tweetId } = this;
-    const params: LikeTweetParams = {
-      $,
-      data: {
-        tweet_id: tweetId,
-      },
-    };
+    try {
+      const { tweetId } = this;
+      const params: LikeTweetParams = {
+        $,
+        data: {
+          tweet_id: tweetId,
+        },
+      };
 
-    const response = await this.app.likeTweet(params);
+      const response = await this.app.likeTweet(params);
 
-    $.export("$summary", `Successfully liked tweet (ID ${tweetId})`);
+      $.export("$summary", `Successfully liked tweet (ID ${tweetId})`);
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(ACTION_ERROR_MESSAGE);
+    }
   },
 });

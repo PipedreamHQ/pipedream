@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "wealthbox",
+  app: "wix_api_key",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
