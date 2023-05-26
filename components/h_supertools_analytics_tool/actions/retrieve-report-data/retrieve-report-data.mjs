@@ -1,4 +1,4 @@
-import hSupertoolsAnalyticsTool from "../../h_supertools_analytics_tool.app.mjs";
+import app from "../../h_supertools_analytics_tool.app.mjs";
 
 export default {
   key: "h_supertools_analytics_tool-retrieve-report-data",
@@ -7,28 +7,28 @@ export default {
   description: "Fetch the analytics report data for a specified website. [See the documentation](https://analytics.h-supertools.com/developers/stats)",
   type: "action",
   props: {
-    hSupertoolsAnalyticsTool,
+    app,
     reportId: {
       propDefinition: [
-        hSupertoolsAnalyticsTool,
+        app,
         "reportId",
       ],
     },
     name: {
       propDefinition: [
-        hSupertoolsAnalyticsTool,
+        app,
         "name",
       ],
     },
     from: {
       propDefinition: [
-        hSupertoolsAnalyticsTool,
+        app,
         "from",
       ],
     },
     to: {
       propDefinition: [
-        hSupertoolsAnalyticsTool,
+        app,
         "to",
       ],
     },
@@ -46,7 +46,7 @@ export default {
         "id",
         "domain",
       ],
-      default: "url",
+      default: "domain",
     },
     sort: {
       type: "string",
@@ -61,14 +61,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      hSupertoolsAnalyticsTool,
+      app,
       reportId,
       sortBy,
       ...params
     } = this;
 
-    const items = hSupertoolsAnalyticsTool.paginate({
-      fn: hSupertoolsAnalyticsTool.retrieveReportData,
+    const items = app.paginate({
+      fn: app.retrieveReportData,
       reportId,
       params: {
         ...params,

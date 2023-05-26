@@ -1,6 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import moment from "moment";
-import hSupertoolsAnalyticsTool from "../../h_supertools_analytics_tool.app.mjs";
+import app from "../../h_supertools_analytics_tool.app.mjs";
 
 export default {
   name: "New Report Generated",
@@ -10,7 +10,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    hSupertoolsAnalyticsTool,
+    app,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -20,13 +20,13 @@ export default {
     },
     reportId: {
       propDefinition: [
-        hSupertoolsAnalyticsTool,
+        app,
         "reportId",
       ],
     },
     name: {
       propDefinition: [
-        hSupertoolsAnalyticsTool,
+        app,
         "name",
       ],
     },
@@ -42,16 +42,15 @@ export default {
   },
   async run() {
     const {
-      hSupertoolsAnalyticsTool,
+      app,
       reportId,
       name,
     } = this;
 
-    const items = hSupertoolsAnalyticsTool.paginate({
-      fn: hSupertoolsAnalyticsTool.retrieveReportData,
+    const items = app.paginate({
+      fn: app.retrieveReportData,
       reportId,
       params: {
-        sort_by: "id",
         name,
         from: "1970-01-01",
         to: moment().format("YYYY-MM-DD"),

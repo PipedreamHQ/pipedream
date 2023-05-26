@@ -1,4 +1,5 @@
-import hSupertoolsAnalyticsTool from "../../h_supertools_analytics_tool.app.mjs";
+import { PRIVACY_OPTION } from "../../common/constants.mjs";
+import app from "../../h_supertools_analytics_tool.app.mjs";
 
 export default {
   key: "h_supertools_analytics_tool-create-report",
@@ -7,7 +8,7 @@ export default {
   description: "Create a new analytics report for a specified website. [See the documentation](https://analytics.h-supertools.com/developers/websites)",
   type: "action",
   props: {
-    hSupertoolsAnalyticsTool,
+    app,
     domain: {
       type: "string",
       label: "Domain",
@@ -41,26 +42,13 @@ export default {
       type: "integer",
       label: "Privacy",
       description: "Status page privacy.",
-      options: [
-        {
-          label: "Public",
-          value: 1,
-        },
-        {
-          label: "Private",
-          value: 2,
-        },
-        {
-          label: "Password",
-          value: 3,
-        },
-      ],
+      options: Object.values(PRIVACY_OPTION),
       reloadProps: true,
     },
   },
   async additionalProps() {
     const props = {};
-    if (this.privacy === 3) {
+    if (this.privacy === PRIVACY_OPTION.PASSWORD.value) {
       props.password = {
         type: "string",
         label: "Password",
@@ -71,7 +59,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      hSupertoolsAnalyticsTool,
+      app,
       email,
       excludeBots,
       excludeParams,
@@ -80,7 +68,7 @@ export default {
       ...data
     } = this;
 
-    const response = await hSupertoolsAnalyticsTool.createReport({
+    const response = await app.createReport({
       $,
       data: {
         ...data,
