@@ -3,9 +3,9 @@ import moment from "moment";
 import constantContact from "../../constant_contact.app.mjs";
 
 export default {
-  key: "constant_contact-event-added",
-  name: "New Event Added",
-  description: "Emit new event when a new event is created.",
+  key: "constant_contact-new-contact-added",
+  name: "New Contact Added",
+  description: "Emit new event when a new contact is created.",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
@@ -27,13 +27,6 @@ export default {
     },
     _setLastDate(lastDate) {
       this.db.set("lastDate", lastDate);
-    },
-    emitEvent(item) {
-      const meta = this.generateMeta(item);
-      this.$emit(item, meta);
-    },
-    generateMeta() {
-      throw new Error("generateMeta is not implemented");
     },
     async startEvent(maxResults) {
       const lastDate = this._getLastDate();
