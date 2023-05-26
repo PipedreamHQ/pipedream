@@ -15,7 +15,7 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully retrieved user info with ID ${response.id}`);
+      $.export("$summary", "Successfully retrieved user info");
     }
 
     return response;
