@@ -11,7 +11,7 @@ export default {
     authInput: {
       type: "string",
       label: "Authorization Value to Authenticate",
-      description: "Select the location of the authorization value that you'd like to check. For example, if you're looking for a Bearer token on the inbound webhook request, set this to `{{steps.trigger.event.body.headers.authorization}}`.",
+      description: "Select the location of the authorization value to check. For example, if you're looking for a Bearer token on the inbound webhook request, set this to `{{steps.trigger.event.body.headers.authorization}}`.",
       default: "{{steps.trigger.event.headers.authorization}}",
     },
     authType: {
