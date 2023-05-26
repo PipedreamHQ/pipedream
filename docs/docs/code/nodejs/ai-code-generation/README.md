@@ -1,13 +1,13 @@
 # Using AI to generate code
 <div>
-<img alt="Introducing Pi" width="300px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1685131269/docs/Pi%20Bot%20Icon.png">
+<img alt="Introducing Pi" width="300px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1685134013/image_5_yppihx.png">
 </div>
 
-_Introducing Pi -- the helpful Pipedream AI Bot!_
+_Introducing Pi — the helpful Pipedream AI Bot!_
 
 <BetaFeatureNotice feature="Enable AI Code Generation in the Builder" />
 
-You can now harness the power of AI to generate code from natural language, directly in the Pipedream workflow builder.
+You can now harness the power of AI to generate code from English, directly in the Pipedream workflow builder.
 
 Built-in actions are great for enabling access to common API operations without having to write basic code, but sometimes the actions available in Pipedream may not exactly solve your use case and you might not want to write the code yourself.
 
@@ -140,7 +140,7 @@ export default defineComponent({
 });
 ```
 
-## Current limitations of Pi
+## Current limitations of the AI Bot
 - Currently only supports actions and not triggers
 - Only supports Node.js output
 - It supports single steps, and not entire workflows
