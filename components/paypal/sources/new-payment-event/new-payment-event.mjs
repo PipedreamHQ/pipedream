@@ -5,7 +5,7 @@ export default {
   name: "New Payment Event (Instant)",
   version: "0.0.1",
   key: "paypal-new-payment-event",
-  description: "Emits a new event on a new payment webhook event. [See webhooks docs here](https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_post) and [Events Types docs here](https://developer.paypal.com/docs/api/webhooks/v1/#webhooks-event-types_list)"
+  description: "Emits a new event on a new payment webhook event. [See webhooks docs here](https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_post) and [Events Types docs here](https://developer.paypal.com/docs/api/webhooks/v1/#webhooks-event-types_list)",
   type: "source",
   dedupe: "unique",
   props: {
