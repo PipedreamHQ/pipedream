@@ -25,7 +25,7 @@ This feature is new and [your feedback](https://pipedream.com/support) is crucia
 <img alt="Use AI with the Slack API" width="700px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1685132186/docs/docs/Screenshot_2023-05-26_at_1.15.14_PM_c4p2qw.png">
 </div>
 
-Enter your prompt: a window should pop up and ask for your prompt. Write exactly what you want to do within that step and hit enter or click "Generate. See below for best practices and tips for generating good responses.
+Enter your prompt: a window should pop up and ask for your prompt. Write exactly what you want to do within that step and hit enter or click "Generate". See below for best practices and tips for generating good responses.
 
 Code will immediately start streaming back from Pi, and you can choose to re-generate if it doesn't quite look right or click "Use this code" to insert it into the code cell to actually use it.
 
