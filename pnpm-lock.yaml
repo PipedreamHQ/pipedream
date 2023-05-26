@@ -674,7 +674,10 @@ importers:
     specifiers: {}
 
   components/chatwork:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/cheddar:
     specifiers: {}
@@ -3630,7 +3633,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/resend:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      '@pipedream/types': ^0.1.6
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      '@pipedream/types': 0.1.6
 
   components/respond_io:
     specifiers: {}
