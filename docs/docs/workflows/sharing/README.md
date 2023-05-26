@@ -36,6 +36,8 @@ The copied workflow will include the same trigger, steps and connected account c
 
 To share a workflow, open the **Builder** for the workflow. Then in the top right menu, select **Create Share Link**.
 
+![Click "Create Share Link" in the workflow's settings within the builder to generate a sharable link](https://res.cloudinary.com/pipedreamin/image/upload/v1685119418/docs/docs/share%20workflows/CleanShot_2023-05-26_at_12.42.22_p4q3dr.png)
+
 Now you can define which prop values should be included in this shareable link.
 
 ## Including props
