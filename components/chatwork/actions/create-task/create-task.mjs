@@ -31,17 +31,18 @@ export default {
     limit: {
       type: "string",
       label: "Limit",
-      description: "When the task is due. *Use Unix time as input. Example `1385996399`",
+      description: "When the task is due. Use Datetime in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601). Example `2023-05-26T06:00:00Z`",
       optional: true,
     },
   },
   async run({ $ }) {
+    const limit = (new Date(this.limit)).getTime() / 1000;
     const response = await this.chatwork.createTask({
       roomId: this.room,
       params: {
         body: this.body,
         to_ids: this.member,
-        limit: this.limit,
+        limit,
       },
       $,
     });
