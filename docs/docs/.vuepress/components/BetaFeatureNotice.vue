@@ -8,7 +8,7 @@
     </p>
     <p v-if="this.feature">
       To enable this feature, open your 
-      <a href="https://pipedream.com/user/alpha">Experimental Features settings</a> and
+      <a href="https://pipedream.com/user/alpha" target="_blank">Experimental Features settings</a> and
       check the box next to
       <strong
         ><code>{{ this.feature }}</code></strong
