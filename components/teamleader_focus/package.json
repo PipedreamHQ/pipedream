@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/teamleader_focus",
+  "version": "0.1.0",
+  "description": "Pipedream Teamleader Focus Components",
+  "main": "teamleader_focus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "teamleader_focus"
+  ],
+  "homepage": "https://pipedream.com/apps/teamleader_focus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

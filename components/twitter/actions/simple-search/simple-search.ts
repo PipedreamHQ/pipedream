@@ -1,11 +1,13 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getTweetFields,
 } from "../../common/methods";
 import { SearchTweetsParams } from "../../common/types/requestParams";
 import {
-  PaginatedResponseObject, Tweet,
+  PaginatedResponseObject,
+  Tweet,
 } from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
@@ -18,7 +20,7 @@ export default defineAction({
   key: "twitter-simple-search",
   name: "Search Tweets",
   description: `Retrieve Tweets from the last seven days that match a query. [See docs here](${DOCS_LINK})`,
-  version: "1.1.2",
+  version: "1.1.3",
   type: "action",
   props: {
     app,
@@ -43,20 +45,28 @@ export default defineAction({
     getTweetFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
-    const params: SearchTweetsParams = {
-      $,
-      maxPerPage: MAX_RESULTS_PER_PAGE,
-      maxResults: this.maxResults,
-      params: {
-        query: this.query,
-        ...this.getTweetFields(),
-      },
-    };
+    try {
+      const params: SearchTweetsParams = {
+        $,
+        maxPerPage: MAX_RESULTS_PER_PAGE,
+        maxResults: this.maxResults,
+        params: {
+          query: this.query,
+          ...this.getTweetFields(),
+        },
+      };
 
-    const response = await this.app.searchTweets(params);
+      const response = await this.app.searchTweets(params);
 
-    $.export("$summary", this.getMultiItemSummary("tweet", response.data?.length));
+      $.export(
+        "$summary",
+        this.getMultiItemSummary("tweet", response.data?.length),
+      );
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(ACTION_ERROR_MESSAGE);
+    }
   },
 });

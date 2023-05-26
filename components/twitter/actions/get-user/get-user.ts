@@ -1,4 +1,5 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
   getUserId, getUserFields,
@@ -15,7 +16,7 @@ export default defineAction({
   key: "twitter-get-user",
   name: "Get User",
   description: `Get information about a user. [See docs here](${DOCS_LINK})`,
-  version: "1.1.2",
+  version: "1.1.3",
   type: "action",
   props: {
     app,
@@ -31,20 +32,28 @@ export default defineAction({
     getUserFields,
   },
   async run({ $ }): Promise<ResponseObject<User>> {
-    let response: ResponseObject<User>;
-    const params = {
-      $,
-      params: this.getUserFields(),
-    };
-    if (this.userNameOrId === "me") {
-      response = await this.app.getAuthenticatedUser(params);
-    } else {
-      (params as GetUserParams).userId = await this.getUserId();
-      response = await this.app.getUser(params);
+    try {
+      let response: ResponseObject<User>;
+      const params = {
+        $,
+        params: this.getUserFields(),
+      };
+      if (this.userNameOrId === "me") {
+        response = await this.app.getAuthenticatedUser(params);
+      } else {
+        (params as GetUserParams).userId = await this.getUserId();
+        response = await this.app.getUser(params);
+      }
+
+      $.export(
+        "$summary",
+        `Successfully retrieved user "${(response.data as User)?.username}"`,
+      );
+
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(ACTION_ERROR_MESSAGE);
     }
-
-    $.export("$summary", `Successfully retrieved user "${(response.data as User)?.username}"`);
-
-    return response;
   },
 });

@@ -1,7 +1,9 @@
 import OAuth from "oauth-1.0a";
 import crypto from "crypto";
 import { defineApp } from "@pipedream/types";
-import { axios } from "@pipedream/platform";
+import {
+  axios, transformConfigForOauth,
+} from "@pipedream/platform";
 import {
   AddUserToListParams,
   CreateTweetParams,
@@ -34,6 +36,7 @@ import {
   TwitterEntity,
   User,
 } from "../common/types/responseSchemas";
+import { ERROR_MESSAGE  } from "../common/errorMessage";
 
 export default defineApp({
   type: "app",
@@ -52,19 +55,23 @@ export default defineApp({
       description:
         "Select a **List** owned by the authenticated user, or use a custom *List ID*.",
       async options(): Promise<{ label: string; value: string; }[]> {
-        const userId = await this.getAuthenticatedUserId();
-        const lists = await this.getUserOwnedLists({
-          userId,
-        });
+        try {
+          const userId = await this.getAuthenticatedUserId();
+          const lists = await this.getUserOwnedLists({
+            userId,
+          });
 
-        return (
-          lists.data?.map(({
-            id, name,
-          }: List) => ({
-            label: name,
-            value: id,
-          })) ?? []
-        );
+          return (
+            lists.data?.map(({
+              id, name,
+            }: List) => ({
+              label: name,
+              value: id,
+            })) ?? []
+          );
+        } catch (error) {
+          throw new Error(ERROR_MESSAGE);
+        }
       },
     },
     userNameOrId: {
@@ -99,15 +106,17 @@ export default defineApp({
     },
   },
   methods: {
-    async _getAuthHeader(config: HttpRequestParams) {
+    _getAuthHeader(config: HttpRequestParams) {
       const {
-        oauth_access_token: key, oauth_refresh_token: secret,
-      } =
-        this.$auth;
+        developer_consumer_key: devKey,
+        developer_consumer_secret: devSecret,
+        oauth_access_token: key,
+        oauth_refresh_token: secret,
+      } = this.$auth;
 
       const consumer = {
-        key,
-        secret,
+        key: devKey,
+        secret: devSecret,
       };
 
       const oauth = new OAuth({
@@ -121,9 +130,14 @@ export default defineApp({
         },
       });
 
-      if (!config.method) config.method = "GET";
+      const token = {
+        key,
+        secret,
+      };
 
-      return oauth.toHeader(oauth.authorize(config, consumer));
+      const requestData = transformConfigForOauth(config);
+
+      return oauth.toHeader(oauth.authorize(requestData, token));
     },
     _getBaseUrl() {
       return "https://api.twitter.com/2";
@@ -136,18 +150,13 @@ export default defineApp({
         baseURL: this._getBaseUrl(),
         ...args,
       };
-      // const headers = this._getAuthHeader(config);
+      const headers = this._getAuthHeader(config);
 
-      const request = () => axios($, {
-        ...config,
-        // headers,
-      }, {
-        oauthSignerUri: this.$auth.oauth_signer_uri,
-        token: {
-          key: this.$auth.oauth_access_token,
-          secret: this.$auth.oauth_refresh_token,
-        },
-      });
+      const request = () =>
+        axios($, {
+          ...config,
+          headers,
+        });
 
       let response: ResponseObject<TwitterEntity>,
         counter = 1;
@@ -213,7 +222,7 @@ export default defineApp({
             ([
               key,
               value]: [string, TwitterEntity[]
-]) => {
+              ]) => {
               if (!totalIncludes[key]) totalIncludes[key] = [];
               totalIncludes[key].push(...value);
             },
@@ -283,7 +292,9 @@ export default defineApp({
         ...args,
       });
     },
-    async getAuthenticatedUser(args: GetAuthenticatedUserParams): Promise<ResponseObject<User>> {
+    async getAuthenticatedUser(
+      args: GetAuthenticatedUserParams,
+    ): Promise<ResponseObject<User>> {
       return this._httpRequest({
         url: "/users/me",
         ...args,
