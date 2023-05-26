@@ -90,6 +90,6 @@ export default {
       });
       return $.flow.exit("Invalid credentials");
     }
-    $.export("$summary", "HTTP request succesfully authenticated");
+    $.export("$summary", "HTTP request successfully authenticated");
   },
 };
