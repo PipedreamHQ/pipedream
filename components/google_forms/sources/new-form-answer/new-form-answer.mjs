@@ -2,7 +2,7 @@ import base from "../common/base.mjs";
 
 export default {
   ...base,
-  key: "google_forms-new-comment-answer",
+  key: "google_forms-new-form-answer",
   name: "New Form Answer",
   description: "Emit new event when the form is answered. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms.responses/list)",
   version: "0.0.1",
