@@ -2,9 +2,9 @@ import http from "../../http.app.mjs";
 
 export default {
   name: "Validate Webhook Auth",
-  version: "0.0.1",
+  version: "0.0.3",
   key: "http-validate-webhook-auth",
-  description: "Require authorization for incoming HTTP webhook requests.",
+  description: "Require authorization for incoming HTTP webhook requests. Make sure to configure the HTTP trigger to \"Return a custom response from your workflow\".",
   type: "action",
   props: {
     http,
@@ -13,6 +13,12 @@ export default {
       label: "Authorization Value to Authenticate",
       description: "Select the location of the authorization value to check. For example, if you're looking for a Bearer token on the inbound webhook request, set this to `{{steps.trigger.event.body.headers.authorization}}`.",
       default: "{{steps.trigger.event.headers.authorization}}",
+    },
+    customResponse: {
+      type: "boolean",
+      label: "Return Error to Webhook Caller",
+      description: "If `True`, returns a `401: Invalid credentials` error in the case of invalid authorization. **Make sure to configure the HTTP trigger to \"Return a custom response from your workflow\"**. If `False`, does not return a custom response in the case of invalid auth.",
+      default: true,
     },
     authType: {
       type: "string",
@@ -83,11 +89,13 @@ export default {
     }
     const authValue = this.bearer ?? this.key ?? basicString;
     if (authInput !== authValue) {
-      await $.respond({
-        status: 401,
-        headers: {},
-        body: "Invalid credentials",
-      });
+      if (this.customResponse) {
+        await $.respond({
+          status: 401,
+          headers: {},
+          body: "Invalid credentials",
+        });
+      }
       return $.flow.exit("Invalid credentials");
     }
     $.export("$summary", "HTTP request successfully authenticated");
