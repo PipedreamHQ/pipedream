@@ -1,48 +1,51 @@
 # Using AI to generate code
-<div>
-<img alt="Introducing Pi" width="300px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1685134013/image_5_yppihx.png">
-</div>
+![Introducing Pi](https://res.cloudinary.com/pipedreamin/image/upload/v1685134013/image_5_yppihx.png)
 
-_Introducing Pi — the helpful Pipedream AI Bot!_
+_**Introducing Pi** — the helpful Pipedream AI Bot!_
 
 <BetaFeatureNotice feature="Enable AI Code Generation in the Builder" />
 
 You can now harness the power of AI to generate code from English, directly in the Pipedream workflow builder.
 
-Built-in actions are great for enabling access to common API operations without having to write basic code, but sometimes the actions available in Pipedream may not exactly solve your use case and you might not want to write the code yourself.
+[Built-in actions](/workflows/steps/actions/) are great for enabling access to common API operations without having to write basic code, but sometimes the actions available in Pipedream may not exactly solve your use case and you might not want to write the code yourself.
 
 This feature is new and [your feedback](https://pipedream.com/support) is crucial in helping improve the output and usefulness!
 
 ## Getting Started
-<div>
+<!-- <div>
 <img alt="Use AI with the Slack API" width="700px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1685130847/docs/generate-code-with-ai_kcsbvr.gif">
-</div>
+</div> -->
+![Use AI with the Slack API](https://res.cloudinary.com/pipedreamin/image/upload/v1685130847/docs/generate-code-with-ai_kcsbvr.gif)
+
 <br>
 
-**[Enable the feature flag](https://pipedream.com/user/alpha)**, then open a new or existing workflow, and access the feature either from within a Node.js code cell or from any app in the step selector.
+**[Enable the feature flag,](https://pipedream.com/user/alpha)** then open any workflow, and access the feature either from within a Node.js code cell or from any app in the step selector.
 
-<div>
+<!-- <div>
 <img alt="Use AI with the Slack API" width="700px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1685132186/docs/docs/Screenshot_2023-05-26_at_1.15.14_PM_c4p2qw.png">
-</div>
+</div> -->
+![Use AI with the Slack API](https://res.cloudinary.com/pipedreamin/image/upload/v1685132186/docs/docs/Screenshot_2023-05-26_at_1.15.14_PM_c4p2qw.png)
 
 Enter your prompt: a window should pop up and ask for your prompt. Write exactly what you want to do within that step and hit enter or click "Generate". See below for best practices and tips for generating good responses.
 
-Code will immediately start streaming back from Pi, and you can choose to re-generate if it doesn't quite look right or click "Use this code" to insert it into the code cell to actually use it.
+Code will immediately start streaming back from Pi, and you can re-generate the code if it doesn't quite look right or click "Use this code" to insert it into the code cell to test it.
 
 We’ll automatically refresh the step to show connected accounts and any input fields (props) above the step. 
 
-<div>
+<!-- <div>
 <img alt="AI-generated code for Slack" width="600px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1685130847/docs/ai-generated-code_uzsr8q.png">
-</div>
+</div> -->
+![AI-generated code for Slack](https://res.cloudinary.com/pipedreamin/image/upload/v1685130847/docs/ai-generated-code_uzsr8q.png)
 
 Edit the code however you’d like. Once you’re done, test the code. You’ll see the option to provide a :+1: or :-1: on the code, which helps us learn what’s working and what’s not.
 
-## How to get the most out of AI code generation
+## Tips for getting good results
 **This feature works best with clear, precise, and detailed instructions of what you want to do in your step.**
 
 ### Examples
 
-**Using the Slack app:** "Send a message to the #general channel that says, 'This message was sent with AI-generate code!' Format it as a Slack block, with a header named, 'Hello, world!'"
+**Using the Slack app:**
+>Send a message to the #general channel that says, "This message was sent with AI-generate code!" Format it as a Slack block, with a header named, "Hello, world!"
 
 **Code output:**
 ```javascript
@@ -86,10 +89,8 @@ export default defineComponent({
 });
 ```
 
-<br>
-Another example, this time using Stripe's API:
-
-**Prompt**: "Get the subscription information about a specific customer based on their email address"
+Another example, this time **using Stripe**:
+>Get the subscription information about a specific customer based on their email address
 
 **Code Output:**
 
