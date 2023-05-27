@@ -43,7 +43,7 @@ const docsNav = [
           "/code/nodejs/rerun/",
           "/environment-variables/",
           "/code/nodejs/async/",
-          "/code/nodejs/sharing-code/",
+          "/code/nodejs/sharing-code/"
         ],
       },
       {
