@@ -28,6 +28,7 @@ The vast majority of integrated apps on Pipedream are free to use in your workfl
 - [Salesforce (REST API)](https://pipedream.com/apps/salesforce_rest_api)
 - [SendinBlue](https://pipedream.com/apps/sendinblue)
 - [ServiceNow](https://pipedream.com/apps/servicenow)
+- [Snowflake](https://pipedream.com/apps/snowflake)
 - [Twilio SendGrid](https://pipedream.com/apps/sendgrid)
 - [Xero Accounting](https://pipedream.com/apps/xero_accounting_api)
 - [Zendesk](https://pipedream.com/apps/zendesk)
