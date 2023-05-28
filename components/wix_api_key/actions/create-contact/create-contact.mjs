@@ -35,7 +35,6 @@ export default {
       type: "string",
       label: "Phone",
       description: "Phone number of the new contact",
-      optional: true,
     },
     labels: {
       propDefinition: [
