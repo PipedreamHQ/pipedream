@@ -674,7 +674,10 @@ importers:
     specifiers: {}
 
   components/chatwork:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/cheddar:
     specifiers: {}
@@ -948,6 +951,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/daffy:
+    specifiers: {}
 
   components/darwinbox:
     specifiers: {}
@@ -1880,7 +1886,10 @@ importers:
     specifiers: {}
 
   components/h_supertools_analytics_tool:
-    specifiers: {}
+    specifiers:
+      moment: ^2.29.4
+    dependencies:
+      moment: 2.29.4
 
   components/habitica:
     specifiers: {}
@@ -3627,7 +3636,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/resend:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      '@pipedream/types': ^0.1.6
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      '@pipedream/types': 0.1.6
 
   components/respond_io:
     specifiers: {}
@@ -4483,7 +4497,10 @@ importers:
       moment: 2.29.4
 
   components/teamleader_focus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/teamwave:
     specifiers: {}

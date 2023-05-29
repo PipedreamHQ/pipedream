@@ -23,7 +23,7 @@ You can disable these notifications for your workflow by disabling the **Notify 
 
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656631849/docs/Screen_Shot_2022-06-30_at_4.30.44_PM_oauty4.png" width="200px" alt="Notify me on errors toggle">
 
-## Error Reruns
+## Auto-retry Errors
 
 Customers on the [**Advanced** Plan](https://pipedream.com/pricing) can automatically retry workflows on errors. If any step in your workflow throws an error, Pipedream will retry the workflow from that failed step, re-rerunning the step up to 8 times over a 10 hour span with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) strategy.
 
@@ -46,7 +46,7 @@ If the step fails on all 8 retries and throws a final error, you'll receive [an 
 
 By default, if a step fails on all 8 retries, and throws a final error, you'll receive [an error notification](/workflows/errors/) through your standard notification channel. But sometimes you need to investigate errors as soon as they happen. If you're connecting to your database, and receive an error that the DB is down, you may want to investigate that immediately.
 
-On any workflow with auto-rerun enabled, you can optionally choose to **Send notification on first error**. This is disabled by default so you don't get emails for transient errors, but you can enable for critical workflows where you want visibility into all errors.
+On any workflow with auto-retry enabled, you can optionally choose to **Send notification on first error**. This is disabled by default so you don't get emails for transient errors, but you can enable for critical workflows where you want visibility into all errors.
 
 For custom control over error handling, you can implement error logic in code steps (e.g. `try` / `catch` statements in Node.js code), or [create your own custom error workflow](/workflows/errors/#process-errors-with-custom-logic-instead-of-email).
 
