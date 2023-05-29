@@ -27,7 +27,7 @@ You have access to everything on the Team plan, including:
 - 50,000 credits per month, 30,000 more than the Team plan
 - Support for annual plans at 33% off the monthly price — you can change to an annual plan after we convert your org to a workspace
 - 5 team members by default, $50 / user / month for extra users ($30 for annual plans)
-- [Auto-retry](/workflows/settings/#error-reruns) on workflow errors
+- [Auto-retry](/workflows/settings/#auto-retry-errors) on workflow errors
 - Slack error notifications
 
 A <a href="https://pipedreamhq.typeform.com/to/XtJ8R9Hq">GitHub integration</a>, folders to organize workflows, and other features are coming soon.
