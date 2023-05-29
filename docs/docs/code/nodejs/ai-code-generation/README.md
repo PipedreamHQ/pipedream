@@ -1,5 +1,5 @@
 # Using AI to generate code
-![Introducing Pi]([https://res.cloudinary.com/pipedreamin/image/upload/v1685134013/image_5_yppihx.png](https://res.cloudinary.com/pipedreamin/image/upload/c_scale,w_425/v1685134013/image_5_yppihx.png))
+![Introducing Pi](https://res.cloudinary.com/pipedreamin/image/upload/c_scale,w_425/v1685134013/image_5_yppihx.png)
 
 _**Introducing Pi** — the helpful Pipedream AI Bot!_
 
