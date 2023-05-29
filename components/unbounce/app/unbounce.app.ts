@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "h_supertools_analytics_tool",
+  app: "unbounce",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

@@ -1,4 +1,5 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { UnfollowUserParams } from "../../common/types/requestParams";
@@ -10,7 +11,7 @@ export default defineAction({
   key: "twitter-unfollow-user",
   name: "Unfollow User",
   description: `Unfollow a user. [See docs here](${DOCS_LINK})`,
-  version: "1.0.3",
+  version: "1.0.4",
   type: "action",
   props: {
     app,
@@ -25,20 +26,22 @@ export default defineAction({
     getUserId,
   },
   async run({ $ }): Promise<object> {
-    const userId = await this.getUserId();
+    try {
+      const userId = await this.getUserId();
 
-    const params: UnfollowUserParams = {
-      $,
-      userId,
-    };
+      const params: UnfollowUserParams = {
+        $,
+        userId,
+      };
 
-    const response = await this.app.unfollowUser(params);
+      const response = await this.app.unfollowUser(params);
 
-    $.export(
-      "$summary",
-      "Successfully unfollowed user",
-    );
+      $.export("$summary", "Successfully unfollowed user");
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(ACTION_ERROR_MESSAGE);
+    }
   },
 });
