@@ -1962,7 +1962,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/hootsuite:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      dayjs: ^1.11.7
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      dayjs: 1.11.7
 
   components/hotjar:
     specifiers: {}
