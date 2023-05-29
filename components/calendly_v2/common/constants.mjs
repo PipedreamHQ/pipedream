@@ -1,6 +1,10 @@
 export default {
-  webhookEvents: [
-    "invitee.created",
-    "invitee.canceled",
+  scopes: [
+    "user",
+    "organization",
+  ],
+  statuses: [
+    "active",
+    "canceled",
   ],
 };
