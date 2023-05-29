@@ -1353,7 +1353,10 @@ importers:
     specifiers: {}
 
   components/f15five:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/facebook_groups:
     specifiers: {}
