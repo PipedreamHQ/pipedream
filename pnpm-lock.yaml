@@ -5105,7 +5105,10 @@ importers:
     specifiers: {}
 
   components/wix_api_key:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/woocommerce:
     specifiers:
