@@ -7,6 +7,7 @@ export default {
   description: "Emit new event for each new 1-on-1 created. [See the documentation](https://my.15five.com/api/public/#tag/1-on-1/paths/~1api~1public~1one-on-one~1/get)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     user: {

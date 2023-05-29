@@ -7,6 +7,7 @@ export default {
   description: "Emit new event for each new check-in. [See the documentation](https://my.15five.com/api/public/#tag/Check-in/paths/~1api~1public~1report~1/get)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     user: {

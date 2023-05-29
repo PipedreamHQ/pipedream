@@ -7,6 +7,7 @@ export default {
   description: "Emit new event for each new high five received. [See the documentation](https://my.15five.com/api/public/#tag/High-Five/paths/~1api~1public~1high-five~1/get)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     user: {
