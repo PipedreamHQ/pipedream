@@ -1,11 +1,15 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
-  getMultiItemSummary, getUserId, getListFields,
+  getMultiItemSummary,
+  getUserId,
+  getListFields,
 } from "../../common/methods";
 import { GetUserOwnedListsParams } from "../../common/types/requestParams";
 import {
-  List, PaginatedResponseObject,
+  List,
+  PaginatedResponseObject,
 } from "../../common/types/responseSchemas";
 
 const DOCS_LINK =
@@ -18,7 +22,7 @@ export default defineAction({
   key: "twitter-list-lists",
   name: "List Lists",
   description: `Get all lists owned by a user. [See docs here](${DOCS_LINK})`,
-  version: "1.1.2",
+  version: "1.1.3",
   type: "action",
   props: {
     app,
@@ -44,20 +48,28 @@ export default defineAction({
     getListFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<List>> {
-    const userId = await this.getUserId();
+    try {
+      const userId = await this.getUserId();
 
-    const params: GetUserOwnedListsParams = {
-      $,
-      maxPerPage: MAX_RESULTS_PER_PAGE,
-      maxResults: this.maxResults,
-      params: this.getListFields(),
-      userId,
-    };
+      const params: GetUserOwnedListsParams = {
+        $,
+        maxPerPage: MAX_RESULTS_PER_PAGE,
+        maxResults: this.maxResults,
+        params: this.getListFields(),
+        userId,
+      };
 
-    const response = await this.app.getUserOwnedLists(params);
+      const response = await this.app.getUserOwnedLists(params);
 
-    $.export("$summary", this.getMultiItemSummary("list", response.data?.length));
+      $.export(
+        "$summary",
+        this.getMultiItemSummary("list", response.data?.length),
+      );
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(ACTION_ERROR_MESSAGE);
+    }
   },
 });

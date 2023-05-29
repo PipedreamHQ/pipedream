@@ -1,4 +1,5 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { DeleteTweetParams } from "../../common/types/requestParams";
 
@@ -9,7 +10,7 @@ export default defineAction({
   key: "twitter-delete-tweet",
   name: "Delete Tweet",
   description: `Remove a posted tweet. [See docs here](${DOCS_LINK})`,
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     app,
@@ -21,16 +22,21 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const { tweetId } = this;
-    const params: DeleteTweetParams = {
-      $,
-      tweetId,
-    };
+    try {
+      const { tweetId } = this;
+      const params: DeleteTweetParams = {
+        $,
+        tweetId,
+      };
 
-    const response = await this.app.deleteTweet(params);
+      const response = await this.app.deleteTweet(params);
 
-    $.export("$summary", `Successfully deleted tweet (ID ${tweetId})`);
+      $.export("$summary", `Successfully deleted tweet (ID ${tweetId})`);
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(ACTION_ERROR_MESSAGE);
+    }
   },
 });
