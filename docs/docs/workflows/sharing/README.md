@@ -52,7 +52,7 @@ For the daily schedule reminder workflow, we included the props for filtering Go
 
 ::: tip Connected Accounts are not shared
 
-Shared workflow links **will not** include your own connected accounts. Instead in this new workflow the user of your workflow link will be prompted to connect their own accounts.
+Shared workflow links do not include your own connected accounts. Instead, in this new workflow, the user of your workflow link is prompted to connect their own accounts.
 
 :::
 
