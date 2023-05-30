@@ -7,7 +7,7 @@ export default {
   name: "New Post Created",
   version: "0.0.1",
   key: "hootsuite-new-post-created",
-  description: "Emit new event on each new created post. [See docs here](https://platform.hootsuite.com/docs/api/index.html#operation/retrieveMessages]).",
+  description: "Emit new event on each new created post. [See docs here](https://platform.hootsuite.com/docs/api/index.html#operation/retrieveMessages).",
   type: "source",
   dedupe: "unique",
   props: {
