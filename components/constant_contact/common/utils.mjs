@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export const prepareData = (contact, {
   emailAddress,
   permissionToSend,
@@ -8,31 +10,43 @@ export const prepareData = (contact, {
   updateSource,
   birthdayMonth,
   birthdayDay,
-  aniversary,
-  customFields,
-  phoneNumbers,
-  streetAddresses,
-  listMembership,
+  anniversary,
+  customFields = [],
+  phoneNumbers = [],
+  streetAddresses = [],
+  listMemberships,
   taggings,
-  notes,
+  notes = [],
 }) => {
-  if (emailAddress) contact.email_address.address = emailAddress;
-  if (permissionToSend) contact.email_address.permission_to_send = permissionToSend;
-  if (firstName) contact.first_name = firstName;
-  if (lastName) contact.last_name = lastName;
-  if (jobTitle) contact.job_title = jobTitle;
-  if (companyName) contact.company_name = companyName;
-  if (updateSource) contact.update_source = updateSource;
-  if (birthdayMonth) contact.birthday_month = birthdayMonth;
-  if (birthdayDay) contact.birthday_day = birthdayDay;
-  if (aniversary) contact.aniversary = aniversary;
-  if (customFields.length) contact.custom_fields = customFields.map((item) => JSON.parse(item));
-  if (phoneNumbers.length) contact.phone_numbers = phoneNumbers.map((item) => JSON.parse(item));
-  if (streetAddresses.length)
-    contact.street_addresses = streetAddresses.map((item) => JSON.parse(item));
-  if (listMembership.length) contact.list_memberships = listMembership;
-  if (notes.length) contact.notes = notes.map((item) => JSON.parse(item));
-  if (taggings.length) contact.taggings = taggings;
-
-  return contact;
+  return _.merge(
+    contact,
+    _.pickBy({
+      email_address: _.pickBy({
+        address: emailAddress,
+        permission_to_send: permissionToSend,
+      }),
+      first_name: firstName,
+      last_name: lastName,
+      job_title: jobTitle,
+      company_name: companyName,
+      update_source: updateSource,
+      birthday_month: birthdayMonth,
+      birthday_day: birthdayDay,
+      anniversary,
+      custom_fields: customFields.length
+        ? customFields.map((item) => JSON.parse(item))
+        : null,
+      phone_numbers: phoneNumbers.length
+        ? phoneNumbers.map((item) => JSON.parse(item))
+        : null,
+      street_addresses: streetAddresses.length
+        ? streetAddresses.map((item) => JSON.parse(item))
+        : null,
+      list_memberships: listMemberships,
+      notes: notes.length
+        ? notes.map((item) => JSON.parse(item))
+        : null,
+      taggings: taggings,
+    }),
+  );
 };

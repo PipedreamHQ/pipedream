@@ -1,5 +1,4 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import moment from "moment";
 import constantContact from "../../constant_contact.app.mjs";
 
 export default {
@@ -31,7 +30,6 @@ export default {
     async startEvent(maxResults) {
       const lastDate = this._getLastDate();
       const responseArray = [];
-      let tempLastDate = lastDate;
 
       const items = this.constantContact.paginate({
         fn: this.constantContact.listContacts,
@@ -45,20 +43,15 @@ export default {
       });
 
       for await (const item of items) {
-        const newLastDate = moment(item.created_at);
-
-        if (!lastDate || moment(newLastDate).isAfter(lastDate)) {
-          if (!tempLastDate || moment(newLastDate).isAfter(tempLastDate)) {
-            tempLastDate = newLastDate;
-          }
-          responseArray.push(item);
-        } else {
-          break;
-        }
+        responseArray.push(item);
       }
 
-      if (lastDate != tempLastDate)
-        this._setLastDate(tempLastDate);
+      if (!responseArray.length) {
+        console.log("No new contacts found");
+        return;
+      }
+
+      this._setLastDate(responseArray[0].created_at);
 
       for (const responseItem of responseArray.reverse()) {
         this.$emit(
