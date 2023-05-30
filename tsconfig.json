@@ -2030,6 +2030,9 @@
     },
     {
       "path": "components/daffy"
+    },
+    {
+      "path": "components/trustpilot"
     }
   ]
 }
