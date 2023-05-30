@@ -106,4 +106,4 @@ For example, if a workflow requires more connected accounts than what's availabl
 
 ### Will copies of my workflow use my credits?
 
-**No**. Copied workflows have entirely separate versioning, connected accounts and billing. Sharing workflow copies is free, and the user of the copy usage is responsible for credit usage. Your original workflow is entirely separate from the copy.
+No. Copied workflows have entirely separate versioning, connected accounts, and billing. Sharing workflow copies is free, and the user of the copy usage is responsible for credit usage. Your original workflow is entirely separate from the copy.
