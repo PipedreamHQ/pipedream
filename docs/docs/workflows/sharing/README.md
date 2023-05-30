@@ -2,7 +2,7 @@
 
 ::: warning Beta Feature
 
-Sharing individual workflows across Pipedream accounts is in Beta and is subject to change.
+Sharing individual workflows across Pipedream accounts is in beta and is subject to change.
 
 If you're trying to migrate all resources from one workspace to another, [please contact us for help](mailto:support@pipedream.com).
 
