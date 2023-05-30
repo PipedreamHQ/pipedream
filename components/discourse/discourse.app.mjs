@@ -185,10 +185,7 @@ export default {
       tag_names = [],
       web_hook_event_type_ids = [],
     }) {
-      const {
-        data,
-        status,
-      } = await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: "/admin/api/web_hooks",
         data: {
@@ -208,10 +205,6 @@ export default {
         },
         validateStatus: () => true,
       });
-
-      if (status < 400) return data?.web_hook;
-      console.log(`Request failed with status ${status}`);
-      throw new Error(JSON.stringify(data, null, 2));
     },
     async deleteHook({ hookID }) {
       try {
@@ -240,9 +233,10 @@ export default {
       return this._filterOnCategories(topics, categories);
     },
     async listCategories() {
-      const { data } = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/categories",
       });
+
       return get(data, "category_list.categories", []);
     },
     async listUsers() {
