@@ -64,7 +64,7 @@ If changes are made to the original workflow, the changes will _not_ be included
 
 [Generate a new share link](#creating-a-share-link-for-a-workflow) to include new changes to a workflow.
 
-::: tip Share Links persist
+::: tip Share links persist
 
 You can create multiple share links for the same workflow with different prop configurations, or even different steps.
 
