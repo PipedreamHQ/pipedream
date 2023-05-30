@@ -30,7 +30,7 @@ Click the button below or copy and paste the link into your browser to instantly
 </div>
 
 
-The copied workflow will include the same trigger, steps and connected account configuration, but it will have a separate event history and versioning from the original.
+The copied workflow includes the same trigger, steps, and connected account configuration, but it has a separate event history and versioning from the original.
 
 ## Creating a share link for a workflow
 
