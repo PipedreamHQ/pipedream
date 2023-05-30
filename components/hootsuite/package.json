@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/hootsuite",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Hootsuite Components",
   "main": "hootsuite.app.mjs",
   "keywords": [
     "pipedream",
     "hootsuite"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/hootsuite",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
