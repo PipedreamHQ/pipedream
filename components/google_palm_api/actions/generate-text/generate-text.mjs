@@ -8,12 +8,15 @@ export default {
   type: "action",
   props: {
     palm,
+    promptText: {
+      type: "string",
+      label: "Prompt Text",
+      description: "The text to be used as a prompt for the Google PaLM model",
+    },
   },
   async run({ $ }) {
-    const response = await this.palm.generateText({
-      $,
-    });
-    $.export("$summary", "Successfully generated text");
+    const response = await this.palm.generateText(this.promptText);
+    $.export("$summary", "Successfully generated response");
     return response;
   },
 };
