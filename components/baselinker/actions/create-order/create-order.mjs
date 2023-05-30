@@ -1,4 +1,5 @@
 import app from "../../baselinker.app.mjs";
+import constants from "../../common/constants.mjs";
 import method from "../../common/method.mjs";
 
 export default {
@@ -13,6 +14,14 @@ export default {
       propDefinition: [
         app,
         "orderStatusId",
+      ],
+    },
+    inventoryId: {
+      optional: true,
+      description: "The ID of the inventory in which the products are located. If the inventory ID is not provided, the products will be searched in the **default** inventory.",
+      propDefinition: [
+        app,
+        "inventoryId",
       ],
     },
     currency: {
@@ -64,8 +73,119 @@ export default {
       description: "Flag indicating whether the customer wants to receive an invoice.",
       optional: true,
     },
+    numberOfProducts: {
+      type: "integer",
+      label: "Number Of Products",
+      description: "The number of products in the order.",
+      default: 1,
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    return Array.from({
+      length: this.numberOfProducts,
+    }).reduce((acc, _, index) => {
+      const {
+        prefix,
+        description,
+      } = this.getPrefixAndDesc(index);
+
+      return {
+        ...acc,
+        [`${prefix}name`]: {
+          type: "string",
+          label: "Name",
+          description: `${description} The name of the product.`,
+          optional: true,
+        },
+        [`${prefix}sku`]: {
+          type: "string",
+          label: "SKU",
+          description: `${description} The SKU of the product.`,
+          optional: true,
+        },
+        [`${prefix}quantity`]: {
+          type: "integer",
+          label: "Quantity",
+          description: `${description} The quantity of the product.`,
+          optional: true,
+        },
+        [`${prefix}storage`]: {
+          type: "string",
+          label: "Storage",
+          description: `${description} Type of magazine from which the product comes.`,
+          options: Object.values(constants.STORAGE),
+          optional: true,
+        },
+        [`${prefix}productId`]: {
+          type: "string",
+          label: "Product ID",
+          description: `${description} The ID of the product.`,
+          optional: true,
+          options: async ({ page }) => {
+            let inventoryId = this.inventoryId;
+
+            if (!inventoryId) {
+              const {
+                inventories: [
+                  inventory,
+                ],
+              } = await this.app.listInventories();
+              inventoryId = inventory?.inventory_id;
+            }
+
+            const response = await this.app.listInventoryProducts({
+              data: {
+                parameters: {
+                  page,
+                  inventory_id: inventoryId,
+                },
+              },
+            });
+            return Object.entries(response.products)
+              .map(([
+                , {
+                  id: value, name: label,
+                },
+              ]) => ({
+                label,
+                value,
+              }));
+          },
+        },
+      };
+    }, {});
   },
   methods: {
+    getPrefixAndDesc(index) {
+      const productIdx = index + 1;
+      return {
+        prefix: `product${productIdx}${constants.SEP}`,
+        description: `Product ${productIdx} -`,
+      };
+    },
+    getProduct(index) {
+      const { prefix } = this.getPrefixAndDesc(index);
+      const {
+        [`${prefix}name`]: name,
+        [`${prefix}sku`]: sku,
+        [`${prefix}quantity`]: quantity,
+        [`${prefix}storage`]: storage,
+        [`${prefix}productId`]: productId,
+      } = this;
+      return {
+        name,
+        sku,
+        quantity,
+        storage,
+        productId,
+      };
+    },
+    getProducts() {
+      return Array.from({
+        length: this.numberOfProducts,
+      }).map((_, index) => this.getProduct(index));
+    },
     createOrder(args = {}) {
       return this.app.connector({
         ...args,
@@ -101,6 +221,7 @@ export default {
           admin_comments: adminComments,
           email,
           want_invoice: wantInvoice,
+          products: this.getProducts(),
         },
       },
     });
