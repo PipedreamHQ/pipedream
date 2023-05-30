@@ -4,7 +4,7 @@ export default {
   key: "slack-join-channel",
   name: "Join Channel",
   description: "Join an existing channel. [See docs here](https://api.slack.com/methods/conversations.join)",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
   props: {
     slack,
