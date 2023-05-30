@@ -33,5 +33,12 @@ export default {
           },
         });
     },
+    async embedText(text) {
+      return this.textClient()
+        .embedText({
+          model: "models/embedding-gecko-001",
+          text,
+        });
+    },
   },
 };

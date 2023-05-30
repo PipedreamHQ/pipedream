@@ -8,11 +8,14 @@ export default {
   type: "action",
   props: {
     palm,
+    text: {
+      type: "string",
+      label: "Text",
+      description: "The text that will be used to generate embeddings",
+    },
   },
   async run({ $ }) {
-    const response = await this.palm.generateEmbeddings({
-      $,
-    });
+    const response = await this.palm.generateEmbeddings(this.text);
     $.export("$summary", "Successfully generated embeddings");
     return response;
   },
