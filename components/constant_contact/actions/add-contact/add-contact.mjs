@@ -120,7 +120,6 @@ export default {
     },
   },
   async run({ $ }) {
-
     const {
       constantContact,
       emailAddress,
