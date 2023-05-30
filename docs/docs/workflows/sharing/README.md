@@ -80,7 +80,7 @@ No, workflows copied from a shared link will have separate version histories fro
 
 ### Will my connected accounts be shared with the workflow?
 
-No, your connected accounts **will not** be shared. Instead copied workflows will display a slot in actions that required a connected account, so the user of the copied workflow can provide their own accounts instead.
+No, your connected accounts are not shared. Instead, copied workflows display a slot in actions that require a connected account, so the user of the copied workflow can provide their own accounts instead.
 
 For example, if one of your steps relies on a Slack connected account to send a message, then the copied workflow will display the need to connect a Slack account.
 
