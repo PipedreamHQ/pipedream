@@ -873,7 +873,10 @@ importers:
     specifiers: {}
 
   components/constant_contact:
-    specifiers: {}
+    specifiers:
+      lodash: ^4.17.21
+    dependencies:
+      lodash: 4.17.21
 
   components/convertapi:
     specifiers: {}
