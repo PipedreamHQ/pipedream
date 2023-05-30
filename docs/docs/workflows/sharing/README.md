@@ -100,7 +100,7 @@ Sharing workflows via link is available on all plans, including the Free tier pl
 
 ### Do users of my workflow need to have a subscription?
 
-To copy a workflow, a subscription is not required. But the copied workflow is subject to the current workspace's plan limits.
+To copy a workflow, a subscription is not required. However, the copied workflow is subject to the current workspace's plan limits.
 
 For example, if a workflow requires more connected accounts than what's available on the [Free tier](/pricing/#free-tier), then users of your workflow will require a plan to run the workflow properly.
 
