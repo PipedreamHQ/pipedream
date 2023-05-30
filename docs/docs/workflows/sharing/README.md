@@ -52,7 +52,7 @@ For the daily schedule reminder workflow, we included the props for filtering Go
 
 ::: tip Connected Accounts are not shared
 
-Your shared workflow link will not include your own connected accounts. Instead in this new workflow the user of your workflow link will be prompted to connect their own accounts.
+Shared workflow links **will not** include your own connected accounts. Instead in this new workflow the user of your workflow link will be prompted to connect their own accounts.
 
 :::
 
@@ -64,7 +64,7 @@ If changes are made to the original workflow, the changes will _not_ be included
 
 [Generate a new share link](#creating-a-share-link-for-a-workflow) to include new changes to a workflow.
 
-::: tip Share Links Persist
+::: tip Share Links persist
 
 You can create multiple share links for the same workflow with different prop configurations, or even different steps.
 
@@ -80,7 +80,7 @@ No, workflows copied from a shared link will have separate version histories fro
 
 ### Will my connected accounts be shared with the workflow?
 
-No, your connected accounts will not be shared. Instead copied workflows will display a slot in actions that required a connected account, so the user of the copied workflow can provide their own accounts instead.
+No, your connected accounts **will not** be shared. Instead copied workflows will display a slot in actions that required a connected account, so the user of the copied workflow can provide their own accounts instead.
 
 For example, if one of your steps relies on a Slack connected account to send a message, then the copied workflow will display the need to connect a Slack account.
 
@@ -93,3 +93,17 @@ The shared workflow link is determined by the configuration of your workflow, it
 ### Will generating new shared links disable or delete old links?
 
 No, each link you generate will be available even if you create new versions based on changes or included props from the original workflow.
+
+### What plan is this feature available on?
+
+Sharing workflows via link is available on all plans, including the Free tier plans.
+
+### Do users of my workflow need to have a subscription?
+
+To copy a workflow, a subscription is not required. But the copied workflow is subject to the current workspace's plan limits.
+
+For example, if a workflow requires more connected accounts than what's available on the [Free tier](/pricing/#free-tier), then users of your workflow will require a plan to run the workflow properly.
+
+### Will copies of my workflow use my credits?
+
+**No**. Copied workflows have entirely separate versioning, connected accounts and billing. Sharing workflow copies is free, and the user of the copy usage is responsible for credit usage. Your original workflow is entirely separate from the copy.
