@@ -7,7 +7,7 @@ export default {
   name: "Create Order",
   description: "It allows adding a new order to the BaseLinker order manager. [See the Documentation](https://api.baselinker.com/index.php?method=addOrder).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.1685500561",
   props: {
     app,
     orderStatusId: {
@@ -94,32 +94,32 @@ export default {
         ...acc,
         [`${prefix}name`]: {
           type: "string",
-          label: "Name",
+          label: `${description} Name`,
           description: `${description} The name of the product.`,
           optional: true,
         },
         [`${prefix}sku`]: {
           type: "string",
-          label: "SKU",
+          label: `${description} SKU`,
           description: `${description} The SKU of the product.`,
           optional: true,
         },
         [`${prefix}quantity`]: {
           type: "integer",
-          label: "Quantity",
+          label: `${description} Quantity`,
           description: `${description} The quantity of the product.`,
           optional: true,
         },
         [`${prefix}storage`]: {
           type: "string",
-          label: "Storage",
+          label: `${description} Storage`,
           description: `${description} Type of magazine from which the product comes.`,
           options: Object.values(constants.STORAGE),
           optional: true,
         },
         [`${prefix}productId`]: {
           type: "string",
-          label: "Product ID",
+          label: `${description} Product ID`,
           description: `${description} The ID of the product.`,
           optional: true,
           options: async ({ page }) => {
@@ -171,14 +171,14 @@ export default {
         [`${prefix}sku`]: sku,
         [`${prefix}quantity`]: quantity,
         [`${prefix}storage`]: storage,
-        [`${prefix}productId`]: productId,
+        [`${prefix}productId`]: product_id,
       } = this;
       return {
         name,
         sku,
         quantity,
         storage,
-        productId,
+        product_id,
       };
     },
     getProducts() {
