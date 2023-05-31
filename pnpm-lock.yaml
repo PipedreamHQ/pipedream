@@ -4732,6 +4732,9 @@ importers:
   components/trint:
     specifiers: {}
 
+  components/trustpilot:
+    specifiers: {}
+
   components/tubular:
     specifiers: {}
 
