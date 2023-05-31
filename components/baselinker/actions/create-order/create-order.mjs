@@ -7,7 +7,7 @@ export default {
   name: "Create Order",
   description: "It allows adding a new order to the BaseLinker order manager. [See the Documentation](https://api.baselinker.com/index.php?method=addOrder).",
   type: "action",
-  version: "0.0.1685500561",
+  version: "0.0.1",
   props: {
     app,
     orderStatusId: {
