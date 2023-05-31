@@ -123,13 +123,9 @@ export default {
       const lastRun = this.db.get("lastMaxTimestamp") ?? +Date.now() - (1000 * 60 * 60 * 24);
       console.log(`Max ts of last run: ${lastRun}`);
 
-      const newMaxTs = await this.snowflake.maxTaskHistoryTimestamp();
-      console.log(`New max ts: ${newMaxTs}`);
-
       let results;
       const opts = {
         startTime: lastRun,
-        endTime: newMaxTs,
       };
 
       if (database && schema) {
@@ -185,7 +181,7 @@ export default {
         );
       }
 
-      await this.db.set("lastMaxTimestamp", newMaxTs);
+      await this.db.set("lastMaxTimestamp", Date.now());
     },
     getStatement() {
       throw new Error("getStatement is not implemented");
