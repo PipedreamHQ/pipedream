@@ -3,9 +3,8 @@ import safebrowsing from "../../google_safebrowsing.app.mjs";
 export default {
   key: "google_safebrowsing-check-url-safety",
   name: "Check URL Safety",
-  description: "Scan a given URL or URLs for potential security threats. [See the documentation](https://developers.google.com/safe-browsing/v4/lookup-api)",
-  //version: "0.0.1",
-  version: "0.0.3",
+  description: "Scan a given URL or URLs for potential security threats. [See the documentation](https://developers.google.com/safe-browsing/v4/reference/rest/v4/threatMatches/find)",
+  version: "0.0.1",
   type: "action",
   props: {
     safebrowsing,
@@ -19,12 +18,19 @@ export default {
       propDefinition: [
         safebrowsing,
         "platformTypes",
+        (c) => ({
+          threatTypes: c.threatTypes,
+        }),
       ],
     },
     threatEntryTypes: {
       propDefinition: [
         safebrowsing,
         "threatEntryTypes",
+        (c) => ({
+          threatTypes: c.threatTypes,
+          platformTypes: c.platformTypes,
+        }),
       ],
     },
     threatEntries: {

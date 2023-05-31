@@ -1,5 +1,4 @@
 import { axios } from "@pipedream/platform";
-import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,19 +8,56 @@ export default {
       type: "string[]",
       label: "Threat Types",
       description: "The threat types to be checked",
-      options: constants.THREAT_TYPES,
+      async options() {
+        const { threatLists } = await this.getThreatLists();
+        return [
+          ...new Set(threatLists.map(({ threatType }) => threatType)),
+        ];
+      },
     },
     platformTypes: {
       type: "string[]",
       label: "Platform Types",
       description: "The platform types to be checked",
-      options: constants.PLATFORM_TYPES,
+      async options({ threatTypes }) {
+        const { threatLists } = await this.getThreatLists();
+        return [
+          ...new Set(threatLists
+            .filter(({ threatType }) => !threatTypes || threatTypes.includes(threatType))
+            .map(({ platformType }) => platformType)),
+        ];
+      },
     },
     threatEntryTypes: {
       type: "string[]",
       label: "Threat Entry Types",
       description: "The entry types to be checked",
-      options: constants.THREAT_ENTRY_TYPES,
+      async options({
+        threatTypes, platformTypes,
+      }) {
+        const { threatLists } = await this.getThreatLists();
+        return [
+          ...new Set(threatLists
+            .filter(({
+              threatType, platformType,
+            }) =>
+              (!threatTypes || threatTypes.includes(threatType)) &&
+              (!platformTypes || platformTypes.includes(platformType)))
+            .map(({ threatEntryType }) => threatEntryType)),
+        ];
+      },
+    },
+    threatLists: {
+      type: "string[]",
+      label: "Threat Lists",
+      description: "The threat lists to check for updates",
+      async options() {
+        const { threatLists } = await this.getThreatLists();
+        return threatLists.map((list) => ({
+          label: `${list.threatType} / ${list.platformType} / ${list.threatEntryType}`,
+          value: JSON.stringify(list),
+        }));
+      },
     },
   },
   methods: {
@@ -43,9 +79,22 @@ export default {
         ...args,
       });
     },
+    getThreatLists(args = {}) {
+      return this._makeRequest({
+        path: "/threatLists",
+        ...args,
+      });
+    },
     findThreatMatches(args = {}) {
       return this._makeRequest({
         path: "/threatMatches:find",
+        method: "POST",
+        ...args,
+      });
+    },
+    fetchThreatListUpdates(args = {}) {
+      return this._makeRequest({
+        path: "/threatListUpdates:fetch",
         method: "POST",
         ...args,
       });
