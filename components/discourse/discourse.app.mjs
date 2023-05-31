@@ -236,31 +236,26 @@ export default {
       const data = await this._makeRequest({
         path: "/categories",
       });
-
       return get(data, "category_list.categories", []);
     },
     async listUsers() {
-      const data = await this._makeRequest({
+      return this._makeRequest({
         path: "/admin/users",
       });
-      return data;
     },
     async getTopics({ ...args }) {
       const data = await this._makeRequest({
         path: "/latest.json",
         ...args,
       });
-
       return data?.topic_list?.topics ?? [];
     },
     async createPostOrTopic({ ...args }) {
-      const data = await this._makeRequest({
+      return this._makeRequest({
         path: "/posts.json",
         method: "post",
         ...args,
       });
-
-      return data;
     },
   },
 };
