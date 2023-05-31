@@ -2033,6 +2033,12 @@
     },
     {
       "path": "components/trustpilot"
+    },
+    {
+      "path": "components/ip2location_io"
+    },
+    {
+      "path": "components/mem"
     }
   ]
 }
