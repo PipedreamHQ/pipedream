@@ -218,7 +218,7 @@ export default {
     },
     // https://docs.discourse.org/#tag/Posts/paths/~1posts.json/get
     async getLatestPosts(categories) {
-      const { data } = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/posts",
       });
       const posts = get(data, "latest_posts", []);
@@ -226,7 +226,7 @@ export default {
     },
     // https://docs.discourse.org/#tag/Topics/paths/~1latest.json/get
     async getLatestTopics(categories) {
-      const { data } = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/latest",
       });
       const topics = get(data, "topic_list.topics", []);
@@ -240,27 +240,27 @@ export default {
       return get(data, "category_list.categories", []);
     },
     async listUsers() {
-      const { data } = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/admin/users",
       });
       return data;
     },
     async getTopics({ ...args }) {
-      const response = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/latest.json",
         ...args,
       });
 
-      return response.data?.topic_list?.topics ?? [];
+      return data?.topic_list?.topics ?? [];
     },
     async createPostOrTopic({ ...args }) {
-      const response = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/posts.json",
         method: "post",
         ...args,
       });
 
-      return response.data;
+      return data;
     },
   },
 };
