@@ -56,7 +56,7 @@ export default {
         },
       });
 
-      posts.reverse().forEach(this.emitEvent);
+      posts.forEach(this.emitEvent);
     },
   },
   async run() {
@@ -78,6 +78,6 @@ export default {
       endTime: dayjs().toISOString(),
     });
 
-    posts.reverse().forEach(this.emitEvent);
+    posts.forEach(this.emitEvent);
   },
 };
