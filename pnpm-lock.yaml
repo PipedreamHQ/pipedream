@@ -2117,6 +2117,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
 
+  components/ip2location_io:
+    specifiers: {}
+
   components/ip2proxy:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -2568,6 +2571,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/mem:
+    specifiers: {}
 
   components/memberstack:
     specifiers:
