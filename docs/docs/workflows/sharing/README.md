@@ -10,7 +10,7 @@ You can share your workflows as templates with other Pipedream accounts with a u
 
 Creating a share link for your workflow will allow anyone with the link to create a template version of your workflow in their own Pipedream account. This will allow others to use your workflow with their own Pipedream account and also their own connected accounts.
 
-[Here's an example of a workflow](https://pipedream.com/new?h=tch_ORVf88) that sends you a daily SMS message with today's schedule:
+[Here's an example of a workflow](https://pipedream.com/new?h=tch_OYWfjz) that sends you a daily SMS message with today's schedule:
 
 <div class="flex justify-center">
 <img alt="Daily Schedule SMS Reminder workflow" src="https://res.cloudinary.com/pipedreamin/image/upload/v1685116771/docs/docs/share%20workflows/New_Project_6_n63kju.png" />
