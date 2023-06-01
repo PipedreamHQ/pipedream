@@ -4,6 +4,14 @@ export interface ListFields {
   "user.fields"?: string;
 }
 
+export interface MessageFields {
+  expansions?: string;
+  "dm_event.fields"?: string;
+  "media.fields"?: string;
+  "tweet.fields"?: string;
+  "user.fields"?: string;
+}
+
 export interface UserFields {
   expansions?: string;
   "tweet.fields"?: string;

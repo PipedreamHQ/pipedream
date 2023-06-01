@@ -1,6 +1,6 @@
 import { Pipedream } from "@pipedream/types";
 import {
-  ListFields, TweetFields, UserFields,
+  ListFields, MessageFields, TweetFields, UserFields,
 } from "./fields";
 
 interface PdAxiosRequest {
@@ -64,6 +64,12 @@ export interface DeleteTweetParams extends PdAxiosRequest, TweetId {}
 export interface FollowUserParams extends PdAxiosRequest {
   data: {
     target_user_id: string;
+  };
+}
+
+export interface GetDirectMessagesParams extends PaginatedRequest {
+  params?: MessageFields & {
+    event_types: "MessageCreate"
   };
 }
 

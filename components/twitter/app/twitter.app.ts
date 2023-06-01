@@ -28,8 +28,10 @@ import {
   GetListTweetsParams,
   GetAuthenticatedUserParams,
   SendMessageParams,
+  GetDirectMessagesParams,
 } from "../common/types/requestParams";
 import {
+  DirectMessage,
   List,
   PaginatedResponseObject,
   ResponseObject,
@@ -304,6 +306,14 @@ export default defineApp({
     async getAuthenticatedUserId(): Promise<User["id"]> {
       const response = await this.getAuthenticatedUser();
       return response.data.id;
+    },
+    async getDirectMessages(
+      args: GetDirectMessagesParams
+    ): Promise<PaginatedResponseObject<DirectMessage>> {
+      return this._paginatedRequest({
+        url: "/dm_events",
+        ...args,
+      });
     },
     async getUserLikedTweets({
       userId,
