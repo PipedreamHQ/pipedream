@@ -212,7 +212,6 @@ export default {
     },
   },
   async run({ $ }) {
-
     const {
       constantContact,
       contactId,
