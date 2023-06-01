@@ -15,6 +15,12 @@ export default {
     },
   },
   methods: {
+    _getLastMaxTimestamp() {
+      return this.db.get("lastMaxTimestamp");
+    },
+    _setLastMaxTimestamp(lastMaxTimestamp) {
+      this.db.set("lastMaxTimestamp", lastMaxTimestamp);
+    },
     async processCollection(statement, timestamp) {
       const rowStream = await this.snowflake.getRows(statement);
       this.$emit({
@@ -38,6 +44,7 @@ export default {
       }
 
       return {
+        rowStream,
         lastResultId,
         rowCount,
       };
@@ -100,7 +107,7 @@ export default {
     },
     async watchObjectsAndEmitChanges(objectType, objectsToEmit, queryTypes) {
       // Get the timestamp of the last run, if available. Else set the start time to 1 day ago
-      const lastRun = this.db.get("lastMaxTimestamp") ?? +Date.now() - (1000 * 60 * 60 * 24);
+      const lastRun = this._getLastMaxTimestamp() ?? +Date.now() - (1000 * 60 * 60 * 24);
       console.log(`Max ts of last run: ${lastRun}`);
 
       const newMaxTs = await this.snowflake.maxQueryHistoryTimestamp();
@@ -113,22 +120,18 @@ export default {
       );
       console.log(`Raw results: ${JSON.stringify(results, null, 2)}`);
       this.filterAndEmitChanges(results, objectType, objectsToEmit, queryTypes);
-      await this.db.set("lastMaxTimestamp", newMaxTs);
+      this._setLastMaxTimestamp(newMaxTs);
     },
     async emitFailedTasks({
       database, schema,
     }) {
       // Get the timestamp of the last run, if available. Else set the start time to 1 day ago
-      const lastRun = this.db.get("lastMaxTimestamp") ?? +Date.now() - (1000 * 60 * 60 * 24);
+      const lastRun = this._getLastMaxTimestamp() ?? +Date.now() - (1000 * 60 * 60 * 24);
       console.log(`Max ts of last run: ${lastRun}`);
-
-      const newMaxTs = await this.snowflake.maxTaskHistoryTimestamp();
-      console.log(`New max ts: ${newMaxTs}`);
 
       let results;
       const opts = {
         startTime: lastRun,
-        endTime: newMaxTs,
       };
 
       if (database && schema) {
@@ -177,14 +180,14 @@ export default {
             scheduledFrom,
           },
           {
-            id: queryId,
+            id: runId,
             summary: `Failed task ${taskName}`,
             ts: +queryStartTime,
           },
         );
       }
 
-      await this.db.set("lastMaxTimestamp", newMaxTs);
+      this._setLastMaxTimestamp(Date.now());
     },
     getStatement() {
       throw new Error("getStatement is not implemented");
@@ -198,12 +201,20 @@ export default {
     processEvent() {
       throw new Error("processEvent is not implemented");
     },
+    alwaysRunInSingleProcessMode() {
+      return false;
+    },
   },
   async run(event) {
     const { timestamp } = event;
     const statement = this.getStatement(event);
-    return this.emitIndividualEvents === true
-      ? this.processSingle(statement, timestamp)
-      : this.processCollection(statement, timestamp);
+    const data = this.emitIndividualEvents === true || this.alwaysRunInSingleProcessMode()
+      ? await this.processSingle(statement, timestamp)
+      : await this.processCollection(statement, timestamp);
+
+    if (this.additionalProccessing) {
+      this.additionalProccessing(data);
+    }
+    return data;
   },
 };

@@ -80,6 +80,26 @@ function fieldToProp(field) {
   };
 }
 
+function isComputedField(field) {
+  const computedFieldByType = [
+    FieldType.FORMULA,
+    FieldType.LOOKUP,
+    FieldType.COUNT,
+    FieldType.ROLLUP,
+    FieldType.AUTO_NUMBER,
+    FieldType.CREATED_TIME,
+    FieldType.CREATED_BY,
+    FieldType.LAST_MODIFIED_BY,
+    FieldType.LAST_MODIFIED_TIME,
+    FieldType.MULTIPLE_LOOKUP_VALUES,
+    FieldType.MULTIPLE_RECORD_LINKS,
+  ].includes(field.type);
+
+  const fieldOptionsResultExists = Boolean(field.options?.result);
+
+  return computedFieldByType || fieldOptionsResultExists;
+}
+
 /**
  * Creates a set of props corresponding to a table's fields
  *
@@ -89,7 +109,9 @@ function fieldToProp(field) {
 function makeFieldProps(tableSchema) {
   let props = {};
   for (const field of tableSchema?.fields ?? []) {
-    props[`${FIELD_PREFIX}${field.name}`] = fieldToProp(field);
+    if (!isComputedField(field)) {
+      props[`${FIELD_PREFIX}${field.name}`] = fieldToProp(field);
+    }
   }
   return props;
 }

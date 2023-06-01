@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/blue",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Blue Components",
   "main": "dist/app/blue.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/blue",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

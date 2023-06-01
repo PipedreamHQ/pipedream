@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/zerobounce",
+  "version": "0.0.2",
+  "description": "Pipedream ZeroBounce Components",
+  "main": "dist/app/zerobounce.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zerobounce"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/zerobounce",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

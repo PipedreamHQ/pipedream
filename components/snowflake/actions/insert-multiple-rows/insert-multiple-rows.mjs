@@ -6,7 +6,7 @@ export default {
   key: "snowflake-insert-multiple-rows",
   name: "Insert Multiple Rows",
   description: "Insert multiple rows into a table",
-  version: "0.0.2",
+  version: "0.0.4",
   props: {
     snowflake,
     tableName: {

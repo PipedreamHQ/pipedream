@@ -106,7 +106,7 @@ export default {
       const client = await this.getClient();
       const collection = this.getCollection(client, databaseName, collectionName);
       const doc = await collection.updateOne({
-        _id: ObjectID(_id),
+        _id: new ObjectID(_id),
       }, {
         "$set": data,
       });
@@ -117,7 +117,7 @@ export default {
       const client = await this.getClient();
       const collection = this.getCollection(client, databaseName, collectionName);
       const doc = await collection.deleteOne({
-        _id: ObjectID(_id),
+        _id: new ObjectID(_id),
       });
       await client.close();
       return doc;
@@ -126,7 +126,7 @@ export default {
       const client = await this.getClient();
       const collection = this.getCollection(client, databaseName, collectionName);
       const doc = await collection.findOne({
-        _id: ObjectID(_id),
+        _id: new ObjectID(_id),
       });
       await client.close();
       return doc;

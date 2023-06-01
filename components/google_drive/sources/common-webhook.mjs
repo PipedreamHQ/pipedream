@@ -96,6 +96,21 @@ export default {
     getDriveId(drive = this.drive) {
       return googleDrive.methods.getDriveId(drive);
     },
+    getFilesOpts(args = {}) {
+      const opts = {
+        q: "mimeType != 'application/vnd.google-apps.folder' and trashed = false",
+        ...args,
+      };
+      return this.isMyDrive()
+        ? opts
+        : {
+          ...opts,
+          corpora: "drive",
+          driveId: this.getDriveId(),
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+    },
     /**
      * This method returns the types of updates/events from Google Drive that
      * the event source should listen to. This base implementation returns an

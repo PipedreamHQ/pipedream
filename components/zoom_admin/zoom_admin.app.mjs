@@ -341,5 +341,14 @@ export default {
       });
       return get(res, "data");
     },
+    async listWebinarParticipants(webinarID, nextPageToken) {
+      const { data } = await this._makeRequest({
+        path: `/past_webinars/${webinarID}/participants`,
+        params: {
+          next_page_token: nextPageToken,
+        },
+      });
+      return data;
+    },
   },
 };

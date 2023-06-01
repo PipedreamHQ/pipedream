@@ -12,14 +12,16 @@ const docsNav = [
       "/workflows/steps/using-props/",
       "/workflows/events/",
       "/workflows/events/inspect/",
-      "/workflows/built-in-functions/",
+      "/workflows/flow-control/",
       "/workflows/errors/",
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
       "/workflows/networking/",
+      "/workflows/sharing/",
       "/migrate-from-v1/",
     ],
   },
+  "/event-history/",
   "/sources/",
   "/connected-accounts/",
   ["/data-stores/", "Data Stores"],
@@ -42,7 +44,7 @@ const docsNav = [
           "/code/nodejs/rerun/",
           "/environment-variables/",
           "/code/nodejs/async/",
-          "/code/nodejs/sharing-code/",
+          "/code/nodejs/sharing-code/"
         ],
       },
       {
@@ -56,7 +58,7 @@ const docsNav = [
           "/code/python/using-data-stores/",
           "/code/python/rerun/",
           "/code/python/import-mappings/",
-          "/code/python/faqs/"
+          "/code/python/faqs/",
         ],
       },
       "/code/go/",
@@ -69,15 +71,16 @@ const docsNav = [
       "/environment-variables/",
     ],
   },
+  "/http/",
   {
-    title: 'Integrations',
-    type: "group", 
+    title: "Integrations",
+    type: "group",
     children: [
       "/apps/",
       "/apps/contributing/",
       {
-        title: "Components", 
-        type: "group", 
+        title: "Components",
+        type: "group",
         collapsable: false,
         children: [
           "/components/",
@@ -85,19 +88,19 @@ const docsNav = [
           "/components/quickstart/nodejs/sources/",
           "/pipedream-axios/",
           "/components/typescript/",
-          "/components/guidelines/"
-        ]
+          "/components/guidelines/",
+        ],
       },
-    ]
+    ],
   },
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
   {
     title: "Workspaces",
     children: [
-      "/workspaces/", 
+      "/workspaces/",
       "/workspaces/sso/google/",
-      "/workspaces/sso/okta/"
+      "/workspaces/sso/okta/",
     ],
   },
 ];
@@ -105,11 +108,7 @@ const docsNav = [
 const referenceNav = [
   {
     title: "Components API",
-    children: [
-
-      "/components/api/",
-
-    ],
+    children: ["/components/api/"],
   },
   {
     title: "CLI",

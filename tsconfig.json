@@ -1826,6 +1826,222 @@
     },
     {
       "path": "components/dayschedule"
+    },
+    {
+      "path": "components/marketstack"
+    },
+    {
+      "path": "components/plisio"
+    },
+    {
+      "path": "components/concord"
+    },
+    {
+      "path": "components/portfolio_optimizer"
+    },
+    {
+      "path": "components/slybroadcast"
+    },
+    {
+      "path": "components/liondesk"
+    },
+    {
+      "path": "components/implisense_api"
+    },
+    {
+      "path": "components/h_supertools_analytics_tool"
+    },
+    {
+      "path": "components/digistore24"
+    },
+    {
+      "path": "components/accredible"
+    },
+    {
+      "path": "components/kintone"
+    },
+    {
+      "path": "components/suitedash"
+    },
+    {
+      "path": "components/vestaboard"
+    },
+    {
+      "path": "components/quaderno"
+    },
+    {
+      "path": "components/braintree"
+    },
+    {
+      "path": "components/billsby"
+    },
+    {
+      "path": "components/convertapi"
+    },
+    {
+      "path": "components/axonaut"
+    },
+    {
+      "path": "components/stealthseminar"
+    },
+    {
+      "path": "components/messagebird"
+    },
+    {
+      "path": "components/better_uptime"
+    },
+    {
+      "path": "components/icontact"
+    },
+    {
+      "path": "components/zerobounce"
+    },
+    {
+      "path": "components/ecologi"
+    },
+    {
+      "path": "components/paystack"
+    },
+    {
+      "path": "components/klenty"
+    },
+    {
+      "path": "components/survicate"
+    },
+    {
+      "path": "components/finmo"
+    },
+    {
+      "path": "components/amazing_marvin"
+    },
+    {
+      "path": "components/sierra_interactive"
+    },
+    {
+      "path": "components/hive"
+    },
+    {
+      "path": "components/order_desk"
+    },
+    {
+      "path": "components/happy_scribe"
+    },
+    {
+      "path": "components/omise"
+    },
+    {
+      "path": "components/thankster"
+    },
+    {
+      "path": "components/segmetrics"
+    },
+    {
+      "path": "components/reflect"
+    },
+    {
+      "path": "components/baselinker"
+    },
+    {
+      "path": "components/ez_texting"
+    },
+    {
+      "path": "components/salesmsg"
+    },
+    {
+      "path": "components/signaturit"
+    },
+    {
+      "path": "components/handwrytten"
+    },
+    {
+      "path": "components/focuster"
+    },
+    {
+      "path": "components/retool"
+    },
+    {
+      "path": "components/wealthbox"
+    },
+    {
+      "path": "components/wati"
+    },
+    {
+      "path": "components/hotjar"
+    },
+    {
+      "path": "components/caspio"
+    },
+    {
+      "path": "components/cloze"
+    },
+    {
+      "path": "components/respond_io"
+    },
+    {
+      "path": "components/sakari_sms"
+    },
+    {
+      "path": "components/encharge"
+    },
+    {
+      "path": "components/replicate"
+    },
+    {
+      "path": "components/sellercloud"
+    },
+    {
+      "path": "components/constant_contact"
+    },
+    {
+      "path": "components/google_palm_api"
+    },
+    {
+      "path": "components/imagga"
+    },
+    {
+      "path": "components/unbounce"
+    },
+    {
+      "path": "components/hootsuite"
+    },
+    {
+      "path": "components/wix_api_key"
+    },
+    {
+      "path": "components/teamleader_focus"
+    },
+    {
+      "path": "components/fastfield_mobile_forms"
+    },
+    {
+      "path": "components/trakt"
+    },
+    {
+      "path": "components/iauditor_by_safetyculture"
+    },
+    {
+      "path": "components/callrail"
+    },
+    {
+      "path": "components/wave"
+    },
+    {
+      "path": "components/chatwork"
+    },
+    {
+      "path": "components/daffy"
+    },
+    {
+      "path": "components/trustpilot"
+    },
+    {
+      "path": "components/ip2location_io"
+    },
+    {
+      "path": "components/mem"
+    },
+    {
+      "path": "components/cohere_platform"
     }
   ]
 }

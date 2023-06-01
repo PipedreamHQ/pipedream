@@ -8,6 +8,7 @@
       "composite": true,
       "outDir": "dist",
       "allowSyntheticDefaultImports": true,
+      "skipLibCheck": true,
     },
     "allowJs": true,
     "include": [
