@@ -26,17 +26,24 @@ export default {
         }),
       ],
     },
+    taskName: {
+      type: "string",
+      label: "Task Name",
+      description: "The name of the task to watch for failures. It is allows you to use Regex to match multiple tasks.",
+      optional: true,
+    },
   },
   type: "source",
   key: "snowflake-failed-task-in-schema",
   // eslint-disable-next-line
   name: "Failed Task in Schema",
   description: "Emit new events when a task fails in a database schema",
-  version: "0.0.6",
+  version: "0.0.7",
   async run() {
     await this.emitFailedTasks({
       database: this.database,
       schema: this.schema,
+      taskName: this.taskName,
     });
   },
 };

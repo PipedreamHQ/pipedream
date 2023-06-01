@@ -123,7 +123,7 @@ export default {
       this._setLastMaxTimestamp(newMaxTs);
     },
     async emitFailedTasks({
-      database, schema,
+      database, schema, taskName,
     }) {
       // Get the timestamp of the last run, if available. Else set the start time to 1 day ago
       const lastRun = this._getLastMaxTimestamp() ?? +Date.now() - (1000 * 60 * 60 * 24);
@@ -132,6 +132,7 @@ export default {
       let results;
       const opts = {
         startTime: lastRun,
+        taskName,
       };
 
       if (database && schema) {

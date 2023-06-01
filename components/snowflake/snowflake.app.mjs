@@ -174,8 +174,21 @@ export default {
       return this.collectRows(statement);
     },
     async getFailedTasksInDatabase({
-      startTime, database, schema,
+      startTime, database, schema, taskName,
     }) {
+      const binds = [
+        startTime,
+        database,
+        schema,
+      ];
+      const taskNameWhere = taskName
+        ? "AND REGEXP_LIKE(NAME, :4)"
+        : "";
+
+      if (taskName) {
+        binds.push(taskName);
+      }
+
       const sqlText = `SELECT *
       FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY(
         RESULT_LIMIT => 10000,
@@ -184,14 +197,11 @@ export default {
       ))
       WHERE database_name = :2
       AND schema_name = :3
+      ${taskNameWhere}
       ORDER BY SCHEDULED_TIME ASC, QUERY_START_TIME ASC, COMPLETED_TIME ASC;`;
       const statement = {
         sqlText,
-        binds: [
-          startTime,
-          database,
-          schema,
-        ],
+        binds,
       };
       return this.collectRows(statement);
     },
