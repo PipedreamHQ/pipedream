@@ -120,6 +120,12 @@ export interface SearchTweetsParams extends PaginatedRequest {
   params: { query: string; };
 }
 
+export interface SendMessageParams extends PdAxiosRequest, UserId {
+  data: {
+    text: string;
+  }
+}
+
 export interface UnfollowUserParams extends PdAxiosRequest, UserId {}
 
 export interface UnlikeTweetParams extends PdAxiosRequest, TweetId {}

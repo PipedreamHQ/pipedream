@@ -27,6 +27,7 @@ import {
   UnlikeTweetParams,
   GetListTweetsParams,
   GetAuthenticatedUserParams,
+  SendMessageParams,
 } from "../common/types/requestParams";
 import {
   List,
@@ -402,6 +403,16 @@ export default defineApp({
     ): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: "/tweets/search/recent",
+        ...args,
+      });
+    },
+    async sendMessage({
+      userId,
+      ...args
+    }: SendMessageParams): Promise<object> {
+      return this._httpRequest({
+        method: "POST",
+        url: `/dm_conversations/with/${userId}/messages`,
         ...args,
       });
     },
