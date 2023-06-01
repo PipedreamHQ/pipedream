@@ -123,7 +123,7 @@ export interface SearchTweetsParams extends PaginatedRequest {
 export interface SendMessageParams extends PdAxiosRequest, UserId {
   data: {
     text: string;
-  }
+  };
 }
 
 export interface UnfollowUserParams extends PdAxiosRequest, UserId {}

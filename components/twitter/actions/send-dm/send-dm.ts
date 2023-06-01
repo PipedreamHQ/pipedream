@@ -16,7 +16,10 @@ export default defineAction({
   props: {
     app,
     userNameOrId: {
-      propDefinition: [app, "userNameOrId"],
+      propDefinition: [
+        app,
+        "userNameOrId",
+      ],
       label: "Recipient Name or ID",
       optional: false,
     },
@@ -38,7 +41,7 @@ export default defineAction({
         $,
         userId,
         data: {
-          text: this.text
+          text: this.text,
         },
       };
 
@@ -46,7 +49,7 @@ export default defineAction({
 
       $.export(
         "$summary",
-        `Successfully sent message (event ID ${response.data?.dm_event_id})`
+        `Successfully sent message (event ID ${response.data?.dm_event_id})`,
       );
 
       return response;
