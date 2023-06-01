@@ -2,21 +2,21 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "smartsheet-new-row-added",
-  name: "New Row Added (Instant)",
-  description: "Emit new event when a row is added to a sheet.",
-  version: "0.0.2",
+  key: "smartsheet-new-row-deleted",
+  name: "New Row Deleted (Instant)",
+  description: "Emit new event when a row is deleted from a sheet.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getWebhookName() {
-      return "Pipedream New Row Added";
+      return "Pipedream New Row Deleted";
     },
     isRelevant({
       objectType, eventType,
     }) {
-      return objectType === "row" && eventType === "created";
+      return objectType === "row" && eventType === "deleted";
     },
     generateMeta(event) {
       return {
@@ -25,8 +25,9 @@ export default {
         ts: Date.parse(event.timestamp),
       };
     },
-    async getResource(event) {
-      return this.smartsheet.getRow(this.sheetId, event.id);
+    async getResource() {
+      // deleted row can't be retrieved, so retrieve sheet resource
+      return this.smartsheet.getSheet(this.sheetId);
     },
   },
 };
