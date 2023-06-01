@@ -29,7 +29,7 @@ export default {
     taskName: {
       type: "string",
       label: "Task Name",
-      description: "The name of the task to watch for failures. It is allows you to use Regex to match multiple tasks.",
+      description: "The name of the task to watch for failures. It allows you to use Regex to match multiple tasks.",
       optional: true,
     },
   },
