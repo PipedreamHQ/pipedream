@@ -8,7 +8,7 @@ export default defineSource({
   name: "New Item From Multiple RSS Feeds",
   type: "source",
   description: "Emit new items from multiple RSS feeds",
-  version: "1.2.2",
+  version: "1.2.3",
   props: {
     ...rssCommon.props,
     urls: {
@@ -37,6 +37,8 @@ export default defineSource({
     },
   },
   async run() {
+    const previousIds = this.getPreviousIds();
+
     const items = [];
     for (const url of this.urls) {
       const feedItems = (await this.rss.fetchAndParseFeed(url))?.slice(0, this.max);
@@ -45,7 +47,12 @@ export default defineSource({
     }
     this.rss.sortItems(items).forEach((item: any) => {
       const meta = this.generateMeta(item);
-      this.$emit(item, meta);
+      if (!previousIds[meta.id]) {
+        this.$emit(item, meta);
+        previousIds[meta.id] = true;
+      }
     });
+
+    this.setPreviousIds(previousIds);
   },
 });
