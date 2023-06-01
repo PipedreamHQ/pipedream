@@ -31,7 +31,7 @@ Pipedream supports two types of components — [sources](#sources) and [actions]
 
 **Example**
 
-The [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.mjs) source for Twitter is a prebuilt component in Pipedream's registry that can be deployed in seconds and emits new Tweets that match a search query. After a user configures and deploys it, the deployed component polls the Twitter API for new results. When new results are found, each new result is emitted as an event that may be inspected and used to trigger a workflow.
+The [New Files (Instant)](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_drive/sources/new-files-instant/new-files-instant.mjs) source for Google Drive is a prebuilt component in Pipedream's registry that can be deployed in seconds and emits an event every time a new file is added to the user's Google Drive, and can also be configured to watch for changes to a specific folder within that drive. Each new event is emitted and can be used to trigger a workflow.
 
 ### Actions
 
