@@ -2039,6 +2039,9 @@
     },
     {
       "path": "components/mem"
+    },
+    {
+      "path": "components/cohere_platform"
     }
   ]
 }
