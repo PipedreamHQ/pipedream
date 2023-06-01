@@ -201,6 +201,29 @@ export default {
         }
       },
     },
+    fileId: {
+      type: "string",
+      label: "File",
+      description: "The file do download",
+      async options({
+        folderId, page,
+      }) {
+        const limit = constants.pageSize;
+        const { entries } = await this.getItems({
+          folderId,
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return entries.filter(({ type }) => type === "file").map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
     _getApiUrl(path) {
@@ -259,6 +282,15 @@ export default {
       return this._makeRequest({
         method: "POST",
         url: this._getUploadUrl("/files/content"),
+        ...args,
+      });
+    },
+    async downloadFile({
+      fileId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/files/${fileId}/content`,
+        responseType: "stream",
         ...args,
       });
     },
