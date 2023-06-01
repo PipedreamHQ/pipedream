@@ -36,7 +36,7 @@ export default {
     },
     dimensionFilter: {
       type: "object",
-      label: "Dimension Filter",
+      label: "Dimension filter",
       description: "Dimension filter let you ask for only specific dimension values in the report. Read more about dimension filters [here](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#dimension_filters)",
       optional: true,
     },
