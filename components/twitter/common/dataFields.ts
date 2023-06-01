@@ -7,6 +7,18 @@ export const LIST_FIELD_OPTIONS = [
   "owner_id",
 ];
 
+export const MESSAGE_FIELD_OPTIONS = [
+  "id",
+  "text",
+  "event_type",
+  "created_at",
+  "dm_conversation_id",
+  "sender_id",
+  "participant_ids",
+  "referenced_tweets",
+  "attachments",
+];
+
 export const MEDIA_FIELD_OPTIONS = [
   "duration_ms",
   "height",
