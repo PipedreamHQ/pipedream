@@ -5,7 +5,7 @@ export interface TwitterEntity {
 export type TwitterEntityMap = Record<string, object>;
 
 export interface DirectMessage extends TwitterEntity {
-  event_type: "MessageCreate",
+  event_type: "MessageCreate";
   text: string;
 }
 

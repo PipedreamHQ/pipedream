@@ -308,7 +308,7 @@ export default defineApp({
       return response.data.id;
     },
     async getDirectMessages(
-      args: GetDirectMessagesParams
+      args: GetDirectMessagesParams,
     ): Promise<PaginatedResponseObject<DirectMessage>> {
       return this._paginatedRequest({
         url: "/dm_events",

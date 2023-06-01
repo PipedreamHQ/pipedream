@@ -29,7 +29,7 @@ export default defineSource({
         maxResults: maxResults ?? MAX_RESULTS_PER_PAGE,
         params: {
           ...this.getMessageFields(),
-          event_types: "MessageCreate"
+          event_types: "MessageCreate",
         },
       };
 

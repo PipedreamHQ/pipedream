@@ -69,7 +69,7 @@ export interface FollowUserParams extends PdAxiosRequest {
 
 export interface GetDirectMessagesParams extends PaginatedRequest {
   params?: MessageFields & {
-    event_types: "MessageCreate"
+    event_types: "MessageCreate";
   };
 }
 
