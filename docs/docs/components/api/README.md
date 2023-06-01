@@ -779,7 +779,7 @@ When your workflow runs, you'll see the named exports appear below your step, wi
 
 **`$.respond`**
 
-`$.respond` functions the same way as `$respond` in workflow code steps. [See the `$respond` docs for more information](/workflows/steps/triggers/#customizing-the-http-response).
+`$.respond` lets you issue HTTP responses from your workflow. [See the full `$.respond` docs for more information](/workflows/steps/triggers/#customizing-the-http-response).
 
 ```javascript
 async run({ $ }) {
