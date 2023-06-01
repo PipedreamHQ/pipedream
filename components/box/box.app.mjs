@@ -204,7 +204,7 @@ export default {
     fileId: {
       type: "string",
       label: "File",
-      description: "The file do download",
+      description: "The file to download",
       async options({
         folderId, page,
       }) {
