@@ -31,7 +31,7 @@ Pipedream supports two types of components — [sources](#sources) and [actions]
 
 **Example**
 
-The [New Files (Instant)](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_drive/sources/new-files-instant/new-files-instant.mjs) source for Google Drive is a prebuilt component in Pipedream's registry that can be deployed in seconds and emits an event every time a new file is added to the user's Google Drive, and can also be configured to watch for changes to a specific folder within that drive. Each new event is emitted and can be used to trigger a workflow.
+The [New Files (Instant)](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_drive/sources/new-files-instant/new-files-instant.mjs) source for Google Drive is a prebuilt component in Pipedream's registry that can be deployed in seconds and emits an event every time a new file is added to the user's Google Drive, and can also be configured to watch for changes to a specific folder within that drive. Each new event that is emitted can be used to trigger a workflow.
 
 ### Actions
 
