@@ -21,7 +21,7 @@ export default {
     generateMeta(event) {
       return {
         id: event.id,
-        summary: `Row ${event.id} added`,
+        summary: `Row ${event.id} deleted`,
         ts: Date.parse(event.timestamp),
       };
     },
