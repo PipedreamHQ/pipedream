@@ -52,11 +52,6 @@ export default {
         "Contact",
       ],
     },
-    customFields: {
-      type: "string[]",
-      label: "Custom Fields",
-      description: "Array of up to 25 `custom_field` key value pairs. Each item must be an object containing `custom_field_id` and `value` fields. E.g.`{\"custom_field_id\":1, \"value\":\"The custom_field value.\"}`",
-    },
     emailAddress: {
       type: "string",
       label: "Email Address",
@@ -96,10 +91,20 @@ export default {
         }));
       },
     },
-    notes: {
-      type: "string[]",
-      label: "Notes",
-      description: "Array of notes about the contact. Each item must be an object containing `note_id` (The ID that uniquely identifies the note - UUID format), `created_at` (The date that the note was created) and `content` (The content for the note). E.g.`{\"note_id\":\"123123123\", \"created_at\":\"1970-01-01\", \"content\":\"Content example of the note about the contact\"}`",
+    numberOfNotes: {
+      type: "integer",
+      label: "Number Of Notes",
+      description: "The number of notes in the contact.",
+    },
+    numberOfPhoneNumbers: {
+      type: "integer",
+      label: "Number Of Phone Numbers",
+      description: "The number of phone numbers of the contact.",
+    },
+    numberOfStreetAddresses: {
+      type: "integer",
+      label: "Number Of Street Addresses",
+      description: "The number of street addresses of the contact.",
     },
     permissionToSend: {
       type: "string",
@@ -113,16 +118,6 @@ export default {
         "temp_hold",
         "not_set",
       ],
-    },
-    phoneNumbers: {
-      type: "string[]",
-      label: "Phone Numbers",
-      description: "Array of up to 3 phone numbers subresources. Each item must be an object containing `phone_number` and `kind` fields. E.g.`{\"phone_number\":12345678, \"kind\":\"other\"}`. The `kind` field can be `home`, `work`, `mobile` or `other`",
-    },
-    streetAddresses: {
-      type: "string[]",
-      label: "Street Address",
-      description: "Array of up to 3 street address subresources. Each item must be an object containing `kind`, `street`, `city`, `state`, `postal_code` and `country` fields. E.g.`{\"kind\":\"home\", \"street\":\"123 example st.\", \"city\":\"New York\", \"state\":\"NY\", \"postal_code\":\"10002\", \"country\":\"United States\", }`. The `kind` field can be `home`, `work` or `other`",
     },
     taggings: {
       type: "string[]",
@@ -191,6 +186,12 @@ export default {
     listContacts(args = {}) {
       return this._makeRequest({
         path: "contacts",
+        ...args,
+      });
+    },
+    listCustomFields(args = {}) {
+      return this._makeRequest({
+        path: "contact_custom_fields",
         ...args,
       });
     },
