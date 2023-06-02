@@ -5,7 +5,7 @@ export default {
   key: "sendgrid-remove-contact-from-list",
   name: "Remove Contact From List",
   description: "Allows you to remove contacts from a given list. [See the docs here](https://docs.sendgrid.com/api-reference/lists/remove-contacts-from-a-list)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
@@ -45,7 +45,11 @@ export default {
     } = this;
     for (const email of contactEmails) {
       const { result } = await this.sendgrid.searchContacts(`email like '${email}'`);
-      const id = result[0]?.id;
+
+      const id = result && result.length
+        ? result[0].id
+        : null;
+
       if (!contactIds.includes(id)) {
         contactIds.push(id);
       }
