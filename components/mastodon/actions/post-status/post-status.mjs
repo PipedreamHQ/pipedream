@@ -17,13 +17,13 @@ export default {
     inReplyToId: {
       type: "string",
       label: "In Reply To ID",
-      description: "ID of the status being replied to, if status is a reply.",
+      description: "ID of the status being replied to, if the status is a reply.",
       optional: true,
     },
     sensitive: {
       type: "boolean",
       label: "Sensitive",
-      description: "Mark status and attached media as sensitive? Defaults to false.",
+      description: "Mark the status and attached media as sensitive? Defaults to false.",
       optional: true,
       default: false,
     },
@@ -36,7 +36,7 @@ export default {
     visibility: {
       type: "string",
       label: "Visibility",
-      description: "Sets the visibility of the posted status to `public`, `unlisted`, `private`, or `direct`.",
+      description: "Set the visibility of the posted status to `public`, `unlisted`, `private`, or `direct`.",
       options: VISIBILITY_OPTIONS,
       optional: true,
     },
@@ -49,7 +49,7 @@ export default {
     shouldSplit: {
       type: "boolean",
       label: "Split to multiple messages",
-      description: "If the status content is longer than 500 characters, it will be splitted, respecting words, and posted to subsequent thread.\n\nThis action will return the array of submitted posts.",
+      description: "If the status content is longer than 500 characters, it will be split, respecting words, and posted to the subsequent thread.\n\nThis action will return the array of submitted posts.",
       optional: true,
       default: false,
     },
@@ -105,7 +105,7 @@ export default {
         }),
       );
     }
-    $.export("$summary", `Successfully posted ${chunkedStatus.length} status`);
+    $.export("$summary", `Successfully posted ${chunkedStatus.length} status(es)`);
     return this.shouldSplit ?
       results :
       results[0];
