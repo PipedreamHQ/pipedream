@@ -40,5 +40,12 @@ export default {
           text,
         });
     },
+    async chat(opts) {
+      return this.discussClient()
+        .generateMessage({
+          ...opts,
+          model: "models/chat-bison-001",
+        });
+    },
   },
 };
