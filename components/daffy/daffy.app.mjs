@@ -100,11 +100,10 @@ export default defineApp({
       return userId;
     },
     async *paginate({
-      fn, params = {}, maxResults = null,
+      fn, params = {},
     }) {
       let firstPage = false;
-      let count = 0;
-      let page = 0;
+      let page = 1;
       let firstRequest = 1;
 
       do {
@@ -124,10 +123,6 @@ export default defineApp({
         } else {
           for (const d of items) {
             yield d;
-
-            if (maxResults && ++count === maxResults) {
-              return count;
-            }
           }
 
           firstPage = !(currentPage === 1);

@@ -37,8 +37,14 @@ export default {
         maxResults,
       });
 
+      let count = 0;
+
       for await (const item of items) {
         responseArray.push(item);
+
+        if (maxResults && ++count === maxResults) {
+          break;
+        }
       }
 
       responseArray = responseArray.filter((item) => moment(item.created_at).isAfter(lastDate));
