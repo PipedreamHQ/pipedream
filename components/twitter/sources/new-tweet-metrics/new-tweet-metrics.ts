@@ -17,7 +17,10 @@ export default defineSource({
   props: {
     ...common.props,
     tweetId: {
-      propDefinition: [app, "tweetId"],
+      propDefinition: [
+        app,
+        "tweetId",
+      ],
     },
     metricsFields: {
       type: "string[]",
@@ -66,7 +69,7 @@ export default defineSource({
             id: ts,
             summary: "New Metrics",
             ts,
-          })
+          });
           this.setSavedMetrics(stringifiedObj);
         }
       }
