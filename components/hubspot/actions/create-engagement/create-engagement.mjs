@@ -47,7 +47,7 @@ export default {
         "objectType",
       ],
       label: "Associated Object Type",
-      description: "Type of object the from engagement is being associated with",
+      description: "Type of object the engagement is being associated with",
       optional: true,
     },
     toObjectId: {
@@ -59,7 +59,7 @@ export default {
         }),
       ],
       label: "Associated Object",
-      description: "Id of object the engagement is being associated with",
+      description: "ID of object the engagement is being associated with",
       optional: true,
     },
     associationType: {
