@@ -7,18 +7,6 @@ export const LIST_FIELD_OPTIONS = [
   "owner_id",
 ];
 
-export const MESSAGE_FIELD_OPTIONS = [
-  "id",
-  "text",
-  "event_type",
-  "created_at",
-  "dm_conversation_id",
-  "sender_id",
-  "participant_ids",
-  "referenced_tweets",
-  "attachments",
-];
-
 export const MEDIA_FIELD_OPTIONS = [
   "duration_ms",
   "height",
@@ -33,6 +21,25 @@ export const MEDIA_FIELD_OPTIONS = [
   // "promoted_metrics",
   "alt_text",
   "variants",
+];
+
+export const MESSAGE_FIELD_OPTIONS = [
+  "id",
+  "text",
+  "event_type",
+  "created_at",
+  "dm_conversation_id",
+  "sender_id",
+  "participant_ids",
+  "referenced_tweets",
+  "attachments",
+];
+
+export const METRICS_FIELDS = [
+  "public_metrics",
+  "non_public_metrics",
+  "organic_metrics",
+  "promoted_metrics",
 ];
 
 export const PLACE_FIELD_OPTIONS = [
