@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "hootsuite",
+  app: "cohere_platform",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
