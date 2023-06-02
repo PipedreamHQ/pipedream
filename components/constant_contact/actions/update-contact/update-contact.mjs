@@ -218,7 +218,7 @@ export default {
       ...data
     } = this;
 
-    const contact = await this.constantContact.getContact({
+    const contact = await constantContact.getContact({
       $,
       contactId,
     });
