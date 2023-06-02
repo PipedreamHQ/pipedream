@@ -31,47 +31,6 @@ module.exports = {
       return data.id_str;
     },
     /**
-     * This function retrieves the list of Twitter Direct Messages sent to the
-     * authenticated account. The function will perform an exhaustive retrieval
-     * of all the available messages unless a `lastMessageId` argument is
-     * provided, in which case the function will retrieve messages up until the
-     * specified ID (exclusive).
-     *
-     * The function calls this API internally:
-     * https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/sending-and-receiving/api-reference/list-events
-     *
-     * @param {object}  opts parameters for the retrieval of new direct messages
-     * @param {string}  [opts.lastMessageId] the ID of the direct message to use
-     * as a lower bound for the retrieval
-     * @returns a list of direct message objects
-     */
-    async getNewDirectMessages({ lastMessageId }) {
-      const client = this._newClientV1();
-      const path = "direct_messages/events/list";
-      const result = [];
-
-      let cursor;
-      do {
-        const params = {
-          cursor,
-        };
-        const { data } = await client.get(path, params);
-
-        const {
-          events: messages = [],
-          next_cursor: nextCursor,
-        } = data;
-        for (const message of messages) {
-          if (message.id == lastMessageId) return result;
-          result.push(message);
-        }
-
-        cursor = nextCursor;
-      } while (cursor);
-
-      return result;
-    },
-    /**
      * This function retrieves the metrics for a list of Tweet ID's. By default,
      * it retrieves the public, non-public and organic metrics, but these can be
      * excluded by providing different values for the flag arguments.
