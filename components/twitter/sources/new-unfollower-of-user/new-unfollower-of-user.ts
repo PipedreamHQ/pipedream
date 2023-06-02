@@ -15,7 +15,7 @@ export default defineSource({
   key: "twitter-new-unfollower-of-user",
   name: "New Unfollower of User",
   description: `Emit new event when the specified User loses a Follower [See docs here](${DOCS_LINK})`,
-  version: "1.0.4",
+  version: "1.0.5",
   type: "source",
   props: {
     ...common.props,
