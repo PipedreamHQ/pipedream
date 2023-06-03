@@ -46,7 +46,7 @@ export default defineSource({
         },
       };
 
-      const data: Tweet = await this.app.getTweet(params)?.data;
+      const data: Tweet = (await this.app.getTweet(params))?.data;
       if (data) {
         const {
           non_public_metrics,
