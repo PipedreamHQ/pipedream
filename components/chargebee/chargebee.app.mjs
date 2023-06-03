@@ -1,17 +1,8 @@
 import chargebee from "chargebee";
-import { axios } from "@pipedream/platform";
-import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "chargebee",
-  propDefinitions: {
-    commonProperty: {
-      type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
-    },
-  },
   methods: {
     instance() {
       chargebee.configure({
@@ -20,54 +11,20 @@ export default {
       });
       return chargebee;
     },
-    getBaseUrl() {
-      return `${constants.BASE_URL}${constants.VERSION_PATH}`;
+    getSubscriptions(args = {}) {
+      return this.instance().subscription.list(args).request();
     },
-    getUrl(path, url) {
-      return url || `${this.getBaseUrl()}${path}`;
+    getTransactions(args = {}) {
+      return this.instance().transaction.list(args).request();
     },
-    getHeaders(headers) {
-      return {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.$auth.api_key}`,
-        ...headers,
-      };
+    getCustomers(args = {}) {
+      return this.instance().customer.list(args).request();
     },
-    makeRequest({
-      step = this, path, headers, url, ...args
-    } = {}) {
-
-      const config = {
-        headers: this.getHeaders(headers),
-        url: this.getUrl(path, url),
-        ...args,
-      };
-
-      return axios(step, config);
+    getInvoices(args = {}) {
+      return this.instance().invoice.list(args).request();
     },
-    post(args = {}) {
-      return this.makeRequest({
-        method: "post",
-        ...args,
-      });
-    },
-    put(args = {}) {
-      return this.makeRequest({
-        method: "put",
-        ...args,
-      });
-    },
-    delete(args = {}) {
-      return this.makeRequest({
-        method: "delete",
-        ...args,
-      });
-    },
-    patch(args = {}) {
-      return this.makeRequest({
-        method: "patch",
-        ...args,
-      });
+    getPaymentSources(args = {}) {
+      return this.instance().payment_source.list(args).request();
     },
   },
 };

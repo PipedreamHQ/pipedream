@@ -1,6 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
 import common from "./base.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -12,54 +11,39 @@ export default {
     },
   },
   hooks: {
-    async deploy() {},
-    async activate() {
-      const response =
-        await this.createWebhook({
-          data: {
-            url: this.http.endpoint,
-            event: this.getEventName(),
-          },
-        });
-
-      this.setWebhookId(response.id);
-    },
-    async deactivate() {
-      const webhookId = this.getWebhookId();
-      if (webhookId) {
-        await this.deleteWebhook({
-          webhookId,
-        });
-      }
+    async deploy() {
+      const events = await this.getResources();
+      this.processEvents(events);
     },
   },
   methods: {
     ...common.methods,
-    setWebhookId(value) {
-      this.db.set(constants.WEBHOOK_ID, value);
+    getEventTypes() {
+      throw new ConfigurationError("getEventType is not implemented");
     },
-    getWebhookId() {
-      return this.db.get(constants.WEBHOOK_ID);
+    getResources() {
+      throw new ConfigurationError("getResources is not implemented");
     },
-    getEventName() {
-      throw new ConfigurationError("getEventName is not implemented");
+    processEvent(event) {
+      this.$emit(event, this.generateMeta(event));
     },
-    createWebhook(args = {}) {
-      return this.app.post({
-        path: "/webhooks",
-        ...args,
-      });
-    },
-    deleteWebhook({
-      webhookId, ...args
-    } = {}) {
-      return this.app.delete({
-        path: `/webhooks/${webhookId}`,
-        ...args,
-      });
+    processEvents(events) {
+      Array.from(events).reverse()
+        .forEach(this.processEvent);
     },
   },
   async run({ body }) {
-    this.$emit(body, this.generateMeta(body));
+    const { event_type: eventType } = body;
+
+    if (!this.getEventTypes().includes(eventType)) {
+      console.log(`Skipping event type: ${eventType}`);
+      return;
+    }
+
+    this.http.respond({
+      status: 200,
+    });
+
+    this.processEvent(body);
   },
 };
