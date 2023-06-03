@@ -2030,6 +2030,18 @@
     },
     {
       "path": "components/daffy"
+    },
+    {
+      "path": "components/trustpilot"
+    },
+    {
+      "path": "components/ip2location_io"
+    },
+    {
+      "path": "components/mem"
+    },
+    {
+      "path": "components/cohere_platform"
     }
   ]
 }

@@ -2,12 +2,11 @@ import common from "../../common.mjs";
 import discourse from "../../discourse.app.mjs";
 
 export default {
-  name: "New Topics",
+  name: "New Topics (Instant)",
   key: "discourse-new-topics-added",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "source",
-  description:
-    "Emit new topics posted to your chosen categories",
+  description: "Emit new topics posted to your chosen categories",
   ...common,
   props: {
     ...common.props,
