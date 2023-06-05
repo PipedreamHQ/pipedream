@@ -10,7 +10,7 @@ const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/v1/media/up
 export default defineAction({
   key: "twitter-upload-media",
   name: "Upload Media",
-  description: `Upload a new media. [See docs here](${DOCS_LINK})`,
+  description: `Upload new media. [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "action",
   props: {
