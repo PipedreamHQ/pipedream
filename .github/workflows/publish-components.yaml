@@ -37,6 +37,7 @@ jobs:
       - name: Install pd cli
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
+          PD_ORG_ID: ${{ secrets.PD_ORG_ID }}
         run: |
           curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
           unzip pd.zip
@@ -52,6 +53,7 @@ jobs:
         id: publish
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
+          PD_ORG_ID: ${{ secrets.PD_ORG_ID }}
           ENDPOINT: ${{ secrets.ENDPOINT }}
         shell: bash {0} # don't fast fail
         run: |
@@ -139,6 +141,7 @@ jobs:
       - name: Install pd cli
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
+          PD_ORG_ID: ${{ secrets.PD_ORG_ID }}
         run: |
           curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
           unzip pd.zip
@@ -155,8 +158,9 @@ jobs:
           format: 'csv'
       - name: Publish TypeScript components (dry run)
         env:
-            PD_API_KEY: ${{ secrets.PD_API_KEY }}
-            ENDPOINT: ${{ secrets.ENDPOINT }}
+          PD_API_KEY: ${{ secrets.PD_API_KEY }}
+          PD_ORG_ID: ${{ secrets.PD_ORG_ID }}
+          ENDPOINT: ${{ secrets.ENDPOINT }}
         shell: bash {0} # don't fast fail
         run: |
           IFS=$'\n'
@@ -213,7 +217,7 @@ jobs:
                   KEY=`echo $PD_OUTPUT | jq -r ".key"`
                   echo "published ${KEY}"
                   echo "${KEY} will be added to the registry"
-                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String, $orgId: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath, orgId: $orgId){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'","orgId":"'${PD_ORG_ID}'"}}'
+                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String, $orgId: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath, orgId: $orgId){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${changed_output_file}'","orgId":"'${PD_ORG_ID}'"}}'
                   [[ "$PREV_VERSION" == "null" ]] && PUBLISHED+="*${changed_output_file}" || PUBLISHED+="*${changed_output_file}~$PREV_VERSION"
                 else
                   ERROR=`echo $PD_OUTPUT | jq -r ".error"`
