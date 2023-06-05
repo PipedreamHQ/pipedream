@@ -1,18 +1,19 @@
 import mastodon from "../../mastodon.app.mjs";
 import { VISIBILITY_OPTIONS } from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "mastodon-post-status",
-  name: "Post Status",
-  description: "Publish a status with the given parameters. [See the documentation](https://docs.joinmastodon.org/methods/statuses/#create)",
-  version: "0.0.2",
+  key: "mastodon-post-multiple-statuses",
+  name: "Post Multiple Statuses",
+  description: "Publish multiple statuses with the given parameters. [See the documentation](https://docs.joinmastodon.org/methods/statuses/#create)",
+  version: "0.0.1",
   type: "action",
   props: {
     mastodon,
-    status: {
-      type: "string",
-      label: "Status",
-      description: "The text content of the status.",
+    statuses: {
+      type: "string[]",
+      label: "Statuses",
+      description: "Array of status to be published in sequence, each status must be less than 500 characters long.",
     },
     inReplyToId: {
       type: "string",
@@ -46,50 +47,22 @@ export default {
       description: "ISO 8601 DateTime at which to schedule a status. Must be at least 5 minutes in the future.",
       optional: true,
     },
-    shouldSplit: {
-      type: "boolean",
-      label: "Split to multiple messages",
-      description: "If the status content is longer than 500 characters, it will be split, respecting words, and posted to the subsequent thread.\n\nThis action will return the array of submitted posts.",
-      optional: true,
-      default: false,
-    },
   },
   methods: {
-    wordWrap: (str, maxLength) => {
-      const words = str.split(" ");
-      const chunks = [];
-      let currentChunk = "";
-
-      for (const word of words) {
-        if (currentChunk.length + word.length < maxLength) {
-          const prefix = currentChunk.length > 0 ?
-            " " :
-            "";
-          currentChunk += prefix + word;
-        } else {
-          chunks.push(currentChunk);
-          currentChunk = word;
+    validateStatuses(statuses) {
+      for (const status of statuses) {
+        if (status.length > 500) {
+          throw new ConfigurationError("Each status must be less than 500 characters long.");
         }
       }
-
-      if (currentChunk.length > 0) {
-        chunks.push(currentChunk);
-      }
-
-      return chunks;
     },
   },
   async run({ $ }) {
-    const { status } = this;
-    let chunkedStatus = [
-      status,
-    ];
-    if (this.shouldSplit && status.length > 500) {
-      chunkedStatus = this.wordWrap(status, 500);
-    }
+    const { statuses } = this;
+    this.validateStatuses(statuses);
 
     const results = [];
-    for (const status of chunkedStatus) {
+    for (const status of statuses) {
       const data = {
         status,
         in_reply_to_id: this.inReplyToId,
@@ -105,9 +78,7 @@ export default {
         }),
       );
     }
-    $.export("$summary", `Successfully posted ${chunkedStatus.length} status(es)`);
-    return this.shouldSplit ?
-      results :
-      results[0];
+    $.export("$summary", `Successfully posted ${statuses.length} status(es)`);
+    return results;
   },
 };
