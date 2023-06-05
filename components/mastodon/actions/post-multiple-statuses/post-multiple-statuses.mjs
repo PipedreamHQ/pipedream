@@ -13,7 +13,7 @@ export default {
     statuses: {
       type: "string[]",
       label: "Statuses",
-      description: "Array of status to be published in sequence, each status must be fewer than 500 characters long.",
+      description: "Array of statuses to be published in sequence; each status must be fewer than 500 characters long.",
     },
     inReplyToId: {
       type: "string",
