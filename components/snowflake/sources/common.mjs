@@ -15,6 +15,12 @@ export default {
     },
   },
   methods: {
+    _getLastMaxTimestamp() {
+      return this.db.get("lastMaxTimestamp");
+    },
+    _setLastMaxTimestamp(lastMaxTimestamp) {
+      this.db.set("lastMaxTimestamp", lastMaxTimestamp);
+    },
     async processCollection(statement, timestamp) {
       const rowStream = await this.snowflake.getRows(statement);
       this.$emit({
@@ -101,7 +107,7 @@ export default {
     },
     async watchObjectsAndEmitChanges(objectType, objectsToEmit, queryTypes) {
       // Get the timestamp of the last run, if available. Else set the start time to 1 day ago
-      const lastRun = this.db.get("lastMaxTimestamp") ?? +Date.now() - (1000 * 60 * 60 * 24);
+      const lastRun = this._getLastMaxTimestamp() ?? +Date.now() - (1000 * 60 * 60 * 24);
       console.log(`Max ts of last run: ${lastRun}`);
 
       const newMaxTs = await this.snowflake.maxQueryHistoryTimestamp();
@@ -114,22 +120,18 @@ export default {
       );
       console.log(`Raw results: ${JSON.stringify(results, null, 2)}`);
       this.filterAndEmitChanges(results, objectType, objectsToEmit, queryTypes);
-      await this.db.set("lastMaxTimestamp", newMaxTs);
+      this._setLastMaxTimestamp(newMaxTs);
     },
     async emitFailedTasks({
       database, schema,
     }) {
       // Get the timestamp of the last run, if available. Else set the start time to 1 day ago
-      const lastRun = this.db.get("lastMaxTimestamp") ?? +Date.now() - (1000 * 60 * 60 * 24);
+      const lastRun = this._getLastMaxTimestamp() ?? +Date.now() - (1000 * 60 * 60 * 24);
       console.log(`Max ts of last run: ${lastRun}`);
-
-      const newMaxTs = await this.snowflake.maxTaskHistoryTimestamp();
-      console.log(`New max ts: ${newMaxTs}`);
 
       let results;
       const opts = {
         startTime: lastRun,
-        endTime: newMaxTs,
       };
 
       if (database && schema) {
@@ -185,7 +187,7 @@ export default {
         );
       }
 
-      await this.db.set("lastMaxTimestamp", newMaxTs);
+      this._setLastMaxTimestamp(Date.now());
     },
     getStatement() {
       throw new Error("getStatement is not implemented");
