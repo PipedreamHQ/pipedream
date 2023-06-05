@@ -123,7 +123,7 @@ export default {
       this._setLastMaxTimestamp(newMaxTs);
     },
     async emitFailedTasks({
-      database, schema, taskName,
+      database, schemas, taskName,
     }) {
       // Get the timestamp of the last run, if available. Else set the start time to 1 day ago
       const lastRun = this._getLastMaxTimestamp() ?? +Date.now() - (1000 * 60 * 60 * 24);
@@ -135,11 +135,11 @@ export default {
         taskName,
       };
 
-      if (database && schema) {
+      if (database && schemas) {
         results = await this.snowflake.getFailedTasksInDatabase({
           ...opts,
           database,
-          schema,
+          schemas,
         });
       } else {
         throw new Error("Must provide a database and schema");

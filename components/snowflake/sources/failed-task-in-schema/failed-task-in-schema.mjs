@@ -17,7 +17,7 @@ export default {
         "database",
       ],
     },
-    schema: {
+    schemas: {
       propDefinition: [
         common.props.snowflake,
         "schema",
@@ -25,6 +25,7 @@ export default {
           database: configuredProps.database,
         }),
       ],
+      type: "string[]",
     },
     taskName: {
       type: "string",
@@ -42,7 +43,7 @@ export default {
   async run() {
     await this.emitFailedTasks({
       database: this.database,
-      schema: this.schema,
+      schemas: this.schemas,
       taskName: this.taskName,
     });
   },
