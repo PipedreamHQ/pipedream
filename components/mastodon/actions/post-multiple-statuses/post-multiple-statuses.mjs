@@ -13,7 +13,7 @@ export default {
     statuses: {
       type: "string[]",
       label: "Statuses",
-      description: "Array of status to be published in sequence, each status must be less than 500 characters long.",
+      description: "Array of status to be published in sequence, each status must be fewer than 500 characters long.",
     },
     inReplyToId: {
       type: "string",
@@ -24,7 +24,7 @@ export default {
     sensitive: {
       type: "boolean",
       label: "Sensitive",
-      description: "Mark the status and attached media as sensitive? Defaults to false.",
+      description: "Mark the status and attached media as sensitive. Defaults to false.",
       optional: true,
       default: false,
     },
@@ -52,7 +52,7 @@ export default {
     validateStatuses(statuses) {
       for (const status of statuses) {
         if (status.length > 500) {
-          throw new ConfigurationError("Each status must be less than 500 characters long.");
+          throw new ConfigurationError("Each status must be fewer than 500 characters long.");
         }
       }
     },
@@ -78,7 +78,7 @@ export default {
         }),
       );
     }
-    $.export("$summary", `Successfully posted ${statuses.length} status(es)`);
+    $.export("$summary", `Successfully posted ${statuses.length} statuses`);
     return results;
   },
 };

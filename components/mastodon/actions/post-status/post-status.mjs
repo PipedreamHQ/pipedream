@@ -23,7 +23,7 @@ export default {
     sensitive: {
       type: "boolean",
       label: "Sensitive",
-      description: "Mark the status and attached media as sensitive? Defaults to false.",
+      description: "Mark the status and attached media as sensitive. Defaults to false.",
       optional: true,
       default: false,
     },
