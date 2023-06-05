@@ -24,7 +24,7 @@ export default {
     sensitive: {
       type: "boolean",
       label: "Sensitive",
-      description: "Mark the status and attached media as sensitive. Defaults to false.",
+      description: "Mark the status and attached media as sensitive. The default is false.",
       optional: true,
       default: false,
     },
@@ -78,7 +78,7 @@ export default {
         }),
       );
     }
-    $.export("$summary", `Successfully posted ${statuses.length} statuses`);
+    $.export("$summary", `Successfully posted ${statuses.length} statuses.`);
     return results;
   },
 };
