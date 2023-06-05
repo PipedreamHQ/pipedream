@@ -18,7 +18,7 @@ export default defineAction({
     filePath: {
       type: "string",
       label: "File Path",
-      description: "The file path being uploaded.",
+      description: "The file path to be uploaded.",
       optional: false,
     },
     media_category: {
