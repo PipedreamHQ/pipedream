@@ -2054,6 +2054,9 @@
     },
     {
       "path": "components/infinity"
+    },
+    {
+      "path": "components/dext"
     }
   ]
 }
