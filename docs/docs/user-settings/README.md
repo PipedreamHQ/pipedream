@@ -66,15 +66,13 @@ _Click_ on a specific column to see credits for that day, broken out by workflow
 
 Users on the free tier will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
 
-### Credits Budget
+### Compute Budget
 
-Control the maximum number of credits permitted on your account with an _Credit Budget_.
+Control the maximum number of compute credits permitted on your account with an _Credit Budget_.
 
-This will restrict your account usage to a certain allocation of [credits](/pricing/#credits) on a monthly or daily basis.
+This will restrict your account-wide usage to the specified number of [credits](/pricing/#credits) on a monthly or daily basis. The compute budget does not apply to credits incurred by [dedicated workers](/workflows/settings/#eliminate-cold-starts).
 
 To enable this feature, _click_ on the toggle and define your maximum number of credits in the period.
-
-![Enabling the Credit Budget feature](https://res.cloudinary.com/pipedreamin/image/upload/v1662555731/docs/components/image_12_hledxh.png)
 
 ::: tip
 

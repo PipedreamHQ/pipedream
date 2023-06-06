@@ -72,11 +72,18 @@ By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. I
 
 If your workflow doesn't process an event for roughly 5 minutes, Pipedream turns off the execution environment that runs your code. When your workflow receives another event, Pipedream creates a new execution environment to process your event. **Initializing this environment takes a few seconds, which delays the execution of this first event**. This is common on serverless platforms, and is typically referred to as a "cold start".
 
-You can reduce cold starts by configuring a number of dedicated **workers**.
+You can reduce cold starts by configuring a number of dedicated **workers**:
 
-**screenshot of workers**
+1. Visit your workflow's **Settings**
+2. Under **Execution Controls**, select the toggle to **Eliminate cold starts**
+3. Configure [the appropriate number of workers](#how-many-workers-should-i-configure) for your use case
 
-When you configure a specific number of workers for a specific workflow, Pipedream initializes dedicated workers (VMs). These workers are available at all times to respond to workflow executions, with no cold starts.
+<br />
+<div>
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1686079534/docs/Screenshot_2023-06-06_at_12.24.03_PM_zctp50.png" alt="Warm workers configuration" />
+</div>
+
+When you configure workers for a specific workflow, Pipedream initializes dedicated, private [virtual machines](/privacy-and-security/#execution-environment) that run in Pipedream's environment. These workers are available at all times to respond to workflow executions, with no cold starts.
 
 ::: warning
 
@@ -107,7 +114,9 @@ For example, if you run a single dedicated worker for 24 hours, that would cost 
 
 Additionally, any change to dedicated worker configuration, (including worklow deploys) will result in an extra {{$site.themeConfig.WARM_WORKERS_CREDITS_PER_INTERVAL}} credits of usage.
 
-**Add visualization for worker transitions**
+<div>
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1686079387/docs/Screenshot_2023-06-06_at_12.23.03_PM_mpsqek.png" alt="Dedicated worker overlap" />
+</div>
 
 ### When should I configure dedicated workers?
 
@@ -119,9 +128,11 @@ Incoming requests are handled by a single worker, one at a time. If you only rec
 
 But you might have a higher-volume app that receives two concurrent requests. In that case, Pipedream spins up **two** workers to handle each request.
 
-For many user-facing (even internal) applications, the number of requests over time can be modeled with a [Poisson distrubution](https://en.wikipedia.org/wiki/Poisson_distribution). You can use that distribution to estimate the number of workers you need at an average time, or set it higher if you want to ensure most requests hit a dedicated worker. You can also save a record of all workflow runs to your own database, with the timestamp they ran ([see `steps.trigger.context.ts`](/workflows/events/#steps-trigger-context)), and look at your own pattern of requests, to compute the optimal number of workers.
+For many user-facing (even internal) applications, the number of requests over time can be modeled with a [Poisson distrubution](https://en.wikipedia.org/wiki/Poisson_distribution). You can use that distribution to estimate the number of workers you need at an average time, or set it higher if you want to ensurea specific percentage of requests hit a dedicated worker. You can also save a record of all workflow runs to your own database, with the timestamp they ran ([see `steps.trigger.context.ts`](/workflows/events/#steps-trigger-context)), and look at your own pattern of requests, to compute the optimal number of workers.
 
-### Are budgets supported for dedicated workers?
+### Do compute budgets apply to dedicated workers?
+
+No, compute budgets do not apply to dedicated workers, they only apply to credits incurred by compute from running workflows, sources, etc.
 
 ### How long does it take to spin up a dedicated worker?
 
