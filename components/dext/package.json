@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/dext",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Dext Components",
-  "main": "dist/app/dext.app.mjs",
+  "main": "dext.app.mjs",
   "keywords": [
     "pipedream",
     "dext"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/dext",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

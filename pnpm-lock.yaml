@@ -490,6 +490,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/bloom_growth:
+    specifiers: {}
+
   components/blue:
     specifiers: {}
 
@@ -712,6 +715,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/cleverreach:
+    specifiers: {}
 
   components/clickmeeting:
     specifiers: {}
@@ -1064,6 +1070,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/dext:
+    specifiers: {}
 
   components/dialmycalls:
     specifiers: {}
@@ -1433,6 +1442,9 @@ importers:
       google-auth-library: 7.14.1
 
   components/firmalyzer_iotvas:
+    specifiers: {}
+
+  components/firmao:
     specifiers: {}
 
   components/fivetran:
@@ -2087,6 +2099,9 @@ importers:
     specifiers: {}
 
   components/implisense_api:
+    specifiers: {}
+
+  components/infinity:
     specifiers: {}
 
   components/infusionsoft:
