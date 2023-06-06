@@ -2063,6 +2063,15 @@
     },
     {
       "path": "components/surveysparrow"
+    },
+    {
+      "path": "components/teachable"
+    },
+    {
+      "path": "components/gotowebinar"
+    },
+    {
+      "path": "components/inoreader"
     }
   ]
 }
