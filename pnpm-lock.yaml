@@ -501,11 +501,17 @@ importers:
 
   components/box:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
       path: ^0.12.7
+      stream: ^0.0.2
+      util: ^0.12.5
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
       path: 0.12.7
+      stream: 0.0.2
+      util: 0.12.5
 
   components/braintree:
     specifiers: {}
