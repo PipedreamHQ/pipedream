@@ -11,7 +11,7 @@ export default {
     content: {
       propDefinition: [
         mem,
-        "content ",
+        "content",
       ],
     },
     isRead: {

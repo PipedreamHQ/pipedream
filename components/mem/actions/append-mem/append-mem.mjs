@@ -16,7 +16,7 @@ export default {
     content: {
       propDefinition: [
         mem,
-        "content ",
+        "content",
       ],
       description: "The content which will be appended to the end of the existing mem. The string should be in a markdown-compatible format. For more details, see the [Mem Markdown Format](https://docs.mem.ai/docs/general/mem-markdown-format).",
     },
