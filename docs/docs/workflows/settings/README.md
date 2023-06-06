@@ -83,7 +83,7 @@ You can reduce cold starts by configuring a number of dedicated **workers**:
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1686079534/docs/Screenshot_2023-06-06_at_12.24.03_PM_zctp50.png" alt="Warm workers configuration" />
 </div>
 
-When you configure workers for a specific workflow, Pipedream initializes dedicated, private [virtual machines](/privacy-and-security/#execution-environment) that run in Pipedream's environment. These workers are available at all times to respond to workflow executions, with no cold starts.
+When you configure workers for a specific workflow, Pipedream initializes dedicated workers — virtual machines that run Pipedream's [execution environment](/privacy-and-security/#execution-environment). [It can take a few minutes](#how-long-does-it-take-to-spin-up-a-dedicated-worker) for new dedicated workers to deploy. Once deployed, these workers are available at all times to respond to workflow executions, with no cold starts.
 
 ::: warning
 
@@ -92,6 +92,28 @@ You may need to configure [multiple dedicated workers](#how-many-workers-should-
 Pipedream also performs some initialization operations on new workflow runs, so you may still observe a small startup time (typically around 50ms per workflow step) on dedicated workers.
 
 :::
+
+### When should I configure dedicated workers?
+
+You should configure dedicated workers when you need to process requests as soon as possible, with no latency.
+
+For example, you may build an HTTP-triggered workflow that returns a synchronous HTTP response to a user, without delay. Or you may need be building a Slack bot and need to respond to Slack's webhook within a few seconds. Since these workflows need to respond quickly, they're good cases to use dedicated workers.
+
+### How many workers should I configure?
+
+Incoming requests are handled by a single worker, one at a time. If you only receive one request a minute, and the workflow finishes execution in a few seconds, you may only need one worker.
+
+But you might have a higher-volume app that receives two concurrent requests. In that case, Pipedream spins up **two** workers to handle each request.
+
+For many user-facing (even internal) applications, the number of requests over time can be modeled with a [Poisson distrubution](https://en.wikipedia.org/wiki/Poisson_distribution). You can use that distribution to estimate the number of workers you need at an average time, or set it higher if you want to ensurea specific percentage of requests hit a dedicated worker. You can also save a record of all workflow runs to your own database, with the timestamp they ran ([see `steps.trigger.context.ts`](/workflows/events/#steps-trigger-context)), and look at your own pattern of requests, to compute the optimal number of workers.
+
+### Do compute budgets apply to dedicated workers?
+
+No, compute budgets do not apply to dedicated workers, they only apply to credits incurred by compute from running workflows, sources, etc.
+
+### How long does it take to spin up a dedicated worker?
+
+It can take 5-10 minutes for Pipedream to fully configure a new dedicated worker. Before that time, you may still observe cold starts with new incoming requests.
 
 ### Pricing for dedicated workers
 
@@ -117,26 +139,6 @@ Additionally, any change to dedicated worker configuration, (including worklow d
 <div>
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1686079387/docs/Screenshot_2023-06-06_at_12.23.03_PM_mpsqek.png" alt="Dedicated worker overlap" />
 </div>
-
-### When should I configure dedicated workers?
-
-You should configure dedicated workers when you need to process requests as soon as possible, with no latency. For example, you may build an HTTP-triggered workflow that returns a synchronous HTTP response to a user. These workflows need to respond quickly.
-
-### How many workers should I configure?
-
-Incoming requests are handled by a single worker, one at a time. If you only receive one request a minute, and the workflow finishes execution in a few seconds, you may only need one worker.
-
-But you might have a higher-volume app that receives two concurrent requests. In that case, Pipedream spins up **two** workers to handle each request.
-
-For many user-facing (even internal) applications, the number of requests over time can be modeled with a [Poisson distrubution](https://en.wikipedia.org/wiki/Poisson_distribution). You can use that distribution to estimate the number of workers you need at an average time, or set it higher if you want to ensurea specific percentage of requests hit a dedicated worker. You can also save a record of all workflow runs to your own database, with the timestamp they ran ([see `steps.trigger.context.ts`](/workflows/events/#steps-trigger-context)), and look at your own pattern of requests, to compute the optimal number of workers.
-
-### Do compute budgets apply to dedicated workers?
-
-No, compute budgets do not apply to dedicated workers, they only apply to credits incurred by compute from running workflows, sources, etc.
-
-### How long does it take to spin up a dedicated worker?
-
-It can take 5-10 minutes for Pipedream to fully configure a new dedicated worker. Before that time, you may still observe cold starts with new incoming requests.
 
 ## Attachments
 
