@@ -1827,7 +1827,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/google_safebrowsing:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_sheets:
     specifiers:
