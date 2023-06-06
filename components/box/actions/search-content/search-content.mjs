@@ -6,7 +6,7 @@ export default {
   name: "Search Content",
   description: "Searches for files, folders, web links, and shared files across the users content or across the entire enterprise. [See the docs here](https://developer.box.com/reference/get-search/).",
   key: "box-search-content",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

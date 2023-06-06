@@ -501,11 +501,17 @@ importers:
 
   components/box:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
       path: ^0.12.7
+      stream: ^0.0.2
+      util: ^0.12.5
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
       path: 0.12.7
+      stream: 0.0.2
+      util: 0.12.5
 
   components/braintree:
     specifiers: {}
@@ -1370,7 +1376,10 @@ importers:
     specifiers: {}
 
   components/f15five:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/facebook_groups:
     specifiers: {}
@@ -1818,7 +1827,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/google_safebrowsing:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_sheets:
     specifiers:
