@@ -10,7 +10,7 @@ const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/v1/media/up
 export default defineAction({
   key: "twitter-upload-media",
   name: "Upload Media",
-  description: `Upload a new media. [See docs here](${DOCS_LINK})`,
+  description: `Upload new media. [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "action",
   props: {
@@ -18,13 +18,13 @@ export default defineAction({
     filePath: {
       type: "string",
       label: "File Path",
-      description: "The file path being uploaded.",
+      description: "The file path to be uploaded.",
       optional: false,
     },
     media_category: {
       type: "string",
       label: "Media Category",
-      description: "The category that represents how the media will be used.",
+      description: "The category representing how the media will be used.",
       options: constants.MEDIA_CATEGORIES,
       optional: false,
     },
