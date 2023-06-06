@@ -1,6 +1,6 @@
 # Getting Started
 
-You can install the Pipedream Salesforce app in the [Accounts](https://pipedream.com/accounts) section of your account, or directly in a workflow.
+You can connect your Salesforce account in the [Accounts](https://pipedream.com/accounts) section of your account, or directly in a workflow.
 
 ## API Access
 
