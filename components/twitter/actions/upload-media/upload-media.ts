@@ -24,7 +24,7 @@ export default defineAction({
     media_category: {
       type: "string",
       label: "Media Category",
-      description: "The category representing how the media will be used.",
+      description: "The category representing the media usage.",
       options: constants.MEDIA_CATEGORIES,
       optional: false,
     },
