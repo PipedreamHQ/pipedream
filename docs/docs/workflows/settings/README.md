@@ -70,7 +70,7 @@ By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. I
 
 ## Eliminate cold starts
 
-If your workflow doesn't process an event for roughly 5 minutes, Pipedream turns off the execution environment that runs your code. When your workflow receives another event, Pipedream creates a new execution environment to process your event. **Initializing this environment takes a few seconds, which delays the execution of this first event**. This is common on serverless platforms, and is typically referred to as a "cold start".
+If your workflow doesn't process an event for about 5 minutes, Pipedream turns off the execution environment that runs your code. When your workflow receives another event, Pipedream creates a new execution environment to process your event. **Initializing this environment takes a few seconds, which delays the execution of this first event**. This is common on serverless platforms and is typically referred to as a "cold start".
 
 You can reduce cold starts by configuring a number of dedicated **workers**:
 
@@ -119,7 +119,7 @@ Additionally, any change to dedicated worker configuration, (including worklow d
 </div>
 
 ### When should I configure dedicated workers?
-
+For many user-facing (even internal) applications, the number of requests over time can be modeled with a [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution). You can use that distribution to estimate the number of workers you need at an average time, or set it higher if you want to ensure most requests hit a dedicated worker. You can also save a record of all workflow runs to your own database, with the timestamp they ran ([see `steps.trigger.context.ts`](/workflows/events/#steps-trigger-context)), and look at your own pattern of requests, to compute the optimal number of workers.
 You should configure dedicated workers when you need to process requests as soon as possible, with no latency. For example, you may build an HTTP-triggered workflow that returns a synchronous HTTP response to a user. These workflows need to respond quickly.
 
 ### How many workers should I configure?
