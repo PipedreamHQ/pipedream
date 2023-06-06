@@ -21,7 +21,7 @@ export const MAX_RESULTS_PER_PAGE = 100;
 export default defineAction({
   key: "twitter-list-user-tweets",
   name: "List User Tweets",
-  description: `Return a collection of the most recent tweets posted by a user. [See docs here](${DOCS_LINK})`,
+  description: `Return a collection of the most recent tweets posted by a user. [See the documentation](${DOCS_LINK})`,
   version: "1.1.4",
   type: "action",
   props: {

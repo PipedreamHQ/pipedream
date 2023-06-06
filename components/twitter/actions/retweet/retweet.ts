@@ -9,7 +9,7 @@ const DOCS_LINK =
 export default defineAction({
   key: "twitter-retweet",
   name: "Retweet a tweet",
-  description: `Retweet a tweet specified by ID. [See docs here](${DOCS_LINK})`,
+  description: `Retweet a tweet specified by ID. [See the documentation](${DOCS_LINK})`,
   version: "1.0.4",
   type: "action",
   props: {

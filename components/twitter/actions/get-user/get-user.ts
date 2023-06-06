@@ -15,7 +15,7 @@ const DOCS_LINK =
 export default defineAction({
   key: "twitter-get-user",
   name: "Get User",
-  description: `Get information about a user. [See docs here](${DOCS_LINK})`,
+  description: `Get information about a user. [See the documentation](${DOCS_LINK})`,
   version: "1.1.4",
   type: "action",
   props: {

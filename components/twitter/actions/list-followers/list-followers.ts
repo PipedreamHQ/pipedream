@@ -21,7 +21,7 @@ export const MAX_RESULTS_PER_PAGE = 1000;
 export default defineAction({
   key: "twitter-list-followers",
   name: "List Followers",
-  description: `Return a collection of user objects for users following the specified user. [See docs here](${DOCS_LINK})`,
+  description: `Return a collection of user objects for users following the specified user. [See the documentation](${DOCS_LINK})`,
   version: "1.1.4",
   type: "action",
   props: {

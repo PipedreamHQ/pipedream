@@ -21,7 +21,7 @@ export const MAX_RESULTS_PER_PAGE = 100;
 export default defineAction({
   key: "twitter-list-favorites",
   name: "List Liked Tweets",
-  description: `Return the most recent tweets liked by you or the specified user. [See docs here](${DOCS_LINK})`,
+  description: `Return the most recent tweets liked by you or the specified user. [See the documentation](${DOCS_LINK})`,
   version: "1.1.4",
   type: "action",
   props: {
