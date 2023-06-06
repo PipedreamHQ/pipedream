@@ -2057,6 +2057,9 @@
     },
     {
       "path": "components/dext"
+    },
+    {
+      "path": "components/phoneburner"
     }
   ]
 }
