@@ -125,9 +125,9 @@ export default defineApp({
             yield d;
           }
 
-          firstPage = !(currentPage === 1);
+          firstPage = (currentPage === 1);
         }
-      } while (firstPage);
+      } while (!firstPage);
     },
   },
 });
