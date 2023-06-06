@@ -18,7 +18,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "Text of the high five. SHould include the @mention of the persons, and/or the emails mention",
+      description: "Text of the high five. You must include the @mention of the persons, and/or the emails mention",
     },
   },
   async run({ $ }) {
