@@ -5,7 +5,7 @@ export default {
   key: "smartsheet-new-row-updated",
   name: "New Row Updated (Instant)",
   description: "Emit new event when a row is upedated in a sheet.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -25,6 +25,9 @@ export default {
         summary: `Row ${event.id} updated`,
         ts,
       };
+    },
+    async getResource(event) {
+      return this.smartsheet.getRow(this.sheetId, event.id);
     },
   },
 };

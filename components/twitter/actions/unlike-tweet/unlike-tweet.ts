@@ -10,7 +10,7 @@ export default defineAction({
   key: "twitter-unlike-tweet",
   name: "Unlike Tweet",
   description: `Unlike a tweet specified by its ID. [See docs here](${DOCS_LINK})`,
-  version: "1.0.3",
+  version: "1.0.4",
   type: "action",
   props: {
     app,
