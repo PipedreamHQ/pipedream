@@ -490,6 +490,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/bloom_growth:
+    specifiers: {}
+
   components/blue:
     specifiers: {}
 
@@ -713,6 +716,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/cleverreach:
+    specifiers: {}
+
   components/clickmeeting:
     specifiers: {}
 
@@ -876,7 +882,12 @@ importers:
     specifiers: {}
 
   components/constant_contact:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash: 4.17.21
 
   components/convertapi:
     specifiers: {}
@@ -1059,6 +1070,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/dext:
+    specifiers: {}
 
   components/dialmycalls:
     specifiers: {}
@@ -1428,6 +1442,9 @@ importers:
       google-auth-library: 7.14.1
 
   components/firmalyzer_iotvas:
+    specifiers: {}
+
+  components/firmao:
     specifiers: {}
 
   components/fivetran:
@@ -2082,6 +2099,9 @@ importers:
     specifiers: {}
 
   components/implisense_api:
+    specifiers: {}
+
+  components/infinity:
     specifiers: {}
 
   components/infusionsoft:
@@ -9254,7 +9274,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
       chalk: 4.1.2
       jest-message-util: 27.5.1
       jest-util: 27.5.1
@@ -9456,7 +9476,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
       chalk: 4.1.2
       collect-v8-coverage: 1.0.1
       exit: 0.1.2
@@ -9636,7 +9656,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
       '@types/yargs': 16.0.5
       chalk: 4.1.2
     dev: true
@@ -11974,7 +11994,7 @@ packages:
   /@types/jsonwebtoken/8.5.9:
     resolution: {integrity: sha512-272FMnFGzAVMGtu9tkr29hRL6bZj4Zs1KZNeHLnKqAvp06tAIcarTMwOh8/8bz4FmKRcMxZhZNeUAQsNLoiPhg==}
     dependencies:
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
     dev: false
 
   /@types/keyv/3.1.4:
@@ -17984,7 +18004,7 @@ packages:
     dependencies:
       '@jest/types': 27.5.1
       '@types/graceful-fs': 4.1.6
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -18220,7 +18240,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
       chalk: 4.1.2
       emittery: 0.8.1
       graceful-fs: 4.2.11
@@ -18455,7 +18475,7 @@ packages:
     dependencies:
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       jest-util: 27.5.1
