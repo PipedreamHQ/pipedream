@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "ip2location_io",
+  app: "highlevel_oauth",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

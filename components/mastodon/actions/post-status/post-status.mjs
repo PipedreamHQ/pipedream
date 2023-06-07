@@ -5,7 +5,7 @@ export default {
   key: "mastodon-post-status",
   name: "Post Status",
   description: "Publish a status with the given parameters. [See the documentation](https://docs.joinmastodon.org/methods/statuses/#create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     mastodon,
@@ -49,7 +49,7 @@ export default {
     shouldSplit: {
       type: "boolean",
       label: "Split to multiple messages",
-      description: "If the status content is longer than 500 characters, it will be split, respecting words, and posted to the subsequent thread.\n\nThis action will return the array of submitted posts.",
+      description: "If the status content is longer than 500 characters, it will be split, respecting words, and posted as a reply of of the first status.\n\nThis action will return the array of submitted posts.",
       optional: true,
       default: false,
     },
@@ -81,6 +81,7 @@ export default {
   },
   async run({ $ }) {
     const { status } = this;
+    let { inReplyToId } = this;
     let chunkedStatus = [
       status,
     ];
@@ -92,7 +93,7 @@ export default {
     for (const status of chunkedStatus) {
       const data = {
         status,
-        in_reply_to_id: this.inReplyToId,
+        in_reply_to_id: inReplyToId,
         sensitive: this.sensitive,
         spoiler_text: this.spoilerText,
         visibility: this.visibility,
@@ -104,6 +105,9 @@ export default {
           data,
         }),
       );
+      if (!inReplyToId) {
+        inReplyToId = results[0].id;
+      }
     }
     $.export("$summary", `Successfully posted ${chunkedStatus.length} status(es)`);
     return this.shouldSplit ?
