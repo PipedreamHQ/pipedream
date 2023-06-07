@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary,
@@ -22,7 +22,7 @@ export default defineAction({
   key: "twitter-list-favorites",
   name: "List Liked Tweets",
   description: `Return the most recent tweets liked by you or the specified user. [See docs here](${DOCS_LINK})`,
-  version: "2.0.0",
+  version: "2.0.1",
   type: "action",
   props: {
     app,
