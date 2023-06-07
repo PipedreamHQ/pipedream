@@ -2,12 +2,11 @@
   "name": "@pipedream/firmao",
   "version": "0.0.1",
   "description": "Pipedream Firmao Components",
-  "main": "dist/app/firmao.app.mjs",
+  "main": "firmao.app.mjs",
   "keywords": [
     "pipedream",
     "firmao"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/firmao",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
