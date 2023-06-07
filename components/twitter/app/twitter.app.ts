@@ -153,13 +153,14 @@ export default defineApp({
         baseURL: this._getBaseUrl(),
         ...args,
       };
-      const headers = this._getAuthHeader(config);
 
-      const request = () =>
-        axios($, {
+      const request = async () => {
+        const headers = this._getAuthHeader(config);
+        return axios($, {
           ...config,
           headers,
         });
+      }
 
       let response: ResponseObject<TwitterEntity>,
         counter = 1;
