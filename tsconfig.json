@@ -2054,6 +2054,30 @@
     },
     {
       "path": "components/infinity"
+    },
+    {
+      "path": "components/dext"
+    },
+    {
+      "path": "components/phoneburner"
+    },
+    {
+      "path": "components/surveysparrow"
+    },
+    {
+      "path": "components/teachable"
+    },
+    {
+      "path": "components/gotowebinar"
+    },
+    {
+      "path": "components/inoreader"
+    },
+    {
+      "path": "components/highlevel_oauth"
+    },
+    {
+      "path": "components/facebook_groups"
     }
   ]
 }

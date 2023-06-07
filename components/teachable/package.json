@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/teachable",
+  "version": "0.0.1",
+  "description": "Pipedream Teachable Components",
+  "main": "dist/app/teachable.app.mjs",
+  "keywords": [
+    "pipedream",
+    "teachable"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/teachable",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

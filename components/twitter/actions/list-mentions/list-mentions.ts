@@ -22,7 +22,7 @@ export default defineAction({
   key: "twitter-list-mentions",
   name: "List Mentions",
   description: `Return the most recent mentions for the specified user. [See docs here](${DOCS_LINK})`,
-  version: "1.1.3",
+  version: "2.0.0",
   type: "action",
   props: {
     app,
