@@ -10,8 +10,8 @@ const DOCS_LINK =
 export default defineAction({
   key: "twitter-follow-user",
   name: "Follow User",
-  description: `Follow a user. [See docs here](${DOCS_LINK})`,
-  version: "2.0.0",
+  description: `Follow a user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.1",
   type: "action",
   props: {
     app,

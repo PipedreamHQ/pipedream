@@ -19,8 +19,8 @@ export const MAX_RESULTS_PER_PAGE = 100;
 export default defineAction({
   key: "twitter-simple-search",
   name: "Search Tweets",
-  description: `Retrieve Tweets from the last seven days that match a query. [See docs here](${DOCS_LINK})`,
-  version: "2.0.0",
+  description: `Retrieve Tweets from the last seven days that match a query. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.1",
   type: "action",
   props: {
     app,

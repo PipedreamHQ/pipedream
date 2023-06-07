@@ -21,8 +21,8 @@ const MAX_RESULTS_PER_PAGE = 100;
 export default defineAction({
   key: "twitter-list-lists",
   name: "List Lists",
-  description: `Get all lists owned by a user. [See docs here](${DOCS_LINK})`,
-  version: "2.0.0",
+  description: `Get all lists owned by a user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.1",
   type: "action",
   props: {
     app,

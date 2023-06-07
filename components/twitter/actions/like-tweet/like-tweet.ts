@@ -9,8 +9,8 @@ const DOCS_LINK =
 export default defineAction({
   key: "twitter-like-tweet",
   name: "Like Tweet",
-  description: `Like a tweet specified by its ID. [See docs here](${DOCS_LINK})`,
-  version: "2.0.0",
+  description: `Like a tweet specified by its ID. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.1",
   type: "action",
   props: {
     app,
