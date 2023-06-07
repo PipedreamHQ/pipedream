@@ -2075,6 +2075,9 @@
     },
     {
       "path": "components/highlevel_oauth"
+    },
+    {
+      "path": "components/facebook_groups"
     }
   ]
 }
