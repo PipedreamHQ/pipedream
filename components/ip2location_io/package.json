@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/ip2location_io",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream IP2Location.io Components",
-  "main": "dist/app/ip2location_io.app.mjs",
+  "main": "ip2location_io.app.mjs",
   "keywords": [
     "pipedream",
     "ip2location_io"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/ip2location_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

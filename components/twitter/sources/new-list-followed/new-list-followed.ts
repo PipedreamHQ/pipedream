@@ -15,7 +15,7 @@ export default defineSource({
   key: "twitter-new-list-followed",
   name: "New List Followed by User",
   description: `Emit new event when the specified User follows a List [See docs here](${DOCS_LINK})`,
-  version: "1.1.3",
+  version: "2.0.0",
   type: "source",
   props: {
     ...common.props,
