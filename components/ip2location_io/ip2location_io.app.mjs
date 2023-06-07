@@ -40,11 +40,5 @@ export default {
         ...args,
       });
     },
-    domainWhoisQuery(args = {}) {
-      return this._makeRequest({
-        url: "https://api.ip2whois.com/v2",
-        ...args,
-      });
-    },
   },
 };

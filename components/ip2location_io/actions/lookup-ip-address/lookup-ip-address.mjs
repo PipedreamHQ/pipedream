@@ -19,12 +19,43 @@ export default {
         "format",
       ],
     },
+    lang: {
+      type: "string",
+      label: "Language",
+      description: "Translation information(ISO639-1). The translation is only applicable for continent, country, region and city name. Note: This parameter is only available for Plus and Security plan only.",
+      options: [
+        "ar",
+        "cs",
+        "da",
+        "de",
+        "en",
+        "es",
+        "et",
+        "fi",
+        "fr",
+        "ga",
+        "it",
+        "ja",
+        "ko",
+        "ms",
+        "nl",
+        "pt",
+        "ru",
+        "sv",
+        "tr",
+        "vi",
+        "zh-cn",
+        "zh-tw",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.ip2location.lookupIpAddress({
       params: {
         ip: this.ip,
         format: this.format,
+        lang: this.lang,
       },
     });
 
