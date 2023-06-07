@@ -23,8 +23,14 @@ export default {
     _setLastUpdate(lastUpdate) {
       this.db.set("lastUpdate", lastUpdate);
     },
+    emitEvents(events) {
+      throw new Error("emitEvents is not implemented", events);
+    },
     generateMeta(event) {
       throw new Error("generateMeta is not implemented", event);
+    },
+    getParams() {
+      throw new Error("getParams is not implemented");
     },
   },
 };

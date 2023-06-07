@@ -20,5 +20,14 @@ export default {
         ts: new Date(event.updated),
       };
     },
+    getParams() {
+      return {
+        maxResults: this._maxQueryResults(),
+        updatedMin: this._getLastUpdate(),
+        showCompleted: true,
+        showDeleted: true,
+        showHidden: true,
+      };
+    },
   },
 };
