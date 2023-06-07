@@ -5,8 +5,8 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "mastodon-post-multiple-statuses",
   name: "Post Multiple Statuses",
-  description: "Publish multiple statuses with the given parameters. [See the documentation](https://docs.joinmastodon.org/methods/statuses/#create)",
-  version: "0.0.1",
+  description: "Publish multiple statuses with the given parameters, the subsequent statuses will be posted as a reply of of the first status. [See the documentation](https://docs.joinmastodon.org/methods/statuses/#create)",
+  version: "0.0.2",
   type: "action",
   props: {
     mastodon,
@@ -59,13 +59,14 @@ export default {
   },
   async run({ $ }) {
     const { statuses } = this;
+    let { inReplyToId } = this;
     this.validateStatuses(statuses);
 
     const results = [];
     for (const status of statuses) {
       const data = {
         status,
-        in_reply_to_id: this.inReplyToId,
+        in_reply_to_id: inReplyToId,
         sensitive: this.sensitive,
         spoiler_text: this.spoilerText,
         visibility: this.visibility,
@@ -77,6 +78,9 @@ export default {
           data,
         }),
       );
+      if (!inReplyToId) {
+        inReplyToId = results[0].id;
+      }
     }
     $.export("$summary", `Successfully posted ${statuses.length} statuses.`);
     return results;
