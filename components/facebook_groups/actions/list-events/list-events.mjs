@@ -1,43 +1,30 @@
-import facebookGroups from "../../facebook_groups.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "facebook_groups-list-events",
   name: "List Events",
   description: "Retrieves a list of events in a group. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/v17.0/group/events)",
   version: "0.0.1",
   type: "action",
   props: {
-    facebookGroups,
-    group: {
-      propDefinition: [
-        facebookGroups,
-        "group",
-      ],
-    },
+    ...common.props,
     maxResults: {
       propDefinition: [
-        facebookGroups,
+        common.props.facebookGroups,
         "maxResults",
       ],
     },
   },
   async run({ $ }) {
-    const response = this.facebookGroups.paginate({
+    const events = await this.getResources({
       fn: this.facebookGroups.listEvents,
       args: {
         groupId: this.group,
         $,
       },
+      maxResults: this.maxResults,
     });
-
-    const events = [];
-    let count = 0;
-    for await (const event of response) {
-      events.push(event);
-      if (this.maxResults && ++count === this.maxResults) {
-        break;
-      }
-    }
 
     $.export("$summary", `Successfully retrieved ${events.length} event${events.length === 1
       ? ""

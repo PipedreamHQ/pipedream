@@ -1,46 +1,39 @@
-import facebookGroups from "../../facebook_groups.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "facebook_groups-list-comments",
   name: "List Comments",
   description: "Retrieves a list of comments on a group post. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/v17.0/comment)",
   version: "0.0.1",
   type: "action",
   props: {
-    facebookGroups,
-    group: {
-      propDefinition: [
-        facebookGroups,
-        "group",
-      ],
-    },
+    ...common.props,
     post: {
       propDefinition: [
-        facebookGroups,
+        common.props.facebookGroups,
         "post",
         (c) => ({
           group: c.group,
         }),
       ],
     },
+    maxResults: {
+      propDefinition: [
+        common.props.facebookGroups,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = this.facebookGroups.paginate({
+    const comments = await this.getResources({
       fn: this.facebookGroups.listComments,
       args: {
         postId: this.post,
         $,
       },
+      maxResults: this.maxResults,
     });
-
-    const comments = [];
-    let count = 0;
-    for await (const comment of response) {
-      comments.push(comment);
-      if (this.maxResults && ++count === this.maxResults) {
-        break;
-      }
-    }
 
     $.export("$summary", `Successfully retrieved ${comments.length} comment${comments.length === 1
       ? ""

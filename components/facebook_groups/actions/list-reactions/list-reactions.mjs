@@ -1,22 +1,17 @@
-import facebookGroups from "../../facebook_groups.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "facebook_groups-list-reactions",
   name: "List Reactions",
   description: "Retrieves a list of reactions on a group post. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/v17.0/object/reactions)",
   version: "0.0.1",
   type: "action",
   props: {
-    facebookGroups,
-    group: {
-      propDefinition: [
-        facebookGroups,
-        "group",
-      ],
-    },
+    ...common.props,
     post: {
       propDefinition: [
-        facebookGroups,
+        common.props.facebookGroups,
         "post",
         (c) => ({
           group: c.group,
@@ -25,22 +20,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = this.facebookGroups.paginate({
+    const reactions = await this.getResources({
       fn: this.facebookGroups.listReactions,
       args: {
         postId: this.post,
         $,
       },
+      maxResults: this.maxResults,
     });
-
-    const reactions = [];
-    let count = 0;
-    for await (const reaction of response) {
-      reactions.push(reaction);
-      if (this.maxResults && ++count === this.maxResults) {
-        break;
-      }
-    }
 
     $.export("$summary", `Successfully retrieved ${reactions.length} reaction${reactions.length === 1
       ? ""

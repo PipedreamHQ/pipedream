@@ -1,22 +1,17 @@
-import facebookGroups from "../../facebook_groups.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "facebook_groups-get-post",
   name: "Get Post",
   description: "Retrieves post in a group. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/post/)",
   version: "0.0.1",
   type: "action",
   props: {
-    facebookGroups,
-    group: {
-      propDefinition: [
-        facebookGroups,
-        "group",
-      ],
-    },
+    ...common.props,
     post: {
       propDefinition: [
-        facebookGroups,
+        common.props.facebookGroups,
         "post",
         (c) => ({
           group: c.group,

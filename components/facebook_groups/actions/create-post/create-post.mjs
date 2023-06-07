@@ -1,20 +1,15 @@
-import facebookGroups from "../../facebook_groups.app.mjs";
+import common from "../common/common.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
+  ...common,
   key: "facebook_groups-create-post",
   name: "Create Post",
   description: "Create a new post in a group. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/v17.0/group/feed)",
   version: "0.0.1",
   type: "action",
   props: {
-    facebookGroups,
-    group: {
-      propDefinition: [
-        facebookGroups,
-        "group",
-      ],
-    },
+    ...common.props,
     message: {
       type: "string",
       label: "Message",
