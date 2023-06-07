@@ -13,8 +13,8 @@ const DOCS_LINK =
 export default defineAction({
   key: "twitter-get-tweet",
   name: "Get Tweet",
-  description: `Return a single tweet specified by ID. [See the documentation](${DOCS_LINK})`,
-  version: "1.1.4",
+  description: `Return a single tweet specified by ID. [See docs here](${DOCS_LINK})`,
+  version: "2.0.0",
   type: "action",
   props: {
     app,

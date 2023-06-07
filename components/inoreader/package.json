@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/inoreader",
+  "version": "0.0.1",
+  "description": "Pipedream Inoreader Components",
+  "main": "dist/app/inoreader.app.mjs",
+  "keywords": [
+    "pipedream",
+    "inoreader"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/inoreader",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

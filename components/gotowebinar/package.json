@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/gotowebinar",
+  "version": "0.0.1",
+  "description": "Pipedream GoToWebinar Components",
+  "main": "dist/app/gotowebinar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gotowebinar"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/gotowebinar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
