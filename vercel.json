@@ -193,6 +193,10 @@
     {
       "source": "/docs/apps/all-apps/",
       "destination": "/docs/apps/"
+    },
+    {
+      "source": "/workflows/events/cold-starts/",
+      "destination": "/workflows/settings/#eliminate-cold-starts"
     }
   ]
 }

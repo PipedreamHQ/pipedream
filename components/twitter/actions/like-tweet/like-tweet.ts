@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { LikeTweetParams } from "../../common/types/requestParams";
 
@@ -10,7 +10,7 @@ export default defineAction({
   key: "twitter-like-tweet",
   name: "Like Tweet",
   description: `Like a tweet specified by its ID. [See docs here](${DOCS_LINK})`,
-  version: "1.0.3",
+  version: "2.0.1",
   type: "action",
   props: {
     app,

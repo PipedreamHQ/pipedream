@@ -490,6 +490,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/bloom_growth:
+    specifiers: {}
+
   components/blue:
     specifiers: {}
 
@@ -498,11 +501,17 @@ importers:
 
   components/box:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
       path: ^0.12.7
+      stream: ^0.0.2
+      util: ^0.12.5
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
       path: 0.12.7
+      stream: 0.0.2
+      util: 0.12.5
 
   components/braintree:
     specifiers: {}
@@ -721,6 +730,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/cleverreach:
+    specifiers: {}
+
   components/clickmeeting:
     specifiers: {}
 
@@ -884,7 +896,12 @@ importers:
     specifiers: {}
 
   components/constant_contact:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash: 4.17.21
 
   components/convertapi:
     specifiers: {}
@@ -1067,6 +1084,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/dext:
+    specifiers: {}
 
   components/dialmycalls:
     specifiers: {}
@@ -1364,7 +1384,10 @@ importers:
     specifiers: {}
 
   components/f15five:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/facebook_groups:
     specifiers: {}
@@ -1436,6 +1459,9 @@ importers:
       google-auth-library: 7.14.1
 
   components/firmalyzer_iotvas:
+    specifiers: {}
+
+  components/firmao:
     specifiers: {}
 
   components/fivetran:
@@ -1809,7 +1835,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/google_safebrowsing:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_sheets:
     specifiers:
@@ -1859,6 +1888,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash-es: 4.17.21
+
+  components/gotowebinar:
+    specifiers: {}
 
   components/grab_your_reviews:
     specifiers: {}
@@ -1965,6 +1997,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/highlevel_oauth:
+    specifiers: {}
 
   components/hive:
     specifiers: {}
@@ -2092,6 +2127,9 @@ importers:
   components/implisense_api:
     specifiers: {}
 
+  components/infinity:
+    specifiers: {}
+
   components/infusionsoft:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2106,6 +2144,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/inoreader:
+    specifiers: {}
 
   components/instagram_business:
     specifiers: {}
@@ -2134,7 +2175,10 @@ importers:
       '@pipedream/platform': 0.9.0
 
   components/ip2location_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ip2proxy:
     specifiers:
@@ -3199,6 +3243,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/phone_com:
+    specifiers: {}
+
+  components/phoneburner:
     specifiers: {}
 
   components/phrase:
@@ -4433,6 +4480,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/surveysparrow:
+    specifiers: {}
+
   components/survicate:
     specifiers: {}
 
@@ -4503,6 +4553,9 @@ importers:
     specifiers: {}
 
   components/td_ameritrade:
+    specifiers: {}
+
+  components/teachable:
     specifiers: {}
 
   components/team_up:

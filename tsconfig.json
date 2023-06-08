@@ -2042,6 +2042,42 @@
     },
     {
       "path": "components/cohere_platform"
+    },
+    {
+      "path": "components/firmao"
+    },
+    {
+      "path": "components/bloom_growth"
+    },
+    {
+      "path": "components/cleverreach"
+    },
+    {
+      "path": "components/infinity"
+    },
+    {
+      "path": "components/dext"
+    },
+    {
+      "path": "components/phoneburner"
+    },
+    {
+      "path": "components/surveysparrow"
+    },
+    {
+      "path": "components/teachable"
+    },
+    {
+      "path": "components/gotowebinar"
+    },
+    {
+      "path": "components/inoreader"
+    },
+    {
+      "path": "components/highlevel_oauth"
+    },
+    {
+      "path": "components/facebook_groups"
     }
   ]
 }
