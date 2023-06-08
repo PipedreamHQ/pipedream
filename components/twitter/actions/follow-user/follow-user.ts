@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { FollowUserParams } from "../../common/types/requestParams";
@@ -40,10 +40,9 @@ export default defineAction({
 
       $.export(
         "$summary",
-        `Successfully ${
-          response.data?.following
-            ? "followed"
-            : "requested to follow"
+        `Successfully ${response.data?.following
+          ? "followed"
+          : "requested to follow"
         } user`,
       );
 

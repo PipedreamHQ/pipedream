@@ -21,7 +21,7 @@ module.exports = {
         { text: "REST API", link: "/api/" },
         { text: "Limits", link: "/limits/" },
         { text: "Security & Privacy", link: "/privacy-and-security/"},
-        { text: "Handling Cold Starts", link: "/workflows/events/cold-starts/"},
+        { text: "Handling Cold Starts", link: "/workflows/settings/#eliminate-cold-starts"},
       ],
     },
   ], 

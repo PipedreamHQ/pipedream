@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { UnfollowUserParams } from "../../common/types/requestParams";

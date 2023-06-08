@@ -2167,7 +2167,10 @@ importers:
       '@pipedream/platform': 0.9.0
 
   components/ip2location_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ip2proxy:
     specifiers:
@@ -2703,6 +2706,9 @@ importers:
     specifiers: {}
 
   components/miro_custom_app:
+    specifiers: {}
+
+  components/missive:
     specifiers: {}
 
   components/mixmax:
@@ -4992,6 +4998,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/viral_loops:
+    specifiers: {}
 
   components/virustotal:
     specifiers: {}

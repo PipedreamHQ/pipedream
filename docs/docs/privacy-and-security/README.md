@@ -89,7 +89,9 @@ You can delete your OAuth grants or key-based credentials at any time by visitin
 
 The **execution environment** refers to the environment in which your sources, workflows, and other Pipedream code is executed.
 
-Each version of a source or workflow is deployed to its own virtual machine. This means your execution environment has its own RAM and disk, isolated from other users' environments. You can read more about the details of the virtualization and isolation mechanisms used to secure your execution environment [here](https://firecracker-microvm.github.io/).
+Each version of a source or workflow is deployed to its own virtual machine in AWS. This means your execution environment has its own RAM and disk, isolated from other users' environments. You can read more about the details of the virtualization and isolation mechanisms used to secure your execution environment [here](https://firecracker-microvm.github.io/).
+
+Instances of running VMs are called **workers**. If Pipedream spins up three VMs to handle multiple, concurrent requests for a single workflow, we're running three **workers**. Each worker runs the same Pipedream execution environment. Workers are ephemeral — AWS will shut them down within ~5 minutes of inactivity — but you can configure [dedicated workers](/workflows/settings/#eliminate-cold-starts) to ensure workers are always available to handle incoming requests.
 
 ## Encryption of data in transit, TLS (SSL) Certificates
 

@@ -29,6 +29,7 @@ import {
   GetAuthenticatedUserParams,
   SendMessageParams,
   GetDirectMessagesParams,
+  UploadMediaParams,
 } from "../common/types/requestParams";
 import {
   DirectMessage,
@@ -39,7 +40,7 @@ import {
   TwitterEntity,
   User,
 } from "../common/types/responseSchemas";
-import { ERROR_MESSAGE  } from "../common/errorMessage";
+import { ERROR_MESSAGE } from "../common/errorMessage";
 
 export default defineApp({
   type: "app",
@@ -446,6 +447,13 @@ export default defineApp({
       return this._httpRequest({
         method: "DELETE",
         url: `/users/${id}/likes/${tweetId}`,
+        ...args,
+      });
+    },
+    async uploadMedia({ ...args }: UploadMediaParams): Promise<object> {
+      return this._httpRequest({
+        url: "https://upload.twitter.com/1.1/media/upload.json",
+        method: "POST",
         ...args,
       });
     },

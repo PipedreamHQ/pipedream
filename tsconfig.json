@@ -2078,6 +2078,12 @@
     },
     {
       "path": "components/facebook_groups"
+    },
+    {
+      "path": "components/missive"
+    },
+    {
+      "path": "components/viral_loops"
     }
   ]
 }
