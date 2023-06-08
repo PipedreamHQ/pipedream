@@ -11,10 +11,25 @@ export default defineAction({
   props: {
     app,
     organizationId: {
+      propDefinition: [app, "organizationId"],
+    },
+    title: {
       type: "string",
-      label: "Organization ID",
-      description:
-        "",
+      label: "Title",
+      description: "Agreement title",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Agreement description",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Agreement tags",
+      optional: true,
     },
   },
   async run({ $ }) {

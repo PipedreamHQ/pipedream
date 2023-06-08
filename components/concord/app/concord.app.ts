@@ -5,7 +5,21 @@ import { HttpRequestParams } from "../common/types";
 export default defineApp({
   type: "app",
   app: "concord",
-  propDefinitions: {},
+  propDefinitions: {
+    organizationId: {
+      type: "string",
+      label: "Organization ID",
+      description:
+        "Select an **Organization** from the list, or provide a custom *Organization ID*.",
+      async options() {
+        const orgs = await this.getAllUserOrganizations();
+        return orgs?.map(({ organization: { id, name } }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+  },
   methods: {
     _getHeaders() {
       return {
@@ -21,6 +35,11 @@ export default defineApp({
         baseURL: `https://${this.$auth.environment}.concordnow.com/api/rest/1`,
         headers: this._getHeaders(),
         ...args,
+      });
+    },
+    async getAllUserOrganizations() {
+      return this._httpRequest({
+        url: "user/me/organizations",
       });
     },
   },
