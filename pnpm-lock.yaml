@@ -873,7 +873,12 @@ importers:
       uuid: 9.0.0
 
   components/concord:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      '@pipedream/types': 0.1.6
 
   components/confection:
     specifiers:
