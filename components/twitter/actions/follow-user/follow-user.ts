@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { FollowUserParams } from "../../common/types/requestParams";
@@ -11,7 +11,7 @@ export default defineAction({
   key: "twitter-follow-user",
   name: "Follow User",
   description: `Follow a user. [See docs here](${DOCS_LINK})`,
-  version: "1.0.4",
+  version: "2.0.1",
   type: "action",
   props: {
     app,
@@ -40,10 +40,9 @@ export default defineAction({
 
       $.export(
         "$summary",
-        `Successfully ${
-          response.data?.following
-            ? "followed"
-            : "requested to follow"
+        `Successfully ${response.data?.following
+          ? "followed"
+          : "requested to follow"
         } user`,
       );
 

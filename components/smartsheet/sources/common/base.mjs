@@ -50,6 +50,15 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
+    getWebhookName() {
+      throw new Error("getWebhookName is not implemented");
+    },
+    isRelevant() {
+      throw new Error("isRelevant is not implemented");
+    },
+    getResource() {
+      throw new Error("getResource is not implemented");
+    },
   },
   async run(event) {
     const { body } = event;
@@ -69,7 +78,11 @@ export default {
     for (const event of events) {
       if (this.isRelevant(event)) {
         const meta = this.generateMeta(event);
-        this.$emit(event, meta);
+        const resource = await this.getResource(event);
+        this.$emit({
+          event,
+          resource,
+        }, meta);
       }
     }
   },

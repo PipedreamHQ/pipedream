@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { CreateTweetParams } from "../../common/types/requestParams";
 
@@ -10,7 +10,7 @@ export default defineAction({
   key: "twitter-create-tweet",
   name: "Create Tweet",
   description: `Create a new tweet. [See docs here](${DOCS_LINK})`,
-  version: "1.0.3",
+  version: "2.0.1",
   type: "action",
   props: {
     app,

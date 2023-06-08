@@ -6,18 +6,13 @@ module.exports = {
   MEMORY_LIMIT: "256MB",
   MEMORY_ABSOLUTE_LIMIT: "10GB",
   EMAIL_PAYLOAD_SIZE_LIMIT: "30MB",
-
   MAX_WORKFLOW_EXECUTION_LIMIT: "750",
-
   base_credits_price: {
     memory: 256,
     seconds: 30,
   },
-
   DATA_STORES_MAX_KEYS: "1,024",
-
   DAILY_CREDITS_LIMIT: "100",
-
   INSPECTOR_EVENT_EXPIRY_DAYS: "365",
   FUNCTION_PAYLOAD_LIMIT: "6MB",
   DAILY_INVOCATIONS_LIMIT: "333",
@@ -39,5 +34,7 @@ module.exports = {
   TMP_SIZE_LIMIT: "2GB",
   DELAY_MIN_MAX_TIME:
     "You can pause your workflow for as little as one millisecond, or as long as one year",
-  PUBLIC_APPS: "1200",
+  PUBLIC_APPS: "1,200",
+  WARM_WORKERS_INTERVAL: "10 minutes",
+  WARM_WORKERS_CREDITS_PER_INTERVAL: 5,
 };
