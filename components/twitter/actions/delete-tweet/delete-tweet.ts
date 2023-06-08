@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { DeleteTweetParams } from "../../common/types/requestParams";
 
@@ -10,7 +10,7 @@ export default defineAction({
   key: "twitter-delete-tweet",
   name: "Delete Tweet",
   description: `Remove a posted tweet. [See docs here](${DOCS_LINK})`,
-  version: "2.0.0",
+  version: "2.0.1",
   type: "action",
   props: {
     app,
