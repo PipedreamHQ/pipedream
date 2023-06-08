@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/infinity",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Infinity Components",
-  "main": "dist/app/infinity.app.mjs",
+  "main": "infinity.app.mjs",
   "keywords": [
     "pipedream",
     "infinity"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/infinity",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
