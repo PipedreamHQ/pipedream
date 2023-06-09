@@ -260,5 +260,19 @@ export default {
         ...args,
       });
     },
+    addTagToContact(args = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        path: "contacts/edit/tags",
+        ...args,
+      });
+    },
+    addScoreToContact(args = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        path: "contacts/edit/lead-score",
+        ...args,
+      });
+    },
   },
 };
