@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "shopify-product-added-to-custom-collection",
-  name: "New Product Added to Custom Collection",
+  name: "New product added to custom collection",
   description: "Emit new event each time a product is added to a custom collection.",
   version: "0.0.3",
   type: "source",
