@@ -749,6 +749,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/clientify:
+    specifiers: {}
+
   components/clinchpad:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -2144,7 +2147,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/inoreader:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/instagram_business:
     specifiers: {}
@@ -2436,6 +2442,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/livestorm:
+    specifiers: {}
+
   components/lob:
     specifiers:
       '@lob/lob-typescript-sdk': ^1.0.0
@@ -2631,6 +2640,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/mem:
+    specifiers: {}
+
+  components/memberful:
     specifiers: {}
 
   components/memberstack:
@@ -4596,6 +4608,9 @@ importers:
       '@pipedream/platform': 1.5.1
       crypto: 1.0.1
       uuid: 9.0.0
+
+  components/teamwork_desk:
+    specifiers: {}
 
   components/telegram_bot_api:
     specifiers:
