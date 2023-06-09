@@ -59,7 +59,6 @@ export default {
         url: this.getUrl(path, url),
         ...args,
       };
-      console.log("config!!!", JSON.stringify(config, null, 2));
 
       return axios(step, config);
     },
