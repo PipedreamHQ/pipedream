@@ -1,21 +1,55 @@
 import slack from "../../slack.app.mjs";
 
+const CACHE_TIMEOUT = 3600000;
+
 export default {
   props: {
     slack,
-    nameCache: "$.service.db",
+    db: "$.service.db",
   },
   methods: {
-    async maybeCached(key, refreshVal, timeoutMs = 3600000) {
-      let record = this.nameCache.get(key);
+    cleanCache(cacheObj) {
+      console.log(cacheObj);
+      console.log("cleaning cache");
+      return cacheObj;
+    },
+    getCache() {
+      let cacheObj = this.db.get("nameCache"),
+        lastCacheCleanup = this.db.get("lastCacheCleanup");
+
+      const shouldCleanCache = Date.now() - lastCacheCleanup > CACHE_TIMEOUT;
+      if (shouldCleanCache) {
+        cacheObj = this.cleanCache(cacheObj);
+      }
+
+      return [
+        cacheObj,
+        shouldCleanCache,
+      ];
+    },
+    setCache(cacheObj) {
+      this.db.set("nameCache", cacheObj);
+    },
+    async maybeCached(key, refreshVal) {
+      let [
+        cacheObj,
+        wasUpdated,
+      ] = this.getCache();
+      let record = cacheObj[key];
       const time = Date.now();
-      if (!record || time - record.ts > timeoutMs) {
+      if (!record || time - record.ts > CACHE_TIMEOUT) {
         record = {
           ts: time,
           val: await refreshVal(),
         };
-        this.nameCache.set(key, record);
+        cacheObj[key] = record;
+        wasUpdated = true;
       }
+
+      if (wasUpdated) {
+        this.setCache(cacheObj);
+      }
+
       return record.val;
     },
     async getUserName(id) {
@@ -56,7 +90,10 @@ export default {
           });
           return info.team.name;
         } catch (err) {
-          console.log("Error getting team name, probably need to re-connect the account at pipedream.com/apps", err);
+          console.log(
+            "Error getting team name, probably need to re-connect the account at pipedream.com/apps",
+            err,
+          );
           return id;
         }
       });
@@ -64,35 +101,41 @@ export default {
     async getLastMessage({
       channel, event_ts,
     }) {
-      return this.maybeCached(`lastMessage:${channel}:${event_ts}`, async () => {
-        const info = await this.slack.sdk().conversations.history({
-          channel,
-          latest: event_ts,
-          limit: 1,
-          inclusive: true,
-        });
+      return this.maybeCached(
+        `lastMessage:${channel}:${event_ts}`,
+        async () => {
+          const info = await this.slack.sdk().conversations.history({
+            channel,
+            latest: event_ts,
+            limit: 1,
+            inclusive: true,
+          });
 
-        return info;
-      });
+          return info;
+        },
+      );
     },
     async getMessage({
       channel, event_ts,
     }) {
-      return await this.maybeCached(`lastMessage:${channel}:${event_ts}`, async () => {
-        const response = await this.slack.sdk().conversations.replies({
-          channel,
-          ts: event_ts,
-          limit: 1,
-        });
+      return await this.maybeCached(
+        `lastMessage:${channel}:${event_ts}`,
+        async () => {
+          const response = await this.slack.sdk().conversations.replies({
+            channel,
+            ts: event_ts,
+            limit: 1,
+          });
 
-        if (response.messages.length) {
-          response.messages = [
-            response.messages[0],
-          ];
-        }
+          if (response.messages.length) {
+            response.messages = [
+              response.messages[0],
+            ];
+          }
 
-        return response;
-      });
+          return response;
+        },
+      );
     },
     processEvent(event) {
       return event;
@@ -103,7 +146,8 @@ export default {
 
     if (event) {
       if (!event.client_msg_id) {
-        event.pipedream_msg_id = `pd_${Date.now()}_${Math.random().toString(36)
+        event.pipedream_msg_id = `pd_${Date.now()}_${Math.random()
+          .toString(36)
           .substr(2, 10)}`;
       }
 
