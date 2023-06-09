@@ -1,6 +1,7 @@
 import slack from "../../slack.app.mjs";
-
-const CACHE_TIMEOUT = 3600000;
+import {
+  NAME_CACHE_MAX_SIZE, NAME_CACHE_TIMEOUT,
+} from "./constants.mjs";
 
 export default {
   props: {
@@ -9,17 +10,31 @@ export default {
   },
   methods: {
     cleanCache(cacheObj) {
-      console.log(cacheObj);
-      console.log("cleaning cache");
-      return cacheObj;
+      const timeout = Date.now() - NAME_CACHE_TIMEOUT;
+
+      let cleanArr = Object.entries(cacheObj).filter(
+        ([
+          , { ts },
+        ]) => ts > timeout,
+      );
+
+      if (cleanArr.length > NAME_CACHE_MAX_SIZE) {
+        cleanArr = cleanArr.slice(NAME_CACHE_MAX_SIZE / -2);
+      }
+
+      const cleanObj = Object.fromEntries(cleanArr);
+      return cleanObj;
     },
     getCache() {
-      let cacheObj = this.db.get("nameCache"),
-        lastCacheCleanup = this.db.get("lastCacheCleanup");
+      let cacheObj = this.db.get("nameCache") ?? {};
 
-      const shouldCleanCache = Date.now() - lastCacheCleanup > CACHE_TIMEOUT;
+      const lastCacheCleanup = this.db.get("lastCacheCleanup") ?? 0;
+      const time = Date.now();
+
+      const shouldCleanCache = time - lastCacheCleanup > NAME_CACHE_TIMEOUT / 2;
       if (shouldCleanCache) {
         cacheObj = this.cleanCache(cacheObj);
+        this.db.set("lastCacheCleanup", time);
       }
 
       return [
@@ -37,7 +52,7 @@ export default {
       ] = this.getCache();
       let record = cacheObj[key];
       const time = Date.now();
-      if (!record || time - record.ts > CACHE_TIMEOUT) {
+      if (!record || time - record.ts > NAME_CACHE_TIMEOUT) {
         record = {
           ts: time,
           val: await refreshVal(),
