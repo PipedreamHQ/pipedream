@@ -15,23 +15,26 @@ export default {
         common.props.facebookGroups,
         "post",
         (c) => ({
-          group: c.group,
+          groupId: c.group,
         }),
       ],
     },
   },
   methods: {
     ...common.methods,
+    getTs(comment) {
+      return Date.parse(comment.created_time);
+    },
     generateMeta(comment) {
       return {
         id: comment.id,
         summary: comment.message,
-        ts: comment.created_time,
+        ts: this.getTs(comment),
       };
     },
     getArgs() {
       return {
-        fn: this.facebookGroups.listComments,
+        fn: this.facebookGroups.listPostComments,
         args: {
           postId: this.post,
         },

@@ -29,18 +29,17 @@ export default {
       fn, args,
     }) {
       const lastCreatedTs = this._getLastCreatedTs();
-      const response = this.facebookGroups.paginate({
-        fn,
-        args,
-      });
+
+      const { data } = await fn(args);
 
       const items = [];
       let maxTs = lastCreatedTs;
-      for await (const item of response) {
-        if (item.created_time > lastCreatedTs) {
+      for await (const item of data) {
+        const ts = this.getTs(item);
+        if (ts > lastCreatedTs) {
           items.push(item);
-          if (item.created_time > maxTs) {
-            maxTs = item.created_time;
+          if (ts > maxTs) {
+            maxTs = ts;
           }
         }
       }
@@ -53,6 +52,9 @@ export default {
     },
     generateMeta() {
       throw new Error("generateMeta is not implemented");
+    },
+    getTs() {
+      throw new Error("getTs is not implemented");
     },
   },
   async run() {

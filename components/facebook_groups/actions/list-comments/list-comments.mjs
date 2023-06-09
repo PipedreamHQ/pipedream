@@ -14,7 +14,7 @@ export default {
         common.props.facebookGroups,
         "post",
         (c) => ({
-          group: c.group,
+          groupId: c.group,
         }),
       ],
     },
@@ -26,14 +26,23 @@ export default {
     },
   },
   async run({ $ }) {
-    const comments = await this.getResources({
-      fn: this.facebookGroups.listComments,
+    const response = await this.paginate({
+      fn: this.facebookGroups.listPostComments,
       args: {
         postId: this.post,
         $,
       },
-      maxResults: this.maxResults,
     });
+
+    const comments = [];
+    let count = 0;
+    for await (const comment of response) {
+      comments.push(comment);
+
+      if (this.maxResults && ++count === this.maxResults) {
+        break;
+      }
+    }
 
     $.export("$summary", `Successfully retrieved ${comments.length} comment${comments.length === 1
       ? ""

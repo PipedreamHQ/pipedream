@@ -14,20 +14,35 @@ export default {
         common.props.facebookGroups,
         "post",
         (c) => ({
-          group: c.group,
+          groupId: c.group,
         }),
+      ],
+    },
+    maxResults: {
+      propDefinition: [
+        common.props.facebookGroups,
+        "maxResults",
       ],
     },
   },
   async run({ $ }) {
-    const reactions = await this.getResources({
-      fn: this.facebookGroups.listReactions,
+    const response = await this.paginate({
+      fn: this.facebookGroups.listPostReactions,
       args: {
         postId: this.post,
         $,
       },
-      maxResults: this.maxResults,
     });
+
+    const reactions = [];
+    let count = 0;
+    for await (const reaction of response) {
+      reactions.push(reaction);
+
+      if (this.maxResults && ++count === this.maxResults) {
+        break;
+      }
+    }
 
     $.export("$summary", `Successfully retrieved ${reactions.length} reaction${reactions.length === 1
       ? ""

@@ -11,24 +11,27 @@ export default {
     },
   },
   methods: {
-    async getResources({
-      fn, args, maxResults,
+    async *paginate({
+      fn, args = {},
     }) {
-      const response = this.facebookGroups.paginate({
-        fn,
-        args,
-      });
-
-      const items = [];
-      let count = 0;
-      for await (const item of response) {
-        items.push(item);
-        if (maxResults && ++count === maxResults) {
-          break;
+      do {
+        const {
+          data, paging,
+        } = await fn(args);
+        if (!data.length) {
+          return;
         }
-      }
-
-      return items;
+        for (const item of data) {
+          yield item;
+        }
+        args = {
+          ...args,
+          params: {
+            ...args.params,
+            after: paging.cursors.after,
+          },
+        };
+      } while (true);
     },
   },
 };

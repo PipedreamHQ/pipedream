@@ -8,67 +8,42 @@ export default {
       type: "string",
       label: "Group",
       description: "Identifier of a group",
-      async options({ prevContext }) {
+      async options() {
         const userId = await this.getUserId();
         const opts = {
           userId,
         };
-        if (prevContext?.next) {
-          opts.url = prevContext.next;
-        }
-        const {
-          data, paging,
-        } = await this.listGroups(opts);
-        const options = data?.map(({
+        const { data } = await this.listGroups(opts);
+        return data?.map(({
           id, name,
         }) => ({
           label: name,
           value: id,
         })) || [];
-        return {
-          options,
-          context: {
-            next: paging?.next,
-          },
-        };
       },
     },
     post: {
       type: "string",
       label: "Post",
       description: "Identifier of a post",
-      async options({
-        prevContext, groupId,
-      }) {
+      async options({ groupId }) {
         const opts = {
           groupId,
         };
-        if (prevContext?.next) {
-          opts.url = prevContext.next;
-        }
-        const {
-          data, paging,
-        } = await this.listPosts(opts);
-        const options = data?.map(({
+        const { data } = await this.listPosts(opts);
+        return data?.map(({
           id, message,
         }) => ({
-          label: message,
+          label: message || id,
           value: id,
         })) || [];
-        return {
-          options,
-          context: {
-            next: paging?.next,
-          },
-        };
       },
     },
     maxResults: {
-      type: "integer",
+      type: "string",
       label: "Max Results",
-      description: "Maximum number of results to return",
+      description: "The maximum number of results to return",
       optional: true,
-      default: 50,
     },
   },
   methods: {
@@ -138,22 +113,6 @@ export default {
         ...args,
       });
     },
-    listMembers({
-      groupId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/${groupId}/opted_in_members`,
-        ...args,
-      });
-    },
-    listEvents({
-      groupId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/${groupId}/events`,
-        ...args,
-      });
-    },
     createPost({
       groupId, ...args
     }) {
@@ -163,21 +122,14 @@ export default {
         ...args,
       });
     },
-    async *paginate({
-      fn, args = {},
+    postPhoto({
+      groupId, ...args
     }) {
-      let next;
-
-      do {
-        const {
-          data, paging,
-        } = await fn(args);
-        next = paging?.next || null;
-        args.url = next;
-        for (const item of data) {
-          yield item;
-        }
-      } while (next);
+      return this._makeRequest({
+        path: `/${groupId}/photos`,
+        method: "POST",
+        ...args,
+      });
     },
   },
 };

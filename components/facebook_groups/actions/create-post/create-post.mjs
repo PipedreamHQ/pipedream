@@ -29,6 +29,7 @@ export default {
     }
 
     const response = await this.facebookGroups.createPost({
+      groupId: this.group,
       data: {
         message: this.message,
         link: this.link,

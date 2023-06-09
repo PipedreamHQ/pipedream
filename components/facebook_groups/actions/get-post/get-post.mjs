@@ -14,7 +14,7 @@ export default {
         common.props.facebookGroups,
         "post",
         (c) => ({
-          group: c.group,
+          groupId: c.group,
         }),
       ],
     },

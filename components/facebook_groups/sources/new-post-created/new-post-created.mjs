@@ -10,11 +10,14 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getTs(post) {
+      return Date.parse(post.updated_time);
+    },
     generateMeta(post) {
       return {
         id: post.id,
         summary: post.message,
-        ts: post.created_time,
+        ts: this.getTs(post),
       };
     },
     getArgs() {
