@@ -2090,6 +2090,9 @@
     },
     {
       "path": "components/teamwork_desk"
+    },
+    {
+      "path": "components/clientify"
     }
   ]
 }
