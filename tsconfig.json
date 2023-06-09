@@ -2093,6 +2093,9 @@
     },
     {
       "path": "components/clientify"
+    },
+    {
+      "path": "components/livestorm"
     }
   ]
 }
