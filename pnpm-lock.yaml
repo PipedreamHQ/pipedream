@@ -1858,6 +1858,12 @@ importers:
       mime-db: 1.52.0
       uuid: 8.3.2
 
+  components/google_tasks:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/google_workspace:
     specifiers:
       '@googleapis/admin': ^6.0.2
@@ -2706,6 +2712,9 @@ importers:
     specifiers: {}
 
   components/miro_custom_app:
+    specifiers: {}
+
+  components/missive:
     specifiers: {}
 
   components/mixmax:
@@ -5001,6 +5010,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/viral_loops:
+    specifiers: {}
 
   components/virustotal:
     specifiers: {}

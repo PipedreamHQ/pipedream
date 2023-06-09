@@ -99,7 +99,7 @@ Pipedream also performs some initialization operations on new workflow runs, so 
 
 You should configure dedicated workers when you need to process requests as soon as possible, with no latency.
 
-For example, you may build an HTTP-triggered workflow that returns a synchronous HTTP response to a user, without delay. Or you may need be building a Slack bot and need to respond to Slack's webhook within a few seconds. Since these workflows need to respond quickly, they're good cases to use dedicated workers.
+For example, you may build an HTTP-triggered workflow that returns a synchronous HTTP response to a user, without delay. Or you may be building a Slack bot and need to respond to Slack's webhook within a few seconds. Since these workflows need to respond quickly, they're good cases to use dedicated workers.
 
 ### How many workers should I configure?
 
