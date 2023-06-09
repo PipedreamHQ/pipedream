@@ -2099,6 +2099,9 @@
     },
     {
       "path": "components/formaloo"
+    },
+    {
+      "path": "components/google_tag_manager"
     }
   ]
 }
