@@ -144,6 +144,12 @@ export default {
         ...args,
       });
     },
+    listResponses(args = {}) {
+      return this._makeRequest({
+        path: "/responses",
+        ...args,
+      });
+    },
     createContact(args = {}) {
       return this._makeRequest({
         path: "/contacts",
