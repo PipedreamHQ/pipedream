@@ -4,11 +4,23 @@ export interface TwitterEntity {
 
 export type TwitterEntityMap = Record<string, object>;
 
+export interface DirectMessage extends TwitterEntity {
+  event_type: "MessageCreate";
+  text: string;
+}
+
 export interface List extends TwitterEntity {
   name: string;
 }
 
-export interface Tweet extends TwitterEntity {
+interface MetricsFields {
+  public_metrics?: string;
+  non_public_metrics?: string;
+  organic_metrics?: string;
+  promoted_metrics?: string;
+}
+
+export interface Tweet extends TwitterEntity, MetricsFields {
   text: string;
   edit_history_tweet_ids: string[];
   referenced_tweets?: ReferencedTweet[];
