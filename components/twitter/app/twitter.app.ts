@@ -27,8 +27,12 @@ import {
   UnlikeTweetParams,
   GetListTweetsParams,
   GetAuthenticatedUserParams,
+  SendMessageParams,
+  GetDirectMessagesParams,
+  UploadMediaParams,
 } from "../common/types/requestParams";
 import {
+  DirectMessage,
   List,
   PaginatedResponseObject,
   ResponseObject,
@@ -36,7 +40,7 @@ import {
   TwitterEntity,
   User,
 } from "../common/types/responseSchemas";
-import { ERROR_MESSAGE  } from "../common/errorMessage";
+import { ERROR_MESSAGE } from "../common/errorMessage";
 
 export default defineApp({
   type: "app",
@@ -150,13 +154,14 @@ export default defineApp({
         baseURL: this._getBaseUrl(),
         ...args,
       };
-      const headers = this._getAuthHeader(config);
 
-      const request = () =>
-        axios($, {
+      const request = async () => {
+        const headers = this._getAuthHeader(config);
+        return axios($, {
           ...config,
           headers,
         });
+      }
 
       let response: ResponseObject<TwitterEntity>,
         counter = 1;
@@ -304,6 +309,14 @@ export default defineApp({
       const response = await this.getAuthenticatedUser();
       return response.data.id;
     },
+    async getDirectMessages(
+      args: GetDirectMessagesParams,
+    ): Promise<PaginatedResponseObject<DirectMessage>> {
+      return this._paginatedRequest({
+        url: "/dm_events",
+        ...args,
+      });
+    },
     async getUserLikedTweets({
       userId,
       ...args
@@ -405,6 +418,16 @@ export default defineApp({
         ...args,
       });
     },
+    async sendMessage({
+      userId,
+      ...args
+    }: SendMessageParams): Promise<object> {
+      return this._httpRequest({
+        method: "POST",
+        url: `/dm_conversations/with/${userId}/messages`,
+        ...args,
+      });
+    },
     async unfollowUser({
       userId,
       ...args
@@ -424,6 +447,13 @@ export default defineApp({
       return this._httpRequest({
         method: "DELETE",
         url: `/users/${id}/likes/${tweetId}`,
+        ...args,
+      });
+    },
+    async uploadMedia({ ...args }: UploadMediaParams): Promise<object> {
+      return this._httpRequest({
+        url: "https://upload.twitter.com/1.1/media/upload.json",
+        method: "POST",
         ...args,
       });
     },

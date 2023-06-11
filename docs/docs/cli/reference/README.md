@@ -314,7 +314,7 @@ If you're working with resources in an [workspace](/workspaces/), you'll need to
 
 ```
 [profile_name]
-api_key = <API Key from workspace settings>
+api_key = <API Key from user settings>
 org_id = <Workspace ID from workspace settings>
 ```
 

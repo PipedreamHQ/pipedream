@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/formaloo",
+  "version": "0.0.1",
+  "description": "Pipedream Formaloo Components",
+  "main": "dist/app/formaloo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "formaloo"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/formaloo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

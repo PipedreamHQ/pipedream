@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
   getUserId, getUserFields,
@@ -15,8 +15,8 @@ const DOCS_LINK =
 export default defineAction({
   key: "twitter-get-user",
   name: "Get User",
-  description: `Get information about a user. [See docs here](${DOCS_LINK})`,
-  version: "2.0.0",
+  description: `Get information about a user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.2",
   type: "action",
   props: {
     app,

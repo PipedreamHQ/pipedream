@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary,
@@ -21,8 +21,8 @@ export const MAX_RESULTS_PER_PAGE = 1000;
 export default defineAction({
   key: "twitter-list-followers",
   name: "List Followers",
-  description: `Return a collection of user objects for users following the specified user. [See docs here](${DOCS_LINK})`,
-  version: "2.0.0",
+  description: `Return a collection of user objects for users following the specified user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.2",
   type: "action",
   props: {
     app,

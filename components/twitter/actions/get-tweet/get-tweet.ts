@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { GetTweetParams } from "../../common/types/requestParams";
 import { getTweetFields } from "../../common/methods";
@@ -13,8 +13,8 @@ const DOCS_LINK =
 export default defineAction({
   key: "twitter-get-tweet",
   name: "Get Tweet",
-  description: `Return a single tweet specified by ID. [See docs here](${DOCS_LINK})`,
-  version: "2.0.0",
+  description: `Return a single tweet specified by ID. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.2",
   type: "action",
   props: {
     app,

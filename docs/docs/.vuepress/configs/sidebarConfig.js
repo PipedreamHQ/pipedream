@@ -138,7 +138,7 @@ const referenceNav = [
       "/subprocessors/",
     ],
   },
-  "/workflows/events/cold-starts/",
+  "/workflows/settings/#eliminate-cold-starts",
 ];
 
 const pricingNav = ["/pricing/"];
@@ -164,7 +164,7 @@ module.exports = {
   "/privacy-and-reference/pgp-key/": referenceNav,
   "/privacy-and-reference/best-practices/": referenceNav,
   "/subprocessors/": referenceNav,
-  "/workflows/events/cold-starts/": referenceNav,
+  "/workflows/settings/#eliminate-cold-starts": referenceNav,
   "/abuse/": referenceNav,
   // pricing nav
   "/pricing/": pricingNav,

@@ -2078,6 +2078,33 @@
     },
     {
       "path": "components/facebook_groups"
+    },
+    {
+      "path": "components/missive"
+    },
+    {
+      "path": "components/viral_loops"
+    },
+    {
+      "path": "components/memberful"
+    },
+    {
+      "path": "components/teamwork_desk"
+    },
+    {
+      "path": "components/clientify"
+    },
+    {
+      "path": "components/livestorm"
+    },
+    {
+      "path": "components/formaloo"
+    },
+    {
+      "path": "components/google_tag_manager"
+    },
+    {
+      "path": "components/facebook_pages"
     }
   ]
 }
