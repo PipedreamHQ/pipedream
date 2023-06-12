@@ -5,7 +5,7 @@ export default {
   name: "Subscribe To Feed",
   description: "Subscribe to a feed. [See the Documentation](https://www.inoreader.com/developers/add-subscription)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.24",
   props: {
     app,
     feedId: {
@@ -16,11 +16,9 @@ export default {
     },
   },
   methods: {
-    addFeed({
-      feedId, ...args
-    } = {}) {
+    addFeed(args = {}) {
       return this.app.post({
-        path: `/subscription/quickadd/${encodeURIComponent(this.app.prefixFeed(feedId))}`,
+        path: "/subscription/quickadd",
         ...args,
       });
     },
@@ -30,7 +28,9 @@ export default {
 
     const response = await this.addFeed({
       step,
-      feedId,
+      params: {
+        quickadd: this.app.prefixFeed(feedId),
+      },
     });
 
     step.export("$summary", `Subscribed to feed ${feedId}.`);
