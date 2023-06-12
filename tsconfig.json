@@ -2093,6 +2093,21 @@
     },
     {
       "path": "components/clientify"
+    },
+    {
+      "path": "components/livestorm"
+    },
+    {
+      "path": "components/formaloo"
+    },
+    {
+      "path": "components/google_tag_manager"
+    },
+    {
+      "path": "components/facebook_pages"
+    },
+    {
+      "path": "components/google_chat"
     }
   ]
 }

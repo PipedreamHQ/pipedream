@@ -27,9 +27,12 @@ import {
   UnlikeTweetParams,
   GetListTweetsParams,
   GetAuthenticatedUserParams,
+  SendMessageParams,
+  GetDirectMessagesParams,
   UploadMediaParams,
 } from "../common/types/requestParams";
 import {
+  DirectMessage,
   List,
   PaginatedResponseObject,
   ResponseObject,
@@ -151,13 +154,14 @@ export default defineApp({
         baseURL: this._getBaseUrl(),
         ...args,
       };
-      const headers = this._getAuthHeader(config);
 
-      const request = () =>
-        axios($, {
+      const request = async () => {
+        const headers = this._getAuthHeader(config);
+        return axios($, {
           ...config,
           headers,
         });
+      }
 
       let response: ResponseObject<TwitterEntity>,
         counter = 1;
@@ -305,6 +309,14 @@ export default defineApp({
       const response = await this.getAuthenticatedUser();
       return response.data.id;
     },
+    async getDirectMessages(
+      args: GetDirectMessagesParams,
+    ): Promise<PaginatedResponseObject<DirectMessage>> {
+      return this._paginatedRequest({
+        url: "/dm_events",
+        ...args,
+      });
+    },
     async getUserLikedTweets({
       userId,
       ...args
@@ -403,6 +415,16 @@ export default defineApp({
     ): Promise<PaginatedResponseObject<Tweet>> {
       return this._paginatedRequest({
         url: "/tweets/search/recent",
+        ...args,
+      });
+    },
+    async sendMessage({
+      userId,
+      ...args
+    }: SendMessageParams): Promise<object> {
+      return this._httpRequest({
+        method: "POST",
+        url: `/dm_conversations/with/${userId}/messages`,
         ...args,
       });
     },
