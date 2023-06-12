@@ -14,7 +14,7 @@ export default defineAction({
   key: "twitter-get-tweet",
   name: "Get Tweet",
   description: `Return a single tweet specified by ID. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.2",
+  version: "2.0.3",
   type: "action",
   props: {
     app,
