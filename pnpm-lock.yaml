@@ -1078,7 +1078,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dext:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dialmycalls:
     specifiers: {}
@@ -4871,12 +4874,6 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
       oauth-1.0a: 2.2.6
-
-  components/twitter_developer_app:
-    specifiers:
-      '@pipedream/platform': ^1.2.0
-    dependencies:
-      '@pipedream/platform': 1.5.1
 
   components/typebot:
     specifiers: {}

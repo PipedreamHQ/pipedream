@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/livestorm",
+  "version": "0.0.1",
+  "description": "Pipedream Livestorm Components",
+  "main": "dist/app/livestorm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "livestorm"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/livestorm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
