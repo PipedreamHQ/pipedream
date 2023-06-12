@@ -7,9 +7,6 @@
     "pipedream",
     "trakt"
   ],
-  "files": [
-    "dist"
-  ],
   "homepage": "https://pipedream.com/apps/trakt",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
