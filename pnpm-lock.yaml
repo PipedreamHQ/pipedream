@@ -1749,6 +1749,9 @@ importers:
       moment-timezone: 0.5.43
       uuid: 8.3.2
 
+  components/google_chat:
+    specifiers: {}
+
   components/google_classroom:
     specifiers:
       '@pipedream/platform': ^1.2.1
