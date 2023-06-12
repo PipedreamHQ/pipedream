@@ -749,6 +749,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/clientify:
+    specifiers: {}
+
   components/clinchpad:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1387,6 +1390,9 @@ importers:
   components/facebook_groups:
     specifiers: {}
 
+  components/facebook_pages:
+    specifiers: {}
+
   components/facturadirecta:
     specifiers: {}
 
@@ -1481,6 +1487,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/form_io:
+    specifiers: {}
+
+  components/formaloo:
     specifiers: {}
 
   components/formatting:
@@ -1737,6 +1746,9 @@ importers:
       moment-timezone: 0.5.43
       uuid: 8.3.2
 
+  components/google_chat:
+    specifiers: {}
+
   components/google_classroom:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1860,6 +1872,9 @@ importers:
       axios: 0.21.4
       mime-db: 1.52.0
       uuid: 8.3.2
+
+  components/google_tag_manager:
+    specifiers: {}
 
   components/google_tasks:
     specifiers:
@@ -2439,6 +2454,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/livestorm:
+    specifiers: {}
+
   components/lob:
     specifiers:
       '@lob/lob-typescript-sdk': ^1.0.0
@@ -2634,6 +2652,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/mem:
+    specifiers: {}
+
+  components/memberful:
     specifiers: {}
 
   components/memberstack:
@@ -4599,6 +4620,9 @@ importers:
       '@pipedream/platform': 1.5.1
       crypto: 1.0.1
       uuid: 9.0.0
+
+  components/teamwork_desk:
+    specifiers: {}
 
   components/telegram_bot_api:
     specifiers:
