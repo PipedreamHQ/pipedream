@@ -2105,6 +2105,9 @@
     },
     {
       "path": "components/facebook_pages"
+    },
+    {
+      "path": "components/google_chat"
     }
   ]
 }
