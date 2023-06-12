@@ -10,7 +10,7 @@ export default {
   },
   methods: {
     cleanCache(cacheObj) {
-      console.log("Initiating cache check-up routine...");
+      console.log("Initiating cache check-up...");
       const timeout = Date.now() - NAME_CACHE_TIMEOUT;
 
       const entries = Object.entries(cacheObj);
