@@ -15,9 +15,10 @@ export default {
       ],
     },
     score: {
-      type: "integer",
-      label: "Score",
-      description: "Amount to add to contact score. If you want to decrease the existing score, then use negative values for the score parameter.",
+      propDefinition: [
+        agileCrm,
+        "score",
+      ],
     },
   },
   async run({ $ }) {

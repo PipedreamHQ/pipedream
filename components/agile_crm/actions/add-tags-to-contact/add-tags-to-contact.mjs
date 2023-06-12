@@ -15,9 +15,10 @@ export default {
       ],
     },
     tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "The tags to add to the specified contact",
+      propDefinition: [
+        agileCrm,
+        "tags",
+      ],
     },
   },
   async run({ $ }) {
