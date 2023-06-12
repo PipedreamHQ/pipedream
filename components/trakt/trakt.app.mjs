@@ -3,7 +3,18 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "trakt",
-  propDefinitions: {},
+  propDefinitions: {
+    movies: {
+      label: "Movies",
+      description: "The movies name. E.g `John Wick: Chapter 4`",
+      type: "string[]",
+    },
+    shows: {
+      label: "TV Shows",
+      description: "The TV show names. E.g `Breaking Bad`",
+      type: "string[]",
+    },
+  },
   methods: {
     _oauthAccessToken() {
       return this.$auth.oauth_access_token;

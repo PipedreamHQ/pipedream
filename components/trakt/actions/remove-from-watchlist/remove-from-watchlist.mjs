@@ -9,16 +9,20 @@ export default {
   props: {
     trakt,
     movies: {
-      label: "Movies",
-      description: "The movies name to be added to watchlist. E.g `John Wick: Chapter 4`",
-      type: "string[]",
+      description: "The movies name to be removed from watchlist. E.g `John Wick: Chapter 4`",
       optional: true,
+      propDefinition: [
+        trakt,
+        "movies",
+      ],
     },
     shows: {
-      label: "TV Shows",
-      description: "The TV show names to be added to watchlist. E.g `Breaking Bad`",
-      type: "string[]",
+      description: "The TV show names to be removed from watchlist. E.g `Breaking Bad`",
       optional: true,
+      propDefinition: [
+        trakt,
+        "shows",
+      ],
     },
   },
   async run({ $ }) {
