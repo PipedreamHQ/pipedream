@@ -17,7 +17,7 @@ export default {
         return response.spaces?.map((space) => ({
           label: `${space.displayName} (${space.type})`,
           value: space.name.replace("spaces/", ""),
-        }));
+        })) || [];
       },
     },
     messageId: {
@@ -31,7 +31,21 @@ export default {
         return response.messages?.map((message) => ({
           label: `${message.text} (${message.createTime})`,
           value: message.name.split("/").pop(),
-        }));
+        })) || [];
+      },
+    },
+    memberId: {
+      type: "string",
+      label: "member ID",
+      description: "The ID of the member.",
+      async options({ spaceId }) {
+        const response = await this.listMembers({
+          spaceId,
+        });
+        return response.memberships?.map((membership) => ({
+          label: `${membership.member.name} (${membership.role})`,
+          value: membership.name.split("/").pop(),
+        })) || [];
       },
     },
   },
@@ -104,6 +118,27 @@ export default {
         $,
         method: "GET",
         path: `/spaces/${spaceId}/messages/${messageId}`,
+      });
+    },
+    getSpace({
+      $ = this,
+      spaceId,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "GET",
+        path: `/spaces/${spaceId}`,
+      });
+    },
+    getMember({
+      $ = this,
+      spaceId,
+      memberId,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "GET",
+        path: `/spaces/${spaceId}/members/${memberId}`,
       });
     },
     listSpaces({
