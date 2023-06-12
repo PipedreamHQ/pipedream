@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/facebook_pages",
+  "version": "0.0.1",
+  "description": "Pipedream Facebook Pages Components",
+  "main": "dist/app/facebook_pages.app.mjs",
+  "keywords": [
+    "pipedream",
+    "facebook_pages"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/facebook_pages",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
