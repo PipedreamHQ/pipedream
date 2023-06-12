@@ -1,4 +1,5 @@
 import app from "../../google_chat.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "google_chat-list-spaces",
@@ -25,11 +26,7 @@ export default {
       label: "Space Type",
       description: "You can filter spaces by the space type.",
       optional: true,
-      options: [
-        "SPACE",
-        "GROUP_CHAT",
-        "DIRECT_MESSAGE",
-      ],
+      options: constants.LIST_SPACES_SPACE_TYPE_OPTIONS,
     },
   },
   async run({ $ }) {

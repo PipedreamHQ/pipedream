@@ -17,7 +17,7 @@ export default {
     text: {
       type: "string",
       label: "Message Text",
-      description: "The text of the message to create",
+      description: "The text of the message to create.",
     },
   },
   async run({ $ }) {

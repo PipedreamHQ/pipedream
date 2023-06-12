@@ -1,4 +1,5 @@
 import app from "../../google_chat.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "google_chat-list-messages",
@@ -31,10 +32,7 @@ export default {
       label: "Order By",
       description: "Specify how the list of messages is ordered. The default ordering is createTime ASC.",
       optional: true,
-      options: [
-        "createTime ASC",
-        "createTime DESC",
-      ],
+      options: constants.LIST_MESSAGES_ORDER_BY_OPTIONS,
     },
     filter: {
       type: "string",
