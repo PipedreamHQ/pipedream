@@ -1,6 +1,6 @@
 import { Pipedream } from "@pipedream/types";
 import {
-  ListFields, TweetFields, UserFields,
+  ListFields, MessageFields, TweetFields, UserFields,
 } from "./fields";
 
 interface PdAxiosRequest {
@@ -67,6 +67,12 @@ export interface FollowUserParams extends PdAxiosRequest {
   };
 }
 
+export interface GetDirectMessagesParams extends PaginatedRequest {
+  params?: MessageFields & {
+    event_types: "MessageCreate";
+  };
+}
+
 export interface GetUserLikedTweetParams extends PaginatedRequest, UserId {
   params?: TweetFields;
 }
@@ -118,6 +124,12 @@ export type RetweetParams = LikeTweetParams;
 
 export interface SearchTweetsParams extends PaginatedRequest {
   params: { query: string; };
+}
+
+export interface SendMessageParams extends PdAxiosRequest, UserId {
+  data: {
+    text: string;
+  };
 }
 
 export interface UnfollowUserParams extends PdAxiosRequest, UserId { }
