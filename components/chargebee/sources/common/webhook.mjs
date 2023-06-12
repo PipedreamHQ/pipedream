@@ -25,7 +25,7 @@ export default {
       throw new ConfigurationError("getResources is not implemented");
     },
     processEvent(event) {
-      this.$emit(event, this.generateMeta(event));
+      this.$emit(event?.content ?? event, this.generateMeta(event));
     },
     processEvents(events) {
       Array.from(events).reverse()
