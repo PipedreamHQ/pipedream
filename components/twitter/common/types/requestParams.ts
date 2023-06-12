@@ -19,6 +19,7 @@ export interface HttpRequestParams extends PdAxiosRequest {
   method: string;
   data?: object | string;
   params?: object;
+  baseURL?: string;
 }
 
 export interface PaginatedRequestParams

@@ -450,8 +450,9 @@ export default defineApp({
         ...args,
       });
     },
-    async uploadMedia({ ...args }: UploadMediaParams): Promise<object> {
+    async uploadMedia(args: UploadMediaParams): Promise<object> {
       return this._httpRequest({
+        baseURL: "",
         url: "https://upload.twitter.com/1.1/media/upload.json",
         method: "POST",
         ...args,
