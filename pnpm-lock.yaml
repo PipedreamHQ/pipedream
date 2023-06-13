@@ -135,9 +135,11 @@ importers:
 
   components/agile_crm:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.5.1
+      lodash.pickby: ^4.6.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      lodash.pickby: 4.6.0
 
   components/ahrefs:
     specifiers: {}
@@ -664,6 +666,14 @@ importers:
   components/chaport:
     specifiers: {}
 
+  components/chargebee:
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+      chargebee: ^2.22.3
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      chargebee: 2.23.0
+
   components/chartmogul:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -748,6 +758,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/clientify:
+    specifiers: {}
 
   components/clinchpad:
     specifiers:
@@ -1387,6 +1400,9 @@ importers:
   components/facebook_groups:
     specifiers: {}
 
+  components/facebook_pages:
+    specifiers: {}
+
   components/facturadirecta:
     specifiers: {}
 
@@ -1481,6 +1497,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/form_io:
+    specifiers: {}
+
+  components/formaloo:
     specifiers: {}
 
   components/formatting:
@@ -1737,6 +1756,9 @@ importers:
       moment-timezone: 0.5.43
       uuid: 8.3.2
 
+  components/google_chat:
+    specifiers: {}
+
   components/google_classroom:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1860,6 +1882,9 @@ importers:
       axios: 0.21.4
       mime-db: 1.52.0
       uuid: 8.3.2
+
+  components/google_tag_manager:
+    specifiers: {}
 
   components/google_tasks:
     specifiers:
@@ -2439,6 +2464,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/livestorm:
+    specifiers: {}
+
   components/lob:
     specifiers:
       '@lob/lob-typescript-sdk': ^1.0.0
@@ -2634,6 +2662,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/mem:
+    specifiers: {}
+
+  components/memberful:
     specifiers: {}
 
   components/memberstack:
@@ -4599,6 +4630,9 @@ importers:
       '@pipedream/platform': 1.5.1
       crypto: 1.0.1
       uuid: 9.0.0
+
+  components/teamwork_desk:
+    specifiers: {}
 
   components/telegram_bot_api:
     specifiers:
@@ -13621,6 +13655,14 @@ packages:
 
   /charenc/0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
+    dev: false
+
+  /chargebee/2.23.0:
+    resolution: {integrity: sha512-PPwZU6eep+CJqmbxbkf6yC3Yb3n+tcsbIDzN51MlsbGMXFSc0gu/GRQccibJ6T/qMcO1EjA3H4R09z002nmOsg==}
+    engines: {node: '>=0.6.0'}
+    dependencies:
+      q: 1.5.1
+      safer-buffer: 2.1.2
     dev: false
 
   /charm/1.0.2:

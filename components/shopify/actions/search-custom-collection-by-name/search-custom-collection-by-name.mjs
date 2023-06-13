@@ -4,7 +4,7 @@ export default {
   key: "shopify-search-custom-collection-by-name",
   name: "Search Custom Collection by Name",
   description: "Search for a custom collection by name/title. [See the docs](https://shopify.dev/docs/api/admin-rest/2023-01/resources/customcollection#get-custom-collections)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shopify,
