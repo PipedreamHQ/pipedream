@@ -5,8 +5,7 @@ export default {
   name: "Create New Order",
   description: "Create a new order. [See the documentation](https://app.mailbluster.com/api-doc/orders)",
   type: "action",
-  //version: "0.0.1",
-  version: "0.0.2",
+  version: "0.0.1",
   props: {
     mailbluster,
     id: {
@@ -65,20 +64,20 @@ export default {
     }) => ({
       id: value,
       name: label,
-      price: this[`price_${value}`],
-      quantity: this[`quantity_${value}`],
+      price: +this[`price_${value}`],
+      quantity: +this[`quantity_${value}`],
     }));
 
     const data = {
       id: this.id,
       customer: {
         email: this.email,
-        currency: this.currency,
-        totalPrice: this.totalPrice,
-        items,
       },
+      currency: this.currency,
+      totalPrice: +this.totalPrice,
+      items,
     };
-    const response = await mailbluster.createOrder({
+    const response = await this.mailbluster.createOrder({
       $,
       data,
     });
