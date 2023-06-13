@@ -40,10 +40,10 @@ export default defineAction({
 
       const response = await this.app.uploadMedia({
         $,
-        params: encodeURIComponent(JSON.stringify({
+        data: {
           media_category: this.media_category,
           media_data: base64File,
-        })),
+        },
       });
 
       $.export("$summary", `Successfully uploaded media with ID ${response.media_id}`);
