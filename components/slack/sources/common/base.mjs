@@ -9,6 +9,18 @@ export default {
     db: "$.service.db",
   },
   methods: {
+    _getNameCache() {
+      return this.db.get("nameCache") ?? {};
+    },
+    _setNameCache(cacheObj) {
+      this.db.set("nameCache", cacheObj);
+    },
+    _getLastCacheCleanup() {
+      return this.db.get("lastCacheCleanup") ?? 0;
+    },
+    _setLastCacheCleanup(time) {
+      this.db.set("lastCacheCleanup", time);
+    },
     cleanCache(cacheObj) {
       console.log("Initiating cache check-up...");
       const timeout = Date.now() - NAME_CACHE_TIMEOUT;
@@ -33,24 +45,21 @@ export default {
       return cleanObj;
     },
     getCache() {
-      let cacheObj = this.db.get("nameCache") ?? {};
+      let cacheObj = this._getNameCache();
 
-      const lastCacheCleanup = this.db.get("lastCacheCleanup") ?? 0;
+      const lastCacheCleanup = this._getLastCacheCleanup();
       const time = Date.now();
 
       const shouldCleanCache = time - lastCacheCleanup > NAME_CACHE_TIMEOUT / 2;
       if (shouldCleanCache) {
         cacheObj = this.cleanCache(cacheObj);
-        this.db.set("lastCacheCleanup", time);
+        this._setLastCacheCleanup(time);
       }
 
       return [
         cacheObj,
         shouldCleanCache,
       ];
-    },
-    setCache(cacheObj) {
-      this.db.set("nameCache", cacheObj);
     },
     async maybeCached(key, refreshVal) {
       let [
@@ -69,7 +78,7 @@ export default {
       }
 
       if (wasUpdated) {
-        this.setCache(cacheObj);
+        this._setNameCache(cacheObj);
       }
 
       return record.val;
