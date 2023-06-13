@@ -3,8 +3,8 @@ import agileCrm from "../../agile_crm.app.mjs";
 export default {
   key: "agile_crm-create-task",
   name: "Create Task",
-  description: "Create a new task in Agile CRM. [See the docs here](https://github.com/agilecrm/rest-api#54-create-a-task)",
-  version: "0.0.2",
+  description: "Create a new task in Agile CRM. [See the documentation](https://github.com/agilecrm/rest-api#54-create-a-task)",
+  version: "0.0.3",
   type: "action",
   props: {
     agileCrm,
