@@ -135,9 +135,11 @@ importers:
 
   components/agile_crm:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.5.1
+      lodash.pickby: ^4.6.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      lodash.pickby: 4.6.0
 
   components/ahrefs:
     specifiers: {}
