@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "New Ticket Created",
-  key: "teamworkDesk-ticket-created",
+  key: "teamwork_desk-ticket-created",
   type: "source",
   description: "Emit new event when a new ticket is created.",
   version: "0.0.1",

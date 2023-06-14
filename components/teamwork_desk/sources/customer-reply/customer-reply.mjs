@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "New Customer Reply",
-  key: "teamworkDesk-customer-reply",
+  key: "teamwork_desk-customer-reply",
   type: "source",
   description: "Emit new event when a customer reply.",
   version: "0.0.1",

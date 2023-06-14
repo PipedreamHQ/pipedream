@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "New Customer Created",
-  key: "teamworkDesk-customer-created",
+  key: "teamwork_desk-customer-created",
   type: "source",
   description: "Emit new event when a new customer is created.",
   version: "0.0.1",
