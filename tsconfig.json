@@ -2114,6 +2114,9 @@
     },
     {
       "path": "components/unbounce"
+    },
+    {
+      "path": "components/facebook_conversions"
     }
   ]
 }
