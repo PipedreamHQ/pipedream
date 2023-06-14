@@ -148,6 +148,7 @@ export default defineApp({
     },
     async _httpRequest({
       $ = this,
+      specialAuth,
       ...args
     }: HttpRequestParams): Promise<ResponseObject<TwitterEntity>> {
       const config = {
@@ -155,10 +156,16 @@ export default defineApp({
         ...args,
       };
 
+      const authConfig = specialAuth ? {
+        ...config,
+        params: {},
+        data: {}
+      } : config;
+
       const request = async () => {
         const headers = {
           ...config.headers,
-          ...this._getAuthHeader(config)
+          ...this._getAuthHeader(authConfig)
         };
 
         return axios($, {
@@ -460,8 +467,9 @@ export default defineApp({
         url: "/media/upload.json",
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "multipart/form-data"
         },
+        specialAuth: true,
         ...args,
       });
     },

@@ -4,6 +4,7 @@ import { defineAction } from "@pipedream/types";
 import constants from "../../common/constants";
 import fs from "fs";
 import { axios } from "@pipedream/platform";
+import FormData from "form-data";
 
 const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload";
 
@@ -31,19 +32,20 @@ export default defineAction({
   },
   async run({ $ }): Promise<object> {
     try {
-      const base64File = this.filePath.startsWith("/tmp")
-        ? fs.readFileSync(this.filePath, "base64")
-        : Buffer.from(await axios($, {
+      const content = this.filePath.startsWith("/tmp")
+        ? fs.createReadStream(this.filePath)
+        : await axios($, {
           url: this.filePath,
-          responseType: "arraybuffer",
-        })).toString("base64");
+          responseType: "stream",
+        });
+
+      const data = new FormData();
+      data.append("media", content);
+      data.append("media_category", this.media_category);
 
       const response = await this.app.uploadMedia({
         $,
-        data: {
-          media_category: this.media_category,
-          media_data: base64File,
-        },
+        data,
       });
 
       $.export("$summary", `Successfully uploaded media with ID ${response.media_id}`);
