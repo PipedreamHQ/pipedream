@@ -33,7 +33,9 @@ export default defineAction({
   async run({ $ }): Promise<object> {
     try {
       const content = this.filePath.startsWith("/tmp")
-        ? fs.createReadStream(this.filePath, { encoding: "binary" })
+        ? fs.createReadStream(this.filePath, {
+          encoding: "binary",
+        })
         : await axios($, {
           url: this.filePath,
           responseType: "arraybuffer",

@@ -156,16 +156,18 @@ export default defineApp({
         ...args,
       };
 
-      const authConfig = specialAuth ? {
-        ...config,
-        params: {},
-        data: {}
-      } : config;
+      const authConfig = specialAuth
+        ? {
+          ...config,
+          params: {},
+          data: {},
+        }
+        : config;
 
       const request = async () => {
         const headers = {
           ...config.headers,
-          ...this._getAuthHeader(authConfig)
+          ...this._getAuthHeader(authConfig),
         };
 
         // return {
@@ -178,7 +180,7 @@ export default defineApp({
           ...config,
           headers,
         });
-      }
+      };
 
       let response: ResponseObject<TwitterEntity>,
         counter = 1;
@@ -473,7 +475,7 @@ export default defineApp({
         url: "/media/upload.json",
         method: "POST",
         headers: {
-          "Content-Type": `multipart/form-data; boundary=${args.data.getBoundary()}`
+          "Content-Type": `multipart/form-data; boundary=${args.data.getBoundary()}`,
         },
         specialAuth: true,
         ...args,
