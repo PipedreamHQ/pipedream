@@ -50,7 +50,7 @@ const TICKET_FIELD_OPTIONS = [
   },
   {
     label: "Current User Language",
-    value: "{{current_user.langugae}}",
+    value: "{{current_user.language}}",
   },
   {
     label: "Current User Name",

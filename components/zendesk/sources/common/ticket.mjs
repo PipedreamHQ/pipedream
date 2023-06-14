@@ -4,7 +4,7 @@ export default {
   ...common,
   methods: {
     ...common.methods,
-    snakeToCamel(str) { console.log(str);
+    snakeToCamel(str) {
       return str.replace(/_([a-z])/g, function(match, char) {
         return char.toUpperCase();
       });
