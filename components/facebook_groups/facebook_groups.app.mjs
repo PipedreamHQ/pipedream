@@ -40,7 +40,7 @@ export default {
       },
     },
     maxResults: {
-      type: "string",
+      type: "integer",
       label: "Max Results",
       description: "The maximum number of results to return",
       optional: true,

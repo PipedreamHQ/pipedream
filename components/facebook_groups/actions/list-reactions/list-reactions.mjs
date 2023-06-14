@@ -26,7 +26,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.paginate({
+    const response = this.paginate({
       fn: this.facebookGroups.listPostReactions,
       args: {
         postId: this.post,
