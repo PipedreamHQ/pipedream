@@ -4,7 +4,27 @@ export default {
   ...common,
   methods: {
     ...common.methods,
+    snakeToCamel(str) { console.log(str);
+      return str.replace(/_([a-z])/g, function(match, char) {
+        return char.toUpperCase();
+      });
+    },
     getTriggerPayload() {
+      if (this.jsonBody) {
+        return JSON.parse(this.jsonBody);
+      }
+      if (this.fields?.length) {
+        const payload = {
+          ticketId: "{{ticket.id}}",
+          createdAt: "{{ticket.created_at_with_timestamp}}",
+          updatedAt: "{{ticket.updated_at_with_timestamp}}",
+        };
+        for (const field of this.fields) {
+          const key = this.snakeToCamel(field.replace(/^{{|}}$/g, "").replace(/\./g, "_"));
+          payload[key] = field;
+        }
+        return payload;
+      }
       return {
         ticketId: "{{ticket.id}}",
         title: "{{ticket.title}}",

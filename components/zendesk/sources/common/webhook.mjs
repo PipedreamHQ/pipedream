@@ -19,6 +19,18 @@ export default {
         "customSubdomain",
       ],
     },
+    fields: {
+      propDefinition: [
+        app,
+        "fields",
+      ],
+    },
+    jsonBody: {
+      type: "string",
+      label: "JSON Body",
+      description: "Custom JSON Body of the incoming payload. Setting `jsonBody` will overwrite the `fields` prop",
+      optional: true,
+    },
   },
   hooks: {
     async activate() {
@@ -234,7 +246,7 @@ export default {
 
     this.$emit(payload, {
       id,
-      summary: payload.title,
+      summary: payload.title || payload.ticketId,
       ts,
     });
   },

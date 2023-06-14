@@ -100,6 +100,24 @@ export default {
         };
       },
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Ticket fields to be included in the incoming webhook payload",
+      optional: true,
+      async options() {
+        // placehoders reference - https://support.zendesk.com/hc/en-us/articles/4408886858138
+        const { ticket_fields: customFields } = await this.listTicketFields();
+        const fields = customFields.reverse().map(({
+          id, title,
+        }) => ({
+          label: title,
+          value: `{{ticket.ticket_field_${id}}}`,
+        }));
+        fields.push(...constants.TICKET_FIELD_OPTIONS);
+        return fields;
+      },
+    },
     ticketCommentBody: {
       type: "string",
       label: "Comment body",
@@ -203,6 +221,12 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/views/${viewId}/tickets`,
+        ...args,
+      });
+    },
+    listTicketFields(args = {}) {
+      return this.makeRequest({
+        path: "/ticket_fields",
         ...args,
       });
     },
