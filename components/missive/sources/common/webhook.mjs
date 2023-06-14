@@ -1,6 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
 import common from "./base.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -11,55 +10,23 @@ export default {
       customResponse: true,
     },
   },
-  hooks: {
-    async deploy() {},
-    async activate() {
-      const response =
-        await this.createWebhook({
-          data: {
-            url: this.http.endpoint,
-            event: this.getEventName(),
-          },
-        });
-
-      this.setWebhookId(response.id);
-    },
-    async deactivate() {
-      const webhookId = this.getWebhookId();
-      if (webhookId) {
-        await this.deleteWebhook({
-          webhookId,
-        });
-      }
-    },
-  },
   methods: {
     ...common.methods,
-    setWebhookId(value) {
-      this.db.set(constants.WEBHOOK_ID, value);
-    },
-    getWebhookId() {
-      return this.db.get(constants.WEBHOOK_ID);
-    },
     getEventName() {
       throw new ConfigurationError("getEventName is not implemented");
     },
-    createWebhook(args = {}) {
-      return this.app.post({
-        path: "/webhooks",
-        ...args,
-      });
-    },
-    deleteWebhook({
-      webhookId, ...args
-    } = {}) {
-      return this.app.delete({
-        path: `/webhooks/${webhookId}`,
-        ...args,
-      });
+    isEventRelevant(event) {
+      return event.rule?.type === this.getEventName();
     },
   },
   async run({ body }) {
+    if (!this.isEventRelevant(body)) {
+      console.log("Event is not relevant", JSON.stringify(body.rule, null, 2));
+      return;
+    }
+    this.http.respond({
+      status: 200,
+    });
     this.$emit(body, this.generateMeta(body));
   },
 };

@@ -3,8 +3,8 @@ import events from "../common/events.mjs";
 
 export default {
   ...common,
-  key: "missive-new-comment",
-  name: "New Comment",
+  key: "missive-new-comment-instant",
+  name: "New Comment (Instant)",
   description: "Emit new event when a new comment is added. [See the Documentation](https://missiveapp.com/help/api-documentation/webhooks)",
   type: "source",
   version: "0.0.1",
@@ -12,13 +12,14 @@ export default {
   methods: {
     ...common.methods,
     getEventName() {
-      return events.DEFAULT;
+      return events.NEW_COMMENT;
     },
-    generateMeta(resource) {
+    generateMeta(body) {
+      const { comment } = body;
       return {
-        id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        id: comment.id,
+        summary: `New Comment: ${comment.id}`,
+        ts: comment.created_at,
       };
     },
   },

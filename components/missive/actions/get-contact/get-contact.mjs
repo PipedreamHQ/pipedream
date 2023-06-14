@@ -8,10 +8,19 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    contactBookId: {
+      propDefinition: [
+        app,
+        "contactBookId",
+      ],
+    },
     contactId: {
       propDefinition: [
         app,
         "contactId",
+        ({ contactBookId }) => ({
+          contactBookId,
+        }),
       ],
     },
   },
@@ -31,7 +40,7 @@ export default {
       contactId: this.contactId,
     });
 
-    step.export("$summary", `Successfully fetched contact with ID ${response.id}`);
+    step.export("$summary", `Successfully fetched contact with ID ${response.contacts[0].id}`);
 
     return response;
   },

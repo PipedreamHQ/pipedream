@@ -11,6 +11,7 @@ export default {
       description: "The ID of the contact book to create the contact in.",
       async options() {
         const { contact_books: contactBooks } = await this.listContactBooks();
+        console.log("contactBooks!!!", JSON.stringify(contactBooks, null, 2));
         return contactBooks.map(({
           id: value, name: label,
         }) => ({
@@ -23,8 +24,12 @@ export default {
       type: "string",
       label: "Contact ID",
       description: "The ID of the contact to retrieve.",
-      async options() {
-        const { contacts } = await this.listContacts();
+      async options({ contactBookId }) {
+        const { contacts } = await this.listContacts({
+          params: {
+            contact_book: contactBookId,
+          },
+        });
         return contacts.map(({
           id: value, first_name: label,
         }) => ({

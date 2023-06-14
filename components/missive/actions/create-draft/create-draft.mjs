@@ -5,7 +5,7 @@ export default {
   name: "Create Draft",
   description: "Create a new draft. [See the Documentation](https://missiveapp.com/help/api-documentation/rest-endpoints#create-draft)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.1",
   props: {
     app,
     subject: {

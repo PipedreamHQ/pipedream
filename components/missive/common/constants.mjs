@@ -1,6 +1,6 @@
 const BASE_URL = "https://public.missiveapp.com";
 const VERSION_PATH = "/v1";
-const LAST_CREATED_AT = "lastCreatedAt";
+const LAST_MODIFIED_AT = "lastModifiedAt";
 const DEFAULT_LIMIT = 200;
 const DEFAULT_MAX = 600;
 
@@ -9,5 +9,5 @@ export default {
   VERSION_PATH,
   DEFAULT_LIMIT,
   DEFAULT_MAX,
-  LAST_CREATED_AT,
+  LAST_MODIFIED_AT,
 };
