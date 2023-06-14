@@ -135,9 +135,11 @@ importers:
 
   components/agile_crm:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.5.1
+      lodash.pickby: ^4.6.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      lodash.pickby: 4.6.0
 
   components/ahrefs:
     specifiers: {}
@@ -663,6 +665,14 @@ importers:
 
   components/chaport:
     specifiers: {}
+
+  components/chargebee:
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+      chargebee: ^2.22.3
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      chargebee: 2.23.0
 
   components/chartmogul:
     specifiers:
@@ -1392,6 +1402,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/facebook_pages:
+    specifiers: {}
 
   components/facebook_pages:
     specifiers: {}
@@ -4339,6 +4352,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/sourceforge:
+    specifiers: {}
+
   components/splitwise:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4896,10 +4912,12 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
       '@pipedream/types': ^0.1.4
+      form-data: ^4.0.0
       oauth-1.0a: ^2.2.6
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+      form-data: 4.0.0
       oauth-1.0a: 2.2.6
 
   components/typebot:
@@ -13648,6 +13666,14 @@ packages:
 
   /charenc/0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
+    dev: false
+
+  /chargebee/2.23.0:
+    resolution: {integrity: sha512-PPwZU6eep+CJqmbxbkf6yC3Yb3n+tcsbIDzN51MlsbGMXFSc0gu/GRQccibJ6T/qMcO1EjA3H4R09z002nmOsg==}
+    engines: {node: '>=0.6.0'}
+    dependencies:
+      q: 1.5.1
+      safer-buffer: 2.1.2
     dev: false
 
   /charm/1.0.2:
