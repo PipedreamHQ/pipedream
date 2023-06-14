@@ -6,7 +6,7 @@ export default {
   name: "List meetings",
   description: "List all meetings. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetings)",
   key: "zoom_admin-list-meetings",
-  version: "0.1.3",
+  version: "0.2.0",
   type: "action",
   props: {
     zoomAdmin,
