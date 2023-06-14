@@ -2108,6 +2108,15 @@
     },
     {
       "path": "components/google_chat"
+    },
+    {
+      "path": "components/sourceforge"
+    },
+    {
+      "path": "components/unbounce"
+    },
+    {
+      "path": "components/facebook_conversions"
     }
   ]
 }
