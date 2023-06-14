@@ -2749,7 +2749,10 @@ importers:
     specifiers: {}
 
   components/missive:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mixmax:
     specifiers:
@@ -4345,6 +4348,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/sourceforge:
+    specifiers: {}
 
   components/splitwise:
     specifiers:
