@@ -2096,6 +2096,24 @@
     },
     {
       "path": "components/livestorm"
+    },
+    {
+      "path": "components/formaloo"
+    },
+    {
+      "path": "components/google_tag_manager"
+    },
+    {
+      "path": "components/facebook_pages"
+    },
+    {
+      "path": "components/google_chat"
+    },
+    {
+      "path": "components/sourceforge"
+    },
+    {
+      "path": "components/unbounce"
     }
   ]
 }
