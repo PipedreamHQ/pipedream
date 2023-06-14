@@ -19,7 +19,7 @@ export default defineAction({
     filePath: {
       type: "string",
       label: "File Path",
-      description: "The file path to upload.",
+      description: "A file URL or a file path in the `/tmp` directory. [See the documentation on working with files.](https://pipedream.com/docs/code/nodejs/working-with-files/)",
       optional: false,
     },
     media_category: {
@@ -41,13 +41,11 @@ export default defineAction({
 
       const data = new FormData();
       data.append("media", content);
+      data.append("media_category", this.media_category);
 
       const response = await this.app.uploadMedia({
         $,
         data,
-        // params: {
-        //   "media_category": this.media_category
-        // }
       });
 
       $.export("$summary", `Successfully uploaded media with ID ${response.media_id}`);

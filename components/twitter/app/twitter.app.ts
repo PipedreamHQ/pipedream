@@ -473,7 +473,7 @@ export default defineApp({
         url: "/media/upload.json",
         method: "POST",
         headers: {
-          "Content-Type": "multipart/form-data"
+          "Content-Type": `multipart/form-data; boundary=${args.data.getBoundary()}`
         },
         specialAuth: true,
         ...args,
