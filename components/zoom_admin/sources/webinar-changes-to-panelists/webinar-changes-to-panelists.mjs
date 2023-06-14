@@ -61,9 +61,7 @@ export default {
       if (!this.webinars || !this.webinars.length) {
         let nextPageToken;
         do {
-          const resp = await this.zoomAdmin.listWebinars({
-            nextPageToken,
-          });
+          const resp = await this.zoomAdmin.listWebinars(null, nextPageToken);
           for (const webinar of resp.webinars) {
             webinars.push(webinar.id);
           }

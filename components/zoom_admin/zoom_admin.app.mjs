@@ -214,10 +214,7 @@ export default {
         const {
           webinars,
           next_page_token: nextPageToken,
-        } = await this.listWebinars({
-          nextPageToken: prevContext.nextPageToken,
-          pageSize: 30,
-        });
+        } = await this.listWebinars(30, prevContext.nextPageToken);
         if (!webinars.length) {
           return [];
         }
