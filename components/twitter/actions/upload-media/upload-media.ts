@@ -12,7 +12,7 @@ export default defineAction({
   key: "twitter-upload-media",
   name: "Upload Media",
   description: `Upload new media. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.6",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
@@ -33,19 +33,21 @@ export default defineAction({
   async run({ $ }): Promise<object> {
     try {
       const content = this.filePath.startsWith("/tmp")
-        ? fs.createReadStream(this.filePath)
+        ? fs.createReadStream(this.filePath, { encoding: "binary" })
         : await axios($, {
           url: this.filePath,
-          responseType: "stream",
+          responseType: "arraybuffer",
         });
 
       const data = new FormData();
       data.append("media", content);
-      data.append("media_category", this.media_category);
 
       const response = await this.app.uploadMedia({
         $,
         data,
+        // params: {
+        //   "media_category": this.media_category
+        // }
       });
 
       $.export("$summary", `Successfully uploaded media with ID ${response.media_id}`);

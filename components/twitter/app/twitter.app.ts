@@ -168,6 +168,12 @@ export default defineApp({
           ...this._getAuthHeader(authConfig)
         };
 
+        // return {
+        //   ...config,
+        //   headers,
+        //   authConfig,
+        // }
+
         return axios($, {
           ...config,
           headers,

@@ -142,4 +142,7 @@ export interface UnlikeTweetParams extends PdAxiosRequest, TweetId { }
 
 export interface UploadMediaParams extends PdAxiosRequest {
   data: FormData;
+  params: {
+    media_category: string;
+  }
 }
