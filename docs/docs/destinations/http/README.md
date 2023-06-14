@@ -18,7 +18,7 @@ export default defineComponent({
       name: "Luke Skywalker",
     },
   });
- })
+ }
 });
 ```
 
