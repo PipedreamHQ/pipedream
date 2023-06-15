@@ -135,9 +135,11 @@ importers:
 
   components/agile_crm:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.5.1
+      lodash.pickby: ^4.6.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      lodash.pickby: 4.6.0
 
   components/ahrefs:
     specifiers: {}
@@ -664,6 +666,14 @@ importers:
   components/chaport:
     specifiers: {}
 
+  components/chargebee:
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+      chargebee: ^2.22.3
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      chargebee: 2.23.0
+
   components/chartmogul:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -748,6 +758,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/clientify:
+    specifiers: {}
 
   components/clinchpad:
     specifiers:
@@ -1083,7 +1096,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dext:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dialmycalls:
     specifiers: {}
@@ -1389,6 +1405,9 @@ importers:
   components/facebook_groups:
     specifiers: {}
 
+  components/facebook_pages:
+    specifiers: {}
+
   components/facturadirecta:
     specifiers: {}
 
@@ -1483,6 +1502,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/form_io:
+    specifiers: {}
+
+  components/formaloo:
     specifiers: {}
 
   components/formatting:
@@ -1739,6 +1761,9 @@ importers:
       moment-timezone: 0.5.43
       uuid: 8.3.2
 
+  components/google_chat:
+    specifiers: {}
+
   components/google_classroom:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1862,6 +1887,15 @@ importers:
       axios: 0.21.4
       mime-db: 1.52.0
       uuid: 8.3.2
+
+  components/google_tag_manager:
+    specifiers: {}
+
+  components/google_tasks:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_workspace:
     specifiers:
@@ -2435,6 +2469,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/livestorm:
+    specifiers: {}
+
   components/lob:
     specifiers:
       '@lob/lob-typescript-sdk': ^1.0.0
@@ -2632,6 +2669,9 @@ importers:
   components/mem:
     specifiers: {}
 
+  components/memberful:
+    specifiers: {}
+
   components/memberstack:
     specifiers:
       '@memberstack/admin': ^1.2.2
@@ -2711,6 +2751,9 @@ importers:
     specifiers: {}
 
   components/miro_custom_app:
+    specifiers: {}
+
+  components/missive:
     specifiers: {}
 
   components/mixmax:
@@ -4308,6 +4351,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/sourceforge:
+    specifiers: {}
+
   components/splitwise:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4593,6 +4639,9 @@ importers:
       crypto: 1.0.1
       uuid: 9.0.0
 
+  components/teamwork_desk:
+    specifiers: {}
+
   components/telegram_bot_api:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -4862,17 +4911,13 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
       '@pipedream/types': ^0.1.4
+      form-data: ^4.0.0
       oauth-1.0a: ^2.2.6
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+      form-data: 4.0.0
       oauth-1.0a: 2.2.6
-
-  components/twitter_developer_app:
-    specifiers:
-      '@pipedream/platform': ^1.2.0
-    dependencies:
-      '@pipedream/platform': 1.5.1
 
   components/typebot:
     specifiers: {}
@@ -5006,6 +5051,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/viral_loops:
+    specifiers: {}
 
   components/virustotal:
     specifiers: {}
@@ -13617,6 +13665,14 @@ packages:
 
   /charenc/0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
+    dev: false
+
+  /chargebee/2.23.0:
+    resolution: {integrity: sha512-PPwZU6eep+CJqmbxbkf6yC3Yb3n+tcsbIDzN51MlsbGMXFSc0gu/GRQccibJ6T/qMcO1EjA3H4R09z002nmOsg==}
+    engines: {node: '>=0.6.0'}
+    dependencies:
+      q: 1.5.1
+      safer-buffer: 2.1.2
     dev: false
 
   /charm/1.0.2:

@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary, getTweetFields,
@@ -19,8 +19,8 @@ export const MAX_RESULTS_PER_PAGE = 100;
 export default defineAction({
   key: "twitter-simple-search-in-list",
   name: "Search Tweets in List",
-  description: `Search Tweets by text in a list. [See docs here](${DOCS_LINK})`,
-  version: "2.0.0",
+  description: `Search Tweets by text in a list. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.3",
   type: "action",
   props: {
     app,
