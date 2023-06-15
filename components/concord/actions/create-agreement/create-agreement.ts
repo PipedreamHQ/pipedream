@@ -1,6 +1,5 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/concord.app";
-import { AGREEMENT_STATUS_OPTIONS } from "../../common/constants";
 import { CreateAgreementParams } from "../../common/types/requestParams";
 import { CreateAgreementResponse } from "../../common/types/responseSchemas";
 
@@ -23,7 +22,7 @@ export default defineAction({
       propDefinition: [
         app,
         "folderId",
-        ({ organizationId }) => ({
+        ({ organizationId }: { organizationId: number; }) => ({
           organizationId,
         }),
       ],

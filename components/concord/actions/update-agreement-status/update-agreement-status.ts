@@ -1,14 +1,13 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/concord.app";
-import { AGREEMENT_PATCH_STATUS_OPTIONS, AGREEMENT_STATUS_OPTIONS } from "../../common/constants";
-import { CreateAgreementParams, PatchAgreementParams } from "../../common/types/requestParams";
-import { CreateAgreementResponse } from "../../common/types/responseSchemas";
+import { AGREEMENT_PATCH_STATUS_OPTIONS } from "../../common/constants";
+import { PatchAgreementParams } from "../../common/types/requestParams";
 
 export default defineAction({
-  name: "Create Agreement",
+  name: "Update Agreement Status",
   description:
-    "Create an agreement [See the documentation](https://api.doc.concordnow.com/#tag/Agreement/operation/PatchAgreement)",
-  key: "concord-create-agreement",
+    "Update an agreement's status [See the documentation](https://api.doc.concordnow.com/#tag/Agreement/operation/PatchAgreement)",
+  key: "concord-update-agreement-status",
   version: "0.0.1",
   type: "action",
   props: {
@@ -23,6 +22,9 @@ export default defineAction({
       propDefinition: [
         app,
         "agreementUid",
+        ({ organizationId }: { organizationId: number; }) => ({
+          organizationId,
+        }),
       ],
     },
     status: {

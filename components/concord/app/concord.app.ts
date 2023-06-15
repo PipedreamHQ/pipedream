@@ -10,7 +10,9 @@ import {
   HttpRequestParams,
   PatchAgreementParams,
 } from "../common/types/requestParams";
-import { AGREEMENT_STATUS_OPTIONS } from "../common/constants";
+import {
+  AGREEMENT_LIST_STATUSES, AGREEMENT_STATUS_OPTIONS,
+} from "../common/constants";
 
 export default defineApp({
   type: "app",
@@ -24,7 +26,9 @@ export default defineApp({
       async options() {
         const response: ListOrganizationsResponse =
           await this.getAllUserOrganizations();
-        return response?.organizations?.map(({ id, name }) => ({
+        return response?.organizations?.map(({
+          id, name,
+        }) => ({
           label: name,
           value: id,
         }));
@@ -35,12 +39,14 @@ export default defineApp({
       label: "Folder ID",
       description:
         "Select a **Folder** from the list, or provide a custom *Folder ID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/Folders/operation/ListFolders)",
-        optional: true,
-      async options({ organizationId }) {
+      optional: true,
+      async options({ organizationId }: { organizationId: number; }) {
         const response: ListFoldersResponse = await this.listFolders(
-          organizationId
+          organizationId,
         );
-        return response?.folders?.map(({ id, name }) => ({
+        return response?.folders?.map(({
+          id, name,
+        }) => ({
           label: name,
           value: id,
         }));
@@ -51,14 +57,17 @@ export default defineApp({
       label: "Agreement UID",
       description:
         "Search for an **Agreement**, or provide a custom *Agreement UID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/Agreement/operation/ListAgreements)",
-      optional: true,
       useQuery: true,
-      async options({ organizationId, query }) {
+      async options({
+        organizationId, query,
+      }: { organizationId: number; query: string; }) {
         const response: ListAgreementsResponse = await this.listAgreements(
           organizationId,
-          query
+          query,
         );
-        return response?.items?.map(({ title, status, uuid }) => ({
+        return response?.items?.map(({
+          title, status, uuid,
+        }) => ({
           label: `${title} (Status: ${status})`,
           value: uuid,
         }));
@@ -72,7 +81,7 @@ export default defineApp({
     },
   },
   methods: {
-    _getHeaders() {
+    _getHeaders(): Record<string, string> {
       return {
         "X-API-KEY": this.$auth.api_key,
       };
@@ -87,25 +96,29 @@ export default defineApp({
         ...args,
       });
     },
-    async getAllUserOrganizations() {
+    async getAllUserOrganizations(): Promise<ListOrganizationsResponse> {
       return this._httpRequest({
         url: "/user/me/organizations",
       });
     },
-    async listFolders(organizationId: number) {
+    async listFolders(organizationId: number): Promise<ListFoldersResponse> {
       return this._httpRequest({
         url: `/organizations/${organizationId}/folders`,
       });
     },
-    async listAgreements(organizationId: number, search: string) {
+    async listAgreements(organizationId: number, search: string): Promise<ListAgreementsResponse> {
       return this._httpRequest({
         url: `/user/me/organizations/${organizationId}/agreements`,
         params: {
           search,
+          statuses: AGREEMENT_LIST_STATUSES.join(),
+          numberOfItemsPerPage: 100,
         },
       });
     },
-    async createAgreement({ organizationId, ...args }: CreateAgreementParams) {
+    async createAgreement({
+      organizationId, ...args
+    }: CreateAgreementParams): Promise<object> {
       return this._httpRequest({
         url: `/organizations/${organizationId}/agreements`,
         method: "POST",
@@ -116,7 +129,7 @@ export default defineApp({
       organizationId,
       agreementUid,
       ...args
-    }: PatchAgreementParams) {
+    }: PatchAgreementParams): Promise<void> {
       return this._httpRequest({
         url: `/organizations/${organizationId}/agreements/${agreementUid}`,
         method: "PATCH",

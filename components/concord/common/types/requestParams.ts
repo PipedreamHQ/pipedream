@@ -34,5 +34,5 @@ export interface PatchAgreementParams extends PdAxiosRequest, OrganizationId {
   agreementUid: string;
   data: {
     status: string;
-  }
+  };
 }
