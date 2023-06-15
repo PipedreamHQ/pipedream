@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/teamwork_desk",
+  "version": "0.0.1",
+  "description": "Pipedream Teamwork Desk Components",
+  "main": "dist/app/teamwork_desk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "teamwork_desk"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/teamwork_desk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
