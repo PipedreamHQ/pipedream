@@ -1402,7 +1402,13 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/facebook_conversions:
+    specifiers: {}
+
   components/facebook_groups:
+    specifiers: {}
+
+  components/facebook_lead_ads:
     specifiers: {}
 
   components/facebook_pages:
