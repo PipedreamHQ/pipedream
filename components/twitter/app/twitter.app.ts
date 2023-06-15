@@ -148,6 +148,7 @@ export default defineApp({
     },
     async _httpRequest({
       $ = this,
+      specialAuth,
       ...args
     }: HttpRequestParams): Promise<ResponseObject<TwitterEntity>> {
       const config = {
@@ -155,13 +156,25 @@ export default defineApp({
         ...args,
       };
 
+      const authConfig = specialAuth
+        ? {
+          ...config,
+          params: {},
+          data: {},
+        }
+        : config;
+
       const request = async () => {
-        const headers = this._getAuthHeader(config);
+        const headers = {
+          ...config.headers,
+          ...this._getAuthHeader(authConfig),
+        };
+
         return axios($, {
           ...config,
           headers,
         });
-      }
+      };
 
       let response: ResponseObject<TwitterEntity>,
         counter = 1;
@@ -450,10 +463,15 @@ export default defineApp({
         ...args,
       });
     },
-    async uploadMedia({ ...args }: UploadMediaParams): Promise<object> {
+    async uploadMedia(args: UploadMediaParams): Promise<object> {
       return this._httpRequest({
-        url: "https://upload.twitter.com/1.1/media/upload.json",
+        baseURL: "https://upload.twitter.com/1.1",
+        url: "/media/upload.json",
         method: "POST",
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${args.data.getBoundary()}`,
+        },
+        specialAuth: true,
         ...args,
       });
     },

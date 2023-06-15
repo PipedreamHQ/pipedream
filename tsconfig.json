@@ -2111,6 +2111,15 @@
     },
     {
       "path": "components/sourceforge"
+    },
+    {
+      "path": "components/unbounce"
+    },
+    {
+      "path": "components/facebook_conversions"
+    },
+    {
+      "path": "components/facebook_lead_ads"
     }
   ]
 }
