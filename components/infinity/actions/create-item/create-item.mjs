@@ -37,8 +37,8 @@ export default {
     },
     valuesNumber: {
       type: "integer",
-      label: "Values Quantity",
-      description: "The number of values you want to add.",
+      label: "Number of attributes",
+      description: "The number of Attributes you'd like to have in the item.",
       reloadProps: true,
     },
     parentId: {
@@ -52,6 +52,7 @@ export default {
           boardId,
         }),
       ],
+      label: "Parent Item ID",
       description: "The Id of the parent item.",
       optional: true,
     },
@@ -67,8 +68,8 @@ export default {
           ...acc,
           [`attributeId-${pos}`]: {
             type: "string",
-            label: `Attribute Id ${pos}`,
-            description: "The id of the atribute.",
+            label: `Attribute ID ${pos}`,
+            description: "The id of the attribute.",
             options: async ({ prevContext }) => {
               let workspaceId = this.workspaceId;
               let boardId = this.boardId;
@@ -84,7 +85,7 @@ export default {
                 },
               });
               return {
-                options: Object.entries(data).map(({
+                options: data.map(({
                   id: value, name: label,
                 }) => ({
                   label,
