@@ -104,6 +104,7 @@ export default {
       type: "string[]",
       label: "Fields",
       description: "Ticket fields to be included in the incoming webhook payload",
+      withLabel: true,
       optional: true,
       async options() {
         // placehoders reference - https://support.zendesk.com/hc/en-us/articles/4408886858138

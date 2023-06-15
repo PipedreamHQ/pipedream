@@ -4,10 +4,12 @@ export default {
   ...common,
   methods: {
     ...common.methods,
-    snakeToCamel(str) {
-      return str.replace(/_([a-z])/g, function(match, char) {
-        return char.toUpperCase();
-      });
+    convertToCamelCase(str) {
+      return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(match, index) {
+        return index === 0
+          ? match.toLowerCase()
+          : match.toUpperCase();
+      }).replace(/\s+/g, "");
     },
     getTriggerPayload() {
       if (this.jsonBody) {
@@ -20,8 +22,8 @@ export default {
           updatedAt: "{{ticket.updated_at_with_timestamp}}",
         };
         for (const field of this.fields) {
-          const key = this.snakeToCamel(field.replace(/^{{|}}$/g, "").replace(/\./g, "_"));
-          payload[key] = field;
+          const key = this.convertToCamelCase(field.label);
+          payload[key] = field.value;
         }
         return payload;
       }
