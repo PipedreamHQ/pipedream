@@ -7,10 +7,10 @@ export default defineApp({
   app: "concord",
   propDefinitions: {
     organizationId: {
-      type: "string",
+      type: "integer",
       label: "Organization ID",
       description:
-        "Select an **Organization** from the list, or provide a custom *Organization ID*.",
+        "Select an **Organization** from the list, or provide a custom *Organization ID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/User/operation/ListUserOrganizations)",
       async options() {
         const orgs = await this.getAllUserOrganizations();
         return orgs?.map(({ organization: { id, name } }) => ({
@@ -18,6 +18,20 @@ export default defineApp({
           value: id,
         }));
       },
+    },
+    folderId: {
+      type: "integer",
+      label: "Folder ID",
+      description:
+        "Select a **Folder** from the list, or provide a custom *Folder ID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/Folders/operation/ListFolders)",
+      async options({ organizationId }) {
+        const folders = await this.getFolders(organizationId);
+        return folders?.map(({ organization: { id, name } }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+      optional: true
     },
   },
   methods: {
