@@ -1,7 +1,11 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { ListFoldersResponse, ListOrganizationsResponse } from "../common/types/responseSchemas";
-import { CreateAgreementParams, HttpRequestParams } from "../common/types/requestParams";
+import {
+  ListFoldersResponse, ListOrganizationsResponse,
+} from "../common/types/responseSchemas";
+import {
+  CreateAgreementParams, HttpRequestParams,
+} from "../common/types/requestParams";
 
 export default defineApp({
   type: "app",
@@ -15,7 +19,9 @@ export default defineApp({
       async options() {
         const orgs: ListOrganizationsResponse = await this.getAllUserOrganizations();
         console.log(orgs);
-        return orgs?.organizations?.map(({ id, name }) => ({
+        return orgs?.organizations?.map(({
+          id, name,
+        }) => ({
           label: name,
           value: id,
         }));
@@ -29,12 +35,14 @@ export default defineApp({
       async options({ organizationId }) {
         const folders: ListFoldersResponse = await this.getFolders(organizationId);
         console.log(folders);
-        return folders?.folders?.map(({ id, name }) => ({
+        return folders?.folders?.map(({
+          id, name,
+        }) => ({
           label: name,
           value: id,
         }));
       },
-      optional: true
+      optional: true,
     },
   },
   methods: {
@@ -63,12 +71,14 @@ export default defineApp({
         url: `/organizations/${organizationId}/folders`,
       });
     },
-    async createAgreement({ organizationId, ...args}: CreateAgreementParams) {
+    async createAgreement({
+      organizationId, ...args
+    }: CreateAgreementParams) {
       return this._httpRequest({
         url: `/organizations/${organizationId}/agreements`,
         method: "POST",
-        ...args
+        ...args,
       });
-    }
+    },
   },
 });

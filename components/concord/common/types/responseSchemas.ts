@@ -1,4 +1,6 @@
-import { Folder, Organization } from "./types";
+import {
+  Folder, Organization,
+} from "./types";
 
 export interface ListOrganizationsResponse {
   organizations: Organization[];
@@ -6,4 +8,8 @@ export interface ListOrganizationsResponse {
 
 export interface ListFoldersResponse {
   folders: Folder[];
+}
+
+export interface CreateAgreementResponse {
+  id: number;
 }

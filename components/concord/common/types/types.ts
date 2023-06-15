@@ -3,5 +3,5 @@ export interface ConcordEntity {
   name: string;
 }
 
-export interface Folder extends ConcordEntity {}
-export interface Organization extends ConcordEntity {}
+export type Folder = ConcordEntity;
+export type Organization = ConcordEntity;

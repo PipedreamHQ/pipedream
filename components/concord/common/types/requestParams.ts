@@ -1,5 +1,7 @@
 import { Pipedream } from "@pipedream/types";
-import { Folder, Organization } from "./types";
+import {
+  Folder, Organization,
+} from "./types";
 
 interface PdAxiosRequest {
   $: Pipedream;
@@ -23,5 +25,5 @@ export interface CreateAgreementParams extends PdAxiosRequest {
     title?: string;
     description?: string;
     tags?: string[];
-  }
+  };
 }

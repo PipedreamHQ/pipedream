@@ -2,6 +2,7 @@ import { defineAction } from "@pipedream/types";
 import app from "../../app/concord.app";
 import { AGREEMENT_STATUS_OPTIONS } from "../../common/constants";
 import { CreateAgreementParams } from "../../common/types/requestParams";
+import { CreateAgreementResponse } from "../../common/types/responseSchemas";
 
 export default defineAction({
   name: "Create Agreement",
@@ -13,13 +14,18 @@ export default defineAction({
   props: {
     app,
     organizationId: {
-      propDefinition: [app, "organizationId"],
+      propDefinition: [
+        app,
+        "organizationId",
+      ],
     },
     folderId: {
       propDefinition: [
         app,
         "folderId",
-        ({ organizationId }) => ({ organizationId }),
+        ({ organizationId }) => ({
+          organizationId,
+        }),
       ],
     },
     source: {
@@ -86,8 +92,8 @@ export default defineAction({
       },
     };
 
-    const response = await this.app.createAgreement(params);
-    $.export("$summary", "Successfully created agreement");
+    const response: CreateAgreementResponse = await this.app.createAgreement(params);
+    $.export("$summary", `Successfully created agreement (ID: ${response.id})`);
     return response;
   },
 });
