@@ -1406,6 +1406,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/facebook_lead_ads:
+    specifiers: {}
+
   components/facebook_pages:
     specifiers: {}
 
