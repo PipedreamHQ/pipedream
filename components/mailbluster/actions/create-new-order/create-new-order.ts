@@ -1,7 +1,7 @@
 import mailbluster from "../../app/mailbluster.app";
 
 export default {
-  key: "mailbluster-create-order",
+  key: "mailbluster-create-new-order",
   name: "Create New Order",
   description: "Create a new order. [See the documentation](https://app.mailbluster.com/api-doc/orders)",
   type: "action",
