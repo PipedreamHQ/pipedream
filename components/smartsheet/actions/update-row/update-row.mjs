@@ -4,7 +4,7 @@ export default {
   key: "smartsheet-update-row",
   name: "Update Row",
   description: "Updates a row in a sheet. [See docs here](https://smartsheet.redoc.ly/tag/rows#operation/update-rows)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     smartsheet,

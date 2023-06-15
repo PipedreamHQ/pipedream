@@ -5,7 +5,7 @@ export default {
   key: "box-new-event",
   name: "New Event",
   description: "Emit new event when an event with subscribed event source triggered on a target, [See the docs](https://developer.box.com/reference/post-webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

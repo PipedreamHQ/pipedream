@@ -1,7 +1,8 @@
 import { Pipedream } from "@pipedream/types";
 import {
-  ListFields, TweetFields, UserFields,
+  ListFields, MessageFields, TweetFields, UserFields,
 } from "./fields";
+import FormData from "form-data";
 
 interface PdAxiosRequest {
   $: Pipedream;
@@ -12,18 +13,21 @@ interface PaginationParams {
   maxResults?: number;
 }
 
-interface PaginatedRequest extends PdAxiosRequest, PaginationParams {}
+interface PaginatedRequest extends PdAxiosRequest, PaginationParams { }
 
 export interface HttpRequestParams extends PdAxiosRequest {
   url: string;
   method: string;
+  headers?: object;
   data?: object | string;
   params?: object;
+  baseURL?: string;
+  specialAuth?: boolean;
 }
 
 export interface PaginatedRequestParams
   extends HttpRequestParams,
-    PaginationParams {}
+  PaginationParams { }
 
 export interface AddUserToListParams extends PdAxiosRequest {
   listId: string;
@@ -59,11 +63,17 @@ interface TweetId {
   tweetId: string;
 }
 
-export interface DeleteTweetParams extends PdAxiosRequest, TweetId {}
+export interface DeleteTweetParams extends PdAxiosRequest, TweetId { }
 
 export interface FollowUserParams extends PdAxiosRequest {
   data: {
     target_user_id: string;
+  };
+}
+
+export interface GetDirectMessagesParams extends PaginatedRequest {
+  params?: MessageFields & {
+    event_types: "MessageCreate";
   };
 }
 
@@ -120,6 +130,16 @@ export interface SearchTweetsParams extends PaginatedRequest {
   params: { query: string; };
 }
 
-export interface UnfollowUserParams extends PdAxiosRequest, UserId {}
+export interface SendMessageParams extends PdAxiosRequest, UserId {
+  data: {
+    text: string;
+  };
+}
 
-export interface UnlikeTweetParams extends PdAxiosRequest, TweetId {}
+export interface UnfollowUserParams extends PdAxiosRequest, UserId { }
+
+export interface UnlikeTweetParams extends PdAxiosRequest, TweetId { }
+
+export interface UploadMediaParams extends PdAxiosRequest {
+  data: FormData;
+}

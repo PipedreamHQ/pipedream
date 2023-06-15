@@ -161,6 +161,15 @@ export default {
         ...args,
       });
     },
+    getComment(sheetId, commentId, args = {}) {
+      if (!this._validateId(sheetId)) {
+        return {};
+      }
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/comments/${commentId}`,
+        ...args,
+      });
+    },
     listSheets(args = {}) {
       return this._makeRequest({
         path: "/sheets",
