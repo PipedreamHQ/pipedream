@@ -33,7 +33,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Subscribed to feed ${feedId}.`);
+    step.export("$summary", `Successfully subscribed to feed ${feedId}.`);
 
     return response;
   },
