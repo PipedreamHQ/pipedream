@@ -10,7 +10,7 @@ export default defineAction({
   key: "twitter-like-tweet",
   name: "Like Tweet",
   description: `Like a tweet specified by its ID. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.2",
+  version: "2.0.3",
   type: "action",
   props: {
     app,
