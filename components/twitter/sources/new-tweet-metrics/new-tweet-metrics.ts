@@ -12,7 +12,7 @@ export default defineSource({
   key: "twitter-new-tweet-metrics",
   name: "New Tweet Metrics",
   description: `Emit new event when a Tweet has new metrics [See the documentation](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   props: {
     ...common.props,

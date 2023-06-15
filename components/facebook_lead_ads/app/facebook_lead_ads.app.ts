@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "missive",
+  app: "facebook_lead_ads",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
