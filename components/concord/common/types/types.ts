@@ -5,3 +5,9 @@ export interface ConcordEntity {
 
 export type Folder = ConcordEntity;
 export type Organization = ConcordEntity;
+
+export interface Agreement {
+  uuid: string;
+  title: string;
+  status: string;
+}

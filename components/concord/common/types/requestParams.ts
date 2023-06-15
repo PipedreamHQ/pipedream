@@ -14,10 +14,12 @@ export interface HttpRequestParams extends PdAxiosRequest {
   params?: object;
 }
 
-export interface CreateAgreementParams extends PdAxiosRequest {
+interface OrganizationId {
   organizationId: Organization["id"];
-  data: {
-    organizationId: Organization["id"];
+}
+
+export interface CreateAgreementParams extends PdAxiosRequest, OrganizationId {
+  data: OrganizationId & {
     folderId?: Folder["id"];
     source?: object;
     status?: string;
@@ -26,4 +28,11 @@ export interface CreateAgreementParams extends PdAxiosRequest {
     description?: string;
     tags?: string[];
   };
+}
+
+export interface PatchAgreementParams extends PdAxiosRequest, OrganizationId {
+  agreementUid: string;
+  data: {
+    status: string;
+  }
 }

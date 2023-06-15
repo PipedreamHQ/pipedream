@@ -36,10 +36,10 @@ export default defineAction({
       optional: true,
     },
     status: {
-      type: "string",
-      label: "Status",
-      description: "Agreement status",
-      options: AGREEMENT_STATUS_OPTIONS,
+      propDefinition: [
+        app,
+        "status",
+      ],
     },
     parametersSource: {
       type: "string",
@@ -93,7 +93,7 @@ export default defineAction({
     };
 
     const response: CreateAgreementResponse = await this.app.createAgreement(params);
-    $.export("$summary", `Successfully created agreement (ID: ${response.id})`);
+    $.export("$summary", `Successfully created agreement (ID: ${response.uid})`);
     return response;
   },
 });

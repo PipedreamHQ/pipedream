@@ -4,6 +4,11 @@ export const AGREEMENT_STATUS_OPTIONS = [
   "CONTRACT",
 ];
 
+export const AGREEMENT_PATCH_STATUS_OPTIONS = [
+  "SIGNING",
+  "BROKEN",
+];
+
 export const AGREEMENT_PARAMETERS_SOURCE = [
   "NONE",
   "EXCEL",
