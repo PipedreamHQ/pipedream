@@ -22,7 +22,6 @@ export default {
       type: "string",
       label: "Markdown",
       description: "The [markdown](https://daringfireball.net/projects/markdown/syntax) content of the post.",
-      optional: true,
     },
     close: {
       type: "boolean",
