@@ -1,6 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/concord.app";
 import { AGREEMENT_STATUS_OPTIONS } from "../../common/constants";
+import { CreateAgreementParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Create Agreement",
@@ -14,19 +15,19 @@ export default defineAction({
     organizationId: {
       propDefinition: [app, "organizationId"],
     },
-    source: {
-      type: "object",
-      label: "Source",
-      description:
-        "Source agreement information. Used when an agreement is created from another agreement. Currently only contract and templates are supported as source agreement. It also allows to supply parameters for template containing variables. It allows draft creation from template and copying a contract.",
-      optional: true,
-    },
     folderId: {
       propDefinition: [
         app,
         "folderId",
         ({ organizationId }) => ({ organizationId }),
       ],
+    },
+    source: {
+      type: "object",
+      label: "Source",
+      description:
+        "Source agreement information. Used when an agreement is created from another agreement. Currently only contract and templates are supported as source agreement. It also allows to supply parameters for template containing variables. It allows draft creation from template and copying a contract.",
+      optional: true,
     },
     status: {
       type: "string",
@@ -39,6 +40,7 @@ export default defineAction({
       label: "Parameters Source",
       description:
         "Define parameters source for agreements of status `TEMPLATE` (ignored for other statuses)",
+      optional: true,
     },
     title: {
       type: "string",
@@ -60,15 +62,32 @@ export default defineAction({
     },
   },
   async run({ $ }) {
-    const { organizationId } = this;
+    const {
+      organizationId,
+      folderId,
+      status,
+      parametersSource,
+      title,
+      description,
+      tags,
+    } = this;
 
-    const params = {
+    const params: CreateAgreementParams = {
       $,
       organizationId,
+      data: {
+        organizationId,
+        folderId,
+        status,
+        parametersSource,
+        title,
+        description,
+        tags,
+      },
     };
 
     const response = await this.app.createAgreement(params);
-    $.export("$summary", "Created agreement");
+    $.export("$summary", "Successfully created agreement");
     return response;
   },
 });
