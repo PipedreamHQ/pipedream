@@ -1401,10 +1401,10 @@ importers:
     specifiers: {}
 
   components/facebook_groups:
-    specifiers: {}
-
-  components/facebook_lead_ads:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/facebook_pages:
     specifiers: {}
