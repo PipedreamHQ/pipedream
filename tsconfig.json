@@ -2084,6 +2084,42 @@
     },
     {
       "path": "components/viral_loops"
+    },
+    {
+      "path": "components/memberful"
+    },
+    {
+      "path": "components/teamwork_desk"
+    },
+    {
+      "path": "components/clientify"
+    },
+    {
+      "path": "components/livestorm"
+    },
+    {
+      "path": "components/formaloo"
+    },
+    {
+      "path": "components/google_tag_manager"
+    },
+    {
+      "path": "components/facebook_pages"
+    },
+    {
+      "path": "components/google_chat"
+    },
+    {
+      "path": "components/sourceforge"
+    },
+    {
+      "path": "components/unbounce"
+    },
+    {
+      "path": "components/facebook_conversions"
+    },
+    {
+      "path": "components/facebook_lead_ads"
     }
   ]
 }
