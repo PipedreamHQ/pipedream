@@ -35,6 +35,7 @@ export default defineApp({
       label: "Folder ID",
       description:
         "Select a **Folder** from the list, or provide a custom *Folder ID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/Folders/operation/ListFolders)",
+        optional: true,
       async options({ organizationId }) {
         const response: ListFoldersResponse = await this.listFolders(
           organizationId
@@ -44,23 +45,24 @@ export default defineApp({
           value: id,
         }));
       },
-      optional: true,
     },
     agreementUid: {
       type: "string",
       label: "Agreement UID",
       description:
         "Search for an **Agreement**, or provide a custom *Agreement UID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/Agreement/operation/ListAgreements)",
-      async options({ organizationId }) {
+      optional: true,
+      useQuery: true,
+      async options({ organizationId, query }) {
         const response: ListAgreementsResponse = await this.listAgreements(
-          organizationId
+          organizationId,
+          query
         );
         return response?.items?.map(({ title, status, uuid }) => ({
           label: `${title} (Status: ${status})`,
           value: uuid,
         }));
       },
-      optional: true,
     },
     status: {
       type: "string",
@@ -116,8 +118,8 @@ export default defineApp({
       ...args
     }: PatchAgreementParams) {
       return this._httpRequest({
-        url: `/organizations/${organizationId}/agreements`,
-        method: "POST",
+        url: `/organizations/${organizationId}/agreements/${agreementUid}`,
+        method: "PATCH",
         ...args,
       });
     },
