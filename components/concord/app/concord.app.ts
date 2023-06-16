@@ -140,7 +140,7 @@ export default defineApp({
       organizationId,
       agreementUid,
       ...args
-    }: PatchAgreementParams): Promise<void> {
+    }: PatchAgreementParams): Promise<object> {
       return this._httpRequest({
         url: `/organizations/${organizationId}/agreements/${agreementUid}/signature/request`,
         method: "POST",
