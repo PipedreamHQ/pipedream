@@ -36,7 +36,7 @@ export default {
     },
     memberId: {
       type: "string",
-      label: "member ID",
+      label: "Member ID",
       description: "The ID of the member.",
       async options({ spaceId }) {
         const response = await this.listMembers({
