@@ -557,15 +557,20 @@ export default {
       };
       return params;
     },
-    async getObjects(objectType, params = {}, id = null) {
+    async getObjects(objectType, params = {}, id = null, maxPages) {
       const shopify = this.getShopifyInstance();
       let objects = [];
+      let currPage = 1;
       do {
+        if (maxPages && currPage > maxPages) {
+          break;
+        }
         const results = id
           ? await shopify[objectType].list(id, params)
           : await shopify[objectType].list(params);
         objects = objects.concat(results);
         params = results.nextPageParameters;
+        currPage++;
       } while (params !== undefined);
       return objects;
     },
@@ -658,11 +663,12 @@ export default {
         fulfillment_status: fulfillmentStatus,
       });
     },
-    async getOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null, updatedAfter = null, status = "any") {
+    async getOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null, updatedAfter = null, status = "any", limit = null, maxPages = null) {
       const params = this.getSinceParams(sinceId, useCreatedAt, updatedAfter);
       params.status = status;
       params.fulfillment_status = fulfillmentStatus;
-      return this.getObjects("order", params);
+      params.limit = limit;
+      return this.getObjects("order", params, null, maxPages);
     },
     async getOrdersById(ids = []) {
       if (ids.length === 0) {
@@ -837,11 +843,11 @@ export default {
     },
     async getOrderOptions() {
       const orders = await this.getObjects("order");
-      return orders?.map((order) => order.id ) || [];
+      return orders?.map((order) => order.id) || [];
     },
     async getDraftOrderOptions() {
       const draftOrders = await this.getObjects("draftOrder");
-      return draftOrders?.map((draftOrder) => draftOrder.id ) || [];
+      return draftOrders?.map((draftOrder) => draftOrder.id) || [];
     },
     async getMetafieldOptions(ownerResource, ownerId) {
       const metafields = await this.listMetafields({

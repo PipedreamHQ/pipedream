@@ -3,8 +3,8 @@ import agileCrm from "../../agile_crm.app.mjs";
 export default {
   key: "agile_crm-create-ticket",
   name: "Create Ticket",
-  description: "Create a new ticket in Agile CRM. [See the docs here](https://github.com/agilecrm/rest-api#102-create-a-ticket)",
-  version: "0.0.2",
+  description: "Create a new ticket in Agile CRM. [See the documentation](https://github.com/agilecrm/rest-api#102-create-a-ticket)",
+  version: "0.0.3",
   type: "action",
   props: {
     agileCrm,
