@@ -20,12 +20,6 @@ export default {
         "surveyType",
       ],
     },
-    surveyFolder: {
-      propDefinition: [
-        surveySparrow,
-        "surveyFolder",
-      ],
-    },
     visibility: {
       propDefinition: [
         surveySparrow,
@@ -46,7 +40,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surveySparrow.createSurvey({
+    const { data: response } = await this.surveySparrow.createSurvey({
       data: {
         name: this.name,
         survey_type: this.surveyType,

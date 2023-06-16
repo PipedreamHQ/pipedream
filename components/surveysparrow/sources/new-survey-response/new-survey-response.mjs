@@ -20,7 +20,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      const responses = await this.surveySparrow.listResponses({
+      const { data: responses } = await this.surveySparrow.listResponses({
         params: {
           limit: 25,
           order: "DESC",
@@ -33,11 +33,14 @@ export default {
       }
     },
     async activate() {
-      const hook = await this.surveySparrow.createWebhook({
+      const { data: hook } = await this.surveySparrow.createWebhook({
         data: {
           url: this.http.endpoint,
           http_method: "POST",
           survey_id: this.survey,
+          payload: {
+            id: "{submission_id}",
+          },
         },
       });
       this._setHookId(hook.id);
@@ -59,12 +62,22 @@ export default {
     generateMeta(response) {
       return {
         id: response.id,
-        summary: `New response from contact ${response.contact_id}.`,
+        summary: `New response with ID ${response.id}`,
         ts: Date.now(),
       };
     },
   },
   async run(event) {
-    console.log(event);
+    const { body } = event;
+
+    const { data: response } = await this.surveySparrow.getResponse({
+      responseId: body.id,
+      params: {
+        survey_id: this.survey,
+      },
+    });
+
+    const meta = this.generateMeta(response);
+    this.$emit(response, meta);
   },
 };

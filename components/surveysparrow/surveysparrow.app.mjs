@@ -10,31 +10,12 @@ export default {
       label: "Survey",
       description: "Identifier of a survey",
       async options({ page }) {
-        const surveys = await this.listSurveys({
+        const { data: surveys } = await this.listSurveys({
           params: {
             page: page + 1,
           },
         });
         return surveys?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        })) || [];
-      },
-    },
-    surveyFolder: {
-      type: "string",
-      label: "Survey Folder",
-      description: "Identifier of a folder",
-      optional: true,
-      async options({ page }) {
-        const folders = await this.listSurveyFolders({
-          params: {
-            page: page + 1,
-          },
-        });
-        return folders?.map(({
           id, name,
         }) => ({
           label: name,
@@ -48,7 +29,7 @@ export default {
       description: "Identifier of an email theme",
       optional: true,
       async options({ page }) {
-        const themes = await this.listEmailThemes({
+        const { data: themes } = await this.listEmailThemes({
           params: {
             page: page + 1,
           },
@@ -99,7 +80,7 @@ export default {
     },
     _headers() {
       return {
-        Authorization: `Bearer ${this.$auth.access_token}`,
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
     async _makeRequest({
@@ -126,15 +107,17 @@ export default {
         method: "DELETE",
       });
     },
-    listSurveys(args = {}) {
+    getResponse({
+      responseId, ...args
+    }) {
       return this._makeRequest({
-        path: "/surveys",
+        path: `/responses/${responseId}`,
         ...args,
       });
     },
-    listSurveyFolders(args = {}) {
+    listSurveys(args = {}) {
       return this._makeRequest({
-        path: "/survey_folders",
+        path: "/surveys",
         ...args,
       });
     },

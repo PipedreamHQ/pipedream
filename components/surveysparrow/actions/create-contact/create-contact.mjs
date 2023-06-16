@@ -39,7 +39,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surveySparrow.createContact({
+    const { data: response } = await this.surveySparrow.createContact({
       data: {
         email: this.email,
         full_name: this.fullName,

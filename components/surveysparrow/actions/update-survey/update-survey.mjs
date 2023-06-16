@@ -22,18 +22,6 @@ export default {
       ],
       optional: true,
     },
-    surveyType: {
-      propDefinition: [
-        surveySparrow,
-        "surveyType",
-      ],
-    },
-    surveyFolder: {
-      propDefinition: [
-        surveySparrow,
-        "surveyFolder",
-      ],
-    },
     visibility: {
       propDefinition: [
         surveySparrow,
@@ -58,7 +46,6 @@ export default {
       surveyId: this.survey,
       data: pickBy({
         name: this.name,
-        survey_type: this.surveyType,
         survey_folder_id: this.surveyFolder,
         visibility: this.visibility,
         theme_id: this.theme,
