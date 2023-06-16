@@ -136,5 +136,16 @@ export default defineApp({
         ...args,
       });
     },
+    async requestSignature({
+      organizationId,
+      agreementUid,
+      ...args
+    }: PatchAgreementParams): Promise<void> {
+      return this._httpRequest({
+        url: `/organizations/${organizationId}/agreements/${agreementUid}/signature/request`,
+        method: "POST",
+        ...args,
+      });
+    },
   },
 });

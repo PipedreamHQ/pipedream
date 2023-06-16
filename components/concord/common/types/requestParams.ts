@@ -1,6 +1,6 @@
 import { Pipedream } from "@pipedream/types";
 import {
-  Folder, Organization,
+  Agreement, Folder, Organization,
 } from "./types";
 
 interface PdAxiosRequest {
@@ -18,6 +18,10 @@ interface OrganizationId {
   organizationId: Organization["id"];
 }
 
+interface AgreementUid {
+  agreementUid: Agreement["uuid"];
+}
+
 export interface CreateAgreementParams extends PdAxiosRequest, OrganizationId {
   data: OrganizationId & {
     folderId?: Folder["id"];
@@ -30,9 +34,16 @@ export interface CreateAgreementParams extends PdAxiosRequest, OrganizationId {
   };
 }
 
-export interface PatchAgreementParams extends PdAxiosRequest, OrganizationId {
-  agreementUid: string;
+export interface PatchAgreementParams
+  extends PdAxiosRequest,
+    OrganizationId,
+    AgreementUid {
   data: {
     status: string;
   };
 }
+
+export interface RequestSignatureParams
+  extends PdAxiosRequest,
+    OrganizationId,
+    AgreementUid {}
