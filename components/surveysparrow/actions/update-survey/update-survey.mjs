@@ -1,5 +1,6 @@
 import surveySparrow from "../../surveysparrow.app.mjs";
 import pickBy from "lodash.pickby";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "surveysparrow-update-survey",
@@ -22,18 +23,6 @@ export default {
       ],
       optional: true,
     },
-    visibility: {
-      propDefinition: [
-        surveySparrow,
-        "visibility",
-      ],
-    },
-    theme: {
-      propDefinition: [
-        surveySparrow,
-        "theme",
-      ],
-    },
     welcomeText: {
       propDefinition: [
         surveySparrow,
@@ -42,19 +31,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surveySparrow.updateSurvey({
+    if (!this.name && !this.welcomeText) {
+      throw new ConfigurationError("At least one of `name` or `welcomeText` must be provided.");
+    }
+
+    const { data: response } = await this.surveySparrow.updateSurvey({
       surveyId: this.survey,
       data: pickBy({
         name: this.name,
-        visibility: this.visibility,
-        theme_id: this.theme,
         welcome_text: this.welcomeText,
       }),
       $,
     });
 
     if (response) {
-      $.export("$summary", `Successfully created survey with ID ${response.id}`);
+      $.export("$summary", `Successfully updated survey with ID ${response[0].id}`);
     }
 
     return response;

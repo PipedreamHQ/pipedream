@@ -23,25 +23,6 @@ export default {
         })) || [];
       },
     },
-    theme: {
-      type: "string",
-      label: "Theme",
-      description: "Identifier of an email theme",
-      optional: true,
-      async options({ page }) {
-        const { data: themes } = await this.listEmailThemes({
-          params: {
-            page: page + 1,
-          },
-        });
-        return themes?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        })) || [];
-      },
-    },
     surveyType: {
       type: "string",
       label: "Survey Type",
@@ -118,12 +99,6 @@ export default {
     listSurveys(args = {}) {
       return this._makeRequest({
         path: "/surveys",
-        ...args,
-      });
-    },
-    listEmailThemes(args = {}) {
-      return this._makeRequest({
-        path: "/email_themes",
         ...args,
       });
     },

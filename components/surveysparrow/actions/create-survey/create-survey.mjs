@@ -26,12 +26,6 @@ export default {
         "visibility",
       ],
     },
-    theme: {
-      propDefinition: [
-        surveySparrow,
-        "theme",
-      ],
-    },
     welcomeText: {
       propDefinition: [
         surveySparrow,
@@ -45,7 +39,6 @@ export default {
         name: this.name,
         survey_type: this.surveyType,
         visibility: this.visibility,
-        theme_id: this.theme,
         welcome_text: this.welcomeText,
       },
       $,
