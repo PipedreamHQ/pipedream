@@ -44,7 +44,6 @@ export default {
       data: {
         name: this.name,
         survey_type: this.surveyType,
-        survey_folder_id: this.surveyFolder,
         visibility: this.visibility,
         theme_id: this.theme,
         welcome_text: this.welcomeText,
