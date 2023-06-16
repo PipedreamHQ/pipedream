@@ -135,11 +135,7 @@ export default {
   },
   async run() {
     const after = this._getAfter();
-    const params = this.getParams(after); this.$emit(params, {
-      id: Date.now(),
-      summary: "params",
-      ts: Date.now(),
-    });
+    const params = this.getParams(after);
     await this.processResults(after, params);
   },
 };
