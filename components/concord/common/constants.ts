@@ -27,7 +27,7 @@ export const AGREEMENT_LIST_STATUSES = [
   "COMPLETED_CANCEL_CONTRACT",
   "COMPLETED_CONTRACT_RENEWABLE",
   "BROKEN",
-  "TRASHED",
+  // "TRASHED", // listed in the API documentation, but when included the endpoints returns no results
   "NEGO_INVITE",
   "TEMPLATE",
   "TEMPLATE_AUTO",
