@@ -8,11 +8,13 @@ import {
 import {
   CreateAgreementParams,
   HttpRequestParams,
+  ListAgreementParams,
   PatchAgreementParams,
 } from "../common/types/requestParams";
 import {
   AGREEMENT_LIST_STATUSES, AGREEMENT_STATUS_OPTIONS,
 } from "../common/constants";
+import { Agreement } from "../common/types/entities";
 
 export default defineApp({
   type: "app",
@@ -61,11 +63,11 @@ export default defineApp({
       async options({
         organizationId, query,
       }: { organizationId: number; query: string; }) {
-        const response: ListAgreementsResponse = await this.listAgreements(
+        const items: Agreement[] = await this.listAgreements({
           organizationId,
           query,
-        );
-        return response?.items?.map(({
+      });
+        return items?.map(({
           title, status, uuid,
         }) => ({
           label: `${title} (Status: ${status})`,
@@ -106,15 +108,16 @@ export default defineApp({
         url: `/organizations/${organizationId}/folders`,
       });
     },
-    async listAgreements(organizationId: number, search: string): Promise<ListAgreementsResponse> {
-      return this._httpRequest({
+    async listAgreements({ organizationId, search, statuses = AGREEMENT_LIST_STATUSES }: ListAgreementParams ) {
+      const response: ListAgreementsResponse = await this._httpRequest({
         url: `/user/me/organizations/${organizationId}/agreements`,
         params: {
           search,
-          statuses: AGREEMENT_LIST_STATUSES.join(),
+          statuses: statuses.join(),
           numberOfItemsPerPage: 100,
         },
       });
+      return response?.items;
     },
     async createAgreement({
       organizationId, ...args

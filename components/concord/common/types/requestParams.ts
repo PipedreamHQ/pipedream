@@ -1,7 +1,5 @@
 import { Pipedream } from "@pipedream/types";
-import {
-  Agreement, Folder, Organization,
-} from "./types";
+import { Agreement, Folder, Organization } from "./entities";
 
 interface PdAxiosRequest {
   $: Pipedream;
@@ -47,3 +45,8 @@ export interface RequestSignatureParams
   extends PdAxiosRequest,
     OrganizationId,
     AgreementUid {}
+
+export interface ListAgreementParams extends PdAxiosRequest, OrganizationId {
+  statuses?: string[];
+  search?: string;
+}

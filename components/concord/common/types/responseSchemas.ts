@@ -1,7 +1,7 @@
 import {
   Agreement,
   Folder, Organization,
-} from "./types";
+} from "./entities";
 
 export interface ListOrganizationsResponse {
   organizations: Organization[];
