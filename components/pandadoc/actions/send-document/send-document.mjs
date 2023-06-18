@@ -32,7 +32,7 @@ export default defineComponent({
       type: "boolean",
       label: "Silent",
       description:
-        "Disables sent, viewed, comment and completed email notifications for document recipients and the document sender.",
+        `Disables sent, viewed, comment and completed email notifications for document recipients and the document sender. By default, notifications emails are sent for specific actions. If set as true, it won't affect "Approve document" email notification sent to the Approver.`,
       optional: true,
       default: false,
     },
