@@ -1,5 +1,4 @@
 import app from "../../pandadoc.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default defineComponent({
   key: "pandadoc-send-document",
@@ -36,10 +35,10 @@ export default defineComponent({
       optional: true,
       default: false,
     },
-    sender: {
-      type: "object",
-      label: "Sender",
-      description: "Set a sender of the document.",
+    senderEmail: {
+      type: "string",
+      label: "Sender Email",
+      description: "Set a sender (email) for the document. Must be an email which is a member on your account.",
       optional: true,
     },
     forwarding_allowed: {
@@ -66,13 +65,18 @@ export default defineComponent({
       subject: this.subject,
       message: this.message,
       silent: this.silent,
-      sender: this.sender,
       forwarding_settings: {
         forwarding_allowed: this.forwarding_allowed,
         forwarding_with_reassigning_allowed:
           this.forwarding_with_reassigning_allowed,
       },
     };
+
+    if (this.senderEmail) {
+      data.sender = {
+        email: this.senderEmail,
+      };
+    }
 
     const response = await this.app.sendDocument({
       $,
