@@ -59,7 +59,7 @@ export default defineComponent({
       default: false,
     },
   },
-  async run({ steps, $ }) {
+  async run({ $ }) {
     const documentId = this.documentId;
 
     const data = {
