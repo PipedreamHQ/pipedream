@@ -181,5 +181,12 @@ export default {
         method: "DELETE",
       });
     },
+    sendDocument(args = {}) {
+      return this.makeRequest({
+        path: `/documents/${args.documentId}/send`,
+        method: "POST",
+        ...args,
+      });
+    },
   },
 };
