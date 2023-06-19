@@ -1,5 +1,7 @@
 import { Pipedream } from "@pipedream/types";
-import { Agreement, Folder, Organization } from "./entities";
+import {
+  Agreement, Folder, Organization,
+} from "./entities";
 
 interface PdAxiosRequest {
   $: Pipedream;

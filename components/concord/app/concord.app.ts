@@ -66,7 +66,7 @@ export default defineApp({
         const items: Agreement[] = await this.listAgreements({
           organizationId,
           query,
-      });
+        });
         return items?.map(({
           title, status, uuid,
         }) => ({
@@ -108,7 +108,9 @@ export default defineApp({
         url: `/organizations/${organizationId}/folders`,
       });
     },
-    async listAgreements({ organizationId, search, statuses = AGREEMENT_LIST_STATUSES }: ListAgreementParams ) {
+    async listAgreements({
+      organizationId, search, statuses = AGREEMENT_LIST_STATUSES,
+    }: ListAgreementParams ) {
       const response: ListAgreementsResponse = await this._httpRequest({
         url: `/user/me/organizations/${organizationId}/agreements`,
         params: {
