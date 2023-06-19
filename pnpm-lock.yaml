@@ -1410,7 +1410,10 @@ importers:
     specifiers: {}
 
   components/facebook_pages:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/facturadirecta:
     specifiers: {}
