@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/facebook_conversions",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Facebook Conversions API Components",
   "main": "dist/app/facebook_conversions.app.mjs",
   "keywords": [
@@ -12,5 +12,9 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "@pipedream/types": "^0.1.6"
   }
 }
