@@ -11,6 +11,7 @@ export default defineSource({
   type: "source",
   props: {
     app,
+    db: "$.service.db",
     organizationId: {
       propDefinition: [app, "organizationId"],
     },
@@ -42,7 +43,7 @@ export default defineSource({
     },
     async getAndProcessData() {
       const { organizationId, search, statuses } = this;
-      const data: Agreement[] = await this.listAgreements({ organizationId, search, statuses });
+      const data: Agreement[] = await this.app.listAgreements({ organizationId, search, statuses });
       if (data) {
         const savedIds: string[] = this.getSavedIds() ?? [];
 
