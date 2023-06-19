@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default defineComponent({
   key: "pandadoc-send-document",
   name: "Send Document",
-  description: "Move a document to sent status and send an optional email. [See the docs here](https://developers.pandadoc.com/reference/send-document)",
+  description: "Move a document to sent status and send an optional email. [See the documentation](https://developers.pandadoc.com/reference/send-document)",
   type: "action",
   version: "0.0.1",
   props: {
