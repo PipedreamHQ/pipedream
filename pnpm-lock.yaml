@@ -1410,6 +1410,9 @@ importers:
     specifiers: {}
 
   components/facebook_pages:
+    specifiers: {}
+
+  components/facebook_pages:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
@@ -1769,7 +1772,10 @@ importers:
       uuid: 8.3.2
 
   components/google_chat:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_classroom:
     specifiers:
@@ -4542,7 +4548,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/surveysparrow:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash.pickby: ^4.6.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash.pickby: 4.6.0
 
   components/survicate:
     specifiers: {}
