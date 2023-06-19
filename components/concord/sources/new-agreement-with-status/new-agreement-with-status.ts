@@ -7,7 +7,7 @@ export default defineSource({
   key: "concord-new-agreement-with-status",
   name: "New Agreement with Status",
   description: "Emit new event for new agreements with the specified status(es) [See the documentation](https://api.doc.concordnow.com/#tag/Agreement/operation/ListAgreements)",
-  version: "1.0.1",
+  version: "0.0.1",
   type: "source",
   props: {
     app,
