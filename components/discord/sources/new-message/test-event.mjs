@@ -1,7 +1,3 @@
-/* eslint-disable pipedream/required-properties-description */
-/* eslint-disable pipedream/required-properties-version */
-/* eslint-disable pipedream/required-properties-name */
-/* eslint-disable pipedream/required-properties-key */
 export default {
   "channelId": "1064400555309802049",
   "guildId": "1064400554651292156",
