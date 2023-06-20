@@ -7,7 +7,7 @@ export default {
   name: "Create Document From File",
   description: "Create a document from a file or public file URL. [See the docs here](https://developers.pandadoc.com/reference/create-document-from-pdf)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     app,
     name: {
