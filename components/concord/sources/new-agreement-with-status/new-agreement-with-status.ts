@@ -1,5 +1,6 @@
 import app from "../../app/concord.app";
 import { defineSource } from "@pipedream/types";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import { Agreement } from "../../common/types/entities";
 import { AGREEMENT_LIST_STATUSES } from "../../common/constants";
 
@@ -12,6 +13,12 @@ export default defineSource({
   props: {
     app,
     db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
     organizationId: {
       propDefinition: [
         app,
