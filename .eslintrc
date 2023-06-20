@@ -9,7 +9,7 @@
     "plugin:jsonc/recommended-with-jsonc",
     "plugin:jest/recommended"
   ],
-  "ignorePatterns": ["scripts", "**/test-event.mjs"],
+  "ignorePatterns": ["scripts", "components/**/test-event.mjs"],
   "overrides": [
     {
       "files": [
