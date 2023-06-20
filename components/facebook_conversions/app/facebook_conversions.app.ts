@@ -1,5 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
+import { HttpRequestParams } from "../common/types";
 
 export default defineApp({
   type: "app",
@@ -15,7 +16,7 @@ export default defineApp({
     async _httpRequest({
       $ = this,
       ...args
-    }/*: HttpRequestParams*/): Promise<object> {
+    }: HttpRequestParams): Promise<object> {
       return axios($, {
         baseURL: `https://graph.facebook.com/${this._getApiVersion()}/${this._getPixelId()}`,
         ...args,
