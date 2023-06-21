@@ -43,7 +43,7 @@ export default {
           })) || [];
         } catch (error) {
           console.error(error);
-          throw new ConfigurationError("Please doublecheck that the Pipedream app has been installed in the group you have selected above. Learn more [here](https://pipedream.com/apps/facebook-groups).");
+          throw new ConfigurationError("Please double-check that the Pipedream app has been installed in the group you have selected above. Learn more [here](https://pipedream.com/apps/facebook-groups).");
         }
       },
     },
