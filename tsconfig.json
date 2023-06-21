@@ -2120,6 +2120,9 @@
     },
     {
       "path": "components/facebook_lead_ads"
+    },
+    {
+      "path": "components/google_ads"
     }
   ]
 }
