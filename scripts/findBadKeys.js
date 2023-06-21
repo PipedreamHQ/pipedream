@@ -146,7 +146,6 @@ for (const name of dirs) {
 }
 
 checkPathVsKey();
-// console.log("hello")
 
 if (err) {
   const core = require('@actions/core');
