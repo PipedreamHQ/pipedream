@@ -2,7 +2,6 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   ListAgreementsResponse,
-  ListFoldersResponse,
   ListOrganizationsResponse,
 } from "../common/types/responseSchemas";
 import {
@@ -12,9 +11,10 @@ import {
   PatchAgreementParams,
 } from "../common/types/requestParams";
 import {
-  AGREEMENT_LIST_STATUSES, AGREEMENT_STATUS_OPTIONS,
+  AGREEMENT_LIST_STATUSES,
+  AGREEMENT_STATUS_OPTIONS,
 } from "../common/constants";
-import { Agreement } from "../common/types/entities";
+import { Agreement, Folder, FolderOption } from "../common/types/entities";
 
 export default defineApp({
   type: "app",
@@ -28,9 +28,7 @@ export default defineApp({
       async options() {
         const response: ListOrganizationsResponse =
           await this.getAllUserOrganizations();
-        return response?.organizations?.map(({
-          id, name,
-        }) => ({
+        return response?.organizations?.map(({ id, name }) => ({
           label: name,
           value: id,
         }));
@@ -42,16 +40,8 @@ export default defineApp({
       description:
         "Select a **Folder** from the list, or provide a custom *Folder ID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/Folders/operation/ListFolders)",
       optional: true,
-      async options({ organizationId }: { organizationId: number; }) {
-        const response: ListFoldersResponse = await this.listFolders(
-          organizationId,
-        );
-        return response?.folders?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
+      async options({ organizationId }: { organizationId: number }): Promise<FolderOption[]> {
+        return this.listFolders(organizationId);
       },
     },
     agreementUid: {
@@ -61,15 +51,17 @@ export default defineApp({
         "Search for an **Agreement**, or provide a custom *Agreement UID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/Agreement/operation/ListAgreements)",
       useQuery: true,
       async options({
-        organizationId, query,
-      }: { organizationId: number; query: string; }) {
+        organizationId,
+        query,
+      }: {
+        organizationId: number;
+        query: string;
+      }) {
         const items: Agreement[] = await this.listAgreements({
           organizationId,
           query,
         });
-        return items?.map(({
-          title, status, uuid,
-        }) => ({
+        return items?.map(({ title, status, uuid }) => ({
           label: `${title} (Status: ${status})`,
           value: uuid,
         }));
@@ -103,14 +95,27 @@ export default defineApp({
         url: "/user/me/organizations",
       });
     },
-    async listFolders(organizationId: number): Promise<ListFoldersResponse> {
-      return this._httpRequest({
+    unwrapChildFolders(folder: Folder, parentName?: string): FolderOption[] {
+      const { id, name, children } = folder;
+      const fullName = parentName ? `${parentName}/${name}` : name;
+      const obj: FolderOption = { label: fullName, value: id };
+
+      return [
+        obj,
+        ...(children?.map((f) => this.unwrapChildFolders(f, fullName)) ?? []),
+      ];
+    },
+    async listFolders(organizationId: number): Promise<Folder[]> {
+      const rootFolder = await this._httpRequest({
         url: `/organizations/${organizationId}/folders`,
       });
+      return rootFolder ? this.unwrapChildFolders(rootFolder) : [];
     },
     async listAgreements({
-      organizationId, search, statuses = AGREEMENT_LIST_STATUSES,
-    }: ListAgreementParams ) {
+      organizationId,
+      search,
+      statuses = AGREEMENT_LIST_STATUSES,
+    }: ListAgreementParams) {
       const response: ListAgreementsResponse = await this._httpRequest({
         url: `/user/me/organizations/${organizationId}/agreements`,
         params: {
@@ -122,7 +127,8 @@ export default defineApp({
       return response?.items;
     },
     async createAgreement({
-      organizationId, ...args
+      organizationId,
+      ...args
     }: CreateAgreementParams): Promise<object> {
       return this._httpRequest({
         url: `/organizations/${organizationId}/agreements`,
