@@ -51,7 +51,6 @@ function* iterateComponentFiles() {
 const checkPathVsKey = () => {
   const iterator = iterateComponentFiles();
   for (const file of iterator) {
-
     const p = path.join(rootDir, file);
     const componentKey = getComponentKey(p);
     if (!componentKey) {
