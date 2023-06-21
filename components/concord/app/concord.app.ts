@@ -95,14 +95,14 @@ export default defineApp({
         url: "/user/me/organizations",
       });
     },
-    unwrapChildFolders(folder: Folder, parentName?: string): FolderOption[] {
-      const { id, name, children } = folder;
-      const fullName = parentName ? `${parentName}/${name}` : name;
-      const obj: FolderOption = { label: fullName, value: id };
+    unwrapChildFolders(folder: Folder, parentName = ""): FolderOption[] {
+      const { id, name = "", children } = folder;
+      const fullName = `${parentName}/${name}`;
+      const obj: FolderOption = { label: fullName.replace(/\/{2,}/g, '/'), value: id };
 
       return [
         obj,
-        ...(children?.map((f) => this.unwrapChildFolders(f, fullName)) ?? []),
+        ...(children?.flatMap((f) => this.unwrapChildFolders(f, fullName)) ?? []),
       ];
     },
     async listFolders(organizationId: number): Promise<Folder[]> {
