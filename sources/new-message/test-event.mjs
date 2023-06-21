@@ -1,1 +1,38 @@
-export default  "{\n\t\"channelId\": \"1053390454298792048\",\n\t\"guildId\": \"1053390453640282145\",\n\t\"id\": \"1116805007082279043\",\n\t\"createdTimestamp\": 1686337462922,\n\t\"type\": \"DEFAULT\",\n\t\"system\": false,\n\t\"content\": \"Hello, world\",\n\t\"authorId\": \"928080829509402624\",\n\t\"pinned\": false,\n\t\"tts\": false,\n\t\"nonce\": \"1116805005110673408\",\n\t\"embeds\": [],\n\t\"components\": [],\n\t\"attachments\": [\"1116805006843187200\"],\n\t\"stickers\": [],\n\t\"editedTimestamp\": null,\n\t\"webhookId\": null,\n\t\"groupActivityApplicationId\": null,\n\t\"applicationId\": null,\n\t\"activity\": null,\n\t\"flags\": 0,\n\t\"reference\": null,\n\t\"interaction\": null,\n\t\"cleanContent\": \"Hello, world\",\n\t\"author\": \"droosevelt-pipedream\",\n\t\"authorID\": \"928080829509402624\",\n\t\"author_metadata\": {\n\t\t\"avatar\": null,\n\t\t\"bot\": false\n\t},\n\t\"guild\": \"droosevelt-pipedream's server-2\",\n\t\"guildID\": \"1053390453640282145\",\n\t\"channel\": \"general\",\n\t\"channelID\": \"1053390454298792048\"\n}"
+export default  {
+  "channelId": "1053390454298792048",
+  "guildId": "1053390453640282145",
+  "id": "1116805007082279043",
+  "createdTimestamp": 1686337462922,
+  "type": "DEFAULT",
+  "system": false,
+  "content": "Hello, world",
+  "authorId": "928080829509402624",
+  "pinned": false,
+  "tts": false,
+  "nonce": "1116805005110673408",
+  "embeds": [],
+  "components": [],
+  "attachments": [
+   "1116805006843187200"
+  ],
+  "stickers": [],
+  "editedTimestamp": null,
+  "webhookId": null,
+  "groupActivityApplicationId": null,
+  "applicationId": null,
+  "activity": null,
+  "flags": 0,
+  "reference": null,
+  "interaction": null,
+  "cleanContent": "Hello, world",
+  "author": "droosevelt-pipedream",
+  "authorID": "928080829509402624",
+  "author_metadata": {
+   "avatar": null,
+   "bot": false
+  },
+  "guild": "droosevelt-pipedream's server-2",
+  "guildID": "1053390453640282145",
+  "channel": "general",
+  "channelID": "1053390454298792048"
+ }
