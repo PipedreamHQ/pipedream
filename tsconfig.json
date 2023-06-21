@@ -2129,6 +2129,12 @@
     },
     {
       "path": "components/outseta"
+    },
+    {
+      "path": "components/uipath_automation_hub"
+    },
+    {
+      "path": "components/funnelcockpit"
     }
   ]
 }
