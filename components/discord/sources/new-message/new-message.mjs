@@ -1,4 +1,5 @@
 import discord from "../../discord.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   type: "source",
@@ -32,4 +33,5 @@ export default {
       id: event.id,
     });
   },
+  sampleEmit,
 };
