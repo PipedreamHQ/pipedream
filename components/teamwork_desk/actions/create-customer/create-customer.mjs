@@ -27,7 +27,6 @@ export default {
         teamworkDesk,
         "companyId",
       ],
-      optional: true,
     },
     email: {
       propDefinition: [
