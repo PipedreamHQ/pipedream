@@ -48,6 +48,10 @@ function* iterateComponentFiles() {
 const checkPathVsKey = () => {
   const iterator = iterateComponentFiles();
   for (const file of iterator) {
+    if (file.split("/").pop() === "test-event.mjs") {
+      continue
+    }
+
     const p = path.join(rootDir, file);
     const componentKey = getComponentKey(p);
     if (!componentKey) {
@@ -142,6 +146,7 @@ for (const name of dirs) {
 }
 
 checkPathVsKey();
+// console.log("hello")
 
 if (err) {
   const core = require('@actions/core');
