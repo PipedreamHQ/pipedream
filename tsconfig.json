@@ -2123,6 +2123,12 @@
     },
     {
       "path": "components/google_ads"
+    },
+    {
+      "path": "components/credit_repair_cloud"
+    },
+    {
+      "path": "components/outseta"
     }
   ]
 }
