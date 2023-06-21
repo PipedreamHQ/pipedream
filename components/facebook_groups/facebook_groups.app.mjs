@@ -1,4 +1,7 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios,
+  ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -27,16 +30,21 @@ export default {
       label: "Post",
       description: "Identifier of a post",
       async options({ groupId }) {
-        const opts = {
-          groupId,
-        };
-        const { data } = await this.listPosts(opts);
-        return data?.map(({
-          id, message,
-        }) => ({
-          label: message || id,
-          value: id,
-        })) || [];
+        try {
+          const opts = {
+            groupId,
+          };
+          const { data } = await this.listPosts(opts);
+          return data?.map(({
+            id, message,
+          }) => ({
+            label: message || id,
+            value: id,
+          })) || [];
+        } catch (error) {
+          console.error(error);
+          throw new ConfigurationError("Please doublecheck that the Pipedream app has been [installed](https://pipedream.com/apps/facebook-groups) in the group you have selected above.");
+        }
       },
     },
     maxResults: {
