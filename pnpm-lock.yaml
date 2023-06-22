@@ -932,6 +932,9 @@ importers:
   components/craftmypdf:
     specifiers: {}
 
+  components/credit_repair_cloud:
+    specifiers: {}
+
   components/crimeometer:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -3173,6 +3176,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/outseta:
+    specifiers: {}
 
   components/overloop:
     specifiers:
