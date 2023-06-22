@@ -41,7 +41,6 @@ export default {
         app,
         "name",
       ],
-      optional: true,
     },
     type: {
       propDefinition: [

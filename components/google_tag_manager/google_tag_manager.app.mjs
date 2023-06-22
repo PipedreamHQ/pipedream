@@ -9,7 +9,8 @@ export default {
       description: "The account ID",
       type: "string",
       async options() {
-        const { account: accounts } = await this.getAccounts();
+        const { account } = await this.getAccounts();
+        const accounts = account || [];
 
         return accounts.map((account) => ({
           label: account.name,
@@ -77,7 +78,7 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "The type of the tag",
+      description: "The type of the tag. Learn more about available types in [Tag Dictionary Reference](https://developers.google.com/tag-platform/tag-manager/api/v2/tag-dictionary-reference)",
     },
     liveOnly: {
       type: "boolean",
@@ -94,18 +95,18 @@ export default {
     parameter: {
       type: "string",
       label: "Parameter",
-      description: "The list of parameters for the tag",
+      description: "The list of parameters for the tag. Learn more about available parameters in [Tag Dictionary Reference](https://developers.google.com/tag-platform/tag-manager/api/v2/tag-dictionary-reference)",
     },
     consentSettings: {
       type: "string",
       label: "Consent Settings",
-      description: "The consent settings for the tag",
+      description: "The consent settings for the tag. Learn more in [Tag Manager API Documentation](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/create#request-body) and [Consent Settings Documentation](https://support.google.com/analytics/answer/9976101)",
       optional: true,
     },
     monitoringMetadata: {
       type: "string",
       label: "Monitoring Metadata",
-      description: "The monitoring metadata for the tag",
+      description: "The monitoring metadata for the tag. Learn more in [Tag Manager API Doc](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/create#request-body)",
       optional: true,
     },
   },

@@ -2,7 +2,7 @@ import app from "../../google_tag_manager.app.mjs";
 
 export default {
   name: "Update Tag",
-  version: "0.0.1",
+  version: "0.0.1687406578",
   key: "google_tag_manager-update-tag",
   description: "Update a tag in a workspace. [See documentation here](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/update)",
   type: "action",
@@ -103,11 +103,12 @@ export default {
       ? JSON.parse(this.monitoringMetadata)
       : this.monitoringMetadata;
 
-    const response = await this.app.createTag({
+    const response = await this.app.updateTag({
       $,
       accountId: this.accountId,
       containerId: this.containerId,
       workspaceId: this.workspaceId,
+      tagId: this.tagId,
       data: {
         name: this.name,
         type: this.type,
