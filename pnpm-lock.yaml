@@ -937,6 +937,9 @@ importers:
   components/craftmypdf:
     specifiers: {}
 
+  components/credit_repair_cloud:
+    specifiers: {}
+
   components/crimeometer:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -1596,6 +1599,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       crypto-js: 4.1.1
+
+  components/funnelcockpit:
+    specifiers: {}
 
   components/gatekeeper:
     specifiers: {}
@@ -3178,6 +3184,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/outseta:
+    specifiers: {}
 
   components/overloop:
     specifiers:
@@ -4973,6 +4982,9 @@ importers:
     specifiers: {}
 
   components/uchat:
+    specifiers: {}
+
+  components/uipath_automation_hub:
     specifiers: {}
 
   components/uk_gov_vehecle_enquiry_api:
