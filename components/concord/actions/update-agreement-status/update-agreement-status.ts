@@ -28,10 +28,9 @@ export default defineAction({
       ],
     },
     status: {
-      propDefinition: [
-        app,
-        "status",
-      ],
+      type: "string",
+      label: "Status",
+      description: "Agreement status",
       options: AGREEMENT_PATCH_STATUS_OPTIONS,
     },
   },

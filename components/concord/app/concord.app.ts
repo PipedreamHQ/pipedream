@@ -14,7 +14,8 @@ import {
   AGREEMENT_LIST_STATUSES,
   AGREEMENT_STATUS_OPTIONS,
 } from "../common/constants";
-import { Agreement, Folder, FolderOption } from "../common/types/entities";
+import { Agreement, Folder } from "../common/types/entities";
+import { AsyncOptionsOrgId, FolderOption } from "../common/types/misc";
 
 export default defineApp({
   type: "app",
@@ -53,25 +54,46 @@ export default defineApp({
       async options({
         organizationId,
         query,
-      }: {
-        organizationId: number;
-        query: string;
-      }) {
-        const items: Agreement[] = await this.listAgreements({
+      }: AsyncOptionsOrgId) {
+        return this.getAgreementOptions({
           organizationId,
-          query,
-        });
-        return items?.map(({ title, status, uuid }) => ({
-          label: `${title} (Status: ${status})`,
-          value: uuid,
-        }));
+          search: query
+        }, true);
       },
     },
-    status: {
+    templateUid: {
       type: "string",
-      label: "Status",
-      description: "Agreement status",
-      options: AGREEMENT_STATUS_OPTIONS,
+      label: "Template UID",
+      description:
+        "Search for a **Template**, or provide a custom *Template UID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/Agreement/operation/ListAgreements)",
+      useQuery: true,
+      async options({
+        organizationId,
+        query,
+      }: AsyncOptionsOrgId) {
+        return this.getAgreementOptions({
+          organizationId,
+          search: query,
+          statuses: ["TEMPLATE", "TEMPLATE_AUTO"]
+        });
+      },
+    },
+    contractUid: {
+      type: "string",
+      label: "Contract UID",
+      description:
+        "Search for a **Contract**, or provide a custom *Contract UID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/Agreement/operation/ListAgreements)",
+      useQuery: true,
+      async options({
+        organizationId,
+        query,
+      }: AsyncOptionsOrgId) {
+        return this.getAgreementOptions({
+          organizationId,
+          search: query,
+          statuses: AGREEMENT_LIST_STATUSES.filter(s => s.includes("CONTRACT"))
+        });
+      },
     },
     title: {
       type: "string",
@@ -129,10 +151,21 @@ export default defineApp({
       });
       return rootFolder ? this.unwrapChildFolders(rootFolder) : [];
     },
+    async getAgreementOptions({ organizationId, search, statuses = AGREEMENT_LIST_STATUSES }: ListAgreementParams, showStatus = false) {
+      const items: Agreement[] = await this.listAgreements({
+        organizationId,
+        search,
+        statuses
+      });
+      return items?.map(({ title, status, uuid }) => ({
+        label: showStatus ? `${title} (Status: ${status})` : title,
+        value: uuid,
+      }));
+    },
     async listAgreements({
       organizationId,
       search,
-      statuses = AGREEMENT_LIST_STATUSES,
+      statuses,
     }: ListAgreementParams) {
       const response: ListAgreementsResponse = await this._httpRequest({
         url: `/user/me/organizations/${organizationId}/agreements`,

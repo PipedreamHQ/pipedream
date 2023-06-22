@@ -6,10 +6,6 @@ export interface ConcordEntity {
 export type Folder = ConcordEntity & {
   children: Folder[];
 };
-export interface FolderOption {
-  label: string;
-  value: Folder["id"];
-}
 
 export type Organization = ConcordEntity;
 

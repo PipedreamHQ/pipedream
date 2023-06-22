@@ -1,13 +1,13 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/concord.app";
-import { CreateTemplateParams } from "../../common/types/requestParams";
+import { CreateAgreementParams } from "../../common/types/requestParams";
 import { CreateAgreementResponse } from "../../common/types/responseSchemas";
 
 export default defineAction({
-  name: "Create Template",
+  name: "Copy Contract",
   description:
-    "Create a Template [See the documentation](https://api.doc.concordnow.com/#tag/Agreement/operation/AgreementCreate)",
-  key: "concord-create-template",
+    "Create a Contract from another Contract [See the documentation](https://api.doc.concordnow.com/#tag/Agreement/operation/AgreementCreate)",
+  key: "concord-copy-contract",
   version: "0.0.1",
   type: "action",
   props: {
@@ -22,6 +22,15 @@ export default defineAction({
       propDefinition: [
         app,
         "folderId",
+        ({ organizationId }: { organizationId: number; }) => ({
+          organizationId,
+        }),
+      ],
+    },
+    contractUid: {
+      propDefinition: [
+        app,
+        "contractUid",
         ({ organizationId }: { organizationId: number; }) => ({
           organizationId,
         }),
@@ -50,26 +59,30 @@ export default defineAction({
     const {
       organizationId,
       folderId,
+      contractUid,
       title,
       description,
       tags,
     } = this;
 
-    const params: CreateTemplateParams = {
+    const params: CreateAgreementParams = {
       $,
       organizationId,
       data: {
         organizationId,
         folderId,
+        source: {
+          uid: contractUid,
+        },
         title,
         description,
         tags,
-        status: "TEMPLATE"
+        status: "CONTRACT"
       },
     };
 
     const response: CreateAgreementResponse = await this.app.createAgreement(params);
-    $.export("$summary", `Successfully created template (ID: ${response.uid})`);
+    $.export("$summary", `Successfully created contract (ID: ${response.uid})`);
     return response;
   },
 });

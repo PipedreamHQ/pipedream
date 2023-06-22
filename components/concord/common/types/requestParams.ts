@@ -14,7 +14,7 @@ export interface HttpRequestParams extends PdAxiosRequest {
   params?: object;
 }
 
-interface OrganizationId {
+export interface OrganizationId {
   organizationId: Organization["id"];
 }
 

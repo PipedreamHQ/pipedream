@@ -18,10 +18,19 @@ export default defineAction({
         "organizationId",
       ],
     },
-    templateId: {
+    folderId: {
       propDefinition: [
         app,
-        "templateId",
+        "folderId",
+        ({ organizationId }: { organizationId: number; }) => ({
+          organizationId,
+        }),
+      ],
+    },
+    templateUid: {
+      propDefinition: [
+        app,
+        "templateUid",
         ({ organizationId }: { organizationId: number; }) => ({
           organizationId,
         }),
@@ -32,15 +41,6 @@ export default defineAction({
       label: "Template Parameters",
       description:
         "Key-value map for templating parameters replacement when creating an agreement from a parameterized template.",
-    },
-    folderId: {
-      propDefinition: [
-        app,
-        "folderId",
-        ({ organizationId }: { organizationId: number; }) => ({
-          organizationId,
-        }),
-      ],
     },
     title: {
       propDefinition: [
@@ -65,7 +65,7 @@ export default defineAction({
     const {
       organizationId,
       folderId,
-      templateId,
+      templateUid,
       templatingParameters,
       title,
       description,
@@ -79,7 +79,7 @@ export default defineAction({
         organizationId,
         folderId,
         source: {
-          uid: templateId,
+          uid: templateUid,
           templatingParameters
         },
         title,
