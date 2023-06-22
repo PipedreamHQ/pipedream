@@ -22,6 +22,16 @@ interface AgreementUid {
   agreementUid: Agreement["uuid"];
 }
 
+export interface CreateTemplateParams extends PdAxiosRequest, OrganizationId {
+  data: OrganizationId & {
+    folderId?: Folder["id"];
+    title: string;
+    status: "TEMPLATE";
+    description?: string;
+    tags?: string[];
+  };
+}
+
 export interface CreateAgreementParams extends PdAxiosRequest, OrganizationId {
   data: OrganizationId & {
     folderId?: Folder["id"];
