@@ -1,54 +1,75 @@
-import common from "../common/common.mjs";
-import { ERROR_MESSAGE } from "../../common/errorMessage";
-import { ConfigurationError } from "@pipedream/platform";
+import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
+import { defineAction } from "@pipedream/types";
+import {
+  getMultiItemSummary,
+  getUserId,
+  getTweetFields,
+} from "../../common/methods";
+import { GetUserLikedTweetParams } from "../../common/types/requestParams";
+import {
+  PaginatedResponseObject,
+  Tweet,
+} from "../../common/types/responseSchemas";
 
-export default {
-  ...common,
-  key: "facebook_groups-create-post",
-  name: "Create Post",
-  description: "Create a new post in a group. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/v17.0/group/feed)",
-  version: "0.0.3",
+export const DOCS_LINK =
+  "https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/get-users-id-liked_tweets";
+const MIN_RESULTS = 10;
+const DEFAULT_RESULTS = 100;
+export const MAX_RESULTS_PER_PAGE = 100;
+
+export default defineAction({
+  key: "twitter-list-favorites",
+  name: "List Liked Tweets",
+  description: `Return the most recent tweets liked by you or the specified user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.3",
   type: "action",
   props: {
-    ...common.props,
-    message: {
-      type: "string",
-      label: "Message",
-      description: "The main body of the post, otherwise called the status message. Either `link` or `message` must be supplied.",
-      optional: true,
+    app,
+    userNameOrId: {
+      propDefinition: [
+        app,
+        "userNameOrId",
+      ],
     },
-    link: {
-      type: "string",
-      label: "Link",
-      description: "The URL of a link to attach to the post. Either link or message must be supplied.",
-      optional: true,
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+      min: MIN_RESULTS,
+      description: `Maximum amount of items to return. Each request can return up to ${MAX_RESULTS_PER_PAGE} items.`,
+      default: DEFAULT_RESULTS,
     },
   },
-  async run({ $ }) {
+  methods: {
+    getMultiItemSummary,
+    getUserId,
+    getTweetFields,
+  },
+  async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
     try {
-      if (!this.message && !this.link) {
-        throw new ConfigurationError("Either `link` or `message` must be supplied");
-      }
+      const userId = await this.getUserId();
 
-      const response = await this.facebookGroups.createPost({
-        groupId: this.group,
-        data: {
-          message: this.message,
-          link: this.link,
-        },
+      const params: GetUserLikedTweetParams = {
         $,
-      });
+        maxPerPage: MAX_RESULTS_PER_PAGE,
+        maxResults: this.maxResults,
+        params: this.getTweetFields(),
+        userId,
+      };
 
-      if (!response) {
-        throw new ConfigurationError("Post creation was unsuccessful");
-      }
+      const response = await this.app.getUserLikedTweets(params);
 
-      $.export("$summary", `Successfully created new post with ID ${response.id}.`);
+      $.export(
+        "$summary",
+        this.getMultiItemSummary("liked tweet", response.data?.length),
+      );
 
       return response;
     } catch (err) {
       $.export("error", err);
-      throw new Error(ERROR_MESSAGE);
+      throw new Error(ACTION_ERROR_MESSAGE);
     }
   },
-};
+});
