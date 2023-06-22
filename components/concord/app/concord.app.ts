@@ -73,6 +73,24 @@ export default defineApp({
       description: "Agreement status",
       options: AGREEMENT_STATUS_OPTIONS,
     },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Agreement title",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Agreement description",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Agreement tags",
+      optional: true,
+    },
   },
   methods: {
     _getHeaders(): Record<string, string> {

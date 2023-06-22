@@ -25,10 +25,24 @@ interface AgreementUid {
 export interface CreateTemplateParams extends PdAxiosRequest, OrganizationId {
   data: OrganizationId & {
     folderId?: Folder["id"];
-    title: string;
+    title?: string;
     status: "TEMPLATE";
     description?: string;
     tags?: string[];
+  };
+}
+
+export interface CreateDraftFromTemplateParams extends PdAxiosRequest, OrganizationId {
+  data: OrganizationId & {
+    folderId?: Folder["id"];
+    title?: string;
+    description?: string;
+    tags?: string[];
+    status: "DRAFT";
+    source: {
+      uid: Agreement["uuid"];
+      templatingParameters?: object;
+    }
   };
 }
 
