@@ -99,7 +99,7 @@ export default defineApp({
           organizationId,
           search: query,
           statuses: AGREEMENT_LIST_STATUSES.filter((s) => s.includes("CONTRACT")),
-        });
+        }, true);
       },
     },
     title: {
