@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/facebook_groups",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Facebook Groups Components",
   "main": "facebook_groups.app.mjs",
   "keywords": [
