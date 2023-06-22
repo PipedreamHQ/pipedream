@@ -10,7 +10,7 @@ export default {
     group: {
       type: "string",
       label: "Group",
-      description: "Identifier of a group",
+      description: "Identifier of a group. The Pipedream app must be installed in the Facebook group in order to make any API calls or receive data.",
       async options() {
         const userId = await this.getUserId();
         const opts = {

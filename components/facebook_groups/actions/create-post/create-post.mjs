@@ -1,5 +1,6 @@
 import common from "../common/common.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { ERROR_MESSAGE } from "../common/errorMessage.mjs";
 
 export default {
   ...common,
@@ -24,23 +25,30 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.message && !this.link) {
-      throw new ConfigurationError("Either `link` or `message` must be supplied");
-    }
+    try {
+      if (!this.message && !this.link) {
+        throw new ConfigurationError("Either `link` or `message` must be supplied");
+      }
 
-    const response = await this.facebookGroups.createPost({
-      groupId: this.group,
-      data: {
-        message: this.message,
-        link: this.link,
-      },
-      $,
-    });
+      const response = await this.facebookGroups.createPost({
+        groupId: this.group,
+        data: {
+          message: this.message,
+          link: this.link,
+        },
+        $,
+      });
 
-    if (response) {
+      if (!response) {
+        throw new ConfigurationError("Post creation was unsuccessful");
+      }
+
       $.export("$summary", `Successfully created new post with ID ${response.id}.`);
-    }
 
-    return response;
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw new Error(ERROR_MESSAGE);
+    }
   },
 };

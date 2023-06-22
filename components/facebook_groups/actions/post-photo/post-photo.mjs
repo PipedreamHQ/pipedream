@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import { ERROR_MESSAGE } from "../common/errorMessage.mjs";
 
 export default {
   ...common,
@@ -16,18 +17,23 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.facebookGroups.postPhoto({
-      groupId: this.group,
-      data: {
-        url: this.url,
-      },
-      $,
-    });
+    try {
+      const response = await this.facebookGroups.postPhoto({
+        groupId: this.group,
+        data: {
+          url: this.url,
+        },
+        $,
+      });
 
-    if (response) {
-      $.export("$summary", `Successfully posted photo with ID ${response.id}.`);
+      if (response) {
+        $.export("$summary", `Successfully posted photo with ID ${response.id}.`);
+      }
+
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw new Error(ERROR_MESSAGE);
     }
-
-    return response;
   },
 };
