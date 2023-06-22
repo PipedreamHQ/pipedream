@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/uipath_automation_hub",
+  "version": "0.0.1",
+  "description": "Pipedream UiPath Automation Hub Components",
+  "main": "dist/app/uipath_automation_hub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "uipath_automation_hub"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/uipath_automation_hub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
