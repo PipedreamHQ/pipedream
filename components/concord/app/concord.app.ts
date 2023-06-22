@@ -10,12 +10,14 @@ import {
   ListAgreementParams,
   PatchAgreementParams,
 } from "../common/types/requestParams";
+import { AGREEMENT_LIST_STATUSES } from "../common/constants";
 import {
-  AGREEMENT_LIST_STATUSES,
-  AGREEMENT_STATUS_OPTIONS,
-} from "../common/constants";
-import { Agreement, Folder } from "../common/types/entities";
-import { AsyncOptionsOrgId, FolderOption } from "../common/types/misc";
+  Agreement, Folder,
+} from "../common/types/entities";
+import {
+  AgreementOption,
+  AsyncOptionsOrgId, FolderOption,
+} from "../common/types/misc";
 
 export default defineApp({
   type: "app",
@@ -29,7 +31,9 @@ export default defineApp({
       async options() {
         const response: ListOrganizationsResponse =
           await this.getAllUserOrganizations();
-        return response?.organizations?.map(({ id, name }) => ({
+        return response?.organizations?.map(({
+          id, name,
+        }) => ({
           label: name,
           value: id,
         }));
@@ -41,7 +45,7 @@ export default defineApp({
       description:
         "Select a **Folder** from the list, or provide a custom *Folder ID*. [See the documentation if needed.](https://api.doc.concordnow.com/#tag/Folders/operation/ListFolders)",
       optional: true,
-      async options({ organizationId }: { organizationId: number }): Promise<FolderOption[]> {
+      async options({ organizationId }: { organizationId: number; }): Promise<FolderOption[]> {
         return this.listFolders(organizationId);
       },
     },
@@ -54,10 +58,10 @@ export default defineApp({
       async options({
         organizationId,
         query,
-      }: AsyncOptionsOrgId) {
+      }: AsyncOptionsOrgId): Promise<AgreementOption[]> {
         return this.getAgreementOptions({
           organizationId,
-          search: query
+          search: query,
         }, true);
       },
     },
@@ -70,11 +74,14 @@ export default defineApp({
       async options({
         organizationId,
         query,
-      }: AsyncOptionsOrgId) {
+      }: AsyncOptionsOrgId): Promise<AgreementOption[]> {
         return this.getAgreementOptions({
           organizationId,
           search: query,
-          statuses: ["TEMPLATE", "TEMPLATE_AUTO"]
+          statuses: [
+            "TEMPLATE",
+            "TEMPLATE_AUTO",
+          ],
         });
       },
     },
@@ -87,11 +94,11 @@ export default defineApp({
       async options({
         organizationId,
         query,
-      }: AsyncOptionsOrgId) {
+      }: AsyncOptionsOrgId): Promise<AgreementOption[]> {
         return this.getAgreementOptions({
           organizationId,
           search: query,
-          statuses: AGREEMENT_LIST_STATUSES.filter(s => s.includes("CONTRACT"))
+          statuses: AGREEMENT_LIST_STATUSES.filter((s) => s.includes("CONTRACT")),
         });
       },
     },
@@ -136,9 +143,14 @@ export default defineApp({
       });
     },
     unwrapChildFolders(folder: Folder, parentName = ""): FolderOption[] {
-      const { id, name = "", children } = folder;
+      const {
+        id, name = "", children,
+      } = folder;
       const fullName = `${parentName}/${name}`;
-      const obj: FolderOption = { label: fullName.replace(/\/{2,}/g, '/'), value: id };
+      const obj: FolderOption = {
+        label: fullName.replace(/\/{2,}/g, "/"),
+        value: id,
+      };
 
       return [
         obj,
@@ -149,16 +161,24 @@ export default defineApp({
       const rootFolder = await this._httpRequest({
         url: `/organizations/${organizationId}/folders`,
       });
-      return rootFolder ? this.unwrapChildFolders(rootFolder) : [];
+      return rootFolder
+        ? this.unwrapChildFolders(rootFolder)
+        : [];
     },
-    async getAgreementOptions({ organizationId, search, statuses = AGREEMENT_LIST_STATUSES }: ListAgreementParams, showStatus = false) {
+    async getAgreementOptions({
+      organizationId, search, statuses = AGREEMENT_LIST_STATUSES,
+    }: ListAgreementParams, showStatus = false): Promise<AgreementOption[]> {
       const items: Agreement[] = await this.listAgreements({
         organizationId,
         search,
-        statuses
+        statuses,
       });
-      return items?.map(({ title, status, uuid }) => ({
-        label: showStatus ? `${title} (Status: ${status})` : title,
+      return items?.map(({
+        title, status, uuid,
+      }) => ({
+        label: showStatus
+          ? `${title} (Status: ${status})`
+          : title,
         value: uuid,
       }));
     },

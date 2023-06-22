@@ -16,7 +16,7 @@ export default defineSource({
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL as number,
       },
     },
     organizationId: {

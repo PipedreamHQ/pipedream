@@ -77,7 +77,7 @@ export default defineAction({
         title,
         description,
         tags,
-        status: "CONTRACT"
+        status: "CONTRACT",
       },
     };
 

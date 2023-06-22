@@ -42,7 +42,7 @@ export interface CreateDraftFromTemplateParams extends PdAxiosRequest, Organizat
     source: {
       uid: Agreement["uuid"];
       templatingParameters?: object;
-    }
+    };
   };
 }
 

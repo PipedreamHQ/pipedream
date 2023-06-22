@@ -80,7 +80,7 @@ export default defineAction({
         folderId,
         source: {
           uid: templateUid,
-          templatingParameters
+          templatingParameters,
         },
         title,
         description,

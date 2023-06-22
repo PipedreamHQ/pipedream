@@ -1,6 +1,6 @@
 import {
   Agreement,
-  Folder, Organization,
+  Organization,
 } from "./entities";
 
 export interface ListOrganizationsResponse {
