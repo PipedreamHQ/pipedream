@@ -72,4 +72,4 @@ export default defineAction({
       throw new Error(ACTION_ERROR_MESSAGE);
     }
   },
-}); 
+});
