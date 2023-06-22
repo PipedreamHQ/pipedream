@@ -6,7 +6,7 @@
 
 When you sign up for Pipedream, an API key is automatically generated for your account. You can use this key to authorize requests to the API. 
 
-You'll find this API key in your [Account Settings](https://pipedream.com/settings/account) (**Settings** -> **Account**).
+You'll find this API key in your [User Settings](https://pipedream.com/user) (**My Account** -> **API Key**).
 
 ## Authorizing API requests
 
