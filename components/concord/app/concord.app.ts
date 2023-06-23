@@ -185,7 +185,7 @@ export default defineApp({
     async listAgreements({
       organizationId,
       search,
-      statuses,
+      statuses = AGREEMENT_LIST_STATUSES,
     }: ListAgreementParams) {
       const response: ListAgreementsResponse = await this._httpRequest({
         url: `/user/me/organizations/${organizationId}/agreements`,
