@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -13,11 +14,7 @@ export default {
       type: "string",
       label: "Media Type",
       description: "The type of media to post",
-      options: [
-        "image",
-        "video",
-        "reel",
-      ],
+      options: constants.MEDIA_TYPE_OPTIONS,
     },
     url: {
       type: "string",
@@ -31,15 +28,14 @@ export default {
       $,
     });
 
-    const data = {};
-    if (this.mediaType === "image") {
+    const data = {
+      media_type: this.mediaType,
+    };
+    if (this.mediaType === "IMAGE") {
       data.image_url = this.url;
     }
-    if (this.mediaType === "video" || this.mediaType === "reel") {
+    if (this.mediaType === "VIDEO" || this.mediaType === "REELS") {
       data.video_url = this.url;
-    }
-    if (this.mediaType === "reel") {
-      data.media_type = "REEL";
     }
 
     const { id } = await this.instagram.createContainer({

@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -9,6 +10,14 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Fields to return in the response",
+      options: constants.MEDIA_FIELDS_OPTIONS,
+      optional: true,
+      default: constants.MEDIA_FIELDS_OPTIONS,
+    },
     maxResults: {
       propDefinition: [
         common.props.instagram,
@@ -27,7 +36,7 @@ export default {
       args: {
         accountId,
         params: {
-          fields: "comments_count, id, like_count, media_type, media_product_type, media_url, owner, permalink, timestamp, username",
+          fields: this.fields.join(","),
         },
         $,
       },

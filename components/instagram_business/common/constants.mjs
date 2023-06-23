@@ -84,8 +84,53 @@ const MEDIA_INSIGHT_METRICS = {
   ],
 };
 
+const MEDIA_TYPE_OPTIONS = [
+  {
+    label: "image",
+    value: "IMAGE",
+  },
+  {
+    label: "video",
+    value: "VIDEO",
+  },
+  {
+    label: "reel",
+    value: "REELS",
+  },
+];
+
+const MEDIA_FIELDS_OPTIONS = [
+  "comments_count",
+  "id",
+  "like_count",
+  "media_type",
+  "media_product_type",
+  "media_url",
+  "owner",
+  "permalink",
+  "timestamp",
+  "username",
+];
+
+const COMMENT_FIELDS_OPTIONS = [
+  "from",
+  "hidden",
+  "id",
+  "like_count",
+  "media",
+  "parent_id",
+  "replies",
+  "text",
+  "timestamp",
+  "user",
+  "username",
+];
+
 export default {
   USER_INSIGHT_METRICS,
   USER_INSIGHT_PERIODS,
   MEDIA_INSIGHT_METRICS,
+  MEDIA_TYPE_OPTIONS,
+  MEDIA_FIELDS_OPTIONS,
+  COMMENT_FIELDS_OPTIONS,
 };
