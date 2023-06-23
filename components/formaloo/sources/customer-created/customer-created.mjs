@@ -6,7 +6,7 @@ export default {
   key: "formaloo-customer-created",
   name: "New Customer Created",
   version: "0.0.1",
-  description: "Emit new event when a nwe customer is created.",
+  description: "Emit new event when a new customer is created.",
   type: "source",
   dedupe: "unique",
   props: {
