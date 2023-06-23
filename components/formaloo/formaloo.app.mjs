@@ -9,8 +9,12 @@ export default {
       label: "City",
       description: "Customer's city slug",
       async options({
-        page, stateSlug,
+        page, prevContext, stateSlug,
       }) {
+        if (page && !prevContext.next) {
+          return [];
+        }
+
         const { data } = await this.listCities({
           params: {
             state: stateSlug,
@@ -18,50 +22,76 @@ export default {
           },
         });
 
-        return data?.cities.map(({
-          slug: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return {
+          options: data?.cities.map(({
+            slug: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            next: data?.next,
+          },
+        };
       },
     },
     countrySlug: {
       type: "string",
       label: "Country",
       description: "Customer's country slug",
-      async options({ page }) {
+      async options({
+        page, prevContext,
+      }) {
+        if (page && !prevContext.next) {
+          return [];
+        }
         const { data } = await this.listCountries({
           params: {
             page: page + 1,
           },
         });
 
-        return data?.countries.map(({
-          slug: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return {
+          options: data?.countries.map(({
+            slug: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            next: data?.next,
+          },
+        };
       },
     },
     customerId: {
       type: "string",
       label: "Customer Code",
       description: "Customer's code",
-      async options({ page }) {
+      async options({
+        page, prevContext,
+      }) {
+        if (page && !prevContext.next) {
+          return [];
+        }
+
         const { data } = await this.listCustomers({
           params: {
             page: page + 1,
           },
         });
 
-        return data?.customers.map(({
-          code: value, email: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return {
+          options: data?.customers.map(({
+            code: value, email: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            next: data?.next,
+          },
+        };
       },
     },
     customerData: {
@@ -129,8 +159,12 @@ export default {
       label: "State",
       description: "Customer's state slug",
       async options({
-        page, countrySlug,
+        page, prevContext, countrySlug,
       }) {
+        if (page && !prevContext.next) {
+          return [];
+        }
+
         const { data } = await this.listStates({
           countrySlug,
           params: {
@@ -138,12 +172,17 @@ export default {
           },
         });
 
-        return data?.states.map(({
-          slug: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return {
+          options: data?.states.map(({
+            slug: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            next: data?.next,
+          },
+        };
       },
     },
     username: {
