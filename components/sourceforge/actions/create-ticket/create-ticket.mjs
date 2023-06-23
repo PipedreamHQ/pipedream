@@ -40,7 +40,6 @@ export default {
     },
   },
   async run({ $ }) {
-
     const response = await this.sourceforge.createTicket({
       project: this.project,
       params: {
