@@ -4385,7 +4385,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sourceforge:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/splitwise:
     specifiers:
