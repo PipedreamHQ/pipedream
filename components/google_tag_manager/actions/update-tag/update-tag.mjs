@@ -4,7 +4,7 @@ export default {
   name: "Update Tag",
   version: "0.0.1",
   key: "google_tag_manager-update-tag",
-  description: "Update a tag in a workspace. [See documentation here](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/update)",
+  description: "Update a tag in a workspace. [See the documentation](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/update)",
   type: "action",
   props: {
     app,

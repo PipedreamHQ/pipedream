@@ -4,7 +4,7 @@ export default {
   name: "Get Tags",
   version: "0.0.1",
   key: "google_tag_manager-get-tags",
-  description: "Get all tags of an workspace. [See documentation here](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/list)",
+  description: "Get all tags of an workspace. [See the documentation](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/list)",
   type: "action",
   props: {
     app,
