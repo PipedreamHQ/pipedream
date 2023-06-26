@@ -2135,6 +2135,9 @@
     },
     {
       "path": "components/funnelcockpit"
+    },
+    {
+      "path": "components/pendo"
     }
   ]
 }
