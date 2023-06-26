@@ -5,23 +5,87 @@ export default {
   type: "app",
   app: "livestorm",
   propDefinitions: {
-    ownerId: {
+    userId: {
       type: "string",
-      label: "Owner ID",
-      description: "The ID of the user who owns the event.",
-      async options({ page }) {
+      label: "User ID",
+      description: "The ID of the user.",
+      async options({
+        page, mapper = ({
+          id: value, attributes: { email: label },
+        }) => ({
+          label,
+          value,
+        }),
+      }) {
         const { data } = await this.listPeople({
           params: {
-            "page[number]": page,
+            ["page[number]"]: page,
+          },
+        });
+        return data.map(mapper);
+      },
+    },
+    eventId: {
+      type: "string",
+      label: "Event ID",
+      description: "The ID of the event.",
+      async options({ page }) {
+        const { data } = await this.listEvents({
+          params: {
+            ["page[number]"]: page,
           },
         });
         return data.map(({
-          id: value, attributes: { email: label },
+          id: value, attributes: { title: label },
         }) => ({
           label,
           value,
         }));
       },
+    },
+    sessionId: {
+      type: "string",
+      label: "Session ID",
+      description: "The ID of the session.",
+      async options({ page }) {
+        const { data } = await this.listSessions({
+          params: {
+            ["page[number]"]: page,
+          },
+        });
+        return data.map(({ id }) => id);
+      },
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the event.",
+    },
+    slug: {
+      type: "string",
+      label: "Slug",
+      description: "The slug of the event.",
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "The status of the event.",
+      options: Object.values(constants.EVENT_STATUS),
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "The [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) description of your event. Example: `<h1>My event description</h1>`",
+    },
+    recordingEnabled: {
+      type: "boolean",
+      label: "Recording Enabled",
+      description: "Whether or not the event is recorded.",
+    },
+    chatEnabled: {
+      type: "boolean",
+      label: "Chat Enabled",
+      description: "Whether or not the chat is enabled.",
     },
   },
   methods: {
@@ -33,7 +97,8 @@ export default {
     },
     getHeaders(headers) {
       return {
-        "Content-Type": "application/json",
+        "accept": "application/vnd.api+json",
+        "content-type": "application/vnd.api+json",
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         ...headers,
       };
@@ -80,26 +145,54 @@ export default {
         ...args,
       });
     },
+    listEvents(args = {}) {
+      return this.makeRequest({
+        path: "/events",
+        ...args,
+      });
+    },
+    listSessions(args = {}) {
+      return this.makeRequest({
+        path: "/sessions",
+        ...args,
+      });
+    },
+    getSession({
+      sessionId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/sessions/${sessionId}`,
+        ...args,
+      });
+    },
+    getEvent({
+      eventId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/events/${eventId}`,
+        ...args,
+      });
+    },
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,
-      resourceName,
       max = constants.DEFAULT_MAX,
     }) {
-      let page = 1;
+      let page = 0;
       let resourcesCount = 0;
 
       while (true) {
-        const response =
+        const {
+          meta,
+          data: nextResources,
+        } =
           await resourceFn({
             ...resourceFnArgs,
             params: {
               ...resourceFnArgs.params,
-              page,
+              ["page[number]"]: page,
             },
           });
-
-        const nextResources = resourceName && response[resourceName] || response;
 
         if (!nextResources?.length) {
           console.log("No more resources found");
@@ -113,6 +206,11 @@ export default {
           if (resourcesCount >= max) {
             return;
           }
+        }
+
+        if (!meta?.next_page) {
+          console.log("No more pages found");
+          return;
         }
 
         page += 1;

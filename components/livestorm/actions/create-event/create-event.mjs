@@ -3,21 +3,59 @@ import app from "../../livestorm.app.mjs";
 export default {
   key: "livestorm-create-event",
   name: "Create Event",
-  description: "Create a new event or duplicate an existing one. [See the Documentation](https://developers.livestorm.co/reference/post_events)",
+  description: "Create a new event. [See the Documentation](https://developers.livestorm.co/reference/post_events)",
   type: "action",
   version: "0.0.1",
   props: {
     app,
     ownerId: {
+      label: "Owner ID",
+      description: "The ID of the user who owns the event.",
       propDefinition: [
         app,
-        "ownerId",
+        "userId",
       ],
     },
     title: {
-      type: "string",
-      label: "Title",
-      description: "The title of the event.",
+      propDefinition: [
+        app,
+        "title",
+      ],
+    },
+    slug: {
+      optional: true,
+      propDefinition: [
+        app,
+        "slug",
+      ],
+    },
+    status: {
+      optional: true,
+      propDefinition: [
+        app,
+        "status",
+      ],
+    },
+    description: {
+      optional: true,
+      propDefinition: [
+        app,
+        "description",
+      ],
+    },
+    recordingEnabled: {
+      optional: true,
+      propDefinition: [
+        app,
+        "recordingEnabled",
+      ],
+    },
+    chatEnabled: {
+      optional: true,
+      propDefinition: [
+        app,
+        "chatEnabled",
+      ],
     },
   },
   methods: {
@@ -32,26 +70,27 @@ export default {
     const {
       ownerId,
       title,
+      slug,
+      status,
+      description,
+      recordingEnabled,
+      chatEnabled,
     } = this;
 
     const response = await this.createEvent({
       step,
       data: {
-        type: "events",
-        attributes: {
-          owner_id: ownerId,
-          title,
-        },
-        relationships: {
-          sessions: [
-            {
-              type: "sessions",
-              attributes: {
-                estimated_started_at: Math.floor(Date.now() / 1000),
-                timezone: "UTC",
-              },
-            },
-          ],
+        data: {
+          type: "events",
+          attributes: {
+            title,
+            owner_id: ownerId,
+            slug,
+            status,
+            description,
+            recording_enabled: recordingEnabled,
+            chat_enabled: chatEnabled,
+          },
         },
       },
     });

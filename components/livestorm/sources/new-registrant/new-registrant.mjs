@@ -12,13 +12,14 @@ export default {
   methods: {
     ...common.methods,
     getEventName() {
-      return events.DEFAULT;
+      return events.PEOPLE_REGISTERED;
     },
-    generateMeta(resource) {
+    generateMeta(body) {
+      const { data: resource } = body;
       return {
         id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        summary: `New Registrant: ${resource.id}`,
+        ts: resource?.attributes?.created_at,
       };
     },
   },

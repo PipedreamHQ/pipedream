@@ -12,13 +12,14 @@ export default {
   methods: {
     ...common.methods,
     getEventName() {
-      return events.DEFAULT;
+      return events.PEOPLE_NOT_ATTENDED;
     },
-    generateMeta(resource) {
+    generateMeta(body) {
+      const { data: resource } = body;
       return {
         id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        summary: `Registrant Did Not Attend: ${resource.id}`,
+        ts: resource.attributes.updated_at,
       };
     },
   },

@@ -1282,6 +1282,9 @@ importers:
   components/elastic_email:
     specifiers: {}
 
+  components/elevenlabs:
+    specifiers: {}
+
   components/elmah_io:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2502,7 +2505,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/livestorm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/lob:
     specifiers:
@@ -2893,6 +2899,9 @@ importers:
       dayjs: 1.11.7
     devDependencies:
       '@pipedream/types': 0.1.6
+
+  components/nango:
+    specifiers: {}
 
   components/nano_nets:
     specifiers: {}

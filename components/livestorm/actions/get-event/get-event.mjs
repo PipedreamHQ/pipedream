@@ -8,6 +8,20 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    eventId: {
+      propDefinition: [
+        app,
+        "eventId",
+      ],
+    },
   },
-  async run() {},
+  async run({ $: step }) {
+    const response = await this.app.getEvent({
+      eventId: this.eventId,
+    });
+
+    step.export("$summary", `Successfully retrieved event with ID ${response.data.id}.`);
+
+    return response;
+  },
 };

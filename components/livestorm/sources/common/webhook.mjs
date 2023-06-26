@@ -12,17 +12,21 @@ export default {
     },
   },
   hooks: {
-    async deploy() {},
     async activate() {
       const response =
         await this.createWebhook({
           data: {
-            url: this.http.endpoint,
-            event: this.getEventName(),
+            data: {
+              type: "webhooks",
+              attributes: {
+                url: this.http.endpoint,
+                event: this.getEventName(),
+              },
+            },
           },
         });
 
-      this.setWebhookId(response.id);
+      this.setWebhookId(response.data.id);
     },
     async deactivate() {
       const webhookId = this.getWebhookId();
@@ -60,6 +64,10 @@ export default {
     },
   },
   async run({ body }) {
+    this.http.respond({
+      status: 200,
+    });
+
     this.$emit(body, this.generateMeta(body));
   },
 };
