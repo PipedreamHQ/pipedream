@@ -2138,6 +2138,9 @@
     },
     {
       "path": "components/pendo"
+    },
+    {
+      "path": "components/elevenlabs"
     }
   ]
 }
