@@ -2120,6 +2120,24 @@
     },
     {
       "path": "components/facebook_lead_ads"
+    },
+    {
+      "path": "components/google_ads"
+    },
+    {
+      "path": "components/credit_repair_cloud"
+    },
+    {
+      "path": "components/outseta"
+    },
+    {
+      "path": "components/uipath_automation_hub"
+    },
+    {
+      "path": "components/funnelcockpit"
+    },
+    {
+      "path": "components/pendo"
     }
   ]
 }
