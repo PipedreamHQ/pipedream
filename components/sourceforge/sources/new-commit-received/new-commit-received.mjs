@@ -3,7 +3,7 @@ import sourceforge from "../../sourceforge.app.mjs";
 export default {
   key: "sourceforge-new-commit-received",
   name: "New Commit Received (Instant)",
-  description: "Emit new event when a repository receives anew commit.",
+  description: "Emit new event when a repository receives a new commit.",
   version: "0.0.1",
   type: "source",
   props: {
