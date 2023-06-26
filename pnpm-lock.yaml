@@ -3302,6 +3302,9 @@ importers:
   components/pdfmonkey:
     specifiers: {}
 
+  components/pendo:
+    specifiers: {}
+
   components/perry_github_test:
     specifiers: {}
 
