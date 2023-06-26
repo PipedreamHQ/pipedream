@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "google_tag_manager",
+  app: "pendo",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
