@@ -886,7 +886,12 @@ importers:
       uuid: 9.0.0
 
   components/concord:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      '@pipedream/types': 0.1.6
 
   components/confection:
     specifiers:
@@ -930,6 +935,9 @@ importers:
     specifiers: {}
 
   components/craftmypdf:
+    specifiers: {}
+
+  components/credit_repair_cloud:
     specifiers: {}
 
   components/crimeometer:
@@ -1592,6 +1600,9 @@ importers:
       '@pipedream/platform': 1.5.1
       crypto-js: 4.1.1
 
+  components/funnelcockpit:
+    specifiers: {}
+
   components/gatekeeper:
     specifiers: {}
 
@@ -1904,7 +1915,10 @@ importers:
       uuid: 8.3.2
 
   components/google_tag_manager:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_tasks:
     specifiers:
@@ -3173,6 +3187,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/outseta:
+    specifiers: {}
 
   components/overloop:
     specifiers:
@@ -4968,6 +4985,9 @@ importers:
     specifiers: {}
 
   components/uchat:
+    specifiers: {}
+
+  components/uipath_automation_hub:
     specifiers: {}
 
   components/uk_gov_vehecle_enquiry_api:

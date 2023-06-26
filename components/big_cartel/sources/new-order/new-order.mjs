@@ -1,10 +1,12 @@
 import common from "../common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "big_cartel-new-order",
   name: "New Order Event",
   description: "Emit new events when a new order is created. [See the docs here](https://developers.bigcartel.com/api/v1#get-all-orders)",
-  version: "0.0.2",
+  version: "0.0.3",
+
   type: "source",
   dedupe: "unique",
   ...common,
@@ -26,4 +28,5 @@ export default {
       return item?.attributes?.created_at;
     },
   },
+  sampleEmit,
 };
