@@ -1282,6 +1282,9 @@ importers:
   components/elastic_email:
     specifiers: {}
 
+  components/elevenlabs:
+    specifiers: {}
+
   components/elmah_io:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4010,7 +4013,10 @@ importers:
     specifiers: {}
 
   components/sellercloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/sellix:
     specifiers: {}
