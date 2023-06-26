@@ -62,9 +62,9 @@ export default {
       params: {
         "ticket_form.summary": this.summary || ticket.summary,
         "ticket_form.description": this.description || ticket.description,
-        "ticket_form.labels": this.labels || (ticket.labels?.length
-          ? ticket.labels.join(",")
-          : undefined),
+        "ticket_form.labels": this.labels?.length
+          ? this.labels.join(",")
+          : undefined,
         "ticket_form.assigned_to": this.assignee,
       },
       $,
