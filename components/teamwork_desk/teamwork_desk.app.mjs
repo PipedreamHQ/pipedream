@@ -325,7 +325,7 @@ export default {
   },
   methods: {
     _apiUrl(version) {
-      return `${this.$auth.domain}desk/${version}`;
+      return `${this.$auth.domain.replace(/\/?$/, "/")}desk/${version}`;
     },
     _getHeaders() {
       return {

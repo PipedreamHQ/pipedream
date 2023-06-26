@@ -118,7 +118,7 @@ export default {
         status: {
           id: statusId,
         },
-        tags: tagIds.length && tagIds.map((tag) => ({
+        tags: tagIds && tagIds.map((tag) => ({
           id: tag,
         })),
         type: {
