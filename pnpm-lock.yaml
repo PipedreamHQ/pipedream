@@ -3297,6 +3297,9 @@ importers:
   components/pdfmonkey:
     specifiers: {}
 
+  components/pendo:
+    specifiers: {}
+
   components/perry_github_test:
     specifiers: {}
 
@@ -4390,7 +4393,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sourceforge:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/splitwise:
     specifiers:
