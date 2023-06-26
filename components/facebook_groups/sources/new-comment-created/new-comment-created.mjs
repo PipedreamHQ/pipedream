@@ -5,7 +5,7 @@ export default {
   key: "facebook_groups-new-comment-created",
   name: "New Comment Created",
   description: "Emit new event when a new comment is created on a group post",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
