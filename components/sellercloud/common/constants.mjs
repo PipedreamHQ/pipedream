@@ -1,3 +1,5 @@
+const DEFAULT_PAGE_SIZE = 50;
+
 const ORDER_STATUS_OPTIONS = [
   {
     label: "Canceled",
@@ -33,6 +35,19 @@ const ORDER_STATUS_OPTIONS = [
   },
 ];
 
+const ADJUSTMENT_TYPE_OPTIONS = [
+  {
+    label: "Add",
+    value: 1,
+  },
+  {
+    label: "Subtract",
+    value: 0,
+  },
+];
+
 export default {
+  DEFAULT_PAGE_SIZE,
   ORDER_STATUS_OPTIONS,
+  ADJUSTMENT_TYPE_OPTIONS,
 };

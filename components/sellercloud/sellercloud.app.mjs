@@ -8,15 +8,38 @@ export default {
     company: {
       type: "string",
       label: "Company",
-      description: "Identifier of an company",
+      description: "Identifier of a company",
       async options({ page }) {
         const { Items: companies } = await this.listCompanies({
           params: {
             pageNumber: page + 1,
+            pageSize: constants.DEFAULT_PAGE_SIZE,
           },
         });
         return companies?.map(({
           ID: id, CompanyName: name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+      },
+    },
+    product: {
+      type: "string",
+      label: "Product",
+      description: "Identifier of a product",
+      async options({
+        viewID, warehouse, page,
+      }) {
+        const { Items: products } = await this.listProductsByView({
+          params: {
+            viewID,
+            pageNumber: page + 1,
+            pageSize: constants.DEFAULT_PAGE_SIZE,
+          },
+        });
+        return products?.filter(({ WarehouseName: name }) => name === warehouse)?.map(({
+          ID: id, ProductName: name,
         }) => ({
           label: name,
           value: id,
@@ -31,6 +54,7 @@ export default {
         const { Items: types } = await this.listProductTypes({
           params: {
             pageNumber: page + 1,
+            pageSize: constants.DEFAULT_PAGE_SIZE,
           },
         });
         return types?.map(({ ProductTypeName: name }) => name ) || [];
@@ -45,6 +69,7 @@ export default {
         const { Items: customers } = await this.listCustomers({
           params: {
             pageNumber: page + 1,
+            pageSize: constants.DEFAULT_PAGE_SIZE,
           },
         });
         return customers?.map(({
@@ -67,6 +92,7 @@ export default {
           params: {
             companyId,
             pageNumber: page + 1,
+            pageSize: constants.DEFAULT_PAGE_SIZE,
           },
         });
         if (!manufacturers?.length) {
@@ -86,10 +112,50 @@ export default {
         const { Items: orders } = await this.listOrders({
           params: {
             pageNumber: page + 1,
+            pageSize: constants.DEFAULT_PAGE_SIZE,
           },
         });
         return orders?.map(({ ID: id }) => ({
           label: `Order #${id}`,
+          value: id,
+        })) || [];
+      },
+    },
+    view: {
+      type: "string",
+      label: "Catalog View",
+      description: "Identifier of a saved catalog view",
+      async options({ page }) {
+        const views = await this.listCatalogViews({
+          params: {
+            pageNumber: page + 1,
+            pageSize: constants.DEFAULT_PAGE_SIZE,
+          },
+        });
+        return views?.map(({
+          ID: id, Name: name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+      },
+    },
+    warehouse: {
+      type: "string",
+      label: "Warehouse",
+      description: "Identifier of a warehouse",
+      withLabel: true,
+      async options({ page }) {
+        const { Items: warehouses } = await this.listWarehouses({
+          params: {
+            pageNumber: page + 1,
+            pageSize: constants.DEFAULT_PAGE_SIZE,
+          },
+        });
+        return warehouses?.map(({
+          ID: id, Name: name,
+        }) => ({
+          label: name,
           value: id,
         })) || [];
       },
@@ -99,6 +165,12 @@ export default {
       label: "Status",
       description: "Order status code",
       options: constants.ORDER_STATUS_OPTIONS,
+    },
+    adjustmentType: {
+      type: "integer",
+      label: "Adjustment Type",
+      description: "The type of adjustment",
+      options: constants.ADJUSTMENT_TYPE_OPTIONS,
     },
   },
   methods: {
@@ -151,6 +223,24 @@ export default {
         ...args,
       });
     },
+    listCatalogViews(args = {}) {
+      return this._makeRequest({
+        path: "/Catalog/Views",
+        ...args,
+      });
+    },
+    listProductsByView(args = {}) {
+      return this._makeRequest({
+        path: "/Catalog/GetAllByView",
+        ...args,
+      });
+    },
+    listWarehouses(args = {}) {
+      return this._makeRequest({
+        path: "/Warehouses",
+        ...args,
+      });
+    },
     createProduct(args = {}) {
       return this._makeRequest({
         path: "/Products",
@@ -160,7 +250,7 @@ export default {
     },
     adjustInventory(args = {}) {
       return this._makeRequest({
-        path: "/inventories",
+        path: "/Inventory/AdjustPhysicalInventory",
         method: "PUT",
         ...args,
       });
