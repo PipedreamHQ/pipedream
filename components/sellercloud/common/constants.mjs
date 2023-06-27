@@ -38,11 +38,11 @@ const ORDER_STATUS_OPTIONS = [
 const ADJUSTMENT_TYPE_OPTIONS = [
   {
     label: "Add",
-    value: 1,
+    value: "1",
   },
   {
     label: "Subtract",
-    value: 0,
+    value: "0",
   },
 ];
 

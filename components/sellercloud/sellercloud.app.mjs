@@ -167,7 +167,7 @@ export default {
       options: constants.ORDER_STATUS_OPTIONS,
     },
     adjustmentType: {
-      type: "integer",
+      type: "string",
       label: "Adjustment Type",
       description: "The type of adjustment",
       options: constants.ADJUSTMENT_TYPE_OPTIONS,
