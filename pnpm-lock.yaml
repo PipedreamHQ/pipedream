@@ -4019,7 +4019,10 @@ importers:
     specifiers: {}
 
   components/sellercloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/sellix:
     specifiers: {}
