@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -149,14 +151,17 @@ export default {
       return page.access_token;
     },
     async getInstagramBusinessAccountId({ pageId }) {
-      const { instagram_business_account: { id } } = await this._makeRequest({
+      const { instagram_business_account: account } = await this._makeRequest({
         path: `/${pageId}`,
         params: {
           fields: "instagram_business_account",
         },
         pageId,
       });
-      return id;
+      if (!account || !account?.id) {
+        throw new ConfigurationError("Could not find Instagram Business Account ID associated with the Page. Learn how to connect your account [here](https://www.facebook.com/business/help/connect-instagram-to-page).");
+      }
+      return account.id;
     },
     getMediaObject({
       mediaId, ...args
