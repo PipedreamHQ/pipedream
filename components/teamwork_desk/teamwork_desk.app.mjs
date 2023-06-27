@@ -438,6 +438,15 @@ export default {
         ...args,
       });
     },
+    updateTicket({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        path: `tickets/${ticketId}.json`,
+        method: "PATCH",
+        ...args,
+      });
+    },
     deleteHook(hookId) {
       return this._makeRequest({
         path: `webhooks/${hookId}.json`,
