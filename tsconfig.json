@@ -2147,6 +2147,9 @@
     },
     {
       "path": "components/facebook_groups"
+    },
+    {
+      "path": "components/nango"
     }
   ]
 }

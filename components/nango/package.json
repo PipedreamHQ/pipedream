@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/nango",
+  "version": "0.0.1",
+  "description": "Pipedream Nango Components",
+  "main": "dist/app/nango.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nango"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/nango",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
