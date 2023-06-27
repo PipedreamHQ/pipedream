@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   key: "sellercloud-inventory-updated",
-  name: "New Inventory Updated",
+  name: "Inventory Updated",
   description: "Emit new event when an item's inventory level changes. [See the documentation](https://developer.sellercloud.com/dev-article/get-all-orders/)",
   version: "0.0.1",
   type: "source",
