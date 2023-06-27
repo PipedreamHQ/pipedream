@@ -2897,6 +2897,9 @@ importers:
     devDependencies:
       '@pipedream/types': 0.1.6
 
+  components/nango:
+    specifiers: {}
+
   components/nano_nets:
     specifiers: {}
 
