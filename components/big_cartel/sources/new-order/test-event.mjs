@@ -1,1 +1,183 @@
-export default  "{\n  \"data\": {\n    \"id\": \"LMFN-543196\",\n    \"type\": \"orders\",\n    \"attributes\": {\n      \"item_count\": 1,\n      \"item_total\": \"100.1\",\n      \"discount_total\": \"10.0\",\n      \"shipping_total\": \"10.0\",\n      \"tax_total\": \"0.0\",\n      \"total\": \"100.1\",\n      \"customer_first_name\": \"Joe\",\n      \"customer_last_name\": \"Somebody\",\n      \"customer_email\": \"joe@somebody.com\",\n      \"customer_phone_number\": \"+1 (123) 456-7890\",\n      \"customer_opted_in_to_marketing\": false,\n      \"customer_note\": \"Created by Joe\",\n      \"shipping_address_1\": \"123 some street\",\n      \"shipping_address_2\": \"#123\",\n      \"shipping_city\": \"Somewhere\",\n      \"shipping_state\": \"UT\",\n      \"shipping_zip\": \"64801\",\n      \"shipping_latitude\": null,\n      \"shipping_longitude\": null,\n      \"shipping_status\": \"unshipped\",\n      \"payment_status\": \"completed\",\n      \"created_at\": \"2014-12-25T00:00:00.000Z\",\n      \"updated_at\": \"2014-12-25T00:00:00.000Z\",\n      \"completed_at\": \"2014-12-25T00:00:00.000Z\"\n    },\n    \"links\": {\n      \"self\": \"https://api.bigcartel.com/v1/accounts/1/orders/LMFN-543196\"\n    },\n    \"relationships\": {\n      \"currency\": {\n        \"data\": {\n          \"type\": \"currencies\",\n          \"id\": \"USD\"\n        }\n      },\n      \"shipping_country\": {\n        \"data\": {\n          \"type\": \"countries\",\n          \"id\": \"US\"\n        }\n      },\n      \"events\": {\n        \"data\": [\n          {\n            \"type\": \"order_events\",\n            \"id\": \"1\"\n          }\n        ]\n      },\n      \"items\": {\n        \"data\": [\n          {\n            \"type\": \"order_line_items\",\n            \"id\": \"2\"\n          }\n        ]\n      },\n      \"transactions\": {\n        \"data\": [\n          {\n            \"type\": \"order_transactions/payments\",\n            \"id\": \"3\"\n          }\n        ]\n      },\n      \"adjustments\": {\n        \"data\": [\n          {\n            \"type\": \"order_adjustments/shipping\",\n            \"id\": \"4\"\n          },\n          {\n            \"type\": \"order_adjustments/tax\",\n            \"id\": \"5\"\n          },\n          {\n            \"type\": \"order_adjustments/discount\",\n            \"id\": \"6\"\n          }\n        ]\n      }\n    }\n  },\n  \"included\": [\n    {\n      \"id\": \"USD\",\n      \"type\": \"currencies\",\n      \"attributes\": {\n        \"name\": \"U.S. Dollar\",\n        \"sign\": \"$\",\n        \"locale\": \"en-US\"\n      }\n    },\n    {\n      \"id\": \"US\",\n      \"type\": \"countries\",\n      \"attributes\": {\n        \"name\": \"United States\"\n      }\n    },\n    {\n      \"id\": \"1\",\n      \"type\": \"order_events\",\n      \"attributes\": {\n        \"created_at\": \"2014-12-25T00:00:00.000Z\",\n        \"message\": \"Payment completed\"\n      }\n    },\n    {\n      \"id\": \"2\",\n      \"type\": \"order_line_items\",\n      \"attributes\": {\n        \"product_name\": \"This product\",\n        \"product_option_name\": \"This option\",\n        \"quantity\": 1,\n        \"price\": \"100.0\",\n        \"total\": \"100.0\",\n        \"image_url\": \"https://images.bigcartel.com/some_resource/12345/-/example.jpg\"\n      },\n      \"relationships\": {\n        \"product\": {\n          \"data\": {\n            \"type\": \"product\",\n            \"id\": \"7\"\n          }\n        },\n        \"product_option\": {\n          \"data\": {\n            \"type\": \"product_option\",\n            \"id\": \"8\"\n          }\n        }\n      }\n    },\n    {\n      \"id\": \"3\",\n      \"type\": \"order_transactions/payments\",\n      \"attributes\": {\n        \"label\": \"Visa ending in 1234\",\n        \"amount\": \"100.0\",\n        \"processor\": \"stripe\",\n        \"processor_id\": \"ex_123456789\",\n        \"processor_url\": \"https://manage.stripe.com/test/payments/ex_123456789\"\n      },\n      \"relationships\": {\n        \"currency\": {\n          \"data\": {\n            \"type\": \"currencies\",\n            \"id\": \"USD\"\n          }\n        }\n      }\n    },\n    {\n      \"id\": \"4\",\n      \"type\": \"order_adjustments/shipping\",\n      \"attributes\": {\n        \"amount\": \"10.0\",\n        \"label\": \"Shipping charges\"\n      }\n    },\n    {\n      \"id\": \"5\",\n      \"type\": \"order_adjustments/tax\",\n      \"attributes\": {\n        \"amount\": \"0.1\"\n      }\n    },\n    {\n      \"id\": \"6\",\n      \"type\": \"order_adjustments/discount\",\n      \"attributes\": {\n        \"amount\": \"10.0\",\n        \"label\": \"[FREESHIPPING] Free shipping discount\"\n      }\n    }\n  ]\n}"
+export default {
+    "data": {
+     "id": "LMFN-543196",
+     "type": "orders",
+     "attributes": {
+      "item_count": 1,
+      "item_total": "100.1",
+      "discount_total": "10.0",
+      "shipping_total": "10.0",
+      "tax_total": "0.0",
+      "total": "100.1",
+      "customer_first_name": "Joe",
+      "customer_last_name": "Somebody",
+      "customer_email": "joe@somebody.com",
+      "customer_phone_number": "+1 (123) 456-7890",
+      "customer_opted_in_to_marketing": false,
+      "customer_note": "Created by Joe",
+      "shipping_address_1": "123 some street",
+      "shipping_address_2": "#123",
+      "shipping_city": "Somewhere",
+      "shipping_state": "UT",
+      "shipping_zip": "64801",
+      "shipping_latitude": null,
+      "shipping_longitude": null,
+      "shipping_status": "unshipped",
+      "payment_status": "completed",
+      "created_at": "2014-12-25T00:00:00.000Z",
+      "updated_at": "2014-12-25T00:00:00.000Z",
+      "completed_at": "2014-12-25T00:00:00.000Z"
+     },
+     "links": {
+      "self": "https://api.bigcartel.com/v1/accounts/1/orders/LMFN-543196"
+     },
+     "relationships": {
+      "currency": {
+       "data": {
+        "type": "currencies",
+        "id": "USD"
+       }
+      },
+      "shipping_country": {
+       "data": {
+        "type": "countries",
+        "id": "US"
+       }
+      },
+      "events": {
+       "data": [
+        {
+         "type": "order_events",
+         "id": "1"
+        }
+       ]
+      },
+      "items": {
+       "data": [
+        {
+         "type": "order_line_items",
+         "id": "2"
+        }
+       ]
+      },
+      "transactions": {
+       "data": [
+        {
+         "type": "order_transactions/payments",
+         "id": "3"
+        }
+       ]
+      },
+      "adjustments": {
+       "data": [
+        {
+         "type": "order_adjustments/shipping",
+         "id": "4"
+        },
+        {
+         "type": "order_adjustments/tax",
+         "id": "5"
+        },
+        {
+         "type": "order_adjustments/discount",
+         "id": "6"
+        }
+       ]
+      }
+     }
+    },
+    "included": [
+     {
+      "id": "USD",
+      "type": "currencies",
+      "attributes": {
+       "name": "U.S. Dollar",
+       "sign": "$",
+       "locale": "en-US"
+      }
+     },
+     {
+      "id": "US",
+      "type": "countries",
+      "attributes": {
+       "name": "United States"
+      }
+     },
+     {
+      "id": "1",
+      "type": "order_events",
+      "attributes": {
+       "created_at": "2014-12-25T00:00:00.000Z",
+       "message": "Payment completed"
+      }
+     },
+     {
+      "id": "2",
+      "type": "order_line_items",
+      "attributes": {
+       "product_name": "This product",
+       "product_option_name": "This option",
+       "quantity": 1,
+       "price": "100.0",
+       "total": "100.0",
+       "image_url": "https://images.bigcartel.com/some_resource/12345/-/example.jpg"
+      },
+      "relationships": {
+       "product": {
+        "data": {
+         "type": "product",
+         "id": "7"
+        }
+       },
+       "product_option": {
+        "data": {
+         "type": "product_option",
+         "id": "8"
+        }
+       }
+      }
+     },
+     {
+      "id": "3",
+      "type": "order_transactions/payments",
+      "attributes": {
+       "label": "Visa ending in 1234",
+       "amount": "100.0",
+       "processor": "stripe",
+       "processor_id": "ex_123456789",
+       "processor_url": "https://manage.stripe.com/test/payments/ex_123456789"
+      },
+      "relationships": {
+       "currency": {
+        "data": {
+         "type": "currencies",
+         "id": "USD"
+        }
+       }
+      }
+     },
+     {
+      "id": "4",
+      "type": "order_adjustments/shipping",
+      "attributes": {
+       "amount": "10.0",
+       "label": "Shipping charges"
+      }
+     },
+     {
+      "id": "5",
+      "type": "order_adjustments/tax",
+      "attributes": {
+       "amount": "0.1"
+      }
+     },
+     {
+      "id": "6",
+      "type": "order_adjustments/discount",
+      "attributes": {
+       "amount": "10.0",
+       "label": "[FREESHIPPING] Free shipping discount"
+      }
+     }
+    ]
+   }
