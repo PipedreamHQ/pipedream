@@ -3,9 +3,9 @@ import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
-  key: "google_contacts-contact-created",
-  name: "New Contact Created",
-  description: "Emit new event when a new contact is created. [See the documentation](https://developers.google.com/people/api/rest/v1/people.connections/list)",
+  key: "google_contacts-contact-updated",
+  name: "Contact Updated",
+  description: "Emit new event when a contact is updated. [See the documentation](https://developers.google.com/people/api/rest/v1/people.connections/list)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -36,10 +36,11 @@ export default {
       return Date.parse(contact.metadata.sources[0].updateTime);
     },
     generateMeta(contact) {
+      const ts = this.getTs(contact);
       return {
-        id: contact.resourceName,
+        id: `${contact.resourceName}${ts}`,
         summary: contact.names[0].displayName,
-        ts: this.getTs(contact),
+        ts,
       };
     },
   },
