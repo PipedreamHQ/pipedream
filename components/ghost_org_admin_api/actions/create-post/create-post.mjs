@@ -59,7 +59,7 @@ export default {
         posts: [
           {
             title,
-            featured_image,
+            featured_image: featuredImage,
             html,
             status,
             tags,
