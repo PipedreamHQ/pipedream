@@ -87,6 +87,41 @@ export default {
       label: "Chat Enabled",
       description: "Whether or not the chat is enabled.",
     },
+    everyoneCanSpeak: {
+      type: "boolean",
+      label: "Everyone Can Speak",
+      description: "Whether or not everyone can speak.",
+    },
+    detailedRegistrationPageEnabled: {
+      type: "boolean",
+      label: "Detailed Registration Page Enabled",
+      description: "Whether or not the detailed registration page is enabled.",
+    },
+    lightRegistrationPageEnabled: {
+      type: "boolean",
+      label: "Light Registration Page Enabled",
+      description: "Whether or not the light registration page is enabled.",
+    },
+    recordingPublic: {
+      type: "boolean",
+      label: "Recording Public",
+      description: "Whether or not the recording is public.",
+    },
+    showInCompanyPage: {
+      type: "boolean",
+      label: "Show In Company Page",
+      description: "Whether or not the event is shown in the company page.",
+    },
+    pollsEnabled: {
+      type: "boolean",
+      label: "Polls Enabled",
+      description: "Whether or not the polls are enabled.",
+    },
+    questionsEnabled: {
+      type: "boolean",
+      label: "Questions Enabled",
+      description: "Whether or not the questions are enabled.",
+    },
   },
   methods: {
     getBaseUrl() {

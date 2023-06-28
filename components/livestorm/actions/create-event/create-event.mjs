@@ -57,6 +57,55 @@ export default {
         "chatEnabled",
       ],
     },
+    everyoneCanSpeak: {
+      optional: true,
+      propDefinition: [
+        app,
+        "everyoneCanSpeak",
+      ],
+    },
+    detailedRegistrationPageEnabled: {
+      optional: true,
+      propDefinition: [
+        app,
+        "detailedRegistrationPageEnabled",
+      ],
+    },
+    lightRegistrationPageEnabled: {
+      optional: true,
+      propDefinition: [
+        app,
+        "lightRegistrationPageEnabled",
+      ],
+    },
+    recordingPublic: {
+      optional: true,
+      propDefinition: [
+        app,
+        "recordingPublic",
+      ],
+    },
+    showInCompanyPage: {
+      optional: true,
+      propDefinition: [
+        app,
+        "showInCompanyPage",
+      ],
+    },
+    pollsEnabled: {
+      optional: true,
+      propDefinition: [
+        app,
+        "pollsEnabled",
+      ],
+    },
+    questionsEnabled: {
+      optional: true,
+      propDefinition: [
+        app,
+        "questionsEnabled",
+      ],
+    },
   },
   methods: {
     createEvent(args = {}) {
@@ -75,6 +124,13 @@ export default {
       description,
       recordingEnabled,
       chatEnabled,
+      everyoneCanSpeak,
+      detailedRegistrationPageEnabled,
+      lightRegistrationPageEnabled,
+      recordingPublic,
+      showInCompanyPage,
+      pollsEnabled,
+      questionsEnabled,
     } = this;
 
     const response = await this.createEvent({
@@ -90,6 +146,13 @@ export default {
             description,
             recording_enabled: recordingEnabled,
             chat_enabled: chatEnabled,
+            everyone_can_speak: everyoneCanSpeak,
+            detailed_registration_page_enabled: detailedRegistrationPageEnabled,
+            light_registration_page_enabled: lightRegistrationPageEnabled,
+            recording_public: recordingPublic,
+            show_in_company_page: showInCompanyPage,
+            polls_enabled: pollsEnabled,
+            questions_enabled: questionsEnabled,
           },
         },
       },

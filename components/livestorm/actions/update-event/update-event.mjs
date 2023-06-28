@@ -59,39 +59,46 @@ export default {
       ],
     },
     everyoneCanSpeak: {
-      type: "boolean",
-      label: "Everyone Can Speak",
-      description: "Whether or not everyone can speak.",
+      propDefinition: [
+        app,
+        "everyoneCanSpeak",
+      ],
     },
     detailedRegistrationPageEnabled: {
-      type: "boolean",
-      label: "Detailed Registration Page Enabled",
-      description: "Whether or not the detailed registration page is enabled.",
+      propDefinition: [
+        app,
+        "detailedRegistrationPageEnabled",
+      ],
     },
     lightRegistrationPageEnabled: {
-      type: "boolean",
-      label: "Light Registration Page Enabled",
-      description: "Whether or not the light registration page is enabled.",
+      propDefinition: [
+        app,
+        "lightRegistrationPageEnabled",
+      ],
     },
     recordingPublic: {
-      type: "boolean",
-      label: "Recording Public",
-      description: "Whether or not the recording is public.",
+      propDefinition: [
+        app,
+        "recordingPublic",
+      ],
     },
     showInCompanyPage: {
-      type: "boolean",
-      label: "Show in Company Page",
-      description: "Whether or not the event is shown in the company page.",
+      propDefinition: [
+        app,
+        "showInCompanyPage",
+      ],
     },
     pollsEnabled: {
-      type: "boolean",
-      label: "Polls Enabled",
-      description: "Whether or not polls are enabled.",
+      propDefinition: [
+        app,
+        "pollsEnabled",
+      ],
     },
     questionsEnabled: {
-      type: "boolean",
-      label: "Questions Enabled",
-      description: "Whether or not questions are enabled.",
+      propDefinition: [
+        app,
+        "questionsEnabled",
+      ],
     },
   },
   methods: {
