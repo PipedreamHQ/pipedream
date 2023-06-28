@@ -4,7 +4,7 @@ export default {
   name: "Add To Watchlist",
   version: "0.0.1",
   key: "trakt-add-to-watchlist",
-  description: "Add one of more items to watchlist. [See documentation here](https://trakt.docs.apiary.io/#reference/sync/add-to-watchlist/get-watchlist)",
+  description: "Add one of more items to watchlist. [See the documentation](https://trakt.docs.apiary.io/#reference/sync/add-to-watchlist/get-watchlist)",
   type: "action",
   props: {
     trakt,
