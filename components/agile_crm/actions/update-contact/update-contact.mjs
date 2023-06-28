@@ -4,8 +4,8 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "agile_crm-update-contact",
   name: "Update Contact",
-  description: "Update an existing contact in Agile CRM. [See the docs here](https://github.com/agilecrm/rest-api#14-update-properties-of-a-contact-by-id-partial-update)",
-  version: "0.0.2",
+  description: "Update an existing contact in Agile CRM. [See the documentation](https://github.com/agilecrm/rest-api#14-update-properties-of-a-contact-by-id-partial-update)",
+  version: "0.0.3",
   type: "action",
   props: {
     agileCrm,
@@ -30,8 +30,9 @@ export default {
     company: {
       propDefinition: [
         agileCrm,
-        "company",
+        "companyName",
       ],
+      optional: true,
     },
     email: {
       propDefinition: [
