@@ -1,7 +1,7 @@
 import googleDirectory from "../../google_directory.app.mjs";
 
 export default {
-  key: "google_directory-get_user",
+  key: "google_directory-get-user",
   name: "Get User",
   description: "Retrieves information about a user. [See the documentation](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get)",
   version: "0.0.1",

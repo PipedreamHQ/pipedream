@@ -1,7 +1,7 @@
 import googleDirectory from "../../google_directory.app.mjs";
 
 export default {
-  key: "google_directory-list_users",
+  key: "google_directory-list-users",
   name: "List Users",
   description: "Retrieves a list of directory users. [See the documentation](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list)",
   version: "0.0.1",

@@ -1,7 +1,7 @@
 import googleDirectory from "../../google_directory.app.mjs";
 
 export default {
-  key: "google_directory-list_groups",
+  key: "google_directory-list-groups",
   name: "List Groups",
   description: "Retrieves a list of directory groups. [See the documentation](https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups/list)",
   version: "0.0.1",
