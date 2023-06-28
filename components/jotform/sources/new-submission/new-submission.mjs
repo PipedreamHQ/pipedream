@@ -1,11 +1,11 @@
 import jotform from "../../jotform.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "jotform-new-submission",
   name: "New Submission (Instant)",
   description: "Emit new event when a form is submitted",
-  version: "0.1.0",
-  type: "source",
+  version: "0.1.1",  type: "source",
   dedupe: "unique",
   props: {
     jotform,
@@ -82,4 +82,5 @@ export default {
       ts: Date.now(),
     });
   },
+  sampleEmit,
 };
