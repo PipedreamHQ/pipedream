@@ -37,4 +37,11 @@ export default {
     "addresses",
   ],
   RESOURCE_NAME: "people/me",
+  GROUP_FIELDS: [
+    "clientData",
+    "groupType",
+    "memberCount",
+    "metadata",
+    "name",
+  ],
 };
