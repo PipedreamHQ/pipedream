@@ -7,7 +7,6 @@ export default {
   name: "New Message Updates (Instant)",
   description: "Emit new event each time a Telegram message is created or updated.",
   version: "0.1.4",
-
   type: "source",
   dedupe: "unique",
   methods: {
