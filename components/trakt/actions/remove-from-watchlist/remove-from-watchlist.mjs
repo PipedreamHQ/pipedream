@@ -4,7 +4,7 @@ export default {
   name: "Remove From Watchlist",
   version: "0.0.1",
   key: "trakt-remove-from-watchlist",
-  description: "Remove one of more items from watchlist. [See documentation here](https://trakt.docs.apiary.io/#reference/sync/remove-from-watchlist/remove-items-from-watchlist)",
+  description: "Remove one of more items from watchlist. [See the documentation](https://trakt.docs.apiary.io/#reference/sync/remove-from-watchlist/remove-items-from-watchlist)",
   type: "action",
   props: {
     trakt,
