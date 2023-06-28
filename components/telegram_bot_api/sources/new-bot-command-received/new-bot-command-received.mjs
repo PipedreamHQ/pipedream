@@ -7,7 +7,6 @@ export default {
   name: "New Bot Command Received (Instant)",
   description: "Emit new event each time a Telegram Bot command is received.",
   version: "0.0.4",
-
   type: "source",
   dedupe: "unique",
   props: {
