@@ -2,6 +2,7 @@ import app from "../../app/twitter.app";
 import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { CreateTweetParams } from "../../common/types/requestParams";
+import utils from "../../common/utils";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets";
@@ -10,7 +11,7 @@ export default defineAction({
   key: "twitter-create-tweet",
   name: "Create Tweet",
   description: `Create a new tweet. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.1.0",
   type: "action",
   props: {
     app,
@@ -73,14 +74,14 @@ export default defineAction({
           text,
           ...((inReplyToTweetId || excludeReplyUserIds) && {
             reply: {
-              exclude_reply_user_ids: excludeReplyUserIds,
+              exclude_reply_user_ids: utils.parseArray(excludeReplyUserIds),
               in_reply_to_tweet_id: inReplyToTweetId,
             },
           }),
           ...((mediaIds || taggedUserIds) && {
             media: {
-              media_ids: mediaIds,
-              tagged_user_ids: taggedUserIds,
+              media_ids: utils.parseArray(mediaIds),
+              tagged_user_ids: utils.parseArray(taggedUserIds),
             },
           }),
           ...(placeId && {
