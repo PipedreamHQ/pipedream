@@ -170,12 +170,10 @@ export default defineApp({
           ...this._getAuthHeader(authConfig),
         };
 
-        const requestConfig = {
+        return axios($, {
           ...config,
           headers,
-        };
-        console.log("Request config: ", requestConfig);
-        return axios($, requestConfig);
+        });
       };
 
       let response: ResponseObject<TwitterEntity>,
