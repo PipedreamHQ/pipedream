@@ -12,7 +12,7 @@ export default defineAction({
   key: "twitter-upload-media",
   name: "Upload Media",
   description: `Upload new media. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     app,
@@ -27,7 +27,7 @@ export default defineAction({
       label: "Media Category",
       description: "The category representing the media usage.",
       options: constants.MEDIA_CATEGORIES,
-      optional: false,
+      optional: true,
     },
   },
   async run({ $ }): Promise<object> {
@@ -43,11 +43,13 @@ export default defineAction({
 
       const data = new FormData();
       data.append("media", content);
-      data.append("media_category", this.media_category);
 
       const response = await this.app.uploadMedia({
         $,
         data,
+        params: {
+          media_category: this.media_category,
+        },
       });
 
       $.export("$summary", `Successfully uploaded media with ID ${response.media_id}`);
