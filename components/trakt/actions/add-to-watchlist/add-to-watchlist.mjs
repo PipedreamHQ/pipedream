@@ -1,4 +1,5 @@
 import trakt from "../../trakt.app.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   name: "Add To Watchlist",
@@ -26,24 +27,23 @@ export default {
     },
   },
   async run({ $ }) {
-    const movies = typeof this.movies === "string"
-      ? JSON.stringify(this.movies)
-      : this.movies;
-
-    const shows = typeof this.shows === "string"
-      ? JSON.stringify(this.shows)
-      : this.shows;
+    const movies = utils.parseStringToJson(this.movies, []);
+    const shows = utils.parseStringToJson(this.shows, []);
 
     const response = await this.trakt.addToWatchlist({
       $,
       data: {
-        movies,
-        shows,
+        movies: movies.map((movie) => ({
+          title: movie,
+        })),
+        shows: shows.map((show) => ({
+          title: show,
+        })),
       },
     });
 
     if (response) {
-      $.export("$summary", "Successfully added movies and shows to watchlist");
+      $.export("$summary", `Successfully added ${response.added.movies} movies and ${response.added.shows} shows to watchlist`);
     }
 
     return response;

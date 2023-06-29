@@ -1,6 +1,12 @@
 export default {
   CONTENT_TYPES: [
-    "movies",
-    "shows",
+    {
+      label: "Movies",
+      value: "movies",
+    },
+    {
+      label: "Shows",
+      value: "shows",
+    },
   ],
 };
