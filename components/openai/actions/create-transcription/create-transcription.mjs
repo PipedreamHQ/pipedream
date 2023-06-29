@@ -22,7 +22,7 @@ const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription",
-  version: "0.0.6",
+  version: "0.0.11",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
@@ -117,15 +117,12 @@ export default {
       });
 
       const files = await fs.promises.readdir(outputDir);
-      const transcription = await this.transcribeFiles({
+
+      return await this.transcribeFiles({
         files,
         outputDir,
         $,
       });
-
-      return {
-        transcription,
-      };
     },
     async chunkFile({
       file, outputDir,
@@ -155,7 +152,7 @@ export default {
       const command = `${ffmpegPath} -i "${file}" -f segment -segment_time ${segmentTime} -c copy "${outputDir}/chunk-%03d${ext}"`;
       await execAsync(command);
     },
-    async transcribeFiles({
+    transcribeFiles({
       files, outputDir, $,
     }) {
       const limiter = new Bottleneck({
@@ -163,27 +160,28 @@ export default {
         minTime: 1000 / 59,
       });
 
-      const transcriptions = await Promise.all(files.map((file) => {
+      return Promise.all(files.map((file) => {
         return limiter.schedule(() => this.transcribe({
           file,
           outputDir,
           $,
         }));
       }));
-      return transcriptions.join(" ");
     },
-    async transcribe({
+    transcribe({
       file, outputDir, $,
     }) {
       const form = this.createForm({
         file,
         outputDir,
       });
-      const response = await this.openai.createTranscription({
+      return this.openai.createTranscription({
         $,
         form,
       });
-      return response.text;
+    },
+    getFullText(transcriptions = []) {
+      return transcriptions.map((t) => t.text || t).join(" ");
     },
   },
   async run({ $ }) {
@@ -225,15 +223,18 @@ export default {
       file = downloadPath;
     }
 
-    const response = await this.chunkFileAndTranscribe({
+    const transcriptions = await this.chunkFileAndTranscribe({
       file,
       $,
     });
 
-    if (response) {
+    if (transcriptions.length) {
       $.export("$summary", "Successfully created transcription");
     }
 
-    return response;
+    return {
+      transcription: this.getFullText(transcriptions),
+      transcriptions,
+    };
   },
 };
