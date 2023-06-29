@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -105,6 +107,12 @@ export default {
         ...args,
       });
     },
+    listDomains(args = {}) {
+      return this._makeRequest({
+        path: "/customer/my_customer/domains",
+        ...args,
+      });
+    },
     listGroups(args = {}) {
       return this._makeRequest({
         path: "/groups",
@@ -130,6 +138,24 @@ export default {
         method: "POST",
         ...args,
       });
+    },
+    async verifyEmail({
+      email, ...args
+    }) {
+      const { domains } = await this.listDomains({
+        ...args,
+      });
+      const domainNames = domains.map(({ domainName }) => domainName);
+
+      const regex = /@([^\s@]+)/;
+      const match = email.match(regex);
+      const emailDomainName = match[1];
+
+      if (!domainNames.includes(emailDomainName)) {
+        throw new ConfigurationError(`The email domain name must be ${domainNames.length === 1
+          ? "**" + domainNames[0] + "**"
+          : "one of **" + domainNames.join(", ") + "**"}`);
+      }
     },
     async *paginate({
       fn, params = {}, itemType, $,

@@ -11,7 +11,7 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "The user's primary email address",
+      description: "The user's primary email address. The email domain name must be a domain associated with the account.",
     },
     password: {
       type: "string",
@@ -42,6 +42,11 @@ export default {
     },
   },
   async run({ $ }) {
+    await this.googleDirectory.verifyEmail({
+      email: this.email,
+      $,
+    });
+
     const data = {
       primaryEmail: this.email,
       password: this.password,
