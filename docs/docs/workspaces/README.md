@@ -41,13 +41,13 @@ However, only **Admins** will be able to manage workspace level settings, like c
 
 To promote a member to an admin level account in your workspace, click the 3 dots to the right of their email and select "Make Admin".
 
-![Promoting a member to admin](https://res.cloudinary.com/pipedreamin/image/upload/v1688074835/making_admin_v0qsdj.gif)
+![Promoting a member to admin](https://res.cloudinary.com/pipedreamin/image/upload/v1688075628/making_admin_btkbh7.gif)
 
 #### Demoting an admin to a member
 
 To demote an admin back to a member, click the 3 dots to the right of their email address and select "Remove Admin".
 
-![Demoting an admin to a member](https://res.cloudinary.com/pipedreamin/image/upload/v1688074835/removing_admin_zldzm0.gif)
+![Demoting an admin to a member](https://res.cloudinary.com/pipedreamin/image/upload/v1688075628/removing_admin_wez5km.gif)
 
 ### Finding your workspace's ID
 
