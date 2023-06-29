@@ -4176,6 +4176,9 @@ importers:
       lodash.topath: 4.5.2
       shopify-api-node: 3.12.4
 
+  components/shopify_developer_app:
+    specifiers: {}
+
   components/shopify_partner:
     specifiers:
       graphql: ^16.2.0
