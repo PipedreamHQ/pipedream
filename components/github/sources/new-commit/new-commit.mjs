@@ -42,6 +42,13 @@ export default {
       };
     },
     async loadHistoricalEvents() {
+      if (this.branch) {
+        this.branch = {
+          label: this.branch.split("/")[1],
+          value: this.branch.split("/")[0],
+        };
+      }
+
       const commitInfo = await this.github.getCommits({
         repoFullname: this.repoFullname,
         sha: this.branch
