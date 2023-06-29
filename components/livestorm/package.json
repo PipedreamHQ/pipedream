@@ -1,15 +1,18 @@
 {
   "name": "@pipedream/livestorm",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Livestorm Components",
-  "main": "dist/app/livestorm.app.mjs",
+  "main": "livestorm.app.mjs",
   "keywords": [
     "pipedream",
     "livestorm"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/livestorm",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
   "publishConfig": {
     "access": "public"
   }
