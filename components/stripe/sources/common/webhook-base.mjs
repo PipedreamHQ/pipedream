@@ -45,7 +45,7 @@ export default {
       });
       this.db.set("endpoint", JSON.stringify(endpoint));
 
-      for (const eventType of this.enabledEvents) {
+      for (const eventType of enabledEvents) {
         const events = await this.stripe.getEvents({
           eventType,
         });
