@@ -2150,6 +2150,9 @@
     },
     {
       "path": "components/nango"
+    },
+    {
+      "path": "components/shopify_developer_app"
     }
   ]
 }
