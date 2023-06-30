@@ -31,8 +31,7 @@ In order to maintain access to the Reddit APIs, you will need to register your a
 1. Navigate to the [Submit a request form](https://reddithelp.com/hc/en-us/requests/new?ticket_form_id=14868593862164).
 2. Fill out the form under API Support, and select **I want to register to use the free tier of the Reddit API**. 
 
-  ![App Registration](https://res.cloudinary.com/dpenc2lit/image/upload/v1688161658/Screenshot_2023-06-30_at_2.44.42_PM_etr685.png)
-
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1688161658/Screenshot_2023-06-30_at_2.44.42_PM_etr685.png" alt="drawing" width="600"/>
 
 ## Connect your Reddit app with Pipedream using your client id and client secret
 1. In the new app you have created, your **client id** is located underneath the app name.
