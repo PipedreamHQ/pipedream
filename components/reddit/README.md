@@ -19,9 +19,9 @@ To get started, you will need to create an app within Reddit. The steps are outl
 1. Sign in to your Reddit account, and navigate to the applications [page](https://www.reddit.com/prefs/apps).
 2. Name the app "Pipedream", or another name of your choosing.
 3. Select **web app**.
-4. Add a description, e.g This app will be used to connect Pipedream to Reddit." 
-5. Add an about url.
-6. Under redirect uri, enter https://api.pipedream.com/connect/oauth/oa_G7AioA/callback
+4. Add a description, e.g "This app will be used to connect Pipedream to Reddit." 
+5. Add an "about url".
+6. Under "redirect uri", enter `https://api.pipedream.com/connect/oauth/oa_G7AioA/callback`
 7. Click **create app**.
 
   ![Create App](https://res.cloudinary.com/dpenc2lit/image/upload/v1688161060/Screenshot_2023-06-30_at_2.37.20_PM_muvvzi.png)
