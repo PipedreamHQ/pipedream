@@ -1,4 +1,3 @@
-import { RULES_OPTIONS } from "../../common/constants.mjs";
 import app from "../../uipath_automation_hub.app.mjs";
 
 export default {
@@ -10,14 +9,16 @@ export default {
   props: {
     app,
     processName: {
-      type: "string",
-      label: "Process Name",
-      description: "Name of the idea.",
+      propDefinition: [
+        app,
+        "processName",
+      ],
     },
     processDescription: {
-      type: "string",
-      label: "Process Description",
-      description: "Description of the idea.",
+      propDefinition: [
+        app,
+        "processDescription",
+      ],
     },
     categoryId: {
       propDefinition: [
@@ -26,10 +27,34 @@ export default {
       ],
     },
     rules: {
-      type: "integer",
-      label: "Rules",
-      description: "How rule-based is your task?",
-      options: RULES_OPTIONS,
+      propDefinition: [
+        app,
+        "rules",
+      ],
+    },
+    inputType: {
+      propDefinition: [
+        app,
+        "inputType",
+      ],
+    },
+    inputQuality: {
+      propDefinition: [
+        app,
+        "inputQuality",
+      ],
+    },
+    stability: {
+      propDefinition: [
+        app,
+        "stability",
+      ],
+    },
+    documentation: {
+      propDefinition: [
+        app,
+        "documentation",
+      ],
     },
   },
   async run({ $ }) {
@@ -38,8 +63,12 @@ export default {
       processName,
       processDescription,
       categoryId,
+      inputType,
+      inputQuality,
       ...data
     } = this;
+
+    const { data: { user } } = await app.authInfo();
 
     const response = await app.createIdea({
       $,
@@ -48,6 +77,9 @@ export default {
         process_name: processName,
         process_description: processDescription,
         category_id: categoryId,
+        input_type: inputType,
+        input_quality: inputQuality,
+        owner: user?.user_email,
       },
     });
 
