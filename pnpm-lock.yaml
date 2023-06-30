@@ -2505,7 +2505,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/livestorm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/lob:
     specifiers:
@@ -4172,6 +4175,9 @@ importers:
       lodash.get: 4.4.2
       lodash.topath: 4.5.2
       shopify-api-node: 3.12.4
+
+  components/shopify_developer_app:
+    specifiers: {}
 
   components/shopify_partner:
     specifiers:
