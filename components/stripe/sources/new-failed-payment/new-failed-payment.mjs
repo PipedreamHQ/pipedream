@@ -12,7 +12,7 @@ export default {
     getEvents() {
       return [
         "payment_intent.payment_failed",
-        "order.payment_failed",
+        "charge.failed",
       ];
     },
   },
