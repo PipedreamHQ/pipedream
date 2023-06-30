@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-create-event",
   name: "Create Event",
   description: "Create an event to the Google Calendar. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#insert)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     googleCalendar,
@@ -17,41 +17,41 @@ export default {
     summary: {
       label: "Event Title",
       type: "string",
-      description: "Enter static text (e.g., `hello world`) for the event name",
+      description: "Enter a title for the event",
       optional: true,
     },
     location: {
-      label: "Event Venue",
+      label: "Event Location",
       type: "string",
-      description: "Enter static text (e.g., `hello world`) for the event venue",
+      description: "Specify the location of the event",
       optional: true,
     },
     description: {
       label: "Event Description",
       type: "string",
-      description: "Enter detailed event description",
+      description: "Enter a description for the event",
       optional: true,
     },
     attendees: {
       label: "Attendees",
       type: "string[]",
-      description: "Enter the EmailId of the attendees",
+      description: "Enter an array of email addresses for any attendees",
       optional: true,
     },
     eventStartDate: {
       label: "Event Date",
       type: "string",
-      description: "For all-day events, enter the Event day in the format 'yyyy-mm-dd'. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): 'yyyy-mm-ddThh:mm:ss+01:00'. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
+      description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
     },
     eventEndDate: {
       label: "Event End Date",
       type: "string",
-      description: "For all-day events, enter the Event day in the format 'yyyy-mm-dd'. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): 'yyyy-mm-ddThh:mm:ss+01:00'. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
+      description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
     },
     sendUpdates: {
       label: "Send Updates",
       type: "string",
-      description: "Whether to send notifications about the creation of the new event.",
+      description: "Configure whether to send notifications about the creation of the new event",
       optional: true,
       options: [
         "all",

@@ -3,9 +3,11 @@ import common from "../common.mjs";
 export default {
   ...common,
   key: "google_calendar-new-event-search",
+  // eslint-disable-next-line pipedream/source-name
   name: "Event Search",
+  // eslint-disable-next-line pipedream/source-description
   description: "Emit when an event is created that matches a search",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {

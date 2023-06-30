@@ -1282,6 +1282,9 @@ importers:
   components/elastic_email:
     specifiers: {}
 
+  components/elevenlabs:
+    specifiers: {}
+
   components/elmah_io:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2502,7 +2505,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/livestorm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/lob:
     specifiers:
@@ -2893,6 +2899,9 @@ importers:
       dayjs: 1.11.7
     devDependencies:
       '@pipedream/types': 0.1.6
+
+  components/nango:
+    specifiers: {}
 
   components/nano_nets:
     specifiers: {}
@@ -3295,6 +3304,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/pdfmonkey:
+    specifiers: {}
+
+  components/pendo:
     specifiers: {}
 
   components/perry_github_test:
@@ -4007,7 +4019,10 @@ importers:
     specifiers: {}
 
   components/sellercloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/sellix:
     specifiers: {}
@@ -4160,6 +4175,9 @@ importers:
       lodash.get: 4.4.2
       lodash.topath: 4.5.2
       shopify-api-node: 3.12.4
+
+  components/shopify_developer_app:
+    specifiers: {}
 
   components/shopify_partner:
     specifiers:
@@ -4390,7 +4408,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sourceforge:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/splitwise:
     specifiers:
