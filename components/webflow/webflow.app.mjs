@@ -245,7 +245,7 @@ export default {
         offset: page,
       });
 
-      return response.items;
+      return response;
     },
   },
 };

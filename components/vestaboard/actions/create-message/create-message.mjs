@@ -5,7 +5,7 @@ export default {
   key: "vestaboard-create-message",
   name: "Create Message",
   description: "Creates a new message for a subscription. [See the docs](https://swagger.vestaboard.com/docs/vestaboard/b3A6MTYwMTA4OTc-post-v2-0-subscriptions-with-id-message)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     vestaboard,
@@ -29,16 +29,28 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.text && !this.characters) {
+    const {
+      subscriptionId,
+      text,
+      characters,
+    } = this;
+
+    if (!text && !characters) {
       throw new ConfigurationError("Either `text` or `characters` must be entered");
     }
 
+    const data = {};
+    if (text) {
+      data.text = text;
+    } else {
+      data.characters = Array.isArray(characters)
+        ? characters
+        : JSON.parse(characters);
+    }
+
     const response = await this.vestaboard.createMessage({
-      subscriptionId: this.subscriptionId,
-      data: {
-        text: this.text,
-        characters: this.characters,
-      },
+      subscriptionId,
+      data,
       $,
     });
 

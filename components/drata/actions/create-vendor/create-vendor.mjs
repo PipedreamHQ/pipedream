@@ -6,7 +6,7 @@ export default {
   key: "drata-create-vendor",
   name: "Create Vendor",
   description: `Create a new Vendor. [See the documentation](${docsLink}).`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     drata,

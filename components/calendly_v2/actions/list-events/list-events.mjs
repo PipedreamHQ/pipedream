@@ -4,7 +4,7 @@ export default {
   key: "calendly_v2-list-events",
   name: "List Events",
   description: "List events for an user. [See the docs](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEy-list-events)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     calendly,

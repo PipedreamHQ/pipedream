@@ -9,7 +9,7 @@ export default {
   name: "Vendor Updated",
   description: `Emit a new event when a vendor is updated. [See the documentation](${docsLink}).`,
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     drata,
     db: "$.service.db",

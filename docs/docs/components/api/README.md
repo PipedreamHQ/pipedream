@@ -139,6 +139,7 @@ props: {
 | `label`          | `string`                             | optional  | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed to the user.                                                                                                                                                                                                                                                                                                                                                           |
 | `description`    | `string`                             | optional  | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported.                                                                                                                                                                                                                                                                                                                  |
 | `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
+| `useQuery`    | `boolean`                             | optional  | Use in conjunction with **Dynamic Options**. If set to `true`, the prop accepts a real-time query that can be used by the `options` method to obtain results according to that query.                                                                                                                                                                                                                                                                                                                   |
 | `optional`       | `boolean`                            | optional  | Set to `true` to make this prop optional. Defaults to `false`.                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `propDefinition` | `[]`                                 | optional  | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage.                                                                                                                                                                                                       |
 | `default`        | `string`                             | optional  | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input).                                                                                                                                                                                                                                                                                                                                   |
@@ -199,14 +200,16 @@ Async options allow users to select prop values that can be programmatically-gen
 async options({
   page,
   prevContext,
+  query,
 }) {},
 ```
 
 | Property      | Type      | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------------- | --------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `options()`   | `method`  | optional  | Typically returns an array of values matching the prop type (e.g., `string`) or an array of object that define the `label` and `value` for each option. The `page` and `prevContext` input parameter names are reserved for pagination (see below).<br>&nbsp;<br>When using `prevContext` for pagination, it must return an object with an `options` array and a `context` object with a `nextPageToken` key. E.g., `{ options, context: { nextPageToken }, }` |
-| `page`        | `integer` | optional  | Returns a `0` indexed page number. For use with APIs that accept a numeric page number for pagination.                                                                                                                                                                                                                                                                                                                                                         |
-| `prevContext` | `string`  | optional  | Return a string representing the context for the previous `options` execution. For use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                              |
+| `page`        | `integer` | optional  | Returns a `0` indexed page number. Use with APIs that accept a numeric page number for pagination. 
+| `prevContext` | `string`  | optional  | Returns a string representing the context for the previous `options` execution. Use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                              |
+| `query` | `string`  | optional  | Returns a string with the user input if the prop has the `useQuery` property set to `true`. Use with APIs that return items based on a query or search parameter.                                                                                                                                                                                                                                                                                              |
 
 Following is an example source demonstrating the usage of async options:
 
@@ -779,7 +782,7 @@ When your workflow runs, you'll see the named exports appear below your step, wi
 
 **`$.respond`**
 
-`$.respond` functions the same way as `$respond` in workflow code steps. [See the `$respond` docs for more information](/workflows/steps/triggers/#customizing-the-http-response).
+`$.respond` lets you issue HTTP responses from your workflow. [See the full `$.respond` docs for more information](/workflows/steps/triggers/#customizing-the-http-response).
 
 ```javascript
 async run({ $ }) {
@@ -1059,7 +1062,7 @@ The event lifecycle applies to deployed sources. Learn about the [source lifecyc
 
 ### Diagram
 
-![image-20200819210516311](./images/image-20200819210516311.png)
+![Pipedream Components Event Lifecycle Diagram](https://res.cloudinary.com/pipedreamin/image/upload/v1683089643/d0iiggokfkwnmt4kckb5.png)
 
 ### Triggering Sources
 

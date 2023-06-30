@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/replicate",
+  "version": "0.0.1",
+  "description": "Pipedream Replicate Components",
+  "main": "dist/app/replicate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "replicate"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/replicate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,4 +1,5 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { FollowUserParams } from "../../common/types/requestParams";
@@ -9,8 +10,8 @@ const DOCS_LINK =
 export default defineAction({
   key: "twitter-follow-user",
   name: "Follow User",
-  description: `Follow a user. [See docs here](${DOCS_LINK})`,
-  version: "1.0.3",
+  description: `Follow a user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.3",
   type: "action",
   props: {
     app,
@@ -25,26 +26,30 @@ export default defineAction({
     getUserId,
   },
   async run({ $ }): Promise<object> {
-    const userId = await this.getUserId();
+    try {
+      const userId = await this.getUserId();
 
-    const params: FollowUserParams = {
-      $,
-      data: {
-        target_user_id: userId,
-      },
-    };
+      const params: FollowUserParams = {
+        $,
+        data: {
+          target_user_id: userId,
+        },
+      };
 
-    const response = await this.app.followUser(params);
+      const response = await this.app.followUser(params);
 
-    $.export(
-      "$summary",
-      `Successfully ${
-        response.data?.following
+      $.export(
+        "$summary",
+        `Successfully ${response.data?.following
           ? "followed"
           : "requested to follow"
-      } user`,
-    );
+        } user`,
+      );
 
-    return response;
+      return response;
+    } catch (err) {
+      $.export("error", err);
+      throw new Error(ACTION_ERROR_MESSAGE);
+    }
   },
 });
