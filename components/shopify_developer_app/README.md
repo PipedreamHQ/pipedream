@@ -23,7 +23,7 @@ To get started, you will need to create a custom Shopify app in the Shopify Admi
 
   ![API Credentials](https://res.cloudinary.com/dpenc2lit/image/upload/v1688061470/Screenshot_2023-06-29_at_10.54.53_AM_jta5gc.png)
 
-## Connect your Shopify app Pipedream with using your access token
+## Connect your Shopify app with Pipedream using your access token
 
 At this point, you should have a Pipedream App connected to your Shopify store, and a long-lived access token.
 
