@@ -31,7 +31,7 @@ export default {
     date: {
       propDefinition: [
         app,
-        "date"
+        "date",
       ],
     },
     payee: {
@@ -40,7 +40,7 @@ export default {
         "payee",
         (c) => ({
           budgetId: c.budgetId,
-        })
+        }),
       ],
     },
     categoryId: {
@@ -56,7 +56,7 @@ export default {
     amount: {
       propDefinition: [
         app,
-        "amount"
+        "amount",
       ],
     },
     memo: {
@@ -76,6 +76,34 @@ export default {
       label: "Approved",
       description: "Approve the transaction directly?",
       optional: true,
+    },
+  },
+  methods: {
+    async updateTransaction({
+      budgetId, transactionId, accountId, categoryId, payee, cleared, amount, ...data
+    }) {
+      const transaction = {
+        account_id: accountId,
+        category_id: categoryId,
+        amount: this.app._convertToMilliunit(amount),
+        ...data,
+      };
+      if (cleared) {
+        transaction.cleared = "cleared";
+      }
+      if (this.app._isUUID(payee)) {
+        transaction.payee_id = payee;
+      } else {
+        transaction.payee_name = payee;
+      }
+      const response = await this.app._client().transactions.updateTransaction(
+        budgetId,
+        transactionId,
+        {
+          transaction,
+        },
+      );
+      return response.data;
     },
   },
   async run({ $ }) {
