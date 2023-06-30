@@ -32,9 +32,11 @@ export default defineAction({
   },
   async run({ $ }): Promise<object> {
     try {
-      const content = this.filePath.startsWith("/tmp")
+      const isLocalFile = this.filePath?.startsWith("/tmp");
+
+      const content = isLocalFile
         ? fs.createReadStream(this.filePath, {
-          encoding: "binary",
+          encoding: "base64",
         })
         : await axios($, {
           url: this.filePath,
@@ -42,7 +44,12 @@ export default defineAction({
         });
 
       const data = new FormData();
-      data.append("media", content);
+
+      if (isLocalFile) {
+        data.append("media_data", content);
+      } else {
+        data.append("media", content);
+      }
 
       const response = await this.app.uploadMedia({
         $,
