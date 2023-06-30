@@ -36,11 +36,10 @@ In order to maintain access to the Reddit APIs, you will need to register your a
 
 ## Connect your Reddit app with Pipedream using your client id and client secret
 1. In the new app you have created, your **client id** is located underneath the app name.
-
-![client id ](https://res.cloudinary.com/dpenc2lit/image/upload/v1688161875/Screenshot_2023-06-30_at_2.51.12_PM_lit77o.png)
-
-
 2. The **client secret** is located next to **secret**. 
+
+![client id ](https://res.cloudinary.com/dpenc2lit/image/upload/v1688162467/Screenshot_2023-06-30_at_3.01.02_PM_jvepnr.png)
+
 3. When connecting the Reddit app in Pipedream, copy and paste your **client id** along with your **client secret**.
 4. Click **Connect** and your custom Reddit app should be integrated into Pipedream!
 
