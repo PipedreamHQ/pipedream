@@ -13,7 +13,7 @@ export default {
     compareFn(item) {
       return item?.record_type_name == "Contact Created";
     },
-    async getItem(item) {
+    getItem(item) {
       return this.app.getContact({
         contactId: item.primary.id,
       });

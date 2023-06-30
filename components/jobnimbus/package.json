@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jobnimbus",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Pipedream Jobnimbus Components",
   "main": "jobnimbus.app.mjs",
   "keywords": [

@@ -16,11 +16,13 @@ export default {
           params: {
             fields: "jnid,display_name",
           },
-          resourceKey: "results",
-          labelVal: {
-            label: "display_name",
-            value: "jnid",
-          },
+          mapper: ({
+            display_name: label,
+            jnid: value,
+          }) => ({
+            label,
+            value,
+          }),
         });
       },
     },
@@ -35,11 +37,13 @@ export default {
           params: {
             fields: "customer,company",
           },
-          resourceKey: "results",
-          labelVal: {
-            label: "company",
-            value: "customer",
-          },
+          mapper: ({
+            company: label,
+            customer: value,
+          }) => ({
+            label,
+            value,
+          }),
         });
       },
     },
@@ -62,56 +66,53 @@ export default {
         ...headers,
       };
     },
-    async _makeRequest({
-      $, path, headers, ...otherConfig
+    _makeRequest({
+      $ = this, path, headers, ...args
     } = {}) {
       const config = {
         url: this._getUrl(path),
         headers: this._getHeaders(headers),
-        ...otherConfig,
+        ...args,
       };
-      return axios($ ?? this, config);
+      return axios($, config);
     },
-    async getContact({
-      contactId,
-      ...args
+    getContact({
+      contactId, ...args
     } = {}) {
       return this._makeRequest({
         path: `/contacts/${contactId}`,
         ...args,
       });
     },
-    async getJob({
-      jobId,
-      ...args
+    getJob({
+      jobId, ...args
     } = {}) {
       return this._makeRequest({
         path: `/jobs/${jobId}`,
         ...args,
       });
     },
-    async getContacts(args = {}) {
+    getContacts(args = {}) {
       return this._makeRequest({
         path: "/contacts",
         ...args,
       });
     },
-    async getActivities(args = {}) {
+    getActivities(args = {}) {
       return this._makeRequest({
         path: "/activities",
         ...args,
       });
     },
-    async createContact(args = {}) {
+    createContact(args = {}) {
       return this._makeRequest({
         path: "/contacts",
         method: "POST",
         ...args,
       });
     },
-    async updateContact({
-      contactId,
-      ...args
+    updateContact({
+      contactId, ...args
     } = {}) {
       return this._makeRequest({
         path: `/contacts/${contactId}`,
@@ -119,7 +120,7 @@ export default {
         ...args,
       });
     },
-    async createAttachment(args = {}) {
+    createAttachment(args = {}) {
       return this._makeRequest({
         path: "/files",
         method: "POST",

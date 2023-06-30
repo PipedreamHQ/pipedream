@@ -37,11 +37,8 @@ export default {
     },
   },
   async run() {
-    const lastComparable = this.getLastComparable();
-    let newLastComparable = lastComparable;
-    const resourcesStream = utils.getResourcesStream({
-      ...this.getResourceFnConfig(),
-    });
+    let lastComparable = this.getLastComparable();
+    const resourcesStream = utils.getResourcesStream(this.getResourceFnConfig());
     for await (const resource of resourcesStream) {
       const comparable = this.getComparable(resource);
       if (lastComparable < comparable && this.compareFn(resource)) {
@@ -51,10 +48,10 @@ export default {
           this.getMeta(item),
         );
       }
-      if (newLastComparable < comparable) {
-        newLastComparable = comparable;
+      if (lastComparable < comparable) {
+        lastComparable = comparable;
       }
     }
-    this.setLastComparable(newLastComparable);
+    this.setLastComparable(lastComparable);
   },
 };

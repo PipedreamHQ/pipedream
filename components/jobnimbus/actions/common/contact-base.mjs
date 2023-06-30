@@ -201,7 +201,6 @@ export default {
           lat: parseFloat(this.geoLat),
           lon: parseFloat(this.geoLong),
         },
-        //tags: this.tags.join(","),
         ...this.additionalFields,
       };
       return data;

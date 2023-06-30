@@ -7,11 +7,11 @@ export default {
     const filePathWithTmp = `/tmp/${filePath}`;
     if (fs.existsSync(filePathWithTmp)) {
       return filePathWithTmp;
-    } else if (fs.existsSync(filePath)) {
-      return filePath;
-    } else {
-      return false;
     }
+    if (fs.existsSync(filePath)) {
+      return filePath;
+    }
+    return false;
   },
   extractProps(that, pairs) {
     const {
@@ -19,64 +19,55 @@ export default {
       app,
       ...props
     } = that;
-    for (let key of Object.keys(props)) {
-      if (pairs[key]) {
-        const keys = pairs[key].split(".");
-        keys.reduce((acc, curr, index) => {
-          if (index == keys.length - 1)
-            acc[curr] = props[key];
-          else
-            acc[curr] = acc[curr] ?? {};
-          return acc[curr];
-        }, props);
-        delete props[key];
-      }
-    }
-    return props;
+    return Object.keys(props)
+      .reduce((acc, key) => {
+        const keyMapped = pairs[key];
+        const value = props[key];
+        const newKey = keyMapped ?? key;
+        return {
+          ...acc,
+          [newKey]: value,
+        };
+      }, {});
   },
   async asyncPropHandler({
-    resourceFn, page, labelVal, params, resourceKey,
+    resourceFn, page, mapper, params, resourceKey = "results",
   } = {}) {
-    let resp;
-    resp = await resourceFn({
-      params: {
-        ...params,
-        ...(typeof page != "undefined" && {
-          from: page * PAGE_SIZE,
-          size: PAGE_SIZE,
-        }),
-      },
-    });
-    const items = resourceKey.split(".").reduce((acc, curr) => acc?.[curr], resp);
-    return items.map((item) => ({
-      label: typeof labelVal.label == "string" ?
-        labelVal.label.split(".").reduce((acc, curr) => acc?.[curr], item) :
-        labelVal.label(item),
-      value: typeof labelVal.value == "string" ?
-        labelVal.value.split(".").reduce((acc, curr) => acc?.[curr], item) :
-        labelVal.value(item),
-    }));
+    const { [resourceKey]: items } =
+      await resourceFn({
+        params: {
+          ...params,
+          ...(typeof page != "undefined" && {
+            from: page * PAGE_SIZE,
+            size: PAGE_SIZE,
+          }),
+        },
+      });
+    return items.map(mapper);
   },
   async *getResourcesStream({
     resourceFn, resourceFnArgs, resourceKey,
   }) {
     let page = 0;
     while (true) {
-      const nextResources = await resourceFn({
-        ...resourceFnArgs,
-        params: {
-          ...resourceFnArgs?.params,
-          from: page++ * PAGE_SIZE,
-          size: PAGE_SIZE,
-        },
-      });
-      const resources = resourceKey.split(".").reduce((acc, curr) => acc?.[curr], nextResources);
-      if (!resources?.length)
+      const { [resourceKey]: nextResources } =
+        await resourceFn({
+          ...resourceFnArgs,
+          params: {
+            ...resourceFnArgs?.params,
+            from: page++ * PAGE_SIZE,
+            size: PAGE_SIZE,
+          },
+        });
+      if (!nextResources?.length) {
+        console.log("No more resources");
         return;
-      for (const resource of resources) {
+      }
+      for (const resource of nextResources) {
         yield resource;
       }
       if (nextResources?.length < PAGE_SIZE) {
+        console.log("Number of resources less than page size");
         return;
       }
     }
