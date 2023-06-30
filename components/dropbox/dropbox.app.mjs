@@ -14,7 +14,7 @@ export default {
     pathFolder: {
       type: "string",
       label: "Path",
-      description: "The folder path. (Please use a valid path to filter the values)",
+      description: "The folder path. (Please use a valid path to filter the values and type at least 2 characters after the latest '/' to perform the search.)",
       useQuery: true,
       withLabel: true,
       async options({
@@ -192,10 +192,17 @@ export default {
             type: item[".tag"],
           }));
         } else {
+          let subpath = "";
+          let query = path;
+          if ((path.match(/\//g) || []).length > 1) {
+            const splitPath = path.split("/");
+            query = splitPath.pop();
+            subpath = splitPath.join("/");
+          }
           res = await this.searchFilesFolders({
-            query: path,
+            query,
             options: {
-              path: "",
+              path: subpath,
             },
           });
 
