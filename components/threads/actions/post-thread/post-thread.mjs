@@ -3,8 +3,8 @@ import threads from "../../threads.app.mjs";
 export default {
   key: "threads-post-thread",
   name: "Post a Thread",
-  description: "Post a new thread to a specific channel",
-  version: "0.2.0",
+  description: "Post a new thread to a specific channel. [See the Documentation](https://github.com/ThreadsHQ/api-documentation#post-thread).",
+  version: "0.2.1",
   type: "action",
   props: {
     threads,

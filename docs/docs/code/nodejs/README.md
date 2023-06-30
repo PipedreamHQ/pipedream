@@ -2,11 +2,7 @@
 
 Pipedream supports [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/).
 
-
-
 **Anything you can do with Node.js, you can do in a workflow**. This includes using most of [npm's 400,000+ packages](#using-npm-packages).
-
-
 
 JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2019#technology-_-programming-scripting-and-markup-languages) [languages](https://github.blog/2018-11-15-state-of-the-octoverse-top-programming-languages/) in the world, with a thriving community and [extensive package ecosystem](https://www.npmjs.com). If you work on websites and know JavaScript well, Pipedream makes you a full stack engineer. If you've never used JavaScript, see the [resources below](#new-to-javascript).
 
@@ -27,15 +23,14 @@ You can add any Node.js code in the editor that appears. For example, try:
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
-    console.log('This is Node.js code');
-    $.export('test', 'Some test data');
-    return 'Test data';
-  }
+    console.log("This is Node.js code");
+    $.export("test", "Some test data");
+    return "Test data";
+  },
 });
 ```
 
 Code steps use the same editor ([Monaco](https://microsoft.github.io/monaco-editor/)) used in Microsoft's [VS Code](https://code.visualstudio.com/), which supports syntax highlighting, automatic indentation, and more.
-
 
 ## Sharing data between steps
 
@@ -55,7 +50,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger via POS
 }
 ```
 
-In our Node.js step, we can access this data in the `steps` variable Specifically, this data from the POST request into our workflow is available in the `trigger` property. 
+In our Node.js step, we can access this data in the `steps` variable Specifically, this data from the POST request into our workflow is available in the `trigger` property.
 
 ```javascript
 export default defineComponent({
@@ -64,8 +59,8 @@ export default defineComponent({
     const pokemonType = steps.trigger.event.type;
 
     console.log(`${pokemonName} is a ${pokemonType} type Pokemon`);
-  }
-})
+  },
+});
 ```
 
 ### Sending data downstream to other steps
@@ -74,18 +69,20 @@ To share data created, retrieved, transformed or manipulated by a step to others
 
 ```javascript
 // This step is named "code" in the workflow
-import axios from 'axios';
+import axios from "axios";
 
 export default defineComponent({
   async run({ steps, $ }) {
-    const response = await axios.get("https://pokeapi.co/api/v2/pokemon/charizard");
+    const response = await axios.get(
+      "https://pokeapi.co/api/v2/pokemon/charizard"
+    );
     // Store the response's JSON contents into a variable called "pokemon"
     const pokemon = response.data;
 
     // Expose the pokemon data downstream to other steps in the $return_value from this step
     return pokemon;
-  }
-})
+  },
+});
 ```
 
 ### Using $.export
@@ -96,30 +93,33 @@ Alternatively, use the built in `$.export` helper instead of returning data. The
 
 ```javascript
 // This step is named "code" in the workflow
-import axios from 'axios';
+import axios from "axios";
 
 export default defineComponent({
   async run({ steps, $ }) {
-    const response = await axios.get("https://pokeapi.co/api/v2/pokemon/charizard");
+    const response = await axios.get(
+      "https://pokeapi.co/api/v2/pokemon/charizard"
+    );
     // Store the response's JSON contents into a variable called "pokemon"
     const pokemon = response.data;
 
     // Expose the pokemon data downstream to other steps in the pokemon export from this step
-    $.export('pokemon', pokemon);
-  }
-})
+    $.export("pokemon", pokemon);
+  },
+});
 ```
 
 Now this `pokemon` data is accessible to downstream steps within `steps.code.pokemon`
 
 ::: warning
-Regardless of using `return` or `$.export`, can only export JSON-serializable data from steps. Things like:
+You can only export JSON-serializable data from steps. Things like:
 
-* strings
-* numbers
-* objects
+- strings
+- numbers
+- objects
+
+You cannot export functions or other complex objects that don't serialize to JSON. [You can save that data to a file in the `/tmp` directory](/code/nodejs/working-with-files/).
 :::
-
 
 ## Passing props to code steps
 
@@ -133,14 +133,16 @@ For example, let's define a `firstName` prop. This will allow us to freely enter
 export default defineComponent({
   props: {
     firstName: {
-      type: 'string',
-      label: 'Your first name',
-      default: 'Dylan',
-    }
+      type: "string",
+      label: "Your first name",
+      default: "Dylan",
+    },
   },
   async run({ steps, $ }) {
-    console.log(`Hello ${this.firstName}, congrats on crafting your first prop!`);
-  }
+    console.log(
+      `Hello ${this.firstName}, congrats on crafting your first prop!`
+    );
+  },
 });
 ```
 
@@ -163,8 +165,8 @@ When you add a new Node.js code step or use the examples in this doc, you'll not
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
-      // this Node.js code will execute when the step runs
-  }
+    // this Node.js code will execute when the step runs
+  },
 });
 ```
 
@@ -187,8 +189,8 @@ If you're using [props](/code/nodejs/#passing-props-to-code-steps) or [connect a
 export default defineComponent({
   async run({ steps, $ }) {
     // `this` refers to the running component. Props, connected accounts, etc. are exposed here
-    console.log(this)
-  }
+    console.log(this);
+  },
 });
 ```
 
@@ -196,7 +198,7 @@ When you [connect an account to a step](/connected-accounts/#from-a-code-step), 
 
 ## Logs
 
-You can call `console.log` or `console.error` to add logs to the execution of a code step. 
+You can call `console.log` or `console.error` to add logs to the execution of a code step.
 
 These logs will appear just below the associated step. `console.log` messages appear in black, `console.error` in red.
 
@@ -208,9 +210,9 @@ If you need to print the contents of JavaScript objects, use `console.dir`:
 export default defineComponent({
   async run({ steps, $ }) {
     console.dir({
-      name: "Luke"
-    })
-  }
+      name: "Luke",
+    });
+  },
 });
 ```
 
@@ -256,22 +258,22 @@ Moreover, packages that require access to large binaries — for example, how [P
 
 Each time you deploy a workflow with Node.js code, Pipedream downloads the npm packages you `import` in your step. **By default, Pipedream deploys the latest version of the npm package each time you deploy a change**.
 
-There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a workflow, you can add that version in the `import` string, for example: 
+There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a workflow, you can add that version in the `import` string, for example:
 
 ```javascript
-import axios from "axios@0.19.2"
-``` 
+import axios from "axios@0.19.2";
+```
 
 You can also pass the version specifiers used by npm to support [semantic version](https://semver.org/) upgrades. For example, to allow for future patch version upgrades:
 
 ```javascript
-import axios from "axios@~0.20.0"
+import axios from "axios@~0.20.0";
 ```
 
 To allow for patch and minor version upgrades, use:
 
 ```javascript
-import got from "got@^11.0.0"
+import got from "got@^11.0.0";
 ```
 
 ::: warning
@@ -297,7 +299,7 @@ But you may encounter this error in workflows:
 This means that the package you're trying to `require` uses a different format to export their code, called [ECMAScript modules](https://nodejs.org/api/esm.html#esm_modules_ecmascript_modules) (**ESM**, or **ES modules**, for short). With ES modules, you instead need to `import` the package:
 
 ```javascript
-import got from 'got';
+import got from "got";
 ```
 
 Most package publish both CommonJS and ESM versions, so **if you always use `import`, you're less likely to have problems**. In general, refer to the documentation for your package for instructions on importing it correctly.
@@ -307,8 +309,8 @@ Most package publish both CommonJS and ESM versions, so **if you always use `imp
 This error means that you cannot use CommonJS and ESM imports in the same step. For example, if you run code like this:
 
 ```javascript
-import fetch from 'node-fetch';
-const axios = require("axios")
+import fetch from "node-fetch";
+const axios = require("axios");
 ```
 
 your workflow will throw a `require is not defined` error. There are two solutions:
@@ -316,13 +318,13 @@ your workflow will throw a `require is not defined` error. There are two solutio
 1. Try converting your CommonJS `require` statement into an ESM `import` statement. For example, convert this:
 
 ```javascript
-const axios = require("axios")
+const axios = require("axios");
 ```
 
 to this:
 
 ```javascript
-import axios from "axios"
+import axios from "axios";
 ```
 
 2. If the `import` syntax fails to work, separate your imports into different steps, using only CommonJS requires in one step, and only ESM imports in another.
@@ -365,8 +367,10 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 export default defineComponent({
   async run({ steps, $ }) {
     return $.flow.exit();
-    console.log("This code will not run, since $.flow.exit() was called above it");
-  }
+    console.log(
+      "This code will not run, since $.flow.exit() was called above it"
+    );
+  },
 });
 ```
 
@@ -376,7 +380,7 @@ You can pass any string as an argument to `$.flow.exit()`:
 export default defineComponent({
   async run({ steps, $ }) {
     return $.flow.exit("End message");
-  }
+  },
 });
 ```
 
@@ -390,14 +394,13 @@ export default defineComponent({
       return $.flow.exit();
     }
     console.log("This code will only run 50% of the time");
-  }
+  },
 });
 ```
 
 ## Errors
 
 [Errors](https://nodejs.org/dist/latest-v10.x/docs/api/errors.html#errors_errors) raised in a code step will stop the execution of code or destinations that follow.
-
 
 ### Configuration Error
 
@@ -414,14 +417,14 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default defineComponent({
   props: {
-    email: { type: "string" }
+    email: { type: "string" },
   },
   async run({ steps, $ }) {
     // if the email address doesn't include a @, it's not valid
-    if(!this.email.includes("@")) {
-      throw new ConfigurationError('Provide a valid email address');
+    if (!this.email.includes("@")) {
+      throw new ConfigurationError("Provide a valid email address");
     }
-  }
+  },
 });
 ```
 

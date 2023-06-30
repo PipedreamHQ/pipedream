@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
 import querystring from "query-string";
+import crypto from "crypto";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -71,6 +73,18 @@ export default {
       label: "Max Items",
       description: "Maximum number of items to return",
       default: 20,
+    },
+    encrypted: {
+      type: "boolean",
+      label: "Encrypted",
+      description: "Are the form responses encrypted? Set to `true` to decrypt responses.",
+      optional: true,
+    },
+    privateKey: {
+      type: "string",
+      label: "Private Key",
+      description: "The private key provided/created when setting the form as encrypted. Starts with `-----BEGIN RSA PRIVATE KEY-----` and ends with `-----END RSA PRIVATE KEY-----`",
+      secret: true,
     },
   },
   methods: {
@@ -185,6 +199,40 @@ export default {
       return this._makeRequest({
         endpoint: `form/${encodeURIComponent(formId)}/webhooks`,
       });
+    },
+    decryptSubmission(submission, privateKey) {
+      const { answers } = submission;
+      if (!answers) {
+        return submission;
+      }
+
+      if (!privateKey.includes(`${constants.KEY_HEADER}\n`)) {
+        privateKey = privateKey.replace(constants.KEY_HEADER, `${constants.KEY_HEADER}\n`);
+      }
+      if (!privateKey.includes(`\n${constants.KEY_FOOTER}`)) {
+        privateKey = privateKey.replace(constants.KEY_FOOTER, `\n${constants.KEY_FOOTER}`);
+      }
+
+      for (const answer of Object.keys(answers)) {
+        if (!answers[answer]["answer"]) {
+          continue;
+        }
+        for (const question of Object.keys(answers[answer]["answer"])) {
+          const q = answers[answer]["answer"][question];
+          try {
+            const decrypted = crypto.privateDecrypt({
+              key: privateKey,
+              passphrase: "",
+              padding: crypto.constants.RSA_PKCS1_PADDING,
+            }, Buffer.from(q, "base64"));
+            answers[answer]["answer"][question] = decrypted.toString("utf8");
+          } catch (e) {
+            // not a base64 string
+            continue;
+          }
+        }
+      }
+      return submission;
     },
   },
 };

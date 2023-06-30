@@ -17,13 +17,27 @@ export default {
   name: "New or Modified Comments",
   description:
     "Emits a new event any time a file comment is added, modified, or deleted in your linked Google Drive",
-  version: "0.1.0",
+  // version: "0.1.1",
+  version: "0.1.3",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
   hooks: {
-    ...common.hooks,
+    async deploy() {
+      const daysAgo = new Date();
+      daysAgo.setDate(daysAgo.getDate() - 30);
+      const timeString = daysAgo.toISOString();
+
+      const args = this.getFilesOpts({
+        q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
+        fields: "files",
+      });
+
+      const { data } = await this.googleDrive.drive().files.list(args);
+
+      await this.processChanges(data.files);
+    },
     async activate() {
       await common.hooks.activate.bind(this)();
       this._setInitTime(Date.now());
@@ -58,14 +72,32 @@ export default {
         content: summary,
         modifiedTime: tsString,
       } = data;
-      const { "x-goog-message-number": eventId } = headers;
+      const ts = Date.parse(tsString);
+      const eventId = headers && headers["x-goog-message-number"];
+
       return {
-        id: `${commentId}-${eventId}`,
+        id: `${commentId}-${eventId || ts}`,
         summary,
-        ts: Date.parse(tsString),
+        ts,
+      };
+    },
+    getChanges(headers) {
+      if (!headers) {
+        return;
+      }
+      return {
+        change: {
+          state: headers["x-goog-resource-state"],
+          resourceURI: headers["x-goog-resource-uri"],
+          // Additional details about the changes. Possible values: content,
+          // parents, children, permissions.
+          changed: headers["x-goog-changed"],
+        },
       };
     },
     async processChanges(changedFiles, headers) {
+      const changes = this.getChanges(headers);
+
       for (const file of changedFiles) {
         const lastCommentTimeForFile = this._getLastCommentTimeForFile(file.id);
         let maxModifiedTime = lastCommentTimeForFile;
@@ -83,14 +115,7 @@ export default {
           const eventToEmit = {
             comment,
             file,
-            change: {
-              state: headers["x-goog-resource-state"],
-              resourceURI: headers["x-goog-resource-uri"],
-
-              // Additional details about the changes. Possible values: content,
-              // parents, children, permissions.
-              changed: headers["x-goog-changed"],
-            },
+            ...changes,
           };
           const meta = this.generateMeta(comment, headers);
           this.$emit(eventToEmit, meta);

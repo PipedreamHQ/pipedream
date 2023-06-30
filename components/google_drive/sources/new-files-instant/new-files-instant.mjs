@@ -1,4 +1,5 @@
 import common from "../common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
@@ -9,7 +10,7 @@ export default {
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
   description: "Emit new event any time a new file is added in your linked Google Drive",
-  version: "0.1.0",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -24,7 +25,7 @@ export default {
       options({ prevContext }) {
         const { nextPageToken } = prevContext;
         const baseOpts = {
-          q: "mimeType = 'application/vnd.google-apps.folder'",
+          q: "mimeType = 'application/vnd.google-apps.folder' and trashed = false",
         };
         const opts = this.isMyDrive()
           ? baseOpts
@@ -40,6 +41,18 @@ export default {
     },
   },
   hooks: {
+    async deploy() {
+      const daysAgo = new Date();
+      daysAgo.setDate(daysAgo.getDate() - 30);
+      const timeString = daysAgo.toISOString();
+
+      const { data } = await this.googleDrive.drive().files.list({
+        q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
+        fields: "files(id)",
+      });
+
+      await this.processChanges(data.files);
+    },
     ...common.hooks,
     async activate() {
       await common.hooks.activate.bind(this)();
@@ -92,4 +105,5 @@ export default {
       }
     },
   },
+  sampleEmit,
 };

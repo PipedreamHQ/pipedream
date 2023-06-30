@@ -15,7 +15,7 @@ To support these goals, **Pipedream offers a generous free tier**. You can run s
 
 ## Free Tier
 
-Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers. 
+Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers.
 
 But Free account have a [daily limit of free credits](/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
 
@@ -55,15 +55,7 @@ Pipedream uses a number of terms to describe platform metrics and details of our
 
 ### Credits
 
-::: tip
-
-If you're still on our legacy Developer, Professional or Organization plan, you still may be incurring **invocations** and not credits.
-
-During this transitionary period, you'll still be billed in terms of invocations. However workspace migrations are coming. You'll be guided on how to migrate your account to a [workspace](/workspaces) in the near future.
-
-:::
-
-Pipedream charges one credit per {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory }} megabytes of memory (the default) per workflow execution.
+Pipedream charges one credit per {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory }} megabytes of memory (the default) per workflow execution. Credits are also charged for [dedicated workers](/workflows/settings/#eliminate-cold-starts).
 
 **Most workflow executions use a single credit**, regardless of the number of steps (unlike some other platforms, Pipedream does not charge for usage based on the number of steps).
 
@@ -112,7 +104,7 @@ Execution time used to develop a workflow in the builder does not count towards 
 
 #### Source Credit Usage
 
-When an [event source](/sources) triggers a workflow, the first credit per source execution is included for free. This means that the first {{ $site.themeConfig.base_credits_price.seconds }} of compute doesn't incur credits. This includes [Free Tier](/pricing/#free-tier) accounts.
+When an [event source](/sources) triggers a workflow, the first credit per source execution is included for free. This means that the first {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute doesn't incur credits. This includes [Free Tier](/pricing/#free-tier) accounts.
 
 When a source is configured as a workflow trigger, the core value is in the workflow. We don't want to charge you two credits (one to run the source, one to run the workflow) when the workflow contains the core logic. Sources that trigger workflows are called "dependent" sources.
 
