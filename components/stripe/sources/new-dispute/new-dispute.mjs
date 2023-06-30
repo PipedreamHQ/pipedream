@@ -12,7 +12,6 @@ export default {
     getEvents() {
       return [
         "charge.dispute.created",
-        "issuing_dispute.created",
       ];
     },
   },
