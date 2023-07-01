@@ -87,6 +87,22 @@ export default {
       label: "Amount",
       description: "E.g. `-290.99`",
     },
+    transactionId: {
+      type: "string",
+      label: "Transaction ID",
+      description: "The ID of the transaction to update.",
+      async options({ budgetId }) {
+        const { transactions } = await this.getTransactions({
+          budgetId,
+        });
+        return transactions.map(({
+          payee_name, id,
+        }) => ({
+          label: `${id} (${payee_name})`,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
     _isUUID(value) {

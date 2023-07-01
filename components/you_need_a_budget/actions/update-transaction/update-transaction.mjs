@@ -24,9 +24,13 @@ export default {
       ],
     },
     transactionId: {
-      type: "string",
-      label: "Transaction ID",
-      description: "The ID of the transaction to update.",
+      propDefinition: [
+        app,
+        "transactionId",
+        ({ budgetId }) => ({
+          budgetId,
+        }),
+      ],
     },
     date: {
       propDefinition: [
