@@ -1,10 +1,11 @@
 import app from "../../you_need_a_budget.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "you_need_a_budget-update-transaction",
   name: "Update Transaction",
   description: "Update an existing transaction. [See the docs](https://api.youneedabudget.com/v1#/Transactions/updateTransaction)",
-  version: "0.0.1",
+  version: "0.0.23",
   type: "action",
   props: {
     app,
@@ -18,8 +19,8 @@ export default {
       propDefinition: [
         app,
         "accountId",
-        (c) => ({
-          budgetId: c.budgetId,
+        ({ budgetId }) => ({
+          budgetId,
         }),
       ],
     },
@@ -33,17 +34,21 @@ export default {
       ],
     },
     date: {
+      description: "The transaction date in ISO format `YYYY-MM-DD` (e.g. `2016-12-01`). Future dates (scheduled transactions) are not permitted. Split transaction dates cannot be changed and if a different date is supplied it will be ignored.",
       propDefinition: [
         app,
         "date",
       ],
     },
-    payee: {
+    payeeId: {
+      label: "Payee ID",
+      description: "The id of the payee.",
+      optional: true,
       propDefinition: [
         app,
         "payee",
-        (c) => ({
-          budgetId: c.budgetId,
+        ({ budgetId }) => ({
+          budgetId,
         }),
       ],
     },
@@ -51,8 +56,8 @@ export default {
       propDefinition: [
         app,
         "categoryId",
-        (c) => ({
-          budgetId: c.budgetId,
+        ({ budgetId }) => ({
+          budgetId,
         }),
       ],
       optional: true,
@@ -70,9 +75,10 @@ export default {
       optional: true,
     },
     cleared: {
-      type: "boolean",
+      type: "string[]",
       label: "Cleared",
-      description: "Mark a transaction as cleared when it has posted to your bank account.",
+      description: "The cleared status of the transaction.",
+      options: Object.values(constants.CLEARED_STATUS),
       optional: true,
     },
     approved: {
@@ -83,55 +89,67 @@ export default {
     },
   },
   methods: {
-    async updateTransaction({
-      budgetId, transactionId, accountId, categoryId, payee, cleared, amount, ...data
+    updateTransaction({
+      budgetId, transactionId, data = {},
     }) {
-      const transaction = {
-        account_id: accountId,
-        category_id: categoryId,
-        amount: this.app._convertToMilliunit(amount),
-        ...data,
-      };
-      if (cleared) {
-        transaction.cleared = "cleared";
-      }
-      if (this.app._isUUID(payee)) {
-        transaction.payee_id = payee;
-      } else {
-        transaction.payee_name = payee;
-      }
-      const response = await this.app._client().transactions.updateTransaction(
+      return this.app._client().transactions.updateTransaction(
         budgetId,
         transactionId,
-        {
-          transaction,
-        },
+        data,
       );
-      return response.data;
     },
   },
-  async run({ $ }) {
+  async run({ $: step }) {
+    const {
+      budgetId,
+      transactionId,
+      accountId,
+      date,
+      payeeId,
+      categoryId,
+      amount,
+      memo,
+      cleared,
+      approved,
+    } = this;
+
     try {
-      const response = await this.app.updateTransaction({
-        transactionId: this.transactionId,
-        accountId: this.accountId,
-        date: this.date,
-        payee: this.payee,
-        budgetId: this.budgetId,
-        categoryId: this.categoryId.value,
-        amount: this.amount,
-        memo: this.memo,
-        cleared: this.cleared,
-        approved: this.approved,
+      const response = await this.updateTransaction({
+        budgetId,
+        transactionId,
+        data: {
+          transaction: {
+            account_id: accountId,
+            date,
+            amount: this.app._convertToMilliunit(amount),
+            payee_id: payeeId,
+            category_id: categoryId?.value ?? categoryId,
+            memo,
+            cleared,
+            approved,
+          },
+        },
       });
-      $.export("$summary", `Transaction ${this.transactionId} updated.`);
+
+      step.export("$summary", `Transaction ${this.response.data.transaction.id} updated.`);
+
       return response;
+
     } catch (error) {
-      console.error("Error updating the transaction", error);
-      if (error.error) {
-        this.app.throwFormattedError(error.error);
+      const msg = "Error updating transaction";
+      const strError = JSON.stringify(error, null, 2);
+
+      if (!error?.error) {
+        console.log("Error in API response, please check your transactions to make sure the changes were applied.");
+        step.export("$summary", `Transaction ${this.transactionId} updated.`);
+        return {
+          success: true,
+          transactionId,
+        };
       }
-      this.app.throwFormattedError(error);
+
+      console.log(msg, error);
+      throw new Error(`${msg}: ${strError}`);
     }
   },
 };
