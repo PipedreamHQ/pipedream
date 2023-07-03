@@ -18,6 +18,9 @@ const isCommonFile = ( subname ) => {
   return regex.test(subname);
 };
 
+const isTestEventFile = ( subname ) =>
+  subname.split("/").pop() === "test-event.mjs";
+
 const getComponentKey = ( p )  => {
   const data = fs.readFileSync(p, "utf8");
   const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
@@ -39,7 +42,7 @@ function* iterateComponentFiles() {
     const p = path.join(rootDir, file);
     if (!file.startsWith("components/"))
       continue;
-    if (isAppFile(p) || isCommonFile(p) || !isSourceFile(p))
+    if (isAppFile(p) || isCommonFile(p) || !isSourceFile(p) || isTestEventFile(p))
       continue;
     yield file;
   }

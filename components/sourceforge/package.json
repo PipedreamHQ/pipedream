@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sourceforge",
+  "version": "0.1.0",
+  "description": "Pipedream Sourceforge Components",
+  "main": "sourceforge.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sourceforge"
+  ],
+  "homepage": "https://pipedream.com/apps/sourceforge",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

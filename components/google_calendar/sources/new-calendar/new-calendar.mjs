@@ -4,8 +4,9 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   key: "google_calendar-new-calendar",
   name: "New Calendar",
+  // eslint-disable-next-line pipedream/source-description
   description: "Emit an event when a calendar is created.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   props: {
     db: "$.service.db",

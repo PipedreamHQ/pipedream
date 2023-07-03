@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3.5.3
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.22.0
@@ -67,7 +67,7 @@ jobs:
           # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
           # doesn't end with /common*.*js, and doesn't follow */common/
           if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]] \
-              && [[ $added_modified_file != */common*.*js ]] && [[ $added_modified_file != */common/* ]]
+              && [[ $added_modified_file != */common*.*js ]] && [[ $added_modified_file != */common/* ]] && [[ $added_modified_file != components/*/test-event.mjs ]]
             then
               echo "retrieving previous version for ${added_modified_file}"
               KEY=`echo $added_modified_file | tr '/' ' ' | awk '{ print $2 "-" $4 }'`
@@ -115,7 +115,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3.5.3
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.22.0

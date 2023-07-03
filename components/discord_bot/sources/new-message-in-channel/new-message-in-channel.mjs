@@ -1,4 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 import maxBy from "lodash.maxby";
 import common from "../common.mjs";
 
@@ -10,7 +11,8 @@ export default {
   name: "New Message in Channel",
   description: "Emit new event for each message posted to one or more channels",
   type: "source",
-  version: "0.0.12",
+  version: "0.0.13",
+
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     ...common.props,
@@ -122,4 +124,5 @@ export default {
     // Set the last message ID for the next run
     this._setLastMessageIDs(lastMessageIDs);
   },
+  sampleEmit,
 };
