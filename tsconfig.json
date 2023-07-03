@@ -2138,6 +2138,21 @@
     },
     {
       "path": "components/pendo"
+    },
+    {
+      "path": "components/elevenlabs"
+    },
+    {
+      "path": "components/google_contacts"
+    },
+    {
+      "path": "components/facebook_groups"
+    },
+    {
+      "path": "components/nango"
+    },
+    {
+      "path": "components/shopify_developer_app"
     }
   ]
 }

@@ -12,7 +12,7 @@ export default defineAction({
   key: "twitter-upload-media",
   name: "Upload Media",
   description: `Upload new media. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     app,
@@ -27,14 +27,16 @@ export default defineAction({
       label: "Media Category",
       description: "The category representing the media usage.",
       options: constants.MEDIA_CATEGORIES,
-      optional: false,
+      optional: true,
     },
   },
   async run({ $ }): Promise<object> {
     try {
-      const content = this.filePath.startsWith("/tmp")
+      const isLocalFile = this.filePath?.startsWith("/tmp");
+
+      const content = isLocalFile
         ? fs.createReadStream(this.filePath, {
-          encoding: "binary",
+          encoding: "base64",
         })
         : await axios($, {
           url: this.filePath,
@@ -42,12 +44,19 @@ export default defineAction({
         });
 
       const data = new FormData();
-      data.append("media", content);
-      data.append("media_category", this.media_category);
+
+      if (isLocalFile) {
+        data.append("media_data", content);
+      } else {
+        data.append("media", content);
+      }
 
       const response = await this.app.uploadMedia({
         $,
         data,
+        params: {
+          media_category: this.media_category,
+        },
       });
 
       $.export("$summary", `Successfully uploaded media with ID ${response.media_id}`);

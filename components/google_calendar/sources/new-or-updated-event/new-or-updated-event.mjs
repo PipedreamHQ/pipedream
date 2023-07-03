@@ -4,8 +4,9 @@ export default {
   ...common,
   key: "google_calendar-new-or-updated-event",
   name: "New or Updated Event",
+  // eslint-disable-next-line pipedream/source-description
   description: "Emits when an event is created or updated (except when it's cancelled)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   methods: {
