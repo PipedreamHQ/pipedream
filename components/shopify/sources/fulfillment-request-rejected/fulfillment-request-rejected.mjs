@@ -4,10 +4,10 @@ import constants from "../common/constants.mjs";
 export default {
   ...common,
   key: "shopify-fulfillment-request-rejected",
-  name: "Fulfillment Request Rejected",
+  name: "Fulfillment Request Rejected (Instant)",
   type: "source",
-  description: "Occurs when a fulfillment service rejects a fulfillment request that was sent by a merchant.",
-  version: "0.0.7",
+  description: "Emit when a fulfillment service rejects a fulfillment request that was sent by a merchant.",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -16,8 +16,8 @@ export default {
     },
     generateMeta(resource) {
       return {
-        id: fulfillment_order.id,
-        summary: `Fulfillment request rejected for fulfillment order.`,
+        id: resource.fulfillment_order.id,
+        summary: `Fulfillment request rejected for fulfillment order ${resource.fulfillment_order.id}`,
         ts: Date.now(),
       };
     },

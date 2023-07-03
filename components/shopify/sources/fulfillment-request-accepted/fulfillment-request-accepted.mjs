@@ -4,10 +4,10 @@ import constants from "../common/constants.mjs";
 export default {
   ...common,
   key: "shopify-fulfillment-request-accepted",
-  name: "Fulfillment Request Accepted",
+  name: "Fulfillment Request Accepted (Instant)",
   type: "source",
-  description: "Occurs when a fulfillment service accepts a fulfillment request that was sent by a merchant.",
-  version: "0.0.7",
+  description: "Emit when a fulfillment service accepts a fulfillment request that was sent by a merchant.",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -16,8 +16,8 @@ export default {
     },
     generateMeta(resource) {
       return {
-        id: fulfillment_order.id,
-        summary: `Fulfillment request accepted for fulfillment order.`,
+        id: resource.fulfillment_order.id,
+        summary: `Fulfillment request accepted for fulfillment order ${resource.fulfillment_order.id}`,
         ts: Date.now(),
       };
     },
