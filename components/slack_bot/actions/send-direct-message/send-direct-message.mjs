@@ -14,5 +14,5 @@ export default {
   }),
   key: "slack_bot-send-direct-message",
   description: "Send a direct message to a single user (Bot). See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.1",
+  version: "0.0.2",
 };
