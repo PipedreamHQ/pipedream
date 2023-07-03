@@ -1,20 +1,6 @@
-import shopify from "../../shopify.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-  props: {
-    shopify,
-    type: {
-      type: "string",
-      label: "Type",
-      description: "The Metaobject Type",
-      async options() {
-        const { data: { metaobjectDefinitions: { nodes } } }
-          = await this.listMetaobjectDefinitions();
-        return nodes?.map(({ type }) => type) || [];
-      },
-    },
-  },
   methods: {
     async makeGraphQLRequest({
       $ = this, ...args
