@@ -179,6 +179,10 @@ export default {
           ? ""
           : path;
 
+        if (path.length > 0 && !path.startsWith("/")) {
+          path = "/" + path;
+        }
+
         const dpx = await this.sdk();
         if (path === "") {
           res = await dpx.filesListFolder({
