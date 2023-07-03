@@ -13,7 +13,7 @@ export default {
       label: "Title",
       description: "Title of the post",
     },
-    featured_image: {
+    featuredImage: {
       type: "string",
       label: "Featured Image",
       description: "URL of the featured image",
@@ -44,7 +44,7 @@ export default {
   async run({ $ }) {
     const {
       title,
-      featured_image,
+      featuredImage,
       html,
       status,
       tags,
