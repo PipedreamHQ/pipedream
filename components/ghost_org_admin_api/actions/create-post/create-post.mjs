@@ -17,6 +17,7 @@ export default {
       type: "string",
       label: "Featured Image",
       description: "URL of the featured image",
+      optional: true,
     },
     html: {
       type: "string",
