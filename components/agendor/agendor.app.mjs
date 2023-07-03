@@ -16,6 +16,18 @@ export default {
         }));
       },
     },
+    organizationId: {
+      type: "string",
+      label: "Organization ID",
+      description: "The ID of the organization to retrieve.",
+      async options(prevContext) {
+        const organizations = await this.listOrganizations(prevContext.page + 1);
+        return organizations.data.map((organization) => ({
+          label: organization.name,
+          value: organization.id,
+        }));
+      },
+    },
   },
   methods: {
     _getApiToken() {
@@ -52,6 +64,22 @@ export default {
           page,
           per_page: 100,
         },
+      });
+    },
+    async listOrganizations(page) {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/organizations",
+        params: {
+          page,
+          per_page: 100,
+        },
+      });
+    },
+    async getOrganization(organizationId) {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: `/organizations/${organizationId}`,
       });
     },
   },
