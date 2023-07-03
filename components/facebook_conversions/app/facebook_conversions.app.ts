@@ -22,5 +22,8 @@ export default defineApp({
         ...args,
       });
     },
+    async sendData() {
+      
+    }
   },
 });
