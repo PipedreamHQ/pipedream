@@ -17,35 +17,35 @@ export default defineAction({
     eventName: {
       type: "string",
       label: "Event Name",
-      description: `A standard event or custom event name. ${URL_DOCS_SERVER_EVENT}`
+      description: `A standard event or custom event name. ${URL_DOCS_SERVER_EVENT}`,
     },
     eventTime: {
       type: "integer",
       label: "Event Time",
-      description: `A Unix timestamp in seconds indicating when the actual event occurred. ${URL_DOCS_SERVER_EVENT}`
+      description: `A Unix timestamp in seconds indicating when the actual event occurred. ${URL_DOCS_SERVER_EVENT}`,
     },
     userData: {
       type: "object",
       label: "User Data",
-      description: `A map that contains customer information data. ${URL_DOCS_SERVER_EVENT}`
+      description: `A map that contains customer information data. ${URL_DOCS_SERVER_EVENT}`,
     },
     actionSource: {
       type: "string",
       label: "Action Source",
       description: `This field allows you to specify where your conversions occurred. ${URL_DOCS_SERVER_EVENT}`,
-      options: ACTION_SOURCE_OPTIONS
+      options: ACTION_SOURCE_OPTIONS,
     },
     customData: {
       type: "object",
       label: "Custom Data",
-      description: `A map that includes additional business data about the event. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data).`,
+      description: "A map that includes additional business data about the event. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data).",
       optional: true,
     },
     eventSourceUrl: {
       type: "string",
       label: "Event Source URL",
       description: `The browser URL where the event happened. ${URL_DOCS_SERVER_EVENT}`,
-      optional: true
+      optional: true,
     },
     optOut: {
       type: "boolean",
@@ -88,10 +88,12 @@ export default defineAction({
       label: "Extended Info",
       description: `Extended device information, such as screen width and height. ${URL_DOCS_SERVER_EVENT}`,
       optional: true,
-    }
+    },
   },
   async run({ $ }): Promise<object> {
-    const params = { $ };
+    const params = {
+      $,
+    };
     const response = await this.app.sendEventData(params);
 
     $.export("$summary", "Successfully sent event data");

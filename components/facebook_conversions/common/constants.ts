@@ -3,9 +3,18 @@ export const ACTION_SOURCE_OPTIONS = [
     label: "Conversion happened over email.",
     value: "email",
   },
-  { label: "Conversion was made on your website.", value: "website" },
-  { label: "Conversion was made on your mobile app.", value: "app" },
-  { label: "Conversion was made over the phone.", value: "phone_call" },
+  {
+    label: "Conversion was made on your website.",
+    value: "website",
+  },
+  {
+    label: "Conversion was made on your mobile app.",
+    value: "app",
+  },
+  {
+    label: "Conversion was made over the phone.",
+    value: "phone_call",
+  },
   {
     label:
       "Conversion was made via a messaging app, SMS, or online messaging feature.",
@@ -20,5 +29,8 @@ export const ACTION_SOURCE_OPTIONS = [
       "Conversion happened automatically, for example, a subscription renewal that's set to auto-pay each month.",
     value: "system_generated",
   },
-  { label: "Conversion happened in a way that is not listed.", value: "other" },
+  {
+    label: "Conversion happened in a way that is not listed.",
+    value: "other",
+  },
 ];
