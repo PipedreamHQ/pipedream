@@ -28,6 +28,19 @@ export default {
         }));
       },
     },
+    userId: {
+      type: "string",
+      label: "Owner User",
+      description: "User ID or email of the owner of this organization.",
+      optional: true,
+      async options() {
+        const users = await this.listUsers();
+        return users.data.map((user) => ({
+          label: user.name,
+          value: user.id,
+        }));
+      },
+    },
   },
   methods: {
     _getApiToken() {
@@ -80,6 +93,19 @@ export default {
       return this._makeHttpRequest({
         method: "GET",
         path: `/organizations/${organizationId}`,
+      });
+    },
+    async listUsers() {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/users",
+      });
+    },
+    async createOrganization(data) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/organizations",
+        data,
       });
     },
   },
