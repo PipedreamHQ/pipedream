@@ -34,7 +34,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", "Contact has been created successfully.");
+    $.export("$summary", `Successfully created contact with ID ${resp.jnid}`);
     return resp;
   },
 };

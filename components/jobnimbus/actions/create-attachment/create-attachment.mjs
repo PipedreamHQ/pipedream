@@ -63,7 +63,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", "Attachment has been created successfully.");
+    $.export("$summary", `Successfully created attachment with ID ${resp.jnid}`);
     return resp;
   },
 };
