@@ -1,5 +1,4 @@
 import slack from "../slack/slack.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...slack,
@@ -24,8 +23,8 @@ export default {
           error: e, needed, provided,
         } = error.data;
         if (e === "missing_scope") {
-          throw new ConfigurationError(`Scope \`${needed}\` is missing from your Slack app. 
-            Scopes provided: \`${provided}\``);
+          throw `"Scope(s) \`${needed}\` missing from your Slack app. 
+            Scopes provided: \`${provided}\`".`;
         }
         console.log(`Error calling ${method}`, error);
         throw error;

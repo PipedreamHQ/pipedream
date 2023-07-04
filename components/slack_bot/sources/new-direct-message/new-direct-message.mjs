@@ -6,7 +6,7 @@ export default {
   key: "slack_bot-new-direct-message",
   name: "New Direct Message",
   version: "0.0.2",
-  description: "Emit new event when a message was posted in a direct message channel (Bot)",
+  description: "Emit new event when a message is posted in a direct message channel (Bot)",
   type: "source",
   dedupe: "unique",
   props: {
