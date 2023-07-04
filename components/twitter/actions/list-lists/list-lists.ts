@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
   getMultiItemSummary,
@@ -21,8 +21,8 @@ const MAX_RESULTS_PER_PAGE = 100;
 export default defineAction({
   key: "twitter-list-lists",
   name: "List Lists",
-  description: `Get all lists owned by a user. [See docs here](${DOCS_LINK})`,
-  version: "1.1.3",
+  description: `Get all lists owned by a user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.3",
   type: "action",
   props: {
     app,

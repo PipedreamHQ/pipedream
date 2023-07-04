@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/wix_api_key",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Wix Components",
-  "main": "dist/app/wix_api_key.app.mjs",
+  "main": "wix_api_key.app.mjs",
   "keywords": [
     "pipedream",
     "wix_api_key"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/wix_api_key",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

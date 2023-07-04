@@ -61,7 +61,7 @@ This view in particular is helpful for identifying trends of errors, or workflow
 
 Filtering by time frame will only include workflow events _started_ within the defined range.
 
-Using this dropdown, you can select between convienent time ranges, or specify a custom range on the right side.
+Using this dropdown, you can select between convenient time ranges, or specify a custom range on the right side.
 
 ![How to filter events by a timerange](https://res.cloudinary.com/pipedreamin/image/upload/v1683747452/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.37.01_2x_oxb07m.png)
 

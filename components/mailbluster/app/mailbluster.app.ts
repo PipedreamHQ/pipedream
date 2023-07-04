@@ -58,6 +58,13 @@ export default defineApp({
         path: "products",
       });
     },
+    createOrder(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: "orders",
+      });
+    },
     getLead({
       $, leadHash,
     }) {

@@ -174,22 +174,40 @@ export default {
       return this.collectRows(statement);
     },
     async getFailedTasksInDatabase({
-      startTime, database, schema,
+      startTime, database, schemas, taskName,
     }) {
+      const binds = [
+        startTime,
+        database,
+      ];
+
+      let schemaList = [];
+      for (const schema of schemas) {
+        schemaList.push("REGEXP_LIKE(SCHEMA_NAME, ?)");
+        binds.push(schema);
+      }
+
+      const taskNameWhere = taskName
+        ? "AND REGEXP_LIKE(NAME, ?)"
+        : "";
+
+      if (taskName) {
+        binds.push(taskName.toUpperCase());
+      }
+
       const sqlText = `SELECT *
-      FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY())
-      WHERE COMPLETED_TIME >= to_timestamp_ltz(:1, 3)
-      AND state = 'FAILED'
-      AND database_name = :2
-      AND schema_name = :3
-      ORDER BY COMPLETED_TIME ASC;`;
+      FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY(
+        RESULT_LIMIT => 10000,
+        ERROR_ONLY => TRUE,
+        SCHEDULED_TIME_RANGE_START => to_timestamp_ltz(?, 3)
+      ))
+      WHERE database_name = ?
+      AND (${schemaList.join(" OR ")})
+      ${taskNameWhere}
+      ORDER BY SCHEDULED_TIME ASC, QUERY_START_TIME ASC, COMPLETED_TIME ASC;`;
       const statement = {
         sqlText,
-        binds: [
-          startTime,
-          database,
-          schema,
-        ],
+        binds,
       };
       return this.collectRows(statement);
     },

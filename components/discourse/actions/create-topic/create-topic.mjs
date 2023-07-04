@@ -2,7 +2,7 @@ import discourse from "../../discourse.app.mjs";
 
 export default {
   name: "Create Topic",
-  version: "0.1.0",
+  version: "0.1.1",
   key: "discourse-create-topic",
   description: "Creates a topic. [See docs here](https://docs.discourse.org/#tag/Topics/operation/createTopicPostPM)",
   type: "action",

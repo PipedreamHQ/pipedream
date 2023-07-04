@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/surveysparrow",
+  "version": "0.1.0",
+  "description": "Pipedream SurveySparrow Components",
+  "main": "surveysparrow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "surveysparrow"
+  ],
+  "homepage": "https://pipedream.com/apps/surveysparrow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "lodash.pickby": "^4.6.0"
+  }
+}

@@ -33,10 +33,19 @@ const TICKET_STATUS_OPTIONS = [
   "CLOSED",
 ];
 
+const MILESTONE_OPTIONS = [
+  "New",
+  "Prospect",
+  "Proposal",
+  "Won",
+  "Lost",
+];
+
 export default {
   TASK_TYPE_OPTIONS,
   TASK_PRIORITY_OPTIONS,
   TASK_STATUS_OPTIONS,
   TICKET_PRIORITY_OPTIONS,
   TICKET_STATUS_OPTIONS,
+  MILESTONE_OPTIONS,
 };

@@ -17,6 +17,7 @@ const docsNav = [
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
       "/workflows/networking/",
+      "/workflows/sharing/",
       "/migrate-from-v1/",
     ],
   },
@@ -57,7 +58,7 @@ const docsNav = [
           "/code/python/using-data-stores/",
           "/code/python/rerun/",
           "/code/python/import-mappings/",
-          "/code/python/faqs/"
+          "/code/python/faqs/",
         ],
       },
       "/code/go/",
@@ -72,14 +73,14 @@ const docsNav = [
   },
   "/http/",
   {
-    title: 'Integrations',
-    type: "group", 
+    title: "Integrations",
+    type: "group",
     children: [
       "/apps/",
       "/apps/contributing/",
       {
-        title: "Components", 
-        type: "group", 
+        title: "Components",
+        type: "group",
         collapsable: false,
         children: [
           "/components/",
@@ -87,19 +88,19 @@ const docsNav = [
           "/components/quickstart/nodejs/sources/",
           "/pipedream-axios/",
           "/components/typescript/",
-          "/components/guidelines/"
-        ]
+          "/components/guidelines/",
+        ],
       },
-    ]
+    ],
   },
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
   {
     title: "Workspaces",
     children: [
-      "/workspaces/", 
+      "/workspaces/",
       "/workspaces/sso/google/",
-      "/workspaces/sso/okta/"
+      "/workspaces/sso/okta/",
     ],
   },
 ];
@@ -107,11 +108,7 @@ const docsNav = [
 const referenceNav = [
   {
     title: "Components API",
-    children: [
-
-      "/components/api/",
-
-    ],
+    children: ["/components/api/"],
   },
   {
     title: "CLI",
@@ -141,7 +138,7 @@ const referenceNav = [
       "/subprocessors/",
     ],
   },
-  "/workflows/events/cold-starts/",
+  "/workflows/settings/#eliminate-cold-starts",
 ];
 
 const pricingNav = ["/pricing/"];
@@ -167,7 +164,7 @@ module.exports = {
   "/privacy-and-reference/pgp-key/": referenceNav,
   "/privacy-and-reference/best-practices/": referenceNav,
   "/subprocessors/": referenceNav,
-  "/workflows/events/cold-starts/": referenceNav,
+  "/workflows/settings/#eliminate-cold-starts": referenceNav,
   "/abuse/": referenceNav,
   // pricing nav
   "/pricing/": pricingNav,
