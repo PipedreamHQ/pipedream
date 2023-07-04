@@ -2,7 +2,8 @@ import { defineAction } from "@pipedream/types";
 import app from "../../app/facebook_conversions.app";
 import { ACTION_SOURCE_OPTIONS } from "../../common/constants";
 
-const GET_DOCS_URL = (s: string) => `[See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/server-event#${s}).`;
+const GET_DOCS_URL = (s: string) =>
+  `[See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/server-event#${s}).`;
 
 export default defineAction({
   name: "Send Event Data",
@@ -16,78 +17,129 @@ export default defineAction({
     eventName: {
       type: "string",
       label: "Event Name",
-      description: `A standard event or custom event name. ${GET_DOCS_URL("event-name")}`,
+      description: `A standard event or custom event name. ${GET_DOCS_URL(
+        "event-name",
+      )}`,
     },
     eventTime: {
       type: "integer",
       label: "Event Time",
-      description: `A Unix timestamp in seconds indicating when the actual event occurred. ${GET_DOCS_URL("event-time")}`,
+      description: `A Unix timestamp in seconds indicating when the actual event occurred. ${GET_DOCS_URL(
+        "event-time",
+      )}`,
     },
     userData: {
       type: "object",
       label: "User Data",
-      description: `A map that contains customer information data. ${GET_DOCS_URL("user-data")}`,
+      description: `A map that contains customer information data. ${GET_DOCS_URL(
+        "user-data",
+      )}`,
     },
     actionSource: {
       type: "string",
       label: "Action Source",
-      description: `This field allows you to specify where your conversions occurred. ${GET_DOCS_URL("action-source")}`,
+      description: `This field allows you to specify where your conversions occurred. ${GET_DOCS_URL(
+        "action-source",
+      )}`,
       options: ACTION_SOURCE_OPTIONS,
     },
     customData: {
       type: "object",
       label: "Custom Data",
-      description: `A map that includes additional business data about the event. ${GET_DOCS_URL("custom-data")}`,
+      description: `A map that includes additional business data about the event. ${GET_DOCS_URL(
+        "custom-data",
+      )}`,
       optional: true,
     },
     eventSourceUrl: {
       type: "string",
       label: "Event Source URL",
-      description: `The browser URL where the event happened. ${GET_DOCS_URL("event-source-url")}`,
+      description: `The browser URL where the event happened. ${GET_DOCS_URL(
+        "event-source-url",
+      )}`,
       optional: true,
     },
     optOut: {
       type: "boolean",
       label: "Opt Out",
-      description: "A flag that indicates the event should not be used for ads delivery optimization. If set to `true`, the event is only used for attribution.",
+      description:
+        "A flag that indicates the event should not be used for ads delivery optimization. If set to `true`, the event is only used for attribution.",
       optional: true,
     },
     eventId: {
       type: "string",
       label: "Event ID",
-      description: `This ID can be any *unique* string chosen by the advertiser. ${GET_DOCS_URL("event-id")}`,
+      description: `This ID can be any *unique* string chosen by the advertiser. ${GET_DOCS_URL(
+        "event-id",
+      )}`,
       optional: true,
     },
     dataProcessingOptions: {
       type: "string[]",
       label: "Data Processing Options",
-      description: `Processing options you would like to enable for a specific event. ${GET_DOCS_URL("data-processing-options")}`,
+      description: `Processing options you would like to enable for a specific event. ${GET_DOCS_URL(
+        "data-processing-options",
+      )}`,
       optional: true,
     },
     dataProcessingOptionsCountry: {
       type: "integer",
       label: "Data Processing Options: Country",
-      description: `A country that you want to associate to this data processing option. ${GET_DOCS_URL("data-processing-options-country")}`,
+      description: `A country that you want to associate to this data processing option. ${GET_DOCS_URL(
+        "data-processing-options-country",
+      )}`,
       optional: true,
     },
     dataProcessingOptionsState: {
       type: "integer",
       label: "Data Processing Options: State",
-      description: `A state that you want to associate to this data processing option. ${GET_DOCS_URL("data-processing-options-state")}`,
+      description: `A state that you want to associate to this data processing option. ${GET_DOCS_URL(
+        "data-processing-options-state",
+      )}`,
       optional: true,
     },
     appData: {
       type: "object",
       label: "App Data",
-      description: "Parameters for sharing app data and device information with the Conversions API. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/app-data)",
+      description:
+        "Parameters for sharing app data and device information with the Conversions API. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/app-data)",
       optional: true,
     },
   },
   async run({ $ }): Promise<object> {
+    const {
+      eventName,
+      eventTime,
+      userData,
+      actionSource,
+      customData,
+      eventSourceUrl,
+      optOut,
+      eventId,
+      dataProcessingOptions,
+      dataProcessingOptionsCountry,
+      dataProcessingOptionsState,
+      appData,
+    } = this;
+
     const params = {
       $,
+      data: {
+        event_name: eventName,
+        event_time: eventTime,
+        user_data: userData,
+        action_source: actionSource,
+        custom_data: customData,
+        event_source_url: eventSourceUrl,
+        opt_out: optOut,
+        event_id: eventId,
+        data_processing_options: dataProcessingOptions,
+        data_processing_options_country: dataProcessingOptionsCountry,
+        data_processing_options_state: dataProcessingOptionsState,
+        app_data: appData,
+      },
     };
-    const response = await this.app.sendEventData(params);
+    const response = await this.app.sendData(params);
 
     $.export("$summary", "Successfully sent event data");
 
