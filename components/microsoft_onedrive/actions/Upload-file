@@ -1,0 +1,58 @@
+import fs from "fs";
+import onedrive from "../../microsoft_onedrive.app.mjs";
+import httpRequest from "../../common/httpRequest.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+
+export default {
+  name: "Upload File",
+  description: "Upload a file to OneDrive.",
+  key: "microsoft_onedrive-upload-file",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    onedrive,
+    uploadFolderId: {
+      type: "string",
+      label: "Upload Folder ID",
+      description: "The ID of the folder where you want to upload the file.",
+      optional: false,
+    },
+    filePath: {
+      type: "string",
+      label: "File Path",
+      description: "The path to the local file that you want to upload.",
+      optional: false,
+    },
+  },
+  methods: {
+    httpRequest,
+  },
+  async run({ $ }) {
+    const { uploadFolderId, filePath } = this;
+
+    if (!uploadFolderId) {
+      throw new ConfigurationError("You must specify the **Upload Folder ID**.");
+    }
+
+    const fileBuffer = fs.readFileSync(filePath);
+    const fileData = fileBuffer.toString("base64");
+
+    const url = `drives/${uploadFolderId}/items/root:/${encodeURIComponent(filePath)}:/content`;
+    const response = await this.httpRequest({
+      $,
+      method: "PUT",
+      url,
+      headers: {
+        "Content-Type": "application/octet-stream",
+      },
+      body: fileData,
+    });
+
+    if (response.statusCode === 201) {
+      const fileName = filePath.split("/").pop();
+      $.export("$summary", `File '${fileName}' uploaded successfully to OneDrive.`);
+    } else {
+      throw new Error("File upload failed.");
+    }
+  },
+};
