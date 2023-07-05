@@ -13,5 +13,3 @@ download photos and videos; and search for photos and videos.
 Albums, photos, and videos can be shared with other users, and users can add
 comments to photos and videos. The API also provides a set of tools for
 developers to build photo-sharing applications.
-
-Pipedream's use and transfer of information received from Google APIs to any other app will adhere to the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes), including the Limited Use requirements.
