@@ -10,23 +10,22 @@ export default defineApp({
   propDefinitions: {},
   methods: {
     _getApiVersion() {
-      return "";
-    },
-    _getPixelId() {
-      return "";
+      return "v17.0";
     },
     async _httpRequest({
       $ = this,
       ...args
     }: HttpRequestParams): Promise<object> {
       return axios($, {
-        baseURL: `https://graph.facebook.com/${this._getApiVersion()}/${this._getPixelId()}`,
+        baseURL: `https://graph.facebook.com/${this._getApiVersion()}`,
         ...args,
       });
     },
-    async sendData(args: SendDataParams) {
+    async sendData({
+      pixelId, ...args
+    }: SendDataParams) {
       return this._httpRequest({
-        url: "/events",
+        url: `/${pixelId}/events`,
         ...args,
       });
     },

@@ -14,6 +14,15 @@ export default defineAction({
   type: "action",
   props: {
     app,
+    // both of these should be moved to $auth later
+    pixelId: {
+      type: "string",
+      label: "Pixel ID",
+    },
+    accessToken: {
+      type: "string",
+      label: "Access Token",
+    },
     eventName: {
       type: "string",
       label: "Event Name",
@@ -108,6 +117,8 @@ export default defineAction({
   },
   async run({ $ }): Promise<object> {
     const {
+      pixelId,
+      accessToken,
       eventName,
       eventTime,
       userData,
@@ -137,6 +148,10 @@ export default defineAction({
         data_processing_options_country: dataProcessingOptionsCountry,
         data_processing_options_state: dataProcessingOptionsState,
         app_data: appData,
+      },
+      pixelId,
+      params: {
+        access_token: accessToken,
       },
     };
     const response = await this.app.sendData(params);

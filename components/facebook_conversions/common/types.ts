@@ -12,6 +12,7 @@ export interface HttpRequestParams extends PdAxiosRequest {
 }
 
 export interface SendDataParams extends PdAxiosRequest {
+  pixelId: string; // temp
   data: {
     event_name: string;
     event_time: number;
