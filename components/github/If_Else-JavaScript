@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>If_Else-JavaScript</title>
+</head>
+
+<body>
+    <input id="if"> <input id="Else"><br>
+    <button onclick="Start()"> Hit me</button>
+
+    <h1 id="Shot">Shot</h1>
+
+    <script>
+        function Start() {
+            a = parseInt(document.getElementById('if').value);
+            b = parseInt(document.getElementById('Else').value);
+
+if (a < b )
+document.getElementById('Shot').innerHTML= "Short Number = " + a;
+
+else
+ document.getElementById('Shot').innerHTML = "Short Number = " + b
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
