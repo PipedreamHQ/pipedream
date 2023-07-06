@@ -26,6 +26,7 @@ export default defineApp({
     }: SendDataParams) {
       return this._httpRequest({
         url: `/${pixelId}/events`,
+        method: 'POST',
         ...args,
       });
     },
