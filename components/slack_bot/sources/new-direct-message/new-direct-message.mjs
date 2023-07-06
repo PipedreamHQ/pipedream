@@ -21,6 +21,8 @@ export default {
           ],
         }),
       ],
+      label: "User Channel",
+      description: "Events will only be emitted for direct messages between this user and the Bot.",
     },
   },
   methods: {
