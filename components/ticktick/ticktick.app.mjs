@@ -21,8 +21,11 @@ export default {
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "ID of task to complete",
+      description: "ID of the task. Task IDs for task in the Inbox must be entered manually. When viewing the task, the task ID is the last part of the URL after `/tasks/`.",
       async options({ projectId }) {
+        if (projectId === "inbox") {
+          return [];
+        }
         const tasks = await this.listTasks({
           projectId,
         });

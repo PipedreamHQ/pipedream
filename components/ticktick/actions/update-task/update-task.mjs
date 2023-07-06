@@ -23,7 +23,6 @@ export default {
           projectId: c.projectId,
         }),
       ],
-      description: "ID of task to update",
     },
     title: {
       type: "string",
