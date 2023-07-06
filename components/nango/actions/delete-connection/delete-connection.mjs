@@ -15,14 +15,11 @@ export default {
       ],
     },
     providerConfigKey: {
+      description: "The Provider Config Key of the connection.",
       propDefinition: [
         app,
         "providerConfigKey",
       ],
-      async options() {
-        const { configs } = await this.app.listIntegrations();
-        return configs.map(({ unique_key: value }) => value);
-      },
     },
   },
   methods: {
@@ -41,15 +38,18 @@ export default {
       providerConfigKey,
     } = this;
 
-    const response = await this.deleteConnection({
+    await this.deleteConnection({
       connectionId,
       params: {
         provider_config_key: providerConfigKey,
       },
     });
 
-    step.export("$summary", `Deleted Connection ${connectionId}`);
+    step.export("$summary", `Deleted Connection with ID ${connectionId}.`);
 
-    return response;
+    return {
+      success: true,
+      connectionId,
+    };
   },
 };

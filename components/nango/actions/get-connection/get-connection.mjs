@@ -15,14 +15,11 @@ export default {
       ],
     },
     providerConfigKey: {
+      description: "The Provider Config Key of the connection.",
       propDefinition: [
         app,
         "providerConfigKey",
       ],
-      async options() {
-        const { configs } = await this.app.listIntegrations();
-        return configs.map(({ unique_key: value }) => value);
-      },
     },
     forceRefresh: {
       type: "boolean",

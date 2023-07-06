@@ -9,6 +9,10 @@ export default {
       type: "string",
       label: "Provider Config Key",
       description: "The Provider Config Key of the Integration.",
+      async options() {
+        const { configs } = await this.listIntegrations();
+        return configs.map(({ unique_key: value }) => value);
+      },
     },
     oauthScopes: {
       type: "string[]",
@@ -33,6 +37,29 @@ export default {
           value,
         }));
       },
+    },
+    anyPath: {
+      type: "string",
+      label: "Path",
+      description: "The Path of the Request.",
+    },
+    retries: {
+      type: "integer",
+      label: "Retries",
+      description: "The number of times to retry the request.",
+      optional: true,
+    },
+    baseUrlOverride: {
+      type: "string",
+      label: "Base URL Override",
+      description: "The Base URL Override of the request.",
+      optional: true,
+    },
+    anyQueryParams: {
+      type: "object",
+      label: "Any Body Params",
+      description: "The Any Body Params of the request.",
+      optional: true,
     },
   },
   methods: {
@@ -91,6 +118,12 @@ export default {
     listConnections(args = {}) {
       return this.makeRequest({
         path: "/connection",
+        ...args,
+      });
+    },
+    listRecords(args = {}) {
+      return this.makeRequest({
+        path: "/sync/records",
         ...args,
       });
     },
