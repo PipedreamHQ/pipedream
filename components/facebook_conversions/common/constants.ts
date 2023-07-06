@@ -34,3 +34,17 @@ export const ACTION_SOURCE_OPTIONS = [
     value: "other",
   },
 ];
+
+export const USER_FIELDS_WITH_HASH = [
+  "em",
+  "ph",
+  "fn",
+  "ln",
+  "db",
+  "ge",
+  "ct",
+  "st",
+  "zp",
+  "country",
+  "external_id",
+];

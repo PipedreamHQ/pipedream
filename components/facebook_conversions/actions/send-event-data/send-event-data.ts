@@ -1,6 +1,10 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/facebook_conversions.app";
-import { ACTION_SOURCE_OPTIONS } from "../../common/constants";
+import crypto from "crypto";
+import {
+  ACTION_SOURCE_OPTIONS,
+  USER_FIELDS_WITH_HASH,
+} from "../../common/constants";
 
 const GET_DOCS_URL = (s: string) =>
   `[See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/server-event#${s}).`;
@@ -14,14 +18,14 @@ export default defineAction({
   type: "action",
   props: {
     app,
-    // both of these should be moved to $auth later
-    pixelId: {
-      type: "string",
-      label: "Pixel ID",
-    },
+    // this should probably be moved to $auth later
     accessToken: {
       type: "string",
       label: "Access Token",
+    },
+    pixelId: {
+      type: "string",
+      label: "Pixel ID",
     },
     eventName: {
       type: "string",
@@ -113,9 +117,24 @@ export default defineAction({
     testEventCode: {
       type: "string",
       label: "Test Event Code",
-      description: "If testing, you can include the test code provided in the Events Manager here.",
+      description:
+        "If testing, you can include the test code provided in the Events Manager here.",
       optional: true,
-    }
+    },
+  },
+  methods: {
+    getHash(value: string) {
+      return crypto.createHash('sha256').update(value).digest('hex');
+    },
+    checkUserDataObject(obj: object) {
+      const cryptoRegexp = /[0-9a-f]{64}/i;
+      USER_FIELDS_WITH_HASH.forEach(field => {
+        if (obj[field] && !cryptoRegexp.test(obj[field])) {
+          obj[field] = this.getHash(obj[field]);
+        }
+      });
+      return obj;
+    },
   },
   async run({ $ }): Promise<object> {
     const {
@@ -140,20 +159,22 @@ export default defineAction({
       $,
       data: {
         test_event_code: testEventCode,
-        data: [{
-          event_name: eventName,
-          event_time: eventTime,
-          user_data: userData,
-          action_source: actionSource,
-          custom_data: customData,
-          event_source_url: eventSourceUrl,
-          opt_out: optOut,
-          event_id: eventId,
-          data_processing_options: dataProcessingOptions,
-          data_processing_options_country: dataProcessingOptionsCountry,
-          data_processing_options_state: dataProcessingOptionsState,
-          app_data: appData,
-        }],
+        data: [
+          {
+            event_name: eventName,
+            event_time: eventTime,
+            user_data: this.checkUserDataObject(userData),
+            action_source: actionSource,
+            custom_data: customData,
+            event_source_url: eventSourceUrl,
+            opt_out: optOut,
+            event_id: eventId,
+            data_processing_options: dataProcessingOptions,
+            data_processing_options_country: dataProcessingOptionsCountry,
+            data_processing_options_state: dataProcessingOptionsState,
+            app_data: appData,
+          },
+        ],
       },
       pixelId,
       params: {
