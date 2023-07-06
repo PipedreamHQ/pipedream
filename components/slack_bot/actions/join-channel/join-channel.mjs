@@ -30,5 +30,5 @@ export default {
   }),
   key: "slack_bot-join-channel",
   description: "Join an existing channel (Bot). [See docs here](https://api.slack.com/methods/conversations.join)",
-  version: "0.0.1",
+  version: "0.0.2",
 };
