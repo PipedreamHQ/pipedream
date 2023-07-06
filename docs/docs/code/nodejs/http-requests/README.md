@@ -501,12 +501,52 @@ import axios from "axios";
 import httpsProxyAgent from "https-proxy-agent";
 
 export default defineComponent({
+  props: {
+    user: {
+      type: 'string',
+      label: 'Username',
+      description: 'The username for the HTTP proxy authentication',
+    },
+    pass: {
+      type: 'string',
+      label: 'Password',
+      secret: true,
+      description: 'The password for the HTTP proxy authentication',
+    },
+    host: {
+      type: 'string',
+      label: "HTTP Proxy Host",
+      description: "The URL for the HTTP proxy",
+    },
+    port: {
+      type: "string",
+      label: "Port",
+      description: "The port the HTTP proxy is accepting requests at",
+    },
+    target_host: {
+      type: 'string',
+      label: "Target Host",
+      description: "The URL for the end target to reach through the proxy",
+    },
+    method: {
+      type: 'string',
+      default: 'GET',
+      label: "HTTP method",
+      description: "The HTTP method to use to reach the end target host"
+    },
+    body: {
+      type: 'object',
+      label: "HTTP body",
+      description: "The HTTP body payload to send to the end target host"
+    }
+  },
   async run({ steps, $ }) {
+    const { user, pass, host, port, target_host, method } = this;
     const agent = new httpsProxyAgent(`http://${user}:${pass}@${host}:${port}`);
 
     const config = {
-      method: "GET",
-      url: "https://example.com",
+      method,
+      url: target_host,
       httpsAgent: agent,
     };
 
@@ -515,9 +555,15 @@ export default defineComponent({
 });
 ```
 
-**If you don't have access to an HTTP proxy, and you are a customer on the Teams or Enterprise plan, [reach out to our team](https://pipedream.com/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
+[Copy this workflow to run this code on Pipedream](https://pipedream.com/new?h=tch_mypfby).
 
-[Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/make-an-http-request-through-a-proxy-p_ezC6RD/edit).
+::: tip Managed HTTP Proxy Service
+
+If your workspace has the Advanced, Business or Enterprise plan, [reach out to our team](https://pipedream.com/support). We operate a proxy that you can use for HTTP requests made through Pipedream.
+
+:::
+
+
 
 ## IP addresses for HTTP requests made from Pipedream workflows
 
