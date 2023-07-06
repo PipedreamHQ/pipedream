@@ -41,6 +41,102 @@ export default {
         }));
       },
     },
+    ranking: {
+      type: "string",
+      label: "Ranking",
+      description: "Ranking displayed as stars in the page.",
+      optional: true,
+      options: [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+      ],
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Your description of this organization.",
+      optional: true,
+    },
+    contact: {
+      type: "object",
+      label: "Contact",
+      description: "Contact information.",
+      optional: true,
+    },
+    address: {
+      type: "object",
+      label: "Address",
+      description: "Address information.",
+      optional: true,
+    },
+    leadOrigin: {
+      type: "string",
+      label: "Lead Origin",
+      description: "Lead origin.",
+      optional: true,
+      async options() {
+        const leadOrigins = await this.listLeadOrigins();
+        return leadOrigins.data.map((leadOrigin) => ({
+          label: leadOrigin.name,
+          value: leadOrigin.id,
+        }));
+      },
+    },
+    category: {
+      type: "string",
+      label: "Category",
+      description: "Category ID or name.",
+      optional: true,
+      async options() {
+        const categories = await this.listCategories();
+        return categories.data.map((category) => ({
+          label: category.name,
+          value: category.id,
+        }));
+      },
+    },
+    sector: {
+      type: "string",
+      label: "Sector",
+      description: "Sector ID or name.",
+      optional: true,
+      async options() {
+        const sectors = await this.listSectors();
+        return sectors.data.map((sector) => ({
+          label: sector.name,
+          value: sector.id,
+        }));
+      },
+    },
+    product: {
+      type: "string",
+      label: "Product",
+      description: "Array of product IDs.",
+      optional: true,
+      async options(prevContext) {
+        const products = await this.listProducts(prevContext.page + 1);
+        return products.data.map((product) => ({
+          label: product.name,
+          value: product.id,
+        }));
+      },
+    },
+    allowToAllUsers: {
+      type: "boolean",
+      label: "Allow to All Users",
+      description: "Set true if this organization should be visible to all users.",
+      optional: true,
+    },
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "Custom fields information.",
+      optional: true,
+    },
   },
   methods: {
     _getApiToken() {
@@ -105,6 +201,41 @@ export default {
       return this._makeHttpRequest({
         method: "POST",
         path: "/organizations",
+        data,
+      });
+    },
+    async listLeadOrigins() {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/lead_origins",
+      });
+    },
+    async listCategories() {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/categories",
+      });
+    },
+    async listSectors() {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/sectors",
+      });
+    },
+    async listProducts(page) {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/products",
+        params: {
+          page,
+          per_page: 100,
+        },
+      });
+    },
+    async createPerson(data) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/people",
         data,
       });
     },
