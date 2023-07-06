@@ -4186,7 +4186,12 @@ importers:
       shopify-api-node: 3.12.4
 
   components/shopify_developer_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      shopify-api-node: ^3.12.5
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      shopify-api-node: 3.12.5
 
   components/shopify_partner:
     specifiers:
@@ -23220,6 +23225,16 @@ packages:
 
   /shopify-api-node/3.12.4:
     resolution: {integrity: sha512-sxpbLGt7ROzmmWM5iAgl2IPvNcI3h/SRxH88pRNkrsTK3vbVFq496/SbBwySgr+lnI9elqRFBvjIu4qWZzIfnw==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      got: 11.8.6
+      lodash: 4.17.21
+      qs: 6.11.1
+      stopcock: 1.1.0
+    dev: false
+
+  /shopify-api-node/3.12.5:
+    resolution: {integrity: sha512-A8uLkyxQWkEHcQDRtmIlTY8bRQDsa9KZrrGzarlH7bLZ6QwsfTCwoISYCuzJrF9dgMuilUVsv1VCMflf9lVWVg==}
     engines: {node: '>=10.0.0'}
     dependencies:
       got: 11.8.6
