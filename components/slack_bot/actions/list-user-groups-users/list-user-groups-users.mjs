@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-list-user-groups-users",
   description: "List all users in a User Group (Bot). [See docs here](https://api.slack.com/methods/usergroups.users.list)",
-  version: "0.0.1",
+  version: "0.0.2",
 };
