@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Show Or Movie Watched",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "trakt-new-show-or-movie-watched",
   description: "Emit new event on each new watched show or movie.",
   type: "source",
