@@ -547,6 +547,7 @@ export default defineComponent({
     const config = {
       method,
       url: target_host,
+      body,
       httpsAgent: agent,
     };
 
