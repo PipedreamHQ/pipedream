@@ -4,8 +4,8 @@ import { removeNullEntries } from "../../common/utils.mjs";
 export default {
   key: "ticktick-update-task",
   name: "Update a Task",
-  description: "Update a Task. [See doc](https://developer.ticktick.com/api#/openapi?id=update-a-task)",
-  version: "0.0.2",
+  description: "Update a Task. [See documentation](https://developer.ticktick.com/api#/openapi?id=update-a-task)",
+  version: "0.0.3",
   type: "action",
   props: {
     ticktick,
@@ -29,6 +29,7 @@ export default {
       type: "string",
       label: "Title",
       description: "Task title",
+      optional: true,
     },
     content: {
       type: "string",
@@ -70,13 +71,16 @@ export default {
       dueDate: this.dueDate,
       allDay: this.allDay,
     });
+
     if (this.projectId && this.projectId !== "inbox") {
       data.projectId = this.projectId;
     }
+
     const response = await this.ticktick.updateTask({
       $,
       data,
     }, this.taskId);
+
     response && $.export("$summary", "Successfully updated task");
     return response;
   },
