@@ -7,7 +7,6 @@ import {
 export default defineApp({
   type: "app",
   app: "facebook_conversions",
-  propDefinitions: {},
   methods: {
     _getApiVersion() {
       return "v17.0";
@@ -23,10 +22,10 @@ export default defineApp({
     },
     async sendData({
       pixelId, ...args
-    }: SendDataParams) {
+    }: SendDataParams): Promise<object> {
       return this._httpRequest({
         url: `/${pixelId}/events`,
-        method: 'POST',
+        method: "POST",
         ...args,
       });
     },

@@ -31,40 +31,40 @@ export default defineAction({
       type: "string",
       label: "Event Name",
       description: `A standard event or custom event name. ${GET_DOCS_URL(
-        "event-name"
+        "event-name",
       )}`,
     },
     eventTime: {
       type: "integer",
       label: "Event Time",
       description: `A Unix timestamp in seconds indicating when the actual event occurred. ${GET_DOCS_URL(
-        "event-time"
+        "event-time",
       )}`,
     },
     userData: {
       type: "object",
       label: "User Data",
-      description: `A map that contains customer information data. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters)`,
+      description: "A map that contains customer information data. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters)",
     },
     actionSource: {
       type: "string",
       label: "Action Source",
       description: `This field allows you to specify where your conversions occurred. ${GET_DOCS_URL(
-        "action-source"
+        "action-source",
       )}`,
       options: ACTION_SOURCE_OPTIONS,
     },
     customData: {
       type: "object",
       label: "Custom Data",
-      description: `A map that includes additional business data about the event. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data)`,
+      description: "A map that includes additional business data about the event. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data)",
       optional: true,
     },
     eventSourceUrl: {
       type: "string",
       label: "Event Source URL",
       description: `The browser URL where the event happened. ${GET_DOCS_URL(
-        "event-source-url"
+        "event-source-url",
       )}`,
       optional: true,
     },
@@ -79,7 +79,7 @@ export default defineAction({
       type: "string",
       label: "Event ID",
       description: `This ID can be any *unique* string chosen by the advertiser. ${GET_DOCS_URL(
-        "event-id"
+        "event-id",
       )}`,
       optional: true,
     },
@@ -87,7 +87,7 @@ export default defineAction({
       type: "string[]",
       label: "Data Processing Options",
       description: `Processing options you would like to enable for a specific event. ${GET_DOCS_URL(
-        "data-processing-options"
+        "data-processing-options",
       )}`,
       optional: true,
     },
@@ -95,7 +95,7 @@ export default defineAction({
       type: "integer",
       label: "Data Processing Options: Country",
       description: `A country that you want to associate to this data processing option. ${GET_DOCS_URL(
-        "data-processing-options-country"
+        "data-processing-options-country",
       )}`,
       optional: true,
     },
@@ -103,7 +103,7 @@ export default defineAction({
       type: "integer",
       label: "Data Processing Options: State",
       description: `A state that you want to associate to this data processing option. ${GET_DOCS_URL(
-        "data-processing-options-state"
+        "data-processing-options-state",
       )}`,
       optional: true,
     },
@@ -124,11 +124,12 @@ export default defineAction({
   },
   methods: {
     getHash(value: string) {
-      return crypto.createHash('sha256').update(value).digest('hex');
+      return crypto.createHash("sha256").update(value)
+        .digest("hex");
     },
     checkUserDataObject(obj: object) {
       const cryptoRegexp = /[0-9a-f]{64}/i;
-      USER_FIELDS_WITH_HASH.forEach(field => {
+      USER_FIELDS_WITH_HASH.forEach((field) => {
         if (obj[field] && !cryptoRegexp.test(obj[field])) {
           obj[field] = this.getHash(obj[field]);
         }
