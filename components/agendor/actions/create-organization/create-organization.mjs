@@ -116,26 +116,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const organization = await this.app.createOrganization({
-      name: this.name,
-      legalName: this.legalName,
-      cnpj: this.cnpj,
-      description: this.description,
-      logo: this.logo,
-      website: this.website,
-      ranking: this.ranking,
-      ownerUser: this.ownerUser,
-      contact: this.contact,
-      address: this.address,
-      allowedUsers: this.allowedUsers,
-      allowToAllUsers: this.allowToAllUsers,
-      customFields: this.customFields,
-      leadOrigin: this.leadOrigin,
-      category: this.category,
-      sector: this.sector,
-      products: this.products,
-    });
-    $.export("summary", "Organization successfully created.");
+    const {
+      app,
+      ...data
+    } = this;
+    const organization = await app.createOrganization(data);
+    $.export("summary", `Organization successfully created with id "${organization.data.id}".`);
     return organization;
   },
 };

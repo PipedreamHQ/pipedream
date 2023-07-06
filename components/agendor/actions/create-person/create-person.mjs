@@ -113,25 +113,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const person = await this.app.createPerson({
-      name: this.name,
-      cpf: this.cpf,
-      organizationId: this.organizationId,
-      role: this.role,
-      ranking: this.ranking,
-      description: this.description,
-      birthday: this.birthday,
-      ownerUser: this.ownerUser,
-      contact: this.contact,
-      address: this.address,
-      leadOrigin: this.leadOrigin,
-      category: this.category,
-      products: this.products,
-      allowedUsers: this.allowedUsers,
-      allowToAllUsers: this.allowToAllUsers,
-      customFields: this.customFields,
-    });
-    $.export("summary", "Person successfully created.");
+    const {
+      app,
+      ...data
+    } = this;
+    const person = await app.createPerson(data);
+    $.export("summary", `Person successfully created with id "${person.data.id}".`);
     return person;
   },
 };

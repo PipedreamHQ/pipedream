@@ -17,7 +17,7 @@ export default {
   },
   async run({ $ }) {
     const person = await this.app.getPerson(this.personId);
-    $.export("summary", "Person successfully retrieved.");
+    $.export("summary", `Person successfully retrieved with id "${person.data.id}".`);
     return person;
   },
 };

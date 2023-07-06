@@ -159,13 +159,13 @@ export default {
       };
       return axios(ctx, axiosOpts);
     },
-    async getPerson(personId) {
+    getPerson(personId) {
       return this._makeHttpRequest({
         method: "GET",
         path: `/people/${personId}`,
       });
     },
-    async listPersons(page) {
+    listPersons(page) {
       return this._makeHttpRequest({
         method: "GET",
         path: "/people",
@@ -175,7 +175,7 @@ export default {
         },
       });
     },
-    async listOrganizations(page) {
+    listOrganizations(page) {
       return this._makeHttpRequest({
         method: "GET",
         path: "/organizations",
@@ -185,44 +185,44 @@ export default {
         },
       });
     },
-    async getOrganization(organizationId) {
+    getOrganization(organizationId) {
       return this._makeHttpRequest({
         method: "GET",
         path: `/organizations/${organizationId}`,
       });
     },
-    async listUsers() {
+    listUsers() {
       return this._makeHttpRequest({
         method: "GET",
         path: "/users",
       });
     },
-    async createOrganization(data) {
+    createOrganization(data) {
       return this._makeHttpRequest({
         method: "POST",
         path: "/organizations",
         data,
       });
     },
-    async listLeadOrigins() {
+    listLeadOrigins() {
       return this._makeHttpRequest({
         method: "GET",
         path: "/lead_origins",
       });
     },
-    async listCategories() {
+    listCategories() {
       return this._makeHttpRequest({
         method: "GET",
         path: "/categories",
       });
     },
-    async listSectors() {
+    listSectors() {
       return this._makeHttpRequest({
         method: "GET",
         path: "/sectors",
       });
     },
-    async listProducts(page) {
+    listProducts(page) {
       return this._makeHttpRequest({
         method: "GET",
         path: "/products",
@@ -232,7 +232,7 @@ export default {
         },
       });
     },
-    async createPerson(data) {
+    createPerson(data) {
       return this._makeHttpRequest({
         method: "POST",
         path: "/people",

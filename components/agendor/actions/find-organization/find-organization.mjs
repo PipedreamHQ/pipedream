@@ -17,7 +17,7 @@ export default {
   },
   async run({ $ }) {
     const organization = await this.app.getOrganization(this.organizationId);
-    $.export("summary", "Organization successfully retrieved.");
+    $.export("summary", `Organization successfully retrieved with "${organization.data.id}".`);
     return organization;
   },
 };
