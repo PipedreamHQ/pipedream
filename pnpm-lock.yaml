@@ -2904,7 +2904,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/nango:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/nano_nets:
     specifiers: {}
