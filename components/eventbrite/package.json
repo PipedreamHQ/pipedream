@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/eventbrite",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Pipedream Eventbrite Components",
   "main": "eventbrite.app.js",
   "keywords": [
     "pipedream",
     "eventbrite"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/eventbrite",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
