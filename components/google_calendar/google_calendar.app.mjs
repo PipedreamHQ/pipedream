@@ -7,9 +7,9 @@ export default {
   app: "google_calendar",
   propDefinitions: {
     calendarId: {
-      label: "Calendar",
+      label: "Calendar ID",
       type: "string",
-      description: "Optionally select the calendar you'd like to use (defaults to the primary calendar for the logged-in user)",
+      description: "Optionally select the calendar, defaults to the primary calendar for the logged-in user",
       default: "primary",
       optional: true,
       async options({ prevContext }) {
@@ -33,9 +33,9 @@ export default {
       },
     },
     eventId: {
-      label: "Event Name",
+      label: "Event ID",
       type: "string",
-      description: "Event identifier. To retreive event Ids from a calender.",
+      description: "Select an event from Google Calendar.",
       async options({
         calendarId, prevContext,
       }) {
@@ -244,6 +244,41 @@ export default {
       description: "The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type 'default'",
       optional: true,
     },
+    attendeesFromEvent: {
+      type: "string[]",
+      label: "Attendees",
+      description: "Array of email addresses or a comma separated list of email addresses of attendees. (eg. `johndoe@domain.com,janedoe@domain.com`).",
+      async options({
+        calendarId, eventId,
+      }) {
+        const { attendees = [] } =
+          await this.getEvent({
+            eventId,
+            calendarId,
+          });
+        return attendees.map(({ email }) => ({
+          label: email,
+          value: email,
+        }));
+      },
+    },
+    sendUpdates: {
+      label: "Send Updates",
+      type: "string",
+      description: "Configure whether to send notifications about the event",
+      optional: true,
+      options: [
+        "all",
+        "externalOnly",
+        "none",
+      ],
+    },
+    sendNotifications: {
+      label: "Send Notifications",
+      type: "boolean",
+      description: "Whether to send notifications about the event update",
+      optional: true,
+    },
   },
   methods: {
     _tokens() {
@@ -426,7 +461,7 @@ export default {
         args,
       });
     },
-    async queryFreebusy(args = {}) {
+    async queryFreeBusy(args = {}) {
       return this.requestHandler({
         api: constants.API.FREEBUSY.NAME,
         method: constants.API.FREEBUSY.METHOD.QUERY,
