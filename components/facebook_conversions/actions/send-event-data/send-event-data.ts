@@ -41,7 +41,7 @@ export default defineAction({
     userData: {
       type: "object",
       label: "User Data",
-      description: "A map that contains customer information data. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters)",
+      description: "You can use the **Build User Data** action to create this object with the correct structure, and use the returned value here. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters)",
     },
     actionSource: {
       type: "string",
@@ -54,7 +54,7 @@ export default defineAction({
     customData: {
       type: "object",
       label: "Custom Data",
-      description: "A map that includes additional business data about the event. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data)",
+      description: "You can use the **Build Custom Data** action to create this object with the correct structure, and use the returned value here. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data)",
       optional: true,
     },
     eventSourceUrl: {
@@ -108,7 +108,7 @@ export default defineAction({
       type: "object",
       label: "App Data",
       description:
-        "Parameters for sharing app data and device information with the Conversions API. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/app-data)",
+        "You can use the **Build App Data** action to create this object with the correct structure, and use the returned value here. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/app-data)",
       optional: true,
     },
     testEventCode: {
