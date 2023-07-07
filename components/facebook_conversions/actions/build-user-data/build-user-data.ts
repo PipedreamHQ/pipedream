@@ -41,9 +41,12 @@ export default defineAction({
     dateBirth: {
       label: "Date of Birth",
       description: `Facebook accepts the \`YYYYMMDD\` format accommodating a range of month, day and year combinations, with or without punctuation.
-      - Year: Use the YYYY format from 1900 to current year.
-      - Month: Use the MM format: 01 to 12.
-      - Date: Use the DD format: 01 to 31.`,
+\
+- Year: Use the YYYY format from 1900 to current year.
+\
+- Month: Use the MM format: 01 to 12.
+\
+- Date: Use the DD format: 01 to 31.`,
       type: "string",
       optional: true,
     },
@@ -193,8 +196,8 @@ export default defineAction({
       anon_id: anonId,
       madid: madId,
     }).filter(([
-      , value,
-    ]) => value !== undefined));
+      , v,
+    ]) => v !== undefined));
 
     $.export("$summary", "Successfully built user data");
     return checkUserDataObject(obj);

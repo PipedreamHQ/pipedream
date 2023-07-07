@@ -48,3 +48,18 @@ export const USER_FIELDS_WITH_HASH = [
   "country",
   "external_id",
 ];
+
+export const PURCHASE_EVENT_DELIVERY_CATEGORIES = [
+  {
+    label: "Customer needs to enter the store to get the purchased product.",
+    value: "in_store",
+  },
+  {
+    label: "Customer picks up their order by driving to a store and waiting inside their vehicle.",
+    value: "curbside",
+  },
+  {
+    label: "Purchase is delivered to the customer's home.",
+    value: "home_delivery",
+  },
+];
