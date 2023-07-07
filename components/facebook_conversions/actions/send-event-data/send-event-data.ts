@@ -1,10 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/facebook_conversions.app";
-import crypto from "crypto";
-import {
-  ACTION_SOURCE_OPTIONS,
-  USER_FIELDS_WITH_HASH,
-} from "../../common/constants";
+import { ACTION_SOURCE_OPTIONS } from "../../common/constants";
+import { checkUserDataObject } from "../../common/methods";
 
 const GET_DOCS_URL = (s: string) =>
   `[See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/server-event#${s}).`;
@@ -123,19 +120,7 @@ export default defineAction({
     },
   },
   methods: {
-    getHash(value: string) {
-      return crypto.createHash("sha256").update(value)
-        .digest("hex");
-    },
-    checkUserDataObject(obj: object) {
-      const cryptoRegexp = /[0-9a-f]{64}/i;
-      USER_FIELDS_WITH_HASH.forEach((field) => {
-        if (obj[field] && !cryptoRegexp.test(obj[field])) {
-          obj[field] = this.getHash(obj[field]);
-        }
-      });
-      return obj;
-    },
+    checkUserDataObject,
   },
   async run({ $ }): Promise<object> {
     const {
