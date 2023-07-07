@@ -1,17 +1,17 @@
 {
   "name": "@pipedream/jobnimbus",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Jobnimbus Components",
-  "main": "dist/app/jobnimbus.app.mjs",
+  "main": "jobnimbus.app.mjs",
   "keywords": [
     "pipedream",
     "jobnimbus"
   ],
-  "files": [
-    "dist"
-  ],
   "homepage": "https://pipedream.com/apps/jobnimbus",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }

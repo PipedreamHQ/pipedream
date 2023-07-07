@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-update-user-groups-users",
   description: "Update the list of users for a User Group (Bot). [See docs here](https://api.slack.com/methods/usergroups.users.update)",
-  version: "0.0.1",
+  version: "0.0.2",
 };

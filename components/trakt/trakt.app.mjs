@@ -8,11 +8,31 @@ export default {
       label: "Movies",
       description: "The movies name. E.g `John Wick: Chapter 4`",
       type: "string[]",
+      useQuery: true,
+      async options({ query }) {
+        const movies = await this.searchMovies({
+          params: {
+            query: query ?? ""
+          }
+        })
+
+        return movies.map(movie => movie.movie.title)
+      }
     },
     shows: {
       label: "TV Shows",
       description: "The TV show names. E.g `Breaking Bad`",
       type: "string[]",
+      useQuery: true,
+      async options({ query }) {
+        const shows = await this.searchShows({
+          params: {
+            query: query ?? ""
+          }
+        })
+
+        return shows.map(show => show.show.title)
+      }
     },
   },
   methods: {
@@ -64,6 +84,18 @@ export default {
     }) {
       return this._makeRequest({
         path: `/users/${userId ?? "me"}/ratings/${type}`,
+        ...args,
+      });
+    },
+    async searchMovies(args = {}) {
+      return this._makeRequest({
+        path: "/search/movie",
+        ...args,
+      });
+    },
+    async searchShows(args = {}) {
+      return this._makeRequest({
+        path: "/search/show",
         ...args,
       });
     },
