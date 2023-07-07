@@ -1,5 +1,5 @@
 import googleCalendar from "../../google_calendar.app.mjs";
-import createEventCommon from "../../common/create-event-common.mjs";
+import createEventCommon from "../common/create-event-common.mjs";
 
 export default {
   key: "google_calendar-create-event",

@@ -1,4 +1,4 @@
-import googleCalendar from "../google_calendar.app.mjs";
+import googleCalendar from "../../google_calendar.app.mjs";
 
 export default {
   props: ({ isUpdate }) => (
