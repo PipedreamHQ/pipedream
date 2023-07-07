@@ -131,7 +131,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/agendor:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/agile_crm:
     specifiers:
