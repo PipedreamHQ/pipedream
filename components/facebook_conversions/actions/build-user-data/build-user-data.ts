@@ -57,7 +57,7 @@ export default defineAction({
     city: {
       label: "City",
       description:
-        "Using Roman alphabet a-z characters is recommended. Lowercase only with no punctuation, no special characters, and no spaces. If using special characters, the text must be encoded in UTF-8 format. Example: `paris`, `london`, `newyork`",
+        "Using Roman alphabet a-z characters is recommended. Lowercase only with no punctuation, no special characters, and no spaces. Example: `paris`, `london`, `newyork`",
       type: "string",
       optional: true,
     },
@@ -157,9 +157,46 @@ export default defineAction({
     checkUserDataObject,
   },
   async run({ $ }) {
-    const obj = {};
+    const em = this.email?.trim().toLowerCase();
+    const ph = this.phone?.replace(/[^0-9]/g, "");
+    const fn = this.firstName?.toLowerCase();
+    const ln = this.lastName?.toLowerCase();
+    const db = this.dateBirth?.replace(/[^0-9]/g, "");
+    const ge = this.gender?.toLowerCase();
+    const ct = this.city?.toLowerCase().replace(/[^a-z]/g, "");
+    const st = this.state;
+    const zp = this.zipCode?.toLowerCase().replace(/[^0-9a-z]/g, "");
+    const country = this.country?.toLowerCase();
+    const {
+      externalId, clientIpAddress, clientUserAgent, clickId, browserId, subscriptionId, fbLoginId, leadId, anonId, madId,
+    } = this;
+
+    const obj = Object.fromEntries(Object.entries({
+      em,
+      ph,
+      fn,
+      ln,
+      db,
+      ge,
+      ct,
+      st,
+      zp,
+      country,
+      external_id: externalId,
+      client_ip_address: clientIpAddress,
+      client_user_agent: clientUserAgent,
+      fbc: clickId,
+      fbp: browserId,
+      subscription_id: subscriptionId,
+      fb_login_id: fbLoginId,
+      lead_id: leadId,
+      anon_id: anonId,
+      madid: madId,
+    }).filter(([
+      , value,
+    ]) => value !== undefined));
 
     $.export("$summary", "Successfully built user data");
-    return obj;
+    return checkUserDataObject(obj);
   },
 });
