@@ -15,7 +15,7 @@ export default defineAction({
   type: "action",
   props: {
     app,
-    // this should probably be moved to $auth later
+    // this will probably be moved to $auth later
     accessToken: {
       type: "string",
       label: "Access Token",

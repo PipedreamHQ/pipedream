@@ -93,7 +93,7 @@ export default defineAction({
       ]) => v !== undefined),
     );
 
-    $.export("$summary", "Successfully built custom data");
+    $.export("$summary", "Successfully built app data");
     return obj;
   },
 });
