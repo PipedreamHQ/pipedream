@@ -64,13 +64,13 @@ export default {
     contact: {
       type: "object",
       label: "Contact",
-      description: "Contact information.",
+      description: "Contact object can have the following properties: `email, work, mobile, fax, whatsapp, facbeook, twitter, instagram, linked_in, skype`. Please check the documentation in the description for more information.",
       optional: true,
     },
     address: {
       type: "object",
       label: "Address",
-      description: "Address information.",
+      description: "Address Object can have the following properties: `postal_code, country, district, state, street_name, street_number, additional_info, city`. Please check the documentation in the description for more information.",
       optional: true,
     },
     leadOrigin: {
