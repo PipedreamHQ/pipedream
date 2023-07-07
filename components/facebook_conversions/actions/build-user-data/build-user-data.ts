@@ -13,7 +13,7 @@ export default defineAction({
     app,
     email: {
       label: "Email",
-      description: "Email Address",
+      description: "Email Address. [See more on this and other props in the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters)",
       type: "string",
       optional: true,
     },
