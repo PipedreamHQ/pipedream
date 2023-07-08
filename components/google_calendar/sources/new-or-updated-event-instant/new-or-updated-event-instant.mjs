@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New or Updated Event (Instant)",
   description: "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
-  version: "0.1.5",
+  version: "0.1.7",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -18,13 +18,16 @@ export default {
         "calendarId",
       ],
       type: "string[]",
+      default: [
+        "primary",
+      ],
       label: "Calendars",
-      description: "Select one or more calendars to watch",
+      description: "Select one or more calendars to watch (defaults to the primary calendar)",
     },
     newOnly: {
-      label: "New events only?",
+      label: "Emit only for new events",
       type: "boolean",
-      description: "Emit new events only, and not updates to existing events",
+      description: "Emit new events only, and not updates to existing events (defaults to `false`)",
       optional: true,
       default: false,
     },

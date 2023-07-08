@@ -14,5 +14,5 @@ export default {
   }),
   key: "slack_bot-send-message-public-channel",
   description: "Send a message to a public channel and customize the name and avatar of the bot that posts the message (Bot). See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.1",
+  version: "0.0.2",
 };

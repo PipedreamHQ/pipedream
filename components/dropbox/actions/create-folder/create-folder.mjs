@@ -6,7 +6,7 @@ export default {
   name: "Create folder",
   description: "Create a folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesCreateFolderV2__anchor)",
   key: "dropbox-create-folder",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     dropbox,
