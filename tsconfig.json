@@ -2153,6 +2153,9 @@
     },
     {
       "path": "components/shopify_developer_app"
+    },
+    {
+      "path": "components/hookdeck"
     }
   ]
 }
