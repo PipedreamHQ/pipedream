@@ -40,7 +40,7 @@ export default {
       ],
     },
     anyQueryParams: {
-      type: "string",
+      type: "object",
       label: "Any Query Params",
       description: "The Query Params of the request.",
       optional: true,
@@ -75,9 +75,7 @@ export default {
         "Retries": retries,
         "Base-Url-Override": baseUrlOverride,
       },
-      params: {
-        any_query_params: anyQueryParams,
-      },
+      params: anyQueryParams,
     });
 
     step.export("$summary", `Successfully made a get request to ${anyPath}.`);
