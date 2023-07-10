@@ -75,9 +75,7 @@ export default {
         "Retries": retries,
         "Base-Url-Override": baseUrlOverride,
       },
-      data: {
-        any_body_param: anyBodyParam,
-      },
+      data: anyBodyParam,
     });
 
     step.export("$summary", `Successfully made a post request to ${anyPath}.`);
