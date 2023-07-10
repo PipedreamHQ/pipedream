@@ -192,14 +192,11 @@ export default defineComponent({
         }
       })
     }
-    else if (run.runs === 2) {
-      throw new Error("External service never completed job")
-    }
+
     // When the external service calls back into the resume_url, you have access to 
     // the callback data within $.context.run.callback_request
-    else {
-      const { callback_request } = run
-      return callback_request
+    else if(run.callback_request) {
+      return run.callback_request
     }
   },
 })
