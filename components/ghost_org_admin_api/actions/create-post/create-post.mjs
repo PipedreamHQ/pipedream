@@ -5,13 +5,19 @@ export default {
   name: "Create post",
   description: "Create a post. [See the docs here](https://ghost.org/docs/admin-api/#creating-a-post).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ghostAdminApi,
     title: {
       type: "string",
       label: "Title",
       description: "Title of the post",
+    },
+    featuredImage: {
+      type: "string",
+      label: "Featured Image",
+      description: "URL of the featured image",
+      optional: true,
     },
     html: {
       type: "string",
@@ -39,6 +45,7 @@ export default {
   async run({ $ }) {
     const {
       title,
+      featuredImage,
       html,
       status,
       tags,
@@ -53,6 +60,7 @@ export default {
         posts: [
           {
             title,
+            feature_image: featuredImage,
             html,
             status,
             tags,

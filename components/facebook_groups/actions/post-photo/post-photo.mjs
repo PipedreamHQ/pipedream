@@ -1,11 +1,12 @@
 import common from "../common/common.mjs";
+import { ERROR_MESSAGE } from "../common/errorMessage.mjs";
 
 export default {
   ...common,
   key: "facebook_groups-post-photo",
   name: "Post Photo",
   description: "Post a photo in a group. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/group/photos)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -16,18 +17,23 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.facebookGroups.postPhoto({
-      groupId: this.group,
-      data: {
-        url: this.url,
-      },
-      $,
-    });
+    try {
+      const response = await this.facebookGroups.postPhoto({
+        groupId: this.group,
+        data: {
+          url: this.url,
+        },
+        $,
+      });
 
-    if (response) {
-      $.export("$summary", `Successfully posted photo with ID ${response.id}.`);
+      if (response) {
+        $.export("$summary", `Successfully posted photo with ID ${response.id}.`);
+      }
+
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw new Error(ERROR_MESSAGE);
     }
-
-    return response;
   },
 };

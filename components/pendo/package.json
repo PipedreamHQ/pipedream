@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/pendo",
+  "version": "0.0.1",
+  "description": "Pipedream Pendo Components",
+  "main": "dist/app/pendo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pendo"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/pendo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

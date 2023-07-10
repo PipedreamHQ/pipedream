@@ -6,7 +6,7 @@ export default {
   key: "github-new-commit",
   name: "New Commit (Instant)",
   description: "Emit new events on new commits to a repo or branch",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "source",
   dedupe: "unique",
   props: {
@@ -42,6 +42,13 @@ export default {
       };
     },
     async loadHistoricalEvents() {
+      if (this.branch) {
+        this.branch = {
+          label: this.branch.split("/")[1],
+          value: this.branch.split("/")[0],
+        };
+      }
+
       const commitInfo = await this.github.getCommits({
         repoFullname: this.repoFullname,
         sha: this.branch

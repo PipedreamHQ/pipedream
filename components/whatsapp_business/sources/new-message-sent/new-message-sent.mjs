@@ -1,10 +1,11 @@
 import whatsapp from "../../whatsapp_business.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "whatsapp_business-new-message-sent",
   name: "New Message Sent",
   description: "Emit new event when a new message is sent or received. A Webhook subscribed to field \"messages\" must be set up from the App Dashboard of your [Facebook Developer Account](https://developers.facebook.com/). See [documentation](https://developers.facebook.com/docs/graph-api/webhooks/getting-started#configure-webhooks-product) for more information about Webhook setup.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -61,4 +62,5 @@ export default {
       });
     }
   },
+  sampleEmit,
 };

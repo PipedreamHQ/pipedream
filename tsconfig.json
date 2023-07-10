@@ -2120,6 +2120,42 @@
     },
     {
       "path": "components/facebook_lead_ads"
+    },
+    {
+      "path": "components/google_ads"
+    },
+    {
+      "path": "components/credit_repair_cloud"
+    },
+    {
+      "path": "components/outseta"
+    },
+    {
+      "path": "components/uipath_automation_hub"
+    },
+    {
+      "path": "components/funnelcockpit"
+    },
+    {
+      "path": "components/pendo"
+    },
+    {
+      "path": "components/elevenlabs"
+    },
+    {
+      "path": "components/google_contacts"
+    },
+    {
+      "path": "components/facebook_groups"
+    },
+    {
+      "path": "components/nango"
+    },
+    {
+      "path": "components/shopify_developer_app"
+    },
+    {
+      "path": "components/hookdeck"
     }
   ]
 }

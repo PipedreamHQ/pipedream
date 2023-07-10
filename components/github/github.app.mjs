@@ -152,13 +152,19 @@ export default {
       label: "Branch",
       description: "Branch to monitor for new commits",
       type: "string",
-      async options({ repoFullname }) {
+      async options({
+        page, repoFullname,
+      }) {
         const branches = await this.getBranches({
           repoFullname,
+          params: {
+            page: page + 1,
+          },
         });
+
         return branches.map((branch) => ({
           label: branch.name,
-          value: branch.commit.sha,
+          value: `${branch.commit.sha}/${branch.name}`,
         }));
       },
     },

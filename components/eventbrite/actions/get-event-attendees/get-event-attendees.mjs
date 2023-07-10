@@ -3,8 +3,8 @@ import eventbrite from "../../eventbrite.app.mjs";
 export default {
   key: "eventbrite-get-event-attendees",
   name: "Get Event Attendees",
-  description: "Get event attendees for a specified event. [see docs here](https://www.eventbrite.com/platform/api#/reference/attendee/list/list-attendees-by-event)",
-  version: "0.0.2",
+  description: "Get event attendees for a specified event. [See the documentation](https://www.eventbrite.com/platform/api#/reference/attendee/list/list-attendees-by-event)",
+  version: "0.0.3",
   type: "action",
   props: {
     eventbrite,

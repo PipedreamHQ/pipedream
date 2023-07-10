@@ -131,7 +131,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/agendor:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/agile_crm:
     specifiers:
@@ -886,7 +889,12 @@ importers:
       uuid: 9.0.0
 
   components/concord:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      '@pipedream/types': 0.1.6
 
   components/confection:
     specifiers:
@@ -930,6 +938,9 @@ importers:
     specifiers: {}
 
   components/craftmypdf:
+    specifiers: {}
+
+  components/credit_repair_cloud:
     specifiers: {}
 
   components/crimeometer:
@@ -1274,6 +1285,9 @@ importers:
   components/elastic_email:
     specifiers: {}
 
+  components/elevenlabs:
+    specifiers: {}
+
   components/elmah_io:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1592,6 +1606,9 @@ importers:
       '@pipedream/platform': 1.5.1
       crypto-js: 4.1.1
 
+  components/funnelcockpit:
+    specifiers: {}
+
   components/gatekeeper:
     specifiers: {}
 
@@ -1904,7 +1921,10 @@ importers:
       uuid: 8.3.2
 
   components/google_tag_manager:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_tasks:
     specifiers:
@@ -2198,7 +2218,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/instagram_business:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/intellexer_api:
     specifiers:
@@ -2274,7 +2297,10 @@ importers:
       form-data: 4.0.0
 
   components/jobnimbus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/joomla:
     specifiers:
@@ -2488,7 +2514,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/livestorm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/lob:
     specifiers:
@@ -2880,6 +2909,12 @@ importers:
     devDependencies:
       '@pipedream/types': 0.1.6
 
+  components/nango:
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/nano_nets:
     specifiers: {}
 
@@ -3174,6 +3209,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/outseta:
+    specifiers: {}
+
   components/overloop:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -3278,6 +3316,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/pdfmonkey:
+    specifiers: {}
+
+  components/pendo:
     specifiers: {}
 
   components/perry_github_test:
@@ -3990,7 +4031,10 @@ importers:
     specifiers: {}
 
   components/sellercloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/sellix:
     specifiers: {}
@@ -4144,6 +4188,14 @@ importers:
       lodash.topath: 4.5.2
       shopify-api-node: 3.12.4
 
+  components/shopify_developer_app:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      shopify-api-node: ^3.12.5
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      shopify-api-node: 3.12.5
+
   components/shopify_partner:
     specifiers:
       graphql: ^16.2.0
@@ -4239,8 +4291,10 @@ importers:
 
   components/slack_bot:
     specifiers:
+      '@pipedream/platform': ^1.5.1
       '@slack/web-api': ^5.15.0
     dependencies:
+      '@pipedream/platform': 1.5.1
       '@slack/web-api': 5.15.0
 
   components/slack_demo_app:
@@ -4373,7 +4427,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sourceforge:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/splitwise:
     specifiers:
@@ -4968,6 +5025,9 @@ importers:
     specifiers: {}
 
   components/uchat:
+    specifiers: {}
+
+  components/uipath_automation_hub:
     specifiers: {}
 
   components/uk_gov_vehecle_enquiry_api:
@@ -9402,7 +9462,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       chalk: 4.1.2
       jest-message-util: 27.5.1
       jest-util: 27.5.1
@@ -9414,7 +9474,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.5.0
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       chalk: 4.1.2
       jest-message-util: 29.5.0
       jest-util: 29.5.0
@@ -9435,7 +9495,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.8.1
@@ -9480,14 +9540,14 @@ packages:
       '@jest/test-result': 29.5.0
       '@jest/transform': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.8.0
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.5.0
-      jest-config: 29.5.0_@types+node@17.0.45
+      jest-config: 29.5.0_@types+node@18.15.12
       jest-haste-map: 29.5.0
       jest-message-util: 29.5.0
       jest-regex-util: 29.4.3
@@ -9604,7 +9664,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       chalk: 4.1.2
       collect-v8-coverage: 1.0.1
       exit: 0.1.2
@@ -9643,7 +9703,7 @@ packages:
       '@jest/transform': 29.5.0
       '@jest/types': 29.5.0
       '@jridgewell/trace-mapping': 0.3.18
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       chalk: 4.1.2
       collect-v8-coverage: 1.0.1
       exit: 0.1.2
@@ -9784,7 +9844,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       '@types/yargs': 16.0.5
       chalk: 4.1.2
     dev: true
@@ -9796,7 +9856,7 @@ packages:
       '@jest/schemas': 29.4.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       '@types/yargs': 17.0.24
       chalk: 4.1.2
     dev: true
@@ -12001,14 +12061,14 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       '@types/responselike': 1.0.0
     dev: false
 
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
     dev: false
 
   /@types/debug/4.1.7:
@@ -12122,13 +12182,13 @@ packages:
   /@types/jsonwebtoken/8.5.9:
     resolution: {integrity: sha512-272FMnFGzAVMGtu9tkr29hRL6bZj4Zs1KZNeHLnKqAvp06tAIcarTMwOh8/8bz4FmKRcMxZhZNeUAQsNLoiPhg==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
     dev: false
 
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
     dev: false
 
   /@types/linkify-it/3.0.2:
@@ -12200,7 +12260,6 @@ packages:
 
   /@types/node/18.15.12:
     resolution: {integrity: sha512-Wha1UwsB3CYdqUm2PPzh/1gujGCNtWVUYF0mB00fJFoR4gTyWTDPjSm+zBF787Ahw8vSGgBja90MkgFwvB86Dg==}
-    dev: false
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -12237,7 +12296,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
     dev: false
 
   /@types/retry/0.12.0:
@@ -12303,20 +12362,20 @@ packages:
   /@types/websocket/1.0.5:
     resolution: {integrity: sha512-NbsqiNX9CnEfC1Z0Vf4mE1SgAJ07JnRYcNex7AJ9zAVzmiGHmjKFEk7O4TJIsgv2B1sLEb6owKFZrACwdYngsQ==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
     dev: false
 
   /@types/whatwg-url/8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       '@types/webidl-conversions': 7.0.0
     dev: false
 
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
     dev: false
 
   /@types/yargs-parser/21.0.0:
@@ -12339,7 +12398,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
     dev: false
     optional: true
 
@@ -18006,7 +18065,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-config/29.5.0_@types+node@17.0.45:
+  /jest-config/29.5.0_@types+node@18.15.12:
     resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -18021,7 +18080,7 @@ packages:
       '@babel/core': 7.21.4
       '@jest/test-sequencer': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       babel-jest: 29.5.0_@babel+core@7.21.4
       chalk: 4.1.2
       ci-info: 3.8.0
@@ -18159,7 +18218,7 @@ packages:
     dependencies:
       '@jest/types': 27.5.1
       '@types/graceful-fs': 4.1.6
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -18179,7 +18238,7 @@ packages:
     dependencies:
       '@jest/types': 29.5.0
       '@types/graceful-fs': 4.1.6
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -18395,7 +18454,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       chalk: 4.1.2
       emittery: 0.8.1
       graceful-fs: 4.2.11
@@ -18427,7 +18486,7 @@ packages:
       '@jest/test-result': 29.5.0
       '@jest/transform': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       chalk: 4.1.2
       emittery: 0.13.1
       graceful-fs: 4.2.11
@@ -18488,7 +18547,7 @@ packages:
       '@jest/test-result': 29.5.0
       '@jest/transform': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       chalk: 4.1.2
       cjs-module-lexer: 1.2.2
       collect-v8-coverage: 1.0.1
@@ -18581,7 +18640,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       chalk: 4.1.2
       ci-info: 3.8.0
       graceful-fs: 4.2.11
@@ -18593,7 +18652,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.5.0
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       chalk: 4.1.2
       ci-info: 3.8.0
       graceful-fs: 4.2.11
@@ -18630,7 +18689,7 @@ packages:
     dependencies:
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       jest-util: 27.5.1
@@ -18643,7 +18702,7 @@ packages:
     dependencies:
       '@jest/test-result': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 17.0.45
+      '@types/node': 18.15.12
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.13.1
@@ -23170,6 +23229,16 @@ packages:
 
   /shopify-api-node/3.12.4:
     resolution: {integrity: sha512-sxpbLGt7ROzmmWM5iAgl2IPvNcI3h/SRxH88pRNkrsTK3vbVFq496/SbBwySgr+lnI9elqRFBvjIu4qWZzIfnw==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      got: 11.8.6
+      lodash: 4.17.21
+      qs: 6.11.1
+      stopcock: 1.1.0
+    dev: false
+
+  /shopify-api-node/3.12.5:
+    resolution: {integrity: sha512-A8uLkyxQWkEHcQDRtmIlTY8bRQDsa9KZrrGzarlH7bLZ6QwsfTCwoISYCuzJrF9dgMuilUVsv1VCMflf9lVWVg==}
     engines: {node: '>=10.0.0'}
     dependencies:
       got: 11.8.6
