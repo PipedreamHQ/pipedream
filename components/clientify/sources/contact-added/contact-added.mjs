@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   type: "source",
-  key: "clientify-contact-created",
+  key: "clientify-contact-added",
   name: "New Contact Created",
   version: "0.0.1",
   description: "Emit new event when a new contact is created.",
