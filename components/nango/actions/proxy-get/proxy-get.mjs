@@ -40,9 +40,9 @@ export default {
       ],
     },
     anyQueryParams: {
-      type: "object",
-      label: "Any Body Params",
-      description: "The Any Body Params of the request.",
+      type: "string",
+      label: "Any Query Params",
+      description: "The Query Params of the request.",
       optional: true,
     },
   },
