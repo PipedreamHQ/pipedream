@@ -2156,6 +2156,9 @@
     },
     {
       "path": "components/hookdeck"
+    },
+    {
+      "path": "components/facebook_pages"
     }
   ]
 }
