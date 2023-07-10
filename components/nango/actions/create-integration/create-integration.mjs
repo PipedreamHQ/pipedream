@@ -12,12 +12,13 @@ export default {
     oauthClientId: {
       type: "string",
       label: "Client ID",
-      description: "The Client ID of the Integration.",
+      description: "Obtain the Client ID on the developer portal of the Integration Provider.",
     },
     oauthClientSecret: {
       type: "string",
       label: "Client Secret",
-      description: "The Client Secret of the Integration.",
+      description: "Obtain the Client Secret on the developer portal of the Integration Provider.",
+      secret: true,
     },
     provider: {
       type: "string",
@@ -28,20 +29,15 @@ export default {
       },
     },
     providerConfigKey: {
-      propDefinition: [
-        app,
-        "providerConfigKey",
-      ],
+      type: "string",
+      label: "Integration Unique Key",
+      description: "Choose a unique key for your integration. It can be the same as the Integration Provider (e.g. github, airtable).",
     },
     oauthScopes: {
       optional: true,
       propDefinition: [
         app,
         "oauthScopes",
-        ({ provider }) => ({
-          provider,
-          getDefaultScopes: providers.getDefaultScopes,
-        }),
       ],
     },
   },

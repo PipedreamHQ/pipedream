@@ -17,12 +17,7 @@ export default {
     oauthScopes: {
       type: "string[]",
       label: "OAuth Scopes",
-      description: "The OAuth Scopes of the Integration.",
-      options({
-        provider, getDefaultScopes,
-      }) {
-        return getDefaultScopes(provider);
-      },
+      description: "The OAuth Scopes of the Integration. The list of scope should be found in the documentation of the external provider.",
     },
     connectionId: {
       type: "string",
