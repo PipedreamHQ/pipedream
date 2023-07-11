@@ -40,7 +40,12 @@ export default {
         maxResults,
       });
 
+      const responseArray = [];
       for await (const item of items) {
+        responseArray.push(item);
+      }
+
+      responseArray.forEach((item) => {
         this.$emit(
           item,
           {
@@ -49,9 +54,8 @@ export default {
             ts: item.process_created_epoch,
           },
         );
-
-        this._setLastDate(item.process_created_epoch);
-      }
+      });
+      this._setLastDate(responseArray[responseArray.length - 1].process_created_epoch);
     },
   },
   hooks: {
