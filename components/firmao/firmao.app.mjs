@@ -3,37 +3,122 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "firmao",
-  propDefinitions: {},
+  propDefinitions: {
+    responsibleUsers: {
+      type: "string[]",
+      label: "Responsible Users",
+      description: "Array of users responsible for the task",
+      async options() {
+        const users = await this.app.getUsers({
+          $: this,
+        });
+        return users.data.map((user) => ({
+          label: user.label,
+          value: user.id,
+        }));
+      },
+    },
+    customers: {
+      type: "string[]",
+      label: "Customers",
+      description: "Array of customers to be added in an offer",
+      async options() {
+        const users = await this.app.getCustomers({
+          $: this,
+        });
+        return users.data.map((user) => ({
+          label: user.label,
+          value: user.id,
+        }));
+      },
+    },
+  },
   methods: {
-    _auth() {
+    getUrl(endpoint) {
+      return `https://system.firmao.net${endpoint}`;
+    },
+    getAuth(auth) {
       return {
         username: `${this.$auth.api_login}`,
         password: `${this.$auth.api_password}`,
+        ...auth,
       };
     },
-    _baseUrl() {
-      return `https://system.firmao.net/${this.$auth.organization_id}`;
-    },
-    async _makeRequest({
-      $ = this,
-      path,
-      ...args
-    }) {
-      return axios($, {
-        url: `${this._baseUrl()}${path}`,
-        auth: this._auth(),
+    makeRequest({
+      $ = this, path, auth, ...args
+    } = {}) {
+      const config = {
+        auth: this.getAuth(auth),
+        url: this.getUrl(path),
         ...args,
-      });
+      };
+      return axios($, config);
     },
     createCustomer({
-      $,
-      data,
+      $ = this, data,
     }) {
-      return this._makeRequest({
+      return this.makeRequest({
         $,
         method: "POST",
-        path: "/svc/v1/customers",
+        path: `/${this.$auth.organization_id}/svc/v1/customers`,
         data,
+      });
+    },
+    createTask({
+      $ = this, data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "POST",
+        path: `/${this.$auth.organization_id}/svc/v1/tasks`,
+        data,
+      });
+    },
+    createOffer({
+      $ = this, data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "POST",
+        path: `/${this.$auth.organization_id}/svc/v1/offers`,
+        data,
+      });
+    },
+    getUsers({ $ = this }) {
+      return this.makeRequest({
+        $,
+        method: "GET",
+        path: `/${this.$auth.organization_id}/svc/v1/users`,
+      });
+    },
+    getCustomers({
+      $ = this, params,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "GET",
+        path: `/${this.$auth.organization_id}/svc/v1/customers`,
+        params,
+      });
+    },
+    getTasks({
+      $ = this, params,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "GET",
+        path: `/${this.$auth.organization_id}/svc/v1/tasks`,
+        params,
+      });
+    },
+    getOffers({
+      $ = this, params,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "GET",
+        path: `/${this.$auth.organization_id}/svc/v1/offers`,
+        params,
       });
     },
   },
