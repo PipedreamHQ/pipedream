@@ -5641,6 +5641,12 @@ importers:
       jest: 29.5.0
       typescript: 3.9.10
 
+  scripts:
+    specifiers:
+      csv-parser: ^3.0.0
+    dependencies:
+      csv-parser: 3.0.0
+
   types:
     specifiers:
       dtslint: ^4.2.1
@@ -14415,6 +14421,14 @@ packages:
 
   /csstype/3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+    dev: false
+
+  /csv-parser/3.0.0:
+    resolution: {integrity: sha512-s6OYSXAK3IdKqYO33y09jhypG/bSDHPuyCme/IdEHfWpLf/jKcpitVFyOC6UemgGk8v7Q5u2XE0vvwmanxhGlQ==}
+    engines: {node: '>= 10'}
+    hasBin: true
+    dependencies:
+      minimist: 1.2.6
     dev: false
 
   /current-module-paths/1.1.0:
