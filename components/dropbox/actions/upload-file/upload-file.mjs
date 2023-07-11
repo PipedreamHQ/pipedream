@@ -1,7 +1,7 @@
 import dropbox from "../../dropbox.app.mjs";
 import consts from "../../common/consts.mjs";
 import fs from "fs";
-import got from "got";
+import got from "got@12.4.1";
 import common from "../common/common.mjs";
 
 export default {
@@ -9,7 +9,7 @@ export default {
   name: "Upload a File",
   description: "Uploads a file to a selected folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-file",
-  version: "0.0.6",
+  version: "0.0.8",
   type: "action",
   props: {
     dropbox,

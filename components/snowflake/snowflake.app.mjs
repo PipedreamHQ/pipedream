@@ -183,7 +183,7 @@ export default {
 
       let schemaList = [];
       for (const schema of schemas) {
-        schemaList.push("SCHEMA_NAME = ?");
+        schemaList.push("REGEXP_LIKE(SCHEMA_NAME, ?)");
         binds.push(schema);
       }
 

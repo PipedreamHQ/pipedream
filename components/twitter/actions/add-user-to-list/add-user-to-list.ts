@@ -1,5 +1,5 @@
 import app from "../../app/twitter.app";
-import { ACTION_ERROR_MESSAGE  } from "../../common/errorMessage";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { AddUserToListParams } from "../../common/types/requestParams";
@@ -10,8 +10,8 @@ const DOCS_LINK =
 export default defineAction({
   key: "twitter-add-user-to-list",
   name: "Add User To List",
-  description: `Add a member to a list owned by the user. [See docs here](${DOCS_LINK})`,
-  version: "1.0.4",
+  description: `Add a member to a list owned by the user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.3",
   type: "action",
   props: {
     app,

@@ -7,9 +7,11 @@ export default {
   app: "google_calendar",
   propDefinitions: {
     calendarId: {
-      label: "Calendar ID",
+      label: "Calendar",
       type: "string",
-      description: "Calendar identifier. To retrieve calendar IDs call the [calendarList.list](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendarlist.html#list) method or **List Calendars** action component. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+      description: "Optionally select the calendar you'd like to use (defaults to the primary calendar for the logged-in user)",
+      default: "primary",
+      optional: true,
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         if (nextPageToken === false) {
@@ -154,7 +156,7 @@ export default {
     },
     timeZone: {
       type: "string",
-      label: "Time zone",
+      label: "Time Zone",
       description: "Time zone used in the response. Optional. The default is the time zone of the calendar.",
       optional: true,
       options() {

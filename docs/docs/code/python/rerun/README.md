@@ -130,12 +130,10 @@ def handler(pd: 'pipedream'):
 
     # Send resume_url to external service
     await request.post("your callback URL", json=links)
-  elif run['runs'] == 2:
-    raise Exception("External service never completed job")
 
   # When the external service calls back into the resume_url, you have access to 
   # the callback data within pd.context.run['callback_request']
-  else:
+  elif 'callback_request' in run:
     return run['callback_request']
 
 ```

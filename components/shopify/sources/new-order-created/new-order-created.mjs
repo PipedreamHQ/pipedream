@@ -7,7 +7,7 @@ export default {
   name: "New Order Created (Instant)",
   type: "source",
   description: "Emit new event for each new order submitted to a store.",
-  version: "0.0.5",
+  version: "0.0.8",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -21,6 +21,15 @@ export default {
         summary: `New Order ${resource.id}.`,
         ts,
       };
+    },
+  },
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      let results = await this.app.getOrders("any", false, null, null, "any", 5, 1);
+      for (const order of results) {
+        this.$emit(order, this.generateMeta(order));
+      }
     },
   },
 };

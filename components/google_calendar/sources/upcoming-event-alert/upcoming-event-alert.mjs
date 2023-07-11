@@ -6,10 +6,11 @@ const docLink = "https://pipedream.com/docs/examples/waiting-to-execute-next-ste
 
 export default {
   key: "google_calendar-upcoming-event-alert",
+  // eslint-disable-next-line pipedream/source-name
   name: "Upcoming Event Alert",
   description: `Triggers based on a time interval before an upcoming event in the calendar. This source uses Pipedream's Task Scheduler.
     [See here](${docLink}) for more information and instructions for connecting your Pipedream account.`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     pipedream: taskScheduler.props.pipedream,
