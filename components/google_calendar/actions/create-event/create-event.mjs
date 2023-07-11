@@ -34,8 +34,14 @@ export default {
         summary: this.summary,
         location: this.location,
         description: this.description,
-        start: this.getDateParam(this.eventStartDate, timeZone),
-        end: this.getDateParam(this.eventEndDate, timeZone),
+        start: this.getDateParam({
+          date: this.eventStartDate,
+          timeZone,
+        }),
+        end: this.getDateParam({
+          date: this.eventEndDate,
+          timeZone,
+        }),
         attendees,
       },
     });
