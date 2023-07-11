@@ -64,7 +64,7 @@ export default {
     const response = await this.zohoCrm.uploadAttachment(this.module, this.recordId, data, $);
 
     if (response) {
-      $.export("$summary", "Successfully uploaded a file to the project");
+      $.export("$summary", `Successfully uploaded a file with ID ${response.data[0].details.id} to the project.`);
     }
 
     return response;
