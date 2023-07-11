@@ -55,7 +55,10 @@ export default {
           },
         );
       });
-      this._setLastDate(responseArray[responseArray.length - 1].process_created_epoch);
+      const lastItem = responseArray[responseArray.length - 1];
+      if (lastItem?.process_created_epoch) {
+        this._setLastDate(lastItem.process_created_epoch);
+      }
     },
   },
   hooks: {
