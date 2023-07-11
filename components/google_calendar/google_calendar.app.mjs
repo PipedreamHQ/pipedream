@@ -143,14 +143,14 @@ export default {
       type: "string",
     },
     timeMax: {
-      label: "Max start time",
-      description: "Upper bound for an event's start time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, `2011-06-03T10:00:00-07:00`, `2011-06-03T10:00:00Z`. `Max start time` must be greater than `Minimum end time`.",
+      label: "Max time",
+      description: "Upper bound (exclusive) for an event's time to filter by. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. Must be greater than Min Time.",
       optional: true,
       type: "string",
     },
     timeMin: {
-      label: "Minimum end time",
-      description: "Lower bound for an event's end time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, `2011-06-03T10:00:00-07:00`, `2011-06-03T10:00:00Z`. `Minimum end time` must be smaller than `Max start time`.",
+      label: "Min time",
+      description: "Lower bound (exclusive) for an event's time to filter by. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. Must be smaller than Max Time.",
       optional: true,
       type: "string",
     },
