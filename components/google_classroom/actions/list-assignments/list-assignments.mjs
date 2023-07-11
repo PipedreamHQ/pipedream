@@ -1,4 +1,5 @@
 import googleClassroom from "../../google_classroom.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "google_classroom-list-assignments",
@@ -35,20 +36,14 @@ export default {
       const {
         year, month, day,
       } = dueDate;
-      let dateString = `${year}-${month < 10
-        ? "0"
-        : ""}${month}-${day < 10
-        ? "0"
-        : ""}${day}`;
+      let dateString = `${year}-${utils.padZero(month)}-${utils.padZero(day)}`;
       if (dueTime) {
         const {
           hours, minutes,
         } = dueTime;
-        dateString += `T${hours < 10
-          ? "0"
-          : ""}${hours}:${minutes < 10
-          ? "0"
-          : ""}${minutes || "00"}:00`;
+        dateString += `T${utils.padZero(hours)}:${minutes
+          ? utils.padZero(minutes)
+          : "00"}:00`;
       }
       return Date.parse(dateString);
     },
