@@ -7,9 +7,9 @@ export default {
   app: "google_calendar",
   propDefinitions: {
     calendarId: {
-      label: "Calendar",
+      label: "Calendar ID",
       type: "string",
-      description: "Optionally select the calendar you'd like to use (defaults to the primary calendar for the logged-in user)",
+      description: "Optionally select the calendar, defaults to the primary calendar for the logged-in user",
       default: "primary",
       optional: true,
       async options({ prevContext }) {
@@ -33,9 +33,9 @@ export default {
       },
     },
     eventId: {
-      label: "Event Name",
+      label: "Event ID",
       type: "string",
-      description: "Event identifier. To retreive event Ids from a calender.",
+      description: "Select an event from Google Calendar.",
       async options({
         calendarId, prevContext,
       }) {
@@ -143,14 +143,14 @@ export default {
       type: "string",
     },
     timeMax: {
-      label: "Max start time",
-      description: "Upper bound (exclusive) for an event's start time to filter by. Optional. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMin is set, timeMax must be greater than timeMin.",
+      label: "Max time",
+      description: "Upper bound (exclusive) for an event's time to filter by. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. Must be greater than Min Time.",
       optional: true,
       type: "string",
     },
     timeMin: {
-      label: "Minimum end time",
-      description: "Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by end time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMax is set, timeMin must be smaller than timeMax.",
+      label: "Min time",
+      description: "Lower bound (exclusive) for an event's time to filter by. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. Must be smaller than Max Time.",
       optional: true,
       type: "string",
     },
@@ -242,6 +242,23 @@ export default {
       label: "Value of the Scope",
       type: "string",
       description: "The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type 'default'",
+      optional: true,
+    },
+    sendUpdates: {
+      label: "Send Updates",
+      type: "string",
+      description: "Configure whether to send notifications about the event",
+      optional: true,
+      options: [
+        "all",
+        "externalOnly",
+        "none",
+      ],
+    },
+    sendNotifications: {
+      label: "Send Notifications",
+      type: "boolean",
+      description: "Whether to send notifications about the event update",
       optional: true,
     },
   },
@@ -426,7 +443,7 @@ export default {
         args,
       });
     },
-    async queryFreebusy(args = {}) {
+    async queryFreeBusy(args = {}) {
       return this.requestHandler({
         api: constants.API.FREEBUSY.NAME,
         method: constants.API.FREEBUSY.METHOD.QUERY,
