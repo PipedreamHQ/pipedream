@@ -11,7 +11,7 @@ export default {
     anthropic,
     model: {
       label: "Model",
-      description: "Select the model to use for your query. Defaults to the `claude-v1` model, which is recommended by Anthropic, and always uses their latest stable version.",
+      description: "Select the model to use for your query. Defaults to the latest stable `claude-2` model, which Anthropic describes as having \"superior performance on tasks that require complex reasoning\".",
       type: "string",
       options: constants.COMPLETION_MODELS,
       default: constants.COMPLETION_MODELS[0],
