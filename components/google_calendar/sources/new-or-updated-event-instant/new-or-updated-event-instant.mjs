@@ -5,9 +5,9 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   key: "google_calendar-new-or-updated-event-instant",
   type: "source",
-  name: "New or Updated Event (Instant)",
-  description: "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
-  version: "0.1.7",
+  name: "New Created or Updated Event (Instant)",
+  description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
+  version: "0.1.8",
   dedupe: "unique",
   props: {
     googleCalendar,
