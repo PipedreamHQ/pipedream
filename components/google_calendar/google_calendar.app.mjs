@@ -244,24 +244,6 @@ export default {
       description: "The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type 'default'",
       optional: true,
     },
-    attendeesFromEvent: {
-      type: "string[]",
-      label: "Attendees",
-      description: "Array of email addresses or a comma separated list of email addresses of attendees. (eg. `johndoe@domain.com,janedoe@domain.com`).",
-      async options({
-        calendarId, eventId,
-      }) {
-        const { attendees = [] } =
-          await this.getEvent({
-            eventId,
-            calendarId,
-          });
-        return attendees.map(({ email }) => ({
-          label: email,
-          value: email,
-        }));
-      },
-    },
     sendUpdates: {
       label: "Send Updates",
       type: "string",

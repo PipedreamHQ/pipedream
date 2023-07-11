@@ -24,14 +24,9 @@ export default {
       ],
     },
     attendees: {
-      propDefinition: [
-        googleCalendar,
-        "attendeesFromEvent",
-        (c) => ({
-          calendarId: c.calendarId,
-          eventId: c.eventId,
-        }),
-      ],
+      label: "Attendees",
+      type: "string[]",
+      description: "Enter an array of email addresses for any attendees",
     },
     sendUpdates: {
       propDefinition: [
@@ -47,15 +42,14 @@ export default {
     },
   },
   methods: {
-    formatAttendees(attendees) {
-      const updatedAttendees = (
-        attendees && Array.isArray(attendees)
-          ? attendees
-          : attendees?.split(",") || []
-      );
-      return updatedAttendees.map((email) => ({
-        email: email.trim(),
-      }));
+    formatAttendees(selectedAttendees) {
+      let attendees = [];
+      if (selectedAttendees && Array.isArray(selectedAttendees)) {
+        attendees = selectedAttendees.map((email) => ({
+          email,
+        }));
+      }
+      return attendees;
     },
   },
   async run({ $ }) {
