@@ -42,7 +42,7 @@ export default {
         const res = await this.listForms(
           pageId,
           params,
-          this._getPageAccessToken(pageId),
+          await this._getPageAccessToken(pageId),
         );
         return {
           options: res.data.map((form) => ({
@@ -58,8 +58,7 @@ export default {
   },
   methods: {
     _getAccessToken() {
-      // return this.$auth.oauth_access_token;
-      return "EAAXkfGDLF9UBALCGNvVEEDbShU7jsjEzZASZCLZAYe0PUtt3PeZCDsOXbeFe28fq7ZA4z0R0nZBAViJoKIZA3eOnYRut1ADZBtljul0L1UhUAzT71bJq2msQNTKAFaZAVNIhV6lq7r4f8s10bhnuIBINAmZBeYUxIj2KQXda35EmpW3tUaUvJjudZBcuTpyNXRJv2HumZAI2wMy2ZCTsnb077T9z4";
+      return this.$auth.oauth_access_token;
     },
     _getApiVersion() {
       return "v17.0";

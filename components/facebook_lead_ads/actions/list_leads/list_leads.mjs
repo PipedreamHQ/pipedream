@@ -5,7 +5,7 @@ export default {
   key: "facebook_lead_ads-list_leads",
   name: "List Leads",
   description: "List Leads using Ad or Form ID. [See the documentation](https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving#reading-store-locator-question-value)",
-  version: "0.0.14",
+  version: "0.0.20",
   props: {
     app,
     pageId: {
