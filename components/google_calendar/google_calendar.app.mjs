@@ -144,13 +144,13 @@ export default {
     },
     timeMax: {
       label: "Max start time",
-      description: "Upper bound (exclusive) for an event's start time to filter by. Optional. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMin is set, timeMax must be greater than timeMin.",
+      description: "Upper bound for an event's start time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, `2011-06-03T10:00:00-07:00`, `2011-06-03T10:00:00Z`. `Max start time` must be greater than `Minimum end time`.",
       optional: true,
       type: "string",
     },
     timeMin: {
       label: "Minimum end time",
-      description: "Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by end time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMax is set, timeMin must be smaller than timeMax.",
+      description: "Lower bound for an event's end time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, `2011-06-03T10:00:00-07:00`, `2011-06-03T10:00:00Z`. `Minimum end time` must be smaller than `Max start time`.",
       optional: true,
       type: "string",
     },
