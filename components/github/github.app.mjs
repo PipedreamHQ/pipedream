@@ -246,7 +246,7 @@ export default {
       console.error(exception);
       const status = exception?.status;
       if (status && (status === 404 || status === 403)) {
-        throw new ConfigurationError(`The request failed with status "${status}". It is likely that your token doesn't have sufficient permissions to execute that request. [see mor information here](https://docs.github.com/en/rest/overview/authenticating-to-the-rest-api?apiVersion=2022-11-28#about-authentication).`);
+        throw new ConfigurationError(`The request failed with status "${status}". Your GitHub account may not have sufficient permissions to execute that request. [See more information here](https://docs.github.com/en/rest/overview/authenticating-to-the-rest-api?apiVersion=2022-11-28#about-authentication).`);
       }
       throw exception;
     },
