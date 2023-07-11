@@ -7,10 +7,16 @@
     "pipedream",
     "facebook_lead_ads"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/facebook_lead_ads",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "uuid": "^9.0.0"
   }
 }
