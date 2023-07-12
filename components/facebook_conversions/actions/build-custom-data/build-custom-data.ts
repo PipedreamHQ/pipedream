@@ -114,7 +114,9 @@ export default defineAction({
 
     let contents: object[];
     try {
-      contents = this.contents?.map((str: string) => JSON.parse(str));
+      contents = this.contents?.map((str: string | object) => (typeof str === "string"
+        ? JSON.parse(str)
+        : str));
     } catch (err) {
       throw new ConfigurationError("Error parsing the `contents` prop - make sure its value are proper JSON-stringified objects.");
     }
