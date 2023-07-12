@@ -37,11 +37,21 @@ const NOTION_PAGE_PROPERTIES = {
     type: "string",
     example: "3f806034-9c48-4519-871e-60c9c32d73d8",
     options: (property) => property.select?.options.map((option) => option.name),
-    convertToNotion: (property) => ({
-      select: {
-        name: property.value,
-      },
-    }),
+    convertToNotion: (property) => {
+      if (typeof property.value === "string") {
+        return {
+          select: {
+            name: property.value,
+          },
+        };
+      }
+
+      return {
+        select: {
+          ...property.value,
+        },
+      };
+    },
   },
   multi_select: {
     type: "string[]",
