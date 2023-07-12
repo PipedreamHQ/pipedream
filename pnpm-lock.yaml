@@ -2545,6 +2545,9 @@ importers:
   components/looker:
     specifiers: {}
 
+  components/loops_so:
+    specifiers: {}
+
   components/loqate:
     specifiers: {}
 
