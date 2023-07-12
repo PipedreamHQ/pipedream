@@ -113,7 +113,7 @@ During the beta, all accounts have access to view the past 7 days of events acro
 
 The number of events recorded and available for viewing in the Event History depends on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
 
-## Frequently Asked Questions
+## Frequently asked questions
 
 ### Are event histories available on all plans?
 
