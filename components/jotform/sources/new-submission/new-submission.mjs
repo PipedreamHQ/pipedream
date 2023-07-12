@@ -5,7 +5,7 @@ export default {
   key: "jotform-new-submission",
   name: "New Submission (Instant)",
   description: "Emit new event when a form is submitted",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -72,6 +72,16 @@ export default {
     let { content: submission } = await this.jotform.getFormSubmission({
       submissionId: body.submissionID,
     });
+
+    // insert answers from the webhook event
+    const rawRequest = JSON.parse(body.rawRequest);
+    for (const key of Object.keys(rawRequest)) {
+      const regex = /^q(\d+)_/;
+      const match = key.match(regex);
+      if (match && match[1]) {
+        submission.answers[match[1]].answer = rawRequest[key];
+      }
+    }
 
     if (this.encrypted) {
       submission = this.jotform.decryptSubmission(submission, this.privateKey);

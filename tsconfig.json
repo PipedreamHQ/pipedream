@@ -2159,6 +2159,12 @@
     },
     {
       "path": "components/facebook_pages"
+    },
+    {
+      "path": "components/facebook_lead_ads"
+    },
+    {
+      "path": "components/loops_so"
     }
   ]
 }
