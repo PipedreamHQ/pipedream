@@ -1,15 +1,18 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "google_calendar-event-start",
-  // eslint-disable-next-line pipedream/source-name
-  name: "Event Start",
-  // eslint-disable-next-line pipedream/source-description
-  description: "Emits a specified time before an event starts",
-  version: "0.1.3",
+  name: "New Event Start",
+  description: "Emit new event when the specified time before the Google Calendar event starts",
+  version: "0.1.4",
   type: "source",
-  dedupe: "unique", // Dedupe events based on the Google Calendar event ID
+  dedupe: "unique",
+  props: {
+    ...common.props({
+      useCalendarId: true,
+    }),
+  },
   methods: {
     ...common.methods,
     getConfig({

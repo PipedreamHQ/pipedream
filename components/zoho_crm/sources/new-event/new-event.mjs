@@ -7,7 +7,7 @@ export default {
   key: "zoho_crm-new-event",
   name: "New Event (Instant)",
   description: "Emit new custom events from Zoho CRM",
-  version: "0.0.14",
+  version: "0.0.15",
   type: "source",
   props: {
     ...common.props,

@@ -1,14 +1,18 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "google_calendar-new-or-updated-event",
-  name: "New or Updated Event",
-  // eslint-disable-next-line pipedream/source-description
-  description: "Emits when an event is created or updated (except when it's cancelled)",
-  version: "0.1.3",
+  name: "New Created or Updated Event",
+  description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
+  version: "0.1.4",
   type: "source",
-  dedupe: "unique", // Dedupe events based on the Google Calendar event ID
+  dedupe: "unique",
+  props: {
+    ...common.props({
+      useCalendarId: true,
+    }),
+  },
   methods: {
     ...common.methods,
     getConfig({ past }) {

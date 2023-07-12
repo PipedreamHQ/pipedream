@@ -2153,6 +2153,18 @@
     },
     {
       "path": "components/shopify_developer_app"
+    },
+    {
+      "path": "components/hookdeck"
+    },
+    {
+      "path": "components/facebook_pages"
+    },
+    {
+      "path": "components/facebook_lead_ads"
+    },
+    {
+      "path": "components/loops_so"
     }
   ]
 }

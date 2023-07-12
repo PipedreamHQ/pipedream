@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_classroom",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Google_classroom Components",
   "main": "google_classroom.app.mjs",
   "keywords": [
