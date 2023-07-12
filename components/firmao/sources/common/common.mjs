@@ -27,7 +27,7 @@ export default {
       throw new Error("getSummary not implemented");
     },
     async processEvents(events) {
-      for (const event of events) {
+      for (const event of Array.from(events).reverse()) {
         const meta = this.generateMeta(event);
         this.$emit(event, meta);
       }
