@@ -54,12 +54,12 @@ export default {
     startDatetime: {
       type: "string",
       label: "Start Datetime",
-      description: "Start datetime of the task.",
+      description: "Start datetime of the task in ISO 8601 format, for example `2023‐07‐12T11:00:55+07:00`",
     },
     endDatetime: {
       type: "string",
       label: "End Datetime",
-      description: "End datetime of the task.",
+      description: "End datetime of the task in ISO 8601 format, for example `2023‐07‐12T11:00:55+07:00",
     },
     duration: {
       type: "integer",
