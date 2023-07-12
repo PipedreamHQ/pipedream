@@ -8,7 +8,7 @@ This includes events in progress for real-time visibility into the health of you
 
 ::: tip This feature is in beta
 
-Event Histories are currently in **beta** with a limited number of events to start.
+Event histories are currently in **beta** with a limited number of events to start.
 
 :::
 
