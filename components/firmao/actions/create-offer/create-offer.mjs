@@ -10,14 +10,14 @@ export default {
   type: "action",
   props: {
     app,
-    nettoPrice: {
+    netPrice: {
       type: "string",
-      label: "Netto Price",
+      label: "Net Price",
       description: "Net price of the offer.",
     },
-    bruttoPrice: {
+    grossPrice: {
       type: "string",
-      label: "Brutto Price",
+      label: "Gross Price",
       description: "Gross price of the offer.",
     },
     vatPrice: {
@@ -113,8 +113,8 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      "nettoPrice": this.nettoPrice,
-      "bruttoPrice": this.bruttoPrice,
+      "nettoPrice": this.netPrice,
+      "bruttoPrice": this.grossPrice,
       "vatPrice": this.vatPrice,
       "currency": this.currency,
       "paymentType": this.paymentType,

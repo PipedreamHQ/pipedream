@@ -64,7 +64,7 @@ export default {
   async run({ $ }) {
     const data = {
       priority: this.priority,
-      responsibleUsers: this.responsibleUsers.map((id) => ({
+      responsibleUsers: this.responsibleUsers?.map((id) => ({
         id,
       })),
       estimatedHours: this.estimatedHours,

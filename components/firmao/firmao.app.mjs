@@ -9,9 +9,7 @@ export default {
       label: "Responsible Users",
       description: "Array of users responsible for the task",
       async options() {
-        const users = await this.app.getUsers({
-          $: this,
-        });
+        const users = await this.app.getUsers();
         return users.data.map((user) => ({
           label: user.label,
           value: user.id,
@@ -23,9 +21,7 @@ export default {
       label: "Customers",
       description: "Array of customers to be added in an offer",
       async options() {
-        const users = await this.app.getCustomers({
-          $: this,
-        });
+        const users = await this.app.getCustomers();
         return users.data.map((user) => ({
           label: user.label,
           value: user.id,
@@ -54,71 +50,53 @@ export default {
       };
       return axios($, config);
     },
-    createCustomer({
-      $ = this, data,
-    }) {
+    createCustomer(args = {}) {
       return this.makeRequest({
-        $,
         method: "POST",
         path: `/${this.$auth.organization_id}/svc/v1/customers`,
-        data,
+        ...args,
       });
     },
-    createTask({
-      $ = this, data,
-    }) {
+    createTask(args = {}) {
       return this.makeRequest({
-        $,
         method: "POST",
         path: `/${this.$auth.organization_id}/svc/v1/tasks`,
-        data,
+        ...args,
       });
     },
-    createOffer({
-      $ = this, data,
-    }) {
+    createOffer(args = {}) {
       return this.makeRequest({
-        $,
         method: "POST",
         path: `/${this.$auth.organization_id}/svc/v1/offers`,
-        data,
+        ...args,
       });
     },
-    getUsers({ $ = this }) {
+    getUsers(args = {}) {
       return this.makeRequest({
-        $,
         method: "GET",
         path: `/${this.$auth.organization_id}/svc/v1/users`,
+        ...args,
       });
     },
-    getCustomers({
-      $ = this, params,
-    }) {
+    getCustomers(args = {}) {
       return this.makeRequest({
-        $,
         method: "GET",
         path: `/${this.$auth.organization_id}/svc/v1/customers`,
-        params,
+        ...args,
       });
     },
-    getTasks({
-      $ = this, params,
-    }) {
+    getTasks(args = {}) {
       return this.makeRequest({
-        $,
         method: "GET",
         path: `/${this.$auth.organization_id}/svc/v1/tasks`,
-        params,
+        ...args,
       });
     },
-    getOffers({
-      $ = this, params,
-    }) {
+    getOffers(args = {}) {
       return this.makeRequest({
-        $,
         method: "GET",
         path: `/${this.$auth.organization_id}/svc/v1/offers`,
-        params,
+        ...args,
       });
     },
   },
