@@ -29,7 +29,7 @@ export default defineAction({
     contentName: {
       label: "Content Name",
       description: "The name of the page or product associated with the event.",
-      type: "string[]",
+      type: "string",
       optional: true,
     },
     contentType: {
@@ -37,7 +37,7 @@ export default defineAction({
       description: `- Use \`product\` if the keys you send represent products. Sent keys could be content_ids or contents.
 \
 - Use \`product_group\` if the keys you send in \`Content IDs\` represent product groups. [Product groups](https://developers.facebook.com/docs/marketing-api/reference/product-group) are used to distinguish products that are identical but have variations such as color, material, size or pattern.`,
-      type: "string[]",
+      type: "string",
       optional: true,
     },
     contents: {
