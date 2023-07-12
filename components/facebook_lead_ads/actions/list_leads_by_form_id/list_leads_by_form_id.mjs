@@ -2,10 +2,10 @@ import app from "../../facebook_lead_ads.app.mjs";
 
 export default {
   type: "action",
-  key: "facebook_lead_ads-list_leads",
-  name: "List Leads",
-  description: "List Leads using Ad or Form ID. [See the documentation](https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving#reading-store-locator-question-value)",
-  version: "0.0.20",
+  key: "facebook_lead_ads-list_leads_by_form_id",
+  name: "List Leads By Form Id",
+  description: "List Leads using aForm ID. [See the documentation](https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving#reading-store-locator-question-value)",
+  version: "0.0.1",
   props: {
     app,
     pageId: {
@@ -22,7 +22,6 @@ export default {
           pageId: c.pageId,
         }),
       ],
-      optional: true,
     },
     additionalParams: {
       type: "object",

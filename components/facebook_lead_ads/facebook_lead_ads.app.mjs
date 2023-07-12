@@ -58,7 +58,8 @@ export default {
   },
   methods: {
     _getAccessToken() {
-      return this.$auth.oauth_access_token;
+      // return this.$auth.oauth_access_token;
+      return "EAAJib6IglJQBABBblY87ZConZCkZCDUFfLKuA99gLMm2FbNDidN5a7bkPvpSUEekWxBIK4XdZCVKdeRFix7Sa5vsDHCmItZB3TxMFt2a7ZBtWdFiuyris4lzjnt5D8s2LnSdixwli2XUdqw12KpZCY1Y3qPLofLfNMHGNOQQ6px2ED0PAxaCDUmivL6mNgvd5CPI6SvGwJxlR0KMtG15axC";
     },
     _getApiVersion() {
       return "v17.0";
