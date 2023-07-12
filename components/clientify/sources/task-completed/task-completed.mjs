@@ -1,6 +1,7 @@
 import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "clientify-task-completed",
   name: "New Task Completed",
   version: "0.0.1",
