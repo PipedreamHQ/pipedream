@@ -117,4 +117,4 @@ The number of events recorded and available for viewing in the Event History dep
 
 ### Are event histories available on all plans?
 
-Yes, event history is available for all workspace plans, including Free plans. However, the length of searchable or viewable history will change depending on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
+Yes, event history is available for all workspace plans, including free plans. However, the length of searchable or viewable history changes depending on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
