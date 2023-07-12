@@ -286,6 +286,14 @@ export default {
       });
       return data?.users;
     },
+    async getColumnValues(variables) {
+      return this.makeRequest({
+        query: queries.getColumnValues,
+        options: {
+          variables,
+        },
+      });
+    },
     async listBoardsOptions(variables) {
       const {
         data,

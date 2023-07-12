@@ -177,4 +177,19 @@ export default {
       }
     }
   `,
+  getColumnValues: `
+    query listItems ($boardId: Int!, $itemId: Int!, $columnId: Int!) {
+      boards (ids: [$boardId]) {
+        items (ids: [$itemId]){
+          id
+          name
+          column_values (ids: [$columnId]){
+            id
+            type
+            value
+          }
+        }
+      }
+    }
+  `,
 };
