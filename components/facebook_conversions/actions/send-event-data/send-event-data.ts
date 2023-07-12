@@ -15,14 +15,15 @@ export default defineAction({
   type: "action",
   props: {
     app,
-    // this will probably be moved to $auth later
-    accessToken: {
-      type: "string",
-      label: "Access Token",
-    },
     pixelId: {
       type: "string",
       label: "Pixel ID",
+      description: "Pixel to send the event to. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/get-started#requirements).",
+    },
+    accessToken: {
+      type: "string",
+      label: "Access Token",
+      description: "Access token generated for this pixel. [See more on the documentation](https://developers.facebook.com/docs/marketing-api/conversions-api/get-started#requirements).",
     },
     eventName: {
       type: "string",
