@@ -3,9 +3,8 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-get-column-values",
   name: "Get Column Values",
-  description: "Return all data for a specific column in a board. [See the documentation](https://developer.monday.com/api-reference/docs/column-values-v2)",
-  //version: "0.0.1",
-  version: "0.0.3",
+  description: "Return values of a specific column or columns for a board item. [See the documentation](https://developer.monday.com/api-reference/docs/column-values-v2)",
+  version: "0.0.1",
   type: "action",
   props: {
     monday,
@@ -25,7 +24,7 @@ export default {
       ],
       optional: false,
     },
-    columnId: {
+    columnIds: {
       propDefinition: [
         monday,
         "column",
@@ -33,18 +32,30 @@ export default {
           boardId: c.boardId,
         }),
       ],
-      description: "Return data from the specified column",
+      type: "string[]",
+      label: "Columns",
+      description: "Return data from the specified column(s)",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const values = await this.monday.getColumnValues({
-      boardId: +this.boardId,
+    let columnIds = this.columnIds;
+    if (!columnIds?.length) {
+      const columns = await this.monday.listColumns({
+        boardId: +this.boardId,
+      });
+      columnIds = columns.filter(({ id }) => id !== "name").map(({ id }) => id);
+    }
+
+    const response = await this.monday.getColumnValues({
       itemId: +this.itemId,
-      columnId: +this.column,
+      columnIds: columnIds,
     });
 
-    $.export("$summary", "Successfully retrieved column values.");
+    if (!response.errors) {
+      $.export("$summary", `Successfully retrieved column values for item with ID ${response.data.items[0].id}.`);
+    }
 
-    return values;
+    return response.data.items[0];
   },
 };

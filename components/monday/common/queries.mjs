@@ -178,16 +178,25 @@ export default {
     }
   `,
   getColumnValues: `
-    query listItems ($boardId: Int!, $itemId: Int!, $columnId: Int!) {
-      boards (ids: [$boardId]) {
-        items (ids: [$itemId]){
+    query getItem ($itemId: Int!, $columnIds: [String!]) {
+      items (ids: [$itemId]){
+        id
+        name
+        column_values (ids: $columnIds){
           id
-          name
-          column_values (ids: [$columnId]){
-            id
-            type
-            value
-          }
+          value
+        }
+      }
+    }
+  `,
+  getItemsByColumnValue: `
+    query ($boardId: Int!, $columnId: String!, $columnValue: String!){
+      items_by_column_values (board_id: $boardId, column_id: $columnId, column_value: $columnValue) {
+        id
+        name
+        column_values {
+          id
+          value
         }
       }
     }
