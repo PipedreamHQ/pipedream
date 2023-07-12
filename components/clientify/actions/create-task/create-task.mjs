@@ -48,7 +48,7 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "Due date of the task.",
+      description: "Due date of the task in ISO 8601 format, for example `2023‐07‐12T11:00:55+07:00`",
       optional: true,
     },
     startDatetime: {
