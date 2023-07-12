@@ -8,7 +8,7 @@ This includes events in progress for real-time visibility into the health of you
 
 ::: tip This feature is in beta
 
-Event Histories are currently in **beta** and are only available to Paid workspaces and with a limited number of events to start.
+Event histories are currently in **beta** with a limited number of events to start.
 
 :::
 
@@ -107,8 +107,14 @@ You'll need to replay an event to execute the workflow with the latest changes.
 
 ::: tip Beta access
 
-During the beta, paid accounts will have access to view the past 7 days of events across all of their workflows. This limit will increase as this trial continues.
+During the beta, all accounts have access to view the past 7 days of events across all of their workflows. This limit increases as this trial continues.
 
 :::
 
 The number of events recorded and available for viewing in the Event History depends on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
+
+## Frequently asked questions
+
+### Are event histories available on all plans?
+
+Yes, event history is available for all workspace plans, including free plans. However, the length of searchable or viewable history changes depending on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
