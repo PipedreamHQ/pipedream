@@ -169,26 +169,89 @@ export default {
     },
   ],
   EVENT_TYPES_PULL_REQUEST: [
-    "assigned",
-    "auto_merge_disabled",
-    "auto_merge_enabled",
-    "closed",
-    "converted_to_draft",
-    "demilestoned",
-    "dequeued",
-    "edited",
-    "enqueued",
-    "labeled",
-    "locked",
-    "milestoned",
-    "opened",
-    "ready_for_review",
-    "reopened",
-    "review_request_removed",
-    "review_requested",
-    "synchronize",
-    "unassigned",
-    "unlabeled",
-    "unlocked",
+    {
+      label: "A pull request was created.",
+      value: "opened",
+    },
+    {
+      label: "A pull request was closed.",
+      value: "closed",
+    },
+    {
+      label: "A previously closed pull request was reopened.",
+      value: "reopened",
+    },
+    {
+      label: "A draft pull request was marked as ready for review.",
+      value: "ready_for_review",
+    },
+    {
+      label: "A pull request was assigned to a user.",
+      value: "assigned",
+    },
+    {
+      label: "Auto merge was disabled for a pull request.",
+      value: "auto_merge_disabled",
+    },
+    {
+      label: "Auto merge was enabled for a pull request.",
+      value: "auto_merge_enabled",
+    },
+    {
+      label: "A pull request was converted to a draft.",
+      value: "converted_to_draft",
+    },
+    {
+      label: "A pull request was removed from a milestone.",
+      value: "demilestoned",
+    },
+    {
+      label: "A pull request was removed from the merge queue.",
+      value: "dequeued",
+    },
+    {
+      label: "The title or body of a pull request was edited.",
+      value: "edited",
+    },
+    {
+      label: "A pull request was added to the merge queue.",
+      value: "enqueued",
+    },
+    {
+      label: "A label was added to a pull request.",
+      value: "labeled",
+    },
+    {
+      label: "Conversation on a pull request was locked.",
+      value: "locked",
+    },
+    {
+      label: "A pull request was added to a milestone.",
+      value: "milestoned",
+    },
+    {
+      label: "A request for review by a person or team was removed from a pull request.",
+      value: "review_request_removed",
+    },
+    {
+      label: "Review by a person or team was requested for a pull request.",
+      value: "review_requested",
+    },
+    {
+      label: "A pull request's head branch was updated. For example, the head branch was updated from the base branch or new commits were pushed to the head branch.",
+      value: "synchronize",
+    },
+    {
+      label: "A user was unassigned from a pull request.",
+      value: "unassigned",
+    },
+    {
+      label: "A label was removed from a pull request.",
+      value: "unlabeled",
+    },
+    {
+      label: "Conversation on a pull request was unlocked.",
+      value: "unlocked",
+    },
   ],
 };
