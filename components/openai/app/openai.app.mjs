@@ -126,13 +126,12 @@ export default {
       };
     },
     async createCompletion({
-      $, args, timeout,
+      $, args,
     }) {
       return this._makeCompletion({
         $,
         path: "/completions",
         args,
-        timeout,
       });
     },
     async createChatCompletion({
@@ -146,29 +145,27 @@ export default {
       });
     },
     async createImage({
-      $, args, timeout,
+      $, args,
     }) {
       return this._makeRequest({
         $,
         path: "/images/generations",
         data: args,
         method: "POST",
-        timeout,
       });
     },
     async createEmbeddings({
-      $, args, timeout,
+      $, args,
     }) {
       return this._makeRequest({
         $,
         path: "/embeddings",
         data: args,
         method: "POST",
-        timeout,
       });
     },
     async createTranscription({
-      $, form, timeout,
+      $, form,
     }) {
       return this._makeRequest({
         $,
@@ -179,7 +176,6 @@ export default {
           "Content-Type": `multipart/form-data; boundary=${form._boundary}`,
         },
         data: form,
-        timeout,
       });
     },
   },
