@@ -83,7 +83,8 @@ export default {
       value: "package",
     },
     {
-      label: "Activity on attempted build of a GitHub Pages site, whether successful or not",
+      label:
+        "Activity on attempted build of a GitHub Pages site, whether successful or not",
       value: "page_build",
     },
     {
@@ -111,11 +112,13 @@ export default {
       value: "pull_request_review",
     },
     {
-      label: "Activity related to pull request review comments in the pull request's unified diff",
+      label:
+        "Activity related to pull request review comments in the pull request's unified diff",
       value: "pull_request_review_comment",
     },
     {
-      label: "Activity related to a comment thread on a pull request being marked as resolved or unresolved",
+      label:
+        "Activity related to a comment thread on a pull request being marked as resolved or unresolved",
       value: "pull_request_review_thread",
     },
     {
@@ -135,7 +138,8 @@ export default {
       value: "repository_import",
     },
     {
-      label: "Activity related to security vulnerability alerts in a repository",
+      label:
+        "Activity related to security vulnerability alerts in a repository",
       value: "repository_vulnerability_alert",
     },
     {
@@ -155,12 +159,36 @@ export default {
       value: "watch",
     },
     {
-      label: "A GitHub Actions workflow job has been queued, is in progress, or has been completed on a repository",
+      label:
+        "A GitHub Actions workflow job has been queued, is in progress, or has been completed on a repository",
       value: "workflow_job",
     },
     {
       label: "When a GitHub Actions workflow run is requested or completed",
       value: "workflow_run",
     },
+  ],
+  EVENT_TYPES_PULL_REQUEST: [
+    "assigned",
+    "auto_merge_disabled",
+    "auto_merge_enabled",
+    "closed",
+    "converted_to_draft",
+    "demilestoned",
+    "dequeued",
+    "edited",
+    "enqueued",
+    "labeled",
+    "locked",
+    "milestoned",
+    "opened",
+    "ready_for_review",
+    "reopened",
+    "review_request_removed",
+    "review_requested",
+    "synchronize",
+    "unassigned",
+    "unlabeled",
+    "unlocked",
   ],
 };

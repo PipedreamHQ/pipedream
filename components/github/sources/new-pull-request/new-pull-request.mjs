@@ -32,15 +32,24 @@ export default {
     setAdmin(value) {
       this.db.set("isAdmin", value);
     },
+    getRepoName() {
+      return this.db.get("repoName");
+    },
+    setRepoName(value) {
+      this.db.set("repoName", value);
+    },
     async checkAdminPermission() {
       const { repoFullname } = this;
-      const { login: username } = await this.github.getAuthenticatedUser();
-      const { user: { permissions: { admin } } } = await this.github.getUserRepoPermissions({
-        repoFullname,
-        username,
-      });
+      if (repoFullname !== this.getRepoName()) {
+        const { login: username } = await this.github.getAuthenticatedUser();
+        const { user: { permissions: { admin } } } = await this.github.getUserRepoPermissions({
+          repoFullname,
+          username,
+        });
 
-      this.setAdmin(Boolean(admin));
+        this.setRepoName(repoFullname);
+        this.setAdmin(Boolean(admin));
+      }
     },
   },
   hooks: {
