@@ -29,6 +29,9 @@ export default {
       return true;
     },
     async createWebhook() {
+      if (this._getWebhookId()) {
+        await this.removeWebhook();
+      }
       const response = await this.github.createWebhook({
         repoFullname: this.repoFullname,
         data: {

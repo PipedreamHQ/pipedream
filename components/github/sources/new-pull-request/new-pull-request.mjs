@@ -45,7 +45,7 @@ export default {
         "pull_request",
       ];
     },
-    async checkAdminPermission() {
+    async checkWebhookCreation() {
       const { repoFullname } = this;
       if (repoFullname !== this.getRepoName()) {
         const { login: username } = await this.github.getAuthenticatedUser();
@@ -55,24 +55,15 @@ export default {
         });
 
         this.setRepoName(repoFullname);
-        this.setAdmin(Boolean(admin));
+        if (admin) {
+          await this.createWebhook();
+        } else await this.removeWebhook();
       }
     },
   },
   hooks: {
-    async deploy() {
-      console.log("deploy, admin: " + this.getAdmin());
-    },
     async activate() {
-      await this.checkAdminPermission();
-      const webhookId = this._getWebhookId();
-      if (this.getAdmin()) {
-        if (!webhookId) {
-          await this.createWebhook();
-        }
-      } else if (webhookId) {
-        await this.removeWebhook(webhookId);
-      }
+      await this.checkWebhookCreation();
     },
     async deactivate() {
       await this.removeWebhook();
@@ -85,7 +76,7 @@ export default {
       ts: Date.now(),
     };
 
-    if (this.getAdmin()) {
+    if (this._getWebhookId()) {
       this.$emit(
         {
           useWebhook: true,
