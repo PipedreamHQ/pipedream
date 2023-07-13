@@ -35,7 +35,7 @@ export default {
     },
     timeoutSeconds: {
       label: "API Timeout (in seconds)",
-      type: "number",
+      type: "integer",
       description: "The maximum time (in seconds) to wait for the API to return a response.",
       optional: true,
     },
@@ -46,7 +46,7 @@ export default {
     const response = await this.openai.createChatCompletion({
       $,
       args,
-      timeout: this.timeoutSeconds * 1000,
+      timeout: this.timeoutSeconds ? this.timeoutSeconds * 1000 : undefined,
     });
 
     if (response) {
