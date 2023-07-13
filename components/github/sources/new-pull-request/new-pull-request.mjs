@@ -5,7 +5,7 @@ export default {
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request",
   description: "Emit new events when a pull request is opened or updated",
-  version: "1.0.2",
+  version: "1.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -32,6 +32,16 @@ export default {
     setAdmin(value) {
       this.db.set("isAdmin", value);
     },
+    async checkAdminPermission() {
+      const { repoFullname } = this;
+      const { login: username } = await this.github.getAuthenticatedUser();
+      const { user: { permissions: { admin } } } = await this.github.getUserRepoPermissions({
+        repoFullname,
+        username,
+      });
+
+      this.setAdmin(Boolean(admin));
+    },
   },
   hooks: {
     async deploy() {
@@ -43,16 +53,6 @@ export default {
     },
     async deactivate() {
       console.log("deactivate, admin: " + this.getAdmin());
-    },
-    async checkAdminPermission() {
-      const { repoFullname } = this;
-      const { login: username } = await this.github.getAuthenticatedUser();
-      const { user: { permissions: { admin } } } = await this.github.getUserRepoPermissions({
-        repoFullname,
-        username,
-      });
-
-      this.setAdmin(Boolean(admin));
     },
   },
   async run(event) {
