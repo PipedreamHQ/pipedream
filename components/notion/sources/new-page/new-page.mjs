@@ -1,4 +1,5 @@
 import notion from "../../notion.app.mjs";
+import sampleEmit from "./test-event.mjs";
 import base from "../common/base.mjs";
 import constants from "../common/constants.mjs";
 
@@ -7,7 +8,7 @@ export default {
   key: "notion-new-page",
   name: "New Page in Database",
   description: "Emit new event when a page in a database is created",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   props: {
     ...base.props,
@@ -49,4 +50,5 @@ export default {
       this.setLastCreatedTimestamp(Date.parse(lastCreatedTime));
     }
   },
+  sampleEmit,
 };
