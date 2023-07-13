@@ -4,7 +4,7 @@ export default {
   key: "zoho_crm-get-object",
   name: "Get Object",
   description: "Gets record data given its id.",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     zohoCrm,
