@@ -10,7 +10,7 @@ export default {
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request",
   description: `Emit new events when a pull request is opened or updated [See the documentation](${DOCS_LINK})`,
-  version: "1.0.4",
+  version: "1.0.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -28,13 +28,32 @@ export default {
         github,
         "repoFullname",
       ],
+      reloadProps: true,
     },
-    eventTypes: {
-      type: "string[]",
-      label: "Filter Event Types",
-      description: `Specify the types of pull request activity that should emit events. [See the documentation](${DOCS_LINK}) for more information on each type. By default, events will be emitted for all activity.`,
-      options: constants.EVENT_TYPES_PULL_REQUEST,
-    },
+  },
+  async additionalProps() {
+    const props = {};
+    await this.checkWebhookCreation();
+
+    if (this._getWebhookId()) {
+      props.eventTypes = {
+        type: "string[]",
+        label: "Filter Event Types",
+        description: `Specify the types of pull request activity that should emit events. [See the documentation](${DOCS_LINK}) for more information on each type. By default, events will be emitted for all activity.`,
+        options: constants.EVENT_TYPES_PULL_REQUEST,
+        optional: true,
+      };
+    } else {
+      props.emitUpdates = {
+        type: "boolean",
+        label: "Emit Updates",
+        description:
+          "If `false`, events will only be emitted when a new pull request is created.",
+        default: true,
+      };
+    }
+
+    return props;
   },
   methods: {
     ...commonWebhook.methods,
@@ -55,14 +74,19 @@ export default {
         "pull_request",
       ];
     },
+    async checkAdminPermission() {
+      const { repoFullname } = this;
+      const { login: username } = await this.github.getAuthenticatedUser();
+      const { user: { permissions: { admin } } } = await this.github.getUserRepoPermissions({
+        repoFullname,
+        username,
+      });
+      return admin;
+    },
     async checkWebhookCreation() {
       const { repoFullname } = this;
       if (repoFullname !== this.getRepoName()) {
-        const { login: username } = await this.github.getAuthenticatedUser();
-        const { user: { permissions: { admin } } } = await this.github.getUserRepoPermissions({
-          repoFullname,
-          username,
-        });
+        const admin = await this.checkAdminPermission();
 
         this.setRepoName(repoFullname);
         if (admin) {
@@ -91,17 +115,12 @@ export default {
   },
   async run(event) {
     const ts = Date.now();
-    const meta = {
-      id: Date.now(),
-      summary: "Test " + Date.now(),
-      ts,
-    };
 
     // Webhook event
     if (this._getWebhookId()) {
       const { body } = event;
-      const { action } = body;
-      if (this.checkEventType(action)) {
+      const action = body?.action;
+      if (action && this.checkEventType(action)) {
         const id = ts + action;
         const summary = `PR activity (${action}): "${body.pull_request.title}"`;
 
@@ -115,12 +134,7 @@ export default {
 
     // Polling schedule
     else {
-      this.$emit(
-        {
-          shouldPoll: true,
-        },
-        meta,
-      );
+      // Polling schedule
     }
   },
 };
