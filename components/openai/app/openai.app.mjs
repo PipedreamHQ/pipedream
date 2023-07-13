@@ -96,13 +96,14 @@ export default {
       });
     },
     async _makeCompletion({
-      $, path, args,
+      $, path, args, timeout,
     }) {
       const data = await this._makeRequest({
         $,
         path,
         method: "POST",
         data: args,
+        timeout
       });
 
       // For completions, return the text of the first choice at the top-level
@@ -125,45 +126,49 @@ export default {
       };
     },
     async createCompletion({
-      $, args,
+      $, args, timeout,
     }) {
       return this._makeCompletion({
         $,
         path: "/completions",
         args,
+        timeout,
       });
     },
     async createChatCompletion({
-      $, args,
+      $, args, timeout,
     }) {
       return this._makeCompletion({
         $,
         path: "/chat/completions",
         args,
+        timeout,
       });
     },
     async createImage({
-      $, args,
+      $, args, timeout,
     }) {
       return this._makeRequest({
         $,
         path: "/images/generations",
         data: args,
         method: "POST",
+        timeout,
       });
     },
     async createEmbeddings({
-      $, args,
+      $, args, timeout,
     }) {
       return this._makeRequest({
         $,
         path: "/embeddings",
         data: args,
         method: "POST",
+        timeout,
       });
     },
     async createTranscription({
-      $, form,
+      $, form, timeout,
     }) {
       return this._makeRequest({
         $,
@@ -174,6 +179,7 @@ export default {
           "Content-Type": `multipart/form-data; boundary=${form._boundary}`,
         },
         data: form,
+        timeout,
       });
     },
   },
