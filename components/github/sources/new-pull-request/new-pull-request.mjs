@@ -1,5 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import github from "../../github.app.mjs";
+import commonWebhook from "../common/common-webhook.mjs";
 
 export default {
   key: "github-new-or-updated-pull-request",
@@ -26,6 +27,7 @@ export default {
     },
   },
   methods: {
+    ...commonWebhook.methods,
     getAdmin() {
       return this.db.get("isAdmin");
     },
@@ -37,6 +39,11 @@ export default {
     },
     setRepoName(value) {
       this.db.set("repoName", value);
+    },
+    getWebhookEvents() {
+      return [
+        "pull_request",
+      ];
     },
     async checkAdminPermission() {
       const { repoFullname } = this;
@@ -58,10 +65,17 @@ export default {
     },
     async activate() {
       await this.checkAdminPermission();
-      console.log("activate, admin: " + this.getAdmin());
+      const webhookId = this._getWebhookId();
+      if (this.getAdmin()) {
+        if (!webhookId) {
+          await this.createWebhook();
+        }
+      } else if (webhookId) {
+        await this.removeWebhook(webhookId);
+      }
     },
     async deactivate() {
-      console.log("deactivate, admin: " + this.getAdmin());
+      await this.removeWebhook();
     },
   },
   async run(event) {

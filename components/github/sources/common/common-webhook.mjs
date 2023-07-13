@@ -28,12 +28,7 @@ export default {
     loadHistoricalEvents() {
       return true;
     },
-  },
-  hooks: {
-    async deploy() {
-      await this.loadHistoricalEvents();
-    },
-    async activate() {
+    async createWebhook() {
       const response = await this.github.createWebhook({
         repoFullname: this.repoFullname,
         data: {
@@ -47,12 +42,25 @@ export default {
       });
       this._setWebhookId(response.id);
     },
+    async removeWebhook(webhookId = this._getWebhookId()) {
+      if (webhookId) {
+        await this.github.removeWebhook({
+          repoFullname: this.repoFullname,
+          webhookId,
+        });
+        this._setWebhookId(null);
+      }
+    },
+  },
+  hooks: {
+    async deploy() {
+      await this.loadHistoricalEvents();
+    },
+    async activate() {
+      await this.createWebhook();
+    },
     async deactivate() {
-      const webhookId = this._getWebhookId();
-      await this.github.removeWebhook({
-        repoFullname: this.repoFullname,
-        webhookId,
-      });
+      await this.removeWebhook();
     },
   },
 };
