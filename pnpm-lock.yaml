@@ -2502,7 +2502,11 @@ importers:
 
   components/looker: {}
 
-  components/loops_so: {}
+  components/loops_so:
+    specifiers: {}
+
+  components/loqate:
+    specifiers: {}
 
   components/loqate: {}
 
