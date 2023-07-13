@@ -1359,6 +1359,9 @@ importers:
   components/ethereum:
     specifiers: {}
 
+  components/etsy:
+    specifiers: {}
+
   components/eventbrite:
     specifiers:
       '@pipedream/platform': ^1.2.1
