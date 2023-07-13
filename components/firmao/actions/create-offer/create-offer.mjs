@@ -4,111 +4,128 @@ import constants from "../common/constants.mjs";
 export default {
   key: "firmao-create-offer",
   name: "Create Offer",
-  description:
-    "Create a new quote/offer. [See the documentation](https://firmao.net/API-Documentation_EN.pdf)",
+  description: "Create a new quote/offer. [See the documentation](https://firmao.net/API-Documentation_EN.pdf)",
   version: "0.0.1",
   type: "action",
   props: {
     app,
-    netPrice: {
+    number: {
       type: "string",
-      label: "Net Price",
-      description: "Net price of the offer.",
+      label: "Unique Number",
+      description: "Unique number of the offer.",
     },
-    grossPrice: {
+    type: {
       type: "string",
-      label: "Gross Price",
-      description: "Gross price of the offer.",
+      label: "Offer Type",
+      description: "Type of the offer.",
+      options: constants.OFFER_TYPE,
     },
-    vatPrice: {
+    mode: {
       type: "string",
-      label: "VAT Price",
-      description: "Value Added Tax price of the offer.",
-    },
-    currency: {
-      type: "string",
-      label: "Currency",
-      description: "Currency of the offer.",
-      options: constants.OFFER_CURRENCY,
-    },
-    paymentDate: {
-      type: "string",
-      label: "Payment Date",
-      description: "Payment date of the offer. e.g `2012-07-17T00:00:00+02:00`",
+      label: "Offer Mode",
+      description: "Mode of the offer.",
+      options: constants.OFFER_MODE,
     },
     offerDate: {
       type: "string",
       label: "Offer Date",
       description: "Date of the offer. e.g `2012-07-17T00:00:00+02:00`",
     },
+    netPrice: {
+      type: "string",
+      label: "Net Price",
+      description: "Net price of the offer.",
+      optional: true,
+    },
+    grossPrice: {
+      type: "string",
+      label: "Gross Price",
+      description: "Gross price of the offer.",
+      optional: true,
+    },
+    vatPrice: {
+      type: "string",
+      label: "VAT Price",
+      description: "Value Added Tax price of the offer.",
+      optional: true,
+    },
+    currency: {
+      type: "string",
+      label: "Currency",
+      description: "Currency of the offer.",
+      options: constants.OFFER_CURRENCY,
+      optional: true,
+    },
     validFrom: {
       type: "string",
       label: "Valid From",
       description: "Date from which the offer is valid. e.g `2012-07-17T00:00:00+02:00`",
-    },
-    type: {
-      type: "string",
-      label: "Type",
-      description: "Type of the offer.",
-      options: constants.OFFER_TYPE,
-    },
-    mode: {
-      type: "string",
-      label: "Mode",
-      description: "Mode of the offer.",
-      options: constants.OFFER_MODE,
+      optional: true,
     },
     offerStatus: {
       type: "string",
       label: "Offer Status",
       description: "Status of the offer.",
       options: constants.OFFER_STATUS,
+      optional: true,
+    },
+    paymentDate: {
+      type: "string",
+      label: "Payment Date",
+      description: "Payment date of the offer. e.g `2012-07-17T00:00:00+02:00`",
+      optional: true,
     },
     customerAddressPostCode: {
       type: "string",
       label: "Customer Address Post Code",
       description: "Post code of the customer's address.",
+      optional: true,
     },
     daysToDueDate: {
       type: "integer",
       label: "Days To Due Date",
       description: "Number of days to the due date of the offer.",
+      optional: true,
     },
     customer: {
+      type: "string",
+      label: "Customer",
+      description: "Customer ID to be added in an offer",
+      optional: true,
       propDefinition: [
         app,
-        "customer",
+        "customers",
       ],
     },
     customerAddressCity: {
       type: "string",
       label: "Customer Address City",
       description: "City of the customer's address.",
+      optional: true,
     },
     customerAddressCountry: {
       type: "string",
       label: "Customer Address Country",
       description: "Country of the customer's address.",
+      optional: true,
     },
     customerAddressStreet: {
       type: "string",
       label: "Customer Address Street",
       description: "Street of the customer's address.",
+      optional: true,
     },
     nipNumber: {
       type: "string",
       label: "NIP Number",
       description: "NIP number of the customer.",
+      optional: true,
     },
     issuingPerson: {
       type: "string",
       label: "Issuing Person",
       description: "Person issuing the offer.",
-    },
-    number: {
-      type: "string",
-      label: "Number",
-      description: "Unique number of the offer.",
+      optional: true,
     },
   },
   async run({ $ }) {

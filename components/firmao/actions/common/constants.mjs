@@ -62,10 +62,6 @@ export default {
       label: "Order",
       value: "ORDER",
     },
-    {
-      label: "Agreement",
-      value: "AGREEMENT",
-    },
   ],
   OFFER_CURRENCY: [
     {

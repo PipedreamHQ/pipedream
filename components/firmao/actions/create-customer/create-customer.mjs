@@ -3,8 +3,7 @@ import app from "../../firmao.app.mjs";
 export default {
   key: "firmao-create-customer",
   name: "Create Customer",
-  description:
-    "Create a new company customer. [See the documentation](https://firmao.net/API-Documentation_EN.pdf)",
+  description: "Create a new company customer. [See the documentation](https://firmao.net/API-Documentation_EN.pdf)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -18,16 +17,19 @@ export default {
       type: "string",
       label: "Description",
       description: "The description of the customer",
+      optional: true,
     },
     emails: {
       type: "string[]",
       label: "Email",
       description: "The list of emails of the customer",
+      optional: true,
     },
     phones: {
       type: "string[]",
       label: "Phone",
       description: "The list of phone numbers of the customer",
+      optional: true,
     },
   },
   async run({ $ }) {

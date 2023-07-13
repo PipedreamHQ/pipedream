@@ -9,7 +9,7 @@ export default {
       label: "Responsible Users",
       description: "Array of users responsible for the task",
       async options() {
-        const users = await this.app.getUsers();
+        const users = await this.getUsers();
         return users.data.map((user) => ({
           label: user.label,
           value: user.id,
@@ -21,7 +21,7 @@ export default {
       label: "Customers",
       description: "Array of customers to be added in an offer",
       async options() {
-        const users = await this.app.getCustomers();
+        const users = await this.getCustomers();
         return users.data.map((user) => ({
           label: user.label,
           value: user.id,
