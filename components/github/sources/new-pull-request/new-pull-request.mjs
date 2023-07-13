@@ -1,59 +1,82 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import github from "../../github.app.mjs";
 
 export default {
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request",
   description: "Emit new events when a pull request is opened or updated",
-  version: "1.0.0",
+  version: "1.0.2",
   type: "source",
   dedupe: "unique",
   props: {
     github,
+    db: "$.service.db",
+    http: "$.interface.http",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
     repoFullname: {
       propDefinition: [
         github,
         "repoFullname",
       ],
-      reloadProps: true,
     },
-    db: "$.service.db",
-    http: "$.interface.http",
   },
-  async additionalProps() {
-    const { repoFullname } = this;
-    const { login: username } = await this.github.getAuthenticatedUser();
-    const { user: { permissions } } = await this.github.getUserRepoPermissions({
-      repoFullname,
-      username,
-    });
-
-    return {
-      testProp1: {
-        type: "string",
-        label: "Test Prop 1",
-        optional: true,
-        default: JSON.stringify(permissions),
-      },
-    };
+  methods: {
+    getAdmin() {
+      return this.db.get("isAdmin");
+    },
+    setAdmin(value) {
+      this.db.set("isAdmin", value);
+    },
   },
   hooks: {
     async deploy() {
-      console.log(Date.now());
+      console.log("deploy, admin: " + this.getAdmin());
     },
     async activate() {
-      console.log(Date.now());
+      await this.checkAdminPermission();
+      console.log("activate, admin: " + this.getAdmin());
     },
     async deactivate() {
-      console.log(Date.now());
+      console.log("deactivate, admin: " + this.getAdmin());
+    },
+    async checkAdminPermission() {
+      const { repoFullname } = this;
+      const { login: username } = await this.github.getAuthenticatedUser();
+      const { user: { permissions: { admin } } } = await this.github.getUserRepoPermissions({
+        repoFullname,
+        username,
+      });
+
+      this.setAdmin(Boolean(admin));
     },
   },
-  async run() {
-    this.$emit({
-      test1: this.testProp1,
-    }, {
+  async run(event) {
+    const meta = {
       id: Date.now(),
       summary: "Test " + Date.now(),
       ts: Date.now(),
-    });
+    };
+
+    if (this.getAdmin()) {
+      this.$emit(
+        {
+          useWebhook: true,
+          data: event,
+        },
+        meta,
+      );
+    } else {
+      this.$emit(
+        {
+          shouldPoll: true,
+        },
+        meta,
+      );
+    }
   },
 };
