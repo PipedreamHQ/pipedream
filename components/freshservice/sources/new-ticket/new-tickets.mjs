@@ -26,15 +26,7 @@ export default {
         ts: Date.parse(data.created_at),
       });
     },
-    _setLastResourceId(id) {
-      this.db.set("lastResourceId", id);
-    },
-    _getLastResourceId() {
-      return this.db.get("lastResourceId");
-    },
-  },
-  hooks: {
-    async deploy() {
+    async emitEvents() {
       const { tickets: resources } = await this.app.getTickets({
         params: {
           filter: "new_and_my_open",
@@ -42,31 +34,15 @@ export default {
         },
       });
 
-      if (resources.length) {
-        this._setLastResourceId(resources[0].id)
-      }
-
       resources.reverse().forEach(this.emitEvent);
     },
   },
+  hooks: {
+    async deploy() {
+      await this.emitEvents();
+    },
+  },
   async run() {
-    const lastResourceId = this._getLastResourceId();
-
-    const { tickets: resources } = await this.app.getTickets({
-      params: {
-        filter: "new_and_my_open",
-        order_type: "desc",
-      },
-    });
-
-    if (resources.length) {
-      this._setLastResourceId(resources[0].id)
-    }
-
-    resources.reverse().forEach(this.emitEvent);
-
-    if (resources.filter((resource) => resource.id === lastResourceId)) {
-      return;
-    }
+    await this.emitEvents();
   },
 };

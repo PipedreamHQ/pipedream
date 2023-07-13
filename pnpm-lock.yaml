@@ -1590,6 +1590,12 @@ importers:
   components/freshsales:
     specifiers: {}
 
+  components/freshservice:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/frontapp:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2538,6 +2544,9 @@ importers:
     specifiers: {}
 
   components/looker:
+    specifiers: {}
+
+  components/loops_so:
     specifiers: {}
 
   components/loqate:
@@ -12185,7 +12194,7 @@ packages:
   /@types/jsonwebtoken/8.5.9:
     resolution: {integrity: sha512-272FMnFGzAVMGtu9tkr29hRL6bZj4Zs1KZNeHLnKqAvp06tAIcarTMwOh8/8bz4FmKRcMxZhZNeUAQsNLoiPhg==}
     dependencies:
-      '@types/node': 18.15.12
+      '@types/node': 17.0.45
     dev: false
 
   /@types/keyv/3.1.4:
