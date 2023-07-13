@@ -46,7 +46,7 @@ export default {
     const response = await this.openai.createChatCompletion({
       $,
       args,
-      timeout: args.timeoutSeconds * 1000,
+      timeout: this.timeoutSeconds * 1000,
     });
 
     if (response) {
