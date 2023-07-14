@@ -2165,6 +2165,15 @@
     },
     {
       "path": "components/loops_so"
+    },
+    {
+      "path": "components/etsy"
+    },
+    {
+      "path": "components/dbt"
+    },
+    {
+      "path": "components/open_exchange_rates"
     }
   ]
 }
