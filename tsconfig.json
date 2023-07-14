@@ -2168,6 +2168,9 @@
     },
     {
       "path": "components/etsy"
+    },
+    {
+      "path": "components/dbt"
     }
   ]
 }
