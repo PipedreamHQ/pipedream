@@ -2171,6 +2171,9 @@
     },
     {
       "path": "components/dbt"
+    },
+    {
+      "path": "components/open_exchange_rates"
     }
   ]
 }
