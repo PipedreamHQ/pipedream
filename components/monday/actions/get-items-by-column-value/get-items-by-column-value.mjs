@@ -1,22 +1,17 @@
-import monday from "../../monday.app.mjs";
+import common from "../common/column-values.mjs";
 
 export default {
+  ...common,
   key: "monday-get-items-by-column-value",
   name: "Get Items By Column Value",
   description: "Searches a column for items matching a value. [See the documentation](https://developer.monday.com/api-reference/docs/items-page-by-column-values)",
   version: "0.0.1",
   type: "action",
   props: {
-    monday,
-    boardId: {
-      propDefinition: [
-        monday,
-        "boardId",
-      ],
-    },
+    ...common.props,
     columnId: {
       propDefinition: [
-        monday,
+        common.props.monday,
         "column",
         (c) => ({
           boardId: c.boardId,
@@ -37,12 +32,16 @@ export default {
       columnValue: this.value,
     });
 
-    if (!response.errors) {
-      $.export("$summary", `Successfully retrieved ${response.data.items_by_column_values.length} item${response.data.items_by_column_values.length === 1
-        ? ""
-        : "s"}.`);
+    if (response.errors) {
+      throw new Error(response.errors[0].message);
     }
 
-    return response;
+    const { data: { items_by_column_values: items } } = response;
+
+    $.export("$summary", `Successfully retrieved ${items.length} item${items.length === 1
+      ? ""
+      : "s"}.`);
+
+    return this.formatColumnValues(items);
   },
 };

@@ -185,6 +185,7 @@ export default {
         column_values (ids: $columnIds){
           id
           value
+          text
         }
       }
     }
@@ -197,6 +198,7 @@ export default {
         column_values {
           id
           value
+          text
         }
       }
     }

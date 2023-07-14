@@ -1,23 +1,21 @@
-import monday from "../../monday.app.mjs";
+import common from "../common/column-values.mjs";
 
 export default {
+  ...common,
   key: "monday-update-column-values",
   name: "Update Column Values",
   description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/docs/columns#change-multiple-column-values)",
   version: "0.0.1",
   type: "action",
   props: {
-    monday,
+    ...common.props,
     boardId: {
-      propDefinition: [
-        monday,
-        "boardId",
-      ],
+      ...common.props.boardId,
       reloadProps: true,
     },
     itemId: {
       propDefinition: [
-        monday,
+        common.props.monday,
         "itemId",
         ({ boardId }) => ({
           boardId: +boardId,
@@ -29,7 +27,7 @@ export default {
   async additionalProps() {
     const props = {};
     if (this.boardId) {
-      const columns = await this.getColumns();
+      const columns = await this.getColumns(this.boardId);
       for (const column of columns) {
         props[column.id] = {
           type: "string",
@@ -41,16 +39,8 @@ export default {
     }
     return props;
   },
-  methods: {
-    async getColumns() {
-      const columns = await this.monday.listColumns({
-        boardId: +this.boardId,
-      });
-      return columns.filter(({ id }) => id !== "name");
-    },
-  },
   async run({ $ }) {
-    const columns = await this.getColumns();
+    const columns = await this.getColumns(this.boardId);
     const columnValues = {};
     for (const column of columns) {
       if (this[column.id]) {
@@ -64,10 +54,16 @@ export default {
       columnValues: JSON.stringify(columnValues),
     });
 
-    if (!response.errors) {
-      $.export("$summary", `Successfully updated item with ID ${response.data.change_multiple_column_values.id}.`);
+    if (response.errors) {
+      throw new Error(response.errors[0].message);
     }
 
-    return response.data.change_multiple_column_values;
+    const { data: { change_multiple_column_values: item } } = response;
+
+    $.export("$summary", `Successfully updated item with ID ${item.id}.`);
+
+    return this.formatColumnValues([
+      item,
+    ]);
   },
 };

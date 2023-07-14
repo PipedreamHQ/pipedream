@@ -1,22 +1,17 @@
-import monday from "../../monday.app.mjs";
+import common from "../common/column-values.mjs";
 
 export default {
+  ...common,
   key: "monday-get-column-values",
   name: "Get Column Values",
   description: "Return values of a specific column or columns for a board item. [See the documentation](https://developer.monday.com/api-reference/docs/column-values-v2)",
   version: "0.0.1",
   type: "action",
   props: {
-    monday,
-    boardId: {
-      propDefinition: [
-        monday,
-        "boardId",
-      ],
-    },
+    ...common.props,
     itemId: {
       propDefinition: [
-        monday,
+        common.props.monday,
         "itemId",
         ({ boardId }) => ({
           boardId: +boardId,
@@ -26,7 +21,7 @@ export default {
     },
     columnIds: {
       propDefinition: [
-        monday,
+        common.props.monday,
         "column",
         (c) => ({
           boardId: c.boardId,
@@ -41,10 +36,8 @@ export default {
   async run({ $ }) {
     let columnIds = this.columnIds;
     if (!columnIds?.length) {
-      const columns = await this.monday.listColumns({
-        boardId: +this.boardId,
-      });
-      columnIds = columns.filter(({ id }) => id !== "name").map(({ id }) => id);
+      const columns = await this.getColumns(this.boardId);
+      columnIds = columns.map(({ id }) => id);
     }
 
     const response = await this.monday.getColumnValues({
@@ -52,10 +45,12 @@ export default {
       columnIds: columnIds,
     });
 
-    if (!response.errors) {
-      $.export("$summary", `Successfully retrieved column values for item with ID ${response.data.items[0].id}.`);
+    if (response.errors) {
+      throw new Error(response.errors[0].message);
     }
 
-    return response.data.items[0];
+    $.export("$summary", `Successfully retrieved column values for item with ID ${this.itemId}.`);
+
+    return this.formatColumnValues(response.data.items);
   },
 };

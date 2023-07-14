@@ -145,6 +145,7 @@ export default {
         column_values {
           id
           value
+          text
         }
       }
     }
