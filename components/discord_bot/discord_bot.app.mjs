@@ -1,9 +1,9 @@
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
-import utils from "./common/utils.mjs";
 import FormData from "form-data";
 import fs from "fs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -435,6 +435,14 @@ export default {
       return await this._makeRequest({
         $,
         path: `/guilds/${guildId}/channels`,
+      });
+    },
+    listThreads({
+      $, guildId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/guilds/${guildId}/threads/active`,
       });
     },
     async getChannelInvites({
