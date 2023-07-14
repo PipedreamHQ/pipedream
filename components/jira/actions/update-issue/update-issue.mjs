@@ -6,7 +6,7 @@ export default {
   key: "jira-update-issue",
   name: "Update Issue",
   description: "Updates an issue. A transition may be applied and issue properties updated as part of the edit, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-  version: "0.2.5",
+  version: "0.2.6",
   type: "action",
   props: {
     ...common.props,
@@ -56,7 +56,6 @@ export default {
   },
   async run({ $ }) {
     const {
-      // eslint-disable-next-line no-unused-vars
       app,
       cloudId,
       issueIdOrKey,
@@ -76,10 +75,15 @@ export default {
       additionalProps: this.formatFields(dynamicFields),
     });
 
-    const transition = utils.reduceProperties({
+    const { transition } = utils.reduceProperties({
       additionalProps: {
-        id: transitionId,
-        looped: transitionLooped,
+        transition: [
+          transitionId,
+          {
+            id: transitionId,
+            looped: transitionLooped,
+          },
+        ],
       },
     });
 
@@ -91,7 +95,7 @@ export default {
       },
     });
 
-    const response = await this.app.updateIssue({
+    const response = await app.updateIssue({
       $,
       cloudId,
       issueIdOrKey,
