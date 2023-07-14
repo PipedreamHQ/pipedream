@@ -3161,6 +3161,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/open_exchange_rates:
+    specifiers: {}
+
   components/openai:
     specifiers:
       '@ffmpeg-installer/ffmpeg': ^1.1.0
