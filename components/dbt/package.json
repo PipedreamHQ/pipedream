@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/dbt",
+  "version": "0.0.1",
+  "description": "Pipedream dbt Cloud Components",
+  "main": "dist/app/dbt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dbt"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/dbt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
