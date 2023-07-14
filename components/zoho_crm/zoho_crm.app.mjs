@@ -368,6 +368,17 @@ export default {
         responseType: "arraybuffer",
       }));
     },
+    async uploadAttachment(moduleType, recordId, data, $) {
+      return axios($ ?? this, {
+        url: `https://www.zohoapis.com/crm/v3/${moduleType}/${recordId}/Attachments`,
+        method: "POST",
+        headers: {
+          "Authorization": `Zoho-oauthtoken ${this._authToken()}`,
+          "Content-Type": `multipart/form-data; boundary=${data.getBoundary()}`,
+        },
+        data,
+      });
+    },
     omitEmptyStringValues(obj) {
       return Object.entries(obj).reduce((a, [
         k,

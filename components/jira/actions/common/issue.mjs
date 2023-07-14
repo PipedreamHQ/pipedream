@@ -102,6 +102,8 @@ export default {
         .reduce(async (props, {
           schema, name: label, key, required, autoCompleteUrl,
         }) => {
+          const reduction = await props;
+
           const {
             type: schemaType,
             custom,
@@ -120,17 +122,23 @@ export default {
 
           // Requests by URL
           if (schemaTypes.includes(schemaType)) {
-            const resources = await this.app._makeRequest({
-              url: autoCompleteUrl,
-            });
+            try {
+              const resources = await this.app._makeRequest({
+                url: autoCompleteUrl,
+              });
 
-            return Promise.resolve({
-              ...await props,
-              [newKey]: {
-                ...value,
-                options: resources.map(constants.SCHEMA[schemaType].mapping),
-              },
-            });
+              return Promise.resolve({
+                ...reduction,
+                [newKey]: {
+                  ...value,
+                  options: resources.map(constants.SCHEMA[schemaType].mapping),
+                },
+              });
+
+            } catch (error) {
+              console.log("Error fetching resources requested by URL", autoCompleteUrl, error);
+              return Promise.resolve(reduction);
+            }
           }
 
           // Requests by Resource
@@ -144,7 +152,7 @@ export default {
             const response = await resourcesFn(resourcesFnArgs);
 
             return Promise.resolve({
-              ...await props,
+              ...reduction,
               [newKey]: {
                 ...value,
                 options: resourcesFnMap(response),
@@ -153,7 +161,7 @@ export default {
           }
 
           return Promise.resolve({
-            ...await props,
+            ...reduction,
             [newKey]: value,
           });
         }, Promise.resolve({}));

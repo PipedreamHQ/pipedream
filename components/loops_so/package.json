@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/loops_so",
+  "version": "0.0.1",
+  "description": "Pipedream Loops.so Components",
+  "main": "dist/app/loops_so.app.mjs",
+  "keywords": [
+    "pipedream",
+    "loops_so"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/loops_so",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

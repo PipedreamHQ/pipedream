@@ -3,8 +3,8 @@ import zohoCrm from "../../zoho_crm.app.mjs";
 export default {
   key: "zoho_crm-create-object",
   name: "Create Object",
-  description: "Create a new object/module entry. [See the docs here](https://www.zoho.com/crm/developer/docs/api/v2/insert-records.html)",
-  version: "0.3.0",
+  description: "Create a new object/module entry. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v2/insert-records.html)",
+  version: "0.3.1",
   type: "action",
   props: {
     zohoCrm,

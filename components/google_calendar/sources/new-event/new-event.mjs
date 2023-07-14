@@ -1,13 +1,18 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "google_calendar-new-event",
-  name: "New Event",
-  description: "Emits when an event is created",
-  version: "0.1.3",
+  name: "New Event Created",
+  description: "Emit new event when a Google Calendar event is created",
+  version: "0.1.4",
   type: "source",
-  dedupe: "unique", // Dedupe events based on the Google Calendar event ID
+  dedupe: "unique",
+  props: {
+    ...common.props({
+      useCalendarId: true,
+    }),
+  },
   methods: {
     ...common.methods,
     getConfig({ past }) {
