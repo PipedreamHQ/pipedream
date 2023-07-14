@@ -10,7 +10,7 @@ export default {
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request",
   description: `Emit new events when a pull request is opened or updated [See the documentation](${DOCS_LINK})`,
-  version: "1.0.10",
+  version: "1.0.0",
   type: "source",
   dedupe: "last",
   props: {
@@ -56,12 +56,6 @@ export default {
   },
   methods: {
     ...commonWebhook.methods,
-    getAdmin() {
-      return this.db.get("isAdmin");
-    },
-    setAdmin(value) {
-      this.db.set("isAdmin", value);
-    },
     getSavedEntries() {
       return this.db.get("savedEntries");
     },
