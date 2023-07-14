@@ -10,9 +10,9 @@ export default {
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request",
   description: `Emit new events when a pull request is opened or updated [See the documentation](${DOCS_LINK})`,
-  version: "1.0.5",
+  version: "1.0.10",
   type: "source",
-  dedupe: "unique",
+  dedupe: "last",
   props: {
     github,
     db: "$.service.db",
@@ -33,9 +33,8 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    await this.checkWebhookCreation();
 
-    if (this._getWebhookId()) {
+    if (await this.checkAdminPermission()) {
       props.eventTypes = {
         type: "string[]",
         label: "Filter Event Types",
@@ -48,7 +47,7 @@ export default {
         type: "boolean",
         label: "Emit Updates",
         description:
-          "If `false`, events will only be emitted when a new pull request is created.",
+          "If `false`, events will only be emitted when a new pull request is created. [See the documentation](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#list-pull-requests) for more information.",
         default: true,
       };
     }
@@ -62,6 +61,12 @@ export default {
     },
     setAdmin(value) {
       this.db.set("isAdmin", value);
+    },
+    getSavedEntries() {
+      return this.db.get("savedEntries");
+    },
+    setSavedEntries(value) {
+      this.db.set("savedEntries", value);
     },
     getRepoName() {
       return this.db.get("repoName");
@@ -121,7 +126,7 @@ export default {
       const { body } = event;
       const action = body?.action;
       if (action && this.checkEventType(action)) {
-        const id = ts + action;
+        const id = `${action}_${ts}`;
         const summary = `PR activity (${action}): "${body.pull_request.title}"`;
 
         this.$emit(body, {
@@ -134,7 +139,39 @@ export default {
 
     // Polling schedule
     else {
-      // Polling schedule
+      const {
+        emitUpdates, repoFullname,
+      } = this;
+      const savedEntries = this.getSavedEntries() ?? [];
+      const sort = emitUpdates
+        ? "updated"
+        : "created";
+      const items = await this.github.getRepositoryLatestPullRequests({
+        repoFullname,
+        sort,
+      });
+
+      items.reverse().forEach((item) => {
+        const ts = new Date(item[emitUpdates
+          ? "updated_at"
+          : "created_at"]).valueOf();
+        const {
+          id, title,
+        } = item;
+        const isUpdate = savedEntries.includes(id);
+        if (!isUpdate) savedEntries.push(id);
+        const summary = `PR ${isUpdate
+          ? "updated"
+          : "created"}: ${title}`;
+
+        this.$emit(item, {
+          id: `${id}_${ts}`,
+          summary,
+          ts,
+        });
+      });
+
+      this.setSavedEntries(savedEntries);
     }
   },
 };

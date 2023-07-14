@@ -460,6 +460,16 @@ export default {
     async getRepositoryPullRequests({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/pulls`, {});
     },
+    async getRepositoryLatestPullRequests({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/pulls`, {
+        direction: "desc",
+        ...args,
+      });
+
+      return response.data;
+    },
     async getPullRequestForCommit({
       repoFullname, sha,
     }) {
