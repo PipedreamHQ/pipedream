@@ -1,4 +1,5 @@
 import notion from "../../notion.app.mjs";
+import sampleEmit from "./test-event.mjs";
 import base from "../common/base.mjs";
 import constants from "../common/constants.mjs";
 
@@ -7,7 +8,7 @@ export default {
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -43,4 +44,5 @@ export default {
       this.setLastUpdatedTimestamp(Date.parse(page?.last_edited_time));
     }
   },
+  sampleEmit,
 };
