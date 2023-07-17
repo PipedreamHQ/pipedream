@@ -3123,9 +3123,6 @@ importers:
         specifier: ^1.3.0
         version: 1.5.1
 
-  components/open_exchange_rates:
-    specifiers: {}
-
   components/open_exchange_rates: {}
 
   components/openai:
