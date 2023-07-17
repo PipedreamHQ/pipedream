@@ -4,9 +4,9 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-create-item",
   name: "Create Item",
-  description: "Creates an item. [See the docs here](https://api.developer.monday.com/docs/items-queries#create-an-item)",
+  description: "Creates an item. [See the documentation](https://api.developer.monday.com/docs/items-queries#create-an-item)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   props: {
     monday,
     boardId: {

@@ -177,4 +177,30 @@ export default {
       }
     }
   `,
+  getColumnValues: `
+    query getItem ($itemId: Int!, $columnIds: [String!]) {
+      items (ids: [$itemId]){
+        id
+        name
+        column_values (ids: $columnIds){
+          id
+          value
+          text
+        }
+      }
+    }
+  `,
+  getItemsByColumnValue: `
+    query ($boardId: Int!, $columnId: String!, $columnValue: String!){
+      items_by_column_values (board_id: $boardId, column_id: $columnId, column_value: $columnValue) {
+        id
+        name
+        column_values {
+          id
+          value
+          text
+        }
+      }
+    }
+  `,
 };
