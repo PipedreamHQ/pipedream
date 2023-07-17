@@ -1570,8 +1570,6 @@ importers:
         specifier: 2.29.2
         version: 2.29.2
 
-  components/freshsales: {}
-
   components/freshservice:
     specifiers:
       '@pipedream/platform': ^1.5.1
