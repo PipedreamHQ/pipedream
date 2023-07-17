@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 lockfileVersion: 5.4
 =======
 <<<<<<< HEAD
@@ -7,6 +8,9 @@ lockfileVersion: '6.0'
 lockfileVersion: 5.4
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+lockfileVersion: '6.0'
+>>>>>>> 4d2dd352e (pnpm update)
 
 importers:
 
@@ -488,11 +492,14 @@ importers:
       package-lock-only: ^0.0.4
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@pipedream/platform': 0.10.0
       axios: 0.27.2
       package-lock-only: 0.0.4
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       '@pipedream/platform':
         specifier: ^0.10.0
         version: 0.10.0
@@ -502,12 +509,15 @@ importers:
       package-lock-only:
         specifier: ^0.0.4
         version: 0.0.4
+<<<<<<< HEAD
 =======
       '@pipedream/platform': 0.10.0
       axios: 0.27.2
       package-lock-only: 0.0.4
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+>>>>>>> 4d2dd352e (pnpm update)
 
   components/bitrix24:
     specifiers: {}
@@ -580,21 +590,27 @@ importers:
       puppeteer-core: ^19.7.5
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@pipedream/platform': 1.5.1
       puppeteer-core: 19.11.1
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
       puppeteer-core:
         specifier: ^19.7.5
         version: 19.10.0
+<<<<<<< HEAD
 =======
       '@pipedream/platform': 1.5.1
       puppeteer-core: 19.11.1
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+>>>>>>> 4d2dd352e (pnpm update)
 
   components/budgets_ai:
     specifiers: {}
@@ -3836,8 +3852,11 @@ importers:
       qs: ^6.11.0
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       '@pipedream/platform':
         specifier: ^1.4.0
         version: 1.5.1
@@ -3853,6 +3872,7 @@ importers:
       qs:
         specifier: ^6.11.0
         version: 6.11.1
+<<<<<<< HEAD
 =======
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
       '@pipedream/platform': 1.5.1
@@ -3864,6 +3884,8 @@ importers:
 =======
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+>>>>>>> 4d2dd352e (pnpm update)
 
   components/referralrock:
     specifiers: {}
@@ -4241,6 +4263,7 @@ importers:
       axios: ^0.27.2
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
       axios: 0.27.2
 =======
 <<<<<<< HEAD
@@ -4251,6 +4274,11 @@ importers:
       axios: 0.27.2
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      axios:
+        specifier: ^0.27.2
+        version: 0.27.2
+>>>>>>> 4d2dd352e (pnpm update)
 
   components/sftp:
     specifiers:
@@ -5318,8 +5346,11 @@ importers:
       openapi-types: ^12.0.0
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.5.1
@@ -5332,6 +5363,7 @@ importers:
       openapi-types:
         specifier: ^12.0.0
         version: 12.1.0
+<<<<<<< HEAD
 =======
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
       '@pipedream/platform': 1.5.1
@@ -5342,6 +5374,8 @@ importers:
 =======
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+>>>>>>> 4d2dd352e (pnpm update)
     devDependencies:
       '@pipedream/types': 0.1.6
       '@types/node': 17.0.45
@@ -5776,8 +5810,11 @@ importers:
       querystring: 0.2.1
     devDependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       '@octokit/core':
         specifier: ^3.6.0
         version: 3.6.0
@@ -5790,6 +5827,7 @@ importers:
       typescript:
         specifier: ^3.5.3
         version: 3.9.10
+<<<<<<< HEAD
 =======
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
       '@octokit/core': 3.6.0
@@ -5800,6 +5838,8 @@ importers:
 =======
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+>>>>>>> 4d2dd352e (pnpm update)
 
   types:
     specifiers:
@@ -7545,6 +7585,7 @@ packages:
       '@babel/core': ^7.4.0-0
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@babel/core': 7.22.9
       '@babel/helper-compilation-targets': 7.22.9_@babel+core@7.22.9
       '@babel/helper-plugin-utils': 7.22.5
@@ -7559,6 +7600,11 @@ packages:
       '@babel/helper-plugin-utils': 7.22.5
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      '@babel/core': 7.21.4
+      '@babel/helper-compilation-targets': 7.21.4(@babel/core@7.21.4)
+      '@babel/helper-plugin-utils': 7.20.2
+>>>>>>> 4d2dd352e (pnpm update)
       debug: 4.3.4
       lodash.debounce: 4.0.8
       resolve: 1.22.2
@@ -8598,8 +8644,11 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       '@babel/code-frame': 7.21.4
       '@babel/generator': 7.21.4
       '@babel/helper-environment-visitor': 7.18.9
@@ -8608,6 +8657,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.18.6
       '@babel/parser': 7.21.4
       '@babel/types': 7.21.4
+<<<<<<< HEAD
 =======
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
       '@babel/code-frame': 7.22.5
@@ -8622,6 +8672,8 @@ packages:
 =======
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       debug: 4.3.4
       globals: 11.12.0
     transitivePeerDependencies:
@@ -8748,6 +8800,7 @@ packages:
       ajv: 6.12.6
       debug: 4.3.4
 <<<<<<< HEAD
+<<<<<<< HEAD
       espree: 9.6.1
 =======
 <<<<<<< HEAD
@@ -8756,6 +8809,9 @@ packages:
       espree: 9.6.1
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      espree: 9.5.1
+>>>>>>> 4d2dd352e (pnpm update)
       globals: 13.20.0
       ignore: 5.2.4
       import-fresh: 3.3.0
@@ -9898,6 +9954,7 @@ packages:
     dependencies:
       '@types/body-parser': 1.19.2
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@types/node': 16.18.38
 =======
 <<<<<<< HEAD
@@ -9906,6 +9963,9 @@ packages:
       '@types/node': 16.18.38
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      '@types/node': 16.18.24
+>>>>>>> 4d2dd352e (pnpm update)
       axios: 0.27.2
       body-parser: 1.20.2
       file-type: 16.5.4
@@ -10368,6 +10428,7 @@ packages:
     dev: false
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /@puppeteer/browsers/0.5.0:
     resolution: {integrity: sha512-Uw6oB7VvmPRLE4iKsjuOh8zgDabhNX67dzo8U/BB0f9527qx+4eeUs+korU98OhG5C4ubg7ufBgVi63XYwS6TQ==}
 =======
@@ -10379,6 +10440,10 @@ packages:
     resolution: {integrity: sha512-Uw6oB7VvmPRLE4iKsjuOh8zgDabhNX67dzo8U/BB0f9527qx+4eeUs+korU98OhG5C4ubg7ufBgVi63XYwS6TQ==}
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+  /@puppeteer/browsers@0.4.1:
+    resolution: {integrity: sha512-4IICvy1McAkT/HyNZHIs7sp8ngBX1dmO0TPQ+FWq9ATQMqI8p+Ulm5A3kS2wYDh5HDHHkYrrETOu6rlj64VuTw==}
+>>>>>>> 4d2dd352e (pnpm update)
     engines: {node: '>=14.1.0'}
     hasBin: true
     peerDependencies:
@@ -10457,12 +10522,16 @@ packages:
     engines: {node: '>=16'}
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       '@babel/traverse': 7.21.4
       '@babel/types': 7.21.4
       '@putout/engine-parser': 5.6.0
       '@putout/operate': 8.9.1
+<<<<<<< HEAD
 =======
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
       '@babel/traverse': 7.22.8
@@ -10473,6 +10542,8 @@ packages:
 =======
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       debug: 4.3.4
       jessy: 3.1.1
       nessy: 4.0.0
@@ -10551,14 +10622,18 @@ packages:
     engines: {node: '>=16'}
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       '@babel/traverse': 7.21.4
       '@babel/types': 7.21.4
       '@putout/compare': 9.13.0
       '@putout/engine-parser': 5.6.0
       '@putout/operate': 8.9.1
       '@putout/operator-declare': 5.0.1(putout@29.2.4)
+<<<<<<< HEAD
 =======
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
       '@babel/traverse': 7.22.8
@@ -10571,6 +10646,8 @@ packages:
 =======
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       debug: 4.3.4
       jessy: 3.1.1
       nessy: 4.0.0
@@ -12885,13 +12962,17 @@ packages:
         optional: true
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       '@eslint-community/regexpp': 4.5.0
       '@typescript-eslint/parser': 5.59.0(eslint@8.15.0)(typescript@4.9.5)
       '@typescript-eslint/scope-manager': 5.59.0
       '@typescript-eslint/type-utils': 5.59.0(eslint@8.15.0)(typescript@4.9.5)
       '@typescript-eslint/utils': 5.59.0(eslint@8.15.0)(typescript@4.9.5)
+<<<<<<< HEAD
 =======
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
       '@eslint-community/regexpp': 4.5.1
@@ -12903,6 +12984,8 @@ packages:
 =======
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       debug: 4.3.4
       eslint: 8.15.0
       graphemer: 1.4.0
@@ -12926,6 +13009,7 @@ packages:
         optional: true
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/types': 5.62.0
       '@typescript-eslint/typescript-estree': 5.62.0_typescript@4.9.5
@@ -12940,6 +13024,11 @@ packages:
       '@typescript-eslint/typescript-estree': 5.62.0_typescript@4.9.5
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      '@typescript-eslint/scope-manager': 5.59.0
+      '@typescript-eslint/types': 5.59.0
+      '@typescript-eslint/typescript-estree': 5.59.0(typescript@4.9.5)
+>>>>>>> 4d2dd352e (pnpm update)
       debug: 4.3.4
       eslint: 8.15.0
       typescript: 4.9.5
@@ -12966,6 +13055,7 @@ packages:
         optional: true
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@typescript-eslint/typescript-estree': 5.62.0_typescript@4.9.5
       '@typescript-eslint/utils': 5.62.0_hx5tgzcbd2ycqgjduqhliuc3jm
 =======
@@ -12977,6 +13067,10 @@ packages:
       '@typescript-eslint/utils': 5.62.0_hx5tgzcbd2ycqgjduqhliuc3jm
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      '@typescript-eslint/typescript-estree': 5.59.0(typescript@4.9.5)
+      '@typescript-eslint/utils': 5.59.0(eslint@8.15.0)(typescript@4.9.5)
+>>>>>>> 4d2dd352e (pnpm update)
       debug: 4.3.4
       eslint: 8.15.0
       tsutils: 3.21.0_typescript@4.9.5
@@ -13021,6 +13115,7 @@ packages:
         optional: true
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@typescript-eslint/types': 5.62.0
       '@typescript-eslint/visitor-keys': 5.62.0
 =======
@@ -13032,6 +13127,10 @@ packages:
       '@typescript-eslint/visitor-keys': 5.62.0
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      '@typescript-eslint/types': 5.59.0
+      '@typescript-eslint/visitor-keys': 5.59.0
+>>>>>>> 4d2dd352e (pnpm update)
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
@@ -13599,7 +13698,6 @@ packages:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
       follow-redirects: 1.15.2
-<<<<<<< HEAD
     transitivePeerDependencies:
       - debug
     dev: false
@@ -13609,8 +13707,6 @@ packages:
     dependencies:
       follow-redirects: 1.15.2
       form-data: 4.0.0
-=======
->>>>>>> 33f4be04d (Loops.so - New Components (#7269))
     transitivePeerDependencies:
       - debug
     dev: false
@@ -13639,8 +13735,6 @@ packages:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
     dependencies:
-<<<<<<< HEAD
-=======
       follow-redirects: 1.15.2_debug@3.2.7
       form-data: 4.0.0
     transitivePeerDependencies:
@@ -13650,7 +13744,6 @@ packages:
   /axios/1.4.0:
     resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
     dependencies:
->>>>>>> 33f4be04d (Loops.so - New Components (#7269))
       follow-redirects: 1.15.2
       form-data: 4.0.0
       proxy-from-env: 1.1.0
@@ -15058,8 +15151,21 @@ packages:
     dependencies:
       ms: 2.1.3
     dev: false
-<<<<<<< HEAD
 
+<<<<<<< HEAD
+=======
+  /debug@4.3.4:
+    resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.2
+
+>>>>>>> 4d2dd352e (pnpm update)
   /debug/4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
     engines: {node: '>=6.0'}
@@ -15070,6 +15176,7 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
+<<<<<<< HEAD
 =======
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 
@@ -15091,11 +15198,11 @@ packages:
       supports-color: 9.4.0
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       supports-color: 9.3.1
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
     dev: true
-=======
->>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 
 <<<<<<< HEAD
 =======
@@ -16644,6 +16751,7 @@ packages:
     dev: false
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /follow-redirects/1.15.2:
 =======
 <<<<<<< HEAD
@@ -16652,6 +16760,9 @@ packages:
   /follow-redirects/1.15.2:
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+  /follow-redirects@1.15.2:
+>>>>>>> 4d2dd352e (pnpm update)
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -16661,6 +16772,7 @@ packages:
         optional: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /follow-redirects/1.15.2_debug@3.2.7:
 =======
 <<<<<<< HEAD
@@ -16669,6 +16781,9 @@ packages:
   /follow-redirects/1.15.2_debug@3.2.7:
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+  /follow-redirects@1.15.2(debug@3.2.7):
+>>>>>>> 4d2dd352e (pnpm update)
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -18554,6 +18669,7 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /jest-cli/29.6.1:
     resolution: {integrity: sha512-607dSgTA4ODIN6go9w6xY3EYkyPFGicx51a69H7yfvt7lN53xNswEVLovq+E77VsTRi5fWprLH0yl4DJgE8Ing==}
 =======
@@ -18565,6 +18681,10 @@ packages:
     resolution: {integrity: sha512-607dSgTA4ODIN6go9w6xY3EYkyPFGicx51a69H7yfvt7lN53xNswEVLovq+E77VsTRi5fWprLH0yl4DJgE8Ing==}
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+  /jest-cli@29.5.0:
+    resolution: {integrity: sha512-L1KcP1l4HtfwdxXNFCL5bmUbLQiKrakMUriBEcc1Vfz6gx31ORKdreuWvmQVBit+1ss9NNR3yxjwfwzZNdQXJw==}
+>>>>>>> 4d2dd352e (pnpm update)
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
     peerDependencies:
@@ -18581,6 +18701,7 @@ packages:
       graceful-fs: 4.2.11
       import-local: 3.1.0
 <<<<<<< HEAD
+<<<<<<< HEAD
       jest-config: 29.6.1
       jest-util: 29.6.1
       jest-validate: 29.6.1
@@ -18595,6 +18716,11 @@ packages:
       jest-validate: 29.6.1
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      jest-config: 29.5.0
+      jest-util: 29.5.0
+      jest-validate: 29.5.0
+>>>>>>> 4d2dd352e (pnpm update)
       prompts: 2.4.2
       yargs: 17.7.2
     transitivePeerDependencies:
@@ -18642,6 +18768,7 @@ packages:
       - supports-color
       - utf-8-validate
     dev: true
+<<<<<<< HEAD
 
 <<<<<<< HEAD
   /jest-config/29.6.1:
@@ -18651,6 +18778,49 @@ packages:
   /jest-config@29.5.0:
     resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+    
+  /jest-config@29.5.0:
+    resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    peerDependencies:
+      '@types/node': '*'
+      ts-node: '>=9.0.0'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      ts-node:
+        optional: true
+    dependencies:
+      '@babel/core': 7.21.4
+      '@jest/test-sequencer': 29.5.0
+      '@jest/types': 29.5.0
+      babel-jest: 29.5.0(@babel/core@7.21.4)
+      chalk: 4.1.2
+      ci-info: 3.8.0
+      deepmerge: 4.3.1
+      glob: 7.2.3
+      graceful-fs: 4.2.11
+      jest-circus: 29.5.0
+      jest-environment-node: 29.5.0
+      jest-get-type: 29.4.3
+      jest-regex-util: 29.4.3
+      jest-resolve: 29.5.0
+      jest-runner: 29.5.0
+      jest-util: 29.5.0
+      jest-validate: 29.5.0
+      micromatch: 4.0.5
+      parse-json: 5.2.0
+      pretty-format: 29.5.0
+      slash: 3.0.0
+      strip-json-comments: 3.1.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /jest-config@29.5.0(@types/node@17.0.45):
+    resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
+>>>>>>> 4d2dd352e (pnpm update)
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
       '@types/node': '*'
@@ -19481,6 +19651,7 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /jest/29.6.1:
     resolution: {integrity: sha512-Nirw5B4nn69rVUZtemCQhwxOBhm0nsp3hmtF4rzCeWD7BkjAXRIji7xWQfnTNbz9g0aVsBX6aZK3n+23LM6uDw==}
 =======
@@ -19492,6 +19663,10 @@ packages:
     resolution: {integrity: sha512-Nirw5B4nn69rVUZtemCQhwxOBhm0nsp3hmtF4rzCeWD7BkjAXRIji7xWQfnTNbz9g0aVsBX6aZK3n+23LM6uDw==}
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+  /jest@29.5.0:
+    resolution: {integrity: sha512-juMg3he2uru1QoXX078zTa7pO85QyB9xajZc6bU+d9yEGwrKX6+vGmJQ3UdVZsvTEUARIdObzH68QItim6OSSQ==}
+>>>>>>> 4d2dd352e (pnpm update)
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
     peerDependencies:
@@ -19504,6 +19679,7 @@ packages:
       '@jest/types': 29.6.1
       import-local: 3.1.0
 <<<<<<< HEAD
+<<<<<<< HEAD
       jest-cli: 29.6.1
 =======
 <<<<<<< HEAD
@@ -19512,6 +19688,9 @@ packages:
       jest-cli: 29.6.1
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      jest-cli: 29.5.0
+>>>>>>> 4d2dd352e (pnpm update)
     transitivePeerDependencies:
       - '@types/node'
       - supports-color
@@ -21047,6 +21226,7 @@ packages:
     resolution: {integrity: sha512-uD66tJj54JLYq0De10AhWycZWGQNUvDI55xPgk2sQM5kn1JYlhbCMTtEeT27+vAhW2FBQxLlOmS3pmA7/2z4aA==}
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@types/debug': 4.1.8
 =======
 <<<<<<< HEAD
@@ -21055,6 +21235,9 @@ packages:
       '@types/debug': 4.1.8
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      '@types/debug': 4.1.7
+>>>>>>> 4d2dd352e (pnpm update)
       debug: 4.3.4
       decode-named-character-reference: 1.0.2
       micromark-core-commonmark: 1.1.0
@@ -22762,6 +22945,7 @@ packages:
     engines: {node: '>=6'}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /puppeteer-core/19.11.1:
     resolution: {integrity: sha512-qcuC2Uf0Fwdj9wNtaTZ2OvYRraXpAK+puwwVW8ofOhOgLPZyz1c68tsorfIZyCUOpyBisjr+xByu7BMbEYMepA==}
 =======
@@ -22773,6 +22957,10 @@ packages:
     resolution: {integrity: sha512-qcuC2Uf0Fwdj9wNtaTZ2OvYRraXpAK+puwwVW8ofOhOgLPZyz1c68tsorfIZyCUOpyBisjr+xByu7BMbEYMepA==}
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+  /puppeteer-core@19.10.0:
+    resolution: {integrity: sha512-F6btgaEJXcpdw/kJszBhe7t4kx1C42oG159romCagX8ttComuk5dqkmAd/AQc/E4cS3onOUsHI5WgjIstuYsFw==}
+>>>>>>> 4d2dd352e (pnpm update)
     engines: {node: '>=14.14.0'}
     peerDependencies:
       typescript: '>= 4.7.4'
@@ -22780,6 +22968,7 @@ packages:
       typescript:
         optional: true
     dependencies:
+<<<<<<< HEAD
 <<<<<<< HEAD
       '@puppeteer/browsers': 0.5.0
       chromium-bidi: 0.4.7_7yd6ibrwer4fxzjxd6md3toxiy
@@ -22792,6 +22981,10 @@ packages:
       chromium-bidi: 0.4.7_7yd6ibrwer4fxzjxd6md3toxiy
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+      '@puppeteer/browsers': 0.4.1
+      chromium-bidi: 0.4.6(devtools-protocol@0.0.1107588)
+>>>>>>> 4d2dd352e (pnpm update)
       cross-fetch: 3.1.5
       debug: 4.3.4
       devtools-protocol: 0.0.1107588
@@ -24656,6 +24849,7 @@ packages:
       balanced-match: 2.0.0
       colord: 2.9.3
 <<<<<<< HEAD
+<<<<<<< HEAD
       cosmiconfig: 8.2.0
       css-functions-list: 3.2.0
       css-tree: 2.3.1
@@ -24663,18 +24857,22 @@ packages:
       fast-glob: 3.3.0
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       cosmiconfig: 7.1.0
       css-functions-list: 3.1.0
       debug: 4.3.4
       fast-glob: 3.2.12
-=======
       cosmiconfig: 8.2.0
       css-functions-list: 3.2.0
       css-tree: 2.3.1
       debug: 4.3.4
       fast-glob: 3.3.0
+<<<<<<< HEAD
 >>>>>>> 33f4be04d (Loops.so - New Components (#7269))
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
+=======
+>>>>>>> 4d2dd352e (pnpm update)
       fastest-levenshtein: 1.0.16
       file-entry-cache: 6.0.1
       global-modules: 2.0.0
