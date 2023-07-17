@@ -1338,6 +1338,9 @@ importers:
 
   components/etsy: {}
 
+  components/etsy:
+    specifiers: {}
+
   components/eventbrite:
     dependencies:
       '@pipedream/platform':
