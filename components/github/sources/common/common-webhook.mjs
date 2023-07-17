@@ -52,7 +52,9 @@ export default {
           webhookId,
         });
         this._setWebhookId(null);
+        return true;
       }
+      return false;
     },
   },
   hooks: {

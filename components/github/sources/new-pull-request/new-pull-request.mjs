@@ -109,7 +109,9 @@ export default {
       await this.checkWebhookCreation();
     },
     async deactivate() {
-      await this.removeWebhook();
+      if (await this.removeWebhook()) {
+        this.setRepoName(null);
+      }
     },
   },
   async run(event) {
