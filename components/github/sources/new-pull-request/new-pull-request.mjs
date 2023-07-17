@@ -56,12 +56,6 @@ export default {
   },
   methods: {
     ...commonWebhook.methods,
-    getSavedEntries() {
-      return this.db.get("savedEntries");
-    },
-    setSavedEntries(value) {
-      this.db.set("savedEntries", value);
-    },
     getRepoName() {
       return this.db.get("repoName");
     },
@@ -137,7 +131,6 @@ export default {
       const {
         emitUpdates, repoFullname,
       } = this;
-      const savedEntries = this.getSavedEntries() ?? [];
       const sort = emitUpdates
         ? "updated"
         : "created";
@@ -153,9 +146,7 @@ export default {
         const {
           id, title,
         } = item;
-        const isUpdate = savedEntries.includes(id);
-        if (!isUpdate) savedEntries.push(id);
-        const summary = `PR ${isUpdate
+        const summary = `PR ${emitUpdates
           ? "updated"
           : "created"}: ${title}`;
 
@@ -165,8 +156,6 @@ export default {
           ts,
         });
       });
-
-      this.setSavedEntries(savedEntries);
     }
   },
 };
