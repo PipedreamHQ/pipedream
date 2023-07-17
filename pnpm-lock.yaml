@@ -1599,6 +1599,12 @@ importers:
   components/freshsales:
     specifiers: {}
 
+  components/freshservice:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/frontapp:
     specifiers:
       '@pipedream/platform': ^0.10.0
