@@ -3,40 +3,17 @@ import maxBy from "lodash.maxby";
 import common from "../common.mjs";
 import sampleEmit from "./test-event.mjs";
 
-const { discord } = common.props;
-
 export default {
   ...common,
-  key: "discord_bot-new-message-in-channel",
-  name: "New Message in Channel",
-  description: "Emit new event for each message posted to one or more channels",
+  key: "discord_bot-new-thread-message",
+  name: "New Thread Message",
+  description: "Emit new event for each message posted to a specific thread.",
   type: "source",
-  version: "0.0.14",
-
+  version: "0.0.1",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     ...common.props,
     db: "$.service.db",
-    channels: {
-      type: "string[]",
-      label: "Channels",
-      description: "The channels you'd like to watch for new messages",
-      propDefinition: [
-        discord,
-        "channelId",
-        ({ guildId }) => ({
-          guildId,
-        }),
-      ],
-    },
-    emitEventsInBatch: {
-      type: "boolean",
-      label: "Emit messages as a single event",
-      description:
-        "If `true`, all messages are emitted as an array, within a single Pipedream event. Defaults to `false`, emitting each Discord message as its own event in Pipedream",
-      optional: true,
-      default: false,
-    },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -48,13 +25,19 @@ export default {
     // We store a cursor to the last message ID
     let lastMessageIDs = this._getLastMessageIDs();
 
+    const { threads } = await this.discord.listThreads({
+      $,
+      guildId: this.guildId,
+    });
+
     // If this is our first time running this source,
     // get the last N messages, emit them, and checkpoint
-    for (const channelId of this.channels) {
+    for (const channel of threads) {
       let lastMessageID;
       let messages = [];
+      const channelId = channel.id;
 
-      if (!lastMessageID) {
+      if (!lastMessageIDs[channelId]) {
         messages = await this.discord.getMessages({
           $,
           channelId,
@@ -84,6 +67,7 @@ export default {
           lastMessageID = newMessages.length
             ? maxBy(newMessages, (message) => message.id).id
             : lastMessageIDs[channelId];
+          lastMessageIDs[channelId] = lastMessageID;
 
         } while (newMessages.length);
       }
@@ -93,32 +77,18 @@ export default {
       lastMessageIDs[channelId] = lastMessageID;
 
       if (!messages.length) {
-        console.log(`No new messages in channel ${channelId}`);
-        return;
+        console.log(`No new messages in thread ${channelId}`);
+        continue;
       }
 
-      console.log(`${messages.length} new messages in channel ${channelId}`);
+      console.log(`${messages.length} new messages in thread ${channelId}`);
 
-      // Batched emits do not take advantage of the built-in deduper
-      if (this.emitEventsInBatch) {
-        const suffixChar =
-          messages.length > 1
-            ? "s"
-            : "";
-
-        this.$emit(messages, {
-          summary: `${messages.length} new message${suffixChar}`,
-          id: lastMessageID,
+      messages.reverse().forEach((message) => {
+        this.$emit(message, {
+          summary: `A new message with Id: ${message.id} was posted in thread ${channelId}.`,
+          id: message.id, // dedupes events based on this ID
         });
-
-      } else {
-        messages.forEach((message) => {
-          this.$emit(message, {
-            summary: message.content,
-            id: message.id, // dedupes events based on this ID
-          });
-        });
-      }
+      });
     }
 
     // Set the last message ID for the next run
