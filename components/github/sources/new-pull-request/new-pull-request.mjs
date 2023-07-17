@@ -56,12 +56,6 @@ export default {
   },
   methods: {
     ...commonWebhook.methods,
-    getRepoName() {
-      return this.db.get("repoName");
-    },
-    setRepoName(value) {
-      this.db.set("repoName", value);
-    },
     getWebhookEvents() {
       return [
         "pull_request",
@@ -77,15 +71,10 @@ export default {
       return admin;
     },
     async checkWebhookCreation() {
-      const { repoFullname } = this;
-      if (repoFullname !== this.getRepoName()) {
-        const admin = await this.checkAdminPermission();
-
-        this.setRepoName(repoFullname);
-        if (admin) {
-          await this.createWebhook();
-        } else await this.removeWebhook();
-      }
+      const admin = await this.checkAdminPermission();
+      if (admin) {
+        await this.createWebhook();
+      } else await this.removeWebhook();
     },
     checkEventType(type) {
       const { eventTypes } = this;
@@ -103,7 +92,6 @@ export default {
       await this.checkWebhookCreation();
     },
     async deactivate() {
-      this.setRepoName(null);
       await this.removeWebhook();
     },
   },
