@@ -3,7 +3,7 @@ import app from "../../order_desk.app.mjs";
 
 export default {
   name: "List Orders",
-  description: "List Orders based in a search criteria [See the documentation](https://apidocs.orderdesk.com/#get-multiple-orders).",
+  description: "List Orders based on a search criteria [See the documentation](https://apidocs.orderdesk.com/#get-multiple-orders).",
   key: "order_desk-list-orders",
   version: "0.0.1",
   type: "action",
@@ -102,7 +102,7 @@ export default {
       page++;
     }
 
-    $.export("summary", `Successfully retrieved ${data.length} orders.`);
+    $.export("summary", `Successfully retrieved ${data.length} order(s).`);
     return data;
   },
 };

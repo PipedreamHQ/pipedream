@@ -17,7 +17,7 @@ export default {
   },
   async run({ $ }) {
     const res = await this.app.findOrder(this.order_id);
-    $.export("summary", `Order successfully retrieved with "${this.order_id}".`);
+    $.export("summary", `Order successfully retrieved with id "${this.order_id}".`);
     return res;
   },
 };

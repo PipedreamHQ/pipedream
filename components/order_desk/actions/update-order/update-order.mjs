@@ -4,7 +4,7 @@ export default {
   name: "Update Order",
   description: "Update Order [See the documentation](https://apidocs.orderdesk.com/#update-an-order).",
   key: "order_desk-update-order",
-  version: "0.2.1",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -177,12 +177,6 @@ export default {
         "customer_id",
       ],
     },
-    email_count: {
-      propDefinition: [
-        app,
-        "email_count",
-      ],
-    },
     ip_address: {
       propDefinition: [
         app,
@@ -207,18 +201,6 @@ export default {
         "folder_id",
       ],
     },
-    date_added: {
-      propDefinition: [
-        app,
-        "date_added",
-      ],
-    },
-    date_updated: {
-      propDefinition: [
-        app,
-        "date_updated",
-      ],
-    },
   },
   async run({ $ }) {
     const {
@@ -231,7 +213,7 @@ export default {
         data.order_items,
       ],
     });
-    $.export("sumary", `Order successfully updated with id "${res.order.id}".`);
+    $.export("summary", `Order successfully updated with id "${res.order.id}".`);
     return res;
   },
 };

@@ -7,10 +7,12 @@
     "pipedream",
     "order_desk"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/order_desk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

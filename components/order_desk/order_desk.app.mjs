@@ -180,12 +180,6 @@ export default {
       description: "The ID of the customer. This is generally something that will be set internally.",
       optional: true,
     },
-    email_count: {
-      type: "string",
-      label: "Email Count",
-      description: "The number of orders that match this email address read-only.",
-      optional: true,
-    },
     ip_address: {
       type: "string",
       label: "IP Address",
@@ -208,18 +202,6 @@ export default {
       type: "string",
       label: "Folder ID",
       description: "The ID number of the folder in which the order is stored. If nothing is entered when adding an order, the folder will be the first folder in the list.",
-      optional: true,
-    },
-    date_added: {
-      type: "string",
-      label: "Date Added",
-      description: "The order date stored in UTC.",
-      optional: true,
-    },
-    date_updated: {
-      type: "string",
-      label: "Date Updated",
-      description: "The date the order was last updated in UTC.",
       optional: true,
     },
   },
@@ -251,7 +233,6 @@ export default {
       });
     },
     updateOrder(data) {
-      console.log(data);
       return this._makeHttpRequest({
         method: "PUT",
         path: `/orders/${data.order_id}`,
@@ -260,14 +241,12 @@ export default {
     },
     findOrder(orderId) {
       return this._makeHttpRequest({
-        method: "GET",
         path: `/orders/${orderId}`,
       });
     },
     listOrders(page, params = {}) {
       const PAGE_SIZE = 200;
       return this._makeHttpRequest({
-        method: "GET",
         path: "/orders",
         params: {
           ...params,
