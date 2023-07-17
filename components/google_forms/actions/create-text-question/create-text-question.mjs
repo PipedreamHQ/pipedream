@@ -4,7 +4,7 @@ export default {
   key: "google_forms-create-text-question",
   name: "Create Text Question",
   description: "Creates a new text question in a Google Form. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms/batchUpdate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleForms,

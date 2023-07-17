@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import drive from "@googleapis/drive";
 
 export default {
   type: "app",
@@ -8,6 +9,24 @@ export default {
       type: "string",
       label: "Form ID",
       description: "Identifier of a Google Form",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const forms = await this.listForms({
+          pageToken: nextPageToken,
+        });
+        const formOptions = forms?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+        return {
+          options: formOptions,
+          context: {
+            nextPageToken,
+          },
+        };
+      },
     },
     title: {
       type: "string",
@@ -85,6 +104,27 @@ export default {
         path: `/forms/${formId}/responses`,
         ...args,
       });
+    },
+    drive() {
+      const auth = new drive.auth.OAuth2();
+      auth.setCredentials({
+        access_token: this.$auth.oauth_access_token,
+      });
+      const version = "v3";
+      return drive.drive({
+        version,
+        auth,
+      });
+    },
+    async listForms(args = {}) {
+      const drive = this.drive();
+      const { data: { files } } = await drive.files.list({
+        q: "mimeType = 'application/vnd.google-apps.form'",
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
+        ...args,
+      });
+      return files;
     },
   },
 };

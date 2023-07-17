@@ -4,7 +4,7 @@ export default {
   key: "google_forms-create-form",
   name: "Create Form",
   description: "Creates a new Google Form. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleForms,
