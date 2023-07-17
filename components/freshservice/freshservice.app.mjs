@@ -21,7 +21,7 @@ export default {
         url: `${this._apiUrl()}${path}`,
         auth: {
           username: this._apiKey(),
-          password: "X",
+          password: "X"
         },
         ...args,
       });
@@ -29,8 +29,8 @@ export default {
     async getTickets(args = {}) {
       return this._makeRequest({
         path: "/v2/tickets",
-        ...args,
-      });
-    },
+        ...args
+      })
+    }
   },
 };

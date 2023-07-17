@@ -1651,6 +1651,12 @@ importers:
 =======
 >>>>>>> 41271438c (Loops.so - New Components (#7269))
 
+  components/freshservice:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/frontapp:
     specifiers:
       '@pipedream/platform': ^0.10.0
