@@ -56,6 +56,12 @@ export default {
   },
   methods: {
     ...commonWebhook.methods,
+    getPrCache() {
+      return this.db.get("prCache") ?? [];
+    },
+    setPrCache(value) {
+      this.db.set("prCache", value);
+    },
     getWebhookEvents() {
       return [
         "pull_request",
@@ -96,13 +102,13 @@ export default {
     },
   },
   async run(event) {
-    const ts = Date.now();
-
-    // Webhook event
+    // Http (webhook)
     if (this._getWebhookId()) {
       const { body } = event;
       const action = body?.action;
+      // Confirm this is a webhook event (discard timer triggers)
       if (action && this.checkEventType(action)) {
+        const ts = Date.now();
         const id = `${action}_${ts}`;
         const summary = `PR activity (${action}): "${body.pull_request.title}"`;
 
@@ -114,7 +120,7 @@ export default {
       }
     }
 
-    // Polling schedule
+    // Timer (polling)
     else {
       const {
         emitUpdates, repoFullname,
@@ -127,19 +133,28 @@ export default {
         sort,
       });
 
-      items.reverse().forEach((item) => {
-        const ts = new Date(item[emitUpdates
-          ? "updated_at"
-          : "created_at"]).valueOf();
-        const {
-          id, title,
-        } = item;
+      const cache = this.getPrCache();
+      const tsProp = emitUpdates
+        ? "updated_at"
+        : "created_at";
+      const getFullId = (item) => `${item.id}_${item[tsProp]}`;
+      const idsToStore = items.map(getFullId);
+      const firstCachedIndex = idsToStore.findIndex((id) => cache.includes(id));
+      const filteredItems =
+        firstCachedIndex === -1
+          ? items
+          : items.slice(0, firstCachedIndex);
+
+      this.setPrCache(idsToStore);
+
+      filteredItems.reverse().forEach((item) => {
+        const ts = new Date(item[tsProp]).valueOf();
         const summary = `PR ${emitUpdates
           ? "updated"
-          : "created"}: ${title}`;
+          : "created"}: "${item.title}"`;
 
         this.$emit(item, {
-          id: `${id}_${ts}`,
+          id: getFullId(item),
           summary,
           ts,
         });
