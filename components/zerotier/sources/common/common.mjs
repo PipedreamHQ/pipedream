@@ -22,10 +22,16 @@ export default {
   },
   methods: {
     _getNodeStatus(nodeId) {
-      return this.db.get(nodeId);
+      return this.db.get(nodeId + "status");
+    },
+    _getNodePrevLastSeen(nodeId) {
+      return this.db.get(nodeId + "lastSeen");
     },
     _setNodeStatus(nodeId, status) {
-      return this.db.set(nodeId, status);
+      return this.db.set(nodeId + "status", status);
+    },
+    _setNodePrevLastSeen(nodeId, lastSeen) {
+      return this.db.set(nodeId + "lastSeen", lastSeen);
     },
   },
   async run() {
@@ -42,11 +48,15 @@ export default {
         networkId,
       } = node;
       const previousStatus = this._getNodeStatus(nodeId);
+      const previousLastSeen = this._getNodePrevLastSeen(nodeId);
       const rightStatus = this.getRightStatus();
 
-      const online = previousStatus || lastSeen === 0
-        ? lastSeen - 180000 > previousStatus
+      //Will not work for poll periods around 3 minutes or less
+      const online = previousLastSeen || lastSeen === 0
+        ? (lastSeen - 180000 > previousLastSeen)
         : true;
+
+      this._setNodePrevLastSeen(nodeId, lastSeen);
 
       if (online != previousStatus) {
         this._setNodeStatus(nodeId, online);
