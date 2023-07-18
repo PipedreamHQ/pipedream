@@ -1,11 +1,12 @@
 import common from "../common.mjs";
+import { API_PATH } from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-company-property-change",
   name: "New Company Property Change",
   description: "Emit new event when a specified property is provided or updated on a company. [See the docs here](https://developers.hubspot.com/docs/api/crm/companies)",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {
@@ -38,27 +39,84 @@ export default {
       const ts = this.getTs(company);
       return {
         id: `${id}${ts}`,
-        summary: properties.name,
+        summary: properties[this.property],
         ts,
       };
     },
     isRelevant(company, updatedAfter) {
       return !updatedAfter || this.getTs(company) > updatedAfter;
     },
-    getParams() {
+    getParams(after) {
       return {
+        object: "companies",
         limit: 50,
+        properties: [
+          this.property,
+        ],
         sorts: [
           {
             propertyName: "hs_lastmodifieddate",
             direction: "DESCENDING",
           },
         ],
-        propertiesWithHistory: this.property,
+        filterGroups: [
+          {
+            filters: [
+              {
+                propertyName: this.property,
+                operator: "HAS_PROPERTY",
+              },
+              {
+                propertyName: "hs_lastmodifieddate",
+                operator: "GTE",
+                value: after,
+              },
+            ],
+          },
+        ],
       };
     },
+    async batchGetCompanies(inputs) {
+      return this.hubspot.makeRequest(
+        API_PATH.CRMV3,
+        "/objects/companies/batch/read",
+        {
+          method: "POST",
+          data: {
+            properties: [
+              this.property,
+            ],
+            propertiesWithHistory: [
+              this.property,
+            ],
+            inputs,
+          },
+        },
+      );
+    },
     async processResults(after, params) {
-      const { results } = await this.hubspot.listObjectsInPage("companies", null, params);
+      const updatedCompanies = [];
+      do {
+        const {
+          results, paging,
+        } = await this.hubspot.searchCRM(params);
+        updatedCompanies.push(...results);
+        if (paging) {
+          params.after = paging.next.after;
+        } else {
+          delete params.after;
+        }
+      } while (params.after);
+
+      if (!updatedCompanies.length) {
+        return;
+      }
+
+      const inputs = updatedCompanies.map(({ id }) => ({
+        id,
+      }));
+      // get companies w/ `propertiesWithHistory`
+      const { results } = await this.batchGetCompanies(inputs);
 
       let maxTs = after;
       for (const result of results) {
