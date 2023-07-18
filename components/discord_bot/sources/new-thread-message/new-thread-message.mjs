@@ -7,7 +7,7 @@ export default {
   ...common,
   key: "discord_bot-new-thread-message",
   name: "New Thread Message",
-  description: "Emit new event for each message posted to a specific thread.",
+  description: "Emit new event for each thread message posted.",
   type: "source",
   version: "0.0.1",
   dedupe: "unique", // Dedupe events based on the Discord message ID
@@ -85,8 +85,9 @@ export default {
 
       messages.reverse().forEach((message) => {
         this.$emit(message, {
-          summary: `A new message with Id: ${message.id} was posted in thread ${channelId}.`,
           id: message.id, // dedupes events based on this ID
+          summary: `A new message with Id: ${message.id} was posted in thread ${channelId}.`,
+          ts: Date.parse(message.timestamp),
         });
       });
     }
