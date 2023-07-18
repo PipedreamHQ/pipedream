@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/etsy",
+  "version": "0.0.1",
+  "description": "Pipedream Etsy Components",
+  "main": "dist/app/etsy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "etsy"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/etsy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
