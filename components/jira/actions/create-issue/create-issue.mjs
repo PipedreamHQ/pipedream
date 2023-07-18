@@ -39,6 +39,17 @@ export default {
         }),
       ],
     },
+    transitionId: {
+        label: "Transition ID",
+        propDefinition: [
+          common.props.app,
+          "transition",
+          ({ cloudId, issueIdOrKey }) => ({
+            cloudId,
+            issueIdOrKey,
+          }),
+        ],
+      },
   },
   async additionalProps() {
     const {

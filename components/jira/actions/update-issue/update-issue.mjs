@@ -15,28 +15,40 @@ export default {
       propDefinition: [
         common.props.app,
         "issueIdOrKey",
-        (c) => ({
-          cloudId: c.cloudId,
+        ({ cloudId }) => ({
+          cloudId,
         }),
       ],
     },
     notifyUsers: {
       type: "boolean",
-      label: "Notify users",
+      label: "Notify Users",
       description: "Whether a notification email about the issue update is sent to all watchers. To disable the notification, administer Jira or administer project permissions are required. If the user doesn't have the necessary permission the request is ignored.",
       optional: true,
     },
     overrideScreenSecurity: {
       type: "boolean",
-      label: "Override screen security",
+      label: "Override Screen Security",
       description: "Whether screen security should be overridden to enable hidden fields to be edited. Available to Connect app users with admin permissions.",
       optional: true,
     },
     overrideEditableFlag: {
       type: "boolean",
-      label: "Override editable flag",
+      label: "Override Editable Flag",
       description: "Whether screen security should be overridden to enable uneditable fields to be edited. Available to Connect app users with admin permissions.",
       optional: true,
+    },
+    transitionId: {
+      label: "Transition ID",
+      description: "The ID of the issue transition. Required when specifying a transition to undertake.",
+      propDefinition: [
+        common.props.app,
+        "transition",
+        ({ cloudId, issueIdOrKey }) => ({
+          cloudId,
+          issueIdOrKey,
+        }),
+      ],
     },
   },
   async additionalProps() {
@@ -95,7 +107,7 @@ export default {
       },
     });
 
-    const response = await app.updateIssue({
+    await app.updateIssue({
       $,
       cloudId,
       issueIdOrKey,
@@ -112,6 +124,9 @@ export default {
 
     $.export("$summary", `Issue with ID(or key): ${this.issueIdOrKey} has been updated.`);
 
-    return response;
+    return {
+      success: true,
+      issueIdOrKey,
+    };
   },
 };
