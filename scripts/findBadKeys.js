@@ -5,6 +5,11 @@ const path = require("path");
 const rootDir = path.resolve(__dirname, "..");
 const componentsDir = path.join(rootDir, "components");
 
+const REGEXP_COMPONENT_KEY = {
+  regExp: /(?:(?:['"]key['"])|(?:key)): ['"]([^'"]+)/,
+  captureGroup: 1
+};
+
 let err = false;
 
 const isAppFile = ( subname ) =>
@@ -23,9 +28,9 @@ const isTestEventFile = ( subname ) =>
 
 const getComponentKey = ( p )  => {
   const data = fs.readFileSync(p, "utf8");
-  const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
-  if (md && md.length > 1)
-    return md[1];
+  const md = data.match(REGEXP_COMPONENT_KEY.regExp);
+  if (md && md.length > REGEXP_COMPONENT_KEY.captureGroup)
+    return md[REGEXP_COMPONENT_KEY.captureGroup];
   return false;
 };
 
@@ -86,10 +91,10 @@ function checkKeys(p, nameSlug) {
     }
     if (name.endsWith(".mjs") || name.endsWith(".js") || name.endsWith(".ts") || name.endsWith(".mts")) {
       const data = fs.readFileSync(pp, "utf8");
-      const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
+      const md = data.match(REGEXP_COMPONENT_KEY.regExp);
       if (md) {
-        const key = md[1];
-        if (!key.startsWith(`${nameSlug}-`)) {
+        const key = md[REGEXP_COMPONENT_KEY.captureGroup];
+        if (!key?.startsWith(`${nameSlug}-`)) {
           err = true;
           console.error(`[?] ${pp} [key: ${key}] [nameSlug: ${nameSlug}]`);
         }
