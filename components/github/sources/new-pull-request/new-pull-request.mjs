@@ -49,6 +49,7 @@ export default {
         description:
           "If `false`, events will only be emitted when a new pull request is created. [See the documentation](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#list-pull-requests) for more information.",
         default: true,
+        optional: true,
       };
     }
 
@@ -125,18 +126,18 @@ export default {
       const {
         emitUpdates, repoFullname,
       } = this;
-      const sort = emitUpdates
-        ? "updated"
-        : "created";
+      const sort = emitUpdates === false
+        ? "created"
+        : "updated";
       const items = await this.github.getRepositoryLatestPullRequests({
         repoFullname,
         sort,
       });
 
       const cache = this.getPrCache();
-      const tsProp = emitUpdates
-        ? "updated_at"
-        : "created_at";
+      const tsProp = emitUpdates === false
+        ? "created_at"
+        : "updated_at";
       const getFullId = (item) => `${item.id}_${item[tsProp]}`;
       const idsToStore = items.map(getFullId);
       const firstCachedIndex = idsToStore.findIndex((id) => cache.includes(id));
@@ -149,9 +150,7 @@ export default {
 
       filteredItems.reverse().forEach((item) => {
         const ts = new Date(item[tsProp]).valueOf();
-        const summary = `PR ${emitUpdates
-          ? "updated"
-          : "created"}: "${item.title}"`;
+        const summary = `PR ${sort}: "${item.title}"`;
 
         this.$emit(item, {
           id: getFullId(item),
