@@ -22,7 +22,7 @@ export default {
           pageId: c.pageId,
         }),
       ],
-      name: "Resource Id",
+      label: "Resource Id",
       description: "The ID of the resource to retrieve leads from. It may be a form, campaign or ad group id",
     },
     additionalParams: {

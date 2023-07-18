@@ -7,7 +7,7 @@ export default {
   type: "source",
   key: "facebook_lead_ads-new_lead_submitted",
   name: "New Lead Submitted",
-  description: "Emit new event when a new playlist is created or followed by the current Spotify user.",
+  description: "Emit new Event when a lead is submitted. [See the documentation](https://developers.facebook.com/docs/marketing-api/guides/lead-ads/setup)",
   version: "0.0.1",
   props: {
     app,
@@ -15,7 +15,7 @@ export default {
     appSecret: {
       type: "string",
       label: "App Secret",
-      description: "The App Secret from your Facebook App. To get your secret, open your Facebook App and (Go to Settings > Basic > App Secret)",
+      description: "The App Secret from your Facebook App. To get your secret, access your Facebook Apps page[https://developers.facebook.com/apps], select your App, then go to `Settings > Basic > App Secret`",
     },
   },
   methods: {
