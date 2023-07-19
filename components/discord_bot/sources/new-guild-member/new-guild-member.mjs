@@ -8,7 +8,7 @@ export default {
   description: "Emit new event for every member added to a guild. [See docs here](https://discord.com/developers/docs/resources/guild#list-guild-members)",
   type: "source",
   dedupe: "unique",
-  version: "0.0.11",
+  version: "0.1.0",
   props: {
     ...common.props,
     db: "$.service.db",
@@ -19,11 +19,7 @@ export default {
       },
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run({ $ }) {
-    const guildMembers = this._getGuildMemberIDs();
     const { guildId } = this;
     const params = {
       limit: 100,
@@ -47,22 +43,17 @@ export default {
           joined_at: joinedAt,
         } = member;
 
-        if (!(user.id in guildMembers)) {
-          guildMembers[user.id] = true;
-          params.after = user.id;
+        params.after = user.id;
+        if (user.bot) continue;
 
-          if (user.bot) continue;
-
-          this.$emit(member, {
-            summary: `New member: ${user.username}`,
-            id: user.id,
-            ts: Date.parse(joinedAt),
-          });
-        }
+        this.$emit(member, {
+          summary: `New member: ${user.username}`,
+          id: user.id,
+          ts: Date.parse(joinedAt),
+        });
       }
 
       this._setLastMemberID(params.after);
-      this._setGuildMemberIDs(guildMembers);
     }
   },
 };
