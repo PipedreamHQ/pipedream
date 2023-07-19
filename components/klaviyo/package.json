@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "klaviyo-sdk": "^1.0.1"
+    "klaviyo-sdk": "^1.0.1",
+    "@babel/core": "^7.0.0-0"
   }
 }
