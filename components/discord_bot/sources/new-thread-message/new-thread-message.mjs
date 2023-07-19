@@ -84,6 +84,9 @@ export default {
       console.log(`${messages.length} new messages in thread ${channelId}`);
 
       messages.reverse().forEach((message) => {
+        if (!message.content) {
+          return;
+        }
         this.$emit(message, {
           id: message.id, // dedupes events based on this ID
           summary: `A new message with Id: ${message.id} was posted in thread ${channelId}.`,
