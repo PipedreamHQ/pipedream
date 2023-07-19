@@ -101,10 +101,6 @@ export default {
           return {};
       }
     },
-    getPropType(schemaType) {
-      // It defaults to object because it may expect a structure like { id }
-      return constants.TYPE[schemaType] || "object";
-    },
     async getDynamicFields({
       fields, predicate = (field) => field,
     } = {}) {
@@ -119,7 +115,7 @@ export default {
       return Object.values(fields)
         .filter(predicate)
         .reduce(async (props, {
-          schema, name: label, key, required, autoCompleteUrl,
+          schema, name: label, key, autoCompleteUrl,
         }) => {
           const reduction = await props;
 
@@ -133,10 +129,11 @@ export default {
             : key;
 
           const value = {
-            type: this.getPropType(schemaType),
+            // It defaults to object because it may expect a structure like { id: "123" }
+            type: constants.TYPE[schemaType] || "object",
             label,
             description: "Set your field value",
-            optional: !required,
+            optional: true,
           };
 
           // Requests by URL
