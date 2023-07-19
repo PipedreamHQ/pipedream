@@ -2,8 +2,8 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../../open_exchange_rates.app.mjs";
 
 export default {
-  key: "open_exchange_rates-new-history-item",
-  name: "New History Item Created",
+  key: "open_exchange_rates-rate-update-detected",
+  name: "New Rate Update",
   version: "0.0.1",
   description: "Emit new event when a new rate update is detected.",
   type: "source",
