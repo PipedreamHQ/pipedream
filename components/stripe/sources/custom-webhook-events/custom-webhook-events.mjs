@@ -1,4 +1,5 @@
 import constants from "../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 import common from "../common/webhook-base.mjs";
 
 export default {
@@ -6,7 +7,7 @@ export default {
   key: "stripe-custom-webhook-events",
   name: "New Custom Webhook Events",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.7",
   description: "Emit new event on each webhook event",
   props: {
     ...common.props,
@@ -26,4 +27,5 @@ export default {
       return this.enabledEvents;
     },
   },
+  sampleEmit,
 };

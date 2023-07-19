@@ -2174,6 +2174,9 @@
     },
     {
       "path": "components/open_exchange_rates"
+    },
+    {
+      "path": "components/motion"
     }
   ]
 }
