@@ -6,12 +6,6 @@ Within the **Event History**, you'll be able to filter your events by workflow, 
 
 This includes events in progress for real-time visibility into the health of your workflows.
 
-::: tip This feature is in beta
-
-Event histories are currently in **beta** with a limited number of events to start.
-
-:::
-
 [[toc]]
 
 ## Filtering Events
