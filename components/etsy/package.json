@@ -1,15 +1,18 @@
 {
   "name": "@pipedream/etsy",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Etsy Components",
-  "main": "dist/app/etsy.app.mjs",
+  "main": "etsy.app.mjs",
   "keywords": [
     "pipedream",
     "etsy"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/etsy",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }
