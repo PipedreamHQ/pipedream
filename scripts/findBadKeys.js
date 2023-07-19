@@ -86,7 +86,7 @@ function checkKeys(p, nameSlug) {
     }
     if (name.endsWith(".mjs") || name.endsWith(".js") || name.endsWith(".ts") || name.endsWith(".mts")) {
       const data = fs.readFileSync(pp, "utf8");
-      const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
+      const md = data.match(/['"]key['"]?: ['"]([^'"]+)/);
       if (md) {
         const key = md[1];
         if (!key.startsWith(`${nameSlug}-`)) {
