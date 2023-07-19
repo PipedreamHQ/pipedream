@@ -15,7 +15,7 @@ export default {
     appSecret: {
       type: "string",
       label: "App Secret",
-      description: "The App Secret from your Facebook App. To get your secret, access your Facebook Apps page[https://developers.facebook.com/apps], select your App, then go to `Settings > Basic > App Secret`",
+      description: "The App Secret from your Facebook App. To get your secret, access your [Facebook Apps page](https://developers.facebook.com/apps), select your App, then go to `Settings > Basic > App Secret`",
     },
   },
   methods: {
