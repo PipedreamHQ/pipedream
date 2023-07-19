@@ -1,11 +1,12 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
+import { API_PATH } from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-deal-property-change",
   name: "New Deal Property Change",
   description: "Emit new event when a specified property is provided or updated on a deal. [See the docs here](https://developers.hubspot.com/docs/api/crm/deals)",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {
@@ -45,41 +46,77 @@ export default {
     isRelevant(deal, updatedAfter) {
       return !updatedAfter || this.getTs(deal) > updatedAfter;
     },
-    getParams() {
+    getParams(after) {
       return {
+        object: "deals",
         limit: 50,
+        properties: [
+          this.property,
+        ],
         sorts: [
           {
             propertyName: "hs_lastmodifieddate",
             direction: "DESCENDING",
           },
         ],
-        propertiesWithHistory: this.property,
+        filterGroups: [
+          {
+            filters: [
+              {
+                propertyName: this.property,
+                operator: "HAS_PROPERTY",
+              },
+              {
+                propertyName: "hs_lastmodifieddate",
+                operator: "GTE",
+                value: after,
+              },
+            ],
+          },
+        ],
       };
     },
+    async batchGetDeals(inputs) {
+      return this.hubspot.makeRequest(
+        API_PATH.CRMV3,
+        "/objects/deals/batch/read",
+        {
+          method: "POST",
+          data: {
+            properties: [
+              this.property,
+            ],
+            propertiesWithHistory: [
+              this.property,
+            ],
+            inputs,
+          },
+        },
+      );
+    },
     async processResults(after, params) {
-      let maxTs = after;
-      const limiter = this._limiter();
+      const updatedDeals = await this.getPaginatedItems(this.hubspot.searchCRM, params);
 
-      do {
-        const {
-          results, paging,
-        } = await limiter.schedule(async () => await this.hubspot.listObjectsInPage("deals", null, params));
-        if (paging) {
-          params.after = paging.next.after;
-        } else {
-          delete params.after;
-        }
-        for (const result of results) {
-          if (this.isRelevant(result, after)) {
-            this.emitEvent(result);
-            const ts = this.getTs(result);
-            if (ts > maxTs) {
-              maxTs = ts;
-            }
+      if (!updatedDeals.length) {
+        return;
+      }
+
+      const inputs = updatedDeals.map(({ id }) => ({
+        id,
+      }));
+      // get deals w/ `propertiesWithHistory`
+      const { results } = await this.batchGetDeals(inputs);
+
+      let maxTs = after;
+      for (const result of results) {
+        if (this.isRelevant(result, after)) {
+          this.emitEvent(result);
+          const ts = this.getTs(result);
+          if (ts > maxTs) {
+            maxTs = ts;
           }
         }
-      } while (params.after);
+      }
 
       this._setAfter(maxTs);
     },

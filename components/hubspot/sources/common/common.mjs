@@ -1,4 +1,4 @@
-import hubspot from "../hubspot.app.mjs";
+import hubspot from "../../hubspot.app.mjs";
 import Bottleneck from "bottleneck";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
@@ -31,7 +31,8 @@ export default {
       return limiter.schedule(async () => await resourceFn(params));
     },
     _getAfter() {
-      return this.db.get("after") || new Date().setDate(new Date().getDate() - 1); // 1 day ago
+      //return this.db.get("after") || new Date().setDate(new Date().getDate() - 1); // 1 day ago
+      return this.db.get("after") || 0;
     },
     _setAfter(after) {
       this.db.set("after", after);
@@ -107,6 +108,21 @@ export default {
           }
         }
       }
+    },
+    async getPaginatedItems(resourceFn, params) {
+      const items = [];
+      do {
+        const {
+          results, paging,
+        } = await resourceFn(params);
+        items.push(...results);
+        if (paging) {
+          params.after = paging.next.after;
+        } else {
+          delete params.after;
+        }
+      } while (params.after);
+      return items;
     },
     emitEvent(result) {
       const meta = this.generateMeta(result);

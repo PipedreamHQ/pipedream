@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import { API_PATH } from "../../common/constants.mjs";
 
 export default {
@@ -95,22 +95,7 @@ export default {
       );
     },
     async processResults(after, params) {
-      const updatedTickets = [];
-      do {
-        const {
-          results, paging,
-        } = await this.hubspot.searchCRM(params);
-        updatedTickets.push(...results);
-        if (paging) {
-          params.after = paging.next.after;
-        } else {
-          delete params.after;
-        }
-      } while (params.after);
-
-      if (!updatedTickets.length) {
-        return;
-      }
+      const updatedTickets = await this.getPaginatedItems(this.hubspot.searchCRM, params);
 
       const inputs = updatedTickets.map(({ id }) => ({
         id,

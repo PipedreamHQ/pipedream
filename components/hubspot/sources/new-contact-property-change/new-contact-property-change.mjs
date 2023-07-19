@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import { API_PATH } from "../../common/constants.mjs";
 
 export default {
@@ -95,18 +95,7 @@ export default {
       );
     },
     async processResults(after, params) {
-      const updatedContacts = [];
-      do {
-        const {
-          results, paging,
-        } = await this.hubspot.searchCRM(params);
-        updatedContacts.push(...results);
-        if (paging) {
-          params.after = paging.next.after;
-        } else {
-          delete params.after;
-        }
-      } while (params.after);
+      const updatedContacts = await this.getPaginatedItems(this.hubspot.searchCRM, params);
 
       if (!updatedContacts.length) {
         return;
