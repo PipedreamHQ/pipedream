@@ -5,9 +5,10 @@ export default {
   ...common,
   key: "discord_bot-new-guild-member",
   name: "New Guild Member",
-  description: "Emit new event for every member added to a guild",
+  description: "Emit new event for every member added to a guild. [See docs here](https://discord.com/developers/docs/resources/guild#list-guild-members)",
   type: "source",
-  version: "0.0.10",
+  dedupe: "unique",
+  version: "0.0.11",
   props: {
     ...common.props,
     db: "$.service.db",
@@ -26,8 +27,8 @@ export default {
     const { guildId } = this;
     const params = {
       limit: 100,
+      after: this._getLastMemberID(),
     };
-    let anyNewMember = false;
 
     while (true) {
       const members = await this.discord.getGuildMembers({
@@ -36,10 +37,7 @@ export default {
         params,
       });
 
-      if (members.length === 1) {
-        if (anyNewMember) {
-          this._setGuildMemberIDs(guildMembers);
-        }
+      if (members.length === 0) {
         return;
       }
 
@@ -49,20 +47,22 @@ export default {
           joined_at: joinedAt,
         } = member;
 
-        if (user.bot) continue;
-
         if (!(user.id in guildMembers)) {
-          anyNewMember = true;
           guildMembers[user.id] = true;
+          params.after = user.id;
+
+          if (user.bot) continue;
+
           this.$emit(member, {
             summary: `New member: ${user.username}`,
             id: user.id,
             ts: Date.parse(joinedAt),
           });
         }
-
-        params.after = user.id;
       }
+
+      this._setLastMemberID(params.after);
+      this._setGuildMemberIDs(guildMembers);
     }
   },
 };

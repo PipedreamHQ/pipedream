@@ -17,5 +17,11 @@ export default {
     _setGuildMemberIDs(memberIDs) {
       this.db.set(constants.GUILD_MEMBER_IDS, memberIDs);
     },
+    _getLastMemberID() {
+      return this.db.get(constants.LAST_MEMBER_ID);
+    },
+    _setLastMemberID(memberID) {
+      this.db.set(constants.LAST_MEMBER_ID, memberID);
+    },
   },
 };
