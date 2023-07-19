@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import constants from "../../constants.mjs";
+import constants from "../../common/constants.mjs";
 import common from "../common.mjs";
 
 const { discord } = common.props;

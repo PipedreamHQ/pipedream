@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../../common.mjs";
 import utils from "../../common/utils.mjs";
-import constants from "../../constants.mjs";
+import constants from "../../common/constants.mjs";
 
 const { discord } = common.props;
 
