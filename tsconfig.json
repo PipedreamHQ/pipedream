@@ -2177,6 +2177,12 @@
     },
     {
       "path": "components/motion"
+    },
+    {
+      "path": "components/assemblyai"
+    },
+    {
+      "path": "components/senta"
     }
   ]
 }
