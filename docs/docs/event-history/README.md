@@ -105,12 +105,6 @@ You'll need to replay an event to execute the workflow with the latest changes.
 
 ## Limits
 
-::: tip Beta access
-
-During the beta, all accounts have access to view the past 7 days of events across all of their workflows. This limit increases as this trial continues.
-
-:::
-
 The number of events recorded and available for viewing in the Event History depends on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
 
 ## Frequently asked questions
