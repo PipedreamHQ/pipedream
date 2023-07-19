@@ -1,5 +1,5 @@
 import constants from "../common/constants.mjs";
-import sampleEmit from "../common/custom-webhook-events-test-event.mjs";
+import sampleEmit from "./test-event.mjs";
 import common from "../common/webhook-base.mjs";
 
 export default {
