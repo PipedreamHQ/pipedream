@@ -5,7 +5,7 @@ export default {
   key: "ticktick-create-task",
   name: "Create a Task",
   description: "Create a Task.[See the documentation](https://developer.ticktick.com/api#/openapi?id=create-a-task)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     ticktick,
@@ -39,6 +39,13 @@ export default {
       description: "Due date and time in \"yyyy-MM-dd'T'HH:mm:ssZ\" format. Example : \"2019-11-13T03:00:00+0000\"",
       optional: true,
     },
+    priority: {
+      type: "string",
+      label: "Priority",
+      description: "The priority of task, default is `0`",
+      default: "0",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const data = removeNullEntries({
@@ -46,6 +53,7 @@ export default {
       content: this.content,
       startDate: this.startDate,
       dueDate: this.dueDate,
+      priority: this.priority,
     });
 
     if (this.projectId && this.projectId !== "inbox") {

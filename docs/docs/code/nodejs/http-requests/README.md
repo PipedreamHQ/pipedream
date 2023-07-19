@@ -631,3 +631,76 @@ See [the `axios` docs](https://github.com/axios/axios#request-config) for more d
 When you fetch data from an API, the API may return records in "pages". For example, if you're trying to fetch a list of 1,000 records, the API might return those in groups of 100 items.
 
 Different APIs paginate data in different ways. You'll need to consult the docs of your API provider to see how they suggest you paginate through records.
+
+## Send GraphQL request
+
+Make a GraphQL request using the `graphql-request` NPM package:
+
+```javascript
+import { graphql } from  'graphql'
+import { request, gql } from 'graphql-request'
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    const document = gql`
+      query samplePokeAPIquery {
+        generations: pokemon_v2_generation {
+          name
+          pokemon_species: pokemon_v2_pokemonspecies_aggregate {
+            aggregate {
+              count
+            }
+          }
+        }
+      }
+    `
+    return await request('https://beta.pokeapi.co/graphql/v1beta', document)
+  },
+})
+```
+
+:::tip The graphql package is required
+
+The `graphql` package is required for popular GraphQL clients to function, like `graphql-request` and `urql`. 
+
+Even though you will not need to use the `graphql` code itself in your code step, it's required to import it in order for `graphql-request` to function.
+
+:::
+
+### Send an authenticated GraphQL request
+
+Authenticate your connected accounts in Pipedream with GraphQL requests using the `app` prop:
+
+```javascript
+import { graphql } from  'graphql'
+import { GraphQLClient, gql } from 'graphql-request'
+
+export default defineComponent({
+  props: {
+    github: {
+      type: 'app',
+      app: 'github'
+    }
+  },
+  async run({ steps, $ }) {
+    const me = gql`
+      query { 
+        viewer { 
+          login
+        }
+      }
+    `
+
+    const client = new GraphQLClient('https://api.github.com/graphql', {
+      headers: {
+        authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
+      },
+    })
+
+    return await client.request(me)
+  },
+})
+
+```
+
+Alternatively, you can use Environment Variables as well for simple API key based GraphQL APIs.
