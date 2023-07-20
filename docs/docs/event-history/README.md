@@ -16,7 +16,7 @@ Event histories are currently in **beta** with a limited number of events to sta
 
 The filters at the top of the screen allow you to search all events processed by your workflows:
 
-![Filtering all events in a workspace by its status, when it was executed or by workflow ID](https://res.cloudinary.com/pipedreamin/image/upload/v1683747287/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.34.00_2x_voaos3.png)
+![Filtering all events in a workspace by its status, when it was executed or by workflow ID](https://res.cloudinary.com/pipedreamin/image/upload/v1689875830/docs/docs/event%20histories/image_44_g2sabg.png)
 
 You can filter by the event's **Status**, **time of initiation** or by the **Workflow name**.
 
