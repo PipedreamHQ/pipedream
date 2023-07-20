@@ -18,6 +18,7 @@
   "dependencies": {
     "@pipedream/platform": "^1.2.1",
     "@pipedream/types": "^0.1.4",
+    "html-to-text": "^8.2.1",
     "linkedom": "^0.14.26",
     "pluralize": "^8.0.0",
     "showdown": "^2.1.0",
