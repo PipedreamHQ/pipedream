@@ -1,3 +1,4 @@
+import { getParsedOrderItems } from "../../common/validate-order-items.mjs";
 import app  from "../../order_desk.app.mjs";
 
 export default {
@@ -207,11 +208,10 @@ export default {
       app,
       ...data
     } = this;
+
     const res = await app.updateOrder({
       ...data,
-      order_items: [
-        data.order_items,
-      ],
+      order_items: getParsedOrderItems(data.order_items),
     });
     $.export("summary", `Order successfully updated with id "${res.order.id}".`);
     return res;
