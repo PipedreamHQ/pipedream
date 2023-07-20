@@ -32,14 +32,11 @@ export default {
       return Date.parse(history[0].timestamp);
     },
     generateMeta(deal) {
-      const {
-        id,
-        properties,
-      } = deal;
+      const { id } = deal;
       const ts = this.getTs(deal);
       return {
         id: `${id}${ts}`,
-        summary: properties.dealname,
+        summary: `Deal ${id} updated`,
         ts,
       };
     },
