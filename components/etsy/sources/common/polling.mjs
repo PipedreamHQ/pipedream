@@ -41,15 +41,6 @@ export default {
     },
     async processStreamEvents(resourcesStream) {
       const resources = await utils.streamIterator(resourcesStream);
-
-      // const [
-      //   lastResource,
-      // ] = resources;
-
-      // if (lastResource?.created_timestamp) {
-      //   this.setLastCreatedAt(lastResource.created_timestamp);
-      // }
-
       Array.from(resources).reverse().forEach(this.processEvent);
     },
   },
