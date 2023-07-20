@@ -5,23 +5,122 @@ export default {
   type: "app",
   app: "etsy",
   propDefinitions: {
-    shopId: {
+    listingId: {
       type: "string",
-      label: "Shop ID",
-      description: "The ID of the shop to query",
-      async options({ query }) {
-        const { results } = await this.findShops({
+      label: "Listing ID",
+      description: "The ID of the listing.",
+      async options({ page, prevContext }) {
+        let shopId = prevContext.shopId;
+
+        if (!shopId) {
+          ({ shop_id: shopId } = await this.getMe());
+        }
+
+        const { results } = await this.getListingsByShop({
+          shopId,
           params: {
-            shop_name: query ?? "",
+            limit: constants.DEFAULT_LIMIT,
+            sort_on: "created",
+            offset: constants.DEFAULT_LIMIT * page,
           }
         });
-        return results?.map(({
-          shop_id: value, shop_name: label
+
+        const options = results?.map(({
+          listing_id: value, title: label
         }) => ({
           label,
           value,
         }));
-      }
+
+        return {
+          options,
+          context: {
+            shopId,
+          },
+        };
+      },
+    },
+    propertyId: {
+      type: "string",
+      label: "Property ID",
+      description: "The ID of the property.",
+      async options({ listingId, prevContext }) {
+        let shopId = prevContext.shopId;
+
+        if (!shopId) {
+          ({ shop_id: shopId } = await this.getMe());
+        }
+
+        const { results } = await this.getListingProperties({
+          shopId,
+          listingId,
+        });
+
+        const options = results?.map(({
+          property_id: value, property_name: label
+        }) => ({
+          label,
+          value,
+        }));
+
+        return {
+          options,
+          context: {
+            shopId,
+          },
+        };
+      },
+    },
+    valueIds: {
+      type: "integer[]",
+      label: "Value IDs",
+      description: "An array of unique IDs of multiple Etsy listing property values. For example, if your listing offers different sizes of a product, then the value ID list contains value IDs for each size.",
+      async options({ listingId, propertyId }) {
+        const { value_ids: valueIds } =
+          await this.getListingProperty({
+            listingId,
+            propertyId,
+          });
+        return valueIds;
+      },
+    },
+    values: {
+      type: "string[]",
+      label: "Values",
+      description: "An array of value strings for multiple Etsy listing property values. For example, if your listing offers different colored products, then the values array contains the color strings for each color. Note: parenthesis characters (( and )) are not allowed.",
+      async options({ listingId, propertyId }) {
+        const { values } =
+          await this.getListingProperty({
+            listingId,
+            propertyId,
+          });
+        return values;
+      },
+    },
+    taxonomyType: {
+      type: "string",
+      label: "Taxonomy Type",
+      description: "The type of taxonomy.",
+      options: Object.values(constants.TAXONOMY_TYPE),
+    },
+    taxonomyId: {
+      type: "string",
+      label: "Taxonomy ID",
+      description: "The numerical taxonomy ID of the listing.",
+      async options({ taxonomyType = constants.TAXONOMY_TYPE.SELLER }) {
+        const promise = taxonomyType === constants.TAXONOMY_TYPE.SELLER
+          ? this.getSellerTaxonomyNodes()
+          : this.getBuyerTaxonomyNodes();
+        
+        const { results } = await promise;
+
+        return results?.map(({
+          id: value, name: label
+        }) => ({
+          label: `${label} (${taxonomyType})`,
+          value,
+        }));
+      },
     },
   },
   methods: {
@@ -42,13 +141,11 @@ export default {
     makeRequest({
       step = this, path, headers, url, ...args
     } = {}) {
-
       const config = {
         headers: this.getHeaders(headers),
         url: this.getUrl(path, url),
         ...args,
       };
-
       return axios(step, config);
     },
     post(args = {}) {
@@ -66,12 +163,6 @@ export default {
     delete(args = {}) {
       return this.makeRequest({
         method: "delete",
-        ...args,
-      });
-    },
-    patch(args = {}) {
-      return this.makeRequest({
-        method: "patch",
         ...args,
       });
     },
@@ -105,10 +196,32 @@ export default {
         ...args,
       });
     },
-    findShops(args = {}) {
+    getListingProperties({
+      shopId, listingId, ...args
+    }) {
       return this.makeRequest({
-        path: "/application/shops",
+        path: `/application/shops/${shopId}/listings/${listingId}/properties`,
         ...args,
+      });
+    },
+    getListingProperty({
+      listingId, propertyId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/application/listings/${listingId}/properties/${propertyId}`,
+        ...args,
+      });
+    },
+    getBuyerTaxonomyNodes(args = {}) {
+      return this.makeRequest({
+        path: `/application/buyer-taxonomy/nodes`,
+        ... args,
+      });
+    },
+    getSellerTaxonomyNodes(args = {}) {
+      return this.makeRequest({
+        path: `/application/seller-taxonomy/nodes`,
+        ... args,
       });
     },
     async *getResourcesStream({

@@ -8,6 +8,31 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    listingId: {
+      propDefinition: [
+        app,
+        "listingId",
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    deleteListing({
+      listingId, ...args
+    }) {
+      return this.app.delete({
+        path: `/application/listings/${listingId}`,
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const response = await this.deleteListing({
+      step,
+      listingId: this.listingId,
+    });
+
+    step.export("$summary", `Successfully deleted listing with ID ${this.listingId}.`);
+
+    return response;
+  },
 };

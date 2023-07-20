@@ -8,6 +8,62 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    listingId: {
+      propDefinition: [
+        app,
+        "listingId",
+      ],
+    },
+    propertyId: {
+      propDefinition: [
+        app,
+        "propertyId",
+        ({ listingId }) => ({ listingId }),
+      ],
+    },
+    valueIds: {
+      propDefinition: [
+        app,
+        "valueIds",
+        ({ listingId, propertyId }) => ({ listingId, propertyId }),
+      ],
+    },
+    values: {
+      propDefinition: [
+        app,
+        "values",
+        ({ listingId, propertyId }) => ({ listingId, propertyId }),
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    updateListingProperty({
+      shopId, listingId, propertyId, ...args
+    }) {
+      return this.app.put({
+        path: `/application/shops/${shopId}/listings/${listingId}/properties/${propertyId}`,
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const { listingId, propertyId, valueIds, values } = this;
+
+    const { shop_id: shopId } = await this.getMe();
+
+    const response = await this.updateListingProperty({
+      step,
+      shopId,
+      listingId,
+      propertyId,
+      params: {
+        value_ids: valueIds,
+        values,
+      },
+    });
+
+    step.export("$summary", `Successfully updated listing property with ID ${response.property_id}.`);
+
+    return response;
+  },
 };

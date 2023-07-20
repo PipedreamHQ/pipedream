@@ -8,6 +8,31 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    listingId: {
+      propDefinition: [
+        app,
+        "listingId",
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    getListing({
+      listingId, ...args
+    }) {
+      return this.app.makeRequest({
+        path: `/application/listings/${listingId}`,
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const response = await this.getListing({
+      step,
+      listingId: this.listingId,
+    });
+
+    step.export("$summary", `Successfully retrieved listing with ID ${response.listingId}.`);
+
+    return response;
+  },
 };
