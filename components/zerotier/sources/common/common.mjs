@@ -58,7 +58,9 @@ export default {
 
       this._setNodePrevLastSeen(nodeId, lastSeen);
 
-      if (online != previousStatus) {
+      if (previousStatus == null)
+        this._setNodeStatus(nodeId, online);
+      else if (online != previousStatus) {
         this._setNodeStatus(nodeId, online);
 
         if (online === rightStatus) {
