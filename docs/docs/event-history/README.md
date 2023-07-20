@@ -4,7 +4,11 @@ Monitor all workflow events and their stack traces in one centralized view under
 
 Within the **Event History**, you'll be able to filter your events by workflow, execution status, within a specific time range.
 
-This includes events in progress for real-time visibility into the health of your workflows.
+::: tip This feature is in beta
+
+Event histories are currently in **beta** with a limited number of events to start.
+
+:::
 
 [[toc]]
 
@@ -26,13 +30,15 @@ If you're not seeing the events or workflow you're expecting, try [switching wor
 
 ### Filtering by status
 
-The **Status** filter controls which events are shown by their status. For example selecting the **Executing** status, you'll be shown all events that are currently being processed by your workflows.
+The **Status** filter controls which events are shown by their status. For example selecting the **Success** status, you'll be shown all events that were successfully executed by workflows.
 
-![Only showing workflow events that are currently being executed](https://res.cloudinary.com/pipedreamin/image/upload/v1683748216/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.50.05_2x_yroowb.png)
+![Only showing workflow events by current execution status](https://res.cloudinary.com/pipedreamin/image/upload/v1689875438/docs/docs/event%20histories/CleanShot_2023-07-20_at_13.49.43_2x_e0mggw.png)
 
 #### All paused workflow executions
 
 Workflows that are paused from `$.flow.delay` or `$.flow.suspend` will be shown when this filter is activated.
+
+![Only showing workflows that are currently paused](https://res.cloudinary.com/pipedreamin/image/upload/v1689875506/docs/docs/event%20histories/CleanShot_2023-07-20_at_13.51.11_2x_kn2dpw.png)
 
 ::: warning
 
@@ -48,7 +54,7 @@ This will only display the failed workflow executions in the selected time perio
 
 This view in particular is helpful for identifying trends of errors, or workflows with persistent problems.
 
-![Viewing all failed workflow executions by the filter in the Event History](https://res.cloudinary.com/pipedreamin/image/upload/v1683747364/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.35.34_2x_pbooqv.png)
+![Viewing all failed workflow executions by the filter in the Event History](https://res.cloudinary.com/pipedreamin/image/upload/v1689875455/docs/docs/event%20histories/CleanShot_2023-07-20_at_13.49.49_2x_fdl2ui.png)
 
 
 ### Within a time frame
