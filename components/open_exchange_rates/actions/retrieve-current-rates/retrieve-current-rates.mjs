@@ -50,7 +50,7 @@ export default {
 
     $.export("$summary", `The currency symbol${symbols.length === 1
       ? ` ${symbols} was`
-      : `s ${symbols.toString()} where`} successfully fetched!`);
+      : `s ${symbols.toString()} were`} successfully fetched!`);
     return response;
   },
 };
