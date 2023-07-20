@@ -5,6 +5,7 @@ const TYPE = {
   array: "string[]",
   user: "string",
   issuelink: "string",
+  issuetype: "string",
 };
 
 const FIELD_KEY = {
