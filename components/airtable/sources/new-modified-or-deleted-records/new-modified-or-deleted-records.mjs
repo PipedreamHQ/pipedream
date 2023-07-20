@@ -27,7 +27,7 @@ export default {
           baseId,
         }),
       ],
-      description: "The table ID",
+      description: "The table ID to watch for changes.",
     },
   },
   async run(event) {

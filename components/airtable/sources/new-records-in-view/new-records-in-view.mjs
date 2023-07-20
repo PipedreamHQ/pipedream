@@ -20,7 +20,7 @@ export default {
           baseId,
         }),
       ],
-      description: "The table ID",
+      description: "The table ID to watch for changes.",
     },
     viewId: {
       propDefinition: [
@@ -33,7 +33,7 @@ export default {
           tableId,
         }),
       ],
-      description: "The view ID",
+      description: "The view ID to watch for changes.",
     },
   },
   async run() {
