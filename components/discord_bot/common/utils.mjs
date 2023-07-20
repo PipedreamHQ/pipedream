@@ -1,5 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
-import constants from "../constants.mjs";
+import constants from "./constants.mjs";
 
 export default {
   computePermissions(overwrites = []) {

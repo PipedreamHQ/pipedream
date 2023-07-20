@@ -1,6 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import maxBy from "lodash.maxby";
-import constants from "../../constants.mjs";
+import constants from "../../common/constants.mjs";
 import common from "../common.mjs";
 import sampleEmit from "./test-event.mjs";
 

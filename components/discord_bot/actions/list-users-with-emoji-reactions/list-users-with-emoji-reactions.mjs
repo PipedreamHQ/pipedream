@@ -1,5 +1,5 @@
+import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
-import constants from "../../constants.mjs";
 import common from "../common.mjs";
 
 const { discord } = common.props;
