@@ -5,7 +5,7 @@ import Bottleneck from "bottleneck";
 import common from "../common.mjs";
 
 const limiter = new Bottleneck({
-  minTime: 200, // 5 requets per second
+  minTime: 200, // 5 requests per second
 });
 const axiosRateLimiter = limiter.wrap(axios);
 
@@ -13,7 +13,7 @@ export default {
   ...common,
   name: "New, Modified or Deleted Records",
   key: "airtable-new-modified-or-deleted-records",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "source",
   description:
     "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",
@@ -27,6 +27,7 @@ export default {
           baseId,
         }),
       ],
+      description: "The table ID",
     },
   },
   async run(event) {
