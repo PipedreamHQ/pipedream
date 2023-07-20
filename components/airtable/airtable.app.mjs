@@ -22,7 +22,7 @@ export default {
     tableId: {
       type: "string",
       label: "Table",
-      description: "The table ID. If referencing a **Base** dynamically using data from another step (e.g., {{steps.trigger.event.metadata.baseId}}), you will not be able to select from the list of Tables, and automatic table options will not work when configuring this step. Please enter a custom expression to specify the **Table**.",
+      description: "The table ID. If referencing a **Base** dynamically using data from another step (e.g., `{{steps.trigger.event.metadata.baseId}}`), you will not be able to select from the list of Tables, and automatic table options will not work when configuring this step. Please enter a custom expression to specify the **Table**.",
       async options({ baseId }) {
         // Uses special .tables method on airtable app prop
         let tables;
@@ -40,7 +40,7 @@ export default {
     viewId: {
       type: "string",
       label: "View",
-      description: "The view ID. If referencing a **Table** dynamically using data from another step (e.g., {{steps.trigger.event.metadata.tableId}}), you will not be able to select from the list of Views for this step. Please enter a custom expression to specify the **View**.",
+      description: "The view ID. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.trigger.event.metadata.tableId}}`), you will not be able to select from the list of Views for this step. Please enter a custom expression to specify the **View**.",
       async options({
         baseId, tableId,
       }) {
