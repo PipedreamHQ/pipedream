@@ -202,9 +202,7 @@ export default {
     } = this;
     const res = await app.createOrder({
       ...data,
-      order_items: [
-        data.order_items,
-      ],
+      order_items: data.order_items.map((item) => JSON.parse(item)),
     });
     $.export("summary", `Order successfully created with id "${res.order.id}".`);
     return res;

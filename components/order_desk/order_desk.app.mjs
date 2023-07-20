@@ -6,9 +6,9 @@ export default {
   app: "order_desk",
   propDefinitions: {
     order_items: {
-      type: "object",
+      type: "string[]",
       label: "Order Items",
-      description: "Order Items Object can have the following properties: `id, name, price, quantity, weight, code, delivery_type, category_code, variation_list, metadata`. Please check the documentation in the description for more information.",
+      description: "A valid JSON string. Order Items Object can have the following properties: `id, name, price, quantity, weight, code, delivery_type, category_code, variation_list, metadata`. Please check the [documentation](https://apidocs.orderdesk.com/#create-an-order) in the description for more information.",
     },
     customer_first_name: {
       type: "string",
