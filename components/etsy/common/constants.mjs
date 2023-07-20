@@ -69,6 +69,12 @@ const TAXONOMY_TYPE = {
   BUYER: "buyer",
 };
 
+const LISTING_TYPE = {
+  PHYSICAL: "physical",
+  DOWNLOAD: "download",
+  BOTH: "both",
+};
+
 export default {
   BASE_URL,
   VERSION_PATH,
@@ -76,5 +82,6 @@ export default {
   DEFAULT_MAX,
   WHO_MADE_OPTIONS,
   WHEN_MADE_OPTIONS,
-  TAXONOMY_TYPE
+  TAXONOMY_TYPE,
+  LISTING_TYPE,
 };

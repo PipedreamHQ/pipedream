@@ -122,6 +122,12 @@ export default {
         }));
       },
     },
+    listingType: {
+      type: "string",
+      label: "Listing Type",
+      description: "An enumerated type string that indicates whether the listing is `physical` or a digital `download`.",
+      options: Object.values(constants.LISTING_TYPE),
+    },
   },
   methods: {
     getBaseUrl() {
@@ -198,7 +204,7 @@ export default {
     },
     getListingProperties({
       shopId, listingId, ...args
-    }) {
+    } = {}) {
       return this.makeRequest({
         path: `/application/shops/${shopId}/listings/${listingId}/properties`,
         ...args,
@@ -206,7 +212,7 @@ export default {
     },
     getListingProperty({
       listingId, propertyId, ...args
-    }) {
+    } = {}) {
       return this.makeRequest({
         path: `/application/listings/${listingId}/properties/${propertyId}`,
         ...args,
@@ -222,6 +228,14 @@ export default {
       return this.makeRequest({
         path: `/application/seller-taxonomy/nodes`,
         ... args,
+      });
+    },
+    getShopShippingProfiles({
+      shopId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/application/shops/${shopId}/shipping-profiles`,
+        ...args,
       });
     },
     async *getResourcesStream({

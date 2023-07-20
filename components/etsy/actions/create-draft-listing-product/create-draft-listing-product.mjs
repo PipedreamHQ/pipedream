@@ -6,7 +6,7 @@ export default {
   name: "Create Draft Listing Product",
   description: "Creates a physical draft listing product in a shop on the Etsy channel. [See the Documentation](https://developers.etsy.com/documentation/reference#operation/createDraftListing)",
   type: "action",
-  version: "0.0.12",
+  version: "0.0.1",
   props: {
     app,
     quantity: {
@@ -60,6 +60,43 @@ export default {
       label: "Is Supply",
       description: "When true, tags the listing as a supply product, else indicates that it's a finished product. Helps buyers locate the listing under the Supplies heading. Requires **Who Made** and **When Made**.",
     },
+    listingType: {
+      reloadProps: true,
+      propDefinition: [
+        app,
+        "listingType",
+      ],
+    },
+  },
+  async additionalProps() {
+    const hasPhysicalType = [
+      constants.LISTING_TYPE.PHYSICAL,
+      constants.LISTING_TYPE.BOTH,
+    ].includes(this.listingType);
+
+    if (!hasPhysicalType) {
+      return {};
+    }
+
+    const { shop_id: shopId } = await this.app.getMe();
+    const { results } = await this.app.getShopShippingProfiles({
+      shopId,
+    });
+
+    return {
+      shippingProfileId: {
+        type: "string",
+        label: "Shipping Profile",
+        description: "The numeric ID of the shipping profile associated with the listing. Required when listing type is `physical`.",
+        options: results?.map(({
+          shipping_profile_id: value,
+          title: label,
+        }) => ({
+          value,
+          label,
+        })),
+      },
+    };
   },
   methods: {
     createDraftListing({
@@ -81,6 +118,8 @@ export default {
       whenMade,
       taxonomyId,
       isSupply,
+      listingType,
+      shippingProfileId,
     } = this;
 
     const { shop_id: shopId } = await this.app.getMe();
@@ -97,6 +136,8 @@ export default {
         when_made: whenMade,
         taxonomy_id: taxonomyId,
         is_supply: isSupply,
+        type: listingType,
+        shipping_profile_id: shippingProfileId,
       },
     });
 
