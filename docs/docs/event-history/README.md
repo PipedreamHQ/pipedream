@@ -14,9 +14,7 @@ Event histories are currently in **beta** with a limited number of events to sta
 
 ## Filtering Events
 
-The filters at the top of the screen allow you to search all events processed by your workflows:
-
-![Filtering all events in a workspace by its status, when it was executed or by workflow ID](https://res.cloudinary.com/pipedreamin/image/upload/v1689875830/docs/docs/event%20histories/image_44_g2sabg.png)
+The filters at the top of the screen allow you to search all events processed by your workflows.
 
 You can filter by the event's **Status**, **time of initiation** or by the **Workflow name**.
 
@@ -32,7 +30,17 @@ If you're not seeing the events or workflow you're expecting, try [switching wor
 
 The **Status** filter controls which events are shown by their status. For example selecting the **Success** status, you'll be shown all events that were successfully executed by workflows.
 
-![Only showing workflow events by current execution status](https://res.cloudinary.com/pipedreamin/image/upload/v1689875438/docs/docs/event%20histories/CleanShot_2023-07-20_at_13.49.43_2x_e0mggw.png)
+![Only showing workflow events by current execution status](https://res.cloudinary.com/pipedreamin/image/upload/v1689875830/docs/docs/event%20histories/image_44_g2sabg.png)
+
+#### All failed workflow executions
+
+You can view all failed workflow executions by applying the **Error** status filter.
+
+This will only display the failed workflow executions in the selected time period.
+
+This view in particular is helpful for identifying trends of errors, or workflows with persistent problems.
+
+![Viewing all failed workflow executions by the filter in the Event History](https://res.cloudinary.com/pipedreamin/image/upload/v1689876111/docs/docs/event%20histories/CleanShot_2023-07-20_at_14.01.43_2x_nksdxd.png)
 
 #### All paused workflow executions
 
@@ -45,17 +53,6 @@ Workflows that are paused from `$.flow.delay` or `$.flow.suspend` will be shown 
 If you're using `setTimeout` or `sleep` in Node.js or Python steps, the event will not be considered **Paused**. Using those language native execution holding controls leaves your workflow in a **Executing** state.
 
 :::
-
-#### All failed workflow executions
-
-You can view all failed workflow executions by applying the **Error** status filter.
-
-This will only display the failed workflow executions in the selected time period.
-
-This view in particular is helpful for identifying trends of errors, or workflows with persistent problems.
-
-![Viewing all failed workflow executions by the filter in the Event History](https://res.cloudinary.com/pipedreamin/image/upload/v1689875455/docs/docs/event%20histories/CleanShot_2023-07-20_at_13.49.49_2x_fdl2ui.png)
-
 
 ### Within a time frame
 
