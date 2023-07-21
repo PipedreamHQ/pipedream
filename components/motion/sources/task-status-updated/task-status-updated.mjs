@@ -13,7 +13,7 @@ export default {
     db: "$.service.db",
     timer: {
       label: "Polling interval",
-      description: "Pipedream will poll the UiPath Automation Hub on this schedule",
+      description: "Pipedream will poll the Motion API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
