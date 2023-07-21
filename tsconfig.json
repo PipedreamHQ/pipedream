@@ -2183,6 +2183,9 @@
     },
     {
       "path": "components/senta"
+    },
+    {
+      "path": "components/customer_fields"
     }
   ]
 }
