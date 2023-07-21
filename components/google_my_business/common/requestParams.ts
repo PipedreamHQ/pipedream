@@ -22,5 +22,5 @@ export interface PaginatedRequestParams
   PaginationParams { }
 
 export interface ListPostsParams extends PaginatedRequest {
-  parent: string;
+  location: string;
 }

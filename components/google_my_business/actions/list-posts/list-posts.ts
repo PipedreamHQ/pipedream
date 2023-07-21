@@ -1,6 +1,6 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/google_my_business.app";
-import { ListPostsParams } from "../../common/types";
+import { ListPostsParams } from "../../common/requestParams";
 
 const DOCS_LINK = "https://developers.google.com/my-business/reference/rest/v4/accounts.locations.localPosts/list";
 const PAGE_SIZE = 100;
@@ -13,11 +13,11 @@ export default defineAction({
   type: "action",
   props: {
     app,
-    parent: {
-      type: "string",
-      label: "Parent",
-      description:
-        "The name of the location whose local posts will be listed.",
+    location: {
+      propDefinition: [
+        app,
+        "location",
+      ]
     },
     maxResults: {
       type: "integer",
@@ -30,10 +30,10 @@ export default defineAction({
     },
   },
   async run({ $ }) {
-    const { parent, maxResults } = this;
+    const { location, maxResults } = this;
     const params: ListPostsParams = {
       $,
-      parent,
+      location,
       maxPerPage: PAGE_SIZE,
       maxResults,
     };
