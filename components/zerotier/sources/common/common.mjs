@@ -22,16 +22,10 @@ export default {
   },
   methods: {
     _getNodeStatus(nodeId) {
-      return this.db.get(nodeId + "status");
-    },
-    _getNodePrevLastSeen(nodeId) {
-      return this.db.get(nodeId + "lastSeen");
+      return this.db.get(nodeId);
     },
     _setNodeStatus(nodeId, status) {
-      return this.db.set(nodeId + "status", status);
-    },
-    _setNodePrevLastSeen(nodeId, lastSeen) {
-      return this.db.set(nodeId + "lastSeen", lastSeen);
+      return this.db.set(nodeId, status);
     },
   },
   async run() {
@@ -48,15 +42,9 @@ export default {
         networkId,
       } = node;
       const previousStatus = this._getNodeStatus(nodeId);
-      const previousLastSeen = this._getNodePrevLastSeen(nodeId);
       const rightStatus = this.getRightStatus();
 
-      //Will not work for poll periods around 3 minutes or less
-      const online = previousLastSeen || lastSeen === 0
-        ? (lastSeen - 180000 > previousLastSeen)
-        : true;
-
-      this._setNodePrevLastSeen(nodeId, lastSeen);
+      const online = !(lastSeen === 0) && ((clock - lastSeen) < 180000);   //lastSeen === 0 means Zerotier reset api to 0 and indicates device has never connected since
 
       if (previousStatus == null)
         this._setNodeStatus(nodeId, online);
