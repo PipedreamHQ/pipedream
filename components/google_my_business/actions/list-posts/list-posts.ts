@@ -17,7 +17,7 @@ export default defineAction({
       propDefinition: [
         app,
         "location",
-      ]
+      ],
     },
     maxResults: {
       type: "integer",
@@ -30,7 +30,9 @@ export default defineAction({
     },
   },
   async run({ $ }) {
-    const { location, maxResults } = this;
+    const {
+      location, maxResults,
+    } = this;
     const params: ListPostsParams = {
       $,
       location,

@@ -1,6 +1,8 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { HttpRequestParams, PaginatedRequestParams } from "../common/requestParams";
+import {
+  HttpRequestParams, PaginatedRequestParams,
+} from "../common/requestParams";
 import { Location } from "../common/responseSchemas";
 
 export default defineApp({
@@ -10,18 +12,24 @@ export default defineApp({
     location: {
       type: "string",
       label: "Location",
-      description: "The name of the location whose local posts will be listed.",
+      description: "The location whose local posts will be listed. [See the documentation](https://developers.google.com/my-business/content/location-data#filter_results_when_you_list_locations) on how to filter locations.",
       useQuery: true,
       async options({ query }) {
-        const filter = query.includes("=") ? query : `title=${query}`;
+        const filter = (query.match(/[=:]/)
+          ? query
+          : `title="${query}"`).replace(/ /g, "+").replace(/"/g, "%22");
 
-        const locations = await this.listLocations({ filter });
-        return locations?.map?.(({ name, title }: Location) => ({
+        const locations = await this.listLocations({
+          filter,
+        });
+        return locations?.map?.(({
+          name, title,
+        }: Location) => ({
           label: title,
-          value: name
+          value: name,
         }));
-      }
-    }
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -67,17 +75,21 @@ export default defineApp({
 
       return result;
     },
-    async listLocations({ accountId, filter }) {
+    async listLocations({
+      accountId, filter,
+    }) {
       const response = await this._httpRequest({
         pageSize: 100,
-        filter
+        filter,
       });
       return response?.locations;
     },
-    async listPosts({ account, location, ...args }) {
+    async listPosts({
+      account, location, ...args
+    }) {
       return this._paginatedRequest({
-        url: `/accounts/${account}/locations/${location}/localPosts`, 
-        ...args
+        url: `/accounts/${account}/locations/${location}/localPosts`,
+        ...args,
       });
     },
   },
