@@ -95,6 +95,12 @@ export default {
       );
     },
     async processResults(after, params) {
+      const { results: properties } = await this.hubspot.getProperties("companies");
+      const propertyNames = properties.map((property) => property.name);
+      if (!propertyNames.includes(this.property)) {
+        throw new Error(`Property "${this.property}" not supported for Companies. See Hubspot's default company properties documentation - https://knowledge.hubspot.com/companies/hubspot-crm-default-company-properties`);
+      }
+
       const updatedCompanies = await this.getPaginatedItems(this.hubspot.searchCRM, params);
 
       if (!updatedCompanies.length) {

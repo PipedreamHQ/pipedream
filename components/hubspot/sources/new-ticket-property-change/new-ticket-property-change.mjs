@@ -95,6 +95,12 @@ export default {
       );
     },
     async processResults(after, params) {
+      const { results: properties } = await this.hubspot.getProperties("tickets");
+      const propertyNames = properties.map((property) => property.name);
+      if (!propertyNames.includes(this.property)) {
+        throw new Error(`Property "${this.property}" not supported for Tickets. See Hubspot's default ticket properties documentation - https://knowledge.hubspot.com/tickets/hubspots-default-ticket-properties`);
+      }
+
       const updatedTickets = await this.getPaginatedItems(this.hubspot.searchCRM, params);
 
       const inputs = updatedTickets.map(({ id }) => ({
