@@ -324,9 +324,11 @@ importers:
         specifier: ^0.21.1
         version: 0.21.4
 
-  components/assemblyai: {}
+  components/assemblyai:
+    specifiers: {}
 
-  components/astrology_api: {}
+  components/astrology_api:
+    specifiers: {}
 
   components/autoklose: {}
 
