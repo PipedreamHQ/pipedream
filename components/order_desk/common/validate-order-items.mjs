@@ -11,7 +11,7 @@ export const getParsedOrderItems = (orderItems) => {
     }
 
     if (Array.isArray(item)) {
-      throw new ConfigurationError("You cant set an array as an order_item. If you want to send multiple items, please create a new child.");
+      throw new ConfigurationError(`You can not set an array as an order_item, You are doing this at index ${i}. If you want to send multiple items, please create a new child.`);
     }
     orderItemsParsed.push(item);
   }
