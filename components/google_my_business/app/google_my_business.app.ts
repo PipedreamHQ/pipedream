@@ -17,7 +17,6 @@ export default defineApp({
         ...args,
       });
     },
-    
     async _paginatedRequest({
       maxResults = 100,
       maxPerPage = 100,
@@ -49,6 +48,12 @@ export default defineApp({
       } while (pageToken && resultCount < maxResults);
 
       return result;
+    },
+    async listPosts({ parent, ...args }) {
+      return this._paginatedRequest({
+        url: `${parent}/localPosts`, 
+        ...args
+      });
     },
   },
 });
