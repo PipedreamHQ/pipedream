@@ -13,7 +13,8 @@
     "dropbox": "^10.34.0",
     "tmp-promise": "^3.0.3",
     "isomorphic-fetch": "^3.0.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "@types/node-fetch": "^2.5.7"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

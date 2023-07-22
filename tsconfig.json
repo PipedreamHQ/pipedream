@@ -2174,6 +2174,18 @@
     },
     {
       "path": "components/open_exchange_rates"
+    },
+    {
+      "path": "components/motion"
+    },
+    {
+      "path": "components/assemblyai"
+    },
+    {
+      "path": "components/senta"
+    },
+    {
+      "path": "components/customer_fields"
     }
   ]
 }
