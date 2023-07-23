@@ -1,6 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 
 export const getParsedOrderItems = (orderItems) => {
+  if (typeof orderItems !== "string") {
+    return orderItems;
+  }
   const orderItemsParsed = [];
   for (let i = 0; i < orderItems.length; i++) {
     let item;
