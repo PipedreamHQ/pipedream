@@ -1,10 +1,10 @@
 import app from "../../credit_repair_cloud.app.mjs";
 
 export default {
-  name: "Create Client",
-  description: "Create Client [See the documentation](https://app.creditrepaircloud.com/webapi/examples).",
+  name: "Update Client",
+  description: "Update Client [See the documentation](https://app.creditrepaircloud.com/webapi/examples).",
   key: "credit_repair_cloud-create-client",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -182,9 +182,10 @@ export default {
     //     ...data
     //   } = this;
     //   console.log(data);
-    //   const client = await app.createClient(data);
-    //   $.export("summary", "Client successfully created.");
+    //   const client = await app.updateClient(data);
+    //   $.export("summary", "Client successfully updated.");
     //   return client;
     // },
   },
 };
+

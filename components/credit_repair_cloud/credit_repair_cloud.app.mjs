@@ -1,5 +1,3 @@
-// import { axios } from "@pipedream/platform";
-
 export default {
   type: "app",
   app: "credit_repair_cloud",
@@ -199,11 +197,17 @@ export default {
     _getHeaders() {
       return {};
     },
-    listClients() {
-      /* return this._makeHttpRequest({
-        method: "GET",
-        path: `/client/${}`,
-      }); */
-    },
+    // createlients(data) {
+    //   return this._makeHttpRequest({
+    //     method: "GET",
+    //     path: `/client/${data}`,
+    //   });
+    // },
+    // updateClient(data) {
+    //   return this._makeHttpRequest({
+    //     method: "POST",
+    //     path: `/client/${data}`,
+    //   });
+    // },
   },
 };
