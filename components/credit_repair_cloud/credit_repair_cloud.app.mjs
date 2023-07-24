@@ -1,3 +1,5 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "credit_repair_cloud",
@@ -17,7 +19,7 @@ export default {
     firstname: {
       type: "string",
       label: "First Name",
-      description: "TFirst name should be in string format.",
+      description: "First name should be in string format.",
     },
     lastname: {
       type: "string",
@@ -182,32 +184,73 @@ export default {
       description: "Email should be in email format.",
       optional: true,
     },
+    id: {
+      type: "string",
+      label: "ID",
+      description: "Encrypted alphanumeric string.",
+    },
   },
   methods: {
     // this.$auth contains connected account data
     authKeys() {
       console.log(this.$auth);
     },
-    _getApiToken() {
-      return this.$auth.api_token;
+    _getAuthKey() {
+      return this.$auth.api_key;
+    },
+    _getAuthSecret() {
+      return this.$auth.api_secret;
     },
     _getBaseUrl() {
       return "https://app.creditrepaircloud.com/api";
     },
-    _getHeaders() {
-      return {};
+    async _makeHttpRequest(opts = {}, ctx = this) {
+      const axiosOpts = {
+        ...opts,
+        url: this._getBaseUrl() + opts.path,
+        params: {
+          ...opts.params,
+          apiauthkey: this._getAuthKey(),
+          secretkey: this._getAuthSecret(),
+        },
+      };
+      return axios(ctx, axiosOpts);
     },
-    // createlients(data) {
-    //   return this._makeHttpRequest({
-    //     method: "GET",
-    //     path: `/client/${data}`,
-    //   });
-    // },
-    // updateClient(data) {
-    //   return this._makeHttpRequest({
-    //     method: "POST",
-    //     path: `/client/${data}`,
-    //   });
-    // },
+    createClient(data) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/lead/insertRecord",
+        params: {
+          xmlData: data,
+        },
+      });
+    },
+    updateClient(data) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/lead/updateRecord",
+        params: {
+          xmlData: data,
+        },
+      });
+    },
+    deleteClient(data) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/lead/deleteRecord",
+        params: {
+          xmlData: data,
+        },
+      });
+    },
+    getClient(data) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/lead/viewRecord",
+        params: {
+          xmlData: data,
+        },
+      });
+    },
   },
 };

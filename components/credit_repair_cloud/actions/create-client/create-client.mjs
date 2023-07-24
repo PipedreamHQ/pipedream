@@ -1,10 +1,16 @@
+import {
+  checkForSuccess,
+  convertToJSON,
+  convertToXML,
+  getResult,
+} from "../../common/xml.mjs";
 import app from "../../credit_repair_cloud.app.mjs";
 
 export default {
   name: "Create Client",
   description: "Create Client [See the documentation](https://app.creditrepaircloud.com/webapi/examples).",
   key: "credit_repair_cloud-create-client",
-  version: "0.0.2",
+  version: "0.1.22",
   type: "action",
   props: {
     app,
@@ -176,15 +182,23 @@ export default {
         "referred_by_email",
       ],
     },
-    // async run({ $ }) {
-    //   const {
-    //     app,
-    //     ...data
-    //   } = this;
-    //   console.log(data);
-    //   const client = await app.createClient(data);
-    //   $.export("summary", "Client successfully created.");
-    //   return client;
-    // },
+  },
+  async run({ $ }) {
+    const {
+      app,
+      ...data
+    } = this;
+    const xml = convertToXML({
+      lead: {
+        ...data,
+      },
+    });
+    const resRaw = await app.createClient(xml);
+    const resJson = await convertToJSON(resRaw);
+    checkForSuccess(resJson);
+
+    const res = getResult(resJson);
+    $.export("summary", `Client created successfully with id "${res.id}".`);
+    return res;
   },
 };

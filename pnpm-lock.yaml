@@ -324,6 +324,8 @@ importers:
         specifier: ^0.21.1
         version: 0.21.4
 
+  components/assemblyai: {}
+
   components/astrology_api: {}
 
   components/autoklose: {}
@@ -942,7 +944,17 @@ importers:
 
   components/craftmypdf: {}
 
-  components/credit_repair_cloud: {}
+  components/credit_repair_cloud:
+    dependencies:
+      axios:
+        specifier: ^1.4.0
+        version: 1.4.0
+      js2xmlparser:
+        specifier: ^5.0.0
+        version: 5.0.0
+      xml2js:
+        specifier: ^0.6.0
+        version: 0.6.0
 
   components/crimeometer:
     dependencies:
@@ -4099,6 +4111,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/senta: {}
 
   components/sentry:
     dependencies:
@@ -18904,6 +18918,12 @@ packages:
       xmlcreate: 2.0.4
     dev: false
 
+  /js2xmlparser@5.0.0:
+    resolution: {integrity: sha512-ckXs0Fzd6icWurbeAXuqo+3Mhq2m8pOPygsQjTPh8K5UWgKaUgDSHrdDxAfexmT11xvBKOQ6sgYwPkYc5RW/bg==}
+    dependencies:
+      xmlcreate: 2.0.4
+    dev: false
+
   /jsbn@0.1.1:
     resolution: {integrity: sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==}
 
@@ -25768,6 +25788,14 @@ packages:
 
   /xml2js@0.5.0:
     resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2js@0.6.0:
+    resolution: {integrity: sha512-eLTh0kA8uHceqesPqSE+VvO1CDDJWMwlQfB6LuN6T8w6MaDJ8Txm8P7s5cHD0miF0V+GGTZrDQfxPZQVsur33w==}
     engines: {node: '>=4.0.0'}
     dependencies:
       sax: 1.2.4
