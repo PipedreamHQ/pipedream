@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/senta",
+  "version": "0.0.1",
+  "description": "Pipedream Senta Components",
+  "main": "dist/app/senta.app.mjs",
+  "keywords": [
+    "pipedream",
+    "senta"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/senta",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

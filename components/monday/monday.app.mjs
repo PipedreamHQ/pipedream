@@ -286,6 +286,30 @@ export default {
       });
       return data?.users;
     },
+    async getColumnValues(variables) {
+      return this.makeRequest({
+        query: queries.getColumnValues,
+        options: {
+          variables,
+        },
+      });
+    },
+    async getItemsByColumnValue(variables) {
+      return this.makeRequest({
+        query: queries.getItemsByColumnValue,
+        options: {
+          variables,
+        },
+      });
+    },
+    async updateColumnValues(variables) {
+      return this.makeRequest({
+        query: mutations.updateColumnValues,
+        options: {
+          variables,
+        },
+      });
+    },
     async listBoardsOptions(variables) {
       const {
         data,
