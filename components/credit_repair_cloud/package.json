@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/credit_repair_cloud",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Credit Repair Cloud Components",
   "main": "dist/app/credit_repair_cloud.app.mjs",
   "keywords": [
