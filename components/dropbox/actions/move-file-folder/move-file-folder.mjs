@@ -48,15 +48,13 @@ export default {
     let normalizedPathTo = pathTo?.value || pathTo;
     const normalizedPathFrom = pathFrom?.value || pathFrom;
 
-    // If path is a file, we need to move it as a file
-    if (pathFrom?.type == "file" && pathFrom.value) {
-      const splited = normalizedPathFrom.split("/");
-      const fileName = splited[splited.length - 1];
-      normalizedPathTo += `/${fileName}`;
-    }
+    // Add file/folder name to end of pathTo
+    const splited = normalizedPathFrom.split("/");
+    const fileName = splited[splited.length - 1];
+    normalizedPathTo += `/${fileName}`;
 
     const res = await this.dropbox.filesMove({
-      from_path: pathFrom.value,
+      from_path: normalizedPathFrom,
       to_path: normalizedPathTo,
       autorename,
       allow_ownership_transfer: allowOwnershipTransfer,
