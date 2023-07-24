@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/freshservice",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Freshservice Components",
   "main": "freshservice.app.mjs",
   "keywords": [
