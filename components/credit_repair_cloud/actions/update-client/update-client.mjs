@@ -10,7 +10,7 @@ export default {
   name: "Update Client",
   description: "Update Client [See the documentation](https://app.creditrepaircloud.com/webapi/examples).",
   key: "credit_repair_cloud-update-client",
-  version: "0.0.23",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -204,7 +204,7 @@ export default {
     checkForSuccess(resJson);
 
     const res = getResult(resJson);
-    $.export("summary", `Client created successfully with id "${data.id}".`);
+    $.export("summary", `Client updated successfully with id "${data.id}".`);
     return res;
   },
 };
