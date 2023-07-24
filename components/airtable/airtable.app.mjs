@@ -1,6 +1,7 @@
 import Airtable from "airtable";
 import isEmpty from "lodash.isempty";
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -91,16 +92,7 @@ export default {
       type: "string",
       label: "Sort: Direction",
       description: "This field will be ignored if you don't select a field to sort by.",
-      options: [
-        {
-          label: "Descending",
-          value: "desc",
-        },
-        {
-          label: "Ascending",
-          value: "asc",
-        },
-      ],
+      options: constants.SORT_DIRECTION_OPTIONS,
       default: "desc",
       optional: true,
     },

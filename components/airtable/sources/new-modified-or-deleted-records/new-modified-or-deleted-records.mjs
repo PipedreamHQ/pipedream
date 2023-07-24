@@ -2,7 +2,7 @@ import moment from "moment";
 import { axios } from "@pipedream/platform";
 import Bottleneck from "bottleneck";
 
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 const limiter = new Bottleneck({
   minTime: 200, // 5 requests per second
@@ -15,8 +15,7 @@ export default {
   key: "airtable-new-modified-or-deleted-records",
   version: "0.2.1",
   type: "source",
-  description:
-    "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",
+  description: "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",
   props: {
     ...common.props,
     tableId: {

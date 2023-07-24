@@ -1,7 +1,7 @@
 import moment from "moment";
 import { axios } from "@pipedream/platform";
 
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
