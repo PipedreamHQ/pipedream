@@ -981,6 +981,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/customer_fields:
+    specifiers: {}
+
   components/customer_guru:
     specifiers: {}
 
@@ -1543,6 +1546,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.1
       '@pipedream/types': ^0.1.4
+      html-to-text: ^8.2.1
       linkedom: ^0.14.26
       pluralize: ^8.0.0
       showdown: ^2.1.0
@@ -1550,6 +1554,7 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+      html-to-text: 8.2.1
       linkedom: 0.14.26
       pluralize: 8.0.0
       showdown: 2.1.0
@@ -2907,7 +2912,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/motion:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mozilla_observatory:
     specifiers: {}
@@ -3240,7 +3248,10 @@ importers:
       uuid: 9.0.0
 
   components/order_desk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ortto:
     specifiers: {}
@@ -6871,6 +6882,13 @@ packages:
       tslib: 2.6.0
     dev: false
 
+  /@aws-sdk/is-array-buffer/3.310.0:
+    resolution: {integrity: sha512-urnbcCR+h9NWUnmOtet/s4ghvzsidFmspfhYaHAmSRdy9yDjdjBJMFjjsn85A1ODUktztm+cVncXjQ38WCMjMQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      tslib: 2.6.0
+    dev: false
+
   /@aws-sdk/middleware-bucket-endpoint/3.370.0:
     resolution: {integrity: sha512-B36+fOeJVO0D9cjR92Ob6Ki2FTzyTQ/uKk8w+xtur6W6zYVOPU4IQNpNZvN3Ykt4jitR2uUnVSlBb3sXHHhdFA==}
     engines: {node: '>=14.0.0'}
@@ -7080,6 +7098,14 @@ packages:
       tslib: 2.6.0
     dev: false
 
+  /@aws-sdk/util-buffer-from/3.310.0:
+    resolution: {integrity: sha512-i6LVeXFtGih5Zs8enLrt+ExXY92QV25jtEnTKHsmlFqFAuL3VBeod6boeMXkN2p9lbSVVQ1sAOOYZOHYbYkntw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-sdk/is-array-buffer': 3.310.0
+      tslib: 2.6.0
+    dev: false
+
   /@aws-sdk/util-endpoints/3.370.0:
     resolution: {integrity: sha512-5ltVAnM79nRlywwzZN5i8Jp4tk245OCGkKwwXbnDU+gq7zT3CIOsct1wNZvmpfZEPGt/bv7/NyRcjP+7XNsX/g==}
     engines: {node: '>=14.0.0'}
@@ -7132,6 +7158,14 @@ packages:
   /@aws-sdk/util-utf8-browser/3.259.0:
     resolution: {integrity: sha512-UvFa/vR+e19XookZF8RzFZBrw2EUkQWxiBW0yYQAhvk3C+QVGl0H3ouca8LDBlBfQKXwmW3huo/59H8rwb1wJw==}
     dependencies:
+      tslib: 2.6.0
+    dev: false
+
+  /@aws-sdk/util-utf8/3.310.0:
+    resolution: {integrity: sha512-DnLfFT8uCO22uOJc0pt0DsSNau1GTisngBCDw8jQuWT5CqogMJu4b/uXmwEqfj8B3GX6Xsz8zOd6JpRlPftQoA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-sdk/util-buffer-from': 3.310.0
       tslib: 2.6.0
     dev: false
 
