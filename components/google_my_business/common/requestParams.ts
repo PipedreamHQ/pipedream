@@ -30,4 +30,15 @@ interface AccountLocation {
 
 export interface ListPostsParams extends PaginatedRequest, AccountLocation { }
 
-export interface CreatePostParams extends PdAxiosRequest, AccountLocation { }
+export interface CreatePostParams extends PdAxiosRequest, AccountLocation {
+  data: {
+    topicType: string;
+    languageCode?: string;
+    summary?: string;
+    callToAction?: object;
+    event?: object;
+    media?: object[];
+    alertType?: string;
+    offer?: object;
+  };
+}
