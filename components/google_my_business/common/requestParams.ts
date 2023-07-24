@@ -22,5 +22,6 @@ export interface PaginatedRequestParams
   PaginationParams { }
 
 export interface ListPostsParams extends PaginatedRequest {
+  account: string;
   location: string;
 }

@@ -13,10 +13,19 @@ export default defineAction({
   type: "action",
   props: {
     app,
+    account: {
+      propDefinition: [
+        app,
+        "account",
+      ],
+    },
     location: {
       propDefinition: [
         app,
         "location",
+        ({ account }) => ({
+          account,
+        }),
       ],
     },
     maxResults: {
@@ -31,10 +40,11 @@ export default defineAction({
   },
   async run({ $ }) {
     const {
-      location, maxResults,
+      account, location, maxResults,
     } = this;
     const params: ListPostsParams = {
       $,
+      account,
       location,
       maxPerPage: PAGE_SIZE,
       maxResults,

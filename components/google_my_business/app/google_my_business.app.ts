@@ -3,23 +3,42 @@ import { axios } from "@pipedream/platform";
 import {
   HttpRequestParams, PaginatedRequestParams,
 } from "../common/requestParams";
-import { Location } from "../common/responseSchemas";
+import {
+  Account, Location,
+} from "../common/responseSchemas";
 
 export default defineApp({
   type: "app",
   app: "google_my_business",
   propDefinitions: {
+    account: {
+      type: "string",
+      label: "Account Name",
+      description: "Select an **Account** or provide a custom *Account Name*.",
+      async options() {
+        const accounts: Account[] = await this.listAccounts();
+        return accounts.map(({
+          name, accountName, type,
+        }) => ({
+          label: `${accountName ?? name} (${type})`,
+          value: name.replace(/account\//, ""),
+        }));
+      },
+    },
     location: {
       type: "string",
       label: "Location",
       description: "The location whose local posts will be listed. [See the documentation](https://developers.google.com/my-business/content/location-data#filter_results_when_you_list_locations) on how to filter locations.",
       useQuery: true,
-      async options({ query }) {
+      async options({
+        account, query,
+      }) {
         const filter = (query.match(/[=:]/)
           ? query
           : `title="${query}"`).replace(/ /g, "+").replace(/"/g, "%22");
 
         const locations = await this.listLocations({
+          account,
           filter,
         });
         return locations?.map?.(({
@@ -33,7 +52,7 @@ export default defineApp({
   },
   methods: {
     _baseUrl() {
-      return "https://mybusiness.googleapis.com/v4";
+      return "https://mybusiness.googleapis.com";
     },
     async _httpRequest({
       $ = this,
@@ -75,10 +94,17 @@ export default defineApp({
 
       return result;
     },
+    async listAccounts() {
+      const response = await this._httpRequest({
+        url: "/v1/accounts",
+      });
+      return response?.accounts;
+    },
     async listLocations({
-      accountId, filter,
+      account, filter,
     }) {
       const response = await this._httpRequest({
+        url: `/v1/accounts/${account}/locations`,
         pageSize: 100,
         filter,
       });
@@ -88,7 +114,7 @@ export default defineApp({
       account, location, ...args
     }) {
       return this._paginatedRequest({
-        url: `/accounts/${account}/locations/${location}/localPosts`,
+        url: `/v4/accounts/${account}/locations/${location}/localPosts`,
         ...args,
       });
     },
