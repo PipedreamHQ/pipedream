@@ -2186,6 +2186,9 @@
     },
     {
       "path": "components/customer_fields"
+    },
+    {
+      "path": "components/airtable_oauth"
     }
   ]
 }
