@@ -4157,8 +4157,6 @@ importers:
   components/senta:
     specifiers: {}
 
-  components/senta: {}
-
   components/sentry:
     specifiers:
       '@pipedream/platform': ^1.4.0
