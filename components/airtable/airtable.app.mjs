@@ -1,7 +1,14 @@
 import Airtable from "airtable";
 import isEmpty from "lodash.isempty";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 200, // 5 requests per second
+});
+const axiosRateLimiter = limiter.wrap(axios);
 
 export default {
   type: "app",
@@ -128,6 +135,37 @@ export default {
     },
   },
   methods: {
+    _baseUrl() {
+      return "https://api.airtable.com/v0";
+    },
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    async _makeRequest({
+      $ = this,
+      path,
+      rateLimited = false,
+      ...args
+    }) {
+      const config = {
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
+        ...args,
+      };
+      return rateLimited
+        ? axiosRateLimiter($, config)
+        : axios($, config);
+    },
+    getRecords({
+      baseId, tableId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${encodeURIComponent(baseId)}/${encodeURIComponent(tableId)}`,
+        ...args,
+      });
+    },
     base(baseId) {
       return new Airtable({
         apiKey: this.$auth.api_key,

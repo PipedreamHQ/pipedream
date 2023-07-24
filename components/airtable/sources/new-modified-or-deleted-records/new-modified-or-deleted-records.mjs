@@ -1,13 +1,5 @@
 import moment from "moment";
-import { axios } from "@pipedream/platform";
-import Bottleneck from "bottleneck";
-
 import common from "../common/common.mjs";
-
-const limiter = new Bottleneck({
-  minTime: 200, // 5 requests per second
-});
-const axiosRateLimiter = limiter.wrap(axios);
 
 export default {
   ...common,
@@ -29,6 +21,15 @@ export default {
       description: "The table ID to watch for changes.",
     },
   },
+  methods: {
+    ...common.methods,
+    _getprevAllRecordIds() {
+      return this.db.get("prevAllRecordIds");
+    },
+    _setprevAllRecordIds(prevAllRecordIds) {
+      this.db.set("prevAllRecordIds", prevAllRecordIds);
+    },
+  },
   async run(event) {
     const {
       baseId,
@@ -42,20 +43,18 @@ export default {
       viewId,
     };
 
-    const config = {
-      url: `https://api.airtable.com/v0/${encodeURIComponent(baseId)}/${encodeURIComponent(tableId)}`,
-      params: {},
-      headers: {
-        Authorization: `Bearer ${this.airtable.$auth.api_key}`,
-      },
+    const prevAllRecordIds = this._getPrevAllRecordIds();
+
+    const lastTimestamp = this._getLastTimestamp();
+    const params = {
+      filterByFormula: `LAST_MODIFIED_TIME() > "${lastTimestamp}"`,
     };
 
-    const prevAllRecordIds = this.db.get("prevAllRecordIds");
-
-    const lastTimestamp = this.db.get("lastTimestamp");
-    config.params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`;
-
-    const data = await axios(this, config);
+    const data = await this.airtable.getRecords({
+      baseId,
+      tableId,
+      params,
+    });
 
     let allRecordIds = [],
       newRecordsCount = 0,
@@ -81,19 +80,24 @@ export default {
       }
     }
 
-    delete config.params.filterByFormula;
+    delete params.filterByFormula;
 
-    while (allRecordIds.length === 0 || config.params.offset) {
-      const data = await axiosRateLimiter(this, config);
+    while (allRecordIds.length === 0 || params.offset) {
+      const data = await this.airtable.getRecords({
+        baseId,
+        tableId,
+        params,
+        rateLimited: true,
+      });
       if (!data.records.length || data.records.length === 0) return;
       allRecordIds = [
         ...allRecordIds,
         ...data.records.map((record) => record.id),
       ];
       if (data.offset) {
-        config.params.offset = data.offset;
+        params.offset = data.offset;
       } else {
-        delete config.params.offset;
+        delete params.offset;
       }
     }
 
@@ -118,7 +122,7 @@ export default {
     console.log(
       `Emitted ${newRecordsCount} new records(s) and ${modifiedRecordsCount} modified record(s) and ${deletedRecordsCount} deleted records.`,
     );
-    this.db.set("prevAllRecordIds", allRecordIds);
+    this._setPrevAllRecordIds(allRecordIds);
 
     // We keep track of the timestamp of the current invocation
     this.updateLastTimestamp(event);

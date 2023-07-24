@@ -1,6 +1,4 @@
 import moment from "moment";
-import { axios } from "@pipedream/platform";
-
 import common from "../common/common.mjs";
 
 export default {
@@ -30,18 +28,16 @@ export default {
       viewId,
     } = this;
 
-    const config = {
-      url: `https://api.airtable.com/v0/${encodeURIComponent(baseId)}/${encodeURIComponent(tableId)}`,
-      params: {},
-      headers: {
-        Authorization: `Bearer ${this.airtable.$auth.api_key}`,
-      },
+    const lastTimestamp = this._getLastTimestamp();
+    const params = {
+      filterByFormula: `CREATED_TIME() > "${lastTimestamp}"`,
     };
 
-    const lastTimestamp = this.db.get("lastTimestamp");
-    config.params.filterByFormula = `CREATED_TIME() > "${lastTimestamp}"`;
-
-    const data = await axios(this, config);
+    const data = await this.airtable.getRecords({
+      baseId,
+      tableId,
+      params,
+    });
 
     if (!data.records.length) {
       console.log("No new records.");
@@ -70,6 +66,6 @@ export default {
       recordCount++;
     }
     console.log(`Emitted ${recordCount} new records(s).`);
-    this.db.set("lastTimestamp", maxTimestamp);
+    this._setLastTimestamp(maxTimestamp);
   },
 };
