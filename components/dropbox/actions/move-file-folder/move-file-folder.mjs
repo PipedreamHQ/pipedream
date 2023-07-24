@@ -4,7 +4,7 @@ export default {
   name: "Move a File/Folder",
   description: "Moves a file or folder to a different location in the user's Dropbox [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesMoveV2__anchor)",
   key: "dropbox-move-file-folder",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     dropbox,
@@ -52,7 +52,7 @@ export default {
     if (pathFrom?.type == "file" && pathFrom.value) {
       const splited = normalizedPathFrom.split("/");
       const fileName = splited[splited.length - 1];
-      normalizedPathTo = `${pathTo?.value || pathTo}/${fileName}`;
+      normalizedPathTo += `/${fileName}`;
     }
 
     const res = await this.dropbox.filesMove({
