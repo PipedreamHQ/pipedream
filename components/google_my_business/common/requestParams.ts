@@ -19,9 +19,15 @@ export interface HttpRequestParams extends PdAxiosRequest {
 
 export interface PaginatedRequestParams
   extends HttpRequestParams,
-  PaginationParams { }
+  PaginationParams {
+    resourceName: string;
+  }
 
-export interface ListPostsParams extends PaginatedRequest {
+interface AccountLocation {
   account: string;
   location: string;
 }
+
+export interface ListPostsParams extends PaginatedRequest, AccountLocation { }
+
+export interface CreatePostParams extends PdAxiosRequest, AccountLocation { }

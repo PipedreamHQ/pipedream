@@ -1,7 +1,8 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  HttpRequestParams, PaginatedRequestParams,
+  CreatePostParams,
+  HttpRequestParams, ListPostsParams, PaginatedRequestParams,
 } from "../common/requestParams";
 import {
   Account, Location,
@@ -66,6 +67,7 @@ export default defineApp({
       maxResults = 100,
       maxPerPage = 100,
       params,
+      resourceName,
       ...args
     }: PaginatedRequestParams) {
       const result = [];
@@ -76,7 +78,7 @@ export default defineApp({
         const pageSize = Math.min(maxResults - resultCount, maxPerPage);
 
         const {
-          localPosts,
+          [resourceName]: resources,
           nextPageToken,
         } = await this._httpRequest({
           params: {
@@ -87,7 +89,7 @@ export default defineApp({
           ...args,
         });
 
-        result.push(...localPosts);
+        result.push(...resources);
         pageToken = nextPageToken;
         resultCount += pageSize;
       } while (pageToken && resultCount < maxResults);
@@ -112,8 +114,18 @@ export default defineApp({
     },
     async listPosts({
       account, location, ...args
-    }) {
+    }: ListPostsParams): Promise<object[]> {
       return this._paginatedRequest({
+        resourceName: "localPosts",
+        url: `/v4/accounts/${account}/locations/${location}/localPosts`,
+        ...args,
+      });
+    },
+    async createPost({
+      account, location, ...args
+    }: CreatePostParams): Promise<object> {
+      return this._httpRequest({
+        method: "POST",
         url: `/v4/accounts/${account}/locations/${location}/localPosts`,
         ...args,
       });
