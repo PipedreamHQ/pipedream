@@ -45,7 +45,7 @@ export default {
       res = await this.app.listLeadsByAdOrFormId(this.formId, params);
       data.push(...res.data);
       after = res.paging?.cursors?.after;
-    } while (res.paging.next);
+    } while (res.paging?.next);
 
     if (data.length === 0) {
       $.export("summary", "No leads found");
