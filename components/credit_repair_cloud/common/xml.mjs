@@ -42,7 +42,7 @@ export const checkForSuccess = (data) => {
 };
 
 export const getResult = (data) => {
-  let newObj = {
+  const newObj = {
     ...data.response?.result[0],
   };
   for (const prop in newObj) {
