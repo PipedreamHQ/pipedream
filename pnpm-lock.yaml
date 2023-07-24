@@ -981,6 +981,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/customer_fields:
+    specifiers: {}
+
   components/customer_guru:
     specifiers: {}
 
@@ -2917,7 +2920,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/motion:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mozilla_observatory:
     specifiers: {}
@@ -3247,7 +3253,10 @@ importers:
       uuid: 9.0.0
 
   components/order_desk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ortto:
     specifiers: {}

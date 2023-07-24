@@ -1,4 +1,4 @@
-import hubspot from "../hubspot.app.mjs";
+import hubspot from "../../hubspot.app.mjs";
 import Bottleneck from "bottleneck";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
@@ -107,6 +107,21 @@ export default {
           }
         }
       }
+    },
+    async getPaginatedItems(resourceFn, params) {
+      const items = [];
+      do {
+        const {
+          results, paging,
+        } = await resourceFn(params);
+        items.push(...results);
+        if (paging) {
+          params.after = paging.next.after;
+        } else {
+          delete params.after;
+        }
+      } while (params.after);
+      return items;
     },
     emitEvent(result) {
       const meta = this.generateMeta(result);
