@@ -944,7 +944,14 @@ importers:
     specifiers: {}
 
   components/credit_repair_cloud:
-    specifiers: {}
+    specifiers:
+      axios: ^1.4.0
+      js2xmlparser: ^5.0.0
+      xml2js: ^0.6.0
+    dependencies:
+      axios: 1.4.0
+      js2xmlparser: 5.0.0
+      xml2js: 0.6.0
 
   components/crimeometer:
     specifiers:
@@ -980,6 +987,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/customer_fields:
+    specifiers: {}
 
   components/customer_guru:
     specifiers: {}
@@ -19038,6 +19048,12 @@ packages:
       xmlcreate: 2.0.4
     dev: false
 
+  /js2xmlparser/5.0.0:
+    resolution: {integrity: sha512-ckXs0Fzd6icWurbeAXuqo+3Mhq2m8pOPygsQjTPh8K5UWgKaUgDSHrdDxAfexmT11xvBKOQ6sgYwPkYc5RW/bg==}
+    dependencies:
+      xmlcreate: 2.0.4
+    dev: false
+
   /jsbn/0.1.1:
     resolution: {integrity: sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==}
 
@@ -25937,6 +25953,14 @@ packages:
 
   /xml2js/0.5.0:
     resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2js/0.6.0:
+    resolution: {integrity: sha512-eLTh0kA8uHceqesPqSE+VvO1CDDJWMwlQfB6LuN6T8w6MaDJ8Txm8P7s5cHD0miF0V+GGTZrDQfxPZQVsur33w==}
     engines: {node: '>=4.0.0'}
     dependencies:
       sax: 1.2.4
