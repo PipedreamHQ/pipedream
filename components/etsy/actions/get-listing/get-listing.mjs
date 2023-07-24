@@ -8,10 +8,25 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    shopId: {
+      optional: true,
+      propDefinition: [
+        app,
+        "shopId",
+      ],
+    },
+    state: {
+      optional: true,
+      propDefinition: [
+        app,
+        "state",
+      ],
+    },
     listingId: {
       propDefinition: [
         app,
         "listingId",
+        ({ shopId, state }) => ({ shopId, state }),
       ],
     },
   },
@@ -31,7 +46,7 @@ export default {
       listingId: this.listingId,
     });
 
-    step.export("$summary", `Successfully retrieved listing with ID ${response.listingId}.`);
+    step.export("$summary", `Successfully retrieved listing with ID ${response.listing_id}.`);
 
     return response;
   },

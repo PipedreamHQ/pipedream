@@ -9,6 +9,15 @@ export default {
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    state: {
+      propDefinition: [
+        common.props.app,
+        "state",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     getResourceFn() {
@@ -21,6 +30,7 @@ export default {
           limit: constants.DEFAULT_LIMIT,
           sort_on: "updated",
           sort_order: "desc",
+          state: this.state,
         },
       };
     },

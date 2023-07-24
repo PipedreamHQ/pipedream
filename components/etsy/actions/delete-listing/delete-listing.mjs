@@ -8,10 +8,25 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    shopId: {
+      optional: true,
+      propDefinition: [
+        app,
+        "shopId",
+      ],
+    },
+    state: {
+      optional: true,
+      propDefinition: [
+        app,
+        "state",
+      ],
+    },
     listingId: {
       propDefinition: [
         app,
         "listingId",
+        ({ shopId, state }) => ({ shopId, state }),
       ],
     },
   },
@@ -26,13 +41,18 @@ export default {
     },
   },
   async run({ $: step }) {
-    const response = await this.deleteListing({
+    const { listingId } = this;
+
+    await this.deleteListing({
       step,
-      listingId: this.listingId,
+      listingId,
     });
 
-    step.export("$summary", `Successfully deleted listing with ID ${this.listingId}.`);
+    step.export("$summary", `Successfully deleted listing with ID ${listingId}.`);
 
-    return response;
+    return {
+      success: true,
+      listingId,
+    };
   },
 };

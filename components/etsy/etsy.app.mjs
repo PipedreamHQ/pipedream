@@ -5,12 +5,35 @@ export default {
   type: "app",
   app: "etsy",
   propDefinitions: {
+    shopId: {
+      type: "string",
+      label: "Shop ID",
+      description: "The ID of the shop.",
+      async options({ query, page }) {
+        const { results } = await this.findShops({
+          params: {
+            shop_name: query || "",
+            limit: constants.DEFAULT_LIMIT,
+            offset: constants.DEFAULT_LIMIT * page,
+          },
+        });
+        const options = results?.map(({
+          shop_id: value, shop_name: label
+        }) => ({
+          label,
+          value,
+        }));
+        return {
+          options,
+        };
+      },
+    },
     listingId: {
       type: "string",
       label: "Listing ID",
       description: "The ID of the listing.",
-      async options({ page, prevContext }) {
-        let shopId = prevContext.shopId;
+      async options({ shopId, state, page, prevContext }) {
+        shopId = shopId || prevContext.shopId;
 
         if (!shopId) {
           ({ shop_id: shopId } = await this.getMe());
@@ -22,6 +45,7 @@ export default {
             limit: constants.DEFAULT_LIMIT,
             sort_on: "created",
             offset: constants.DEFAULT_LIMIT * page,
+            state,
           }
         });
 
@@ -71,32 +95,6 @@ export default {
         };
       },
     },
-    valueIds: {
-      type: "integer[]",
-      label: "Value IDs",
-      description: "An array of unique IDs of multiple Etsy listing property values. For example, if your listing offers different sizes of a product, then the value ID list contains value IDs for each size.",
-      async options({ listingId, propertyId }) {
-        const { value_ids: valueIds } =
-          await this.getListingProperty({
-            listingId,
-            propertyId,
-          });
-        return valueIds;
-      },
-    },
-    values: {
-      type: "string[]",
-      label: "Values",
-      description: "An array of value strings for multiple Etsy listing property values. For example, if your listing offers different colored products, then the values array contains the color strings for each color. Note: parenthesis characters (( and )) are not allowed.",
-      async options({ listingId, propertyId }) {
-        const { values } =
-          await this.getListingProperty({
-            listingId,
-            propertyId,
-          });
-        return values;
-      },
-    },
     taxonomyType: {
       type: "string",
       label: "Taxonomy Type",
@@ -127,6 +125,12 @@ export default {
       label: "Listing Type",
       description: "An enumerated type string that indicates whether the listing is `physical` or a digital `download`.",
       options: Object.values(constants.LISTING_TYPE),
+    },
+    state: {
+      type: "string",
+      label: "Listing State",
+      description: "An enumerated type string that indicates whether the listing is `active`, `inactive`, `sold_out`, `draft` or `expired`.",
+      options: Object.values(constants.LISTING_STATE),
     },
   },
   methods: {
@@ -210,14 +214,6 @@ export default {
         ...args,
       });
     },
-    getListingProperty({
-      listingId, propertyId, ...args
-    } = {}) {
-      return this.makeRequest({
-        path: `/application/listings/${listingId}/properties/${propertyId}`,
-        ...args,
-      });
-    },
     getBuyerTaxonomyNodes(args = {}) {
       return this.makeRequest({
         path: `/application/buyer-taxonomy/nodes`,
@@ -235,6 +231,12 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/application/shops/${shopId}/shipping-profiles`,
+        ...args,
+      });
+    },
+    findShops(args = {}) {
+      return this.makeRequest({
+        path: "/application/shops",
         ...args,
       });
     },

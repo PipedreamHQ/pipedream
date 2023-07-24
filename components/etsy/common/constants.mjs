@@ -75,6 +75,14 @@ const LISTING_TYPE = {
   BOTH: "both",
 };
 
+const LISTING_STATE = {
+  active: "active",
+  INACTIVE: "inactive",
+  SOLD_OUT: "sold_out",
+  DRAFT: "draft",
+  EXPIRED: "expired",
+};
+
 export default {
   BASE_URL,
   VERSION_PATH,
@@ -84,4 +92,5 @@ export default {
   WHEN_MADE_OPTIONS,
   TAXONOMY_TYPE,
   LISTING_TYPE,
+  LISTING_STATE,
 };

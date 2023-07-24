@@ -1,4 +1,5 @@
 import app from "../../etsy.app.mjs";
+import propertyValues from "../../common/property-values.mjs";
 
 export default {
   key: "etsy-update-listing-property",
@@ -8,10 +9,25 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    shopId: {
+      optional: true,
+      propDefinition: [
+        app,
+        "shopId",
+      ],
+    },
+    state: {
+      optional: true,
+      propDefinition: [
+        app,
+        "state",
+      ],
+    },
     listingId: {
       propDefinition: [
         app,
         "listingId",
+        ({ shopId, state }) => ({ shopId, state }),
       ],
     },
     propertyId: {
@@ -21,19 +37,14 @@ export default {
         ({ listingId }) => ({ listingId }),
       ],
     },
-    valueIds: {
-      propDefinition: [
-        app,
-        "valueIds",
-        ({ listingId, propertyId }) => ({ listingId, propertyId }),
-      ],
-    },
-    values: {
-      propDefinition: [
-        app,
-        "values",
-        ({ listingId, propertyId }) => ({ listingId, propertyId }),
-      ],
+    valueId: {
+      type: "integer",
+      label: "Value",
+      description: "The value of the property.",
+      withLabel: true,
+      options() {
+        return propertyValues[this.propertyId];
+      },
     },
   },
   methods: {
@@ -47,18 +58,22 @@ export default {
     },
   },
   async run({ $: step }) {
-    const { listingId, propertyId, valueIds, values } = this;
+    const { listingId, propertyId, valueId } = this;
 
-    const { shop_id: shopId } = await this.getMe();
+    const { shop_id: shopId } = await this.app.getMe();
 
     const response = await this.updateListingProperty({
       step,
       shopId,
       listingId,
       propertyId,
-      params: {
-        value_ids: valueIds,
-        values,
+      data: {
+        value_ids: [
+          valueId?.value,
+        ],
+        values: [
+          valueId?.label,
+        ],
       },
     });
 
