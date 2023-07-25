@@ -74,12 +74,18 @@ export default defineApp({
     getCleanName(name: string) {
       return name?.split("/").pop();
     },
+    _getHeaders() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
     async _httpRequest({
       $ = this,
       ...args
     }: HttpRequestParams): Promise<object> {
       return axios($, {
         ...args,
+        headers: this._getHeaders(),
       });
     },
     async _paginatedRequest({
