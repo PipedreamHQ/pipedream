@@ -1,7 +1,7 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import sampleEmit from "./test-event.mjs";
 import maxBy from "lodash.maxby";
 import common from "../common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 const { discord } = common.props;
 

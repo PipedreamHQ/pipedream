@@ -4,8 +4,8 @@ import { removeNullEntries } from "../../common/utils.mjs";
 export default {
   key: "ticktick-create-task",
   name: "Create a Task",
-  description: "Create a Task.[See the documentation](https://developer.ticktick.com/api#/openapi?id=create-a-task)",
-  version: "0.0.5",
+  description: "Create a Task. [See the documentation](https://developer.ticktick.com/api#/openapi?id=create-a-task)",
+  version: "0.0.6",
   type: "action",
   props: {
     ticktick,
@@ -42,9 +42,27 @@ export default {
     priority: {
       type: "string",
       label: "Priority",
-      description: "The priority of task, default is `0`",
+      description: "The priority of the task, defaults to \"None\"",
       default: "0",
       optional: true,
+      options: [
+        {
+          label: "None",
+          value: "0",
+        },
+        {
+          label: "Low",
+          value: "1",
+        },
+        {
+          label: "Medium",
+          value: "3",
+        },
+        {
+          label: "High",
+          value: "5",
+        },
+      ],
     },
   },
   async run({ $ }) {

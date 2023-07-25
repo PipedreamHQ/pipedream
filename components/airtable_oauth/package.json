@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/airtable_oauth",
+  "version": "0.0.1",
+  "description": "Pipedream Airtable (OAuth) Components",
+  "main": "dist/app/airtable_oauth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "airtable_oauth"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/airtable_oauth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

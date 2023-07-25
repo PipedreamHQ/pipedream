@@ -63,7 +63,7 @@ export default {
       optional: true,
     },
   },
-  async run ({ $ }) {
+  async run({ $ }) {
     const {
       channelId,
       maxAge,

@@ -22,7 +22,7 @@ export default {
     tableId: {
       type: "string",
       label: "Table",
-      description: "The table ID. If referencing a **Base** dynamically using data from another step (e.g., `{{steps.mydata.$return_value}}`), automatic table options won't work when configuring this step. Please enter a custom expression to specify the **Table**.",
+      description: "The table ID. If referencing a **Base** dynamically using data from another step (e.g., `{{steps.trigger.event.metadata.baseId}}`), you will not be able to select from the list of Tables, and automatic table options will not work when configuring this step. Please enter a custom expression to specify the **Table**.",
       async options({ baseId }) {
         // Uses special .tables method on airtable app prop
         let tables;
@@ -40,7 +40,7 @@ export default {
     viewId: {
       type: "string",
       label: "View",
-      description: "The view ID. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.mydata.$return_value}}`), automatic view options won't work when configuring this step. Please enter a custom expression to specify the **View**.",
+      description: "The view ID. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.trigger.event.metadata.tableId}}`), you will not be able to select from the list of Views for this step. Please enter a custom expression to specify the **View**.",
       async options({
         baseId, tableId,
       }) {
@@ -132,6 +132,7 @@ export default {
       type: "boolean",
       label: "Typecast",
       description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. Automatic conversion is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources.",
+      optional: true,
     },
   },
   methods: {

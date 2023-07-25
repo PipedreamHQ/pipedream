@@ -23,13 +23,6 @@ export default {
       ],
       description: "Details of issue properties to be add or update, please provide an array of objects with keys and values.",
     },
-    transitionId: {
-      label: "Transition ID",
-      propDefinition: [
-        app,
-        "transition",
-      ],
-    },
     transitionLooped: {
       type: "boolean",
       label: "Transition Looped",
@@ -50,42 +43,63 @@ export default {
     },
   },
   methods: {
-    getResourcesInfo(key) {
-      switch (key) {
-      case constants.FIELD_KEY.PARENT:
-        return {
-          fn: this.app.getIssues,
-          args: {
-            cloudId: this.cloudId,
-            params: {
-              maxResults: 100,
-            },
-          },
-          map: ({ issues }) =>
-            issues?.map(({
-              id: value, key: label,
-            }) => ({
-              value,
-              label,
-            })),
-        };
-      case constants.FIELD_KEY.LABELS:
-        return {
-          fn: this.app.getLabels,
-          args: {
-            cloudId: this.cloudId,
-            params: {
-              maxResults: 100,
-            },
-          },
-          map: ({ values }) => values,
-        };
-      default:
-        return {};
-      }
+    getIssueTypes(args = {}) {
+      return this.app._makeRequest({
+        path: "/issuetype",
+        ...args,
+      });
     },
-    getPropType(schemaType) {
-      return constants.TYPE[schemaType] || "object";
+    getResourcesInfo(key) {
+      const {
+        app,
+        cloudId,
+      } = this;
+      switch (key) {
+        case constants.FIELD_KEY.PARENT:
+          return {
+            fn: app.getIssues,
+            args: {
+              cloudId,
+              params: {
+                maxResults: 100,
+              },
+            },
+            map: ({ issues }) =>
+              issues?.map(({
+                id: value, key: label,
+              }) => ({
+                value,
+                label,
+              })),
+          };
+        case constants.FIELD_KEY.LABELS:
+          return {
+            fn: app.getLabels,
+            args: {
+              cloudId,
+              params: {
+                maxResults: 100,
+              },
+            },
+            map: ({ values }) => values,
+          };
+        case constants.FIELD_KEY.ISSUETYPE:
+          return {
+            fn: this.getIssueTypes,
+            args: {
+              cloudId,
+            },
+            map: (issueTypes) =>
+              issueTypes?.map(({
+                id: value, name: label
+              }) => ({
+                value,
+                label,
+              })),
+          };
+        default:
+          return {};
+      }
     },
     async getDynamicFields({
       fields, predicate = (field) => field,
@@ -95,12 +109,13 @@ export default {
       const keysForResourceRequest = [
         constants.FIELD_KEY.PARENT,
         constants.FIELD_KEY.LABELS,
+        constants.FIELD_KEY.ISSUETYPE,
       ];
 
       return Object.values(fields)
         .filter(predicate)
         .reduce(async (props, {
-          schema, name: label, key, required, autoCompleteUrl,
+          schema, name: label, key, autoCompleteUrl,
         }) => {
           const reduction = await props;
 
@@ -114,10 +129,11 @@ export default {
             : key;
 
           const value = {
-            type: this.getPropType(schemaType),
+            // It defaults to object because it may expect a structure like { id: "123" }
+            type: constants.TYPE[schemaType] || "object",
             label,
             description: "Set your field value",
-            optional: !required,
+            optional: true,
           };
 
           // Requests by URL
@@ -180,6 +196,7 @@ export default {
         constants.FIELD_KEY.ASSIGNEE,
         constants.FIELD_KEY.REPORTER,
         constants.FIELD_KEY.PARENT,
+        constants.FIELD_KEY.ISSUETYPE,
       ];
 
       return Object.entries(fields)
