@@ -15,5 +15,7 @@ export interface EntityWithCreateTime extends GoogleEntity {
   createTime: string;
 }
 
-export type Review = EntityWithCreateTime;
+export interface Review extends EntityWithCreateTime {
+  comment: string;
+}
 export type LocalPost = EntityWithCreateTime;
