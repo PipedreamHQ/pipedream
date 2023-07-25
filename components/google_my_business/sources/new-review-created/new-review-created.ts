@@ -2,6 +2,7 @@ import { defineSource } from "@pipedream/types";
 import app from "../../app/google_my_business.app";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import { ListReviewsParams } from "../../common/requestParams";
+import { EntityWithCreateTime } from "../../common/responseSchemas";
 
 const DOCS_LINK = "https://developers.google.com/my-business/reference/rest/v4/accounts.locations.reviews/list";
 
@@ -39,19 +40,20 @@ export default defineSource({
   },
   hooks: {
     async deploy() {
-      // on deploy, fetch all reviews to store in db
-      // but emit event only for the latest 10
       await this.getAndProcessData();
     },
   },
   methods: {
-    setSavedItems(value: string[]) {
-      this.db.set("savedItems", value);
+    setLastRun(value: string) {
+      this.db.set("lastRun", value);
     },
-    getSavedItems(): string[] {
-      return this.db.get("savedItems");
+    getLastRun() {
+      const lastRun: string = this.db.get("lastRun");
+      return lastRun
+        ? new Date(lastRun)
+        : null;
     },
-    async getAndProcessData() {
+    async getItems() {
       const {
         account, location,
       } = this;
@@ -61,13 +63,25 @@ export default defineSource({
         location,
       };
 
-      const response = await this.app.listReviews(params);
+      return this.app.listReviews(params);
+    },
+    async getAndProcessData() {
+      const lastRun: Date = this.getLastRun();
+      const items: EntityWithCreateTime[] = await this.getItems();
+      const ts = Date.now() - 30000;
+      this.setLastRun(ts);
 
-      // this.$emit(data, {
-      //   id: ts,
-      //   summary: `New rate: 1 ${base} = ${amount} ${name}`,
-      //   ts,
-      // });
+      const filteredItems = lastRun
+        ? items.filter(({ createTime }) => new Date(createTime) >= lastRun)
+        : items.slice(-10);
+
+      filteredItems.reverse().forEach((item) => {
+        this.$emit(item, {
+          id: this.app.getCleanName(item.name),
+          summary: this.getSummary(item),
+          ts,
+        });
+      });
     },
   },
   async run() {

@@ -102,7 +102,7 @@ export default defineApp({
         } = await this._httpRequest({
           params: {
             ...params,
-            max_results: pageSize,
+            pageSize,
             pageToken,
           },
           ...args,
