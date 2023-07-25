@@ -255,6 +255,9 @@ importers:
   components/amplifier:
     specifiers: {}
 
+  components/amplitude:
+    specifiers: {}
+
   components/amqp:
     specifiers:
       '@pipedream/platform': ^1.2.0
