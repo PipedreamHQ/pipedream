@@ -51,7 +51,7 @@ export default {
         name: this.name,
         currency: this.currency,
         comments: this.comments,
-        customFields,
+        custom_fields: customFields,
       },
     });
 

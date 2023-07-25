@@ -59,7 +59,7 @@ export default {
         lastname: this.lastName,
         email: this.email,
         phone_number: this.phoneNumber,
-        customFields,
+        custom_fields: customFields,
       },
     });
 
