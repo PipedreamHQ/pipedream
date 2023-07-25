@@ -42,3 +42,10 @@ export interface CreatePostParams extends PdAxiosRequest, AccountLocation {
     offer?: object;
   };
 }
+
+export interface UpdateReplyParams extends PdAxiosRequest, AccountLocation {
+  review: string;
+  data: {
+    comment: string;
+  };
+}

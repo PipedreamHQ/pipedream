@@ -22,7 +22,7 @@ export default defineApp({
           name, accountName, type,
         }) => ({
           label: `${accountName ?? name} (${type})`,
-          value: name.replace(/account\//, ""),
+          value: this.getCleanName(name),
         }));
       },
     },
@@ -46,14 +46,33 @@ export default defineApp({
           name, title,
         }: Location) => ({
           label: title,
-          value: name,
+          value: this.getCleanName(name),
+        }));
+      },
+    },
+    review: {
+      type: "string",
+      label: "Review",
+      description: "Select a **Review** or provide a custom *Review Name*.",
+      async options({
+        account, location,
+      }) {
+        const reviews = await this.listReviews({
+          account,
+          location,
+        });
+        return reviews?.map?.(({
+          name, title,
+        }: Location) => ({
+          label: title,
+          value: this.getCleanName(name),
         }));
       },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://mybusiness.googleapis.com";
+    getCleanName(name: string) {
+      return name?.split("/").pop();
     },
     async _httpRequest({
       $ = this,
@@ -98,7 +117,7 @@ export default defineApp({
     },
     async listAccounts() {
       const response = await this._httpRequest({
-        url: "/v1/accounts",
+        url: "https://mybusinessaccountmanagement.googleapis.com/v1/accounts",
       });
       return response?.accounts;
     },
@@ -106,18 +125,27 @@ export default defineApp({
       account, filter,
     }) {
       const response = await this._httpRequest({
-        url: `/v1/accounts/${account}/locations`,
+        url: `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${account}/locations`,
         pageSize: 100,
         filter,
       });
       return response?.locations;
+    },
+    async listReviews({
+      account, location,
+    }) {
+      const response = await this._httpRequest({
+        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews`,
+        pageSize: 50,
+      });
+      return response?.reviews;
     },
     async listPosts({
       account, location, ...args
     }: ListPostsParams): Promise<object[]> {
       return this._paginatedRequest({
         resourceName: "localPosts",
-        url: `/v4/accounts/${account}/locations/${location}/localPosts`,
+        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/localPosts`,
         ...args,
       });
     },
@@ -126,7 +154,16 @@ export default defineApp({
     }: CreatePostParams): Promise<object> {
       return this._httpRequest({
         method: "POST",
-        url: `/v4/accounts/${account}/locations/${location}/localPosts`,
+        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/localPosts`,
+        ...args,
+      });
+    },
+    async updateReviewReply({
+      account, location, review, ...args
+    }): Promise<object> {
+      return this._httpRequest({
+        method: "PUT",
+        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews/${review}/reply`,
         ...args,
       });
     },

@@ -8,7 +8,7 @@ const PAGE_SIZE = 100;
 export default defineAction({
   key: "google_my_business-list-posts",
   name: "List Posts",
-  description: `Returns a list of local posts associated with a location. [See the documentation](${DOCS_LINK})`,
+  description: `List local posts associated with a location. [See the documentation](${DOCS_LINK})`,
   version: "0.0.1",
   type: "action",
   props: {
@@ -52,7 +52,7 @@ export default defineAction({
 
     const response = await this.app.listPosts(params);
 
-    $.export("$summary", "Success");
+    $.export("$summary", "Successfully listed posts");
 
     return response;
   },

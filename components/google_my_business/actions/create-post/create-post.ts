@@ -10,7 +10,7 @@ const DOCS_LINK = "https://developers.google.com/my-business/reference/rest/v4/a
 export default defineAction({
   key: "google_my_business-create-post",
   name: "Create Post",
-  description: `Creates a new local post associated with the specified location, and returns it. [See the documentation](${DOCS_LINK})`,
+  description: `Create a new local post associated with a location. [See the documentation](${DOCS_LINK})`,
   version: "0.0.1",
   type: "action",
   props: {
@@ -105,7 +105,7 @@ export default defineAction({
 
     const response = await this.app.createPost(params);
 
-    $.export("$summary", "Success");
+    $.export("$summary", "Successfully created post");
 
     return response;
   },
