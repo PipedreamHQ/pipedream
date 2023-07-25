@@ -30,7 +30,7 @@ export default defineAction({
     review: {
       propDefinition: [
         app,
-        "location",
+        "review",
         ({
           account, location,
         }) => ({

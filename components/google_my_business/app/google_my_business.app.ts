@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreatePostParams,
-  HttpRequestParams, ListPostsParams, PaginatedRequestParams,
+  HttpRequestParams, ListPostsParams, ListReviewsParams, PaginatedRequestParams,
 } from "../common/requestParams";
 import {
   Account, Location,
@@ -133,7 +133,7 @@ export default defineApp({
     },
     async listReviews({
       account, location,
-    }) {
+    }: ListReviewsParams) {
       const response = await this._httpRequest({
         url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews`,
         pageSize: 50,

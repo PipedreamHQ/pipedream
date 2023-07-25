@@ -1,7 +1,7 @@
 import { Pipedream } from "@pipedream/types";
 
 interface PdAxiosRequest {
-  $: Pipedream;
+  $?: Pipedream;
 }
 interface PaginatedRequest extends PdAxiosRequest, PaginationParams { }
 
@@ -29,6 +29,7 @@ interface AccountLocation {
 }
 
 export interface ListPostsParams extends PaginatedRequest, AccountLocation { }
+export interface ListReviewsParams extends PaginatedRequest, AccountLocation { }
 
 export interface CreatePostParams extends PdAxiosRequest, AccountLocation {
   data: {
