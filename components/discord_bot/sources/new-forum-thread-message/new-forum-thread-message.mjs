@@ -8,7 +8,7 @@ export default {
   ...common,
   key: "discord_bot-new-forum-thread-message",
   name: "New Forum Thread Message",
-  description: "Emit new event for each forum thread message posted.",
+  description: "Emit new event for each forum thread message posted. Note that your bot must have the `MESSAGE_CONTENT` privilege intent to see the message content, [see the docs here](https://discord.com/developers/docs/topics/gateway#message-content-intent).",
   type: "source",
   version: "0.0.1",
   dedupe: "unique", // Dedupe events based on the Discord message ID
@@ -51,7 +51,8 @@ export default {
           ...acc,
           curr,
         ]
-        : acc;
+        :
+        acc;
     }, []);
 
     // If this is our first time running this source,
@@ -71,8 +72,10 @@ export default {
         });
 
         lastMessageID = messages.length
-          ? maxBy(messages, (message) => message.id).id
-          : 1;
+          ?
+          maxBy(messages, (message) => message.id).id
+          :
+          1;
 
       } else {
         let newMessages = [];
@@ -89,8 +92,10 @@ export default {
           messages = messages.concat(newMessages);
 
           lastMessageID = newMessages.length
-            ? maxBy(newMessages, (message) => message.id).id
-            : lastMessageIDs[channelId];
+            ?
+            maxBy(newMessages, (message) => message.id).id
+            :
+            lastMessageIDs[channelId];
           lastMessageIDs[channelId] = lastMessageID;
 
         } while (newMessages.length);
@@ -107,13 +112,14 @@ export default {
 
       console.log(`${messages.length} new messages in thread ${channelId}`);
 
-      messages.reverse().forEach((message) => {
-        this.$emit(message, {
-          id: message.id, // dedupes events based on this ID
-          summary: `A new message with Id: ${message.id} was posted in forum thread ${channelId}.`,
-          ts: Date.parse(message.timestamp),
+      messages.reverse()
+        .forEach((message) => {
+          this.$emit(message, {
+            id: message.id, // dedupes events based on this ID
+            summary: `A new message with Id: ${message.id} was posted in forum thread ${channelId}.`,
+            ts: Date.parse(message.timestamp),
+          });
         });
-      });
     }
 
     // Set the last message ID for the next run
