@@ -142,12 +142,21 @@ export default defineApp({
     },
     async listPosts({
       account, location, ...args
-    }: ListPostsParams): Promise<object[]> {
-      return this._paginatedRequest({
-        resourceName: "localPosts",
-        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/localPosts`,
-        ...args,
-      });
+    }: ListPostsParams, paginate = true): Promise<object[]> {
+      const url = `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/localPosts`;
+      if (paginate) {
+        return this._paginatedRequest({
+          resourceName: "localPosts",
+          url,
+          ...args,
+        });
+      } else {
+        const response = await this._httpRequest({
+          url,
+          pageSize: 100,
+        });
+        return response?.localPosts;
+      }
     },
     async createPost({
       account, location, ...args
