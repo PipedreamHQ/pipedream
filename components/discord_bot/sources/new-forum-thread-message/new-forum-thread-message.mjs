@@ -8,7 +8,7 @@ export default {
   ...common,
   key: "discord_bot-new-forum-thread-message",
   name: "New Forum Thread Message",
-  description: "Emit new event for each forum thread message posted.",
+  description: "Emit new event for each forum thread message posted. Note that your bot must have the `MESSAGE_CONTENT` privilege intent to see the message content, [see the docs here](https://discord.com/developers/docs/topics/gateway#message-content-intent).",
   type: "source",
   version: "0.0.1",
   dedupe: "unique", // Dedupe events based on the Discord message ID
