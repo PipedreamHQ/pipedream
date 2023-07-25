@@ -255,6 +255,9 @@ importers:
   components/amplifier:
     specifiers: {}
 
+  components/amplitude:
+    specifiers: {}
+
   components/amqp:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2930,7 +2933,10 @@ importers:
     specifiers: {}
 
   components/mux:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mx_toolbox:
     specifiers: {}
@@ -6879,6 +6885,14 @@ packages:
 
   /@aws-sdk/hash-stream-node/3.374.0:
     resolution: {integrity: sha512-Ta7YEFcgc+d4Rt7foV/fbgnXP8IgMAb+JVzZVYcHTwQf836+PdjGfKbamYkh8cM2xE47hzZqPe+BacCjePqH7g==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@smithy/hash-stream-node': 1.0.2
+      tslib: 2.6.0
+    dev: false
+
+  /@aws-sdk/is-array-buffer/3.310.0:
+    resolution: {integrity: sha512-urnbcCR+h9NWUnmOtet/s4ghvzsidFmspfhYaHAmSRdy9yDjdjBJMFjjsn85A1ODUktztm+cVncXjQ38WCMjMQ==}
     engines: {node: '>=14.0.0'}
     deprecated: This package has moved to @smithy/hash-stream-node
     dependencies:
@@ -25740,7 +25754,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 4.2.3
+      string-width: 1.0.2
     dev: true
     optional: true
 
