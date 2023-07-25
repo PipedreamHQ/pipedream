@@ -21,7 +21,7 @@ export default {
         } = await this.listBases({
           params,
         });
-        const options =  (bases ?? []).map((base) => ({
+        const options = (bases ?? []).map((base) => ({
           label: base.name || base.id,
           value: base.id,
         }));
@@ -56,12 +56,16 @@ export default {
       type: "string",
       label: "View",
       description: "The view ID. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.trigger.event.metadata.tableId}}`), you will not be able to select from the list of Views for this step. Please enter a custom expression to specify the **View**.",
-      async options({ baseId }) {
+      async options({
+        baseId, tableId,
+      }) {
         let views;
         try {
-          views = (await this.listViews({
+          const { tables } = await this.listTables({
             baseId,
-          })).views;
+          });
+          const table = tables.find(({ id }) => id === tableId);
+          views = table.views;
         } catch (err) {
           throw new ConfigurationError(`Could not find views for base ID "${baseId}"`);
         }
@@ -95,6 +99,36 @@ export default {
         }));
       },
     },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "Identifier of a record",
+      async options({
+        baseId, tableId, prevContext,
+      }) {
+        const params = {};
+        if (prevContext?.newOffset) {
+          params.offset = prevContext.newOffset;
+        }
+        const {
+          records, offset,
+        } = await this.listRecords({
+          baseId,
+          tableId,
+          params,
+        });
+        const options = (records ?? []).map((record) => ({
+          label: record.fields?.Name || record.id,
+          value: record.id,
+        }));
+        return {
+          options,
+          context: {
+            newOffset: offset,
+          },
+        };
+      },
+    },
   },
   methods: {
     ...commonApp.methods,
@@ -125,11 +159,38 @@ export default {
         ...args,
       });
     },
-    listViews({
-      baseId, ...args
+    listRecords({
+      baseId, tableId, ...args
     }) {
       return this._makeRequest({
-        path: `/meta/bases/${baseId}/views`,
+        path: `/${baseId}/${tableId}`,
+        ...args,
+      });
+    },
+    createRecord({
+      baseId, tableId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${baseId}/${tableId}`,
+        method: "POST",
+        ...args,
+      });
+    },
+    updateRecord({
+      baseId, tableId, recordId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${baseId}/${tableId}/${recordId}`,
+        method: "PATCH",
+        ...args,
+      });
+    },
+    deleteRecord({
+      baseId, tableId, recordId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${baseId}/${tableId}/${recordId}`,
+        method: "DELETE",
         ...args,
       });
     },

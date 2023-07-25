@@ -1,18 +1,19 @@
-import moment from "moment";
-import common from "../common/common.mjs";
+import base from "../common/common.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...base,
   ...common,
   name: "New or Modified Records",
   key: "airtable-new-or-modified-records",
-  description: "Emit an event for each new or modified record in a table",
+  description: "Emit new event for each new or modified record in a table",
   version: "0.2.2",
   type: "source",
   props: {
-    ...common.props,
+    ...base.props,
     tableId: {
       propDefinition: [
-        common.props.airtable,
+        base.props.airtable,
         "tableId",
         ({ baseId }) => ({
           baseId,
@@ -20,56 +21,5 @@ export default {
       ],
       description: "The table ID to watch for changes.",
     },
-  },
-  async run(event) {
-    const {
-      baseId,
-      tableId,
-      viewId,
-    } = this;
-
-    const lastTimestamp = this._getLastTimestamp();
-    const params = {
-      filterByFormula: `LAST_MODIFIED_TIME() > "${lastTimestamp}"`,
-    };
-
-    const data = await this.airtable.getRecords({
-      baseId,
-      tableId,
-      params,
-    });
-
-    if (!data.records.length) {
-      console.log("No new or modified records.");
-      return;
-    }
-
-    const metadata = {
-      baseId,
-      tableId,
-      viewId,
-    };
-
-    let newRecords = 0, modifiedRecords = 0;
-    for (const record of data.records) {
-      if (!lastTimestamp || moment(record.createdTime) > moment(lastTimestamp)) {
-        record.type = "new_record";
-        newRecords++;
-      } else {
-        record.type = "record_modified";
-        modifiedRecords++;
-      }
-
-      record.metadata = metadata;
-
-      this.$emit(record, {
-        summary: `${record.type}: ${JSON.stringify(record.fields)}`,
-        id: record.id,
-      });
-    }
-    console.log(`Emitted ${newRecords} new records(s) and ${modifiedRecords} modified record(s).`);
-
-    // We keep track of the timestamp of the current invocation
-    this.updateLastTimestamp(event);
   },
 };

@@ -3,13 +3,18 @@ import common from "../common/common.mjs";
 import commonActions from "../../common/actions.mjs";
 
 export default {
-  key: "airtable_oauth-get-record",
-  name: "Get Record",
-  description: "Get a record from a table by record ID.",
+  key: "airtable_oauth-update-record",
+  name: "Update Record",
+  description: "Update a single record in a table by Record ID.",
   version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
+    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
+    tableId: {
+      ...common.props.tableId,
+      reloadProps: true,
+    },
     recordId: {
       propDefinition: [
         airtable,
@@ -23,7 +28,10 @@ export default {
       ],
     },
   },
+  async additionalProps() {
+    return commonActions.additionalProps(this);
+  },
   async run({ $ }) {
-    return commonActions.getRecord(this, $);
+    return commonActions.updateRecord(this, $);
   },
 };

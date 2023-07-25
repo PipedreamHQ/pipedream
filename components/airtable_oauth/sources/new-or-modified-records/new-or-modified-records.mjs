@@ -1,13 +1,13 @@
 import base from "../common/common.mjs";
-import common from "./common.mjs";
+import common from "../../../airtable/sources/new-or-modified-records/common.mjs";
 
 export default {
   ...base,
   ...common,
-  name: "New Records",
-  description: "Emit new event for each new record in a table",
-  key: "airtable-new-records",
-  version: "0.2.2",
+  name: "New or Modified Records",
+  key: "airtable_oauth-new-or-modified-records",
+  description: "Emit new event for each new or modified record in a table",
+  version: "0.0.1",
   type: "source",
   props: {
     ...base.props,
