@@ -47,7 +47,7 @@ export default defineApp({
         }: Location) => ({
           label: title,
           value: this.getCleanName(name),
-        }));
+        })) ?? [];
       },
     },
     review: {
@@ -133,7 +133,10 @@ export default defineApp({
       const response = await this._httpRequest({
         url: `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${account}/locations`,
         pageSize: 100,
-        filter,
+        params: {
+          filter,
+          readMask: "name,title"
+        }
       });
       return response?.locations;
     },
