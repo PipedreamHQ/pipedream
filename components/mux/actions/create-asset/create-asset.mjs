@@ -85,6 +85,7 @@ export default {
         ],
         mp4_support: this.mp4Support,
         normalize_audio: this.normalizeAudio,
+        master_access: this.masterAccess,
       },
       $,
     });
