@@ -2192,6 +2192,9 @@
     },
     {
       "path": "components/amplitude"
+    },
+    {
+      "path": "components/google_my_business"
     }
   ]
 }
