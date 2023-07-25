@@ -6,7 +6,7 @@ export default {
   key: "jira-update-issue",
   name: "Update Issue",
   description: "Updates an issue. A transition may be applied and issue properties updated as part of the edit, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-  version: "0.2.5",
+  version: "0.2.6",
   type: "action",
   props: {
     ...common.props,
@@ -15,28 +15,42 @@ export default {
       propDefinition: [
         common.props.app,
         "issueIdOrKey",
-        (c) => ({
-          cloudId: c.cloudId,
+        ({ cloudId }) => ({
+          cloudId,
         }),
       ],
     },
     notifyUsers: {
       type: "boolean",
-      label: "Notify users",
+      label: "Notify Users",
       description: "Whether a notification email about the issue update is sent to all watchers. To disable the notification, administer Jira or administer project permissions are required. If the user doesn't have the necessary permission the request is ignored.",
       optional: true,
     },
     overrideScreenSecurity: {
       type: "boolean",
-      label: "Override screen security",
+      label: "Override Screen Security",
       description: "Whether screen security should be overridden to enable hidden fields to be edited. Available to Connect app users with admin permissions.",
       optional: true,
     },
     overrideEditableFlag: {
       type: "boolean",
-      label: "Override editable flag",
+      label: "Override Editable Flag",
       description: "Whether screen security should be overridden to enable uneditable fields to be edited. Available to Connect app users with admin permissions.",
       optional: true,
+    },
+    transitionId: {
+      label: "Transition ID",
+      description: "The ID of the issue transition. Required when specifying a transition to undertake.",
+      propDefinition: [
+        common.props.app,
+        "transition",
+        ({
+          cloudId, issueIdOrKey,
+        }) => ({
+          cloudId,
+          issueIdOrKey,
+        }),
+      ],
     },
   },
   async additionalProps() {
@@ -56,7 +70,6 @@ export default {
   },
   async run({ $ }) {
     const {
-      // eslint-disable-next-line no-unused-vars
       app,
       cloudId,
       issueIdOrKey,
@@ -76,10 +89,15 @@ export default {
       additionalProps: this.formatFields(dynamicFields),
     });
 
-    const transition = utils.reduceProperties({
+    const { transition } = utils.reduceProperties({
       additionalProps: {
-        id: transitionId,
-        looped: transitionLooped,
+        transition: [
+          transitionId,
+          {
+            id: transitionId,
+            looped: transitionLooped,
+          },
+        ],
       },
     });
 
@@ -91,7 +109,7 @@ export default {
       },
     });
 
-    const response = await this.app.updateIssue({
+    await app.updateIssue({
       $,
       cloudId,
       issueIdOrKey,
@@ -108,6 +126,9 @@ export default {
 
     $.export("$summary", `Issue with ID(or key): ${this.issueIdOrKey} has been updated.`);
 
-    return response;
+    return {
+      success: true,
+      issueIdOrKey,
+    };
   },
 };
