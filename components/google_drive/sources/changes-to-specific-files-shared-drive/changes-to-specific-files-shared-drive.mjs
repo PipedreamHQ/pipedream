@@ -8,6 +8,7 @@
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
 import common from "../common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 import {
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
@@ -25,7 +26,7 @@ export default {
   key: "google_drive-changes-to-specific-files-shared-drive",
   name: "Changes to Specific Files (Shared Drive)",
   description: "Watches for changes to specific files in a shared drive, emitting an event any time a change is made to one of those files",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -127,4 +128,5 @@ export default {
       }
     },
   },
+  sampleEmit,
 };
