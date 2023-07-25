@@ -1,11 +1,12 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "google_calendar-event-start",
   name: "New Event Start",
   description: "Emit new event when the specified time before the Google Calendar event starts",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -37,4 +38,5 @@ export default {
       return eventStart && msFromStart > 0 && msFromStart < intervalMs;
     },
   },
+  sampleEmit,
 };
