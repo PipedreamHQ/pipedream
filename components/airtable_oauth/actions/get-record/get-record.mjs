@@ -1,12 +1,12 @@
-import airtable from "../../airtable.app.mjs";
+import airtable from "../../airtable_oauth.app.mjs";
 import common from "../common/common.mjs";
 import commonActions from "../../common/actions.mjs";
 
 export default {
-  key: "airtable-get-record",
+  key: "airtable_oauth-get-record",
   name: "Get Record",
   description: "Get a record from a table by record ID.",
-  version: "0.2.5",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

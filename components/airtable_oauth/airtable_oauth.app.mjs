@@ -1,23 +1,36 @@
-import commonApp from "./common-app.mjs";
+import commonApp from "../airtable/common-app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...commonApp,
   type: "app",
-  app: "airtable",
+  app: "airtable_oauth",
   propDefinitions: {
     ...commonApp.propDefinitions,
     baseId: {
       type: "string",
       label: "Base",
       description: "The base ID",
-      async options() {
-        // Uses special .bases method on airtable app prop
-        const bases = await this.bases();
-        return (bases ?? []).map((base) => ({
+      async options({ prevContext }) {
+        const params = {};
+        if (prevContext?.newOffset) {
+          params.offset = prevContext.newOffset;
+        }
+        const {
+          bases, offset,
+        } = await this.listBases({
+          params,
+        });
+        const options =  (bases ?? []).map((base) => ({
           label: base.name || base.id,
           value: base.id,
         }));
+        return {
+          options,
+          context: {
+            newOffset: offset,
+          },
+        };
       },
     },
     tableId: {
@@ -25,10 +38,11 @@ export default {
       label: "Table",
       description: "The table ID. If referencing a **Base** dynamically using data from another step (e.g., `{{steps.trigger.event.metadata.baseId}}`), you will not be able to select from the list of Tables, and automatic table options will not work when configuring this step. Please enter a custom expression to specify the **Table**.",
       async options({ baseId }) {
-        // Uses special .tables method on airtable app prop
         let tables;
         try {
-          tables = await this.tables(baseId?.value ?? baseId);
+          tables  = (await this.listTables({
+            baseId,
+          })).tables;
         } catch (err) {
           throw new ConfigurationError(`Could not find tables for base ID "${baseId}"`);
         }
@@ -42,20 +56,16 @@ export default {
       type: "string",
       label: "View",
       description: "The view ID. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.trigger.event.metadata.tableId}}`), you will not be able to select from the list of Views for this step. Please enter a custom expression to specify the **View**.",
-      async options({
-        baseId, tableId,
-      }) {
-        let tableSchema;
+      async options({ baseId }) {
+        let views;
         try {
-          // Uses special .table method on airtable app prop
-          tableSchema = await this.table(
-            baseId?.value ?? baseId,
-            tableId?.value ?? tableId,
-          );
+          views = (await this.listViews({
+            baseId,
+          })).views;
         } catch (err) {
-          throw new ConfigurationError(`Could not find fields for table ID "${tableId}"`);
+          throw new ConfigurationError(`Could not find views for base ID "${baseId}"`);
         }
-        return (tableSchema?.views ?? []).map((view) => ({
+        return (views ?? []).map((view) => ({
           label: view.name || view.id,
           value: view.id,
         }));
@@ -69,21 +79,59 @@ export default {
       async options({
         baseId, tableId,
       }) {
-        let tableSchema;
+        let fields;
         try {
-          // Uses special .table method on airtable app prop
-          tableSchema = await this.table(
-            baseId?.value ?? baseId,
-            tableId?.value ?? tableId,
-          );
+          const { tables } = await this.listTables({
+            baseId,
+          });
+          const table = tables.find(({ id }) => id === tableId);
+          fields = table.fields;
         } catch (err) {
-          throw new ConfigurationError(`Could not find views for table ID "${tableId}"`);
+          throw new ConfigurationError(`Could not find fields for table ID "${tableId}"`);
         }
-        return (tableSchema?.fields ?? []).map((field) => ({
+        return (fields ?? []).map((field) => ({
           label: field.name || field.id,
           value: field.id,
         }));
       },
+    },
+  },
+  methods: {
+    ...commonApp.methods,
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    getRecord({
+      baseId, tableId, recordId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${baseId}/${tableId}/${recordId}`,
+        ...args,
+      });
+    },
+    listBases(args = {}) {
+      return this._makeRequest({
+        path: "/meta/bases",
+        ...args,
+      });
+    },
+    listTables({
+      baseId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/meta/bases/${baseId}/tables`,
+        ...args,
+      });
+    },
+    listViews({
+      baseId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/meta/bases/${baseId}/views`,
+        ...args,
+      });
     },
   },
 };
