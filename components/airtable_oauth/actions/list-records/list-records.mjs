@@ -2,7 +2,7 @@ import common from "../common/common.mjs";
 import commonList from "../common/common-list.mjs";
 
 export default {
-  key: "airtable_auth-list-records",
+  key: "airtable_oauth-list-records",
   name: "List Records",
   description: "Retrieve records from a table with automatic pagination. Optionally sort and filter results.",
   type: "action",
