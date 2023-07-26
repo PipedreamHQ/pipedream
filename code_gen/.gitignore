@@ -1,0 +1,6 @@
+.env
+.vscode
+ve/
+node_modules/
+__pycache__/
+output.mjs
