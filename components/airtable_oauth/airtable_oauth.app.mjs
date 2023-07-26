@@ -99,6 +99,26 @@ export default {
         }));
       },
     },
+    fieldName: {
+      type: "string",
+      label: "Search Field",
+      description: "The field to match against the search value",
+      async options({
+        baseId, tableId,
+      }) {
+        let fields;
+        try {
+          const { tables } = await this.listTables({
+            baseId,
+          });
+          const table = tables.find(({ id }) => id === tableId);
+          fields = table.fields;
+        } catch (err) {
+          throw new ConfigurationError(`Could not find fields for table ID "${tableId}"`);
+        }
+        return (fields ?? []).map((field) => field.name);
+      },
+    },
     recordId: {
       type: "string",
       label: "Record ID",
@@ -120,6 +140,37 @@ export default {
         const options = (records ?? []).map((record) => ({
           label: record.fields?.Name || record.id,
           value: record.id,
+        }));
+        return {
+          options,
+          context: {
+            newOffset: offset,
+          },
+        };
+      },
+    },
+    commentId: {
+      type: "string",
+      label: "Comment ID",
+      description: "Identifier of a comment",
+      async options({
+        baseId, tableId, recordId, prevContext,
+      }) {
+        const params = {};
+        if (prevContext?.newOffset) {
+          params.offset = prevContext.newOffset;
+        }
+        const {
+          comments, offset,
+        } = await this.listComments({
+          baseId,
+          tableId,
+          recordId,
+          params,
+        });
+        const options = (comments ?? []).map((comment) => ({
+          label: comment.text,
+          value: comment.id,
         }));
         return {
           options,
@@ -167,6 +218,14 @@ export default {
         ...args,
       });
     },
+    listComments({
+      baseId, tableId, recordId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${baseId}/${tableId}/${recordId}/comments`,
+        ...args,
+      });
+    },
     createRecord({
       baseId, tableId, ...args
     }) {
@@ -176,11 +235,65 @@ export default {
         ...args,
       });
     },
+    createTable({
+      baseId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/meta/bases/${baseId}/tables`,
+        method: "POST",
+        ...args,
+      });
+    },
+    createField({
+      baseId, tableId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/meta/bases/${baseId}/tables/${tableId}/fields`,
+        method: "POST",
+        ...args,
+      });
+    },
+    createComment({
+      baseId, tableId, recordId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${baseId}/${tableId}/${recordId}/comments`,
+        method: "POST",
+        ...args,
+      });
+    },
     updateRecord({
       baseId, tableId, recordId, ...args
     }) {
       return this._makeRequest({
         path: `/${baseId}/${tableId}/${recordId}`,
+        method: "PATCH",
+        ...args,
+      });
+    },
+    updateTable({
+      baseId, tableId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/meta/bases/${baseId}/tables/${tableId}`,
+        method: "PATCH",
+        ...args,
+      });
+    },
+    updateField({
+      baseId, tableId, fieldId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/meta/bases/${baseId}/tables/${tableId}/fields/${fieldId}`,
+        method: "PATCH",
+        ...args,
+      });
+    },
+    updateComment({
+      baseId, tableId, recordId, commentId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${baseId}/${tableId}/${recordId}/comments/${commentId}`,
         method: "PATCH",
         ...args,
       });
