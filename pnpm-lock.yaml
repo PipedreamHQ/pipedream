@@ -377,7 +377,10 @@ importers:
       mailparser-mit: 1.0.0
 
   components/axonaut:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/azure_devops:
     specifiers:
