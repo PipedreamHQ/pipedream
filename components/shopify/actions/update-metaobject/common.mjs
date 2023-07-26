@@ -35,8 +35,11 @@ export default {
       props[field.key] = {
         type: consts.METAFIELD_TYPES[field.type],
         label: field.definition.name,
-        default: field.value,
+        optional: true,
       };
+      if (field.value) {
+        props[field.key].default = field.value;
+      }
     }
     return props;
   },
@@ -49,7 +52,9 @@ export default {
     for (const field of fields) {
       newFields.push({
         key: field.key,
-        value: this[field.key],
+        value: this[field.key]
+          ? this[field.key]
+          : field.value || "",
       });
     }
 
