@@ -1,0 +1,77 @@
+#languade: pt
+
+Funcionalidade:   Configuraçao de produtos
+Descrição
+Como cliente da EBAC-SHOP
+Quero configurar meu produto de acordo com meu tamanho e gosto e escolher a quantidade
+Para depois inserir no carrinho
+
+Cenario: Configurar produto obrigatorio
+Dado que estou em carcteristicas de produto 
+Quando eu clicar na cor "<cor>" 
+E selecionar o tamanho "<tamanho>"
+E selicionar a quantidade "<quantidade>"
+Então vejo o produto especificado em carrinho
+Exemplo:
+| cor   | tamanho | quantidade |
+| Azul  |    M    |    1       |
+| verde |    p    |    2       |
+| preto |    M    |    3       |
+
+
+
+Cenario: Configurar produto obrigatorio
+Dado que estou em carcteristicas de produto 
+Quando eu clicar na cor "Azul" 
+E selecionar o tamanho "GG"
+E selicionar a quantidade "2"
+Então vejo o produto especificado em carrinho
+
+
+
+Cenario: Configurar limpar
+Dado que estou em carcteristicas de produto 
+Quando eu clicar em "limpar" 
+Então a Configurar produto é iniciada
+
+Funcionalidade: Login na plataforma
+Descrição
+Como cliente da EBAC-SHOP
+Quero fazer o login autenticação na plataforma  
+Para visualizar meus pedidos
+
+Cenario: Login valido
+Dado que estou em pagina de login
+Quando eu digitar usuario e senha validos
+E clico em "entrar" 
+Então sou direcionado a pagina inicial 
+
+Cenario: Login valido
+Dado que estou em pagina de login
+Quando eu digitar usuario e senha invalidos
+E clico em "entrar"  
+Então apresentara uma mensagem "usuario invalido"
+
+Descrição
+Como cliente da EBAC-SHOP
+Quero fazer concluir meu cadastro   
+Para finalizar minha compra
+
+Cenario: Cadastrar dados
+Dado que estou em pagina de cadastro
+Quando preencher todos os campos obrigatorio
+E clico em "Concluir cadastro"
+Então apresentara uma mensagem "cadastrado com sucesso"
+
+Cenario: Cadastrar dados de um email invalido
+Dado que estou em pagina de cadastro
+Quando preencher todos os campos obrigatorio
+E inserir um email invalido
+E clico em "Concluir cadastro"
+Então apresentara uma mensagem "imail invalido"
+
+Cenario: Tentar cadastro com campos vazios
+Dado que estou em pagina de cadastro
+Quando não preencher todos os campos obrigatorio
+E clico em "Concluir cadastro"
+Então apresentara uma mensagem "indicando a falta de preenchimento"
