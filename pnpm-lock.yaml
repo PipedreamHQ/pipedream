@@ -1897,6 +1897,9 @@ importers:
   components/google_maps_platform:
     specifiers: {}
 
+  components/google_my_business:
+    specifiers: {}
+
   components/google_palm_api:
     specifiers:
       '@google-ai/generativelanguage': ^0.2.0
@@ -2817,10 +2820,12 @@ importers:
 
   components/microsoft_outlook:
     specifiers:
+      '@pipedream/platform': ^1.5.1
       axios: ^0.21.1
       js-base64: ^3.7.2
       mime-types: ^2.1.35
     dependencies:
+      '@pipedream/platform': 1.5.1
       axios: 0.21.4
       js-base64: 3.7.5
       mime-types: 2.1.35
@@ -6886,15 +6891,6 @@ packages:
   /@aws-sdk/hash-stream-node/3.374.0:
     resolution: {integrity: sha512-Ta7YEFcgc+d4Rt7foV/fbgnXP8IgMAb+JVzZVYcHTwQf836+PdjGfKbamYkh8cM2xE47hzZqPe+BacCjePqH7g==}
     engines: {node: '>=14.0.0'}
-    dependencies:
-      '@smithy/hash-stream-node': 1.0.2
-      tslib: 2.6.0
-    dev: false
-
-  /@aws-sdk/is-array-buffer/3.310.0:
-    resolution: {integrity: sha512-urnbcCR+h9NWUnmOtet/s4ghvzsidFmspfhYaHAmSRdy9yDjdjBJMFjjsn85A1ODUktztm+cVncXjQ38WCMjMQ==}
-    engines: {node: '>=14.0.0'}
-    deprecated: This package has moved to @smithy/hash-stream-node
     dependencies:
       '@smithy/hash-stream-node': 1.0.2
       tslib: 2.6.0
