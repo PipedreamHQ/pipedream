@@ -3856,12 +3856,6 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
-  components/replicate:
-    specifiers:
-      replicate: ^0.12.3
-    dependencies:
-      replicate: 0.12.3
-
   components/reply_io:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -23037,11 +23031,6 @@ packages:
   /repeat-string/1.6.1:
     resolution: {integrity: sha512-PV0dzCYDNfRi1jCDbJzpW7jNNDRuCOG/jI5ctQcGKt/clZD+YcPS3yIlWuTJMmESC8aevCFmWJy5wjAFgNqN6w==}
     engines: {node: '>=0.10'}
-    dev: false
-
-  /replicate/0.12.3:
-    resolution: {integrity: sha512-HVWKPoVhWVTONlWk+lUXmq9Vy2J8MxBJMtDBQq3dA5uq71ZzKTh0xvJfvzW4+VLBjhBeL7tkdua6hZJmKfzAPQ==}
-    engines: {git: '>=2.11.0', node: '>=16.6.0', npm: '>=7.19.0', yarn: '>=1.7.0'}
     dev: false
 
   /request-promise-any/1.0.9_request@2.88.2:
