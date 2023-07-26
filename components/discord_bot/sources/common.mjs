@@ -11,11 +11,11 @@ export default {
     _setLastMessageIDs(lastMessageIDs) {
       this.db.set(constants.LAST_MESSAGE_IDS, lastMessageIDs);
     },
-    _getGuildMemberIDs() {
-      return this.db.get(constants.GUILD_MEMBER_IDS) ?? {};
+    _getLastMemberID() {
+      return this.db.get(constants.LAST_MEMBER_ID);
     },
-    _setGuildMemberIDs(memberIDs) {
-      this.db.set(constants.GUILD_MEMBER_IDS, memberIDs);
+    _setLastMemberID(memberID) {
+      this.db.set(constants.LAST_MEMBER_ID, memberID);
     },
   },
 };

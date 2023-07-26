@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Ticket",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "freshservice-new-ticket",
   description: "Emit new event for each created ticket. [See documentation](https://api.freshservice.com/#view_all_ticket)",
   type: "source",

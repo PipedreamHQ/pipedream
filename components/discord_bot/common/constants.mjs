@@ -1,5 +1,6 @@
 const LAST_MESSAGE_IDS = "lastMessageIDs";
 const GUILD_MEMBER_IDS = "guildMemberIDs";
+const LAST_MEMBER_ID = "lastMemberID";
 const DEFAULT_MAX_ITEMS = 60;
 const DEFAULT_PAGE_LIMIT = 20;
 const PAGINATION_KEY = {
@@ -67,6 +68,7 @@ const NOT_ALLOWED_CHANNELS = [
 export default {
   LAST_MESSAGE_IDS,
   GUILD_MEMBER_IDS,
+  LAST_MEMBER_ID,
   PERMISSION_TYPES,
   CHANNEL_TYPES,
   NOT_ALLOWED_CHANNELS,
