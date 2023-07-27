@@ -41,12 +41,14 @@ export default {
     },
     async processStreamEvents(resourcesStream) {
       const resources = await utils.streamIterator(resourcesStream);
-      Array.from(resources).reverse().forEach(this.processEvent);
+      Array.from(resources)
+        .reverse()
+        .forEach(this.processEvent);
     },
   },
   async run() {
     let shopId = this.getShopId();
-    
+
     if (!shopId) {
       ({ shop_id: shopId } = await this.app.getMe());
       this.setShopId(shopId);

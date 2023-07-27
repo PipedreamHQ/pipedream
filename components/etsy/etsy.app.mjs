@@ -9,7 +9,9 @@ export default {
       type: "string",
       label: "Shop ID",
       description: "The ID of the shop.",
-      async options({ query, page }) {
+      async options({
+        query, page,
+      }) {
         const { results } = await this.findShops({
           params: {
             shop_name: query || "",
@@ -18,7 +20,7 @@ export default {
           },
         });
         const options = results?.map(({
-          shop_id: value, shop_name: label
+          shop_id: value, shop_name: label,
         }) => ({
           label,
           value,
@@ -32,7 +34,9 @@ export default {
       type: "string",
       label: "Listing ID",
       description: "The ID of the listing.",
-      async options({ shopId, state, page, prevContext }) {
+      async options({
+        shopId, state, page, prevContext,
+      }) {
         shopId = shopId || prevContext.shopId;
 
         if (!shopId) {
@@ -46,11 +50,11 @@ export default {
             sort_on: "created",
             offset: constants.DEFAULT_LIMIT * page,
             state,
-          }
+          },
         });
 
         const options = results?.map(({
-          listing_id: value, title: label
+          listing_id: value, title: label,
         }) => ({
           label,
           value,
@@ -68,7 +72,9 @@ export default {
       type: "string",
       label: "Property ID",
       description: "The ID of the property.",
-      async options({ listingId, prevContext }) {
+      async options({
+        listingId, prevContext,
+      }) {
         let shopId = prevContext.shopId;
 
         if (!shopId) {
@@ -81,7 +87,7 @@ export default {
         });
 
         const options = results?.map(({
-          property_id: value, property_name: label
+          property_id: value, property_name: label,
         }) => ({
           label,
           value,
@@ -109,11 +115,11 @@ export default {
         const promise = taxonomyType === constants.TAXONOMY_TYPE.SELLER
           ? this.getSellerTaxonomyNodes()
           : this.getBuyerTaxonomyNodes();
-        
+
         const { results } = await promise;
 
         return results?.map(({
-          id: value, name: label
+          id: value, name: label,
         }) => ({
           label: `${label} (${taxonomyType})`,
           value,
@@ -216,13 +222,13 @@ export default {
     },
     getBuyerTaxonomyNodes(args = {}) {
       return this.makeRequest({
-        path: `/application/buyer-taxonomy/nodes`,
+        path: "/application/buyer-taxonomy/nodes",
         ... args,
       });
     },
     getSellerTaxonomyNodes(args = {}) {
       return this.makeRequest({
-        path: `/application/seller-taxonomy/nodes`,
+        path: "/application/seller-taxonomy/nodes",
         ... args,
       });
     },
@@ -269,7 +275,7 @@ export default {
         for (const resource of nextResources) {
           yield resource;
           resourcesCount += 1;
-          
+
           if (resourcesCount >= max) {
             return;
           }

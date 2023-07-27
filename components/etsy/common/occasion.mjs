@@ -94,5 +94,5 @@ export default [
   {
     value: 32,
     label: "Wedding",
-  }
+  },
 ];

@@ -6,7 +6,6 @@ async function streamIterator(stream) {
   return resources;
 }
 
-
 export default {
   streamIterator,
 };

@@ -74,5 +74,5 @@ export default [
   {
     value: 11,
     label: "Yellow",
-  }
+  },
 ];

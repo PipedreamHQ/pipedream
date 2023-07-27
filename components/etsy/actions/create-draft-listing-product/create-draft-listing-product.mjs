@@ -18,7 +18,7 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "The listing's title string. When creating or updating a listing, valid title strings contain only letters, numbers, punctuation marks, mathematical symbols, whitespace characters, `™`, `©`, and `®`. (regex: `/[^\p{L}\p{Nd}\p{P}\p{Sm}\p{Zs}™©®]/u`) You can only use the `%`, `:`, `&` and `+` characters once each.",
+      description: "The listing's title string. When creating or updating a listing, valid title strings contain only letters, numbers, punctuation marks, mathematical symbols, whitespace characters, `™`, `©`, and `®`. (regex: `/[^\\p{L}\\p{Nd}\\p{P}\\p{Sm}\\p{Zs}™©®]/u`) You can only use the `%`, `:`, `&` and `+` characters once each.",
     },
     description: {
       type: "string",
@@ -52,7 +52,9 @@ export default {
       propDefinition: [
         app,
         "taxonomyId",
-        ({ taxonomyType }) => ({ taxonomyType }),
+        ({ taxonomyType }) => ({
+          taxonomyType,
+        }),
       ],
     },
     isSupply: {
@@ -141,7 +143,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully created draft listing product with ID ${response.listing_id}.`)
+    step.export("$summary", `Successfully created draft listing product with ID ${response.listing_id}.`);
 
     return response;
   },

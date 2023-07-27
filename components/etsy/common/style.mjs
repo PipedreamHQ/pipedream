@@ -74,5 +74,5 @@ export default [
   {
     value: 474,
     label: "Western & cowboy",
-  }
+  },
 ];

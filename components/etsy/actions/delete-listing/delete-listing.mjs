@@ -16,7 +16,6 @@ export default {
       ],
     },
     state: {
-      optional: true,
       propDefinition: [
         app,
         "state",
@@ -26,7 +25,12 @@ export default {
       propDefinition: [
         app,
         "listingId",
-        ({ shopId, state }) => ({ shopId, state }),
+        ({
+          shopId, state,
+        }) => ({
+          shopId,
+          state,
+        }),
       ],
     },
   },

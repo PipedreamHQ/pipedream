@@ -66,5 +66,5 @@ export default [
   {
     value: 49,
     label: "Veterans Day",
-  }
+  },
 ];

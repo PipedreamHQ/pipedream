@@ -6,7 +6,7 @@ export default {
   name: "Update Listing Property",
   description: "Updates or populates the properties list defining product offerings for a listing. Each offering requires both a `value` and a `value_id` that are valid for a `scale_id` assigned to the listing or that you assign to the listing with this request. [See the Documentation](https://developers.etsy.com/documentation/reference#operation/updateListingProperty)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.29",
   props: {
     app,
     shopId: {
@@ -17,7 +17,6 @@ export default {
       ],
     },
     state: {
-      optional: true,
       propDefinition: [
         app,
         "state",
@@ -27,23 +26,30 @@ export default {
       propDefinition: [
         app,
         "listingId",
-        ({ shopId, state }) => ({ shopId, state }),
+        ({
+          shopId, state,
+        }) => ({
+          shopId,
+          state,
+        }),
       ],
     },
     propertyId: {
       propDefinition: [
         app,
         "propertyId",
-        ({ listingId }) => ({ listingId }),
+        ({ listingId }) => ({
+          listingId,
+        }),
       ],
     },
     valueId: {
       type: "integer",
       label: "Value",
-      description: "The value of the property.",
+      description: "The value of the property. If you don't get a list of values you can also set a structure like this `{{{\"value\": 1, \"label\": \"Black\"}}}` as an example using the **Enter a custom expression** tab.",
       withLabel: true,
       options() {
-        return propertyValues[this.propertyId];
+        return propertyValues[this.propertyId] || [];
       },
     },
   },
@@ -58,7 +64,9 @@ export default {
     },
   },
   async run({ $: step }) {
-    const { listingId, propertyId, valueId } = this;
+    const {
+      listingId, propertyId, valueId,
+    } = this;
 
     const { shop_id: shopId } = await this.app.getMe();
 
