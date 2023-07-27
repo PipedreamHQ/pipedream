@@ -8,7 +8,7 @@ export default {
   key: "mysql-new-row-custom-query",
   name: "New Row (Custom Query)",
   description: "Emit new event when new rows are returned from a custom query. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -46,6 +46,10 @@ export default {
         table,
         condition,
         values,
+        rejectUnauthorized,
+        ca,
+        key,
+        cert,
       } = this;
 
       const numberOfQuestionMarks = condition?.match(/\?/g)?.length;
@@ -66,7 +70,12 @@ export default {
         table,
         condition,
         values,
-        rejectUnauthorized: this.rejectUnauthorized,
+        ssl: {
+          rejectUnauthorized,
+          ca,
+          key,
+          cert,
+        },
       });
       this.iterateAndEmitEvents(rows);
     },

@@ -16,6 +16,24 @@ export default {
         "rejectUnauthorized",
       ],
     },
+    ca: {
+      propDefinition: [
+        mysql,
+        "ca",
+      ],
+    },
+    key: {
+      propDefinition: [
+        mysql,
+        "key",
+      ],
+    },
+    cert: {
+      propDefinition: [
+        mysql,
+        "cert",
+      ],
+    },
   },
   methods: {
     _getLastResult() {
@@ -44,23 +62,41 @@ export default {
      * @param {string} column - Name of the table column to order by
      */
     async listRowResults(column) {
+      const {
+        table,
+        rejectUnauthorized,
+        ca,
+        key,
+        cert,
+      } = this;
+
       let lastResult = this._getLastResult();
-      const rows = await this.mysql.listRows(
-        this.table,
+      const rows = await this.mysql.listRows({
+        table,
         column,
         lastResult,
-        this.rejectUnauthorized,
-      );
+        ssl: {
+          rejectUnauthorized,
+          ca,
+          key,
+          cert,
+        },
+      });
       this._setLastResult(rows, column);
       this.iterateAndEmitEvents(rows);
     },
     async listTopRows(column, maxCount = 10) {
-      const rows = await this.mysql.listMaxRows(
-        this.table,
+      const rows = await this.mysql.listMaxRows({
+        table: this.table,
         column,
         maxCount,
-        this.rejectUnauthorized,
-      );
+        ssl: {
+          rejectUnauthorized: this.rejectUnauthorized,
+          ca: this.ca,
+          key: this.key,
+          cert: this.cert,
+        },
+      });
       this._setLastResult(rows, column);
       this.iterateAndEmitEvents(rows);
     },

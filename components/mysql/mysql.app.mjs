@@ -1,4 +1,5 @@
 import mysqlClient from "mysql2/promise";
+import fs from "fs";
 
 export default {
   type: "app",
@@ -98,9 +99,29 @@ export default {
       default: false,
       optional: true,
     },
+    ca: {
+      type: "string",
+      label: "CA Path",
+      description: "The path to a file containing a list of trusted SSL CAs previously downloaded in Pipedream E.g. (`/tmp/pubkey.pem`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory). The file must be in PEM format. If this is not set, the default system CAs are used.",
+      optional: true,
+    },
+    key: {
+      type: "string",
+      label: "Key Path",
+      description: "The path to a file containing the client private key in PEM format. E.g. (`/tmp/key.pem`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).",
+      optional: true,
+    },
+    cert: {
+      type: "string",
+      label: "Cert Path",
+      description: "The path to a file containing the client certificate in PEM format. E.g. (`/tmp/cert.pem`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).",
+      optional: true,
+    },
   },
   methods: {
-    async getConnection(rejectUnauthorized = false) {
+    async getConnection({
+      ssl, ...args
+    } = {}) {
       const {
         host,
         port,
@@ -108,16 +129,22 @@ export default {
         password,
         database,
       } = this.$auth;
-      return mysqlClient.createConnection({
+      const config = {
+        debug: true,
         host,
         port,
         user: username,
         password,
         database,
         ssl: {
-          rejectUnauthorized,
+          rejectUnauthorized: ssl?.rejectUnauthorized ?? false,
+          ca: ssl?.rejectUnauthorized && ssl?.ca && fs.readFileSync(ssl.ca, "utf-8"),
+          key: ssl?.rejectUnauthorized && ssl?.key && fs.readFileSync(ssl.key, "utf-8"),
+          cert: ssl?.rejectUnauthorized && ssl?.cert && fs.readFileSync(ssl.cert, "utf-8"),
         },
-      });
+        ...args,
+      };
+      return mysqlClient.createConnection(config);
     },
     async closeConnection(connection) {
       const connectionClosed = new Promise((resolve) => {
@@ -134,11 +161,13 @@ export default {
       ] = await connection.execute(preparedStatement);
       return result;
     },
-    async executeQueryConnectionHandler(preparedStatement, rejectUnauthorized = false) {
+    async executeQueryConnectionHandler({
+      preparedStatement, ...args
+    } = {}) {
       let connection;
 
       try {
-        connection = await this.getConnection(rejectUnauthorized);
+        connection = await this.getConnection(args);
 
         return await this.executeQuery({
           connection,
@@ -151,13 +180,13 @@ export default {
         }
       }
     },
-    async listStoredProcedures(rejectUnauthorized = false) {
-      const preparedStatement = {
-        sql: "SHOW PROCEDURE STATUS",
-      };
-
-      const procedures = await this.executeQueryConnectionHandler(preparedStatement,
-        rejectUnauthorized);
+    async listStoredProcedures(args = {}) {
+      const procedures = await this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: "SHOW PROCEDURE STATUS",
+        },
+        ...args,
+      });
 
       return procedures.map(({
         Db: db, Name: name,
@@ -169,166 +198,215 @@ export default {
         };
       });
     },
-    async listTables(rejectUnauthorized = false) {
-      const preparedStatement = {
-        sql: "SHOW FULL TABLES",
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+    listTables(args = {}) {
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: "SHOW FULL TABLES",
+        },
+        ...args,
+      });
     },
-    async listBaseTables(lastResult, rejectUnauthorized) {
-      const preparedStatement = {
-        sql: `
-          SELECT * FROM INFORMATION_SCHEMA.TABLES 
-            WHERE TABLE_TYPE = 'BASE TABLE'
-            AND CREATE_TIME > ?
-            ORDER BY CREATE_TIME DESC
-        `,
-        values: [
-          lastResult,
-        ],
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+    listBaseTables({
+      lastResult, ...args
+    } = {}) {
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `
+            SELECT * FROM INFORMATION_SCHEMA.TABLES 
+              WHERE TABLE_TYPE = 'BASE TABLE'
+              AND CREATE_TIME > ?
+              ORDER BY CREATE_TIME DESC
+          `,
+          values: [
+            lastResult,
+          ],
+        },
+        ...args,
+      });
     },
-    async listTopTables(maxCount = 10, rejectUnauthorized) {
-      const preparedStatement = {
-        sql: `
-          SELECT * FROM INFORMATION_SCHEMA.TABLES 
-            WHERE TABLE_TYPE = 'BASE TABLE'
-            ORDER BY CREATE_TIME DESC
-            LIMIT ${maxCount}
-        `,
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+    listTopTables({
+      maxCount = 10, ...args
+    } = {}) {
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `
+            SELECT * FROM INFORMATION_SCHEMA.TABLES 
+              WHERE TABLE_TYPE = 'BASE TABLE'
+              ORDER BY CREATE_TIME DESC
+              LIMIT ${maxCount}
+          `,
+        },
+        ...args,
+      });
     },
-    async listColumns(table, rejectUnauthorized) {
-      const preparedStatement = {
-        sql: `SHOW COLUMNS FROM \`${table}\``,
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+    listColumns({
+      table, ...args
+    } = {}) {
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `SHOW COLUMNS FROM \`${table}\``,
+        },
+        ...args,
+      });
     },
-    async listNewColumns(table, previousColumns, rejectUnauthorized) {
-      const preparedStatement = {
-        sql: `
-          SHOW COLUMNS FROM \`${table}\`
-          WHERE Field NOT IN (?)
-        `,
-        values: [
-          previousColumns.join(),
-        ],
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+    listNewColumns({
+      table, previousColumns, ...args
+    } = {}) {
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `
+            SHOW COLUMNS FROM \`${table}\`
+            WHERE Field NOT IN (?)
+          `,
+          values: [
+            previousColumns?.join(),
+          ],
+        },
+        ...args,
+      });
     },
     /**
      * Returns rows from a specified table.
-     * @param {string} table - Name of the table to search.
-     * @param {string} column - Name of the table column to order by
-     * @param {string} lastResult - Maximum result in the specified table column
+     * @param {object} args - Arguments object to pass to the method.
+     * @param {string} args.table - Name of the table to search.
+     * @param {string} args.column - Name of the table column to order by
+     * @param {string} args.lastResult - Maximum result in the specified table column
      * that has been previously returned.
      */
-    async listRows(table, column, lastResult, rejectUnauthorized) {
-      const preparedStatement = {
-        sql: `
-          SELECT * FROM \`${table}\`
-          WHERE \`${column}\` > ? 
-          ORDER BY \`${column}\` DESC
-        `,
-        values: [
-          lastResult,
-        ],
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+    listRows({
+      table, column, lastResult, ...args
+    } = {}) {
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `
+            SELECT * FROM \`${table}\`
+            WHERE \`${column}\` > ? 
+            ORDER BY \`${column}\` DESC
+          `,
+          values: [
+            lastResult,
+          ],
+        },
+        ...args,
+      });
     },
     /**
      * Returns rows from a specified table. Used when lastResult has not yet been set.
      * Returns a maximum of 10 results
      * ordered by the specified column.
+     * @param {object} args - Arguments object to pass to the method.
      * @param {string} table - Name of the table to search.
      * @param {string} column - Name of the table column to order by
+     * @param {number} maxCount - Maximum number of results to return.
      */
-    async listMaxRows(table, column, maxCount = 10, rejectUnauthorized) {
-      const preparedStatement = {
-        sql: `
-          SELECT * FROM \`${table}\`
-            ORDER BY \`${column}\` DESC
-            LIMIT ${maxCount}
-        `,
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+    listMaxRows({
+      table, column, maxCount = 10, ...args
+    } = {}) {
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `
+            SELECT * FROM \`${table}\`
+              ORDER BY \`${column}\` DESC
+              LIMIT ${maxCount}
+          `,
+        },
+        ...args,
+      });
     },
-    async getPrimaryKey(table, rejectUnauthorized) {
-      const preparedStatement = {
-        sql: "SHOW KEYS FROM ? WHERE Key_name = 'PRIMARY'",
-        values: [
-          table,
-        ],
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+    getPrimaryKey({
+      table, ...args
+    } = {}) {
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: "SHOW KEYS FROM ? WHERE Key_name = 'PRIMARY'",
+          values: [
+            table,
+          ],
+        },
+        ...args,
+      });
     },
-    async listColumnNames(table, rejectUnauthorized) {
-      const columns = await this.listColumns(table, rejectUnauthorized);
+    async listColumnNames({
+      table, ...args
+    } = {}) {
+      const columns = await this.listColumns({
+        table,
+        ...args,
+      });
       return columns.map((column) => column.Field);
     },
-    async findRows({
-      table, condition, values = [], rejectUnauthorized,
-    }) {
-      const preparedStatement = {
-        sql: `SELECT * FROM \`${table}\` WHERE ${condition}`,
-        values,
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+    findRows({
+      table, condition, values = [], ...args
+    } = {}) {
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `SELECT * FROM \`${table}\` WHERE ${condition}`,
+          values,
+        },
+        ...args,
+      });
     },
-    async deleteRows({
-      table, condition, values = [], rejectUnauthorized,
-    }) {
-      const preparedStatement = {
-        sql: `DELETE FROM \`${table}\` WHERE ${condition}`,
-        values,
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+    deleteRows({
+      table, condition, values = [], ...args
+    } = {}) {
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `DELETE FROM \`${table}\` WHERE ${condition}`,
+          values,
+        },
+        ...args,
+      });
     },
-    async insertRow({
-      table, columns = [], values = [], rejectUnauthorized,
-    }) {
+    insertRow({
+      table, columns = [], values = [], ...args
+    } = {}) {
       const placeholder = values.map(() => "?").join(",");
-      const preparedStatement = {
-        sql: `
-          INSERT INTO \`${table}\` (${columns.join(",")})
-            VALUES (${placeholder})
-        `,
-        values,
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `
+            INSERT INTO \`${table}\` (${columns.join(",")})
+              VALUES (${placeholder})
+          `,
+          values,
+        },
+        ...args,
+      });
     },
-    async updateRow({
-      table, condition, conditionValues = [], columnsToUpdate = [], valuesToUpdate = [],
-      rejectUnauthorized,
-    }) {
+    updateRow({
+      table, condition,
+      conditionValues = [], columnsToUpdate = [], valuesToUpdate = [],
+      ...args
+    } = {}) {
       const updates =
         columnsToUpdate
           .map((column) => `\`${column}\` = ?`);
 
-      const preparedStatement = {
-        sql: `
-          UPDATE \`${table}\`
-            SET ${updates}
-            WHERE ${condition}`,
-        values: [
-          ...valuesToUpdate,
-          ...conditionValues,
-        ],
-      };
-      return this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+      return this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `
+            UPDATE \`${table}\`
+              SET ${updates}
+              WHERE ${condition}`,
+          values: [
+            ...valuesToUpdate,
+            ...conditionValues,
+          ],
+        },
+        ...args,
+      });
     },
     async executeStoredProcedure({
-      storedProcedure, values = [], rejectUnauthorized,
-    }) {
-      const preparedStatement = {
-        sql: `CALL ${storedProcedure}(${values.map(() => "?")})`,
-        values,
-      };
+      storedProcedure, values = [], ...args
+    } = {}) {
       const [
         result,
-      ] = await this.executeQueryConnectionHandler(preparedStatement, rejectUnauthorized);
+      ] = await this.executeQueryConnectionHandler({
+        preparedStatement: {
+          sql: `CALL ${storedProcedure}(${values.map(() => "?")})`,
+          values,
+        },
+        ...args,
+      });
       return result;
     },
   },
