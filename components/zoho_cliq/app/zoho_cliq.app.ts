@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "credit_repair_cloud",
+  app: "zoho_cliq",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

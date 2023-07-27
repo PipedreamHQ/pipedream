@@ -2,7 +2,7 @@ import app from "../../google_tag_manager.app.mjs";
 
 export default {
   name: "Create Tag",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "google_tag_manager-create-tag",
   description: "Create a tag in a workspace. [See the documentation](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/create)",
   type: "action",
@@ -107,7 +107,7 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully create tag with ID ${response.tagId}`);
+      $.export("$summary", `Successfully created tag with ID ${response.tagId}`);
     }
 
     return response;

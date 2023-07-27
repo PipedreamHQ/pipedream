@@ -1,4 +1,4 @@
-import constants from "../constants.mjs";
+import constants from "./constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
