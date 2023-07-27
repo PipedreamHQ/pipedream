@@ -1,12 +1,13 @@
-import os
-from supabase import create_client, Client
+from config.config import config
+from supabase import create_client
 from dotenv import load_dotenv
 load_dotenv()
 
 
 class SupabaseConnector:
     def __init__(self):
-        url: str = os.environ.get('SUPABASE_URL')
-        key: str = os.environ.get('SUPABASE_KEY')
-        self.table: str = 'components'
-        self.client: Client = create_client(url, key)
+        self.client = create_client(
+            config['supabase']['url'],
+            config['supabase']['api_key']
+        )
+        self.table = 'components'

@@ -1,7 +1,7 @@
 import os
 import openai
-import config.config as config
 import templates.transform as templates
+from config.config import config
 from dotenv import load_dotenv
 load_dotenv()
 

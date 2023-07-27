@@ -1,8 +1,8 @@
 import os
 import openai
-import logging_config
-import config.config as config
+import config.logging_config as logging_config
 import templates.generate as templates
+from config.config import config
 from langchain import LLMChain
 from langchain.agents import ZeroShotAgent, AgentExecutor
 from langchain.chat_models import ChatOpenAI

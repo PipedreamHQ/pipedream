@@ -1,8 +1,5 @@
 import os
 import argparse
-from code_gen.generate_component_code import main
-from code_gen.transform_code import transform
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -13,7 +10,9 @@ if __name__ == '__main__':
 
     if args.verbose:
         os.environ['DEBUG'] = '1'
-        import config.config as config
+
+    from code_gen.generate_component_code import main
+    from code_gen.transform_code import transform
 
     code = main(args.app, args.prompt)
     result = transform(code)

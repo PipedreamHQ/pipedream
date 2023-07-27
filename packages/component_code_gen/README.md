@@ -9,7 +9,7 @@ Generate components (currently actions only) using OpenAI GPT-4.
 APP=slack
 PROMPT="how to send myself a direct message?"
 python run.py --app "$APP" "$PROMPT"
-python run.py --app "$APP" "$PROMPT" --no-print # do not print code output to terminal
+python run.py --app "$APP" "$PROMPT" --verbose # print debug logs
 ```
 
 

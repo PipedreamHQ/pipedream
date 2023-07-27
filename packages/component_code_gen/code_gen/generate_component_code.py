@@ -1,4 +1,4 @@
-import logging_config
+import config.logging_config as logging_config
 import helpers.langchain_helpers as langchain_helpers
 import helpers.supabase_helpers as supabase_helpers
 from dotenv import load_dotenv
