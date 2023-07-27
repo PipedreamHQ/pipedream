@@ -2,7 +2,7 @@ import os
 import argparse
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--app', '-a', help='the app_name_slug', required=True)
     parser.add_argument('prompt', help='the prompt to send to gpt-4, in between quotes')
@@ -19,3 +19,7 @@ if __name__ == '__main__':
     code = main(args.app, args.prompt)
     result = transform(code)
     print(result)
+
+
+if __name__ == '__main__':
+    main()
