@@ -8,29 +8,26 @@ load_dotenv()
 def main(app, prompt):
     logger = logging_config.getLogger(__name__)
 
-    use_docs = True
+    use_docs = False
     db = supabase_helpers.SupabaseConnector()
-    row = db.client.table('components').select('*').match({'app_name_slug': app}).execute().data[0]
+    app_docs = db.get_app_docs(app)
 
-    if row is None:
+    if app_docs is None:
         return langchain_helpers.no_docs(app, prompt)
 
-    if row['docs_url']:
-        rows = db.client.table('api_reference_urls').select('url,content').neq('content', None).match({'app': app}).execute().data
-        if len(rows or []) == 0:
-            use_docs = False
-        else:
-            docs =  { row['url']: row['content'] for row in rows }
+    if app_docs['docs_url']:
+        contents = db.get_docs_contents(app)
+        if contents:
+            docs =  { row['url']: row['content'] for row in contents }
             logger.debug("using api reference docs")
-    elif row['openapi_url']:
-        rows = db.client.table('openapi_paths').select('path,content').match({'app': app}).neq('content', None).execute().data
-        if len(rows or []) == 0:
-            use_docs = False
-        else:
-            docs = { row['path']: row['content'] for row in rows }
+            use_docs = True
+
+    elif app_docs['openapi_url']:
+        contents = db.get_openapi_contents(app)
+        if contents:
+            docs = { row['path']: row['content'] for row in contents }
             logger.debug("using openapi docs")
-    else:
-        use_docs = False
+            use_docs = True
 
     if use_docs:
         result = langchain_helpers.ask_agent(prompt, docs)

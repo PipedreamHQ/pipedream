@@ -10,4 +10,35 @@ class SupabaseConnector:
             config['supabase']['url'],
             config['supabase']['api_key']
         )
-        self.table = 'components'
+
+    def get_app_docs(self, app):
+        row = self.client \
+            .table('components') \
+            .select('docs_url, openapi_url') \
+            .match({'app_name_slug': app}) \
+            .single() \
+            .execute() \
+            .data
+        return row
+
+    def get_docs_contents(self, app):
+        rows = self.client \
+            .table('api_reference_urls') \
+            .select('url, content') \
+            .neq('content', None) \
+            .match({'app': app}) \
+            .execute() \
+            .data
+        if rows and len(rows) > 0:
+            return rows
+
+    def get_openapi_contents(self, app):
+        rows = self.client \
+            .table('openapi_paths') \
+            .select('path,content') \
+            .match({'app': app}) \
+            .neq('content', None) \
+            .execute() \
+            .data
+        if rows and len(rows) > 0:
+            return rows
