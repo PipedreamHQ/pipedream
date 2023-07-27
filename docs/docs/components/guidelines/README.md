@@ -168,8 +168,8 @@ directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
 #### Using APIs vs Client Libraries
 
 If the app has a well-supported [Node.js client
-library](/components/api/#using-npm-packages), that should be preferred to manually
-constructed API requests to reduce code and improve maintenance.
+library](/components/api/#using-npm-packages), feel free to use that instead of manually
+constructing API requests.
 
 ### `package.json`
 
@@ -516,6 +516,18 @@ Use built-in [deduping strategies](/components/api/#dedupe-strategies) whenever 
 (`unique`, `greatest`, `last`) vs developing custom deduping code. Develop
 custom deduping code if the existing strategies do not support the requirements
 for a source.
+
+### Surfacing Test Events
+
+In order to provide users with source events that they can immediately reference when building their workflow, we should employ 2 strategies whenever possible:
+
+#### Emit Events on First Run:
+- Polling sources should emit events on the first run. 
+- Webhook-based sources should fetch existing events in the `deploy()` hook
+
+#### Include a static sample event
+- In case users aren't able to generate real source data
+- 
 
 ### Polling Sources
 
