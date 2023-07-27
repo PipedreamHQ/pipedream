@@ -1,5 +1,6 @@
 import os
 import openai
+import logging_config
 import templates.generate as templates
 from langchain import LLMChain
 from langchain.agents import ZeroShotAgent, AgentExecutor
@@ -20,14 +21,14 @@ class OpenAPIExplorerTool:
 
 
 class PipedreamOpenAPIAgent:
-    def __init__(self, docs, prompt, verbose=False):
+    def __init__(self, docs, prompt):
         tools = OpenAPIExplorerTool.create_tools(docs)
         tool_names = [tool.name for tool in tools]
         llm = ChatOpenAI(model_name='gpt-4', temperature=0, request_timeout=300)
         llm_chain = LLMChain(llm=llm, prompt=prompt)
         agent = ZeroShotAgent(llm_chain=llm_chain, allowed_tools=tool_names)
         self.agent_executor = AgentExecutor.from_agent_and_tools(
-            agent=agent, tools=tools, verbose=verbose)
+            agent=agent, tools=tools, verbose=os.environ['DEBUG'] == '1')
 
     def run(self, input):
         try:
@@ -48,7 +49,7 @@ def format_result(result):
     return result
 
 
-def ask_agent(user_prompt, docs, verbose=False):
+def ask_agent(user_prompt, docs):
     prompt_template = ZeroShotAgent.create_prompt(
         tools=[],
         prefix=templates.with_docs_prefix,
@@ -56,15 +57,15 @@ def ask_agent(user_prompt, docs, verbose=False):
         format_instructions=templates.format_instructions,
         input_variables=['input', 'agent_scratchpad']
     )
-    agent = PipedreamOpenAPIAgent(docs, prompt_template, verbose)
+    agent = PipedreamOpenAPIAgent(docs, prompt_template)
     result = agent.run(user_prompt)
     return result
 
 
-def no_docs(app, prompt, verbose=False):
+def no_docs(app, prompt):
+    logger = logging_config.getLogger(__name__)
+    logger.debug('no docs found, calling openai directly')
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    if verbose:
-        print('no docs found, calling openai directly')
     system_prompt = templates.no_docs_prefix
     result = openai.ChatCompletion.create(
         model="gpt-4",
