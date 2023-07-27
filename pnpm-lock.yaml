@@ -953,7 +953,14 @@ importers:
     specifiers: {}
 
   components/credit_repair_cloud:
-    specifiers: {}
+    specifiers:
+      axios: ^1.4.0
+      js2xmlparser: ^5.0.0
+      xml2js: ^0.6.0
+    dependencies:
+      axios: 1.4.0
+      js2xmlparser: 5.0.0
+      xml2js: 0.6.2
 
   components/crimeometer:
     specifiers:
@@ -5605,6 +5612,21 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_analytics:
+    specifiers: {}
+
+  components/zoho_bigin:
+    specifiers: {}
+
+  components/zoho_bookings:
+    specifiers: {}
+
+  components/zoho_catalyst:
+    specifiers: {}
+
+  components/zoho_cliq:
+    specifiers: {}
+
   components/zoho_creator:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -5651,7 +5673,13 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_salesiq:
+    specifiers: {}
+
   components/zoho_sheet:
+    specifiers: {}
+
+  components/zoho_sign:
     specifiers: {}
 
   components/zonka_feedback:
@@ -19042,6 +19070,12 @@ packages:
       xmlcreate: 2.0.4
     dev: false
 
+  /js2xmlparser/5.0.0:
+    resolution: {integrity: sha512-ckXs0Fzd6icWurbeAXuqo+3Mhq2m8pOPygsQjTPh8K5UWgKaUgDSHrdDxAfexmT11xvBKOQ6sgYwPkYc5RW/bg==}
+    dependencies:
+      xmlcreate: 2.0.4
+    dev: false
+
   /jsbn/0.1.1:
     resolution: {integrity: sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==}
 
@@ -25496,7 +25530,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
@@ -25941,6 +25975,14 @@ packages:
 
   /xml2js/0.5.0:
     resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2js/0.6.2:
+    resolution: {integrity: sha512-T4rieHaC1EXcES0Kxxj4JWgaUQHDk+qwHcYOCFHfiwKz7tOVPLq7Hjq9dM1WCMhylqMEfP7hMcOIChvotiZegA==}
     engines: {node: '>=4.0.0'}
     dependencies:
       sax: 1.2.4

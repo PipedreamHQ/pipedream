@@ -36,6 +36,7 @@ const docsNav = [
         sidebarDepth: 2,
         children: [
           "/code/nodejs/",
+          "/code/nodejs/ai-code-generation/",
           "/code/nodejs/auth/",
           "/code/nodejs/http-requests/",
           "/code/nodejs/working-with-files/",
