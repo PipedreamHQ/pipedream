@@ -6,7 +6,6 @@ import templates.transform as templates
 from config.config import config
 
 
-
 def transform(code):
     openai.api_key = config['openai']['api_key']
     response = openai.ChatCompletion.create(
