@@ -4,7 +4,7 @@ import eventsTypes from "../common/eventTypes.mjs";
 export default {
   key: "box-new-event",
   name: "New Event",
-  description: "Emit new event when an event with subscribed event source triggered on a target, [See the docs](https://developer.box.com/reference/post-webhooks)",
+  description: "Emit new event when an event with subscribed event source triggered on a target. [See the documentation](https://developer.box.com/reference/post-webhooks)",
   version: "0.0.3",
   type: "source",
   dedupe: "unique",

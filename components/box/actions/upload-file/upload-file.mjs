@@ -3,7 +3,7 @@ import { getFileUploadBody } from "../../common/common-file-upload.mjs";
 
 export default {
   name: "Upload a File",
-  description: "Update a file's content. [See the documentation](https://developer.box.com/reference/post-files-content/).",
+  description: "Uploads a small file to Box. [See the documentation](https://developer.box.com/reference/post-files-content/).",
   key: "box-upload-file",
   version: "0.0.3",
   type: "action",
