@@ -2195,6 +2195,12 @@
     },
     {
       "path": "components/google_my_business"
+    },
+    {
+      "path": "components/zoho_salesiq"
+    },
+    {
+      "path": "components/zoho_cliq"
     }
   ]
 }
