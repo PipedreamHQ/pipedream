@@ -1904,6 +1904,9 @@ importers:
   components/google_maps_platform:
     specifiers: {}
 
+  components/google_my_business:
+    specifiers: {}
+
   components/google_palm_api:
     specifiers:
       '@google-ai/generativelanguage': ^0.2.0
