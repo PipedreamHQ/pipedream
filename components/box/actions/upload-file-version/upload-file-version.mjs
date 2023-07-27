@@ -4,10 +4,10 @@ import FormData from "form-data";
 import utils from "../../common/utils.mjs";
 
 export default {
-  name: "Upload a File",
-  description: "Update a file's content. [See the documentation](https://developer.box.com/reference/post-files-content/).",
-  key: "box-upload-file",
-  version: "0.0.3",
+  name: "Upload File Version",
+  description: "Update a file's content. [See the documentation](https://developer.box.com/reference/post-files-id-content/).",
+  key: "box-upload-file-version",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
