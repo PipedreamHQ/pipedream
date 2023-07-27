@@ -1,12 +1,13 @@
 import os
 import openai
+import config.config as config
 import templates.transform as templates
 from dotenv import load_dotenv
 load_dotenv()
 
 
 def transform(code):
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = config['openai']['api_key']
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[

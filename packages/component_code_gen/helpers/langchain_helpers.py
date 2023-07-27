@@ -1,6 +1,7 @@
 import os
 import openai
 import logging_config
+import config.config as config
 import templates.generate as templates
 from langchain import LLMChain
 from langchain.agents import ZeroShotAgent, AgentExecutor
@@ -65,7 +66,7 @@ def ask_agent(user_prompt, docs):
 def no_docs(app, prompt):
     logger = logging_config.getLogger(__name__)
     logger.debug('no docs found, calling openai directly')
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = config['openai']['api_key']
     system_prompt = templates.no_docs_prefix
     result = openai.ChatCompletion.create(
         model="gpt-4",

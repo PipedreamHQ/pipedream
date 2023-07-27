@@ -31,4 +31,4 @@ Add these API Keys:
     - BROWSERLESS_API_KEY=api_key
     - OPENAI_API_KEY=API_KEY
     - SUPABASE_URL=https://url.supabase.co
-    - SUPABASE_KEY=service_role_key
+    - SUPABASE_API_KEY=service_role_key

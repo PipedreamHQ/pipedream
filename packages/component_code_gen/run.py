@@ -2,8 +2,6 @@ import os
 import argparse
 from code_gen.generate_component_code import main
 from code_gen.transform_code import transform
-from dotenv import load_dotenv
-load_dotenv()
 
 
 if __name__ == '__main__':
@@ -13,7 +11,9 @@ if __name__ == '__main__':
     parser.add_argument('--verbose', '-v', dest='verbose', help='set the logging to debug', required=False, default=False, action='store_true')
     args = parser.parse_args()
 
-    os.environ['DEBUG'] = '1' if args.verbose else '0'
+    if args.verbose:
+        os.environ['DEBUG'] = '1'
+        import config.config as config
 
     code = main(args.app, args.prompt)
     result = transform(code)
