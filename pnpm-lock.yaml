@@ -5612,6 +5612,18 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_analytics:
+    specifiers: {}
+
+  components/zoho_bigin:
+    specifiers: {}
+
+  components/zoho_bookings:
+    specifiers: {}
+
+  components/zoho_catalyst:
+    specifiers: {}
+
   components/zoho_cliq:
     specifiers: {}
 
@@ -5665,6 +5677,9 @@ importers:
     specifiers: {}
 
   components/zoho_sheet:
+    specifiers: {}
+
+  components/zoho_sign:
     specifiers: {}
 
   components/zonka_feedback:
