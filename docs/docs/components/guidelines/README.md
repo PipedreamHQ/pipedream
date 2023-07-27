@@ -525,7 +525,7 @@ In order to provide users with source events that they can immediately reference
 - Polling sources should always emit events on the first run (see the [Spotify: New Playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/sources/new-playlist/new-playlist.mjs) source as an example)
 - Webhook-based sources should attempt to fetch existing events in the `deploy()` hook during source creation (see the [Jotform: New Submission](https://github.com/PipedreamHQ/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.mjs) source)
 
-_Note – limit the count of events to emit on the first run to no more than 50._
+_Note – make sure to emit the most recent events (considering pagination), and limit the count to no more than 50 events._
 
 #### Include a static sample event:
 There are times where there may not be any historical events available (think about sources that emit less frequently, like "New Customer" or "New Order", etc). In these cases, we should include a static sample event so users can see the event shape and reference it while building their workflow, even if it's using fake data.
