@@ -44,7 +44,9 @@ export default {
       propDefinition: [
         common.props.app,
         "transition",
-        ({ cloudId, issueIdOrKey }) => ({
+        ({
+          cloudId, issueIdOrKey,
+        }) => ({
           cloudId,
           issueIdOrKey,
         }),

@@ -2201,6 +2201,15 @@
     },
     {
       "path": "components/zoho_cliq"
+    },
+    {
+      "path": "components/zoho_analytics"
+    },
+    {
+      "path": "components/zoho_catalyst"
+    },
+    {
+      "path": "components/zoho_sign"
     }
   ]
 }

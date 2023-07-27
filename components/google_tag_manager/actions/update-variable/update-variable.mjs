@@ -2,9 +2,9 @@ import app from "../../google_tag_manager.app.mjs";
 
 export default {
   name: "Update Tag",
-  version: "0.0.2",
-  key: "google_tag_manager-update-tag",
-  description: "Update a tag in a workspace. [See the documentation](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/update)",
+  version: "0.0.1",
+  key: "google_tag_manager-update-variable",
+  description: "Update a variable in a workspace. [See the documentation](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/variables/update)",
   type: "action",
   props: {
     app,
@@ -36,11 +36,11 @@ export default {
         }),
       ],
     },
-    tagId: {
+    variableId: {
       optional: false,
       propDefinition: [
         app,
-        "tagId",
+        "variableId",
         (c) => ({
           accountId: c.accountId,
           containerId: c.containerId,
@@ -53,75 +53,60 @@ export default {
         app,
         "name",
       ],
-      optional: true,
+      description: "The name of the variable",
+      optional: false,
     },
     type: {
       propDefinition: [
         app,
         "type",
       ],
-    },
-    liveOnly: {
-      propDefinition: [
-        app,
-        "liveOnly",
-      ],
-    },
-    notes: {
-      propDefinition: [
-        app,
-        "notes",
-      ],
+      description: "The type of the variable. E.g. `jsm`",
+      optional: false,
     },
     parameter: {
       propDefinition: [
         app,
         "parameter",
       ],
+      description: "The list of parameters for the variable",
+      optional: false,
     },
-    consentSettings: {
-      propDefinition: [
-        app,
-        "consentSettings",
-      ],
-    },
-    monitoringMetadata: {
-      propDefinition: [
-        app,
-        "monitoringMetadata",
-      ],
+    formatValue: {
+      label: "Format Value",
+      type: "string",
+      description: "The formatValue object for the variable",
+      optional: true,
     },
   },
   async run({ $ }) {
     const parameter = typeof this.parameter === "string"
       ? JSON.parse(this.parameter)
       : this.parameter;
-    const consentSettings = typeof this.consentSettings === "string"
-      ? JSON.parse(this.consentSettings)
-      : this.consentSettings;
-    const monitoringMetadata = typeof this.monitoringMetadata === "string"
-      ? JSON.parse(this.monitoringMetadata)
-      : this.monitoringMetadata;
 
-    const response = await this.app.updateTag({
+    const formatValue = typeof this.formatValue === "string"
+      ? JSON.parse(this.formatValue)
+      : this.formatValue;
+
+    const response = await this.app.updateVariable({
       $,
       accountId: this.accountId,
       containerId: this.containerId,
       workspaceId: this.workspaceId,
-      tagId: this.tagId,
+      variableId: this.variableId,
       data: {
         name: this.name,
         type: this.type,
-        liveOnly: this.liveOnly,
-        notes: this.notes,
         parameter,
-        consentSettings,
-        monitoringMetadata,
+        formatValue,
+        vendorTemplate: {
+          key: {},
+        },
       },
     });
 
     if (response) {
-      $.export("$summary", `Successfully updated tag with ID ${response.tagId}`);
+      $.export("$summary", `Successfully updated variable with ID ${response.variableId}`);
     }
 
     return response;
