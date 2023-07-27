@@ -307,7 +307,10 @@ importers:
       axios: 0.21.4
 
   components/assemblyai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/astrology_api:
     specifiers: {}
@@ -5612,6 +5615,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_analytics:
+    specifiers: {}
+
+  components/zoho_catalyst:
+    specifiers: {}
+
   components/zoho_cliq:
     specifiers: {}
 
@@ -5665,6 +5674,9 @@ importers:
     specifiers: {}
 
   components/zoho_sheet:
+    specifiers: {}
+
+  components/zoho_sign:
     specifiers: {}
 
   components/zonka_feedback:
@@ -25515,7 +25527,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
