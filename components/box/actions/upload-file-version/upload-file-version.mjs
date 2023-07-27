@@ -11,16 +11,29 @@ export default {
   type: "action",
   props: {
     app,
+    folderId: {
+      propDefinition: [
+        app,
+        "parentId",
+      ],
+      label: "Folder",
+      description: "Folder containing the file to update",
+      optional: false,
+    },
+    fileId: {
+      propDefinition: [
+        app,
+        "fileId",
+        (c) => ({
+          folderId: c.folderId,
+        }),
+      ],
+      description: "The file to upload a new version of",
+    },
     file: {
       propDefinition: [
         app,
         "file",
-      ],
-    },
-    createdAt: {
-      propDefinition: [
-        app,
-        "createdAt",
       ],
     },
     modifiedAt: {
@@ -34,12 +47,7 @@ export default {
         app,
         "fileName",
       ],
-    },
-    parentId: {
-      propDefinition: [
-        app,
-        "parentId",
-      ],
+      description: "An optional new name for the file. If specified, the file will be renamed when the new version is uploaded.",
     },
   },
   async run({ $ }) {
@@ -50,17 +58,11 @@ export default {
     const fileMeta = utils.getFileMeta(fileValidation);
     const fileContent = utils.getFileStream(fileValidation);
     const attributes = fileMeta.attributes;
-    if (this.createdAt && utils.checkRFC3339(this.createdAt)) {
-      attributes.content_created_at = this.createdAt;
-    }
     if (this.modifiedAt && utils.checkRFC3339(this.modifiedAt)) {
       attributes.content_modified_at = this.modifiedAt;
     }
     if (this.fileName) {
       attributes.name = this.fileName;
-    }
-    if (this.parentId) {
-      attributes.parent.id = this.parentId;
     }
     const data = new FormData();
     data.append("attributes", JSON.stringify(attributes));
@@ -69,12 +71,13 @@ export default {
     });
     const response = await this.app.uploadFile({
       $,
+      fileId: this.fileId,
       headers: {
         "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
       },
       data,
     });
-    $.export("$summary", `File with ID(${response?.entries[0]?.id}) successfully uploaded.`);
+    $.export("$summary", `Successfully updated file (ID ${this.fileId}).`);
     return response;
   },
 };
