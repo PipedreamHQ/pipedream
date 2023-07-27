@@ -1,9 +1,10 @@
-import os
+from dotenv import load_dotenv
+load_dotenv()
+
 import openai
 import templates.transform as templates
 from config.config import config
-from dotenv import load_dotenv
-load_dotenv()
+
 
 
 def transform(code):

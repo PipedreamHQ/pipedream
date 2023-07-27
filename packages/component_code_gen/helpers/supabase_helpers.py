@@ -1,7 +1,8 @@
-from config.config import config
-from supabase import create_client
 from dotenv import load_dotenv
 load_dotenv()
+
+from config.config import config
+from supabase import create_client
 
 
 class SupabaseConnector:
@@ -11,7 +12,7 @@ class SupabaseConnector:
             config['supabase']['api_key']
         )
 
-    def get_app_docs(self, app):
+    def get_app_docs_meta(self, app):
         row = self.client \
             .table('components') \
             .select('docs_url, openapi_url') \
@@ -19,7 +20,7 @@ class SupabaseConnector:
             .single() \
             .execute() \
             .data
-        return row
+        return row or {}
 
     def get_docs_contents(self, app):
         rows = self.client \

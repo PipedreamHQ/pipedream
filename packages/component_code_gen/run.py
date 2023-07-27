@@ -1,6 +1,7 @@
 import os
 import argparse
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--app', '-a', help='the app_name_slug', required=True)
@@ -11,6 +12,7 @@ if __name__ == '__main__':
     if args.verbose:
         os.environ['DEBUG'] = '1'
 
+    # this is here so that the DEBUG environment variable is set before the imports
     from code_gen.generate_component_code import main
     from code_gen.transform_code import transform
 

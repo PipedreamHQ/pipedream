@@ -1,6 +1,7 @@
-import os
+from dotenv import load_dotenv
+load_dotenv()
+
 import openai
-import config.logging_config as logging_config
 import templates.generate as templates
 from config.config import config
 from langchain import LLMChain
@@ -8,8 +9,6 @@ from langchain.agents import ZeroShotAgent, AgentExecutor
 from langchain.chat_models import ChatOpenAI
 from langchain.agents.agent_toolkits.json.toolkit import JsonToolkit
 from langchain.tools.json.tool import JsonSpec
-from dotenv import load_dotenv
-load_dotenv()
 
 
 class OpenAPIExplorerTool:
@@ -28,8 +27,9 @@ class PipedreamOpenAPIAgent:
         llm = ChatOpenAI(model_name='gpt-4', temperature=0, request_timeout=300)
         llm_chain = LLMChain(llm=llm, prompt=prompt)
         agent = ZeroShotAgent(llm_chain=llm_chain, allowed_tools=tool_names)
+        verbose = True if config['logging']['level'] == 'DEBUG' else False
         self.agent_executor = AgentExecutor.from_agent_and_tools(
-            agent=agent, tools=tools, verbose=os.environ['DEBUG'] == '1')
+            agent=agent, tools=tools, verbose=verbose)
 
     def run(self, input):
         try:
@@ -64,8 +64,6 @@ def ask_agent(user_prompt, docs):
 
 
 def no_docs(app, prompt):
-    logger = logging_config.getLogger(__name__)
-    logger.debug('no docs found, calling openai directly')
     openai.api_key = config['openai']['api_key']
     system_prompt = templates.no_docs_prefix
     result = openai.ChatCompletion.create(
