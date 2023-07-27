@@ -519,15 +519,26 @@ for a source.
 
 ### Surfacing Test Events
 
-In order to provide users with source events that they can immediately reference when building their workflow, we should employ 2 strategies whenever possible:
+In order to provide users with source events that they can immediately reference when building their workflow, we should implement 2 strategies whenever possible:
 
 #### Emit Events on First Run:
-- Polling sources should emit events on the first run. 
-- Webhook-based sources should fetch existing events in the `deploy()` hook
+- Polling sources should always emit events on the first run (see the [Spotify: New Playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/sources/new-playlist/new-playlist.mjs) source as an example)
+- Webhook-based sources should attempt to fetch existing events in the `deploy()` hook during source creation (see the [Jotform: New Submission](https://github.com/PipedreamHQ/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.mjs) source)
 
-#### Include a static sample event
-- In case users aren't able to generate real source data
-- 
+_Note – limit the count of events to emit on the first run to no more than 50._
+
+#### Include a static sample event:
+There are times where there may not be any historical events available (think about sources that emit less frequently, like "New Customer" or "New Order", etc). In these cases, we should include a static sample event so users can see the event shape and reference it while building their workflow, even if it's using fake data.
+
+To do this,
+1. Copy the JSON output from the source's emit (what you get from `steps.trigger.event`) and **make sure to remove or scrub any sensitive or personal data** (you can also copy this from the app's API docs)
+2. Add a new file called `test-event.mjs` in the same directory as the component source and export the JSON event via `export default` ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/jotform/sources/new-submission/test-event.mjs))
+3. In the source component code, make sure to import that file as `sampleEmit` ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.mjs#L2))
+4. And finally, export the `sampleEmit` object ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.mjs#L96))
+
+This will render a "Generate Test Event" button in the UI for users to emit that sample event:
+
+![generate-sample-event](https://res.cloudinary.com/pipedreamin/image/upload/v1690488844/generate-test-event_drjykm.gif)
 
 ### Polling Sources
 
@@ -536,14 +547,6 @@ In order to provide users with source events that they can immediately reference
 As a general heuristic, set the default timer interval to 15 minutes. However,
 you may set a custom interval (greater or less than 15 minutes) if appropriate
 for the specific source. Users may also override the default value at any time.
-
-#### Emit Events on First Run
-
-Polling sources should emit events on the first run. This helps users to know
-their source works when they activate it. This also provides users with events
-they can immediately use to support workflow development. Do not emit multiple
-pages of results or more than 100 events on the first run (as a general
-heuristic, emit the first page of results returned by the API).
 
 #### Rate Limit Optimization
 
