@@ -3602,6 +3602,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/precisefp:
+    specifiers: {}
+
   components/pretix:
     specifiers: {}
 
@@ -5613,6 +5616,18 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/zoho_analytics:
+    specifiers: {}
+
+  components/zoho_bigin:
+    specifiers: {}
+
+  components/zoho_bookings:
+    specifiers: {}
+
+  components/zoho_bugtracker:
+    specifiers: {}
+
+  components/zoho_campaigns:
     specifiers: {}
 
   components/zoho_catalyst:
