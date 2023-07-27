@@ -377,7 +377,10 @@ importers:
       mailparser-mit: 1.0.0
 
   components/axonaut:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/azure_devops:
     specifiers:
@@ -1892,6 +1895,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_maps_platform:
+    specifiers: {}
+
+  components/google_my_business:
     specifiers: {}
 
   components/google_palm_api:
@@ -5599,6 +5605,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_cliq:
+    specifiers: {}
+
   components/zoho_creator:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -5644,6 +5653,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zoho_salesiq:
+    specifiers: {}
 
   components/zoho_sheet:
     specifiers: {}
