@@ -2210,6 +2210,12 @@
     },
     {
       "path": "components/zoho_sign"
+    },
+    {
+      "path": "components/zoho_bigin"
+    },
+    {
+      "path": "components/zoho_bookings"
     }
   ]
 }
