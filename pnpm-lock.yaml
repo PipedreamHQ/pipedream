@@ -5612,6 +5612,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_cliq:
+    specifiers: {}
+
   components/zoho_creator:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -5657,6 +5660,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zoho_salesiq:
+    specifiers: {}
 
   components/zoho_sheet:
     specifiers: {}
