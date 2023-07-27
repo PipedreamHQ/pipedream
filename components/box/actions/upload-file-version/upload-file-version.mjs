@@ -1,13 +1,11 @@
 import app from "../../box.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
-import FormData from "form-data";
-import utils from "../../common/utils.mjs";
+import { getFileUploadBody } from "../../common/common-file-upload.mjs";
 
 export default {
   name: "Upload File Version",
   description: "Update a file's content. [See the documentation](https://developer.box.com/reference/post-files-id-content/).",
   key: "box-upload-file-version",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -50,34 +48,29 @@ export default {
       description: "An optional new name for the file. If specified, the file will be renamed when the new version is uploaded.",
     },
   },
+  methods: {
+    getFileUploadBody,
+  },
   async run({ $ }) {
-    const fileValidation = utils.isValidFile(this.file);
-    if (!fileValidation) {
-      throw new ConfigurationError("`file` must be a valid file path!");
-    }
-    const fileMeta = utils.getFileMeta(fileValidation);
-    const fileContent = utils.getFileStream(fileValidation);
-    const attributes = fileMeta.attributes;
-    if (this.modifiedAt && utils.checkRFC3339(this.modifiedAt)) {
-      attributes.content_modified_at = this.modifiedAt;
-    }
-    if (this.fileName) {
-      attributes.name = this.fileName;
-    }
-    const data = new FormData();
-    data.append("attributes", JSON.stringify(attributes));
-    data.append("file", fileContent, {
-      knownLength: fileMeta.size,
+    const {
+      file, fileId, createdAt, modifiedAt, fileName, parentId,
+    } = this;
+    const data = this.getFileUploadBody({
+      file,
+      createdAt,
+      modifiedAt,
+      fileName,
+      parentId,
     });
-    const response = await this.app.uploadFile({
+    const response = await this.app.uploadFileVersion({
       $,
-      fileId: this.fileId,
+      fileId,
       headers: {
         "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
       },
       data,
     });
-    $.export("$summary", `Successfully updated file (ID ${this.fileId}).`);
+    $.export("$summary", `File version with ID (${response?.entries[0]?.file_version.id}) successfully uploaded.`);
     return response;
   },
 };
