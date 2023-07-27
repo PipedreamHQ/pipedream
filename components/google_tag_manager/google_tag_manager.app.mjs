@@ -27,9 +27,9 @@ export default {
           accountId,
         });
 
-        return containers.map((account) => ({
-          label: account.name,
-          value: account.containerId,
+        return containers.map((container) => ({
+          label: container.name,
+          value: container.containerId,
         }));
       },
     },
@@ -45,9 +45,9 @@ export default {
           containerId,
         });
 
-        return workspaces.map((account) => ({
-          label: account.name,
-          value: account.workspaceId,
+        return workspaces.map((workspace) => ({
+          label: workspace.name,
+          value: workspace.workspaceId,
         }));
       },
     },
@@ -64,9 +64,30 @@ export default {
           workspaceId,
         });
 
-        return tags.map((account) => ({
-          label: account.name,
-          value: account.tagId,
+        return tags.map((tag) => ({
+          label: tag.name,
+          value: tag.tagId,
+        }));
+      },
+    },
+    variableId: {
+      label: "Variable ID",
+      description: "The variable ID",
+      type: "string",
+      async options({
+        accountId, containerId, workspaceId,
+      }) {
+        const { variable: variables } = await this.getVariables({
+          accountId,
+          containerId,
+          workspaceId,
+        });
+
+        if (!variables) return [];
+
+        return variables.map((variable) => ({
+          label: variable.name,
+          value: variable.variableId,
         }));
       },
     },
@@ -191,6 +212,23 @@ export default {
     }) {
       return this._makeRequest({
         path: `/accounts/${accountId}/containers/${containerId}/workspaces/${workspaceId}/tags/${tagId}`,
+        method: "put",
+        ...args,
+      });
+    },
+    async getVariables({
+      accountId, containerId, workspaceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/containers/${containerId}/workspaces/${workspaceId}/variables`,
+        ...args,
+      });
+    },
+    async updateVariable({
+      accountId, containerId, workspaceId, variableId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/containers/${containerId}/workspaces/${workspaceId}/variables/${variableId}`,
         method: "put",
         ...args,
       });
