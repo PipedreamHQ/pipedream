@@ -19,7 +19,7 @@ Access the feature either from within a Node.js code cell or from any app in the
 A window should pop up and ask for your prompt. Write exactly what you want to do within that step. **Be verbose** and see our tips for [getting the best results](#getting-the-best-results).
 
 - **Bad**: "Send a Slack message"
-- **Good**: "Send a Slack message to the `#general` channel in the following format: `Hello, ${steps.user.name}`"
+- **Good**: "Send a Slack message to the `#general` channel in the following format: `Hello, ${name}`"
 
 Once you're done, hit **Enter** or click **Generate**.
 
