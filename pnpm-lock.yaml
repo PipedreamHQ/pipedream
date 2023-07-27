@@ -5615,12 +5615,6 @@ importers:
   components/zoho_analytics:
     specifiers: {}
 
-  components/zoho_bigin:
-    specifiers: {}
-
-  components/zoho_bookings:
-    specifiers: {}
-
   components/zoho_catalyst:
     specifiers: {}
 
