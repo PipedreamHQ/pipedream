@@ -14,7 +14,7 @@ from langchain.tools.json.tool import JsonSpec
 class OpenAPIExplorerTool:
     @staticmethod
     def create_tools(docs):
-        json_spec = JsonSpec(dict_=docs, max_value_length=10000)
+        json_spec = JsonSpec(dict_=docs)
         json_toolkit = JsonToolkit(spec=json_spec)
         tools = json_toolkit.get_tools()
         return tools
