@@ -2195,6 +2195,27 @@
     },
     {
       "path": "components/google_my_business"
+    },
+    {
+      "path": "components/zoho_salesiq"
+    },
+    {
+      "path": "components/zoho_cliq"
+    },
+    {
+      "path": "components/zoho_analytics"
+    },
+    {
+      "path": "components/zoho_catalyst"
+    },
+    {
+      "path": "components/zoho_sign"
+    },
+    {
+      "path": "components/zoho_bigin"
+    },
+    {
+      "path": "components/zoho_bookings"
     }
   ]
 }
