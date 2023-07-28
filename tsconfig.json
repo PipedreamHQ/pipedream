@@ -2243,6 +2243,15 @@
     },
     {
       "path": "components/zoho_people"
+    },
+    {
+      "path": "components/zoho_subscriptions"
+    },
+    {
+      "path": "components/zoho_people"
+    },
+    {
+      "path": "components/zoho_sprints"
     }
   ]
 }
