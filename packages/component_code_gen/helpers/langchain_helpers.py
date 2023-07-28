@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import openai
-import templates.generate as templates
+import templates.generate_actions as templates
 from config.config import config
 from langchain import LLMChain
 from langchain.agents import ZeroShotAgent, AgentExecutor
