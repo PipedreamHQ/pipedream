@@ -3602,6 +3602,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/precisefp:
+    specifiers: {}
+
   components/pretix:
     specifiers: {}
 
@@ -5615,10 +5618,28 @@ importers:
   components/zoho_analytics:
     specifiers: {}
 
+  components/zoho_assist:
+    specifiers: {}
+
+  components/zoho_bigin:
+    specifiers: {}
+
+  components/zoho_bookings:
+    specifiers: {}
+
+  components/zoho_bugtracker:
+    specifiers: {}
+
+  components/zoho_campaigns:
+    specifiers: {}
+
   components/zoho_catalyst:
     specifiers: {}
 
   components/zoho_cliq:
+    specifiers: {}
+
+  components/zoho_commerce:
     specifiers: {}
 
   components/zoho_creator:
@@ -5655,6 +5676,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_invoice:
+    specifiers: {}
+
   components/zoho_mail:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -5666,6 +5690,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zoho_recruit:
+    specifiers: {}
 
   components/zoho_salesiq:
     specifiers: {}
