@@ -1,15 +1,15 @@
 {
-  "name": "@pipedream/microsoft_outlook",
-  "version": "1.0.0",
-  "description": "Pipedream Microsoft Outlook Components",
-  "main": "microsoft_outlook.app.mjs",
+  "name": "@pipedream/microsoft_outlook_calendar",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Outlook Calendar Components",
+  "main": "microsoft_outlook_calendar.app.mjs",
   "keywords": [
     "pipedream",
-    "microsoft_outlook",
+    "microsoft_outlook_calendar",
     "microsoft",
     "outlook"
   ],
-  "homepage": "https://pipedream.com/apps/microsoft_outlook",
+  "homepage": "https://pipedream.com/apps/microsoft_outlook_calendar",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "axios": "^0.21.1",
