@@ -1,5 +1,5 @@
-import { promisify } from "util";
 import maxBy from "lodash.maxby";
+import { promisify } from "util";
 import common from "../common.mjs";
 import constants from "../common/constants.mjs";
 

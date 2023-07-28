@@ -1,15 +1,16 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import maxBy from "lodash.maxby";
+import constants from "../../common/constants.mjs";
 import common from "../common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "discord_bot-new-thread-message",
-  name: "New Thread Message",
-  description: "Emit new event for each thread message posted.",
+  key: "discord_bot-new-forum-thread-message",
+  name: "New Forum Thread Message",
+  description: "Emit new event for each forum thread message posted. Note that your bot must have the `MESSAGE_CONTENT` privilege intent to see the message content, [see the docs here](https://discord.com/developers/docs/topics/gateway#message-content-intent).",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.1",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     ...common.props,
@@ -19,6 +20,20 @@ export default {
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+    forumId: {
+      propDefinition: [
+        common.props.discord,
+        "channelId",
+        ({ guildId }) => ({
+          guildId,
+          allowedChannels: [
+            constants.CHANNEL_TYPES.GUILD_FORUM,
+          ],
+        }),
+      ],
+      label: "Forum Id",
+      description: "Select the forum you want to watch.",
     },
   },
   async run({ $ }) {
@@ -30,9 +45,18 @@ export default {
       guildId: this.guildId,
     });
 
+    const forumThreads = threads.reduce((acc, curr) => {
+      return curr.parent_id === this.forumId ?
+        [
+          ...acc,
+          curr,
+        ]
+        : acc;
+    }, []);
+
     // If this is our first time running this source,
     // get the last N messages, emit them, and checkpoint
-    for (const channel of threads) {
+    for (const channel of forumThreads) {
       let lastMessageID;
       let messages = [];
       const channelId = channel.id;
@@ -42,7 +66,7 @@ export default {
           $,
           channelId,
           params: {
-            limit: 100,
+            limit: 25,
           },
         });
 
@@ -84,12 +108,9 @@ export default {
       console.log(`${messages.length} new messages in thread ${channelId}`);
 
       messages.reverse().forEach((message) => {
-        if (!message.content) {
-          return;
-        }
         this.$emit(message, {
           id: message.id, // dedupes events based on this ID
-          summary: `A new message with Id: ${message.id} was posted in thread ${channelId}.`,
+          summary: `A new message with Id: ${message.id} was posted in forum thread ${channelId}.`,
           ts: Date.parse(message.timestamp),
         });
       });
