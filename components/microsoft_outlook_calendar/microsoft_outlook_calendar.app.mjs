@@ -157,20 +157,20 @@ export default {
       return message;
     },
     async getSupportedTimeZones() {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/me/outlook/supportedTimeZones",
       });
     },
     async createCalendarEvent({ ...args } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: "/me/events",
         ...args,
       });
     },
     async listCalendarEvents({ ...args } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/me/events",
         ...args,
@@ -245,7 +245,7 @@ export default {
       eventId,
       ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: `/me/events/${eventId}`,
         ...args,

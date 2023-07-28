@@ -169,26 +169,6 @@ export default {
       };
       return message;
     },
-    async getSupportedTimeZones() {
-      return await this._makeRequest({
-        method: "GET",
-        path: "/me/outlook/supportedTimeZones",
-      });
-    },
-    async createCalendarEvent({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "POST",
-        path: "/me/events",
-        ...args,
-      });
-    },
-    async listCalendarEvents({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "GET",
-        path: "/me/events",
-        ...args,
-      });
-    },
     async sendEmail({ ...args } = {}) {
       return await this._makeRequest({
         method: "POST",
@@ -251,16 +231,6 @@ export default {
       return await this._makeRequest({
         method: "GET",
         path: "/me/messages",
-        ...args,
-      });
-    },
-    async getCalendarEvent({
-      eventId,
-      ...args
-    } = {}) {
-      return await this._makeRequest({
-        method: "GET",
-        path: `/me/events/${eventId}`,
         ...args,
       });
     },
