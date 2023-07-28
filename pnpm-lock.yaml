@@ -5578,8 +5578,7 @@ importers:
   components/zoho_campaigns:
     specifiers: {}
 
-  components/zoho_catalyst:
-    specifiers: {}
+  components/zoho_catalyst: {}
 
   components/zoho_cliq: {}
 
