@@ -2237,6 +2237,12 @@
     },
     {
       "path": "components/zoho_recruit"
+    },
+    {
+      "path": "components/zoho_subscriptions"
+    },
+    {
+      "path": "components/zoho_people"
     }
   ]
 }
