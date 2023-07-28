@@ -5570,6 +5570,8 @@ importers:
 
   components/zoho_bugtracker: {}
 
+  components/zoho_calendar: {}
+
   components/zoho_campaigns: {}
 
   components/zoho_catalyst: {}
@@ -5610,6 +5612,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/zoho_expense: {}
 
   components/zoho_inventory:
     dependencies:
