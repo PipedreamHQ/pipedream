@@ -128,6 +128,15 @@ export default {
 
       return axios($, config);
     },
+    cancelPrediction({
+      predictionId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `predictions/${predictionId}/cancel`,
+        ...args,
+      });
+    },
     createPrediction(args = {}) {
       return this._makeRequest({
         method: "POST",
