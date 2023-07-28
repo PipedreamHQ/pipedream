@@ -1,9 +1,11 @@
-no_docs_prefix = """Your goal is to return code that answers the question you are given.
+no_docs_user_prompt = """%s. The app is %s."""
+
+no_docs_system_instructions = """Your goal is to return code that answers the question you are given.
 The code you should generate should a a Node.js HTTP request using axios.
 The code you provide should use ESM. It should use async/await instead of promises.
 You should not return any text other than the code. Do not return helpful messages, only code."""
 
-with_docs_prefix = f"""{no_docs_prefix}
+with_docs_system_instructions = f"""{no_docs_system_instructions}
 You are an agent designed to interact with an OpenAPI JSON specification.
 You have access to the following tools which help you learn more about the JSON you are interacting with.
 Only use the below tools. Only use the information returned by the below tools to construct your final answer.

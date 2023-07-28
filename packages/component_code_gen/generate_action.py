@@ -1,5 +1,7 @@
 import os
 import argparse
+import templates.generate_actions
+import templates.transform_to_action
 
 
 def main():
@@ -16,8 +18,8 @@ def main():
     from code_gen.generate_component_code import main
     from code_gen.transform_code import transform
 
-    code = main(args.app, args.prompt)
-    result = transform(code)
+    code = main(args.app, args.prompt, templates.generate_actions)
+    result = transform(code, templates.transform_to_action)
     print(result)
 
 

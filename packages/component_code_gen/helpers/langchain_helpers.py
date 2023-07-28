@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import openai
-import templates.generate_actions as templates
 from config.config import config
 from langchain import LLMChain
 from langchain.agents import ZeroShotAgent, AgentExecutor
@@ -50,10 +49,10 @@ def format_result(result):
     return result
 
 
-def ask_agent(user_prompt, docs):
+def ask_agent(user_prompt, docs, templates):
     prompt_template = ZeroShotAgent.create_prompt(
         tools=[],
-        prefix=templates.with_docs_prefix,
+        prefix=templates.with_docs_system_instructions,
         suffix=templates.suffix,
         format_instructions=templates.format_instructions,
         input_variables=['input', 'agent_scratchpad']
@@ -63,14 +62,14 @@ def ask_agent(user_prompt, docs):
     return result
 
 
-def no_docs(app, prompt):
+def no_docs(app, prompt, templates):
     openai.api_key = config['openai']['api_key']
-    system_prompt = templates.no_docs_prefix
     result = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": f"{prompt}. The app is {app}"},
+            {"role": "system", "content": templates.no_docs_system_instructions},
+            {"role": "user", "content": templates.no_docs_user_prompt % (prompt, app)},
+
         ],
         temperature=0,
     )
