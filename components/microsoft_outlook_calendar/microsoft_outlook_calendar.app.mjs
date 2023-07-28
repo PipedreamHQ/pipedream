@@ -1,8 +1,4 @@
 import { axios } from "@pipedream/platform";
-import fs from "fs";
-import path from "path";
-import { encode } from "js-base64";
-import mime from "mime-types";
 
 export default {
   type: "app",
@@ -123,39 +119,6 @@ export default {
         ...args,
       });
     },
-    prepareMessageBody(self) {
-      const toRecipients = [];
-      for (const address of self.recipients) {
-        toRecipients.push({
-          emailAddress: {
-            address,
-          },
-        });
-      }
-      const attachments = [];
-      for (let i = 0; self.files && i < self.files.length; i++) {
-        attachments.push({
-          "@odata.type": "#microsoft.graph.fileAttachment",
-          "name": path.basename(self.files[i]),
-          "contentType": mime.lookup(self.files[i]),
-          "contentBytes": encode([
-            ...fs.readFileSync(self.files[i], {
-              flag: "r",
-            }).values(),
-          ]),
-        });
-      }
-      const message = {
-        subject: self.subject,
-        body: {
-          content: self.content,
-          contentType: self.contentType,
-        },
-        toRecipients,
-        attachments,
-      };
-      return message;
-    },
     async getSupportedTimeZones() {
       return this._makeRequest({
         method: "GET",
@@ -176,71 +139,6 @@ export default {
         ...args,
       });
     },
-    async sendEmail({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "POST",
-        path: "/me/sendMail",
-        ...args,
-      });
-    },
-    async createDraft({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "POST",
-        path: "/me/messages",
-        ...args,
-      });
-    },
-    async createContact({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "POST",
-        path: "/me/contacts",
-        ...args,
-      });
-    },
-    async listContacts({
-      filterAddress,
-      ...args
-    } = {}) {
-      const paramsContainer = {};
-      if (filterAddress) {
-        paramsContainer.params = {
-          "$filter": `emailAddresses/any(a:a/address eq '${filterAddress}')`,
-        };
-      }
-      return await this._makeRequest({
-        method: "GET",
-        path: "/me/contacts",
-        ...paramsContainer,
-        ...args,
-      });
-    },
-    async updateContact({
-      contactId,
-      ...args
-    } = {}) {
-      return await this._makeRequest({
-        method: "PATCH",
-        path: `/me/contacts/${contactId}`,
-        ...args,
-      });
-    },
-    async getMessage({
-      messageId,
-      ...args
-    } = {}) {
-      return await this._makeRequest({
-        method: "GET",
-        path: `/me/messages/${messageId}`,
-        ...args,
-      });
-    },
-    async listMessages({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "GET",
-        path: "/me/messages",
-        ...args,
-      });
-    },
     async getCalendarEvent({
       eventId,
       ...args
@@ -248,16 +146,6 @@ export default {
       return this._makeRequest({
         method: "GET",
         path: `/me/events/${eventId}`,
-        ...args,
-      });
-    },
-    async getContact({
-      contactId,
-      ...args
-    } = {}) {
-      return await this._makeRequest({
-        method: "GET",
-        path: `/me/contacts/${contactId}`,
         ...args,
       });
     },
