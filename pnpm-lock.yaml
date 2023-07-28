@@ -2837,13 +2837,9 @@ importers:
 
   components/microsoft_outlook_calendar:
     specifiers:
-      axios: ^0.21.1
-      js-base64: ^3.7.2
-      mime-types: ^2.1.35
+      '@pipedream/platform': ^1.5.1
     dependencies:
-      axios: 0.21.4
-      js-base64: 3.7.5
-      mime-types: 2.1.35
+      '@pipedream/platform': 1.5.1
 
   components/microsoft_teams:
     specifiers:
