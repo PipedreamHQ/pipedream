@@ -41,18 +41,6 @@ export default {
       type: "string[]",
       optional: true,
     },
-    timeZone: {
-      label: "Time Zone",
-      description: "Time zone of the event in supported time zones, [See the docs](https://docs.microsoft.com/en-us/graph/api/outlookuser-supportedtimezones)",
-      type: "string",
-      async options() {
-        const timeZonesResponse = await this.getSupportedTimeZones();
-        return timeZonesResponse.value.map((tz) => ({
-          label: tz.displayName,
-          value: tz.alias,
-        }));
-      },
-    },
     contact: {
       label: "Contact",
       description: "The contact to be updated",
@@ -64,16 +52,6 @@ export default {
           value: co.id,
         }));
       },
-    },
-    start: {
-      label: "Start",
-      description: "Start date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T11:20:00'",
-      type: "string",
-    },
-    end: {
-      label: "End",
-      description: "End date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T13:30:00'",
-      type: "string",
     },
     givenName: {
       label: "Given name",
@@ -97,23 +75,6 @@ export default {
       label: "Recipients",
       description: "Array of phone numbers",
       type: "string[]",
-      optional: true,
-    },
-    attendees: {
-      label: "Attendees",
-      description: "Array of email addresses",
-      type: "string[]",
-    },
-    location: {
-      label: "Location",
-      description: "Location of the event",
-      type: "string",
-      optional: true,
-    },
-    isOnlineMeeting: {
-      label: "Is Online Meeting",
-      description: "If it is online meeting or not",
-      type: "boolean",
       optional: true,
     },
     expand: {

@@ -8,16 +8,6 @@ export default {
   type: "app",
   app: "microsoft_outlook_calendar",
   propDefinitions: {
-    recipients: {
-      label: "Recipients",
-      description: "Array of email addresses",
-      type: "string[]",
-    },
-    subject: {
-      label: "Subject",
-      description: "Subject of the email",
-      type: "string",
-    },
     contentType: {
       label: "Content Type",
       description: "Content type (default `text`)",
@@ -35,12 +25,6 @@ export default {
       type: "string",
       optional: true,
     },
-    files: {
-      label: "File paths",
-      description: "Absolute paths to the files (eg. `/tmp/my_file.pdf`)",
-      type: "string[]",
-      optional: true,
-    },
     timeZone: {
       label: "Time Zone",
       description: "Time zone of the event in supported time zones, [See the docs](https://docs.microsoft.com/en-us/graph/api/outlookuser-supportedtimezones)",
@@ -53,18 +37,6 @@ export default {
         }));
       },
     },
-    contact: {
-      label: "Contact",
-      description: "The contact to be updated",
-      type: "string",
-      async options() {
-        const contactResponse = await this.listContacts();
-        return contactResponse.value.map((co) => ({
-          label: co.displayName,
-          value: co.id,
-        }));
-      },
-    },
     start: {
       label: "Start",
       description: "Start date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T11:20:00'",
@@ -74,30 +46,6 @@ export default {
       label: "End",
       description: "End date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T13:30:00'",
       type: "string",
-    },
-    givenName: {
-      label: "Given name",
-      description: "Given name of the contact",
-      type: "string",
-      optional: true,
-    },
-    surname: {
-      label: "Surname",
-      description: "Surname of the contact",
-      type: "string",
-      optional: true,
-    },
-    emailAddresses: {
-      label: "Email adresses",
-      description: "Email addresses",
-      type: "string[]",
-      optional: true,
-    },
-    businessPhones: {
-      label: "Recipients",
-      description: "Array of phone numbers",
-      type: "string[]",
-      optional: true,
     },
     attendees: {
       label: "Attendees",
