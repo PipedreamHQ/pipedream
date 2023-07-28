@@ -960,7 +960,7 @@ importers:
     dependencies:
       axios: 1.4.0
       js2xmlparser: 5.0.0
-      xml2js: 0.6.0
+      xml2js: 0.6.2
 
   components/crimeometer:
     specifiers:
@@ -3602,6 +3602,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/precisefp:
+    specifiers: {}
+
   components/pretix:
     specifiers: {}
 
@@ -5615,7 +5618,31 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_analytics:
+    specifiers: {}
+
+  components/zoho_assist:
+    specifiers: {}
+
+  components/zoho_bigin:
+    specifiers: {}
+
+  components/zoho_bookings:
+    specifiers: {}
+
+  components/zoho_bugtracker:
+    specifiers: {}
+
+  components/zoho_campaigns:
+    specifiers: {}
+
+  components/zoho_catalyst:
+    specifiers: {}
+
   components/zoho_cliq:
+    specifiers: {}
+
+  components/zoho_commerce:
     specifiers: {}
 
   components/zoho_creator:
@@ -5652,6 +5679,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_invoice:
+    specifiers: {}
+
   components/zoho_mail:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -5664,10 +5694,16 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_recruit:
+    specifiers: {}
+
   components/zoho_salesiq:
     specifiers: {}
 
   components/zoho_sheet:
+    specifiers: {}
+
+  components/zoho_sign:
     specifiers: {}
 
   components/zonka_feedback:
@@ -12276,14 +12312,14 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 20.4.4
+      '@types/node': 17.0.45
       '@types/responselike': 1.0.0
     dev: false
 
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 16.18.39
+      '@types/node': 17.0.45
     dev: false
 
   /@types/debug/4.1.8:
@@ -12408,7 +12444,7 @@ packages:
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 20.4.4
+      '@types/node': 17.0.45
     dev: false
 
   /@types/linkify-it/3.0.2:
@@ -12516,7 +12552,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 20.4.4
+      '@types/node': 17.0.45
     dev: false
 
   /@types/retry/0.12.0:
@@ -12600,7 +12636,7 @@ packages:
   /@types/whatwg-url/8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 20.4.4
+      '@types/node': 17.0.45
       '@types/webidl-conversions': 7.0.0
     dev: false
 
@@ -12630,7 +12666,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 20.4.4
+      '@types/node': 17.0.45
     dev: false
     optional: true
 
@@ -13753,7 +13789,7 @@ packages:
     resolution: {integrity: sha512-xq+q3SRMOxGivLhBNaUdC64hDTQwejJ+H0T/NB1XMtTVEwNTrfFF3gAxiyW0Bu/xWEGhjVKgUcMhCrUy2+uCWg==}
     dependencies:
       base64-js: 1.5.1
-      ieee754: 1.1.13
+      ieee754: 1.2.1
       isarray: 1.0.0
     dev: false
 
@@ -25518,7 +25554,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
+    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
@@ -25969,8 +26005,8 @@ packages:
       xmlbuilder: 11.0.1
     dev: false
 
-  /xml2js/0.6.0:
-    resolution: {integrity: sha512-eLTh0kA8uHceqesPqSE+VvO1CDDJWMwlQfB6LuN6T8w6MaDJ8Txm8P7s5cHD0miF0V+GGTZrDQfxPZQVsur33w==}
+  /xml2js/0.6.2:
+    resolution: {integrity: sha512-T4rieHaC1EXcES0Kxxj4JWgaUQHDk+qwHcYOCFHfiwKz7tOVPLq7Hjq9dM1WCMhylqMEfP7hMcOIChvotiZegA==}
     engines: {node: '>=4.0.0'}
     dependencies:
       sax: 1.2.4
