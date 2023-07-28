@@ -128,9 +128,10 @@ export default {
         Authorization: `Bearer ${this.$auth.write_key}`,
       };
     },
-    getTrackingApiHeaders() {
+    getTrackingAuth() {
       return {
-        Authorization: `Basic ${this.$auth.write_key}`,
+        username: `${this.$auth.write_key}`,
+        password: "",
       };
     },
     async makeRequest(customConfig) {
@@ -146,16 +147,17 @@ export default {
         ? this.getConfigApiUrl(path)
         : this.getTrackingApiUrl(path);
 
-      const headers = api === constants.API.CONFIG
-        ? this.getConfigApiHeaders()
-        : this.getTrackingApiHeaders();
-
       const config = {
         method,
         url,
-        headers,
         ...otherConfig,
       };
+
+      if (api === constants.API.CONFIG) {
+        config.headers = this.getConfigApiHeaders();
+      } else {
+        config.auth = this.getTrackingAuth();
+      }
 
       return axios($ || this, config);
     },
