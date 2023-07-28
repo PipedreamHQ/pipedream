@@ -2,7 +2,7 @@
 name = "pipedream component code gen"
 version = "0.0.1"
 description = "Generate Pipedream component code using AI"
-authors = ["Andrew Chuang <andrew@pipedream.com>"]
+authors = ["Pipedream <pipedream@pipedream.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
