@@ -2261,6 +2261,15 @@
     },
     {
       "path": "components/zoho_calendar"
+    },
+    {
+      "path": "components/zoho_meeting"
+    },
+    {
+      "path": "components/zoho_expense"
+    },
+    {
+      "path": "components/zoho_calendar"
     }
   ]
 }
