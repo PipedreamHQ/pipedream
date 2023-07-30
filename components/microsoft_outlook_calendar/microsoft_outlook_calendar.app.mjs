@@ -103,7 +103,7 @@ export default {
       hookId,
       ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "PATCH",
         path: `/subscriptions/${hookId}`,
         ...args,
@@ -113,7 +113,7 @@ export default {
       hookId,
       ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "DELETE",
         path: `/subscriptions/${hookId}`,
         ...args,
