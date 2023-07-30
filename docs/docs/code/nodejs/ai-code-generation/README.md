@@ -1,5 +1,7 @@
 # Using AI to generate code
 
+<VideoPlayer url="https://www.youtube.com/embed/gPk26iWDCb8" title="Generate Pipedream Node.js code with A.I." />
+
 Tell Pipedream the code you want, we generate it for you.
 
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1690472142/docs/2023-07-27_08.34.55_ic1i9m.gif" alt="Generate code with AI GIF" />

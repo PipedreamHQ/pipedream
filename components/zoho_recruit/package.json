@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/zoho_recruit",
+  "version": "0.0.1",
+  "description": "Pipedream Zoho Recruit Components",
+  "main": "dist/app/zoho_recruit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_recruit"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/zoho_recruit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
