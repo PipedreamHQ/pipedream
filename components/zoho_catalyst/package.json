@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/zoho_catalyst",
+  "version": "0.0.1",
+  "description": "Pipedream Zoho Catalyst Components",
+  "main": "dist/app/zoho_catalyst.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_catalyst"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/zoho_catalyst",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

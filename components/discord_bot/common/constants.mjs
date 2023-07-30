@@ -23,7 +23,7 @@ const PERMISSION_TYPES = {
  * See the docs here for more [info](https://discord.com/developers/docs/resources/channel#channel-object-channel-types)
  */
 const CHANNEL_TYPES = {
-  GUILD_TEXT:	0,
+  GUILD_TEXT: 0,
   DM: 1,
   GUILD_VOICE: 2,
   GROUP_DM: 3,
@@ -34,6 +34,8 @@ const CHANNEL_TYPES = {
   GUILD_PUBLIC_THREAD: 11,
   GUILD_PRIVATE_THREAD: 12,
   GUILD_STAGE_VOICE: 13,
+  GUILD_DIRECTORY: 14,
+  GUILD_FORUM: 15,
 };
 
 /**
