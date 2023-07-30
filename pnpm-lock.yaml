@@ -5564,7 +5564,8 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_analytics: {}
+  components/zoho_analytics:
+    specifiers: {}
 
   components/zoho_assist: {}
 
@@ -5581,8 +5582,6 @@ importers:
   components/zoho_catalyst: {}
 
   components/zoho_cliq: {}
-
-  components/zoho_commerce: {}
 
   components/zoho_creator:
     dependencies:
@@ -5643,9 +5642,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_recruit: {}
+  components/zoho_recruit:
+    specifiers: {}
 
-  components/zoho_salesiq: {}
+  components/zoho_salesiq:
+    specifiers: {}
 
   components/zoho_sheet: {}
 
