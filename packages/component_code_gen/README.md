@@ -1,24 +1,26 @@
 # AI Code Gen for Pipedream Components
 
-Generate components (currently actions only) using OpenAI GPT-4.
+Generate components using OpenAI GPT-4.
 
 
 ### Run
 
 ```
+SCRIPT=generate_action.py
 APP=slack
 PROMPT="how to send myself a direct message?"
-python run.py --app "$APP" "$PROMPT"
-python run.py --app "$APP" "$PROMPT" --verbose # print debug logs
+poetry run python3 "$SCRIPT" --app "$APP" "$PROMPT"
+poetry run python3 "$SCRIPT" --app "$APP" "$PROMPT" --verbose # print debug logs
 ```
 
 
 ### Installation
 
+1. Install poetry: follow instructions at https://python-poetry.org/docs/#installation
+
+2. Run install:
 ```
-python3 -m venv ve
-source ve/bin/activate
-pip install -r requirements.txt
+poetry install
 ```
 
 
