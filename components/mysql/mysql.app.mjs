@@ -1,5 +1,4 @@
 import mysqlClient from "mysql2/promise";
-import fs from "fs";
 
 export default {
   type: "app",
@@ -23,7 +22,9 @@ export default {
       description:
         "The name of a column in the table to use for deduplication. Defaults to the table's primary key",
       async options({ table }) {
-        return this.listColumnNames(table);
+        return this.listColumnNames({
+          table,
+        });
       },
     },
     whereCondition: {
@@ -82,8 +83,17 @@ export default {
       type: "string",
       label: "Stored Procedure",
       description: "List of stored procedures in the current database",
-      async options({ rejectUnauthorized = false }) {
-        return this.listStoredProcedures(rejectUnauthorized);
+      async options({
+        rejectUnauthorized = false, ca, key, cert,
+      }) {
+        return this.listStoredProcedures({
+          ssl: {
+            rejectUnauthorized,
+            ca,
+            key,
+            cert,
+          },
+        });
       },
     },
     storedProcedureParameters: {
@@ -101,20 +111,20 @@ export default {
     },
     ca: {
       type: "string",
-      label: "CA Path",
-      description: "The path to a file containing a list of trusted SSL CAs previously downloaded in Pipedream E.g. (`/tmp/pubkey.pem`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory). The file must be in PEM format. If this is not set, the default system CAs are used.",
+      label: "Certificate Authority",
+      description: "The CA text to use for the connection. E.g. (`-----BEGIN CERTIFICATE-----\\nMIIDBTCCAe2gAwIBAgIJA...`).",
       optional: true,
     },
     key: {
       type: "string",
-      label: "Key Path",
-      description: "The path to a file containing the client private key in PEM format. E.g. (`/tmp/key.pem`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).",
+      label: "Private Key",
+      description: "The key text to use for the connection. E.g. (`-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDQ...`).",
       optional: true,
     },
     cert: {
       type: "string",
-      label: "Cert Path",
-      description: "The path to a file containing the client certificate in PEM format. E.g. (`/tmp/cert.pem`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).",
+      label: "Certificate",
+      description: "The certificate text to use for the connection. E.g. (`-----BEGIN CERTIFICATE-----\\nMIIDBTCCAe2gAwIBAgIJA...`).",
       optional: true,
     },
   },
@@ -128,6 +138,9 @@ export default {
         username,
         password,
         database,
+        ca,
+        key,
+        cert,
       } = this.$auth;
       const config = {
         debug: true,
@@ -138,9 +151,9 @@ export default {
         database,
         ssl: {
           rejectUnauthorized: ssl?.rejectUnauthorized ?? false,
-          ca: ssl?.rejectUnauthorized && ssl?.ca && fs.readFileSync(ssl.ca, "utf-8"),
-          key: ssl?.rejectUnauthorized && ssl?.key && fs.readFileSync(ssl.key, "utf-8"),
-          cert: ssl?.rejectUnauthorized && ssl?.cert && fs.readFileSync(ssl.cert, "utf-8"),
+          ca: ssl?.rejectUnauthorized && ca || ssl?.ca,
+          key: ssl?.rejectUnauthorized && key || ssl?.key,
+          cert: ssl?.rejectUnauthorized && cert || ssl?.cert,
         },
         ...args,
       };

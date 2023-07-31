@@ -38,6 +38,9 @@ export default {
         "storedProcedure",
         (c) => ({
           rejectUnauthorized: c.rejectUnauthorized ?? false,
+          ca: c.ca,
+          key: c.key,
+          cert: c.cert,
         }),
       ],
     },
