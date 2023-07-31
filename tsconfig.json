@@ -2225,6 +2225,51 @@
     },
     {
       "path": "components/zoho_bugtracker"
+    },
+    {
+      "path": "components/zoho_commerce"
+    },
+    {
+      "path": "components/zoho_assist"
+    },
+    {
+      "path": "components/zoho_invoice"
+    },
+    {
+      "path": "components/zoho_recruit"
+    },
+    {
+      "path": "components/zoho_subscriptions"
+    },
+    {
+      "path": "components/zoho_people"
+    },
+    {
+      "path": "components/zoho_subscriptions"
+    },
+    {
+      "path": "components/zoho_people"
+    },
+    {
+      "path": "components/zoho_sprints"
+    },
+    {
+      "path": "components/zoho_meeting"
+    },
+    {
+      "path": "components/zoho_expense"
+    },
+    {
+      "path": "components/zoho_calendar"
+    },
+    {
+      "path": "components/zoho_meeting"
+    },
+    {
+      "path": "components/zoho_expense"
+    },
+    {
+      "path": "components/zoho_calendar"
     }
   ]
 }
