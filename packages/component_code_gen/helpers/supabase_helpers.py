@@ -17,10 +17,8 @@ class SupabaseConnector:
             .table('components') \
             .select('docs_url, openapi_url') \
             .match({'app_name_slug': app}) \
-            .single() \
-            .execute() \
-            .data
-        return row or {}
+            .execute()
+        return row.data[0] if len(row.data) else {}
 
     def get_docs_contents(self, app):
         rows = self.client \
