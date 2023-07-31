@@ -45,7 +45,7 @@ Once the Pipedream team integrates the app, we'll create a directory for the app
 
 ## Contribution Process
 
-Anyone from the community can build [sources](/sources/) and [actions](/components#actions) for integrated apps..
+Anyone from the community can build [sources](/sources/) and [actions](/components#actions) for integrated apps.
 
 To submit new components or update existing components:
 
@@ -77,16 +77,13 @@ actions for Pipedream's registry.
 | Name                                                                                                                                                          | App          | Type                                         |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | -------------------------------------------- |
 | [New Card](https://github.com/pipedreamhq/pipedream/blob/master/components/trello/sources/new-card/new-card.mjs)                                              | Trello       | Webhook                                      |
-| [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.mjs)                        | Twitter      | Polling                                      |
 | [New or Modified Files](https://github.com/pipedreamhq/pipedream/blob/master/components/google_drive/sources/new-or-modified-files/new-or-modified-files.mjs) | Google Drive | Webhook + Polling                            |
 | [New Submission](https://github.com/pipedreamhq/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.mjs)                           | Jotform      | Webhook (with no unique hook ID)             |
-| [New Stars](https://github.com/pipedreamhq/pipedream/blob/master/components/github/sources/new-star/new-star.js)                                              | Github       | Webhook (with extensive use of common files) |
 
 ### Reference Actions
 
 | Name                                                                                                                                                  | App           |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable      |
 | [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.mjs)    | Google Sheets |
 | [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.mjs)                 | Discord       |
 | [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.mjs)                        | Google Docs   |

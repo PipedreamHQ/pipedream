@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/zoho_invoice",
+  "version": "0.0.1",
+  "description": "Pipedream Zoho Invoice Components",
+  "main": "dist/app/zoho_invoice.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_invoice"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/zoho_invoice",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

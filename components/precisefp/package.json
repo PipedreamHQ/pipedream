@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/precisefp",
+  "version": "0.0.1",
+  "description": "Pipedream PreciseFP Components",
+  "main": "dist/app/precisefp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "precisefp"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/precisefp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

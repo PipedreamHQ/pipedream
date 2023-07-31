@@ -32,11 +32,25 @@ export default {
       id: this.metaobject,
     });
     for (const field of fields) {
+      const type = consts.METAFIELD_TYPES[field.type];
       props[field.key] = {
-        type: consts.METAFIELD_TYPES[field.type],
+        type,
         label: field.definition.name,
-        default: field.value,
+        optional: true,
       };
+      if (field.value) {
+        if (type === "integer") {
+          props[field.key].default = parseInt(field.value);
+        } else if (type === "boolean") {
+          props[field.key].default = field.value === "true"
+            ? true
+            : false;
+        } else if (type === "object" || type === "string[]") {
+          props[field.key].default = JSON.parse(field.value);
+        } else {
+          props[field.key].default = field.value;
+        }
+      }
     }
     return props;
   },
@@ -47,9 +61,14 @@ export default {
 
     const newFields = [];
     for (const field of fields) {
+      const fieldValue = this[field.key]
+        ? this[field.key]
+        : field.value || "";
       newFields.push({
         key: field.key,
-        value: this[field.key],
+        value: typeof fieldValue === "string"
+          ? fieldValue
+          : JSON.stringify(fieldValue),
       });
     }
 
@@ -59,10 +78,18 @@ export default {
       $,
     });
 
-    if (response) {
-      $.export("$summary", `Successfully updated metaobject with ID ${this.metaobject}`);
+    let errorMessage;
+    if (response?.errors?.length) {
+      errorMessage = response.errors[0].message;
+    }
+    if (response?.data?.metaobjectUpdate?.userErrors?.length) {
+      errorMessage = response.data.metaobjectUpdate.userErrors[0].message;
+    }
+    if (errorMessage) {
+      throw new Error(`${errorMessage}`);
     }
 
+    $.export("$summary", `Successfully updated metaobject with ID ${this.metaobject}`);
     return response;
   },
 };
