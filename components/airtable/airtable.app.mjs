@@ -53,7 +53,7 @@ export default {
             tableId?.value ?? tableId,
           );
         } catch (err) {
-          throw new ConfigurationError(`Could not find fields for table ID "${tableId}"`);
+          throw new ConfigurationError(`Could not find views for table ID "${tableId}"`);
         }
         return (tableSchema?.views ?? []).map((view) => ({
           label: view.name || view.id,
@@ -77,7 +77,7 @@ export default {
             tableId?.value ?? tableId,
           );
         } catch (err) {
-          throw new ConfigurationError(`Could not find views for table ID "${tableId}"`);
+          throw new ConfigurationError(`Could not find fields for table ID "${tableId}"`);
         }
         return (tableSchema?.fields ?? []).map((field) => ({
           label: field.name || field.id,

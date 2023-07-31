@@ -107,6 +107,9 @@ export default {
       if (!recordID) {
         throw new Error("Airtable record ID blank. Please pass a valid record ID");
       }
+      if (!recordID.startsWith("rec")) {
+        throw new Error("Invalid Record ID. See documentation about Finding Airtable record IDs - https://support.airtable.com/docs/finding-airtable-record-ids.");
+      }
     },
   },
 };

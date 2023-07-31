@@ -1,5 +1,6 @@
 import commonApp from "../airtable/common-app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { fieldTypeToPropType } from "../airtable/common/utils.mjs";
 
 export default {
   ...commonApp,
@@ -104,7 +105,7 @@ export default {
       label: "Search Field",
       description: "The field to match against the search value",
       async options({
-        baseId, tableId,
+        baseId, tableId, fieldType,
       }) {
         let fields;
         try {
@@ -113,6 +114,9 @@ export default {
           });
           const table = tables.find(({ id }) => id === tableId);
           fields = table.fields;
+          if (fieldType) {
+            fields = fields.filter(({ type }) => fieldTypeToPropType(type) === fieldType);
+          }
         } catch (err) {
           throw new ConfigurationError(`Could not find fields for table ID "${tableId}"`);
         }

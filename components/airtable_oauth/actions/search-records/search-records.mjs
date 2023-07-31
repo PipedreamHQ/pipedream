@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
-  description: "Searches for a record by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
+  description: "Searches for a record by field value. Search Field must accept string values. [See the documentation](https://airtable.com/developers/web/api/list-records)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -18,6 +18,7 @@ export default {
         }) => ({
           baseId: baseId.value,
           tableId: tableId.value,
+          fieldType: "string",
         }),
       ],
     },

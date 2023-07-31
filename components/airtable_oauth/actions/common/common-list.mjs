@@ -2,17 +2,18 @@ import airtable from "../../airtable_oauth.app.mjs";
 
 export default {
   props: {
-    sortFieldId: {
+    sortField: {
       propDefinition: [
         airtable,
-        "sortFieldId",
+        "fieldName",
         ({
           baseId, tableId,
         }) => ({
-          baseId,
-          tableId,
+          baseId: baseId.value,
+          tableId: tableId.value,
         }),
       ],
+      optional: true,
     },
     sortDirection: {
       propDefinition: [
@@ -44,13 +45,9 @@ export default {
     if (viewId) { params.view = viewId; }
     if (this.filterByFormula) { params.filterByFormula = this.filterByFormula; }
     if (this.maxRecords) { params.maxRecords = this.maxRecords; }
-    if (this.sortFieldId && this.sortDirection) {
-      params.sort = [
-        {
-          field: this.sortFieldId,
-          direction: this.sortDirection,
-        },
-      ];
+    if (this.sortField && this.sortDirection) {
+      params["sort[0][field]"] = this.sortField;
+      params["sort[0][direction]"] = this.sortDirection;
     }
 
     do {
