@@ -23,24 +23,6 @@ export default {
         "rejectUnauthorized",
       ],
     },
-    ca: {
-      propDefinition: [
-        mysql,
-        "ca",
-      ],
-    },
-    key: {
-      propDefinition: [
-        mysql,
-        "key",
-      ],
-    },
-    cert: {
-      propDefinition: [
-        mysql,
-        "cert",
-      ],
-    },
   },
   additionalProps() {
     return this.getColumnProps(this.table);
@@ -48,7 +30,7 @@ export default {
   methods: utils,
   async run({ $ }) {
     const {
-      table, rejectUnauthorized, ca, key, cert,
+      table, rejectUnauthorized,
     } = this;
 
     const {
@@ -61,9 +43,6 @@ export default {
       values,
       ssl: {
         rejectUnauthorized,
-        ca,
-        key,
-        cert,
       },
     });
 

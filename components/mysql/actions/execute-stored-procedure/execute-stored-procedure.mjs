@@ -14,33 +14,12 @@ export default {
         "rejectUnauthorized",
       ],
     },
-    ca: {
-      propDefinition: [
-        mysql,
-        "ca",
-      ],
-    },
-    key: {
-      propDefinition: [
-        mysql,
-        "key",
-      ],
-    },
-    cert: {
-      propDefinition: [
-        mysql,
-        "cert",
-      ],
-    },
     storedProcedure: {
       propDefinition: [
         mysql,
         "storedProcedure",
         (c) => ({
           rejectUnauthorized: c.rejectUnauthorized ?? false,
-          ca: c.ca,
-          key: c.key,
-          cert: c.cert,
         }),
       ],
     },
@@ -56,9 +35,6 @@ export default {
       storedProcedure,
       values,
       rejectUnauthorized,
-      ca,
-      key,
-      cert,
     } = this;
 
     const result = await this.mysql.executeStoredProcedure({
@@ -66,9 +42,6 @@ export default {
       values,
       ssl: {
         rejectUnauthorized,
-        ca,
-        key,
-        cert,
       },
     });
 

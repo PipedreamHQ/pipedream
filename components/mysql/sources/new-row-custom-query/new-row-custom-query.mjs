@@ -47,9 +47,6 @@ export default {
         condition,
         values,
         rejectUnauthorized,
-        ca,
-        key,
-        cert,
       } = this;
 
       const numberOfQuestionMarks = condition?.match(/\?/g)?.length;
@@ -72,9 +69,6 @@ export default {
         values,
         ssl: {
           rejectUnauthorized,
-          ca,
-          key,
-          cert,
         },
       });
       this.iterateAndEmitEvents(rows);

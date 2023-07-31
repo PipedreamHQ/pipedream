@@ -43,24 +43,6 @@ export default {
         "rejectUnauthorized",
       ],
     },
-    ca: {
-      propDefinition: [
-        mysql,
-        "ca",
-      ],
-    },
-    key: {
-      propDefinition: [
-        mysql,
-        "key",
-      ],
-    },
-    cert: {
-      propDefinition: [
-        mysql,
-        "cert",
-      ],
-    },
   },
   async run({ $ }) {
     const {
@@ -69,9 +51,6 @@ export default {
       operator,
       value,
       rejectUnauthorized,
-      ca,
-      key,
-      cert,
     } = this;
 
     const condition = `${column} ${operator} ?`;
@@ -84,9 +63,6 @@ export default {
       ],
       ssl: {
         rejectUnauthorized,
-        ca,
-        key,
-        cert,
       },
     });
 

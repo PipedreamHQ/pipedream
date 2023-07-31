@@ -35,24 +35,6 @@ export default {
         "rejectUnauthorized",
       ],
     },
-    ca: {
-      propDefinition: [
-        mysql,
-        "ca",
-      ],
-    },
-    key: {
-      propDefinition: [
-        mysql,
-        "key",
-      ],
-    },
-    cert: {
-      propDefinition: [
-        mysql,
-        "cert",
-      ],
-    },
   },
   async additionalProps() {
     return await this.getColumnProps(this.table);
@@ -64,9 +46,6 @@ export default {
       condition,
       conditionValues,
       rejectUnauthorized,
-      ca,
-      key,
-      cert,
     } = this;
     const numberOfQuestionMarks = condition.match(/\?/g)?.length;
 
@@ -94,9 +73,6 @@ export default {
       valuesToUpdate,
       ssl: {
         rejectUnauthorized,
-        ca,
-        key,
-        cert,
       },
     });
 

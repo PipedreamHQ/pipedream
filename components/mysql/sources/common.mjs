@@ -16,24 +16,6 @@ export default {
         "rejectUnauthorized",
       ],
     },
-    ca: {
-      propDefinition: [
-        mysql,
-        "ca",
-      ],
-    },
-    key: {
-      propDefinition: [
-        mysql,
-        "key",
-      ],
-    },
-    cert: {
-      propDefinition: [
-        mysql,
-        "cert",
-      ],
-    },
   },
   methods: {
     _getLastResult() {
@@ -65,9 +47,6 @@ export default {
       const {
         table,
         rejectUnauthorized,
-        ca,
-        key,
-        cert,
       } = this;
 
       let lastResult = this._getLastResult();
@@ -77,9 +56,6 @@ export default {
         lastResult,
         ssl: {
           rejectUnauthorized,
-          ca,
-          key,
-          cert,
         },
       });
       this._setLastResult(rows, column);
@@ -92,9 +68,6 @@ export default {
         maxCount,
         ssl: {
           rejectUnauthorized: this.rejectUnauthorized,
-          ca: this.ca,
-          key: this.key,
-          cert: this.cert,
         },
       });
       this._setLastResult(rows, column);

@@ -32,9 +32,6 @@ export default {
       const {
         table,
         rejectUnauthorized,
-        ca,
-        key,
-        cert,
       } = this;
       let column = this.column;
 
@@ -43,9 +40,6 @@ export default {
           table,
           ssl: {
             rejectUnauthorized,
-            ca,
-            key,
-            cert,
           },
         });
         column = keyData[0].Column_name;

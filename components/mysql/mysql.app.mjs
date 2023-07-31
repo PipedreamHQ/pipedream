@@ -83,15 +83,10 @@ export default {
       type: "string",
       label: "Stored Procedure",
       description: "List of stored procedures in the current database",
-      async options({
-        rejectUnauthorized = false, ca, key, cert,
-      }) {
+      async options({ rejectUnauthorized = false }) {
         return this.listStoredProcedures({
           ssl: {
             rejectUnauthorized,
-            ca,
-            key,
-            cert,
           },
         });
       },
@@ -151,9 +146,9 @@ export default {
         database,
         ssl: {
           rejectUnauthorized: ssl?.rejectUnauthorized ?? false,
-          ca: ssl?.rejectUnauthorized && ca || ssl?.ca,
-          key: ssl?.rejectUnauthorized && key || ssl?.key,
-          cert: ssl?.rejectUnauthorized && cert || ssl?.cert,
+          ca: ssl?.rejectUnauthorized && ca,
+          key: ssl?.rejectUnauthorized && key,
+          cert: ssl?.rejectUnauthorized && cert,
         },
         ...args,
       };

@@ -24,9 +24,6 @@ export default {
       const {
         table,
         rejectUnauthorized,
-        ca,
-        key,
-        cert,
       } = this;
       let previousColumns = this._getPreviousColumns() || [];
       const columns = await this.mysql.listNewColumns({
@@ -34,9 +31,6 @@ export default {
         previousColumns,
         ssl: {
           rejectUnauthorized,
-          ca,
-          key,
-          cert,
         },
       });
       this.iterateAndEmitEvents(columns);

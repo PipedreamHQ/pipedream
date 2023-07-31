@@ -33,24 +33,6 @@ export default {
         "rejectUnauthorized",
       ],
     },
-    ca: {
-      propDefinition: [
-        mysql,
-        "ca",
-      ],
-    },
-    key: {
-      propDefinition: [
-        mysql,
-        "key",
-      ],
-    },
-    cert: {
-      propDefinition: [
-        mysql,
-        "cert",
-      ],
-    },
   },
   async run({ $ }) {
     const {
@@ -58,9 +40,6 @@ export default {
       condition,
       values,
       rejectUnauthorized,
-      ca,
-      key,
-      cert,
     } = this;
 
     const numberOfQuestionMarks = condition?.match(/\?/g)?.length;
@@ -83,9 +62,6 @@ export default {
       values,
       ssl: {
         rejectUnauthorized,
-        ca,
-        key,
-        cert,
       },
     });
 
