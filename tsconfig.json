@@ -2270,6 +2270,9 @@
     },
     {
       "path": "components/zoho_calendar"
+    },
+    {
+      "path": "components/mysql_ssl"
     }
   ]
 }
