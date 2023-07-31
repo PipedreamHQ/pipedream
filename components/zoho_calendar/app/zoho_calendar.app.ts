@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "assemblyai",
+  app: "zoho_calendar",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

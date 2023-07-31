@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/zoho_expense",
+  "version": "0.0.1",
+  "description": "Pipedream Zoho Expense Components",
+  "main": "dist/app/zoho_expense.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_expense"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/zoho_expense",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
