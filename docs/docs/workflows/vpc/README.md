@@ -20,19 +20,19 @@ Outbound network requests from workflows that run in a VPC will originate from t
 
 ### Create a new VPC
 
-1. Open the [Virtual Private Clouds tab](https://pipedream.com/settings/networks)
+1. Open the [Virtual Private Clouds tab](https://pipedream.com/settings/networks):
 
 ![Finding the Virtual Private Cloud settings within your workspace settings](https://res.cloudinary.com/pipedreamin/image/upload/v1690914583/CleanShot_2023-08-01_at_14.29.24_slx1a7.png)
 
-1. Click on **New VPC**
+1. Click on **New VPC** in the upper right of the page:
 
 ![Adding a new VPC network](https://res.cloudinary.com/pipedreamin/image/upload/v1690914653/CleanShot_2023-08-01_at_14.30.47_okdiyx.png)
 
-2. Enter a network name and click **Create**
+2. Enter a network name and click **Create**:
 
 ![Naming you private VPC before creating it](https://res.cloudinary.com/pipedreamin/image/upload/v1690913009/CleanShot_2023-08-01_at_14.03.24_smxujq.png)
 
-3. It may take 5-10 minutes to complete setting up your network. The status will change to **Available** when complete.
+3. It may take 5-10 minutes to complete setting up your network. The status will change to **Available** when complete:
 
 ![The status of the VPC changes to available when finished](https://res.cloudinary.com/pipedreamin/image/upload/v1690913069/CleanShot_2023-08-01_at_14.04.22_ro2bgx.png)
 
@@ -48,7 +48,7 @@ If you don’t see the network listed, the network setup may still be in progres
 
 You can view and copy the static outbound IP address for each VPC in your workspace from the [Virtual Private Cloud settings](https://pipedream.com/settings/networks). If you need to restrict access to sensitive resources (e.g., a database) by IP address, copy this address and configure it in your application with the `/32` CIDR block. Network requests from workflows running in the VPC will originate from this address.
 
-![Finding the egress IP address for a Pipedream VPC](https://res.cloudinary.com/pipedreamin/image/upload/v1690914036/CleanShot_2023-08-01_at_14.20.21_sqfegv.png)
+![Finding the egress IP address for a Pipedream VPC](https://res.cloudinary.com/pipedreamin/image/upload/v1690914910/CleanShot_2023-08-01_at_14.34.56_lp5jt3.png)
 
 ## Managing a VPC
 
@@ -62,11 +62,11 @@ If you are interested in running Pipedream workflows in your own AWS account via
 
 - Only workflows can run in VPCs (other resources like sources or data stores are not currently supported)
 - Creating a new network can take ~5 minutes, and deploying your first workflow into a new network / testing in the builder for the first time can take ~1 min. Subsequent operations should be as fast as normal.
-- VPCs only provide static IPs for outbound networks requests. This feature does not provide a static IP for or otherwise restrict inbound requests.
+- VPCs only provide static IPs for outbound network requests. This feature does not provide a static IP for or otherwise restrict inbound requests.
 - You can’t set a default network for all new workflows in a workspace or project (you must select the network every time you create a new workflow)
 - Managing workflow-network relationships in bulk is not supported yet (e.g., move one or more workflows to a network). You must set the network per workflow.
 - Workflows running in a Private Network will still route select requests routed through Pipedream’s standard network
-    - []`$.send.http()`](/destinations/http/) requests
+    - [`$.send.http()`](/destinations/http/) requests
     - Async options requests (these are requests that are made to populate options in drop down menus for actions while a building a workflow — e.g., the option to “select a Google Sheet” when using the “add row to Google Sheets” action)
 
 ## Cost
@@ -88,3 +88,7 @@ No, a VPC can contain many workflows, but a single workflow can only belong to a
 ### Can I modify my VPC's IP address to another address?
 
 No, IP addresses are assigned to VPCs for you, and they are not changable.
+
+### How much will VPCs cost?
+
+VPCs are available on the **Business** plan during the Beta period. You can [upgrade your plan here.](https://pipedream.com/pricing)
