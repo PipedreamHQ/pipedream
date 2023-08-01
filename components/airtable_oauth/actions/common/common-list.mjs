@@ -5,7 +5,7 @@ export default {
     sortField: {
       propDefinition: [
         airtable,
-        "fieldName",
+        "sortFieldId",
         ({
           baseId, tableId,
         }) => ({
