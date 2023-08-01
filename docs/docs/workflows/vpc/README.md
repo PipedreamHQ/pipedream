@@ -10,13 +10,9 @@ Every Pipedream workflow is deployed to its own virtual machine in AWS. This mea
 
 However, outbound traffic shares the same network as other AWS services that use `us-east-1`. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
 
-Pipedream VPCs solve this problem. They enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresss that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform). Outbound network requests from workflows that run in a VPC will originate from these static IP addresses, so you can whitelist access to sensitive resources (e.g., databases, APIs) with confidence that the requests will only originate from the Pipedream workflows in your workspace.
+Pipedream VPCs solve this problem. They enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresss that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform).
 
-:::tip Control outbound HTTP requests IP addresses with VPCs
-
-You may create one or more VPCs in your workspace. Each VPC will get a unique IP address for outbound traffic. However, each workflow can only run in a single network.
-
-:::
+Outbound network requests from workflows that run in a VPC will originate from these static IP addresses, so you can whitelist access to sensitive resources (e.g., databases, APIs) with confidence that the requests will only originate from the Pipedream workflows in your workspace.
 
 [[toc]]
 
@@ -26,25 +22,33 @@ You may create one or more VPCs in your workspace. Each VPC will get a unique IP
 
 1. Open the [Virtual Private Clouds tab](https://pipedream.com/settings/networks)
 
-![]()
+![Finding the Virtual Private Cloud settings within your workspace settings](https://res.cloudinary.com/pipedreamin/image/upload/v1690914583/CleanShot_2023-08-01_at_14.29.24_slx1a7.png)
 
-1. Click on New Network
-1. Enter a network name and click Create
-1. It may take 5-10 minutes to complete setting up your network. The status will change to *Available* when complete.
+1. Click on **New VPC**
+
+![Adding a new VPC network](https://res.cloudinary.com/pipedreamin/image/upload/v1690914653/CleanShot_2023-08-01_at_14.30.47_okdiyx.png)
+
+2. Enter a network name and click **Create**
+
+![Naming you private VPC before creating it](https://res.cloudinary.com/pipedreamin/image/upload/v1690913009/CleanShot_2023-08-01_at_14.03.24_smxujq.png)
+
+3. It may take 5-10 minutes to complete setting up your network. The status will change to **Available** when complete.
+
+![The status of the VPC changes to available when finished](https://res.cloudinary.com/pipedreamin/image/upload/v1690913069/CleanShot_2023-08-01_at_14.04.22_ro2bgx.png)
 
 ### Run workflows within a VPC
 
-To run workflows in a VPC, check the Run in Private Network option in workflow settings and select the network you created. All outbound network requests for the workflow will originate from the static egress IP for the VPM (both when testing a workflow or when running the workflow in production).
+To run workflows in a VPC, check the **Run in Private Network** option in workflow settings and select the network you created. All outbound network requests for the workflow will originate from the static egress IP for the VPM (both when testing a workflow or when running the workflow in production).
 
-![]()
+![Selecting a VPC within the workflow settings](https://res.cloudinary.com/pipedreamin/image/upload/v1690913944/CleanShot_2023-08-01_at_14.18.42_rihwff.png)
 
 If you don’t see the network listed, the network setup may still be in progress. If the issue persists longer than 10 minutes, please [contact support](https://pipedream.com/support).
 
 ### Find the static outbound IP address for a VPC
 
-You can view and copy the static egress IP for each VPC in your workspace from the [Virtual Private Cloud settings](https://pipedream.com/settings/networks). If you need to restrict access to sensitive resources (e.g., a database) by IP address, copy this address and configure it in your application with the `/32` CIDR block. Network requests from workflows running in the VPC will originate from this address.
+You can view and copy the static outbound IP address for each VPC in your workspace from the [Virtual Private Cloud settings](https://pipedream.com/settings/networks). If you need to restrict access to sensitive resources (e.g., a database) by IP address, copy this address and configure it in your application with the `/32` CIDR block. Network requests from workflows running in the VPC will originate from this address.
 
-![]()
+![Finding the egress IP address for a Pipedream VPC](https://res.cloudinary.com/pipedreamin/image/upload/v1690914036/CleanShot_2023-08-01_at_14.20.21_sqfegv.png)
 
 ## Managing a VPC
 
@@ -62,9 +66,25 @@ If you are interested in running Pipedream workflows in your own AWS account via
 - You can’t set a default network for all new workflows in a workspace or project (you must select the network every time you create a new workflow)
 - Managing workflow-network relationships in bulk is not supported yet (e.g., move one or more workflows to a network). You must set the network per workflow.
 - Workflows running in a Private Network will still route select requests routed through Pipedream’s standard network
-    - `$.send.http()` requests
+    - []`$.send.http()`](/destinations/http/) requests
     - Async options requests (these are requests that are made to populate options in drop down menus for actions while a building a workflow — e.g., the option to “select a Google Sheet” when using the “add row to Google Sheets” action)
 
 ## Cost
 
 There are no additional costs to use VPCs during the beta. There may be additional charges in the future.
+
+## Frequently Asked Questions
+
+### Will HTTP requests sent from Node.js, Python and the HTTP request steps use the assigned static IP address?
+
+Yes, all steps that send HTTP requests from a workflow assigned to a VPC will use that VPC's IP address to send HTTP requests.
+
+The only exception are requests sent by `$.send.http()` or the HTTP requests used to populate async options that power props like "Select a Google Sheet" or "Select a Slack channel".
+
+### Can a single workflow live within multiple VPCs?
+
+No, a VPC can contain many workflows, but a single workflow can only belong to at most one VPCs.
+
+### Can I modify my VPC's IP address to another address?
+
+No, IP addresses are assigned to VPCs for you, and they are not changable.
