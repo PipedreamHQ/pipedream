@@ -5582,7 +5582,11 @@ importers:
 
   components/zoho_bugtracker: {}
 
-  components/zoho_calendar: {}
+  components/zoho_calendar:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_campaigns: {}
 
