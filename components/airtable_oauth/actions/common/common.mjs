@@ -1,4 +1,4 @@
-import airtable from "../airtable.app.mjs";
+import airtable from "../../airtable_oauth.app.mjs";
 
 export default {
   props: {
@@ -15,7 +15,7 @@ export default {
         airtable,
         "tableId",
         ({ baseId }) => ({
-          baseId,
+          baseId: baseId.value,
         }),
       ],
       withLabel: true,
