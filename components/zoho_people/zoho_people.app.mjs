@@ -46,7 +46,7 @@ export default {
       return this.$auth.oauth_access_token;
     },
     _getBaseUrl() {
-      return "https://people.zoho.com/people/api/";
+      return "https://people.zoho.com/people/api";
     },
     _getHeaders() {
       return {
@@ -60,6 +60,7 @@ export default {
         url: this._getBaseUrl() + opts.path,
         headers: this._getHeaders(),
       };
+      console.log(axiosOpts);
       return axios(ctx, axiosOpts);
     },
     async listForms() {
@@ -107,6 +108,16 @@ export default {
         path: `/forms/${formLinkName}/getDataByID`,
         params: {
           recordId,
+        },
+      });
+    },
+    async createAttendance(data) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/attendance",
+        params: {
+          dateFormat: "dd/MM/yyyy HH:mm:ss",
+          ...data,
         },
       });
     },
