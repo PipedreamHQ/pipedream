@@ -1,7 +1,6 @@
 import os
 import argparse
 import templates.generate_actions
-import templates.transform_to_action
 
 
 def main(app, prompt, verbose=False):
@@ -12,10 +11,8 @@ def main(app, prompt, verbose=False):
 
     # this is here so that the DEBUG environment variable is set before the imports
     from code_gen.generate_component_code import main
-    from code_gen.transform_code import transform
 
-    code = main(app, prompt, templates.generate_actions)
-    result = transform(code, templates.transform_to_action)
+    result = main(app, prompt, templates.generate_actions)
     return result
 
 
