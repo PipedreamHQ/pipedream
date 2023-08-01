@@ -111,14 +111,20 @@ export default {
         },
       });
     },
-    async createAttendance(data) {
+    async createAttendance(params) {
       return this._makeHttpRequest({
         method: "POST",
         path: "/attendance",
         params: {
           dateFormat: "dd/MM/yyyy HH:mm:ss",
-          ...data,
+          ...params,
         },
+      });
+    },
+    async getShiftConfiguration(params) {
+      return this._makeHttpRequest({
+        path: "/attendance/getShiftConfiguration",
+        params,
       });
     },
   },
