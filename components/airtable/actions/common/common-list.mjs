@@ -1,5 +1,5 @@
 // Shared code for list-* actions
-import airtable from "../airtable.app.mjs";
+import airtable from "../../airtable.app.mjs";
 
 export default {
   props: {

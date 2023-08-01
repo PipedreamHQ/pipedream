@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "airtable_oauth",
+  app: "azure_openai_service",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
