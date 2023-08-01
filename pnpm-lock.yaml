@@ -3846,7 +3846,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/replicate: {}
+  components/replicate:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/reply_io:
     dependencies:
