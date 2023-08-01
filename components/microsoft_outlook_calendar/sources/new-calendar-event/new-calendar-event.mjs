@@ -2,7 +2,7 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "microsoft_outlook-new-calendar-event",
+  key: "microsoft_outlook_calendar-new-calendar-event",
   name: "New Calendar Event (Instant)",
   description: "Emit new event when a new Calendar event is created",
   version: "0.0.5",

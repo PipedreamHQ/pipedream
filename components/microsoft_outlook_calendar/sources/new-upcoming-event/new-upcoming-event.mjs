@@ -3,7 +3,7 @@ import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-sc
 
 export default {
   ...common,
-  key: "microsoft_outlook-new-upcoming-event",
+  key: "microsoft_outlook_calendar-new-upcoming-event",
   name: "New Upcoming Calendar Event",
   description: "Emit new event when a Calendar event is upcoming, this source is using `reminderMinutesBeforeStart` property of the event to determine the time it should emit.",
   version: "0.0.1",
