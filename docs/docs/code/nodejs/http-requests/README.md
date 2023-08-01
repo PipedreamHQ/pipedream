@@ -570,7 +570,7 @@ If your workspace has the Advanced, Business or Enterprise plan, [reach out to o
 
 By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/workflows/networking/). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
 
-- [Use an HTTP proxy to proxy requests](#use-an-http-proxy-to-proxy-requests-through-another-host)
+- [Use an Pipedream VPC](/workflows/vpc/) to route all outbound HTTP requests through a single IP address
 - If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
 
 ## Stream a downloaded file directly to another URL
