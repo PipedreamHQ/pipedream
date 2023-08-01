@@ -1,4 +1,4 @@
-import app from "../../microsoft_outlook_calendar.app.mjs";
+import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 
 export default {
   type: "action",
@@ -7,7 +7,7 @@ export default {
   name: "Create Calendar Event",
   description: "Create an event in the user's default calendar. [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-post-events)",
   props: {
-    app,
+    microsoftOutlook,
     subject: {
       label: "Subject",
       description: "Subject of the event",
@@ -15,56 +15,56 @@ export default {
     },
     contentType: {
       propDefinition: [
-        app,
+        microsoftOutlook,
         "contentType",
       ],
     },
     content: {
       propDefinition: [
-        app,
+        microsoftOutlook,
         "content",
       ],
       description: "Content",
     },
     timeZone: {
       propDefinition: [
-        app,
+        microsoftOutlook,
         "timeZone",
       ],
     },
     start: {
       propDefinition: [
-        app,
+        microsoftOutlook,
         "start",
       ],
     },
     end: {
       propDefinition: [
-        app,
+        microsoftOutlook,
         "end",
       ],
     },
     attendees: {
       propDefinition: [
-        app,
+        microsoftOutlook,
         "attendees",
       ],
     },
     location: {
       propDefinition: [
-        app,
+        microsoftOutlook,
         "location",
       ],
     },
     isOnlineMeeting: {
       propDefinition: [
-        app,
+        microsoftOutlook,
         "isOnlineMeeting",
       ],
     },
     expand: {
       propDefinition: [
-        app,
+        microsoftOutlook,
         "expand",
       ],
       description: "Additional event details, [See object definition](https://docs.microsoft.com/en-us/graph/api/resources/event)",
@@ -101,7 +101,7 @@ export default {
       isOnlineMeeting: this.isOnlineMeeting,
       ...this.expand,
     };
-    const response = await this.app.createCalendarEvent({
+    const response = await this.microsoftOutlook.createCalendarEvent({
       $,
       data,
     });
