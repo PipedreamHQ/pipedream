@@ -6,11 +6,13 @@ Virtual Private Clouds (VPCs) are now available in beta on the Business tier.
 
 :::
 
-Every Pipedream workflow is deployed to its own virtual machine in AWS. This means your execution environment has its own RAM and disk, isolated from other users’ environments. However, outbound traffic shares the same network as other AWS services that use `us-east-1`. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
+Every Pipedream workflow is deployed to its own virtual machine in AWS. This means your workflow's execution environment has its own RAM and disk, isolated from other users’ workflows. 
 
-Pipedream VPCs solve this problem. They enable you to run workflows in dedicated and isolated networks with static egress IPs that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform). Outbound network requests from workflows that run in a VPC will originate from these static IPs, so you can whitelist access to sensitive resources (e.g., databases, APIs) with confidence that the requests will only originate from the Pipedream workflows in your workspace.
+However, outbound traffic shares the same network as other AWS services that use `us-east-1`. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
 
-:::info
+Pipedream VPCs solve this problem. They enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresss that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform). Outbound network requests from workflows that run in a VPC will originate from these static IP addresses, so you can whitelist access to sensitive resources (e.g., databases, APIs) with confidence that the requests will only originate from the Pipedream workflows in your workspace.
+
+:::tip Control outbound HTTP requests IP addresses with VPCs
 
 You may create one or more VPCs in your workspace. Each VPC will get a unique IP address for outbound traffic. However, each workflow can only run in a single network.
 
