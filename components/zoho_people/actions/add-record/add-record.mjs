@@ -1,4 +1,5 @@
 import app from "../../zoho_people.app.mjs";
+import { getAdditionalProps } from "../common/add-update-record-common.mjs";
 
 export default {
   type: "action",
@@ -20,35 +21,8 @@ export default {
     if (!this.form) {
       return;
     }
-
     const formProps = await this.app.listFieldsOfForm(this.form);
-    const props = {};
-    for (const field of formProps.response.result) {
-      props[field.labelname] = {
-        label: field.displayname,
-        description: field.description,
-        type: "string",
-        default: field.autofillvalue,
-        optional: !field.ismandatory,
-      };
-
-      if (field.Options) {
-        const options = [];
-        for (const optKey in field.Options) {
-          if (typeof field.Options[optKey] === "string") {
-            options.push(field.Options[optKey]);
-          } else {
-            options.push({
-              label: field.Options[optKey].Value,
-              value: field.Options[optKey].Id,
-            });
-          }
-        }
-        props[field.labelname].options = options;
-      }
-    }
-
-    return props;
+    return getAdditionalProps(formProps);
   },
   async run({ $ }) {
     const {

@@ -16,12 +16,32 @@ export default {
         }));
       },
     },
+    record: {
+      type: "string",
+      label: "Record",
+      description: "The record to update",
+      async options(ctx) {
+        const res = await this.listFormRecords(ctx.form, ctx.page);
+
+        if (!res.response?.result) {
+          return [];
+        }
+
+        const options = [];
+        for (const record of res.response.result) {
+          const [
+            key,
+          ] = Object.keys(record);
+          options.push({
+            label: key,
+            value: key,
+          });
+        }
+        return options;
+      },
+    },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log((this.$auth));
-    },
     _getAccessToken() {
       return this.$auth.oauth_access_token;
     },
@@ -62,11 +82,30 @@ export default {
       });
     },
     async updateRecord(formLinkName, recordId, data) {
+      console.log(data);
       return this._makeHttpRequest({
         method: "POST",
         path: `/forms/json/${formLinkName}/updateRecord`,
         params: {
           inputData: JSON.stringify(data),
+          recordId,
+        },
+      });
+    },
+    async listFormRecords(formLinkName, page, limit = 200) {
+      const sIndex = page * limit + 1;
+      return this._makeHttpRequest({
+        path: `/forms/${formLinkName}/getRecords`,
+        params: {
+          sIndex,
+          limit,
+        },
+      });
+    },
+    async getRecordById(formLinkName, recordId) {
+      return this._makeHttpRequest({
+        path: `/forms/${formLinkName}/getDataByID`,
+        params: {
           recordId,
         },
       });
