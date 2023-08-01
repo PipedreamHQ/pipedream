@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "assemblyai",
+  app: "azure_openai_service",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
