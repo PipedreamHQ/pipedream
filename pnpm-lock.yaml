@@ -209,7 +209,11 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
 
-  components/airtable_oauth: {}
+  components/airtable_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/akeneo:
     dependencies:
@@ -12295,7 +12299,7 @@ packages:
   /@types/duplexify@3.6.1:
     resolution: {integrity: sha512-n0zoEj/fMdMOvqbHxmqnza/kXyoGgJmEpsXjpP+gEqE1Ye4yNqc7xWipKnUoMpWhMuzJQSfK2gMrwlElly7OGQ==}
     dependencies:
-      '@types/node': 20.4.4
+      '@types/node': 17.0.45
     dev: false
 
   /@types/estree-jsx@1.0.0:
