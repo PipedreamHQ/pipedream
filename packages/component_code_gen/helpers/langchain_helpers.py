@@ -20,11 +20,18 @@ class OpenAPIExplorerTool:
 
 
 class PipedreamOpenAPIAgent:
-    def __init__(self, docs, prompt):
+    def __init__(self, docs, templates):
         tools = OpenAPIExplorerTool.create_tools(docs)
         tool_names = [tool.name for tool in tools]
+        prompt_template = ZeroShotAgent.create_prompt(
+            tools=tools,
+            prefix=format_template(templates.with_docs_system_instructions),
+            suffix=templates.suffix,
+            format_instructions=templates.format_instructions,
+            input_variables=['input', 'agent_scratchpad']
+        )
         llm = ChatOpenAI(model_name='gpt-4', temperature=0, request_timeout=300)
-        llm_chain = LLMChain(llm=llm, prompt=prompt)
+        llm_chain = LLMChain(llm=llm, prompt=prompt_template)
         agent = ZeroShotAgent(llm_chain=llm_chain, allowed_tools=tool_names)
         verbose = True if config['logging']['level'] == 'DEBUG' else False
         self.agent_executor = AgentExecutor.from_agent_and_tools(
@@ -43,6 +50,10 @@ class PipedreamOpenAPIAgent:
         return format_result(result)
 
 
+def format_template(text):
+    return text.replace("{", "{{").replace("}", "}}") # escape curly braces
+
+
 def format_result(result):
     if '```' in result:
         result = result.split('```javascript')[1].split('```')[0].strip()
@@ -50,14 +61,7 @@ def format_result(result):
 
 
 def ask_agent(user_prompt, docs, templates):
-    prompt_template = ZeroShotAgent.create_prompt(
-        tools=[],
-        prefix=templates.with_docs_system_instructions,
-        suffix=templates.suffix,
-        format_instructions=templates.format_instructions,
-        input_variables=['input', 'agent_scratchpad']
-    )
-    agent = PipedreamOpenAPIAgent(docs, prompt_template)
+    agent = PipedreamOpenAPIAgent(docs, templates)
     result = agent.run(user_prompt)
     return result
 
@@ -67,7 +71,7 @@ def no_docs(app, prompt, templates):
     result = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": templates.no_docs_system_instructions},
+            {"role": "system", "content": format_template(templates.no_docs_system_instructions)},
             {"role": "user", "content": templates.no_docs_user_prompt % (prompt, app)},
 
         ],
