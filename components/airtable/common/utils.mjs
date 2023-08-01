@@ -1,7 +1,6 @@
 import {
   FIELD_PREFIX,
   FieldType,
-
 } from "./constants.mjs";
 
 /**
