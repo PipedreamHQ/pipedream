@@ -196,6 +196,26 @@ async options(opts) {
 },
 ```
 
+## Component Metadata
+
+Registry components require a unique key and version, and a friendly name and description. E.g.
+
+```
+export default {
+  key: "google_drive-list-all-drives",
+  name: "List All Drives",
+  description: "Lists all drives in an account.",
+  version: "0.0.1",
+  type: "action",
+};
+```
+
+Component keys are in the format app_name_slug-slugified-component-name.
+You should come up with a name and a description for the component you are generating.
+In the description, you should include a link to the app docs, if they exist. Or add this as a placeholder: [See docs here]().
+Action keys should use active verbs to describe the action that will occur, (e.g., linear_app-create-issue).
+Always add version "0.0.1" and type "action".
+
 ## TypeScript Definitinos
 
 export interface Methods {
