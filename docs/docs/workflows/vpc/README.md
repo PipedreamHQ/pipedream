@@ -69,17 +69,15 @@ If you are interested in running Pipedream workflows in your own AWS account via
     - [`$.send.http()`](/destinations/http/) requests
     - Async options requests (these are requests that are made to populate options in drop down menus for actions while a building a workflow — e.g., the option to “select a Google Sheet” when using the “add row to Google Sheets” action)
 
-## Cost
-
-There are no additional costs to use VPCs during the beta. There may be additional charges in the future.
-
 ## Frequently Asked Questions
 
 ### Will HTTP requests sent from Node.js, Python and the HTTP request steps use the assigned static IP address?
 
 Yes, all steps that send HTTP requests from a workflow assigned to a VPC will use that VPC's IP address to send HTTP requests.
 
-The only exception are requests sent by `$.send.http()` or the HTTP requests used to populate async options that power props like "Select a Google Sheet" or "Select a Slack channel".
+This will also include `axios`, `requests`, `fetch` or any HTTP client you prefer in your language of choice.
+
+The only exception are requests sent by `$.send.http()` or the HTTP requests used to populate async options that power props like "Select a Google Sheet" or "Select a Slack channel". These requests will route through the [standard set of Pipedream IP addresses.](/workflows/networking/)
 
 ### Can a single workflow live within multiple VPCs?
 
