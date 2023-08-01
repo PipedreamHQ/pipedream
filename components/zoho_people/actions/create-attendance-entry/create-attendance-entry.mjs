@@ -20,22 +20,22 @@ export default {
       description: "The check out time of the employee. The format should be `dd/MM/yyyy HH:mm:ss`",
     },
     empId: {
-      type: "string",
-      label: "Employee ID",
-      description: "The employee ID of the employee",
-      optional: true,
+      propDefinition: [
+        app,
+        "empId",
+      ],
     },
     emailId: {
-      type: "string",
-      label: "Email ID",
-      description: "The email ID of the employee",
-      optional: true,
+      propDefinition: [
+        app,
+        "emailId",
+      ],
     },
     mapId: {
-      type: "string",
-      label: "Map ID",
-      description: "The mapper ID of the employee",
-      optional: true,
+      propDefinition: [
+        app,
+        "mapId",
+      ],
     },
   },
   async run({ $ }) {

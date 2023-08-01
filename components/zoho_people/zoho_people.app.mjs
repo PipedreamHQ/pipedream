@@ -40,6 +40,24 @@ export default {
         return options;
       },
     },
+    empId: {
+      type: "string",
+      label: "Employee ID",
+      description: "The employee ID of the employee",
+      optional: true,
+    },
+    emailId: {
+      type: "string",
+      label: "Email ID",
+      description: "The email ID of the employee",
+      optional: true,
+    },
+    mapId: {
+      type: "string",
+      label: "Map ID",
+      description: "The mapper ID of the employee",
+      optional: true,
+    },
   },
   methods: {
     _getAccessToken() {
