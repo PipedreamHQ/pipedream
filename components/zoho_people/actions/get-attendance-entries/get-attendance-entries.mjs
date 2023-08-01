@@ -3,7 +3,7 @@ import app from "../../zoho_people.app.mjs";
 
 export default {
   type: "action",
-  key: "zoho_people-get_attendance_entries",
+  key: "zoho_people-get-attendance-entries",
   name: "Get Attendance Entries",
   version: "0.0.1",
   description: "This API is used to fetch the shift configuration details of an employee. All the details of the shift, that has been configured to the employee, in the given duration can be fetched using this API. Details include shifts mapped to the employee, start and end time of the shift and holiday, Weekend set for the shift. [See the documentation](https://www.zoho.com/people/api/attendance-shift-details.html)",

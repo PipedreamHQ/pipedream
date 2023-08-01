@@ -3,7 +3,7 @@ import { getAdditionalProps } from "../common/add-update-record-common.mjs";
 
 export default {
   type: "action",
-  key: "zoho_people-add_record",
+  key: "zoho_people-add-record",
   name: "Add Record",
   version: "0.0.1",
   description: "Add a record to a Zoho People module. [See the documentation](https://www.zoho.com/people/api/insert-records.html)",
