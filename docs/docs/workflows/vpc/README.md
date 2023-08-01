@@ -18,7 +18,7 @@ You may create one or more VPCs in your workspace. Each VPC will get a unique IP
 
 :::
 
-[toc]
+[[toc]]
 
 ## Getting started
 
