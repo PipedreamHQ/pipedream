@@ -2252,6 +2252,30 @@
     },
     {
       "path": "components/zoho_sprints"
+    },
+    {
+      "path": "components/zoho_meeting"
+    },
+    {
+      "path": "components/zoho_expense"
+    },
+    {
+      "path": "components/zoho_calendar"
+    },
+    {
+      "path": "components/zoho_meeting"
+    },
+    {
+      "path": "components/zoho_expense"
+    },
+    {
+      "path": "components/zoho_calendar"
+    },
+    {
+      "path": "components/mysql_ssl"
+    },
+    {
+      "path": "components/azure_openai_service"
     }
   ]
 }
