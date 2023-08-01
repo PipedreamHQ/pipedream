@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/zoho_calendar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Zoho Calendar Components",
-  "main": "dist/app/zoho_calendar.app.mjs",
+  "main": "zoho_calendar.app.mjs",
   "keywords": [
     "pipedream",
     "zoho_calendar"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/zoho_calendar",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
