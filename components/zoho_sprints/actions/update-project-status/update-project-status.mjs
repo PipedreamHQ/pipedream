@@ -1,8 +1,8 @@
 import zohoSprints from "../../zoho_sprints.app.mjs";
 
 export default {
-  key: "zoho_sprints",
-  name: "Zoho Sprints",
+  key: "zoho_sprints-update-project-status",
+  name: "Update Product Status",
   description: "Changes the status of an existing project in Zoho Sprints. [See the documentation](https://sprints.zoho.com/apidoc.html#Updateproject)",
   version: "0.0.1",
   type: "action",

@@ -80,6 +80,224 @@ export default {
         return statuses;
       },
     },
+    sprintId: {
+      type: "string",
+      label: "Sprint",
+      description: "Identifier of a sprint",
+      async options({
+        teamId, projectId, prevContext,
+      }) {
+        const { index = 1 } = prevContext;
+        const params = {
+          action: "data",
+          index,
+          range: 10,
+        };
+        const { sprintJObj } = await this.listSprints({
+          teamId,
+          projectId,
+          params,
+        });
+        const sprints = [];
+        if (!sprintJObj) {
+          return sprints;
+        }
+        for (const [
+          key,
+          value,
+        ] of Object.entries(sprintJObj)) {
+          sprints.push({
+            label: value[0],
+            value: key,
+          });
+        }
+        return {
+          options: sprints,
+          context: {
+            index: params.index + params.range,
+          },
+        };
+      },
+    },
+    itemTypeId: {
+      type: "string",
+      label: "Item Type",
+      description: "Identifier of an item type",
+      async options({
+        teamId, projectId,
+      }) {
+        const { projItemTypeJObj } = await this.listItemTypes({
+          teamId,
+          projectId,
+          params: {
+            action: "alldata",
+          },
+        });
+        const types = [];
+        for (const [
+          key,
+          value,
+        ] of Object.entries(projItemTypeJObj)) {
+          types.push({
+            label: value[0],
+            value: key,
+          });
+        }
+        return types;
+      },
+    },
+    priorityTypeId: {
+      type: "string",
+      label: "Priority Type",
+      description: "Identifier of a priority type",
+      async options({
+        teamId, projectId, prevContext,
+      }) {
+        const { index = 1 } = prevContext;
+        const params = {
+          action: "data",
+          index,
+          range: 10,
+        };
+        const { projPriorityJObj } = await this.listPriorityTypes({
+          teamId,
+          projectId,
+          params,
+        });
+        const types = [];
+        for (const [
+          key,
+          value,
+        ] of Object.entries(projPriorityJObj)) {
+          types.push({
+            label: value[0],
+            value: key,
+          });
+        }
+        return {
+          options: types,
+          context: {
+            index: params.index + params.range,
+          },
+        };
+      },
+    },
+    assignees: {
+      type: "string[]",
+      label: "Assignees",
+      description: "User IDs of the users who will work on the item",
+      optional: true,
+      async options({
+        teamId, projectId, sprintId, prevContext,
+      }) {
+        const { index = 1 } = prevContext;
+        const params = {
+          action: "data",
+          index,
+          range: 10,
+        };
+        const { userJObj } = await this.listProjectUsers({
+          teamId,
+          projectId,
+          sprintId,
+          params,
+        });
+        const users = [];
+        for (const [
+          key,
+          value,
+        ] of Object.entries(userJObj)) {
+          users.push({
+            label: value[0],
+            value: key,
+          });
+        }
+        return {
+          options: users,
+          context: {
+            index: params.index + params.range,
+          },
+        };
+      },
+    },
+    epicId: {
+      type: "string",
+      label: "Epic",
+      description: "Identifier of an epic",
+      optional: true,
+      async options({
+        teamId, projectId, prevContext,
+      }) {
+        const { index = 1 } = prevContext;
+        const params = {
+          action: "data",
+          index,
+          range: 10,
+        };
+        const { epicJObj } = await this.listEpics({
+          teamId,
+          projectId,
+          params,
+        });
+        const epics = [];
+        if (!epicJObj) {
+          return epics;
+        }
+        for (const [
+          key,
+          value,
+        ] of Object.entries(epicJObj)) {
+          epics.push({
+            label: value[0],
+            value: key,
+          });
+        }
+        return {
+          options: epics,
+          context: {
+            index: params.index + params.range,
+          },
+        };
+      },
+    },
+    itemId: {
+      type: "string",
+      label: "Item",
+      description: "Identifier of a task, story, or bug",
+      optional: true,
+      async options({
+        teamId, projectId, sprintId, prevContext,
+      }) {
+        const { index = 1 } = prevContext;
+        const params = {
+          action: "sprintitems",
+          index,
+          range: 10,
+        };
+        const { itemJObj } = await this.listItems({
+          teamId,
+          projectId,
+          sprintId,
+          params,
+        });
+        const items = [];
+        for (const [
+          key,
+          value,
+        ] of Object.entries(itemJObj)) {
+          items.push({
+            label: value[0],
+            value: key,
+          });
+        }
+        return {
+          options: items,
+          context: {
+            index: params.index + params.range,
+          },
+        };
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -107,6 +325,14 @@ export default {
         ...args,
       });
     },
+    listProjects({
+      teamId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/projects/`,
+        ...args,
+      });
+    },
     listItemTypes({
       teamId, projectId, ...args
     }) {
@@ -120,6 +346,38 @@ export default {
     }) {
       return this._makeRequest({
         path: `/team/${teamId}/projects/${projectId}/priority/`,
+        ...args,
+      });
+    },
+    listSprints({
+      teamId, projectId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/projects/${projectId}/sprints/`,
+        ...args,
+      });
+    },
+    listProjectUsers({
+      teamId, projectId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/projects/${projectId}/users/`,
+        ...args,
+      });
+    },
+    listEpics({
+      teamId, projectId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/projects/${projectId}/epic/`,
+        ...args,
+      });
+    },
+    listItems({
+      teamId, projectId, sprintId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/projects/${projectId}/sprints/${sprintId}/item/`,
         ...args,
       });
     },
@@ -137,6 +395,42 @@ export default {
       return this._makeRequest({
         path: `/team/${teamId}/projects/${projectId}/`,
         method: "POST",
+        ...args,
+      });
+    },
+    createItem({
+      teamId, projectId, sprintId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/projects/${projectId}/sprints/${sprintId}/item/`,
+        method: "POST",
+        ...args,
+      });
+    },
+    deleteItem({
+      teamId, projectId, sprintId, itemId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/projects/${projectId}/sprints/${sprintId}/item/${itemId}/`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    createWebhook({
+      teamId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/webhooks/`,
+        method: "POST",
+        ...args,
+      });
+    },
+    deleteWebhook({
+      teamId, webhookId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/webhooks/${webhookId}/`,
+        method: "DELETE",
         ...args,
       });
     },
