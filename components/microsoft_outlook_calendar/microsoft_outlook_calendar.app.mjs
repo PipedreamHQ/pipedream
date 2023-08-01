@@ -91,7 +91,7 @@ export default {
       };
       return axios($ ?? this, config);
     },
-    async createHook({ ...args } = {}) {
+    async createHook(args = {}) {
       const response = await this._makeRequest({
         method: "POST",
         path: "/subscriptions",
@@ -125,14 +125,14 @@ export default {
         path: "/me/outlook/supportedTimeZones",
       });
     },
-    async createCalendarEvent({ ...args } = {}) {
+    async createCalendarEvent(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/me/events",
         ...args,
       });
     },
-    async listCalendarEvents({ ...args } = {}) {
+    async listCalendarEvents(args = {}) {
       return this._makeRequest({
         method: "GET",
         path: "/me/events",
