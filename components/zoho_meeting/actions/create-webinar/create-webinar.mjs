@@ -4,7 +4,7 @@ export default {
   name: "Create Webinar",
   version: "0.0.1",
   key: "zoho_meeting-create-webinar",
-  description: "Creates a webinar. [See docs here](https://www.zoho.com/meeting/api-integration/webinar-api/create-a-webinar.html)",
+  description: "Creates a webinar. [See the documentation](https://www.zoho.com/meeting/api-integration/webinar-api/create-a-webinar.html)",
   type: "action",
   props: {
     app,
