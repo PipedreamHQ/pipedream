@@ -54,31 +54,19 @@ export default {
       },
     },
     statusId: {
-      type: "string",
+      type: "integer",
       label: "Status",
       description: "Identifier of a project status",
-      async options({
-        teamId, projectId,
-      }) {
-        const { statusJObj } = await this.getProjectStatus({
-          teamId,
-          projectId,
-          params: {
-            action: "data",
-          },
-        });
-        const statuses = [];
-        for (const [
-          key,
-          value,
-        ] of Object.entries(statusJObj)) {
-          statuses.push({
-            label: value[0],
-            value: key,
-          });
-        }
-        return statuses;
-      },
+      options: [
+        {
+          label: "Active",
+          value: 1,
+        },
+        {
+          label: "Archive",
+          value: 2,
+        },
+      ],
     },
     sprintId: {
       type: "string",

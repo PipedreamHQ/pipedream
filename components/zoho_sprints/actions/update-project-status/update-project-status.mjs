@@ -35,12 +35,13 @@ export default {
     },
   },
   async run({ $ }) {
+    const data = new URLSearchParams();
+    data.append("status", this.statusId);
+
     const response = await this.zohoSprints.updateProject({
       teamId: this.teamId,
       projectId: this.projectId,
-      data: {
-        status: this.statusId,
-      },
+      data,
       $,
     });
 

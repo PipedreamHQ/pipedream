@@ -20,6 +20,7 @@ export default {
       data.append("module", this.getModule());
       data.append("predefinedtriggers", `["${this.getEventType()}"]`);
       data.append("method", "2");  // 2 = POST
+      data.append("formattedparams", {});
       const { webhooksIds } = await this.zohoSprints.createWebhook({
         teamId: this.teamId,
         data,

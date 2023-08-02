@@ -99,7 +99,7 @@ export default {
     duration: {
       type: "string",
       label: "Duration",
-      description: "Duration of the item",
+      description: "Duration of the item. Available format: \".5\" = 30mins, \"2:50\" = 2hrs 50mins, \"3.5\" = 3hrs 30mins, \"2d 4h 8m\" = 2days 4hrs and 8mins",
       optional: true,
     },
     points: {
@@ -115,7 +115,7 @@ export default {
     data.append("projitemtypeid", this.itemTypeId);
     data.append("projpriorityid", this.priorityTypeId);
     if (this.epicId) {
-      data.append("epicId", this.epicId);
+      data.append("epicid", this.epicId);
     }
     if (this.assignees) {
       data.append("users", JSON.stringify(this.assignees));
@@ -123,14 +123,17 @@ export default {
     if (this.description) {
       data.append("description", this.description);
     }
-    if (this.point) {
-      data.append("point", this.point);
+    if (this.duration) {
+      data.append("duration", this.duration);
     }
-    if (this.startdate) {
-      data.append("startdate", this.startdate);
+    if (this.points) {
+      data.append("point", this.points);
+    }
+    if (this.startDate) {
+      data.append("startdate", this.startDate);
     }
     if (this.endDate) {
-      data.append("enddate", this.enddate);
+      data.append("enddate", this.endDate);
     }
 
     const response = await this.zohoSprints.createItem({
