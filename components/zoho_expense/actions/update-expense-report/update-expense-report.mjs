@@ -14,6 +14,12 @@ export default {
         "organizationId",
       ],
     },
+    expenseReportId: {
+      propDefinition: [
+        app,
+        "expenseReportId",
+      ],
+    },
     reportName: {
       type: "string",
       label: "Report Name",
@@ -41,9 +47,19 @@ export default {
     },
   },
   methods: {
-    updateExpenseReport(args = {}) {
+    getExpenseReport({
+      expenseReportId, ...args
+    } = {}) {
+      return this.app.makeRequest({
+        path: `/expensereports/${expenseReportId}`,
+        ...args,
+      });
+    },
+    updateExpenseReport({
+      expenseReportId, ...args
+    } = {}) {
       return this.app.put({
-        path: "/expensereports/",
+        path: `/expensereports/${expenseReportId}`,
         ...args,
       });
     },
@@ -69,25 +85,35 @@ export default {
   async additionalProps() {
     const {
       organizationId,
+      expenseReportId,
       numberOfExpenses,
     } = this;
 
-    if (!organizationId || !numberOfExpenses) {
+    if (!numberOfExpenses) {
       return {};
     }
 
-    const { expenses } = await this.app.listExpenses({
-      headers: {
-        organizationId,
-      },
+    const headers = {
+      organizationId,
+    };
+
+    const { expense_report: report } = await this.getExpenseReport({
+      expenseReportId,
+      headers,
     });
 
-    const expenseOptions = expenses.map(({
-      expense_id: value, description: label,
-    }) => ({
-      label,
-      value,
-    }));
+    const { expenses } = await this.app.listExpenses({
+      headers,
+    });
+
+    const expenseOptions = report.expenses
+      .concat(expenses)
+      .map(({
+        expense_id: value, description, category_name: name,
+      }) => ({
+        label: `${description || name || value}`,
+        value,
+      }));
 
     return Array.from({
       length: this.numberOfExpenses,
@@ -113,6 +139,7 @@ export default {
   async run({ $: step }) {
     const {
       organizationId,
+      expenseReportId,
       reportName,
       startDate,
       endDate,
@@ -120,6 +147,7 @@ export default {
 
     const response = await this.updateExpenseReport({
       step,
+      expenseReportId,
       headers: {
         organizationId,
       },
@@ -131,7 +159,7 @@ export default {
       },
     });
 
-    step.export("$sumamry", `Successfully updated expense report with ID ${response.expense_report.report_id}`);
+    step.export("$summary", `Successfully updated expense report with ID ${response.expense_report.report_id}`);
 
     return response;
   },

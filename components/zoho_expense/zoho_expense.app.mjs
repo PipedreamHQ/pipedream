@@ -55,6 +55,24 @@ export default {
         }));
       },
     },
+    expenseReportId: {
+      type: "string",
+      label: "Expense Report ID",
+      description: "The ID of the expense report",
+      async options({ organizationId }) {
+        const { expense_reports = [] } = await this.listExpenseReports({
+          headers: {
+            organizationId,
+          },
+        });
+        return expense_reports.map(({
+          report_id: value, report_name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     getBaseUrl() {
