@@ -1,6 +1,9 @@
 export const getAdditionalProps = (formProps, allOptional = false) => {
   const props = {};
   for (const field of formProps.response.result) {
+    if (!field.labelname) {
+      continue;
+    }
     props[field.labelname] = {
       label: field.displayname,
       description: field.description,
