@@ -52,7 +52,7 @@ export default {
       throw new ConfigurationError("Must provide includeClause parameter.");
     }
 
-    var whereClause = "";
+    let whereClause = "";
     if (this.whereClause) {
       whereClause = ` WHERE  ${this.whereClause}`;
     }
