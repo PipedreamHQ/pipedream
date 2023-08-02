@@ -25,9 +25,6 @@ export const getAdditionalProps = (formProps, allOptional = false) => {
     }
   }
 
-  console.log({
-    props,
-  });
   return props;
 };
 

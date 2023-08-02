@@ -107,9 +107,6 @@ export default {
         url: this._getBaseUrl() + opts.path,
         headers: this._getHeaders(),
       };
-      console.log({
-        axiosOpts,
-      });
       return axios(ctx, axiosOpts);
     },
     async listForms() {
