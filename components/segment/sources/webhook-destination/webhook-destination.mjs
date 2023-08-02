@@ -1,12 +1,9 @@
-import { v4 as uuid } from "uuid";
-import { createHmac } from "crypto";
-import constants from "../../common/constants.mjs";
 import segmentApp from "../../segment.app.mjs";
 
 export default {
   key: "segment-webhook-destination",
   name: "Webhook Destination (Instant)",
-  description: "Send events to a webhook",
+  description: "Send events to a webhook. Requires a Team or Business account.",
   version: "0.0.2",
   type: "source",
   props: {
@@ -31,83 +28,65 @@ export default {
         }),
       ],
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Defines the display name of the Destination",
+    },
+    trigger: {
+      type: "string",
+      label: "Trigger",
+      description: "Destination FQL Statement. [Filter Query Language](https://segment.com/docs/api/public-api/fql/)",
+      optional: true,
+      default: "type = \"identify\" or type = \"track\" or type = \"group\"",
+    },
   },
   hooks: {
     async activate() {
-      const { source } = this;
-      const secret = uuid();
-      const destination = this.getDestination();
-      const baseName = `workspaces/${this.workspace}/sources/js/destinations/${destination}`;
-
       const { data } = await this.segmentApp.createDestination({
         data: {
-          sourceId: source,
+          sourceId: this.source,
           metadataId: await this.findMetadataId(),
-          name: baseName,
+          name: this.name,
           enabled: true,
           connection_mode: "UNSPECIFIED",
+          settings: {},
+        },
+      });
+      const destinationId = data.destination.id;
+      this.setDestinationId(destinationId);
+
+      const response = await this.segmentApp.createDestinationSubscription({
+        destination: destinationId,
+        data: {
+          name: "Pipedream Webhook Subscription",
+          trigger: this.trigger,
+          actionId: await this.findActionId(destinationId),
+          enabled: true,
           settings: {
-            data: [
-              {
-                name: `${baseName}/config/sharedSecret`,
-                type: "string",
-                value: secret,
-              },
-              {
-                name: `${baseName}/config/hooks`,
-                type: "mixed",
-                value: [
-                  {
-                    hook: this.http.endpoint,
-                  },
-                ],
-              },
-            ],
+            method: "POST",
+            url: this.http.endpoint,
           },
         },
       });
-      this.setSharedSecret(secret);
-      this.setDestinationId(data.destination.id);
-
-      const response = await this.segmentApp.createDestinationSubscription({
-        destination: data.destination.id,
-        data: {
-          name: "Pipedream Webhook Subscription",
-          trigger: "type = \"identify\" or type = \"track\" or type = \"group\"",
-          actionId: "drop",
-          enabled: true,
-        },
-      });
-
-      this.setSubscriptionId(response.data.destinationSubscription.id);
+      const subscriptionId = response.data.destinationSubscription.id;
+      this.setSubscriptionId(subscriptionId);
     },
     async deactivate() {
       const destination = this.getDestinationId();
       const subscription = this.getSubscriptionId();
-      await this.segmentApp.deleteDestination({
-        destination,
-      });
       await this.segmentApp.deleteDestinationSubscription({
         destination,
         subscription,
       });
+      await this.segmentApp.deleteDestination({
+        destination,
+      });
     },
   },
   methods: {
-    isValid(signature, bodyRaw) {
-      const digest = createHmac("sha1", this.getSharedSecret())
-        .update(Buffer.from(bodyRaw, "utf8"))
-        .digest("hex");
-      return signature === digest;
-    },
     getDestination() {
       return "actions-webhook";
-    },
-    setSharedSecret(secret) {
-      this.db.set(constants.SHARED_SECRET, secret);
-    },
-    getSharedSecret() {
-      return this.db.get(constants.SHARED_SECRET);
     },
     setDestinationId(id) {
       this.db.set("destinationId", id);
@@ -121,7 +100,7 @@ export default {
     getSubscriptionId() {
       return this.db.get("subscriptionId");
     },
-    async findWebhookDestinationId() {
+    async findDestinationMetadataId() {
       const params = {
         pagination: {
           count: 200,
@@ -132,7 +111,7 @@ export default {
           data: {
             destinationsCatalog, pagination,
           },
-        } = await this.segmentApp.getDestinationsCatalog({
+        } = await this.segmentApp.getDestinationCatalog({
           params,
         });
         const destination = destinationsCatalog.find(({ slug }) => slug === this.getDestination());
@@ -143,36 +122,28 @@ export default {
       } while (params.pagination.cursor);
     },
     async findMetadataId() {
-      const destinationMetadataId = await this.findWebhookDestinationId();
+      const destinationMetadataId = await this.findDestinationMetadataId();
       const { data: { destinationMetadata } } =  await this.segmentApp.getDestinationMetadata({
         destinationMetadataId,
       });
       return destinationMetadata.id;
     },
+    async findActionId(destination) {
+      const { data } = await this.segmentApp.getDestination({
+        destination,
+      });
+      return data.destination.metadata.actions[0].id;
+    },
   },
   async run(event) {
-    const {
-      headers,
-      body,
-      bodyRaw,
-    } = event;
+    this.http.respond({
+      status: 200,
+    });
 
-    const signature = headers["x-signature"];
-
-    if (this.isValid(signature, bodyRaw)) {
-
-      this.http.respond({
-        status: 200,
-        headers: {
-          "x-signature": signature,
-        },
-      });
-
-      this.$emit(body, {
-        id: signature,
-        summary: `Received ${body.type} event`,
-        ts: Date.parse(body.timestamp),
-      });
-    }
+    this.$emit(event, {
+      id: Date.now(),
+      summary: "Received event",
+      ts: Date.now(),
+    });
   },
 };

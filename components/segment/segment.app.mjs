@@ -88,7 +88,6 @@ export default {
   },
   methods: {
     getConfigApiBaseUrl() {
-      //return "https://platform.segmentapis.com/v1beta";
       return "https://api.segmentapis.com";
     },
     getTrackingApiBaseUrl() {
@@ -104,8 +103,7 @@ export default {
     },
     getConfigApiHeaders() {
       return {
-        //Authorization: `Bearer ${this.$auth.write_key}`,
-        Authorization: "Bearer sgp_1Dfnrh7i7wTlhmDscg6UHi4alG4HZh7lxGo1jV40S4A2c3BQpd05Qa05zNN7szBm",
+        Authorization: "Bearer ",
       };
     },
     getTrackingAuth() {
@@ -226,6 +224,14 @@ export default {
       return this.makeRequest({
         method: "delete",
         path: `/destinations/${destination}/subscriptions/${subscription}`,
+        ...args,
+      });
+    },
+    async getDestination({
+      destination, ...args
+    }) {
+      return this.makeRequest({
+        path: `/destinations/${destination}`,
         ...args,
       });
     },
