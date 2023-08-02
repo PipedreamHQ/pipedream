@@ -29,7 +29,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--action', help='which kind of code you want to generate?', choices=actions.keys(), required=True)
     parser.add_argument('--app', help='the app_name_slug', required=True)
-    parser.add_argument('prompt', help='the prompt to send to gpt-4, in between quotes')
+    parser.add_argument('prompt', help='the prompt to send to gpt, in between quotes')
     parser.add_argument('--verbose', dest='verbose', help='set the logging to debug', required=False, default=False, action='store_true')
     args = parser.parse_args()
     result = main(args.action, args.app, args.prompt, args.verbose)

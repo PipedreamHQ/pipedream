@@ -1,6 +1,6 @@
 # AI Code Gen for Pipedream Components
 
-Generate components using OpenAI GPT-4.
+Generate components using OpenAI GPT.
 
 
 ### Run

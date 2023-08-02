@@ -30,7 +30,7 @@ class PipedreamOpenAPIAgent:
             format_instructions=templates.format_instructions,
             input_variables=['input', 'agent_scratchpad']
         )
-        llm = ChatOpenAI(model_name='gpt-4', temperature=0, request_timeout=300)
+        llm = ChatOpenAI(model_name=config["model"], temperature=0, request_timeout=300)
         llm_chain = LLMChain(llm=llm, prompt=prompt_template)
         agent = ZeroShotAgent(llm_chain=llm_chain, allowed_tools=tool_names)
         verbose = True if config['logging']['level'] == 'DEBUG' else False
@@ -69,7 +69,7 @@ def ask_agent(user_prompt, docs, templates):
 def no_docs(app, prompt, templates):
     openai.api_key = config['openai']['api_key']
     result = openai.ChatCompletion.create(
-        model="gpt-4",
+        model=config["model"],
         messages=[
             {"role": "system", "content": format_template(templates.no_docs_system_instructions)},
             {"role": "user", "content": templates.no_docs_user_prompt % (prompt, app)},

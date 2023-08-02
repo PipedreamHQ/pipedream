@@ -18,4 +18,5 @@ config = {
     "logging": {
         "level": "DEBUG" if os.environ.get('DEBUG') == "1" else "WARN",
     },
+    "model": "gpt-4",
 }
