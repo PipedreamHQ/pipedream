@@ -13,17 +13,25 @@ def main(app, prompt, templates):
 
     docs_meta = db.get_app_docs_meta(app)
 
-    if 'docs_url' in docs_meta:
-        contents = db.get_docs_contents(app)
-        if contents:
-            docs =  { row['url']: row['content'] for row in contents }
-            return with_docs(app, prompt, docs, 'api reference', templates)
+    try:
+        if 'docs_url' in docs_meta:
+            contents = db.get_docs_contents(app)
+            if contents:
+                docs =  { row['url']: row['content'] for row in contents }
+                return with_docs(app, prompt, docs, 'api reference', templates)
+    except Exception as e:
+        logger.error(e)
+        logger.error("failed with docs")
 
-    if 'openapi_url' in docs_meta:
-        contents = db.get_openapi_contents(app)
-        if contents:
-            docs = { row['path']: row['content'] for row in contents }
-            return with_docs(app, prompt, docs, 'openapi', templates)
+    try:
+        if 'openapi_url' in docs_meta:
+            contents = db.get_openapi_contents(app)
+            if contents:
+                docs = { row['path']: row['content'] for row in contents }
+                return with_docs(app, prompt, docs, 'openapi', templates)
+    except Exception as e:
+        logger.error(e)
+        logger.error("failed with openapi")
 
     return no_docs(app, prompt, templates)
 
