@@ -25,5 +25,23 @@ export const getAdditionalProps = (formProps, allOptional = false) => {
     }
   }
 
+  console.log({
+    props,
+  });
   return props;
+};
+
+export const convertEmptyToNull = (data) => {
+  for (const key in data) {
+    if (data[key] === "") {
+      data[key] = undefined;
+    }
+  }
+  return data;
+};
+
+export const normalizeErrorMessage = (errors) => {
+  return Array.isArray(errors)
+    ? errors.map((error) => JSON.stringify(error.message)).join(", ")
+    : JSON.stringify(errors.message);
 };

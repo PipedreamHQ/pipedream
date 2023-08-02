@@ -1,5 +1,7 @@
 import app from "../../zoho_people.app.mjs";
-import { getAdditionalProps } from "../common/add-update-record-common.mjs";
+import {
+  convertEmptyToNull, getAdditionalProps, normalizeErrorMessage,
+} from "../common/add-update-record-common.mjs";
 
 export default {
   type: "action",
@@ -30,7 +32,10 @@ export default {
       form,
       ...data
     } = this;
-    const res = await app.insertRecord(form, data);
+    const res = await app.insertRecord(form, convertEmptyToNull(data));
+    if (res.response.errors) {
+      throw new Error(`Zoho People error response: ${normalizeErrorMessage(res.response.errors)}`);
+    }
     $.export("summary", `Record successfully created with id ${res.response.result.pkId}`);
     return res;
   },

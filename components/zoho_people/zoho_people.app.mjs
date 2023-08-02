@@ -44,6 +44,35 @@ export default {
       type: "string",
       label: "Employee ID",
       description: "The employee ID of the employee",
+      async options({ page }) {
+        const res = await this.listFormRecords("employee", page);
+
+        if (!res.response?.result) {
+          return [];
+        }
+
+        const options = [];
+        for (const record of res.response.result) {
+          const [
+            key,
+          ] = Object.keys(record);
+          const {
+            FirstName,
+            LastName,
+            EmailID,
+            EmployeeID,
+          } = record[key][0];
+          const label = FirstName && LastName
+            ? `${FirstName} ${LastName}`
+            : (EmailID ?? key);
+
+          options.push({
+            label,
+            value: EmployeeID,
+          });
+        }
+        return options;
+      },
       optional: true,
     },
     emailId: {
@@ -78,7 +107,9 @@ export default {
         url: this._getBaseUrl() + opts.path,
         headers: this._getHeaders(),
       };
-      console.log(axiosOpts);
+      console.log({
+        axiosOpts,
+      });
       return axios(ctx, axiosOpts);
     },
     async listForms() {
@@ -101,7 +132,6 @@ export default {
       });
     },
     async updateRecord(formLinkName, recordId, data) {
-      console.log(data);
       return this._makeHttpRequest({
         method: "POST",
         path: `/forms/json/${formLinkName}/updateRecord`,

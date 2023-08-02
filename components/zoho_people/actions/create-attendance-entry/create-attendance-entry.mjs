@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../zoho_people.app.mjs";
+import { convertEmptyToNull } from "../common/add-update-record-common.mjs";
 
 export default {
   type: "action",
@@ -47,7 +48,10 @@ export default {
     if (!data.empId && !data.emailId && !data.mapId) {
       throw new ConfigurationError("One of the following fields is required: Employee ID, Email ID, Map ID");
     }
-    const res = await app.createAttendance(data);
+    const res = await app.createAttendance(convertEmptyToNull(data));
+    if (res[0]?.response === "failure") {
+      throw new Error(`Zoho People error response: ${res[0].msg}`);
+    }
     $.export("summary", "Attendance entry successfully created");
     return res;
   },

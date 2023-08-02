@@ -1,5 +1,7 @@
 import app from "../../zoho_people.app.mjs";
-import { getAdditionalProps } from "../common/add-update-record-common.mjs";
+import {
+  convertEmptyToNull, getAdditionalProps, normalizeErrorMessage,
+} from "../common/add-update-record-common.mjs";
 
 export default {
   type: "action",
@@ -27,21 +29,11 @@ export default {
     },
   },
   async additionalProps() {
-    if (!this.form || !this.record) {
+    if (!this.form) {
       return;
     }
     const formProps = await this.app.listFieldsOfForm(this.form);
-    const recordRes = await this.app.getRecordById(this.form, this.record);
-    const props = getAdditionalProps(formProps, true);
-    for (const key in props) {
-      const [
-        record,
-      ] = recordRes.response.result;
-      if (record[key]) {
-        props[key].default = record[`${key}.ID`] ?? record[`${key}.id`] ?? record[`${key}.Id`] ?? record[key];
-      }
-    }
-    return props;
+    return getAdditionalProps(formProps, true);
   },
   async run({ $ }) {
     const {
@@ -50,7 +42,10 @@ export default {
       record,
       ...data
     } = this;
-    const res = await app.updateRecord(form, record, data);
+    const res = await app.updateRecord(form, record, convertEmptyToNull(data));
+    if (res.response.errors) {
+      throw new Error(`Zoho People error response: ${normalizeErrorMessage(res.response.errors)}`);
+    }
     $.export("summary", `Record successfully updated with id ${record}`);
     return res;
   },
