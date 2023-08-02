@@ -240,7 +240,7 @@ export default {
         params,
       }, $);
     },
-    async createPurchase({
+    createPurchase({
       $, ...args
     }) {
       return this._makeRequest(`company/${this._companyId()}/purchase`, {
