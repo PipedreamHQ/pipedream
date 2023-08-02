@@ -37,16 +37,17 @@ export default {
       const { source } = this;
       const secret = uuid();
       const destination = this.getDestination();
-      const baseName = `${source}/destinations/${destination}`;
+      const baseName = `workspaces/${this.workspace}/sources/js/destinations/${destination}`;
 
-      await this.segmentApp.createDestination({
-        source: `/${source}`,
+      const { data } = await this.segmentApp.createDestination({
         data: {
-          destination: {
-            name: baseName,
-            enabled: true,
-            connection_mode: "UNSPECIFIED",
-            config: [
+          sourceId: source,
+          metadataId: await this.findMetadataId(),
+          name: baseName,
+          enabled: true,
+          connection_mode: "UNSPECIFIED",
+          settings: {
+            data: [
               {
                 name: `${baseName}/config/sharedSecret`,
                 type: "string",
@@ -66,11 +67,29 @@ export default {
         },
       });
       this.setSharedSecret(secret);
+      this.setDestinationId(data.destination.id);
+
+      const response = await this.segmentApp.createDestinationSubscription({
+        destination: data.destination.id,
+        data: {
+          name: "Pipedream Webhook Subscription",
+          trigger: "type = \"identify\" or type = \"track\" or type = \"group\"",
+          actionId: "drop",
+          enabled: true,
+        },
+      });
+
+      this.setSubscriptionId(response.data.destinationSubscription.id);
     },
     async deactivate() {
-      return this.segmentApp.deleteDestination({
-        source: `/${this.source}`,
-        destination: this.getDestination(),
+      const destination = this.getDestinationId();
+      const subscription = this.getSubscriptionId();
+      await this.segmentApp.deleteDestination({
+        destination,
+      });
+      await this.segmentApp.deleteDestinationSubscription({
+        destination,
+        subscription,
       });
     },
   },
@@ -82,13 +101,53 @@ export default {
       return signature === digest;
     },
     getDestination() {
-      return "webhooks";
+      return "actions-webhook";
     },
     setSharedSecret(secret) {
       this.db.set(constants.SHARED_SECRET, secret);
     },
     getSharedSecret() {
       return this.db.get(constants.SHARED_SECRET);
+    },
+    setDestinationId(id) {
+      this.db.set("destinationId", id);
+    },
+    getDestinationId() {
+      return this.db.get("destinationId");
+    },
+    setSubscriptionId(id) {
+      this.db.set("subscriptionId", id);
+    },
+    getSubscriptionId() {
+      return this.db.get("subscriptionId");
+    },
+    async findWebhookDestinationId() {
+      const params = {
+        pagination: {
+          count: 200,
+        },
+      };
+      do {
+        const {
+          data: {
+            destinationsCatalog, pagination,
+          },
+        } = await this.segmentApp.getDestinationsCatalog({
+          params,
+        });
+        const destination = destinationsCatalog.find(({ slug }) => slug === this.getDestination());
+        if (destination) {
+          return destination.id;
+        }
+        params.pagination.cursor = pagination?.next;
+      } while (params.pagination.cursor);
+    },
+    async findMetadataId() {
+      const destinationMetadataId = await this.findWebhookDestinationId();
+      const { data: { destinationMetadata } } =  await this.segmentApp.getDestinationMetadata({
+        destinationMetadataId,
+      });
+      return destinationMetadata.id;
     },
   },
   async run(event) {

@@ -39,70 +39,48 @@ export default {
       type: "string",
       label: "Workspace",
       description: "Workspace to use for this destination",
-      async options({ prevContext }) {
-        const { pageToken } = prevContext;
-
-        if (pageToken === false) {
-          return [];
-        }
-
-        const {
-          workspaces,
-          next_page_token: nextPageToken,
-        } = await this.listWorkspaces({
-          page_token: pageToken,
-          page_size: 10,
-        });
-
-        const options = workspaces.map(({
-          display_name: label,
-          name,
-        }) => ({
-          label,
-          value: name.split("/").pop(),
-        }));
-
-        return {
-          options,
-          context: {
-            pageToken: nextPageToken || false,
+      async options() {
+        const { data } = await this.listWorkspaces();
+        return [
+          {
+            value: data.workspace.id,
+            label: data.workspace.name,
           },
-        };
+        ];
       },
     },
     source: {
       type: "string",
       label: "Source",
       description: "The source to send events to",
-      async options({
-        workspace, prevContext,
-      }) {
-        const { pageToken } = prevContext;
-
-        if (pageToken === false) {
-          return [];
+      async options({ prevContext }) {
+        const { cursor } = prevContext;
+        const params = {
+          pagination: {
+            count: 10,
+          },
+        };
+        if (cursor) {
+          params.pagination.cursor = cursor;
         }
 
-        const {
-          sources,
-          next_page_token: nextPageToken,
-        } = await this.listSources({
-          workspace,
-          params: {
-            page_token: pageToken,
-            page_size: 10,
-          },
+        const { data } = await this.listSources({
+          params,
         });
 
-        const options = sources.map(({ name }) => ({
-          value: name,
-          label: name.split("/sources/").pop(),
+        const options = data.sources.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
         }));
+
+        const nextCursor = data.pagination?.next;
 
         return {
           options,
           context: {
-            pageToken: nextPageToken || false,
+            cursor: nextCursor,
           },
         };
       },
@@ -110,7 +88,8 @@ export default {
   },
   methods: {
     getConfigApiBaseUrl() {
-      return "https://platform.segmentapis.com/v1beta";
+      //return "https://platform.segmentapis.com/v1beta";
+      return "https://api.segmentapis.com";
     },
     getTrackingApiBaseUrl() {
       return "https://api.segment.io/v1";
@@ -125,7 +104,8 @@ export default {
     },
     getConfigApiHeaders() {
       return {
-        Authorization: `Bearer ${this.$auth.write_key}`,
+        //Authorization: `Bearer ${this.$auth.write_key}`,
+        Authorization: "Bearer sgp_1Dfnrh7i7wTlhmDscg6UHi4alG4HZh7lxGo1jV40S4A2c3BQpd05Qa05zNN7szBm",
       };
     },
     getTrackingAuth() {
@@ -211,33 +191,61 @@ export default {
     },
     async listWorkspaces(args = {}) {
       return this.makeRequest({
-        path: "/workspaces",
+        path: "/",
         ...args,
       });
     },
-    async createDestination({
-      source, ...args
+    async createDestination(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/destinations",
+        ...args,
+      });
+    },
+    async createDestinationSubscription({
+      destination, ...args
     }) {
       return this.makeRequest({
         method: "post",
-        path: `${source}/destinations`,
+        path: `/destinations/${destination}/subscriptions/`,
         ...args,
       });
     },
     async deleteDestination({
-      source, destination, ...args
+      destination, ...args
     }) {
       return this.makeRequest({
         method: "delete",
-        path: `${source}/destinations/${destination}`,
+        path: `/destinations/${destination}`,
         ...args,
       });
     },
-    async listSources({
-      workspace, ...args
+    async deleteDestinationSubscription({
+      destination, subscription, ...args
     }) {
       return this.makeRequest({
-        path: `/workspaces/${workspace}/sources`,
+        method: "delete",
+        path: `/destinations/${destination}/subscriptions/${subscription}`,
+        ...args,
+      });
+    },
+    async getDestinationsCatalog(args = {}) {
+      return this.makeRequest({
+        path: "/catalog/destinations/",
+        ...args,
+      });
+    },
+    async getDestinationMetadata({
+      destinationMetadataId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/catalog/destinations/${destinationMetadataId}`,
+        ...args,
+      });
+    },
+    async listSources(args = {}) {
+      return this.makeRequest({
+        path: "/sources",
         ...args,
       });
     },
