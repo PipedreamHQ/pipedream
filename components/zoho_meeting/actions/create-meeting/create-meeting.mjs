@@ -4,7 +4,7 @@ export default {
   name: "Create Meeting",
   version: "0.0.1",
   key: "zoho_meeting-create-meeting",
-  description: "Creates a meeting. [See docs here](https://www.zoho.com/meeting/api-integration/meeting-api/create-a-meeting.html)",
+  description: "Creates a meeting. [See the documentation](https://www.zoho.com/meeting/api-integration/meeting-api/create-a-meeting.html)",
   type: "action",
   props: {
     app,
