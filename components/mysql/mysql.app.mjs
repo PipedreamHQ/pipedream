@@ -83,12 +83,8 @@ export default {
       type: "string",
       label: "Stored Procedure",
       description: "List of stored procedures in the current database",
-      async options({ rejectUnauthorized = false }) {
-        return this.listStoredProcedures({
-          ssl: {
-            rejectUnauthorized,
-          },
-        });
+      async options() {
+        return this.listStoredProcedures();
       },
     },
     storedProcedureParameters: {
@@ -97,62 +93,27 @@ export default {
       description: "Parameters for the stored procedure",
       optional: true,
     },
-    rejectUnauthorized: {
-      type: "boolean",
-      label: "Reject Unauthorized",
-      description: "If not false, the server certificate is verified against the list of supplied CAs. If you get an error about SSL try to set this prop as `false`",
-      default: false,
-      optional: true,
-    },
-    ca: {
-      type: "string",
-      label: "Certificate Authority",
-      description: "The CA text to use for the connection. E.g. (`-----BEGIN CERTIFICATE-----\\nMIIDBTCCAe2gAwIBAgIJA...`).",
-      optional: true,
-    },
-    key: {
-      type: "string",
-      label: "Private Key",
-      description: "The key text to use for the connection. E.g. (`-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDQ...`).",
-      optional: true,
-    },
-    cert: {
-      type: "string",
-      label: "Certificate",
-      description: "The certificate text to use for the connection. E.g. (`-----BEGIN CERTIFICATE-----\\nMIIDBTCCAe2gAwIBAgIJA...`).",
-      optional: true,
-    },
   },
   methods: {
-    async getConnection({
-      ssl, ...args
-    } = {}) {
+    getConfig() {
       const {
         host,
         port,
         username,
         password,
         database,
-        ca,
-        key,
-        cert,
       } = this.$auth;
-      const config = {
+      return {
         debug: true,
         host,
         port,
         user: username,
         password,
         database,
-        ssl: {
-          rejectUnauthorized: ssl?.rejectUnauthorized ?? false,
-          ca: ssl?.rejectUnauthorized && ca,
-          key: ssl?.rejectUnauthorized && key,
-          cert: ssl?.rejectUnauthorized && cert,
-        },
-        ...args,
       };
-      return mysqlClient.createConnection(config);
+    },
+    getConnection() {
+      return mysqlClient.createConnection(this.getConfig());
     },
     async closeConnection(connection) {
       const connectionClosed = new Promise((resolve) => {
@@ -169,13 +130,11 @@ export default {
       ] = await connection.execute(preparedStatement);
       return result;
     },
-    async executeQueryConnectionHandler({
-      preparedStatement, ...args
-    } = {}) {
+    async executeQueryConnectionHandler(preparedStatement = {}) {
       let connection;
 
       try {
-        connection = await this.getConnection(args);
+        connection = await this.getConnection();
 
         return await this.executeQuery({
           connection,

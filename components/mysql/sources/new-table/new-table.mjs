@@ -14,12 +14,8 @@ export default {
   },
   hooks: {
     async deploy() {
-      const { rejectUnauthorized } = this;
       const tables = await this.mysql.listTopTables({
         maxCount: 10,
-        ssl: {
-          rejectUnauthorized,
-        },
       });
       this.iterateAndEmitEvents(tables);
       this._setLastResult(tables, "CREATE_TIME");
@@ -28,19 +24,13 @@ export default {
   methods: {
     ...common.methods,
     async listResults() {
-      const { rejectUnauthorized } = this;
       const lastResult = this._getLastResult();
-      const ssl = {
-        rejectUnauthorized,
-      };
       const tables = lastResult
         ? await this.mysql.listBaseTables({
           lastResult,
-          ssl,
         })
         : await this.mysql.listTopTables({
           maxCount: 10,
-          ssl,
         });
       this.iterateAndEmitEvents(tables);
       this._setLastResult(tables, "CREATE_TIME");

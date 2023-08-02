@@ -10,12 +10,6 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    rejectUnauthorized: {
-      propDefinition: [
-        mysql,
-        "rejectUnauthorized",
-      ],
-    },
   },
   methods: {
     _getLastResult() {
@@ -44,19 +38,13 @@ export default {
      * @param {string} column - Name of the table column to order by
      */
     async listRowResults(column) {
-      const {
-        table,
-        rejectUnauthorized,
-      } = this;
+      const { table } = this;
 
       let lastResult = this._getLastResult();
       const rows = await this.mysql.listRows({
         table,
         column,
         lastResult,
-        ssl: {
-          rejectUnauthorized,
-        },
       });
       this._setLastResult(rows, column);
       this.iterateAndEmitEvents(rows);
@@ -66,9 +54,6 @@ export default {
         table: this.table,
         column,
         maxCount,
-        ssl: {
-          rejectUnauthorized: this.rejectUnauthorized,
-        },
       });
       this._setLastResult(rows, column);
       this.iterateAndEmitEvents(rows);

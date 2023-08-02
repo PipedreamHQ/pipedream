@@ -17,21 +17,13 @@ export default {
       ],
       reloadProps: true,
     },
-    rejectUnauthorized: {
-      propDefinition: [
-        mysql,
-        "rejectUnauthorized",
-      ],
-    },
   },
   additionalProps() {
     return this.getColumnProps(this.table);
   },
   methods: utils,
   async run({ $ }) {
-    const {
-      table, rejectUnauthorized,
-    } = this;
+    const { table } = this;
 
     const {
       columns, values,
@@ -41,9 +33,6 @@ export default {
       table,
       columns,
       values,
-      ssl: {
-        rejectUnauthorized,
-      },
     });
 
     $.export("$summary", `Successfully added ${result.affectedRows} row(s) to table ${table}`);

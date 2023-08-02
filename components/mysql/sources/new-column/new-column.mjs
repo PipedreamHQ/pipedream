@@ -21,17 +21,11 @@ export default {
       this.db.set("previousColumns", previousColumns);
     },
     async listResults() {
-      const {
-        table,
-        rejectUnauthorized,
-      } = this;
+      const { table } = this;
       let previousColumns = this._getPreviousColumns() || [];
       const columns = await this.mysql.listNewColumns({
         table,
         previousColumns,
-        ssl: {
-          rejectUnauthorized,
-        },
       });
       this.iterateAndEmitEvents(columns);
 

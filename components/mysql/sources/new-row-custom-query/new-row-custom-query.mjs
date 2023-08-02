@@ -46,7 +46,6 @@ export default {
         table,
         condition,
         values,
-        rejectUnauthorized,
       } = this;
 
       const numberOfQuestionMarks = condition?.match(/\?/g)?.length;
@@ -67,9 +66,6 @@ export default {
         table,
         condition,
         values,
-        ssl: {
-          rejectUnauthorized,
-        },
       });
       this.iterateAndEmitEvents(rows);
     },

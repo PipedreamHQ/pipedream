@@ -37,12 +37,6 @@ export default {
         "whereValue",
       ],
     },
-    rejectUnauthorized: {
-      propDefinition: [
-        mysql,
-        "rejectUnauthorized",
-      ],
-    },
   },
   async run({ $ }) {
     const {
@@ -50,7 +44,6 @@ export default {
       column,
       operator,
       value,
-      rejectUnauthorized,
     } = this;
 
     const condition = `${column} ${operator} ?`;
@@ -61,9 +54,6 @@ export default {
       values: [
         value,
       ],
-      ssl: {
-        rejectUnauthorized,
-      },
     });
 
     $.export("$summary", `Successfully found ${result.length} row(s) from table ${table}`);

@@ -8,19 +8,10 @@ export default {
   version: "0.1.1",
   props: {
     mysql,
-    rejectUnauthorized: {
-      propDefinition: [
-        mysql,
-        "rejectUnauthorized",
-      ],
-    },
     storedProcedure: {
       propDefinition: [
         mysql,
         "storedProcedure",
-        (c) => ({
-          rejectUnauthorized: c.rejectUnauthorized ?? false,
-        }),
       ],
     },
     values: {
@@ -34,15 +25,11 @@ export default {
     const {
       storedProcedure,
       values,
-      rejectUnauthorized,
     } = this;
 
     const result = await this.mysql.executeStoredProcedure({
       storedProcedure,
       values,
-      ssl: {
-        rejectUnauthorized,
-      },
     });
 
     $.export("$summary", `Successfully executed stored procedure ${storedProcedure}`);

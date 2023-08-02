@@ -29,18 +29,12 @@ export default {
      * If column prop is left blank, get the table's primary key to use for ordering and deduping.
      * */
     async deploy() {
-      const {
-        table,
-        rejectUnauthorized,
-      } = this;
+      const { table } = this;
       let column = this.column;
 
       if (!column) {
         const keyData = await this.mysql.getPrimaryKey({
           table,
-          ssl: {
-            rejectUnauthorized,
-          },
         });
         column = keyData[0].Column_name;
       }

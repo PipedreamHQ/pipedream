@@ -27,19 +27,12 @@ export default {
         "whereValues",
       ],
     },
-    rejectUnauthorized: {
-      propDefinition: [
-        mysql,
-        "rejectUnauthorized",
-      ],
-    },
   },
   async run({ $ }) {
     const {
       table,
       condition,
       values,
-      rejectUnauthorized,
     } = this;
 
     const numberOfQuestionMarks = condition?.match(/\?/g)?.length;
@@ -60,9 +53,6 @@ export default {
       table,
       condition,
       values,
-      ssl: {
-        rejectUnauthorized,
-      },
     });
 
     $.export("$summary", `Successfully deleted ${result.affectedRows} row(s) from table ${table}`);
