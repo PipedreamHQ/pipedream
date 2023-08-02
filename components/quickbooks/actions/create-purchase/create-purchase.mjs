@@ -1,3 +1,4 @@
+import { parseOne } from "../../common/utils.mjs";
 import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
@@ -55,6 +56,9 @@ export default {
     },
   },
   async run({ $ }) {
+
+    let parsedLineItems = parseOne(this.lineItems);
+
     const response = await this.quickbooks.createPurchase({
       $,
       data: {
@@ -63,8 +67,8 @@ export default {
           value: this.accountRefValue,
           name: this.accountRefName,
         },
-        Line: this.lineItems.length
-          ? this.lineItems.map((item) => JSON.parse(item))
+        Line: parsedLineItems.length
+          ? parsedLineItems.map((item) => parseOne(item))
           : [],
         CurrencyRef: {
           value: this.currencyRefValue,

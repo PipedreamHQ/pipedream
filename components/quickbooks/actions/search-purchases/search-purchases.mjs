@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
@@ -9,12 +8,6 @@ export default {
   type: "action",
   props: {
     quickbooks,
-    includeClause: {
-      propDefinition: [
-        quickbooks,
-        "includeClause",
-      ],
-    },
     maxResults: {
       propDefinition: [
         quickbooks,
@@ -48,10 +41,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.includeClause) {
-      throw new ConfigurationError("Must provide includeClause parameter.");
-    }
-
     let whereClause = "";
     if (this.whereClause) {
       whereClause = ` WHERE  ${this.whereClause}`;
@@ -72,7 +61,7 @@ export default {
       maxResults = ` MAXRESULTS ${this.maxResults}` || "";
     }
     //Prepares the request's query parameter
-    const query = `select ${this.includeClause} from Purchase ${whereClause}${orderClause}${startPosition}${maxResults}`;
+    const query = `select * from Purchase ${whereClause}${orderClause}${startPosition}${maxResults}`;
 
     const response = await this.quickbooks.query({
       $,

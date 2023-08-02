@@ -35,7 +35,7 @@ export default {
     lineItems: {
       label: "Line Items",
       type: "string[]",
-      description: "Individual line items of a transaction. Valid Line types include: `ItemBasedExpenseLine` and `AccountBasedExpenseLine`. One minimum line item required for the request to succeed. E.g `[ { \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } } ]`",
+      description: "Individual line items of a transaction. Valid Line types include: `ItemBasedExpenseLine` and `AccountBasedExpenseLine`. One minimum line item required for the request to succeed. E.g `[ { \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Meals and Entertainment\", \"value\": \"10\" } } } ]`",
     },
     customer: {
       label: "Customer Reference",
