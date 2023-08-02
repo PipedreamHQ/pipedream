@@ -48,7 +48,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully rejected trip request with message \`${response.message}\``);
+    step.export("$summary", `Successfully rejected trip with ID ${tripId}`);
 
     return response;
   },

@@ -75,19 +75,23 @@ export default {
       return {};
     }
 
-    const { expense_categories: categories = [] } =
+    const { expense_accounts: categories = [] } =
       await this.app.listExpenseCategories({
         headers: {
           organizationId,
         },
       });
 
-    const categoryOptions = categories.map(({
-      category_id: value, category_name: label,
-    }) => ({
-      label,
-      value,
-    }));
+    const categoryOptions = categories
+      .filter(({
+        status, is_enabled,
+      }) => status === "active" && is_enabled)
+      .map(({
+        category_id: value, category_name: label,
+      }) => ({
+        label,
+        value,
+      }));
 
     return Array.from({
       length: this.numberOfItems,
