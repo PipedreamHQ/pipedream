@@ -132,7 +132,7 @@ export default {
       label: "Channel",
       description: "Please select a channel",
       async options({
-        guildId, notAllowedChannels,
+        guildId, notAllowedChannels, allowedChannels,
       }) {
         let channels;
         try {
@@ -145,6 +145,7 @@ export default {
         return utils.getChannelOptions({
           channels,
           notAllowedChannels,
+          allowedChannels,
         });
       },
     },
