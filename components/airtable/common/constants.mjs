@@ -50,7 +50,19 @@ const FieldType = {
   LOOKUP: "lookup",
 };
 
+const SORT_DIRECTION_OPTIONS = [
+  {
+    label: "Descending",
+    value: "desc",
+  },
+  {
+    label: "Ascending",
+    value: "asc",
+  },
+];
+
 export {
   FIELD_PREFIX,
   FieldType,
+  SORT_DIRECTION_OPTIONS,
 };

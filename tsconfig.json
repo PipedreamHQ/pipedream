@@ -2270,6 +2270,12 @@
     },
     {
       "path": "components/zoho_calendar"
+    },
+    {
+      "path": "components/mysql_ssl"
+    },
+    {
+      "path": "components/azure_openai_service"
     }
   ]
 }
