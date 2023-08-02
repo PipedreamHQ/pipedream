@@ -114,7 +114,7 @@ export default defineApp({
           ...args,
         });
 
-        result.push(...resources);
+        if (resources) result.push(...resources);
         pageToken = nextPageToken;
         resultCount += pageSize;
       } while (pageToken && resultCount < maxResults);
