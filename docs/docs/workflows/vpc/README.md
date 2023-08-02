@@ -38,7 +38,7 @@ Outbound network requests from workflows that run in a VPC will originate from t
 
 ### Run workflows within a VPC
 
-To run workflows in a VPC, check the **Run in Private Network** option in workflow settings and select the network you created. All outbound network requests for the workflow will originate from the static egress IP for the VPM (both when testing a workflow or when running the workflow in production).
+To run workflows in a VPC, check the **Run in Private Network** option in workflow settings and select the network you created. All outbound network requests for the workflow will originate from the static egress IP for the VPC (both when testing a workflow or when running the workflow in production).
 
 ![Selecting a VPC within the workflow settings](https://res.cloudinary.com/pipedreamin/image/upload/v1690913944/CleanShot_2023-08-01_at_14.18.42_rihwff.png)
 
