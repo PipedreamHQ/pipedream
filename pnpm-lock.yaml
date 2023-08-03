@@ -77,7 +77,7 @@ importers:
         version: 12.5.0
       pnpm:
         specifier: ^7.33.4
-        version: 7.33.4
+        version: 7.33.5
       putout:
         specifier: '>=20'
         version: 30.5.0
@@ -18358,6 +18358,44 @@ packages:
       '@babel/core': 7.22.9
       '@jest/test-sequencer': 29.6.1
       '@jest/types': 29.6.1
+      babel-jest: 29.6.1(@babel/core@7.22.9)
+      chalk: 4.1.2
+      ci-info: 3.8.0
+      deepmerge: 4.3.1
+      glob: 7.2.3
+      graceful-fs: 4.2.11
+      jest-circus: 29.6.1
+      jest-environment-node: 29.6.1
+      jest-get-type: 29.4.3
+      jest-regex-util: 29.4.3
+      jest-resolve: 29.6.1
+      jest-runner: 29.6.1
+      jest-util: 29.6.1
+      jest-validate: 29.6.1
+      micromatch: 4.0.5
+      parse-json: 5.2.0
+      pretty-format: 29.6.1
+      slash: 3.0.0
+      strip-json-comments: 3.1.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /jest-config@29.6.1(@types/node@17.0.45):
+    resolution: {integrity: sha512-XdjYV2fy2xYixUiV2Wc54t3Z4oxYPAELUzWnV6+mcbq0rh742X2p52pii5A3oeRzYjLnQxCsZmp0qpI6klE2cQ==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    peerDependencies:
+      '@types/node': '*'
+      ts-node: '>=9.0.0'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      ts-node:
+        optional: true
+    dependencies:
+      '@babel/core': 7.22.9
+      '@jest/test-sequencer': 29.6.1
+      '@jest/types': 29.6.1
       '@types/node': 17.0.45
       babel-jest: 29.6.1(@babel/core@7.22.9)
       chalk: 4.1.2
@@ -21966,8 +22004,8 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  /pnpm@7.33.4:
-    resolution: {integrity: sha512-xEbf/tkwHpGM/GXq5U/sDSiE6ykLPho+o71PHNRWqkVLm6dJe4G/5Pg619Ow32ovekrr7pii5qtfamujB/+1bA==}
+  /pnpm@7.33.5:
+    resolution: {integrity: sha512-TkmfIv/+WEWqj5Rj4ThrLXLDE04OvvlAk2CthE/vApDoK0ebMusuwPMOVmB+GCDCIWeCn9YmVtQaj9DMSg9CZw==}
     engines: {node: '>=14.6'}
     hasBin: true
     dev: true
