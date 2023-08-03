@@ -5,9 +5,9 @@ next: false
 
 # Plans and Pricing
 
-We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/components#sources), [workflows](/workflows), [actions](/components#actions), and other integration components so that other Pipedream users benefit from your work.
+**Pipedream offers a generous free tier**. We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/components#sources), [workflows](/workflows), [actions](/components#actions), and other integration components so that other Pipedream users benefit from your work.
 
-To support these goals, **Pipedream offers a generous free tier**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
+If you hit [the limits of our free tier](https://pipedream.com/pricing), you can upgrade to one of our [paid tiers](#paid-tiers).
 
 [Read more about our plans and pricing here](https://pipedream.com/pricing).
 
@@ -48,6 +48,16 @@ All paid plans vary features based on tier, but each paid plan option will:
 - Lift the daily 100 credits limit
 - Increase the number of active workflows available
 - Increase the number of connected accounts
+
+## Free Trial
+
+All workspaces start a free trial of the [Advanced plan](https://pipedream.com/pricing) on workspace creation. The free trial lasts 14 days. You can choose to upgrade to a paid plan at any time during the trial, or your workspace will move to the Free plan after 14 days.
+
+The free trial offers most standard features of the Advanced plan, and includes premium support from the Pipedream team. Please let us know if you have any questions during the trial — we're happy to assist.
+
+### End of trial
+
+At the end of your trial, if you haven't upgraded to a paid plan, your workspace will move to the Free plan. **Workflows that are using Advanced features, or ones that exceed [the limits of the Free plan](https://pipedream.com/pricing), will be disabled at this time**. To continue running those workflows, you can upgrade to a paid plan or disable the Advanced features you were using.
 
 ## Definition of Terms
 
