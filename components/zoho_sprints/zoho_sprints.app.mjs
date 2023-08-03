@@ -369,6 +369,22 @@ export default {
         ...args,
       });
     },
+    getItem({
+      teamId, projectId, sprintId, itemId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/projects/${projectId}/sprints/${sprintId}/item/${itemId}/`,
+        ...args,
+      });
+    },
+    getProject({
+      teamId, projectId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/team/${teamId}/projects/${projectId}/`,
+        ...args,
+      });
+    },
     getProjectStatus({
       teamId, projectId, ...args
     }) {

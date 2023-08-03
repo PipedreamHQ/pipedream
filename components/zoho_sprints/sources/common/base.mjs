@@ -20,7 +20,7 @@ export default {
       data.append("module", this.getModule());
       data.append("predefinedtriggers", `["${this.getEventType()}"]`);
       data.append("method", "2");  // 2 = POST
-      data.append("formattedparams", {});
+      data.append("keyvalparams", JSON.stringify(this.getKeyValParams()));
       const { webhooksIds } = await this.zohoSprints.createWebhook({
         teamId: this.teamId,
         data,
@@ -42,13 +42,14 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
-    generateMeta() {
-      throw new Error("generateMeta is not implemented");
+    getModule() {
+      throw new Error("getModule is not implemented");
     },
-  },
-  async run(event) {
-    const { query } = event;
-    const meta = this.generateMeta(query);
-    this.$emit(query, meta);
+    getEventType() {
+      throw new Error("getEventType is not implemented");
+    },
+    getKeyValParams() {
+      throw new Error("getKeyValParams is not implemented");
+    },
   },
 };

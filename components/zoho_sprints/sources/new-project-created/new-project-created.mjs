@@ -16,6 +16,14 @@ export default {
     getEventType() {
       return "project_create";
     },
+    getKeyValParams() {
+      return [
+        {
+          key: "projectId",
+          val: "${Project.ProjectId}",
+        },
+      ];
+    },
     generateMeta() {
       return {
         id: Date.now(),
@@ -23,5 +31,21 @@ export default {
         ts: Date.now(),
       };
     },
+  },
+  async run(event) {
+    const { query } = event;
+    if (!query) {
+      return;
+    }
+    const { projectId } = query;
+    const project = await this.zohoSprints.getProject({
+      teamId: this.teamId,
+      projectId,
+      params: {
+        action: "details",
+      },
+    });
+
+    this.$emit(project, this.generateMeta());
   },
 };

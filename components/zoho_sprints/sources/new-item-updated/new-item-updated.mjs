@@ -16,6 +16,22 @@ export default {
     getEventType() {
       return "item_update";
     },
+    getKeyValParams() {
+      return [
+        {
+          key: "itemId",
+          val: "${Item.ItemId}",
+        },
+        {
+          key: "sprintId",
+          val: "${Sprint.SprintId}",
+        },
+        {
+          key: "projectId",
+          val: "${Project.ProjectId}",
+        },
+      ];
+    },
     generateMeta() {
       return {
         id: Date.now(),
@@ -23,5 +39,25 @@ export default {
         ts: Date.now(),
       };
     },
+  },
+  async run(event) {
+    const { query } = event;
+    if (!query) {
+      return;
+    }
+    const {
+      itemId, sprintId, projectId,
+    } = query;
+    const item = await this.zohoSprints.getItem({
+      teamId: this.teamId,
+      projectId,
+      sprintId,
+      itemId,
+      params: {
+        action: "details",
+      },
+    });
+
+    this.$emit(item, this.generateMeta());
   },
 };
