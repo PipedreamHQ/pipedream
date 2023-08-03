@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/microsoft_outlook_calendar",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Outlook Calendar Components",
+  "main": "dist/app/microsoft_outlook_calendar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_outlook_calendar"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/microsoft_outlook_calendar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
