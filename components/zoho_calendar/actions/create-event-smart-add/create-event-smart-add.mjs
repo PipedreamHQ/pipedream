@@ -20,7 +20,7 @@ export default {
       eventDesc: this.eventDesc,
     });
 
-    $.export("$summary", `Successfully created event with ID: ${result?.events[0]?.uid}`);
+    $.export("$summary", "Successfully created event");
 
     return result;
   },
