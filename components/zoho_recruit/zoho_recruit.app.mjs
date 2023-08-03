@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { SUPPORTED_MODULES } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,28 +9,43 @@ export default {
       type: "string",
       label: "Module",
       description: "The API name of the module",
-      async options() {
-        const { modules } = await this.listModules();
-        return modules.map(({ api_name: name }) => name);
-      },
+      options: SUPPORTED_MODULES,
     },
     fields: {
       type: "string[]",
       label: "Fields",
       description: "The API names of the fields to include",
-      async options({ module }) {
+      async options({ moduleName }) {
+        if (!moduleName) return [];
         const { fields } = await this.listFields({
           params: {
-            module,
+            module: moduleName,
           },
         });
-        return fields.map(({ api_name: name }) => name);
+        return fields?.map(({ api_name: name }) => name) || [];
+      },
+    },
+    record: {
+      type: "string",
+      label: "Record",
+      description: "ID of a record",
+      async options({
+        moduleName, page,
+      }) {
+        if (!moduleName) return [];
+        const { data } = await this.listRecords({
+          moduleName,
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({ id }) => id) || [];
       },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://recruit.${this.zoho_recruit.$auth.base_api_uri}/recruit/v2";
+      return `https://recruit.${this.$auth.base_api_uri}/recruit/v2`;
     },
     _headers() {
       return {
@@ -59,12 +75,38 @@ export default {
         ...args,
       });
     },
+    listRecords({
+      moduleName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${moduleName}`,
+        ...args,
+      });
+    },
     createRecord({
       moduleName, ...args
     }) {
       return this._makeRequest({
         path: `/${moduleName}`,
         method: "POST",
+        ...args,
+      });
+    },
+    upsertRecord({
+      moduleName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${moduleName}/upsert`,
+        method: "POST",
+        ...args,
+      });
+    },
+    updateRecord({
+      moduleName, recordId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${moduleName}/${recordId}`,
+        method: "PUT",
         ...args,
       });
     },
