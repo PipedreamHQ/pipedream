@@ -2,10 +2,10 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreatePostParams,
-  HttpRequestParams, ListPostsParams, ListReviewsParams, PaginatedRequestParams,
+  HttpRequestParams, ListPostsParams, ListReviewsParams, PaginatedRequestParams, UpdateReplyParams,
 } from "../common/requestParams";
 import {
-  Account, Location,
+  Account, LocalPost, Location, Review,
 } from "../common/responseSchemas";
 
 export default defineApp({
@@ -22,7 +22,7 @@ export default defineApp({
           name, accountName, type,
         }) => ({
           label: `${accountName ?? name} (${type})`,
-          value: this.getCleanName(name),
+          value: this.getCleanName(name) as string,
         }));
       },
     },
@@ -33,12 +33,14 @@ export default defineApp({
       useQuery: true,
       async options({
         account, query,
-      }) {
-        const filter = (query.match(/[=:]/)
-          ? query
-          : `title="${query}"`).replace(/ /g, "+").replace(/"/g, "%22");
+      }: Record<string, string>) {
+        const filter = query
+          ? (query.match(/[=:]/)
+            ? query
+            : `title="${query}"`).replace(/ /g, "+").replace(/"/g, "%22")
+          : undefined;
 
-        const locations = await this.listLocations({
+        const locations: Location[] = await this.listLocations({
           account,
           filter,
         });
@@ -46,7 +48,7 @@ export default defineApp({
           name, title,
         }: Location) => ({
           label: title,
-          value: this.getCleanName(name),
+          value: this.getCleanName(name) as string,
         })) ?? [];
       },
     },
@@ -56,8 +58,8 @@ export default defineApp({
       description: "Select a **Review** or provide a custom *Review Name*.",
       async options({
         account, location,
-      }) {
-        const reviews = await this.listReviews({
+      }: Record<string, string>) {
+        const reviews: Review[] = await this.listReviews({
           account,
           location,
         });
@@ -65,7 +67,7 @@ export default defineApp({
           name, title,
         }: Location) => ({
           label: title,
-          value: this.getCleanName(name),
+          value: this.getCleanName(name) as string,
         }));
       },
     },
@@ -94,7 +96,7 @@ export default defineApp({
       params,
       resourceName,
       ...args
-    }: PaginatedRequestParams) {
+    }: PaginatedRequestParams): Promise<object[]> {
       const result = [];
       let pageToken: string;
       let resultCount = 0;
@@ -121,37 +123,37 @@ export default defineApp({
 
       return result;
     },
-    async listAccounts() {
+    async listAccounts(): Promise<Account[]> {
       const response = await this._httpRequest({
         url: "https://mybusinessaccountmanagement.googleapis.com/v1/accounts",
       });
-      return response?.accounts;
+      return response?.accounts ?? [];
     },
     async listLocations({
       account, filter,
-    }) {
+    }: Record<string, string>): Promise<Location[]> {
       const response = await this._httpRequest({
         url: `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${account}/locations`,
         pageSize: 100,
         params: {
           filter,
-          readMask: "name,title"
-        }
+          readMask: "name,title",
+        },
       });
-      return response?.locations;
+      return response?.locations ?? [];
     },
     async listReviews({
       account, location,
-    }: ListReviewsParams) {
+    }: ListReviewsParams): Promise<Review[]> {
       const response = await this._httpRequest({
         url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews`,
         pageSize: 50,
       });
-      return response?.reviews;
+      return response?.reviews ?? [];
     },
     async listPosts({
       account, location, ...args
-    }: ListPostsParams, paginate = true): Promise<object[]> {
+    }: ListPostsParams, paginate = true): Promise<LocalPost[]> {
       const url = `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/localPosts`;
       if (paginate) {
         return this._paginatedRequest({
@@ -160,11 +162,11 @@ export default defineApp({
           ...args,
         });
       } else {
-        const response = await this._httpRequest({
+        const response: { localPosts?: LocalPost[]; } = await this._httpRequest({
           url,
           pageSize: 100,
         });
-        return response?.localPosts;
+        return response?.localPosts ?? [];
       }
     },
     async createPost({
@@ -178,7 +180,7 @@ export default defineApp({
     },
     async updateReviewReply({
       account, location, review, ...args
-    }): Promise<object> {
+    }: UpdateReplyParams): Promise<object> {
       return this._httpRequest({
         method: "PUT",
         url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews/${review}/reply`,

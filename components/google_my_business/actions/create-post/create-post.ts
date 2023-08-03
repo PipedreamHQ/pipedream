@@ -25,7 +25,7 @@ export default defineAction({
       propDefinition: [
         app,
         "location",
-        ({ account }) => ({
+        ({ account }: { account: string; }) => ({
           account,
         }),
       ],
