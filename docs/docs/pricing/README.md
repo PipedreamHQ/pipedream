@@ -17,7 +17,7 @@ If you hit [the limits of our free tier](https://pipedream.com/pricing), you can
 
 Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers.
 
-But Free account have a [daily limit of free credits](/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
+But Free accounts have a [daily limit of free credits](/limits#daily-credits-limit) that cannot be exceeded. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
 
 **To lift the daily credit limit and increase the number of workflows and connected accounts [upgrade to a paid tier](https://pipedream.com/pricing)**.
 
