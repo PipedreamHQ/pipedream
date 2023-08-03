@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-get-tasks-from-task-list",
   name: "Get Tasks From Task List",
-  description: "Returns the compact list of tasks in a user’s My Tasks list.. [See documentation here](https://developers.asana.com/reference/gettasksforusertasklist)",
+  description: "Returns the compact list of tasks in a user’s My Tasks list.. [See the documentation](https://developers.asana.com/reference/gettasksforusertasklist)",
   version: "0.0.1",
   type: "action",
   props: {
