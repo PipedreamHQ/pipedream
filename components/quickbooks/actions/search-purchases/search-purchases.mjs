@@ -1,21 +1,13 @@
-import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
-  key: "quickbooks-search-vendors",
-  name: "Search Vendors",
-  description: "Searches for vendors. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/vendor#query-a-vendor)",
-  version: "0.1.3",
+  key: "quickbooks-search-purchases",
+  name: "Search Purchases",
+  description: "Searches for purchases. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#query-a-purchase)",
+  version: "0.0.1",
   type: "action",
   props: {
     quickbooks,
-    includeClause: {
-      propDefinition: [
-        quickbooks,
-        "includeClause",
-      ],
-      optional: false,
-    },
     maxResults: {
       propDefinition: [
         quickbooks,
@@ -39,7 +31,7 @@ export default {
         quickbooks,
         "whereClause",
       ],
-      optional: false,
+      optional: true,
     },
     minorVersion: {
       propDefinition: [
@@ -49,8 +41,9 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.includeClause || !this.whereClause) {
-      throw new ConfigurationError("Must provide includeClause, whereClause parameters.");
+    let whereClause = "";
+    if (this.whereClause) {
+      whereClause = ` WHERE  ${this.whereClause}`;
     }
 
     var orderClause = "";
@@ -67,9 +60,8 @@ export default {
     if (this.maxResults) {
       maxResults = ` MAXRESULTS ${this.maxResults}` || "";
     }
-
     //Prepares the request's query parameter
-    const query = `select ${this.includeClause} from Vendor where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
+    const query = `select * from Purchase ${whereClause}${orderClause}${startPosition}${maxResults}`;
 
     const response = await this.quickbooks.query({
       $,
@@ -80,7 +72,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", "Successfully retrieved vendors");
+      $.export("summary", "Successfully retrieved purchases!");
     }
 
     return response;
