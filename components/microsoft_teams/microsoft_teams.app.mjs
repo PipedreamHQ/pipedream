@@ -149,7 +149,7 @@ export default {
     async listTeams() {
       const id = await this.authenticatedUserId();
       return this.makeRequest({
-        path: `/users/${id}/joinedTeams?${constants.ORDER_BY_CREATED_DESC}`,
+        path: `/users/${id}/joinedTeams`,
       });
     },
     async listChannels({ teamId }) {
@@ -225,6 +225,11 @@ export default {
     async listChatMessages({ chatId }) {
       return this.makeRequest({
         path: `/chats/${chatId}/messages?${constants.ORDER_BY_CREATED_DESC}`,
+      });
+    },
+    async listShifts({ teamId }) {
+      return this.makeRequest({
+        path: `/teams/${teamId}/schedule/shifts`,
       });
     },
   },
