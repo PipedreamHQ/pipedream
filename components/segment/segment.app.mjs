@@ -103,7 +103,7 @@ export default {
     },
     getConfigApiHeaders() {
       return {
-        Authorization: "Bearer ",
+        Authorization: `Bearer ${this.$auth.access_token}`,
       };
     },
     getTrackingAuth() {

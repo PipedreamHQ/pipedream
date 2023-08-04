@@ -111,7 +111,7 @@ export default {
           data: {
             destinationsCatalog, pagination,
           },
-        } = await this.segmentApp.getDestinationCatalog({
+        } = await this.segmentApp.getDestinationsCatalog({
           params,
         });
         const destination = destinationsCatalog.find(({ slug }) => slug === this.getDestination());
