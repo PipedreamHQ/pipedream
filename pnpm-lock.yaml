@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -2816,6 +2812,8 @@ importers:
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
+
+  components/microsoft_outlook_calendar: {}
 
   components/microsoft_teams:
     dependencies:
@@ -5633,7 +5631,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_expense: {}
+  components/zoho_expense:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_inventory:
     dependencies:
@@ -26216,3 +26218,7 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
