@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -77,7 +73,7 @@ importers:
         version: 12.5.0
       pnpm:
         specifier: ^7.33.4
-        version: 7.33.5
+        version: 7.33.4
       putout:
         specifier: '>=20'
         version: 30.5.0
@@ -2817,7 +2813,11 @@ importers:
         specifier: ^2.1.35
         version: 2.1.35
 
-  components/microsoft_outlook_calendar: {}
+  components/microsoft_outlook_calendar:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/microsoft_teams:
     dependencies:
@@ -5635,7 +5635,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_expense: {}
+  components/zoho_expense:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_inventory:
     dependencies:
@@ -5673,7 +5677,11 @@ importers:
 
   components/zoho_sign: {}
 
-  components/zoho_sprints: {}
+  components/zoho_sprints:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_subscriptions: {}
 
@@ -21966,8 +21974,8 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  /pnpm@7.33.5:
-    resolution: {integrity: sha512-TkmfIv/+WEWqj5Rj4ThrLXLDE04OvvlAk2CthE/vApDoK0ebMusuwPMOVmB+GCDCIWeCn9YmVtQaj9DMSg9CZw==}
+  /pnpm@7.33.4:
+    resolution: {integrity: sha512-xEbf/tkwHpGM/GXq5U/sDSiE6ykLPho+o71PHNRWqkVLm6dJe4G/5Pg619Ow32ovekrr7pii5qtfamujB/+1bA==}
     engines: {node: '>=14.6'}
     hasBin: true
     dev: true
@@ -26222,3 +26230,7 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
