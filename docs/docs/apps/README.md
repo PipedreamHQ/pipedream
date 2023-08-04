@@ -14,6 +14,7 @@ The vast majority of integrated apps on Pipedream are free to use in your workfl
 
 - [ActiveCampaign](https://pipedream.com/apps/activecampaign)
 - [Asana](https://pipedream.com/apps/asana)
+- [Azure OpenAI Service]([https://pipedream.com/apps/](https://pipedream.com/apps/azure-openai-service))
 - [Close](https://pipedream.com/apps/close)
 - [ERPNext](https://pipedream.com/apps/erpnext)
 - [HubSpot](https://pipedream.com/apps/hubspot)
