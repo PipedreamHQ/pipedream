@@ -139,7 +139,7 @@ export default {
 
       return axios($ || this, config);
     },
-    async alias(args = {}) {
+    alias(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -147,7 +147,7 @@ export default {
         ...args,
       });
     },
-    async group(args = {}) {
+    group(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -155,7 +155,7 @@ export default {
         ...args,
       });
     },
-    async identify(args = {}) {
+    identify(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -163,7 +163,7 @@ export default {
         ...args,
       });
     },
-    async page(args = {}) {
+    page(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -171,7 +171,7 @@ export default {
         ...args,
       });
     },
-    async screen(args = {}) {
+    screen(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -179,7 +179,7 @@ export default {
         ...args,
       });
     },
-    async track(args = {}) {
+    track(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -187,20 +187,20 @@ export default {
         ...args,
       });
     },
-    async listWorkspaces(args = {}) {
+    listWorkspaces(args = {}) {
       return this.makeRequest({
         path: "/",
         ...args,
       });
     },
-    async createDestination(args = {}) {
+    createDestination(args = {}) {
       return this.makeRequest({
         method: "post",
         path: "/destinations",
         ...args,
       });
     },
-    async createDestinationSubscription({
+    createDestinationSubscription({
       destination, ...args
     }) {
       return this.makeRequest({
@@ -209,7 +209,7 @@ export default {
         ...args,
       });
     },
-    async deleteDestination({
+    deleteDestination({
       destination, ...args
     }) {
       return this.makeRequest({
@@ -218,7 +218,7 @@ export default {
         ...args,
       });
     },
-    async deleteDestinationSubscription({
+    deleteDestinationSubscription({
       destination, subscription, ...args
     }) {
       return this.makeRequest({
@@ -227,7 +227,7 @@ export default {
         ...args,
       });
     },
-    async getDestination({
+    getDestination({
       destination, ...args
     }) {
       return this.makeRequest({
@@ -235,13 +235,13 @@ export default {
         ...args,
       });
     },
-    async getDestinationsCatalog(args = {}) {
+    getDestinationsCatalog(args = {}) {
       return this.makeRequest({
         path: "/catalog/destinations/",
         ...args,
       });
     },
-    async getDestinationMetadata({
+    getDestinationMetadata({
       destinationMetadataId, ...args
     }) {
       return this.makeRequest({
@@ -249,7 +249,7 @@ export default {
         ...args,
       });
     },
-    async listSources(args = {}) {
+    listSources(args = {}) {
       return this.makeRequest({
         path: "/sources",
         ...args,

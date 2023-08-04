@@ -126,6 +126,9 @@ export default {
       const { data: { destinationMetadata } } =  await this.segmentApp.getDestinationMetadata({
         destinationMetadataId,
       });
+      if (!destinationMetadata?.id) {
+        throw new Error(`MetadataId for ${this.getDestination()} not found.`);
+      }
       return destinationMetadata.id;
     },
     async findActionId(destination) {
