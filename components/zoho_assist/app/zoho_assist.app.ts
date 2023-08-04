@@ -28,5 +28,19 @@ export default defineApp({
         ...args,
       });
     },
+    async getSessionReports(args: CreateSessionParams) {
+      return this._httpRequest({
+        url: "/reports",
+        method: "POST",
+        ...args,
+      });
+    },
+    async scheduleSession(args: CreateSessionParams) {
+      return this._httpRequest({
+        url: "/session/schedule",
+        method: "POST",
+        ...args,
+      });
+    },
   },
 });

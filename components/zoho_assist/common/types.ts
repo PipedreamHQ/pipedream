@@ -11,7 +11,18 @@ export interface HttpRequestParams extends PdAxiosRequest {
 }
 
 export interface CreateSessionParams extends PdAxiosRequest {
-  customer_email?: string;
+  params: { customer_email?: string;
   type?: string;
-  computer_id?: string;
+  computer_id?: string; }
+}
+
+export interface GetSessionReportsParams extends PdAxiosRequest {
+  params: {
+    type: string;
+  fromdate: string;
+todate: string;
+email?: string;
+index?: string;
+count?: number;
+}
 }

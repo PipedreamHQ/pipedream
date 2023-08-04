@@ -3,9 +3,9 @@ import app from "../../app/zoho_assist.app";
 import { CreateSessionParams } from "../../common/types";
 
 export default defineAction({
-  name: "Create Session",
+  name: "Schedule Session",
   description: "Create a remote support or screen sharing session. [See the documentation](https://www.zoho.com/assist/api/createasession.html)",
-  key: "zoho_assist-create-session",
+  key: "zoho_assist-schedule-session",
   version: "0.0.1",
   type: "action",
   props: {
