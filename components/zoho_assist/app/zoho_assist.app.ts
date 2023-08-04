@@ -1,7 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  CreateSessionParams, HttpRequestParams,
+  CreateSessionParams, GetSessionReportsParams, HttpRequestParams, ScheduleSessionParams,
 } from "../common/types";
 
 export default defineApp({
@@ -28,14 +28,13 @@ export default defineApp({
         ...args,
       });
     },
-    async getSessionReports(args: CreateSessionParams) {
+    async getSessionReports(args: GetSessionReportsParams) {
       return this._httpRequest({
         url: "/reports",
-        method: "POST",
         ...args,
       });
     },
-    async scheduleSession(args: CreateSessionParams) {
+    async scheduleSession(args: ScheduleSessionParams) {
       return this._httpRequest({
         url: "/session/schedule",
         method: "POST",

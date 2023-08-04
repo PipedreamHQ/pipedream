@@ -11,18 +11,34 @@ export interface HttpRequestParams extends PdAxiosRequest {
 }
 
 export interface CreateSessionParams extends PdAxiosRequest {
-  params: { customer_email?: string;
-  type?: string;
-  computer_id?: string; }
+  params: {
+    customer_email?: string;
+    type?: string;
+    computer_id?: string;
+  };
 }
 
 export interface GetSessionReportsParams extends PdAxiosRequest {
   params: {
     type: string;
-  fromdate: string;
-todate: string;
-email?: string;
-index?: string;
-count?: number;
+    fromdate: string;
+    todate: string;
+    email?: string;
+    index?: string;
+    count?: number;
+  };
 }
+
+export interface ScheduleSessionParams extends PdAxiosRequest {
+  data: {
+    mode: "SCHEDULE";
+    title: string;
+    customer_email: string;
+    schedule_time: number;
+    utc_offset: string;
+    time_zone: string;
+    reminder: string;
+    notes?: string;
+    department_id: string;
+  };
 }

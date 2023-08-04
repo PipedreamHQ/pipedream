@@ -1,67 +1,94 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_assist.app";
-import { CreateSessionParams } from "../../common/types";
+import { ScheduleSessionParams } from "../../common/types";
 
 export default defineAction({
   name: "Schedule Session",
-  description: "Create a remote support or screen sharing session. [See the documentation](https://www.zoho.com/assist/api/createasession.html)",
+  description: "Schedule a remote support session. [See the documentation](https://www.zoho.com/assist/api/schedulesession.html)",
   key: "zoho_assist-schedule-session",
   version: "0.0.1",
   type: "action",
   props: {
     app,
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Title of the scheduled session",
+    },
     customerEmail: {
       type: "string",
       label: "Customer Email",
       description:
-        "Customer Email to whom the join invitation is to be sent.",
-      optional: true,
+        "The customer's email address to whom the session will be scheduled.",
     },
-    type: {
-      type: "string",
-      label: "Type",
+    scheduleTime: {
+      type: "integer",
+      label: "Schedule Time",
       description:
-        "Session type, defaulting to Remote Support.",
-      optional: true,
-      options: [
-        {
-          label: "Remote Support",
-          value: "rs",
-        },
-        {
-          label: "Screen Sharing",
-          value: "dm",
-        },
-      ],
-      default: "rs",
+        "Time (in milliseconds) when the session is scheduled.",
     },
-    computerId: {
+    utcOffset: {
       type: "string",
-      label: "Computer ID",
+      label: "UTC Offset",
       description:
-        "URS (unattended remote support) key to initiate an unattended access session.",
+        "Coordinated Universal Time in the respective time zone. Example: `+05:30`",
+    },
+    timeZone: {
+      type: "integer",
+      label: "Time Zone",
+      description:
+        "The time zone in which the session is scheduled. Example: `Asia/Kolkata`",
+    },
+    reminder: {
+      type: "string",
+      label: "Reminder",
+      description:
+        "A reminder time for joining the session.",
+    },
+    departmentId: {
+      type: "string",
+      label: "Department ID",
+      description:
+        "Department in which the session is to be scheduled.",
+    },
+    notes: {
+      type: "string",
+      label: "Notes",
+      description:
+        "Schedule session description.",
       optional: true,
     },
   },
   async run({ $ }) {
     const {
+      title,
       customerEmail,
-      type,
-      computerId,
+      scheduleTime,
+      utcOffset,
+      timeZone,
+      reminder,
+      departmentId,
+      notes,
     } = this;
 
-    const params: CreateSessionParams = {
+    const params: ScheduleSessionParams = {
       $,
-      params: {
+      data: {
+        mode: "SCHEDULE",
+        title,
         customer_email: customerEmail,
-        type,
-        computer_id: computerId,
+        schedule_time: scheduleTime,
+        utc_offset: utcOffset,
+        time_zone: timeZone,
+        reminder,
+        department_id: departmentId,
+        notes,
       },
     };
 
-    const response = await this.app.createSession(params);
+    const response = await this.app.scheduleSession(params);
 
-    $.export("$summary", "Successfully created session");
+    $.export("$summary", "Successfully scheduled session");
 
     return response;
   },

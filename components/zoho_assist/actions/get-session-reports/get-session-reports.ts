@@ -33,12 +33,12 @@ export default defineAction({
     fromDate: {
       type: "string",
       label: "From Date",
-      description: "Long (Unix Timestamp)."
+      description: "Long (Unix Timestamp).",
     },
     toDate: {
       type: "string",
       label: "To Date",
-      description: "Long (Unix Timestamp)."
+      description: "Long (Unix Timestamp).",
     },
     email: {
       type: "string",
@@ -65,22 +65,22 @@ export default defineAction({
   async run({ $ }) {
     const {
       type,
-        fromDate,
-        toDate,
-        email,
-        index,
-        count,
+      fromDate,
+      toDate,
+      email,
+      index,
+      count,
     } = this;
 
     const params: GetSessionReportsParams = {
       $,
       params: {
         type,
-          fromdate: fromDate,
-          todate: toDate,
-          email,
-          index,
-          count,
+        fromdate: fromDate,
+        todate: toDate,
+        email,
+        index,
+        count,
       },
     };
 
