@@ -112,15 +112,13 @@ export default {
     },
     createEventSmartAdd({
       $ = this,
-      data,
+      eventDesc,
     }) {
       return this._makeRequest({
         $,
         method: "POST",
         path: "/smartadd",
-        data: `eventdata=${JSON.stringify(
-          this.clearEmptyProps(data),
-        )}`,
+        data: `saddtext=${eventDesc}`,
       });
     },
     createEvent({
