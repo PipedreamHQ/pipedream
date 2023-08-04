@@ -78,21 +78,22 @@ Now you can modify the request path, method, body or query params to perform an 
 You can connect accounts to code steps by using an `app` prop. Refer to the [connecting apps in Node.js documentation](/code/nodejs/auth/).
 
 
-## Managing Connected Accounts from Apps
+## Managing Connected Accounts
 
-Visit [https://pipedream.com/accounts](https://pipedream.com/accounts) to see the list of your connected accounts.
+Visit your [Accounts Page](https://pipedream.com/accounts) to see a list of all your connected accounts.
 
-You can perform the following operations on accounts:
+You can perform the following operations on any account you've connected:
 
 - Add a new account
+- Manage access for the account
 - Delete an account
 - Reconnect an account
 - Change the nickname associated with an account
 
 You'll also see some data associated with these accounts:
 
-- For OAuth apps, the scopes you've granted Pipedream access to
-- The workflows where you're using the account.
+- For many OAuth apps, the scopes you've granted Pipedream access to
+- The workflows that are using the account
 
 ## Reconnect an account
 
