@@ -115,24 +115,6 @@ export default {
         ...args,
       });
     },
-    put(args = {}) {
-      return this.makeRequest({
-        method: "put",
-        ...args,
-      });
-    },
-    delete(args = {}) {
-      return this.makeRequest({
-        method: "delete",
-        ...args,
-      });
-    },
-    patch(args = {}) {
-      return this.makeRequest({
-        method: "patch",
-        ...args,
-      });
-    },
     listContacts(args = {}) {
       return this.makeRequest({
         path: "/contacts",
