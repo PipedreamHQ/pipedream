@@ -69,7 +69,7 @@ export default {
     }));
 
     return Array.from({
-      length: this.numberOfItems,
+      length: numberOfItems,
     }).reduce((reduction, _, index) => {
       const itemIndex = index + 1;
       const itemKey = `item${itemIndex}`;
