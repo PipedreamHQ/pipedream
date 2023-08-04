@@ -14,10 +14,10 @@ export default {
       $,
     });
 
+    if (response.data[0].code === "MANDATORY_NOT_FOUND") {
+      throw new Error(`Mandatory field ${response.data[0].details.api_name} not entered.`);
+    }
     if (response.data[0].status === "error") {
-      if (response.data[0].code === "MANDATORY_NOT_FOUND") {
-        throw new Error(`Mandatory field ${response.data[0].details.api_name} not entered.`);
-      }
       throw new Error(response.data[0].message);
     }
 

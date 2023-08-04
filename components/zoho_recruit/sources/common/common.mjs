@@ -18,21 +18,6 @@ export default {
       ],
     },
   },
-  hooks: {
-    async deploy() {
-      const resources = await this.getResources({
-        params: {
-          per_page: 25,
-        },
-      });
-      if (!resources?.length) {
-        return;
-      }
-      const lastTs = Date.parse(resources[0][this.getTsKey()]);
-      this._setLastTs(lastTs);
-      resources.reverse().forEach((resource) => this.emitEvent(resource));
-    },
-  },
   methods: {
     _getLastTs() {
       return this.db.get("lastTs") || 0;
@@ -43,6 +28,17 @@ export default {
     emitEvent(event) {
       const meta = this.generateMeta(event);
       this.$emit(event, meta);
+    },
+    async getResources({ params }) {
+      const { data } = await this.zohoRecruit.listRecords({
+        moduleName: this.module,
+        params: {
+          ...params,
+          sort_order: "desc",
+          sort_by: this.getTsKey(),
+        },
+      });
+      return data;
     },
     generateMeta() {
       throw new Error("generateMeta is not implemented");
@@ -57,9 +53,12 @@ export default {
     let total = 0;
     const tsKey = this.getTsKey();
     let done = false;
+    const firstTimeThrough = lastTs === 0;
 
     const params = {
-      per_page: 200,
+      per_page: firstTimeThrough
+        ? 25
+        : 200,
       page: 1,
     };
 
@@ -70,7 +69,7 @@ export default {
       if (!resources?.length) {
         return;
       }
-      for (const resource of resources) {
+      for (const resource of Array.from(resources).reverse()) {
         if (Date.parse(resource[tsKey]) > lastTs) {
           this.emitEvent(resource);
         } else {
@@ -82,7 +81,7 @@ export default {
       }
       total = resources.length;
       params.page += 1;
-    } while (total === params.per_page && !done);
+    } while (total === params.per_page && !done && !firstTimeThrough);
 
     if (maxLastTs) {
       this._setLastTs(maxLastTs);

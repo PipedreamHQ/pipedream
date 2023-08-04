@@ -10,17 +10,6 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    async getResources({ params }) {
-      const { data } = await this.zohoRecruit.listRecords({
-        moduleName: this.module,
-        params: {
-          ...params,
-          sort_order: "desc",
-          sort_by: this.getTsKey(),
-        },
-      });
-      return data;
-    },
     getTsKey() {
       return "Updated_On";
     },
