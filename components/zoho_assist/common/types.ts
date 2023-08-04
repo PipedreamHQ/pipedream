@@ -9,3 +9,9 @@ export interface HttpRequestParams extends PdAxiosRequest {
   data?: object;
   params?: object;
 }
+
+export interface CreateSessionParams extends PdAxiosRequest {
+  customer_email?: string;
+  type?: string;
+  computer_id?: string;
+}

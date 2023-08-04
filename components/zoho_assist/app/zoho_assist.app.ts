@@ -1,6 +1,8 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { HttpRequestParams } from "../common/types";
+import {
+  CreateSessionParams, HttpRequestParams,
+} from "../common/types";
 
 export default defineApp({
   type: "app",
@@ -16,6 +18,13 @@ export default defineApp({
         headers: {
           "Authorization": `Zoho-oauthtoken ${this.$auth.oauth_access_token}`,
         },
+        ...args,
+      });
+    },
+    async createSession(args: CreateSessionParams) {
+      return this._httpRequest({
+        url: "/session",
+        method: "POST",
         ...args,
       });
     },
