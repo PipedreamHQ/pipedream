@@ -7,7 +7,6 @@ import {
 export default defineApp({
   type: "app",
   app: "zoho_assist",
-  propDefinitions: {},
   methods: {
     async _httpRequest({
       $ = this,
@@ -21,20 +20,20 @@ export default defineApp({
         ...args,
       });
     },
-    async createSession(args: CreateSessionParams) {
+    async createSession(args: CreateSessionParams): Promise<object> {
       return this._httpRequest({
         url: "/session",
         method: "POST",
         ...args,
       });
     },
-    async getSessionReports(args: GetSessionReportsParams) {
+    async getSessionReports(args: GetSessionReportsParams): Promise<object> {
       return this._httpRequest({
         url: "/reports",
         ...args,
       });
     },
-    async scheduleSession(args: ScheduleSessionParams) {
+    async scheduleSession(args: ScheduleSessionParams): Promise<object> {
       return this._httpRequest({
         url: "/session/schedule",
         method: "POST",
