@@ -1,4 +1,5 @@
 import { defineAction } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../app/google_my_business.app";
 import { CreatePostParams } from "../../common/requestParams";
 import {
@@ -80,9 +81,20 @@ export default defineAction({
       optional: true,
     },
   },
+  methods: {
+    checkAndParseObject(obj: object | string): object {
+      try {
+        return typeof obj === "string"
+          ? JSON.parse(obj)
+          : obj;
+      } catch (err) {
+        throw new ConfigurationError(`**Invalid JSON string** for object prop: "${obj}"`);
+      }
+    },
+  },
   async run({ $ }) {
     const {
-      account, location, topicType, languageCode, summary, callToAction, event, media, alertType, offer,
+      account, location, topicType, languageCode, summary, media, alertType,
     } = this;
 
     const params: CreatePostParams = {
@@ -93,13 +105,13 @@ export default defineAction({
         topicType,
         languageCode,
         summary,
-        callToAction,
-        event,
+        callToAction: this.checkAndParseObject(this.callToAction),
+        event: this.checkAndParseObject(this.event),
         media: media?.map?.((sourceUrl: string) => ({
           sourceUrl,
         })),
         alertType,
-        offer,
+        offer: this.checkAndParseObject(this.offer),
       },
     };
 
