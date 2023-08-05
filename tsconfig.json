@@ -2186,6 +2186,99 @@
     },
     {
       "path": "components/customer_fields"
+    },
+    {
+      "path": "components/airtable_oauth"
+    },
+    {
+      "path": "components/amplitude"
+    },
+    {
+      "path": "components/google_my_business"
+    },
+    {
+      "path": "components/zoho_salesiq"
+    },
+    {
+      "path": "components/zoho_cliq"
+    },
+    {
+      "path": "components/zoho_analytics"
+    },
+    {
+      "path": "components/zoho_catalyst"
+    },
+    {
+      "path": "components/zoho_sign"
+    },
+    {
+      "path": "components/zoho_bigin"
+    },
+    {
+      "path": "components/zoho_bookings"
+    },
+    {
+      "path": "components/precisefp"
+    },
+    {
+      "path": "components/zoho_campaigns"
+    },
+    {
+      "path": "components/zoho_bugtracker"
+    },
+    {
+      "path": "components/zoho_commerce"
+    },
+    {
+      "path": "components/zoho_assist"
+    },
+    {
+      "path": "components/zoho_invoice"
+    },
+    {
+      "path": "components/zoho_recruit"
+    },
+    {
+      "path": "components/zoho_subscriptions"
+    },
+    {
+      "path": "components/zoho_people"
+    },
+    {
+      "path": "components/zoho_subscriptions"
+    },
+    {
+      "path": "components/zoho_people"
+    },
+    {
+      "path": "components/zoho_sprints"
+    },
+    {
+      "path": "components/zoho_meeting"
+    },
+    {
+      "path": "components/zoho_expense"
+    },
+    {
+      "path": "components/zoho_calendar"
+    },
+    {
+      "path": "components/zoho_meeting"
+    },
+    {
+      "path": "components/zoho_expense"
+    },
+    {
+      "path": "components/zoho_calendar"
+    },
+    {
+      "path": "components/mysql_ssl"
+    },
+    {
+      "path": "components/azure_openai_service"
+    },
+    {
+      "path": "components/microsoft_outlook_calendar"
     }
   ]
 }
