@@ -1905,7 +1905,14 @@ importers:
 
   components/google_maps_platform: {}
 
-  components/google_my_business: {}
+  components/google_my_business:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@pipedream/types':
+        specifier: ^0.1.6
+        version: 0.1.6
 
   components/google_palm_api:
     dependencies:
