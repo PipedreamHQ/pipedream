@@ -59,10 +59,10 @@ export default defineAction({
       },
     };
 
-    const response = await this.app.createSession(params);
+    const { representation } = await this.app.createSession(params);
 
-    $.export("$summary", "Successfully created session");
+    $.export("$summary", `Successfully created session (ID: ${representation.session_id})`);
 
-    return response;
+    return representation;
   },
 });

@@ -84,10 +84,10 @@ export default defineAction({
       },
     };
 
-    const response = await this.app.getSessionReports(params);
+    const { representation } = await this.app.getSessionReports(params);
 
-    $.export("$summary", "Successfully fetched session reports");
+    $.export("$summary", `Successfully fetched ${representation.length} session reports`);
 
-    return response;
+    return representation;
   },
 });

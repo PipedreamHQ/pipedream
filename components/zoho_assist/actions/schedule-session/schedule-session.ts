@@ -86,10 +86,10 @@ export default defineAction({
       },
     };
 
-    const response = await this.app.scheduleSession(params);
+    const { representation } = await this.app.scheduleSession(params);
 
-    $.export("$summary", "Successfully scheduled session");
+    $.export("$summary", `Successfully scheduled session (ID: ${representation.schedule_id})`);
 
-    return response;
+    return representation;
   },
 });
