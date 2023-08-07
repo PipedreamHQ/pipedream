@@ -91,6 +91,11 @@ async run({steps, $}) {
 Here's an example Pipedream component that makes a test request against the Slack API:
 
 export default defineComponent({
+  key: "slack-send-message",
+  name: "Send Message",
+  version: "0.0.1",
+  description: "Sends a message to a channel. [See docs here]()",
+  type: "action",
   props: {
     slack: {
       type: "app",

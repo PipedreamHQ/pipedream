@@ -14,8 +14,14 @@ All Pipedream webhook source components are Node.js modules that have a default 
 Here's an example component:
 
 ```javascript
+import { axios } from "@pipedream/platform"
 export default {
+  key: "github-new-notification-received",
+  name: "New Notification Received",
+  description: "Emit new event when a notification is received.",
+  version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     github: {
       type: "app",
