@@ -3,6 +3,16 @@
 Generate components using OpenAI GPT.
 
 
+### Installation
+
+1. Install poetry: follow instructions at https://python-poetry.org/docs/#installation
+
+2. Run install:
+```
+poetry install
+```
+
+
 ### Run
 
 ```
@@ -11,16 +21,6 @@ APP=slack
 PROMPT="how to send myself a direct message?"
 poetry run python3 "$SCRIPT" --app "$APP" "$PROMPT"
 poetry run python3 "$SCRIPT" --app "$APP" "$PROMPT" --verbose # print debug logs
-```
-
-
-### Installation
-
-1. Install poetry: follow instructions at https://python-poetry.org/docs/#installation
-
-2. Run install:
-```
-poetry install
 ```
 
 
