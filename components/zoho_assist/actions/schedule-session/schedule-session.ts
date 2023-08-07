@@ -34,13 +34,13 @@ export default defineAction({
         "Coordinated Universal Time in the respective time zone. Example: `+05:30`",
     },
     timeZone: {
-      type: "integer",
+      type: "string",
       label: "Time Zone",
       description:
         "The time zone in which the session is scheduled. Example: `Asia/Kolkata`",
     },
     reminder: {
-      type: "string",
+      type: "integer",
       label: "Reminder",
       description:
         "A reminder time for joining the session.",

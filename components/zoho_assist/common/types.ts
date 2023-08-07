@@ -37,7 +37,7 @@ export interface ScheduleSessionParams extends PdAxiosRequest {
     schedule_time: number;
     utc_offset: string;
     time_zone: string;
-    reminder: string;
+    reminder: number;
     notes?: string;
     department_id: string;
   };
