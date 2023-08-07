@@ -290,7 +290,7 @@ In the description, you should include a link to the app docs, if they exist. Or
 Source keys should use past tense verbs that describe the event that occurred (e.g., linear_app-issue-created-instant).
 Always add version "0.0.1", type "source", and dedupe "unique".
 
-## TypeScript Definitinos
+## TypeScript Definitions
 
 export interface Methods {
   [key: string]: (...args: any) => unknown;

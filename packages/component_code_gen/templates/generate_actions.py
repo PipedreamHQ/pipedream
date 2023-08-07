@@ -230,7 +230,7 @@ Action keys should use active verbs to describe the action that will occur, (e.g
 Always add version "0.0.1" and type "action".
 You MUST add metadata to the component code you generate.
 
-## TypeScript Definitinos
+## TypeScript Definitions
 
 export interface Methods {
   [key: string]: (...args: any) => unknown;
