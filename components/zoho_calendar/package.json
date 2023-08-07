@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_calendar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zoho Calendar Components",
   "main": "zoho_calendar.app.mjs",
   "keywords": [
