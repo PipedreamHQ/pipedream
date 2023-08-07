@@ -20,7 +20,6 @@ export default {
         callId: data.ids[0],
       });
 
-      console.log(calls);
 
       const call = calls[0];
 
