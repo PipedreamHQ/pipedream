@@ -29,3 +29,5 @@ echo "running shipcloud..."
 poetry run python generate_webhook_source.py --app shipcloud "how to get webhooks for every new shipment status" > "$BASE_PATH"/shipcloud-new-shipment-status.mjs
 echo "running quaderno..."
 poetry run python generate_webhook_source.py --app quaderno "how to get webhooks for every new received payment" > "$BASE_PATH"/quaderno-payment-received.mjs
+echo "running brex..."
+poetry run python generate_webhook_source.py --app brex "how to get webhooks for every new transfer event" > "$BASE_PATH"/brex-new-transfer-event.mjs
