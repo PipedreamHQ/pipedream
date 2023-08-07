@@ -12,6 +12,7 @@ export default {
       props[def.key] = {
         type: consts.METAFIELD_TYPES[def.type.name],
         label: def.name,
+        optional: true,
       };
     }
     return props;
@@ -22,10 +23,14 @@ export default {
 
     const fields = [];
     for (const def of fieldDefinitions) {
-      fields.push({
-        key: def.key,
-        value: this[def.key],
-      });
+      if (this[def.key]) {
+        fields.push({
+          key: def.key,
+          value: typeof this[def.key] === "string"
+            ? this[def.key]
+            : JSON.stringify(this[def.key]),
+        });
+      }
     }
 
     const response = await this.createMetaobject({
@@ -33,6 +38,17 @@ export default {
       fields,
       $,
     });
+
+    let errorMessage;
+    if (response?.errors?.length) {
+      errorMessage = response.errors[0].message;
+    }
+    if (response?.data?.metaobjectCreate?.userErrors?.length) {
+      errorMessage = response.data.metaobjectCreate.userErrors[0].message;
+    }
+    if (errorMessage) {
+      throw new Error(`${errorMessage}`);
+    }
 
     if (response?.data?.metaobjectCreate?.metaobject?.id) {
       $.export("$summary", `Successfully created metaobject with ID ${response.data.metaobjectCreate.metaobject.id}`);
