@@ -1,4 +1,5 @@
 import app from "../../zoho_meeting.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   name: "Get Meetings",
@@ -8,13 +9,6 @@ export default {
   type: "action",
   props: {
     app,
-    index: {
-      label: "Index",
-      description: "The index or position of first meeting to list",
-      type: "integer",
-      optional: true,
-      default: 0,
-    },
     count: {
       label: "Count",
       description: "Quantity of meetings to list",
@@ -22,13 +16,20 @@ export default {
       optional: true,
       default: 100,
     },
+    listType: {
+      label: "List Type",
+      description: "Quantity of meetings to list. Default `all`",
+      type: "string",
+      optional: true,
+      default: constants[0],
+      options: constants.LIST_TYPES,
+    },
   },
   async run({ $ }) {
     const response = await this.app.getMeetings({
       $,
       params: {
-        listtype: "all",
-        index: this.index,
+        listtype: this.listType,
         count: this.count,
       },
     });
