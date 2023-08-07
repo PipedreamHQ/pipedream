@@ -1,4 +1,5 @@
 .env
+.env.example
 .vscode
 ve/
 node_modules/
