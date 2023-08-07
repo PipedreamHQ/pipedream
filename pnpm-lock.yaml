@@ -73,7 +73,7 @@ importers:
         version: 12.5.0
       pnpm:
         specifier: ^7.33.4
-        version: 7.33.4
+        version: 7.33.5
       putout:
         specifier: '>=20'
         version: 30.5.0
@@ -1905,7 +1905,14 @@ importers:
 
   components/google_maps_platform: {}
 
-  components/google_my_business: {}
+  components/google_my_business:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@pipedream/types':
+        specifier: ^0.1.6
+        version: 0.1.6
 
   components/google_palm_api:
     dependencies:
@@ -21969,8 +21976,8 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  /pnpm@7.33.4:
-    resolution: {integrity: sha512-xEbf/tkwHpGM/GXq5U/sDSiE6ykLPho+o71PHNRWqkVLm6dJe4G/5Pg619Ow32ovekrr7pii5qtfamujB/+1bA==}
+  /pnpm@7.33.5:
+    resolution: {integrity: sha512-TkmfIv/+WEWqj5Rj4ThrLXLDE04OvvlAk2CthE/vApDoK0ebMusuwPMOVmB+GCDCIWeCn9YmVtQaj9DMSg9CZw==}
     engines: {node: '>=14.6'}
     hasBin: true
     dev: true
