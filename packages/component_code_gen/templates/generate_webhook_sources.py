@@ -34,18 +34,36 @@ export default {
     },
     db: "$.service.db",
   },
+  methods: {
+    _getWebhookId() {
+      return this.db.get("webhookId")
+    },
+    _setWebhookId(id) {
+      this.db.set("webhookId", id)
+    },
+  },
+  hooks: {
+    async activate() {
+      const hookId = await this.createWebhook(opts)
+      this._setWebhookId(hookId)
+    },
+    async deactivate() {
+      const id = this._getWebhookId()
+      await this.deleteWebhook(id)
+    },
+  },
   async run(event) {
     const computedSignature = crypto.createHmac(sha256, secretKey).update(rawBody).digest("base64")
     if (computedSignature !== webhookSignature) {
       this.http.respond({ status: 401, body: "Unauthorized" })
       return
     }
-    console.log(`Emitting event...`);
+    console.log(`Emitting event...`)
     this.$emit(event, {
       id: event.id,
       summary: `New event: ${event.name}`,
       ts: Date.parse(event.ts),
-    });
+    })
   },
 };
 ```
@@ -83,12 +101,6 @@ There are also two other props in sources: `http` and `db`. `http` is an interfa
 The `http` prop has a field called `customResponse`, which is used when a signature validation is needed to be done before responding the request. If the `customResponse` is set to `true`, the `respond` method will be called with the response object as the argument. The response object has three fields: `status`, `headers` and `body`. The `status` field is the HTTP status code of the response, the `headers` is a key-value object of the response and the `body` field is the body of the response. The `respond` method should return a promise that resolves when the body is read or an immediate response is issued. If the `customResponse` is set to `false`, an immediate response will be transparently issued with a status code of 200 and a body of "OK".
 
 Always add computing signature validation, and please use the the crypto package HMAC-SHA256 method unless specified otherwise.
-
-Here's an example:
-```
-const computedSignature = crypto.createHmac(sha256, secretKey).update(rawBody).digest("base64")
-if (computedSignature !== webhookSignature) this.http.respond({ status: 401, body: "Unauthorized" })
-```
 
 The `db` prop is a simple key-value pair database that stores JSON-serializable data. It is used to maintain state across executions of the component. It contains two methods, `get` and `set`. The `get` method has one parameter - the key of the data to retrieve. The `set` method has two parameters - the key of the data to store, and the value to store. Both methods return a Promise that resolves when the data is read or stored.
 
