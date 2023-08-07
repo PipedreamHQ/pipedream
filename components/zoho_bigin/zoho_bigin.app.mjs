@@ -43,7 +43,7 @@ export default {
         ...args,
       });
     },
-    async createWebhook(args = {}) {
+    createWebhook(args = {}) {
       return this._makeRequest({
         path: "/actions/watch",
         method: "post",
