@@ -1,7 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import moment from "moment";
 import zohoSubscriptions from "../../zoho_subscriptions.app.mjs";
-import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "zoho_subscriptions-subscription-created",
@@ -28,7 +27,6 @@ export default {
       ],
     },
   },
-  sampleEmit,
   methods: {
     _getLastDate() {
       return this.db.get("lastDate");
