@@ -1,18 +1,18 @@
 export const clearObj = (obj) => {
   return Object.entries(obj)
     .filter(([
-      _,
-      v,
-    ]) => (v != null && v != "" && _ != "$emit"))
+      key,
+      value,
+    ]) => (value != null && value != "" && key != "$emit"))
     .reduce(
       (acc, [
-        k,
-        v,
+        key,
+        value,
       ]) => ({
         ...acc,
-        [k]: (!Array.isArray(v) && v === Object(v))
-          ? clearObj(v)
-          : v,
+        [key]: (!Array.isArray(value) && value === Object(value))
+          ? clearObj(value)
+          : value,
       }),
       {},
     );
