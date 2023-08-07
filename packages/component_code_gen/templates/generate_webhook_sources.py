@@ -43,6 +43,16 @@ export default {
     },
   },
   hooks: {
+    async deploy() {
+      const events = await this.github.listMostRecentNotifications({paginate: true, max: 50});
+      for (const event of events) {
+        this.$emit(event, {
+          id: event.id,
+          summary: `New event: ${event.name}`,
+          ts: Date.parse(event.ts),
+        })
+      }
+    },
     async activate() {
       const hookId = await this.createWebhook(opts)
       this._setWebhookId(hookId)
@@ -103,6 +113,10 @@ The `http` prop has a field called `customResponse`, which is used when a signat
 Always add computing signature validation, and please use the the crypto package HMAC-SHA256 method unless specified otherwise.
 
 The `db` prop is a simple key-value pair database that stores JSON-serializable data. It is used to maintain state across executions of the component. It contains two methods, `get` and `set`. The `get` method has one parameter - the key of the data to retrieve. The `set` method has two parameters - the key of the data to store, and the value to store. Both methods return a Promise that resolves when the data is read or stored.
+
+## Source Hooks
+
+Pipedream sources support the following hooks: deploy, activate and deactivate. The deploy() hook is automatically invoked by Pipedream when a source is deployed. It is usually used to fetch historical data from the API and emit events for each item. The max number of historical events is 50. They should be the most recent ones. Please paginate through all until the last 50 events are reached, unless sorting events by most recent is available. The activate() hook is automatically invoked by Pipedream when a source is activated. It is usually used to create a webhook subscription. The deactivate() hook is automatically invoked by Pipedream when a source is deactivated. It is usually used to delete a webhook subscription. Always include code for all three hooks.
 
 ## Pipedream Platform Axios
 
