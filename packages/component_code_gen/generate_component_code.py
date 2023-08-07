@@ -1,6 +1,5 @@
 import argparse
 import generate_action
-import generate_webhook_sample
 import generate_webhook_source
 
 
@@ -20,7 +19,6 @@ def validate_inputs(app, prompt):
 
 actions = {
     'generate_action': generate_action.main,
-    'generate_webhook_sample': generate_webhook_sample.main,
     'generate_webhook_source': generate_webhook_source.main,
 }
 
