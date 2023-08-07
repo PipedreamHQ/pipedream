@@ -285,6 +285,15 @@ export default {
         ...args,
       });
     },
+    async uploadFileVersion({
+      fileId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: this._getUploadUrl(`/files/${fileId}/content`),
+        ...args,
+      });
+    },
     async downloadFile({
       fileId, ...args
     } = {}) {

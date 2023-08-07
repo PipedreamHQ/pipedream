@@ -76,7 +76,7 @@ importers:
         specifier: ^12.3.4
         version: 12.5.0
       pnpm:
-        specifier: ^7.22.0
+        specifier: ^7.33.4
         version: 7.33.5
       putout:
         specifier: '>=20'
@@ -209,7 +209,11 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
 
-  components/airtable_oauth: {}
+  components/airtable_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/akeneo:
     dependencies:
@@ -426,6 +430,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/azure_openai_service: {}
 
   components/badger_maps:
     dependencies:
@@ -2936,6 +2942,8 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
+  components/mysql_ssl: {}
+
   components/n8n_io: {}
 
   components/namely:
@@ -3842,7 +3850,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/replicate: {}
+  components/replicate:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/reply_io:
     dependencies:
@@ -5574,7 +5586,11 @@ importers:
 
   components/zoho_bugtracker: {}
 
-  components/zoho_calendar: {}
+  components/zoho_calendar:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_campaigns: {}
 
@@ -12299,7 +12315,7 @@ packages:
   /@types/duplexify@3.6.1:
     resolution: {integrity: sha512-n0zoEj/fMdMOvqbHxmqnza/kXyoGgJmEpsXjpP+gEqE1Ye4yNqc7xWipKnUoMpWhMuzJQSfK2gMrwlElly7OGQ==}
     dependencies:
-      '@types/node': 20.4.4
+      '@types/node': 17.0.45
     dev: false
 
   /@types/estree-jsx@1.0.0:
@@ -18325,7 +18341,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-config@29.6.1(@types/node@20.4.4):
+  /jest-config@29.6.1(@types/node@17.0.45):
     resolution: {integrity: sha512-XdjYV2fy2xYixUiV2Wc54t3Z4oxYPAELUzWnV6+mcbq0rh742X2p52pii5A3oeRzYjLnQxCsZmp0qpI6klE2cQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -18340,6 +18356,7 @@ packages:
       '@babel/core': 7.22.9
       '@jest/test-sequencer': 29.6.1
       '@jest/types': 29.6.1
+      '@types/node': 17.0.45
       babel-jest: 29.6.1(@babel/core@7.22.9)
       chalk: 4.1.2
       ci-info: 3.8.0
