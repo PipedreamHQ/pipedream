@@ -1,6 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
-import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "zoho_bugtracker-new-history-item",
@@ -36,7 +35,6 @@ export default {
       ],
     },
   },
-  sampleEmit,
   methods: {
     _getLastDate() {
       return this.db.get("lastDate");
