@@ -22,7 +22,6 @@ export default {
   "id": 123123123123123123,
   "has_log_hours": "false",
   "escalation_level": "0",
-  "key": "PT1-I47",
   "created_time_long": 1691446793000,
   "severity": {
     "id": "2156734000000047151",
