@@ -5,10 +5,10 @@ export default {
   type: "app",
   app: "zoho_invoice",
   propDefinitions: {
-    userId: {
+    customerId: {
       type: "string",
-      label: "User ID",
-      description: "The ID of the user.",
+      label: "Customer ID",
+      description: "The ID of the customer.",
       async options({
         page, prevContext,
       }) {
@@ -18,43 +18,12 @@ export default {
         const {
           contacts = [],
           page_context: { has_more_page: hasMorePages },
-        } = await this.listUsers({
-          params: {
-            page,
-          },
-        });
-        const options = contacts.map(({
-          user_id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-        return {
-          options,
-          context: {
-            hasMorePages,
-          },
-        };
-      },
-    },
-    contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The ID of the contact.",
-      async options({
-        page, prevContext,
-      }) {
-        if (prevContext.hasMorePages === false) {
-          return [];
-        }
-        const {
-          contacts = [],
-          page_context: { has_more_page: hasMorePages },
-        } = await this.listContacts({
+        } = await this.listCustomers({
           params: {
             page: page + 1,
           },
         });
+
         const options = contacts.map(({
           contact_id: value, contact_name: label,
         }) => ({
@@ -115,18 +84,6 @@ export default {
         ...args,
       });
     },
-    listContacts(args = {}) {
-      return this.makeRequest({
-        path: "/contacts",
-        ...args,
-      });
-    },
-    listUsers(args = {}) {
-      return this.makeRequest({
-        path: "/users",
-        ...args,
-      });
-    },
     listEstimates(args = {}) {
       return this.makeRequest({
         path: "/estimates",
@@ -136,6 +93,12 @@ export default {
     listInvoices(args = {}) {
       return this.makeRequest({
         path: "/invoices",
+        ...args,
+      });
+    },
+    listCustomers(args = {}) {
+      return this.makeRequest({
+        path: "/customers",
         ...args,
       });
     },

@@ -9,12 +9,6 @@ export default {
   version: "0.0.1",
   props: {
     ...common.props,
-    invoiceNumber: {
-      type: "string",
-      label: "Invoice Number",
-      description: "An unique number given to the invoice.",
-      optional: true,
-    },
     date: {
       description: "Invoice date. Date format is `yyyy-mm-dd`",
       propDefinition: [

@@ -4,11 +4,9 @@ export default {
   props: {
     app,
     customerId: {
-      label: "Customer ID",
-      description: "The ID of the customer.",
       propDefinition: [
         app,
-        "userId",
+        "customerId",
       ],
     },
     numberOfItems: {

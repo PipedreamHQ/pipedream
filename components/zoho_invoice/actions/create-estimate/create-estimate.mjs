@@ -9,12 +9,6 @@ export default {
   version: "0.0.1",
   props: {
     ...common.props,
-    estimateNumber: {
-      type: "string",
-      label: "Estimate Number",
-      description: "The estimate serial number.",
-      optional: true,
-    },
     date: {
       description: "The date on the estimate. Date format is `yyyy-mm-dd`",
       optional: true,
@@ -40,7 +34,7 @@ export default {
       date,
     } = this;
 
-    const response = await this.createExpense({
+    const response = await this.createEstimate({
       step,
       data: {
         customer_id: customerId,
