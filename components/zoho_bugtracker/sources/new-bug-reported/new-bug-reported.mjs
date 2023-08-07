@@ -2,7 +2,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 
 export default {
-  key: "zoho_bugtracker-new-history-item",
+  key: "zoho_bugtracker-new-bug-reported",
   name: "New Bug Reported",
   version: "0.0.1",
   description: "Emit new event when a new bug is reported.",
