@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Story Added To Project (Instant)",
   description: "Emit new event for each story added to a project.",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   props: {
     ...common.props,
