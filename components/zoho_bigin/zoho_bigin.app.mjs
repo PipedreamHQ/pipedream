@@ -32,7 +32,7 @@ export default {
     _apiUrl() {
       return `${this._apiDomain()}/bigin/v1`;
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this, path, ...args
     }) {
       return axios($, {
