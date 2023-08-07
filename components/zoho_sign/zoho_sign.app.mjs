@@ -4,13 +4,35 @@ export default {
   type: "app",
   app: "zoho_sign",
   propDefinitions: {
-    fieldType: {
+    templateId: {
       type: "string",
-      label: "Field Type",
-      description: "Identifier of a field type",
-      async options() {
-        const { field_types: fieldTypes } = await this.listFieldTypes();
-        return fieldTypes?.map(({ field_type_name: name }) => name ) || [];
+      label: "Template",
+      description: "Identifier of a template",
+      async options({ prevContext }) {
+        const { index = 1 } = prevContext;
+        const params = {
+          data: {
+            page_context: {
+              start_index: index,
+              row_count: 25,
+            },
+          },
+        };
+        const { templates } = await this.listTemplates({
+          params,
+        });
+        const options = templates?.map(({
+          template_id: value, template_name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+        return {
+          options,
+          context: {
+            index: index + params.data.page_context.row_count,
+          },
+        };
       },
     },
     documentId: {
@@ -20,8 +42,12 @@ export default {
       async options({ prevContext }) {
         const { index = 1 } = prevContext;
         const params = {
-          start_index: index,
-          row_count: 25,
+          data: {
+            page_context: {
+              start_index: index,
+              row_count: 25,
+            },
+          },
         };
         const { requests } = await this.listDocuments({
           params,
@@ -35,7 +61,7 @@ export default {
         return {
           options,
           context: {
-            index: index + params.row_count,
+            index: index + params.data.page_context.row_count,
           },
         };
       },
@@ -61,9 +87,27 @@ export default {
         ...args,
       });
     },
-    listFieldTypes(args = {}) {
+    getDocumentDetails({
+      documentId, ...args
+    }) {
       return this._makeRequest({
-        path: "/fieldtypes",
+        path: `/requests/${documentId}`,
+        ...args,
+      });
+    },
+    getDocumentFormDetail({
+      documentId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/requests/${documentId}/fielddata`,
+        ...args,
+      });
+    },
+    getTemplate({
+      templateId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/templates/${templateId}`,
         ...args,
       });
     },
@@ -73,11 +117,17 @@ export default {
         ...args,
       });
     },
-    sendDocument({
-      requestId, ...args
+    listTemplates(args = {}) {
+      return this._makeRequest({
+        path: "/templates",
+        ...args,
+      });
+    },
+    sendDocumentFromTemplate({
+      templateId, ...args
     }) {
       return this._makeRequest({
-        path: `/requests/${requestId}/submit`,
+        path: `/templates/${templateId}/createdocument`,
         method: "POST",
         ...args,
       });
