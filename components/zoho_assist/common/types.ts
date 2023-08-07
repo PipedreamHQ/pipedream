@@ -42,3 +42,12 @@ export interface ScheduleSessionParams extends PdAxiosRequest {
     department_id: string;
   };
 }
+
+export interface GetUserInfoResponse {
+  representation: {
+    departments: {
+      department_id: string;
+      display_name: string;
+    }[];
+  };
+}

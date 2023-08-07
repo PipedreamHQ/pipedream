@@ -46,10 +46,10 @@ export default defineAction({
         "A reminder time for joining the session.",
     },
     departmentId: {
-      type: "string",
-      label: "Department ID",
-      description:
-        "Department in which the session is to be scheduled.",
+      propDefinition: [
+        app,
+        "departmentId",
+      ],
     },
     notes: {
       type: "string",
