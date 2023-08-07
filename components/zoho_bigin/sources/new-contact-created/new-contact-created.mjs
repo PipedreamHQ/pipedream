@@ -15,9 +15,18 @@ export default {
         "Contacts.create",
       ];
     },
+    async deploy() {
+      const { data: calls } = await this.app.getContacts({
+        params: {
+          per_page: 10,
+        },
+      });
+
+      await Promise.all(calls.map(this.emitEvent));
+    },
     async emitEvent(data) {
       const { data: contacts } = await this.app.getContact({
-        contactId: data.ids[0],
+        contactId: data?.id ?? data?.ids[0],
       });
 
       const contact = contacts[0];

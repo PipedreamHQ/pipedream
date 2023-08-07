@@ -15,11 +15,19 @@ export default {
         "Calls.create",
       ];
     },
-    async emitEvent(data) {
-      const { data: calls } = await this.app.getCall({
-        callId: data.ids[0],
+    async deploy() {
+      const { data: calls } = await this.app.getCalls({
+        params: {
+          per_page: 10,
+        },
       });
 
+      await Promise.all(calls.map(this.emitEvent));
+    },
+    async emitEvent(data) {
+      const { data: calls } = await this.app.getCall({
+        callId: data?.id ?? data?.ids[0],
+      });
 
       const call = calls[0];
 

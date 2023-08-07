@@ -15,9 +15,18 @@ export default {
         "Deals.create",
       ];
     },
+    async deploy() {
+      const { data: calls } = await this.app.getDeals({
+        params: {
+          per_page: 10,
+        },
+      });
+
+      await Promise.all(calls.map(this.emitEvent));
+    },
     async emitEvent(data) {
       const { data: deals } = await this.app.getDeal({
-        dealId: data.ids[0],
+        dealId: data?.id ?? data?.ids[0],
       });
 
       console.log(deals);

@@ -87,6 +87,12 @@ export default {
         ...args,
       });
     },
+    async getCalls(args) {
+      return this._makeRequest({
+        path: "/Calls",
+        ...args,
+      });
+    },
     async getCall({
       callId, ...args
     }) {
@@ -112,6 +118,12 @@ export default {
     async getUsers(args = {}) {
       return this._makeRequest({
         path: "/users",
+        ...args,
+      });
+    },
+    async getDeals(args = {}) {
+      return this._makeRequest({
+        path: "/Deals",
         ...args,
       });
     },

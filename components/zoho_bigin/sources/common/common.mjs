@@ -13,8 +13,14 @@ export default {
     emitEvent(event) {
       throw new Error("emitEvent is not implemented", event);
     },
+    async deploy(event) {
+      throw new Error("deploy is not implemented", event);
+    },
   },
   hooks: {
+    async deploy() {
+      await this.deploy();
+    },
     async activate() {
       const { users } = await this.app.getUsers({
         params: {
