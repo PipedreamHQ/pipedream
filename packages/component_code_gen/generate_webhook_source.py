@@ -10,9 +10,9 @@ def main(app, prompt, verbose=False):
         os.environ['DEBUG'] = '1'
 
     # this is here so that the DEBUG environment variable is set before the imports
-    from code_gen.generate_component_code import main
+    from code_gen.generate_component_code import generate_code
 
-    result = main(app, prompt, templates.generate_webhook_sources)
+    result = generate_code(app, prompt, templates.generate_webhook_sources)
     return result
 
 

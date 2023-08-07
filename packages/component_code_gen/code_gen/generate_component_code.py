@@ -8,7 +8,7 @@ import config.logging_config as logging_config
 logger = logging_config.getLogger(__name__)
 
 
-def main(app, prompt, templates):
+def generate_code(app, prompt, templates):
     db = supabase_helpers.SupabaseConnector()
 
     docs_meta = db.get_app_docs_meta(app)
