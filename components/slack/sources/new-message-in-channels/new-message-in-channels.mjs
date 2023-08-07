@@ -1,11 +1,12 @@
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "slack-new-message-in-channels",
   name: "New Message In Channels (Instant)",
-  version: "1.0.12",
+  version: "1.0.13",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
@@ -82,4 +83,5 @@ export default {
       return event;
     },
   },
+  sampleEmit,
 };
