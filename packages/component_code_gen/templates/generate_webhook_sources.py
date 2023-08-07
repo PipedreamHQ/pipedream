@@ -235,8 +235,8 @@ Registry components require a unique key and version, and a friendly name and de
 
 ```
 export default {
-  key: "google_drive-new-shared-drive",
-  name: "New Shared Drive",
+  key: "google_drive-new-shared-drive-created",
+  name: "New Shared Drive Created",
   description: "Emits a new event any time a shared drive is created.",
   version: "0.0.1",
   type: "source",
