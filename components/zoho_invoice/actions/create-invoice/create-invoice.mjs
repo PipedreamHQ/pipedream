@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "zoho_invoice-create-invoice",
   name: "Create Invoice",
-  description: "Creates a new invoice in Zoho Invoice. [See the Documentation](https://www.zoho.com/invoice/api/v3/invoices/#create-an-invoice).",
+  description: "Creates a new invoice in Zoho Invoice. [See the documentation](https://www.zoho.com/invoice/api/v3/invoices/#create-an-invoice).",
   type: "action",
   version: "0.0.1",
   props: {

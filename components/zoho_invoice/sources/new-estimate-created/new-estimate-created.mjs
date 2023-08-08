@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "zoho_invoice-new-estimate-created",
   name: "New Estimate Created",
-  description: "Triggers when a new estimate is created. [See the Documentation](https://www.zoho.com/invoice/api/v3/estimates/#list-estimates).",
+  description: "Triggers when a new estimate is created. [See the documentation](https://www.zoho.com/invoice/api/v3/estimates/#list-estimates).",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",

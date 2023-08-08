@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "zoho_invoice-create-estimate",
   name: "Create Estimate",
-  description: "Creates a new estimate in Zoho Invoice. [See the Documentation](https://www.zoho.com/invoice/api/v3/estimates/#create-an-estimate).",
+  description: "Creates a new estimate in Zoho Invoice. [See the documentation](https://www.zoho.com/invoice/api/v3/estimates/#create-an-estimate).",
   type: "action",
   version: "0.0.1",
   props: {
