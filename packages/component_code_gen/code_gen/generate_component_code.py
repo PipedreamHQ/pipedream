@@ -65,7 +65,7 @@ def with_docs(app, prompt, docs, docs_type, templates):
 
 
 def add_code_example(templates, example):
-    templates.no_docs_system_instructions %= example
+    return templates.no_docs_system_instructions % example
 
 
 def validate_inputs(app, prompt, templates):
