@@ -2789,6 +2789,8 @@ importers:
 
   components/metabase: {}
 
+  components/metaphor: {}
+
   components/metatext_ai_inference_api: {}
 
   components/metatext_ai_pre_build_ai_models_api:
@@ -4608,6 +4610,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.5.1
+
+  components/streamtime: {}
 
   components/stripe:
     dependencies:
