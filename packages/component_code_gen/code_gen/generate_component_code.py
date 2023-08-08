@@ -4,6 +4,7 @@ load_dotenv()
 import helpers.langchain_helpers as langchain_helpers
 import helpers.supabase_helpers as supabase_helpers
 
+from config.config import config
 import config.logging_config as logging_config
 logger = logging_config.getLogger(__name__)
 
@@ -14,9 +15,13 @@ def generate_code(app, prompt, templates):
     db = supabase_helpers.SupabaseConnector()
 
     auth_meta = db.get_app_auth_meta(app)
-    docs_meta = db.get_app_docs_meta(app)
-
     add_code_example(templates, auth_meta['component_code_scaffold_raw']) # TODO: is this needed only for actions?
+
+    if config['enable_docs'] == False:
+        logger.warn("docs are disabled")
+        return no_docs(app, prompt, templates)
+
+    docs_meta = db.get_app_docs_meta(app)
 
     try:
         if 'docs_url' in docs_meta:
