@@ -2285,6 +2285,9 @@
     },
     {
       "path": "components/metaphor"
+    },
+    {
+      "path": "components/streamtime"
     }
   ]
 }
