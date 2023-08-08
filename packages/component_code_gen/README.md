@@ -50,8 +50,8 @@ poetry run python main.py --component_type action --app slack --instructions ins
 To run a suite of tests (e.g. webhooks):
 
 ```
-./tests/webhooks/test.sh
+poetry run python -m tests.webhooks.test
 ```
 
 This script will generate code for some selected apps/components for comparison with registry components
-Compare `./tests/webhooks/output/*` with `./tests/webhooks/output/reference/*`
+Compare `./tests/webhooks/output/*` with `./tests/webhooks/reference/*`
