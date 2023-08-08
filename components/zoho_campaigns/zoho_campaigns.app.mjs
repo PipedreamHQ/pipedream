@@ -57,9 +57,7 @@ export default {
           ...opts.headers,
         },
       };
-      console.log({
-        axiosOpts,
-      });
+
       return axios(ctx, axiosOpts);
     },
     async listTopics(page) {
@@ -107,6 +105,20 @@ export default {
         params: {
           ...data,
           resfmt: "JSON",
+        },
+      });
+    },
+    async listRecentCampaigns(page, startIndex) {
+      const LIMIT = 200;
+      const fromIndex = startIndex + (page * LIMIT + 1);
+      return this._makeHttpRequest({
+        path: "/recentcampaigns",
+        params: {
+          resfmt: "JSON",
+          sort: "asc",
+          status: "all",
+          fromindex: fromIndex,
+          range: LIMIT,
         },
       });
     },
