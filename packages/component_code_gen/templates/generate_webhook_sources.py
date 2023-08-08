@@ -463,9 +463,8 @@ async run(event) {
 ## Remember, return ONLY code
 
 Only return Node.js code. DO NOT include any English text before or after the Node.js code. DO NOT say something like "Here's an example..." to preface the code. DO NOT include the code in Markdown code blocks, or format it in any fancy way. Just show me the code.
----
 
-Your code:
+Consider all the instructions and rules above, and use the following code as a template for your code: %s
 """
 
 with_docs_system_instructions = f"""{no_docs_system_instructions}
@@ -489,7 +488,8 @@ Note that sometimes the value at a given path is large. In this case, you will g
 In this case, you should ALWAYS follow up by using the `json_spec_list_keys` tool to see what keys exist at that path.
 Do not simply refer the user to the JSON or a section of the JSON, as this is not a valid answer. Keep digging until you find the answer and explicitly return it."""
 
-suffix = """Begin!
+suffix = """---
+Begin!
 Remember, DO NOT include any other text in your response other than the code.
 DO NOT return ``` or any other code formatting characters in your response.
 

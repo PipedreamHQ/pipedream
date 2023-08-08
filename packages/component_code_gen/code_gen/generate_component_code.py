@@ -11,7 +11,10 @@ logger = logging_config.getLogger(__name__)
 def generate_code(app, prompt, templates):
     db = supabase_helpers.SupabaseConnector()
 
+    auth_meta = db.get_app_auth_meta(app)
     docs_meta = db.get_app_docs_meta(app)
+
+    add_code_example(templates, auth_meta['component_code_scaffold_raw']) # TODO: is this needed only for actions?
 
     try:
         if 'docs_url' in docs_meta:
@@ -52,3 +55,7 @@ def with_docs(app, prompt, docs, docs_type, templates):
 
     logger.debug("trying again without docs")
     return no_docs(app, prompt, templates)
+
+
+def add_code_example(templates, example):
+    templates.no_docs_system_instructions %= example
