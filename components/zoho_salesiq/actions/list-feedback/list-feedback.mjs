@@ -52,7 +52,7 @@ export default {
         screenName: this.screenName,
         params: {
           department_ids: this.departmentIds
-            ? this.departmentIds.join()
+            ? this.departmentIds?.join()
             : [],
           start_time: this.startTime
             ? Date.parse(this.startTime)

@@ -52,11 +52,11 @@ export default {
           index,
           limit: 20,
         };
-        const x = await this.listArticleCategories({
+        const { data } = await this.listArticleCategories({
           screenName,
           params,
-        }); console.log(x);
-        const options = x.data?.map(({
+        });
+        const options = data?.map(({
           name: label, id: value,
         }) => ({
           value,
@@ -112,11 +112,11 @@ export default {
         "Authorization": `Zoho-oauthtoken ${this.$auth.oauth_access_token}`,
       };
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this,
       path,
       ...args
-    }) { console.log(args);
+    }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
@@ -220,7 +220,7 @@ export default {
 
       do {
         const { data } = await resourceFn(args);
-        if (!data) {
+        if (!data?.length) {
           break;
         }
         results.push(...data);
