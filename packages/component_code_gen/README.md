@@ -8,29 +8,38 @@ Generate components using OpenAI GPT.
 1. Install poetry: follow instructions at https://python-poetry.org/docs/#installation
 
 2. Run install:
+
 ```
 poetry install
+```
+
+
+### Setup
+
+1. Create a `.env` file
+
+2. Add these API Keys:
+
+    - BROWSERLESS_API_KEY=api_key
+    - OPENAI_API_KEY=API_KEY
+    - SUPABASE_URL=https://url.supabase.co
+    - SUPABASE_API_KEY=service_role_key
+
+3. Create a `instructions.md` file with a similar structure as the `instructions.md.example` file:
+
+```
+## Prompt
+
+... your prompt here ...
+
+## API docs
+
+... copy and paste relevant parts of the api docs here ...
 ```
 
 
 ### Run
 
 ```
-SCRIPT=generate_action.py
-APP=slack
-PROMPT="how to send myself a direct message?"
-poetry run python3 "$SCRIPT" --app "$APP" "$PROMPT"
-poetry run python3 "$SCRIPT" --app "$APP" "$PROMPT" --verbose # print debug logs
+poetry run python main.py --component_type action --app slack --instructions instructions.md --verbose
 ```
-
-
-### Setup
-
-Create a `.env` file
-
-Add these API Keys:
-
-    - BROWSERLESS_API_KEY=api_key
-    - OPENAI_API_KEY=API_KEY
-    - SUPABASE_URL=https://url.supabase.co
-    - SUPABASE_API_KEY=service_role_key

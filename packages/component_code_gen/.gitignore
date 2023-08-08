@@ -1,5 +1,5 @@
 .env
-.env.example
+instructions.md
 .vscode
 ve/
 node_modules/

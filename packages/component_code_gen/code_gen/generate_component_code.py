@@ -9,6 +9,8 @@ logger = logging_config.getLogger(__name__)
 
 
 def generate_code(app, prompt, templates):
+    validate_inputs(app, prompt, templates)
+
     db = supabase_helpers.SupabaseConnector()
 
     auth_meta = db.get_app_auth_meta(app)
@@ -59,3 +61,13 @@ def with_docs(app, prompt, docs, docs_type, templates):
 
 def add_code_example(templates, example):
     templates.no_docs_system_instructions %= example
+
+
+def validate_inputs(app, prompt, templates):
+    assert app and type(app) == str
+    assert prompt and type(prompt) == str
+    assert templates.no_docs_user_prompt
+    assert templates.no_docs_system_instructions
+    assert templates.with_docs_system_instructions
+    assert templates.suffix
+    assert templates.format_instructions
