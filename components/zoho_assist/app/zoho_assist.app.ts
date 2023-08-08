@@ -22,6 +22,12 @@ export default defineApp({
         }));
       },
     },
+    type: {
+      type: "string",
+      label: "Type",
+      description:
+        "Session type.",
+    },
   },
   methods: {
     async _httpRequest({

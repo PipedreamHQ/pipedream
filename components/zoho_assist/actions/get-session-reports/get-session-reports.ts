@@ -1,6 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_assist.app";
 import { GetSessionReportsParams } from "../../common/types";
+import { GET_SESSION_REPORTS_TYPE_OPTIONS } from "../../common/constants";
 
 export default defineAction({
   name: "Get Session Reports",
@@ -11,24 +12,11 @@ export default defineAction({
   props: {
     app,
     type: {
-      type: "string",
-      label: "Type",
-      description:
-        "Session type.",
-      options: [
-        {
-          label: "Remote Support",
-          value: "rs",
-        },
-        {
-          label: "Unattended Remote Support",
-          value: "URS",
-        },
-        {
-          label: "All",
-          value: "all",
-        },
+      propDefinition: [
+        app,
+        "type",
       ],
+      options: GET_SESSION_REPORTS_TYPE_OPTIONS,
     },
     fromDate: {
       type: "string",

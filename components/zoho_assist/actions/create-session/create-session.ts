@@ -1,6 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_assist.app";
 import { CreateSessionParams } from "../../common/types";
+import { CREATE_SESSION_TYPE_OPTIONS } from "../../common/constants";
 
 export default defineAction({
   name: "Create Session",
@@ -18,21 +19,14 @@ export default defineAction({
       optional: true,
     },
     type: {
-      type: "string",
-      label: "Type",
+      propDefinition: [
+        app,
+        "type",
+      ],
       description:
         "Session type, defaulting to Remote Support.",
       optional: true,
-      options: [
-        {
-          label: "Remote Support",
-          value: "rs",
-        },
-        {
-          label: "Screen Sharing",
-          value: "dm",
-        },
-      ],
+      options: CREATE_SESSION_TYPE_OPTIONS,
       default: "rs",
     },
     computerId: {
