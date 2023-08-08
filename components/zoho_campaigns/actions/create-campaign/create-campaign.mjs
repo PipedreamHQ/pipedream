@@ -51,7 +51,7 @@ export default {
       return JSON.stringify(data);
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       app,
       mailingList,
@@ -64,6 +64,10 @@ export default {
       list_details: getListDetails(mailingList),
     };
     const res = await app.createCampaign(data);
+    if (res.status === "error") {
+      throw new Error(`${res.message} - ${JSON.stringify(res)}`);
+    }
+    $.export("summary", `Campaign "${res.campaign_name}" created successfully`);
     return res;
   },
 };

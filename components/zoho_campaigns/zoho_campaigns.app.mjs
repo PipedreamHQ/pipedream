@@ -97,5 +97,18 @@ export default {
         },
       });
     },
+    async addSubscriberToList(data) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/json/listsubscribe",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        params: {
+          ...data,
+          resfmt: "JSON",
+        },
+      });
+    },
   },
 };
