@@ -2282,6 +2282,9 @@
     },
     {
       "path": "components/google_my_business"
+    },
+    {
+      "path": "components/metaphor"
     }
   ]
 }

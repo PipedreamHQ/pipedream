@@ -5593,7 +5593,11 @@ importers:
 
   components/zoho_assist: {}
 
-  components/zoho_bigin: {}
+  components/zoho_bigin:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_bookings: {}
 
