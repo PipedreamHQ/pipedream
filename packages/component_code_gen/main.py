@@ -10,12 +10,9 @@ available_templates = {
 }
 
 
-def main(component_type, app, instructions_file, verbose=False):
+def main(component_type, app, instructions, verbose=False):
     if verbose:
         os.environ['DEBUG'] = '1'
-
-    with open(instructions_file, 'r') as f:
-        prompt = f.read()
 
     try:
         templates = available_templates[component_type]
@@ -24,7 +21,7 @@ def main(component_type, app, instructions_file, verbose=False):
 
     # this is here so that the DEBUG environment variable is set before the import
     from code_gen.generate_component_code import generate_code
-    result = generate_code(app, prompt, templates)
+    result = generate_code(app, instructions, templates)
     return result
 
 
@@ -36,5 +33,8 @@ if __name__ == '__main__':
     parser.add_argument('--verbose', dest='verbose', help='set the logging to debug', required=False, default=False, action='store_true')
     args = parser.parse_args()
 
-    result = main(args.component_type, args.app, args.instructions, args.verbose)
+    with open(args.instructions, 'r') as f:
+        instructions = f.read()
+
+    result = main(args.component_type, args.app, instructions, args.verbose)
     print(result)
