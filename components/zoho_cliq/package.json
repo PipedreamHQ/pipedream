@@ -2,15 +2,17 @@
   "name": "@pipedream/zoho_cliq",
   "version": "0.0.1",
   "description": "Pipedream Zoho Cliq Components",
-  "main": "dist/app/zoho_cliq.app.mjs",
+  "main": "zoho_cliq.app.mjs",
   "keywords": [
     "pipedream",
     "zoho_cliq"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/zoho_cliq",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
