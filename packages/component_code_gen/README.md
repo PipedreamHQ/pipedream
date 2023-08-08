@@ -43,3 +43,15 @@ poetry install
 ```
 poetry run python main.py --component_type action --app slack --instructions instructions.md --verbose
 ```
+
+
+### Tests
+
+To run a suite of tests (e.g. webhooks):
+
+```
+./tests/webhooks/test.sh
+```
+
+This script will generate code for some selected apps/components for comparison with registry components
+Compare `./tests/webhooks/output/*` with `./tests/webhooks/output/reference/*`
