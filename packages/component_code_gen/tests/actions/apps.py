@@ -1,8 +1,3 @@
-import sys
-sys.path.append("...") # go back to root - hack to allow importing main
-from main import main
-
-
 apps = [
     {
         'app': 'github',
@@ -75,15 +70,3 @@ apps = [
         'key': 'brex-set-limit-for-user'
     },
 ]
-
-
-def run_tests():
-    for app in apps:
-        print(f"testing {app['app']}...")
-        result = main('action', app['app'], app['instructions'], verbose=True)
-        with open(f'./tests/actions/output/{app["key"]}.mjs', 'w') as f:
-            f.write(result)
-
-
-if __name__ == '__main__':
-    run_tests()

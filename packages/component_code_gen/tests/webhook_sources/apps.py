@@ -1,8 +1,3 @@
-import sys
-sys.path.append("...") # go back to root - hack to allow importing main
-from main import main
-
-
 apps = [
     {
         'app': 'github',
@@ -75,15 +70,3 @@ apps = [
         'key': 'brex-new-transfer-event'
     },
 ]
-
-
-def run_tests():
-    for app in apps:
-        print(f"testing {app['app']}...")
-        result = main('webhook_source', app['app'], app['instructions'], verbose=True)
-        with open(f'./tests/webhooks/output/{app["key"]}.mjs', 'w') as f:
-            f.write(result)
-
-
-if __name__ == '__main__':
-    run_tests()
