@@ -41,7 +41,7 @@ poetry install
 ### Run
 
 ```
-poetry run python main.py --component_type action --app slack --instructions instructions.md --verbose
+poetry run python main.py --type action --app slack --instructions instructions.md --verbose
 ```
 
 
