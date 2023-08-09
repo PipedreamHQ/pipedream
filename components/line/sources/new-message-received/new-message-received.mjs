@@ -1,11 +1,12 @@
 import line from "../../line.app.mjs";
+import sampleEmit from "./test-event.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
   key: "line-new-message-received",
   name: "New Message Received",
   description: "Emit new event for every received message in a channel. [See docs here](https://developers.line.biz/en/docs/messaging-api/building-bot/#page-title)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -66,4 +67,5 @@ export default {
       }
     });
   },
+  sampleEmit,
 };
