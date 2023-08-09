@@ -4,34 +4,6 @@
 
 Pipedream allows you to connect accounts for various apps and services within our UI. Once you connect an account, you can link that account to any step of a workflow, and use the OAuth access tokens, API key, or other auth info to make API requests to the desired service.
 
-For example, you can connect to Slack from Pipedream (via their OAuth integration), and use the access token Pipedream generates to authorize requests:
-
-```javascript
-import { WebClient } from '@slack/web-api';
-
-// Sends a message to a Slack Channel
-export default defineComponent({
-  props: {
-    slack: {
-      type: 'app',
-      app: 'slack'
-    }
-  },
-  async run({ steps, $ }) {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
-    return await web.chat.postMessage({
-      text: "Hello, world!",
-      channel: "#general",
-    })
-  })
-});
-```
-
-Or skip using code and use any connected account with an HTTP request step.
-
-![Connecting to Slack using the HTTP request builder](https://res.cloudinary.com/pipedreamin/image/upload/v1673535786/docs/CleanShot_2023-01-12_at_10.02.47_xkv0ac.gif)
-
-
 [[toc]]
 
 ## Supported Apps
@@ -77,6 +49,28 @@ Now you can modify the request path, method, body or query params to perform an 
 
 You can connect accounts to code steps by using an `app` prop. Refer to the [connecting apps in Node.js documentation](/code/nodejs/auth/).
 
+For example, you can connect to Slack from Pipedream (via their OAuth integration), and use the access token Pipedream generates to authorize requests:
+
+```javascript
+import { WebClient } from '@slack/web-api';
+
+// Sends a message to a Slack Channel
+export default defineComponent({
+  props: {
+    slack: {
+      type: 'app',
+      app: 'slack'
+    }
+  },
+  async run({ steps, $ }) {
+    const web = new WebClient(this.slack.$auth.oauth_access_token)
+    return await web.chat.postMessage({
+      text: "Hello, world!",
+      channel: "#general",
+    })
+  })
+});
+```
 
 ## Managing Connected Accounts
 
@@ -85,7 +79,7 @@ Visit your [Accounts Page](https://pipedream.com/accounts) to see a list of all 
 You can perform the following operations from here:
 
 - Connect your account for any integrated app
-- Manage access for any account you've connected
+- [View and manage access](#access-control) for your connected accounts
 - Delete a connected account
 - Reconnect an account
 - Change the nickname associated with an account
@@ -95,13 +89,27 @@ You'll also see some data associated with these accounts:
 - For many OAuth apps, we'll list the scopes for which you've granted Pipedream access
 - The workflows that are using the account
 
-### Connecting a New Account
+### Connecting a new account
 
 - To get started, click the "Connect an app" button at the top right of the [Accounts page](https://pipedream.com/accounts) and select the app you'd like to connect
-- **All new connected accounts are private** and can only be used by the user who added it. Note that this is a change in behavior as of September 2023. All accounts connected before then were accessible to all workspace members.
 
-### Managing Access
-To define who is able to use a connected account in your shared workspace:
+### Reconnecting an account
+
+If you encounter errors in a step that appear to be related to credentials or authorization, you can reconnect your account:
+
+1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts)
+2. Search for your account
+3. Click on the *...* next to your account, on the right side of the page
+4. Select the option to **Reconnect** your account
+
+## Access Control
+
+**All new connected accounts are private** and can only be used by the user who added it.
+- Note that this is a change in behavior as of September 2023
+- All accounts connected before then were accessible to all workspace members
+
+
+### Managing access
 - Find the account on the Accounts page and click the 3 dots at the far right of the row
 - Select "Manage Access"
 
@@ -112,14 +120,25 @@ To define who is able to use a connected account in your shared workspace:
 
 ![Managing Access for a Connected Account](https://res.cloudinary.com/pipedreamin/image/upload/v1691614603/manage-access-modal_crmx3f.gif)
 
-### Reconnecting an account
 
-If you encounter errors in a step that appear to be related to credentials or authorization, you can reconnect your account:
+### Collaborating with others
 
-1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts)
-2. Search for your account
-3. Click on the *...* next to your account, on the right side of the page
-4. Select the option to **Reconnect** your account
+Even though certain accounts may not be shared with other workspace members, you can still collaborate together on the same workflows.
+
+Workspace members who don't have access to a connected account **can perform the following actions** on workflows:
+- Test any step, so they can effectively develop and debug workflows end to end
+- Reference step exports
+- Inspect prop inputs, step logs, and errors
+
+Workspace members who do not have access to a given connected account **cannot** modify prop inputs or edit any code with that account.
+
+![Read only action](https://res.cloudinary.com/pipedreamin/image/upload/v1691622307/read-only-action_uvdh1p.png)
+
+![Read only code step](https://res.cloudinary.com/pipedreamin/image/upload/v1691621275/read-only-code-step_ijqvjc.png)
+
+To make changes to steps that are locked in read-only mode:
+1. Click "More Actions" and change the connected account to one that you have access to (note that this may remove some prop configurations)
+2. Ask the account owner to [grant access](#managing-access)
 
 ## Types of Integrations
 
