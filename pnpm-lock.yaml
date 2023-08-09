@@ -1069,7 +1069,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/dbt: {}
+  components/dbt:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/dear:
     dependencies:
@@ -2932,6 +2936,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/moxie: {}
 
   components/mozilla_observatory: {}
 
