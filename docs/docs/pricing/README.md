@@ -180,6 +180,30 @@ In the example below, there are two records in the Data Store, and therefore the
 
 ![Example of a Data Store with two keys](https://res.cloudinary.com/pipedreamin/image/upload/v1673537163/docs/CleanShot_2023-01-12_at_10.25.25_z6yg8t.png)
 
+## Managing my plan
+
+To cancel, upgrade or downgrade your plan, open the [pricing page](https://pipedream.com/pricing).
+
+To update your billing details, such as your VAT number, email address, etc. use the **Manage Billing Information** button in your [workspace billing settings](https://pipedream.com/settings/billing) to change your plan. Within this portal you can cancel, upgrade or downgrade your plan at any time.
+
+### Upgrading behavior
+
+Upgrading your subscription instantly activates the features available to your workspace. For example, if you upgrade your workspace from Free to Basic, that workspace will be able to activate more workflows and connected accounts.
+
+### Downgrading behavior
+
+Downgrades will apply at the end of your billing cycle, and any workflows that use features outside of the new billing plan will be automatically disabled.
+
+For example, if your workspace downgrades from Advanced to Basic and a workflow uses an Advanced feature such as [auto-retries](/workflows/settings/#auto-retry-errors), then this workflow will be disabled because the workspace plan no longer qualifies for that feature.
+
+Additionally, resource limits such as the number of active workflows and connected accounts will also be enforced at this same time.
+
+### Cancellation behavior
+
+To cancel your plan, open the [pricing page](https://pipedream.com/pricing) and click **Cancel** beneath your current plan.
+
+Cancelling your subscription will apply at the end of your current billing period. Workflows, connected accounts and sources will be deactivated from newest to oldest until the Free limits have been reached.
+
 ## FAQ
 
 ### How does workflow memory affect credits?
@@ -234,4 +258,4 @@ You can update your billing information in your [Stripe customer portal](https:/
 
 ### How do I contact the Pipedream team with other questions?
 
-You can email **billing@pipedream.com** for any billing-related questions.
+You can start a support ticket [on our support page](https://pipedream.com/support). Select the **Billing Issues** category to start a billing related ticket.
