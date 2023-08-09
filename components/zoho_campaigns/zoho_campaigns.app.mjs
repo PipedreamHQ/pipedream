@@ -122,5 +122,19 @@ export default {
         },
       });
     },
+    async listContacts(page, startIndex, listKey) {
+      const LIMIT = 200;
+      const fromIndex = startIndex + (page * LIMIT + 1);
+      return this._makeHttpRequest({
+        path: "/getlistsubscribers",
+        params: {
+          listkey: listKey,
+          sort: "asc",
+          resfmt: "JSON",
+          fromindex: fromIndex,
+          range: LIMIT,
+        },
+      });
+    },
   },
 };

@@ -1,23 +1,49 @@
-import app from "../../zoho_campaigns.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
-  dedupe: "unique",
   type: "source",
   key: "zoho_campaign-new-contact",
   name: "New Contact",
-  description: "Emit new event when a new user is created.",
-  version: "0.0.2",
+  description: "Emit new event when a new contact is created.",
+  version: "0.0.1",
   props: {
-    app,
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 5,
-      },
+    ...common.props,
+    mailingList: {
+      propDefinition: [
+        common.props.app,
+        "mailingList",
+      ],
     },
   },
-  async run(event) {
-    console.log("running");
-    console.log(event);
+  methods: {
+    ...common.methods,
+    _emitEvent(contact) {
+      this.$emit(contact, {
+        id: contact.zuid,
+        summary: contact.contact_email,
+        ts: Date.now(),
+      });
+    },
+  },
+  async run() {
+    let page = 0;
+    let startIndex = this._getStartIndex();
+
+    while (true) {
+      const res = await this.app.listContacts(page, startIndex, this.mailingList);
+      console.log(res);
+
+      if (res.status === "error" || res.list_of_details.length === 0) {
+        break;
+      }
+
+      for (const contact of res.list_of_details) {
+        this._emitEvent(contact);
+      }
+      startIndex += res.list_of_details.length;
+      page++;
+    }
+
+    this._setStartIndex(startIndex);
   },
 };
