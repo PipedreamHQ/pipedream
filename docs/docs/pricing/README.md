@@ -182,9 +182,9 @@ In the example below, there are two records in the Data Store, and therefore the
 
 ## Managing my plan
 
-To cancel, upgrade or downgrade your plan, open your [workspaces billing settings](https://pipedream.com/settings/billing?rtsbp=1) in the Pipedream dashboard.
+To cancel, upgrade or downgrade your plan, open the [pricing page](https://pipedream.com/pricing).
 
-Then click on the **Manage Plan** button to change your plan. Within this portal you can cancel, upgrade or downgrade your plan at any time.
+To update your billing details, like email addresses for  **Manage Billing Information** button to change your plan. Within this portal you can cancel, upgrade or downgrade your plan at any time.
 
 ### Upgrading behavior
 
@@ -200,7 +200,9 @@ Additionally, resource limits such as the number of active workflows and connect
 
 ### Cancellation behavior
 
-Cancelling your subscription will apply at the end of your current billing period. All workflows and sources will deactivate at the end of the billing period. 
+To cancel your plan, downgrade your plan to the **Free** plan.
+
+Cancelling your subscription will apply at the end of your current billing period. Workflows, connected accounts and sources will be deactivated from newest to oldest until the Free limits have been reached.
 
 ## FAQ
 
