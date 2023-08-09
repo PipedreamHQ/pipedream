@@ -5619,7 +5619,11 @@ importers:
 
   components/zoho_cliq: {}
 
-  components/zoho_commerce: {}
+  components/zoho_commerce:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_creator:
     dependencies:
