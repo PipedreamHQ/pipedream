@@ -28,6 +28,11 @@ export default defineApp({
       description:
         "Session type.",
     },
+    date: {
+      type: "string",
+      label: "Date",
+      description: "Timestamp in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).",
+    },
   },
   methods: {
     async _httpRequest({

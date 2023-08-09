@@ -19,14 +19,18 @@ export default defineAction({
       options: GET_SESSION_REPORTS_TYPE_OPTIONS,
     },
     fromDate: {
-      type: "string",
+      propDefinition: [
+        app,
+        "date",
+      ],
       label: "From Date",
-      description: "Long (Unix Timestamp).",
     },
     toDate: {
-      type: "string",
+      propDefinition: [
+        app,
+        "date",
+      ],
       label: "To Date",
-      description: "Long (Unix Timestamp).",
     },
     email: {
       type: "string",
@@ -60,12 +64,19 @@ export default defineAction({
       count,
     } = this;
 
+    const getValidDate = ((str: string) => {
+      const date = new Date(str);
+      return isNaN(date.valueOf())
+        ? str
+        : Math.floor(date.valueOf() / 1000).toString();
+    });
+
     const params: GetSessionReportsParams = {
       $,
       params: {
         type,
-        fromdate: fromDate,
-        todate: toDate,
+        fromdate: getValidDate(fromDate),
+        todate: getValidDate(toDate),
         email,
         index,
         count,
