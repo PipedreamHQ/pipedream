@@ -35,7 +35,7 @@ export default {
       }
       return headers;
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this,
       path,
       url,
@@ -45,6 +45,13 @@ export default {
       return axios($, {
         url: url || `${this._baseUrl()}${path}`,
         headers: this._headers(orgId),
+        ...args,
+      });
+    },
+    createWebhook(args = {}) {
+      return this._makeRequest({
+        path: "/settings/webhooks",
+        method: "POST",
         ...args,
       });
     },
