@@ -1,7 +1,7 @@
 import dbt from "../../dbt.app.mjs";
 
 export default {
-  key: "dbt-get-trigger-job-run",
+  key: "dbt-trigger-job-run",
   name: "Trigger Job Run",
   description: "Trigger a specified job to begin running. [See the documentation]()",
   version: "0.0.1",
