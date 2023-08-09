@@ -1,11 +1,11 @@
-import quickbooks from "../../quickbooks.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
   key: "quickbooks-get-purchase-order",
   name: "Get Purchase Order",
   description: "Returns details about a purchase order. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#read-a-purchase-order)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     quickbooks,

@@ -4,7 +4,7 @@ export default {
   key: "asana-search-sections",
   name: "Search Sections",
   description: "Searches for a section by name within a particular project. [See the docs here](https://developers.asana.com/docs/get-sections-in-a-project)",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     ...common.props,

@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/azure_openai_service",
+  "version": "0.0.1",
+  "description": "Pipedream Azure OpenAI Service Components",
+  "main": "dist/app/azure_openai_service.app.mjs",
+  "keywords": [
+    "pipedream",
+    "azure_openai_service"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/azure_openai_service",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

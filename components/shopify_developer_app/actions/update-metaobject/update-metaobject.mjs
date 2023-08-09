@@ -8,7 +8,7 @@ export default {
   key: "shopify_developer_app-update-metaobject",
   name: "Update Metaobject",
   description: "Updates a metaobject. [See the documentation](https://shopify.dev/docs/api/admin-graphql/2023-04/mutations/metaobjectUpdate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shopify,
