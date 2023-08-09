@@ -1,10 +1,8 @@
-# Pipedream ↔ GitHub Sync (Beta)
+# Github Sync
 
-Welcome to the beta release for Pipedream ↔ GitHub sync! Thank you in advance for your participation and feedback.
+When Github Syncing is enabled on your project, Pipedream will serialize your workflows and synchronize changes to a GitHub repo. 
 
-## Overview
-
-When enabled, this feature will serialize your Pipedream workflows and synchronize changes to a GitHub repo. Capabilities include:
+Capabilities include:
 
 - Bi-directional GitHub sync (push and pull changes)
 - Edit in development branches
@@ -14,13 +12,13 @@ When enabled, this feature will serialize your Pipedream workflows and synchroni
 - Edit in Pipedream or use a local editor and synchronize via GitHub (e.g., edit code, find and replace across multiple steps or workflows)
 - Organize workflows into projects with support for nested folders
 
-## Getting Started
-
 ::: warning Beta feature
 
 GitHub Sync is currently in beta. We recommend restricting use to non-critical workflows at this time.
 
 :::
+
+## Getting Started
 
 ### Create a new project and enable GitHub Sync
 
@@ -41,15 +39,19 @@ Projects are a new concept we are introducing to Pipedream. A project may contai
 
 ### Create a branch to edit a project
 
-To edit a git-backed project you must create a development branch by clicking Edit > Create Branch
+::: tip Branches are required to make changes
+
+All changes to resources in a project must be made in a development branch. 
+
+Examples of changes include creating, editing, deleting, enabling, disabling and renaming workflows. This also includes changing workflow settings like concurrency, VPC assignment and auto-retries.
+
+:::
+
+To edit a git-backed project you must create a development branch by clicking **Edit > Create Branch**
 
 ![Creating a new git backed development branch in a workflow](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fcf1e386b-7674-4843-8709-f1d5eef8ef00%2FUntitled.png?id=3af32b86-6ca2-4051-98cc-de31940eb609&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2)
 
-::: tip Branches are required to make changes
 
-All changes to resources in a project must be made in a development branch. Examples of changes include creating, editing, deleting, enabling, disabling and renaming workflows.
-
-:::
 
 Next, name the branch and click **Create**:
 
@@ -93,7 +95,7 @@ You can also review and merge changes directly from GitHub using the standard pu
 
 ::: warning Pull request reviews cannot be required
 
-At this time it's not possible to require pull request reviews before merging.
+PR reviews cannot be required. That feature is on the roadmap for the Business tier.
 
 :::
 
@@ -126,7 +128,7 @@ Legacy (v1) workflows are not supported in projects. [Follow this guide to migra
 
 :::
 
-First, select the workflow(s) you want to move from https://pipedream.com/workflows and click **Move** in the top action menu:
+First, select the workflow(s) you want to move from the [workflows listing page](https://pipedream.com/workflows) and click **Move** in the top action menu:
 
 ![Select your workflows you'd like to transfer to a project, then click the Move button in the top right](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F70c4da87-2aa3-435d-9226-c29fcc1cd881%2FUntitled.png?id=10fbba0c-2a92-49da-b7f1-22b1b46fb96c&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2)
 
@@ -174,3 +176,26 @@ Below are a list of known issues that do not currently have solutions, but are i
 If you have any questions or feedback, please contact us via the Slack Connect channel for your team.
 
 If you're an Advanced subscriber and don't have a Slack Connect channel set up yet, [please contact us for an invite](mailto:support@pipedream.com).
+
+
+## Frequently Asked Questions
+
+### How are Pipedream workflows synchronized to Github?
+
+Pipedream will serialize your project's workflows and their configuration into a standard YAML format for storage in Github.
+
+Then Pipedream will commit your changes to your connected Github account.
+
+### Do you have a definition of this YAML?
+
+Not yet, please stay tuned!
+
+### Can I sync multiple workflows to a single Github Repository?
+
+Yes, _projects_ are synced to a single Github Repository which allows you to store multiple workflows into a single Github Repository for easier organization and management.
+
+### Can I use this feature to develop workflows locally?
+
+Yes, you can use the Github Syncing feature to develop your workflows from YAML files checked into your Pipedream connected Github Repository.
+
+Then pushing changes to the `production` branch will trigger a deploy for your Pipedream workflows.
