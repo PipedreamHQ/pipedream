@@ -198,9 +198,9 @@ For example, if your workspace downgrades from Advanced to Basic and a workflow 
 
 Additionally, resource limits such as the number of active workflows and connected accounts will also be enforced at this same time.
 
-## Cancellation behavior
+### Cancellation behavior
 
-Cancelling your subscription will apply at the end of your current billing period. All workflows and sources will deactivate at the end of the billing period.
+Cancelling your subscription will apply at the end of your current billing period. All workflows and sources will deactivate at the end of the billing period. 
 
 ## FAQ
 
