@@ -82,22 +82,39 @@ You can connect accounts to code steps by using an `app` prop. Refer to the [con
 
 Visit your [Accounts Page](https://pipedream.com/accounts) to see a list of all your connected accounts.
 
-You can perform the following operations on any account you've connected:
+You can perform the following operations from here:
 
-- Add a new account
-- Manage access for the account
-- Delete an account
+- Connect your account for any integrated app
+- Manage access for any account you've connected
+- Delete a connected account
 - Reconnect an account
 - Change the nickname associated with an account
 
 You'll also see some data associated with these accounts:
 
-- For many OAuth apps, the scopes you've granted Pipedream access to
+- For many OAuth apps, we'll list the scopes for which you've granted Pipedream access
 - The workflows that are using the account
 
-## Reconnect an account
+### Connecting a New Account
 
-If you encounter errors in a step that appear to be related to credentials / authorization, you can reconnect your account:
+- To get started, click the "Connect an app" button at the top right of the [Accounts page](https://pipedream.com/accounts) and select the app you'd like to connect
+- **All new connected accounts are private** and can only be used by the user who added it. Note that this is a change in behavior as of September 2023. All accounts connected before then were accessible to all workspace members.
+
+### Managing Access
+To define who is able to use a connected account in your shared workspace:
+- Find the account on the Accounts page and click the 3 dots at the far right of the row
+- Select "Manage Access"
+
+![Selecting Manage Access](https://res.cloudinary.com/pipedreamin/image/upload/v1691617725/manage-access-button_bgnebz.png)
+
+- From here you may need to reconnect your account first, in order to verify ownership
+- You can enable access to the entire workspace or individual members
+
+![Managing Access for a Connected Account](https://res.cloudinary.com/pipedreamin/image/upload/v1691614603/manage-access-modal_crmx3f.gif)
+
+### Reconnecting an account
+
+If you encounter errors in a step that appear to be related to credentials or authorization, you can reconnect your account:
 
 1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts)
 2. Search for your account
@@ -126,6 +143,6 @@ For example, if you add a new connected account for **Sendgrid**, you'll be aske
 
 ## Requesting a new app or service
 
-Please request new apps by [opening an issue on GitHub](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D).
+Please request new apps by [visiting our Support page](https://pipedream.com/support), and selecting "App / Integration questions" from the dropdown toward the bottom of the page.
 
 <Footer />
