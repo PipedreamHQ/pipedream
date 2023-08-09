@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/streamtime",
+  "version": "0.0.1",
+  "description": "Pipedream Streamtime Components",
+  "main": "dist/app/streamtime.app.mjs",
+  "keywords": [
+    "pipedream",
+    "streamtime"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/streamtime",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

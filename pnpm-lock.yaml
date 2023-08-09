@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -2785,6 +2789,8 @@ importers:
 
   components/metabase: {}
 
+  components/metaphor: {}
+
   components/metatext_ai_inference_api: {}
 
   components/metatext_ai_pre_build_ai_models_api:
@@ -4605,6 +4611,8 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
+  components/streamtime: {}
+
   components/stripe:
     dependencies:
       lodash.pick:
@@ -5589,7 +5597,11 @@ importers:
 
   components/zoho_assist: {}
 
-  components/zoho_bigin: {}
+  components/zoho_bigin:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_bookings: {}
 
@@ -5672,13 +5684,21 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_recruit: {}
+  components/zoho_recruit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_salesiq: {}
 
   components/zoho_sheet: {}
 
-  components/zoho_sign: {}
+  components/zoho_sign:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_sprints:
     dependencies:
@@ -5686,7 +5706,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/zoho_subscriptions: {}
+  components/zoho_subscriptions:
+    dependencies:
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
 
   components/zonka_feedback:
     dependencies:
@@ -18369,6 +18393,7 @@ packages:
       '@babel/core': 7.22.9
       '@jest/test-sequencer': 29.6.1
       '@jest/types': 29.6.1
+      '@types/node': 17.0.45
       babel-jest: 29.6.1(@babel/core@7.22.9)
       chalk: 4.1.2
       ci-info: 3.8.0
@@ -26232,7 +26257,3 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: true
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
