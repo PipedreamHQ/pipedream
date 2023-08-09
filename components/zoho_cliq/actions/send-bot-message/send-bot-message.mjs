@@ -10,7 +10,7 @@ export default {
     app,
     botName: {
       label: "Bot Name",
-      description: "The bot name",
+      description: "The bot name. To get the bot's unique name, go to Settings → Integrations → Bots → Click on the bot name → API EndPoint. For example, if your bot API endpoint is https://cliq.zoho.com/company/12345/api/v2/bots/pipedreambot/message, then your bot name is `pipedreambot`.",
       type: "string",
     },
     text: {
