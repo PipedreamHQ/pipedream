@@ -1,5 +1,7 @@
 # Virtual Private Clouds
 
+<VideoPlayer url="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Price Clouds" />
+
 :::tip Beta feature
 
 Virtual Private Clouds (VPCs) are now available in beta on the Business tier.
