@@ -140,6 +140,43 @@ To make changes to steps that are locked in read-only mode:
 1. Click "More Actions" and change the connected account to one that you have access to (note that this may remove some prop configurations)
 2. Ask the account owner to [grant access](#managing-access)
 
+### Explanation of access
+Access to connected accounts is enforced at the step-level within workflows and is designed with security and control in mind. Below is a breakdown of the operations that are allowed.
+
+When you connect an account in Pipedream, you are the owner of that connected account, and you always have full access. You can,
+- Manage access
+- Delete
+- Reconnect
+- Add to any step or trigger
+
+<br>
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/private-auth_ecm7jx.png" width="100px" />
+
+| Operations | Workspace Owner & Admin | Other Members |
+| --  | :--: | :--: | :--: |
+| View on [Accounts](https://pipedream.com/accounts) | :white_check_mark: | :x: |
+| Add to a new trigger or step | :x: | :x: |
+| Modify existing steps | :x: | :x: |
+| Test exising steps | :white_check_mark: | :white_check_mark: |
+| Manage access | :x: | :x: |
+| Reconnect | :x: | :x: |
+|  Delete  |  :white_check_mark: |  :x: |
+
+
+<br>
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/shared-auth-workspace_usdwod.png" width="240px" />
+
+| Operations | Workspace Owner & Admin | Other Members |
+| --  | :--: | :--: | :--: |
+| View on [Accounts](https://pipedream.com/accounts) | :white_check_mark: | :white_check_mark: |
+| Add to a new trigger or step | :white_check_mark: | :white_check_mark: |
+| Modify existing steps | :white_check_mark: | :white_check_mark: |
+| Test exising steps | :white_check_mark: | :white_check_mark: |
+| Manage access | :x: | :x: |
+| Reconnect | :x: | :x: |
+|  Delete  |  :white_check_mark: |  :x: |
+
+
 ## Types of Integrations
 
 ### OAuth
