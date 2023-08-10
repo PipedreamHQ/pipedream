@@ -276,7 +276,7 @@ export default {
     uploaddoc: {
       type: "string",
       label: "Upload Doc",
-      description: "The maximum size to upload a file is 128 MB. The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      description: "Please configure [Zoho Drive integration](https://help.zoho.com/portal/en/kb/projects/integration/zoho-apps/articles/zoho-workdrive-integration) to enable attachment for your Zoho BugTracker. The maximum size to upload a file is 128 MB. The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
   },
   methods: {
