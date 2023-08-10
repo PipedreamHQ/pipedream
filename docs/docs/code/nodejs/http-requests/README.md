@@ -497,6 +497,9 @@ By default, [HTTP requests made from Pipedream can come from a large range of IP
 - [Use an Pipedream VPC](/workflows/vpc/) to route all outbound HTTP requests through a single IP address
 - If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
 
+
+## Use an HTTP proxy to proxy requests through another host
+
 By default, HTTP requests made from Pipedream can come from a range of IP addresses. **If you need to make requests from a single IP address, you can route traffic through an HTTP proxy**:
 
 ```javascript
