@@ -490,87 +490,11 @@ export default defineComponent({
 
 [Copy this workflow](https://pipedream.com/@dylburger/stream-a-file-upload-p_6lC1d2Z/edit) to run this example.
 
-## Use an HTTP proxy to proxy requests through another host
-
-When you make HTTP requests to certain services, they might require you whitelist a set of IP addresses those requests come from. Often, this is to improve the security of the target service.
-
-By default, HTTP requests made from Pipedream can come from a range of IP addresses. **If you need to make requests from a single IP address, you can route traffic through an HTTP proxy**:
-
-```javascript
-import axios from "axios";
-import httpsProxyAgent from "https-proxy-agent";
-
-export default defineComponent({
-  props: {
-    user: {
-      type: 'string',
-      label: 'Username',
-      description: 'The username for the HTTP proxy authentication',
-    },
-    pass: {
-      type: 'string',
-      label: 'Password',
-      secret: true,
-      description: 'The password for the HTTP proxy authentication',
-    },
-    host: {
-      type: 'string',
-      label: "HTTP Proxy Host",
-      description: "The URL for the HTTP proxy",
-    },
-    port: {
-      type: "string",
-      label: "Port",
-      description: "The port the HTTP proxy is accepting requests at",
-    },
-    target_host: {
-      type: 'string',
-      label: "Target Host",
-      description: "The URL for the end target to reach through the proxy",
-    },
-    method: {
-      type: 'string',
-      default: 'GET',
-      label: "HTTP method",
-      description: "The HTTP method to use to reach the end target host"
-    },
-    body: {
-      type: 'object',
-      label: "HTTP body",
-      description: "The HTTP body payload to send to the end target host"
-    }
-  },
-  async run({ steps, $ }) {
-    const { user, pass, host, port, target_host, method } = this;
-    const agent = new httpsProxyAgent(`http://${user}:${pass}@${host}:${port}`);
-
-    const config = {
-      method,
-      url: target_host,
-      body,
-      httpsAgent: agent,
-    };
-
-    return await axios.request(config);
-  }
-});
-```
-
-[Copy this workflow to run this code on Pipedream](https://pipedream.com/new?h=tch_mypfby).
-
-::: tip Managed HTTP Proxy Service
-
-If your workspace has the Advanced, Business or Enterprise plan, [reach out to our team](https://pipedream.com/support). We operate a proxy that you can use for HTTP requests made through Pipedream.
-
-:::
-
-
-
 ## IP addresses for HTTP requests made from Pipedream workflows
 
 By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/workflows/networking/). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
 
-- [Use an HTTP proxy to proxy requests](#use-an-http-proxy-to-proxy-requests-through-another-host)
+- [Use an Pipedream VPC](/workflows/vpc/) to route all outbound HTTP requests through a single IP address
 - If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
 
 ## Stream a downloaded file directly to another URL
