@@ -56,7 +56,7 @@ export default {
     const data = new FormData();
     data.append("service_id", this.serviceId);
     if (!this.staffId && !this.resourceId) {
-      throw new ConfigurationError("Either staff or resource is mandatory");
+      throw new ConfigurationError("Either `staff` or `resource` is mandatory");
     }
     if (this.staffId) {
       data.append("staff_id", this.staffId);

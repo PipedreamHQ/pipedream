@@ -93,6 +93,28 @@ export default {
         path: "/bookings/v1/json/resources",
       });
     },
+    getAppointment({
+      $ = this,
+      params,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "GET",
+        path: "/bookings/v1/json/getappointment",
+        params,
+      });
+    },
+    fetchAvailability({
+      $ = this,
+      params,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "GET",
+        path: "/bookings/v1/json/availableslots",
+        params,
+      });
+    },
     bookAppointment({
       $ = this,
       data,
@@ -102,6 +124,19 @@ export default {
         $,
         method: "POST",
         path: "/bookings/v1/json/appointment",
+        data,
+        headers,
+      });
+    },
+    rescheduleAppointment({
+      $ = this,
+      data,
+      headers,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "/bookings/v1/json/rescheduleappointment",
         data,
         headers,
       });
