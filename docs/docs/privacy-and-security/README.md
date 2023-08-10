@@ -51,7 +51,7 @@ If you need to delete data on behalf of one of your users, you can delete the ev
 
 ## Hosting Details
 
-Pipedream is hosted on the [Amazon Web Services](https://aws.amazon.com/) (AWS) platform. The physical hardware powering Pipedream, and the data stored by our platform, is hosted in data centers controlled and secured by AWS. You can read more about AWS’s security practices and compliance certifications [here](https://aws.amazon.com/security/).
+Pipedream is hosted on the [Amazon Web Services](https://aws.amazon.com/) (AWS) platform in the `us-east-1` region. The physical hardware powering Pipedream, and the data stored by our platform, is hosted in data centers controlled and secured by AWS. You can read more about AWS’s security practices and compliance certifications [here](https://aws.amazon.com/security/).
 
 Pipedream further secures access to AWS resources through a series of controls, including but not limited to: using multi-factor authentication to access AWS, hosting services within a private network inaccessible to the public internet, and more.
 
