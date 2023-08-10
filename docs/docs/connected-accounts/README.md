@@ -105,7 +105,7 @@ If you encounter errors in a step that appear to be related to credentials or au
 ## Access Control
 
 **All new connected accounts are private** and can only be used by the user who added it.
-- Note that this is a change in behavior as of September 2023
+- Note that this is a change in behavior as of August 2023
 - All accounts connected before then were accessible to all workspace members
 
 
