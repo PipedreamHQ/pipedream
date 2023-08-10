@@ -18,7 +18,7 @@ export default {
     },
     listType: {
       label: "List Type",
-      description: "Quantity of meetings to list. Default `all`",
+      description: "List type of the meeting. Default `all`",
       type: "string",
       optional: true,
       default: constants.LIST_TYPES[0].value,
@@ -27,21 +27,28 @@ export default {
   },
   async run({ $ }) {
     let meetings = [];
+    const params = {
+      listtype: this.listType,
+      count: 100,
+      index: 1,
+    };
 
     while (meetings.length < this.count) {
       const {
         count, session: sessions,
       } = await this.app.getMeetings({
         $,
-        params: {
-          listtype: this.listType,
-          count: 100,
-        },
+        params,
       });
 
       meetings = meetings.concat(sessions);
 
       if (count < 100) break;
+      params.index += params.count;
+    }
+
+    if (meetings?.length > this.count) {
+      meetings.length = this.count;
     }
 
     if (meetings.length) {
