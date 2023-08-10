@@ -1625,6 +1625,12 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
+  components/full_contact:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+
   components/fullstory:
     dependencies:
       '@pipedream/platform':
@@ -2932,6 +2938,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/moxie: {}
 
   components/mozilla_observatory: {}
 
