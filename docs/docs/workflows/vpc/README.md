@@ -81,11 +81,11 @@ The only exception are requests sent by `$.send.http()` or the HTTP requests use
 
 ### Can a single workflow live within multiple VPCs?
 
-No, a VPC can contain many workflows, but a single workflow can only belong to at most one VPCs.
+No, a VPC can contain many workflows, but a single workflow can only belong to one VPC.
 
 ### Can I modify my VPC's IP address to another address?
 
-No, IP addresses are assigned to VPCs for you, and they are not changable.
+No, IP addresses are assigned to VPCs for you, and they are not changeable.
 
 ### How much will VPCs cost?
 
