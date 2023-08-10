@@ -21,23 +21,33 @@ export default {
       description: "Quantity of meetings to list. Default `all`",
       type: "string",
       optional: true,
-      default: constants[0],
+      default: constants.LIST_TYPES[0].value,
       options: constants.LIST_TYPES,
     },
   },
   async run({ $ }) {
-    const response = await this.app.getMeetings({
-      $,
-      params: {
-        listtype: this.listType,
-        count: this.count,
-      },
-    });
+    let meetings = [];
 
-    if (response) {
-      $.export("$summary", `Successfully retrieved ${response.session.length} meetings`);
+    while (meetings.length < this.count) {
+      const {
+        count, session: sessions,
+      } = await this.app.getMeetings({
+        $,
+        params: {
+          listtype: this.listType,
+          count: 100,
+        },
+      });
+
+      meetings = meetings.concat(sessions);
+
+      if (count < 100) break;
     }
 
-    return response;
+    if (meetings.length) {
+      $.export("$summary", `Successfully retrieved ${meetings.length} meetings`);
+    }
+
+    return meetings;
   },
 };
