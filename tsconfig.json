@@ -2276,6 +2276,21 @@
     },
     {
       "path": "components/azure_openai_service"
+    },
+    {
+      "path": "components/microsoft_outlook_calendar"
+    },
+    {
+      "path": "components/google_my_business"
+    },
+    {
+      "path": "components/metaphor"
+    },
+    {
+      "path": "components/streamtime"
+    },
+    {
+      "path": "components/moxie"
     }
   ]
 }

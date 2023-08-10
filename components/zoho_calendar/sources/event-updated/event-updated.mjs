@@ -5,7 +5,7 @@ export default {
   key: "zoho_calendar-event-updated",
   name: "New Updated Event",
   description: "Emit new item when an event is updated. [See the documentation](https://www.zoho.com/calendar/help/api/get-events-list.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

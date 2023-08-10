@@ -1,11 +1,12 @@
 import base from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
   key: "google_forms-new-form-answer",
   name: "New Form Answer",
   description: "Emit a new event when the form is answered. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms.responses/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {
@@ -36,4 +37,5 @@ export default {
     );
     this.emitResponses(responseSorted.reverse());
   },
+  sampleEmit,
 };

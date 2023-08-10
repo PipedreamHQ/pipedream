@@ -1909,7 +1909,14 @@ importers:
 
   components/google_maps_platform: {}
 
-  components/google_my_business: {}
+  components/google_my_business:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@pipedream/types':
+        specifier: ^0.1.6
+        version: 0.1.6
 
   components/google_palm_api:
     dependencies:
@@ -2782,6 +2789,8 @@ importers:
 
   components/metabase: {}
 
+  components/metaphor: {}
+
   components/metatext_ai_inference_api: {}
 
   components/metatext_ai_pre_build_ai_models_api:
@@ -2816,6 +2825,12 @@ importers:
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
+
+  components/microsoft_outlook_calendar:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/microsoft_teams:
     dependencies:
@@ -4596,6 +4611,8 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
+  components/streamtime: {}
+
   components/stripe:
     dependencies:
       lodash.pick:
@@ -5580,7 +5597,11 @@ importers:
 
   components/zoho_assist: {}
 
-  components/zoho_bigin: {}
+  components/zoho_bigin:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_bookings: {}
 
@@ -5596,7 +5617,11 @@ importers:
 
   components/zoho_catalyst: {}
 
-  components/zoho_cliq: {}
+  components/zoho_cliq:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_commerce: {}
 
@@ -5633,7 +5658,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_expense: {}
+  components/zoho_expense:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_inventory:
     dependencies:
@@ -5663,17 +5692,33 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_recruit: {}
+  components/zoho_recruit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_salesiq: {}
 
   components/zoho_sheet: {}
 
-  components/zoho_sign: {}
+  components/zoho_sign:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
-  components/zoho_sprints: {}
+  components/zoho_sprints:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
-  components/zoho_subscriptions: {}
+  components/zoho_subscriptions:
+    dependencies:
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
 
   components/zonka_feedback:
     dependencies:
@@ -8556,22 +8601,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser@0.0.163:
-    resolution: {integrity: sha512-Jr+/q+ESfc7uWldz/j11BfpjIN/gB4WmwhFENhWaMwM0W/9p0ShF+OiUqGhk2Q3Iz8v/oyWzSsxyxgasg9kCxQ==}
+  /@definitelytyped/header-parser@0.0.165:
+    resolution: {integrity: sha512-UJkrgsNvY0qa2sbUdIcdT4P1iGi0MxvZ/TUB3psidyOAmqDbyPprlPbQwLp34k7NI+RQBRQogb8j4Dez4vRuLA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.163
+      '@definitelytyped/typescript-versions': 0.0.165
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions@0.0.163:
-    resolution: {integrity: sha512-+GWtJhC+7UaCUnJ+ZkA7bfGuPd6ZbJKEjbHqh76/gOXsqAUOMEa49ufsLlIPUbkEeQlnDNoTHCegE5X/Q+u+/A==}
+  /@definitelytyped/typescript-versions@0.0.165:
+    resolution: {integrity: sha512-aLAAhpNPWTSSxKL3B60z9NIxYqeU+K0OfjGDim8D4BlBn2EXBb43h5leQVb+w2YtIQhkUJAAN9bFYzp+beNf1g==}
     dev: true
 
-  /@definitelytyped/utils@0.0.163:
-    resolution: {integrity: sha512-6MX5TxaQbG/j2RkCWbcbLvv+YNipKqY0eQJafDhwC/RprUocpg+uYVNlH8XzdKRWOGJ0pq7SZOsJD4C3A01ZXg==}
+  /@definitelytyped/utils@0.0.165:
+    resolution: {integrity: sha512-Bg4l1XLfuIb+4/S3AVO5ozFO7XMybxr5m+6FNVkw/HVt/IYiuwR5hDfm7FLlJHw1TYsF8AsIXIu3S9fRlrNntw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.163
+      '@definitelytyped/typescript-versions': 0.0.165
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.54
       charm: 1.0.2
@@ -12315,7 +12360,7 @@ packages:
   /@types/duplexify@3.6.1:
     resolution: {integrity: sha512-n0zoEj/fMdMOvqbHxmqnza/kXyoGgJmEpsXjpP+gEqE1Ye4yNqc7xWipKnUoMpWhMuzJQSfK2gMrwlElly7OGQ==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 20.4.4
     dev: false
 
   /@types/estree-jsx@1.0.0:
@@ -15256,7 +15301,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.163
+      '@definitelytyped/header-parser': 0.0.165
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -15272,9 +15317,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.163
-      '@definitelytyped/typescript-versions': 0.0.163
-      '@definitelytyped/utils': 0.0.163
+      '@definitelytyped/header-parser': 0.0.165
+      '@definitelytyped/typescript-versions': 0.0.165
+      '@definitelytyped/utils': 0.0.165
       dts-critic: 3.3.11(typescript@4.9.5)
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2

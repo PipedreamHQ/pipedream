@@ -6,7 +6,7 @@ If you use a service that requires you whitelist a range of IP addresses, you ha
 
 ## HTTP requests
 
-If you need to send HTTP requests to a service from a fixed range of IP addresses, [see these docs](/code/nodejs/http-requests/#ip-addresses-for-http-requests-made-from-pipedream-workflows).
+If you need to send HTTP requests to a service from a fixed range of IP addresses, [use a Pipedream VPC](/workflows/vpc/).
 
 ## Non-HTTP traffic (databases, etc.)
 
