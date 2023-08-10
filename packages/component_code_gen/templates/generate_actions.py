@@ -25,12 +25,14 @@ export default defineComponent({
     }
   },
   async run({steps, $}) {
-    return await axios($, {
+    const response = await axios($, {
       url: `https://api.openai.com/v1/models`,
       headers: {
         Authorization: `Bearer ${this.openai.$auth.api_key}`,
       },
     })
+    $.export("$summary", "Successfully listed models")
+    return response
   },
 })
 ```
@@ -60,6 +62,8 @@ The app can also be an OAuth app. For OAuth integrations, this object exposes th
 The object _may_ contain an optional a `props` property, which in the example below defines a string prop. The props object is not required. Include it only if the code connects to a Pipedream integration, or the code in the run method requires input. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. Include any required parameters as properties of the `props` object. Props must include a human-readable `label` and a `type` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. string, boolean, and integer props allow for arrays of input, and the array types are "string[]", "boolean[]", and "integer[]" respectively. Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. If the user asks you to provide an array of object, ALWAYS provide a `type` of string[]. Optionally, props can have a human-readable `description` describing the param. Optional parameters that correspond to the test code should be declared with `optional: true`. Recall that props may contain an `options` method.
 
 Within the component's run method, the `this` variable refers to properties of the component. All props are exposed at `this.<name of the key in the props object>`. e.g. `this.input`. `this` doesn't contain any other properties.
+
+A short summary should be exported before the end so that the user can quickly read what has happened. This is done by calling `$.export("$summary", "Your summary here")`. This is not optional.
 
 ## Pipedream Platform Axios
 
@@ -113,7 +117,7 @@ export default defineComponent({
     },
   },
   async run({ steps, $ }) {
-    return await axios($, {
+    const response = await axios($, {
       method: "POST",
       url: `https://slack.com/api/chat.postMessage`,
       headers: {
@@ -123,7 +127,9 @@ export default defineComponent({
         channel: this.channel,
         text: this.text,
       },
-    });
+    })
+    $.export("$summary", "Sent message successfully")
+    return response
   },
 });
 
@@ -139,9 +145,11 @@ export default defineComponent({
     },
   },
   async run({ steps, $ }) {
-    return await axios($, {
+    const response = await axios($, {
       // Add the axios configuration object to make the HTTP request here
-    });
+    })
+    $.export("$summary", "Your summary here")
+    return response
   },
 });
 
