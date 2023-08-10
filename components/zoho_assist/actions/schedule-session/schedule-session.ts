@@ -1,6 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_assist.app";
 import { ScheduleSessionParams } from "../../common/types";
+import { getValidDate } from "../../common/methods";
 
 export default defineAction({
   name: "Schedule Session",
@@ -22,10 +23,11 @@ export default defineAction({
         "The customer's email address to whom the session will be scheduled.",
     },
     scheduleTime: {
-      type: "integer",
+      propDefinition: [
+        app,
+        "date",
+      ],
       label: "Schedule Time",
-      description:
-        "Time (in milliseconds) when the session is scheduled.",
     },
     utcOffset: {
       type: "string",
@@ -59,6 +61,9 @@ export default defineAction({
       optional: true,
     },
   },
+  methods: {
+    getValidDate,
+  },
   async run({ $ }) {
     const {
       title,
@@ -77,7 +82,7 @@ export default defineAction({
         mode: "SCHEDULE",
         title,
         customer_email: customerEmail,
-        schedule_time: scheduleTime,
+        schedule_time: Number(this.getValidDate(scheduleTime)),
         utc_offset: utcOffset,
         time_zone: timeZone,
         reminder,

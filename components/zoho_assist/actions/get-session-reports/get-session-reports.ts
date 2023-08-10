@@ -2,6 +2,7 @@ import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_assist.app";
 import { GetSessionReportsParams } from "../../common/types";
 import { GET_SESSION_REPORTS_TYPE_OPTIONS } from "../../common/constants";
+import { getValidDate } from "../../common/methods";
 
 export default defineAction({
   name: "Get Session Reports",
@@ -54,6 +55,9 @@ export default defineAction({
       optional: true,
     },
   },
+  methods: {
+    getValidDate,
+  },
   async run({ $ }) {
     const {
       type,
@@ -64,19 +68,12 @@ export default defineAction({
       count,
     } = this;
 
-    const getValidDate = ((str: string) => {
-      const date = new Date(str);
-      return isNaN(date.valueOf())
-        ? str
-        : Math.floor(date.valueOf() / 1000).toString();
-    });
-
     const params: GetSessionReportsParams = {
       $,
       params: {
         type,
-        fromdate: getValidDate(fromDate),
-        todate: getValidDate(toDate),
+        fromdate: this.getValidDate(fromDate, true).toString(),
+        todate: this.getValidDate(toDate, true).toString(),
         email,
         index,
         count,
