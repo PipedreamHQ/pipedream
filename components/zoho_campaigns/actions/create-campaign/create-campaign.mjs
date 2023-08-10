@@ -2,7 +2,7 @@ import app from "../../zoho_campaigns.app.mjs";
 
 export default {
   type: "action",
-  key: "zoho_campaign-create-campaign",
+  key: "zoho_campaigns-create-campaign",
   name: "Create Campaign",
   version: "0.0.1",
   description: "You can create a campaign using this API. Using this API, you can set the campaign name, subject line, sender address; choose the intended mailing list.. [See the documentation](https://www.zoho.com/campaigns/help/developers/create-campaign.html)",

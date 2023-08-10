@@ -2,7 +2,7 @@ import common from "../common/common.mjs";
 
 export default {
   type: "source",
-  key: "zoho_campaign-new-contact",
+  key: "zoho_campaigns-new-contact",
   name: "New Contact",
   description: "Emit new event when a new contact is created.",
   version: "0.0.1",

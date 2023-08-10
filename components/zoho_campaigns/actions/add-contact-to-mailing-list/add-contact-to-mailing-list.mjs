@@ -2,7 +2,7 @@ import app from "../../zoho_campaigns.app.mjs";
 
 export default {
   type: "action",
-  key: "zoho_campaign-add-contact-to-mailing-list",
+  key: "zoho_campaigns-add-contact-to-mailing-list",
   name: "Add Contact to Mailing List",
   version: "0.0.1",
   description: "You can use this API to add contacts to your mailing lists. [See the documentation](https://www.zoho.com/campaigns/help/developers/contact-subscribe.html)",

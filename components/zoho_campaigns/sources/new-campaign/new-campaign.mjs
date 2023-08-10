@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   type: "source",
-  key: "zoho_campaign-new-campaign",
+  key: "zoho_campaigns-new-campaign",
   name: "New Campaign",
   description: "Emit new event when a new campaign is created.",
   version: "0.0.1",
