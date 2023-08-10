@@ -2,6 +2,7 @@ import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_assist.app";
 import { ScheduleSessionParams } from "../../common/types";
 import { getValidDate } from "../../common/methods";
+import { TIMEZONE_OPTIONS } from "../../common/constants";
 
 export default defineAction({
   name: "Schedule Session",
@@ -29,17 +30,12 @@ export default defineAction({
       ],
       label: "Schedule Time",
     },
-    utcOffset: {
-      type: "string",
-      label: "UTC Offset",
-      description:
-        "Coordinated Universal Time in the respective time zone. Example: `+05:30`",
-    },
     timeZone: {
       type: "string",
       label: "Time Zone",
       description:
-        "The time zone in which the session is scheduled. Example: `Asia/Kolkata`",
+        "The time zone in which the session is scheduled.",
+      options: TIMEZONE_OPTIONS,
     },
     reminder: {
       type: "integer",
@@ -63,13 +59,15 @@ export default defineAction({
   },
   methods: {
     getValidDate,
+    getUtcOffset(tz: string) {
+      return tz.match(/[+-][0-9]{2}:[0-9]{2}/)?.[0] ?? "00:00";
+    },
   },
   async run({ $ }) {
     const {
       title,
       customerEmail,
       scheduleTime,
-      utcOffset,
       timeZone,
       reminder,
       departmentId,
@@ -83,7 +81,7 @@ export default defineAction({
         title,
         customer_email: customerEmail,
         schedule_time: Number(this.getValidDate(scheduleTime)),
-        utc_offset: utcOffset,
+        utc_offset: this.getUtcOffset(timeZone),
         time_zone: timeZone,
         reminder,
         department_id: departmentId,
