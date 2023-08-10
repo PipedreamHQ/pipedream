@@ -5617,7 +5617,11 @@ importers:
 
   components/zoho_catalyst: {}
 
-  components/zoho_cliq: {}
+  components/zoho_cliq:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_commerce: {}
 
@@ -5706,7 +5710,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/zoho_subscriptions: {}
+  components/zoho_subscriptions:
+    dependencies:
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
 
   components/zonka_feedback:
     dependencies:

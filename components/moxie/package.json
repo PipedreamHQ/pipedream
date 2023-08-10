@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/moxie",
+  "version": "0.0.1",
+  "description": "Pipedream Moxie Components",
+  "main": "dist/app/moxie.app.mjs",
+  "keywords": [
+    "pipedream",
+    "moxie"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/moxie",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
