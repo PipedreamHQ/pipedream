@@ -2288,6 +2288,9 @@
     },
     {
       "path": "components/streamtime"
+    },
+    {
+      "path": "components/moxie"
     }
   ]
 }

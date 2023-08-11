@@ -201,6 +201,10 @@
     {
       "source": "/docs/workflows/examples/waiting-to-execute-next-step-of-workflow/",
       "destination": "/docs/code/nodejs/delay/"
+    },
+    {
+      "source": "/docs/workflows/networking/",
+      "destination": "/docs/workflows/vpc/"
     }
   ]
 }
