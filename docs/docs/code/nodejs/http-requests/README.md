@@ -490,9 +490,15 @@ export default defineComponent({
 
 [Copy this workflow](https://pipedream.com/@dylburger/stream-a-file-upload-p_6lC1d2Z/edit) to run this example.
 
-## Use an HTTP proxy to proxy requests through another host
+## IP addresses for HTTP requests made from Pipedream workflows
 
-When you make HTTP requests to certain services, they might require you whitelist a set of IP addresses those requests come from. Often, this is to improve the security of the target service.
+By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/privacy-and-security/#hosting-details). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
+
+- [Use an Pipedream VPC](/workflows/vpc/) to route all outbound HTTP requests through a single IP address
+- If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
+
+
+## Use an HTTP proxy to proxy requests through another host
 
 By default, HTTP requests made from Pipedream can come from a range of IP addresses. **If you need to make requests from a single IP address, you can route traffic through an HTTP proxy**:
 
@@ -557,21 +563,6 @@ export default defineComponent({
 ```
 
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/new?h=tch_mypfby).
-
-::: tip Managed HTTP Proxy Service
-
-If your workspace has the Advanced, Business or Enterprise plan, [reach out to our team](https://pipedream.com/support). We operate a proxy that you can use for HTTP requests made through Pipedream.
-
-:::
-
-
-
-## IP addresses for HTTP requests made from Pipedream workflows
-
-By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/workflows/networking/). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
-
-- [Use an HTTP proxy to proxy requests](#use-an-http-proxy-to-proxy-requests-through-another-host)
-- If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
 
 ## Stream a downloaded file directly to another URL
 
