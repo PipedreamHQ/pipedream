@@ -4,7 +4,7 @@ export default {
   key: "zoho_bugtracker-get-bug-details",
   name: "Get Bug Details",
   version: "0.0.1",
-  description: "Update a specific bug [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink2)",
+  description: "Get details from a specific bug. [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink2)",
   type: "action",
   props: {
     zohoBugtracker,

@@ -9,7 +9,7 @@ export default {
   key: "zoho_bugtracker-update-bug",
   name: "Update Bug",
   version: "0.0.1",
-  description: "Update a specific bug [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink3)",
+  description: "Update a specific bug [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink4)",
   type: "action",
   props: {
     zohoBugtracker,
