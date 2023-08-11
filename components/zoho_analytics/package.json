@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/zoho_analytics",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Zoho Analytics Components",
-  "main": "dist/app/zoho_analytics.app.mjs",
+  "main": "zoho_analytics.app.mjs",
   "keywords": [
     "pipedream",
     "zoho_analytics"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/zoho_analytics",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
