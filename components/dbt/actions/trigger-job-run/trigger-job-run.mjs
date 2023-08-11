@@ -46,19 +46,26 @@ export default {
         }),
       ],
     },
+    cause: {
+      type: "string",
+      label: "Cause",
+      description: "Cause of the triggered job",
+      optional: true,
+      default: "Triggered via Pipedream",
+    },
   },
   async run({ $ }) {
     const { data } = await this.dbt.triggerJobRun({
       accountId: this.accountId,
       jobId: this.jobId,
       data: {
-        cause: "Triggered manually",
+        cause: this.cause,
       },
       $,
     });
 
     if (data) {
-      $.export("$summary", `Successfully triggerd job with ID ${this.jobId}.`);
+      $.export("$summary", `Successfully triggered job with ID ${this.jobId}.`);
     }
 
     return data;
