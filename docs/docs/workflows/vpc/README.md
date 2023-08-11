@@ -1,5 +1,7 @@
 # Virtual Private Clouds
 
+<VideoPlayer url="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Price Clouds" />
+
 :::tip Beta feature
 
 Virtual Private Clouds (VPCs) are now available in beta on the Business tier.
@@ -77,15 +79,15 @@ Yes, all steps that send HTTP requests from a workflow assigned to a VPC will us
 
 This will also include `axios`, `requests`, `fetch` or any HTTP client you prefer in your language of choice.
 
-The only exception are requests sent by `$.send.http()` or the HTTP requests used to populate async options that power props like "Select a Google Sheet" or "Select a Slack channel". These requests will route through the [standard set of Pipedream IP addresses.](/workflows/networking/)
+The only exception are requests sent by `$.send.http()` or the HTTP requests used to populate async options that power props like "Select a Google Sheet" or "Select a Slack channel". These requests will route through the [standard set of Pipedream IP addresses.](/privacy-and-security/#hosting-details)
 
 ### Can a single workflow live within multiple VPCs?
 
-No, a VPC can contain many workflows, but a single workflow can only belong to at most one VPCs.
+No, a VPC can contain many workflows, but a single workflow can only belong to one VPC.
 
 ### Can I modify my VPC's IP address to another address?
 
-No, IP addresses are assigned to VPCs for you, and they are not changable.
+No, IP addresses are assigned to VPCs for you, and they are not changeable.
 
 ### How much will VPCs cost?
 
