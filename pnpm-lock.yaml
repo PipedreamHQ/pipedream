@@ -1005,7 +1005,11 @@ importers:
         specifier: ^0.1.6
         version: 0.1.6
 
-  components/customer_fields: {}
+  components/customer_fields:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/customer_guru: {}
 
