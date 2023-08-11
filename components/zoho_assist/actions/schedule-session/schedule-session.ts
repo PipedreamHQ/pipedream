@@ -80,7 +80,7 @@ export default defineAction({
         mode: "SCHEDULE",
         title,
         customer_email: customerEmail,
-        schedule_time: Number(this.getValidDate(scheduleTime)),
+        schedule_time: this.getValidDate(scheduleTime),
         utc_offset: this.getUtcOffset(timeZone),
         time_zone: timeZone,
         reminder,

@@ -21,8 +21,8 @@ export interface CreateSessionParams extends PdAxiosRequest {
 export interface GetSessionReportsParams extends PdAxiosRequest {
   params: {
     type: string;
-    fromdate: string;
-    todate: string;
+    fromdate: number;
+    todate: number;
     email?: string;
     index?: string;
     count?: number;

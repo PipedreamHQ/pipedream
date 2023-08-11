@@ -72,8 +72,8 @@ export default defineAction({
       $,
       params: {
         type,
-        fromdate: this.getValidDate(fromDate, true).toString(),
-        todate: this.getValidDate(toDate, true).toString(),
+        fromdate: this.getValidDate(fromDate, true),
+        todate: this.getValidDate(toDate, true),
         email,
         index,
         count,
