@@ -3,11 +3,12 @@ load_dotenv()
 
 import openai
 from config.config import config
+from litellm import completion
 
 
 def transform(code, templates):
     openai.api_key = config['openai']['api_key']
-    response = openai.ChatCompletion.create(
+    response = completion(
         model="gpt-4",
         messages=[
             {"role": "system", "content": templates.system_instructions},
