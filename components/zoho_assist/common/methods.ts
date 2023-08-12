@@ -4,6 +4,6 @@ export function getValidDate (str: string, unixTime = false) {
   return Number(isNaN(value)
     ? str
     : (unixTime
-      ? Math.floor(value / 1000)
+      ? Math.floor(value)
       : value));
 }
