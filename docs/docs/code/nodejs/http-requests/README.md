@@ -494,7 +494,7 @@ export default defineComponent({
 
 By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/privacy-and-security/#hosting-details). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
 
-- [Use an Pipedream VPC](/workflows/vpc/) to route all outbound HTTP requests through a single IP address
+- [Use a Pipedream VPC](/workflows/vpc/) to route all outbound HTTP requests through a single IP address
 - If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
 
 
