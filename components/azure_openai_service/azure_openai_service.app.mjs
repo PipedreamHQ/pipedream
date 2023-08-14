@@ -6,10 +6,10 @@ export default {
   propDefinitions: {},
   methods: {
     _baseUrl() {
-      return `https://${this.$auth.resource_name}.openai.azure.com/openai/deployments/${this.$auth.deployment_name}`;
+      return `https://${this.$auth.resource_name}.openai.azure.com/openai/`;
     },
     _apiVersion() {
-      return "?api-version=2023-05-15";
+      return "?api-version=2023-06-01-preview";
     },
     _headers() {
       return {
@@ -29,8 +29,23 @@ export default {
     },
     createChatCompletion(args = {}) {
       return this._makeRequest({
-        path: "/chat/completions",
+        path: `/deployments/${this.$auth.deployment_name}/chat/completions`,
         method: "POST",
+        ...args,
+      });
+    },
+    createImage(args = {}) {
+      return this._makeRequest({
+        path: "/images/generations:submit",
+        method: "POST",
+        ...args,
+      });
+    },
+    getImageResult({
+      operationId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/operations/images/${operationId}`,
         ...args,
       });
     },

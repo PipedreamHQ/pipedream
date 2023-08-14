@@ -40,6 +40,11 @@ export default {
       $.export("$summary", `Successfully sent chat with ID ${response.id}.`);
     }
 
-    return response;
+    const { messages } = data;
+    return {
+      original_messages: messages,
+      original_messages_with_assistant_response: messages.concat(response.choices[0]?.message),
+      ...response,
+    };
   },
 };

@@ -45,5 +45,16 @@ export default {
     summary(response) {
       return `Successfully created summary response with ID ${response.id}.`;
     },
+    formatOutput({
+      messages, response,
+    }) {
+      if (!messages || !response) {
+        throw new Error("Invalid API output, please reach out to https://pipedream.com/support");
+      }
+      return {
+        summary: response.choices?.[0]?.message?.content,
+        messages,
+      };
+    },
   },
 };

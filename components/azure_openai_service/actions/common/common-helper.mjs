@@ -13,6 +13,9 @@ export default {
     summary() {
       return;
     },
+    formatOutput() {
+      throw new Error("formatOutput() must be implemented by the component");
+    },
   },
   async run({ $ }) {
     const messages = [
@@ -38,6 +41,9 @@ export default {
       $.export("$summary", this.summary(response));
     }
 
-    return response;
+    return this.formatOutput({
+      response,
+      messages,
+    });
   },
 };
