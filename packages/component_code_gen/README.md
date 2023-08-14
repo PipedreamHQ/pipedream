@@ -20,12 +20,26 @@ poetry install
 
 2. Add these API Keys:
 
-    - BROWSERLESS_API_KEY=api_key
-    - OPENAI_API_KEY=API_KEY
-    - SUPABASE_URL=https://url.supabase.co
-    - SUPABASE_API_KEY=service_role_key
+    - BROWSERLESS_API_KEY=api_key # not required
+    - SUPABASE_URL=https://your-project-url.supabase.co # get this from Supabase Project Settings -> API
+    - SUPABASE_API_KEY=service_role_key # get this from Supabase Project Settings -> API
 
-3. Create a `instructions.md` file with a similar structure as the `instructions.md.example` file:
+3. Add OpenAI keys
+
+    - OPENAI_API_TYPE=openai
+    - OPENAI_API_KEY=your-openai-api-key
+    - OPENAI_MODEL=gpt-4
+
+4. Or use a Azure OpenAI deployment (gpt-4-32k)
+
+    - OPENAI_API_TYPE=azure
+    - OPENAI_DEPLOYMENT_NAME=deployment-name
+    - OPENAI_API_VERSION=2023-05-15
+    - OPENAI_API_BASE=https://resource-name.openai.azure.com
+    - OPENAI_API_KEY=azure-api-key
+    - OPENAI_MODEL=gpt-4-32k
+
+5. Create a file named `instructions.md` with the same structure as the `instructions.md.exaple` file:
 
 ```
 ## Prompt

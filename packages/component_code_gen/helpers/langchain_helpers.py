@@ -1,13 +1,18 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-import openai
+import openai # required
 from config.config import config
 from langchain import LLMChain
 from langchain.agents import ZeroShotAgent, AgentExecutor
-from langchain.chat_models import ChatOpenAI
+from langchain.chat_models import ChatOpenAI, AzureChatOpenAI
 from langchain.agents.agent_toolkits.json.toolkit import JsonToolkit
 from langchain.tools.json.tool import JsonSpec
+from langchain.schema import (
+    # AIMessage,
+    HumanMessage,
+    SystemMessage
+)
 
 
 class OpenAPIExplorerTool:
@@ -30,8 +35,7 @@ class PipedreamOpenAPIAgent:
             format_instructions=templates.format_instructions,
             input_variables=['input', 'agent_scratchpad']
         )
-        llm = ChatOpenAI(model_name=config["model"], temperature=0, request_timeout=300)
-        llm_chain = LLMChain(llm=llm, prompt=prompt_template)
+        llm_chain = LLMChain(llm=get_llm(), prompt=prompt_template)
         agent = ZeroShotAgent(llm_chain=llm_chain, allowed_tools=tool_names)
         verbose = True if config['logging']['level'] == 'DEBUG' else False
         self.agent_executor = AgentExecutor.from_agent_and_tools(
@@ -60,6 +64,17 @@ def format_result(result):
     return result
 
 
+def get_llm():
+    if config['openai_api_type'] == "azure":
+        azure_config = config["azure"]
+        llm = AzureChatOpenAI(deployment_name=azure_config['deployment_name'],
+                model_name=azure_config["model"], temperature=0, request_timeout=300)
+    else:
+        openai_config = config["openai"]
+        llm = ChatOpenAI(model_name=openai_config["model"], temperature=0, request_timeout=300)
+    return llm
+
+
 def ask_agent(user_prompt, docs, templates):
     agent = PipedreamOpenAPIAgent(docs, templates)
     result = agent.run(user_prompt)
@@ -67,16 +82,9 @@ def ask_agent(user_prompt, docs, templates):
 
 
 def no_docs(app, prompt, templates):
-    openai.api_key = config['openai']['api_key']
-    result = openai.ChatCompletion.create(
-        model=config["model"],
-        messages=[
-            {"role": "system", "content": format_template(templates.no_docs_system_instructions)},
-            {"role": "user", "content": templates.no_docs_user_prompt % (prompt, app)},
+    result = get_llm()(messages=[
+        SystemMessage(content=format_template(templates.no_docs_system_instructions)),
+        HumanMessage(content=templates.no_docs_user_prompt % (prompt, app)),
+    ])
 
-        ],
-        temperature=0,
-    )
-
-    result = result.choices[0].message.content.strip()
-    return format_result(result)
+    return format_result(result.content)

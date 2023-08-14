@@ -12,7 +12,7 @@ available_templates = {
 
 def main(component_type, app, instructions, verbose=False):
     if verbose:
-        os.environ['DEBUG'] = '1'
+        os.environ['LOGGING_LEVEL'] = 'DEBUG'
 
     try:
         templates = available_templates[component_type]

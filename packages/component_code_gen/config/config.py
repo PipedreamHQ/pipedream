@@ -1,23 +1,48 @@
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
-import os
+
+DEFAULTS = {
+    "OPENAI_API_TYPE": "openai",
+    "OPENAI_MODEL": "gpt-4",
+    "OPENAI_API_VERSION": "2023-05-15",
+    "LOGGING_LEVEL": "WARN",
+    "ENABLE_DOCS": False
+}
+
+
+def get_env_var(var_name, required=False):
+    if os.environ.get(var_name):
+        return os.environ.get(var_name)
+    if required and var_name not in DEFAULTS:
+        raise Exception(f"Environment variable {var_name} is required")
+    if var_name in DEFAULTS:
+        return DEFAULTS[var_name]
 
 
 config = {
+    "openai_api_type": get_env_var("OPENAI_API_TYPE"),
     "openai": {
-        "api_key": os.environ.get('OPENAI_API_KEY'),
+        "api_key": get_env_var("OPENAI_API_KEY", required=True),
+        "model": get_env_var("OPENAI_MODEL"),
+    },
+    "azure": {
+        "deployment_name": get_env_var("OPENAI_DEPLOYMENT_NAME"),
+        "api_version": get_env_var("OPENAI_API_VERSION"),
+        "api_base": get_env_var("OPENAI_API_BASE"),
+        "api_key": get_env_var("OPENAI_API_KEY", required=True),
+        "model": get_env_var("OPENAI_MODEL"),
     },
     "browserless": {
-        "api_key": os.environ.get('BROWSERLESS_API_KEY'),
+        "api_key": get_env_var("BROWSERLESS_API_KEY"),
     },
     "supabase": {
-        "url": os.environ.get('SUPABASE_URL'),
-        "api_key": os.environ.get('SUPABASE_API_KEY'),
+        "url": get_env_var("SUPABASE_URL", required=True),
+        "api_key": get_env_var("SUPABASE_API_KEY", required=True),
     },
     "logging": {
-        "level": "DEBUG" if os.environ.get('DEBUG') == "1" else "WARN",
+        "level": get_env_var("LOGGING_LEVEL"),
     },
-    "model": "gpt-4",
-    "enable_docs": False,
+    "enable_docs": get_env_var("ENABLE_DOCS"),
 }
