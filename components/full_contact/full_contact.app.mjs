@@ -29,12 +29,5 @@ export default {
         ...args,
       });
     },
-    async enrichCompany({ ...args }) {
-      return this._makeRequest({
-        path: "/company.enrich",
-        method: "post",
-        ...args,
-      });
-    },
   },
 };
