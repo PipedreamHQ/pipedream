@@ -431,7 +431,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/azure_openai_service: {}
+  components/azure_openai_service:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/badger_maps:
     dependencies:
@@ -5324,6 +5328,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/webinarkit: {}
 
   components/webscraper_io:
     dependencies:
