@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/outseta",
+  "version": "0.0.1",
+  "description": "Pipedream Outseta Components",
+  "main": "dist/app/outseta.app.mjs",
+  "keywords": [
+    "pipedream",
+    "outseta"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/outseta",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

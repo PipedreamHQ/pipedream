@@ -1,10 +1,10 @@
 import googleCalendar from "../../google_calendar.app.mjs";
 
 export default {
-  key: "google_calendar-list-calendar",
-  name: "List calendars from user account",
-  description: "Retrieve calendars from the user account. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendarlist.html#list)",
-  version: "0.1.1",
+  key: "google_calendar-list-calendars",
+  name: "List Calendars",
+  description: "Retrieve a list of calendars from Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendarlist.html#list)",
+  version: "0.1.3",
   type: "action",
   props: {
     googleCalendar,
@@ -12,7 +12,7 @@ export default {
   async run({ $ }) {
     const { items: calendars } = await this.googleCalendar.listCalendars();
 
-    $.export("$summary", `Successfully listed ${calendars.length} calendars`);
+    $.export("$summary", `Successfully retrieved ${calendars.length} calendar(s)`);
 
     return calendars;
   },

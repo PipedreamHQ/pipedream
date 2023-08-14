@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/zoho_commerce",
+  "version": "0.0.1",
+  "description": "Pipedream Zoho Commerce Components",
+  "main": "dist/app/zoho_commerce.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_commerce"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/zoho_commerce",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

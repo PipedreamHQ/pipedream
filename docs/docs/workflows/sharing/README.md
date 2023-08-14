@@ -115,3 +115,7 @@ No. Copied workflows have entirely separate versioning, connected accounts, and 
 It's only possible to share a single workflow at time with a link at this time.
 
 If you're trying to migrate all resources from one workspace to another [please contact us for help](mailto:support@pipedream.com).
+
+### Can I share my v1 workflows?
+
+No, v1 workflows are not shareable. If you need to share a v1 workflow, please see our [migration guide](/migrate-from-v1/) to convert it into a modern v2 workflow.

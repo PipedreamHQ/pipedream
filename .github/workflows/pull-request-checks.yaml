@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
         name: Checkout repo
         with:
           # See https://github.com/actions/checkout#checkout-v2
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.3
       name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
@@ -64,7 +64,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.32.0
+    - uses: rojopolis/spellcheck-github-actions@0.33.1
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -77,12 +77,12 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3.5.3
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
           fetch-depth: 0
-      - uses: pnpm/action-setup@v2.2.4
+      - uses: pnpm/action-setup@v2.4.0
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -99,7 +99,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r
       - name: Setup Node Env
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v3.8.0
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -133,8 +133,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.5.2
-      - uses: pnpm/action-setup@v2.2.4
+      - uses: actions/checkout@v3.5.3
+      - uses: pnpm/action-setup@v2.4.0
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -148,7 +148,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - uses: actions/setup-node@v3.6.0
+      - uses: actions/setup-node@v3.8.0
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -167,8 +167,8 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.2
-      - uses: pnpm/action-setup@v2.2.4
+        uses: actions/checkout@v3.5.3
+      - uses: pnpm/action-setup@v2.4.0
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -183,7 +183,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v3.8.0
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -256,8 +256,8 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.2
-      - uses: pnpm/action-setup@v2.2.4
+        uses: actions/checkout@v3.5.3
+      - uses: pnpm/action-setup@v2.4.0
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -272,7 +272,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v3.8.0
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/

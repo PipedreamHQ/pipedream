@@ -15,7 +15,7 @@ To support these goals, **Pipedream offers a generous free tier**. You can run s
 
 ## Free Tier
 
-Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers. 
+Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers.
 
 But Free account have a [daily limit of free credits](/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
 
@@ -55,15 +55,7 @@ Pipedream uses a number of terms to describe platform metrics and details of our
 
 ### Credits
 
-::: tip
-
-If you're still on our legacy Developer, Professional or Organization plan, you still may be incurring **invocations** and not credits.
-
-During this transitionary period, you'll still be billed in terms of invocations. However workspace migrations are coming. You'll be guided on how to migrate your account to a [workspace](/workspaces) in the near future.
-
-:::
-
-Pipedream charges one credit per {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory }} megabytes of memory (the default) per workflow execution.
+Pipedream charges one credit per {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory }} megabytes of memory (the default) per workflow execution. Credits are also charged for [dedicated workers](/workflows/settings/#eliminate-cold-starts).
 
 **Most workflow executions use a single credit**, regardless of the number of steps (unlike some other platforms, Pipedream does not charge for usage based on the number of steps).
 
@@ -112,7 +104,7 @@ Execution time used to develop a workflow in the builder does not count towards 
 
 #### Source Credit Usage
 
-When an [event source](/sources) triggers a workflow, the first credit per source execution is included for free. This means that the first {{ $site.themeConfig.base_credits_price.seconds }} of compute doesn't incur credits. This includes [Free Tier](/pricing/#free-tier) accounts.
+When an [event source](/sources) triggers a workflow, the first credit per source execution is included for free. This means that the first {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute doesn't incur credits. This includes [Free Tier](/pricing/#free-tier) accounts.
 
 When a source is configured as a workflow trigger, the core value is in the workflow. We don't want to charge you two credits (one to run the source, one to run the workflow) when the workflow contains the core logic. Sources that trigger workflows are called "dependent" sources.
 
@@ -188,6 +180,30 @@ In the example below, there are two records in the Data Store, and therefore the
 
 ![Example of a Data Store with two keys](https://res.cloudinary.com/pipedreamin/image/upload/v1673537163/docs/CleanShot_2023-01-12_at_10.25.25_z6yg8t.png)
 
+## Managing my plan
+
+To cancel, upgrade or downgrade your plan, open the [pricing page](https://pipedream.com/pricing).
+
+To update your billing details, such as your VAT number, email address, etc. use the **Manage Billing Information** button in your [workspace billing settings](https://pipedream.com/settings/billing) to change your plan. Within this portal you can cancel, upgrade or downgrade your plan at any time.
+
+### Upgrading behavior
+
+Upgrading your subscription instantly activates the features available to your workspace. For example, if you upgrade your workspace from Free to Basic, that workspace will be able to activate more workflows and connected accounts.
+
+### Downgrading behavior
+
+Downgrades will apply at the end of your billing cycle, and any workflows that use features outside of the new billing plan will be automatically disabled.
+
+For example, if your workspace downgrades from Advanced to Basic and a workflow uses an Advanced feature such as [auto-retries](/workflows/settings/#auto-retry-errors), then this workflow will be disabled because the workspace plan no longer qualifies for that feature.
+
+Additionally, resource limits such as the number of active workflows and connected accounts will also be enforced at this same time.
+
+### Cancellation behavior
+
+To cancel your plan, open the [pricing page](https://pipedream.com/pricing) and click **Cancel** beneath your current plan.
+
+Cancelling your subscription will apply at the end of your current billing period. Workflows, connected accounts and sources will be deactivated from newest to oldest until the Free limits have been reached.
+
 ## FAQ
 
 ### How does workflow memory affect credits?
@@ -242,4 +258,4 @@ You can update your billing information in your [Stripe customer portal](https:/
 
 ### How do I contact the Pipedream team with other questions?
 
-You can email **billing@pipedream.com** for any billing-related questions.
+You can start a support ticket [on our support page](https://pipedream.com/support). Select the **Billing Issues** category to start a billing related ticket.

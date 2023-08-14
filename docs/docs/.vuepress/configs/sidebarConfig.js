@@ -16,7 +16,7 @@ const docsNav = [
       "/workflows/errors/",
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
-      "/workflows/networking/",
+      "/workflows/vpc/",
       "/workflows/sharing/",
       "/migrate-from-v1/",
     ],
@@ -36,6 +36,7 @@ const docsNav = [
         sidebarDepth: 2,
         children: [
           "/code/nodejs/",
+          "/code/nodejs/ai-code-generation/",
           "/code/nodejs/auth/",
           "/code/nodejs/http-requests/",
           "/code/nodejs/working-with-files/",
@@ -145,7 +146,7 @@ const referenceNav = [
       "/subprocessors/",
     ],
   },
-  "/workflows/events/cold-starts/",
+  "/workflows/settings/#eliminate-cold-starts",
 ];
 
 const pricingNav = ["/pricing/"];
@@ -171,7 +172,7 @@ module.exports = {
   "/privacy-and-reference/pgp-key/": referenceNav,
   "/privacy-and-reference/best-practices/": referenceNav,
   "/subprocessors/": referenceNav,
-  "/workflows/events/cold-starts/": referenceNav,
+  "/workflows/settings/#eliminate-cold-starts": referenceNav,
   "/abuse/": referenceNav,
   // pricing nav
   "/pricing/": pricingNav,

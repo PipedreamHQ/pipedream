@@ -3,31 +3,56 @@ import googleCalendar from "../../google_calendar.app.mjs";
 export default {
   key: "google_calendar-query-free-busy-calendars",
   name: "Retrieve Free/Busy Calendar Details",
-  description: "Retrieve Free/Busy Calendar Details from the user account. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Freebusy.html#query)",
-  version: "0.1.1",
+  description: "Retrieve free/busy calendar details from Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Freebusy.html#query)",
+  version: "0.1.3",
   type: "action",
   props: {
     googleCalendar,
+    calendarId: {
+      propDefinition: [
+        googleCalendar,
+        "calendarId",
+      ],
+      optional: false,
+      description: "Select a calendar to retrieve free/busy details",
+    },
     timeMin: {
-      type: "string",
-      label: "Time Min",
-      description: "The start of the interval for the query formatted as per RFC3339. (eg. `2022-02-20T19:27:40Z`)",
+      propDefinition: [
+        googleCalendar,
+        "timeMin",
+      ],
+      optional: false,
     },
     timeMax: {
-      type: "string",
-      label: "Time Max",
-      description: "The end of the interval for the query formatted as per RFC3339. (eg. `2022-04-20T19:27:40Z`)",
+      propDefinition: [
+        googleCalendar,
+        "timeMax",
+      ],
+      optional: false,
+    },
+    timeZone: {
+      propDefinition: [
+        googleCalendar,
+        "timeZone",
+      ],
+      description: "Specify the preferred time zone to be used on the response",
     },
   },
   async run({ $ }) {
-    const response = await this.googleCalendar.queryFreebusy({
+    const response = await this.googleCalendar.queryFreeBusy({
       requestBody: {
         timeMin: this.timeMin,
         timeMax: this.timeMax,
+        timeZone: this.timeZone,
+        items: [
+          {
+            id: this.calendarId,
+          },
+        ],
       },
     });
 
-    $.export("$summary", "Successfully retrieved free/busy calendar info");
+    $.export("$summary", `Successfully retrieved free/busy calendar details from ${this.timeMin} to ${this.timeMax}`);
 
     return response;
   },

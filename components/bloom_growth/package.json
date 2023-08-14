@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/bloom_growth",
+  "version": "0.0.1",
+  "description": "Pipedream Bloom Growth Components",
+  "main": "dist/app/bloom_growth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bloom_growth"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/bloom_growth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

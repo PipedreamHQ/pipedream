@@ -2042,6 +2042,255 @@
     },
     {
       "path": "components/cohere_platform"
+    },
+    {
+      "path": "components/firmao"
+    },
+    {
+      "path": "components/bloom_growth"
+    },
+    {
+      "path": "components/cleverreach"
+    },
+    {
+      "path": "components/infinity"
+    },
+    {
+      "path": "components/dext"
+    },
+    {
+      "path": "components/phoneburner"
+    },
+    {
+      "path": "components/surveysparrow"
+    },
+    {
+      "path": "components/teachable"
+    },
+    {
+      "path": "components/gotowebinar"
+    },
+    {
+      "path": "components/inoreader"
+    },
+    {
+      "path": "components/highlevel_oauth"
+    },
+    {
+      "path": "components/facebook_groups"
+    },
+    {
+      "path": "components/missive"
+    },
+    {
+      "path": "components/viral_loops"
+    },
+    {
+      "path": "components/memberful"
+    },
+    {
+      "path": "components/teamwork_desk"
+    },
+    {
+      "path": "components/clientify"
+    },
+    {
+      "path": "components/livestorm"
+    },
+    {
+      "path": "components/formaloo"
+    },
+    {
+      "path": "components/google_tag_manager"
+    },
+    {
+      "path": "components/facebook_pages"
+    },
+    {
+      "path": "components/google_chat"
+    },
+    {
+      "path": "components/sourceforge"
+    },
+    {
+      "path": "components/unbounce"
+    },
+    {
+      "path": "components/facebook_conversions"
+    },
+    {
+      "path": "components/facebook_lead_ads"
+    },
+    {
+      "path": "components/google_ads"
+    },
+    {
+      "path": "components/credit_repair_cloud"
+    },
+    {
+      "path": "components/outseta"
+    },
+    {
+      "path": "components/uipath_automation_hub"
+    },
+    {
+      "path": "components/funnelcockpit"
+    },
+    {
+      "path": "components/pendo"
+    },
+    {
+      "path": "components/elevenlabs"
+    },
+    {
+      "path": "components/google_contacts"
+    },
+    {
+      "path": "components/facebook_groups"
+    },
+    {
+      "path": "components/nango"
+    },
+    {
+      "path": "components/shopify_developer_app"
+    },
+    {
+      "path": "components/hookdeck"
+    },
+    {
+      "path": "components/facebook_pages"
+    },
+    {
+      "path": "components/facebook_lead_ads"
+    },
+    {
+      "path": "components/loops_so"
+    },
+    {
+      "path": "components/etsy"
+    },
+    {
+      "path": "components/dbt"
+    },
+    {
+      "path": "components/open_exchange_rates"
+    },
+    {
+      "path": "components/motion"
+    },
+    {
+      "path": "components/assemblyai"
+    },
+    {
+      "path": "components/senta"
+    },
+    {
+      "path": "components/customer_fields"
+    },
+    {
+      "path": "components/airtable_oauth"
+    },
+    {
+      "path": "components/amplitude"
+    },
+    {
+      "path": "components/google_my_business"
+    },
+    {
+      "path": "components/zoho_salesiq"
+    },
+    {
+      "path": "components/zoho_cliq"
+    },
+    {
+      "path": "components/zoho_analytics"
+    },
+    {
+      "path": "components/zoho_catalyst"
+    },
+    {
+      "path": "components/zoho_sign"
+    },
+    {
+      "path": "components/zoho_bigin"
+    },
+    {
+      "path": "components/zoho_bookings"
+    },
+    {
+      "path": "components/precisefp"
+    },
+    {
+      "path": "components/zoho_campaigns"
+    },
+    {
+      "path": "components/zoho_bugtracker"
+    },
+    {
+      "path": "components/zoho_commerce"
+    },
+    {
+      "path": "components/zoho_assist"
+    },
+    {
+      "path": "components/zoho_invoice"
+    },
+    {
+      "path": "components/zoho_recruit"
+    },
+    {
+      "path": "components/zoho_subscriptions"
+    },
+    {
+      "path": "components/zoho_people"
+    },
+    {
+      "path": "components/zoho_subscriptions"
+    },
+    {
+      "path": "components/zoho_people"
+    },
+    {
+      "path": "components/zoho_sprints"
+    },
+    {
+      "path": "components/zoho_meeting"
+    },
+    {
+      "path": "components/zoho_expense"
+    },
+    {
+      "path": "components/zoho_calendar"
+    },
+    {
+      "path": "components/zoho_meeting"
+    },
+    {
+      "path": "components/zoho_expense"
+    },
+    {
+      "path": "components/zoho_calendar"
+    },
+    {
+      "path": "components/mysql_ssl"
+    },
+    {
+      "path": "components/azure_openai_service"
+    },
+    {
+      "path": "components/microsoft_outlook_calendar"
+    },
+    {
+      "path": "components/google_my_business"
+    },
+    {
+      "path": "components/metaphor"
+    },
+    {
+      "path": "components/streamtime"
+    },
+    {
+      "path": "components/moxie"
     }
   ]
 }

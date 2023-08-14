@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/cleverreach",
+  "version": "0.0.1",
+  "description": "Pipedream CleverReach Components",
+  "main": "dist/app/cleverreach.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cleverreach"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/cleverreach",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

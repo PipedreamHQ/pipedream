@@ -1,9 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import {
-  LIST_FIELD_OPTIONS, MEDIA_FIELD_OPTIONS, PLACE_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
+  LIST_FIELD_OPTIONS, MEDIA_FIELD_OPTIONS, MESSAGE_FIELD_OPTIONS, PLACE_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
 } from "./dataFields";
 import {
-  LIST_EXPANSION_OPTIONS, TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
+  LIST_EXPANSION_OPTIONS, MESSAGE_EXPANSION_OPTIONS, TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
 } from "./expansions";
 
 export async function getUserId(): Promise<string> {
@@ -38,6 +38,26 @@ export function getListFields() {
   return {
     "expansions": LIST_EXPANSION_OPTIONS.join(),
     "list.fields": LIST_FIELD_OPTIONS.join(),
+    "user.fields": USER_FIELD_OPTIONS.join(),
+  };
+}
+
+export function getMessageFields() {
+  /*
+  const {
+    includeAllFields,
+    expansions,
+    mediaFields,
+    messageFields,
+    tweetFields,
+    userFields,
+  }: Record<string, string[]> = this;
+  */
+  return {
+    "dm_event.fields": MESSAGE_FIELD_OPTIONS.join(),
+    "expansions": MESSAGE_EXPANSION_OPTIONS.join(),
+    "media.fields": MEDIA_FIELD_OPTIONS.join(),
+    "tweet.fields": TWEET_FIELD_OPTIONS.join(),
     "user.fields": USER_FIELD_OPTIONS.join(),
   };
 }

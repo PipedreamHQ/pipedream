@@ -4,8 +4,8 @@ import { removeNullEntries } from "../../common/utils.mjs";
 export default {
   key: "ticktick-create-task",
   name: "Create a Task",
-  description: "Create a Task.[See doc](https://developer.ticktick.com/api#/openapi?id=create-a-task)",
-  version: "0.0.2",
+  description: "Create a Task. [See the documentation](https://developer.ticktick.com/api#/openapi?id=create-a-task)",
+  version: "0.0.6",
   type: "action",
   props: {
     ticktick,
@@ -21,9 +21,10 @@ export default {
       optional: true,
     },
     projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "The project ID under which to create this task. Defaults to the inbox.",
+      propDefinition: [
+        ticktick,
+        "projectId",
+      ],
       optional: true,
     },
     startDate: {
@@ -38,15 +39,45 @@ export default {
       description: "Due date and time in \"yyyy-MM-dd'T'HH:mm:ssZ\" format. Example : \"2019-11-13T03:00:00+0000\"",
       optional: true,
     },
+    priority: {
+      type: "string",
+      label: "Priority",
+      description: "The priority of the task, defaults to \"None\"",
+      default: "0",
+      optional: true,
+      options: [
+        {
+          label: "None",
+          value: "0",
+        },
+        {
+          label: "Low",
+          value: "1",
+        },
+        {
+          label: "Medium",
+          value: "3",
+        },
+        {
+          label: "High",
+          value: "5",
+        },
+      ],
+    },
   },
   async run({ $ }) {
     const data = removeNullEntries({
       title: this.title,
       content: this.content,
-      projectId: this.projectId,
       startDate: this.startDate,
       dueDate: this.dueDate,
+      priority: this.priority,
     });
+
+    if (this.projectId && this.projectId !== "inbox") {
+      data.projectId = this.projectId;
+    }
+
     const response = await this.ticktick.createTask({
       $,
       data,

@@ -3,8 +3,8 @@ import googleCalendar from "../../google_calendar.app.mjs";
 export default {
   key: "google_calendar-quick-add-event",
   name: "Add Quick Event",
-  description: "Create an event to the Google Calendar. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#quickAdd)",
-  version: "0.1.0",
+  description: "Create a quick event to the Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#quickAdd)",
+  version: "0.1.2",
   type: "action",
   props: {
     googleCalendar,
@@ -17,7 +17,7 @@ export default {
     text: {
       label: "Event Title",
       type: "string",
-      description: "Enter static text (e.g., `hello world`) for the event name",
+      description: "Enter a title for the event, (e.g., `My event`)",
     },
   },
   async run({ $ }) {
@@ -26,7 +26,7 @@ export default {
       text: this.text,
     });
 
-    $.export("$summary", `Successfully quick added event ${response.id}`);
+    $.export("$summary", `Successfully added a quick event: "${response.id}"`);
 
     return response;
   },

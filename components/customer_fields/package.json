@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/customer_fields",
+  "version": "0.0.1",
+  "description": "Pipedream Customer Fields Components",
+  "main": "dist/app/customer_fields.app.mjs",
+  "keywords": [
+    "pipedream",
+    "customer_fields"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/customer_fields",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

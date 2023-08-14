@@ -3,8 +3,8 @@ import googleCalendar from "../../google_calendar.app.mjs";
 export default {
   key: "google_calendar-get-calendar",
   name: "Retrieve Calendar Details",
-  description: "Retrieve Calendar details of a Google Calendar. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendars.html#get)",
-  version: "0.1.1",
+  description: "Retrieve calendar details of a Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendars.html#get)",
+  version: "0.1.3",
   type: "action",
   props: {
     googleCalendar,
@@ -20,7 +20,7 @@ export default {
       calendarId: this.calendarId,
     });
 
-    $.export("$summary", `Successfully retrieved calendar ${response.id}`);
+    $.export("$summary", `Successfully retrieved calendar: "${response.id}"`);
 
     return response;
   },

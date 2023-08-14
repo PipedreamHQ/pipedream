@@ -736,9 +736,15 @@ export default {
       });
     },
     async getCustomEmojis() {
-      const resp = await this.sdk().emoji.list();
+      const resp = await this.sdk().emoji.list({
+        include_categories: true,
+      });
 
-      return Object.keys(resp.emoji);
+      const emojis = Object.keys(resp.emoji);
+      for (const category of resp.categories) {
+        emojis.push(...category.emoji_names);
+      }
+      return emojis;
     },
   },
 };

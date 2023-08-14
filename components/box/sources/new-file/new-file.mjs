@@ -3,8 +3,8 @@ import common from "../common/common.mjs";
 export default {
   key: "box-new-file",
   name: "New File Event",
-  description: "Emit new event when a new file uploaded on a target, [See the docs](https://developer.box.com/reference/post-webhooks)",
-  version: "0.0.1",
+  description: "Emit new event when a new file uploaded on a target. [See the documentation](https://developer.box.com/reference/post-webhooks)",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   ...common,

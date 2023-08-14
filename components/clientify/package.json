@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/clientify",
+  "version": "0.1.0",
+  "description": "Pipedream Clientify Components",
+  "main": "clientify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clientify"
+  ],
+  "homepage": "https://pipedream.com/apps/clientify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

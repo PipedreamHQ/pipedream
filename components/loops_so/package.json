@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/loops_so",
+  "version": "0.1.0",
+  "description": "Pipedream Loops.so Components",
+  "main": "loops_so.app.mjs",
+  "keywords": [
+    "pipedream",
+    "loops_so"
+  ],
+  "homepage": "https://pipedream.com/apps/loops_so",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "lodash.pickby": "^4.6.0"
+  }
+}

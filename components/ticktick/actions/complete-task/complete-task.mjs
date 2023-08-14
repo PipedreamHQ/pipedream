@@ -3,8 +3,8 @@ import ticktick from "../../ticktick.app.mjs";
 export default {
   key: "ticktick-complete-task",
   name: "Complete a Task",
-  description: "Complete a Task. [See doc](https://developer.ticktick.com/api#/openapi?id=complete-task)",
-  version: "0.0.2",
+  description: "Complete a Task. [See the documentation](https://developer.ticktick.com/api#/openapi?id=complete-task)",
+  version: "0.0.4",
   type: "action",
   props: {
     ticktick,

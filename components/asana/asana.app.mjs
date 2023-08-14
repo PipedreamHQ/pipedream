@@ -396,5 +396,23 @@ export default {
         },
       })).data;
     },
+    async getUserTaskList(params, $) {
+      const { userId } = params;
+
+      return (await this._makeRequest(`users/${userId}/user_task_list`, {
+        params: {
+          workspace: params.workspace,
+          project: params.project,
+        },
+      }, $)).data;
+    },
+    async getTasksFromUserTaskList(params, $) {
+      const taskList = await this.getUserTaskList({
+        ...params,
+        userId: "me",
+      }, $);
+
+      return (await this._makeRequest(`user_task_lists/${taskList.gid}/tasks`, {}, $)).data;
+    },
   },
 };
