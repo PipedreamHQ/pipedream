@@ -2291,6 +2291,9 @@
     },
     {
       "path": "components/moxie"
+    },
+    {
+      "path": "components/webinarkit"
     }
   ]
 }
