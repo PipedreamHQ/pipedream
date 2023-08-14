@@ -110,48 +110,31 @@ export default {
         user: username,
         password,
         database,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       };
     },
-    getConnection() {
-      return mysqlClient.createConnection(this.getConfig());
-    },
-    async closeConnection(connection) {
-      const connectionClosed = new Promise((resolve) => {
-        connection.connection.stream.on("close", resolve);
-      });
-      await connection.end();
-      await connectionClosed;
-    },
-    async executeQuery({
-      connection, preparedStatement,
-    }) {
-      const [
-        result,
-      ] = await connection.execute(preparedStatement);
-      return result;
-    },
-    async executeQueryConnectionHandler(preparedStatement = {}) {
+    async executeQuery(preparedStatement = {}) {
+      const config = this.getConfig();
       let connection;
 
       try {
-        connection = await this.getConnection();
+        connection = await mysqlClient.createConnection(config);
 
-        return await this.executeQuery({
-          connection,
-          preparedStatement,
-        });
+        const [
+          rows,
+        ] = await connection.execute(preparedStatement);
+
+        return rows;
 
       } finally {
-        if (connection) {
-          await this.closeConnection(connection);
-        }
+        await connection?.end();
       }
     },
     async listStoredProcedures(args = {}) {
-      const procedures = await this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: "SHOW PROCEDURE STATUS",
-        },
+      const procedures = await this.executeQuery({
+        sql: "SHOW PROCEDURE STATUS",
         ...args,
       });
 
@@ -166,69 +149,59 @@ export default {
       });
     },
     listTables(args = {}) {
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: "SHOW FULL TABLES",
-        },
+      return this.executeQuery({
+        sql: "SHOW FULL TABLES",
         ...args,
       });
     },
     listBaseTables({
       lastResult, ...args
     } = {}) {
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `
-            SELECT * FROM INFORMATION_SCHEMA.TABLES 
-              WHERE TABLE_TYPE = 'BASE TABLE'
-              AND CREATE_TIME > ?
-              ORDER BY CREATE_TIME DESC
-          `,
-          values: [
-            lastResult,
-          ],
-        },
+      return this.executeQuery({
+        sql: `
+          SELECT * FROM INFORMATION_SCHEMA.TABLES 
+            WHERE TABLE_TYPE = 'BASE TABLE'
+            AND CREATE_TIME > ?
+            ORDER BY CREATE_TIME DESC
+        `,
+        values: [
+          lastResult,
+        ],
         ...args,
       });
     },
     listTopTables({
       maxCount = 10, ...args
     } = {}) {
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `
-            SELECT * FROM INFORMATION_SCHEMA.TABLES 
-              WHERE TABLE_TYPE = 'BASE TABLE'
-              ORDER BY CREATE_TIME DESC
-              LIMIT ${maxCount}
-          `,
-        },
+      return this.executeQuery({
+        sql: `
+          SELECT * FROM INFORMATION_SCHEMA.TABLES 
+            WHERE TABLE_TYPE = 'BASE TABLE'
+            ORDER BY CREATE_TIME DESC
+            LIMIT ${maxCount}
+        `,
         ...args,
       });
     },
     listColumns({
       table, ...args
     } = {}) {
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `SHOW COLUMNS FROM \`${table}\``,
-        },
+      return this.executeQuery({
+        sql: `SHOW COLUMNS FROM \`${table}\``,
         ...args,
       });
     },
     listNewColumns({
       table, previousColumns, ...args
     } = {}) {
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `
-            SHOW COLUMNS FROM \`${table}\`
-            WHERE Field NOT IN (?)
-          `,
-          values: [
-            previousColumns?.join(),
-          ],
-        },
+      return this.executeQuery({
+        sql: `
+          SHOW COLUMNS FROM \`${table}\`
+          WHERE Field NOT IN (?)
+        `,
+        values: [
+          previousColumns?.join(),
+        ],
         ...args,
       });
     },
@@ -243,17 +216,15 @@ export default {
     listRows({
       table, column, lastResult, ...args
     } = {}) {
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `
-            SELECT * FROM \`${table}\`
-            WHERE \`${column}\` > ? 
-            ORDER BY \`${column}\` DESC
-          `,
-          values: [
-            lastResult,
-          ],
-        },
+      return this.executeQuery({
+        sql: `
+          SELECT * FROM \`${table}\`
+          WHERE \`${column}\` > ? 
+          ORDER BY \`${column}\` DESC
+        `,
+        values: [
+          lastResult,
+        ],
         ...args,
       });
     },
@@ -269,27 +240,23 @@ export default {
     listMaxRows({
       table, column, maxCount = 10, ...args
     } = {}) {
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `
-            SELECT * FROM \`${table}\`
-              ORDER BY \`${column}\` DESC
-              LIMIT ${maxCount}
-          `,
-        },
+      return this.executeQuery({
+        sql: `
+          SELECT * FROM \`${table}\`
+            ORDER BY \`${column}\` DESC
+            LIMIT ${maxCount}
+        `,
         ...args,
       });
     },
     getPrimaryKey({
       table, ...args
     } = {}) {
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: "SHOW KEYS FROM ? WHERE Key_name = 'PRIMARY'",
-          values: [
-            table,
-          ],
-        },
+      return this.executeQuery({
+        sql: "SHOW KEYS FROM ? WHERE Key_name = 'PRIMARY'",
+        values: [
+          table,
+        ],
         ...args,
       });
     },
@@ -305,22 +272,18 @@ export default {
     findRows({
       table, condition, values = [], ...args
     } = {}) {
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `SELECT * FROM \`${table}\` WHERE ${condition}`,
-          values,
-        },
+      return this.executeQuery({
+        sql: `SELECT * FROM \`${table}\` WHERE ${condition}`,
+        values,
         ...args,
       });
     },
     deleteRows({
       table, condition, values = [], ...args
     } = {}) {
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `DELETE FROM \`${table}\` WHERE ${condition}`,
-          values,
-        },
+      return this.executeQuery({
+        sql: `DELETE FROM \`${table}\` WHERE ${condition}`,
+        values,
         ...args,
       });
     },
@@ -328,14 +291,12 @@ export default {
       table, columns = [], values = [], ...args
     } = {}) {
       const placeholder = values.map(() => "?").join(",");
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `
-            INSERT INTO \`${table}\` (${columns.join(",")})
-              VALUES (${placeholder})
-          `,
-          values,
-        },
+      return this.executeQuery({
+        sql: `
+          INSERT INTO \`${table}\` (${columns.join(",")})
+            VALUES (${placeholder})
+        `,
+        values,
         ...args,
       });
     },
@@ -348,17 +309,15 @@ export default {
         columnsToUpdate
           .map((column) => `\`${column}\` = ?`);
 
-      return this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `
-            UPDATE \`${table}\`
-              SET ${updates}
-              WHERE ${condition}`,
-          values: [
-            ...valuesToUpdate,
-            ...conditionValues,
-          ],
-        },
+      return this.executeQuery({
+        sql: `
+          UPDATE \`${table}\`
+            SET ${updates}
+            WHERE ${condition}`,
+        values: [
+          ...valuesToUpdate,
+          ...conditionValues,
+        ],
         ...args,
       });
     },
@@ -367,11 +326,9 @@ export default {
     } = {}) {
       const [
         result,
-      ] = await this.executeQueryConnectionHandler({
-        preparedStatement: {
-          sql: `CALL ${storedProcedure}(${values.map(() => "?")})`,
-          values,
-        },
+      ] = await this.executeQuery({
+        sql: `CALL ${storedProcedure}(${values.map(() => "?")})`,
+        values,
         ...args,
       });
       return result;
