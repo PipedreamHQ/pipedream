@@ -77,9 +77,10 @@ export default {
       },
     });
 
-    if (response?.returnvalue?.booking_id) {
-      $.export("$summary", `Successfully persisted an appointment with ID: ${response.returnvalue.booking_id}`);
+    if (response?.returnvalue?.status === "failure") {
+      throw new Error(response?.returnvalue?.message);
     }
+    $.export("$summary", `Successfully persisted an appointment with ID: ${response?.returnvalue?.booking_id}`);
     return response;
   },
 };

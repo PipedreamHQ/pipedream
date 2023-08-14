@@ -47,9 +47,10 @@ export default {
       },
     });
 
-    if (response?.returnvalue?.reponse) {
-      $.export("$summary", "Successfully fetched availability");
+    if (response?.returnvalue?.status === "failure") {
+      throw new Error(response?.returnvalue?.message);
     }
+    $.export("$summary", "Successfully fetched availability");
     return response;
   },
 };
