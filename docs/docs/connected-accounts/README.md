@@ -115,7 +115,7 @@ If you encounter errors in a step that appear to be related to credentials or au
 
 ![Selecting Manage Access](https://res.cloudinary.com/pipedreamin/image/upload/v1691617725/manage-access-button_bgnebz.png)
 
-- From here you may need to reconnect your account first, in order to verify ownership
+- From here you may need to reconnect your account first in order to verify ownership of the account
 - You can enable access to the entire workspace or individual members
 
 ![Managing Access for a Connected Account](https://res.cloudinary.com/pipedreamin/image/upload/v1691614603/manage-access-modal_crmx3f.gif)
@@ -126,19 +126,21 @@ If you encounter errors in a step that appear to be related to credentials or au
 Even though certain accounts may not be shared with other workspace members, you can still collaborate together on the same workflows.
 
 Workspace members who don't have access to a connected account **can perform the following actions** on workflows:
-- Test any step, so they can effectively develop and debug workflows end to end
 - Reference step exports
 - Inspect prop inputs, step logs, and errors
+- Test any step, so they can effectively develop and debug workflows end to end
 
-Workspace members who do not have access to a given connected account **cannot** modify prop inputs or edit any code with that account.
+Workspace members who do **not** have access to a given connected account **cannot modify prop inputs or edit any code** with that account.
 
 ![Read only action](https://res.cloudinary.com/pipedreamin/image/upload/v1691622307/read-only-action_uvdh1p.png)
 
 ![Read only code step](https://res.cloudinary.com/pipedreamin/image/upload/v1691621275/read-only-code-step_ijqvjc.png)
 
-To make changes to steps that are locked in read-only mode:
-1. Click "More Actions" and change the connected account to one that you have access to (note that this may remove some prop configurations)
-2. Ask the account owner to [grant access](#managing-access)
+<br>
+
+To make changes to steps that are locked in read-only mode, you can:
+- Ask the account owner to [grant access](#managing-access)
+- Click "More Actions" and change the connected account to one that you have access to (note that this may remove some prop configurations)
 
 ### Explanation of access
 Access to connected accounts is enforced at the step-level within workflows and is designed with security and control in mind. Below is a breakdown of the operations that are allowed.
@@ -150,6 +152,9 @@ When you connect an account in Pipedream, you are the owner of that connected ac
 - Add to any step or trigger
 
 <br>
+
+Here's how your workspace can use connected accounts that are **private**:
+
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/private-auth_ecm7jx.png" width="100px" />
 
 | Operations | Workspace Owner & Admin | Other Members |
@@ -162,8 +167,10 @@ When you connect an account in Pipedream, you are the owner of that connected ac
 | Reconnect | :x: | :x: |
 |  Delete  |  :white_check_mark: |  :x: |
 
-
 <br>
+
+Here's how your workspace can use connected accounts that are **shared**:
+
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/shared-auth-workspace_usdwod.png" width="240px" />
 
 | Operations | Workspace Owner & Admin | Other Members |
