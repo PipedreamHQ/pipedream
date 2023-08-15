@@ -76,7 +76,7 @@ export default defineComponent({
 
 Visit your [Accounts Page](https://pipedream.com/accounts) to see a list of all your connected accounts.
 
-You can perform the following operations from here:
+On this page you can:
 
 - Connect your account for any integrated app
 - [View and manage access](#access-control) for your connected accounts
