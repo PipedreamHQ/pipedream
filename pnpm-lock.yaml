@@ -2963,7 +2963,17 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/mysql_ssl: {}
+  components/mysql_ssl:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.2.0
+        version: 1.5.1
+      mysql2-promise:
+        specifier: ^0.1.4
+        version: 0.1.4
+      uuid:
+        specifier: ^8.3.2
+        version: 8.3.2
 
   components/n8n_io: {}
 
