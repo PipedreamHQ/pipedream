@@ -2,11 +2,13 @@ import os
 import argparse
 import templates.generate_actions
 import templates.generate_webhook_sources
+import templates.generate_polling_sources
 
 
 available_templates = {
     'action': templates.generate_actions,
     'webhook_source': templates.generate_webhook_sources,
+    'polling_source': templates.generate_polling_sources,
 }
 
 
