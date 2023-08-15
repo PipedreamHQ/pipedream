@@ -3,7 +3,7 @@ import app from "../../full_contact.app.mjs";
 export default {
   name: "Enrich Person",
   version: "0.0.1",
-  key: "app-enrich-person",
+  key: "full_contact-enrich-person",
   description: "Enrich a person. [See docs here](https://docs.fullcontact.com/docs/multi-field-request)",
   type: "action",
   props: {
