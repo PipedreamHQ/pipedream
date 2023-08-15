@@ -32,7 +32,27 @@ export const LIST_CUSTOMERS_BY_BUSINESS_QUERY = `
           node {
             id
             name
+            firstName
+            lastName
             email
+            createdAt
+            address {
+              addressLine1
+              addressLine2
+              city
+              province {
+                code
+                name
+              }
+              country {
+                code
+                name
+              }
+              postalCode
+            }
+            currency {
+              code
+            }
           }
         }
       }

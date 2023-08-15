@@ -123,7 +123,7 @@ export default {
             page,
             pageSize: PAGE_SIZE,
             sort: [
-              "NAME_ASC",
+              "CREATED_AT_DESC",
             ],
           },
         },
