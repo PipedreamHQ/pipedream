@@ -115,7 +115,7 @@ If you encounter errors in a step that appear to be related to credentials or au
 
 ![Selecting Manage Access](https://res.cloudinary.com/pipedreamin/image/upload/v1691617725/manage-access-button_bgnebz.png)
 
-- From here you may need to reconnect your account first in order to verify ownership of the account
+- You may be prompted to reconnect your account first to verify ownership of the account
 - You can enable access to the entire workspace or individual members
 
 ![Managing Access for a Connected Account](https://res.cloudinary.com/pipedreamin/image/upload/v1691614603/manage-access-modal_crmx3f.gif)
