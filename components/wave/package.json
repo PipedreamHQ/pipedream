@@ -7,7 +7,6 @@
     "pipedream",
     "wave"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/wave",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
