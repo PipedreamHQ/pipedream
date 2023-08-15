@@ -5,10 +5,35 @@ export default {
   type: "app",
   app: "precisefp",
   propDefinitions: {
-    commonProperty: {
+    accountId: {
       type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
+      label: "Account ID",
+      description: "The ID of the account to monitor.",
+      async options({ prevContext }) {
+        const {
+          params: { offset },
+          items: accounts,
+        } =
+          await this.listAccounts({
+            params: {
+              offset: prevContext?.offset || 0,
+            },
+          });
+
+        const options = accounts.map(({
+          id: value, client: { email: label },
+        }) => ({
+          label,
+          value,
+        }));
+
+        return {
+          options,
+          context: {
+            offset,
+          },
+        };
+      },
     },
   },
   methods: {
@@ -61,23 +86,50 @@ export default {
         ...args,
       });
     },
+    listAccounts(args = {}) {
+      return this.makeRequest({
+        path: "/accounts",
+        ...args,
+      });
+    },
+    listPersons({
+      accountId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/accounts/${accountId}/persons`,
+        ...args,
+      });
+    },
+    listPDFEngagements(args = {}) {
+      return this.makeRequest({
+        path: "/pdf-engagements",
+        ...args,
+      });
+    },
+    listFormEngagements(args = {}) {
+      return this.makeRequest({
+        path: "/form-engagements",
+        ...args,
+      });
+    },
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,
       resourceName,
-      lastCreatedAt,
+      hasPagination = true,
       max = constants.DEFAULT_MAX,
     }) {
-      let page = 1;
+      let offset = 0;
       let resourcesCount = 0;
 
       while (true) {
+        console.log(`Fetching resources with offset ${offset}`);
         const response =
           await resourceFn({
             ...resourceFnArgs,
             params: {
               ...resourceFnArgs.params,
-              page,
+              offset,
             },
           });
 
@@ -89,21 +141,19 @@ export default {
         }
 
         for (const resource of nextResources) {
-          const dateFilter =
-            lastCreatedAt
-            && Date.parse(resource.created_at) > Date.parse(lastCreatedAt);
-
-          if (!lastCreatedAt || dateFilter) {
-            yield resource;
-            resourcesCount += 1;
-          }
+          yield resource;
+          resourcesCount += 1;
 
           if (resourcesCount >= max) {
             return;
           }
         }
 
-        page += 1;
+        if (!hasPagination) {
+          return;
+        }
+
+        offset = response.params?.offset;
       }
     },
   },

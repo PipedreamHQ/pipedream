@@ -8,22 +8,36 @@ export default {
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    accountId: {
+      propDefinition: [
+        common.props.app,
+        "accountId",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
+    hasPagination() {
+      return false;
+    },
     getResourceName() {
-      return "resource";
+      return "Person";
     },
     getResourceFn() {
-      return this.app.listResources;
+      return this.app.listPersons;
     },
     getResourceFnArgs() {
-      return {};
+      return {
+        accountId: this.accountId,
+      };
     },
     generateMeta(resource) {
       return {
-        id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        id: resource._id,
+        summary: `New Person: ${resource.Email}`,
+        ts: Date.now(),
       };
     },
   },

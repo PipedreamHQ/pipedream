@@ -11,18 +11,23 @@ export default {
   methods: {
     ...common.methods,
     getResourceName() {
-      return "resource";
+      return "items";
     },
     getResourceFn() {
-      return this.app.listResources;
+      return this.app.listFormEngagements;
     },
     getResourceFnArgs() {
-      return {};
+      return {
+        params: {
+          type: "completed",
+          sort: "-created_at",
+        },
+      };
     },
     generateMeta(resource) {
       return {
         id: resource.id,
-        summary: `New Resource: ${resource.name}`,
+        summary: `New Engagement: ${resource.id}`,
         ts: Date.parse(resource.created_at),
       };
     },
