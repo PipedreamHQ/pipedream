@@ -5325,6 +5325,8 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
+  components/webinarkit: {}
+
   components/webscraper_io:
     dependencies:
       '@pipedream/platform':
@@ -5601,7 +5603,14 @@ importers:
 
   components/zoho_analytics: {}
 
-  components/zoho_assist: {}
+  components/zoho_assist:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@pipedream/types':
+        specifier: ^0.1.4
+        version: 0.1.6
 
   components/zoho_bigin:
     dependencies:
