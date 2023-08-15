@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_catalyst.app";
 
@@ -9,13 +8,9 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
-    app
-    imageData: {
-      type: "string",
-      label: "Image Data",
-      description: "The data of the image to extract text from",
-    },
+    app,
   },
   async run({ $ }) {
+
   },
 });
