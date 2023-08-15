@@ -4,38 +4,7 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "precisefp",
-  propDefinitions: {
-    accountId: {
-      type: "string",
-      label: "Account ID",
-      description: "The ID of the account to monitor.",
-      async options({ prevContext }) {
-        const {
-          params: { offset },
-          items: accounts,
-        } =
-          await this.listAccounts({
-            params: {
-              offset: prevContext?.offset || 0,
-            },
-          });
-
-        const options = accounts.map(({
-          id: value, client: { email: label },
-        }) => ({
-          label,
-          value,
-        }));
-
-        return {
-          options,
-          context: {
-            offset,
-          },
-        };
-      },
-    },
-  },
+  propDefinitions: {},
   methods: {
     getBaseUrl() {
       return `${constants.BASE_URL}${constants.VERSION_PATH}`;
@@ -68,35 +37,9 @@ export default {
         ...args,
       });
     },
-    put(args = {}) {
-      return this.makeRequest({
-        method: "put",
-        ...args,
-      });
-    },
-    delete(args = {}) {
-      return this.makeRequest({
-        method: "delete",
-        ...args,
-      });
-    },
-    patch(args = {}) {
-      return this.makeRequest({
-        method: "patch",
-        ...args,
-      });
-    },
     listAccounts(args = {}) {
       return this.makeRequest({
         path: "/accounts",
-        ...args,
-      });
-    },
-    listPersons({
-      accountId, ...args
-    } = {}) {
-      return this.makeRequest({
-        path: `/accounts/${accountId}/persons`,
         ...args,
       });
     },
@@ -116,7 +59,6 @@ export default {
       resourceFn,
       resourceFnArgs,
       resourceName,
-      hasPagination = true,
       max = constants.DEFAULT_MAX,
     }) {
       let offset = 0;
@@ -147,10 +89,6 @@ export default {
           if (resourcesCount >= max) {
             return;
           }
-        }
-
-        if (!hasPagination) {
-          return;
         }
 
         offset = response.params?.offset;

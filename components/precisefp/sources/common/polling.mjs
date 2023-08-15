@@ -20,9 +20,6 @@ export default {
   },
   methods: {
     ...common.methods,
-    hasPagination() {
-      return true;
-    },
     getResourceName() {
       throw new ConfigurationError("getResourceName is not implemented");
     },
@@ -38,7 +35,9 @@ export default {
     },
     async processStreamEvents(resourcesStream) {
       const resources = await utils.streamIterator(resourcesStream);
-      resources.reverse().forEach(this.processEvent);
+      Array.from(resources)
+        .reverse()
+        .forEach(this.processEvent);
     },
   },
   async run() {
@@ -46,7 +45,6 @@ export default {
       resourceFn: this.getResourceFn(),
       resourceFnArgs: this.getResourceFnArgs(),
       resourceName: this.getResourceName(),
-      hasPagination: this.hasPagination(),
     });
 
     await this.processStreamEvents(resourcesStream);
