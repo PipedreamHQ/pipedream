@@ -105,12 +105,9 @@ If you encounter errors in a step that appear to be related to credentials or au
 ## Access Control
 
 **New connected accounts are private by default** and can only be used by the person who added it.
-- Note that this is a change in behavior as of August 2023
 ::: warning Accounts connected before August 2023
 
-Before this change, new connected accounts were accessible to all workspace members.
-
-Any accounts connected before August 2023 are now private, but this can be changed by the account connector.
+Prior to this change, all connected accounts were accessible to all workspace members. You can now manage access to new and existing connected accounts.
 
 :::
 
