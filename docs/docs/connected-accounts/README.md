@@ -169,7 +169,7 @@ Here's how your workspace can use connected accounts that are **private**:
 
 <br>
 
-Here's how your workspace can use connected accounts that are **shared**:
+How workspace members can use connected accounts that are **shared**:
 
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/shared-auth-workspace_usdwod.png" width="240px" />
 
