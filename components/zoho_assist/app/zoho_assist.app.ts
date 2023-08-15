@@ -5,9 +5,17 @@ export default defineApp({
   app: "zoho_assist",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async uploadMedia(args: UploadMediaParams): Promise<object> {
+      return this._httpRequest({
+        baseURL: "https://upload.twitter.com/1.1",
+        url: "/media/upload.json",
+        method: "POST",
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${args.data.getBoundary()}`,
+        },
+        specialAuth: true,
+        ...args,
+      });
     },
   },
 });

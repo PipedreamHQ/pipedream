@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import { defineAction } from "@pipedream/types";
+import app from "../../app/zoho_catalyst.app";
 
 export default defineAction({
   key: "zoho_catalyst-extract-text-from-image",
@@ -8,10 +9,7 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
-    zoho: {
-      type: "app",
-      app: "zoho",
-    },
+    app
     imageData: {
       type: "string",
       label: "Image Data",
@@ -19,25 +17,5 @@ export default defineAction({
     },
   },
   async run({ $ }) {
-    const url = 'https://catalyst.zoho.com/api/v1/zia/ocr';     
-    const headers = {
-      'Authorization': `Zoho-oauthtoken ${this.zoho.$auth.oauth_access_token}`,
-      'Content-Type': 'multipart/form-data'
-    };
-
-    let formData = new FormData();
-    formData.append('file', this.imageData);
-
-    try {
-      const response = await axios($, {
-        method: "POST",
-        url: url,
-        data: formData,
-        headers: headers
-      });
-      return response;
-    } catch (error) {
-      console.error(error);
-    }
   },
 });
