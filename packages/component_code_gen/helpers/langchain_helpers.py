@@ -9,6 +9,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.agents.agent_toolkits.json.toolkit import JsonToolkit
 from langchain.tools.json.tool import JsonSpec
 from litellm import completion
+import litellm
 
 
 class OpenAPIExplorerTool:
@@ -68,7 +69,7 @@ def ask_agent(user_prompt, docs, templates):
 
 
 def no_docs(app, prompt, templates):
-    openai.api_key = config['openai']['api_key']
+    litellm.api_key = config['openai']['api_key']
     result = completion(
         model="gpt-4",
         messages=[

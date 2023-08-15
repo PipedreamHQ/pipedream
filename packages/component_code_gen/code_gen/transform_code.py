@@ -1,13 +1,13 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-import openai
+import litellm
 from config.config import config
 from litellm import completion
 
 
 def transform(code, templates):
-    openai.api_key = config['openai']['api_key']
+    litellm.api_key = config['openai']['api_key']
     response = completion(
         model="gpt-4",
         messages=[
