@@ -110,7 +110,7 @@ If you encounter errors in a step that appear to be related to credentials or au
 
 
 ### Managing access
-- Find the account on the Accounts page and click the 3 dots at the far right of the row
+- Find the account on the Accounts page and click the 3 dots on the far right of the row
 - Select "Manage Access"
 
 ![Selecting Manage Access](https://res.cloudinary.com/pipedreamin/image/upload/v1691617725/manage-access-button_bgnebz.png)
