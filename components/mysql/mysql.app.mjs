@@ -104,7 +104,6 @@ export default {
         database,
       } = this.$auth;
       return {
-        debug: true,
         host,
         port,
         user: username,

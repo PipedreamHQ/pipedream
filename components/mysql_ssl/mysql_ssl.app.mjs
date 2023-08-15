@@ -17,7 +17,6 @@ export default {
         cert,
       } = this.$auth;
       return {
-        debug: true,
         host,
         port,
         user: username,
