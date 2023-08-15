@@ -76,7 +76,7 @@ export default {
         "x-api-key": this.$auth.api_key,
       };
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this, path, ...opts
     }) {
       const config = {
