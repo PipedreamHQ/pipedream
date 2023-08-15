@@ -186,6 +186,19 @@ How workspace members can use connected accounts that are **shared**:
 | Reconnect | :x: | :x: |
 |  Delete  |  :white_check_mark: |  :x: |
 
+### Frequently Asked Questions
+
+#### What is the "Owner" column?
+The owner column on the Accounts page indicates who in the workspace originally connected the account (that is the only person who has permissions to manage access).
+
+#### Why is there no "Owner" for certain connected accounts?
+Accounts that were connected before August 2023 don't have an owner associated with them, and are shared with the entire workspace. In order to manage access for any of those accounts, we'll first prompt you to reconnect.
+
+#### How can I restrict access to a connected account that's already shared with the workspace?
+See above for info on [managing access](#managing-access).
+
+#### Can I still work with other people on a single workflow, even if I don't want them to have access to my connected account?
+Yes! See the section on [collaborating with others](#collaborating-with-others).
 
 ## Types of Integrations
 
