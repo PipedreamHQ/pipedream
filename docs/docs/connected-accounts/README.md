@@ -143,7 +143,7 @@ To make changes to steps that are locked in read-only mode, you can:
 - Click "More Actions" and change the connected account to one that you have access to (note that this may remove some prop configurations)
 
 ### Explanation of access
-Access to connected accounts is enforced at the step-level within workflows and is designed with security and control in mind. Below is a breakdown of the operations that are allowed.
+Access to connected accounts is enforced at the step-level within workflows and is designed with security and control in mind. 
 
 When you connect an account in Pipedream, you are the owner of that connected account, and you always have full access. You can:
 - Manage access
