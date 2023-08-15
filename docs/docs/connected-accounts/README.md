@@ -153,7 +153,7 @@ When you connect an account in Pipedream, you are the owner of that connected ac
 
 <br>
 
-Here's how your workspace can use connected accounts that are **private**:
+How workspace members can use connected accounts that are **private**:
 
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/private-auth_ecm7jx.png" width="100px" />
 
