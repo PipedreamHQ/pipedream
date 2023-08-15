@@ -2288,6 +2288,12 @@
     },
     {
       "path": "components/streamtime"
+    },
+    {
+      "path": "components/moxie"
+    },
+    {
+      "path": "components/webinarkit"
     }
   ]
 }
