@@ -115,21 +115,30 @@ export default {
         },
       };
     },
+    async closeConnection(connection) {
+      await connection.end();
+      return new Promise((resolve) => {
+        connection.connection.stream.on("close", resolve);
+      });
+    },
     async executeQuery(preparedStatement = {}) {
       const config = this.getConfig();
       let connection;
-
       try {
         connection = await mysqlClient.createConnection(config);
-
         const [
           rows,
         ] = await connection.execute(preparedStatement);
-
         return rows;
 
+      } catch (error) {
+        console.log("Error executing query", error);
+        throw error;
+
       } finally {
-        await connection?.end();
+        if (connection) {
+          await this.closeConnection(connection);
+        }
       }
     },
     async listStoredProcedures(args = {}) {
