@@ -123,7 +123,7 @@ If you encounter errors in a step that appear to be related to credentials or au
 
 ### Collaborating with others
 
-Even though certain accounts may not be shared with other workspace members, you can still collaborate together on the same workflows.
+Even if a workspace member doesn't have access to a private connected account, you can still collaborate together on the same workflows.
 
 Workspace members who don't have access to a connected account **can perform the following actions** on workflows:
 - Reference step exports
