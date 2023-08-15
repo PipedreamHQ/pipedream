@@ -2,6 +2,7 @@ import { axios } from "@pipedream/platform";
 import {
   LIST_BUSINESS_QUERY,
   LIST_CUSTOMERS_BY_BUSINESS_QUERY,
+  LIST_INVOICES_BY_BUSINESS_QUERY,
   LIST_PRODUCTS_BY_BUSINESS_QUERY,
 } from "./common/queries.mjs";
 import {
@@ -133,6 +134,26 @@ export default {
       return this._makeHttpRequest({
         data: {
           query: LIST_PRODUCTS_BY_BUSINESS_QUERY,
+          variables: {
+            businessId,
+            page,
+            pageSize: PAGE_SIZE,
+          },
+        },
+      });
+    },
+    async listInvoicesByBusiness(businessId, page) {
+      const PAGE_SIZE = 100;
+      console.log({
+        variables: {
+          businessId,
+          page,
+          pageSize: PAGE_SIZE,
+        },
+      });
+      return this._makeHttpRequest({
+        data: {
+          query: LIST_INVOICES_BY_BUSINESS_QUERY,
           variables: {
             businessId,
             page,
