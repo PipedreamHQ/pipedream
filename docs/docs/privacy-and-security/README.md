@@ -19,11 +19,11 @@ If you have any questions related to data privacy, please email <span style="fon
 
 If you'd like to report a suspected vulnerability, please contact <span style="font-weight: bold">security@pipedream.com</span>.
 
-If you need to encrypt sensitive data as part of your report, you can use our [PGP key](/privacy-and-security/pgp-key/).
+If you need to encrypt sensitive data as part of your report, you can use our security team's [PGP key](/privacy-and-security/pgp-key/).
 
 ## Reporting abuse
 
-If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report it here](/abuse/).
+If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report abuse here](/abuse/).
 
 ## Compliance
 
@@ -57,13 +57,13 @@ Pipedream further secures access to AWS resources through a series of controls, 
 
 ## Intrustion Detection and Prevention
 
-Pipedream uses AWS WAF, GuardDuty, and Datadog to monitor and block suspected attacks against Pipedream infrastructure, including DDoS attacks.
+Pipedream uses AWS WAF, GuardDuty, CloudTrail, CloudWatch, and Datadog to monitor and block suspected attacks against Pipedream infrastructure, including DDoS attacks.
 
 Pipedream implements a number of industry-standard and custom alerts to detect anomalous activity on the platform, and reacts to potential threats quickly based on [our incident response policy](#incident-response).
 
 ## User Accounts, Authentication and Authorization
 
-When you sign up for a Pipedream account, you can choose to link your Pipedream login to either an existing [Google](https://google.com) or [Github](https://github.com) account, or create an account directly with Pipedream.
+When you sign up for a Pipedream account, you can choose to link your Pipedream login to either an existing [Google](https://google.com) or [Github](https://github.com) account, or create an account directly with Pipedream. Pipedream also supports
 
 When you link your Pipedream login to an existing identity provider, Pipedream does not store any passwords tied to your user account — that information is secured with the identity provider. We recommend you configure two-factor authentication in the provider to further protect access to your Pipedream account.
 
