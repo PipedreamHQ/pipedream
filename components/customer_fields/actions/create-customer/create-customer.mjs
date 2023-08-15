@@ -32,14 +32,16 @@ export default {
   async run({ $: step }) {
     const {
       app,
+      createCustomer,
+      getDataFromDataColumns,
       formId,
       ...dataColumns
     } = this;
 
     const response =
-      await this.createCustomer({
+      await createCustomer({
         step,
-        data: this.getDataFromDataColumns(dataColumns),
+        data: getDataFromDataColumns(dataColumns),
       });
 
     step.export("$summary", `Successfully created customer with ID ${response?.customer?.id}.`);

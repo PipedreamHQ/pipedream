@@ -45,16 +45,18 @@ export default {
   async run({ $: step }) {
     const {
       app,
+      updateCustomer,
+      getDataFromDataColumns,
       formId,
       customerId,
       ...dataColumns
     } = this;
 
     const response =
-      await app.updateCustomer({
+      await updateCustomer({
         step,
         customerId,
-        data: this.getDataFromDataColumns(dataColumns),
+        data: getDataFromDataColumns(dataColumns),
       });
 
     step.export("$summary", `Successfully updated customer with ID ${response?.customer?.id}.`);
