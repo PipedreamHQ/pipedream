@@ -1,11 +1,29 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { HttpRequestParams } from "../common/types";
+import {
+  ExtractTextParams,
+  HttpRequestParams, Project,
+} from "../common/types";
 
 export default defineApp({
   type: "app",
   app: "zoho_catalyst",
-  propDefinitions: {},
+  propDefinitions: {
+    projectId: {
+      type: "integer",
+      label: "Project ID",
+      description: "Select a **Project** or provide a custom *Project ID*.",
+      async options() {
+        const projects: Project[] = await this.listProjects();
+        return projects.map(({
+          project_name: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+  },
   methods: {
     async _httpRequest({
       $ = this,
@@ -19,11 +37,16 @@ export default defineApp({
         ...args,
       });
     },
-    async extractTextFromImage({
-      project, ...args
-    }): Promise<object> {
+    async listProjects(): Promise<Project[]> {
       return this._httpRequest({
-        url: `/project/${project}/ml/ocr`,
+        url: "/project",
+      });
+    },
+    async extractTextFromImage({
+      projectId, ...args
+    }: ExtractTextParams): Promise<object> {
+      return this._httpRequest({
+        url: `/project/${projectId}/ml/ocr`,
         method: "POST",
         headers: {
           "Content-Type": `multipart/form-data; boundary=${args.data.getBoundary()}`,

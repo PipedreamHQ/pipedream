@@ -11,6 +11,12 @@ export default defineAction({
   type: "action",
   props: {
     app,
+    projectId: {
+      propDefinition: [
+        app,
+        "projectId",
+      ],
+    },
     imagePath: {
       type: "string",
       label: "Image Path",
@@ -20,6 +26,7 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const { projectId } = this;
     const content = await fs.readFile(this.imagePath, {
       encoding: "base64",
     });
@@ -29,6 +36,7 @@ export default defineAction({
 
     const response = await this.app.extractTextFromImage({
       $,
+      projectId,
       data,
     });
 
