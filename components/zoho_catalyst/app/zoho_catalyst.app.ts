@@ -27,11 +27,13 @@ export default defineApp({
   methods: {
     async _httpRequest({
       $ = this,
+      headers,
       ...args
     }: HttpRequestParams): Promise<object> {
       return axios($, {
         baseURL: `https://${this.$auth.base_api_uri}/baas/v1`,
         headers: {
+          ...headers,
           "Authorization": `Zoho-oauthtoken ${this.$auth.oauth_access_token}`,
         },
         ...args,
@@ -49,9 +51,6 @@ export default defineApp({
       return this._httpRequest({
         url: `/project/${projectId}/ml/ocr`,
         method: "POST",
-        headers: {
-          "Content-Type": `multipart/form-data; boundary=${args.data.getBoundary()}`,
-        },
         ...args,
       });
     },

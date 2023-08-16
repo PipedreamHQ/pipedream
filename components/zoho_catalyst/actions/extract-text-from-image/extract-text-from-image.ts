@@ -26,8 +26,12 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const { imagePath, projectId } = this;
-    const content = await fs.promises.readFile(imagePath.startsWith('/tmp') ? imagePath : `/tmp/${imagePath}`.replace(/\/\//g, '/'));
+    const {
+      imagePath, projectId,
+    } = this;
+    const content = fs.createReadStream(imagePath.startsWith("/tmp")
+      ? imagePath
+      : `/tmp/${imagePath}`.replace(/\/\//g, "/"));
 
     const data = new FormData();
     data.append("image", content);
@@ -35,6 +39,9 @@ export default defineAction({
     const response = await this.app.extractTextFromImage({
       $,
       projectId,
+      headers: {
+        ...data.getHeaders(),
+      },
       data,
     });
 
