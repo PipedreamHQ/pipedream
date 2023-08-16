@@ -23,7 +23,7 @@ export default {
     },
     offset: {
       type: "integer",
-      label: "offset",
+      label: "Offset",
       description: "Omit the first offset number of results.",
       optional: true,
     },
