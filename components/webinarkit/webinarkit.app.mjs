@@ -5,10 +5,35 @@ export default {
   type: "app",
   app: "webinarkit",
   propDefinitions: {
-    commonProperty: {
+    webinarId: {
       type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
+      label: "Webinar ID",
+      description: "The ID of the webinar to retrieve.",
+      async options() {
+        const { results: webinars } = await this.listWebinars();
+        return webinars.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    webinarDate: {
+      type: "string",
+      label: "Date",
+      description: "The date of the webinar. If you are passing an arbitrary date/time, make sure it is in the ISO 8601 format. You can learn more about that [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString). Eg: `2022-06-22T02:45:00.000Z`.",
+      async options({ webinarId }) {
+        const { results: dates } = await this.listWebinarDates({
+          webinarId,
+        });
+        return dates.map(({
+          id: value, label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
@@ -40,6 +65,20 @@ export default {
     post(args = {}) {
       return this.makeRequest({
         method: "post",
+        ...args,
+      });
+    },
+    listWebinars(args = {}) {
+      return this.makeRequest({
+        path: "/webinars",
+        ...args,
+      });
+    },
+    listWebinarDates({
+      webinarId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/webinar/dates/${webinarId}`,
         ...args,
       });
     },

@@ -9,5 +9,15 @@ export default {
   props: {
     app,
   },
-  async run() {},
+  async run({ $: step }) {
+    const { app } = this;
+
+    const response = await app.listWebinars({
+      step,
+    });
+
+    step.export("$summary", `Successfully retrieved ${response.results?.length} webinars.`);
+
+    return response;
+  },
 };

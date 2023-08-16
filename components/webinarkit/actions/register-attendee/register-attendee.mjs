@@ -8,6 +8,66 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    webinarId: {
+      propDefinition: [
+        app,
+        "webinarId",
+      ],
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the attendee.",
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the attendee.",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the attendee.",
+    },
+    date: {
+      propDefinition: [
+        app,
+        "webinarDate",
+        ({ webinarId }) => ({
+          webinarId,
+        }),
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    registerAttendee({
+      webinarId, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/webinar/registration/${webinarId}`,
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const {
+      registerAttendee,
+      webinarId,
+      ...data
+    } = this;
+
+    const response = await registerAttendee({
+      step,
+      webinarId,
+      data,
+    });
+
+    if (response.status !== "OK") {
+      throw new Error(`Unexpected response: ${JSON.stringify(response)}`);
+    }
+
+    step.export("$summary", `Successfully registered attendee with registration date ${response.registrationDate}.`);
+
+    return response;
+  },
 };

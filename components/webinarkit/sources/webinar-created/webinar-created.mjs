@@ -11,19 +11,16 @@ export default {
   methods: {
     ...common.methods,
     getResourceName() {
-      return "resource";
+      return "results";
     },
     getResourceFn() {
-      return this.app.listResources;
-    },
-    getResourceFnArgs() {
-      return {};
+      return this.app.listWebinars;
     },
     generateMeta(resource) {
       return {
         id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        summary: `New Webinar: ${resource.name}`,
+        ts: Date.now(),
       };
     },
   },
