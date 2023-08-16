@@ -160,7 +160,7 @@ export default {
       $,
     });
 
-    $.export("$summary", `Successfully created product with variant ${response.product_id}.`);
+    $.export("$summary", `Successfully created product ${response.product.product_id}.`);
 
     return response;
   },
