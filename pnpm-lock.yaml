@@ -2281,6 +2281,12 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/insightly:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+
   components/instagram_business:
     dependencies:
       '@pipedream/platform':
