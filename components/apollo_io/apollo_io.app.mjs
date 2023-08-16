@@ -4,13 +4,6 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "apollo_io",
-  propDefinitions: {
-    commonProperty: {
-      type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
-    },
-  },
   methods: {
     getBaseUrl() {
       return `${constants.BASE_URL}${constants.VERSION_PATH}`;
