@@ -3,7 +3,7 @@ import app from "../../segmetrics.app.mjs";
 export default {
   name: "Create Or Update Contact",
   version: "0.0.4",
-  key: "app-create-or-update-contact",
+  key: "segmetrics-create-or-update-contact",
   description: "Create or update a contact. [See documentation here](https://developers.segmetrics.io/#contacts)",
   type: "action",
   props: {

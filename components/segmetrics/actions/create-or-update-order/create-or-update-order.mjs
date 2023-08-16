@@ -3,7 +3,7 @@ import app from "../../segmetrics.app.mjs";
 export default {
   name: "Create Or Update Order",
   version: "0.0.2",
-  key: "app-create-or-update-order",
+  key: "segmetrics-create-or-update-order",
   description: "Creates a client. [See documentation here](https://developers.segmetrics.io/#orders)",
   type: "action",
   props: {
