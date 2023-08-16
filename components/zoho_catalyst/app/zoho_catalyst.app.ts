@@ -38,9 +38,10 @@ export default defineApp({
       });
     },
     async listProjects(): Promise<Project[]> {
-      return this._httpRequest({
+      const projects = await this._httpRequest({
         url: "/project",
       });
+      return projects.data;
     },
     async extractTextFromImage({
       projectId, ...args

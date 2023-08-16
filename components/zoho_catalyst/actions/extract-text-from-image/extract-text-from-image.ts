@@ -1,6 +1,6 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_catalyst.app";
-import fs from "fs/promises";
+import fs from "fs";
 import FormData from "form-data";
 
 export default defineAction({
@@ -26,10 +26,8 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const { projectId } = this;
-    const content = await fs.readFile(this.imagePath, {
-      encoding: "base64",
-    });
+    const { imagePath, projectId } = this;
+    const content = await fs.promises.readFile(imagePath.startsWith('/tmp') ? imagePath : `/tmp/${imagePath}`.replace(/\/\//g, '/'));
 
     const data = new FormData();
     data.append("image", content);
