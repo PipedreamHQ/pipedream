@@ -4,7 +4,7 @@ export default {
   name: "Enrich Person",
   version: "0.0.1",
   key: "full_contact-enrich-person",
-  description: "Enrich a person. [See docs here](https://docs.fullcontact.com/docs/multi-field-request)",
+  description: "Enrich a person. [See documentation here](https://docs.fullcontact.com/docs/multi-field-request)",
   type: "action",
   props: {
     app,
