@@ -5139,7 +5139,14 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/unbounce: {}
+  components/unbounce:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
 
   components/unisender:
     dependencies:
