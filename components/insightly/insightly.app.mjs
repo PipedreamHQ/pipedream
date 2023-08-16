@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-const DEFAULT_LIMIT = 20;
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -11,7 +11,7 @@ export default {
       description: "Identifier of a task category",
       optional: true,
       async options({ page }) {
-        const top = DEFAULT_LIMIT;
+        const top = constants.DEFAULT_LIMIT;
         const params = {
           top,
           skip: page * top,
@@ -26,6 +26,12 @@ export default {
           label,
         })) || [];
       },
+    },
+    recordType: {
+      type: "string",
+      label: "Record Type",
+      description: "Type of record to watch",
+      options: Object.keys(constants.RECORD_ID_FIELDS),
     },
   },
   methods: {
@@ -46,6 +52,14 @@ export default {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         auth: this._auth(),
+        ...args,
+      });
+    },
+    listRecords({
+      recordType, ...args
+    }) {
+      return this._makeRequest({
+        path: `/${recordType}`,
         ...args,
       });
     },
