@@ -22,7 +22,7 @@ export default {
     updateCustomer({
       customerId, ...args
     } = {}) {
-      return this.put({
+      return this.app.put({
         path: `/customers/${customerId}`,
         ...args,
       });

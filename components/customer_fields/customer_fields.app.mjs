@@ -84,12 +84,6 @@ export default {
         ...args,
       });
     },
-    patch(args = {}) {
-      return this.makeRequest({
-        method: "patch",
-        ...args,
-      });
-    },
     listForms(args = {}) {
       return this.makeRequest({
         path: "/forms",
