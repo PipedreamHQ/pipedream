@@ -1,16 +1,39 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_catalyst.app";
+import fs from "fs/promises";
+import FormData from "form-data";
 
 export default defineAction({
   key: "zoho_catalyst-extract-text-from-image",
   name: "Extract Text from Image",
-  description: `Extract text from an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/ocr.html)`,
+  description: "Extract text from an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/ocr.html)",
   version: "0.0.1",
   type: "action",
   props: {
     app,
+    imagePath: {
+      type: "string",
+      label: "Image Path",
+      description:
+        "A file path in the `/tmp` directory. [See the documentation on working with files.](https://pipedream.com/docs/code/nodejs/working-with-files/)",
+      optional: false,
+    },
   },
-  async run({ $ }) {
+  async run({ $ }): Promise<object> {
+    const content = await fs.readFile(this.imagePath, {
+      encoding: "base64",
+    });
 
+    const data = new FormData();
+    data.append("image", content);
+
+    const response = await this.app.extractTextFromImage({
+      $,
+      data,
+    });
+
+    $.export("$summary", "Successfully processed image");
+
+    return response;
   },
 });

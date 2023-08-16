@@ -1,8 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import {
-  HttpRequestParams,
-} from "../common/types";
+import { HttpRequestParams } from "../common/types";
 
 export default defineApp({
   type: "app",
@@ -21,7 +19,9 @@ export default defineApp({
         ...args,
       });
     },
-    async extractTextFromImage({ project, ...args}): Promise<object> {
+    async extractTextFromImage({
+      project, ...args
+    }): Promise<object> {
       return this._httpRequest({
         url: `/project/${project}/ml/ocr`,
         method: "POST",
