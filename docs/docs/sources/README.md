@@ -86,19 +86,19 @@ You can run an event source that polls an RSS for new items and emits them in re
 [**Create an RSS event source here**](https://pipedream.com/sources/new?app=rss&key=rss-new-item-in-feed).
 
 ## Test Events
-Having a test event for the workflow's source is critical, since it enables things like auto-complete and visibility into the event shape and any data that may be relevant for consumption throughout the workflow.
+Having a test event for your source is critical when building out a workflow, since it enables things like auto-complete and visibility into the event shape and any data that may be relevant for consumption throughout the workflow. To do this, there are a few options:
 
-![Waiting for test event](https://res.cloudinary.com/pipedreamin/image/upload/v1692160381/waiting-for-event_kfdsdv.gif)
-
-#### 1. Select an emitted event upon source creation
+### Select an emitted event upon source creation
 For many event sources, Pipedream will attempt to fetch the most recent ~50 events when they're deployed.
 
 ![Select an event](https://res.cloudinary.com/pipedreamin/image/upload/v1692160381/select-event_jhogxp.gif)
 
-#### 2. Generate a real event from the upstream application
+### Generate a real event in the upstream application
 If there aren't any existing events for the source to fetch, the best way to get a test event to your workflow is to generate one in the relevant application. For example, if your workflow is triggered on New Files in Dropbox, try adding a file to your Dropbox account.
 
-#### 3. Generate a sample test event
+![Waiting for test event](https://res.cloudinary.com/pipedreamin/image/upload/v1692160381/waiting-for-event_kfdsdv.gif)
+
+### Generate a sample test event
 
 
 ## Publishing a new event source, or modifying an existing source
