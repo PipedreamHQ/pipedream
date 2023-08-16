@@ -4949,7 +4949,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/tidycal: {}
+  components/tidycal:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/time_tracker_by_ebillity: {}
 
