@@ -15,7 +15,7 @@ export default {
     getHeaders(headers) {
       return {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.$auth.api_token}`,
+        "Authorization": `${this.$auth.api_token}`,
         ...headers,
       };
     },
