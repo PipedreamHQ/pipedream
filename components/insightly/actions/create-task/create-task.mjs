@@ -28,7 +28,7 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "The due date of the task.",
+      description: "The due date of the task in YYYY-mm-dd format. For example, 2023-08-20",
     },
     categoryId: {
       propDefinition: [
