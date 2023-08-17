@@ -1013,7 +1013,11 @@ importers:
         specifier: ^0.1.6
         version: 0.1.6
 
-  components/customer_fields: {}
+  components/customer_fields:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/customer_guru: {}
 
@@ -2291,6 +2295,12 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/insightly:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+
   components/instagram_business:
     dependencies:
       '@pipedream/platform':
@@ -2955,7 +2965,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/moxie: {}
+  components/moxie:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/mozilla_observatory: {}
 
@@ -5368,7 +5382,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/webinarkit: {}
+  components/webinarkit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/webscraper_io:
     dependencies:
@@ -5695,7 +5713,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/zoho_commerce: {}
+  components/zoho_commerce:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_creator:
     dependencies:
