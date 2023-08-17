@@ -42,6 +42,9 @@ export default {
       this.customerId,
       this.productsId,
     );
+    if (!res.data.invoiceCreate?.invoice?.id) {
+      throw new Error(`Failed to create invoice: ${JSON.stringify(res)}`);
+    }
     $.export("summary", `Invoice successfully created with id "${res.data.invoiceCreate.invoice.id}"`);
     return res;
   },

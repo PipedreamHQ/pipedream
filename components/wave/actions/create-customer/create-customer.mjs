@@ -80,6 +80,10 @@ export default {
       ...rest,
     };
     const res = await app.createCustomer(data);
+    if (!res.data.customerCreate?.customer?.id) {
+      throw new Error(`Failed to create customer: ${JSON.stringify(res)}`);
+    }
+
     $.export("summary", `Customer successfully created with id "${res.data.customerCreate.customer.id}"`);
     return res;
   },
