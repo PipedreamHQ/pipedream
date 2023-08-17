@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "zoho_meeting",
+  app: "neon_api_keys",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

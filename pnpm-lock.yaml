@@ -5354,7 +5354,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/webinarkit: {}
+  components/webinarkit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/webscraper_io:
     dependencies:
@@ -5736,7 +5740,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_meeting: {}
+  components/zoho_meeting:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_people: {}
 
