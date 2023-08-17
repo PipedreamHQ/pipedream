@@ -2318,6 +2318,9 @@
     },
     {
       "path": "components/campaignhq"
+    },
+    {
+      "path": "components/google_fit_developer_app"
     }
   ]
 }
