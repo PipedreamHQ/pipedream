@@ -30,7 +30,7 @@ export default defineComponent({
 In the above example we essentially instructed that this step needs the data store injected into the `this.store` prop. 
 :::
 
-::: warning
+:::warning
 All data store operations are asynchronous, so `await` must be used in order to allow them to complete.
 :::
 
