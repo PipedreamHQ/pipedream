@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/webinarkit",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream WebinarKit Components",
-  "main": "dist/app/webinarkit.app.mjs",
+  "main": "webinarkit.app.mjs",
   "keywords": [
     "pipedream",
     "webinarkit"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/webinarkit",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }
