@@ -5772,7 +5772,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_invoice: {}
+  components/zoho_invoice:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_mail:
     dependencies:
