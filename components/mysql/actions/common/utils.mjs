@@ -1,6 +1,8 @@
-async function getColumnProps(table, rejectUnauthorized = false) {
+async function getColumnProps(table) {
   const props = {};
-  const columns = await this.mysql.listColumnNames(table, rejectUnauthorized);
+  const columns = await this.mysql.listColumnNames({
+    table,
+  });
   for (const column of columns) {
     props[column] = {
       type: "string",
@@ -11,10 +13,12 @@ async function getColumnProps(table, rejectUnauthorized = false) {
   return props;
 }
 
-async function getColumnAndValueArrays(table, rejectUnauthorized = false) {
+async function getColumnAndValueArrays(table) {
   const columns = [];
   const values = [];
-  const columnNames = await this.mysql.listColumnNames(table, rejectUnauthorized);
+  const columnNames = await this.mysql.listColumnNames({
+    table,
+  });
   for (const column of columnNames) {
     if (this[column]) {
       columns.push(column);
