@@ -1921,6 +1921,8 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
+  components/google_fit_developer_app: {}
+
   components/google_forms:
     dependencies:
       '@pipedream/platform':
