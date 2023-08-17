@@ -31,7 +31,7 @@ In the above example we essentially instructed that this step needs the data sto
 :::
 
 ::: warning
-All datastore operations are asynchronous, so `await` must be used in order to allow them to complete.
+All data store operations are asynchronous, so `await` must be used in order to allow them to complete.
 :::
 
 ## Using the data store
