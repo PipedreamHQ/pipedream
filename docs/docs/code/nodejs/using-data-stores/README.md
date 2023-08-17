@@ -30,6 +30,10 @@ export default defineComponent({
 In the above example we essentially instructed that this step needs the data store injected into the `this.store` prop. 
 :::
 
+::: warning
+All datastore operations are asynchronous, so `await` must be used in order to allow them to complete.
+:::
+
 ## Using the data store
 
 Once you have defined a data store prop for your component, then you'll be able to create a new data store or use an existing one from your account.
