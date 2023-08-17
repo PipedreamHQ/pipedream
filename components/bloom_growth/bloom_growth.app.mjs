@@ -6,10 +6,10 @@ export default {
   propDefinitions: {
     meetingId: {
       type: "integer",
-      label: "Metting Id",
+      label: "Meeting Id",
       description: "The Id of the meeting",
       async options() {
-        const data = await this.listMettings();
+        const data = await this.listMeetings();
 
         return data.map(({
           Id: value, Name: label,
@@ -77,7 +77,7 @@ export default {
         ...args,
       });
     },
-    listMettings(args = {}) {
+    listMeetings(args = {}) {
       return this._makeRequest({
         path: "l10/list",
         ...args,
