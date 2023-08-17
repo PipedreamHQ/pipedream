@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/insightly",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Insightly Components",
   "main": "insightly.app.mjs",
   "keywords": [
