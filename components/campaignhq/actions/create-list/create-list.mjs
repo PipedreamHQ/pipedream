@@ -15,7 +15,6 @@ export default {
     },
   },
   async run({ $ }) {
-    console.log(this.app.authKeys());
     const res = await this.app.createList({
       name: this.name,
     });
