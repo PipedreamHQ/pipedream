@@ -12,13 +12,13 @@ export default {
     startsAt: {
       type: "string",
       label: "Starts At",
-      description: "Get bookings starting from a specific date. Eg. `2023-08-22T15:30:00.000000Z`",
+      description: "Get bookings starting from a specific date. Eg. `2023-08-22T15:30:00Z`",
       optional: true,
     },
     endsAt: {
       type: "string",
       label: "Ends At",
-      description: "Get bookings ending before a specific date. Eg. `2023-08-22T15:45:00.000000Z`",
+      description: "Get bookings ending before a specific date. Eg. `2023-08-22T15:45:00Z`",
       optional: true,
     },
     cancelled: {
