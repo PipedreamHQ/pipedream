@@ -185,7 +185,11 @@ importers:
 
   components/airnow: {}
 
-  components/airplane: {}
+  components/airplane:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/airtable:
     dependencies:
@@ -5310,6 +5314,8 @@ importers:
         version: 2.29.4
 
   components/visualping: {}
+
+  components/vitally: {}
 
   components/vivifyscrum: {}
 
