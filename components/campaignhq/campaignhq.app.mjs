@@ -64,7 +64,7 @@ export default {
       });
     },
     async listLists(page) {
-      const PAGE_SIZE = 1;
+      const PAGE_SIZE = 100;
       return this._makeHttpRequest({
         method: "GET",
         path: "/lists",
@@ -75,13 +75,13 @@ export default {
       });
     },
     async listContactsByList(listId, page) {
-      const PAGE_SIZE = 1;
+      const PAGE_SIZE = 100;
       return this._makeHttpRequest({
         method: "GET",
         path: `/lists/${listId}/contacts`,
         params: {
           page,
-          perPage: PAGE_SIZE,
+          per_page: PAGE_SIZE,
         },
       });
     },
