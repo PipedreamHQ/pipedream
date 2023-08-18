@@ -2294,6 +2294,36 @@
     },
     {
       "path": "components/webinarkit"
+    },
+    {
+      "path": "components/tidycal"
+    },
+    {
+      "path": "components/neon_api_keys"
+    },
+    {
+      "path": "components/superphone"
+    },
+    {
+      "path": "components/ftrack"
+    },
+    {
+      "path": "components/airplane"
+    },
+    {
+      "path": "components/pushcut"
+    },
+    {
+      "path": "components/justcall"
+    },
+    {
+      "path": "components/campaignhq"
+    },
+    {
+      "path": "components/google_fit_developer_app"
+    },
+    {
+      "path": "components/vitally"
     }
   ]
 }
