@@ -2321,6 +2321,9 @@
     },
     {
       "path": "components/google_fit_developer_app"
+    },
+    {
+      "path": "components/vitally"
     }
   ]
 }

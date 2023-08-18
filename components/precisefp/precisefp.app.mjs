@@ -3,35 +3,29 @@ import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
-  app: "apollo_io",
+  app: "precisefp",
+  propDefinitions: {},
   methods: {
     getBaseUrl() {
       return `${constants.BASE_URL}${constants.VERSION_PATH}`;
     },
-    getUrl(path) {
-      return `${this.getBaseUrl()}${path}`;
+    getUrl(path, url) {
+      return url || `${this.getBaseUrl()}${path}`;
     },
     getHeaders(headers) {
       return {
         "Content-Type": "application/json",
-        "Cache-Control": "no-cache",
+        "Authorization": `${this.$auth.api_token}`,
         ...headers,
       };
     },
-    getParams(params) {
-      return {
-        api_key: this.$auth.api_key,
-        ...params,
-      };
-    },
     makeRequest({
-      step = this, path, headers, params, ...args
+      step = this, path, headers, url, ...args
     } = {}) {
 
       const config = {
         headers: this.getHeaders(headers),
-        url: this.getUrl(path),
-        params: this.getParams(params),
+        url: this.getUrl(path, url),
         ...args,
       };
 
@@ -43,9 +37,21 @@ export default {
         ...args,
       });
     },
-    searchContacts(args = {}) {
+    listAccounts(args = {}) {
       return this.makeRequest({
-        path: "/contacts/search",
+        path: "/accounts",
+        ...args,
+      });
+    },
+    listPDFEngagements(args = {}) {
+      return this.makeRequest({
+        path: "/pdf-engagements",
+        ...args,
+      });
+    },
+    listFormEngagements(args = {}) {
+      return this.makeRequest({
+        path: "/form-engagements",
         ...args,
       });
     },
@@ -55,16 +61,17 @@ export default {
       resourceName,
       max = constants.DEFAULT_MAX,
     }) {
-      let page = 1;
+      let offset = 0;
       let resourcesCount = 0;
 
       while (true) {
+        console.log(`Fetching resources with offset ${offset}`);
         const response =
           await resourceFn({
             ...resourceFnArgs,
             params: {
               ...resourceFnArgs.params,
-              page,
+              offset,
             },
           });
 
@@ -84,7 +91,7 @@ export default {
           }
         }
 
-        page += 1;
+        offset = response.params?.offset;
       }
     },
   },

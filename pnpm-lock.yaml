@@ -323,6 +323,12 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
+  components/apollo_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+
   components/appcues: {}
 
   components/asana:
@@ -549,7 +555,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/bloom_growth: {}
+  components/bloom_growth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/blue: {}
 
@@ -3656,7 +3666,11 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/precisefp: {}
+  components/precisefp:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/pretix: {}
 
@@ -5762,7 +5776,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_invoice: {}
+  components/zoho_invoice:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_mail:
     dependencies:
