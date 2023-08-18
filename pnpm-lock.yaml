@@ -5307,6 +5307,8 @@ importers:
 
   components/visualping: {}
 
+  components/vitally: {}
+
   components/vivifyscrum: {}
 
   components/vk: {}
