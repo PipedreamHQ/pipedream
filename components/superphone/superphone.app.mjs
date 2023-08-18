@@ -1,8 +1,8 @@
 import "graphql/language/index.js";
 import { GraphQLClient } from "graphql-request";
 import constants from "./common/constants.mjs";
-import contact from "./common/contact.mjs";
-import conversation from "./common/conversation.mjs";
+import contact from "./common/queries/contact.mjs";
+import conversation from "./common/queries/conversation.mjs";
 
 export default {
   type: "app",
@@ -30,9 +30,13 @@ export default {
         });
 
         const options = nodes.map(({
-          id: value, email: label,
+          id: value, firstName, email,
         }) => ({
-          label,
+          label: `${firstName} ${
+            email !== null
+              ? "<" + email + ">"
+              : ""
+          }`.trim(),
           value,
         }));
 
@@ -68,7 +72,7 @@ export default {
         });
 
         const options = nodes.map(({
-          id: value, contact: { email: label },
+          id: value, participant: label,
         }) => ({
           label,
           value,
@@ -94,12 +98,15 @@ export default {
         if (prevContext.nextCursor === null) {
           return [];
         }
+
         const {
-          messages: {
-            nodes,
-            pageInfo: {
-              hasNextPage,
-              endCursor,
+          conversation: {
+            messages: {
+              nodes,
+              pageInfo: {
+                hasNextPage,
+                endCursor,
+              },
             },
           },
         } = await this.getConversation({
@@ -109,7 +116,7 @@ export default {
         });
 
         const options = nodes.map(({
-          id: value, body: label,
+          to: value, body: label,
         }) => ({
           label,
           value,
@@ -147,12 +154,14 @@ export default {
           after: prevContext.nextCursor,
         });
 
-        const options = nodes.map(({
-          mobile: value, email: label,
-        }) => ({
-          label,
-          value,
-        }));
+        const options = nodes
+          .filter(({ mobile }) => mobile)
+          .map(({
+            mobile: value, firstName: label,
+          }) => ({
+            label,
+            value,
+          }));
 
         return {
           options,
@@ -268,6 +277,12 @@ export default {
     listConversations(variables = {}) {
       return this.makeRequest({
         query: conversation.queries.listConversations,
+        variables,
+      });
+    },
+    getConversation(variables = {}) {
+      return this.makeRequest({
+        query: conversation.queries.getConversation,
         variables,
       });
     },

@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import common from "./base.mjs";
 import constants from "../../common/constants.mjs";
+import webhook from "../../common/webhook.mjs";
 
 export default {
   ...common,
@@ -14,40 +15,64 @@ export default {
   hooks: {
     async deploy() {
       const resourcesFn = this.getResourcesFn();
-      const { [this.getResourcesName()]: resources } =
-        await resourcesFn(this.getResourcesFnArgs());
-      resources.forEach(this.processResource);
+      if (resourcesFn) {
+        const { [this.getResourcesName()]: { nodes: resources } } =
+          await resourcesFn(this.getResourcesFnArgs());
+        resources.forEach(this.processResource);
+      }
     },
     async activate() {
-      const response =
+      const {
+        createWebhook: {
+          webhook,
+          webhookUserErrors,
+        },
+      } =
         await this.createWebhook({
-          data: {
+          input: {
             url: this.http.endpoint,
-            event: this.getEventName(),
+            subscriptions: this.getSubscriptions(),
           },
         });
 
-      this.setWebhookId(response.id);
+      if (webhookUserErrors?.length) {
+        throw new Error(JSON.stringify(webhookUserErrors));
+      }
+
+      this.setWebhookData(webhook);
     },
     async deactivate() {
-      const webhookId = this.getWebhookId();
-      if (webhookId) {
-        await this.deleteWebhook({
-          webhookId,
-        });
+      const data = this.getWebhookData();
+      if (data?.id) {
+        const {
+          id: webhookId,
+          ...webhook
+        } = data;
+        const { updateWebhook: { webhookUserErrors } } =
+          await this.updateWebhook({
+            input: {
+              ...webhook,
+              webhookId,
+              active: false,
+            },
+          });
+
+        if (webhookUserErrors?.length) {
+          throw new Error(JSON.stringify(webhookUserErrors));
+        }
       }
     },
   },
   methods: {
     ...common.methods,
-    setWebhookId(value) {
-      this.db.set(constants.WEBHOOK_ID, value);
+    setWebhookData(value) {
+      this.db.set(constants.WEBHOOK_DATA, value);
     },
-    getWebhookId() {
-      return this.db.get(constants.WEBHOOK_ID);
+    getWebhookData() {
+      return this.db.get(constants.WEBHOOK_DATA);
     },
-    getEventName() {
-      throw new ConfigurationError("getEventName is not implemented");
+    getSubscriptions() {
+      throw new ConfigurationError("getSubscriptions is not implemented");
     },
     getResourcesFn() {
       throw new ConfigurationError("getResourcesFn is not implemented");
@@ -58,18 +83,16 @@ export default {
     processResource(resource) {
       this.$emit(resource, this.generateMeta(resource));
     },
-    createWebhook(args = {}) {
-      return this.app.post({
-        path: "/webhooks",
-        ...args,
+    createWebhook(variables = {}) {
+      return this.app.makeRequest({
+        query: webhook.mutations.createWebhook,
+        variables,
       });
     },
-    deleteWebhook({
-      webhookId, ...args
-    } = {}) {
-      return this.app.delete({
-        path: `/webhooks/${webhookId}`,
-        ...args,
+    updateWebhook(variables = {}) {
+      return this.app.makeRequest({
+        query: webhook.mutations.updateWebhook,
+        variables,
       });
     },
   },
@@ -78,6 +101,6 @@ export default {
       status: 200,
     });
 
-    this.processResource(body);
+    this.processResource(body.data);
   },
 };

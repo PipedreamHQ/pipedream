@@ -1,5 +1,5 @@
 import app from "../../superphone.app.mjs";
-import contact from "../../common/contact.mjs";
+import contact from "../../common/queries/contact.mjs";
 
 export default {
   key: "superphone-create-new-contact",

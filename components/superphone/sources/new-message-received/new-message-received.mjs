@@ -1,5 +1,5 @@
 import common from "../common/webhook.mjs";
-import events from "../common/events.mjs";
+import subscriptions from "../common/subscriptions.mjs";
 
 export default {
   ...common,
@@ -12,27 +12,18 @@ export default {
   methods: {
     ...common.methods,
     getResourcesFn() {
-      return this.app.listResources;
+      return false;
     },
-    getResourcesFnArgs() {
-      return {
-        params: {
-          sort_by: "created_at",
-          sort_order: "desc",
-        },
-      };
-    },
-    getResourcesName() {
-      return "resources";
-    },
-    getEventName() {
-      return events.DEFAULT;
+    getSubscriptions() {
+      return [
+        subscriptions.MESSAGE_RECEIVED,
+      ];
     },
     generateMeta(resource) {
       return {
         id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        summary: `New Message: ${resource.id}`,
+        ts: Date.parse(resource.createdAt),
       };
     },
   },

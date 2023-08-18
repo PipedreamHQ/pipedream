@@ -1,12 +1,12 @@
 import app from "../../superphone.app.mjs";
-import contact from "../../common/contact.mjs";
+import contact from "../../common/queries/contact.mjs";
 
 export default {
   key: "superphone-update-contact",
   name: "Update Contact",
   description: "Update an existing contact. [See the documentation](https://api.superphone.io/docs/mutation.doc.html)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.1",
   props: {
     app,
     contactId: {

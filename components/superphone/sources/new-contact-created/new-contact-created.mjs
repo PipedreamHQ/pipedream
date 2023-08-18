@@ -1,5 +1,6 @@
 import common from "../common/webhook.mjs";
-import events from "../common/events.mjs";
+import subscriptions from "../common/subscriptions.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -12,27 +13,26 @@ export default {
   methods: {
     ...common.methods,
     getResourcesFn() {
-      return this.app.listResources;
+      return this.app.listContacts;
     },
     getResourcesFnArgs() {
       return {
-        params: {
-          sort_by: "created_at",
-          sort_order: "desc",
-        },
+        first: constants.DEFAULT_LIMIT,
       };
     },
     getResourcesName() {
-      return "resources";
+      return "contacts";
     },
-    getEventName() {
-      return events.DEFAULT;
+    getSubscriptions() {
+      return [
+        subscriptions.CONTACT_ADDED,
+      ];
     },
     generateMeta(resource) {
       return {
         id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        summary: `New Contact: ${resource.id}`,
+        ts: Date.parse(resource.createdAt),
       };
     },
   },

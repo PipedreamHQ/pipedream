@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import message from "../../common/message.mjs";
+import message from "../../common/queries/message.mjs";
 import app from "../../superphone.app.mjs";
 
 export default {
@@ -14,13 +14,6 @@ export default {
       propDefinition: [
         app,
         "conversationId",
-      ],
-    },
-    mobile: {
-      description: "Recipient mobile number.",
-      propDefinition: [
-        app,
-        "mobile",
       ],
     },
     recipient: {
@@ -48,6 +41,13 @@ export default {
         "FACEBOOK",
       ],
     },
+    mobile: {
+      description: "Recipient mobile number in E.164 format.",
+      propDefinition: [
+        app,
+        "mobile",
+      ],
+    },
   },
   methods: {
     sendMessage(variables = {}) {
@@ -60,6 +60,7 @@ export default {
   async run({ $: step }) {
     const {
       app,
+      conversationId,
       sendMessage,
       ...input
     } = this;
