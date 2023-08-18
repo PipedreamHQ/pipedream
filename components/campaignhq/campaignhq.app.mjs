@@ -78,7 +78,7 @@ export default {
       const PAGE_SIZE = 1;
       return this._makeHttpRequest({
         method: "GET",
-        path: `/${listId}/contacts`,
+        path: `/lists/${listId}/contacts`,
         params: {
           page,
           perPage: PAGE_SIZE,
