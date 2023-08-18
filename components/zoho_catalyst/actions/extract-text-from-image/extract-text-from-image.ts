@@ -1,7 +1,6 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_catalyst.app";
-import fs from "fs";
-import FormData from "form-data";
+import { getImageFormData } from "../../common/methods";
 
 export default defineAction({
   key: "zoho_catalyst-extract-text-from-image",
@@ -29,12 +28,8 @@ export default defineAction({
     const {
       imagePath, projectId,
     } = this;
-    const content = fs.createReadStream(imagePath.startsWith("/tmp")
-      ? imagePath
-      : `/tmp/${imagePath}`.replace(/\/\//g, "/"));
 
-    const data = new FormData();
-    data.append("image", content);
+    const data = getImageFormData(imagePath);
 
     const response = await this.app.extractTextFromImage({
       $,
