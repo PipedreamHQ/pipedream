@@ -119,7 +119,16 @@ For example, the [New Message from Discord source](https://pipedream.com/apps/di
 #### Customizing the sample event
 If the provided static event is not sufficient for you to develop your workflow because you need to check against specific values (but are not able to generate real triggering events in the application), you can also customize the sample event.
 
-![Generating a custom test event](https://res.cloudinary.com/pipedreamin/image/upload/v1692208295/generate-test-event-custom_y5eokl.gif)
+1. Select the arrow on the right side of the "Generate Test Event" button
+2. Select "Modify Test Event"
+3. Make whatever changes you'd like to the sample event
+4. Click "Send Custom Test Event"
+
+![Generating a custom test event](https://res.cloudinary.com/pipedreamin/image/upload/v1692386947/generate-test-event-custom-updated_gv0xwg.gif)
+
+To reset the custom event JSON back to the sample event, click the "Reset" button at the top right of the test event window:
+
+![Resetting the Sample Event](https://res.cloudinary.com/pipedreamin/image/upload/v1692387426/Google_Chrome_-_Untitled_Workflow_-_Pipedream_2023-08-18_at_12.33.18_PM_kimrh9.png)
 
 ::: warning Sample data may contain inconsistencies
 
