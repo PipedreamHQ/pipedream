@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/ftrack",
+  "version": "0.0.1",
+  "description": "Pipedream FTrack Components",
+  "main": "dist/app/ftrack.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ftrack"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/ftrack",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

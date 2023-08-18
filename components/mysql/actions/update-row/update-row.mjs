@@ -6,7 +6,7 @@ export default {
   name: "Update Row",
   description: "Updates an existing row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/update.html)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     mysql,
     table: {
@@ -29,25 +29,16 @@ export default {
         "whereValues",
       ],
     },
-    rejectUnauthorized: {
-      propDefinition: [
-        mysql,
-        "rejectUnauthorized",
-      ],
-    },
   },
   async additionalProps() {
     return await this.getColumnProps(this.table);
   },
-  methods: {
-    ...utils,
-  },
+  methods: utils,
   async run({ $ }) {
     const {
       table,
       condition,
       conditionValues,
-      rejectUnauthorized,
     } = this;
     const numberOfQuestionMarks = condition.match(/\?/g)?.length;
 
@@ -73,7 +64,6 @@ export default {
       conditionValues,
       columnsToUpdate,
       valuesToUpdate,
-      rejectUnauthorized,
     });
 
     $.export("$summary", `Successfully updated ${result.affectedRows} row(s) in table ${table}`);

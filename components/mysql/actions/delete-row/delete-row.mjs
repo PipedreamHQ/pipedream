@@ -5,7 +5,7 @@ export default {
   name: "Delete Row",
   description: "Delete an existing row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/delete.html)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     mysql,
     table: {
@@ -27,19 +27,12 @@ export default {
         "whereValues",
       ],
     },
-    rejectUnauthorized: {
-      propDefinition: [
-        mysql,
-        "rejectUnauthorized",
-      ],
-    },
   },
   async run({ $ }) {
     const {
       table,
       condition,
       values,
-      rejectUnauthorized,
     } = this;
 
     const numberOfQuestionMarks = condition?.match(/\?/g)?.length;
@@ -60,7 +53,6 @@ export default {
       table,
       condition,
       values,
-      rejectUnauthorized,
     });
 
     $.export("$summary", `Successfully deleted ${result.affectedRows} row(s) from table ${table}`);
