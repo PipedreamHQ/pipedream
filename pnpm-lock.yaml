@@ -439,7 +439,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/azure_openai_service: {}
+  components/azure_openai_service:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/badger_maps:
     dependencies:
@@ -555,7 +559,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/bloom_growth: {}
+  components/bloom_growth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/blue: {}
 
