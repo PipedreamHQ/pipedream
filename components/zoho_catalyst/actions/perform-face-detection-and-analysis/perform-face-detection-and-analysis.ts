@@ -1,9 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/zoho_catalyst.app";
 import { getImageFormData } from "../../common/methods";
-import {
-  FACE_ANALYTICS_MODE_OPTIONS, MODERATION_MODE_OPTIONS,
-} from "../../common/constants";
+import { FACE_ANALYTICS_MODE_OPTIONS } from "../../common/constants";
 
 export default defineAction({
   key: "zoho_catalyst-perform-face-detection-and-analysis",
