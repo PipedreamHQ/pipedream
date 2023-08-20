@@ -23,7 +23,7 @@ export default {
     personAccount: {
       propDefinition: [
         app,
-        "personAccount",
+        "person",
       ],
     },
     mailingAddress: {

@@ -28,8 +28,8 @@ export default {
     },
     mailingAddress: {
       type: "object",
-      label: "Billing Address",
-      description: "The billing address of the account",
+      label: "Mailing Address",
+      description: "The mailing address of the account",
       optional: true,
       default: constants.ADDRESS_DEFAULT_OBJ,
     },

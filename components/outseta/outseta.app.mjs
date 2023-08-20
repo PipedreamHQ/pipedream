@@ -11,10 +11,10 @@ export default {
       description: "The billing stage of the account",
       options: constants.ACCOUNT_BILLING_STAGE_OPTS,
     },
-    personAccount: {
+    person: {
       type: "string",
-      label: "Person Account",
-      description: "The primary person associated with the account",
+      label: "Person",
+      description: "The person to be associated",
       async options({ prevContext }) {
         const { items } = await this.getAllPeople({
           $: this,
@@ -25,6 +25,46 @@ export default {
             label: item.Email,
             value: item.Uid,
           })),
+          context: {
+            nextPage: (prevContext?.nextPage || 0) + 1,
+          },
+        };
+      },
+    },
+    account: {
+      type: "string",
+      label: "Account",
+      description: "The account to be associated",
+      async options({ prevContext }) {
+        const { items } = await this.getAllAccounts({
+          $: this,
+          page: prevContext?.nextPage || 0,
+        });
+        return {
+          options: (items || []).map((item) => ({
+            label: item.Name,
+            value: item.Uid,
+          })),
+          context: {
+            nextPage: (prevContext?.nextPage || 0) + 1,
+          },
+        };
+      },
+    },
+    dealPipelineStage: {
+      type: "string",
+      label: "Deal Pipeline Stage",
+      description: "The pipeline stage of the deal",
+      async options({ prevContext }) {
+        const { items } = await this.getAllDealPipelines({
+          $: this,
+          page: prevContext?.nextPage || 0,
+        });
+        return {
+          options: (items || []).map((item) => item.DealPipelineStages.map((stage) => ({
+            label: `${item.Name} - ${stage.Name}`,
+            value: stage.Uid,
+          }))).flat(),
           context: {
             nextPage: (prevContext?.nextPage || 0) + 1,
           },
@@ -75,6 +115,17 @@ export default {
         data,
       });
     },
+    addDeal({
+      $,
+      data,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "/v1/crm/deals",
+        data,
+      });
+    },
     getAllPeople({
       $,
       page = 0,
@@ -83,6 +134,34 @@ export default {
       return this._makeRequest({
         $,
         path: "/v1/crm/people",
+        params: {
+          limit,
+          offset: page,
+        },
+      });
+    },
+    getAllAccounts({
+      $,
+      page = 0,
+    }) {
+      const limit = constants.GET_ALL_LIMIT;
+      return this._makeRequest({
+        $,
+        path: "/v1/crm/accounts",
+        params: {
+          limit,
+          offset: page,
+        },
+      });
+    },
+    getAllDealPipelines({
+      $,
+      page = 0,
+    }) {
+      const limit = constants.GET_ALL_LIMIT;
+      return this._makeRequest({
+        $,
+        path: "/v1/crm/dealpipelines",
         params: {
           limit,
           offset: page,
