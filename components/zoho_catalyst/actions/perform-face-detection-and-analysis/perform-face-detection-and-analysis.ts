@@ -66,7 +66,7 @@ export default defineAction({
       "gender",
     ]) {
       if (this[prop]) {
-        data.append(prop, this[prop]);
+        data.append(prop, this[prop].toString());
       }
     }
 
