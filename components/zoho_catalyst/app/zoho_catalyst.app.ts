@@ -1,8 +1,9 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
+  DetectObjectsParams,
   ExtractTextParams,
-  HttpRequestParams, Project,
+  HttpRequestParams, PerformModerationParams, Project,
 } from "../common/types";
 
 export default defineApp({
@@ -22,7 +23,7 @@ export default defineApp({
           value,
         }));
       },
-    },  
+    },
     imagePath: {
       type: "string",
       label: "Image Path",
@@ -51,11 +52,29 @@ export default defineApp({
       });
       return projects.data;
     },
+    async detectObjectsInImage({
+      projectId, ...args
+    }: DetectObjectsParams): Promise<object> {
+      return this._httpRequest({
+        url: `/project/${projectId}/ml/detect-object`,
+        method: "POST",
+        ...args,
+      });
+    },
     async extractTextFromImage({
       projectId, ...args
     }: ExtractTextParams): Promise<object> {
       return this._httpRequest({
         url: `/project/${projectId}/ml/ocr`,
+        method: "POST",
+        ...args,
+      });
+    },
+    async performImageModeration({
+      projectId, ...args
+    }: PerformModerationParams): Promise<object> {
+      return this._httpRequest({
+        url: `/project/${projectId}/ml/imagemoderation`,
         method: "POST",
         ...args,
       });

@@ -12,11 +12,14 @@ export interface HttpRequestParams extends PdAxiosRequest {
   params?: object;
 }
 
-export interface ExtractTextParams extends PdAxiosRequest {
+export interface DetectObjectsParams extends PdAxiosRequest {
   projectId: string;
   data: FormData;
   headers: FormData.Headers;
 }
+
+export type ExtractTextParams = DetectObjectsParams;
+export type PerformModerationParams = DetectObjectsParams;
 
 export interface Project {
   project_name: string;
