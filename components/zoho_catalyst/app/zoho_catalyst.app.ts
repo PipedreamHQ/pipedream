@@ -22,6 +22,12 @@ export default defineApp({
           value,
         }));
       },
+    },  
+    imagePath: {
+      type: "string",
+      label: "Image Path",
+      description:
+        "A file path in the `/tmp` directory. [See the documentation on working with files.](https://pipedream.com/docs/code/nodejs/working-with-files/)",
     },
   },
   methods: {

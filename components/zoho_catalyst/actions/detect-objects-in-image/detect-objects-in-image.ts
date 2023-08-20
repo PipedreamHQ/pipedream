@@ -3,9 +3,9 @@ import app from "../../app/zoho_catalyst.app";
 import { getImageFormData } from "../../common/methods";
 
 export default defineAction({
-  key: "zoho_catalyst-extract-text-from-image",
-  name: "Extract Text from Image",
-  description: "Extract text from an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/ocr.html)",
+  key: "zoho_catalyst-detect-objects-in-image",
+  name: "Detect Objects in Image",
+  description: "Detect or recognize objects in an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/or.html)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -30,7 +30,7 @@ export default defineAction({
 
     const data = getImageFormData(imagePath);
 
-    const response = await this.app.extractTextFromImage({
+    const response = await this.app.detectObjectsInImage({
       $,
       projectId,
       headers: {
@@ -39,7 +39,7 @@ export default defineAction({
       data,
     });
 
-    $.export("$summary", "Successfully processed image for text extraction");
+    $.export("$summary", "Successfully processed image for object detection");
 
     return response;
   },
