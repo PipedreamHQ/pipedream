@@ -24,11 +24,11 @@ export default defineAction({
       ],
     },
     mode: {
-      type: "string",
-      label: "Mode",
+      propDefinition: [
+        app,
+        "mode",
+      ],
       description: "Denotes the moderation mode.",
-      optional: true,
-      default: "advanced",
       options: MODERATION_MODE_OPTIONS,
     },
   },

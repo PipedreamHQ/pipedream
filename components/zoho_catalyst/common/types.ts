@@ -20,6 +20,7 @@ export interface DetectObjectsParams extends PdAxiosRequest {
 
 export type ExtractTextParams = DetectObjectsParams;
 export type PerformModerationParams = DetectObjectsParams;
+export type PerformFaceDetectionParams = DetectObjectsParams;
 
 export interface Project {
   project_name: string;

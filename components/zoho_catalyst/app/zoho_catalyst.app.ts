@@ -3,7 +3,7 @@ import { axios } from "@pipedream/platform";
 import {
   DetectObjectsParams,
   ExtractTextParams,
-  HttpRequestParams, PerformModerationParams, Project,
+  HttpRequestParams, PerformFaceDetectionParams, PerformModerationParams, Project,
 } from "../common/types";
 
 export default defineApp({
@@ -29,6 +29,12 @@ export default defineApp({
       label: "Image Path",
       description:
         "A file path in the `/tmp` directory. [See the documentation on working with files.](https://pipedream.com/docs/code/nodejs/working-with-files/)",
+    },
+    mode: {
+      type: "string",
+      label: "Mode",
+      optional: true,
+      default: "advanced",
     },
   },
   methods: {
@@ -75,6 +81,15 @@ export default defineApp({
     }: PerformModerationParams): Promise<object> {
       return this._httpRequest({
         url: `/project/${projectId}/ml/imagemoderation`,
+        method: "POST",
+        ...args,
+      });
+    },
+    async performImageFaceDetection({
+      projectId, ...args
+    }: PerformFaceDetectionParams): Promise<object> {
+      return this._httpRequest({
+        url: `/project/${projectId}/ml/faceanalytics`,
         method: "POST",
         ...args,
       });
