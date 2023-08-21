@@ -2324,6 +2324,9 @@
     },
     {
       "path": "components/vitally"
+    },
+    {
+      "path": "components/talend"
     }
   ]
 }
