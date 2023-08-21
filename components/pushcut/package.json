@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/pushcut",
+  "version": "0.0.1",
+  "description": "Pipedream Pushcut Components",
+  "main": "dist/app/pushcut.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pushcut"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/pushcut",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
