@@ -35,10 +35,17 @@ export default {
     }
     const promptParameters = await this.getPromptParameters();
     for (const param of promptParameters) {
-      props[param.slug] = {
-        type: "string",
-        label: param.name,
-      };
+      if (param.type === "boolean") {
+        props[param.slug] = {
+          type: "boolean",
+          label: param.name,
+        };
+      } else {
+        props[param.slug] = {
+          type: "string",
+          label: param.name,
+        };
+      }
     }
     return props;
   },
