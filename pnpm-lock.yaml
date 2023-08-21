@@ -185,6 +185,8 @@ importers:
 
   components/airnow: {}
 
+  components/airplane: {}
+
   components/airtable:
     dependencies:
       '@pipedream/platform':
@@ -321,6 +323,12 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
+  components/apollo_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+
   components/appcues: {}
 
   components/asana:
@@ -431,7 +439,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/azure_openai_service: {}
+  components/azure_openai_service:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/badger_maps:
     dependencies:
@@ -547,7 +559,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/bloom_growth: {}
+  components/bloom_growth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/blue: {}
 
@@ -682,6 +698,8 @@ importers:
   components/callingly: {}
 
   components/callrail: {}
+
+  components/campaignhq: {}
 
   components/campayn:
     dependencies:
@@ -1005,7 +1023,11 @@ importers:
         specifier: ^0.1.6
         version: 0.1.6
 
-  components/customer_fields: {}
+  components/customer_fields:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/customer_guru: {}
 
@@ -1629,6 +1651,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
+  components/ftrack: {}
+
   components/full_contact:
     dependencies:
       '@pipedream/platform':
@@ -1910,6 +1934,8 @@ importers:
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
+
+  components/google_fit_developer_app: {}
 
   components/google_forms:
     dependencies:
@@ -2281,6 +2307,12 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/insightly:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+
   components/instagram_business:
     dependencies:
       '@pipedream/platform':
@@ -2388,6 +2420,8 @@ importers:
         version: 1.5.1
 
   components/junip: {}
+
+  components/justcall: {}
 
   components/kakao: {}
 
@@ -2943,7 +2977,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/moxie: {}
+  components/moxie:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/mozilla_observatory: {}
 
@@ -3011,6 +3049,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.5.1
+
+  components/neon_api_keys: {}
 
   components/nethunt_crm:
     dependencies:
@@ -3630,7 +3670,11 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/precisefp: {}
+  components/precisefp:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/pretix: {}
 
@@ -3706,6 +3750,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/pushcut: {}
 
   components/pushover:
     dependencies:
@@ -4670,6 +4716,8 @@ importers:
 
   components/supernotes: {}
 
+  components/superphone: {}
+
   components/supersaas:
     dependencies:
       '@pipedreamhq/platform':
@@ -4904,6 +4952,8 @@ importers:
       '@pipedream/platform':
         specifier: ^0.10.0
         version: 0.10.0
+
+  components/tidycal: {}
 
   components/time_tracker_by_ebillity: {}
 
@@ -5264,6 +5314,8 @@ importers:
         version: 2.29.4
 
   components/visualping: {}
+
+  components/vitally: {}
 
   components/vivifyscrum: {}
 
@@ -5679,7 +5731,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/zoho_commerce: {}
+  components/zoho_commerce:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_creator:
     dependencies:
@@ -5726,7 +5782,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/zoho_invoice: {}
+  components/zoho_invoice:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/zoho_mail:
     dependencies:
