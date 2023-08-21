@@ -185,7 +185,11 @@ importers:
 
   components/airnow: {}
 
-  components/airplane: {}
+  components/airplane:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/airtable:
     dependencies:
@@ -439,7 +443,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/azure_openai_service: {}
+  components/azure_openai_service:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/badger_maps:
     dependencies:
@@ -5311,6 +5319,8 @@ importers:
 
   components/visualping: {}
 
+  components/vitally: {}
+
   components/vivifyscrum: {}
 
   components/vk: {}
@@ -5717,7 +5727,17 @@ importers:
 
   components/zoho_campaigns: {}
 
-  components/zoho_catalyst: {}
+  components/zoho_catalyst:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@pipedream/types':
+        specifier: ^0.1.6
+        version: 0.1.6
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
 
   components/zoho_cliq:
     dependencies:

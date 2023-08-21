@@ -19,11 +19,11 @@ If you have any questions related to data privacy, please email <span style="fon
 
 If you'd like to report a suspected vulnerability, please contact <span style="font-weight: bold">security@pipedream.com</span>.
 
-If you need to encrypt sensitive data as part of your report, you can use our [PGP key](/privacy-and-security/pgp-key/).
+If you need to encrypt sensitive data as part of your report, you can use our security team's [PGP key](/privacy-and-security/pgp-key/).
 
 ## Reporting abuse
 
-If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report it here](/abuse/).
+If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report abuse here](/abuse/).
 
 ## Compliance
 
@@ -57,17 +57,17 @@ Pipedream further secures access to AWS resources through a series of controls, 
 
 ## Intrustion Detection and Prevention
 
-Pipedream uses AWS WAF, GuardDuty, and Datadog to monitor and block suspected attacks against Pipedream infrastructure, including DDoS attacks.
+Pipedream uses AWS WAF, GuardDuty, CloudTrail, CloudWatch, Datadog, and other custom alerts to monitor and block suspected attacks against Pipedream infrastructure, including DDoS attacks.
 
-Pipedream implements a number of industry-standard and custom alerts to detect anomalous activity on the platform, and reacts to potential threats quickly based on [our incident response policy](#incident-response).
+Pipedream reacts to potential threats quickly based on [our incident response policy](#incident-response).
 
 ## User Accounts, Authentication and Authorization
 
-When you sign up for a Pipedream account, you can choose to link your Pipedream login to either an existing [Google](https://google.com) or [Github](https://github.com) account, or create an account directly with Pipedream.
+When you sign up for a Pipedream account, you can choose to link your Pipedream login to either an existing [Google](https://google.com) or [Github](https://github.com) account, or create an account directly with Pipedream. Pipedream also supports [single-sign on](/workspaces/#configuring-single-sign-on-sso).
 
 When you link your Pipedream login to an existing identity provider, Pipedream does not store any passwords tied to your user account — that information is secured with the identity provider. We recommend you configure two-factor authentication in the provider to further protect access to your Pipedream account.
 
-When you create an account on Pipedream directly, with a username and password, Pipedream implements best account security practices (for example: Pipedream hashes your password, and the hashed password is encrypted in our database, which resides in a private network accessible only to select Pipedream employees).
+When you create an account on Pipedream directly, with a username and password, Pipedream implements account security best practices (for example: Pipedream hashes your password, and the hashed password is encrypted in our database, which resides in a private network accessible only to select Pipedream employees).
 
 ## Third party OAuth grants, API keys, and environment variables
 
@@ -85,13 +85,19 @@ No credentials are logged in your source or workflow by default. If you log thei
 
 You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account. You must revoke that access wherever you manage OAuth grants in your third party application.
 
-## Execution Environment
+## Execution environment
 
 The **execution environment** refers to the environment in which your sources, workflows, and other Pipedream code is executed.
 
 Each version of a source or workflow is deployed to its own virtual machine in AWS. This means your execution environment has its own RAM and disk, isolated from other users' environments. You can read more about the details of the virtualization and isolation mechanisms used to secure your execution environment [here](https://firecracker-microvm.github.io/).
 
 Instances of running VMs are called **workers**. If Pipedream spins up three VMs to handle multiple, concurrent requests for a single workflow, we're running three **workers**. Each worker runs the same Pipedream execution environment. Workers are ephemeral — AWS will shut them down within ~5 minutes of inactivity — but you can configure [dedicated workers](/workflows/settings/#eliminate-cold-starts) to ensure workers are always available to handle incoming requests.
+
+## Controlling egress traffic from Pipedream
+
+By default, outbound traffic shares the same network as other AWS services deployed in the `us-east-1` region. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
+
+[Pipedream VPCs](/workflows/vpc/) enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresses that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform). Outbound network requests from workflows that run in a VPC will originate from these IP addresses, and only workflows in your workspace will run there.
 
 ## Encryption of data in transit, TLS (SSL) Certificates
 
