@@ -12,7 +12,7 @@ By default, all new [Pipedream HTTP endpoints](/workflows/steps/triggers/#http) 
 
 ### 1. Choose your domain
 
-You can configure any domain you own to work with Pipedream HTTP endpoints. For example, many of our customers host Pipedream HTTP endpoints on a dedicated subdomain on their core domain, like `*.pipedream.yourdomain.com` or `*.marketing.yourdomain.com`. This can be any domain or subdomain you own.
+You can configure any domain you own to work with Pipedream HTTP endpoints. For example, you can host Pipedream HTTP endpoints on a dedicated subdomain on your core domain, like `*.pipedream.yourdomain.com` or `*.marketing.yourdomain.com`. This can be any domain or subdomain you own.
 
 In this example, endpoints would look like:
 
@@ -30,7 +30,7 @@ endpoint1.yourdomain.com
 ...
 ```
 
-Since all traffic on `*.yourdomain.com` points to Pipedream, we can assign hosts on the root domain. This also means that **you cannot host other hosts like www.yourdomain.com** without conflicting with Pipedream endpoints. Choose this option only if you're serving all traffic from `yourdomain.com` from Pipedream.
+Since all traffic on `*.yourdomain.com` points to Pipedream, we can assign hosts on the root domain. This also means that **you cannot use other hosts like www.yourdomain.com** without conflicting with Pipedream endpoints. Choose this option only if you're serving all traffic from `yourdomain.com` from Pipedream.
 
 Before you move on, make sure you have access to manage DNS records for your domain. If you don't, please coordinate with the team at your company that manages DNS records, and feel free to [reach out to our Support team](https://pipedream.com/support) with any questions.
 
@@ -75,6 +75,30 @@ Now you'll need to add the wildcard record that points all traffic for your doma
 - **Value**: `id123.cd.pdrm.net`
 - **TTL (seconds)**: 300
 
-## How Pipedream manages the SSL/TLS certs for your domain
+Once you've finished adding these DNS records, please **reach out to the Pipedream team**. We'll validate the records and finalize the configuration for your domain.
+
+### 4. Send a test request to your custom domain
+
+Any traffic to existing `{{$site.themeConfig.ENDPOINT_BASE_URL}}` endpoints will continue to work uninterrupted.
+
+To confirm traffic to your new domain works, take any Pipedream endpoint URL and replace the `{{$site.themeConfig.ENDPOINT_BASE_URL}}` with your custom domain. For example, if you configured a custom domain of `pipedream.yourdomain.com` and have an existing endpoint at
+
+```
+endpoint.m.pipedream.net
+```
+
+Try making a test request to
+
+```
+endpoint.pipedream.yourdomain.com
+```
+
+## Security
+
+### How Pipedream manages the TLS/SSL certificate
 
 See our [TLS/SSL security docs](/privacy-and-security/#encryption-of-data-in-transit-tls-ssl-certificates) for more detail on how we create and manage the certificates for custom domains.
+
+### Requests to custom domains are allowed only for your endpoints
+
+Custom domains are mapped directly to customer endpoints. This means no other customer can send requests to their endpoints on _your_ custom domain. Requests to `yourdomain.com` are restricted specifically to HTTP endpoints in your Pipedream workspace.
