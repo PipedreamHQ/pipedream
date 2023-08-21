@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/justcall",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream JustCall Components",
-  "main": "dist/app/justcall.app.mjs",
+  "main": "justcall.app.mjs",
   "keywords": [
     "pipedream",
     "justcall"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/justcall",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
