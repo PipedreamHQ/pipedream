@@ -7,7 +7,7 @@ export default {
     campaignId: {
       type: "string",
       label: "Campaign ID",
-      description: "Campaign ID un which you wish to add this contact.",
+      description: "Campaign ID in which you wish to add this contact.",
       async options({ page }) {
         const { data } = await this.listCampaigns({
           params: {
