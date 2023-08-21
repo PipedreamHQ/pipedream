@@ -84,13 +84,13 @@ Any traffic to existing `{{$site.themeConfig.ENDPOINT_BASE_URL}}` endpoints will
 To confirm traffic to your new domain works, take any Pipedream endpoint URL and replace the `{{$site.themeConfig.ENDPOINT_BASE_URL}}` with your custom domain. For example, if you configured a custom domain of `pipedream.yourdomain.com` and have an existing endpoint at
 
 ```
-endpoint.m.pipedream.net
+https://endpoint.m.pipedream.net
 ```
 
 Try making a test request to
 
 ```
-endpoint.pipedream.yourdomain.com
+https://endpoint.pipedream.yourdomain.com
 ```
 
 ## Security
