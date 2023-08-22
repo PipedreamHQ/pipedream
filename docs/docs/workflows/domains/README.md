@@ -6,31 +6,33 @@ Custom domains are now available in beta on the [Business plan](https://pipedrea
 
 :::
 
-By default, all new [Pipedream HTTP endpoints](/workflows/steps/triggers/#http) are hosted on the `{{$site.themeConfig.ENDPOINT_BASE_URL}}` domain. But you can configure any domain you want: instead of `https://endpoint.m.pipedream.net`, the endpoint would be available on `https://endpoint.yourdomain.com`.
+By default, all new [Pipedream HTTP endpoints](/workflows/steps/triggers/#http) are hosted on the `{{$site.themeConfig.ENDPOINT_BASE_URL}}` domain. But you can configure any domain you want: instead of `https://endpoint.m.pipedream.net`, the endpoint would be available on `https://endpoint.example.com`.
 
 ## Configuring a new custom domain
 
 ### 1. Choose your domain
 
-You can configure any domain you own to work with Pipedream HTTP endpoints. For example, you can host Pipedream HTTP endpoints on a dedicated subdomain on your core domain, like `*.pipedream.yourdomain.com` or `*.marketing.yourdomain.com`. This can be any domain or subdomain you own.
+You can configure any domain you own to work with Pipedream HTTP endpoints. For example, you can host Pipedream HTTP endpoints on a dedicated subdomain on your core domain, like `*.eng.example.com` or `*.marketing.example.com`. This can be any domain or subdomain you own.
 
 In this example, endpoints would look like:
 
 ```
-endpoint.pipedream.yourdomain.com
-endpoint1.pipedream.yourdomain.com
+[endpoint_id].eng.example.com
+[endpoint_id_1].eng.example.com
 ...
 ```
 
-If you own a domain that you want to _completely_ redirect to Pipedream, you can also configure `*.yourdomain.com` to point to Pipedream. In this example, endpoints would look like:
+where `[endpoint_id]` is a uniquely-generated hostname specific to your Pipedream HTTP endpoint.
+
+If you own a domain that you want to _completely_ redirect to Pipedream, you can also configure `*.example.com` to point to Pipedream. In this example, endpoints would look like:
 
 ```
-endpoint.yourdomain.com
-endpoint1.yourdomain.com
+[endpoint_id].example.com
+[endpoint_id_1].example.com
 ...
 ```
 
-Since all traffic on `*.yourdomain.com` points to Pipedream, we can assign hosts on the root domain. This also means that **you cannot use other hosts like www.yourdomain.com** without conflicting with Pipedream endpoints. Choose this option only if you're serving all traffic from `yourdomain.com` from Pipedream.
+Since all traffic on `*.example.com` points to Pipedream, we can assign hosts on the root domain. This also means that **you cannot use other hosts like www.example.com** without conflicting with Pipedream endpoints. Choose this option only if you're serving all traffic from `example.com` from Pipedream.
 
 Before you move on, make sure you have access to manage DNS records for your domain. If you don't, please coordinate with the team at your company that manages DNS records, and feel free to [reach out to our Support team](https://pipedream.com/support) with any questions.
 
@@ -53,17 +55,17 @@ Once we configure your domain, we'll ask you to create two DNS CNAME records:
 
 Pipedream uses [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) to create the TLS certificate for your domain. To validate the certificate, you need to add a specific DNS recorded provided by Certificate Manager. Pipedream will provide the name and value.
 
-For example, if you requested `*.pipedream.yourdomain.com` as your custom domain, Pipedream will provide the details of the record, like in this example:
+For example, if you requested `*.eng.example.com` as your custom domain, Pipedream will provide the details of the record, like in this example:
 
 - **Type**: `CNAME`
-- **Name**: `_2kf9s72kjfskjflsdf989234nsd0b.pipedream.yourdomain.com`
+- **Name**: `_2kf9s72kjfskjflsdf989234nsd0b.eng.example.com`
 - **Value**: `_7ghslkjsdfnc82374kshflasfhlf.vvykbvdtpk.acm-validations.aws.`
 - **TTL (seconds)**: 300
 
 Consult the docs for your DNS service for more information on adding CNAME records. Here's an example configuration using AWS's Route53 service:
 
 <div>
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1692654841/docs/Screenshot_2023-08-21_at_2.52.16_PM_fsdvft.png" />
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1692720441/docs/Screenshot_2023-08-21_at_2.52.16_PM_gtj3xl.png" />
 </div>
 
 #### Add the DNS CNAME wildcard record
@@ -71,7 +73,7 @@ Consult the docs for your DNS service for more information on adding CNAME recor
 Now you'll need to add the wildcard record that points all traffic for your domain to Pipedream. Pipedream will also provide the details of this record, like in this example:
 
 - **Type**: `CNAME`
-- **Name**: `*.pipedream.yourdomain.com`
+- **Name**: `*.eng.example.com`
 - **Value**: `id123.cd.pdrm.net`
 - **TTL (seconds)**: 300
 
@@ -81,16 +83,16 @@ Once you've finished adding these DNS records, please **reach out to the Pipedre
 
 Any traffic to existing `{{$site.themeConfig.ENDPOINT_BASE_URL}}` endpoints will continue to work uninterrupted.
 
-To confirm traffic to your new domain works, take any Pipedream endpoint URL and replace the `{{$site.themeConfig.ENDPOINT_BASE_URL}}` with your custom domain. For example, if you configured a custom domain of `pipedream.yourdomain.com` and have an existing endpoint at
+To confirm traffic to your new domain works, take any Pipedream endpoint URL and replace the `{{$site.themeConfig.ENDPOINT_BASE_URL}}` with your custom domain. For example, if you configured a custom domain of `pipedream.example.com` and have an existing endpoint at
 
 ```
-https://endpoint.m.pipedream.net
+https://[endpoint_id].m.pipedream.net
 ```
 
 Try making a test request to
 
 ```
-https://endpoint.pipedream.yourdomain.com
+https://[endpoint_id].eng.example.com
 ```
 
 ## Security
@@ -101,4 +103,4 @@ See our [TLS/SSL security docs](/privacy-and-security/#encryption-of-data-in-tra
 
 ### Requests to custom domains are allowed only for your endpoints
 
-Custom domains are mapped directly to customer endpoints. This means no other customer can send requests to their endpoints on _your_ custom domain. Requests to `yourdomain.com` are restricted specifically to HTTP endpoints in your Pipedream workspace.
+Custom domains are mapped directly to customer endpoints. This means no other customer can send requests to their endpoints on _your_ custom domain. Requests to `example.com` are restricted specifically to HTTP endpoints in your Pipedream workspace.
