@@ -194,6 +194,12 @@ How workspace members can use connected accounts that are **shared**:
 
 ### Frequently Asked Questions
 
+::: warning Why isn't my connected account showing up in the legacy workflow builder?
+
+In order to use a connected account in the legacy (v1) workflow builder, the account must be shared with the entire workspace. Private accounts are accessible in the latest version of the workflow builder.
+
+:::
+
 #### What is the "Owner" column?
 The owner column on the Accounts page indicates who in the workspace originally connected the account (that is the only person who has permissions to manage access).
 
