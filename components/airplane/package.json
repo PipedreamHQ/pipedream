@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/airplane",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Airplane Components",
-  "main": "dist/app/airplane.app.mjs",
+  "main": "airplane.app.mjs",
   "keywords": [
     "pipedream",
     "airplane"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/airplane",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
