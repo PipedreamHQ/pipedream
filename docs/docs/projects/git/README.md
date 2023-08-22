@@ -12,12 +12,6 @@ Capabilities include:
 - Edit in Pipedream or use a local editor and synchronize via GitHub (e.g., edit code, find and replace across multiple steps or workflows)
 - Organize workflows into projects with support for nested folders
 
-::: warning Beta feature
-
-GitHub Sync is currently in beta. We recommend restricting use to non-critical workflows at this time.
-
-:::
-
 ## Getting Started
 
 ### Create a new project and enable GitHub Sync
@@ -162,14 +156,8 @@ To test external edits in Pipedream:
 
 Below are a list of known issues that do not currently have solutions, but are in progress:
 
-- The option to enable auto-retry is missing from workflow settings
-- If a project fails to deploy, there is not currently a way to try again
-- Step results are not automatically populated when creating a new branch. The workaround is to re-test each step or select a live event before clicking “Edit → Create Branch”.
-- The changelog is verbose (it cannot currently be filtered)
 - If a workflow uses an action that has been deprecated, merging to production will fail
 - Legacy (V1) workflows are not supported in Projects and there is no option to automatically convert them to the new format (V2)
-- Error messages in the changelog may be unclear
-- UI polish and optimization is pending
 
 ## Questions and Feedback
 
