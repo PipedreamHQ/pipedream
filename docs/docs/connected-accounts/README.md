@@ -111,13 +111,6 @@ Prior to this change, all connected accounts were accessible to all workspace me
 
 :::
 
-::: warning Private Accounts are not supported in the legacy workflow builder
-
-In order to use a connected account in the legacy (v1) workflow builder, the account must be shared with the entire workspace.
-
-:::
-
-
 ### Managing access
 - Find the account on the Accounts page and click the 3 dots on the far right of the row
 - Select "Manage Access"
