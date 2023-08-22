@@ -34,67 +34,67 @@ export default {
     },
     {
       "label": "Arabic (Algeria)",
-      "value": "ar-dz"
+      "value": "ar-dz",
     },
     {
       "label": "Arabic (Bahrain)",
-      "value": "ar-bh"
+      "value": "ar-bh",
     },
     {
       "label": "Arabic (Egypt)",
-      "value": "ar-eg"
+      "value": "ar-eg",
     },
     {
       "label": "Arabic (Iraq)",
-      "value": "ar-iq"
+      "value": "ar-iq",
     },
     {
       "label": "Arabic (Jordan)",
-      "value": "ar-jo"
+      "value": "ar-jo",
     },
     {
       "label": "Arabic (Kuwait)",
-      "value": "ar-kw"
+      "value": "ar-kw",
     },
     {
       "label": "Arabic (Lebanon)",
-      "value": "ar-lb"
+      "value": "ar-lb",
     },
     {
       "label": "Arabic (Libya)",
-      "value": "ar-ly"
+      "value": "ar-ly",
     },
     {
       "label": "Arabic (Morocco)",
-      "value": "ar-ma"
+      "value": "ar-ma",
     },
     {
       "label": "Arabic (Oman)",
-      "value": "ar-om"
+      "value": "ar-om",
     },
     {
       "label": "Arabic (Qatar)",
-      "value": "ar-qa"
+      "value": "ar-qa",
     },
     {
       "label": "Arabic (Saudi Arabia)",
-      "value": "ar-sa"
+      "value": "ar-sa",
     },
     {
       "label": "Arabic (Syria)",
-      "value": "ar-sy"
+      "value": "ar-sy",
     },
     {
       "label": "Arabic (Tunisia)",
-      "value": "ar-tn"
+      "value": "ar-tn",
     },
     {
       "label": "Arabic (U.A.E.)",
-      "value": "ar-ae"
+      "value": "ar-ae",
     },
     {
       "label": "Arabic (Yemen)",
-      "value": "ar-ye"
+      "value": "ar-ye",
     },
     {
       "label": "Assamese",
