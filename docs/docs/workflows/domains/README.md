@@ -74,7 +74,7 @@ Now you'll need to add the wildcard record that points all traffic for your doma
 
 - **Type**: `CNAME`
 - **Name**: `*.eng.example.com`
-- **Value**: `id123.cd.pdrm.net`
+- **Value**: `id123.cd.pdrm.net.`
 - **TTL (seconds)**: 300
 
 Once you've finished adding these DNS records, please **reach out to the Pipedream team**. We'll validate the records and finalize the configuration for your domain.
