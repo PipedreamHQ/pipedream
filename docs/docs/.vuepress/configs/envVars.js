@@ -2,6 +2,7 @@ module.exports = {
   PIPEDREAM_BASE_URL: "https://pipedream.com",
   API_BASE_URL: "https://api.pipedream.com/v1",
   SQL_API_BASE_URL: "https://rt.pipedream.com/sql",
+  ENDPOINT_BASE_URL: "*.m.pipedream.net",
   PAYLOAD_SIZE_LIMIT: "512KB",
   MEMORY_LIMIT: "256MB",
   MEMORY_ABSOLUTE_LIMIT: "10GB",
