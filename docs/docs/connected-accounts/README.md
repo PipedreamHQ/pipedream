@@ -105,9 +105,15 @@ If you encounter errors in a step that appear to be related to credentials or au
 ## Access Control
 
 **New connected accounts are private by default** and can only be used by the person who added it.
-::: warning Accounts connected before August 2023
+::: tip Accounts connected before August 2023
 
 Prior to this change, all connected accounts were accessible to all workspace members. You can now manage access to new and existing connected accounts.
+
+:::
+
+::: warning Private Accounts are not supported in the legacy workflow builder
+
+In order to use a connected account in the legacy (v1) workflow builder, the account must be shared with the entire workspace.
 
 :::
 
