@@ -3048,6 +3048,8 @@ importers:
 
   components/nasdaq_data_link_time_series_and_table_data_: {}
 
+  components/nationbuilder: {}
+
   components/nectar_crm:
     dependencies:
       '@pipedream/platform':
@@ -4304,6 +4306,8 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0
 
+  components/sharepoint: {}
+
   components/shipcloud:
     dependencies:
       '@pipedream/platform':
@@ -4809,6 +4813,8 @@ importers:
   components/syncro: {}
 
   components/t2m_url_shortener: {}
+
+  components/talend: {}
 
   components/talenox: {}
 
