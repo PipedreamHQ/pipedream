@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/neon_api_keys",
+  "version": "0.0.1",
+  "description": "Pipedream Neon  (API Keys) Components",
+  "main": "dist/app/neon_api_keys.app.mjs",
+  "keywords": [
+    "pipedream",
+    "neon_api_keys"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/neon_api_keys",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

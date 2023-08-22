@@ -5,7 +5,7 @@ export default {
   name: "Find Row",
   description: "Finds a row in a table via a lookup column. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     mysql,
     table: {
@@ -37,12 +37,6 @@ export default {
         "whereValue",
       ],
     },
-    rejectUnauthorized: {
-      propDefinition: [
-        mysql,
-        "rejectUnauthorized",
-      ],
-    },
   },
   async run({ $ }) {
     const {
@@ -50,7 +44,6 @@ export default {
       column,
       operator,
       value,
-      rejectUnauthorized,
     } = this;
 
     const condition = `${column} ${operator} ?`;
@@ -61,7 +54,6 @@ export default {
       values: [
         value,
       ],
-      rejectUnauthorized,
     });
 
     $.export("$summary", `Successfully found ${result.length} row(s) from table ${table}`);
