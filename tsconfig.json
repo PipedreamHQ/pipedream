@@ -2327,6 +2327,9 @@
     },
     {
       "path": "components/talend"
+    },
+    {
+      "path": "components/nationbuilder"
     }
   ]
 }
