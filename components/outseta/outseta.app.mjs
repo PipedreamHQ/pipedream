@@ -129,42 +129,64 @@ export default {
     getAllPeople({
       $,
       page = 0,
+      limit = constants.GET_ALL_LIMIT,
+      params = {},
     }) {
-      const limit = constants.GET_ALL_LIMIT;
       return this._makeRequest({
         $,
         path: "/v1/crm/people",
         params: {
           limit,
           offset: page,
+          ...params,
         },
       });
     },
     getAllAccounts({
       $,
       page = 0,
+      limit = constants.GET_ALL_LIMIT,
+      params = {},
     }) {
-      const limit = constants.GET_ALL_LIMIT;
       return this._makeRequest({
         $,
         path: "/v1/crm/accounts",
         params: {
           limit,
           offset: page,
+          ...params,
+        },
+      });
+    },
+    getAllDeals({
+      $,
+      page = 0,
+      limit = constants.GET_ALL_LIMIT,
+      params = {},
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/v1/crm/deals",
+        params: {
+          limit,
+          offset: page,
+          ...params,
         },
       });
     },
     getAllDealPipelines({
       $,
       page = 0,
+      limit = constants.GET_ALL_LIMIT,
+      params = {},
     }) {
-      const limit = constants.GET_ALL_LIMIT;
       return this._makeRequest({
         $,
         path: "/v1/crm/dealpipelines",
         params: {
           limit,
           offset: page,
+          ...params,
         },
       });
     },
