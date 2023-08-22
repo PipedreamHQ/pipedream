@@ -163,7 +163,7 @@ Below are a list of known issues that do not currently have solutions, but are i
 
 If you have any questions or feedback, please contact us via the Slack Connect channel for your team.
 
-If you're an Advanced subscriber and don't have a Slack Connect channel set up yet, [please contact us for an invite](mailto:support@pipedream.com).
+If you're an Advanced subscriber and don't have a Slack Connect channel set up yet, [please contact us for an invite](https://pipedream.com/support).
 
 
 ## Frequently Asked Questions
@@ -187,3 +187,7 @@ Yes, _projects_ are synced to a single Github Repository which allows you to sto
 Yes, you can use the Github Syncing feature to develop your workflows from YAML files checked into your Pipedream connected Github Repository.
 
 Then pushing changes to the `production` branch will trigger a deploy for your Pipedream workflows.
+
+### Why am I seeing an error when trying to merge a branch that includes a connected account in a workflow?
+
+Make sure that all connected accounts in use are accessible to the entire workspace. [Private accounts](/connected-accounts/#access-control) not shared with the workspace will not be able to be merged.
