@@ -2333,6 +2333,9 @@
     },
     {
       "path": "components/sharepoint"
+    },
+    {
+      "path": "components/retently"
     }
   ]
 }
