@@ -4683,7 +4683,11 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
-  components/streamtime: {}
+  components/streamtime:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/stripe:
     dependencies:
@@ -4809,6 +4813,8 @@ importers:
   components/syncro: {}
 
   components/t2m_url_shortener: {}
+
+  components/talend: {}
 
   components/talenox: {}
 
@@ -8735,22 +8741,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser@0.0.165:
-    resolution: {integrity: sha512-UJkrgsNvY0qa2sbUdIcdT4P1iGi0MxvZ/TUB3psidyOAmqDbyPprlPbQwLp34k7NI+RQBRQogb8j4Dez4vRuLA==}
+  /@definitelytyped/header-parser@0.0.167:
+    resolution: {integrity: sha512-RW/7ZRgXtpyPLtQRu7SkHRS8bCb5/cWzT2hfzn1F7Q5qh0sZHX1s+HK/KGqYvNlX/UQIO3wrlhAVQxlAG0YT+Q==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.165
+      '@definitelytyped/typescript-versions': 0.0.167
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions@0.0.165:
-    resolution: {integrity: sha512-aLAAhpNPWTSSxKL3B60z9NIxYqeU+K0OfjGDim8D4BlBn2EXBb43h5leQVb+w2YtIQhkUJAAN9bFYzp+beNf1g==}
+  /@definitelytyped/typescript-versions@0.0.167:
+    resolution: {integrity: sha512-bhQKQvuBmyLC+v5sp4xWO6w9wAmQX4h8xlijOBjpZsbKWo026GOAYEK0COK+Td94BTP+nSl8S+Flwn7s1RFqfg==}
     dev: true
 
-  /@definitelytyped/utils@0.0.165:
-    resolution: {integrity: sha512-Bg4l1XLfuIb+4/S3AVO5ozFO7XMybxr5m+6FNVkw/HVt/IYiuwR5hDfm7FLlJHw1TYsF8AsIXIu3S9fRlrNntw==}
+  /@definitelytyped/utils@0.0.167:
+    resolution: {integrity: sha512-6oAeWNkvy/89tUFRh48v9e0pabiPmH4NB9Ec7SJu/KIlwcUeK2/7hYcG1jEv9KDP81dTyJEsY3tGbIZqQFnQeg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.165
+      '@definitelytyped/typescript-versions': 0.0.167
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.54
       charm: 1.0.2
@@ -15435,7 +15441,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.165
+      '@definitelytyped/header-parser': 0.0.167
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -15451,9 +15457,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.165
-      '@definitelytyped/typescript-versions': 0.0.165
-      '@definitelytyped/utils': 0.0.165
+      '@definitelytyped/header-parser': 0.0.167
+      '@definitelytyped/typescript-versions': 0.0.167
+      '@definitelytyped/utils': 0.0.167
       dts-critic: 3.3.11(typescript@4.9.5)
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
