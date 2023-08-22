@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import common from "./base.mjs";
 import constants from "../../common/constants.mjs";
-import webhook from "../../common/webhook.mjs";
+import webhook from "../../common/queries/webhook.mjs";
 
 export default {
   ...common,
