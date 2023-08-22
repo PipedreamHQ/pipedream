@@ -22,6 +22,7 @@ export default {
       ],
     },
     eventId: {
+      optional: true,
       propDefinition: [
         googleCalendar,
         "eventId",
@@ -93,16 +94,28 @@ export default {
 
     // received schedule command
     if (event.body?.schedule) {
-      const calendarEvent = await this.googleCalendar.getEvent({
-        calendarId: this.calendarId,
-        eventId: this.eventId,
+      let calendarEvents = [];
+
+      if (this.eventId) {
+        calendarEvents.push(await this.googleCalendar.getEvent({
+          calendarId: this.calendarId,
+          eventId: this.eventId,
+        }));
+      } else {
+        const calendarEventListResult = await this.googleCalendar.getEvents({
+          calendarId: this.calendarId,
+        });
+        calendarEvents = calendarEventListResult.data.items || [];
+      }
+
+      calendarEvents.forEach((calendarEvent) => {
+        const startTime = new Date(calendarEvent.start.dateTime || calendarEvent.start.date);
+        const later = new Date(this.subtractMinutes(startTime, this.time));
+
+        const scheduledEventId = this.emitScheduleEvent(calendarEvent, later);
+        this._setScheduledEventId(scheduledEventId);
       });
 
-      const startTime = new Date(calendarEvent.start.dateTime || calendarEvent.start.date);
-      const later = new Date(this.subtractMinutes(startTime, this.time));
-
-      const scheduledEventId = this.emitScheduleEvent(calendarEvent, later);
-      this._setScheduledEventId(scheduledEventId);
     }
   },
 };
