@@ -4814,6 +4814,8 @@ importers:
 
   components/t2m_url_shortener: {}
 
+  components/talend: {}
+
   components/talenox: {}
 
   components/talentlms: {}
