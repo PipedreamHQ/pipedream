@@ -105,12 +105,11 @@ If you encounter errors in a step that appear to be related to credentials or au
 ## Access Control
 
 **New connected accounts are private by default** and can only be used by the person who added it.
-::: warning Accounts connected before August 2023
+::: tip Accounts connected before August 2023
 
 Prior to this change, all connected accounts were accessible to all workspace members. You can now manage access to new and existing connected accounts.
 
 :::
-
 
 ### Managing access
 - Find the account on the Accounts page and click the 3 dots on the far right of the row
@@ -187,6 +186,12 @@ How workspace members can use connected accounts that are **shared**:
 |  Delete  |  :white_check_mark: |  :x: |
 
 ### Frequently Asked Questions
+
+::: warning Why isn't my connected account showing up in the legacy workflow builder?
+
+In order to use a connected account in the legacy (v1) workflow builder, the account must be shared with the entire workspace. Private accounts are accessible in the latest version of the workflow builder.
+
+:::
 
 #### What is the "Owner" column?
 The owner column on the Accounts page indicates who in the workspace originally connected the account (that is the only person who has permissions to manage access).

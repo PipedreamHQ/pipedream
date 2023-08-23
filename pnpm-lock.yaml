@@ -2425,7 +2425,11 @@ importers:
 
   components/junip: {}
 
-  components/justcall: {}
+  components/justcall:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/kakao: {}
 
@@ -3986,6 +3990,8 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/retently: {}
+
   components/retool: {}
 
   components/rev:
@@ -4305,6 +4311,8 @@ importers:
       ssh2-sftp-client:
         specifier: ^8.1.0
         version: 8.1.0
+
+  components/sharepoint: {}
 
   components/shipcloud:
     dependencies:
