@@ -2265,6 +2265,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/imagekit_io: {}
+
   components/imagga: {}
 
   components/imap:
@@ -3229,6 +3231,8 @@ importers:
 
   components/omnisend: {}
 
+  components/omnivore: {}
+
   components/oncehub:
     dependencies:
       '@pipedream/platform':
@@ -3998,7 +4002,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/retently: {}
+  components/retently:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/retool: {}
 
@@ -8755,22 +8763,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser@0.0.165:
-    resolution: {integrity: sha512-UJkrgsNvY0qa2sbUdIcdT4P1iGi0MxvZ/TUB3psidyOAmqDbyPprlPbQwLp34k7NI+RQBRQogb8j4Dez4vRuLA==}
+  /@definitelytyped/header-parser@0.0.168:
+    resolution: {integrity: sha512-lBGvt5Vj1JnPXfPvVocykKkFHrCqg894Ot7QKKM33sfDx46Rufb///P4g3rom6nr+i0Y1688U+U1+NhgZX9MNw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.165
+      '@definitelytyped/typescript-versions': 0.0.168
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions@0.0.165:
-    resolution: {integrity: sha512-aLAAhpNPWTSSxKL3B60z9NIxYqeU+K0OfjGDim8D4BlBn2EXBb43h5leQVb+w2YtIQhkUJAAN9bFYzp+beNf1g==}
+  /@definitelytyped/typescript-versions@0.0.168:
+    resolution: {integrity: sha512-AwTLfI9WsQa/xzevhGBG19IYi4cNqqIZ/GfgHVBDsH0yLbrWGnsmohO1NKBRgR1Mpu6daKqOPbIOYeNA32HXdw==}
     dev: true
 
-  /@definitelytyped/utils@0.0.165:
-    resolution: {integrity: sha512-Bg4l1XLfuIb+4/S3AVO5ozFO7XMybxr5m+6FNVkw/HVt/IYiuwR5hDfm7FLlJHw1TYsF8AsIXIu3S9fRlrNntw==}
+  /@definitelytyped/utils@0.0.168:
+    resolution: {integrity: sha512-glIRQzWty8Jw5uQ0L8GU64Lsd9gXwux9FD62fAwnDWE3u0oJLeI4Kb06ADws8oc5insZFZLakW5Kx336ppimeg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.165
+      '@definitelytyped/typescript-versions': 0.0.168
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.54
       charm: 1.0.2
@@ -15455,7 +15463,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.165
+      '@definitelytyped/header-parser': 0.0.168
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -15471,9 +15479,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.165
-      '@definitelytyped/typescript-versions': 0.0.165
-      '@definitelytyped/utils': 0.0.165
+      '@definitelytyped/header-parser': 0.0.168
+      '@definitelytyped/typescript-versions': 0.0.168
+      '@definitelytyped/utils': 0.0.168
       dts-critic: 3.3.11(typescript@4.9.5)
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
