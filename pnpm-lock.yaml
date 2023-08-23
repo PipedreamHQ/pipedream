@@ -1155,6 +1155,8 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
+  components/devrev: {}
+
   components/dext:
     dependencies:
       '@pipedream/platform':
@@ -2895,6 +2897,8 @@ importers:
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0
+
+  components/microsofttodo: {}
 
   components/miestro:
     dependencies:
