@@ -1,4 +1,4 @@
-import options from "../../common/options.mjs";
+import constants from "../../common/constants.mjs";
 import app from "../../talend.app.mjs";
 
 export default {
@@ -47,7 +47,7 @@ export default {
       type: "string",
       label: "Status",
       description: "Filter by status",
-      options: options.PLAN_STATUS,
+      options: constants.PLAN_STATUS,
       optional: true,
     },
     maximumItems: {
