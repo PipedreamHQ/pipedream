@@ -17,6 +17,7 @@ const docsNav = [
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
       "/workflows/vpc/",
+      "/workflows/domains/",
       "/workflows/sharing/",
       "/migrate-from-v1/",
     ],

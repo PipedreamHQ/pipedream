@@ -2324,6 +2324,24 @@
     },
     {
       "path": "components/vitally"
+    },
+    {
+      "path": "components/talend"
+    },
+    {
+      "path": "components/nationbuilder"
+    },
+    {
+      "path": "components/sharepoint"
+    },
+    {
+      "path": "components/retently"
+    },
+    {
+      "path": "components/devrev"
+    },
+    {
+      "path": "components/microsofttodo"
     }
   ]
 }

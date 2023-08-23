@@ -185,7 +185,11 @@ importers:
 
   components/airnow: {}
 
-  components/airplane: {}
+  components/airplane:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/airtable:
     dependencies:
@@ -2421,7 +2425,11 @@ importers:
 
   components/junip: {}
 
-  components/justcall: {}
+  components/justcall:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/kakao: {}
 
@@ -3043,6 +3051,8 @@ importers:
   components/nano_nets: {}
 
   components/nasdaq_data_link_time_series_and_table_data_: {}
+
+  components/nationbuilder: {}
 
   components/nectar_crm:
     dependencies:
@@ -3751,7 +3761,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/pushcut: {}
+  components/pushcut:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/pushover:
     dependencies:
@@ -3979,6 +3993,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
+
+  components/retently: {}
 
   components/retool: {}
 
@@ -4299,6 +4315,8 @@ importers:
       ssh2-sftp-client:
         specifier: ^8.1.0
         version: 8.1.0
+
+  components/sharepoint: {}
 
   components/shipcloud:
     dependencies:
@@ -4805,6 +4823,8 @@ importers:
   components/syncro: {}
 
   components/t2m_url_shortener: {}
+
+  components/talend: {}
 
   components/talenox: {}
 
@@ -5723,7 +5743,17 @@ importers:
 
   components/zoho_campaigns: {}
 
-  components/zoho_catalyst: {}
+  components/zoho_catalyst:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@pipedream/types':
+        specifier: ^0.1.6
+        version: 0.1.6
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
 
   components/zoho_cliq:
     dependencies:
