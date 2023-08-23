@@ -38,7 +38,7 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "The branch name",
+      description: "The database name",
     },
   },
   async run({ $ }) {
