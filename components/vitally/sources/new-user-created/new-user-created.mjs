@@ -42,19 +42,6 @@ export default {
     _setLastDate(lastDate) {
       this.db.set("lastDate", lastDate);
     },
-    async _getFunction({
-      accountId, organizationId,
-    }) {
-      if (accountId) {
-        return vitally.listAccountUsers;
-      }
-      if (organizationId) {
-        return vitally.listOrganizationUsers;
-      }
-      if (!accountId && !organizationId) {
-        return vitally.listUsers;
-      }
-    },
     async startEvent(maxResults) {
       const {
         vitally,
