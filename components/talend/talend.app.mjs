@@ -28,6 +28,18 @@ export default {
         }));
       },
     },
+    planExecutionId: {
+      type: "string",
+      label: "Plan ID",
+      description: "The ID of the plan execution to retrieve.",
+      async options({ page }) {
+        const res = await this.getAvailablePlansExecutions({}, page + 1);
+        return res.items?.map((planExecution) => ({
+          label: `${planExecution.userId} - ${planExecution.executionId}`,
+          value: planExecution.executionId,
+        }));
+      },
+    },
   },
   methods: {
     _getPersonalAccessToken() {
@@ -66,7 +78,7 @@ export default {
       });
     },
     async getAvailablePlansExecutions(data, page) {
-      const LIMIT = 1;
+      const LIMIT = 100;
       return this._makeHttpRequest({
         method: "GET",
         path: "/processing/executables/plans/executions",
@@ -75,6 +87,12 @@ export default {
           offset: (page - 1) * LIMIT,
           limit: LIMIT,
         },
+      });
+    },
+    async getPlanExecutionStatus(planExecutionId) {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: `/processing/executions/plans/${planExecutionId}`,
       });
     },
   },

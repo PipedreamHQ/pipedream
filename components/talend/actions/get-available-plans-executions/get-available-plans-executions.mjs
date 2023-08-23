@@ -14,7 +14,7 @@ export default {
         app,
         "workspaceId",
       ],
-      description: "workspace ID the plans should belong to",
+      description: "Workspace ID the plans should belong to",
       optional: true,
     },
     environmentId: {
@@ -22,7 +22,7 @@ export default {
         app,
         "environmentId",
       ],
-      description: "environment ID the plans should belong to",
+      description: "Environment ID the plans should belong to",
       optional: true,
     },
     lastDays: {
