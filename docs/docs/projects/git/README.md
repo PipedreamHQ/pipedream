@@ -159,11 +159,11 @@ Below are a list of known issues that do not currently have solutions, but are i
 - If a workflow uses an action that has been deprecated, merging to production will fail
 - Legacy (V1) workflows are not supported in Projects and there is no option to automatically convert them to the new format (V2)
 
-## Questions and Feedback
+## Github Enterprise
 
-If you have any questions or feedback, please contact us via the Slack Connect channel for your team.
+If you need to sync your projects to a self-hosted Github Enterprise instance, we can provide a static Pipedream IP address to allow to sync changes to your instances.
 
-If you're an Advanced subscriber and don't have a Slack Connect channel set up yet, [please contact us for an invite](https://pipedream.com/support).
+This static IP is included with a Pipedream [Enterprise plan](https://pipedream.com/pricing).
 
 
 ## Frequently Asked Questions
