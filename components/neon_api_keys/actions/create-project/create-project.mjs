@@ -39,7 +39,7 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully created company with ID ${response.project.id}`);
+      $.export("$summary", `Successfully created project with ID ${response.project.id}`);
     }
 
     return response;
