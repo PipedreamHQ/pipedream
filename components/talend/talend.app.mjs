@@ -30,13 +30,25 @@ export default {
     },
     planExecutionId: {
       type: "string",
-      label: "Plan ID",
-      description: "The ID of the plan execution to retrieve.",
+      label: "Plan Execution ID",
+      description: "The executionId of the plan execution to retrieve.",
       async options({ page }) {
         const res = await this.getAvailablePlansExecutions({}, page + 1);
         return res.items?.map((planExecution) => ({
           label: `${planExecution.userId} - ${planExecution.executionId}`,
           value: planExecution.executionId,
+        }));
+      },
+    },
+    planExecutable: {
+      type: "string",
+      label: "Plan Executable",
+      description: "The executable of the plan to execute.",
+      async options({ page }) {
+        const res = await this.listPlansExecutables(page + 1);
+        return res.items?.map((plan) => ({
+          label: plan.name,
+          value: plan.executable,
         }));
       },
     },
@@ -93,6 +105,26 @@ export default {
       return this._makeHttpRequest({
         method: "GET",
         path: `/processing/executions/plans/${planExecutionId}`,
+      });
+    },
+    async listPlansExecutables(page) {
+      const LIMIT = 100;
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/processing/executables/plans",
+        params: {
+          offset: (page - 1) * LIMIT,
+          limit: LIMIT,
+        },
+      });
+    },
+    async executePlan(executable) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/processing/executions/plans",
+        data: {
+          executable,
+        },
       });
     },
   },
