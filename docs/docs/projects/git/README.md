@@ -159,6 +159,7 @@ Below are a list of known issues that do not currently have solutions, but are i
 - Project branches on Pipedream cannot be deleted at this time. Even if they are deleted on the Github
 - If a workflow uses an action that has been deprecated, merging to production will fail
 - Legacy (V1) workflows are not supported in Projects and there is no option to automatically convert them to the new format (V2)
+- Self-hosted Github Server instances are not yet supported in-product. [Please contact us for help](https://pipedream.com/support).
 
 ## Github Enterprise Cloud
 
@@ -167,6 +168,12 @@ If your repository hosted on an Github Enterprise account, you can allow the sta
 [Follow the directions here](https://docs.github.com/en/enterprise-cloud@latest/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/managing-allowed-ip-addresses-for-your-organization) to add an IP address.
 
 Then add this static IP address `3.214.142.179` to allow Pipedream to sync changes.
+
+:::warning Github Sync is available on Business and above plans
+
+To use this public IP address and connect to Github Enterprise Cloud hosted repositories, you'll need to have a Pipedream Business plan. [View our plans](https://pipedream.com/pricing).
+
+:::
 
 ## Frequently Asked Questions
 
