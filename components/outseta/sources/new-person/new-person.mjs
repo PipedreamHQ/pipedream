@@ -9,12 +9,13 @@ export default {
   type: "source",
   dedupe: "unique",
   methods: {
+    ...base.methods,
     listingFn($) {
       return this.app.getAllPeople({
         $,
         limit: 100,
         params: {
-          orderBy: "Created+Desc",
+          orderBy: "Created+DESC",
         },
       });
     },

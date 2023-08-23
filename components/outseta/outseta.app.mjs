@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import constants from "./actions/common/constants.mjs";
+import qs from "qs";
 
 export default {
   type: "app",
@@ -89,6 +90,9 @@ export default {
       const config = {
         url: `${this._baseURL()}/${path}`,
         headers: this._getHeaders(headers),
+        paramsSerializer: (params) => qs.stringify(params, {
+          encode: false,
+        }),
         ...opts,
       };
       return axios($, config);
