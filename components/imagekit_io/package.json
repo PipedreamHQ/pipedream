@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/imagekit_io",
+  "version": "0.0.1",
+  "description": "Pipedream ImageKit.io Components",
+  "main": "dist/app/imagekit_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "imagekit_io"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/imagekit_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
