@@ -2265,6 +2265,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/imagekit_io: {}
+
   components/imagga: {}
 
   components/imap:
@@ -3228,6 +3230,8 @@ importers:
   components/omise: {}
 
   components/omnisend: {}
+
+  components/omnivore: {}
 
   components/oncehub:
     dependencies:
