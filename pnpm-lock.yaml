@@ -3761,7 +3761,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/pushcut: {}
+  components/pushcut:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/pushover:
     dependencies:
