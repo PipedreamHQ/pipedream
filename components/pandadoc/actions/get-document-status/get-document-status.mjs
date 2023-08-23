@@ -16,7 +16,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.getDocument(this.id);
 
-    $.export("$summary", `Successfully fetched document statu with ID: ${id}`);
+    $.export("$summary", `Successfully fetched document status with ID ${id}`);
     return response;
   },
 };
