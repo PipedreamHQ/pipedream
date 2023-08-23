@@ -16,7 +16,7 @@ export default {
     },
     branchId: {
       label: "Parent Branch ID",
-      description: "The branch ID of the parent branch. If omitted or empty, the branch will be created from the project's primary branch.",
+      description: "The ID of the parent branch. If omitted or empty, the branch will be created from the project's primary branch.",
       propDefinition: [
         app,
         "branchId",
