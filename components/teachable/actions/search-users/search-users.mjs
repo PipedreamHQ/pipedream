@@ -1,9 +1,9 @@
 import teachable from "../../teachable.app.mjs";
 
 export default {
-  key: "teachable-search-students",
-  name: "Search Students",
-  description: "Searches for a student by email address. [See the documentation](https://docs.teachable.com/reference/listusers)",
+  key: "teachable-search-users",
+  name: "Search Users",
+  description: "Searches for a user by email address. [See the documentation](https://docs.teachable.com/reference/listusers)",
   version: "0.0.1",
   type: "action",
   props: {

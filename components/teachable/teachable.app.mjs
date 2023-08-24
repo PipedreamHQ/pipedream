@@ -12,7 +12,7 @@ export default {
         const params = {
           page: page + 1,
         };
-        const { users } = await this.listStudents({
+        const { users } = await this.listUsers({
           params,
         });
         return users?.map(({
@@ -61,7 +61,7 @@ export default {
         ...args,
       });
     },
-    listStudents(args = {}) {
+    listUsers(args = {}) {
       return this._makeRequest({
         path: "/users",
         ...args,

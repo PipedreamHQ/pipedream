@@ -1,4 +1,5 @@
 import teachable from "../../teachable.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "teachable-create-student",
@@ -34,6 +35,17 @@ export default {
     },
   },
   async run({ $ }) {
+    const { users } = await this.teachable.listUsers({
+      params: {
+        email: this.email,
+      },
+      $,
+    });
+
+    if (users?.length) {
+      throw new ConfigurationError(`User with email ${this.email} already exists.`);
+    }
+
     const student = await this.teachable.createStudent({
       data: {
         email: this.email,
@@ -45,7 +57,7 @@ export default {
     });
 
     if (student.id) {
-      $.export("$summary", `Successfully created student with ID ${student.id}`);
+      $.export("$summary", `Successfully created student with ID ${student.id}.`);
     }
 
     return student;

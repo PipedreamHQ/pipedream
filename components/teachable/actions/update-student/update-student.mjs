@@ -37,6 +37,7 @@ export default {
     }
 
     const student = await this.teachable.updateStudent({
+      studentId: this.studentId,
       data,
       $,
     });
