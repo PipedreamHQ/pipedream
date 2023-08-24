@@ -2862,6 +2862,10 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/microsoft_365_people: {}
+
+  components/microsoft_365_planner: {}
+
   components/microsoft_onedrive:
     dependencies:
       '@microsoft/microsoft-graph-client':
@@ -4019,6 +4023,8 @@ importers:
   components/retently: {}
 
   components/retool: {}
+
+  components/retriever: {}
 
   components/rev:
     dependencies:
