@@ -98,6 +98,13 @@ const docsNav = [
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
   {
+    title: "Projects",
+    children: [
+      "/projects/",
+      "/projects/git/"
+    ]
+  },
+  {
     title: "Workspaces",
     children: [
       "/workspaces/",
