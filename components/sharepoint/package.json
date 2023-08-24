@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/sharepoint",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Sharepoint Online Components",
+  "main": "dist/app/sharepoint.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sharepoint"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/sharepoint",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
