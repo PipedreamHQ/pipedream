@@ -41,7 +41,7 @@ export default {
     items: {
       label: "Array of Invoice Items",
       description: "An array containing details of individual items within the invoice. E.g. `[ { \"name\": \"Round Tuit\", \"product_id\": 1556402307145, \"amount\": 4000, \"total_paid\": 4000 } ]`",
-      type: "object[]",
+      type: "string",
     },
   },
   async run({ $ }) {
