@@ -58,7 +58,7 @@ export default {
           {
             id: `${item.id}${item[field]}`,
             summary: this.getSummary(item.id),
-            ts: item[field],
+            ts: Date.parse(item[field]),
           },
         );
       }
