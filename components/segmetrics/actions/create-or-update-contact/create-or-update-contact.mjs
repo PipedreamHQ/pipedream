@@ -11,7 +11,7 @@ export default {
     integrationId: {
       label: "Integration ID",
       type: "string",
-      description: "The ID of the integration from your Account Settings Page",
+      description: "The ID of the Custom CRM integration from your Account Integrations page",
     },
     email: {
       type: "string",
@@ -41,7 +41,7 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully created or updated contact with ID ${response.contact.contact_id}`);
+      $.export("$summary", `Successfully created or updated contact with email ${response.contact.email}`);
     }
 
     return response;
