@@ -45,6 +45,7 @@ export default {
       type: "string",
       label: "Business Area",
       description: "Business area of the client",
+      options: constants.BUSINESS_AREA,
       optional: true,
     },
     title: {
