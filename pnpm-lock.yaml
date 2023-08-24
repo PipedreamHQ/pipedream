@@ -2855,6 +2855,10 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/microsoft_365_people: {}
+
+  components/microsoft_365_planner: {}
+
   components/microsoft_onedrive:
     dependencies:
       '@microsoft/microsoft-graph-client':
@@ -4013,6 +4017,8 @@ importers:
 
   components/retool: {}
 
+  components/retriever: {}
+
   components/rev:
     dependencies:
       '@pipedream/platform':
@@ -4275,7 +4281,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/senta: {}
+  components/senta:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/sentry:
     dependencies:
