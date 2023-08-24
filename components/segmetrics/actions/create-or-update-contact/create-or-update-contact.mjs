@@ -11,7 +11,7 @@ export default {
     integrationId: {
       label: "Integration ID",
       type: "string",
-      description: "The ID of the Custom CRM integration from your Account Integrations page",
+      description: "The ID of the Custom CRM integration from your Account Integrations page. Click to configure your Custom CRM integration, then copy the ID from the URL of the configuration page. For example, if the URL of the configuration page is `https://app.segmetrics.io/XXX/integration/configure/1234`, the integration ID is `1234`.",
     },
     email: {
       type: "string",
