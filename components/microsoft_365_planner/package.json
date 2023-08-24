@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/microsoft_365_planner",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft 365 Planner Components",
+  "main": "dist/app/microsoft_365_planner.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_365_planner"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/microsoft_365_planner",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
