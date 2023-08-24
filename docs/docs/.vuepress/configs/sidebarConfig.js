@@ -17,6 +17,7 @@ const docsNav = [
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
       "/workflows/vpc/",
+      "/workflows/domains/",
       "/workflows/sharing/",
       "/migrate-from-v1/",
     ],
@@ -96,6 +97,13 @@ const docsNav = [
   },
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
+  {
+    title: "Projects",
+    children: [
+      "/projects/",
+      "/projects/git/"
+    ]
+  },
   {
     title: "Workspaces",
     children: [

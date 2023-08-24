@@ -1,20 +1,20 @@
 # Virtual Private Clouds
 
-<VideoPlayer url="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Price Clouds" />
+<VideoPlayer url="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Private Clouds" />
 
 :::tip Beta feature
 
-Virtual Private Clouds (VPCs) are now available in beta on the Business tier.
+Virtual Private Clouds (VPCs) are now available in beta on the [Business plan](https://pipedream.com/pricing).
 
 :::
 
-Every Pipedream workflow is deployed to its own virtual machine in AWS. This means your workflow's execution environment has its own RAM and disk, isolated from other users’ workflows. 
+Every Pipedream workflow is deployed to its own virtual machine in AWS. This means your workflow's execution environment has its own RAM and disk, isolated from other users’ workflows.
 
-However, outbound traffic shares the same network as other AWS services that use `us-east-1`. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
+However, outbound traffic shares the same network as other AWS services deployed in the `us-east-1` region. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
 
-Pipedream VPCs solve this problem. They enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresss that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform).
+Pipedream VPCs enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresses that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform).
 
-Outbound network requests from workflows that run in a VPC will originate from these static IP addresses, so you can whitelist access to sensitive resources (e.g., databases, APIs) with confidence that the requests will only originate from the Pipedream workflows in your workspace.
+Outbound network requests from workflows that run in a VPC will originate from these static IP addresses, so you can whitelist access to sensitive resources (like databases and APIs) with confidence that the requests will only originate from the Pipedream workflows in your workspace.
 
 [[toc]]
 
@@ -56,20 +56,19 @@ You can view and copy the static outbound IP address for each VPC in your worksp
 
 To rename or delete a VPC, navigate to the [Virtual Private Cloud settings](https://pipedream.com/settings/networks) for your workspace and select the option from the menu at the the right of the VPC you want to manage.
 
-## Advanced Setup
+## Self-hosting and VPC peering
 
-If you are interested in running Pipedream workflows in your own AWS account via VPC peering or running Pipedream as a platform on your own infrastructure, please reach out to our [Enterprise Sales team](mailto:sales@pipedream.com).
+If you're interested in running Pipedream workflows in your own infrastructure, or configure VPC peering to allow Pipedream to communicate to resources in a private network, please reach out to our [Enterprise Sales team](mailto:sales@pipedream.com).
 
 ## Limitations
 
 - Only workflows can run in VPCs (other resources like sources or data stores are not currently supported)
-- Creating a new network can take ~5 minutes, and deploying your first workflow into a new network / testing in the builder for the first time can take ~1 min. Subsequent operations should be as fast as normal.
+- Creating a new network can take up to 5 minutes. Deploying your first workflow into a new network and testing that workflow for the first time can take up to 1 min. Subsequent operations should be as fast as normal.
 - VPCs only provide static IPs for outbound network requests. This feature does not provide a static IP for or otherwise restrict inbound requests.
-- You can’t set a default network for all new workflows in a workspace or project (you must select the network every time you create a new workflow)
-- Managing workflow-network relationships in bulk is not supported yet (e.g., move one or more workflows to a network). You must set the network per workflow.
-- Workflows running in a Private Network will still route select requests routed through Pipedream’s standard network
-    - [`$.send.http()`](/destinations/http/) requests
-    - Async options requests (these are requests that are made to populate options in drop down menus for actions while a building a workflow — e.g., the option to “select a Google Sheet” when using the “add row to Google Sheets” action)
+- You can’t set a default network for all new workflows in a workspace or project (you must select the network every time you create a new workflow). Please [reach out](https://pipedream.com/support) if you're interesting in imposing controls like this in your workspace.
+- Workflows running in a VPC will still route specific requests routed through [the shared Pipedream network](/destinations/http/#ip-addresses-for-pipedream-http-requests):
+  - [`$.send.http()`](/destinations/http/) requests are routed through
+  - Async options requests (these are requests that are made to populate options in drop down menus for actions while a building a workflow — e.g., the option to “select a Google Sheet” when using the “add row to Google Sheets” action)
 
 ## Frequently Asked Questions
 
@@ -91,4 +90,4 @@ No, IP addresses are assigned to VPCs for you, and they are not changeable.
 
 ### How much will VPCs cost?
 
-VPCs are available on the **Business** plan during the Beta period. You can [upgrade your plan here.](https://pipedream.com/pricing)
+VPCs are available on the **Business** plan during the beta. [Upgrade your plan here.](https://pipedream.com/pricing)
