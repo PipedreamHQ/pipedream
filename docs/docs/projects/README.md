@@ -51,7 +51,6 @@ To move workflows into folders, simply drag and drop the workflow into the folde
 You can move a workflows or folders up a level by dragging and dropping the workflow to the folder icon at the top of the list.
 
 
-
 ### Importing workflows into workspaces
 
 ::: tip
@@ -65,3 +64,14 @@ To import a workflow from the general **Workflows** area of your dashboard into 
 Then at the top right of the project's page, click the **Import** button.
 
 You'll be prompted to select a workflow from your **Workflows** area to import.
+
+
+## Frequently Asked Questions
+
+### Can sources and connected accounts be organized into projects as well?
+
+At this time no, but that is on our roadmap. Projects will eventually contain all resources needed for a complete system of workflows to work together.
+
+### Can projects be synchronized to a Github repository?
+
+Yes, [please read here](/projects/git/) for more information on the Github synchronization feature for porjects.

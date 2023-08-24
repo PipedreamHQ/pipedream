@@ -2272,6 +2272,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/imagekit_io: {}
+
   components/imagga: {}
 
   components/imap:
@@ -3236,6 +3238,8 @@ importers:
 
   components/omnisend: {}
 
+  components/omnivore: {}
+
   components/oncehub:
     dependencies:
       '@pipedream/platform':
@@ -3369,7 +3373,14 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/outseta: {}
+  components/outseta:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      qs:
+        specifier: ^6.11.1
+        version: 6.11.2
 
   components/overloop:
     dependencies:

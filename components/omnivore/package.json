@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/omnivore",
+  "version": "0.0.1",
+  "description": "Pipedream Omnivore Components",
+  "main": "dist/app/omnivore.app.mjs",
+  "keywords": [
+    "pipedream",
+    "omnivore"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/omnivore",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
