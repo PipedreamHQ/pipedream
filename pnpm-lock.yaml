@@ -2904,7 +2904,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
-  components/microsofttodo: {}
+  components/microsofttodo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/miestro:
     dependencies:
