@@ -2348,6 +2348,15 @@
     },
     {
       "path": "components/omnivore"
+    },
+    {
+      "path": "components/microsoft_365_people"
+    },
+    {
+      "path": "components/microsoft_365_planner"
+    },
+    {
+      "path": "components/retriever"
     }
   ]
 }

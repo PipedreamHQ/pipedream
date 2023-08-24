@@ -3366,7 +3366,14 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/outseta: {}
+  components/outseta:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      qs:
+        specifier: ^6.11.1
+        version: 6.11.2
 
   components/overloop:
     dependencies:
