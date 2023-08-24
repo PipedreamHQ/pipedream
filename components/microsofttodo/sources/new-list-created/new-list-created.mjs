@@ -2,7 +2,7 @@ import common from "../common/common-polling.mjs";
 
 export default {
   ...common,
-  key: "microsofttodo",
+  key: "microsofttodo-new-list-created",
   name: "New List Created",
   description: "Emit new event when a new task list is created.",
   version: "0.0.1",

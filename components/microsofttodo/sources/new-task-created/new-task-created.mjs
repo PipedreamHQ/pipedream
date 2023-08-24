@@ -2,7 +2,7 @@ import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
-  key: "microsofttodo",
+  key: "microsofttodo-new-task-created",
   name: "New Task Created (Instant)",
   description: "Emit new event when a new task is created in a list.",
   version: "0.0.1",
