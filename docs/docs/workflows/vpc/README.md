@@ -1,10 +1,10 @@
 # Virtual Private Clouds
 
-<VideoPlayer url="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Price Clouds" />
+<VideoPlayer url="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Private Clouds" />
 
 :::tip Beta feature
 
-Virtual Private Clouds (VPCs) are now available in beta on the Business tier.
+Virtual Private Clouds (VPCs) are now available in beta on the [Business plan](https://pipedream.com/pricing).
 
 :::
 

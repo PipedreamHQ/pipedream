@@ -1155,6 +1155,8 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
+  components/devrev: {}
+
   components/dext:
     dependencies:
       '@pipedream/platform':
@@ -2263,6 +2265,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/imagekit_io: {}
+
   components/imagga: {}
 
   components/imap:
@@ -2425,7 +2429,11 @@ importers:
 
   components/junip: {}
 
-  components/justcall: {}
+  components/justcall:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/kakao: {}
 
@@ -2892,6 +2900,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
+  components/microsofttodo: {}
+
   components/miestro:
     dependencies:
       '@pipedream/platform':
@@ -3047,6 +3057,8 @@ importers:
   components/nano_nets: {}
 
   components/nasdaq_data_link_time_series_and_table_data_: {}
+
+  components/nationbuilder: {}
 
   components/nectar_crm:
     dependencies:
@@ -3219,6 +3231,8 @@ importers:
 
   components/omnisend: {}
 
+  components/omnivore: {}
+
   components/oncehub:
     dependencies:
       '@pipedream/platform':
@@ -3352,7 +3366,14 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/outseta: {}
+  components/outseta:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      qs:
+        specifier: ^6.11.1
+        version: 6.11.2
 
   components/overloop:
     dependencies:
@@ -3755,7 +3776,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/pushcut: {}
+  components/pushcut:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/pushover:
     dependencies:
@@ -3983,6 +4008,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
+
+  components/retently: {}
 
   components/retool: {}
 
@@ -4303,6 +4330,8 @@ importers:
       ssh2-sftp-client:
         specifier: ^8.1.0
         version: 8.1.0
+
+  components/sharepoint: {}
 
   components/shipcloud:
     dependencies:
@@ -8741,22 +8770,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser@0.0.167:
-    resolution: {integrity: sha512-RW/7ZRgXtpyPLtQRu7SkHRS8bCb5/cWzT2hfzn1F7Q5qh0sZHX1s+HK/KGqYvNlX/UQIO3wrlhAVQxlAG0YT+Q==}
+  /@definitelytyped/header-parser@0.0.168:
+    resolution: {integrity: sha512-lBGvt5Vj1JnPXfPvVocykKkFHrCqg894Ot7QKKM33sfDx46Rufb///P4g3rom6nr+i0Y1688U+U1+NhgZX9MNw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.167
+      '@definitelytyped/typescript-versions': 0.0.168
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions@0.0.167:
-    resolution: {integrity: sha512-bhQKQvuBmyLC+v5sp4xWO6w9wAmQX4h8xlijOBjpZsbKWo026GOAYEK0COK+Td94BTP+nSl8S+Flwn7s1RFqfg==}
+  /@definitelytyped/typescript-versions@0.0.168:
+    resolution: {integrity: sha512-AwTLfI9WsQa/xzevhGBG19IYi4cNqqIZ/GfgHVBDsH0yLbrWGnsmohO1NKBRgR1Mpu6daKqOPbIOYeNA32HXdw==}
     dev: true
 
-  /@definitelytyped/utils@0.0.167:
-    resolution: {integrity: sha512-6oAeWNkvy/89tUFRh48v9e0pabiPmH4NB9Ec7SJu/KIlwcUeK2/7hYcG1jEv9KDP81dTyJEsY3tGbIZqQFnQeg==}
+  /@definitelytyped/utils@0.0.168:
+    resolution: {integrity: sha512-glIRQzWty8Jw5uQ0L8GU64Lsd9gXwux9FD62fAwnDWE3u0oJLeI4Kb06ADws8oc5insZFZLakW5Kx336ppimeg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.167
+      '@definitelytyped/typescript-versions': 0.0.168
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.54
       charm: 1.0.2
@@ -15441,7 +15470,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.167
+      '@definitelytyped/header-parser': 0.0.168
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -15457,9 +15486,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.167
-      '@definitelytyped/typescript-versions': 0.0.167
-      '@definitelytyped/utils': 0.0.167
+      '@definitelytyped/header-parser': 0.0.168
+      '@definitelytyped/typescript-versions': 0.0.168
+      '@definitelytyped/utils': 0.0.168
       dts-critic: 3.3.11(typescript@4.9.5)
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2

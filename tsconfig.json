@@ -2327,6 +2327,36 @@
     },
     {
       "path": "components/talend"
+    },
+    {
+      "path": "components/nationbuilder"
+    },
+    {
+      "path": "components/sharepoint"
+    },
+    {
+      "path": "components/retently"
+    },
+    {
+      "path": "components/devrev"
+    },
+    {
+      "path": "components/microsofttodo"
+    },
+    {
+      "path": "components/imagekit_io"
+    },
+    {
+      "path": "components/omnivore"
+    },
+    {
+      "path": "components/microsoft_365_people"
+    },
+    {
+      "path": "components/microsoft_365_planner"
+    },
+    {
+      "path": "components/retriever"
     }
   ]
 }

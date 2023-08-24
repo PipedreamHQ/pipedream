@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "pushcut",
+  app: "microsoft_365_planner",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
