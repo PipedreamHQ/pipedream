@@ -2387,6 +2387,9 @@
     },
     {
       "path": "components/listclean"
+    },
+    {
+      "path": "components/vero"
     }
   ]
 }
