@@ -4896,7 +4896,11 @@ importers:
 
   components/td_ameritrade: {}
 
-  components/teachable: {}
+  components/teachable:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/team_up:
     dependencies:
