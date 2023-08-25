@@ -2381,6 +2381,12 @@
     },
     {
       "path": "components/kwtsms"
+    },
+    {
+      "path": "components/acelle_mail"
+    },
+    {
+      "path": "components/listclean"
     }
   ]
 }
