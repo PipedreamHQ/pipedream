@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/microsoft_365_people",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Microsoft 365 People Components",
-  "main": "dist/app/microsoft_365_people.app.mjs",
+  "main": "microsoft_365_people.app.mjs",
   "keywords": [
     "pipedream",
     "microsoft_365_people"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/microsoft_365_people",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
