@@ -2357,6 +2357,24 @@
     },
     {
       "path": "components/retriever"
+    },
+    {
+      "path": "components/klaxoon"
+    },
+    {
+      "path": "components/screenshotone"
+    },
+    {
+      "path": "components/kite_suite"
+    },
+    {
+      "path": "components/gryd"
+    },
+    {
+      "path": "components/microsoft_entra_id"
+    },
+    {
+      "path": "components/botconversa"
     }
   ]
 }
