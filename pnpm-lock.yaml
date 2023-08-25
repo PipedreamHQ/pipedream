@@ -5395,7 +5395,14 @@ importers:
 
   components/visualping: {}
 
-  components/vitally: {}
+  components/vitally:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
 
   components/vivifyscrum: {}
 
