@@ -205,7 +205,7 @@ export default {
         password: "",
       };
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this, path, ...opts
     }) {
       const config = {
