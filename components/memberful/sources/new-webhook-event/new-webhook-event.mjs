@@ -14,7 +14,7 @@ export default {
     secret: {
       type: "string",
       label: "Secret",
-      description: "The secret used to sign the webhook. You can find this in your memberful admin panel.",
+      description: "The secret used to sign the webhook. You can find this in your memberful webhook admin panel.",
     },
   },
   methods: {
