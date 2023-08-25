@@ -68,7 +68,7 @@ export default {
         responseArray.push(item);
       }
 
-      if (responseArray[0]) {
+      if (responseArray.length) {
         this._setLastDate(responseArray[0].createdAt);
       }
 
