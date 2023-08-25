@@ -2166,7 +2166,14 @@ importers:
 
   components/highlevel_oauth: {}
 
-  components/hive: {}
+  components/hive:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
 
   components/holded:
     dependencies:
