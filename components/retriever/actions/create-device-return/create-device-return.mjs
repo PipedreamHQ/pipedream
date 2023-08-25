@@ -162,7 +162,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully created device return order with ID ${response.id}`);
+    step.export("$summary", `Successfully created device return order with ID \`${response.id}\``);
 
     return response;
   },

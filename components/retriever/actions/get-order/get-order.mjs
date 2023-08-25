@@ -26,8 +26,11 @@ export default {
     },
   },
   async run({ $: step }) {
-    const { orderId } = step;
-    const response = await this.getOrder({
+    const {
+      getOrder,
+      orderId,
+    } = this;
+    const response = await getOrder({
       step,
       orderId,
     });
