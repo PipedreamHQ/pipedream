@@ -2348,6 +2348,33 @@
     },
     {
       "path": "components/omnivore"
+    },
+    {
+      "path": "components/microsoft_365_people"
+    },
+    {
+      "path": "components/microsoft_365_planner"
+    },
+    {
+      "path": "components/retriever"
+    },
+    {
+      "path": "components/klaxoon"
+    },
+    {
+      "path": "components/screenshotone"
+    },
+    {
+      "path": "components/kite_suite"
+    },
+    {
+      "path": "components/gryd"
+    },
+    {
+      "path": "components/microsoft_entra_id"
+    },
+    {
+      "path": "components/botconversa"
     }
   ]
 }

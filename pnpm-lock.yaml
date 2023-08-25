@@ -573,6 +573,8 @@ importers:
 
   components/botbaba: {}
 
+  components/botconversa: {}
+
   components/box:
     dependencies:
       '@pipedream/platform':
@@ -1074,7 +1076,11 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1
 
-  components/databricks: {}
+  components/databricks:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/datadog:
     dependencies:
@@ -1657,7 +1663,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
-  components/ftrack: {}
+  components/ftrack:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/full_contact:
     dependencies:
@@ -2085,6 +2095,8 @@ importers:
 
   components/growsurf: {}
 
+  components/gryd: {}
+
   components/gumroad:
     dependencies:
       '@pipedream/platform':
@@ -2166,7 +2178,14 @@ importers:
 
   components/highlevel_oauth: {}
 
-  components/hive: {}
+  components/hive:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
 
   components/holded:
     dependencies:
@@ -2468,6 +2487,8 @@ importers:
 
   components/kintone: {}
 
+  components/kite_suite: {}
+
   components/klaviyo:
     dependencies:
       '@babel/core':
@@ -2476,6 +2497,8 @@ importers:
       klaviyo-sdk:
         specifier: ^1.0.1
         version: 1.0.1(@babel/core@7.22.9)
+
+  components/klaxoon: {}
 
   components/klazify:
     dependencies:
@@ -2855,6 +2878,12 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/microsoft_365_people: {}
+
+  components/microsoft_365_planner: {}
+
+  components/microsoft_entra_id: {}
+
   components/microsoft_onedrive:
     dependencies:
       '@microsoft/microsoft-graph-client':
@@ -3231,7 +3260,11 @@ importers:
 
   components/omnisend: {}
 
-  components/omnivore: {}
+  components/omnivore:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/oncehub:
     dependencies:
@@ -3366,7 +3399,14 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/outseta: {}
+  components/outseta:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      qs:
+        specifier: ^6.11.1
+        version: 6.11.2
 
   components/overloop:
     dependencies:
@@ -4010,6 +4050,8 @@ importers:
 
   components/retool: {}
 
+  components/retriever: {}
+
   components/rev:
     dependencies:
       '@pipedream/platform':
@@ -4192,6 +4234,8 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/screenshotone: {}
+
   components/segment:
     dependencies:
       '@pipedream/platform':
@@ -4272,7 +4316,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/senta: {}
+  components/senta:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/sentry:
     dependencies:
@@ -4985,7 +5033,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/tidycal: {}
+  components/tidycal:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/time_tracker_by_ebillity: {}
 
