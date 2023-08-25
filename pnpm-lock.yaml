@@ -573,6 +573,8 @@ importers:
 
   components/botbaba: {}
 
+  components/botconversa: {}
+
   components/box:
     dependencies:
       '@pipedream/platform':
@@ -2089,6 +2091,8 @@ importers:
 
   components/growsurf: {}
 
+  components/gryd: {}
+
   components/gumroad:
     dependencies:
       '@pipedream/platform':
@@ -2479,6 +2483,8 @@ importers:
 
   components/kintone: {}
 
+  components/kite_suite: {}
+
   components/klaviyo:
     dependencies:
       '@babel/core':
@@ -2487,6 +2493,8 @@ importers:
       klaviyo-sdk:
         specifier: ^1.0.1
         version: 1.0.1(@babel/core@7.22.9)
+
+  components/klaxoon: {}
 
   components/klazify:
     dependencies:
@@ -2870,6 +2878,8 @@ importers:
 
   components/microsoft_365_planner: {}
 
+  components/microsoft_entra_id: {}
+
   components/microsoft_onedrive:
     dependencies:
       '@microsoft/microsoft-graph-client':
@@ -3246,7 +3256,11 @@ importers:
 
   components/omnisend: {}
 
-  components/omnivore: {}
+  components/omnivore:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/oncehub:
     dependencies:
@@ -4211,6 +4225,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
+
+  components/screenshotone: {}
 
   components/segment:
     dependencies:
