@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export default {
   type: "source",
   key: "memberful-new-webhook-event",
-  name: "New Webhook Evnet",
+  name: "New Webhook Event",
   description: "Emit new event in pipedream when a subscribed event is triggered in memberful. [Click here](https://memberful.com/help/custom-development-and-api/webhooks/#create-an-endpoint) to learn how to create a webhook endpoint in memberful.",
   version: "0.0.1",
   props: {
