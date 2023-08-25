@@ -1657,7 +1657,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
-  components/ftrack: {}
+  components/ftrack:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/full_contact:
     dependencies:
