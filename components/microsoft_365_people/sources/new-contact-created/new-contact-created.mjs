@@ -4,16 +4,27 @@ export default {
   ...common,
   key: "microsoft_365_people-new-contact-created",
   name: "New Contact Created",
-  description: "Emit new event when a new contact is created",
+  description: "Emit new event when a new contact is created in a folder.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    folderId: {
+      propDefinition: [
+        common.props.microsoftOutlook,
+        "folderId",
+      ],
+    },
+  },
   hooks: {
     ...common.hooks,
     async activate() {
       await this.activate({
         changeType: "created",
-        resource: "/me/contacts",
+        resource: this.folderId
+          ? `/me/contactFolders/${this.folderId}/contacts`
+          : "/me/contacts",
       });
     },
     async deactivate() {
@@ -23,7 +34,11 @@ export default {
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      return this.microsoftOutlook.listContacts();
+      return this.folderId
+        ? this.microsoftOutlook.listContactsInFolder({
+          folderId: this.folderId,
+        })
+        : this.microsoftOutlook.listContacts();
     },
     generateMeta(item) {
       return {

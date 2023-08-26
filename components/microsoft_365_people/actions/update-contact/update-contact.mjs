@@ -45,14 +45,6 @@ export default {
         "lastName",
       ],
     },
-    newFolderId: {
-      propDefinition: [
-        microsoftPeople,
-        "folderId",
-      ],
-      label: "New Folder",
-      description: "Folder to move contact to",
-    },
     mobilePhone: {
       propDefinition: [
         microsoftPeople,
@@ -102,7 +94,6 @@ export default {
       surname: this.lastName,
       mobilePhone: this.mobilePhone,
       homePhone: this.homePhone,
-      parentFolderId: this.newFolderId,
     });
 
     if (this.email) {
