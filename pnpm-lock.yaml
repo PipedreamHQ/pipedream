@@ -2789,6 +2789,8 @@ importers:
 
   components/metabase: {}
 
+  components/metaphor: {}
+
   components/metatext_ai_inference_api: {}
 
   components/metatext_ai_pre_build_ai_models_api:
