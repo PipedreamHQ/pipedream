@@ -6,7 +6,7 @@ export default {
   type: "source",
   key: "memberful-new-webhook-event",
   name: "New Webhook Event",
-  description: "Emit new event in pipedream when a subscribed event is triggered in memberful. First you need to create this source with a random secret, then [create  webhook in Memberful](https://memberful.com/help/custom-development-and-api/webhooks/#create-an-endpoint) with the source endpoint, then go back to this source and update the secret with the one from Memberful.",
+  description: "Emit new event in Pipedream when a subscribed event is triggered in memberful.",
   version: "0.0.1",
   props: {
     app,
@@ -14,7 +14,7 @@ export default {
     secret: {
       type: "string",
       label: "Secret",
-      description: "The secret used to sign the webhook. You will need to update this prop with the secret you received after [creating a webhook on Memberful](https://memberful.com/help/custom-development-and-api/webhooks/#create-an-endpoint).",
+      description: "The secret used to sign the webhook. First you need to create this source with a random secret, then [create  webhook in Memberful](https://memberful.com/help/custom-development-and-api/webhooks/#create-an-endpoint) with the source endpoint, then go back to this source and update the secret with the one from Memberful.",
     },
   },
   methods: {
