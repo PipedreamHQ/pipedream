@@ -22,6 +22,7 @@ def get_env_var(var_name, required=False):
 
 
 config = {
+    "temperature": get_env_var("OPENAI_TEMPERATURE") or 0.5,
     "openai_api_type": get_env_var("OPENAI_API_TYPE"),
     "openai": {
         "api_key": get_env_var("OPENAI_API_KEY", required=True),
@@ -44,5 +45,5 @@ config = {
     "logging": {
         "level": get_env_var("LOGGING_LEVEL"),
     },
-    "enable_docs": get_env_var("ENABLE_DOCS"),
+    "enable_docs": get_env_var("ENABLE_DOCS") or False,
 }
