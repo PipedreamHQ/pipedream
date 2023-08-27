@@ -2285,6 +2285,114 @@
     },
     {
       "path": "components/metaphor"
+    },
+    {
+      "path": "components/streamtime"
+    },
+    {
+      "path": "components/moxie"
+    },
+    {
+      "path": "components/webinarkit"
+    },
+    {
+      "path": "components/tidycal"
+    },
+    {
+      "path": "components/neon_api_keys"
+    },
+    {
+      "path": "components/superphone"
+    },
+    {
+      "path": "components/ftrack"
+    },
+    {
+      "path": "components/airplane"
+    },
+    {
+      "path": "components/pushcut"
+    },
+    {
+      "path": "components/justcall"
+    },
+    {
+      "path": "components/campaignhq"
+    },
+    {
+      "path": "components/google_fit_developer_app"
+    },
+    {
+      "path": "components/vitally"
+    },
+    {
+      "path": "components/talend"
+    },
+    {
+      "path": "components/nationbuilder"
+    },
+    {
+      "path": "components/sharepoint"
+    },
+    {
+      "path": "components/retently"
+    },
+    {
+      "path": "components/devrev"
+    },
+    {
+      "path": "components/microsofttodo"
+    },
+    {
+      "path": "components/imagekit_io"
+    },
+    {
+      "path": "components/omnivore"
+    },
+    {
+      "path": "components/microsoft_365_people"
+    },
+    {
+      "path": "components/microsoft_365_planner"
+    },
+    {
+      "path": "components/retriever"
+    },
+    {
+      "path": "components/klaxoon"
+    },
+    {
+      "path": "components/screenshotone"
+    },
+    {
+      "path": "components/kite_suite"
+    },
+    {
+      "path": "components/gryd"
+    },
+    {
+      "path": "components/microsoft_entra_id"
+    },
+    {
+      "path": "components/botconversa"
+    },
+    {
+      "path": "components/mapulus"
+    },
+    {
+      "path": "components/kwtsms"
+    },
+    {
+      "path": "components/acelle_mail"
+    },
+    {
+      "path": "components/listclean"
+    },
+    {
+      "path": "components/vero"
+    },
+    {
+      "path": "components/dreamstudio"
     }
   ]
 }

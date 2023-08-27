@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/talend",
+  "version": "0.1.0",
+  "description": "Pipedream Talend Components",
+  "main": "dist/app/talend.app.mjs",
+  "keywords": [
+    "pipedream",
+    "talend"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/talend",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

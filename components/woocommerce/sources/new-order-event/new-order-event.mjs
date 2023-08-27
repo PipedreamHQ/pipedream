@@ -1,11 +1,12 @@
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "woocommerce-new-order-event",
   name: "New Order Event (Instant)",
   description: "Emit new event each time the specified order event(s) occur",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -30,4 +31,5 @@ export default {
       };
     },
   },
+  sampleEmit,
 };

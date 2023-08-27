@@ -21,11 +21,11 @@ However, if you'd like to use your own bot registered with the [Slack API](https
 
 The Slack Bot requires a bot token to allow your Pipedream workflows to authenticate as your bot. The extra set up steps allow you to list your custom bot on the Slack Marketplace, or install the bot on other workspaces as your bot's name instead of as Pipedream.
 
-## Getting Started
+# Getting Started
 
 You can install the Pipedream Slack app in the [Accounts](https://pipedream.com/accounts) section of your account, or directly in a workflow
 
-### Accounts
+## Accounts
 
 1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts).
 2. Click on the **Click Here To Connect An App** button in the top-right.
@@ -33,7 +33,7 @@ You can install the Pipedream Slack app in the [Accounts](https://pipedream.com/
 4. This will open a new window asking you to allow Pipedream access to your Slack workspace. Choose the right workspace where you'd like to install the app, then click **Allow**.
 5. That's it! You can now use this Slack account in any [actions](#workflow-actions), or [link it to any code step](/connected-accounts/#connecting-accounts).
 
-### Within a workflow
+## Within a workflow
 
 1. [Create a new workflow](https://pipedream.com/new).
 2. Select your trigger (HTTP, Cron, etc.).
@@ -42,6 +42,6 @@ You can install the Pipedream Slack app in the [Accounts](https://pipedream.com/
 5. Click the **Connect Account** button near the top of the step. This will prompt you to select any existing Slack accounts you've previously authenticated with Pipedream, or you can select a **New** account. Clicking **New** opens a new window asking you to allow Pipedream access to your Slack workspace. Choose the right workspace where you'd like to install the app, then click **Allow**.
 6. That's it! You can now connect to the Slack API using any of the Slack actions within a Pipedream workflow.
 
-## Troubleshooting
+# Troubleshooting
 
 Please [reach out](https://pipedream.com/support/) to the Pipedream team with any technical issues or questions about the Slack integration. We're happy to help!
