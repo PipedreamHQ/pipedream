@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/kite_suite",
+  "version": "0.0.1",
+  "description": "Pipedream Kite Suite Components",
+  "main": "dist/app/kite_suite.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kite_suite"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/kite_suite",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
