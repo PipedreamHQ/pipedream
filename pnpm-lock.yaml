@@ -119,6 +119,8 @@ importers:
 
   components/accredible: {}
 
+  components/acelle_mail: {}
+
   components/action_builder: {}
 
   components/action_network: {}
@@ -1297,6 +1299,8 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+
+  components/dreamstudio: {}
 
   components/dribbble:
     dependencies:
@@ -2520,6 +2524,8 @@ importers:
 
   components/kucoin_futures: {}
 
+  components/kwtsms: {}
+
   components/kyvio: {}
 
   components/labs64_netlicensing: {}
@@ -2620,6 +2626,8 @@ importers:
   components/linqs_cc: {}
 
   components/liondesk: {}
+
+  components/listclean: {}
 
   components/listen_notes: {}
 
@@ -2784,6 +2792,8 @@ importers:
   components/manifestly_checklists: {}
 
   components/mapbox: {}
+
+  components/mapulus: {}
 
   components/marketing_master_io: {}
 
@@ -4214,6 +4224,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
+  components/scale_ai: {}
+
   components/scalr: {}
 
   components/schedule_it: {}
@@ -5376,6 +5388,8 @@ importers:
         version: 3.2.2
 
   components/verifybee: {}
+
+  components/vero: {}
 
   components/vestaboard:
     dependencies:
