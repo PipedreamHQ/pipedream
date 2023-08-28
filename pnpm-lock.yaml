@@ -4224,6 +4224,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
+  components/scale_ai: {}
+
   components/scalr: {}
 
   components/schedule_it: {}
