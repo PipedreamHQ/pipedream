@@ -2396,6 +2396,9 @@
     },
     {
       "path": "components/scale_ai"
+    },
+    {
+      "path": "components/ilovepdf"
     }
   ]
 }
