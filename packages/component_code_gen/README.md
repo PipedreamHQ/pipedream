@@ -39,7 +39,7 @@ poetry install
     - OPENAI_API_KEY=azure-api-key
     - OPENAI_MODEL=gpt-4-32k
 
-5. Create a file named `instructions.md` with the same structure as the `instructions.md.exaple` file:
+5. Create a file named `instructions.md` with the same structure as the `instructions.md.example` file:
 
 ```
 ## Prompt

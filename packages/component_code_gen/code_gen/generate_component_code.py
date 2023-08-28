@@ -11,12 +11,11 @@ logger = logging_config.getLogger(__name__)
 
 def generate_code(app, prompt, templates, tries):
     results = []
+    db = supabase_helpers.SupabaseConnector()
 
     for i in range(tries):
         logger.debug(f'Attempt {i+1} of {tries}')
         validate_inputs(app, prompt, templates, tries)
-
-        db = supabase_helpers.SupabaseConnector()
 
         auth_meta = db.get_app_auth_meta(app)
         # TODO: is this needed only for actions?

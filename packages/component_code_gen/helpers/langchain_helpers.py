@@ -66,13 +66,12 @@ def format_result(result):
 def get_llm():
     if config['openai_api_type'] == "azure":
         azure_config = config["azure"]
-        llm = AzureChatOpenAI(deployment_name=azure_config['deployment_name'],
+        return AzureChatOpenAI(deployment_name=azure_config['deployment_name'],
                               model_name=azure_config["model"], temperature=config["temperature"], request_timeout=300)
     else:
         openai_config = config["openai"]
-        llm = ChatOpenAI(
+        return ChatOpenAI(
             model_name=openai_config["model"], temperature=config["temperature"], request_timeout=300)
-    return llm
 
 
 def ask_agent(user_prompt, docs, templates):
