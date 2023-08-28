@@ -12,9 +12,7 @@ You can emit arbitrary events from any [Node.js code steps](/code/nodejs/) using
 export default defineComponent({
   async run({ steps, $ }) {
     $.send.emit({
-      {
-        name: "Yoda",
-      },
+      name: "Yoda",
     });
   }
 });
@@ -23,10 +21,10 @@ export default defineComponent({
 `$.send.emit()` accepts an object with the following properties:
 
 ```javascript
-$.send.emit({
+$.send.emit(
   event, // An object that contains the event you'd like to emit
   channel, // Optional, a string specifying the channel
-});
+);
 ```
 
 ## Emitting events to channels
@@ -38,12 +36,12 @@ Pass the channel as the second argument to `$.send.emit`:
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
-    $.send.emit({
+    $.send.emit(
       {
         name: "Yoda",
       },
       'channel_name'
-    });
+    );
   }
 });
 ```
@@ -58,9 +56,7 @@ If you're authoring a [component action](/components#actions), you can emit data
 export default defineComponent({
   async run({ steps, $ }) {
     $.send.emit({
-      {
-        name: "Yoda",
-      },
+      name: "Yoda",
     });
   }
 })
@@ -76,9 +72,7 @@ export default defineComponent({
     const names = ["Luke", "Han", "Leia", "Obi Wan"];
     for (const name of names) {
       $.send.emit({
-        {
-          name,
-        },
+        name,
       });
     }
   }
@@ -112,9 +106,7 @@ curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_i
 export default defineComponent({
   async run({ steps, $ }) {
     $.send.emit({
-      {
-        name: "Yoda",
-      },
+      name: "Yoda",
     });
   }
 });

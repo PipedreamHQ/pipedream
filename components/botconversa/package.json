@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/botconversa",
+  "version": "0.0.1",
+  "description": "Pipedream BotConversa Components",
+  "main": "dist/app/botconversa.app.mjs",
+  "keywords": [
+    "pipedream",
+    "botconversa"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/botconversa",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

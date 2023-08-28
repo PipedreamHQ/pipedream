@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/dreamstudio",
+  "version": "0.0.1",
+  "description": "Pipedream DreamStudio (Stable Diffusion) Components",
+  "main": "dist/app/dreamstudio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dreamstudio"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/dreamstudio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
