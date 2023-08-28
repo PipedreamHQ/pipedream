@@ -1,18 +1,17 @@
-from dotenv import load_dotenv
-load_dotenv()
-
-import openai # required
-from config.config import config
-from langchain import LLMChain
-from langchain.agents import ZeroShotAgent, AgentExecutor
-from langchain.chat_models import ChatOpenAI, AzureChatOpenAI
-from langchain.agents.agent_toolkits.json.toolkit import JsonToolkit
-from langchain.tools.json.tool import JsonSpec
 from langchain.schema import (
     # AIMessage,
     HumanMessage,
     SystemMessage
 )
+from langchain.tools.json.tool import JsonSpec
+from langchain.agents.agent_toolkits.json.toolkit import JsonToolkit
+from langchain.chat_models import ChatOpenAI, AzureChatOpenAI
+from langchain.agents import ZeroShotAgent, AgentExecutor
+from langchain import LLMChain
+from config.config import config
+import openai  # required
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class OpenAPIExplorerTool:
@@ -55,7 +54,7 @@ class PipedreamOpenAPIAgent:
 
 
 def format_template(text):
-    return text.replace("{", "{{").replace("}", "}}") # escape curly braces
+    return text.replace("{", "{{").replace("}", "}}")  # escape curly braces
 
 
 def format_result(result):
@@ -68,10 +67,11 @@ def get_llm():
     if config['openai_api_type'] == "azure":
         azure_config = config["azure"]
         llm = AzureChatOpenAI(deployment_name=azure_config['deployment_name'],
-                model_name=azure_config["model"], temperature=0, request_timeout=300)
+                              model_name=azure_config["model"], temperature=config["temperature"], request_timeout=300)
     else:
         openai_config = config["openai"]
-        llm = ChatOpenAI(model_name=openai_config["model"], temperature=0, request_timeout=300)
+        llm = ChatOpenAI(
+            model_name=openai_config["model"], temperature=config["temperature"], request_timeout=300)
     return llm
 
 
@@ -83,7 +83,8 @@ def ask_agent(user_prompt, docs, templates):
 
 def no_docs(app, prompt, templates):
     result = get_llm()(messages=[
-        SystemMessage(content=format_template(templates.no_docs_system_instructions)),
+        SystemMessage(content=format_template(
+            templates.no_docs_system_instructions)),
         HumanMessage(content=templates.no_docs_user_prompt % (prompt, app)),
     ])
 
