@@ -1,4 +1,4 @@
-import app from "../../amplitude.mjs";
+import app from "../../amplitude.app.mjs";
 
 export default {
   key: "amplitude-send-event-data",
