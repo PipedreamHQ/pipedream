@@ -3105,7 +3105,11 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
-  components/neon_api_keys: {}
+  components/neon_api_keys:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/nethunt_crm:
     dependencies:
@@ -4056,7 +4060,11 @@ importers:
 
   components/retool: {}
 
-  components/retriever: {}
+  components/retriever:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/rev:
     dependencies:
@@ -5387,7 +5395,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/viral_loops: {}
+  components/viral_loops:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/virustotal: {}
 
