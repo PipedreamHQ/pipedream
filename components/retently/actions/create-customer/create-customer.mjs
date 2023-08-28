@@ -3,7 +3,7 @@ import retently from "../../retently.app.mjs";
 export default {
   key: "retently-create-customer",
   name: "Create Customer",
-  description: "Creates a new customer. [See the docs here](https://www.retently.com/api/#api-create-or-update-customers-post)",
+  description: "Creates a new customer. [See the documentation](https://www.retently.com/api/#api-create-or-update-customers-post)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -3,7 +3,7 @@ import retently from "../../retently.app.mjs";
 export default {
   key: "retently-add-tags-to-response",
   name: "Add Tags to Response",
-  description: "Adds tags to a response. [See the docs here](https://www.retently.com/api/#api-add-response-tags-post)",
+  description: "Adds tags to a response. [See the documentation](https://www.retently.com/api/#api-add-response-tags-post)",
   version: "0.0.1",
   type: "action",
   props: {
