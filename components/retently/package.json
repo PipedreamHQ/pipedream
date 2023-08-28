@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/retently",
+  "version": "0.0.1",
+  "description": "Pipedream Retently Components",
+  "main": "dist/app/retently.app.mjs",
+  "keywords": [
+    "pipedream",
+    "retently"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/retently",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

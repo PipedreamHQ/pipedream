@@ -77,6 +77,12 @@ Pipedream creates a URL endpoint specific to your workflow:
 
 You can send any HTTP requests to this endpoint, from anywhere on the web. You can configure the endpoint as the destination URL for a webhook or send HTTP traffic from your application - we'll accept any [valid HTTP request](#valid-requests).
 
+::: tip Custom domains
+
+Pipedream also supports [custom domains](/workflows/domains). This lets you host endpoints on `https://endpoint.yourdomain.com` instead of the default `{{$site.themeConfig.ENDPOINT_BASE_URL}}` domain.
+
+:::
+
 ### Accessing HTTP request data
 
 You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/workflows/events/#event-format), accessible in any [code](/code/) or [action](/components#actions) step.
@@ -92,6 +98,10 @@ You can send data to any path on this host, with any query string parameters. Yo
 You can send data of any [Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) in the body of your request.
 
 The primary limit we impose is on the size of the request body: we'll issue a `413 Payload Too Large` status when the body [exceeds our specified limit](#request-entity-too-large).
+
+### Custom domains
+
+To configure endpoints on your own domain, e.g. `endpoint.yourdomain.com` instead of the default `{{$site.themeConfig.ENDPOINT_BASE_URL}}` domain, see the [custom domains](/workflows/domains) docs.
 
 ### How Pipedream handles JSON payloads
 

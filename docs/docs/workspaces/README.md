@@ -1,6 +1,6 @@
 # Workspaces
 
-When you sign up for a Pipedream account, you'll either create a new workspace or join an existing one if you signed up from an invitation. 
+When you sign up for a Pipedream account, you'll either create a new workspace or join an existing one if you signed up from an invitation.
 
 You can create and join any number of workspaces. For example, you can create one to work alone and another to collaborate with your team. You can also start working alone, then easily add others into your existing workspace to work together on workflows you've already built out.
 
@@ -11,6 +11,7 @@ Once you've created a new workspace, you can invite your team to create and edit
 ## Creating a new workspace
 
 To create a new workspace,
+
 - Open the dropdown menu in the top left of the Pipedream dashboard
 - Select **New workspace**
 - You'll be prompted to name the workspace (you can [change the name later](/workspaces/#renaming-a-workspace))
@@ -27,7 +28,6 @@ After opening your workspace settings, open the [**Membership**](https://pipedre
 - Or create an invite link to more easily share with a larger group (you can limit access to only specific email domains)
 
 ![Creating an invite link](https://res.cloudinary.com/pipedreamin/image/upload/v1688074217/Google_Chrome_-_Settings_-_Users_-_Pipedream_2023-06-29_at_2.28.12_PM_xy33fl.png)
-
 
 ### Managing member permissions
 
@@ -53,7 +53,7 @@ To demote an admin back to a member, click the 3 dots to the right of their emai
 
 Visit your [workspace settings](https://pipedream.com/settings/account) and scroll down to the **API** section. You'll see your workspace ID here.
 
-### Configuring Single-sign on (SS0)
+### Configuring Single-sign on (SSO)
 
 Workspaces on the Business and Enterprise plans can configure Single-sign on, so your users can login to Pipedream using your identity provider.
 
