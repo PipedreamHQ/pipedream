@@ -5,17 +5,20 @@ export default {
   app: "amplitude",
   propDefinitions: {},
   methods: {
-    _baseURL() {
-      return "https://api2.amplitude.com/2";
+    _baseURL(type) {
+      if (type === "httpV2") {
+        if (this.$auth.region.startsWith("https://analytics.eu")) {
+          return "https://api.eu.amplitude.com/2";
+        }
+        return "https://api2.amplitude.com/2";
+      }
+      return `https://${this.$auth.region}`;
     },
     async _makeRequest({
       $ = this, path, data, ...opts
     }) {
-      if (data) {
-        data.api_key = this.$auth.api_key;
-      }
       const config = {
-        url: `${this._baseURL()}/${path}`,
+        url: opts.url || `${this._baseURL()}/${path}`,
         data,
         ...opts,
       };
@@ -25,10 +28,11 @@ export default {
       $,
       data,
     }) {
+      data.api_key = this.$auth.api_key;
       return this._makeRequest({
         $,
         method: "POST",
-        path: "httpapi",
+        url: `${this._baseURL("httpV2")}/httpapi`,
         data,
       });
     },
