@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "neon_api_keys",
+  app: "listclean",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

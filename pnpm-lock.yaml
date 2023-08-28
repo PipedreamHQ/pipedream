@@ -3095,7 +3095,11 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
-  components/neon_api_keys: {}
+  components/neon_api_keys:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/nethunt_crm:
     dependencies:
@@ -4050,7 +4054,11 @@ importers:
 
   components/retool: {}
 
-  components/retriever: {}
+  components/retriever:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/rev:
     dependencies:
@@ -4900,7 +4908,11 @@ importers:
 
   components/td_ameritrade: {}
 
-  components/teachable: {}
+  components/teachable:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/team_up:
     dependencies:
@@ -5375,7 +5387,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/viral_loops: {}
+  components/viral_loops:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/virustotal: {}
 
@@ -5399,7 +5415,14 @@ importers:
 
   components/visualping: {}
 
-  components/vitally: {}
+  components/vitally:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
 
   components/vivifyscrum: {}
 

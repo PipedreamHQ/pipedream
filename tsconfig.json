@@ -2375,6 +2375,24 @@
     },
     {
       "path": "components/botconversa"
+    },
+    {
+      "path": "components/mapulus"
+    },
+    {
+      "path": "components/kwtsms"
+    },
+    {
+      "path": "components/acelle_mail"
+    },
+    {
+      "path": "components/listclean"
+    },
+    {
+      "path": "components/vero"
+    },
+    {
+      "path": "components/dreamstudio"
     }
   ]
 }
