@@ -5383,7 +5383,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/viral_loops: {}
+  components/viral_loops:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/virustotal: {}
 
