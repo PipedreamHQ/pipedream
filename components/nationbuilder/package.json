@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/nationbuilder",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream NationBuilder Components",
-  "main": "dist/app/nationbuilder.app.mjs",
+  "main": "nationbuilder.app.mjs",
   "keywords": [
     "pipedream",
     "nationbuilder"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/nationbuilder",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
