@@ -2904,7 +2904,14 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/microsoft_365_people: {}
+  components/microsoft_365_people:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
 
   components/microsoft_365_planner: {}
 
