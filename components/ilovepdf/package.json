@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/ilovepdf",
+  "version": "0.0.1",
+  "description": "Pipedream iLovePDF Components",
+  "main": "dist/app/ilovepdf.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ilovepdf"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/ilovepdf",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
