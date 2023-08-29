@@ -2103,7 +2103,11 @@ importers:
 
   components/growsurf: {}
 
-  components/gryd: {}
+  components/gryd:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/gumroad:
     dependencies:
