@@ -4,7 +4,7 @@ export default {
   name: "Update Idea",
   version: "0.0.1",
   key: "klaxoon-update-idea",
-  description: "Updates a idea. [See the documentation](https://developers.klaxoon.com/reference/v1boardideapost)",
+  description: "Updates a idea. [See the documentation](ttps://developers.klaxoon.com/reference/v1boardideapatch)",
   type: "action",
   props: {
     app,
