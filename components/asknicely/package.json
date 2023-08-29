@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/asknicely",
+  "version": "0.0.1",
+  "description": "Pipedream AskNicely Components",
+  "main": "dist/app/asknicely.app.mjs",
+  "keywords": [
+    "pipedream",
+    "asknicely"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/asknicely",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
