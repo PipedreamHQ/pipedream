@@ -81,10 +81,10 @@ export default {
         "postalCode",
       ],
     },
-    country: {
+    countryOrRegion: {
       propDefinition: [
         microsoftPeople,
-        "country",
+        "countryOrRegion",
       ],
     },
   },
@@ -110,7 +110,7 @@ export default {
         city: this.city,
         state: this.state,
         postalCode: this.postalCode,
-        country: this.country,
+        countryOrRegion: this.countryOrRegion,
       });
     }
 

@@ -89,9 +89,9 @@ export default {
       description: "Postal code of the contact",
       optional: true,
     },
-    country: {
+    countryOrRegion: {
       type: "string",
-      label: "Country",
+      label: "Country or Region",
       description: "Country or Region of the contact",
       optional: true,
     },
