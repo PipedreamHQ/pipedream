@@ -2402,6 +2402,9 @@
     },
     {
       "path": "components/yoplanning"
+    },
+    {
+      "path": "components/asknicely"
     }
   ]
 }
