@@ -27,9 +27,9 @@ class OpenAPIExplorerTool:
 
 
 class PipedreamOpenAPIAgent:
-    def __init__(self, docs, templates):
+    def __init__(self, docs, templates, auth_example):
         system_instructions = format_template(
-            f"{templates.system_instructions}\n{docs_system_instructions}")
+            f"{templates.system_instructions(auth_example)}\n{docs_system_instructions}")
 
         tools = OpenAPIExplorerTool.create_tools(docs)
         tool_names = [tool.name for tool in tools]
@@ -83,18 +83,18 @@ def get_llm():
             model_name=openai_config["model"], temperature=config["temperature"], request_timeout=300)
 
 
-def ask_agent(user_prompt, docs, templates):
-    agent = PipedreamOpenAPIAgent(docs, templates)
+def ask_agent(user_prompt, docs, templates, auth_example):
+    agent = PipedreamOpenAPIAgent(docs, templates, auth_example)
     result = agent.run(user_prompt)
     return result
 
 
-def no_docs(app, prompt, templates):
+def no_docs(app, prompt, templates, auth_example):
     user_prompt = f"{prompt}.The app is {app}."
-    system_message = format_template(templates.system_instructions)
+    system_instructions = format_template(templates.system_instructions(auth_example))
 
     result = get_llm()(messages=[
-        SystemMessage(content=system_message),
+        SystemMessage(content=system_instructions),
         HumanMessage(content=user_prompt),
     ])
 

@@ -12,14 +12,16 @@ from templates.common.async_options import async_options
 from templates.common.typescript_definitions import typescript_definitions
 from templates.common.end import end
 
-system_instructions = f"""\
-{introduction}
+def system_instructions(auth_example):
+    return f"""{introduction}
 
 {main_example}
 
 {app_prop}
 
 {auth}
+
+{auth_example}
 
 {props}
 
