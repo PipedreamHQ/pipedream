@@ -158,6 +158,8 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/affinda: {}
+
   components/agendor:
     dependencies:
       '@pipedream/platform':
@@ -349,6 +351,8 @@ importers:
       axios:
         specifier: ^0.21.1
         version: 0.21.4
+
+  components/asknicely: {}
 
   components/assemblyai:
     dependencies:
@@ -4287,6 +4291,8 @@ importers:
         version: 1.5.1
 
   components/screenshotone: {}
+
+  components/search_api: {}
 
   components/segment:
     dependencies:
