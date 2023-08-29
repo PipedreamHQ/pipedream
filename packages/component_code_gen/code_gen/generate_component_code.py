@@ -20,7 +20,7 @@ def generate_code(app, prompt, templates, tries):
 
         auth_meta = db.get_app_auth_meta(app)
         # TODO: is this needed only for actions?
-        add_code_example(templates, auth_meta['component_code_scaffold_raw'])
+        # add_code_example(templates, auth_meta['component_code_scaffold_raw'])
 
         docs_meta = db.get_app_docs_meta(app)
         # Initialize a flag to track if we obtained any results with docs
@@ -50,7 +50,6 @@ def generate_code(app, prompt, templates, tries):
     new_prompt = "I've asked other GPT agents to generate the following code based on the prompt and the instructions below. One set of code (or all) may not follow the rules laid out in the prompt or in the instructions below, so you'll need to review it for accuracy. Try to evaluate the examples according to the rules, combine the best parts of each example, and generate a final set of code that solves the problem posed by the prompt and follows all of the rules below. Here are the attempts + code:\n\n---\n\n"
     for idx, result in enumerate(results, 1):
         new_prompt += f"Try {idx}:\n\n${result}\n\n---\n\n"
-    logger.debug(f"\n\n---------------{new_prompt}\n\n")
     new_prompt += "---\n\n" + prompt
 
     # Call the model again with the new prompt to get the final result
