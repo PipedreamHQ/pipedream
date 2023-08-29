@@ -4074,7 +4074,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/retently: {}
+  components/retently:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/retool: {}
 
