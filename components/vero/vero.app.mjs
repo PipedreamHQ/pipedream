@@ -3,7 +3,18 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "vero",
-  propDefinitions: {},
+  propDefinitions: {
+    id: {
+      type: "string",
+      label: "ID",
+      description: "The unique identifier of the customer.",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the customer.",
+    },
+  },
   methods: {
     _getAuthToken() {
       return this.$auth.auth_token;
@@ -26,6 +37,13 @@ export default {
       return this._makeHttpRequest({
         method: "POST",
         path: "/users/track",
+        data,
+      });
+    },
+    async trackEventForUser(data) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/events/track",
         data,
       });
     },

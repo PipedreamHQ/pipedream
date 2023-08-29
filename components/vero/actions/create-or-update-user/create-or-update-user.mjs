@@ -5,19 +5,21 @@ export default {
   type: "action",
   key: "vero-create-or-update-user",
   name: "Create or Update User",
-  version: "0.0.17",
+  version: "0.0.1",
   description: "This endpoint creates a new user profile if the user doesn't exist yet. Otherwise, the user profile is updated based on the properties provided. [See the documentation](https://developers.getvero.com/track-api-reference/#/operations/identify)",
   props: {
     app,
     id: {
-      type: "string",
-      label: "ID",
-      description: "The unique identifier of the customer.",
+      propDefinition: [
+        app,
+        "id",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "The email address of the customer.",
+      propDefinition: [
+        app,
+        "email",
+      ],
     },
     channels: {
       type: "string[]",
@@ -39,7 +41,6 @@ export default {
       }
       const parsed = [];
       for (let i = 0; i < data.length; i++) {
-        console.log(data[i]);
         let item;
         try {
           item = JSON.parse(data[i]);
