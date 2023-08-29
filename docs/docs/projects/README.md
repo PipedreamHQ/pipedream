@@ -30,7 +30,7 @@ If you need to limit certain project's visibility to only some members, then tho
 
 Within a given project, you can create folders for your workflows.
 
-Open your project, and then click the **Create** button for a dropdown to create a workflow in your current project.
+Open your project, and then click the **New** button for a dropdown to create a workflow in your current project.
 
 ::: tip
 
