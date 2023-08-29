@@ -2393,6 +2393,15 @@
     },
     {
       "path": "components/dreamstudio"
+    },
+    {
+      "path": "components/scale_ai"
+    },
+    {
+      "path": "components/ilovepdf"
+    },
+    {
+      "path": "components/yoplanning"
     }
   ]
 }
