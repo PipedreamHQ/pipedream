@@ -18,7 +18,7 @@ export default {
       id: this.id
     });
 
-    $.export("$summary", `Successfully fetched document status with ID ${id}`);
+    $.export("$summary", `Successfully fetched document status with ID ${this.id}`);
     return response;
   },
 };
