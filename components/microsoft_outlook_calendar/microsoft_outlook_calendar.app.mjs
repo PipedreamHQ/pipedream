@@ -4,6 +4,19 @@ export default {
   type: "app",
   app: "microsoft_outlook_calendar",
   propDefinitions: {
+    eventId: {
+      label: "Event ID",
+      description: "The event ID",
+      type: "string",
+      async options() {
+        const { value: events } = await this.listCalendarEvents();
+
+        return events.map((event) => ({
+          label: event.subject,
+          value: event.id,
+        }));
+      },
+    },
     contentType: {
       label: "Content Type",
       description: "Content type (default `text`)",
@@ -129,6 +142,24 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/me/events",
+        ...args,
+      });
+    },
+    async updateCalendarEvent({
+      eventId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/me/events/${eventId}`,
+        ...args,
+      });
+    },
+    async deleteCalendarEvent({
+      eventId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/me/events/${eventId}`,
         ...args,
       });
     },

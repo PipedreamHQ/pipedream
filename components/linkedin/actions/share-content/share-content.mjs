@@ -4,7 +4,7 @@ export default {
   key: "linkedin-share-content",
   name: "Share Content",
   description: "Shares a post with content, which represents external articles and media such as images referenced in a share. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/share-api#post-shares)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     linkedin,
