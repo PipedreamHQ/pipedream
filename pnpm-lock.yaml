@@ -2501,7 +2501,11 @@ importers:
 
   components/kintone: {}
 
-  components/kite_suite: {}
+  components/kite_suite:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/klaviyo:
     dependencies:
