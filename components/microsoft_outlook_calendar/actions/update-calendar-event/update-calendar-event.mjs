@@ -2,22 +2,31 @@ import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 
 export default {
   type: "action",
-  key: "microsoft_outlook_calendar-create-calendar-event",
-  version: "0.0.6",
-  name: "Create Calendar Event",
-  description: "Create an event in the user's default calendar. [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-post-events)",
+  key: "microsoft_outlook_calendar-update-calendar-event",
+  version: "0.0.1",
+  name: "Update Calendar Event",
+  description: "Update an event in the user's default calendar. [See the documentation](https://learn.microsoft.com/en-us/graph/api/event-update?view=graph-rest-1.0&tabs=http)",
   props: {
     microsoftOutlook,
+    eventId: {
+      propDefinition: [
+        microsoftOutlook,
+        "eventId",
+      ],
+    },
     subject: {
       label: "Subject",
       description: "Subject of the event",
       type: "string",
+      optional: true,
+
     },
     contentType: {
       propDefinition: [
         microsoftOutlook,
         "contentType",
       ],
+      optional: true,
     },
     content: {
       propDefinition: [
@@ -25,42 +34,49 @@ export default {
         "content",
       ],
       description: "Content",
+      optional: true,
     },
     timeZone: {
       propDefinition: [
         microsoftOutlook,
         "timeZone",
       ],
+      optional: true,
     },
     start: {
       propDefinition: [
         microsoftOutlook,
         "start",
       ],
+      optional: true,
     },
     end: {
       propDefinition: [
         microsoftOutlook,
         "end",
       ],
+      optional: true,
     },
     attendees: {
       propDefinition: [
         microsoftOutlook,
         "attendees",
       ],
+      optional: true,
     },
     location: {
       propDefinition: [
         microsoftOutlook,
         "location",
       ],
+      optional: true,
     },
     isOnlineMeeting: {
       propDefinition: [
         microsoftOutlook,
         "isOnlineMeeting",
       ],
+      optional: true,
     },
     expand: {
       propDefinition: [
@@ -68,44 +84,59 @@ export default {
         "expand",
       ],
       description: "Additional event details, [See object definition](https://docs.microsoft.com/en-us/graph/api/resources/event)",
+      optional: true,
     },
   },
   async run({ $ }) {
-    //RegExp to check time strings(yyyy-MM-ddThh:mm:ss)
-    const re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)$/;
-    if (!re.test(this.start) || !re.test(this.start)) {
-      throw new Error("Please provide both start and end props in 'yyyy-MM-ddThh:mm:ss'");
-    }
     const data = {
       subject: this.subject,
-      body: {
-        contentType: this.contentType ?? "HTML",
-        content: this.content,
-      },
-      start: {
-        dateTime: this.start,
-        timeZone: this.timeZone,
-      },
-      end: {
-        dateTime: this.end,
-        timeZone: this.timeZone,
-      },
-      location: {
-        displayName: this.location,
-      },
-      attendees: this.attendees.map((at) => ({
-        emailAddress: {
-          address: at,
-        },
-      })),
       isOnlineMeeting: this.isOnlineMeeting,
       ...this.expand,
     };
-    const response = await this.microsoftOutlook.createCalendarEvent({
+
+    if (this.location) {
+      data.location = {
+        displayName: this.location,
+      };
+    }
+
+    if (this.contentType && this.content) {
+      data.body = {
+        contentType: this.contentType ?? "HTML",
+        content: this.content,
+      };
+    }
+
+    if (this.start && this.timeZone) {
+      data.start = {
+        dateTime: this.start,
+        timeZone: this.timeZone,
+
+      };
+    }
+    if (this.end && this.timeZone) {
+      data.end = {
+        dateTime: this.end,
+        timeZone: this.timeZone,
+      };
+    }
+
+    if (this.attendees) {
+      data.attendees = this.attendees.map((at) => ({
+        emailAddress: {
+          address: at,
+        },
+      }));
+    }
+
+    const response = await this.microsoftOutlook.updateCalendarEvent({
       $,
+      eventId: this.eventId,
       data,
     });
-    $.export("$summary", "Calendar event has been created.");
+
+    $.export("$summary", `Successfully updated calendar event with ID ${response.id}`);
+
     return response;
   },
 };

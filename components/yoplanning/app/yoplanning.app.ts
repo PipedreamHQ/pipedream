@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "microsofttodo",
+  app: "yoplanning",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
