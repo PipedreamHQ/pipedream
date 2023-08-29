@@ -20,7 +20,7 @@ That's it, you now have a dedicated new project created within your workspace. N
 
 ::: details How do I limit workspace members from viewing or developing workflows in certain projects?
 
-Members of a given workspace can see all projects in the workspace. 
+Members of a given workspace can see all projects in the workspace.
 
 If you need to limit certain project's visibility to only some members, then those members belong in a different workspace.
 
@@ -74,4 +74,4 @@ At this time no, but that is on our roadmap. Projects will eventually contain al
 
 ### Can projects be synchronized to a Github repository?
 
-Yes, [please read here](/projects/git/) for more information on the Github synchronization feature for porjects.
+Yes, [please read here](/projects/git/) for more information on the Github synchronization feature for projects.
