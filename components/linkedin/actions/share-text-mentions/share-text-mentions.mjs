@@ -4,7 +4,7 @@ export default {
   key: "linkedin-share-text-mentions",
   name: "Share Text And Mentions",
   description: "Shares a posts with text and mentions only. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/share-api#share-text-and-mentions)",
-  version: "0.3.2",
+  version: "0.3.3",
   type: "action",
   props: {
     linkedin,
