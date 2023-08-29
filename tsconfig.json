@@ -2375,6 +2375,42 @@
     },
     {
       "path": "components/botconversa"
+    },
+    {
+      "path": "components/mapulus"
+    },
+    {
+      "path": "components/kwtsms"
+    },
+    {
+      "path": "components/acelle_mail"
+    },
+    {
+      "path": "components/listclean"
+    },
+    {
+      "path": "components/vero"
+    },
+    {
+      "path": "components/dreamstudio"
+    },
+    {
+      "path": "components/scale_ai"
+    },
+    {
+      "path": "components/ilovepdf"
+    },
+    {
+      "path": "components/yoplanning"
+    },
+    {
+      "path": "components/asknicely"
+    },
+    {
+      "path": "components/affinda"
+    },
+    {
+      "path": "components/search_api"
     }
   ]
 }

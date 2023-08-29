@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/search_api",
+  "version": "0.0.1",
+  "description": "Pipedream Search API Components",
+  "main": "dist/app/search_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "search_api"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/search_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

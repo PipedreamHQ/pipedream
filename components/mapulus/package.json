@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/mapulus",
+  "version": "0.0.1",
+  "description": "Pipedream Mapulus Components",
+  "main": "dist/app/mapulus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mapulus"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/mapulus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
