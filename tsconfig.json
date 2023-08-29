@@ -2405,6 +2405,12 @@
     },
     {
       "path": "components/asknicely"
+    },
+    {
+      "path": "components/affinda"
+    },
+    {
+      "path": "components/search_api"
     }
   ]
 }
