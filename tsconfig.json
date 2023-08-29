@@ -2399,6 +2399,9 @@
     },
     {
       "path": "components/ilovepdf"
+    },
+    {
+      "path": "components/yoplanning"
     }
   ]
 }
