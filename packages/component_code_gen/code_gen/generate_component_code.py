@@ -10,18 +10,16 @@ logger = logging_config.getLogger(__name__)
 
 
 def generate_code(app, prompt, templates, tries):
-    results = []
+    validate_inputs(app, prompt, templates, tries)
     db = supabase_helpers.SupabaseConnector()
+    docs_meta = db.get_app_docs_meta(app)
+    auth_meta = db.get_app_auth_meta(app)
+    add_code_example(templates, auth_meta['component_code_scaffold_raw'])
+    results = []
 
     for i in range(tries):
         logger.debug(f'Attempt {i+1} of {tries}')
-        validate_inputs(app, prompt, templates, tries)
 
-        auth_meta = db.get_app_auth_meta(app)
-        # TODO: is this needed only for actions?
-        add_code_example(templates, auth_meta['component_code_scaffold_raw'])
-
-        docs_meta = db.get_app_docs_meta(app)
         # Initialize a flag to track if we obtained any results with docs
         has_docs_result = False
 
@@ -80,16 +78,13 @@ def call_langchain(app, prompt, templates, docs=None, docs_type=None, attempts=0
     return call_langchain(app, prompt, templates, attempts=attempts+1)
 
 
-def add_code_example(templates, example):
-    return templates.no_docs_system_instructions % example
+def add_code_example(templates, auth_example):
+    # XXX how to add auth_example?
+    return templates.system_instructions
 
 
 def validate_inputs(app, prompt, templates, tries):
     assert app and type(app) == str
     assert prompt and type(prompt) == str
     assert tries and type(tries) == int
-    assert templates.no_docs_user_prompt
-    assert templates.no_docs_system_instructions
-    assert templates.with_docs_system_instructions
-    assert templates.suffix
-    assert templates.format_instructions
+    assert templates.system_instructions

@@ -1,3 +1,6 @@
+from templates.common.suffix import suffix
+from templates.common.format_instructions import format_instructions
+from templates.common.docs_system_instructions import docs_system_instructions
 from langchain.schema import (
     # AIMessage,
     HumanMessage,
@@ -25,18 +28,24 @@ class OpenAPIExplorerTool:
 
 class PipedreamOpenAPIAgent:
     def __init__(self, docs, templates):
+        system_instructions = format_template(
+            f"{templates.system_instructions}\n{docs_system_instructions}")
+
         tools = OpenAPIExplorerTool.create_tools(docs)
         tool_names = [tool.name for tool in tools]
+
         prompt_template = ZeroShotAgent.create_prompt(
             tools=tools,
-            prefix=format_template(templates.with_docs_system_instructions),
-            suffix=templates.suffix,
-            format_instructions=templates.format_instructions,
+            prefix=system_instructions,
+            suffix=suffix,
+            format_instructions=format_instructions,
             input_variables=['input', 'agent_scratchpad']
         )
+
         llm_chain = LLMChain(llm=get_llm(), prompt=prompt_template)
         agent = ZeroShotAgent(llm_chain=llm_chain, allowed_tools=tool_names)
         verbose = True if config['logging']['level'] == 'DEBUG' else False
+
         self.agent_executor = AgentExecutor.from_agent_and_tools(
             agent=agent, tools=tools, verbose=verbose)
 
@@ -67,7 +76,7 @@ def get_llm():
     if config['openai_api_type'] == "azure":
         azure_config = config["azure"]
         return AzureChatOpenAI(deployment_name=azure_config['deployment_name'],
-                              model_name=azure_config["model"], temperature=config["temperature"], request_timeout=300)
+                               model_name=azure_config["model"], temperature=config["temperature"], request_timeout=300)
     else:
         openai_config = config["openai"]
         return ChatOpenAI(
@@ -81,10 +90,12 @@ def ask_agent(user_prompt, docs, templates):
 
 
 def no_docs(app, prompt, templates):
+    user_prompt = f"{prompt}.The app is {app}."
+    system_message = format_template(templates.system_instructions)
+
     result = get_llm()(messages=[
-        SystemMessage(content=format_template(
-            templates.no_docs_system_instructions)),
-        HumanMessage(content=templates.no_docs_user_prompt % (prompt, app)),
+        SystemMessage(content=system_message),
+        HumanMessage(content=user_prompt),
     ])
 
     return format_result(result.content)
