@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/retriever",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Retriever Components",
-  "main": "dist/app/retriever.app.mjs",
+  "main": "retriever.app.mjs",
   "keywords": [
     "pipedream",
     "retriever"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/retriever",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }

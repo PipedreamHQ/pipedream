@@ -2357,6 +2357,51 @@
     },
     {
       "path": "components/retriever"
+    },
+    {
+      "path": "components/klaxoon"
+    },
+    {
+      "path": "components/screenshotone"
+    },
+    {
+      "path": "components/kite_suite"
+    },
+    {
+      "path": "components/gryd"
+    },
+    {
+      "path": "components/microsoft_entra_id"
+    },
+    {
+      "path": "components/botconversa"
+    },
+    {
+      "path": "components/mapulus"
+    },
+    {
+      "path": "components/kwtsms"
+    },
+    {
+      "path": "components/acelle_mail"
+    },
+    {
+      "path": "components/listclean"
+    },
+    {
+      "path": "components/vero"
+    },
+    {
+      "path": "components/dreamstudio"
+    },
+    {
+      "path": "components/scale_ai"
+    },
+    {
+      "path": "components/ilovepdf"
+    },
+    {
+      "path": "components/yoplanning"
     }
   ]
 }
