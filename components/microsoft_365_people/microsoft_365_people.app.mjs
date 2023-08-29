@@ -59,10 +59,10 @@ export default {
       description: "Mobile phone number of the contact",
       optional: true,
     },
-    homePhone: {
-      type: "string",
-      label: "Home Phone",
-      description: "Home phone number of the contact",
+    homePhones: {
+      type: "string[]",
+      label: "Home Phones",
+      description: "The contact's home phone numbers.",
       optional: true,
     },
     street: {

@@ -51,10 +51,10 @@ export default {
         "mobilePhone",
       ],
     },
-    homePhone: {
+    homePhones: {
       propDefinition: [
         microsoftPeople,
-        "homePhone",
+        "homePhones",
       ],
     },
     street: {
@@ -93,7 +93,7 @@ export default {
       givenName: this.firstName,
       surname: this.lastName,
       mobilePhone: this.mobilePhone,
-      homePhone: this.homePhone,
+      homePhones: this.homePhones,
     });
 
     if (this.email) {
