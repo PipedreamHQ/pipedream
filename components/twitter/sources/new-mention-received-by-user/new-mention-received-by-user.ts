@@ -14,7 +14,7 @@ export default defineSource({
   ...common,
   key: "twitter-new-mention-received-by-user",
   name: "New Mention Received by User",
-  description: `Emit new event when a the specified User is mentioned in a Tweet [See the documentation](${DOCS_LINK})`,
+  description: `Emit new event when the specified User is mentioned in a Tweet [See the documentation](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",
   props: {
