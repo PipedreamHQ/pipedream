@@ -5787,7 +5787,11 @@ importers:
 
   components/yoast_seo: {}
 
-  components/yoplanning: {}
+  components/yoplanning:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/yotpo:
     dependencies:
