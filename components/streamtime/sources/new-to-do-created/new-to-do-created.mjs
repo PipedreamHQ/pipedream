@@ -14,7 +14,7 @@ export default {
     generateMeta(toDo) {
       return {
         id: toDo.id,
-        summary: toDo.itemName,
+        summary: `New To Do ${toDo.id}`,
         ts: Date.now(),
       };
     },

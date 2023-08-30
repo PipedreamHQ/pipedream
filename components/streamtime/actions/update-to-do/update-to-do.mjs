@@ -51,14 +51,6 @@ export default {
       default: false,
       optional: true,
     },
-    assigneeId: {
-      propDefinition: [
-        streamtime,
-        "userId",
-      ],
-      label: "Assignee",
-      description: "User to assign to the To Do",
-    },
     minutes: {
       type: "integer",
       label: "Minutes",
@@ -76,15 +68,21 @@ export default {
       id: this.toDoId,
       userId: this.userId || toDo.userId,
       date: this.date || toDo.date,
-      loggedTimeStatus: {
-        id: this.statusId || toDo.loggedTimeStatus.id,
-      },
-      job: {
-        id: this.jobId || toDo.job.id,
-      },
-      jobItemUser: {
-        id: this.assigneeId || toDo.jobItemUser.id,
-      },
+      loggedTimeStatus: this.statusId || toDo.loggedTimeStatus
+        ? {
+          id: this.statusId || toDo.loggedTimeStatus.id,
+        }
+        : null,
+      job: this.jobId || toDo.job
+        ? {
+          id: this.jobId || toDo.job.id,
+        }
+        : null,
+      jobItemUser: toDo.jobItemUser
+        ? {
+          id: toDo.jobItemUser.id,
+        }
+        : null,
       notes: this.notes || toDo.notes,
       private: this.private || toDo.private,
       minutes: this.minutes || toDo.minutes,
