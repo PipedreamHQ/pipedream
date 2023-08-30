@@ -2811,7 +2811,11 @@ importers:
 
   components/mapbox: {}
 
-  components/mapulus: {}
+  components/mapulus:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/marketing_master_io: {}
 
@@ -8858,22 +8862,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser@0.0.169:
-    resolution: {integrity: sha512-6aI0ETYbHRuf5GR/WMq+emPsimC8cOLig6Ncq+JcBLM3cZqEpZV2HQkxEzL5grBLi5ClCX6GtyUrPIpEZsL2UA==}
+  /@definitelytyped/header-parser@0.0.171:
+    resolution: {integrity: sha512-nl+yPAMHivSysrOrHlppHSbxy7p41JHdo0WkDf/kbf9nO0UGHKmWMbjmEWHeKf1L2uR7dv9bxXKUfcIZCtNBWQ==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.169
+      '@definitelytyped/typescript-versions': 0.0.171
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions@0.0.169:
-    resolution: {integrity: sha512-DFpgq0aDTIuGG2mkvm5uq0Fhzr5ysIiNd6CeqQRXP+596LgK06pdaScWCG7eEFfWWBsS2Y9amGVV6sXTJ1Nl/w==}
+  /@definitelytyped/typescript-versions@0.0.171:
+    resolution: {integrity: sha512-SVqsNkBr+Fr/zZ/NoscCU0uGqkforkTsuTpl8C9t22DdexNx3O28qDB9FLfvlvxBqdIF2FunBLoQLFS+iPDwCA==}
     dev: true
 
-  /@definitelytyped/utils@0.0.169:
-    resolution: {integrity: sha512-iua4RM/3Dc4aNKAa138r1xpKB3iE6RPV4uIfVu19aiwNtJnlSrjHMvFqOQvqU5Sv78TraIZ/ScKwSJQYnNlrtA==}
+  /@definitelytyped/utils@0.0.171:
+    resolution: {integrity: sha512-RcfHxwPG1uqNekBS1ugIUD24We2fyKWGXpZ0pXTUKW/vGTBMpY+2WUJsYydq+97+AT7NLhwVNyvF0Ake7cqnIA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.169
+      '@definitelytyped/typescript-versions': 0.0.171
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.56
       charm: 1.0.2
@@ -15577,7 +15581,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.169
+      '@definitelytyped/header-parser': 0.0.171
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -15593,9 +15597,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.169
-      '@definitelytyped/typescript-versions': 0.0.169
-      '@definitelytyped/utils': 0.0.169
+      '@definitelytyped/header-parser': 0.0.171
+      '@definitelytyped/typescript-versions': 0.0.171
+      '@definitelytyped/utils': 0.0.171
       dts-critic: 3.3.11(typescript@4.9.5)
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
