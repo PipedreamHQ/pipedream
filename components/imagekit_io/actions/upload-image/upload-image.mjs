@@ -67,7 +67,7 @@ export default {
     extensions: {
       type: "string[]",
       label: "Extensions",
-      description: "A n array of stringified object extensions to be applied to the image. For reference about extensions [read here](https://docs.imagekit.io/extensions/overview).",
+      description: "An array of stringified object extensions to be applied to the image. For reference about extensions [read here](https://docs.imagekit.io/extensions/overview).",
       optional: true,
     },
     webhookUrl: {
@@ -106,10 +106,17 @@ export default {
       imagekitIo,
       file,
       customMetadata,
+      extensions,
       ...appendData
     } = this;
 
     const data = getFileFormData(file);
+
+    let newExt = extensions;
+    if (typeof newExt === "object") {
+      newExt = `[${newExt.toString()}]`;
+    }
+    data.append("extensions", newExt);
 
     for (const [
       label,
