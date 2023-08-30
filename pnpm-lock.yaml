@@ -158,6 +158,8 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/affinda: {}
+
   components/agendor:
     dependencies:
       '@pipedream/platform':
@@ -349,6 +351,8 @@ importers:
       axios:
         specifier: ^0.21.1
         version: 0.21.4
+
+  components/asknicely: {}
 
   components/assemblyai:
     dependencies:
@@ -2864,7 +2868,14 @@ importers:
 
   components/mem: {}
 
-  components/memberful: {}
+  components/memberful:
+    dependencies:
+      crypto:
+        specifier: ^1.0.1
+        version: 1.0.1
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
 
   components/memberstack:
     dependencies:
@@ -2902,7 +2913,14 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/microsoft_365_people: {}
+  components/microsoft_365_people:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
 
   components/microsoft_365_planner: {}
 
@@ -4074,7 +4092,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/retently: {}
+  components/retently:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/retool: {}
 
@@ -4269,6 +4291,8 @@ importers:
         version: 1.5.1
 
   components/screenshotone: {}
+
+  components/search_api: {}
 
   components/segment:
     dependencies:

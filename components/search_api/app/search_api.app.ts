@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "microsoft_365_people",
+  app: "search_api",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
