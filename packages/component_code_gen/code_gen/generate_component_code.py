@@ -14,7 +14,7 @@ def generate_code(app, prompt, templates, tries):
     db = supabase_helpers.SupabaseConnector()
     docs_meta = db.get_app_docs_meta(app)
     auth_meta = db.get_app_auth_meta(app)
-    auth_example = f"Here's how authentication is done in {app}:\n{auth_meta['component_code_scaffold_raw']}"
+    auth_example = f"Here's how authentication is done in {app}:\n\n{auth_meta['component_code_scaffold_raw']}\n\n"
     results = []
 
     for i in range(tries):
