@@ -1,0 +1,33 @@
+## Prompt
+
+How to send myself a direct message?
+
+## API docs
+
+https://api.slack.com/messaging/sending
+https://api.slack.com/methods/chat.postMessage
+
+### Picking the right conversation
+
+Now we need to find somewhere within your workspace that we'll send a message. This could be any Slack conversation, but we'll use a public channel in this guide.
+
+We'll remind you again - it's not a good idea to attempt the instructions in this guide with a real, living workspace. If you really have to, then at least create a new, empty public channel within the workspace, for testing purposes.
+
+In order to find a valid Slack conversation ID, we'll use the conversations.list API method. This API will return a list of all public channels in the workspace your app is installed to. You'll need the channels:read permission granted to your app.
+
+Within that list, we'll be able to find a specific id of the conversation that we want to access. Here's an example API call:
+
+GET https://slack.com/api/conversations.list
+Authorization: Bearer xoxb-your-token
+
+### Publishing your message
+
+We're nearly there, we just need to make one more API call, this time to chat.postMessage. Again substitute in the values of the token and conversation ID that you noted earlier:
+
+POST https://slack.com/api/chat.postMessage
+Content-type: application/json
+Authorization: Bearer xoxb-your-token
+{
+  "channel": "YOUR_CHANNEL_ID",
+  "text": "Hello world :tada:"
+}

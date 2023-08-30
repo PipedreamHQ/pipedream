@@ -12,6 +12,14 @@ class SupabaseConnector:
             config['supabase']['api_key']
         )
 
+    def get_app_auth_meta(self, app):
+        row = self.client \
+            .table('apps') \
+            .select('auth_type,component_code_scaffold_raw') \
+            .match({'name_slug': app}) \
+            .execute()
+        return row.data[0] if len(row.data) else {}
+
     def get_app_docs_meta(self, app):
         row = self.client \
             .table('components') \
