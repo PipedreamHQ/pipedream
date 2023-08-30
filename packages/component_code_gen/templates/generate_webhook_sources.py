@@ -11,6 +11,7 @@ from templates.common.auth import auth
 from templates.common.component_metadata import source_metadata
 from templates.common.platform_axios import platform_axios
 from templates.common.props import props
+from templates.common.rules import rules
 from templates.common.async_options import async_options
 from templates.common.typescript_definitions import typescript_definitions
 from templates.common.end import end
@@ -45,6 +46,8 @@ def system_instructions(auth_example=""):
 {typescript_definitions}
 
 {other_example}
+
+{rules}
 
 {additional_rules}
 
