@@ -13,9 +13,12 @@ def generate_code(app, prompt, templates, tries):
     validate_inputs(app, prompt, templates, tries)
     db = supabase_helpers.SupabaseConnector()
     docs_meta = db.get_app_docs_meta(app)
-    auth_meta = db.get_app_auth_meta(app)
-    auth_example = f"Here's how authentication is done in {app}:\n\n{auth_meta['component_code_scaffold_raw']}\n\n"
     results = []
+
+    auth_example = None
+    auth_meta = db.get_app_auth_meta(app)
+    if auth_meta.get('component_code_scaffold_raw'):
+        auth_example = f"Here's how authentication is done in {app}:\n\n{auth_meta['component_code_scaffold_raw']}\n\n"
 
     for i in range(tries):
         logger.debug(f'Attempt {i+1} of {tries}')
