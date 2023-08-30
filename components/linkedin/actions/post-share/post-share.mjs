@@ -4,7 +4,7 @@ export default {
   key: "linkedin-post-share",
   name: "Post Share",
   description: "Posts a share, text, media, or rather sponsored content, in the context of a specific member or organization. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/share-api#post-shares)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     linkedin,

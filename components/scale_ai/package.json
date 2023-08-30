@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/scale_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Scale AI Components",
+  "main": "dist/app/scale_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scale_ai"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/scale_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
