@@ -26,7 +26,7 @@ export default {
     async createSubscriber($, email, listId) {
       return axios($, {
         method: "POST",
-        url: `https://rest.cleverreach.com/v3/groups.json/${listId}/receivers`,
+        url: `https://rest.cleverreach.com/v3/groups/${listId}/receivers`,
         headers: {
           Authorization: `Bearer ${this.cleverreach.$auth.api_key}`,
         },
