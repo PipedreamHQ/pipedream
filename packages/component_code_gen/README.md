@@ -5,32 +5,37 @@ Generate components using OpenAI GPT.
 
 ### Installation
 
-1. Install poetry: follow instructions at https://python-poetry.org/docs/#installation
-
-2. Run install:
-
 ```
+asdf plugin-add poetry
+asdf install
+cd packages/component_code_gen
 poetry install
 ```
 
-
 ### Setup
 
-1. Create a `.env` file
+#### Create a `.env` file
 
-2. Add these API Keys:
+```
+cd packages/component_code_gen
+cp .env.example .env
+```
+
+#### Modify the `.env` file to use your own keys:
+
+1. Add these API Keys to your new `.env` file:
 
     - BROWSERLESS_API_KEY=api_key # not required
     - SUPABASE_URL=https://your-project-url.supabase.co # get this from Supabase Project Settings -> API
     - SUPABASE_API_KEY=service_role_key # get this from Supabase Project Settings -> API
 
-3. Add OpenAI keys
+2. Add OpenAI keys
 
     - OPENAI_API_TYPE=openai
     - OPENAI_API_KEY=your-openai-api-key
     - OPENAI_MODEL=gpt-4
 
-4. Or use a Azure OpenAI deployment (gpt-4-32k)
+3. Or use a Azure OpenAI deployment (gpt-4-32k)
 
     - OPENAI_API_TYPE=azure
     - OPENAI_DEPLOYMENT_NAME=deployment-name
