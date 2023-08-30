@@ -2411,6 +2411,12 @@
     },
     {
       "path": "components/search_api"
+    },
+    {
+      "path": "components/onenote"
+    },
+    {
+      "path": "components/kontent_ai"
     }
   ]
 }
