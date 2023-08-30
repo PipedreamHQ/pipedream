@@ -28,19 +28,16 @@ export default {
       type: "string",
       label: "Email",
       description: "Email address of the contact",
-      optional: true,
     },
     phoneNumber: {
       type: "string",
       label: "Phone Number",
       description: "Phone number of the contact",
-      optional: true,
     },
     position: {
       type: "string",
       label: "Position",
       description: "Job position of the contact",
-      optional: true,
     },
   },
   async run({ $ }) {
