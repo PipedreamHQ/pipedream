@@ -2645,7 +2645,11 @@ importers:
 
   components/liondesk: {}
 
-  components/listclean: {}
+  components/listclean:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/listen_notes: {}
 
