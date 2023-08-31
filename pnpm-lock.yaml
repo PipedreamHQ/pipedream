@@ -1358,6 +1358,8 @@ importers:
 
   components/edapp: {}
 
+  components/eden_ai: {}
+
   components/elastic_email: {}
 
   components/elevenlabs: {}
@@ -2540,6 +2542,8 @@ importers:
 
   components/knowbe4: {}
 
+  components/kontent_ai: {}
+
   components/kucoin_futures: {}
 
   components/kwtsms: {}
@@ -2678,6 +2682,8 @@ importers:
   components/logsnag: {}
 
   components/looker: {}
+
+  components/loopmessage: {}
 
   components/loops_so:
     dependencies:
@@ -2880,6 +2886,8 @@ importers:
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
+
+  components/memberspot: {}
 
   components/memberstack:
     dependencies:
@@ -3326,6 +3334,8 @@ importers:
         specifier: ^1.3.0
         version: 1.5.1
 
+  components/one_ai: {}
+
   components/onedesk:
     dependencies:
       '@pipedream/platform':
@@ -3337,6 +3347,8 @@ importers:
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
+
+  components/onenote: {}
 
   components/onepagecrm: {}
 
@@ -4142,6 +4154,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.5.1
+
+  components/roboflow: {}
 
   components/rocketreach:
     dependencies:
@@ -5042,6 +5056,8 @@ importers:
         version: 2.29.4
 
   components/tettra: {}
+
+  components/textcortex: {}
 
   components/textgain: {}
 
