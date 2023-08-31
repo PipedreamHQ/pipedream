@@ -1171,7 +1171,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/devrev: {}
+  components/devrev:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/dext:
     dependencies:
@@ -1357,6 +1361,8 @@ importers:
         version: 1.5.1
 
   components/edapp: {}
+
+  components/eden_ai: {}
 
   components/elastic_email: {}
 
@@ -2540,6 +2546,8 @@ importers:
 
   components/knowbe4: {}
 
+  components/kontent_ai: {}
+
   components/kucoin_futures: {}
 
   components/kwtsms: {}
@@ -2678,6 +2686,8 @@ importers:
   components/logsnag: {}
 
   components/looker: {}
+
+  components/loopmessage: {}
 
   components/loops_so:
     dependencies:
@@ -2880,6 +2890,8 @@ importers:
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
+
+  components/memberspot: {}
 
   components/memberstack:
     dependencies:
@@ -3326,6 +3338,8 @@ importers:
         specifier: ^1.3.0
         version: 1.5.1
 
+  components/one_ai: {}
+
   components/onedesk:
     dependencies:
       '@pipedream/platform':
@@ -3337,6 +3351,8 @@ importers:
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
+
+  components/onenote: {}
 
   components/onepagecrm: {}
 
@@ -4142,6 +4158,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.5.1
+
+  components/roboflow: {}
 
   components/rocketreach:
     dependencies:
@@ -5042,6 +5060,8 @@ importers:
         version: 2.29.4
 
   components/tettra: {}
+
+  components/textcortex: {}
 
   components/textgain: {}
 
@@ -8862,22 +8882,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser@0.0.169:
-    resolution: {integrity: sha512-6aI0ETYbHRuf5GR/WMq+emPsimC8cOLig6Ncq+JcBLM3cZqEpZV2HQkxEzL5grBLi5ClCX6GtyUrPIpEZsL2UA==}
+  /@definitelytyped/header-parser@0.0.175:
+    resolution: {integrity: sha512-10dur1Gd9SIFHIIkCpsZXRmGeCODy3Ne5ExwH2bkNOZzAG4S6ectSx2N/HxOngePz8V00OhOW+FANWOAbIPtnw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.169
+      '@definitelytyped/typescript-versions': 0.0.175
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions@0.0.169:
-    resolution: {integrity: sha512-DFpgq0aDTIuGG2mkvm5uq0Fhzr5ysIiNd6CeqQRXP+596LgK06pdaScWCG7eEFfWWBsS2Y9amGVV6sXTJ1Nl/w==}
+  /@definitelytyped/typescript-versions@0.0.175:
+    resolution: {integrity: sha512-LtGSBkkskTHI3WCpmMoklF2XU4c0Qqnq2E0LZjsel+m8PihQAP0QAsDB/rSr7Y7WsDGxcxPc3bKNQax+6fqHSw==}
     dev: true
 
-  /@definitelytyped/utils@0.0.169:
-    resolution: {integrity: sha512-iua4RM/3Dc4aNKAa138r1xpKB3iE6RPV4uIfVu19aiwNtJnlSrjHMvFqOQvqU5Sv78TraIZ/ScKwSJQYnNlrtA==}
+  /@definitelytyped/utils@0.0.175:
+    resolution: {integrity: sha512-VLthuKhIHe+/sG0YEpVAM9OCVMxPlyaYGCeos5N42+NgumeKApa+BsGh6e+aH4EY4kaee+lgC36MwRxBAjiuYA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.169
+      '@definitelytyped/typescript-versions': 0.0.175
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.56
       charm: 1.0.2
@@ -9657,14 +9677,14 @@ packages:
       '@jest/test-result': 29.6.4
       '@jest/transform': 29.6.4
       '@jest/types': 29.6.3
-      '@types/node': 20.5.7
+      '@types/node': 17.0.45
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.8.0
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.6.3
-      jest-config: 29.6.4(@types/node@20.5.7)
+      jest-config: 29.6.4(@types/node@17.0.45)
       jest-haste-map: 29.6.4
       jest-message-util: 29.6.3
       jest-regex-util: 29.6.3
@@ -9974,7 +9994,7 @@ packages:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 20.5.7
+      '@types/node': 17.0.45
       '@types/yargs': 17.0.24
       chalk: 4.1.2
     dev: true
@@ -12847,6 +12867,7 @@ packages:
 
   /@types/node@20.5.7:
     resolution: {integrity: sha512-dP7f3LdZIysZnmvP3ANJYTSwg+wLLl8p7RqniVlV7j+oXSXAbt9h0WIBFmJy5inWZoX9wZN6eXx+YXd9Rh3RBA==}
+    dev: false
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -15581,7 +15602,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.169
+      '@definitelytyped/header-parser': 0.0.175
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -15597,9 +15618,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.169
-      '@definitelytyped/typescript-versions': 0.0.169
-      '@definitelytyped/utils': 0.0.169
+      '@definitelytyped/header-parser': 0.0.175
+      '@definitelytyped/typescript-versions': 0.0.175
+      '@definitelytyped/utils': 0.0.175
       dts-critic: 3.3.11(typescript@4.9.5)
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -18752,7 +18773,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-config@29.6.4(@types/node@20.5.7):
+  /jest-config@29.6.4(@types/node@17.0.45):
     resolution: {integrity: sha512-JWohr3i9m2cVpBumQFv2akMEnFEPVOh+9L2xIBJhJ0zOaci2ZXuKJj0tgMKQCBZAKA09H049IR4HVS/43Qb19A==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -18767,7 +18788,7 @@ packages:
       '@babel/core': 7.22.11
       '@jest/test-sequencer': 29.6.4
       '@jest/types': 29.6.3
-      '@types/node': 20.5.7
+      '@types/node': 17.0.45
       babel-jest: 29.6.4(@babel/core@7.22.11)
       chalk: 4.1.2
       ci-info: 3.8.0
