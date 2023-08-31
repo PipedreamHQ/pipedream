@@ -100,6 +100,7 @@ export default {
       ],
       label: "Assignee ID",
       description: "ID of the teammate who will be assigned to the conversation.",
+      optional: true,
     },
     tags: {
       propDefinition: [
