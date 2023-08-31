@@ -20,7 +20,15 @@ def run():
 
     for app in apps.apps:
         print(f"testing {app['app']}...")
-        result = main(test_type[:-1], app['app'], app['instructions'], verbose=True)
+
+        prompt = app['instructions']
+        if app.get('common-files'):
+            prompt += '\n\n## Common Files\n'
+            for common_file in app['common-files']:
+                with open(f'../../components/{common_file}', 'r') as f:
+                    prompt += f'\n\n{f.read()}'
+
+        result = main(test_type[:-1], app['app'], prompt, verbose=True)
         with open(f'./tests/{test_type}/output/{app["key"]}.mjs', 'w') as f:
             f.write(result)
 
