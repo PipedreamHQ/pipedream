@@ -5,6 +5,7 @@ from templates.actions.main_example import main_example
 from templates.actions.other_example import other_example
 from templates.common.app_prop import app_prop
 from templates.common.auth import auth
+from templates.common.common_files import common_files
 from templates.common.component_metadata import action_metadata
 from templates.common.platform_axios import platform_axios
 from templates.common.props import props
@@ -35,6 +36,8 @@ def system_instructions(auth_example=""):
 {async_options}
 
 {action_metadata}
+
+{common_files}
 
 {typescript_definitions}
 
