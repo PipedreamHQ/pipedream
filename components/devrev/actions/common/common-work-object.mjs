@@ -57,6 +57,11 @@ export default {
       ],
     },
   },
+  methods: {
+    getType() {
+      throw new Error("getType is not implemented.");
+    },
+  },
   async run({ $ }) {
     const type = this.getType();
 

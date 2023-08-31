@@ -1,5 +1,6 @@
 import devrev from "../../devrev.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "devrev-create-or-update-custom-schema-fragment",
@@ -13,11 +14,7 @@ export default {
       type: "string",
       label: "Type",
       description: "Type of schema fragment",
-      options: [
-        "app_fragment",
-        "custom_type_fragment",
-        "tenant_fragment",
-      ],
+      options: Object.values(constants.SCHEMA_TYPE),
     },
     description: {
       type: "string",
@@ -43,17 +40,17 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.type === "app_fragment" && !this.app) {
-      throw new ConfigurationError("App is required for type `app_fragment`.");
+    if (this.type === constants.SCHEMA_TYPE.APP_FRAGMENT && !this.app) {
+      throw new ConfigurationError(`App is required for type \`${constants.SCHEMA_TYPE.APP_FRAGMENT}\`.`);
     }
-    if (this.type === "custom_type_fragment" && !this.subtype) {
-      throw new ConfigurationError("Subtype is required for type `custom_type_fragment`.");
+    if (this.type === constants.SCHEMA_TYPE.CUSTOM_TYPE_FRAGMENT && !this.subtype) {
+      throw new ConfigurationError(`Subtype is required for type \`${constants.SCHEMA_TYPE.CUSTOM_TYPE_FRAGMENT}\`.`);
     }
-    if (this.app && this.type !== "app_fragment") {
-      throw new ConfigurationError("App can only be specified for type `app_fragment.");
+    if (this.app && this.type !== constants.SCHEMA_TYPE.APP_FRAGMENT) {
+      throw new ConfigurationError(`App can only be specified for type \`${constants.SCHEMA_TYPE.APP_FRAGMENT}\`.`);
     }
-    if (this.subtype && this.type !== "custom_type_fragment") {
-      throw new ConfigurationError("Subtype can only be specified for type `custom_type_fragment`.");
+    if (this.subtype && this.type !== constants.SCHEMA_TYPE.CUSTOM_TYPE_FRAGMENT) {
+      throw new ConfigurationError(`Subtype can only be specified for type \`${constants.SCHEMA_TYPE.CUSTOM_TYPE_FRAGMENT}\`.`);
     }
 
     const data = {

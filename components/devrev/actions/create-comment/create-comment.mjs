@@ -1,4 +1,5 @@
 import devrev from "../../devrev.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "devrev-create-comment",
@@ -35,12 +36,7 @@ export default {
       label: "Visibility",
       description: "The visibility of the entry. If `private`, then the entry is only visible to the creator, `internal` is visible with the Dev organization, `external` is visible to the Dev organzation and Rev users, and `public` is visible to all. If not set, then the default visibility is `external`.",
       optional: true,
-      options: [
-        "external",
-        "internal",
-        "private",
-        "public",
-      ],
+      options: Object.values(constants.VISIBILITY),
     },
   },
   async run({ $ }) {

@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -22,8 +23,12 @@ export default {
             }
             : {},
           resourceKey: "works",
-          valueKey: "id",
-          labelKey: "title",
+          mapper: ({
+            id: value, title: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
       },
     },
@@ -36,8 +41,12 @@ export default {
           prevContext,
           resourceFn: this.listParts,
           resourceKey: "parts",
-          valueKey: "id",
-          labelKey: "name",
+          mapper: ({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
       },
     },
@@ -50,8 +59,12 @@ export default {
           prevContext,
           resourceFn: this.listUsers,
           resourceKey: "dev_users",
-          valueKey: "id",
-          labelKey: "full_name",
+          mapper: ({
+            id: value, full_name: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
       },
     },
@@ -65,8 +78,12 @@ export default {
           prevContext,
           resourceFn: this.listCustomSchemaFragments,
           resourceKey: "result",
-          valueKey: "id",
-          labelKey: "display_id",
+          mapper: ({
+            id: value, display_id: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
       },
     },
@@ -80,8 +97,12 @@ export default {
           prevContext,
           resourceFn: this.listTags,
           resourceKey: "tags",
-          valueKey: "id",
-          labelKey: "name",
+          mapper: ({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
       },
     },
@@ -95,8 +116,12 @@ export default {
           prevContext,
           resourceFn: this.listRevOrgs,
           resourceKey: "rev_orgs",
-          valueKey: "id",
-          labelKey: "display_name",
+          mapper: ({
+            id: value, display_name: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
       },
     },
@@ -109,8 +134,12 @@ export default {
           prevContext,
           resourceFn: this.listAccounts,
           resourceKey: "accounts",
-          valueKey: "id",
-          labelKey: "display_name",
+          mapper: ({
+            id: value, display_name: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
       },
     },
@@ -119,24 +148,14 @@ export default {
       label: "Type",
       description: "Filters for work of the provided types",
       optional: true,
-      options: [
-        "issue",
-        "opportunity",
-        "task",
-        "ticket",
-      ],
+      options: Object.values(constants.WORKS_TYPE),
     },
     priority: {
       type: "string",
       label: "Priority",
       description: "Priority of the work based upon impact and criticality",
       optional: true,
-      options: [
-        "p0",
-        "p1",
-        "p2",
-        "p3",
-      ],
+      options: Object.values(constants.PRIORITY),
     },
     title: {
       type: "string",
@@ -171,7 +190,7 @@ export default {
       });
     },
     async getPropOptions({
-      prevContext, resourceFn, args = {}, resourceKey, valueKey, labelKey,
+      prevContext, resourceFn, args = {}, resourceKey, mapper = (item) => item?.id,
     }) {
       if (prevContext?.cursor) {
         args = {
@@ -185,10 +204,7 @@ export default {
       const response = await resourceFn(args);
       const items = response[resourceKey];
       const cursor = response?.cursor;
-      const options = items?.map((item) => ({
-        value: item[valueKey],
-        label: item[labelKey],
-      })) || [];
+      const options = items?.map(mapper) || [];
       return {
         options,
         context: {
