@@ -2825,7 +2825,11 @@ importers:
 
   components/mapbox: {}
 
-  components/mapulus: {}
+  components/mapulus:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/marketing_master_io: {}
 
