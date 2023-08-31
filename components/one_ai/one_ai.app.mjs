@@ -28,7 +28,7 @@ export default {
         "api-key": this._getApiKey(),
       };
     },
-    async _makeHttpRequest(opts = {}, ctx = this) {
+    _makeHttpRequest(opts = {}, ctx = this) {
       const axiosOpts = {
         ...opts,
         url: this._getBaseUrl() + opts.path,
@@ -36,20 +36,20 @@ export default {
       };
       return axios(ctx, axiosOpts);
     },
-    async listCollections() {
+    listCollections() {
       return this._makeHttpRequest({
         method: "GET",
         path: "/clustering/v1/collections",
       });
     },
-    async findTextInClusters(clusterName, query) {
+    findTextInClusters(clusterName, query) {
       return this._makeHttpRequest({
         method: "GET",
         path: `/clustering/v1/collections/${clusterName}/clusters/find`,
         query,
       });
     },
-    async summarizeText(text) {
+    summarizeText(text) {
       return this._makeHttpRequest({
         method: "POST",
         path: "/api/v0/pipeline",
