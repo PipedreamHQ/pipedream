@@ -4,6 +4,29 @@ export default {
   type: "app",
   app: "devrev",
   propDefinitions: {
+    workId: {
+      type: "string",
+      label: "Work Item",
+      description: "The ID of the object to create the comment for.",
+      async options({
+        prevContext, type,
+      }) {
+        return this.getPropOptions({
+          prevContext,
+          resourceFn: this.listWorks,
+          args: type
+            ? {
+              params: {
+                type,
+              },
+            }
+            : {},
+          resourceKey: "works",
+          valueKey: "id",
+          labelKey: "title",
+        });
+      },
+    },
     partId: {
       type: "string",
       label: "Applies To Part",
@@ -91,6 +114,18 @@ export default {
         });
       },
     },
+    worksType: {
+      type: "string",
+      label: "Type",
+      description: "Filters for work of the provided types",
+      optional: true,
+      options: [
+        "issue",
+        "opportunity",
+        "task",
+        "ticket",
+      ],
+    },
     priority: {
       type: "string",
       label: "Priority",
@@ -136,16 +171,18 @@ export default {
       });
     },
     async getPropOptions({
-      prevContext, resourceFn, resourceKey, valueKey, labelKey,
+      prevContext, resourceFn, args = {}, resourceKey, valueKey, labelKey,
     }) {
-      const params = prevContext?.cursor
-        ? {
-          cursor,
-        }
-        : {};
-      const response = await resourceFn({
-        params,
-      });
+      if (prevContext?.cursor) {
+        args = {
+          ...args,
+          params: {
+            ...args.params,
+            cursor,
+          },
+        };
+      }
+      const response = await resourceFn(args);
       const items = response[resourceKey];
       const cursor = response?.cursor;
       const options = items?.map((item) => ({
@@ -158,6 +195,20 @@ export default {
           cursor,
         },
       };
+    },
+    createWebhook(args = {}) {
+      return this._makeRequest({
+        path: "/webhooks.create",
+        method: "POST",
+        ...args,
+      });
+    },
+    deleteWebhook(args = {}) {
+      return this._makeRequest({
+        path: "/webhooks.delete",
+        method: "POST",
+        ...args,
+      });
     },
     getTag(args = {}) {
       return this._makeRequest({
@@ -198,6 +249,12 @@ export default {
     listAccounts(args = {}) {
       return this._makeRequest({
         path: "/accounts.list",
+        ...args,
+      });
+    },
+    listWorks(args = {}) {
+      return this._makeRequest({
+        path: "/works.list",
         ...args,
       });
     },
