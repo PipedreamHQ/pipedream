@@ -59,6 +59,8 @@ If you resume a workflow, any data sent in the HTTP request is passed to the wor
   <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655271815/docs/resume_data_lafhxr.png" alt="resume data step export" width="350px"/>
 </div>
 
+Requests to the `resume_url` have [the same limits as any HTTP request to Pipedream](/limits/#http-request-body-size), but you can send larger payloads using our [large payload](/workflows/steps/triggers/#sending-large-payloads) or [large file](/workflows/steps/triggers/#large-file-support) interfaces.
+
 ### Default timeout of 24 hours 
 
 By default, `$.flow.suspend` will automatically resume the workflow after 24 hours. You can set your own timeout (in milliseconds) as the first argument:
