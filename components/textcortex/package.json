@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/textcortex",
+  "version": "0.0.1",
+  "description": "Pipedream TextCortex Components",
+  "main": "dist/app/textcortex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "textcortex"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/textcortex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

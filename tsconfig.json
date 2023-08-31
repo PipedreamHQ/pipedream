@@ -2411,6 +2411,30 @@
     },
     {
       "path": "components/search_api"
+    },
+    {
+      "path": "components/onenote"
+    },
+    {
+      "path": "components/kontent_ai"
+    },
+    {
+      "path": "components/memberspot"
+    },
+    {
+      "path": "components/loopmessage"
+    },
+    {
+      "path": "components/one_ai"
+    },
+    {
+      "path": "components/textcortex"
+    },
+    {
+      "path": "components/roboflow"
+    },
+    {
+      "path": "components/eden_ai"
     }
   ]
 }
