@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/one_ai",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream One AI Components",
   "main": "dist/app/one_ai.app.mjs",
   "keywords": [
     "pipedream",
     "one_ai"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/one_ai",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
