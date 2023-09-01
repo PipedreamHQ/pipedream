@@ -2438,6 +2438,15 @@
     },
     {
       "path": "components/danny_test_app"
+    },
+    {
+      "path": "components/sugarcrm_"
+    },
+    {
+      "path": "components/diabatix_coldstream"
+    },
+    {
+      "path": "components/small_improvements"
     }
   ]
 }
