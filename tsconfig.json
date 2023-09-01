@@ -2447,6 +2447,15 @@
     },
     {
       "path": "components/small_improvements"
+    },
+    {
+      "path": "components/referrizer"
+    },
+    {
+      "path": "components/wicked_reports"
+    },
+    {
+      "path": "components/placetel"
     }
   ]
 }
