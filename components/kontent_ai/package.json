@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/kontent_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Kontent.ai Components",
+  "main": "dist/app/kontent_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kontent_ai"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/kontent_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
