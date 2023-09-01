@@ -2456,6 +2456,24 @@
     },
     {
       "path": "components/placetel"
+    },
+    {
+      "path": "components/retable"
+    },
+    {
+      "path": "components/uplisting"
+    },
+    {
+      "path": "components/raisely"
+    },
+    {
+      "path": "components/jumpseller"
+    },
+    {
+      "path": "components/popupsmart"
+    },
+    {
+      "path": "components/airmeet"
     }
   ]
 }
