@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/memberspot",
+  "version": "0.0.1",
+  "description": "Pipedream Memberspot.io Components",
+  "main": "dist/app/memberspot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "memberspot"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/memberspot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

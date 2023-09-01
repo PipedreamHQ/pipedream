@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/roboflow",
+  "version": "0.0.1",
+  "description": "Pipedream Roboflow  Components",
+  "main": "dist/app/roboflow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "roboflow"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/roboflow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
