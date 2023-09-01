@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "Content",
       description: "Content of idea",
+      optional: true,
     },
     x: {
       type: "integer",
@@ -34,6 +35,7 @@ export default {
       type: "integer",
       label: "Z",
       description: "Z-axis coordinate on the board",
+      optional: true,
     },
   },
   async run({ $ }) {
