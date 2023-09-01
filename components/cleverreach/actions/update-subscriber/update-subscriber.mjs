@@ -14,9 +14,14 @@ export default {
     subscriber: {
       type: "string",
       label: "Subscriber",
-      async options() {
-        const response = await this.listSubscribers();
-        return response.data.map((subscriber) => {
+      async options({
+        page, prevContext,
+      }) {
+        const { data } = await this.listSubscribers({
+          page,
+          prevContext,
+        });
+        return data.map((subscriber) => {
           return {
             label: subscriber.email,
             value: subscriber.id,
@@ -24,35 +29,58 @@ export default {
         });
       },
     },
-    updatedData: {
-      type: "object",
-      label: "Updated Data",
-      description: "The updated data for the subscriber",
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The new email of the subscriber",
+    },
+    activated: {
+      type: "boolean",
+      label: "Activated",
+      description: "The new activation status of the subscriber",
+      optional: true,
+    },
+    deactivated: {
+      type: "boolean",
+      label: "Deactivated",
+      description: "The new deactivation status of the subscriber",
+      optional: true,
     },
   },
   methods: {
-    async listSubscribers() {
-      return axios(this, {
-        method: "GET",
-        url: "https://rest.cleverreach.com/v3/contacts.json",
+    async listSubscribers({ page }) {
+      return axios(this.$, {
+        url: "https://rest.cleverreach.com/v3/subscribers.json",
         headers: {
           Authorization: `Bearer ${this.cleverreach.$auth.oauth_access_token}`,
+        },
+        params: {
+          page: page || 1,
         },
       });
     },
-    async updateSubscriber(subscriberId, data) {
-      return axios(this, {
+    async updateSubscriber(params) {
+      return axios(this.$, {
         method: "PUT",
-        url: `https://rest.cleverreach.com/v3/contacts/${subscriberId}.json`,
+        url: `https://rest.cleverreach.com/v3/subscribers/${params.id}.json`,
         headers: {
           Authorization: `Bearer ${this.cleverreach.$auth.oauth_access_token}`,
         },
-        data: data,
+        data: {
+          email: params.email,
+          activated: params.activated,
+          deactivated: params.deactivated,
+        },
       });
     },
   },
   async run({ $ }) {
-    const response = await this.updateSubscriber(this.subscriber, this.updatedData);
+    const response = await this.updateSubscriber({
+      id: this.subscriber,
+      email: this.email,
+      activated: this.activated,
+      deactivated: this.deactivated,
+    });
     $.export("$summary", "Successfully updated subscriber");
     return response;
   },
