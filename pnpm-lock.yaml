@@ -2308,7 +2308,17 @@ importers:
 
   components/ilovepdf: {}
 
-  components/imagekit_io: {}
+  components/imagekit_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/imagga: {}
 
