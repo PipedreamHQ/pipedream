@@ -395,7 +395,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully created image annotation task with ID ${response.task_id}`);
+    step.export("$summary", `Successfully created image annotation task with ID \`${response.task_id}\``);
 
     return response;
   },

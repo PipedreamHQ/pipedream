@@ -56,12 +56,6 @@ export default {
       options: Object.values(constants.GEOMETRY_TYPE),
       default: constants.GEOMETRY_TYPE.BOX,
     },
-    linkingRulesLabels: {
-      type: "string[]",
-      label: "Linking Rules",
-      description: "Define which annotations can be linked together. A list of label pairs that define valid linking.",
-      optional: true,
-    },
     uniqueId: {
       propDefinition: [
         app,
@@ -120,6 +114,7 @@ export default {
           label: `${label} - Flags`,
           description: "A list of ContentFlag values. Content flags allow Scale to transcribe documents more effectively by enabling special tooling or modifying the default behavior for certain features.",
           optional: true,
+          options: Object.values(constants.CONTENT_FLAG),
         },
       };
     },
@@ -152,7 +147,6 @@ export default {
       attachments,
       lang,
       geometry,
-      linkingRulesLabels,
       uniqueId,
       numberOfFeatures,
       featuresPropsMapper,
@@ -168,9 +162,6 @@ export default {
         attachments,
         lang,
         geometry,
-        linking_rules: {
-          labels: linkingRulesLabels,
-        },
         unique_id: uniqueId,
         features: utils.getFieldsProps({
           numberOfFields: numberOfFeatures,
@@ -180,7 +171,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully created document transcription task with ID ${response.task_id}`);
+    step.export("$summary", `Successfully created document transcription task with ID  \`${response.task_id}\``);
 
     return response;
   },

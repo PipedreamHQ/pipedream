@@ -296,7 +296,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully created text annotation task with ID ${response.task_id}`);
+    step.export("$summary", `Successfully created text annotation task with ID \`${response.task_id}\``);
 
     return response;
   },

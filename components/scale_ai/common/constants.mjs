@@ -27,6 +27,20 @@ const GEOMETRY_TYPE = {
   POLYGON: "polygon",
 };
 
+const CONTENT_FLAG = {
+  LINE: "line",
+  KEY: "key",
+  VALUE: "value",
+  THEAD: "thead",
+  TBODY: "tbody",
+  DATE: "date",
+  MONEY: "money",
+  CHECKBOX: "checkbox",
+  REGION: "region",
+  QUERY: "query",
+  SPAN: "span",
+};
+
 export default {
   BASE_URL,
   VERSION_PATH,
@@ -36,4 +50,5 @@ export default {
   ATTACHMENT_TYPE,
   FEATURE_TYPE,
   GEOMETRY_TYPE,
+  CONTENT_FLAG,
 };
