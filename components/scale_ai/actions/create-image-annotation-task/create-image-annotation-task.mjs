@@ -5,7 +5,7 @@ export default {
   name: "Create Image Annotation Task",
   description: "Create an image annotation task. [See the documentation](https://docs.scale.com/reference/general-image-annotation)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.1",
   props: {
     app,
     project: {

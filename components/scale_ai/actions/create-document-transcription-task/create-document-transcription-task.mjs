@@ -7,7 +7,7 @@ export default {
   name: "Create Document Transcription Task",
   description: "Create a document transcription task. [See the documentation](https://docs.scale.com/reference/document-transcription-1)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.1",
   props: {
     app,
     project: {
