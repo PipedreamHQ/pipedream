@@ -21,9 +21,12 @@ export default {
       type: "string",
       label: "Idea ID",
       description: "The ID of the idea",
-      async options({ boardId }) {
+      async options({ boardId, page }) {
         const { items: ideas } = await this.getIdeas({
           boardId,
+          params: {
+             page: page + 1,
+          },
         });
 
         return ideas.map((idea) => ({
