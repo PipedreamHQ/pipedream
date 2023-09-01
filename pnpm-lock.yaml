@@ -1063,6 +1063,8 @@ importers:
 
   components/daffy: {}
 
+  components/danny_test_app: {}
+
   components/darwinbox: {}
 
   components/data247: {}
