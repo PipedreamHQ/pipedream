@@ -29,21 +29,25 @@ export default {
       type: "string",
       label: "Content",
       description: "Content of idea",
+      optional: true,
     },
     x: {
       type: "integer",
       label: "X",
       description: "X-axis coordinate on the board",
+      optional: true,
     },
     y: {
       type: "integer",
       label: "Y",
       description: "Y-axis coordinate on the board",
+      optional: true,
     },
     z: {
       type: "integer",
       label: "Z",
       description: "Z-axis coordinate on the board",
+      optional: true,
     },
   },
   async run({ $ }) {
