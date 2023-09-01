@@ -17,6 +17,7 @@ export default {
       type: "string",
       label: "Description",
       description: "The description of the board",
+      optional: true,
     },
   },
   async run({ $ }) {
