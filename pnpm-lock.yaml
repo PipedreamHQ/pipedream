@@ -2538,7 +2538,11 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(@babel/core@7.22.11)
 
-  components/klaxoon: {}
+  components/klaxoon:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/klazify:
     dependencies:
