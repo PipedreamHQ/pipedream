@@ -2435,6 +2435,9 @@
     },
     {
       "path": "components/eden_ai"
+    },
+    {
+      "path": "components/danny_test_app"
     }
   ]
 }
