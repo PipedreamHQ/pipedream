@@ -3,10 +3,43 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "cleverreach",
+  propDefinitions: {
+    groupId: {
+      type: "string",
+      label: "Group ID",
+      description: "The ID of the mailing list",
+      async options() {
+        const { data } = await this.listGroups();
+        return data.map((group) => ({
+          value: group.id,
+          label: group.name,
+        }));
+      },
+    },
+    receiverId: {
+      type: "string",
+      label: "Subscriber ID",
+      description: "The ID of the subscriber",
+      async options({ groupId }) {
+        const { data } = await this.listReceivers({
+          groupId,
+        });
+        return data.map((receiver) => ({
+          value: receiver.id,
+          label: receiver.email,
+        }));
+      },
+    },
+    receiverData: {
+      type: "object",
+      label: "Receiver Data",
+      description: "The data of the receiver (subscriber)",
+    },
+  },
   methods: {
     async _makeRequest($ = this, opts) {
       const {
-        method,
+        method = "get",
         path,
         headers,
         ...otherOpts
@@ -21,18 +54,37 @@ export default {
         },
       });
     },
-    async createSubscriber($, data) {
+    async createSubscriber($, params) {
+      const {
+        groupId, receiverData,
+      } = params;
       return this._makeRequest($, {
         method: "POST",
-        path: "/receivers",
-        data,
+        path: `/groups/${groupId}/receivers`,
+        data: receiverData,
       });
     },
-    async updateSubscriber($, id, data) {
+    async updateSubscriber($, params) {
+      const {
+        groupId, receiverId, receiverData,
+      } = params;
       return this._makeRequest($, {
         method: "PUT",
-        path: `/receivers/${id}`,
-        data,
+        path: `/groups/${groupId}/receivers/${receiverId}`,
+        data: receiverData,
+      });
+    },
+    async listReceivers($, params) {
+      const { groupId } = params;
+      return this._makeRequest($, {
+        method: "GET",
+        path: `/groups/${groupId}/receivers`,
+      });
+    },
+    async listGroups($) {
+      return this._makeRequest($, {
+        method: "GET",
+        path: "/groups",
       });
     },
   },
