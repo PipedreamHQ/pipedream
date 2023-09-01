@@ -2,7 +2,7 @@
   "name": "@pipedream/klaxoon",
   "version": "0.1.0",
   "description": "Pipedream Klaxoon Components",
-  "main": "dist/app/klaxoon.app.mjs",
+  "main": "klaxoon.app.mjs",
   "keywords": [
     "pipedream",
     "klaxoon"

@@ -12,17 +12,17 @@ import {
   Tweet,
 } from "../../common/types/responseSchemas";
 
-const DOCS_LINK =
+export const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-mentions";
 const MIN_RESULTS = 5;
 const DEFAULT_RESULTS = 10;
-const MAX_RESULTS_PER_PAGE = 100;
+export const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
   key: "twitter-list-mentions",
   name: "List Mentions",
   description: `Return the most recent mentions for the specified user. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.4",
   type: "action",
   props: {
     app,

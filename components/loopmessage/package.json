@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/loopmessage",
+  "version": "0.0.1",
+  "description": "Pipedream LoopMessage Components",
+  "main": "dist/app/loopmessage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "loopmessage"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/loopmessage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
