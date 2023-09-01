@@ -4,7 +4,7 @@ export default {
   name: "Create Idea",
   version: "0.0.1",
   key: "klaxoon-create-idea",
-  description: "Creates a idea. [See the documentation](https://developers.klaxoon.com/reference/v1boardideapost)",
+  description: "Creates an idea. [See the documentation](https://developers.klaxoon.com/reference/v1boardideapost)",
   type: "action",
   props: {
     app,
