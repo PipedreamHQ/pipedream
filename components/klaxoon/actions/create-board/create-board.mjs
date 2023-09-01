@@ -3,8 +3,8 @@ import app from "../../klaxoon.app.mjs";
 export default {
   name: "Create Board",
   version: "0.0.1",
-  key: "klaxoon-create-client",
-  description: "Creates a client. [See the documentation](https://developers.klaxoon.com/reference/v1boardpost)",
+  key: "klaxoon-create-board",
+  description: "Creates a board. [See the documentation](https://developers.klaxoon.com/reference/v1boardpost)",
   type: "action",
   props: {
     app,
