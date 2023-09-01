@@ -8,8 +8,12 @@ export default {
       type: "string",
       label: "Board ID",
       description: "The ID f the board",
-      async options() {
-        const { items: boards } = await this.getBoards();
+      async options({ page }) {
+        const { items: boards } = await this.getBoards({
+           params: {
+              page: page + 1,
+           },
+        });
 
         return boards.map((board) => ({
           value: board.id,
