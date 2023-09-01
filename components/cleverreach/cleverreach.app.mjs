@@ -7,7 +7,7 @@ export default {
     groupId: {
       type: "string",
       label: "Group ID",
-      description: "The ID of the mailing list",
+      description: "The group (mailing list) of the subscriber",
       async options() {
         const { data } = await this.listGroups();
         return data.map((group) => ({
@@ -19,11 +19,9 @@ export default {
     receiverId: {
       type: "string",
       label: "Subscriber ID",
-      description: "The ID of the subscriber",
+      description: "The receiver (subscriber) to be updated",
       async options({ groupId }) {
-        const { data } = await this.listReceivers({
-          groupId,
-        });
+        const { data } = await this.listReceivers(groupId);
         return data.map((receiver) => ({
           value: receiver.id,
           label: receiver.email,
@@ -37,8 +35,9 @@ export default {
     },
   },
   methods: {
-    async _makeRequest($ = this, opts) {
+    async _makeRequest(opts) {
       const {
+        $ = this,
         method = "get",
         path,
         headers,
@@ -54,36 +53,36 @@ export default {
         },
       });
     },
-    async createSubscriber($, params) {
+    async createSubscriber({
+      $, params,
+    }) {
       const {
         groupId, receiverData,
       } = params;
-      return this._makeRequest($, {
+      return this._makeRequest({
+        $,
         method: "POST",
         path: `/groups/${groupId}/receivers`,
         data: receiverData,
       });
     },
-    async updateSubscriber($, params) {
-      const {
-        groupId, receiverId, receiverData,
-      } = params;
-      return this._makeRequest($, {
+    async updateSubscriber({
+      $, groupId, receiverId, receiverData,
+    }) {
+      return this._makeRequest({
+        $,
         method: "PUT",
         path: `/groups/${groupId}/receivers/${receiverId}`,
         data: receiverData,
       });
     },
-    async listReceivers($, params) {
-      const { groupId } = params;
-      return this._makeRequest($, {
-        method: "GET",
+    async listReceivers(groupId) {
+      return this._makeRequest({
         path: `/groups/${groupId}/receivers`,
       });
     },
-    async listGroups($) {
-      return this._makeRequest($, {
-        method: "GET",
+    async listGroups() {
+      return this._makeRequest({
         path: "/groups",
       });
     },
