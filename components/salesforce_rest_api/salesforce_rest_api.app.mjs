@@ -163,15 +163,16 @@ export default {
     },
     async _makeRequest(opts) {
       const {
-        $,
+        // $,
         ...requestOpts
       } = opts;
       const baseRequestConfig = this._makeRequestConfig();
       const requestConfig = {
         ...baseRequestConfig,
         ...requestOpts,
+        debug: true,
       };
-      return axios($ ?? this, requestConfig);
+      return axios(this, requestConfig);
     },
     _formatDateString(dateString) {
       // Remove milliseconds from date ISO string

@@ -131,6 +131,7 @@ export default {
         endTimestamp,
       );
       this.setLatestDateCovered(latestDateCovered);
+      console.log(`updated ids: ${ids}`);
 
       // By the time we try to retrieve an item, it might've been deleted. This
       // will cause `getSObject` to throw a 404 exception, which will reject its
