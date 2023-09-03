@@ -9,10 +9,12 @@ export default {
       label: "Group ID",
       description: "The group (mailing list) of the subscriber",
       async options() {
-        const { data } = await this.listGroups();
-        return data.map((group) => ({
-          value: group.id,
-          label: group.name,
+        const groups = await this.listGroups();
+        return groups.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
         }));
       },
     },
@@ -21,17 +23,19 @@ export default {
       label: "Subscriber ID",
       description: "The receiver (subscriber) to be updated",
       async options({ groupId }) {
-        const { data } = await this.listReceivers(groupId);
-        return data.map((receiver) => ({
-          value: receiver.id,
-          label: receiver.email,
+        const receivers = await this.listReceivers(groupId);
+        return receivers.map(({
+          id, email,
+        }) => ({
+          value: id,
+          label: email,
         }));
       },
     },
     receiverData: {
       type: "object",
       label: "Receiver Data",
-      description: "The data of the receiver (subscriber)",
+      description: "The data to update of the receiver (subscriber)",
     },
   },
   methods: {
