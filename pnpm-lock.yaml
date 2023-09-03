@@ -2966,7 +2966,11 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
-  components/microsoft_365_planner: {}
+  components/microsoft_365_planner:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/microsoft_entra_id: {}
 
