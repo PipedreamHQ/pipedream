@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/jumpseller",
+  "version": "0.0.1",
+  "description": "Pipedream Jumpseller Components",
+  "main": "dist/app/jumpseller.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jumpseller"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/jumpseller",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

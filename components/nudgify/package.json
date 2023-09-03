@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/nudgify",
+  "version": "0.0.1",
+  "description": "Pipedream Nudgify Components",
+  "main": "dist/app/nudgify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nudgify"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/nudgify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

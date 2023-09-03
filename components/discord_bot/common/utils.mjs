@@ -46,6 +46,18 @@ export default {
 
       }, []));
     }
+
+    if (!notAllowedChannels.length && !allowedChannels.length) {
+      channelsResp.push(...channels.reduce((reduction, channel) => {
+        return [
+          ...reduction,
+          {
+            label: channel.name,
+            value: channel.id,
+          },
+        ];
+      }, []));
+    }
     return channelsResp;
   },
   getCategoryChannelOptions(channels) {

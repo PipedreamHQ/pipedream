@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/airmeet",
+  "version": "0.0.1",
+  "description": "Pipedream Airmeet Components",
+  "main": "dist/app/airmeet.app.mjs",
+  "keywords": [
+    "pipedream",
+    "airmeet"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/airmeet",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

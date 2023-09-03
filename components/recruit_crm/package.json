@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/recruit_crm",
+  "version": "0.0.1",
+  "description": "Pipedream Recruit CRM Components",
+  "main": "dist/app/recruit_crm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "recruit_crm"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/recruit_crm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

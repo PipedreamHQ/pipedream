@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/dropcontact",
+  "version": "0.0.1",
+  "description": "Pipedream Dropcontact Components",
+  "main": "dist/app/dropcontact.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dropcontact"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/dropcontact",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

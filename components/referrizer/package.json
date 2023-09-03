@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/referrizer",
+  "version": "0.0.1",
+  "description": "Pipedream Referrizer Components",
+  "main": "dist/app/referrizer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "referrizer"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/referrizer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
