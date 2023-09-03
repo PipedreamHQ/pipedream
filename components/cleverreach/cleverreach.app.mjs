@@ -54,26 +54,21 @@ export default {
       });
     },
     async createSubscriber({
-      $, params,
+      groupId, ...args
     }) {
-      const {
-        groupId, receiverData,
-      } = params;
       return this._makeRequest({
-        $,
         method: "POST",
         path: `/groups/${groupId}/receivers`,
-        data: receiverData,
+        ...args,
       });
     },
     async updateSubscriber({
-      $, groupId, receiverId, receiverData,
+      groupId, receiverId, ...args
     }) {
       return this._makeRequest({
-        $,
         method: "PUT",
         path: `/groups/${groupId}/receivers/${receiverId}`,
-        data: receiverData,
+        ...args,
       });
     },
     async listReceivers(groupId) {

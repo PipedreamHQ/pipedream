@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         app,
         "receiverId",
+        ({ groupId }) => ({
+          groupId,
+        }),
       ],
     },
     receiverData: {
@@ -35,7 +38,9 @@ export default {
       $,
       groupId,
       receiverId,
-      receiverData,
+      data: {
+        receiverData,
+      },
     });
     $.export("$summary", "Successfully updated subscriber");
     return response;

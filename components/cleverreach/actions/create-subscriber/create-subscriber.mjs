@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import app from "../../cleverreach.app.mjs";
 
 export default {
   key: "cleverreach-create-subscriber",
@@ -8,61 +8,33 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    cleverreach: {
-      type: "app",
-      app: "cleverreach",
+    app,
+    groupId: {
+      propDefinition: [
+        app,
+        "groupId",
+      ],
     },
     email: {
       type: "string",
       label: "Email",
       description: "The email address of the new subscriber",
     },
-    group: {
-      type: "string",
-      label: "Group",
-      description: "The group (mailing list) to add the subscriber to",
-      async options() {
-        const groups = await this.listGroups();
-        return groups.map((group) => ({
-          label: group.name,
-          value: group.id,
-        }));
-      },
-    },
-  },
-  methods: {
-    async listGroups() {
-      return axios(this, {
-        url: "https://rest.cleverreach.com/v3/groups",
-        headers: {
-          Authorization: `Bearer ${this.cleverreach.$auth.oauth_access_token}`,
-        },
-      });
-    },
-    createSubscriber({
-      $, groupId, email,
-    }) {
-      return axios($, {
-        method: "POST",
-        url: `https://rest.cleverreach.com/v3/groups/${groupId}/receivers`,
-        headers: {
-          Authorization: `Bearer ${this.cleverreach.$auth.oauth_access_token}`,
-        },
-        data: {
-          email,
-        },
-      });
-    },
   },
   async run({ $ }) {
-    const response = await this.createSubscriber({
+    const {
+      email, groupId,
+    } = this;
+    const response = await this.app.createSubscriber({
       $,
-      groupId: this.group,
-      email: this.email,
+      groupId,
+      data: {
+        email,
+      },
     });
     $.export(
       "$summary",
-      `Successfully added ${this.email} to group ${this.group}`,
+      `Successfully added ${email} to group ${groupId}`,
     );
     return response;
   },
