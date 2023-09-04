@@ -57,6 +57,19 @@ export default {
         },
       });
     },
+    async createWebhook(data) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/hooks/eventhook",
+        data,
+      });
+    },
+    async deleteWebhook(event) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/hooks/eventhook/${event}`,
+      });
+    },
     async createSubscriber({
       groupId, ...args
     }) {

@@ -1,17 +1,21 @@
-import crypto from "crypto";
-import { axios } from "@pipedream/platform";
+import app from "../../cleverreach.app.mjs";
 
 export default {
-  key: "cleverreach-new-receiver-subscribed",
-  name: "New Receiver Subscribed",
-  description: "Emit new event when a receiver is subscribed. [See docs here](https://rest.cleverreach.com/howto/webhooks.php)",
+  key: "cleverreach-new-subscriber-added",
+  name: "New Subscriber Added",
+  description: "Emit new event when a new subscriber is added. [See docs here](https://rest.cleverreach.com/howto/webhooks.php)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    cleverreach: {
-      type: "app",
-      app: "cleverreach",
+    app,
+    groupId: {
+      propDefinition: [
+        app,
+        "groupId",
+      ],
+      optional: true,
+      description: "The group (mailing list) to watch for new subscribers",
     },
     http: {
       type: "$.interface.http",
@@ -20,72 +24,40 @@ export default {
     db: "$.service.db",
   },
   methods: {
-    _getWebhookId() {
-      return this.db.get("webhookId");
-    },
-    _setWebhookId(id) {
-      this.db.set("webhookId", id);
-    },
-    async createWebhook() {
-      const config = {
-        method: "POST",
-        url: "https://rest.cleverreach.com/v3/webhooks",
-        headers: {
-          Authorization: `Bearer ${this.cleverreach.$auth.oauth_access_token}`,
-        },
-        data: {
-          url: this.http.endpoint,
-          events: [
-            "receiver.subscribed",
-          ],
-        },
-      };
-      const response = await axios(this, config);
-      return response.data.id;
-    },
-    async deleteWebhook(id) {
-      const config = {
-        method: "DELETE",
-        url: `https://rest.cleverreach.com/v3/webhooks/${id}`,
-        headers: {
-          Authorization: `Bearer ${this.cleverreach.$auth.oauth_access_token}`,
-        },
-      };
-      await axios(this, config);
+    getEvent() {
+      return "receiver.subscribed";
     },
   },
   hooks: {
     async deploy() {
-      const hookId = await this.createWebhook();
-      this._setWebhookId(hookId);
+      const data = {
+        url: this.http.endpoint,
+        event: this.getEvent(),
+      };
+      if (this.groupId) {
+        data.condition = this.groupId;
+      }
+      await this.app.createWebhook(data);
     },
     async deactivate() {
-      const id = this._getWebhookId();
-      await this.deleteWebhook(id);
+      const event = this.getEvent();
+      await this.app.deleteWebhook(event);
     },
   },
   async run(event) {
     const {
-      headers, body,
+      method, body,
     } = event;
-    const webhookSecret = this.cleverreach.$auth.oauth_access_token;
-    const computedSignature = crypto
-      .createHmac("sha256", webhookSecret)
-      .update(JSON.stringify(body))
-      .digest("hex");
-
-    if (headers["x-cr-signature"] !== computedSignature) {
+    if (method === "GET") {
       this.http.respond({
-        status: 401,
-        body: "Unauthorized",
+        status: 200,
       });
-      return;
+    } else if (method === "POST") {
+      this.$emit(body, {
+        id: body.data.id,
+        summary: `New subscriber: ${body.data.email}`,
+        ts: Date.parse(body.data.created_at),
+      });
     }
-
-    this.$emit(body, {
-      id: body.id,
-      summary: `New receiver subscribed: ${body.email}`,
-      ts: Date.parse(body.timestamp),
-    });
   },
 };
