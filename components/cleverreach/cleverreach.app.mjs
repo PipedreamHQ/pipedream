@@ -23,7 +23,9 @@ export default {
       label: "Subscriber ID",
       description: "The receiver (subscriber) to be updated",
       async options({ groupId }) {
-        const receivers = await this.listReceivers(groupId);
+        const receivers = await this.listReceivers({
+          groupId,
+        });
         return receivers.map(({
           id, email,
         }) => ({
@@ -88,9 +90,12 @@ export default {
         ...args,
       });
     },
-    async listReceivers(groupId) {
+    async listReceivers({
+      groupId, ...args
+    }) {
       return this._makeRequest({
         path: `/v3/groups/${groupId}/receivers`,
+        ...args,
       });
     },
     async listGroups() {

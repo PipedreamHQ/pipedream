@@ -1,79 +1,68 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../../cleverreach.app.mjs";
 
 export default {
-  key: "cleverreach-new-subscriber-added",
-  name: "New Subscriber Added",
-  description: "Emit new event when a new subscriber is added. [See docs here](https://rest.cleverreach.com/howto/webhooks.php)",
+  key: "cleverreach-new-receiver-subscribed",
+  name: "New Receiver Subscribed",
+  description: "Emit new event when a new subscriber is added to a selected group. [See the documentation](https://rest.cleverreach.com/explorer/v3/#!/groups-v3/list_groups_get)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     app,
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
     groupId: {
       propDefinition: [
         app,
         "groupId",
       ],
-      optional: true,
       description: "The group (mailing list) to watch for new subscribers",
     },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: "$.service.db",
   },
   methods: {
-    getEvent() {
-      return "receiver.subscribed";
+    getLastReceiverId() {
+      return this.db.get("lastReceiverId");
     },
-    setToken(token) {
-      this.db.set("token", token);
+    setLastReceiverId(id) {
+      this.db.set("lastReceiverId", id);
     },
-    getToken() {
-      return this.db.get("token");
+    async getAndProcessData() {
+      const { groupId } = this;
+      const receivers = await this.app.listReceivers({
+        groupId,
+        params: {
+          "order_by": "registered desc",
+        },
+      });
+
+      let lastId, lastEmittedId = this.getLastReceiverId();
+
+      for (const receiver of receivers) {
+        const { id } = receiver;
+        if (id === lastEmittedId) break;
+        this.$emit(receiver, {
+          id,
+          summary: `New subscriber: ${receiver.email}`,
+          ts: new Date((receiver.registered ?? receiver.activated) * 1000).valueOf(),
+        });
+        lastId = id;
+      }
+
+      if (lastId !== undefined) this.setLastReceiverId(lastId);
     },
   },
   hooks: {
-    async activate() {
-      const token = Math.random().toString(36)
-        .slice(2)
-        .padStart(10, "a");
-      this.setToken(token);
-      const data = {
-        url: this.http.endpoint,
-        event: this.getEvent(),
-        verify: token,
-      };
-      if (this.groupId) {
-        data.condition = this.groupId;
-      }
-      await this.app.createWebhook(data);
-    },
-    async deactivate() {
-      const event = this.getEvent();
-      await this.app.deleteWebhook(event);
+    async deploy() {
+      await this.getAndProcessData();
     },
   },
-  async run(event) {
-    const {
-      body, method, query,
-    } = event;
-    if (method === "GET") {
-      console.log("received GET, responding");
-      const token = this.getToken();
-
-      this.http.respond({
-        status: 200,
-        body: `${token} ${query.secret}`,
-      });
-    } else if (method === "POST") {
-      console.log("received POST");
-      this.$emit(body, {
-        id: body.data.id,
-        summary: `New subscriber: ${body.data.email}`,
-        ts: Date.parse(body.data.created_at),
-      });
-    }
+  async run() {
+    await this.getAndProcessData();
   },
 };
