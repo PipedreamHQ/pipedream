@@ -50,7 +50,7 @@ export default {
       return axios($, {
         ...otherOpts,
         method,
-        url: `https://rest.cleverreach.com/v3${path}`,
+        url: `https://rest.cleverreach.com${path}`,
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
@@ -75,7 +75,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/groups/${groupId}/receivers`,
+        path: `/v3/groups/${groupId}/receivers`,
         ...args,
       });
     },
@@ -84,18 +84,18 @@ export default {
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/groups/${groupId}/receivers/${receiverId}`,
+        path: `/v3/groups/${groupId}/receivers/${receiverId}`,
         ...args,
       });
     },
     async listReceivers(groupId) {
       return this._makeRequest({
-        path: `/groups/${groupId}/receivers`,
+        path: `/v3/groups/${groupId}/receivers`,
       });
     },
     async listGroups() {
       return this._makeRequest({
-        path: "/groups",
+        path: "/v3/groups",
       });
     },
   },

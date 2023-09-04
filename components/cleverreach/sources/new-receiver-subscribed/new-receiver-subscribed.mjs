@@ -27,12 +27,23 @@ export default {
     getEvent() {
       return "receiver.subscribed";
     },
+    setToken(token) {
+      this.db.set("token", token);
+    },
+    getToken() {
+      return this.db.get("token");
+    },
   },
   hooks: {
-    async deploy() {
+    async activate() {
+      const token = Math.random().toString(36)
+        .slice(2)
+        .padStart(10, "a");
+      this.setToken(token);
       const data = {
         url: this.http.endpoint,
         event: this.getEvent(),
+        verify: token,
       };
       if (this.groupId) {
         data.condition = this.groupId;
@@ -46,13 +57,18 @@ export default {
   },
   async run(event) {
     const {
-      method, body,
+      body, method, query,
     } = event;
     if (method === "GET") {
+      console.log("received GET, responding");
+      const token = this.getToken();
+
       this.http.respond({
         status: 200,
+        body: `${token} ${query.secret}`,
       });
     } else if (method === "POST") {
+      console.log("received POST");
       this.$emit(body, {
         id: body.data.id,
         summary: `New subscriber: ${body.data.email}`,
