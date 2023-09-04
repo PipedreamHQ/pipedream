@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/uplisting",
+  "version": "0.0.1",
+  "description": "Pipedream Uplisting Components",
+  "main": "dist/app/uplisting.app.mjs",
+  "keywords": [
+    "pipedream",
+    "uplisting"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/uplisting",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

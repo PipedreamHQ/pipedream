@@ -2542,7 +2542,11 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(@babel/core@7.22.11)
 
-  components/klaxoon: {}
+  components/klaxoon:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/klazify:
     dependencies:
@@ -4306,7 +4310,11 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/scale_ai: {}
+  components/scale_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/scalr: {}
 
@@ -4342,7 +4350,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/segmetrics: {}
+  components/segmetrics:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/selectpdf: {}
 
@@ -4857,7 +4869,11 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
-  components/streamtime: {}
+  components/streamtime:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/stripe:
     dependencies:

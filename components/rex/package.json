@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/rex",
+  "version": "0.0.1",
+  "description": "Pipedream Rex Components",
+  "main": "dist/app/rex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rex"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/rex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
