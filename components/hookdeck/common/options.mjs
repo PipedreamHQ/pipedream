@@ -25,6 +25,10 @@ export default {
     ],
   },
   retreiveRequestEvents: {
+    ORDER_BY: [
+      "last_attempt_at",
+      "created_at",
+    ],
     STATUS: [
       "SCHEDULED",
       "QUEUED",

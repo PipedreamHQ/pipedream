@@ -41,19 +41,6 @@ export default {
       description: "URL Encoded string of the value to match partially to the path.",
       optional: true,
     },
-    orderBy: {
-      type: "string",
-      label: "Order By",
-      description: "Sort key.",
-      optional: true,
-      options: options.retreiveAllRequests.ORDER_BY,
-    },
-    orderByDir: {
-      propDefinition: [
-        app,
-        "orderByDir",
-      ],
-    },
     ingestedAtInitialRange: {
       type: "string",
       label: "Ingested At Initial Range",
@@ -65,6 +52,18 @@ export default {
       label: "Ingested At Final Range",
       description: "Filter by ingested at final range. `YYYY-MM-DD` format.",
       optional: true,
+    },
+    orderBy: {
+      propDefinition: [
+        app,
+        "orderBy",
+      ],
+    },
+    orderByDir: {
+      propDefinition: [
+        app,
+        "orderByDir",
+      ],
     },
     limit: {
       propDefinition: [
@@ -94,10 +93,10 @@ export default {
         "rejection_cause": this.rejectionCause,
         "source_id": this.sourceId,
         "path": this.path,
-        "order_by": this.orderBy,
-        "dir": this.orderByDir,
         "ingested_at[gte]": this.ingestedAtInitialRange,
         "ingested_at[lte]": this.ingestedAtFinalRange,
+        "order_by": this.orderBy,
+        "dir": this.orderByDir,
         "next": nextCursor,
         ...this.additionalProperties,
       });

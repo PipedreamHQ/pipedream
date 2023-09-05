@@ -52,18 +52,31 @@ export default {
         "attempts",
       ],
     },
-    additionalProperties: {
+    orderBy: {
       propDefinition: [
         app,
-        "additionalProperties",
+        "orderBy",
       ],
-      description: "Filter by additional properties. Check the [documentation](https://hookdeck.com/api-ref#retrieve-request-events) for more details.",
+      options: options.retreiveAllEvents.ORDER_BY,
+    },
+    orderByDir: {
+      propDefinition: [
+        app,
+        "orderByDir",
+      ],
     },
     limit: {
       propDefinition: [
         app,
         "limit",
       ],
+    },
+    additionalProperties: {
+      propDefinition: [
+        app,
+        "additionalProperties",
+      ],
+      description: "Filter by additional properties. Check the [documentation](https://hookdeck.com/api-ref#retrieve-request-events) for more details.",
     },
   },
   async run({ $ }) {
@@ -81,6 +94,8 @@ export default {
         destination_id: this.destinationId,
         source_id: this.sourceId,
         attempts: this.attempts,
+        order_by: this.orderBy,
+        dir: this.orderByDir,
         ...this.additionalProperties,
       });
 

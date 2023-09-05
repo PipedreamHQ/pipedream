@@ -1,3 +1,4 @@
+import options from "../../common/options.mjs";
 import app from "../../hookdeck.app.mjs";
 
 export default {
@@ -43,16 +44,29 @@ export default {
         "attempts",
       ],
     },
-    additionalProperties: {
+    orderBy: {
       propDefinition: [
         app,
-        "additionalProperties",
+        "orderBy",
+      ],
+      options: options.retreiveAllEvents.ORDER_BY,
+    },
+    orderByDir: {
+      propDefinition: [
+        app,
+        "orderByDir",
       ],
     },
     limit: {
       propDefinition: [
         app,
         "limit",
+      ],
+    },
+    additionalProperties: {
+      propDefinition: [
+        app,
+        "additionalProperties",
       ],
     },
   },
@@ -71,6 +85,8 @@ export default {
         destination_id: this.destinationId,
         source_id: this.sourceId,
         attempts: this.attempts,
+        order_by: this.orderBy,
+        dir: this.orderByDir,
         ...this.additionalProperties,
       });
 

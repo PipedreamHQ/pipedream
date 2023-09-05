@@ -113,6 +113,13 @@ export default {
         };
       },
     },
+    orderBy: {
+      type: "string",
+      label: "Order By",
+      description: "Sort key.",
+      optional: true,
+      options: options.retreiveAllRequests.ORDER_BY,
+    },
     orderByDir: {
       type: "string",
       label: "Order By Direction",
@@ -145,6 +152,7 @@ export default {
       description: "Filter by additional properties. Check the [documentation](https://hookdeck.com/api-ref#retrieve-all-events).",
       optional: true,
     },
+
   },
   methods: {
     _getApiKey() {
