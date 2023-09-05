@@ -47,7 +47,7 @@ export default {
     createdAtInitialRange: {
       propDefinition: [
         app,
-        "createdAtInitialRange",
+        "createdAtInitalRange",
       ],
     },
     createdAtFinalRange: {
@@ -61,7 +61,7 @@ export default {
         app,
         "orderBy",
       ],
-      options: options.retreiveAllEvents.ORDER_BY,
+      options: options.retreiveRequestEvents.ORDER_BY,
     },
     orderByDir: {
       propDefinition: [

@@ -5,7 +5,7 @@ export default {
   name: "Retreive Request Events",
   description: "This endpoint retries the events associated with a request. [See the documentation](https://hookdeck.com/api-ref#retrieve-request-events).",
   key: "hookdeck-retreive-request-events",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -55,7 +55,7 @@ export default {
     createdAtInitialRange: {
       propDefinition: [
         app,
-        "createdAtInitialRange",
+        "createdAtInitalRange",
       ],
     },
     createdAtFinalRange: {
@@ -69,7 +69,7 @@ export default {
         app,
         "orderBy",
       ],
-      options: options.retreiveAllEvents.ORDER_BY,
+      options: options.retreiveRequestEvents.ORDER_BY,
     },
     orderByDir: {
       propDefinition: [
