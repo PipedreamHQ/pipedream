@@ -6,7 +6,6 @@ export default {
   key: "roboflow-classify-image",
   name: "Classify Image",
   description: "Run inference on classification models hosted on Roboflow. [See the documentation](https://docs.roboflow.com/deploy/hosted-api/classification).",
-  //version: "0.0.1",
   version: "0.0.1",
   type: "action",
   props: {
@@ -63,7 +62,7 @@ export default {
       };
     }
 
-    const response = await this.roboflow.classifyIMage(args);
+    const response = await this.roboflow.classifyImage(args);
 
     if (!response?.error) {
       $.export("$summary", "Successfully classified image.");

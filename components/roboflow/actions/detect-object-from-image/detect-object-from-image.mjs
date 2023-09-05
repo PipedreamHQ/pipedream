@@ -65,7 +65,7 @@ export default {
     const response = await this.roboflow.detectObject(args);
 
     if (!response?.error) {
-      $.export("$summary", "Successfully detected object from image.");
+      $.export("$summary", "Successfully ran object detection inference model on image.");
     }
 
     return response;

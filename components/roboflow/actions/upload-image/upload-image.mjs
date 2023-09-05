@@ -1,12 +1,13 @@
 import roboflow from "../../roboflow.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 import fs from "fs";
 import FormData from "form-data";
 
 export default {
   key: "roboflow-upload-image",
   name: "Upload Image",
-  description: "Upload an image to a dataset on the Roboflow platform. [See the documentation](https://docs.roboflow.com/datasets/adding-data/upload-api).",
+  description: "Upload an image to a project on the Roboflow platform. [See the documentation](https://docs.roboflow.com/datasets/adding-data/upload-api).",
   version: "0.0.1",
   type: "action",
   props: {
@@ -15,15 +16,6 @@ export default {
       propDefinition: [
         roboflow,
         "projectId",
-      ],
-    },
-    datasetId: {
-      propDefinition: [
-        roboflow,
-        "datasetId",
-        (c) => ({
-          projectId: c.projectId,
-        }),
       ],
     },
     filePath: {
@@ -51,13 +43,15 @@ export default {
     }
 
     const args = {
-      datasetId: this.datasetId,
+      projectId: utils.extractSubstringAfterSlash(this.projectId),
       $,
     };
 
     if (this.filePath) {
       const formData = new FormData();
-      formData.append("name", this.name);
+      if (this.name) {
+        formData.append("name", this.name);
+      }
       formData.append("file", fs.createReadStream(this.filePath));
 
       args.data = formData;

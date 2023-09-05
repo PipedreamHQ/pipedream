@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -23,13 +24,13 @@ export default {
       label: "Dataset",
       description: "Identifier of a dataset",
       async options({ projectId }) {
-        const datasets = await this.listDatasets({
+        let datasets = await this.listDatasets({
           projectId,
         });
-        return datasets?.map(({
-          id: value, name: label,
+        return datasets?.filter(({ model }) => model)?.map(({
+          id, name: label,
         }) => ({
-          value,
+          value: utils.extractSubstringAfterSlash(id),
           label,
         })) || [];
       },
@@ -37,7 +38,7 @@ export default {
     filePath: {
       type: "string",
       label: "File Path",
-      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
       optional: true,
     },
     fileUrl: {
@@ -64,11 +65,6 @@ export default {
       params = {},
       ...args
     }) {
-      console.log({
-        url: url || `${this._baseUrl()}${path}`,
-        params: this._authParams(params),
-        ...args,
-      });
       return axios($, {
         url: url || `${this._baseUrl()}${path}`,
         params: this._authParams(params),
@@ -99,10 +95,10 @@ export default {
       return versions;
     },
     uploadImage({
-      datasetId, ...args
+      projectId, ...args
     }) {
       return this._makeRequest({
-        path: `/dataset/${datasetId}/upload`,
+        path: `/dataset/${projectId}/upload`,
         method: "POST",
         ...args,
       });
