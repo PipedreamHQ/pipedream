@@ -7,12 +7,10 @@ export default {
     organization: {
       type: "string",
       label: "Organization",
-      description: "The organization identifier.",
+      description: "The organization",
       async options() {
-        const response = await this._makeRequest({
-          path: "/organizations",
-        });
-        return response.map((org) => ({
+        const organizations = await this.listOrganizations();
+        return organizations.map((org) => ({
           label: org.name,
           value: org.identifier,
         }));
@@ -21,53 +19,74 @@ export default {
     workspace: {
       type: "string",
       label: "Workspace",
-      description: "The workspace identifier.",
+      description: "The workspace",
       async options({ organization }) {
-        const response = await this._makeRequest({
-          path: "/workspaces",
-          params: {
-            organization,
-          },
-        });
-        return response.map((workspace) => ({
-          label: workspace.name,
-          value: workspace.identifier,
+        const workspaces = await this.listWorkspaces(organization);
+        return workspaces.map((ws) => ({
+          label: ws.name,
+          value: ws.identifier,
         }));
       },
     },
     collection: {
       type: "string",
       label: "Collection",
-      description: "The collection identifier.",
+      description: "The collection",
       async options({ workspace }) {
-        const response = await this._makeRequest({
-          path: "/collections",
-          params: {
-            workspace,
-          },
-        });
-        return response.map((collection) => ({
-          label: collection.name,
-          value: collection.identifier,
+        const collections = await this.listCollections(workspace);
+        return collections.map((col) => ({
+          label: col.name,
+          value: col.identifier,
         }));
       },
     },
   },
   methods: {
     _getBaseUrl() {
-      return `https://${this.$auth.api}.affinda.com/v3`;
+      return "https://api.affinda.com/v3";
     },
-    async _makeRequest({
-      $ = this, path = "", ...config
-    }) {
-      return axios($, {
-        url: this._getBaseUrl() + path,
+    async _makeRequest(opts) {
+      const {
+        method = "get",
+        path,
+        params,
+        ...otherOpts
+      } = opts;
+      return await axios(this, {
+        ...otherOpts,
+        method,
+        url: `${this._getBaseUrl()}${path}`,
         headers: {
-          Authorization: `Bearer ${this.$auth.api_key}`,
-          Accept: "application/json",
+          ...opts.headers,
+          "Authorization": `Bearer ${this.$auth.api_key}`,
+          "Accept": "application/json",
         },
-        ...config,
+        params,
       });
+    },
+    async listOrganizations() {
+      const response = await this._makeRequest({
+        path: "/organizations",
+      });
+      return response;
+    },
+    async listWorkspaces(organization) {
+      const response = await this._makeRequest({
+        path: "/workspaces",
+        params: {
+          organization,
+        },
+      });
+      return response;
+    },
+    async listCollections(workspace) {
+      const response = await this._makeRequest({
+        path: "/collections",
+        params: {
+          workspace,
+        },
+      });
+      return response;
     },
     async uploadDocument({ ...config }) {
       return this._makeRequest({
