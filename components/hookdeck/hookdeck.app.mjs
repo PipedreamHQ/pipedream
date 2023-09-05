@@ -16,10 +16,10 @@ export default {
           models,
           pagination,
         } = await this.listSources(nextCursor);
-        const options = models.map((source) => {
+        const options = models.map((model) => {
           return {
-            label: source.name,
-            value: source.id,
+            label: model.name,
+            value: model.id,
           };
         });
 
@@ -42,10 +42,10 @@ export default {
           models,
           pagination,
         } = await this.listDestinations(nextCursor);
-        const options = models.map((destination) => {
+        const options = models.map((model) => {
           return {
-            label: destination.name,
-            value: destination.id,
+            label: model.name,
+            value: model.id,
           };
         });
 
@@ -70,10 +70,10 @@ export default {
         } = await this.listRequests({
           next: nextCursor,
         });
-        const options = models.map((request) => {
+        const options = models.map((model) => {
           return {
-            label: request.id,
-            value: request.id,
+            label: model.id,
+            value: model.id,
           };
         });
 
@@ -98,10 +98,10 @@ export default {
         } = await this.listEvents({
           next: nextCursor,
         });
-        const options = models.map((request) => {
+        const options = models.map((model) => {
           return {
-            label: `${request.id} - ${request.status}`,
-            value: request.id,
+            label: `${model.id} - ${model.status}`,
+            value: model.id,
           };
         });
 
