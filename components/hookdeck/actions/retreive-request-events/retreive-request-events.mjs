@@ -52,6 +52,18 @@ export default {
         "attempts",
       ],
     },
+    createdAtInitialRange: {
+      propDefinition: [
+        app,
+        "createdAtInitialRange",
+      ],
+    },
+    createdAtFinalRange: {
+      propDefinition: [
+        app,
+        "createdAtFinalRange",
+      ],
+    },
     orderBy: {
       propDefinition: [
         app,
@@ -89,13 +101,15 @@ export default {
         models,
         pagination,
       } = await this.app.listRequestEvents(this.requestId, {
-        status: this.status,
-        id: this.eventId,
-        destination_id: this.destinationId,
-        source_id: this.sourceId,
-        attempts: this.attempts,
-        order_by: this.orderBy,
-        dir: this.orderByDir,
+        "status": this.status,
+        "id": this.eventId,
+        "destination_id": this.destinationId,
+        "source_id": this.sourceId,
+        "attempts": this.attempts,
+        "created_at[gte]": this.createdAtInitialRange,
+        "created_at[lte]": this.createdAtFinalRange,
+        "order_by": this.orderBy,
+        "dir": this.orderByDir,
         ...this.additionalProperties,
       });
 

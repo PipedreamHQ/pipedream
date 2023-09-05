@@ -152,7 +152,18 @@ export default {
       description: "Filter by additional properties. Check the [documentation](https://hookdeck.com/api-ref#retrieve-all-events).",
       optional: true,
     },
-
+    createdAtInitalRange: {
+      type: "string",
+      label: "Created At Initial Range",
+      description: "Filter by created at initial range. `YYYY-MM-DD` format.",
+      optional: true,
+    },
+    createdAtFinalRange: {
+      type: "string",
+      label: "Created At Final Range",
+      description: "Filter by created at final range. `YYYY-MM-DD` format.",
+      optional: true,
+    },
   },
   methods: {
     _getApiKey() {
