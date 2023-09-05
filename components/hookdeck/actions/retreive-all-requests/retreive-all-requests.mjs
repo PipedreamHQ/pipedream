@@ -16,11 +16,10 @@ export default {
       optional: true,
     },
     status: {
-      type: "string",
-      label: "Status",
-      description: "Filter by request status.",
-      optional: true,
-      options: options.retreiveAllRequests.STATUS,
+      propDefinition: [
+        app,
+        "status",
+      ],
     },
     rejectionCause: {
       type: "string",
@@ -74,10 +73,11 @@ export default {
       ],
     },
     additionalProperties: {
-      type: "object",
-      label: "Additional Properties",
+      propDefinition: [
+        app,
+        "additionalProperties",
+      ],
       description: "Filter by additional properties. Check the [documentation](https://hookdeck.com/api-ref#retrieve-all-requests) for more details.",
-      optional: true,
     },
   },
   async run({ $ }) {

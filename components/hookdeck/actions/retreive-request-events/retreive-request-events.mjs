@@ -47,16 +47,17 @@ export default {
       description: "Filter by source IDs",
     },
     attempts: {
-      type: "integer",
-      label: "Attempts",
-      description: "Filter by number of attempts.",
-      optional: true,
+      propDefinition: [
+        app,
+        "attempts",
+      ],
     },
     additionalProperties: {
-      type: "object",
-      label: "Additional Properties",
+      propDefinition: [
+        app,
+        "additionalProperties",
+      ],
       description: "Filter by additional properties. Check the [documentation](https://hookdeck.com/api-ref#retrieve-request-events) for more details.",
-      optional: true,
     },
     limit: {
       propDefinition: [

@@ -126,6 +126,25 @@ export default {
       description: "Limit the number of results. Pipedream will automatically paginate through the results.",
       optional: true,
     },
+    status: {
+      type: "string[]",
+      label: "Status",
+      description: "Filter by status.",
+      optional: true,
+      options: options.retreiveRequestEvents.STATUS,
+    },
+    attempts: {
+      type: "integer",
+      label: "Attempts",
+      description: "Filter by number of attempts.",
+      optional: true,
+    },
+    additionalProperties: {
+      type: "object",
+      label: "Additional Properties",
+      description: "Filter by additional properties. Check the [documentation](https://hookdeck.com/api-ref#retrieve-all-events).",
+      optional: true,
+    },
   },
   methods: {
     _getApiKey() {
