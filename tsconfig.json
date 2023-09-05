@@ -2492,6 +2492,15 @@
     },
     {
       "path": "components/rex"
+    },
+    {
+      "path": "components/uscreen"
+    },
+    {
+      "path": "components/survey2connect"
+    },
+    {
+      "path": "components/screendesk"
     }
   ]
 }
