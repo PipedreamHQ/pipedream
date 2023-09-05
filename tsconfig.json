@@ -2501,6 +2501,21 @@
     },
     {
       "path": "components/screendesk"
+    },
+    {
+      "path": "components/workiz"
+    },
+    {
+      "path": "components/dealmachine"
+    },
+    {
+      "path": "components/getemails"
+    },
+    {
+      "path": "components/kickofflabs"
+    },
+    {
+      "path": "components/askyourpdf"
     }
   ]
 }
