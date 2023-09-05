@@ -4374,6 +4374,15 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
+      stream:
+        specifier: ^0.0.2
+        version: 0.0.2
+      util:
+        specifier: ^0.12.5
+        version: 0.12.5
 
   components/search_api: {}
 
