@@ -2968,7 +2968,14 @@ importers:
 
   components/microsoft_365_planner: {}
 
-  components/microsoft_entra_id: {}
+  components/microsoft_entra_id:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
 
   components/microsoft_onedrive:
     dependencies:
