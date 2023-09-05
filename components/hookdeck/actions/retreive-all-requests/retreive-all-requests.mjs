@@ -20,14 +20,14 @@ export default {
       label: "Status",
       description: "Filter by request status.",
       optional: true,
-      options: options.STATUS,
+      options: options.retreiveAllRequests.STATUS,
     },
     rejectionCause: {
       type: "string",
       label: "Rejection Cause",
       description: "Filter by rejection cause.",
       optional: true,
-      options: options.REJECTION_CAUSE,
+      options: options.retreiveAllRequests.REJECTION_CAUSE,
     },
     sourceId: {
       propDefinition: [
@@ -47,14 +47,13 @@ export default {
       label: "Order By",
       description: "Sort key.",
       optional: true,
-      options: options.ORDER_BY,
+      options: options.retreiveAllRequests.ORDER_BY,
     },
     orderByDir: {
-      type: "string",
-      label: "Order By Direction",
-      description: "Sort direction.",
-      optional: true,
-      options: options.ORDER_BY,
+      propDefinition: [
+        app,
+        "orderByDir",
+      ],
     },
     ingestedAtInitialRange: {
       type: "string",

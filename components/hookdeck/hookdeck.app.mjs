@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import options from "./common/options.mjs";
 
 export default {
   type: "app",
@@ -55,6 +56,13 @@ export default {
           },
         };
       },
+    },
+    orderByDir: {
+      type: "string",
+      label: "Order By Direction",
+      description: "Sort direction.",
+      optional: true,
+      options: options.ORDER_BY_DIRECTION,
     },
   },
   methods: {
