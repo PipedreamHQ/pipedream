@@ -34,6 +34,18 @@ export default {
         })) || [];
       },
     },
+    filePath: {
+      type: "string",
+      label: "File Path",
+      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      optional: true,
+    },
+    fileUrl: {
+      type: "string",
+      label: "File URL",
+      description: "The URL of the image file",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -48,16 +60,17 @@ export default {
     _makeRequest({
       $ = this,
       path,
+      url,
       params = {},
       ...args
     }) {
       console.log({
-        url: `${this._baseUrl()}${path}`,
+        url: url || `${this._baseUrl()}${path}`,
         params: this._authParams(params),
         ...args,
       });
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        url: url || `${this._baseUrl()}${path}`,
         params: this._authParams(params),
         ...args,
       });
@@ -90,6 +103,24 @@ export default {
     }) {
       return this._makeRequest({
         path: `/dataset/${datasetId}/upload`,
+        method: "POST",
+        ...args,
+      });
+    },
+    detectObject({
+      datasetId, ...args
+    }) {
+      return this._makeRequest({
+        url: `https://detect.roboflow.com/${datasetId}`,
+        method: "POST",
+        ...args,
+      });
+    },
+    classifyImage({
+      datasetId, ...args
+    }) {
+      return this._makeRequest({
+        url: `https://classify.roboflow.com/${datasetId}`,
         method: "POST",
         ...args,
       });

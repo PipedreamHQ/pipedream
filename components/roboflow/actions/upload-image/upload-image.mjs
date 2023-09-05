@@ -27,16 +27,16 @@ export default {
       ],
     },
     filePath: {
-      type: "string",
-      label: "File Path",
-      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
-      optional: true,
+      propDefinition: [
+        roboflow,
+        "filePath",
+      ],
     },
     fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The URL of the image file to upload",
-      optional: true,
+      propDefinition: [
+        roboflow,
+        "fileUrl",
+      ],
     },
     name: {
       type: "string",
@@ -52,6 +52,7 @@ export default {
 
     const args = {
       datasetId: this.datasetId,
+      $,
     };
 
     if (this.filePath) {
@@ -74,7 +75,7 @@ export default {
 
     const response = await this.roboflow.uploadImage(args);
 
-    if (response) {
+    if (!response?.error) {
       $.export("$summary", "Successfully uploaded image.");
     }
 
