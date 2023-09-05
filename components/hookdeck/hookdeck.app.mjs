@@ -57,12 +57,74 @@ export default {
         };
       },
     },
+    requestId: {
+      type: "string",
+      label: "Request ID",
+      description: "Filter by requests IDs.",
+      optional: true,
+      async options({ prevContext }) {
+        const { nextCursor } = prevContext;
+        const {
+          models,
+          pagination,
+        } = await this.listRequests({
+          next: nextCursor,
+        });
+        const options = models.map((request) => {
+          return {
+            label: request.id,
+            value: request.id,
+          };
+        });
+
+        return {
+          options,
+          context: {
+            nextCursor: pagination.next,
+          },
+        };
+      },
+    },
+    eventId: {
+      type: "string",
+      label: "Event",
+      description: "Filter by requests IDs.",
+      optional: true,
+      async options({ prevContext }) {
+        const { nextCursor } = prevContext;
+        const {
+          models,
+          pagination,
+        } = await this.listEvents({
+          next: nextCursor,
+        });
+        const options = models.map((request) => {
+          return {
+            label: `${request.id} - ${request.status}`,
+            value: request.id,
+          };
+        });
+
+        return {
+          options,
+          context: {
+            nextCursor: pagination.next,
+          },
+        };
+      },
+    },
     orderByDir: {
       type: "string",
       label: "Order By Direction",
       description: "Sort direction.",
       optional: true,
       options: options.ORDER_BY_DIRECTION,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Limit the number of results. Pipedream will automatically paginate through the results.",
+      optional: true,
     },
   },
   methods: {
@@ -116,10 +178,32 @@ export default {
       });
     },
     async listRequests(params) {
-      const LIMIT = 1;
+      const LIMIT = 100;
       return this._makeHttpRequest({
         method: "GET",
         path: "/requests",
+        params: {
+          ...params,
+          limit: LIMIT,
+        },
+      });
+    },
+    async listEvents(params) {
+      const LIMIT = 100;
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/events",
+        params: {
+          ...params,
+          limit: LIMIT,
+        },
+      });
+    },
+    async listRequestEvents(id, params) {
+      const LIMIT = 100;
+      return this._makeHttpRequest({
+        method: "GET",
+        path: `/requests/${id}/events`,
         params: {
           ...params,
           limit: LIMIT,

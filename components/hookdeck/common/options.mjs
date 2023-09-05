@@ -24,5 +24,14 @@ export default {
       "created_at",
     ],
   },
+  retreiveRequestEvents: {
+    STATUS: [
+      "SCHEDULED",
+      "QUEUED",
+      "HOLD",
+      "SUCCESSFUL",
+      "FAILED",
+    ],
+  },
 };
 

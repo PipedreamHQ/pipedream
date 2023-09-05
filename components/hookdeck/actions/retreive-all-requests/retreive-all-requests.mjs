@@ -68,10 +68,10 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Limit the number of results. Pipedream will automatically paginate through the results.",
-      optional: true,
+      propDefinition: [
+        app,
+        "limit",
+      ],
     },
     additionalProperties: {
       type: "object",
@@ -105,7 +105,7 @@ export default {
       data.push(...models);
       nextCursor = pagination.next;
 
-      if (!pagination.next || data.length >= MAX_RESULTS) {
+      if (!nextCursor || data.length >= MAX_RESULTS) {
         break;
       }
     }
