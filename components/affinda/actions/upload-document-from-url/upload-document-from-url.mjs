@@ -1,47 +1,36 @@
-import { axios } from "@pipedream/platform";
+import affinda from "../../affinda.app.mjs";
 
-export default defineComponent({
-  key: "affinda-upload-document-file",
+export default {
+  key: "affinda-upload-document-url",
   name: "Upload Document for Parsing",
-  description: "Uploads a document for parsing in Affinda. [See docs here](https://docs.affinda.com/reference/createdocument)",
-  version: "0.0.{{ts}}",
+  description: "Uploads a document for parsing. [See docs here](https://docs.affinda.com/reference/createdocument)",
+  version: "0.0.1",
   type: "action",
   props: {
-    affinda: {
-      type: "app",
-      app: "affinda",
-    },
+    affinda,
     organization: {
-      type: "string",
-      label: "Organization",
-      async options() {
-        const response = await this.makeApiRequest({
-          url: `https://${this.affinda.$auth.api}.affinda.com/v3/organizations`,
-        });
-        return response.map((org) => ({ label: org.name, value: org.identifier }));
-      },
+      propDefinition: [
+        affinda,
+        "organization",
+      ],
     },
     workspace: {
-      type: "string",
-      label: "Workspace",
-      async options({ organization }) {
-        const response = await this.makeApiRequest({
-          url: `https://${this.affinda.$auth.api}.affinda.com/v3/workspaces`,
-          params: { organization: this.organization },
-        });
-        return response.map((workspace) => ({ label: workspace.name, value: workspace.identifier }));
-      },
+      propDefinition: [
+        affinda,
+        "workspace",
+        (c) => ({
+          organization: c.organization,
+        }),
+      ],
     },
     collection: {
-      type: "string",
-      label: "Collection",
-      async options({ workspace }) {
-        const response = await this.makeApiRequest({
-          url: `https://${this.affinda.$auth.api}.affinda.com/v3/collections`,
-          params: { workspace: this.workspace },
-        });
-        return response.map((collection) => ({ label: collection.name, value: collection.identifier }));
-      },
+      propDefinition: [
+        affinda,
+        "collection",
+        (c) => ({
+          workspace: c.workspace,
+        }),
+      ],
     },
     url: {
       type: "string",
@@ -51,7 +40,7 @@ export default defineComponent({
     wait: {
       type: "boolean",
       label: "Wait",
-      description: 'If "true" (default), will return a response only after processing has completed. If "false", will return an empty data object which can be polled at the GET endpoint until processing is complete.',
+      description: "If `true`, will return a response only after processing has completed. If `false`, will return an empty data object which can be polled at the GET endpoint until processing is complete. Defaults to `true`.",
       optional: true,
     },
     identifier: {
@@ -81,13 +70,13 @@ export default defineComponent({
     rejectDuplicates: {
       type: "boolean",
       label: "Reject Duplicates",
-      description: 'If "true", parsing will fail when the uploaded document is duplicate of an existing document, no credits will be consumed. If "false", will parse the document normally whether its a duplicate or not. If not provided, will fallback to the workspace settings.',
+      description: "If `true`, parsing will fail when the uploaded document is duplicate of an existing document, no credits will be consumed. If `false`, will parse the document normally whether its a duplicate or not. If not provided, will fallback to the workspace settings.",
       optional: true,
     },
     regionBias: {
       type: "string",
       label: "Region Bias",
-      description: "A JSON representation of the RegionBias object.",
+      description: "A JSON representation of the RegionBias object. Example: `{\"country\": \"vn\"}`",
       optional: true,
     },
     lowPriority: {
@@ -97,21 +86,9 @@ export default defineComponent({
       optional: true,
     },
   },
-  methods: {
-    async makeApiRequest(config) {
-      return await axios(this, {
-        headers: {
-          Authorization: `Bearer ${this.affinda.$auth.api_key}`,
-          "Accept": `application/json`,
-        },
-        ...config,
-      });
-    },
-  },
-  async run({ steps, $ }) {
-    const response = await this.makeApiRequest({
-      method: "POST",
-      url: `https://${this.affinda.$auth.api}.affinda.com/v3/documents`,
+  async run({ $ }) {
+    const response = await this.affinda.uploadDocument({
+      $,
       data: {
         url: this.url,
         collection: this.collection,
@@ -129,4 +106,4 @@ export default defineComponent({
     $.export("$summary", "Document uploaded successfully");
     return response;
   },
-});
+};
