@@ -4,8 +4,9 @@ export default {
   type: "app",
   app: "eden_ai",
   methods: {
-    async _makeRequest($ = this, opts) {
+    async _makeRequest(opts) {
       const {
+        $ = this,
         path,
         headers,
         ...otherOpts
@@ -19,43 +20,31 @@ export default {
         ...otherOpts,
       });
     },
-    async translateText($, params) {
-      return this._makeRequest($, {
+    async translateText(params) {
+      return this._makeRequest({
         method: "POST",
         path: "/translation/document_translation",
-        headers: {
-          "Content-Type": "application/json",
-        },
         ...params,
       });
     },
-    async detectAIContent($, params) {
-      return this._makeRequest($, {
+    async detectAIContent(params) {
+      return this._makeRequest({
         method: "POST",
         path: "/text/ai_detection",
-        headers: {
-          "Content-Type": "application/json",
-        },
         ...params,
       });
     },
-    async analyzeSentimentInText($, params) {
-      return this._makeRequest($, {
+    async analyzeSentimentInText(params) {
+      return this._makeRequest({
         method: "POST",
         path: "/text/sentiment_analysis",
-        headers: {
-          "Content-Type": "application/json",
-        },
         ...params,
       });
     },
-    async generateImage($, params) {
-      return this._makeRequest($, {
+    async generateImage(params) {
+      return this._makeRequest({
         method: "POST",
         path: "/image/generation",
-        headers: {
-          "Content-Type": "application/json",
-        },
         ...params,
       });
     },
