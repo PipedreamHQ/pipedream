@@ -44,14 +44,12 @@ export default {
     async _makeRequest(opts) {
       const {
         $ = this,
-        method = "get",
         path,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: `https://rest.cleverreach.com${path}`,
         headers: {
           ...headers,

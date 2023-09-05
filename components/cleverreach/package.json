@@ -2,7 +2,7 @@
   "name": "@pipedream/cleverreach",
   "version": "0.1.0",
   "description": "Pipedream CleverReach Components",
-  "main": "dist/app/cleverreach.app.mjs",
+  "main": "cleverreach.app.mjs",
   "keywords": [
     "pipedream",
     "cleverreach"
