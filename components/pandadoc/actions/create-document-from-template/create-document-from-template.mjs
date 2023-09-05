@@ -5,7 +5,7 @@ export default {
   name: "Create Document From Template",
   description: "Create Document from PandaDoc Template. [See the docs here](https://developers.pandadoc.com/reference/create-document-from-pandadoc-template)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     app,
     name: {

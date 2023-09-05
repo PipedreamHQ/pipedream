@@ -188,5 +188,11 @@ export default {
         ...args,
       });
     },
+    getDocument({ id, ...args }) {
+      return this.makeRequest({
+        path: `/documents/${id}`,
+        ...args,
+      });
+    },
   },
 };
