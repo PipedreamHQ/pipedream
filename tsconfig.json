@@ -2516,6 +2516,12 @@
     },
     {
       "path": "components/askyourpdf"
+    },
+    {
+      "path": "components/getaccept"
+    },
+    {
+      "path": "components/libraria"
     }
   ]
 }
