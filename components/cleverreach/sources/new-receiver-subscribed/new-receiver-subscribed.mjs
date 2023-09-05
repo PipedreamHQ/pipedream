@@ -16,7 +16,7 @@ export default {
         app,
         "groupId",
       ],
-      description: "The group (mailing list) to watch for unsubscribers",
+      description: "The group (mailing list) to watch for new subscribers",
     },
   },
   methods: {

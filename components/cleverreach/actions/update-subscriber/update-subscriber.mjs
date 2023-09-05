@@ -3,7 +3,7 @@ import app from "../../cleverreach.app.mjs";
 export default {
   key: "cleverreach-update-subscriber",
   name: "Update Subscriber",
-  description: "Updates the information of an existing subscriber. [See docs here](https://rest.cleverreach.com/howto/#basics)",
+  description: "Updates the information of an existing subscriber. [See the documentation](https://rest.cleverreach.com/howto/#basics)",
   version: "0.0.1",
   type: "action",
   props: {

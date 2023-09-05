@@ -4,7 +4,7 @@ export default {
   key: "cleverreach-create-subscriber",
   name: "Create Subscriber",
   description:
-    "Adds a new subscriber to a mailing list. [See docs here](https://rest.cleverreach.com/howto/#basics)",
+    "Adds a new subscriber to a mailing list. [See the documentation](https://rest.cleverreach.com/howto/#basics)",
   version: "0.0.1",
   type: "action",
   props: {
