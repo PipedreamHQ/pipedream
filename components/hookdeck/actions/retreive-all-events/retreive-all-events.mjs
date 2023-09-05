@@ -1,27 +1,18 @@
-import options from "../../common/options.mjs";
 import app from "../../hookdeck.app.mjs";
 
 export default {
-  name: "Retreive Request Events",
-  description: "This endpoint retries the events associated with a request. [See the documentation](https://hookdeck.com/api-ref#retrieve-request-events).",
-  key: "hookdeck-retreive-request-events",
-  version: "0.0.4",
+  name: "Retreive all Events",
+  description: "This endpoint lists all events, or a subset of events. [See the documentation](https://hookdeck.com/api-ref#retrieve-all-events).",
+  key: "hookdeck-retreive-all-events",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
-    requestId: {
+    status: {
       propDefinition: [
         app,
-        "requestId",
+        "status",
       ],
-      optional: false,
-    },
-    status: {
-      type: "string[]",
-      label: "Status",
-      description: "Filter by status.",
-      optional: true,
-      options: options.retreiveRequestEvents.STATUS,
     },
     eventId: {
       propDefinition: [
@@ -57,7 +48,6 @@ export default {
         app,
         "additionalProperties",
       ],
-      description: "Filter by additional properties. Check the [documentation](https://hookdeck.com/api-ref#retrieve-request-events) for more details.",
     },
     limit: {
       propDefinition: [
@@ -75,7 +65,7 @@ export default {
       const {
         models,
         pagination,
-      } = await this.app.listRequestEvents(this.requestId, {
+      } = await this.app.listEvents({
         status: this.status,
         id: this.eventId,
         destination_id: this.destinationId,
