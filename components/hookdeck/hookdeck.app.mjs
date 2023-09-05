@@ -107,5 +107,16 @@ export default {
         },
       });
     },
+    async listRequests(params) {
+      const LIMIT = 1;
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/requests",
+        params: {
+          ...params,
+          limit: LIMIT,
+        },
+      });
+    },
   },
 };
