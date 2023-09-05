@@ -1,4 +1,7 @@
 import { axios } from "@pipedream/platform";
+import fs from "fs";
+import stream from "stream";
+import { promisify } from "util";
 
 export default {
   type: "app",
@@ -8,6 +11,11 @@ export default {
       type: "string",
       label: "Website URL",
       description: "The URL of the website to take a screenshot of",
+    },
+    fileName: {
+      type: "string",
+      label: "File name",
+      description: "The new name of the file to be saved without extension. e.g: `screenshot`",
     },
     viewportWidth: {
       type: "integer",
@@ -84,6 +92,7 @@ export default {
           ...args.params,
           access_key: this._apiKey(),
         },
+        responseType: "stream",
       });
     },
     takeScreenshot({
@@ -105,6 +114,15 @@ export default {
         path: "/animate",
         params,
       });
+    },
+    async writeStream({
+      fileStream,
+      fileName,
+    }) {
+      const filePath = `/tmp/${fileName}`;
+      const pipeline = promisify(stream.pipeline);
+      await pipeline(fileStream, fs.createWriteStream(filePath));
+      return filePath;
     },
   },
 };

@@ -14,6 +14,12 @@ export default {
         "websiteUrl",
       ],
     },
+    fileName: {
+      propDefinition: [
+        app,
+        "fileName",
+      ],
+    },
     viewportWidth: {
       propDefinition: [
         app,
@@ -95,12 +101,17 @@ export default {
       delay: this.delay,
     };
 
-    const response = await this.app.takeScreenshot({
+    const fileStream = await this.app.takeScreenshot({
       $,
       params,
     });
 
+    const filePath = await this.app.writeStream({
+      fileStream,
+      fileName: `${this.fileName}.${this.format}`,
+    });
+
     $.export("$summary", `Successfully took the screenshot from ${this.websiteUrl}`);
-    return response;
+    return filePath;
   },
 };

@@ -14,6 +14,12 @@ export default {
         "websiteUrl",
       ],
     },
+    fileName: {
+      propDefinition: [
+        app,
+        "fileName",
+      ],
+    },
     scenario: {
       type: "string",
       label: "Scenario",
@@ -114,12 +120,17 @@ export default {
       scroll_by: this.scrollBy,
     };
 
-    const response = await this.app.takeAnimatedScreenshot({
+    const fileStream = await this.app.takeAnimatedScreenshot({
       $,
       params,
     });
 
+    const filePath = await this.app.writeStream({
+      fileStream,
+      fileName: `${this.fileName}.${this.format}`,
+    });
+
     $.export("$summary", `Successfully took the animated screenshot from ${this.websiteUrl}`);
-    return response;
+    return filePath;
   },
 };
