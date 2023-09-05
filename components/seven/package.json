@@ -1,0 +1,20 @@
+{
+    "name": "@seven.io/pipedream",
+    "version": "0.2.0",
+    "description": "Pipedream seven Components",
+    "keywords": [
+        "pipedream",
+        "sms",
+        "seven"
+    ],
+    "homepage": "https://github.com/seven-io/pipedream-component",
+    "author": "seven communications GmbH & Co. KG <support@seven.io> (https://www.seven.io/)",
+    "license": "MIT",
+    "dependencies": {
+        "node-fetch": "^2.6.13",
+        "sms77-client": "^2.26.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}
