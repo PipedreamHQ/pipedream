@@ -1,7 +1,8 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../../cleverreach.app.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "cleverreach-new-receiver-subscribed",
   name: "New Receiver Subscribed",
   description: "Emit new event when a new subscriber is added to a selected group. [See the documentation](https://rest.cleverreach.com/explorer/v3/#!/groups-v3/list_groups_get)",
@@ -9,60 +10,31 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    app,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
+    ...common.props,
     groupId: {
       propDefinition: [
         app,
         "groupId",
       ],
-      description: "The group (mailing list) to watch for new subscribers",
+      description: "The group (mailing list) to watch for unsubscribers",
     },
   },
   methods: {
-    getLastReceiverId() {
-      return this.db.get("lastReceiverId");
-    },
-    setLastReceiverId(id) {
-      this.db.set("lastReceiverId", id);
-    },
+    ...common.methods,
     async getAndProcessData() {
-      const { groupId } = this;
-      const receivers = await this.app.listReceivers({
-        groupId,
-        params: {
-          "order_by": "registered desc",
-        },
-      });
+      const receivers = await this.getReceivers();
 
-      let lastId, lastEmittedId = this.getLastReceiverId();
+      let lastId;
+      const lastEmittedId = this.getLastReceiverId();
 
       for (const receiver of receivers) {
         const { id } = receiver;
         if (id === lastEmittedId) break;
-        this.$emit(receiver, {
-          id,
-          summary: `New subscriber: ${receiver.email}`,
-          ts: new Date((receiver.registered ?? receiver.activated) * 1000).valueOf(),
-        });
+        this.emitEvent(receiver, "subscriber");
         lastId = id;
       }
 
-      if (lastId !== undefined) this.setLastReceiverId(lastId);
+      if (lastId !== undefined) this.setSavedResource(lastId);
     },
-  },
-  hooks: {
-    async deploy() {
-      await this.getAndProcessData();
-    },
-  },
-  async run() {
-    await this.getAndProcessData();
   },
 };
