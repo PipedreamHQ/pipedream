@@ -4,24 +4,15 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "devrev-create-comment",
   name: "Create Comment",
-  description: "Creates a new comment on a work item in DevRev.",
-  version: "0.0.1",
+  description: "Creates a new comment on a work item in DevRev. [See the documentation](https://devrev.ai/docs/apis/beta-api-spec#/operations/timeline-entries-create)",
+  version: "0.0.2",
   type: "action",
   props: {
     devrev,
-    type: {
-      propDefinition: [
-        devrev,
-        "worksType",
-      ],
-    },
     workId: {
       propDefinition: [
         devrev,
         "workId",
-        (c) => ({
-          type: c.type,
-        }),
       ],
     },
     body: {

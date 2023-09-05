@@ -5,7 +5,7 @@ export default {
   key: "devrev-create-ticket",
   name: "Create Ticket",
   description: "Creates a new ticket in DevRev. [See the documentation](https://devrev.ai/docs/apis/beta-api-spec#/operations/works-create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

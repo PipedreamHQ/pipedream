@@ -5,7 +5,7 @@ export default {
   key: "devrev-create-opportunity",
   name: "Create Opportunity",
   description: "Creates a new opportunity in DevRev. [See the documentation](https://devrev.ai/docs/apis/beta-api-spec#/operations/works-create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -13,6 +13,12 @@ export default {
       propDefinition: [
         common.props.devrev,
         "accountId",
+      ],
+    },
+    priority: {
+      propDefinition: [
+        common.props.devrev,
+        "priority",
       ],
     },
   },
