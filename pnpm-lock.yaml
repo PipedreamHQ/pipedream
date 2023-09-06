@@ -352,7 +352,11 @@ importers:
         specifier: ^0.21.1
         version: 0.21.4
 
-  components/asknicely: {}
+  components/asknicely:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/assemblyai:
     dependencies:
