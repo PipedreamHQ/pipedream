@@ -59,32 +59,37 @@ export default {
   },
   async run({ $ }) {
     const {
-      providers, sourceLanguage, targetLanguage, file, fileUrl,
+      providers, fallbackProviders, showOriginalResponse, sourceLanguage, targetLanguage, file, fileUrl, // eslint-disable-line max-len
     } = this;
 
-    const strProviders = providers.join();
-
-    let data, headers;
+    let headers, data = {
+      providers: providers.join(),
+      fallback_providers: fallbackProviders,
+      show_original_response: showOriginalResponse,
+      source_language: sourceLanguage,
+      target_language: targetLanguage,
+    };
 
     if (file) {
-      data = new FormData();
-      data.append("providers", strProviders);
-      data.append("source_language", sourceLanguage);
-      data.append("target_language", targetLanguage);
-      data.append("file", fs.createReadStream(file.startsWith("/tmp/")
+      const formData = new FormData();
+      Object.entries(data).forEach(([
+        key,
+        value,
+      ]) => {
+        if (value !== undefined) {
+          formData.append(key, value);
+        }
+      });
+
+      formData.append("file", fs.createReadStream(file.startsWith("/tmp/")
         ? file
         : `/tmp/${file}`));
-
       headers = {
-        "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
       };
+      data = formData;
     } else if (fileUrl) {
-      data = {
-        providers: strProviders,
-        source_language: sourceLanguage,
-        target_language: targetLanguage,
-        file_url: fileUrl,
-      };
+      data.file_url = fileUrl;
       headers = {
         "Content-Type": "application/json",
       };
