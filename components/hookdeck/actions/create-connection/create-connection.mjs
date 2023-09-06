@@ -69,7 +69,7 @@ export default {
       destination: this.destination,
       source_id: this.sourceId,
       destination_id: this.destinationId,
-    });
+    }, $);
     $.export("summary", `Connection successfully created with id "${connection.id}".`);
     return connection;
   },

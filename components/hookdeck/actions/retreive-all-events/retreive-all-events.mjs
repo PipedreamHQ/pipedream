@@ -102,7 +102,7 @@ export default {
         "order_by": this.orderBy,
         "dir": this.orderByDir,
         ...this.additionalProperties,
-      });
+      }, $);
 
       data.push(...models);
       nextCursor = pagination.next;

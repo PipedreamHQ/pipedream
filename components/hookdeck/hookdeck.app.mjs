@@ -186,14 +186,14 @@ export default {
       };
       return axios(ctx, axiosOpts);
     },
-    async createConnection(data) {
+    async createConnection(data, ctx = this) {
       return this._makeHttpRequest({
         method: "POST",
         path: "/connections",
         data,
-      });
+      }, ctx);
     },
-    async listSources(nextCursor) {
+    async listSources(nextCursor, ctx = this) {
       const LIMIT = 100;
       return this._makeHttpRequest({
         method: "GET",
@@ -202,9 +202,9 @@ export default {
           next: nextCursor,
           limit: LIMIT,
         },
-      });
+      }, ctx);
     },
-    async listDestinations(nextCursor) {
+    async listDestinations(nextCursor, ctx = this) {
       const LIMIT = 100;
       return this._makeHttpRequest({
         method: "GET",
@@ -213,9 +213,9 @@ export default {
           next: nextCursor,
           limit: LIMIT,
         },
-      });
+      }, ctx);
     },
-    async listRequests(params) {
+    async listRequests(params, ctx = this) {
       const LIMIT = 100;
       return this._makeHttpRequest({
         method: "GET",
@@ -224,9 +224,9 @@ export default {
           ...params,
           limit: LIMIT,
         },
-      });
+      }, ctx);
     },
-    async listEvents(params) {
+    async listEvents(params, ctx = this) {
       const LIMIT = 100;
       return this._makeHttpRequest({
         method: "GET",
@@ -235,9 +235,9 @@ export default {
           ...params,
           limit: LIMIT,
         },
-      });
+      }, ctx);
     },
-    async listRequestEvents(id, params) {
+    async listRequestEvents(id, params, ctx = this) {
       const LIMIT = 100;
       return this._makeHttpRequest({
         method: "GET",
@@ -246,7 +246,7 @@ export default {
           ...params,
           limit: LIMIT,
         },
-      });
+      }, ctx);
     },
   },
 };

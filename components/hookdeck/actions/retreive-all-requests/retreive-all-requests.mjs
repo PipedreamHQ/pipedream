@@ -99,7 +99,7 @@ export default {
         "dir": this.orderByDir,
         "next": nextCursor,
         ...this.additionalProperties,
-      });
+      }, $);
 
       data.push(...models);
       nextCursor = pagination.next;
