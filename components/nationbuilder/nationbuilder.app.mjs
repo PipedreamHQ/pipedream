@@ -146,7 +146,7 @@ export default {
           options: data.map(({
             id: value, first_name: firstName, last_name: lastName, email, phone,
           }) => ({
-            label: `${firstName} ${lastName} (${email}) - ${phone}`,
+            label: `${firstName} ${lastName} ${email || ""} ${phone || ""}`,
             value,
           })),
           context: {

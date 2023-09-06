@@ -24,14 +24,13 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "Tje cirremt status of the membership.",
+      description: "The current status of the membership.",
       options: [
         "active",
         "grace period",
         "canceled",
         "expired",
       ],
-      optional: true,
     },
     statusReason: {
       type: "string",
