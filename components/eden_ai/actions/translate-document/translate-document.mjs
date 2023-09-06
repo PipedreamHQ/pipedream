@@ -1,6 +1,6 @@
-import {
-  axios, ConfigurationError,
-} from "@pipedream/platform";
+import app from "../../eden_ai.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import FormData from "form-data";
 import fs from "fs";
 
 export default {
@@ -10,16 +10,13 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    eden_ai: {
-      type: "app",
-      app: "eden_ai",
-    },
-    source_language: {
+    app,
+    sourceLanguage: {
       type: "string",
       label: "Source Language",
       description: "The source language of the document to translate",
     },
-    target_language: {
+    targetLanguage: {
       type: "string",
       label: "Target Language",
       description: "The language to translate the document to",
@@ -30,49 +27,11 @@ export default {
       description: "The path to the file to translate, relative to the /tmp directory",
       optional: true,
     },
-    file_url: {
+    fileUrl: {
       type: "string",
       label: "File URL",
       description: "The URL of the file to translate",
       optional: true,
-    },
-  },
-  methods: {
-    async translateDocument({
-      $, source_language, target_language, file, file_url,
-    }) {
-      if (file) {
-        const formData = new FormData();
-        formData.append("source_language", source_language);
-        formData.append("target_language", target_language);
-        formData.append("file", fs.createReadStream(`/tmp/${file}`));
-
-        return axios($, {
-          method: "POST",
-          url: "https://api.edenai.run/v1/pretrained/translation/document_translation",
-          headers: {
-            "Authorization": `Bearer ${this.eden_ai.$auth.api_key}`,
-            "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-          },
-          data: formData,
-        });
-      } else if (file_url) {
-        return axios($, {
-          method: "POST",
-          url: "https://api.edenai.run/v1/pretrained/translation/document_translation",
-          headers: {
-            "Authorization": `Bearer ${this.eden_ai.$auth.api_key}`,
-            "Content-Type": "application/json",
-          },
-          data: {
-            source_language,
-            target_language,
-            file_url,
-          },
-        });
-      } else {
-        throw new ConfigurationError("You must provide either a file or a file URL");
-      }
     },
   },
   async run({ $ }) {
@@ -83,12 +42,34 @@ export default {
       throw new ConfigurationError("You must provide either a file path or a file URL");
     }
 
-    const response = await this.translateDocument({
+    let data, headers;
+
+    if (file) {
+      data = new FormData();
+      data.append("source_language", source_language);
+      data.append("target_language", target_language);
+      data.append("file", fs.createReadStream(`/tmp/${file}`));
+
+      headers = {
+        "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+      };
+    } else if (file_url) {
+      data = {
+        source_language,
+        target_language,
+        file_url,
+      };
+      headers = {
+        "Content-Type": "application/json",
+      };
+    } else {
+      throw new ConfigurationError("You must provide either a file or a file URL");
+    }
+
+    const response = await this.app.translateText({
       $,
-      source_language,
-      target_language,
-      file,
-      file_url,
+      data,
+      headers,
     });
     $.export("$summary", "Document translated successfully");
     return response;

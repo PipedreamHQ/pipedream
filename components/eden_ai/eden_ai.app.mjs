@@ -12,7 +12,7 @@ export default {
         ...otherOpts
       } = opts;
       return axios($, {
-        url: `https://api.edenai.run/v1${path}`,
+        url: `https://api.edenai.run/v2${path}`,
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.api_key}`,
