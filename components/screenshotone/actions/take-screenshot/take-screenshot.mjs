@@ -1,4 +1,5 @@
 import app from "../../screenshotone.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "screenshotone-take-screenshot",
@@ -43,18 +44,7 @@ export default {
         app,
         "format",
       ],
-      options: [
-        "png",
-        "jpeg",
-        "webp",
-        "gif",
-        "jp2",
-        "tiff",
-        "avif",
-        "heif",
-        "pdf",
-        "html",
-      ],
+      options: constants.FORMAT_OPTIONS,
     },
     blockCookieBanners: {
       propDefinition: [

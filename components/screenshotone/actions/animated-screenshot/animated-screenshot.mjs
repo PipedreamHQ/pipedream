@@ -1,4 +1,5 @@
 import app from "../../screenshotone.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "screenshotone-take-animated-screenshot",
@@ -24,10 +25,7 @@ export default {
       type: "string",
       label: "Scenario",
       description: "The default scenario is to record animation after loading the site without additional animations. [See the documentation](https://screenshotone.com/docs/animated-screenshots/#default-stand-still)",
-      options: [
-        "default",
-        "scroll",
-      ],
+      options: constants.ANIMATED_SCENARIO_OPTIONS,
     },
     viewportWidth: {
       propDefinition: [
@@ -46,13 +44,7 @@ export default {
         app,
         "format",
       ],
-      options: [
-        "mp4",
-        "mov",
-        "avi",
-        "webm",
-        "gif",
-      ],
+      options: constants.ANIMATED_FORMAT_OPTIONS,
     },
     scrollDelay: {
       type: "integer",
