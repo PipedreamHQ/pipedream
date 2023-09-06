@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/askyourpdf",
+  "version": "0.0.1",
+  "description": "Pipedream AskYourPDF Components",
+  "main": "dist/app/askyourpdf.app.mjs",
+  "keywords": [
+    "pipedream",
+    "askyourpdf"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/askyourpdf",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
