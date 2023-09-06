@@ -1,30 +1,16 @@
 import FormData from "form-data";
 import fs from "node:fs";
-import dreamstudio from "../../dreamstudio.app.mjs";
+import common from "../common/images.mjs";
 
 export default {
+  ...common,
   key: "dreamstudio-upscale-image",
   name: "Upscale Image",
   version: "0.0.1",
   description: "Create a higher resolution version of an input image. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/upscaleImage)",
   type: "action",
   props: {
-    dreamstudio,
-    organizationId: {
-      propDefinition: [
-        dreamstudio,
-        "organizationId",
-      ],
-    },
-    engineId: {
-      propDefinition: [
-        dreamstudio,
-        "engineId",
-        ({ organizationId }) => ({
-          organizationId,
-        }),
-      ],
-    },
+    ...common.props,
     image: {
       type: "string",
       label: "Image",
@@ -32,14 +18,14 @@ export default {
     },
     height: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "height",
       ],
       optional: true,
     },
     width: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "width",
       ],
       optional: true,
@@ -74,14 +60,9 @@ export default {
       data: formData,
     });
 
-    response.artifacts.forEach((image) => {
-      fs.writeFileSync(
-        `/tmp/img2img_${image.seed}.png`,
-        Buffer.from(image.base64, "base64"),
-      );
-    });
+    const paths = await this.writeImg(response.artifacts);
 
-    $.export("$summary", "The image was successfully uposcaled and sent to /tmp folder!");
+    $.export("$summary", `The image was successfully uposcaled and sent to ${paths.toString()}!`);
     return response;
   },
 };

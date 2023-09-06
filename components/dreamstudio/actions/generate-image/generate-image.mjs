@@ -1,117 +1,95 @@
-import fs from "fs";
-import dreamstudio from "../../dreamstudio.app.mjs";
+import common from "../common/images.mjs";
 
 export default {
+  ...common,
   key: "dreamstudio-generate-image",
   name: "Generate Image",
   version: "0.0.1",
   description: "Generate a new image from a text prompt. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/textToImage)",
   type: "action",
   props: {
-    dreamstudio,
-    organizationId: {
-      propDefinition: [
-        dreamstudio,
-        "organizationId",
-      ],
-    },
-    engineId: {
-      propDefinition: [
-        dreamstudio,
-        "engineId",
-        ({ organizationId }) => ({
-          organizationId,
-        }),
-      ],
-    },
+    ...common.props,
     textPrompts: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "textPrompts",
       ],
     },
     height: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "height",
       ],
       optional: true,
     },
     width: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "width",
       ],
       optional: true,
     },
     cfgScale: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "cfgScale",
       ],
       optional: true,
     },
     clipGuidancePreset: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "clipGuidancePreset",
       ],
       optional: true,
     },
     sampler: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "sampler",
       ],
       optional: true,
     },
     samples: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "samples",
       ],
       optional: true,
     },
     seed: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "seed",
       ],
       optional: true,
     },
     steps: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "steps",
       ],
       optional: true,
     },
     stylePreset: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "stylePreset",
       ],
       optional: true,
     },
     extras: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "extras",
       ],
       optional: true,
     },
   },
-  methods: {
-    parsePrompts(textPrompts) {
-      if (typeof textPrompts === "object") {
-        return textPrompts.map((item) => JSON.parse(item));
-      }
-      return JSON.parse(textPrompts);
-    },
-  },
   async run({ $ }) {
     const {
       dreamstudio,
+      parsePrompts,
       engineId,
       textPrompts,
       cfgScale,
@@ -124,7 +102,7 @@ export default {
       $,
       engineId,
       data: {
-        text_prompts: this.parsePrompts(textPrompts),
+        text_prompts: parsePrompts(textPrompts),
         cfg_scale: cfgScale,
         clip_guidance_preset: clipGuidancePreset,
         style_preset: stylePreset,
@@ -132,16 +110,11 @@ export default {
       },
     });
 
-    response.artifacts.forEach((image) => {
-      fs.writeFileSync(
-        `/tmp/txt2img_${image.seed}.png`,
-        Buffer.from(image.base64, "base64"),
-      );
-    });
+    const paths = await this.writeImg(response.artifacts);
 
     $.export("$summary", `${response.artifacts.length} new image${response.artifacts.length > 1
       ? "s where"
-      : " was"} successfully generated and sent to /tmp folder!`);
+      : " was"} successfully generated and sent to ${paths.toString()}!`);
     return response;
   },
 };

@@ -1,33 +1,19 @@
 import FormData from "form-data";
 import fs from "node:fs";
-import dreamstudio from "../../dreamstudio.app.mjs";
+import common from "../common/images.mjs";
 
 export default {
+  ...common,
   key: "dreamstudio-modify-image",
   name: "Modify Image",
   version: "0.0.1",
   description: "Modify an image based on a text prompt. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/imageToImage)",
   type: "action",
   props: {
-    dreamstudio,
-    organizationId: {
-      propDefinition: [
-        dreamstudio,
-        "organizationId",
-      ],
-    },
-    engineId: {
-      propDefinition: [
-        dreamstudio,
-        "engineId",
-        ({ organizationId }) => ({
-          organizationId,
-        }),
-      ],
-    },
+    ...common.props,
     textPrompts: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "textPrompts",
       ],
     },
@@ -60,67 +46,59 @@ export default {
     },
     cfgScale: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "cfgScale",
       ],
       optional: true,
     },
     clipGuidancePreset: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "clipGuidancePreset",
       ],
       optional: true,
     },
     sampler: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "sampler",
       ],
       optional: true,
     },
     samples: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "samples",
       ],
       optional: true,
     },
     seed: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "seed",
       ],
       optional: true,
     },
     steps: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "steps",
       ],
       optional: true,
     },
     stylePreset: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "stylePreset",
       ],
       optional: true,
     },
     extras: {
       propDefinition: [
-        dreamstudio,
+        common.props.dreamstudio,
         "extras",
       ],
       optional: true,
-    },
-  },
-  methods: {
-    parsePrompts(textPrompts) {
-      if (typeof textPrompts === "object") {
-        return textPrompts.map((item) => JSON.parse(item));
-      }
-      return JSON.parse(textPrompts);
     },
   },
   async run({ $ }) {
@@ -170,14 +148,9 @@ export default {
       data: formData,
     });
 
-    response.artifacts.forEach((image) => {
-      fs.writeFileSync(
-        `/tmp/img2img_${image.seed}.png`,
-        Buffer.from(image.base64, "base64"),
-      );
-    });
+    const paths = await this.writeImg(response.artifacts);
 
-    $.export("$summary", "The image was successfully modified and sent to /tmp folder!");
+    $.export("$summary", `The image was successfully modified and sent to ${paths.toString()}!`);
     return response;
   },
 };
