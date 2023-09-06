@@ -360,6 +360,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
+  components/askyourpdf: {}
+
   components/assemblyai:
     dependencies:
       '@pipedream/platform':
@@ -1125,6 +1127,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
+  components/dealmachine: {}
+
   components/dear:
     dependencies:
       '@pipedream/platform':
@@ -1736,6 +1740,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
+
+  components/getaccept: {}
+
+  components/getemails: {}
 
   components/getform:
     dependencies:
@@ -2533,6 +2541,8 @@ importers:
 
   components/key_app_demo_1: {}
 
+  components/kickofflabs: {}
+
   components/kintone: {}
 
   components/kite_suite:
@@ -2574,7 +2584,20 @@ importers:
 
   components/knowbe4: {}
 
-  components/kontent_ai: {}
+  components/kontent_ai:
+    dependencies:
+      '@kontent-ai/delivery-sdk':
+        specifier: ^14.4.0
+        version: 14.4.0
+      '@kontent-ai/management-sdk':
+        specifier: ^5.2.0
+        version: 5.2.0
+      '@kontent-ai/webhook-helper':
+        specifier: ^2.1.0
+        version: 2.1.0
+      crypto:
+        specifier: ^1.0.1
+        version: 1.0.1
 
   components/kucoin_futures: {}
 
@@ -2629,6 +2652,8 @@ importers:
   components/levity: {}
 
   components/lexoffice: {}
+
+  components/libraria: {}
 
   components/lifterlms: {}
 
@@ -4373,6 +4398,8 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/screendesk: {}
+
   components/screenshotone: {}
 
   components/search_api: {}
@@ -4967,6 +4994,8 @@ importers:
         specifier: ^1.1.0
         version: 1.5.1
 
+  components/survey2connect: {}
+
   components/survey_monkey:
     dependencies:
       '@pipedream/platform':
@@ -5476,6 +5505,8 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/uscreen: {}
+
   components/user_com: {}
 
   components/uservoice:
@@ -5789,6 +5820,8 @@ importers:
         version: 1.5.1
 
   components/workiom: {}
+
+  components/workiz: {}
 
   components/worksnaps: {}
 
@@ -8965,22 +8998,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser@0.0.176:
-    resolution: {integrity: sha512-HYxONYeC2CesHiL/JD26eCloPHexsNkyzFfqCCyXoNBcr2+0dgGhDoJ6gjNgwYeKo3NZVfCR6ZYrEzH/MWjTBA==}
+  /@definitelytyped/header-parser@0.0.177:
+    resolution: {integrity: sha512-siVtuvnQxXr4KhD14VV7AzFR0Xb+qcRxJWRQ4AogGkPakd5/ufljAXJ6fBq6HRB57Vy4MmgV9R0irfcMhdaK1A==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.176
+      '@definitelytyped/typescript-versions': 0.0.177
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions@0.0.176:
-    resolution: {integrity: sha512-1iwxOE5w+gFF+GXTjGyz3nMZXGmqcjEEGJg3NjnB59hYQ5qANogOkS98V+XdRU9LMTvOTtfVSDFEhr32TmMDKA==}
+  /@definitelytyped/typescript-versions@0.0.177:
+    resolution: {integrity: sha512-PcSKwrB0zhpFq9KadHU7iVkqszg/4TqDlF+xrXNsMpFk523RC7S7HXdPNR3j55774fwvoIRudMbr96v2J+WNKg==}
     dev: true
 
-  /@definitelytyped/utils@0.0.176:
-    resolution: {integrity: sha512-NN07S3EDPIkzkSDWo5s+wc2MkhmT72O/rkAnK+ezi54wuur4QpyoJxjN2yy+4wdNAFPECFddnlUE08u1j9Ffaw==}
+  /@definitelytyped/utils@0.0.177:
+    resolution: {integrity: sha512-okfO4lAV3rRnvCYYqfPT3ZSqfM4Wwg+02ClzszV5AV0htYKiDn8KpdfM73Fm2DCoqeKuKlMPmtc5VtuRK6vCRg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.176
+      '@definitelytyped/typescript-versions': 0.0.177
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.56
       charm: 1.0.2
@@ -10116,6 +10149,42 @@ packages:
     engines: {node: '>=v12.0.0'}
     dependencies:
       lodash: 4.17.21
+    dev: false
+
+  /@kontent-ai/core-sdk@10.2.0:
+    resolution: {integrity: sha512-mp5L7kkLg28xT8nLlo/8b9VIbTwy7FW9CNNTT7g/NxoVkmYLh9WEJQd9Xf+RGdYZ4RYhlJvKHUtUs16C4KTw0w==}
+    engines: {node: '>= 8'}
+    dependencies:
+      axios: 1.4.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@kontent-ai/delivery-sdk@14.4.0:
+    resolution: {integrity: sha512-PZ7tADqBr0sK/GLH+nBtR6B0BOB3s/UWTE8sxcjCxpxqZu31dwgOcq2u5rCCSuWNQsrSM+hfBtxNqghkaUQWHg==}
+    engines: {node: '>= 14'}
+    dependencies:
+      '@kontent-ai/core-sdk': 10.2.0
+      url-parse: 1.5.10
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@kontent-ai/management-sdk@5.2.0:
+    resolution: {integrity: sha512-fmAGxV522RjlZR781mVjCZ4/eApEbWSTbcS/wMCnlxyEh4Brraqw7e3SYhZD/sAyJPMLtY36ssvGLm/zoFVvEw==}
+    engines: {node: '>= 8'}
+    dependencies:
+      '@kontent-ai/core-sdk': 10.2.0
+      axios: 1.4.0
+      mime: 3.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@kontent-ai/webhook-helper@2.1.0:
+    resolution: {integrity: sha512-J6CiHM/7PUrRNNZeh0I46iQmyHgKt2qo3aJ0BAMwHuBrmwxIoU7aWOfk1Xi4AiPJaabbq0+qMIutQuSBLoWXkA==}
+    engines: {node: '>= 16'}
     dev: false
 
   /@line/bot-sdk@7.5.2:
@@ -13826,6 +13895,16 @@ packages:
       - debug
     dev: false
 
+  /axios@1.4.0:
+    resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axios@1.5.0:
     resolution: {integrity: sha512-D4DdjDo5CY50Qms0qGQTTw6Q44jl7zRwY7bthds06pUGfChBCTcQs+N743eFWGEd6pRTMd6A+I87aWyFV5wiZQ==}
     dependencies:
@@ -15685,7 +15764,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.176
+      '@definitelytyped/header-parser': 0.0.177
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -15701,9 +15780,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.176
-      '@definitelytyped/typescript-versions': 0.0.176
-      '@definitelytyped/utils': 0.0.176
+      '@definitelytyped/header-parser': 0.0.177
+      '@definitelytyped/typescript-versions': 0.0.177
+      '@definitelytyped/utils': 0.0.177
       dts-critic: 3.3.11(typescript@4.9.5)
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
