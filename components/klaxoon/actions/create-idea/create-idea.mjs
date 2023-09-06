@@ -2,7 +2,7 @@ import app from "../../klaxoon.app.mjs";
 
 export default {
   name: "Create Idea",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "klaxoon-create-idea",
   description: "Creates an idea. [See the documentation](https://developers.klaxoon.com/reference/v1boardideapost)",
   type: "action",
@@ -19,7 +19,6 @@ export default {
       type: "string",
       label: "Content",
       description: "Content of idea",
-      optional: true,
     },
     x: {
       type: "integer",
