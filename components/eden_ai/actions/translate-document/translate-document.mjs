@@ -12,19 +12,37 @@ export default {
   props: {
     app,
     providers: {
-      type: "string[]",
-      label: "Providers",
-      description: "One or more providers (e.g. `deepl`, `google`) that the data will be redirected to in order to get the processed results.",
+      propDefinition: [
+        app,
+        "providers",
+      ],
+    },
+    fallbackProviders: {
+      propDefinition: [
+        app,
+        "fallbackProviders",
+      ],
+    },
+    showOriginalResponse: {
+      propDefinition: [
+        app,
+        "showOriginalResponse",
+      ],
     },
     sourceLanguage: {
-      type: "string",
+      propDefinition: [
+        app,
+        "language",
+      ],
       label: "Source Language",
-      description: "The source language code (e.g. `en`, `fr`)",
+      optional: true,
     },
     targetLanguage: {
-      type: "string",
+      propDefinition: [
+        app,
+        "language",
+      ],
       label: "Target Language",
-      description: "The language code to translate the document to",
     },
     file: {
       type: "string",
