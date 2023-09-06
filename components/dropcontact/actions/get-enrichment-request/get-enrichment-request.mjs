@@ -3,7 +3,7 @@ import dropcontact from "../../dropcontact.app.mjs";
 export default {
   key: "dropcontact-get-enrichment-request",
   name: "Get Enrichment Request",
-  description: "Retrieve the enriched contacts of a request in Dropcontact. [See the documentation](https://developer.dropcontact.com/#post-request)",
+  description: "Retrieve the enriched contacts of a request in Dropcontact. [See the documentation](https://developer.dropcontact.com/#get-request)",
   version: "0.0.1",
   type: "action",
   props: {
