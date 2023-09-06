@@ -64,6 +64,28 @@ export default {
         params,
       });
     },
+    async createWebhook({ ...config }) {
+      return this._makeRequest({
+        ...config,
+        method: "POST",
+        path: "/resthook_subscriptions",
+      });
+    },
+    async deleteWebhook({ id }) {
+      await this._makeRequest({
+        method: "DELETE",
+        path: `/resthook_subscriptions/${id}`,
+      });
+    },
+    async activateWebhook({ signature }) {
+      await this._makeRequest({
+        method: "POST",
+        path: "/resthook_subscriptions/activate",
+        headers: {
+          "X-Hook-Secret": signature,
+        },
+      });
+    },
     async listOrganizations() {
       const response = await this._makeRequest({
         path: "/organizations",
@@ -87,6 +109,13 @@ export default {
         },
       });
       return response;
+    },
+    async listDocuments({ ...config }) {
+      return this._makeRequest({
+        ...config,
+        method: "GET",
+        path: "/documents",
+      });
     },
     async uploadDocument({ ...config }) {
       return this._makeRequest({
