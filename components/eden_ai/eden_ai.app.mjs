@@ -26,6 +26,11 @@ export default {
       label: "Language",
       description: "This should be a language code (e.g. `en`, `fr`)",
     },
+    text: {
+      type: "string",
+      label: "Text",
+      description: "The text to analyze.",
+    },
   },
   methods: {
     async _makeRequest(opts) {

@@ -1,10 +1,9 @@
 import app from "../../eden_ai.app.mjs";
 
 export default {
-  key: "eden_ai-detect-ai-content",
-  name: "Detect AI Content",
-  description:
-    "Detects AI content in text. [See the documentation](https://docs.edenai.co/reference/text_ai_detection_create)",
+  key: "eden_ai-analyze-sentiment-in-text",
+  name: "Analyze Sentiment in Text",
+  description: "Analyzes sentiment in text using the Eden AI API. [See docs here](https://docs.edenai.co/reference/text_sentiment_analysis_create)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -61,8 +60,8 @@ export default {
       },
     };
 
-    const response = await this.detectAIContent(params);
-    $.export("$summary", "AI content detection completed successfully");
+    const response = await this.analyzeSentiment(params);
+    $.export("$summary", "Sentiment analysis successfully performed");
     return response;
   },
 };
