@@ -14,17 +14,17 @@ export default {
     providers: {
       type: "string[]",
       label: "Providers",
-      description: "One or more provider(s) (e.g. `amazon`, `microsoft`, `google` that the data will be redirected to in order to get the processed results.",
+      description: "One or more providers (e.g. `deepl`, `google`) that the data will be redirected to in order to get the processed results.",
     },
     sourceLanguage: {
       type: "string",
       label: "Source Language",
-      description: "The source language of the document to translate",
+      description: "The source language code (e.g. `en`, `fr`)",
     },
     targetLanguage: {
       type: "string",
       label: "Target Language",
-      description: "The language to translate the document to",
+      description: "The language code to translate the document to",
     },
     file: {
       type: "string",
@@ -53,7 +53,9 @@ export default {
       data.append("providers", strProviders);
       data.append("source_language", sourceLanguage);
       data.append("target_language", targetLanguage);
-      data.append("file", fs.createReadStream(`/tmp/${file}`));
+      data.append("file", fs.createReadStream(file.startsWith("/tmp/")
+        ? file
+        : `/tmp/${file}`));
 
       headers = {
         "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
