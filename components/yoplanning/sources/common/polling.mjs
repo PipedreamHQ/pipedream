@@ -26,6 +26,12 @@ export default {
     getLastCreationDate() {
       return this.db.get(constants.LAST_CREATION_DATE);
     },
+    setLastUpdate(value) {
+      this.db.set(constants.LAST_UPDATE, value);
+    },
+    getLastUpdate() {
+      return this.db.get(constants.LAST_UPDATE);
+    },
     getResourceFn() {
       throw new ConfigurationError("getResourceFn is not implemented");
     },
@@ -36,13 +42,17 @@ export default {
       const meta = this.generateMeta(resource);
       this.$emit(resource, meta);
     },
-    async processResources(resources) {
+    processResources(resources) {
       const [
         lastResource,
       ] = resources;
 
       if (lastResource?.creation_date) {
         this.setLastCreationDate(lastResource.creation_date);
+      }
+
+      if (lastResource?.last_update) {
+        this.setLastUpdate(lastResource.last_update);
       }
 
       Array.from(resources)
