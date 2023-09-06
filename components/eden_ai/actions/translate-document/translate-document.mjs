@@ -11,6 +11,11 @@ export default {
   type: "action",
   props: {
     app,
+    providers: {
+      type: "string[]",
+      label: "Providers",
+      description: "One or more provider(s) (e.g. `amazon`, `microsoft`, `google` that the data will be redirected to in order to get the processed results.",
+    },
     sourceLanguage: {
       type: "string",
       label: "Source Language",
@@ -23,8 +28,8 @@ export default {
     },
     file: {
       type: "string",
-      label: "File",
-      description: "The path to the file to translate, relative to the /tmp directory",
+      label: "File Path",
+      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
       optional: true,
     },
     fileUrl: {
@@ -36,28 +41,29 @@ export default {
   },
   async run({ $ }) {
     const {
-      source_language, target_language, file, file_url,
+      providers, sourceLanguage, targetLanguage, file, fileUrl,
     } = this;
-    if (!file && !file_url) {
-      throw new ConfigurationError("You must provide either a file path or a file URL");
-    }
+
+    const strProviders = providers.join();
 
     let data, headers;
 
     if (file) {
       data = new FormData();
-      data.append("source_language", source_language);
-      data.append("target_language", target_language);
+      data.append("providers", strProviders);
+      data.append("source_language", sourceLanguage);
+      data.append("target_language", targetLanguage);
       data.append("file", fs.createReadStream(`/tmp/${file}`));
 
       headers = {
         "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
       };
-    } else if (file_url) {
+    } else if (fileUrl) {
       data = {
-        source_language,
-        target_language,
-        file_url,
+        providers: strProviders,
+        source_language: sourceLanguage,
+        target_language: targetLanguage,
+        file_url: fileUrl,
       };
       headers = {
         "Content-Type": "application/json",
