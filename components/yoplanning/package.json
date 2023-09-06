@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/yoplanning",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Pipedream YoPlanning Components",
-  "main": "dist/app/yoplanning.app.mjs",
+  "main": "yoplanning.app.mjs",
   "keywords": [
     "pipedream",
     "yoplanning"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/yoplanning",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }

@@ -2411,6 +2411,120 @@
     },
     {
       "path": "components/search_api"
+    },
+    {
+      "path": "components/onenote"
+    },
+    {
+      "path": "components/kontent_ai"
+    },
+    {
+      "path": "components/memberspot"
+    },
+    {
+      "path": "components/loopmessage"
+    },
+    {
+      "path": "components/one_ai"
+    },
+    {
+      "path": "components/textcortex"
+    },
+    {
+      "path": "components/roboflow"
+    },
+    {
+      "path": "components/eden_ai"
+    },
+    {
+      "path": "components/danny_test_app"
+    },
+    {
+      "path": "components/sugarcrm_"
+    },
+    {
+      "path": "components/diabatix_coldstream"
+    },
+    {
+      "path": "components/small_improvements"
+    },
+    {
+      "path": "components/referrizer"
+    },
+    {
+      "path": "components/wicked_reports"
+    },
+    {
+      "path": "components/placetel"
+    },
+    {
+      "path": "components/retable"
+    },
+    {
+      "path": "components/uplisting"
+    },
+    {
+      "path": "components/raisely"
+    },
+    {
+      "path": "components/jumpseller"
+    },
+    {
+      "path": "components/popupsmart"
+    },
+    {
+      "path": "components/airmeet"
+    },
+    {
+      "path": "components/nudgify"
+    },
+    {
+      "path": "components/timeular"
+    },
+    {
+      "path": "components/recruit_crm"
+    },
+    {
+      "path": "components/project_broadcast"
+    },
+    {
+      "path": "components/dropcontact"
+    },
+    {
+      "path": "components/rex"
+    },
+    {
+      "path": "components/uscreen"
+    },
+    {
+      "path": "components/survey2connect"
+    },
+    {
+      "path": "components/screendesk"
+    },
+    {
+      "path": "components/workiz"
+    },
+    {
+      "path": "components/dealmachine"
+    },
+    {
+      "path": "components/getemails"
+    },
+    {
+      "path": "components/kickofflabs"
+    },
+    {
+      "path": "components/askyourpdf"
+    },
+    {
+      "path": "components/getaccept"
+    },
+    {
+      "path": "components/libraria"
+    },
+    {
+      "path": "components/pingbell"
     }
   ]
 }
