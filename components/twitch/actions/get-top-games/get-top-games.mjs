@@ -5,7 +5,7 @@ export default {
   name: "Get Top Games",
   key: "twitch-get-top-games",
   description: "Gets games sorted by number of current viewers on Twitch, most popular first",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     ...common.props,

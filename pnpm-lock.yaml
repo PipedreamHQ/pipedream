@@ -591,7 +591,11 @@ importers:
 
   components/botbaba: {}
 
-  components/botconversa: {}
+  components/botconversa:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/box:
     dependencies:
@@ -4232,7 +4236,11 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
-  components/roboflow: {}
+  components/roboflow:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/rocketreach:
     dependencies:
@@ -4539,7 +4547,11 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0
 
-  components/sharepoint: {}
+  components/sharepoint:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/shipcloud:
     dependencies:
