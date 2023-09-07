@@ -42,19 +42,17 @@ export default {
 
       const authHeader = uuidv4();
 
-      const response =
-        await app.sendMessage({
-          data: {
-            recipient,
-            text,
-            sender_name: senderName,
-            status_callback_header: authHeader,
-            status_callback: http.endpoint,
-          },
-        });
+      await app.sendMessage({
+        data: {
+          recipient,
+          text,
+          sender_name: senderName,
+          status_callback: http.endpoint,
+          status_callback_header: authHeader,
+        },
+      });
 
       this.setAuthHeader(authHeader);
-      this.setMessageId(response.message_id);
     },
   },
   methods: {
@@ -65,12 +63,6 @@ export default {
     getAuthHeader() {
       return this.db.get(constants.AUTH_HEADER);
     },
-    setMessageId(value) {
-      this.db.set(constants.MESSAGE_ID, value);
-    },
-    getMessageId() {
-      return this.db.get(constants.MESSAGE_ID);
-    },
     processResource(resource) {
       this.$emit(resource, this.generateMeta(resource));
     },
@@ -80,11 +72,6 @@ export default {
   }) {
     if (headers.authorization !== this.getAuthHeader()) {
       console.error("Invalid authorization header");
-      return;
-    }
-
-    if (body.message_id !== this.getMessageId()) {
-      console.error("Invalid message ID");
       return;
     }
 

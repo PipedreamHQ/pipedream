@@ -30,6 +30,12 @@ export default {
         "statusCallback",
       ],
     },
+    statusCallbackHeader: {
+      propDefinition: [
+        app,
+        "statusCallbackHeader",
+      ],
+    },
   },
   methods: {
     getSummary() {

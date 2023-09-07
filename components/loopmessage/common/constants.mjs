@@ -4,7 +4,6 @@ const VERSION_PATH = "/api/v1";
 const LAST_CREATED_AT = "lastCreatedAt";
 const DEFAULT_MAX = 600;
 const AUTH_HEADER = "authHeader";
-const MESSAGE_ID = "messageId";
 
 const API = {
   SERVER: "server",
@@ -53,7 +52,6 @@ export default {
   DEFAULT_MAX,
   LAST_CREATED_AT,
   AUTH_HEADER,
-  MESSAGE_ID,
   SERVICES,
   EFFECTS,
   REACTIONS,

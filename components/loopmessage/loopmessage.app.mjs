@@ -26,6 +26,12 @@ export default {
       description: "The URL that will receive status updates for this message. Check the [Webhooks](https://docs.loopmessage.com/imessage-conversation-api/messaging/webhooks) section for details. Max length is 256 characters.",
       optional: true,
     },
+    statusCallbackHeader: {
+      type: "string",
+      label: "Status Callback Header",
+      description: "The custom Authorization header will be contained in the callback request. Max length is 256 characters.",
+      optional: true,
+    },
     service: {
       type: "string",
       label: "Service",
