@@ -1,107 +1,81 @@
-import { axios } from "@pipedream/platform";
+import app from "../../eden_ai.app.mjs";
 
 export default {
   key: "eden_ai-generate-image",
   name: "Generate Image",
-  description: "Generates an image using the Eden AI app.",
+  description: "Generates an image from the provided description. [See the documentation](https://docs.edenai.co/reference/image_generation_create)",
   version: "0.0.1",
   type: "action",
   props: {
-    eden_ai: {
-      type: "app",
-      app: "eden_ai",
-    },
+    app,
     text: {
+      propDefinition: [
+        app,
+        "text",
+      ],
+      description: "Description of the desired image(s) - the maximum length is 1000 characters.",
+    },
+    resolution: {
       type: "string",
-      label: "Text",
-      description: "The text to generate the image from",
+      label: "Resolution",
+      description: "Resolution of the image.",
+      options: [
+        "256x256",
+        "512x512",
+        "1024x1024",
+      ],
     },
-    model: {
-      type: "string",
-      label: "Model",
-      description: "The model to use for image generation",
-      optional: true,
-    },
-    width: {
+    numImages: {
       type: "integer",
-      label: "Width",
-      description: "The width of the generated image",
+      label: "Number of images",
+      description: "The number of images to generate.",
       optional: true,
+      default: 1,
+      min: 1,
+      max: 10,
     },
-    height: {
-      type: "integer",
-      label: "Height",
-      description: "The height of the generated image",
-      optional: true,
+    providers: {
+      propDefinition: [
+        app,
+        "providers",
+      ],
     },
-    cfg_scale: {
-      type: "integer",
-      label: "CFG Scale",
-      description: "The scale of the generated image",
-      optional: true,
+    fallbackProviders: {
+      propDefinition: [
+        app,
+        "fallbackProviders",
+      ],
     },
-    steps: {
-      type: "integer",
-      label: "Steps",
-      description: "The number of steps to use for image generation",
-      optional: true,
-    },
-    samples: {
-      type: "integer",
-      label: "Samples",
-      description: "The number of samples to use for image generation",
-      optional: true,
-    },
-    textPrompts: {
-      type: "string",
-      label: "Text Prompts",
-      description: "The text prompts to use for image generation",
-      optional: true,
-    },
-    weights: {
-      type: "integer",
-      label: "Weights",
-      description: "The weights to use for image generation",
-      optional: true,
-    },
-  },
-  methods: {
-    async generateImage({
-      $, ...params
-    }) {
-      return axios($, {
-        method: "POST",
-        url: "https://api.edenai.run/v2/image-generation/create",
-        headers: {
-          "Authorization": `Bearer ${this.eden_ai.$auth.api_key}`,
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        data: params,
-      });
+    showOriginalResponse: {
+      propDefinition: [
+        app,
+        "showOriginalResponse",
+      ],
     },
   },
   async run({ $ }) {
-    const textPrompts = this.textPrompts
-      ? [
-        {
-          text: this.textPrompts,
-          weight: this.weights,
-        },
-      ]
-      : undefined;
+    const {
+      text,
+      resolution,
+      numImages,
+      providers,
+      fallbackProviders,
+      showOriginalResponse,
+    } = this;
 
-    const response = this.generateImage({
-      text: this.text,
-      model: this.model,
-      width: this.width,
-      height: this.height,
-      cfg_scale: this.cfg_scale,
-      steps: this.steps,
-      samples: this.samples,
-      text_prompts: textPrompts,
-    });
+    const params = {
+      $,
+      data: {
+        text,
+        resolution,
+        number_of_images: numImages,
+        providers,
+        fallback_providers: fallbackProviders,
+        show_original_response: showOriginalResponse,
+      },
+    };
 
+    const response = await this.generateImage(params);
     $.export("$summary", "Image generated successfully");
     return response;
   },
