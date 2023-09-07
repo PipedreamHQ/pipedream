@@ -6,7 +6,7 @@ export default {
   key: "cleverreach-receiver-unsubscribed",
   name: "Receiver Unsubscribed",
   description:
-    "Emit new event when a receiver unsubscribes. [See the documentation](https://rest.cleverreach.com/howto/webhooks.php)",
+    "Emit new event when a receiver unsubscribes. [See the documentation](https://rest.cleverreach.com/explorer/v3/#!/groups-v3/list_groups_get)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

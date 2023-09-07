@@ -3,7 +3,7 @@ import app from "../../cleverreach.app.mjs";
 export default {
   key: "cleverreach-update-subscriber",
   name: "Update Subscriber",
-  description: "Updates the information of an existing subscriber. [See the documentation](https://rest.cleverreach.com/howto/#basics)",
+  description: "Updates the information of an existing subscriber. [See the documentation](https://rest.cleverreach.com/explorer/v3/#!/groups-v3/update__put)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -23,23 +23,40 @@ export default {
         }),
       ],
     },
-    receiverData: {
+    source: {
       propDefinition: [
         app,
-        "receiverData",
+        "source",
+      ],
+    },
+    tags: {
+      propDefinition: [
+        app,
+        "tags",
+      ],
+    },
+    additionalData: {
+      propDefinition: [
+        app,
+        "additionalData",
       ],
     },
   },
   async run({ $ }) {
     const {
-      groupId, receiverId, receiverData,
+      groupId, receiverId,
+      source,
+      tags,
+      additionalData,
     } = this;
     const response = await this.app.updateSubscriber({
       $,
       groupId,
       receiverId,
       data: {
-        receiverData,
+        source,
+        tags,
+        ...additionalData,
       },
     });
     $.export("$summary", "Successfully updated subscriber");

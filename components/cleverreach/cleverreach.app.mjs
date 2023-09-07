@@ -34,10 +34,23 @@ export default {
         }));
       },
     },
-    receiverData: {
+    source: {
+      type: "string",
+      label: "Source",
+      description: "The source of this subscriber",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Tags for this subscriber",
+      optional: true,
+    },
+    additionalData: {
       type: "object",
-      label: "Receiver Data",
-      description: "The data to update of the receiver (subscriber)",
+      label: "Additional Data",
+      description: "Any additional params to be passed to the request",
+      optional: true,
     },
   },
   methods: {
