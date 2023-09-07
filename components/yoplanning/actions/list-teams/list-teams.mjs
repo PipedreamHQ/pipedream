@@ -6,7 +6,7 @@ export default {
   name: "List Teams",
   description: "Lists all teams. [See the documentation](https://yoplanning.pro/api/v3.1/swagger/)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     getResourceFn() {
