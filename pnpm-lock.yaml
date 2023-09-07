@@ -2731,7 +2731,11 @@ importers:
 
   components/looker: {}
 
-  components/loopmessage: {}
+  components/loopmessage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/loops_so:
     dependencies:
