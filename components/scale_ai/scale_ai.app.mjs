@@ -83,7 +83,6 @@ export default {
         auth: this.getAuth(),
         ...args,
       };
-      console.log("config!!!", JSON.stringify(config, null, 2));
 
       return axios(step, config);
     },

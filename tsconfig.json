@@ -2492,6 +2492,54 @@
     },
     {
       "path": "components/rex"
+    },
+    {
+      "path": "components/uscreen"
+    },
+    {
+      "path": "components/survey2connect"
+    },
+    {
+      "path": "components/screendesk"
+    },
+    {
+      "path": "components/workiz"
+    },
+    {
+      "path": "components/dealmachine"
+    },
+    {
+      "path": "components/getemails"
+    },
+    {
+      "path": "components/kickofflabs"
+    },
+    {
+      "path": "components/askyourpdf"
+    },
+    {
+      "path": "components/getaccept"
+    },
+    {
+      "path": "components/libraria"
+    },
+    {
+      "path": "components/pingbell"
+    },
+    {
+      "path": "components/ewebinar"
+    },
+    {
+      "path": "components/scraptio"
+    },
+    {
+      "path": "components/knowfirst"
+    },
+    {
+      "path": "components/starton"
+    },
+    {
+      "path": "components/civicrm"
     }
   ]
 }
