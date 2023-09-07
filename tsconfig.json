@@ -2537,6 +2537,9 @@
     },
     {
       "path": "components/starton"
+    },
+    {
+      "path": "components/civicrm"
     }
   ]
 }
