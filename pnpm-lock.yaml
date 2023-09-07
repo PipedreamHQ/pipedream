@@ -3705,6 +3705,8 @@ importers:
         specifier: ^6.11.1
         version: 6.11.2
 
+  components/pingbell: {}
+
   components/pinterest:
     dependencies:
       '@pipedream/platform':
