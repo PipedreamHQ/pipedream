@@ -2,6 +2,7 @@ import onedrive from "../../microsoft_onedrive.app.mjs";
 import httpRequest from "../../common/httpRequest.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
+import { fileTypeFromBuffer } from "file-type";
 
 export default {
   name: "Upload File",
@@ -33,14 +34,14 @@ export default {
   methods: {
     httpRequest,
     uploadFile({
-      uploadFolderId, filename, fileData, ...args
+      uploadFolderId, name, data, ...args
     }) {
       return this.httpRequest({
-        url: `/items/${uploadFolderId}:/${encodeURI(filename)}:/content`,
+        url: `/items/${uploadFolderId}:/${encodeURI(name)}:/content`,
         headers: {
           "Content-Type": "application/octet-stream",
         },
-        data: fileData,
+        data,
         method: "PUT",
         ...args,
       });
@@ -55,13 +56,16 @@ export default {
       throw new ConfigurationError("You must specify the **Upload Folder ID**.");
     }
 
-    const fileBuffer = fs.readFileSync(filePath);
-    const fileData = fileBuffer.toString("base64");
+    const data = fs.readFileSync(filePath);
+    const extension = (await fileTypeFromBuffer(data)).ext;
+    const name = !filename.includes(".")
+      ? `${filename}.${extension}`
+      : filename;
 
     const response = await this.uploadFile({
       uploadFolderId,
-      filename,
-      fileData,
+      name,
+      data,
       $,
     });
 
