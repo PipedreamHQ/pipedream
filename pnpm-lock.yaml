@@ -810,6 +810,8 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
+  components/civicrm: {}
+
   components/clearbit:
     dependencies:
       '@pipedream/platform':
@@ -1484,6 +1486,8 @@ importers:
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
+
+  components/ewebinar: {}
 
   components/exact:
     dependencies:
@@ -2594,6 +2598,8 @@ importers:
         version: 1.5.1
 
   components/knowbe4: {}
+
+  components/knowfirst: {}
 
   components/kontent_ai: {}
 
@@ -4406,6 +4412,8 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/scraptio: {}
+
   components/screendesk: {}
 
   components/screenshotone: {}
@@ -4906,6 +4914,8 @@ importers:
         version: 4.17.21
 
   components/stannp: {}
+
+  components/starton: {}
 
   components/status_hero:
     dependencies:
