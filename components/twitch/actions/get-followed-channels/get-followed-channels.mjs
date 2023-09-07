@@ -4,18 +4,18 @@ export default {
   ...common,
   name: "Get Followed Channels",
   key: "twitch-get-followed-channels",
-  description: "Retrieves a list of channels that the authenticated user follows",
-  version: "0.1.1",
+  description: "Retrieves a list of channels that the authenticated user follows. [See the documentation](https://dev.twitch.tv/docs/api/reference/#get-followed-channels)",
+  version: "0.1.2",
   type: "action",
   async run() {
     // get the userID of the authenticated user
     const userId = await this.getUserId();
     const params = {
-      from_id: userId,
+      user_id: userId,
     };
     // get the user_ids of the streamers followed by the authenticated user
     const follows = await this.paginate(
-      this.twitch.getUserFollows.bind(this),
+      this.twitch.getFollowedChannels.bind(this),
       params,
     );
     return await this.getPaginatedResults(follows);

@@ -5,7 +5,7 @@ export default {
   name: "Get Stream By User",
   key: "twitch-get-stream-by-user",
   description: "Gets stream information (the stream object) for a specified user",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     ...common.props,

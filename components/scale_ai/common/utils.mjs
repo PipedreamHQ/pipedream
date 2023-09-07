@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import constants from "./constants.mjs";
 
 async function streamIterator(stream) {
@@ -102,9 +103,31 @@ function getAdditionalProps({
   }, {});
 }
 
+function emptyStrToUndefined(value) {
+  const trimmed = typeof(value) === "string" && value.trim();
+  return trimmed === ""
+    ? undefined
+    : value;
+}
+
+function parse(value) {
+  const valueToParse = emptyStrToUndefined(value);
+  if (typeof(valueToParse) === "object" || valueToParse === undefined) {
+    return valueToParse;
+  }
+  try {
+    return JSON.parse(valueToParse);
+  } catch (error) {
+    console.log("Value to parse", valueToParse);
+    console.error("Parsing error:", error);
+    throw new ConfigurationError("Make sure the custom expression contains a valid object");
+  }
+}
+
 export default {
   streamIterator,
   summaryEnd,
   getFieldsProps,
   getAdditionalProps,
+  parse,
 };
