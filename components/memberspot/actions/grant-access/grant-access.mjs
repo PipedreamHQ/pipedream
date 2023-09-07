@@ -4,7 +4,7 @@ export default {
   name: "Grant Access",
   version: "0.0.1",
   key: "memberspot-grant-access",
-  description: "Grant access. [See the documentation](https://api.memberspot.de/api/#/users/UsersApiController_grantUserOfferByMail)",
+  description: "Grant access to an user by email. [See the documentation](https://api.memberspot.de/api/#/users/UsersApiController_grantUserOfferByMail)",
   type: "action",
   props: {
     app,
