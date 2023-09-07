@@ -1,11 +1,12 @@
 import app from "../../textcortex.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "textcortex-summarize-text",
   name: "Summarize Text",
   description: "Summarize given text. The text can be provided as a string or as a file ID. [See the documentation](https://docs.textcortex.com/api/paths/texts-summarizations/post)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     fileId: {
@@ -21,11 +22,11 @@ export default {
       ],
     },
     mode: {
+      type: "string",
+      label: "Mode",
+      description: "The summarization mode.",
+      options: Object.values(constants.SUMMARIZE_MODE),
       optional: true,
-      propDefinition: [
-        app,
-        "mode",
-      ],
     },
     model: {
       optional: true,

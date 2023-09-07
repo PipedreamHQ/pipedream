@@ -13,12 +13,6 @@ export default {
       optional: true,
       default: 512,
     },
-    mode: {
-      type: "string",
-      label: "Mode",
-      description: "The platform, e.g. `twitter` to generate a Tweet. Allowed values: `twitter`, `linkedin`",
-      options: Object.values(constants.MODE),
-    },
     model: {
       type: "string",
       label: "Model",

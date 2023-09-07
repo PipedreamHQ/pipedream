@@ -5,7 +5,7 @@ export default {
   name: "Translate Text",
   description: "Translate given text into another language. [See the documentation](https://docs.textcortex.com/api/paths/texts-translations/post)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     text: {

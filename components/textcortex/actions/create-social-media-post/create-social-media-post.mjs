@@ -1,11 +1,12 @@
 import app from "../../textcortex.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "textcortex-create-social-media-post",
   name: "Create Social Media Post",
   description: "Create a social media post. [See the documentation](https://docs.textcortex.com/api/paths/texts-social-media-posts/post)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     context: {
@@ -26,10 +27,10 @@ export default {
       ],
     },
     mode: {
-      propDefinition: [
-        app,
-        "mode",
-      ],
+      type: "string",
+      label: "Mode",
+      description: "The platform, e.g. `twitter` to generate a Tweet. Allowed values: `twitter`, `linkedin`",
+      options: Object.values(constants.SOCIAL_MEDIA_MODE),
     },
     model: {
       propDefinition: [

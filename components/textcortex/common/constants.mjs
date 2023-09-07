@@ -1,9 +1,14 @@
 const BASE_URL = "https://api.textcortex.com";
 const VERSION_PATH = "/v1";
 
-const MODE = {
+const SOCIAL_MEDIA_MODE = {
   TWITTER: "twitter",
   LINKEDIN: "linkedin",
+};
+
+const SUMMARIZE_MODE = {
+  DEFAULT: "default",
+  EMBEDDINGS: "embeddings",
 };
 
 const MODEL = {
@@ -17,6 +22,7 @@ const MODEL = {
 export default {
   BASE_URL,
   VERSION_PATH,
-  MODE,
+  SOCIAL_MEDIA_MODE,
+  SUMMARIZE_MODE,
   MODEL,
 };
