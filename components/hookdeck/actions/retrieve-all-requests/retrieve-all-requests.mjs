@@ -5,7 +5,7 @@ export default {
   name: "Retrieve all Requests",
   description: "This endpoint lists all request, or a subset of requests. Requests are sorted by `ingested_at` date. [See the documentation](https://hookdeck.com/api-ref#retrieve-all-requests).",
   key: "hookdeck-retrieve-all-requests",
-  version: "0.2.1",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
