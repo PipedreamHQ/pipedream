@@ -2525,6 +2525,9 @@
     },
     {
       "path": "components/pingbell"
+    },
+    {
+      "path": "components/ewebinar"
     }
   ]
 }
