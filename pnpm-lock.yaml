@@ -4543,7 +4543,11 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0
 
-  components/sharepoint: {}
+  components/sharepoint:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/shipcloud:
     dependencies:
