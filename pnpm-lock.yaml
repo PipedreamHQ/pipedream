@@ -354,7 +354,13 @@ importers:
         specifier: ^0.21.1
         version: 0.21.4
 
-  components/asknicely: {}
+  components/asknicely:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+
+  components/askyourpdf: {}
 
   components/assemblyai:
     dependencies:
@@ -585,7 +591,11 @@ importers:
 
   components/botbaba: {}
 
-  components/botconversa: {}
+  components/botconversa:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/box:
     dependencies:
@@ -1120,6 +1130,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/dealmachine: {}
 
   components/dear:
     dependencies:
@@ -1732,6 +1744,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
+
+  components/getaccept: {}
+
+  components/getemails: {}
 
   components/getform:
     dependencies:
@@ -2529,6 +2545,8 @@ importers:
 
   components/key_app_demo_1: {}
 
+  components/kickofflabs: {}
+
   components/kintone: {}
 
   components/kite_suite:
@@ -2625,6 +2643,8 @@ importers:
   components/levity: {}
 
   components/lexoffice: {}
+
+  components/libraria: {}
 
   components/lifterlms: {}
 
@@ -2972,7 +2992,14 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/microsoft_entra_id: {}
+  components/microsoft_entra_id:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
 
   components/microsoft_onedrive:
     dependencies:
@@ -4209,7 +4236,11 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
-  components/roboflow: {}
+  components/roboflow:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/rocketreach:
     dependencies:
@@ -4366,6 +4397,8 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/screendesk: {}
+
   components/screenshotone: {}
 
   components/search_api: {}
@@ -4514,7 +4547,11 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0
 
-  components/sharepoint: {}
+  components/sharepoint:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/shipcloud:
     dependencies:
@@ -4959,6 +4996,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.0
         version: 1.5.1
+
+  components/survey2connect: {}
 
   components/survey_monkey:
     dependencies:
@@ -5469,6 +5508,8 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/uscreen: {}
+
   components/user_com: {}
 
   components/uservoice:
@@ -5782,6 +5823,8 @@ importers:
         version: 1.5.1
 
   components/workiom: {}
+
+  components/workiz: {}
 
   components/worksnaps: {}
 

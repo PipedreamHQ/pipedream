@@ -4,7 +4,7 @@ export default {
   key: "mapulus-create-location",
   name: "Create Location",
   description: "Create a new location in Mapulus. [See the documentation](https://developer.mapulus.com/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mapulus,
@@ -41,6 +41,12 @@ export default {
         "longitude",
       ],
     },
+    address: {
+      propDefinition: [
+        mapulus,
+        "address",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.mapulus.createLocation({
@@ -51,6 +57,7 @@ export default {
         title: this.title,
         map_id: this.mapId,
         layer_id: this.layerId,
+        address: this.address,
       },
       $,
     });
