@@ -1482,6 +1482,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
+  components/ewebinar: {}
+
   components/exact:
     dependencies:
       '@pipedream/platform':
