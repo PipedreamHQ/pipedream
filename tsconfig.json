@@ -2522,6 +2522,9 @@
     },
     {
       "path": "components/libraria"
+    },
+    {
+      "path": "components/pingbell"
     }
   ]
 }
