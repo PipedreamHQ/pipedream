@@ -25,7 +25,7 @@ export default {
       const receivers = await this.getReceivers();
 
       let lastId;
-      const lastEmittedId = this.getLastReceiverId();
+      const lastEmittedId = this.getSavedResource();
 
       for (const receiver of receivers) {
         const { id } = receiver;
