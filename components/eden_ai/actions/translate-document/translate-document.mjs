@@ -6,7 +6,7 @@ import fs from "fs";
 export default {
   key: "eden_ai-translate-document",
   name: "Translate Document",
-  description: "Translates a document using Eden AI. [See docs here](https://docs.edenai.co/reference/translation_document_translation_create)",
+  description: "Translates a document from a local file or URL. [See docs here](https://docs.edenai.co/reference/translation_document_translation_create)",
   version: "0.0.1",
   type: "action",
   props: {

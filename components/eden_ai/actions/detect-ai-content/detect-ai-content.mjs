@@ -4,7 +4,7 @@ export default {
   key: "eden_ai-detect-ai-content",
   name: "Detect AI Content",
   description:
-    "Detects AI content in text. [See the documentation](https://docs.edenai.co/reference/text_ai_detection_create)",
+    "Detects AI content in the provided text. [See the documentation](https://docs.edenai.co/reference/text_ai_detection_create)",
   version: "0.0.1",
   type: "action",
   props: {

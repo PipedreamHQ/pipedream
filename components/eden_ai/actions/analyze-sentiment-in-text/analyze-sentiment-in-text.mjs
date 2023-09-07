@@ -3,7 +3,7 @@ import app from "../../eden_ai.app.mjs";
 export default {
   key: "eden_ai-analyze-sentiment-in-text",
   name: "Analyze Sentiment in Text",
-  description: "Analyzes sentiment in text using the Eden AI API. [See docs here](https://docs.edenai.co/reference/text_sentiment_analysis_create)",
+  description: "Analyzes sentiment in the provided text. [See docs here](https://docs.edenai.co/reference/text_sentiment_analysis_create)",
   version: "0.0.1",
   type: "action",
   props: {
