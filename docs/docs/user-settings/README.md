@@ -1,18 +1,52 @@
 # User Settings
 
-You can find important account details, text editor configuration, and more in your [Settings](https://pipedream.com/settings).
+You can find important account details, text editor configuration, and more in your [User Settings](https://pipedream.com/user).
 
 [[toc]]
 
 ## Account
 
-You'll find your Pipedream email and other basic account details in your [Account Settings](https://pipedream.com/settings/account).
+You'll find your Pipedream email and other basic account details in your [Account Settings](https://pipedream.com/user).
 
 ### Changing your email
 
 Pipedream sends system emails to the email address tied to your Pipedream login. You can change the email address to which these emails are delivered by modifying the **Email** in your Account Settings. Once changed, an email will be delivered to the new address requesting you verify it.
 
 Pipedream marketing emails may still be sent to the original email address you used when signing up for Pipedream. To change the email address tied to marketing emails, please [reach out to our team](https://pipedream.com/support).
+
+
+### Multi-Factor Authentication
+
+Multi-factor authentication adds an additional layer of security for your Pipedream account and is recommended for all users.
+
+#### Configuring MFA
+<br>
+
+1. Open your [Account Settings](https://pipedream.com/user)
+2. Click "Configure" under "Multi-Factor Authentication"
+3. Scan the QR code in an authenticator app like [1Password](https://1password.com/) or Google Authenticator (available on [iOS](https://apps.apple.com/us/app/google-authenticator/id388497605) and [Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_US&gl=US))
+4. If you're unable to scan the QR code, you can view the "setup key", to configure MFA manually in your authenticator app
+5. Paste the temporary code from your authenticator app in Pipedream
+6. **Save your recovery codes in a secure location**. You'll need these to access your Pipedream account in the case you lose access to your authenticator app.
+
+::: warning Save your Recovery Codes
+
+If you lose access to your authenticator app and your recovery codes, you will permanently lose access to your Pipedream account.
+
+:::
+
+#### Signing in with MFA
+
+<br>
+
+1. You'll be prompted to enter your MFA code the next time you sign in to Pipedream
+2. When prompted, you can enter the temporary code from your authenticator app or a recovery code
+
+::: tip Using Recovery Ccodes
+
+Each recovery code is a one-time-use code, so make sure to generate new recovery codes in your [Account Settings](https://pipedream.com/user) when you need to. 
+
+:::
 
 ### Pipedream API Key
 
