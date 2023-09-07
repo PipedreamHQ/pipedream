@@ -64,7 +64,7 @@ export default {
 
     let headers, data = {
       providers: providers.join(),
-      fallback_providers: fallbackProviders,
+      fallback_providers: fallbackProviders.join(),
       show_original_response: showOriginalResponse,
       source_language: sourceLanguage,
       target_language: targetLanguage,

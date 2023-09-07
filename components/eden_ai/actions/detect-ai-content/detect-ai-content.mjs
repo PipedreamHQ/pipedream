@@ -54,14 +54,14 @@ export default {
       $,
       data: {
         text,
-        providers,
-        fallback_providers: fallbackProviders,
+        providers: providers.join(),
+        fallback_providers: fallbackProviders?.join(),
         show_original_response: showOriginalResponse,
         language,
       },
     };
 
-    const response = await this.detectAIContent(params);
+    const response = await this.app.detectAIContent(params);
     $.export("$summary", "AI content detection completed successfully");
     return response;
   },

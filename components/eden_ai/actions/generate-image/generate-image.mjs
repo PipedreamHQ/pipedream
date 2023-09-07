@@ -69,13 +69,13 @@ export default {
         text,
         resolution,
         number_of_images: numImages,
-        providers,
-        fallback_providers: fallbackProviders,
+        providers: providers.join(),
+        fallback_providers: fallbackProviders?.join(),
         show_original_response: showOriginalResponse,
       },
     };
 
-    const response = await this.generateImage(params);
+    const response = await this.app.generateImage(params);
     $.export("$summary", "Image generated successfully");
     return response;
   },

@@ -53,14 +53,14 @@ export default {
       $,
       data: {
         text,
-        providers,
-        fallback_providers: fallbackProviders,
+        providers: providers.join(),
+        fallback_providers: fallbackProviders?.join(),
         show_original_response: showOriginalResponse,
         language,
       },
     };
 
-    const response = await this.analyzeSentiment(params);
+    const response = await this.app.analyzeSentimentInText(params);
     $.export("$summary", "Sentiment analysis successfully performed");
     return response;
   },
