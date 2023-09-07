@@ -41,7 +41,8 @@ export default {
   },
   async run({ $ }) {
     const {
-      email, groupId,
+      email,
+      groupId,
       source,
       tags,
       additionalData,

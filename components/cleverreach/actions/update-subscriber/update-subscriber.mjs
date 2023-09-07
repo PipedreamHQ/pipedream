@@ -44,7 +44,8 @@ export default {
   },
   async run({ $ }) {
     const {
-      groupId, receiverId,
+      groupId,
+      receiverId,
       source,
       tags,
       additionalData,
