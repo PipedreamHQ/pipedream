@@ -2,9 +2,9 @@ import options from "../../common/options.mjs";
 import app from "../../hookdeck.app.mjs";
 
 export default {
-  name: "Retreive Request Events",
+  name: "Retrieve Request Events",
   description: "This endpoint retries the events associated with a request. [See the documentation](https://hookdeck.com/api-ref#retrieve-request-events).",
-  key: "hookdeck-retreive-request-events",
+  key: "hookdeck-retrieve-request-events",
   version: "0.0.1",
   type: "action",
   props: {
@@ -21,7 +21,7 @@ export default {
       label: "Status",
       description: "Filter by status.",
       optional: true,
-      options: options.retreiveRequestEvents.STATUS,
+      options: options.retrieveRequestEvents.STATUS,
     },
     eventId: {
       propDefinition: [
@@ -69,7 +69,7 @@ export default {
         app,
         "orderBy",
       ],
-      options: options.retreiveRequestEvents.ORDER_BY,
+      options: options.retrieveRequestEvents.ORDER_BY,
     },
     orderByDir: {
       propDefinition: [

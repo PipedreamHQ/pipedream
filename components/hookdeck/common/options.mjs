@@ -3,7 +3,7 @@ export default {
     "asc",
     "desc",
   ],
-  retreiveAllRequests: {
+  retrieveAllRequests: {
     STATUS: [
       "accepted",
       "rejected",
@@ -24,7 +24,7 @@ export default {
       "created_at",
     ],
   },
-  retreiveRequestEvents: {
+  retrieveRequestEvents: {
     ORDER_BY: [
       "last_attempt_at",
       "created_at",

@@ -118,7 +118,7 @@ export default {
       label: "Order By",
       description: "Sort key.",
       optional: true,
-      options: options.retreiveAllRequests.ORDER_BY,
+      options: options.retrieveAllRequests.ORDER_BY,
     },
     orderByDir: {
       type: "string",
@@ -138,7 +138,7 @@ export default {
       label: "Status",
       description: "Filter by status.",
       optional: true,
-      options: options.retreiveRequestEvents.STATUS,
+      options: options.retrieveRequestEvents.STATUS,
     },
     attempts: {
       type: "integer",

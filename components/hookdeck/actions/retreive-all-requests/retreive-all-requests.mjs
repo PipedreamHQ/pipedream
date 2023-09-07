@@ -2,9 +2,9 @@ import options from "../../common/options.mjs";
 import app from "../../hookdeck.app.mjs";
 
 export default {
-  name: "Retreive all Requests",
+  name: "Retrieve all Requests",
   description: "This endpoint lists all request, or a subset of requests. Requests are sorted by `ingested_at` date. [See the documentation](https://hookdeck.com/api-ref#retrieve-all-requests).",
-  key: "hookdeck-retreive-all-requests",
+  key: "hookdeck-retrieve-all-requests",
   version: "0.2.1",
   type: "action",
   props: {
@@ -21,14 +21,14 @@ export default {
         "status",
       ],
       type: "string",
-      options: options.retreiveAllRequests.STATUS,
+      options: options.retrieveAllRequests.STATUS,
     },
     rejectionCause: {
       type: "string",
       label: "Rejection Cause",
       description: "Filter by rejection cause.",
       optional: true,
-      options: options.retreiveAllRequests.REJECTION_CAUSE,
+      options: options.retrieveAllRequests.REJECTION_CAUSE,
     },
     sourceId: {
       propDefinition: [
