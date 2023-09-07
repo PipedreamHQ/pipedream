@@ -4,7 +4,7 @@ export default {
   name: "Delete Access",
   version: "0.0.1",
   key: "memberspot-delete-access",
-  description: "Delete access. [See the documentation](https://api.memberspot.de/api/#/users/UsersApiController_setOfferState)",
+  description: "Delete access of an user by email. [See the documentation](https://api.memberspot.de/api/#/users/UsersApiController_setOfferState)",
   type: "action",
   props: {
     app,
