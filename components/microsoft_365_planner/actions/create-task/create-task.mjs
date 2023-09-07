@@ -55,11 +55,13 @@ export default {
   },
   async run({ $ }) {
     const assignments = {};
-    for (const id of this.assigneeIds) {
-      assignments[id] = {
-        "@odata.type": "#microsoft.graph.plannerAssignment",
-        "orderHint": " !",
-      };
+    if (this.assignments?.length) {
+      for (const id of this.assigneeIds) {
+        assignments[id] = {
+          "@odata.type": "#microsoft.graph.plannerAssignment",
+          "orderHint": " !",
+        };
+      }
     }
     const response = await this.microsoft365Planner.createTask({
       data: {
