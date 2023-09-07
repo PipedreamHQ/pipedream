@@ -49,7 +49,7 @@ export default {
     additionalData: {
       type: "object",
       label: "Additional Data",
-      description: "Any additional params to be passed to the request",
+      description: "Any additional params to be passed to the request. [See the documentation](https://rest.cleverreach.com/explorer/v3/#!/groups-v3/update__put) for available fields",
       optional: true,
     },
   },
