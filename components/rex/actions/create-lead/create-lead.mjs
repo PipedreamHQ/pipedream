@@ -1,4 +1,5 @@
 import rex from "../../rex.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "rex-create-lead",
@@ -12,20 +13,7 @@ export default {
       type: "string",
       label: "Lead Type",
       description: "The type of lead",
-      options: [
-        {
-          value: "general",
-          label: "General",
-        },
-        {
-          value: "appraisal_request",
-          label: "Appraisal Request",
-        },
-        {
-          value: "listing_enquiry",
-          label: "Listing Enquiry",
-        },
-      ],
+      options: constants.LEAD_TYPE_OPTIONS,
     },
     contactId: {
       propDefinition: [
@@ -44,14 +32,54 @@ export default {
       label: "Note",
       description: "Message filled in by the user about the reason for contact",
     },
-    projectId: {
+    listingId: {
       propDefinition: [
         rex,
-        "projectId",
+        "listingId",
+      ],
+    },
+    propertyId: {
+      propDefinition: [
+        rex,
+        "propertyId",
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
+    const data = {
+      data: {
+        note: this.note,
+        lead_type: {
+          id: this.leadType,
+        },
+        contact: {
+          id: this.contactId,
+        },
+        lead_source: {
+          id: this.sourceId,
+        },
+        listing: this.listingId
+          ? {
+            id: this.listingId,
+          }
+          : undefined,
+        property: this.propertyId
+          ? {
+            id: this.propertyId,
+          }
+          : undefined,
+      },
+    };
 
+    const { result } = await this.rex.createLead({
+      data,
+      $,
+    });
+
+    if (result?.id) {
+      $.export("$summary", `Successfully created lead with ID ${result.id}.`);
+    }
+
+    return result;
   },
 };

@@ -1,4 +1,5 @@
 import rex from "../../rex.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "rex-create-contact",
@@ -12,10 +13,7 @@ export default {
       type: "string",
       label: "Type",
       description: "Whether contact is person or company",
-      options: [
-        "person",
-        "company",
-      ],
+      options: constants.CONTACT_TYPE_OPTIONS,
     },
     firstName: {
       type: "string",
@@ -130,7 +128,7 @@ export default {
       $,
     });
 
-    if (result) {
+    if (result?.id) {
       $.export("$summary", `Successfully created contact with ID ${result.id}.`);
     }
 

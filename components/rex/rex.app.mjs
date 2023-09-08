@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-const DEFAULT_LIMIT = 25;
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -10,37 +10,15 @@ export default {
       label: "Contact",
       description: "Identifier of a contact",
       async options({ page }) {
-        const limit = DEFAULT_LIMIT;
+        const limit = constants.DEFAULT_LIMIT;
         const data = {
           limit,
           offset: page * limit,
         };
-        const { results } = await this.listContacts({
+        const { result } = await this.listContacts({
           data,
         });
-        return results?.rows?.map(({
-          id: value, name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
-      },
-    },
-    projectId: {
-      type: "string",
-      label: "Project",
-      description: "Identifier of a project",
-      optional: true,
-      async options({ page }) {
-        const limit = DEFAULT_LIMIT;
-        const data = {
-          limit,
-          offset: page * limit,
-        };
-        const { results } = await this.listProjects({
-          data,
-        });
-        return results?.rows?.map(({
+        return result?.rows?.map(({
           id: value, name: label,
         }) => ({
           value,
@@ -50,12 +28,77 @@ export default {
     },
     sourceId: {
       type: "string",
-      label: "Contact",
+      label: "Source",
       description: "Identifier of a source",
       async options() {
         const { result } = await this.listSources();
-        return result?.map(({
+        return result?.filter(({ enquiry_source_id }) => enquiry_source_id)?.map(({
           enquiry_source_id: value, email_address: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    listingId: {
+      type: "string",
+      label: "Listing",
+      description: "Identifier of a listing",
+      optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const data = {
+          limit,
+          offset: page * limit,
+        };
+        const { result } = await this.listListings({
+          data,
+        });
+        return result?.rows?.map(({
+          id: value, property,
+        }) => ({
+          value,
+          label: `${property.adr_street_number} ${property.adr_street_name}, ${property.adr_suburb_or_town}`,
+        })) || [];
+      },
+    },
+    propertyId: {
+      type: "string",
+      label: "Property",
+      description: "Identifier of a property",
+      optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const data = {
+          limit,
+          offset: page * limit,
+        };
+        const { result } = await this.listProperties({
+          data,
+        });
+        return result?.rows?.map(({
+          id: value, system_search_key: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    userId: {
+      type: "string",
+      label: "Remindee",
+      description: "Identifier of a user to be the remindee",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const data = {
+          limit,
+          offset: page * limit,
+        };
+        const { result } = await this.listUsers({
+          data,
+        });
+        return result?.rows?.map(({
+          id: value, email: label,
         }) => ({
           value,
           label,
@@ -71,7 +114,8 @@ export default {
     },
     _headers() {
       return {
-        Authorization: `Bearer ${this.$auth.access_token}`,
+        "Authorization": `Bearer ${this.$auth.access_token}`,
+        "Content-Type": "application/json",
       };
     },
     _makeRequest({
@@ -92,16 +136,30 @@ export default {
         ...args,
       });
     },
-    listProjects(args = {}) {
+    listSources(args = {}) {
       return this._makeRequest({
-        path: "/projects/search",
+        path: "/leads/get-allowed-sources-for-account",
         method: "POST",
         ...args,
       });
     },
-    listSources(args = {}) {
+    listListings(args = {}) {
       return this._makeRequest({
-        path: "/leads/get-allowed-sources-for-account",
+        path: "/listings/search",
+        method: "POST",
+        ...args,
+      });
+    },
+    listProperties(args = {}) {
+      return this._makeRequest({
+        path: "/properties/search",
+        method: "POST",
+        ...args,
+      });
+    },
+    listUsers(args = {}) {
+      return this._makeRequest({
+        path: "/account-users/search",
         method: "POST",
         ...args,
       });
