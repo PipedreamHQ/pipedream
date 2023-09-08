@@ -4,7 +4,7 @@ export default {
   key: "mapulus-update-location",
   name: "Update Location",
   description: "Updates an existing location in Mapulus. [See the documentation](https://developer.mapulus.com/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mapulus,
@@ -45,6 +45,13 @@ export default {
       ],
       optional: true,
     },
+    address: {
+      propDefinition: [
+        mapulus,
+        "address",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const location = await this.mapulus.getLocation({
@@ -59,7 +66,8 @@ export default {
         lat: this.latitude || location.lat,
         lon: this.longitude || location.lon,
         title: this.title || location.title,
-        layer_id: this.layerId || this.layerId,
+        layer_id: this.layerId || location.layer_id,
+        address: this.address || location.address,
       },
       $,
     });

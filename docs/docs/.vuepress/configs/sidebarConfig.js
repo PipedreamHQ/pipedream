@@ -108,8 +108,9 @@ const docsNav = [
     title: "Workspaces",
     children: [
       "/workspaces/",
-      "/workspaces/sso/google/",
       "/workspaces/sso/okta/",
+      "/workspaces/sso/google/",
+      "/workspaces/sso/saml/",
     ],
   },
 ];
