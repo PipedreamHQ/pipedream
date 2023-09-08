@@ -2540,6 +2540,9 @@
     },
     {
       "path": "components/civicrm"
+    },
+    {
+      "path": "components/giantcampaign"
     }
   ]
 }
