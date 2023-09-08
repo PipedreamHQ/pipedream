@@ -23,15 +23,15 @@ Multi-factor authentication adds an additional layer of security for your Pipedr
 <br>
 
 1. Open your [Account Settings](https://pipedream.com/user)
-2. Click "Configure" under "Multi-Factor Authentication"
+2. Click **Configure** under **Multi-Factor Authentication**
 3. Scan the QR code in an authenticator app like [1Password](https://1password.com/) or Google Authenticator (available on [iOS](https://apps.apple.com/us/app/google-authenticator/id388497605) and [Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_US&gl=US))
-4. If you're unable to scan the QR code, you can view the "setup key" to configure MFA manually in your authenticator app
+4. If you're unable to scan the QR code, you can view the setup key to configure MFA manually in your authenticator app
 5. Enter the one-time-password (OTP) from your authenticator app
 6. **Save your recovery codes in a secure location**. You'll need these to access your Pipedream account in the case you lose access to your authenticator app.
 
 ::: danger Save your recovery codes
 
-If you lose access to your authenticator app and your recovery codes, you will permanently lose access to your Pipedream account.
+If you lose access to your authenticator app and your recovery codes, you will permanently lose access to your Pipedream account. **Pipedream Support cannot recover these accounts.**
 
 :::
 
