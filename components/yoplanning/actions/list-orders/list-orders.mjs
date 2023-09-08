@@ -6,7 +6,7 @@ export default {
   name: "List Orders",
   description: "Lists all orders. [See the documentation](https://yoplanning.pro/api/v3.1/swagger/)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     teamId: {

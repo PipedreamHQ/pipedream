@@ -15,7 +15,7 @@ export default defineApp({
       return this.$auth.token;
     },
     _baseUrl() {
-      return "https://api.baserow.io/api";
+      return this.$auth.base_api_url ?? "https://api.baserow.io/api";
     },
     async _httpRequest({
       $ = this,
