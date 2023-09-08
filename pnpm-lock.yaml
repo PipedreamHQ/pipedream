@@ -1328,7 +1328,17 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
 
-  components/dreamstudio: {}
+  components/dreamstudio:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/dribbble:
     dependencies:
@@ -2733,7 +2743,11 @@ importers:
 
   components/looker: {}
 
-  components/loopmessage: {}
+  components/loopmessage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/loops_so:
     dependencies:
