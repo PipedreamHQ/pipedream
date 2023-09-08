@@ -1,6 +1,6 @@
-# Configuring SSO with Okta
+# Configure SSO with Okta
 
-Pipedream supports Single-sign on (SSO) with Okta. This guide shows you how to configure SSO in Pipedream to authenticate with your Okta org.
+Pipedream supports Single Sign-On (SSO) with Okta. This guide shows you how to configure SSO in Pipedream to authenticate with your Okta org.
 
 [[toc]]
 
@@ -68,7 +68,7 @@ Click the **Identity Provider metadata** link and copy the URL from your browser
 <img alt="Okta - Identity Metadata URL" src="./images/step-9-2.png">
 </div>
 
-10. Visit your [Pipedream workspace settings](https://pipedream.com/settings/account). Under the **Auth** section, add the metadata URL in the **SAML** section and click **Confirm**:
+10. Visit your [Pipedream workspace authentication settings](https://pipedream.com/settings/authentication). Under the **Single Sign-On** section, add the metadata URL in the **SAML** section and click **Confirm**:
 
 <div>
 <img alt="Okta - Pipdeream Metadata URL" src="./images/step-10.png">
