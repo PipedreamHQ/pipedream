@@ -1,6 +1,6 @@
-# Configuring SSO with Google Workspace
+# Configure SSO with Google Workspace
 
-Pipedream supports Single-sign on (SSO) with Google Workspace. This guide shows you how to configure SSO in Pipedream to authenticate with your Google org.
+Pipedream supports Single Sign-On (SSO) with Google Workspace. This guide shows you how to configure SSO in Pipedream to authenticate with your Google org.
 
 [[toc]]
 
@@ -51,7 +51,7 @@ To configure SSO in Pipedream, you need to set up a [SAML application](https://a
 - **Entity ID** — Pipedream
 - **Start URL** — `https://api.pipedream.com/auth/saml/<your workspace name>`
 
-replacing `<your workspace name>` with the workspace name at [https://pipedream.com/settings/account](https://pipedream.com/settings/account). For example, if your workspace name is `example-workspace`, your start URL will be `https://api.pipedream.com/auth/saml/example`.
+replacing `<your workspace name>` with the workspace name at [https://pipedream.com/settings/account](https://pipedream.com/settings/account). For example, if your workspace name is `example-workspace`, your start URL will be `https://api.pipedream.com/auth/saml/example-workspace`.
 
 <br />
 <div>
@@ -86,7 +86,7 @@ First, click the **Download Metadata** button on the left of the app configurati
 
 **Host this file on a public web server where Pipedream can access it via URL**, for example: `https://example.com/metadata.xml`. You'll use that URL in the next step.
 
-8. In Pipedream, visit your workspace's [account settings](https://pipedream.com/settings/account).
+8. In Pipedream, visit your workspace's [authentication settings](https://pipedream.com/settings/authentication).
 9. In the **Single Sign-On** section, select **SAML**, and add the URL from step 7 above in the **Metadata URL** field, then click Save.
 
 <br />
@@ -101,6 +101,6 @@ Any user in your workspace can now log into Pipedream at [https://pipedream.com/
 
 Before you configure the application in Google, make sure all your users have matching email addresses for their Pipedream user profile and their Google Workspace profile. Once SSO is enabled, they will not be able to change their Pipedream email address.
 
-If a user's Pipedream email does not match the email in their IDP profile, they will not be able to log in.
+If a user's Pipedream email does not match the email in their Google profile, they will not be able to log in.
 
 If existing users signed up for Pipedream using an email and password, they will no longer be able to do so. They will only be able to sign in using SSO.
