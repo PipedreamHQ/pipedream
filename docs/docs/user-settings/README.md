@@ -15,17 +15,17 @@ Pipedream sends system emails to the email address tied to your Pipedream login.
 Pipedream marketing emails may still be sent to the original email address you used when signing up for Pipedream. To change the email address tied to marketing emails, please [reach out to our team](https://pipedream.com/support).
 
 
-### Multi-Factor Authentication
+### Two-Factor Authentication
 
-Multi-factor authentication adds an additional layer of security for your Pipedream account and is recommended for all users.
+Two-factor authentication (2FA) adds an additional layer of security for your Pipedream account and is recommended for all users.
 
-#### Configuring MFA
+#### Configuring 2FA
 <br>
 
 1. Open your [Account Settings](https://pipedream.com/user)
-2. Click **Configure** under **Multi-Factor Authentication**
+2. Click **Configure** under **Two-Factor Authentication**
 3. Scan the QR code in an authenticator app like [1Password](https://1password.com/) or Google Authenticator (available on [iOS](https://apps.apple.com/us/app/google-authenticator/id388497605) and [Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_US&gl=US))
-4. If you're unable to scan the QR code, you can view the setup key to configure MFA manually in your authenticator app
+4. If you're unable to scan the QR code, you can view the setup key to configure 2FA manually in your authenticator app
 5. Enter the one-time-password (OTP) from your authenticator app
 6. **Save your recovery codes in a secure location**. You'll need these to access your Pipedream account in the case you lose access to your authenticator app.
 
@@ -35,7 +35,7 @@ If you lose access to your authenticator app and your recovery codes, you will p
 
 :::
 
-#### Signing in with MFA
+#### Signing in with 2FA
 
 <br>
 
