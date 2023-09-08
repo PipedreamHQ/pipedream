@@ -38,6 +38,9 @@ export default {
     getResourceFnArgs() {
       throw new ConfigurationError("getResourceFnArgs is not implemented");
     },
+    ordering(resources) {
+      return resources;
+    },
     processEvent(resource) {
       const meta = this.generateMeta(resource);
       this.$emit(resource, meta);
@@ -67,6 +70,6 @@ export default {
       resourceName: "results",
     });
 
-    this.processResources(resources);
+    this.processResources(this.ordering(resources));
   },
 };

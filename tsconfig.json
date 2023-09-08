@@ -2525,6 +2525,21 @@
     },
     {
       "path": "components/pingbell"
+    },
+    {
+      "path": "components/ewebinar"
+    },
+    {
+      "path": "components/scraptio"
+    },
+    {
+      "path": "components/knowfirst"
+    },
+    {
+      "path": "components/starton"
+    },
+    {
+      "path": "components/civicrm"
     }
   ]
 }
