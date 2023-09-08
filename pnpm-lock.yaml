@@ -342,6 +342,8 @@ importers:
   components/askyourpdf:
     specifiers: {}
 
+  components/askyourpdf: {}
+
   components/assemblyai:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1148,6 +1150,8 @@ importers:
   components/dealmachine:
     specifiers: {}
 
+  components/dealmachine: {}
+
   components/dear:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1344,7 +1348,16 @@ importers:
       lodash: 4.17.21
 
   components/dreamstudio:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/dribbble:
     specifiers:
@@ -1789,6 +1802,10 @@ importers:
 
   components/getemails:
     specifiers: {}
+
+  components/getaccept: {}
+
+  components/getemails: {}
 
   components/getform:
     specifiers:
@@ -5082,6 +5099,8 @@ importers:
   components/survey2connect:
     specifiers: {}
 
+  components/survey2connect: {}
+
   components/survey_monkey:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -5924,7 +5943,7 @@ importers:
 
   components/workiz:
     specifiers: {}
-
+    
   components/worksnaps:
     specifiers: {}
 
