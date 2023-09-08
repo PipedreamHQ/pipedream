@@ -5,7 +5,7 @@ export default {
   name: "Get Channel Information",
   key: "twitch-get-channel-information",
   description: "Retrieves information about a particular broadcaster's channel",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     ...common.props,

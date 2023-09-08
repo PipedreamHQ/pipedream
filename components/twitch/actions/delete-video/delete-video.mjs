@@ -5,7 +5,7 @@ export default {
   name: "Delete Video",
   key: "twitch-delete-video",
   description: "Deletes a specified video",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     ...common.props,

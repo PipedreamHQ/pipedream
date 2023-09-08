@@ -14,7 +14,21 @@ function summaryEnd(count, singular, plural) {
   return `${count} ${noun}`;
 }
 
+function sortArrayByDate(array, dateField = "") {
+  const isDescending = dateField.startsWith("-");
+  const field = dateField.replace(/^-/, "");
+  return Array.from(array)
+    .sort((a, b) => {
+      const aDate = new Date(a[field]);
+      const bDate = new Date(b[field]);
+      return isDescending
+        ? bDate - aDate
+        : aDate - bDate;
+    });
+}
+
 export default {
   streamIterator,
   summaryEnd,
+  sortArrayByDate,
 };
