@@ -2,8 +2,8 @@ import app from "../../recruit_crm.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
-  key: "recruit_crm-create-cadidate",
-  name: "Create Cadidate",
+  key: "recruit_crm-create-candidate",
+  name: "Create Candidate",
   description: "Creates a new candidate. [See the documentation](https://docs.recruitcrm.io/docs/rcrm-api-reference/ba451e2a3bd63-creates-a-new-candidate)",
   type: "action",
   version: "0.0.1",
