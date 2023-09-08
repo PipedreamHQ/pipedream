@@ -3753,6 +3753,8 @@ importers:
   components/pingbell:
     specifiers: {}
 
+  components/pingbell: {}
+
   components/pinterest:
     specifiers:
       '@pipedream/platform': ^1.4.0
