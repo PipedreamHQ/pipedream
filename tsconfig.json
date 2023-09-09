@@ -2543,6 +2543,9 @@
     },
     {
       "path": "components/giantcampaign"
+    },
+    {
+      "path": "components/melo"
     }
   ]
 }
