@@ -5,7 +5,8 @@
     "sass-loader": "^13.3.2",
     "vuepress": "^1.9.10",
     "vuepress-plugin-check-md": "^0.0.3",
-    "webpack": "^5.88.2"
+    "webpack": "^5.88.2",
+    "vue-server-renderer": "2.5.22"
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
