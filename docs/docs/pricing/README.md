@@ -37,7 +37,7 @@ At the end of the trial, your workspace will revert to the [Free plan](https://p
 - If you're running more connected accounts than the Free plan limit, workflows using the connected accounts above the limit will be disabled.
 - If any workflow is using paid settings — [auto-retry](/workflows/settings/#auto-retry-errors), [execution controls](/workflows/settings/#execution-controls), etc. — those workflows will be disabled.
 
-You can upgrade to a paid plan before the trial to get access to that plan's paid features.
+You can upgrade to a paid plan before the trial ends to get access to that plan's paid features.
 
 ### How many credits do I get during the trial?
 
