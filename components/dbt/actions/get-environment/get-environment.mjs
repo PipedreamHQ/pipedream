@@ -1,3 +1,5 @@
+//test
+
 import dbt from "../../dbt.app.mjs";
 
 export default {
