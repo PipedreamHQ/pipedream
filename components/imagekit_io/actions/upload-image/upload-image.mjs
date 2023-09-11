@@ -113,9 +113,18 @@ export default {
     const data = getFileFormData(file);
 
     let newExt = extensions;
+
     if (typeof newExt === "object") {
+      newExt = newExt.map((item) => {
+        if (typeof item === "object") {
+          return JSON.stringify(item);
+        }
+        return item;
+      });
+
       newExt = `[${newExt.toString()}]`;
     }
+
     data.append("extensions", newExt);
 
     for (const [
