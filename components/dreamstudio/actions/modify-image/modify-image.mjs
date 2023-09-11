@@ -1,12 +1,17 @@
 import FormData from "form-data";
 import fs from "node:fs";
+import {
+  getImagePath,
+  parsePrompts,
+  writeImg,
+} from "../../common/utils.mjs";
 import common from "../common/images.mjs";
 
 export default {
   ...common,
   key: "dreamstudio-modify-image",
   name: "Modify Image",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Modify an image based on a text prompt. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/imageToImage)",
   type: "action",
   props: {
@@ -20,7 +25,7 @@ export default {
     initImage: {
       type: "string",
       label: "Init Image",
-      description: "Image used to initialize the diffusion process, in lieu of random noise. It must be the path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      description: "Image used to initialize the diffusion process, in lieu of random noise. It can be an URL to the image or a path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
     initImageMode: {
       type: "string",
@@ -104,7 +109,6 @@ export default {
   async run({ $ }) {
     const {
       dreamstudio,
-      parsePrompts,
       organizationId,
       engineId,
       textPrompts,
@@ -125,7 +129,8 @@ export default {
       i++;
     }
 
-    formData.append("init_image", fs.readFileSync(`/tmp/${initImage}`));
+    const imagePath = await getImagePath(initImage);
+    formData.append("init_image", fs.readFileSync(imagePath));
     initImageMode && formData.append("init_image_mode", initImageMode);
     cfgScale && formData.append("cfg_scale", cfgScale);
     clipGuidancePreset && formData.append("clip_guidance_preset", clipGuidancePreset);
@@ -148,7 +153,7 @@ export default {
       data: formData,
     });
 
-    const paths = await this.writeImg(response.artifacts);
+    const paths = await writeImg(response.artifacts);
 
     $.export("$summary", `The image was successfully modified and sent to ${paths.toString()}!`);
     return response;

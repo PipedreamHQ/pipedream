@@ -1,10 +1,13 @@
+import {
+  parsePrompts, writeImg,
+} from "../../common/utils.mjs";
 import common from "../common/images.mjs";
 
 export default {
   ...common,
   key: "dreamstudio-generate-image",
   name: "Generate Image",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Generate a new image from a text prompt. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/textToImage)",
   type: "action",
   props: {
@@ -89,7 +92,6 @@ export default {
   async run({ $ }) {
     const {
       dreamstudio,
-      parsePrompts,
       engineId,
       textPrompts,
       cfgScale,
@@ -110,7 +112,7 @@ export default {
       },
     });
 
-    const paths = await this.writeImg(response.artifacts);
+    const paths = await writeImg(response.artifacts);
 
     $.export("$summary", `${response.artifacts.length} new image${response.artifacts.length > 1
       ? "s where"
