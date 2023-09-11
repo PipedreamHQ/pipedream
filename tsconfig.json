@@ -2546,6 +2546,9 @@
     },
     {
       "path": "components/melo"
+    },
+    {
+      "path": "components/seven"
     }
   ]
 }
