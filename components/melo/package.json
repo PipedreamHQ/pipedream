@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/melo",
+  "version": "0.0.1",
+  "description": "Pipedream Melo Components",
+  "main": "dist/app/melo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "melo"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/melo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
