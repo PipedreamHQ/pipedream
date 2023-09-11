@@ -810,13 +810,19 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
+  components/civicrm: {}
+
   components/clearbit:
     dependencies:
       '@pipedream/platform':
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/cleverreach: {}
+  components/cleverreach:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/clickmeeting: {}
 
@@ -1330,7 +1336,17 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
 
-  components/dreamstudio: {}
+  components/dreamstudio:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/dribbble:
     dependencies:
@@ -1362,7 +1378,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/dropcontact: {}
+  components/dropcontact:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/dynatrace_api: {}
 
@@ -1382,7 +1402,14 @@ importers:
 
   components/edapp: {}
 
-  components/eden_ai: {}
+  components/eden_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
 
   components/elastic_email: {}
 
@@ -1783,6 +1810,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/giantcampaign: {}
 
   components/giphy:
     dependencies:
@@ -2592,7 +2621,20 @@ importers:
 
   components/knowfirst: {}
 
-  components/kontent_ai: {}
+  components/kontent_ai:
+    dependencies:
+      '@kontent-ai/delivery-sdk':
+        specifier: ^14.4.0
+        version: 14.4.0
+      '@kontent-ai/management-sdk':
+        specifier: ^5.2.0
+        version: 5.3.0
+      '@kontent-ai/webhook-helper':
+        specifier: ^2.1.0
+        version: 2.1.0
+      crypto:
+        specifier: ^1.0.1
+        version: 1.0.1
 
   components/kucoin_futures: {}
 
@@ -2735,7 +2777,11 @@ importers:
 
   components/looker: {}
 
-  components/loopmessage: {}
+  components/loopmessage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/loops_so:
     dependencies:
@@ -2932,6 +2978,8 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
+  components/melo: {}
+
   components/mem: {}
 
   components/memberful:
@@ -2994,7 +3042,11 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
-  components/microsoft_365_planner: {}
+  components/microsoft_365_planner:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/microsoft_entra_id:
     dependencies:
@@ -4083,7 +4135,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/recruit_crm: {}
+  components/recruit_crm:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/recurly:
     dependencies:
@@ -4407,7 +4463,20 @@ importers:
 
   components/screendesk: {}
 
-  components/screenshotone: {}
+  components/screenshotone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
+      stream:
+        specifier: ^0.0.2
+        version: 0.0.2
+      util:
+        specifier: ^0.12.5
+        version: 0.12.5
 
   components/search_api: {}
 
@@ -5176,7 +5245,11 @@ importers:
 
   components/tettra: {}
 
-  components/textcortex: {}
+  components/textcortex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/textgain: {}
 
@@ -10164,6 +10237,42 @@ packages:
       lodash: 4.17.21
     dev: false
 
+  /@kontent-ai/core-sdk@10.2.0:
+    resolution: {integrity: sha512-mp5L7kkLg28xT8nLlo/8b9VIbTwy7FW9CNNTT7g/NxoVkmYLh9WEJQd9Xf+RGdYZ4RYhlJvKHUtUs16C4KTw0w==}
+    engines: {node: '>= 8'}
+    dependencies:
+      axios: 1.4.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@kontent-ai/delivery-sdk@14.4.0:
+    resolution: {integrity: sha512-PZ7tADqBr0sK/GLH+nBtR6B0BOB3s/UWTE8sxcjCxpxqZu31dwgOcq2u5rCCSuWNQsrSM+hfBtxNqghkaUQWHg==}
+    engines: {node: '>= 14'}
+    dependencies:
+      '@kontent-ai/core-sdk': 10.2.0
+      url-parse: 1.5.10
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@kontent-ai/management-sdk@5.3.0:
+    resolution: {integrity: sha512-Jx/4+NdbTMlTMz5W8NBOWZapZ0VzogIGn7TlssXWI2pTGiRKTHk5u8PI1PKGuNhabwINEMorpEfv74To3TmMQg==}
+    engines: {node: '>= 8'}
+    dependencies:
+      '@kontent-ai/core-sdk': 10.2.0
+      axios: 1.5.0
+      mime: 3.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@kontent-ai/webhook-helper@2.1.0:
+    resolution: {integrity: sha512-J6CiHM/7PUrRNNZeh0I46iQmyHgKt2qo3aJ0BAMwHuBrmwxIoU7aWOfk1Xi4AiPJaabbq0+qMIutQuSBLoWXkA==}
+    engines: {node: '>= 16'}
+    dev: false
+
   /@line/bot-sdk@7.5.2:
     resolution: {integrity: sha512-mMaDnr+mOqQDLYJcUp+fQwZklg/LoOZzNILlWdsj2IFD2nXF+HhAm3KEy5tyUx629Y2bCx6nv9Jl0UlMwBiAiw==}
     engines: {node: '>=10'}
@@ -13868,6 +13977,16 @@ packages:
     dependencies:
       follow-redirects: 1.15.2(debug@3.2.7)
       form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios@1.4.0:
+    resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false

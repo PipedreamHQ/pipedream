@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/cleverreach",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream CleverReach Components",
-  "main": "dist/app/cleverreach.app.mjs",
+  "main": "cleverreach.app.mjs",
   "keywords": [
     "pipedream",
     "cleverreach"
@@ -12,5 +12,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
