@@ -1374,7 +1374,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/dropcontact: {}
+  components/dropcontact:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/dynatrace_api: {}
 
