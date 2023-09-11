@@ -114,7 +114,7 @@ export default {
 
     let newExt = extensions;
 
-    if (typeof newExt === "object") {
+    if (Array.isArray(newExt)) {
       newExt = newExt.map((item) => {
         if (typeof item === "object") {
           return JSON.stringify(item);
