@@ -15,6 +15,7 @@ export default {
       label: "Type",
       description: "Type of schema fragment",
       options: Object.values(constants.SCHEMA_TYPE),
+      reloadProps: true,
     },
     description: {
       type: "string",

@@ -9,6 +9,15 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    reportedBy: {
+      propDefinition: [
+        common.props.devrev,
+        "userIds",
+      ],
+      label: "Reported By",
+      description: "The users that reported the work",
+      optional: true,
+    },
     accountId: {
       propDefinition: [
         common.props.devrev,
