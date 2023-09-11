@@ -106,6 +106,11 @@ export default {
       label: "Longitude",
       description: "The longitude of the location.",
     },
+    address: {
+      type: "string",
+      label: "Address",
+      description: "The address of the location.",
+    },
   },
   methods: {
     _baseUrl() {

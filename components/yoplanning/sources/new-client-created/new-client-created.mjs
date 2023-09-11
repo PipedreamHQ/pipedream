@@ -1,4 +1,5 @@
 import common from "../common/polling.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -6,7 +7,7 @@ export default {
   name: "New Client Created",
   description: "Triggers when a new client is created. [See the documentation](https://yoplanning.pro/api/v3.1/swagger/)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -19,12 +20,19 @@ export default {
   },
   methods: {
     ...common.methods,
+    ordering(resources) {
+      return utils.sortArrayByDate(resources, "-last_update");
+    },
     getResourceFn() {
       return this.app.listClients;
     },
     getResourceFnArgs() {
       return {
         teamId: this.teamId,
+        params: {
+          ordering: "-last_update",
+          last_update__gt: this.getLastUpdate(),
+        },
       };
     },
     generateMeta(resource) {

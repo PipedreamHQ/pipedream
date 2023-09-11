@@ -6,7 +6,7 @@ export default {
   name: "New Order Placed",
   description: "Triggers when a new order is placed. [See the documentation](https://yoplanning.pro/api/v3.1/swagger/)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
