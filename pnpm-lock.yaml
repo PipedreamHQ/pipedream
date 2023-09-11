@@ -818,7 +818,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/cleverreach: {}
+  components/cleverreach:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/clickmeeting: {}
 
@@ -1795,6 +1799,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/giantcampaign: {}
 
   components/giphy:
     dependencies:
@@ -2947,6 +2953,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
+
+  components/melo: {}
 
   components/mem: {}
 
@@ -4427,7 +4435,20 @@ importers:
 
   components/screendesk: {}
 
-  components/screenshotone: {}
+  components/screenshotone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
+      stream:
+        specifier: ^0.0.2
+        version: 0.0.2
+      util:
+        specifier: ^0.12.5
+        version: 0.12.5
 
   components/search_api: {}
 
