@@ -113,7 +113,7 @@ export default {
     const data = getFileFormData(file);
 
     let newExt = extensions;
-
+    
     if (typeof newExt === "object") {
       newExt = newExt.map((item) => {
         if (typeof item === "object") {

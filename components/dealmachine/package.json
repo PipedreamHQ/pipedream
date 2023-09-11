@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/dealmachine",
+  "version": "0.0.1",
+  "description": "Pipedream DealMachine Components",
+  "main": "dist/app/dealmachine.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dealmachine"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/dealmachine",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

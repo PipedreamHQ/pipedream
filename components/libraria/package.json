@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/libraria",
+  "version": "0.0.1",
+  "description": "Pipedream Libraria Components",
+  "main": "dist/app/libraria.app.mjs",
+  "keywords": [
+    "pipedream",
+    "libraria"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/libraria",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
