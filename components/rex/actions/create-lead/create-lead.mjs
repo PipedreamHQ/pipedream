@@ -44,6 +44,27 @@ export default {
         "propertyId",
       ],
     },
+    projectId: {
+      propDefinition: [
+        rex,
+        "projectId",
+      ],
+    },
+    projectStageId: {
+      propDefinition: [
+        rex,
+        "projectStageId",
+      ],
+    },
+    assigneeId: {
+      propDefinition: [
+        rex,
+        "userId",
+      ],
+      label: "Assignee",
+      description: "Identifier of the account/agent that will manage the lead",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const data = {
@@ -66,6 +87,21 @@ export default {
         property: this.propertyId
           ? {
             id: this.propertyId,
+          }
+          : undefined,
+        project: this.projectId
+          ? {
+            id: this.projectId,
+          }
+          : undefined,
+        project_stage: this.projectStageId
+          ? {
+            id: this.projectStageId,
+          }
+          : undefined,
+        assignee: this.assigneeId
+          ? {
+            id: this.assigneeId,
           }
           : undefined,
       },

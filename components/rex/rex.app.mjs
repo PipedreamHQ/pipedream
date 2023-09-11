@@ -105,6 +105,50 @@ export default {
         })) || [];
       },
     },
+    projectId: {
+      type: "string",
+      label: "Project",
+      description: "Identifier of a project",
+      optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const data = {
+          limit,
+          offset: page * limit,
+        };
+        const { result } = await this.listProjects({
+          data,
+        });
+        return result?.rows?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    projectStageId: {
+      type: "string",
+      label: "Project Stage",
+      description: "Identifier of a project stage",
+      optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const data = {
+          limit,
+          offset: page * limit,
+        };
+        const { result } = await this.listProjectStages({
+          data,
+        });
+        return result?.rows?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -160,6 +204,20 @@ export default {
     listUsers(args = {}) {
       return this._makeRequest({
         path: "/account-users/search",
+        method: "POST",
+        ...args,
+      });
+    },
+    listProjects(args = {}) {
+      return this._makeRequest({
+        path: "/projects/search",
+        method: "POST",
+        ...args,
+      });
+    },
+    listProjectStages(args = {}) {
+      return this._makeRequest({
+        path: "/project-stages/search",
         method: "POST",
         ...args,
       });
