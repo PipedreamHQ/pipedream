@@ -5,7 +5,7 @@ export default {
   app: "nudgify",
   methods: {
     async _makeRequest({
-      $, path, headers, ...otherOpts
+      $, path, headers, data, ...otherOpts
     }) {
       return axios($, {
         ...otherOpts,
@@ -13,6 +13,10 @@ export default {
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.api_key}`,
+        },
+        data: {
+          ...data,
+          "site_key": `${this.$auth.site_key}`,
         },
       });
     },
