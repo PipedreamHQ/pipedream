@@ -1,19 +1,14 @@
-import { axios } from "@pipedream/platform";
 import app from "../../nudgify.app.mjs";
 
 export default {
   key: "nudgify-create-signup-nudge",
   name: "Create Sign-up Nudge",
-  description: "Creates a sign-up nudge for a user in Nudgify. [See docs here](https://www.nudgify.com/docs/knowledge-base/rest-api-for-sign-ups)",
+  description:
+    "Creates a sign-up nudge for a user in Nudgify. [See docs here](https://www.nudgify.com/docs/knowledge-base/rest-api-for-sign-ups)",
   version: "0.0.1",
   type: "action",
   props: {
     app,
-    siteKey: {
-      type: "string",
-      label: "Site Key",
-      description: "The site key associated with your Nudgify account",
-    },
     email: {
       type: "string",
       label: "Email",
@@ -52,47 +47,31 @@ export default {
     country: {
       type: "string",
       label: "Country",
-      description: "The country of the user",
+      description:
+        "The country of the user (max 2 characters, e.g. `GB`, `US`)",
       optional: true,
-    },
-  },
-  methods: {
-    async createSignupNudge({
-      $, data,
-    }) {
-      return await axios($, {
-        method: "POST",
-        url: "https://app.nudgify.com/api/conversions",
-        headers: {
-          "Authorization": `Bearer ${this.nudgify.$auth.api_key}`,
-          "content-type": "application/json",
-          "accept": "application/json",
-        },
-        data,
-      });
     },
   },
   async run({ $ }) {
     const data = {
-      "site_key": this.siteKey,
-      "conversions": [
+      conversions: [
         {
-          "email": this.email,
-          "first_name": this.firstName,
-          "last_name": this.lastName,
-          "ip": this.ip,
-          "city": this.city,
-          "state": this.state,
-          "country": this.country,
+          email: this.email,
+          first_name: this.firstName,
+          last_name: this.lastName,
+          ip: this.ip,
+          city: this.city,
+          state: this.state,
+          country: this.country,
         },
       ],
     };
 
-    const response = await this.createSignupNudge({
+    const response = await this.app.createSignUpNudge({
       $,
       data,
     });
     $.export("$summary", "Successfully created sign-up nudge");
-    return response.data;
+    return response;
   },
 };

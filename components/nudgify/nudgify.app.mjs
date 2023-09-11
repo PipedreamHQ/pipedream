@@ -12,7 +12,9 @@ export default {
         url: `https://app.nudgify.com/api${path}`,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
+          "Accept": "application/json",
+          "Authorization": `Bearer ${this.$auth.api_key}`,
+          "Content-Type": "application/json",
         },
         data: {
           ...data,
