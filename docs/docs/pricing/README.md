@@ -31,11 +31,11 @@ The trial of Advanced features lasts 14 days.
 
 At the end of the trial, your workspace will revert to the [Free plan](https://pipedream.com/pricing).
 
-**Any workflows still using trial features will be disabled**. For example:
+**Any workflows still using trial features will be disabled**:
 
-- If you're running active workflows above the workflow limit, workflows most-recently created above the limit will be disabled. For example, the Free tier is limited to 5 active workflows. If you're running 8 active workflows, the last 3 workflows you enabled will be disabled, and the first 5 workflows you enabled will remain active.
-- If you're running more connected accounts than the Free plan limit, workflows using the connected accounts above the limit will be disabled.
-- If any workflow is using paid settings — [auto-retry](/workflows/settings/#auto-retry-errors), [execution controls](/workflows/settings/#execution-controls), etc. — those workflows will be disabled.
+- **Workflow limits**: If you're running more than 5 active workflows, workflows most-recently created above the limit will be disabled.
+- **Connected accounts**: If you have more than 3 connected accounts, workflows using the connected accounts above the limit will be disabled.
+- **Paid settings**: If any workflow is using paid settings — such as [auto-retry](/workflows/settings/#auto-retry-errors) or [execution controls](/workflows/settings/#execution-controls) — those workflows will be disabled.
 
 You can upgrade to a paid plan before the trial ends to get access to that plan's paid features.
 
@@ -52,7 +52,7 @@ The following features are **not** available on the Advanced trial. You can upgr
 
 ### Can I extend my trial beyond 14 days?
 
-Yes. If you need to extend your trial, please [reach out to our Support team](https://pipedream.com/support). Tell us more about how you're using Pipedream and what features you're most-interested in using during an extended trial.
+We are happy to discuss your evaluation needs. Please [reach out to our Support team](https://pipedream.com/support) and tell us a bit about how you are using Pipedream and what you need extra time to evaluate.
 
 ### What happens if I upgrade to another plan during the free trial?
 
