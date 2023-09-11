@@ -5245,7 +5245,11 @@ importers:
 
   components/tettra: {}
 
-  components/textcortex: {}
+  components/textcortex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/textgain: {}
 

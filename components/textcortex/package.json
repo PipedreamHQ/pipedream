@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/textcortex",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream TextCortex Components",
-  "main": "dist/app/textcortex.app.mjs",
+  "main": "textcortex.app.mjs",
   "keywords": [
     "pipedream",
     "textcortex"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/textcortex",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }
