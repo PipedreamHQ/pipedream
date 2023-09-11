@@ -1804,6 +1804,8 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
+  components/giantcampaign: {}
+
   components/giphy:
     dependencies:
       '@pipedream/platform':
@@ -2955,6 +2957,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
+
+  components/melo: {}
 
   components/mem: {}
 
