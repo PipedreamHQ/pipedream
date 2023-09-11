@@ -1402,7 +1402,14 @@ importers:
 
   components/edapp: {}
 
-  components/eden_ai: {}
+  components/eden_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
 
   components/elastic_email: {}
 
