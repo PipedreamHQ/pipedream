@@ -3,7 +3,7 @@ import imagekitIo from "../../imagekit_io.app.mjs";
 export default {
   key: "imagekit_io-get-file-details",
   name: "Get File Details",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Get details from a specific file. [See the documentation](https://docs.imagekit.io/api-reference/media-api/get-file-details)",
   type: "action",
   props: {
