@@ -2540,6 +2540,12 @@
     },
     {
       "path": "components/civicrm"
+    },
+    {
+      "path": "components/giantcampaign"
+    },
+    {
+      "path": "components/melo"
     }
   ]
 }
