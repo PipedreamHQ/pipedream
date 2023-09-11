@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/project_broadcast",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Project Broadcast Components",
-  "main": "dist/app/project_broadcast.app.mjs",
+  "main": "project_broadcast.app.mjs",
   "keywords": [
     "pipedream",
     "project_broadcast"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/project_broadcast",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }
