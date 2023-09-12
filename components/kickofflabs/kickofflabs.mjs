@@ -38,5 +38,11 @@ export default {
         data,
       }, ctx);
     },
+    async getCampaignStatus(ctx = this) {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: `/${this._getCampaignId()}/stats`,
+      }, ctx);
+    },
   },
 };
