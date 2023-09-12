@@ -2597,6 +2597,15 @@
     },
     {
       "path": "components/digitalriver"
+    },
+    {
+      "path": "components/wachete"
+    },
+    {
+      "path": "components/jobber"
+    },
+    {
+      "path": "components/nifty"
     }
   ]
 }
