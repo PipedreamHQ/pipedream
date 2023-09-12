@@ -26,7 +26,6 @@ export default {
             [
                 {
                     "id": 1,
-                    "key": "TheSheep",
                     "label": "TheSheep",
                     "scope": "timeular",
                     "spaceId": "2"
