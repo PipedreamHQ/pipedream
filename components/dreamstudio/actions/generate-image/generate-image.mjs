@@ -115,8 +115,14 @@ export default {
     const paths = await writeImg(response.artifacts);
 
     $.export("$summary", `${response.artifacts.length} new image${response.artifacts.length > 1
-      ? "s where"
-      : " was"} successfully generated and sent to ${paths.toString()}!`);
-    return response;
+      ?
+      "s where"
+      :
+      " was"} successfully generated and sent to ${paths.toString()}!`);
+
+    return {
+      ...response,
+      tmpPaths: paths,
+    };
   },
 };
