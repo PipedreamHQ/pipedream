@@ -1,6 +1,7 @@
 main_example = """Here's an example component:
 
 ```
+import github from "../../github.app.mjs"
 import crypto from "crypto"
 import { axios } from "@pipedream/platform"
 export default {
