@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/cloudpress",
+  "version": "0.0.1",
+  "description": "Pipedream Cloudpress Components",
+  "main": "dist/app/cloudpress.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cloudpress"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/cloudpress",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
