@@ -38,7 +38,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--instructions', help='Markdown file with instructions: prompt + api docs', required=True)
     parser.add_argument('--num_tries', dest='tries', help='The number of times we call the model to generate code',
-                        required=False, default=3, action='store_true')
+                        required=False, default=3, type=int)
     parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
                         required=False, default=False, action='store_true')
     args = parser.parse_args()
