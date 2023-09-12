@@ -5,8 +5,8 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "devrev-create-or-update-custom-schema-fragment",
   name: "Create or Update Custom Schema Fragment",
-  description: "Creates or updates a custom schema fragment in DevRev.",
-  version: "0.0.1",
+  description: "Creates or updates a custom schema fragment in DevRev. [See the documentation](https://devrev.ai/docs/apis/beta-api-spec#/operations/custom-schema-fragments-set)",
+  version: "0.0.2",
   type: "action",
   props: {
     devrev,
@@ -15,6 +15,7 @@ export default {
       label: "Type",
       description: "Type of schema fragment",
       options: Object.values(constants.SCHEMA_TYPE),
+      reloadProps: true,
     },
     description: {
       type: "string",
@@ -26,18 +27,24 @@ export default {
       label: "Leaf Type",
       description: "The leaf type this fragment applies to",
     },
-    app: {
-      type: "string",
-      label: "App ",
-      description: "The app this fragment applies to.",
-      optional: true,
-    },
-    subtype: {
-      type: "string",
-      label: "Subtype",
-      description: "The string used to populate the subtype in the leaf type",
-      optional: true,
-    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.type === constants.SCHEMA_TYPE.APP_FRAGMENT) {
+      props.app = {
+        type: "string",
+        label: "App",
+        description: "The app this fragment applies to.",
+      };
+    }
+    if (this.type === constants.SCHEMA_TYPE.CUSTOM_TYPE_FRAGMENT) {
+      props.subtype = {
+        type: "string",
+        label: "Subtype",
+        description: "The string used to populate the subtype in the leaf type",
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     if (this.type === constants.SCHEMA_TYPE.APP_FRAGMENT && !this.app) {
