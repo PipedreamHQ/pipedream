@@ -6,7 +6,7 @@ import { axios } from "@pipedream/platform"
 export default {
   key: "github-new-notification-received",
   name: "New Notification Received",
-  description: "Emit new event when a notification is received.",
+  description: "Emit new event when a notification is received. [See the documentation](${docsLink})",
   version: "0.0.1701231931",
   type: "source",
   dedupe: "unique",

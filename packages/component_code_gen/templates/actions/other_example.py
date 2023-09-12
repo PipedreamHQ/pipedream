@@ -4,7 +4,7 @@ export default {
   key: "slack-send-message",
   name: "Send Message",
   version: "0.0.1680019441",
-  description: "Sends a message to a channel. [See docs here]()",
+  description: "Sends a message to a channel. [See the documentation](${docsLink})",
   type: "action",
   props: {
     slack: {

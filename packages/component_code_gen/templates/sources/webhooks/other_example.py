@@ -4,7 +4,7 @@ export default {
   key: "tally-new-response",
   name: "New Response",
   version: "0.0.1703253824",
-  description: "Emit new event on each form message. [See docs here]()",
+  description: "Emit new event on each form message. [See the documentation](${docsLink})",
   type: "source",
   dedupe: "unique",
   props: {

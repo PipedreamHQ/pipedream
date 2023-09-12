@@ -5,7 +5,7 @@ import { axios } from "@pipedream/platform"
 export default {
   key: "openai-list-models",
   name: "List Models",
-  description: "Lists all models available to the user.",
+  description: "Lists all models available to the user. [See the documentation](${docsLink})",
   version: "0.0.1678974286",
   type: "action",
   props: {
