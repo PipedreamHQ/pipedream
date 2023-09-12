@@ -1774,7 +1774,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/getaccept: {}
+  components/getaccept:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/getemails: {}
 
@@ -1812,6 +1816,8 @@ importers:
         version: 1.5.1
 
   components/giantcampaign: {}
+
+  components/gigasheet: {}
 
   components/giphy:
     dependencies:
@@ -1910,6 +1916,8 @@ importers:
   components/godaddy: {}
 
   components/godial: {}
+
+  components/gong: {}
 
   components/goodbits: {}
 
@@ -4602,6 +4610,8 @@ importers:
         version: 1.5.1
 
   components/serwersms_pl: {}
+
+  components/seven: {}
 
   components/seventodos:
     dependencies:
