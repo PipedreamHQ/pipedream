@@ -751,6 +751,8 @@ importers:
 
   components/cflow: {}
 
+  components/chaindesk: {}
+
   components/chaport: {}
 
   components/chargebee:
@@ -913,6 +915,8 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.0
+
+  components/cloudpress: {}
 
   components/cloudtalk: {}
 
@@ -2287,6 +2291,8 @@ importers:
 
   components/hotjar: {}
 
+  components/hotmart: {}
+
   components/hotspotsystem:
     dependencies:
       '@pipedream/platform':
@@ -2348,6 +2354,8 @@ importers:
         version: 1.5.1
 
   components/hygraph: {}
+
+  components/hyros: {}
 
   components/iauditor_by_safetyculture: {}
 
@@ -2509,6 +2517,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
+  components/jira_service_desk: {}
+
   components/jobnimbus:
     dependencies:
       '@pipedream/platform':
@@ -2538,6 +2548,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/judge_me: {}
 
   components/jumpseller: {}
 
@@ -3194,6 +3206,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/more_trees_: {}
 
   components/motion:
     dependencies:
@@ -4312,6 +4326,8 @@ importers:
         specifier: ^1.1.1
         version: 1.5.1
 
+  components/rkvst: {}
+
   components/roboflow:
     dependencies:
       '@pipedream/platform':
@@ -5249,6 +5265,8 @@ importers:
         version: 1.5.1
 
   components/terminus_app: {}
+
+  components/terraform: {}
 
   components/testmonitor:
     dependencies:
