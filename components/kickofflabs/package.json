@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/kickofflabs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream KickoffLabs Components",
-  "main": "dist/app/kickofflabs.app.mjs",
+  "main": "kickofflabs.app.mjs",
   "keywords": [
     "pipedream",
     "kickofflabs"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/kickofflabs",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
