@@ -17,7 +17,7 @@ export default {
     html: {
       type: "string",
       label: "HTML",
-      description: "The HTML code to crate the page",
+      description: "The HTML code to create the page",
     },
   },
   async run({ $ }) {
