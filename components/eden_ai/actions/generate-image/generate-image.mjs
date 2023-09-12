@@ -4,7 +4,7 @@ export default {
   key: "eden_ai-generate-image",
   name: "Generate Image",
   description: "Generates an image from the provided description. [See the documentation](https://docs.edenai.co/reference/image_generation_create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -68,7 +68,7 @@ export default {
       data: {
         text,
         resolution,
-        number_of_images: numImages,
+        num_images: numImages,
         providers: providers.join(),
         fallback_providers: fallbackProviders?.join(),
         show_original_response: showOriginalResponse,
