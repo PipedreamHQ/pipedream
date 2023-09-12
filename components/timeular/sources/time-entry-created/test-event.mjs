@@ -35,7 +35,6 @@ export default {
             [
                 {
                     "id": 1,
-                    "key": "boring",
                     "label": "boring",
                     "scope": "timeular",
                     "spaceId": "2"
