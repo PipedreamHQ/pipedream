@@ -8,7 +8,7 @@ export default {
   version: "0.0.1",
   props: {
     app,
-    contacts: {
+    contactId: {
       propDefinition: [
         app,
         "contactId",
