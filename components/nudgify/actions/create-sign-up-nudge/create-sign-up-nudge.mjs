@@ -10,52 +10,52 @@ export default {
   props: {
     app,
     date: {
-      type: "string",
-      label: "Date",
-      description:
-        "The date (UTC) used to show in the Nudge how long ago the conversion took place. Format: `YYYY-MM-DD HH:MM:SS` (example: `2021-04-15 04:29:42`)",
+      propDefinition: [
+        app,
+        "date",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "The email of the user",
+      propDefinition: [
+        app,
+        "email",
+      ],
     },
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The first name of the user",
-      optional: true,
+      propDefinition: [
+        app,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The last name of the user",
-      optional: true,
+      propDefinition: [
+        app,
+        "lastName",
+      ],
     },
     ip: {
-      type: "string",
-      label: "IP Address",
-      description: "The IP address of the user",
-      optional: true,
+      propDefinition: [
+        app,
+        "ip",
+      ],
     },
     city: {
-      type: "string",
-      label: "City",
-      description: "The city of the user",
-      optional: true,
+      propDefinition: [
+        app,
+        "city",
+      ],
     },
     state: {
-      type: "string",
-      label: "State",
-      description: "The state of the user",
-      optional: true,
+      propDefinition: [
+        app,
+        "state",
+      ],
     },
     country: {
-      type: "string",
-      label: "Country",
-      description:
-        "The country of the user (max 2 characters, e.g. `GB`, `US`)",
-      optional: true,
+      propDefinition: [
+        app,
+        "country",
+      ],
     },
   },
   async run({ $ }) {
