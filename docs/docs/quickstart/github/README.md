@@ -9,16 +9,21 @@ The purpose of this guide is to help you get started building projects on Pipedr
 
 GitHub sync is restricted to the Advanced and Business tiers on Pipedream. 
 
+::: tip
+
 **Users on the Free and Basic plan may preview the feature by creating a new project and enabling GitHub Sync.**  Please note that the feature preview is not supported for existing projects. Also, you will not be able to merge to production without upgrading. When you upgrade, you may enable or disable GitHub sync for projects at any time.
+
+:::
 
 ## Create a new project
 
 Follow the steps below to create a new project and configure GitHub Sync.
 
-NOTE
+::: tip
 
 This example uses Pipedream's OAuth integration with GitHub which will automaticallly create a a new, empty repo in GitHub. The OAuth integration requires the granting of extensive scopes so Pipedream can create and manage the integration. If you prefer not to use OAuth and configure the integration manually, follow the steps in Pipedream's docs to configure the integration using deploy keys. Deploy keys allow you to restrict Pipedream's access to a specific repo.
  
+:::
 
 Go to `https://pipedream.com/projects` and click on **Create Project**.
 ![github](./images/create_project.png)
@@ -83,9 +88,11 @@ You can explore the files created, including the YAML file with the workflow def
 
 ![github](./images/view_branch_on_github_2.png)
 
-**Advanced**
+::: tip
 
 Optionally navigate to the file with the code step and make an edit to the file and commit your changes to the branch (e.g., add another comment). When you return to Pipedream, you'll notice the git actions button will prompt you to pull changes. Pipedream's integration with GitHub is bi-directional, so you can make edits outside of Pipedream (including locally) and sync them via GitHub. Note: there are currently restrictions on local development (e.g., you can only edit existing resources -- you can't create new workflows locally). 
+
+:::
 
 ## Merge your changes to production
 
