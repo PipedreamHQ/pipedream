@@ -2585,6 +2585,18 @@
     },
     {
       "path": "components/chaindesk"
+    },
+    {
+      "path": "components/httpsms"
+    },
+    {
+      "path": "components/quickmail_io"
+    },
+    {
+      "path": "components/onepage"
+    },
+    {
+      "path": "components/digitalriver"
     }
   ]
 }
