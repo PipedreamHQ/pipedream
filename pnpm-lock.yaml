@@ -751,6 +751,8 @@ importers:
 
   components/cflow: {}
 
+  components/chaindesk: {}
+
   components/chaport: {}
 
   components/chargebee:
@@ -913,6 +915,8 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.0
+
+  components/cloudpress: {}
 
   components/cloudtalk: {}
 
@@ -1248,6 +1252,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/digitalriver: {}
 
   components/discord:
     dependencies:
@@ -2287,6 +2293,8 @@ importers:
 
   components/hotjar: {}
 
+  components/hotmart: {}
+
   components/hotspotsystem:
     dependencies:
       '@pipedream/platform':
@@ -2307,6 +2315,8 @@ importers:
       object-hash:
         specifier: ^3.0.0
         version: 3.0.0
+
+  components/httpsms: {}
 
   components/hub_planner: {}
 
@@ -2348,6 +2358,8 @@ importers:
         version: 1.5.1
 
   components/hygraph: {}
+
+  components/hyros: {}
 
   components/iauditor_by_safetyculture: {}
 
@@ -2540,6 +2552,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/judge_me: {}
 
   components/jumpseller: {}
 
@@ -3197,6 +3211,8 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
+  components/more_trees_: {}
+
   components/motion:
     dependencies:
       '@pipedream/platform':
@@ -3476,6 +3492,8 @@ importers:
         version: 9.0.0
 
   components/onenote: {}
+
+  components/onepage: {}
 
   components/onepagecrm: {}
 
@@ -4072,6 +4090,8 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
+  components/quickmail_io: {}
+
   components/quipu:
     dependencies:
       '@pipedream/platform':
@@ -4313,6 +4333,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.5.1
+
+  components/rkvst: {}
 
   components/roboflow:
     dependencies:
@@ -5252,6 +5274,8 @@ importers:
 
   components/terminus_app: {}
 
+  components/terraform: {}
+
   components/testmonitor:
     dependencies:
       '@pipedream/platform':
@@ -5925,7 +5949,11 @@ importers:
 
   components/workiom: {}
 
-  components/workiz: {}
+  components/workiz:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/worksnaps: {}
 
