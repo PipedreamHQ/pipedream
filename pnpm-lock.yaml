@@ -1814,7 +1814,7 @@ importers:
   components/giantcampaign: {}
 
   components/gigasheet: {}
-  
+
   components/giphy:
     dependencies:
       '@pipedream/platform':
