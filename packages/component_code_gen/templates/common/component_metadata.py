@@ -31,7 +31,7 @@ Registry components require a unique key and version, and a friendly name and de
 {example}
 
 Component keys are in the format app_name_slug-slugified-component-name.
-You should come up with a name and a description for the component you are generating.
+You should come up with a name and a short description for the component you are generating.
 In the description, you should always include a link to the app docs. Or add this as a placeholder: [See the documentation]().
 Action keys should use active verbs to describe the action that will occur, (e.g., linear_app-create-issue).
 Always add a version starting with "0.0." and then the current unix timestamp hardcoded in seconds. For example, "0.0.1694527619". Think about it, the version has to be unique, and this is the easiest way to do it.
