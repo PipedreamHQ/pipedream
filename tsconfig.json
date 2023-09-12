@@ -2606,6 +2606,12 @@
     },
     {
       "path": "components/nifty"
+    },
+    {
+      "path": "components/ez_texting_"
+    },
+    {
+      "path": "components/microsoft_sql_server"
     }
   ]
 }
