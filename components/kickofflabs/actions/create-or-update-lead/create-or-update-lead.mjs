@@ -1,4 +1,4 @@
-import app from "../../kickofflabs.mjs";
+import app from "../../kickofflabs.app.mjs";
 
 export default {
   name: "Create or Update Lead",
