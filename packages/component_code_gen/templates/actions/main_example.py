@@ -1,6 +1,6 @@
 main_example = """Here's an example component:
 
-```javascript
+```
 import { axios } from "@pipedream/platform"
 export default {
   key: "openai-list-models",

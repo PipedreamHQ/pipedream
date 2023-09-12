@@ -1,6 +1,6 @@
 main_example = """Here's an example Pipedream app for Raindrop:
 
-```javascript
+```
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -92,7 +92,7 @@ The propDefinitions object contains two props: collectionId and raindropId. The 
 
 This object contains a `props` property, which defines a single prop of type "app":
 
-```javascript
+```
 import { axios } from "@pipedream/platform";
 export default {
   type: "app",

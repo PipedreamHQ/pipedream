@@ -1,6 +1,6 @@
 main_example = """Here's an example Pipedream source component that fetches all bookmarks from Raindrop.io and emits each bookmark as an event:
 
-```javascript
+```
 import { axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform"
 export default {
   key: "raindrop-bookmark-created",

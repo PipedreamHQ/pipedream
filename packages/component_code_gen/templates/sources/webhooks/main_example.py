@@ -1,6 +1,6 @@
 main_example = """Here's an example component:
 
-```javascript
+```
 import crypto from "crypto"
 import { axios } from "@pipedream/platform"
 export default {
