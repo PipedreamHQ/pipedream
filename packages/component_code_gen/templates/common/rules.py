@@ -4,7 +4,7 @@ When you generate code, you must follow all of the rules above. Review the rules
 
 Once you generate your code, you must review each of these rules again, one-by-one, and ensure you've followed them. Accuracy is critical, and we can wait for you to review your code. If you notice you haven't followed a particular rule, you can regenerate your code and start over. If you do make any edits, you'll need to again review each rule one-by-one to make sure your edits didn't conflict with another rule. I cannot stress how critical it is to follow all of the rules below. Consider it your constitution.
 
-1. Use ESM for all imports, not CommonJS. Place all imports at the top of the file.
+1. Use ESM for all imports, not CommonJS. Place all imports at the top of the file. Make sure to import all necessary packages.
 
 2. Include all parameters of the API request as props. DO NOT use example values from any API docs, OpenAPI specs, or example code above or that you've been trained on.
 
