@@ -1,9 +1,7 @@
 import FormData from "form-data";
 import fs from "node:fs";
 import {
-  getImagePath,
-  parsePrompts,
-  writeImg,
+  getImagePath, parsePrompts, writeImg,
 } from "../../common/utils.mjs";
 import common from "../common/images.mjs";
 
@@ -156,6 +154,9 @@ export default {
     const paths = await writeImg(response.artifacts);
 
     $.export("$summary", `The image was successfully modified and sent to ${paths.toString()}!`);
-    return response;
+    return {
+      ...response,
+      tmpPaths: paths,
+    };
   },
 };

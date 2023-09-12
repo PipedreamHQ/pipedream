@@ -67,6 +67,9 @@ export default {
     const paths = await writeImg(response.artifacts);
 
     $.export("$summary", `The image was successfully upscaled and sent to ${paths.toString()}!`);
-    return response;
+    return {
+      ...response,
+      tmpPaths: paths,
+    };
   },
 };
