@@ -44,7 +44,7 @@ The code you generate should be placed within the `run` method of the Pipedream 
 
 import { axios } from "@pipedream/platform";
 
-export default defineComponent({
+export default {
   props: {
     the_app_name_slug: {
       type: "app",
@@ -56,4 +56,4 @@ export default defineComponent({
   async run(event) {
     // your code here
   },
-});"""
+};"""

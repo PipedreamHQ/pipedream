@@ -1,6 +1,6 @@
 other_example = """Here's an example Pipedream component that makes a test request against the Slack API:
 
-export default defineComponent({
+export default {
   key: "slack-send-message",
   name: "Send Message",
   version: "0.0.{{ts}}",
@@ -37,7 +37,7 @@ export default defineComponent({
     $.export("$summary", "Sent message successfully")
     return response
   },
-});
+};
 
 Notice this section:
 
@@ -52,7 +52,7 @@ The code you generate should be placed within the `run` method of the Pipedream 
 
 import { axios } from "@pipedream/platform";
 
-export default defineComponent({
+export default {
   props: {
     the_app_name_slug: {
       type: "app",
@@ -66,4 +66,4 @@ export default defineComponent({
     $.export("$summary", "Your summary here")
     return response
   },
-});"""
+};"""

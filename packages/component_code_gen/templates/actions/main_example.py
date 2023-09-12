@@ -2,7 +2,7 @@ main_example = """Here's an example component:
 
 ```javascript
 import { axios } from "@pipedream/platform"
-export default defineComponent({
+export default {
   key: "openai-list-models",
   name: "List Models",
   description: "Lists all models available to the user.",
@@ -24,5 +24,5 @@ export default defineComponent({
     $.export("$summary", "Successfully listed models")
     return response
   },
-})
+};
 ```"""
