@@ -4,7 +4,7 @@ export default {
   key: "microsoft_entra_id-search-groups",
   name: "Search Groups",
   description: "Searches for groups by name or description. [See the documentation](https://learn.microsoft.com/en-us/graph/api/group-list?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     microsoftEntraId,
@@ -12,7 +12,6 @@ export default {
       type: "string",
       label: "Search Query",
       description: "Keywords to search by",
-      optional: true,
     },
     maxResults: {
       type: "integer",

@@ -35,21 +35,6 @@ export default {
         "customSchemaFragmentIds",
       ],
     },
-    reportedBy: {
-      propDefinition: [
-        devrev,
-        "userIds",
-      ],
-      label: "Reported By",
-      description: "The users that reported the work",
-      optional: true,
-    },
-    priority: {
-      propDefinition: [
-        devrev,
-        "priority",
-      ],
-    },
     tagIds: {
       propDefinition: [
         devrev,
