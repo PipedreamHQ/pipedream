@@ -2509,6 +2509,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
+  components/jira_service_desk: {}
+
   components/jobnimbus:
     dependencies:
       '@pipedream/platform':
