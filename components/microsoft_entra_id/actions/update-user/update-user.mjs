@@ -5,7 +5,7 @@ export default {
   key: "microsoft_entra_id-update-user",
   name: "Update User",
   description: "Updates an existing user in Microsoft Entra ID. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     microsoftEntraId,
@@ -22,21 +22,19 @@ export default {
       type: "string",
       label: "Display Name",
       description: "The name to display in the address book for the user.",
+      optional: true,
     },
     mail: {
       type: "string",
       label: "Email",
       description: "The SMTP address for the user, for example, `jeff@contoso.onmicrosoft.com`.",
+      optional: true,
     },
     mailNickname: {
       type: "string",
       label: "Mail Nickname",
       description: "The mail alias for the user.",
-    },
-    userPrincipleName: {
-      type: "string",
-      label: "User Principle Name",
-      description: "The user principal name (someuser@contoso.com). It's an Internet-style login name for the user based on the Internet standard RFC 822. By convention, this should map to the user's email name. The general format is alias@domain, where domain must be present in the tenant's collection of verified domains. The verified domains for the tenant can be accessed from the verifiedDomains property of [organization](https://learn.microsoft.com/en-us/graph/api/resources/organization?view=graph-rest-1.0). NOTE: This property cannot contain accent characters. Only the following characters are allowed `A - Z`, `a - z`, `0 - 9`, `' . - _ ! # ^ ~.` For the complete list of allowed characters, see [username policies](https://learn.microsoft.com/en-us/azure/active-directory/authentication/concept-sspr-policy#userprincipalname-policies-that-apply-to-all-user-accounts).",
+      optional: true,
     },
     accountEnabled: {
       type: "boolean",
@@ -83,7 +81,6 @@ export default {
         displayName: this.displayName,
         mail: this.mail,
         mailNickname: this.mailNickname,
-        userPrincipleName: this.userPrincipleName,
         accountEnabled: this.accountEnabled,
         streetAddress: this.streetAddress,
         city: this.city,

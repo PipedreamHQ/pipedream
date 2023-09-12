@@ -2546,6 +2546,18 @@
     },
     {
       "path": "components/melo"
+    },
+    {
+      "path": "components/seven"
+    },
+    {
+      "path": "components/gong"
+    },
+    {
+      "path": "components/gigasheet"
+    },
+    {
+      "path": "components/personio"
     }
   ]
 }
