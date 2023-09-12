@@ -4294,7 +4294,11 @@ importers:
 
   components/rewardful: {}
 
-  components/rex: {}
+  components/rex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/ringcentral:
     dependencies:
