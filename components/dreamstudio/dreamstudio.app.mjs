@@ -131,7 +131,7 @@ export default {
     textPrompts: {
       type: "string[]",
       label: "Text Prompts",
-      description: "An array of valid JSON objects to use for generation. The JSON object must have the text and the weight. e.g. {\"text\": \"A lighthouse on a cliff\", \"weight\": 0.5}`",
+      description: "An array of valid JSON objects to use for generation. The JSON object must have the text and the weight. e.g.`{\"text\": \"A lighthouse on a cliff\", \"weight\": 0.5}`",
     },
     width: {
       type: "integer",
