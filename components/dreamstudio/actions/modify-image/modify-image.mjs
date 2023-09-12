@@ -25,28 +25,6 @@ export default {
       label: "Init Image",
       description: "Image used to initialize the diffusion process, in lieu of random noise. It can be an URL to the image or a path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
-    initImageMode: {
-      type: "string",
-      label: "Init Image Mode",
-      description: "Used to control how much influence the `init image` has on the result.",
-      options: [
-        "IMAGE_STRENGTH",
-        "STEP_SCHEDULE",
-      ],
-      optional: true,
-    },
-    stepScheduleStart: {
-      type: "string",
-      label: "Step Schedule Start",
-      description: "Skips a proportion of the start of the diffusion steps, allowing the init_image to influence the final generated image. Lower values will result in more influence from the init_image, while higher values will result in more influence from the diffusion steps. (e.g. a value of `0` would simply return you the init_image, where a value of `1` would return you a completely different image).",
-      optional: true,
-    },
-    stepScheduleEnd: {
-      type: "string",
-      label: "Step Schedule End",
-      description: "Skips a proportion of the end of the diffusion steps, allowing the init_image to influence the final generated image. Lower values will result in more influence from the init_image, while higher values will result in more influence from the diffusion steps.",
-      optional: true,
-    },
     cfgScale: {
       propDefinition: [
         common.props.dreamstudio,
@@ -103,6 +81,35 @@ export default {
       ],
       optional: true,
     },
+    initImageMode: {
+      type: "string",
+      label: "Init Image Mode",
+      description: "Used to control how much influence the `init image` has on the result.",
+      options: [
+        "IMAGE_STRENGTH",
+        "STEP_SCHEDULE",
+      ],
+      reloadProps: true,
+      optional: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.initImageMode === "STEP_SCHEDULE") {
+      props.stepScheduleStart = {
+        type: "string",
+        label: "Step Schedule Start",
+        description: "Skips a proportion of the start of the diffusion steps, allowing the init_image to influence the final generated image. Lower values will result in more influence from the init_image, while higher values will result in more influence from the diffusion steps. (e.g. a value of `0` would simply return you the init_image, where a value of `1` would return you a completely different image).",
+        optional: true,
+      };
+      props.stepScheduleEnd = {
+        type: "string",
+        label: "Step Schedule End",
+        description: "Skips a proportion of the end of the diffusion steps, allowing the init_image to influence the final generated image. Lower values will result in more influence from the init_image, while higher values will result in more influence from the diffusion steps.",
+        optional: true,
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     const {
@@ -115,6 +122,8 @@ export default {
       cfgScale,
       clipGuidancePreset,
       stylePreset,
+      stepScheduleStart,
+      stepScheduleEnd,
       ...appendData
     } = this;
     const formData = new FormData();
@@ -133,6 +142,8 @@ export default {
     cfgScale && formData.append("cfg_scale", cfgScale);
     clipGuidancePreset && formData.append("clip_guidance_preset", clipGuidancePreset);
     stylePreset && formData.append("style_preset", stylePreset);
+    stepScheduleStart && formData.append("step_schedule_start", stepScheduleStart);
+    stepScheduleEnd && formData.append("step_schedule_end", stepScheduleEnd);
 
     for (const [
       label,
