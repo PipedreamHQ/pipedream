@@ -62,4 +62,6 @@ I need to reiterate: you MUST NOT use static, example values in the code. You MU
 
 6. You must pass a value of `0.0.{ts}` to the `version` property. This is the only valid version value. You should expand `{ts}` to the current epoch timestamp in seconds. Think about it: if you pass a different value, the developer won't be able to republish the component with a dynamic version, and publishing will fail, which will waste their time.
 
-7. Remember, please do not pass example values from the API docs or OpenAPI spec. You must pass the value of the prop to all params instead. This is the only way the user can enter their own values."""
+7. Always use camel case for variable names. For example, `inputValues` instead of `input_values`.
+
+8. Remember, please do not pass example values from the API docs or OpenAPI spec. You must pass the value of the prop to all params instead. This is the only way the user can enter their own values."""
