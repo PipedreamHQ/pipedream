@@ -7,7 +7,7 @@ export default {
   key: "github-new-notification-received",
   name: "New Notification Received",
   description: "Emit new event when a notification is received.",
-  version: "0.0.1",
+  version: "0.0.1701231931",
   type: "source",
   dedupe: "unique",
   props: {

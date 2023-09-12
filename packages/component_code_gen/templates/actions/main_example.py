@@ -6,7 +6,7 @@ export default {
   key: "openai-list-models",
   name: "List Models",
   description: "Lists all models available to the user.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1678974286",
   type: "action",
   props: {
     openai: {

@@ -3,7 +3,7 @@ other_example = """Here's an example Pipedream component that makes a test reque
 export default {
   key: "slack-send-message",
   name: "Send Message",
-  version: "0.0.{{ts}}",
+  version: "0.0.1680019441",
   description: "Sends a message to a channel. [See docs here]()",
   type: "action",
   props: {

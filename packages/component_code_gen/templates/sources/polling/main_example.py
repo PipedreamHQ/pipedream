@@ -6,7 +6,7 @@ export default {
   key: "raindrop-bookmark-created",
   name: "New Bookmark Created",
   description: `Emit new event when a bookmark is created. [See the documentation](${docsLink})`,
-  version: "0.0.1",
+  version: "0.0.1693916263",
   type: "source",
   dedupe: "unique",
   props: {
