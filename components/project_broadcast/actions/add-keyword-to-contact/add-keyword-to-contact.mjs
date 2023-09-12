@@ -33,8 +33,6 @@ export default {
   },
   run({ $: step }) {
     const {
-      // eslint-disable-next-line no-unused-vars
-      app,
       addKeywordToContact,
       contactId,
       keywordId,
