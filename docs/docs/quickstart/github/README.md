@@ -1,17 +1,18 @@
 # Quickstart - Github Sync
 
-The purpose of this guide is to help you get started building projects on Pipedream using **GitHub Sync**. This guide assumes you:
+The purpose of this guide is to help you start building projects on Pipedream using **GitHub Sync**. 
+
+This guide assumes you:
 
 - Have a Pipedream account 
 - Have a GitHub account
 - Understand the basics of workflow development on Pipedream
 - Are familiar with git-concepts (branches, commits, merges, etc)
-
-GitHub sync is restricted to the Advanced and Business tiers on Pipedream. 
+- Are subscribed to (or on a trial of) the [Advanced or Business plan](https://pipedream.com/pricing/)
 
 ::: tip
 
-**Users on the Free and Basic plan may preview the feature by creating a new project and enabling GitHub Sync.**  Please note that the feature preview is not supported for existing projects. Also, you will not be able to merge to production without upgrading. When you upgrade, you may enable or disable GitHub sync for projects at any time.
+**Users on the Free and Basic plan may preview GitHub Sync by enabling the feature when creating a new project.**  Please note that the feature preview is not supported for existing projects. Also, you will not be able to merge to production without upgrading. When you upgrade, you may enable or disable GitHub sync for projects at any time.
 
 :::
 
@@ -47,9 +48,11 @@ Since this is a new project, you will prompted to create a branch. You may accep
 
 In the future, when you click **Edit**, Pipedream will load development mode for the last branch you were editing for the project. You may also create or select a different branch from the drop down menu.
 
-**Tip**
+::: tip
 
 When GitHub Sync is enabled, project resources may only be edited in a branch.
+
+:::
 
 ## Create a workflow in the editable branch
 
