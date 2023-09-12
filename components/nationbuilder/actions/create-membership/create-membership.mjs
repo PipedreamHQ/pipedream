@@ -10,8 +10,8 @@ export default {
     nationbuilder,
     name: {
       type: "string",
-      label: "Name",
-      description: "The name of the membership.",
+      label: "Membership Type Name",
+      description: "The name of the membership type.",
     },
     personId: {
       propDefinition: [
