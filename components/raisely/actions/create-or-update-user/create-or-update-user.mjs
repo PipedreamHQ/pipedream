@@ -4,7 +4,7 @@ import pickBy from "lodash.pickby";
 export default {
   key: "raisely-create-or-update-user",
   name: "Create or Update User",
-  description: "Create or update a user in Raisely. [See the documentation](https://developers.raisely.com/reference/postusersupsert)",
+  description: "Create or update a user in Raisely. [See the documentation](https://developers.raisely.com/reference/postusers)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -62,9 +62,15 @@ export default {
       description: "The country of the user. Examples: `AU`, `GB`, `US`",
       optional: true,
     },
+    merge: {
+      type: "boolean",
+      label: "Merge",
+      description: "When set to `true`, instead of creating a new user, this request will update a user with a matching email identity with the data provided.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const data = {
+    const data = pickBy({
       data: pickBy({
         email: this.email,
         firstName: this.firstName,
@@ -76,15 +82,16 @@ export default {
         postcode: this.postcode,
         country: this.country,
       }),
-    };
+      merge: this.merge,
+    });
 
     const response = await this.raisely.createOrUpdateUser({
       data,
       $,
     });
 
-    if (response?.data?.id) {
-      $.export("$summary", `Successfully upserted user with ID ${response.data.id}`);
+    if (response?.data?.uuid) {
+      $.export("$summary", `Successfully upserted user with ID ${response.data.uuid}`);
     }
 
     return response;

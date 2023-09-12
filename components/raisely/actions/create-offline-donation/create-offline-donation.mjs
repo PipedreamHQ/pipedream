@@ -30,10 +30,28 @@ export default {
       description: "The payment gateway used",
       options: constants.PAYMENT_METHODS,
     },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of the donor",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the donor",
+      optional: true,
+    },
     anonymous: {
       type: "boolean",
       label: "Anonymous",
       description: "Does the donor wish to be anonymous?",
+      optional: true,
+    },
+    date: {
+      type: "string",
+      label: "Date",
+      description: "The date and time (in ISO8601 format) the donation was received by the organisation. Example: `2020-12-03T06:52:46.330Z`",
       optional: true,
     },
   },
@@ -45,7 +63,10 @@ export default {
         amount: this.amount,
         currency: this.currency,
         method: this.method,
+        firstName: this.firstName,
+        lastName: this.lastName,
         anonymous: this.anonymous,
+        date: this.date,
       },
     };
 
@@ -54,8 +75,8 @@ export default {
       $,
     });
 
-    if (response?.data?.id) {
-      $.export("$summary", `Successfully created online donation with ID ${response.data.id}`);
+    if (response?.data?.uuid) {
+      $.export("$summary", `Successfully created online donation with ID ${response.data.uuid}`);
     }
 
     return response;

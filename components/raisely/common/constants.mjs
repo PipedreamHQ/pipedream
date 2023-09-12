@@ -7,7 +7,11 @@ const PAYMENT_METHODS = [
   },
   {
     label: "Paypal",
-    value: "PAYPAL, APPLE_PAY",
+    value: "PAYPAL",
+  },
+  {
+    label: "Apple Pay",
+    value: "APPLE_PAY",
   },
   {
     label: "Offline",

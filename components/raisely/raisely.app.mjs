@@ -73,7 +73,7 @@ export default {
     },
     createOrUpdateUser(args = {}) {
       return this._makeRequest({
-        path: "/users/upsert",
+        path: "/users",
         method: "POST",
         ...args,
       });
