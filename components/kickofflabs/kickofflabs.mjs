@@ -44,5 +44,14 @@ export default {
         path: `/${this._getCampaignId()}/stats`,
       }, ctx);
     },
+    async removeLeadFromCampaign(emails, ctx = this) {
+      return this._makeHttpRequest({
+        method: "DELETE",
+        path: `/${this._getCampaignId()}`,
+        params: {
+          email: emails,
+        },
+      }, ctx);
+    },
   },
 };
