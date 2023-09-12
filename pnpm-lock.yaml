@@ -2592,7 +2592,11 @@ importers:
 
   components/key_app_demo_1: {}
 
-  components/kickofflabs: {}
+  components/kickofflabs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/kintone: {}
 
