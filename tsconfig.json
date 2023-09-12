@@ -2564,6 +2564,27 @@
     },
     {
       "path": "components/more_trees_"
+    },
+    {
+      "path": "components/terraform"
+    },
+    {
+      "path": "components/judge_me"
+    },
+    {
+      "path": "components/hotmart"
+    },
+    {
+      "path": "components/cloudpress"
+    },
+    {
+      "path": "components/hyros"
+    },
+    {
+      "path": "components/rkvst"
+    },
+    {
+      "path": "components/chaindesk"
     }
   ]
 }
