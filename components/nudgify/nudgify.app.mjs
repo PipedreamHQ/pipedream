@@ -32,7 +32,7 @@ export default {
     async createSignUpNudge(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/sign-ups",
+        path: "/conversions",
         ...args,
       });
     },

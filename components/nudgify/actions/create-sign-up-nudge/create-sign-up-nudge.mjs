@@ -9,6 +9,12 @@ export default {
   type: "action",
   props: {
     app,
+    date: {
+      type: "string",
+      label: "Date",
+      description:
+        "The date (UTC) used to show in the Nudge how long ago the conversion took place. Format: `YYYY-MM-DD HH:MM:SS` (example: `2021-04-15 04:29:42`)",
+    },
     email: {
       type: "string",
       label: "Email",
@@ -53,16 +59,20 @@ export default {
     },
   },
   async run({ $ }) {
+    const {
+      date, email, firstName, lastName, ip, city, state, country,
+    } = this;
     const data = {
       conversions: [
         {
-          email: this.email,
-          first_name: this.firstName,
-          last_name: this.lastName,
-          ip: this.ip,
-          city: this.city,
-          state: this.state,
-          country: this.country,
+          date,
+          email,
+          first_name: firstName,
+          last_name: lastName,
+          ip,
+          city,
+          state,
+          country,
         },
       ],
     };
