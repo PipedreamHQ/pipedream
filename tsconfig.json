@@ -2558,6 +2558,9 @@
     },
     {
       "path": "components/personio"
+    },
+    {
+      "path": "components/jira_service_desk"
     }
   ]
 }
