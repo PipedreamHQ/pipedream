@@ -4,7 +4,7 @@ export default {
   key: "dbt-trigger-job-run",
   name: "Trigger Job Run",
   description: "Trigger a specified job to begin running. [See the documentation](https://docs.getdbt.com/dbt-cloud/api-v2#/operations/Trigger%20Job%20Run)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     dbt,
@@ -53,6 +53,25 @@ export default {
       optional: true,
       default: "Triggered via Pipedream",
     },
+    includeRelated: {
+      type: "string[]",
+      label: "Include Related",
+      description: "List of related fields to pull with the run",
+      options: [
+        "job",
+        "trigger",
+        "environment",
+        "repository",
+        "run_steps",
+      ],
+      optional: true,
+    },
+    steps: {
+      type: "string[]",
+      label: "Steps Override",
+      description: "Steps to override the job's default steps",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { data } = await this.dbt.triggerJobRun({
@@ -60,7 +79,13 @@ export default {
       jobId: this.jobId,
       data: {
         cause: this.cause,
+        steps_override: this.steps || undefined,
       },
+      params: this.includeRelated
+        ? {
+          include_related: this.includeRelated,
+        }
+        : {},
       $,
     });
 
