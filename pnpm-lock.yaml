@@ -3473,7 +3473,11 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0
 
-  components/onenote: {}
+  components/onenote:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/onepagecrm: {}
 
