@@ -2624,6 +2624,27 @@
     },
     {
       "path": "components/tidy"
+    },
+    {
+      "path": "components/postgrid_verify"
+    },
+    {
+      "path": "components/spreadsheet_com"
+    },
+    {
+      "path": "components/passslot"
+    },
+    {
+      "path": "components/mx_technologies"
+    },
+    {
+      "path": "components/fidel_api"
+    },
+    {
+      "path": "components/the_odds_api"
+    },
+    {
+      "path": "components/_twocaptcha"
     }
   ]
 }
