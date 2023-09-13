@@ -58,8 +58,8 @@ export default {
     getBaseUrl() {
       return `${constants.BASE_URL}${constants.VERSION_PATH}`;
     },
-    getUrl(path, url) {
-      return url || `${this.getBaseUrl()}${path}`;
+    getUrl(path) {
+      return `${this.getBaseUrl()}${path}`;
     },
     getHeaders(headers) {
       return {
@@ -69,12 +69,12 @@ export default {
       };
     },
     async makeRequest({
-      step = this, path, headers, url, summary, ...args
+      step = this, path, headers, summary, ...args
     } = {}) {
 
       const config = {
         headers: this.getHeaders(headers),
-        url: this.getUrl(path, url),
+        url: this.getUrl(path),
         ...args,
       };
 
@@ -89,6 +89,12 @@ export default {
     post(args = {}) {
       return this.makeRequest({
         method: "post",
+        ...args,
+      });
+    },
+    put(args = {}) {
+      return this.makeRequest({
+        method: "put",
         ...args,
       });
     },
