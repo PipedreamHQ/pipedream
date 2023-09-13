@@ -2621,6 +2621,9 @@
     },
     {
       "path": "components/vitel_phone"
+    },
+    {
+      "path": "components/tidy"
     }
   ]
 }
