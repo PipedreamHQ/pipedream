@@ -2558,6 +2558,72 @@
     },
     {
       "path": "components/personio"
+    },
+    {
+      "path": "components/jira_service_desk"
+    },
+    {
+      "path": "components/more_trees_"
+    },
+    {
+      "path": "components/terraform"
+    },
+    {
+      "path": "components/judge_me"
+    },
+    {
+      "path": "components/hotmart"
+    },
+    {
+      "path": "components/cloudpress"
+    },
+    {
+      "path": "components/hyros"
+    },
+    {
+      "path": "components/rkvst"
+    },
+    {
+      "path": "components/chaindesk"
+    },
+    {
+      "path": "components/httpsms"
+    },
+    {
+      "path": "components/quickmail_io"
+    },
+    {
+      "path": "components/onepage"
+    },
+    {
+      "path": "components/digitalriver"
+    },
+    {
+      "path": "components/wachete"
+    },
+    {
+      "path": "components/jobber"
+    },
+    {
+      "path": "components/nifty"
+    },
+    {
+      "path": "components/ez_texting_"
+    },
+    {
+      "path": "components/microsoft_sql_server"
+    },
+    {
+      "path": "components/little_green_light"
+    },
+    {
+      "path": "components/setmoreappointments"
+    },
+    {
+      "path": "components/vitel_phone"
+    },
+    {
+      "path": "components/tidy"
     }
   ]
 }
