@@ -1,7 +1,7 @@
 import app from "../../nudgify.app.mjs";
 
 export default {
-  key: "nudgify-create-signup-nudge",
+  key: "nudgify-create-sign-up-nudge",
   name: "Create Sign-up Nudge",
   description:
     "Creates a sign-up nudge for a user in Nudgify. [See docs here](https://www.nudgify.com/docs/knowledge-base/rest-api-for-sign-ups)",
