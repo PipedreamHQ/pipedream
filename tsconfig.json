@@ -2657,6 +2657,9 @@
     },
     {
       "path": "components/interzoid"
+    },
+    {
+      "path": "components/realgeeks"
     }
   ]
 }
