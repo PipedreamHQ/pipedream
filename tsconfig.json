@@ -2612,6 +2612,15 @@
     },
     {
       "path": "components/microsoft_sql_server"
+    },
+    {
+      "path": "components/little_green_light"
+    },
+    {
+      "path": "components/setmoreappointments"
+    },
+    {
+      "path": "components/vitel_phone"
     }
   ]
 }
