@@ -2654,6 +2654,9 @@
     },
     {
       "path": "components/pdfless"
+    },
+    {
+      "path": "components/interzoid"
     }
   ]
 }
