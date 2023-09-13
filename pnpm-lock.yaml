@@ -3303,7 +3303,11 @@ importers:
 
   components/nasdaq_data_link_time_series_and_table_data_: {}
 
-  components/nationbuilder: {}
+  components/nationbuilder:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/nectar_crm:
     dependencies:
