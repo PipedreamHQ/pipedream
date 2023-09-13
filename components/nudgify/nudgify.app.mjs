@@ -75,7 +75,7 @@ export default {
     async createPurchaseNudge(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/purchase-nudges",
+        path: "/purchases",
         ...args,
       });
     },
