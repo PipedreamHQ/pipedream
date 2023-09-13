@@ -172,11 +172,22 @@ export default {
       this.template,
     );
 
-    const templateRoles = templateRecipientsResponse.signers.map((role) => ({
-      roleName: role.roleName,
-      name: this[`${role.roleName} - Name`],
-      email: this[`${role.roleName} - Email`],
-    }));
+    const originalTabs = await this.docusign.listTemplateTabs(baseUri, this.template);
+    const tabs = this._setTemplateTabs(originalTabs, this);
+
+    const templateRoles = templateRecipientsResponse.signers.map((role, index) => {
+      const roleTabs = {};
+      Object.keys(tabs).forEach((key) => {
+        roleTabs[key] = tabs[key].filter((tab) => tab.recipientId === `${index + 1}`);
+      });
+
+      return {
+        roleName: role.roleName,
+        name: this[`${role.roleName} - Name`],
+        email: this[`${role.roleName} - Email`],
+        tabs: roleTabs,
+      };
+    });
 
     const data = {
       status: this._getStatusType(),
