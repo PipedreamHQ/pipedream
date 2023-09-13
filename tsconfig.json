@@ -2645,6 +2645,15 @@
     },
     {
       "path": "components/_twocaptcha"
+    },
+    {
+      "path": "components/postgrid"
+    },
+    {
+      "path": "components/celonis_ems"
+    },
+    {
+      "path": "components/pdfless"
     }
   ]
 }
