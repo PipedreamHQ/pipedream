@@ -1,4 +1,5 @@
 import safetyculture from "../../iauditor_by_safetyculture.app.mjs";
+import constants from "../../common/constants.mjs";
 import pickBy from "lodash.pickby";
 
 export default {
@@ -49,10 +50,7 @@ export default {
       type: "string",
       label: "Status",
       description: "Status of the user",
-      options: [
-        "active",
-        "inactive",
-      ],
+      options: constants.USER_STATUS,
       optional: true,
     },
     seatType: {

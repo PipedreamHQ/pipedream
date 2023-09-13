@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-const DEFAULT_LIMIT = 25;
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -29,7 +29,7 @@ export default {
         if (!groupId) {
           return;
         }
-        const limit = DEFAULT_LIMIT;
+        const limit = constants.DEFAULT_LIMIT;
         const params = {
           limit,
           offset: page * limit,
@@ -60,6 +60,15 @@ export default {
         })) || [];
       },
     },
+    inspectionId: {
+      type: "string",
+      label: "Inspection",
+      description: "Identifier of an inspection",
+      async options() {
+        const { audits } = await this.listInspections();
+        return audits?.map(({ audit_id: id }) => id ) || [];
+      },
+    },
     firstName: {
       type: "string",
       label: "First Name",
@@ -79,10 +88,7 @@ export default {
       type: "string",
       label: "Seat Type",
       description: "Seat type of the user",
-      options: [
-        "full",
-        "free",
-      ],
+      options: constants.SEAT_TYPES,
       optional: true,
     },
   },
@@ -144,6 +150,20 @@ export default {
         ...args,
       });
     },
+    listInspections(args = {}) {
+      return this._makeRequest({
+        path: "/audits/search",
+        ...args,
+      });
+    },
+    generatePdfReport({
+      inspectionId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/audits/${inspectionId}/web_report_link`,
+        ...args,
+      });
+    },
     createUser(args = {}) {
       return this._makeRequest({
         path: "/users",
@@ -154,6 +174,22 @@ export default {
     createInspection(args = {}) {
       return this._makeRequest({
         path: "/audits",
+        method: "POST",
+        ...args,
+      });
+    },
+    shareInspection({
+      inspectionId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/audits/${inspectionId}/share`,
+        method: "POST",
+        ...args,
+      });
+    },
+    exportInspection(args = {}) {
+      return this._makeRequest({
+        path: "/inspection/v1/export",
         method: "POST",
         ...args,
       });

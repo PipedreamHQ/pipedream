@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -13,8 +14,13 @@ export default {
     getEvent() {
       return "TRIGGER_EVENT_ACTION_CREATED";
     },
-    generateMeta() {
-
+    generateMeta(action) {
+      return {
+        id: action.action_id,
+        summary: `New action "${action.action_id}"`,
+        ts: Date.parse(action.created_at),
+      };
     },
   },
+  sampleEmit,
 };
