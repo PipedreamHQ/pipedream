@@ -5,7 +5,7 @@ export default {
   key: "screenshotone-take-animated-screenshot",
   name: "Take Animated Screenshot",
   description: "Takes and returns an animated screenshot of the given site with specified options. [See the documentation](https://screenshotone.com/docs/animated-screenshots/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
