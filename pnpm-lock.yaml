@@ -751,6 +751,8 @@ importers:
 
   components/cflow: {}
 
+  components/chaindesk: {}
+
   components/chaport: {}
 
   components/chargebee:
@@ -913,6 +915,8 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.0
+
+  components/cloudpress: {}
 
   components/cloudtalk: {}
 
@@ -1249,6 +1253,8 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
+  components/digitalriver: {}
+
   components/discord:
     dependencies:
       '@pipedream/platform':
@@ -1532,6 +1538,8 @@ importers:
         version: 1.5.1
 
   components/ez_texting: {}
+
+  components/ez_texting_: {}
 
   components/ezeep_blue: {}
 
@@ -2287,6 +2295,8 @@ importers:
 
   components/hotjar: {}
 
+  components/hotmart: {}
+
   components/hotspotsystem:
     dependencies:
       '@pipedream/platform':
@@ -2307,6 +2317,8 @@ importers:
       object-hash:
         specifier: ^3.0.0
         version: 3.0.0
+
+  components/httpsms: {}
 
   components/hub_planner: {}
 
@@ -2348,6 +2360,8 @@ importers:
         version: 1.5.1
 
   components/hygraph: {}
+
+  components/hyros: {}
 
   components/iauditor_by_safetyculture: {}
 
@@ -2509,6 +2523,10 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
+  components/jira_service_desk: {}
+
+  components/jobber: {}
+
   components/jobnimbus:
     dependencies:
       '@pipedream/platform':
@@ -2538,6 +2556,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/judge_me: {}
 
   components/jumpseller: {}
 
@@ -2754,6 +2774,8 @@ importers:
         version: 1.5.1
 
   components/listen_notes: {}
+
+  components/little_green_light: {}
 
   components/liveagent:
     dependencies:
@@ -3094,6 +3116,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
+  components/microsoft_sql_server: {}
+
   components/microsoft_teams:
     dependencies:
       '@microsoft/microsoft-graph-client':
@@ -3194,6 +3218,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/more_trees_: {}
 
   components/motion:
     dependencies:
@@ -3333,6 +3359,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/nifty: {}
 
   components/niftyimages:
     dependencies:
@@ -3478,6 +3506,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/onepage: {}
 
   components/onepagecrm: {}
 
@@ -4074,6 +4104,8 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
+  components/quickmail_io: {}
+
   components/quipu:
     dependencies:
       '@pipedream/platform':
@@ -4315,6 +4347,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.5.1
+
+  components/rkvst: {}
 
   components/roboflow:
     dependencies:
@@ -4620,6 +4654,8 @@ importers:
         version: 1.5.1
 
   components/serwersms_pl: {}
+
+  components/setmoreappointments: {}
 
   components/seven: {}
 
@@ -5254,6 +5290,8 @@ importers:
 
   components/terminus_app: {}
 
+  components/terraform: {}
+
   components/testmonitor:
     dependencies:
       '@pipedream/platform':
@@ -5326,6 +5364,8 @@ importers:
       '@pipedream/platform':
         specifier: ^0.10.0
         version: 0.10.0
+
+  components/tidy: {}
 
   components/tidycal:
     dependencies:
@@ -5718,6 +5758,8 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
 
+  components/vitel_phone: {}
+
   components/vivifyscrum: {}
 
   components/vk: {}
@@ -5735,6 +5777,8 @@ importers:
   components/vosfactures: {}
 
   components/vtiger_crm: {}
+
+  components/wachete: {}
 
   components/waitwhile:
     dependencies:

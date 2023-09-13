@@ -82,12 +82,6 @@ export default {
         "blockTrackers",
       ],
     },
-    blockChat: {
-      propDefinition: [
-        app,
-        "blockChat",
-      ],
-    },
     delay: {
       propDefinition: [
         app,
@@ -105,7 +99,6 @@ export default {
       block_cookie_banners: this.blockCookieBanners,
       block_ads: this.blockAds,
       block_trackers: this.blockTrackers,
-      block_chat: this.blockChat,
       delay: this.delay,
       scroll_delay: this.scrollDelay,
       scroll_duration: this.scrollDuration,
