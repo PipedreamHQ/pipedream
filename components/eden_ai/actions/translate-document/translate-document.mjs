@@ -81,9 +81,10 @@ export default {
         }
       });
 
-      formData.append("file", fs.createReadStream(file.startsWith("/tmp/")
+      const content = fs.createReadStream(file.includes("tmp/")
         ? file
-        : `/tmp/${file}`));
+        : `/tmp/${file}`);
+      formData.append("file", content);
       headers = {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
       };
