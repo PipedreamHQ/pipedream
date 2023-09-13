@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/terraform",
+  "version": "0.0.1",
+  "description": "Pipedream Terraform Components",
+  "main": "dist/app/terraform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "terraform"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/terraform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

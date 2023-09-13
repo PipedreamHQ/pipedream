@@ -751,6 +751,8 @@ importers:
 
   components/cflow: {}
 
+  components/chaindesk: {}
+
   components/chaport: {}
 
   components/chargebee:
@@ -913,6 +915,8 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.0
+
+  components/cloudpress: {}
 
   components/cloudtalk: {}
 
@@ -1249,6 +1253,8 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
+  components/digitalriver: {}
+
   components/discord:
     dependencies:
       '@pipedream/platform':
@@ -1347,6 +1353,15 @@ importers:
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
+      got:
+        specifier: ^13.0.0
+        version: 13.0.0
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
+      stream:
+        specifier: ^0.0.2
+        version: 0.0.2
 
   components/dribbble:
     dependencies:
@@ -1532,6 +1547,8 @@ importers:
         version: 1.5.1
 
   components/ez_texting: {}
+
+  components/ez_texting_: {}
 
   components/ezeep_blue: {}
 
@@ -2287,6 +2304,8 @@ importers:
 
   components/hotjar: {}
 
+  components/hotmart: {}
+
   components/hotspotsystem:
     dependencies:
       '@pipedream/platform':
@@ -2307,6 +2326,8 @@ importers:
       object-hash:
         specifier: ^3.0.0
         version: 3.0.0
+
+  components/httpsms: {}
 
   components/hub_planner: {}
 
@@ -2348,6 +2369,8 @@ importers:
         version: 1.5.1
 
   components/hygraph: {}
+
+  components/hyros: {}
 
   components/iauditor_by_safetyculture: {}
 
@@ -2509,6 +2532,10 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
+  components/jira_service_desk: {}
+
+  components/jobber: {}
+
   components/jobnimbus:
     dependencies:
       '@pipedream/platform':
@@ -2538,6 +2565,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/judge_me: {}
 
   components/jumpseller: {}
 
@@ -2754,6 +2783,8 @@ importers:
         version: 1.5.1
 
   components/listen_notes: {}
+
+  components/little_green_light: {}
 
   components/liveagent:
     dependencies:
@@ -3094,6 +3125,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
+  components/microsoft_sql_server: {}
+
   components/microsoft_teams:
     dependencies:
       '@microsoft/microsoft-graph-client':
@@ -3194,6 +3227,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/more_trees_: {}
 
   components/motion:
     dependencies:
@@ -3333,6 +3368,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/nifty: {}
 
   components/niftyimages:
     dependencies:
@@ -3477,7 +3514,13 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0
 
-  components/onenote: {}
+  components/onenote:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+
+  components/onepage: {}
 
   components/onepagecrm: {}
 
@@ -3723,6 +3766,8 @@ importers:
       '@pipedream/types':
         specifier: ^0.1.4
         version: 0.1.6
+
+  components/personio: {}
 
   components/phantombuster:
     dependencies:
@@ -4000,7 +4045,11 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/project_broadcast: {}
+  components/project_broadcast:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/propelauth: {}
 
@@ -4067,6 +4116,8 @@ importers:
       '@pipedream/types':
         specifier: ^0.1.4
         version: 0.1.6
+
+  components/quickmail_io: {}
 
   components/quipu:
     dependencies:
@@ -4292,7 +4343,11 @@ importers:
 
   components/rewardful: {}
 
-  components/rex: {}
+  components/rex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/ringcentral:
     dependencies:
@@ -4305,6 +4360,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.5.1
+
+  components/rkvst: {}
 
   components/roboflow:
     dependencies:
@@ -4610,6 +4667,8 @@ importers:
         version: 1.5.1
 
   components/serwersms_pl: {}
+
+  components/setmoreappointments: {}
 
   components/seven: {}
 
@@ -5244,6 +5303,8 @@ importers:
 
   components/terminus_app: {}
 
+  components/terraform: {}
+
   components/testmonitor:
     dependencies:
       '@pipedream/platform':
@@ -5255,7 +5316,11 @@ importers:
 
   components/tettra: {}
 
-  components/textcortex: {}
+  components/textcortex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/textgain: {}
 
@@ -5313,6 +5378,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/tidy: {}
+
   components/tidycal:
     dependencies:
       '@pipedream/platform':
@@ -5336,7 +5403,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/timeular: {}
+  components/timeular:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/tisane_labs:
     dependencies:
@@ -5700,6 +5771,8 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
 
+  components/vitel_phone: {}
+
   components/vivifyscrum: {}
 
   components/vk: {}
@@ -5717,6 +5790,8 @@ importers:
   components/vosfactures: {}
 
   components/vtiger_crm: {}
+
+  components/wachete: {}
 
   components/waitwhile:
     dependencies:
@@ -17730,6 +17805,23 @@ packages:
   /got@12.6.1:
     resolution: {integrity: sha512-mThBblvlAF1d4O5oqyvN+ZxLAYwIJK7bpMxgYqPD9okW0C3qm5FFn7k811QrcuEBwaogR3ngOFoCfs6mRv7teQ==}
     engines: {node: '>=14.16'}
+    dependencies:
+      '@sindresorhus/is': 5.6.0
+      '@szmarczak/http-timer': 5.0.1
+      cacheable-lookup: 7.0.0
+      cacheable-request: 10.2.13
+      decompress-response: 6.0.0
+      form-data-encoder: 2.1.4
+      get-stream: 6.0.1
+      http2-wrapper: 2.2.0
+      lowercase-keys: 3.0.0
+      p-cancelable: 3.0.0
+      responselike: 3.0.0
+    dev: false
+
+  /got@13.0.0:
+    resolution: {integrity: sha512-XfBk1CxOOScDcMr9O1yKkNaQyy865NbYs+F7dr4H0LZMVgCj2Le59k6PqbNHoL5ToeaEQUYh6c6yMfVcc6SJxA==}
+    engines: {node: '>=16'}
     dependencies:
       '@sindresorhus/is': 5.6.0
       '@szmarczak/http-timer': 5.0.1
