@@ -4,9 +4,30 @@ export default {
       accountId: this.account,
     });
     const tabs = await this.docusign.listTemplateTabs(baseUri, this.template);
-    return this._buildTemplateTabsProps(tabs);
+    const templateRecipientsResponse = await this.docusign.listTemplateRecipients(
+      baseUri,
+      this.template,
+    );
+
+    const props = {};
+    this._buildRecipientsProps(templateRecipientsResponse, props);
+    return this._buildTemplateTabsProps(tabs, props);
   },
   methods: {
+    _buildRecipientsProps(templateRecipientsResponse, props) {
+      templateRecipientsResponse.signers.forEach((signer) => {
+        props[signer.roleName + " - Name"] = {
+          type: "string",
+          label: signer.roleName + " - Name",
+          description: `The name of the ${signer.roleName} recipient`,
+        };
+        props[signer.roleName + " - Email"] = {
+          type: "string",
+          label: signer.roleName + " - Email",
+          description: `The email of the ${signer.roleName} recipient`,
+        };
+      });
+    },
     _getStatusType() {
       throw new Error("_getStatusType is not defined");
     },
@@ -146,25 +167,27 @@ export default {
       accountId: this.account,
     });
 
-    const originalTabs = await this.docusign.listTemplateTabs(baseUri, this.template);
-    const tabs = this._setTemplateTabs(originalTabs, this);
+    const templateRecipientsResponse = await this.docusign.listTemplateRecipients(
+      baseUri,
+      this.template,
+    );
+
+    const templateRoles = templateRecipientsResponse.signers.map((role) => ({
+      roleName: role.roleName,
+      name: this[`${role.roleName} - Name`],
+      email: this[`${role.roleName} - Email`],
+    }));
 
     const data = {
       status: this._getStatusType(),
       templateId: this.template,
-      templateRoles: [
-        {
-          roleName: this.role,
-          name: this.recipientName,
-          email: this.recipientEmail,
-          tabs,
-        },
-      ],
+      templateRoles: templateRoles,
       emailSubject: this.emailSubject,
     };
     if (this.emailBlurb) {
       data.emailBlurb = this.emailBlurb;
     }
+
     const resp = await this.docusign.createEnvelope({
       $,
       baseUri,
