@@ -1,5 +1,19 @@
 import app from "../../eden_ai.app.mjs";
 
+const options = [
+  "amazon",
+  "connexun",
+  "google",
+  "ibm",
+  "lettria",
+  "microsoft",
+  "emvista",
+  "oneai",
+  "openai",
+  "tenstorrent",
+  "sapling",
+];
+
 export default {
   key: "eden_ai-analyze-sentiment-in-text",
   name: "Analyze Sentiment in Text",
@@ -19,12 +33,14 @@ export default {
         app,
         "providers",
       ],
+      options,
     },
     fallbackProviders: {
       propDefinition: [
         app,
         "fallbackProviders",
       ],
+      options,
     },
     showOriginalResponse: {
       propDefinition: [

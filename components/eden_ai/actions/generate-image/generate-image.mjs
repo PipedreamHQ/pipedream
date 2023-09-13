@@ -1,5 +1,12 @@
 import app from "../../eden_ai.app.mjs";
 
+const options = [
+  "deepai",
+  "openai",
+  "stabilityai",
+  "replicate",
+];
+
 export default {
   key: "eden_ai-generate-image",
   name: "Generate Image",
@@ -39,12 +46,14 @@ export default {
         app,
         "providers",
       ],
+      options,
     },
     fallbackProviders: {
       propDefinition: [
         app,
         "fallbackProviders",
       ],
+      options,
     },
     showOriginalResponse: {
       propDefinition: [

@@ -1,5 +1,10 @@
 import app from "../../eden_ai.app.mjs";
 
+const options = [
+  "originalityai",
+  "sapling",
+];
+
 export default {
   key: "eden_ai-detect-ai-content",
   name: "Detect AI Content",
@@ -20,12 +25,14 @@ export default {
         app,
         "providers",
       ],
+      options,
     },
     fallbackProviders: {
       propDefinition: [
         app,
         "fallbackProviders",
       ],
+      options,
     },
     showOriginalResponse: {
       propDefinition: [

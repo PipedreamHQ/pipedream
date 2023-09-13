@@ -3,6 +3,11 @@ import { ConfigurationError } from "@pipedream/platform";
 import FormData from "form-data";
 import fs from "fs";
 
+const options = [
+  "deepl",
+  "google",
+];
+
 export default {
   key: "eden_ai-translate-document",
   name: "Translate Document",
@@ -16,12 +21,14 @@ export default {
         app,
         "providers",
       ],
+      options,
     },
     fallbackProviders: {
       propDefinition: [
         app,
         "fallbackProviders",
       ],
+      options,
     },
     showOriginalResponse: {
       propDefinition: [
