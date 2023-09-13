@@ -7,26 +7,14 @@ export const getFilePath = (file) => {
   return `/tmp/${file}`;
 };
 
-export const parseArray = (array, v) => {
-  if (v) {
-    if (Array.isArray(array)) {
-      return JSON.stringify(array.map((item) => {
-        if (typeof item != "object") {
-          return JSON.parse(item);
-        }
-        return item;
-      }));
-    }
-    return array;
-  } else {
-    if (Array.isArray(array)) {
-      return array.map((item) => {
-        if (typeof item != "object") {
-          JSON.parse(item);
-        }
-        return item;
-      });
-    }
-    return JSON.parse(array);
+export const parseArray = (array) => {
+  if (Array.isArray(array)) {
+    return array.map((item) => {
+      if (typeof item != "object") {
+        JSON.parse(item);
+      }
+      return item;
+    });
   }
+  return JSON.parse(array);
 };
