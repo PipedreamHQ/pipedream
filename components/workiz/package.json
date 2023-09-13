@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/workiz",
+  "version": "0.0.1",
+  "description": "Pipedream Workiz Components",
+  "main": "dist/app/workiz.app.mjs",
+  "keywords": [
+    "pipedream",
+    "workiz"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/workiz",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

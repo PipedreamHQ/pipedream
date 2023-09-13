@@ -78,6 +78,9 @@ export default {
     });
 
     if (!isValid) {
+      this.http.respond({
+        status: 401,
+      });
       console.log(`Ignoring webhook event with domain: ${domain} and topic: ${topic}`);
       return;
     }

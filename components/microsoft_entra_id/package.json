@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/microsoft_entra_id",
+  "version": "0.1.1",
+  "description": "Pipedream Microsoft Entra ID Components",
+  "main": "microsoft_entra_id.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_entra_id"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_entra_id",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "lodash.pickby": "^4.6.0"
+  }
+}

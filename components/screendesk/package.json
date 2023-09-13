@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/screendesk",
+  "version": "0.0.1",
+  "description": "Pipedream Screendesk Components",
+  "main": "dist/app/screendesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "screendesk"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/screendesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
