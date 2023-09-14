@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/hotmart",
+  "version": "0.0.1",
+  "description": "Pipedream Hotmart Components",
+  "main": "dist/app/hotmart.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hotmart"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/hotmart",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

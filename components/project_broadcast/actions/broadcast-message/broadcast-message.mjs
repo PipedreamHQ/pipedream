@@ -5,13 +5,14 @@ export default {
   name: "Broadcast Message",
   description: "Sends a broadcast message to a list of contacts. [See the documentation](https://www.projectbroadcast.com/apidoc/#api-Broadcast_Messages-CreateBroadcastMessage)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     scheduledAt: {
       type: "string",
       label: "Scheduled At",
       description: "Date/Time to send message in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timestamp format. Example: `2023-01-01T00:00:00.000Z`. Not providing a runAt will schedule the message for immediate delivery.",
+      optional: true,
     },
     text: {
       type: "string",
