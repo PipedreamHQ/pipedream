@@ -80,7 +80,7 @@ apps = [
         'instructions': 'how to get webhooks for every new shipment status',
         'key': 'shipcloud-new-shipment-status',
         'common-files': [
-            'shipcloud/shipcloud.app.mjs',
+            'shipcloud/app/shipcloud.app.ts',
             'shipcloud/common/requestParams.ts',
             'shipcloud/common/responseSchemas.ts',
             'shipcloud/common/constants.ts',

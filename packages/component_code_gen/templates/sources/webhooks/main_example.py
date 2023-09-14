@@ -42,12 +42,12 @@ export default {
       }
     },
     async activate() {
-      const hookId = await this.createWebhook(opts)
+      const hookId = await this.github.createWebhook(opts)
       this._setWebhookId(hookId)
     },
     async deactivate() {
       const id = this._getWebhookId()
-      await this.deleteWebhook(id)
+      await this.github.deleteWebhook(id)
     },
   },
   async run(event) {

@@ -16,6 +16,10 @@ def run():
 
     test_type = args.type
 
+    output_folder = f'./tests/{test_type}/output'
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
     apps = importlib.import_module(f'tests.{test_type}.apps')
 
     for app in apps.apps:
@@ -28,8 +32,8 @@ def run():
                 with open(f'../../components/{common_file}', 'r') as f:
                     prompt += f'\n\n{f.read()}'
 
-        result = main(test_type[:-1], app['app'], prompt, verbose=True)
-        with open(f'./tests/{test_type}/output/{app["key"]}.mjs', 'w') as f:
+        result = main(test_type[:-1], app['app'], prompt, tries=1, verbose=True)
+        with open(f'{output_folder}/{app["key"]}.mjs', 'w') as f:
             f.write(result)
 
 
