@@ -4,7 +4,7 @@ export default {
   key: "dbt-get-run",
   name: "Get Run",
   description: "Retrieve information about a run. [See the documentation](https://docs.getdbt.com/dbt-cloud/api-v2#/operations/Retrieve%20Run)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     dbt,
@@ -65,10 +65,12 @@ export default {
       accountId: this.accountId,
       runId: this.runId,
       params: this.includeRelated
-        ? {
-          include_related: this.includeRelated,
+        ?
+        {
+          include_related: JSON.stringify(this.includeRelated),
         }
-        : {},
+        :
+        {},
       $,
     });
 
