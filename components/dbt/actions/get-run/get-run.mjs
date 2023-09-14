@@ -65,10 +65,12 @@ export default {
       accountId: this.accountId,
       runId: this.runId,
       params: this.includeRelated
-        ? {
-          include_related: this.includeRelated,
+        ?
+        {
+          include_related: JSON.stringify(this.includeRelated),
         }
-        : {},
+        :
+        {},
       $,
     });
 
