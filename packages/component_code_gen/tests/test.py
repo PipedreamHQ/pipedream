@@ -30,7 +30,7 @@ def run():
             prompt += '\n\n## Common Files\n'
             for common_file in app['common-files']:
                 with open(f'../../components/{common_file}', 'r') as f:
-                    prompt += f'\n\n{f.read()}'
+                    prompt += f'\n\n{common_file}\n\n{f.read()}'
 
         result = main(test_type[:-1], app['app'], prompt, tries=1, verbose=True)
         with open(f'{output_folder}/{app["key"]}.mjs', 'w') as f:

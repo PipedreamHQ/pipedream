@@ -68,7 +68,10 @@ def format_template(text):
 
 def format_result(result):
     if '```' in result:
-        result = result.split('```javascript')[1].split('```')[0].strip()
+        if '```javascript' in result:
+            result = result.split('```javascript')[1].split('```')[0].strip()
+        else:
+            result = result.split('```')[1].split('```')[0].strip()
     return result
 
 
@@ -90,7 +93,7 @@ def ask_agent(user_prompt, docs, templates, auth_example):
 
 
 def no_docs(app, prompt, templates, auth_example):
-    user_prompt = f"{prompt}.The app is {app}."
+    user_prompt = f"The app name is {app}.\n{prompt}"
     system_instructions = format_template(templates.system_instructions(auth_example))
 
     result = get_llm()(messages=[

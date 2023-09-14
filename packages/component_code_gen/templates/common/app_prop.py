@@ -9,7 +9,7 @@ export default {
     },
   }
   // the rest of the component ...
-})
+}
 ```
 
 This lets the user connect their app account to the step, authorizing requests to the app API."""
