@@ -1,11 +1,16 @@
 import app from "../../eden_ai.app.mjs";
 
+const options = [
+  "originalityai",
+  "sapling",
+];
+
 export default {
   key: "eden_ai-detect-ai-content",
   name: "Detect AI Content",
   description:
     "Detects AI content in the provided text. [See the documentation](https://docs.edenai.co/reference/text_ai_detection_create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -20,12 +25,14 @@ export default {
         app,
         "providers",
       ],
+      options,
     },
     fallbackProviders: {
       propDefinition: [
         app,
         "fallbackProviders",
       ],
+      options,
     },
     showOriginalResponse: {
       propDefinition: [
