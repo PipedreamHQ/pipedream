@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/setmoreappointments",
+  "version": "0.0.1",
+  "description": "Pipedream Setmore Components",
+  "main": "dist/app/setmoreappointments.app.mjs",
+  "keywords": [
+    "pipedream",
+    "setmoreappointments"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/setmoreappointments",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
