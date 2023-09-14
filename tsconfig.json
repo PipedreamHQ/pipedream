@@ -2660,6 +2660,9 @@
     },
     {
       "path": "components/realgeeks"
+    },
+    {
+      "path": "components/testmo"
     }
   ]
 }
