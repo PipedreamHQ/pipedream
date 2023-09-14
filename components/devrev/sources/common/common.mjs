@@ -35,9 +35,26 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
+    _getChallenge() {
+      return this.db.get("challenge");
+    },
+    _setChallenge(challenge) {
+      this.db.set("challenge", challenge);
+    },
     emitEvent(item) {
       const meta = this.generateMeta(item);
       this.$emit(item, meta);
+    },
+    isRelevant() {
+      return true;
+    },
+    respond() {
+      this.http.respond({
+        status: 200,
+        body: {
+          challenge: this._getChallenge(),
+        },
+      });
     },
     getEventTypes() {
       throw new Error("getEventTypes is not implemented");
@@ -53,16 +70,16 @@ export default {
     const { body } = event;
 
     if (body?.type === "verify") {
-      this.http.respond({
-        status: 200,
-        body: {
-          challenge: body.verify.challenge,
-        },
-      });
+      this._setChallenge(body.verify.challenge);
+      this.respond();
       return;
     }
 
+    this.respond();
+
     const item = this.getItem(body);
-    this.emitEvent(item);
+    if (this.isRelevant(item)) {
+      this.emitEvent(item);
+    }
   },
 };
