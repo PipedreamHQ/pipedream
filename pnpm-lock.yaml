@@ -3313,7 +3313,11 @@ importers:
 
   components/nasdaq_data_link_time_series_and_table_data_: {}
 
-  components/nationbuilder: {}
+  components/nationbuilder:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/nectar_crm:
     dependencies:
@@ -4194,6 +4198,8 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
+  components/realgeeks: {}
+
   components/realphonevalidation: {}
 
   components/rebrandly:
@@ -4557,7 +4563,11 @@ importers:
         specifier: ^0.12.5
         version: 0.12.5
 
-  components/search_api: {}
+  components/search_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/segment:
     dependencies:

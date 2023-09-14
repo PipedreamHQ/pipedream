@@ -58,12 +58,6 @@ export default {
       description: "Whether to block trackers in the screenshot",
       optional: true,
     },
-    blockChat: {
-      type: "boolean",
-      label: "Block Chat",
-      description: "Whether to block chat in the screenshot",
-      optional: true,
-    },
     delay: {
       type: "integer",
       label: "Delay",

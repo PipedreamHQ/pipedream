@@ -70,7 +70,7 @@ export default {
         if (err.code === "ENOTFOUND") {
           // Last attempt to connect to the server
           const url = this._getConnectionUrl(false);
-          return MongoClient.connect(url);
+          return await MongoClient.connect(url);
         }
         throw err;
       }
