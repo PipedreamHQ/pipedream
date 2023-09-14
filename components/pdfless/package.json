@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/pdfless",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Pdfless Components",
-  "main": "dist/app/pdfless.app.mjs",
+  "main": "pdfless.app.mjs",
   "keywords": [
     "pipedream",
     "pdfless"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/pdfless",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
