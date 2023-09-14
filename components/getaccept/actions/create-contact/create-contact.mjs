@@ -101,7 +101,6 @@ export default {
       },
     });
 
-    console.log("response: ", response);
 
     $.export("$summary", `A new contact with Id: ${response.contact_id} was successfully created!`);
     return response;
