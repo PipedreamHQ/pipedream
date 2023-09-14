@@ -124,34 +124,51 @@ export default {
         $,
       });
     },
-    async chunkFile({
-      file, outputDir,
-    }) {
-      const ffmpegPath = ffmpegInstaller.path;
-      const ext = extname(file);
+    async function chunkFile({ file, outputDir }) {
+    const ffmpegPath = ffmpegInstaller.path;
+    const ext = extname(file);
 
-      const fileSizeInMB = fs.statSync(file).size / (1024 * 1024);
-      const numberOfChunks = Math.ceil(fileSizeInMB / 24);
-
-      if (numberOfChunks === 1) {
+    const fileSizeInMB = fs.statSync(file).size / (1024 * 1024);
+    
+    let numberOfChunks = Math.ceil(fileSizeInMB / 23);
+    
+    if (numberOfChunks === 1) {
         await execAsync(`cp "${file}" "${outputDir}/chunk-000${ext}"`);
         return;
-      }
+    }
 
-      const { stdout } = await execAsync(`${ffmpegPath} -i "${file}" 2>&1 | grep "Duration"`);
-      const duration = stdout.match(/\d{2}:\d{2}:\d{2}\.\d{2}/s)[0];
-      const [
-        hours,
-        minutes,
-        seconds,
-      ] = duration.split(":").map(parseFloat);
+    const { stdout } = await execAsync(`${ffmpegPath} -i "${file}" 2>&1 | grep "Duration"`);
+    const duration = stdout.match(/\d{2}:\d{2}:\d{2}\.\d{2}/s)[0];
+    const [ hours, minutes, seconds ] = duration.split(":").map(parseFloat);
 
-      const totalSeconds = (hours * 60 * 60) + (minutes * 60) + seconds;
-      const segmentTime = Math.ceil(totalSeconds / numberOfChunks);
+    let totalSeconds = (hours * 60 * 60) + (minutes * 60) + seconds;
+    let segmentTime = Math.ceil(totalSeconds / numberOfChunks);
+    
+    // Re-chunking loop to ensure each chunk is less than or equal to 25MB
+    let allChunksValid = false;
+    while (!allChunksValid) {
+        const command = `${ffmpegPath} -i "${file}" -f segment -segment_time ${segmentTime} -c copy "${outputDir}/chunk-%03d${ext}"`;
+        await execAsync(command);
 
-      const command = `${ffmpegPath} -i "${file}" -f segment -segment_time ${segmentTime} -c copy "${outputDir}/chunk-%03d${ext}"`;
-      await execAsync(command);
-    },
+        allChunksValid = true;
+        for (let i = 0; i < numberOfChunks; i++) {
+            const chunkPath = `${outputDir}/chunk-${String(i).padStart(3, '0')}${ext}`;
+            const chunkSizeInMB = fs.statSync(chunkPath).size / (1024 * 1024);
+
+            if (chunkSizeInMB > 25) {
+                // Adjust segmentTime slightly downward
+                segmentTime -= 1;
+                allChunksValid = false;
+
+                // Clean up the previously generated chunks
+                for (let j = 0; j < numberOfChunks; j++) {
+                    fs.unlinkSync(`${outputDir}/chunk-${String(j).padStart(3, '0')}${ext}`);
+                }
+                break; // Break out of the chunk size checking loop to start re-chunking
+            }
+        }
+    }
+},
     transcribeFiles({
       files, outputDir, $,
     }) {
