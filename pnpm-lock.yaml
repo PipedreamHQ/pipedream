@@ -5331,6 +5331,8 @@ importers:
 
   components/terraform: {}
 
+  components/testmo: {}
+
   components/testmonitor:
     dependencies:
       '@pipedream/platform':
