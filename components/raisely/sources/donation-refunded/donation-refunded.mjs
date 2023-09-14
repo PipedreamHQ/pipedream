@@ -3,18 +3,42 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   key: "raisely-donation-refunded",
-  name: "Donation Refunded (Instant)",
+  name: "Donation Refunded",
   description: "Emit new event when a donation has been refunded.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    campaignId: {
+      propDefinition: [
+        common.props.raisely,
+        "campaignId",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
-    getEvent() {
-      return "donation.refunded";
+    getResourceFn() {
+      return this.raisely.listDonations;
     },
-    generateMeta() {
-
+    getParams() {
+      return {
+        campaign: this.campaignId,
+      };
+    },
+    getTsField() {
+      return "updatedAt";
+    },
+    isRelevant(donation) {
+      return donation.status === "REFUNDED" && (!this.campaignId || (this.campaignId === donation.campaignUuid));
+    },
+    generateMeta(donation) {
+      return {
+        id: donation.uuid,
+        summary: `New Donation Refunded "${donation.uuid}"`,
+        ts: Date.parse(donation[this.getTsField()]),
+      };
     },
   },
 };

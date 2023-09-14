@@ -1,68 +1,73 @@
 import raisely from "../../raisely.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
     raisely,
     db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    campaignId: {
-      propDefinition: [
-        raisely,
-        "campaignId",
-      ],
-    },
-  },
-  hooks: {
-    async activate() {
-      const data = {
-        data: {
-          events: [
-            this.getEvent(),
-          ],
-          url: this.http.endpoint,
-        },
-      };
-      if (this.campaignId) {
-        data.data.campaignUuid = this.campaignId;
-      }
-      const webhook = await this.raisely.createWebhook({
-        data,
-      });
-      if (webhook?.data && webhook?.data?.uuid) {
-        this._setHookId(webhook?.data?.uuid);
-      }
-    },
-    async deactivate() {
-      const hookId = this._getHookId();
-      if (!hookId) {
-        return;
-      }
-      await this.raisely.deleteWebhook({
-        hookId,
-      });
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
   },
   methods: {
-    _getHookId() {
-      return this.db.get("hookId");
+    _getLastTs() {
+      return this.db.get("lastTs") || 0;
     },
-    _setHookId(hookId) {
-      this.db.set("hookId", hookId);
+    _setLastTs(lastTs) {
+      this.db.set("lastTs", lastTs);
     },
-    getEvent() {
-      throw new Error("getEvent is not implemented");
+    getParams() {
+      return {};
+    },
+    isRelevant() {
+      return true;
+    },
+    getTsField() {
+      throw new Error("getTsField is not implemented");
+    },
+    getResourceFn() {
+      throw new Error("getResourceFn is not implemented");
     },
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
   },
-  async run(event) {
-    this.http.respond({
-      status: 200,
+  async run() {
+    const lastTs = this._getLastTs();
+    let maxTs = lastTs;
+    const tsField = this.getTsField();
+    const params = this.getParams();
+
+    const items = this.raisely.paginate({
+      resourceFn: this.getResourceFn(),
+      args: {
+        params: {
+          ...params,
+          sort: tsField,
+          order: "desc",
+        },
+      },
     });
-    console.log(event);
+
+    for await (const item of items) {
+      const ts = Date.parse(item[tsField]);
+      if (ts > lastTs) {
+        if (this.isRelevant(item)) {
+          const meta = this.generateMeta(item);
+          this.$emit(item, meta);
+        }
+        if (ts > maxTs) {
+          maxTs = ts;
+        }
+      }
+      else {
+        break;
+      }
+    }
+
+    this._setLastTs(maxTs);
   },
 };

@@ -71,6 +71,18 @@ export default {
         ...args,
       });
     },
+    listDonations(args = {}) {
+      return this._makeRequest({
+        path: "/donations",
+        ...args,
+      });
+    },
+    listUsers(args = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...args,
+      });
+    },
     createOrUpdateUser(args = {}) {
       return this._makeRequest({
         path: "/users",
@@ -78,12 +90,28 @@ export default {
         ...args,
       });
     },
-    createDonation(args = {}) {
-      return this._makeRequest({
-        path: "/donations",
-        method: "POST",
+    async *paginate({
+      resourceFn, args = {},
+    }) {
+      const limit = constants.DEFAULT_LIMIT;
+      let total = 0;
+      args = {
         ...args,
-      });
+        params: {
+          ...args.params,
+          limit,
+          offset: 0,
+        },
+      };
+
+      do {
+        const { data } = await resourceFn(args);
+        for (const item of data) {
+          yield item;
+        }
+        total = data?.length;
+        args.params.offset += limit;
+      } while (total === limit);
     },
   },
 };
