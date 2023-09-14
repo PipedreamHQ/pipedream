@@ -3,7 +3,7 @@ import app from "../../pingbell.app.mjs";
 export default {
   name: "Send Notification",
   version: "0.0.1",
-  key: "pingbell-create-client",
+  key: "pingbell-send-notification",
   description: "Sends a notification to a Pingbell. [See the documentation](https://pingbell.io/docs/pingbell-api/post-notifications/)",
   type: "action",
   props: {
