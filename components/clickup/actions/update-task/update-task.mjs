@@ -108,11 +108,11 @@ export default {
         : undefined,
     };
 
-    if (isNaN(data.due_date)) {
+    if (data.due_date && isNaN(data.due_date)) {
       throw new ConfigurationError("Due date is not a valid date");
     }
 
-    if (isNaN(data.start_date)) {
+    if (data.start_date && isNaN(data.start_date)) {
       throw new ConfigurationError("Start date is not a valid date");
     }
 
