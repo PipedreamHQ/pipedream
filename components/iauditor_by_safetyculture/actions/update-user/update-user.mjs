@@ -39,13 +39,6 @@ export default {
       ],
       optional: true,
     },
-    email: {
-      propDefinition: [
-        safetyculture,
-        "email",
-      ],
-      optional: true,
-    },
     status: {
       type: "string",
       label: "Status",
@@ -67,7 +60,6 @@ export default {
       data: pickBy({
         firstname: this.firstName,
         lastname: this.lastName,
-        email: this.email,
         status: this.status,
         seat_type: this.seatType,
       }),
