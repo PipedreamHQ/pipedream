@@ -739,6 +739,8 @@ importers:
 
   components/captaindata: {}
 
+  components/cardly: {}
+
   components/cartes: {}
 
   components/cascade_strategy: {}
@@ -1411,6 +1413,8 @@ importers:
 
   components/easyship: {}
 
+  components/echtpost_postcards: {}
+
   components/ecologi: {}
 
   components/ecwid:
@@ -1791,6 +1795,15 @@ importers:
 
   components/gender_api: {}
 
+  components/generated_photos:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
+
   components/geodb_cities:
     dependencies:
       '@pipedream/platform':
@@ -1834,7 +1847,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/giantcampaign: {}
+  components/giantcampaign:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/gigasheet: {}
 
@@ -2490,6 +2507,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
+  components/interzoid: {}
+
   components/intuiface: {}
 
   components/ip2location:
@@ -2622,7 +2641,11 @@ importers:
 
   components/key_app_demo_1: {}
 
-  components/kickofflabs: {}
+  components/kickofflabs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/kintone: {}
 
@@ -2662,6 +2685,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/knorish: {}
 
   components/knowbe4: {}
 
@@ -2736,7 +2761,11 @@ importers:
 
   components/lexoffice: {}
 
-  components/libraria: {}
+  components/libraria:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/lifterlms: {}
 
@@ -3318,7 +3347,11 @@ importers:
 
   components/nasdaq_data_link_time_series_and_table_data_: {}
 
-  components/nationbuilder: {}
+  components/nationbuilder:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/nectar_crm:
     dependencies:
@@ -3829,7 +3862,11 @@ importers:
         specifier: ^6.11.1
         version: 6.11.2
 
-  components/pingbell: {}
+  components/pingbell:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/pinterest:
     dependencies:
@@ -4199,6 +4236,8 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
+  components/realgeeks: {}
+
   components/realphonevalidation: {}
 
   components/rebrandly:
@@ -4373,6 +4412,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/ringover: {}
 
   components/rise:
     dependencies:
@@ -4562,7 +4603,11 @@ importers:
         specifier: ^0.12.5
         version: 0.12.5
 
-  components/search_api: {}
+  components/search_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/segment:
     dependencies:
@@ -5326,6 +5371,8 @@ importers:
 
   components/terraform: {}
 
+  components/testmo: {}
+
   components/testmonitor:
     dependencies:
       '@pipedream/platform':
@@ -6011,7 +6058,11 @@ importers:
 
   components/workiom: {}
 
-  components/workiz: {}
+  components/workiz:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/worksnaps: {}
 

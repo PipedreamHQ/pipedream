@@ -5,7 +5,7 @@ export default {
   key: "screenshotone-take-screenshot",
   name: "Take Screenshot",
   description: "Takes and returns a screenshot of the given site with specified options. [See the documentation](https://screenshotone.com/docs/options)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -64,12 +64,6 @@ export default {
         "blockTrackers",
       ],
     },
-    blockChat: {
-      propDefinition: [
-        app,
-        "blockChat",
-      ],
-    },
     delay: {
       propDefinition: [
         app,
@@ -87,7 +81,6 @@ export default {
       block_cookie_banners: this.blockCookieBanners,
       block_ads: this.blockAds,
       block_trackers: this.blockTrackers,
-      block_chat: this.blockChat,
       delay: this.delay,
     };
 
