@@ -2675,6 +2675,15 @@
     },
     {
       "path": "components/echtpost_postcards"
+    },
+    {
+      "path": "components/gorillastack"
+    },
+    {
+      "path": "components/signaturely"
+    },
+    {
+      "path": "components/weglot"
     }
   ]
 }
