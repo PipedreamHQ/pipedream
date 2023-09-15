@@ -2194,6 +2194,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
 
+  components/gorillastack: {}
+
   components/gotowebinar: {}
 
   components/grab_your_reviews: {}
@@ -3048,7 +3050,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/melo: {}
+  components/melo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/mem: {}
 
@@ -4864,6 +4870,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/signaturely: {}
+
   components/signaturit: {}
 
   components/signrequest: {}
@@ -5934,6 +5942,8 @@ importers:
         version: 1.5.1
 
   components/webscraping_ai: {}
+
+  components/weglot: {}
 
   components/wesupply: {}
 
