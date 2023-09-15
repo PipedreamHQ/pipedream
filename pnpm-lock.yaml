@@ -6051,7 +6051,11 @@ importers:
 
   components/workiom: {}
 
-  components/workiz: {}
+  components/workiz:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/worksnaps: {}
 
