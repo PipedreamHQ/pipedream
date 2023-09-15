@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/knorish",
+  "version": "0.0.1",
+  "description": "Pipedream Knorish Components",
+  "main": "dist/app/knorish.app.mjs",
+  "keywords": [
+    "pipedream",
+    "knorish"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/knorish",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -2597,6 +2597,84 @@
     },
     {
       "path": "components/digitalriver"
+    },
+    {
+      "path": "components/wachete"
+    },
+    {
+      "path": "components/jobber"
+    },
+    {
+      "path": "components/nifty"
+    },
+    {
+      "path": "components/ez_texting_"
+    },
+    {
+      "path": "components/microsoft_sql_server"
+    },
+    {
+      "path": "components/little_green_light"
+    },
+    {
+      "path": "components/setmoreappointments"
+    },
+    {
+      "path": "components/vitel_phone"
+    },
+    {
+      "path": "components/tidy"
+    },
+    {
+      "path": "components/postgrid_verify"
+    },
+    {
+      "path": "components/spreadsheet_com"
+    },
+    {
+      "path": "components/passslot"
+    },
+    {
+      "path": "components/mx_technologies"
+    },
+    {
+      "path": "components/fidel_api"
+    },
+    {
+      "path": "components/the_odds_api"
+    },
+    {
+      "path": "components/_twocaptcha"
+    },
+    {
+      "path": "components/postgrid"
+    },
+    {
+      "path": "components/celonis_ems"
+    },
+    {
+      "path": "components/pdfless"
+    },
+    {
+      "path": "components/interzoid"
+    },
+    {
+      "path": "components/realgeeks"
+    },
+    {
+      "path": "components/testmo"
+    },
+    {
+      "path": "components/ringover"
+    },
+    {
+      "path": "components/cardly"
+    },
+    {
+      "path": "components/knorish"
+    },
+    {
+      "path": "components/echtpost_postcards"
     }
   ]
 }

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/getemails",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream GetEmails Components",
-  "main": "dist/app/getemails.app.mjs",
+  "main": "getemails.app.mjs",
   "keywords": [
     "pipedream",
     "getemails"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/getemails",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
