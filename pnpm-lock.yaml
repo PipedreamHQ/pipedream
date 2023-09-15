@@ -739,6 +739,8 @@ importers:
 
   components/captaindata: {}
 
+  components/cardly: {}
+
   components/cartes: {}
 
   components/cascade_strategy: {}
@@ -1411,6 +1413,8 @@ importers:
 
   components/easyship: {}
 
+  components/echtpost_postcards: {}
+
   components/ecologi: {}
 
   components/ecwid:
@@ -1834,7 +1838,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/giantcampaign: {}
+  components/giantcampaign:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/gigasheet: {}
 
@@ -2657,6 +2665,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/knorish: {}
 
   components/knowbe4: {}
 
@@ -3536,8 +3546,6 @@ importers:
 
   components/onepage: {}
 
-  components/onepage: {}
-
   components/onepagecrm: {}
 
   components/ones2u: {}
@@ -4384,6 +4392,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/ringover: {}
 
   components/rise:
     dependencies:
@@ -5340,6 +5350,8 @@ importers:
   components/terminus_app: {}
 
   components/terraform: {}
+
+  components/testmo: {}
 
   components/testmonitor:
     dependencies:
