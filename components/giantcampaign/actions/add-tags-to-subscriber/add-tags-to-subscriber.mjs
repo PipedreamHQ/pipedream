@@ -1,7 +1,7 @@
 import app from "../../giantcampaign.app.mjs";
 
 export default {
-  name: "Adds Tags to Subscriber",
+  name: "Add Tags to Subscriber",
   description: "Add tags to a new subscriber [See the documentation](https://giantcampaign.com/developers/#add-tags-to-subscriber).",
   key: "giantcampaign-add-tags-to-subscriber",
   version: "0.0.1",
