@@ -3532,6 +3532,8 @@ importers:
 
   components/onepage: {}
 
+  components/onepage: {}
+
   components/onepagecrm: {}
 
   components/ones2u: {}
