@@ -48,6 +48,11 @@ Each recovery code is a one-time-use code, so make sure to generate new recovery
 
 :::
 
+::: warning 2FA is not currently supported with Single Sign On
+Pipedream recommends enabling 2FA with your identity provider.
+
+:::
+
 ### Pipedream API Key
 
 Pipedream provides a [REST API](/api/) for interacting with Pipedream programmatically. You'll find your API key here, which you use to [authorize requests to the API](/api/auth/).
