@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/pingbell",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream PingBell Components",
-  "main": "dist/app/pingbell.app.mjs",
+  "main": "pingbell.app.mjs",
   "keywords": [
     "pipedream",
     "pingbell"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/pingbell",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
