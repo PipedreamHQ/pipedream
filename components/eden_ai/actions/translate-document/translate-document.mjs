@@ -3,11 +3,16 @@ import { ConfigurationError } from "@pipedream/platform";
 import FormData from "form-data";
 import fs from "fs";
 
+const options = [
+  "deepl",
+  "google",
+];
+
 export default {
   key: "eden_ai-translate-document",
   name: "Translate Document",
   description: "Translates a document from a local file or URL. [See the documentation](https://docs.edenai.co/reference/translation_document_translation_create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -16,12 +21,14 @@ export default {
         app,
         "providers",
       ],
+      options,
     },
     fallbackProviders: {
       propDefinition: [
         app,
         "fallbackProviders",
       ],
+      options,
     },
     showOriginalResponse: {
       propDefinition: [
@@ -64,7 +71,7 @@ export default {
 
     let headers, data = {
       providers: providers.join(),
-      fallback_providers: fallbackProviders.join(),
+      fallback_providers: fallbackProviders?.join(),
       show_original_response: showOriginalResponse,
       source_language: sourceLanguage,
       target_language: targetLanguage,
@@ -81,9 +88,10 @@ export default {
         }
       });
 
-      formData.append("file", fs.createReadStream(file.startsWith("/tmp/")
+      const content = fs.createReadStream(file.includes("tmp/")
         ? file
-        : `/tmp/${file}`));
+        : `/tmp/${file}`);
+      formData.append("file", content);
       headers = {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
       };
