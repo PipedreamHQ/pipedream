@@ -1147,7 +1147,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/dealmachine: {}
+  components/dealmachine:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/dear:
     dependencies:
@@ -2193,6 +2197,8 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+
+  components/gorillastack: {}
 
   components/gotowebinar: {}
 
@@ -4868,6 +4874,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/signaturely: {}
+
   components/signaturit: {}
 
   components/signrequest: {}
@@ -5312,6 +5320,8 @@ importers:
         version: 0.1.6
 
   components/teamdeck: {}
+
+  components/teamgantt: {}
 
   components/teamgate:
     dependencies:
@@ -5938,6 +5948,8 @@ importers:
         version: 1.5.1
 
   components/webscraping_ai: {}
+
+  components/weglot: {}
 
   components/wesupply: {}
 
