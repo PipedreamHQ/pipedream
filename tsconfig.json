@@ -2675,6 +2675,9 @@
     },
     {
       "path": "components/echtpost_postcards"
+    },
+    {
+      "path": "components/gorillastack"
     }
   ]
 }
