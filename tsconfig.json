@@ -2678,6 +2678,12 @@
     },
     {
       "path": "components/gorillastack"
+    },
+    {
+      "path": "components/signaturely"
+    },
+    {
+      "path": "components/weglot"
     }
   ]
 }
