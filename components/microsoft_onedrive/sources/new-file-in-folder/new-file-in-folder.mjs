@@ -8,7 +8,7 @@ export default {
   key: "microsoft_onedrive-new-file-in-folder",
   name: "New File in Folder (Instant)",
   description: "Emit an event when a new file is added to a specific directory tree in a OneDrive drive",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...base.props,

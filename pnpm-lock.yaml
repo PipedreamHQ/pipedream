@@ -739,6 +739,8 @@ importers:
 
   components/captaindata: {}
 
+  components/cardly: {}
+
   components/cartes: {}
 
   components/cascade_strategy: {}
@@ -1411,6 +1413,8 @@ importers:
 
   components/easyship: {}
 
+  components/echtpost_postcards: {}
+
   components/ecologi: {}
 
   components/ecwid:
@@ -1791,6 +1795,15 @@ importers:
 
   components/gender_api: {}
 
+  components/generated_photos:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
+
   components/geodb_cities:
     dependencies:
       '@pipedream/platform':
@@ -1834,7 +1847,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/giantcampaign: {}
+  components/giantcampaign:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/gigasheet: {}
 
@@ -2617,7 +2634,11 @@ importers:
 
   components/key_app_demo_1: {}
 
-  components/kickofflabs: {}
+  components/kickofflabs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/kintone: {}
 
@@ -2657,6 +2678,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/knorish: {}
 
   components/knowbe4: {}
 
@@ -2731,7 +2754,11 @@ importers:
 
   components/lexoffice: {}
 
-  components/libraria: {}
+  components/libraria:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/lifterlms: {}
 
@@ -3482,7 +3509,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/nudgify: {}
+  components/nudgify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/nusii_proposals: {}
 
@@ -3828,7 +3859,11 @@ importers:
         specifier: ^6.11.1
         version: 6.11.2
 
-  components/pingbell: {}
+  components/pingbell:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/pinterest:
     dependencies:
@@ -4374,6 +4409,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/ringover: {}
 
   components/rise:
     dependencies:
@@ -5331,6 +5368,8 @@ importers:
 
   components/terraform: {}
 
+  components/testmo: {}
+
   components/testmonitor:
     dependencies:
       '@pipedream/platform':
@@ -6016,7 +6055,11 @@ importers:
 
   components/workiom: {}
 
-  components/workiz: {}
+  components/workiz:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/worksnaps: {}
 
@@ -9193,22 +9236,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser@0.0.177:
-    resolution: {integrity: sha512-siVtuvnQxXr4KhD14VV7AzFR0Xb+qcRxJWRQ4AogGkPakd5/ufljAXJ6fBq6HRB57Vy4MmgV9R0irfcMhdaK1A==}
+  /@definitelytyped/header-parser@0.0.178:
+    resolution: {integrity: sha512-16FFuaWW2Hq+a0Abyt+9gvPAT0w/ezy4eph3RbtLSqxH3T/UHDla1jgnp1DMvfNeBWaIqHxcr+Vrr7BPquw7mw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.177
+      '@definitelytyped/typescript-versions': 0.0.178
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions@0.0.177:
-    resolution: {integrity: sha512-PcSKwrB0zhpFq9KadHU7iVkqszg/4TqDlF+xrXNsMpFk523RC7S7HXdPNR3j55774fwvoIRudMbr96v2J+WNKg==}
+  /@definitelytyped/typescript-versions@0.0.178:
+    resolution: {integrity: sha512-pPXy3z5gE4xnVgqIRApFcQ6M6kqtRK1gnqyGx/I0Yo1CH8RAsRvumCDB/KiZmQDpCHiy//E9dOIUFdquvC5t7g==}
     dev: true
 
-  /@definitelytyped/utils@0.0.177:
-    resolution: {integrity: sha512-okfO4lAV3rRnvCYYqfPT3ZSqfM4Wwg+02ClzszV5AV0htYKiDn8KpdfM73Fm2DCoqeKuKlMPmtc5VtuRK6vCRg==}
+  /@definitelytyped/utils@0.0.178:
+    resolution: {integrity: sha512-nYg3E51XpTodS0/5w5r1wM/DhPYhyqa9BP8ili4XgB5s9j4v4mDPX9Jwjns2q24derBvyhdUpzshKDh43aqwZw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.177
+      '@definitelytyped/typescript-versions': 0.0.178
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.56
       charm: 1.0.2
@@ -9988,14 +10031,14 @@ packages:
       '@jest/test-result': 29.6.4
       '@jest/transform': 29.6.4
       '@jest/types': 29.6.3
-      '@types/node': 17.0.45
+      '@types/node': 20.5.7
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.8.0
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.6.3
-      jest-config: 29.6.4(@types/node@17.0.45)
+      jest-config: 29.6.4(@types/node@20.5.7)
       jest-haste-map: 29.6.4
       jest-message-util: 29.6.3
       jest-regex-util: 29.6.3
@@ -10305,7 +10348,7 @@ packages:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 17.0.45
+      '@types/node': 20.5.7
       '@types/yargs': 17.0.24
       chalk: 4.1.2
     dev: true
@@ -13214,7 +13257,6 @@ packages:
 
   /@types/node@20.5.7:
     resolution: {integrity: sha512-dP7f3LdZIysZnmvP3ANJYTSwg+wLLl8p7RqniVlV7j+oXSXAbt9h0WIBFmJy5inWZoX9wZN6eXx+YXd9Rh3RBA==}
-    dev: false
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -15959,7 +16001,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.177
+      '@definitelytyped/header-parser': 0.0.178
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -15975,9 +16017,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.177
-      '@definitelytyped/typescript-versions': 0.0.177
-      '@definitelytyped/utils': 0.0.177
+      '@definitelytyped/header-parser': 0.0.178
+      '@definitelytyped/typescript-versions': 0.0.178
+      '@definitelytyped/utils': 0.0.178
       dts-critic: 3.3.11(typescript@4.9.5)
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -19147,7 +19189,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-config@29.6.4(@types/node@17.0.45):
+  /jest-config@29.6.4(@types/node@20.5.7):
     resolution: {integrity: sha512-JWohr3i9m2cVpBumQFv2akMEnFEPVOh+9L2xIBJhJ0zOaci2ZXuKJj0tgMKQCBZAKA09H049IR4HVS/43Qb19A==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -19162,7 +19204,7 @@ packages:
       '@babel/core': 7.22.11
       '@jest/test-sequencer': 29.6.4
       '@jest/types': 29.6.3
-      '@types/node': 17.0.45
+      '@types/node': 20.5.7
       babel-jest: 29.6.4(@babel/core@7.22.11)
       chalk: 4.1.2
       ci-info: 3.8.0

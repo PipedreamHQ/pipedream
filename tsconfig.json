@@ -2660,6 +2660,36 @@
     },
     {
       "path": "components/realgeeks"
+    },
+    {
+      "path": "components/testmo"
+    },
+    {
+      "path": "components/ringover"
+    },
+    {
+      "path": "components/cardly"
+    },
+    {
+      "path": "components/knorish"
+    },
+    {
+      "path": "components/echtpost_postcards"
+    },
+    {
+      "path": "components/gorillastack"
+    },
+    {
+      "path": "components/signaturely"
+    },
+    {
+      "path": "components/weglot"
+    },
+    {
+      "path": "components/teamgantt"
+    },
+    {
+      "path": "components/gong"
     }
   ]
 }

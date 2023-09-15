@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/weglot",
+  "version": "0.0.1",
+  "description": "Pipedream Weglot Components",
+  "main": "dist/app/weglot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "weglot"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/weglot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
