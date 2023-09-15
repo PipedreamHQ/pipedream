@@ -2687,6 +2687,9 @@
     },
     {
       "path": "components/teamgantt"
+    },
+    {
+      "path": "components/gong"
     }
   ]
 }
