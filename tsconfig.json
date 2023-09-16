@@ -2690,6 +2690,9 @@
     },
     {
       "path": "components/gong"
+    },
+    {
+      "path": "components/serply"
     }
   ]
 }
