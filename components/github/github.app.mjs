@@ -293,11 +293,16 @@ export default {
     async getRepoContent({
       repoFullname,
       path,
+      mediaType,
     }) {
-      const { data } = await this
-        ._client()
-        .request(`GET /repos/${repoFullname}/contents/${path}`, {});
-      return data;
+      const { data } = await this._client()._makeRequest({
+        path: `/repos/${repoFullname}/contents/${path}`,
+        ...(mediaType && {
+          headers: {
+            Accept: mediaType
+          }
+        })
+      })
     },
     async getRepositoryLabels({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/labels`, {});

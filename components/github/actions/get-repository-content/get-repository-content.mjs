@@ -29,11 +29,24 @@ export default {
       default: "",
       optional: true,
     },
+    mediaType: {
+      label: "Media Type",
+      description: toSingleLineString(`
+      Custom media types are used in the API to let consumers choose the format of the data they wish to receive. 
+      This is done by adding one or more of the following types to the Accept header when you make a request. 
+      Media types are specific to resources, allowing them to change independently and support 
+      formats that other resources don't.
+      `),
+      type: "string",
+      default: "",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.github.getRepoContent({
       repoFullname: this.repoFullname,
       path: this.path,
+      mediaType
     });
 
     $.export("$summary", "Successfully retrieved repository content.");
