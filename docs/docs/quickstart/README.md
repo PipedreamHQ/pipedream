@@ -4,6 +4,18 @@ Sign up for a [free Pipedream account (no credit card required)](https://pipedre
 
 [[toc]]
 
+## Create a new project
+
+Workflows must be created in **Projects**. Projects make it easy to organize your workflows and collaborate with your team. 
+
+Go to https://pipedream.com/projects and click on Create Project.
+
+![create project](./create_project.png)
+
+::: tip
+
+Configure GitHub sync for projects to enable git-based version control and unlock the ability to develop in branches, commit to or pull changes from GitHub, view diffs, create PRs and more. To learn more, complete this quickstart guide to learn the basics of workflow development and then follow the [quickstart guide for GitHub Sync](./github-sync/).
+
 ## Create a new workflow
 
 First, create a new workflow by clicking **New** from [https://pipedream.com/workflows](https://pipedream.com/workflows):
