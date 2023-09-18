@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/gigasheet",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Gigasheet Components",
-  "main": "dist/app/gigasheet.app.mjs",
+  "main": "gigasheet.app.mjs",
   "keywords": [
     "pipedream",
     "gigasheet"
@@ -12,5 +12,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
