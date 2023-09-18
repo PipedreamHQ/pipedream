@@ -2194,6 +2194,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
 
+  components/gorillastack: {}
+
   components/gotowebinar: {}
 
   components/grab_your_reviews: {}
@@ -3263,7 +3265,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/more_trees_: {}
+  components/more_trees_:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/motion:
     dependencies:
@@ -4708,6 +4714,8 @@ importers:
         specifier: ^1.4.6
         version: 1.6.6
 
+  components/serply: {}
+
   components/serveravatar:
     dependencies:
       '@pipedream/helpers':
@@ -4867,6 +4875,8 @@ importers:
       '@pipedream/platform':
         specifier: ^0.10.0
         version: 0.10.0
+
+  components/signaturely: {}
 
   components/signaturit: {}
 
@@ -5312,6 +5322,8 @@ importers:
         version: 0.1.6
 
   components/teamdeck: {}
+
+  components/teamgantt: {}
 
   components/teamgate:
     dependencies:
@@ -5938,6 +5950,8 @@ importers:
         version: 1.5.1
 
   components/webscraping_ai: {}
+
+  components/weglot: {}
 
   components/wesupply: {}
 
