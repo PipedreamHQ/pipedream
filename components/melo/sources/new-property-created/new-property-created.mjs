@@ -1,5 +1,6 @@
 import melo from "../../melo.app.mjs";
 import constants from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "melo-new-property-created",
@@ -198,16 +199,24 @@ export default {
         ...data
       } = this;
 
-      await melo.createSearch({
-        data: {
-          subscribedEvents: [
-            "property.ad.create",
-          ],
-          notificationEnabled: true,
-          endpointRecipient: http.endpoint,
-          ...data,
-        },
-      });
+      try {
+        await melo.createSearch({
+          data: {
+            subscribedEvents: [
+              "property.ad.create",
+            ],
+            notificationEnabled: true,
+            endpointRecipient: http.endpoint,
+            ...data,
+          },
+        });
+      } catch (e) {
+        const message = JSON.parse(e.message);
+        if (message["hydra:description"] === "Access Denied.") {
+          throw new ConfigurationError(`${message["hydra:description"]} Creating webhooks requires a Production Environment API Key.`);
+        }
+        throw new Error(message);
+      }
     },
   },
   async run(event) {
