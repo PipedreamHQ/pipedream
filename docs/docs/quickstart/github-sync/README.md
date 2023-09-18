@@ -54,6 +54,8 @@ When GitHub Sync is enabled, project resources may only be edited in a branch.
 
 :::
 
+[toc]
+
 ## Create a workflow in the editable branch
 
 Once the branch is created, click the **New** button to create a workflow.
