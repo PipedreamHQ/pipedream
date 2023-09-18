@@ -11,7 +11,7 @@ export const parseArray = (array) => {
   if (Array.isArray(array)) {
     return array.map((item) => {
       if (typeof item != "object") {
-        JSON.parse(item);
+        item = JSON.parse(item);
       }
       return item;
     });
