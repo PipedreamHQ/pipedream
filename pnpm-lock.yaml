@@ -4718,6 +4718,8 @@ importers:
         specifier: ^1.4.6
         version: 1.6.6
 
+  components/serply: {}
+
   components/serveravatar:
     dependencies:
       '@pipedream/helpers':
@@ -4974,6 +4976,8 @@ importers:
   components/sms_it: {}
 
   components/sms_magic: {}
+
+  components/smsapi: {}
 
   components/smtp2go:
     dependencies:
