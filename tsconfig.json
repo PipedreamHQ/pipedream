@@ -2684,6 +2684,18 @@
     },
     {
       "path": "components/weglot"
+    },
+    {
+      "path": "components/teamgantt"
+    },
+    {
+      "path": "components/gong"
+    },
+    {
+      "path": "components/serply"
+    },
+    {
+      "path": "components/smsapi"
     }
   ]
 }
