@@ -16,6 +16,8 @@ Users on the Free and Basic plan may preview GitHub Sync by enabling the feature
 
 :::
 
+[[toc]]
+
 ## Create a new project
 
 Follow the steps below to create a new project and configure GitHub Sync.
@@ -53,8 +55,6 @@ In the future, when you click **Edit**, Pipedream will load development mode for
 When GitHub Sync is enabled, project resources may only be edited in a branch.
 
 :::
-
-[toc]
 
 ## Create a workflow in the editable branch
 
