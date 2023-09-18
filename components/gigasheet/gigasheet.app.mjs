@@ -29,14 +29,12 @@ export default {
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "get",
         path,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -44,13 +42,15 @@ export default {
         },
       });
     },
-    async uploadDataFromUrl(opts = {}) {
+    async uploadDataFromUrl({
+      url, ...opts
+    } = {}) {
       return this._makeRequest({
         ...opts,
         method: "POST",
         path: "/upload/url",
         data: {
-          url: opts.url,
+          url,
         },
       });
     },
@@ -64,7 +64,6 @@ export default {
     async downloadExport(opts = {}) {
       return this._makeRequest({
         ...opts,
-        method: "GET",
         path: `/dataset/${opts.datasetHandle}/download/export`,
       });
     },
