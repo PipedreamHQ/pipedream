@@ -1147,7 +1147,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/dealmachine: {}
+  components/dealmachine:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/dear:
     dependencies:
@@ -4972,6 +4976,8 @@ importers:
   components/sms_it: {}
 
   components/sms_magic: {}
+
+  components/smsapi: {}
 
   components/smtp2go:
     dependencies:
