@@ -27,6 +27,9 @@ export default {
       propDefinition: [
         terraform,
         "configurationVersion",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
     },
     message: {

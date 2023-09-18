@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+const DEFAULT_LIMIT = 20;
 
 export default {
   type: "app",
@@ -50,7 +51,6 @@ export default {
       type: "string",
       label: "Configuration Version",
       description: "Specifies the configuration version to use for this run. If the `configuration-version` object is omitted, the run will be created using the workspace's latest configuration version.",
-      optional: true,
       async options({
         workspaceId, page,
       }) {
@@ -113,12 +113,44 @@ export default {
         ...args,
       });
     },
+    listRuns({
+      workspaceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/runs`,
+        ...args,
+      });
+    },
     createRun(args = {}) {
       return this._makeRequest({
         path: "/runs",
         method: "POST",
         ...args,
       });
+    },
+    async *paginate({
+      resourceFn,
+      args,
+    }) {
+      const limit = DEFAULT_LIMIT;
+      let total = 0;
+      args = {
+        ...args,
+        params: {
+          ...args.params,
+          "page[number]": 1,
+          "page[size]": limit,
+        },
+      };
+
+      do {
+        const { data } = await resourceFn(args);
+        for (const item of data) {
+          yield item;
+        }
+        total = data.length;
+        args.params["page[number]"] += 1;
+      } while (total === limit);
     },
   },
 };
