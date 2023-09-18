@@ -7,13 +7,6 @@ import utils from "./common/utils.mjs";
 export default {
   type: "app",
   app: "askyourpdf",
-  propDefinitions: {
-    commonProperty: {
-      type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
-    },
-  },
   methods: {
     exportSummary(step) {
       if (!step?.export) {
