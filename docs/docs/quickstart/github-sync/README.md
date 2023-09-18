@@ -8,11 +8,11 @@ This guide assumes you:
 - Have a GitHub account
 - Understand the basics of workflow development on Pipedream
 - Are familiar with git-concepts (branches, commits, merges, etc)
-- Are subscribed to (or on a trial of) the [Advanced or Business plan](https://pipedream.com/pricing/)
+- Are on an [eligible plan](https://pipedream.com/pricing/)
 
 ::: tip
 
-**Users on the Free and Basic plan may preview GitHub Sync by enabling the feature when creating a new project.**  Please note that the feature preview is not supported for existing projects. Also, you will not be able to merge to production without upgrading. When you upgrade, you may enable or disable GitHub sync for projects at any time.
+Users on the Free and Basic plan may preview GitHub Sync by enabling the feature **when creating a new project.**  You will not be able to merge to production without upgrading. When you upgrade, you may enable or disable GitHub sync for projects at any time.
 
 :::
 
