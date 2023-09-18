@@ -32,7 +32,7 @@ Go to `https://pipedream.com/projects` and click on **Create Project**.
 Enter a project name or click the icon to generate a random name and check the box to **Configure GitHub Sync**. 
 ![github](./images/configure_project_1.png)
 
-Select or connect a GitHub account, GitHub scope and repo name and click **Create Project**.
+Select or connect a GitHub account, username and repo name and click **Create Project**.
 ![github](./images/configure_project_2.png)
 
 

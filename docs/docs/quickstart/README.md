@@ -16,6 +16,8 @@ Go to https://pipedream.com/projects and click on Create Project.
 
 Configure GitHub sync for projects to enable git-based version control and unlock the ability to develop in branches, commit to or pull changes from GitHub, view diffs, create PRs and more. To learn more, complete this quickstart guide to learn the basics of workflow development and then follow the [quickstart guide for GitHub Sync](./github-sync/).
 
+:::
+
 ## Create a new workflow
 
 First, create a new workflow by clicking **New** from [https://pipedream.com/workflows](https://pipedream.com/workflows):
