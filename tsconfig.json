@@ -2693,6 +2693,9 @@
     },
     {
       "path": "components/serply"
+    },
+    {
+      "path": "components/smsapi"
     }
   ]
 }
