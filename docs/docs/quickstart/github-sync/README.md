@@ -12,6 +12,12 @@ This guide assumes you:
 
 ::: tip
 
+If you are new to Pipedream, we recommend learning the [fundamentals of workflow development](/quickstart/) first.
+
+:::
+
+::: tip
+
 Users on the Free and Basic plan may preview GitHub Sync by enabling the feature **when creating a new project.**  You will not be able to merge to production without upgrading. When you upgrade, you may enable or disable GitHub sync for projects at any time.
 
 :::

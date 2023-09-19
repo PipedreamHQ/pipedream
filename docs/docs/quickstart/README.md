@@ -34,7 +34,7 @@ Name the workflow and click **Create Workflow** to use the default settings. For
 
 ## Add an HTTP / Webhook trigger
 
-Pipedream will launch the workflow builder. For this example, select the **HTTP / Webhook Requests** trigger. 
+Next, Pipedream will launch the workflow builder and prompt you to add a trigger. For this example, select **HTTP / Webhook Requests**. 
 
 ![Add HTTP trigger](./images/add-trigger.png)
 
@@ -42,7 +42,7 @@ Click **Save and continue** to accept the default settings.
 
 ![Save trigger](./images/save-trigger.png)
 
-Pipedream will generate a unique URL to trigger this workflow.
+Pipedream will generate a unique URL to trigger this workflow. Once your workflow is deployed, your workflow will run on every request to this URL.
 
 ![Unique URL](./images/unique-url.png)
 
@@ -68,6 +68,10 @@ Pipedream makes it easy to generate test events for your HTTP trigger. Click on 
 
 ![Generate Test Event](./images/generate-test-event.png)
 
+Pipedream will automatically select and display the contents of the selected event. Validate that the `message` was received as part the event `body`. 
+
+![Inspect trigger event](./images/inspect-trigger-event.png)
+
 ::: tip
 
 You may also send live data to the unique URL for your workflow using your favorite HTTP tool or by running a `cURL` command. E.g.,
@@ -78,10 +82,6 @@ curl -d '{
 }'   -H "Content-Type: application/json"   YOUR-TRIGGER-URL-GOES-HERE
 ```
 :::
-
-Pipedream will automatically select and display the contents of the selected event. Balidate that the `message` was received as part the event `body`. 
-
-![Inspect trigger event](./images/inspect-trigger-event.png)
 
 ## Enrich trigger data using Node.js and npm
 
