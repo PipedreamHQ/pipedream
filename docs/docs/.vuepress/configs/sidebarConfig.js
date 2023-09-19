@@ -12,10 +12,6 @@ const docsNav = [
         title: "Use GitHub Sync",
         path: "/quickstart/github-sync/",
       },
-      {
-        title: "Publish Custom Components",
-        path: "/components/api/#quickstarts",
-      },
     ]
   },
   "/workspaces/",
