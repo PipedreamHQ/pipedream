@@ -113,6 +113,14 @@ const docsNav = [
   },
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
+  {
+    title: "Single-Sign On (SSO)",
+    children: [
+      "/workspaces/sso/okta/",
+      "/workspaces/sso/google/",
+      "/workspaces/sso/saml/",
+    ],
+  },
 ];
 
 const referenceNav = [
