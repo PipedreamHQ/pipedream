@@ -12,7 +12,7 @@ This guide assumes you:
 
 ::: tip
 
-If you are new to Pipedream, we recommend learning the [fundamentals of workflow development](/quickstart/) first.
+If you are new to Pipedream, we recommend starting with the [basics of workflow development](/quickstart/).
 
 :::
 
