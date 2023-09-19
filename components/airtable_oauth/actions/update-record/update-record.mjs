@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-update-record",
   name: "Update Record",
   description: "Update a single record in a table by Record ID.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
