@@ -75,6 +75,16 @@ def format_result(result):
     return result
 
 
+def create_user_prompt(prompt, urls_content):
+    if len(urls_content) == 0:
+        return prompt
+
+    user_prompt = f"{prompt}\n\n## API docs\n\n"
+    for url, content in urls_content:
+        user_prompt += f"\n\n### {url}\n\n{content}"
+    return user_prompt
+
+
 def get_llm():
     if config['openai_api_type'] == "azure":
         azure_config = config["azure"]
@@ -86,14 +96,15 @@ def get_llm():
             model_name=openai_config["model"], temperature=config["temperature"], request_timeout=300)
 
 
-def ask_agent(user_prompt, docs, templates, auth_example):
+def ask_agent(prompt, docs, templates, auth_example, urls_content):
     agent = PipedreamOpenAPIAgent(docs, templates, auth_example)
+    user_prompt = create_user_prompt(prompt, urls_content)
     result = agent.run(user_prompt)
     return result
 
 
-def no_docs(app, prompt, templates, auth_example):
-    user_prompt = f"The app name is {app}.\n{prompt}"
+def no_docs(prompt, templates, auth_example, urls_content):
+    user_prompt = create_user_prompt(prompt, urls_content)
     system_instructions = format_template(templates.system_instructions(auth_example))
 
     result = get_llm()(messages=[

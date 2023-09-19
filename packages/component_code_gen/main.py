@@ -1,5 +1,9 @@
 import os
+import time
 import argparse
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from config.config import config
 import templates.generate_actions
 import templates.generate_webhook_sources
 import templates.generate_polling_sources
@@ -14,20 +18,67 @@ available_templates = {
 }
 
 
-def main(component_type, app, instructions, tries, verbose=False):
+def main(component_type, app, instructions, tries, urls=[], verbose=False):
     if verbose:
         os.environ['LOGGING_LEVEL'] = 'DEBUG'
 
-    try:
-        templates = available_templates[component_type]
-    except:
-        raise ValueError(
-            f'Templates for {component_type}s are not available. Please choose one of {available_templates.keys()}')
+    validate_inputs(app, component_type, instructions, tries)
+
+    templates = available_templates[component_type]
+    urls_content = parse_urls(urls)
+
+    validate_system_instructions(templates)
 
     # this is here so that the DEBUG environment variable is set before the import
     from code_gen.generate_component_code import generate_code
-    result = generate_code(app, instructions, templates, tries)
+    result = generate_code(app, instructions, templates, urls_content, tries)
     return result
+
+
+def parse_urls(urls):
+    contents = []
+    if len(urls) == 0:
+        return contents
+
+    # init browserless
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.set_capability('browserless:token', config["browserless"]["api_key"])
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--headless")
+    driver = webdriver.Remote(
+        command_executor='https://chrome.browserless.io/webdriver',
+        options=chrome_options
+    )
+
+    for url in urls:
+        try:
+            print(f"Scraping {url}")
+            driver.get(url)
+            time.sleep(2) # loads js
+            element = driver.find_element(By.TAG_NAME, 'body')
+            contents.append({
+                "url": url,
+                "content": " ".join(element.text.split()),
+            })
+        except Exception as e:
+            return {
+                "url": url,
+                "error": e,
+            }
+
+    driver.quit()
+    return contents
+
+
+def validate_inputs(app, component_type, instructions, tries):
+    assert component_type in available_templates.keys(), f'Templates for {component_type}s are not available. Please choose one of {list(available_templates.keys())}'
+    assert app and type(app) == str
+    assert instructions and type(instructions) == str
+    assert tries and type(tries) == int
+
+
+def validate_system_instructions(templates):
+    assert templates.system_instructions
 
 
 if __name__ == '__main__':
@@ -35,8 +86,10 @@ if __name__ == '__main__':
     parser.add_argument('--type', help='Which kind of code you want to generate?',
                         choices=available_templates.keys(), required=True)
     parser.add_argument('--app', help='The app_name_slug', required=True)
-    parser.add_argument(
-        '--instructions', help='Markdown file with instructions: prompt + api docs', required=True)
+    parser.add_argument('--instructions', help='Markdown file with instructions: prompt + api docs',
+                        required=True)
+    parser.add_argument('--urls', help='A list of (space-separated) api docs urls to be parsed and sent with the prompt',
+                        required=False, default=[], nargs="*")
     parser.add_argument('--num_tries', dest='tries', help='The number of times we call the model to generate code',
                         required=False, default=3, type=int)
     parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
@@ -46,5 +99,5 @@ if __name__ == '__main__':
     with open(args.instructions, 'r') as f:
         instructions = f.read()
 
-    result = main(args.type, args.app, instructions, args.tries, args.verbose)
+    result = main(args.type, args.app, instructions, args.tries, args.urls, args.verbose)
     print(result)
