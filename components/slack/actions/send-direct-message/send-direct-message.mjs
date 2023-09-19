@@ -5,10 +5,10 @@ export default {
   key: "slack-send-direct-message",
   name: "Send a Direct Message",
   description: "Send a direct message to a single user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.16",
+  version: "0.2.17",
   type: "action",
   props: {
-    ...common.props,
+    slack: common.props.slack,
     conversation: {
       propDefinition: [
         common.props.slack,
@@ -48,5 +48,6 @@ export default {
       ],
       description: "Optionally provide an image URL to use as the bot icon for this message.",
     },
+    ...common.props,
   },
 };

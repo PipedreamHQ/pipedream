@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/testmo",
+  "version": "0.0.1",
+  "description": "Pipedream Testmo Components",
+  "main": "dist/app/testmo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "testmo"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/testmo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

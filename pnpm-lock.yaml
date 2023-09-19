@@ -739,6 +739,8 @@ importers:
 
   components/captaindata: {}
 
+  components/cardly: {}
+
   components/cartes: {}
 
   components/cascade_strategy: {}
@@ -1145,7 +1147,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/dealmachine: {}
+  components/dealmachine:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/dear:
     dependencies:
@@ -1410,6 +1416,8 @@ importers:
   components/easy_projects: {}
 
   components/easyship: {}
+
+  components/echtpost_postcards: {}
 
   components/ecologi: {}
 
@@ -1791,13 +1799,26 @@ importers:
 
   components/gender_api: {}
 
+  components/generated_photos:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
+
   components/geodb_cities:
     dependencies:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/getaccept: {}
+  components/getaccept:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/getemails: {}
 
@@ -1834,7 +1855,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/giantcampaign: {}
+  components/giantcampaign:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/gigasheet: {}
 
@@ -2176,6 +2201,8 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+
+  components/gorillastack: {}
 
   components/gotowebinar: {}
 
@@ -2617,7 +2644,11 @@ importers:
 
   components/key_app_demo_1: {}
 
-  components/kickofflabs: {}
+  components/kickofflabs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/kintone: {}
 
@@ -2657,6 +2688,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/knorish: {}
 
   components/knowbe4: {}
 
@@ -2731,7 +2764,11 @@ importers:
 
   components/lexoffice: {}
 
-  components/libraria: {}
+  components/libraria:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/lifterlms: {}
 
@@ -3482,7 +3519,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/nudgify: {}
+  components/nudgify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/nusii_proposals: {}
 
@@ -3832,7 +3873,11 @@ importers:
         specifier: ^6.11.1
         version: 6.11.2
 
-  components/pingbell: {}
+  components/pingbell:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/pinterest:
     dependencies:
@@ -4163,7 +4208,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/raisely: {}
+  components/raisely:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/ramp:
     dependencies:
@@ -4378,6 +4427,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/ringover: {}
 
   components/rise:
     dependencies:
@@ -4675,6 +4726,8 @@ importers:
         specifier: ^1.4.6
         version: 1.6.6
 
+  components/serply: {}
+
   components/serveravatar:
     dependencies:
       '@pipedream/helpers':
@@ -4835,6 +4888,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/signaturely: {}
+
   components/signaturit: {}
 
   components/signrequest: {}
@@ -4929,6 +4984,8 @@ importers:
   components/sms_it: {}
 
   components/sms_magic: {}
+
+  components/smsapi: {}
 
   components/smtp2go:
     dependencies:
@@ -5280,6 +5337,8 @@ importers:
 
   components/teamdeck: {}
 
+  components/teamgantt: {}
+
   components/teamgate:
     dependencies:
       '@pipedream/platform':
@@ -5333,7 +5392,13 @@ importers:
 
   components/terminus_app: {}
 
-  components/terraform: {}
+  components/terraform:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+
+  components/testmo: {}
 
   components/testmonitor:
     dependencies:
@@ -5904,6 +5969,8 @@ importers:
 
   components/webscraping_ai: {}
 
+  components/weglot: {}
+
   components/wesupply: {}
 
   components/weworkbook: {}
@@ -6020,7 +6087,11 @@ importers:
 
   components/workiom: {}
 
-  components/workiz: {}
+  components/workiz:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/worksnaps: {}
 
@@ -9992,14 +10063,14 @@ packages:
       '@jest/test-result': 29.6.4
       '@jest/transform': 29.6.4
       '@jest/types': 29.6.3
-      '@types/node': 17.0.45
+      '@types/node': 20.5.7
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.8.0
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.6.3
-      jest-config: 29.6.4(@types/node@17.0.45)
+      jest-config: 29.6.4(@types/node@20.5.7)
       jest-haste-map: 29.6.4
       jest-message-util: 29.6.3
       jest-regex-util: 29.6.3
@@ -10309,7 +10380,7 @@ packages:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 17.0.45
+      '@types/node': 20.5.7
       '@types/yargs': 17.0.24
       chalk: 4.1.2
     dev: true
@@ -13218,7 +13289,6 @@ packages:
 
   /@types/node@20.5.7:
     resolution: {integrity: sha512-dP7f3LdZIysZnmvP3ANJYTSwg+wLLl8p7RqniVlV7j+oXSXAbt9h0WIBFmJy5inWZoX9wZN6eXx+YXd9Rh3RBA==}
-    dev: false
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -13342,7 +13412,7 @@ packages:
   /@types/ws@8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 20.5.7
+      '@types/node': 17.0.45
     dev: false
 
   /@types/yargs-parser@21.0.0:
@@ -19151,7 +19221,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-config@29.6.4(@types/node@17.0.45):
+  /jest-config@29.6.4(@types/node@20.5.7):
     resolution: {integrity: sha512-JWohr3i9m2cVpBumQFv2akMEnFEPVOh+9L2xIBJhJ0zOaci2ZXuKJj0tgMKQCBZAKA09H049IR4HVS/43Qb19A==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -19166,7 +19236,7 @@ packages:
       '@babel/core': 7.22.11
       '@jest/test-sequencer': 29.6.4
       '@jest/types': 29.6.3
-      '@types/node': 17.0.45
+      '@types/node': 20.5.7
       babel-jest: 29.6.4(@babel/core@7.22.11)
       chalk: 4.1.2
       ci-info: 3.8.0
