@@ -451,6 +451,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
 
+  components/axis_lms: {}
+
   components/axonaut:
     dependencies:
       '@pipedream/platform':
