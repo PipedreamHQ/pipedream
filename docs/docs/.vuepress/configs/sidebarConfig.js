@@ -3,6 +3,22 @@
 const docsNav = [
   "/quickstart/",
   {
+    title: "Workspaces",
+    children: [
+      "/workspaces/",
+      "/workspaces/sso/okta/",
+      "/workspaces/sso/google/",
+      "/workspaces/sso/saml/",
+    ],
+  },
+  {
+    title: "Projects",
+    children: [
+      "/projects/",
+      "/projects/git/"
+    ]
+  },
+  {
     title: "Workflows",
     children: [
       "/workflows/",
@@ -97,22 +113,6 @@ const docsNav = [
   },
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
-  {
-    title: "Projects",
-    children: [
-      "/projects/",
-      "/projects/git/"
-    ]
-  },
-  {
-    title: "Workspaces",
-    children: [
-      "/workspaces/",
-      "/workspaces/sso/okta/",
-      "/workspaces/sso/google/",
-      "/workspaces/sso/saml/",
-    ],
-  },
 ];
 
 const referenceNav = [
