@@ -2,15 +2,7 @@
 
 const docsNav = [
   "/quickstart/",
-  {
-    title: "Workspaces",
-    children: [
-      "/workspaces/",
-      "/workspaces/sso/okta/",
-      "/workspaces/sso/google/",
-      "/workspaces/sso/saml/",
-    ],
-  },
+  "/workspaces/",
   {
     title: "Projects",
     children: [
