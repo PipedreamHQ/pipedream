@@ -4,11 +4,6 @@ export default {
   type: "app",
   app: "gigasheet",
   propDefinitions: {
-    url: {
-      type: "string",
-      label: "URL",
-      description: "The URL of the data to upload",
-    },
     datasetHandle: {
       type: "string",
       label: "Dataset Handle",
@@ -42,16 +37,11 @@ export default {
         },
       });
     },
-    async uploadDataFromUrl({
-      url, ...opts
-    } = {}) {
+    async uploadDataFromUrl(opts = {}) {
       return this._makeRequest({
         ...opts,
         method: "POST",
         path: "/upload/url",
-        data: {
-          url,
-        },
       });
     },
     async createExport(opts = {}) {

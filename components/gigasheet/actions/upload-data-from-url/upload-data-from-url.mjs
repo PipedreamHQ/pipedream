@@ -1,4 +1,3 @@
-import axios from "@pipedream/platform";
 import gigasheet from "../../gigasheet.app.mjs";
 
 export default {
@@ -12,7 +11,7 @@ export default {
     url: {
       type: "string",
       label: "URL",
-      description: "The URL of the file to upload",
+      description: "The URL to upload to Gigasheet",
     },
     name: {
       type: "string",
@@ -20,51 +19,33 @@ export default {
       description: "The name of the uploaded file",
       optional: true,
     },
-    delimiter: {
+    folderHandle: {
       type: "string",
-      label: "Delimiter",
-      description: "The delimiter used in the uploaded file",
+      label: "Folder Handle",
+      description: "Folder handle of the uploaded file",
       optional: true,
     },
-    hasHeader: {
-      type: "boolean",
-      label: "Has Header",
-      description: "Whether the uploaded file has a header row",
+    targetHandle: {
+      type: "string",
+      label: "Target Handle",
+      description: "If specified, records will be appended to this handle",
       optional: true,
-    },
-  },
-  methods: {
-    async uploadData({
-      $, url, name, delimiter, hasHeader,
-    }) {
-      return axios($, {
-        method: "POST",
-        url: "https://api.gigasheet.com/upload/url",
-        headers: {
-          "X-GIGASHEET-TOKEN": `${this.gigasheet.$auth.api_key}`,
-          "accept": "application/json",
-        },
-        data: {
-          url,
-          name,
-          delimiter,
-          hasHeader,
-        },
-      });
     },
   },
   async run({ $ }) {
     const {
-      url, name, delimiter, hasHeader,
+      url, name, folderHandle, targetHandle,
     } = this;
-    const response = await this.uploadData({
+    const response = await this.gigasheet.uploadDataFromUrl({
       $,
-      url,
-      name,
-      delimiter,
-      hasHeader,
+      data: {
+        url,
+        name,
+        folderHandle,
+        targetHandle,
+      },
     });
-    $.export("$summary", "Data uploaded successfully");
+    $.export("$summary", "Data uploaded from URL successfully");
     return response;
   },
 };
