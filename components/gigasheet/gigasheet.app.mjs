@@ -9,10 +9,12 @@ export default {
       label: "Handle",
       description: "The handle of the dataset",
       async options() {
-        const { datasets } = await this.getDatasets();
-        return datasets.map((e) => ({
-          value: e.handle,
-          label: e.name,
+        const datasets = await this.getDatasets();
+        return datasets.map(({
+          FileName: label, FileUuid: value,
+        }) => ({
+          value,
+          label: label ?? value,
         }));
       },
     },
@@ -63,7 +65,7 @@ export default {
     } = {}) {
       return this._makeRequest({
         ...opts,
-        path: `/dataset/${handle}/download/export`,
+        path: `/dataset/${handle}/download-export`,
       });
     },
     async getDatasets(opts = {}) {
