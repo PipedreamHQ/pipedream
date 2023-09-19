@@ -1,7 +1,13 @@
 // NEW NAV
 
 const docsNav = [
-  "/quickstart/",
+  {
+    title: "Quickstart",
+    children: [
+      "/quickstart/",
+      "/quickstart/github-sync/"
+    ]
+  },
   "/workspaces/",
   {
     title: "Projects",
