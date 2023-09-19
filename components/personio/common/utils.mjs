@@ -16,9 +16,10 @@ export const parseArray = (arr) => {
 export const clearObj = (obj) => {
   return Object.entries(obj)
     .filter(([
+      // eslint-disable-next-line no-unused-vars
       _,
       v,
-    ]) => (v != null && v != "" && _ != "$emit"))
+    ]) => (v != null && v != ""))
     .reduce((acc, [
       k,
       v,
