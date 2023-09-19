@@ -18,7 +18,7 @@ Next, enter a project name and click **Create Project**. For this example, we'll
 
 ::: tip
 
-Configure GitHub sync for projects to enable git-based version control and unlock the ability to develop in branches, commit to or pull changes from GitHub, view diffs, create PRs and more. To learn more, complete this quickstart guide to learn the basics of workflow development and then follow the [quickstart guide for GitHub Sync](./github-sync/).
+Configure GitHub Sync for projects to enable git-based version control and unlock the ability to develop in branches, commit to or pull changes from GitHub, view diffs, create PRs and more. To learn more, complete this quickstart guide to learn the basics of workflow development and then follow the [quickstart guide for GitHub Sync](./github-sync/).
 
 :::
 
