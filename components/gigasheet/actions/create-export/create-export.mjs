@@ -8,7 +8,7 @@ export default {
   type: "action",
   props: {
     gigasheet,
-    datasetHandle: {
+    handle: {
       propDefinition: [
         gigasheet,
         "handle",
@@ -40,7 +40,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      datasetHandle,
+      handle,
       filename,
       folderHandle,
       gridState,
@@ -58,10 +58,10 @@ export default {
       }
     });
 
-    const response = await this.createExport({
+    const response = await this.gigasheet.createExport({
       $,
+      handle,
       data: {
-        datasetHandle,
         filename,
         folderHandle,
         gridState,
