@@ -56,7 +56,7 @@ Starting October 15, the relevant API calls will return a message like this:
 - Each “app” would be a unique connected account for the Shopify Developer app in Pipedream
 - You’ll need to modify each workflow that uses Shopify to use the Shopify Developer app instead of the main Shopify app 
 
-Here's an example of a code step using the `shopify` app:
+Here's an example of a code step using the **`shopify`** app:
 
 ``` javascript
 import { axios } from "@pipedream/platform"
@@ -86,7 +86,7 @@ export default defineComponent({
 })
 ```
 
-And here's an example of the updated code step that uses a custom app instead:
+And here's an example of the updated code step that uses a custom app with the **`shopify_developer_app`** instead:
 
 ``` javascript
 import { axios } from "@pipedream/platform"
