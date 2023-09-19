@@ -53,6 +53,24 @@ Pipedream recommends enabling 2FA with your identity provider.
 
 :::
 
+#### Requiring Two-Factor Authentication
+As a workspace admin or owner on the [Business plan](https://pipedream.com/pricing), you're able to **require** that everyone in your workspace must configure 2FA on their account.
+
+1. Open the Authentication tab in your [workspace settings](https://pipedream.com/settings/authentication) (must be an admin or owner to make changes here)
+2. Make sure you're in the [correct workspace](/workspaces/#switching-between-workspaces)
+3. Click the toggle under **Require 2FA** — this will open a confirmation modal with some additional information
+
+![Require 2FA Toggle](https://res.cloudinary.com/pipedreamin/image/upload/v1695147277/require_2fa_xha6yc.png)
+
+Once you enable this setting, all workspace members (including admins and owners) will immediately be required to configure 2FA on their account. All new and existing workspace members will be required to set up 2FA the next time they sign in.
+
+::: warning  Anyone who is currently logged in to Pipedream will be temporarily signed out until they set up 2FA
+
+If anyone is actively making changes to a workflow, their session may get interrupted, so you should enable the 2FA requirement when your team is not in the builder.
+
+:::
+
+
 ### Pipedream API Key
 
 Pipedream provides a [REST API](/api/) for interacting with Pipedream programmatically. You'll find your API key here, which you use to [authorize requests to the API](/api/auth/).

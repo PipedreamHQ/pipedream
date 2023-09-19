@@ -53,6 +53,9 @@ To demote an admin back to a member, click the 3 dots to the right of their emai
 
 Visit your [workspace settings](https://pipedream.com/settings/account) and scroll down to the **API** section. You'll see your workspace ID here.
 
+### Requiring 2-Factor Authentication
+Workspace admins and owners on the Business and Enterprise plans can require that everyone in the workspace must configure 2FA. [See here for more info](/user-settings/#requiring-two-factor-authentication).
+
 ### Configuring Single Sign-On (SSO)
 
 Workspaces on the Business and Enterprise plans can configure Single Sign-On, so your users can login to Pipedream using your identity provider.
