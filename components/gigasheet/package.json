@@ -7,7 +7,6 @@
     "pipedream",
     "gigasheet"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/gigasheet",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
