@@ -1,23 +1,28 @@
-# October 2023 Update to the Shopify Integration on Pipedream
+# Update to the Shopify Integration on Pipedream (October 2023)
 
 Effective October 15, 2023, Shopify will no longer allow their customers to access **[Protected Customer Data](https://www.shopify.com/partners/blog/data-protection)** on Pipedream.
 
 [[toc]]
 
 ### What is Protected Customer Data?
-**Refer to [Shopify's docs](https://www.shopify.com/partners/blog/data-protection) for the latest**, but here is what they say:
+**Refer to Shopify's docs for the latest**, but [here is what they say](https://www.shopify.com/partners/blog/data-protection):
 > Protected customer data includes any data that relates directly to a customer or prospective customer, as represented in the API resources. This includes information like total order value, line items in an order, and order shipping events. Apps that require this level of data must implement our [data protection requirements](https://shopify.dev/apps/store/data-protection/protected-customer-data?shpxid=aa95abd6-7955-4C12-6DB9-B3C3859B16AE), including informing merchants of your app’s data use and purpose, applying customer consent decisions, opt-out requests, and more.
 
 > Protected customer fields require individual configuration and approval, in addition to approval for protected customer data. This includes information like name, address, email, and phone number. Apps that require this layer of data will need to abide by [additional requirements](https://shopify.dev/apps/store/data-protection/protected-customer-data?shpxid=aa95abd6-7955-4C12-6DB9-B3C3859B16AE#requirements), including encrypting your data back ups, keeping test and production data separate, and more.
 
 ### How do I know if this is relevant to me?
-These actions use Protected Customer Data or Fields:
+
+::: warning To-Do
+Probably remove the links, because I think we'll unpublish these asap
+:::
+
+These Shopify actions use Protected Customer Data or Fields:
 - [Create Customer](https://pipedream.com/apps/shopify/actions/create-customer)
 - [Create Order](https://pipedream.com/apps/shopify/actions/create-order)
 - [Search for Customers](https://pipedream.com/apps/shopify/actions/search-customers)
 - [Update Customer](https://pipedream.com/apps/shopify/actions/update-customer)
 
-These sources use Protected Customer Data or Fields:
+These Shopify sources use Protected Customer Data or Fields:
 - [New Abandoned Cart](https://pipedream.com/apps/shopify/triggers/new-abandoned-cart)
 - [New Cancelled Order (Instant)](https://pipedream.com/apps/shopify/triggers/new-cancelled-order)
 - [New Customer Created (Instant)](https://pipedream.com/apps/shopify/triggers/new-customer-created)
@@ -28,19 +33,15 @@ These sources use Protected Customer Data or Fields:
 - [New Updated Customer (Instant)](https://pipedream.com/apps/shopify/triggers/new-updated-customer)
 - [New Updated Order (Instant)](https://pipedream.com/apps/shopify/triggers/new-updated-order)
 
-And if you're access those endpoints in custom code steps or HTTP requests using the main [Shopify](https://pipedream.com/apps/shopify) app, those requests will stop working after 2023-10-15.
+In addition, any custom code steps or HTTP requests that are accessing Protected Customer Data using the main [Shopify](https://pipedream.com/apps/shopify) app will stop working after 2023-10-15.
 
 ### Why is this data no longer available in Pipedream?
 We've invested significant Product and Engineering time to get our app approved based on Shopify’s requirements, and unfortunately they’ve been inflexible and unwilling to support the use case of an app-agnostic platform like Pipedream.
 
 ### How will this impact my workflows?
-Starting October 15, the relevant APIs will return a message like this:
-``` javascript
-Error - Request failed with status code 403
-{
-	"errors": "[API] This app is not approved to access REST endpoints with protected customer data. See https://partners.shopify.com/1150772/apps/3141151/customer_data for more details."
-}
-```
+Starting October 15, the relevant API calls will return a message like this:
+
+![Restricted Customer Fields](https://res.cloudinary.com/pipedreamin/image/upload/v1695097066/shopify-customer-fields_f7enlk.png)
 
 ### What are my options?
 #### Continue using the main [Shopify app](https://pipedream.com/apps/shopify)
