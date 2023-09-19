@@ -18,11 +18,6 @@ export default {
       },
     },
   },
-  hooks: {
-    async deploy() {},
-    async activate() {},
-    async deactivate() {},
-  },
   methods: {
     ...common.methods,
     setLastCreatedAt(value) {
@@ -45,17 +40,17 @@ export default {
       this.$emit(resource, meta);
     },
     async processResources(resources) {
+      const descendingResources = Array.from(resources).reverse();
+
       const [
         lastResource,
-      ] = resources;
+      ] = descendingResources;
 
-      if (lastResource?.created_at) {
-        this.setLastCreatedAt(lastResource.created_at);
+      if (lastResource?.started) {
+        this.setLastCreatedAt(lastResource.started);
       }
 
-      Array.from(resources)
-        .reverse()
-        .forEach(this.processEvent);
+      descendingResources.forEach(this.processEvent);
     },
   },
   async run() {

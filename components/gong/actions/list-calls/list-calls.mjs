@@ -8,27 +8,31 @@ export default {
   version: "0.0.1",
   props: {
     app,
-  },
-  methods: {
-    request(args = {}) {
-      return this.app.makeRequest({
-        path: "/path",
-        ...args,
-      });
+    fromDateTime: {
+      optional: true,
+      propDefinition: [
+        app,
+        "fromDateTime",
+      ],
+    },
+    toDateTime: {
+      optional: true,
+      propDefinition: [
+        app,
+        "toDateTime",
+      ],
     },
   },
   run({ $: step }) {
     const {
-      // eslint-disable-next-line no-unused-vars
       app,
-      request,
-      ...data
+      ...params
     } = this;
 
-    return request({
+    return app.listCalls({
       step,
-      data,
-      summary: (response) => `Response: ${response.id}`,
+      params,
+      summary: (response) => `Successfully listed calls with request ID \`${response.requestId}\``,
     });
   },
 };

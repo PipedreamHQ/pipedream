@@ -11,19 +11,25 @@ export default {
   methods: {
     ...common.methods,
     getResourceName() {
-      return "resource";
+      return "calls";
     },
     getResourceFn() {
-      return this.app.listResources;
+      return this.app.listCalls;
     },
     getResourceFnArgs() {
-      return {};
+      const threeMonthsAgo = new Date();
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+      return {
+        params: {
+          fromDateTime: this.getLastCreatedAt() || threeMonthsAgo.toISOString(),
+        },
+      };
     },
     generateMeta(resource) {
       return {
         id: resource.id,
-        summary: `New Resource: ${resource.name}`,
-        ts: Date.parse(resource.created_at),
+        summary: `New Call: ${resource.id}`,
+        ts: Date.parse(resource.started),
       };
     },
   },

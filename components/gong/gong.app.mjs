@@ -8,10 +8,63 @@ export default {
   type: "app",
   app: "gong",
   propDefinitions: {
-    commonProperty: {
+    userId: {
       type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
+      label: "User ID",
+      description: "The id of the user.",
+      async options({ prevContext }) {
+        const { cursor } = prevContext;
+        if (cursor === null) {
+          return [];
+        }
+
+        const {
+          records,
+          users,
+        } = await this.listUsers({
+          params: {
+            cursor,
+          },
+        });
+
+        const options = users.map(({
+          id: value, firstName, lastName,
+        }) => ({
+          label: `${firstName} ${lastName}`.trim(),
+          value,
+        }));
+
+        return {
+          options,
+          context: {
+            cursor: records.cursor || null,
+          },
+        };
+      },
+    },
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "The id of the workspace.",
+      async options() {
+        const { workspaces } = await this.listWorkspaces();
+        return workspaces.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    fromDateTime: {
+      type: "string",
+      label: "From Date Time",
+      description: "Date and time (in ISO-8601 format: `2018-02-18T02:30:00-07:00` or `2018-02-18T08:00:00Z`, where Z stands for UTC) from which to list recorded calls. Returns calls that started on or after the specified date and time. If not provided, list starts with earliest call.",
+    },
+    toDateTime: {
+      type: "string",
+      label: "To Date Time",
+      description: "Date and time (in ISO-8601 format: `2018-02-18T02:30:00-07:00` or `2018-02-18T08:00:00Z`, where Z stands for UTC) until which to list recorded calls. Returns calls that started up to but excluding specified date and time. If not provided, list ends with most recent call.",
     },
   },
   methods: {
@@ -24,23 +77,23 @@ export default {
     getBaseUrl() {
       return `${constants.BASE_URL}${constants.VERSION_PATH}`;
     },
-    getUrl(path, url) {
-      return url || `${this.getBaseUrl()}${path}`;
+    getUrl(path) {
+      return `${this.getBaseUrl()}${path}`;
     },
     getHeaders(headers) {
       return {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         ...headers,
       };
     },
     async makeRequest({
-      step = this, path, headers, url, summary, ...args
+      step = this, path, headers, summary, ...args
     } = {}) {
 
       const config = {
         headers: this.getHeaders(headers),
-        url: this.getUrl(path, url),
+        url: this.getUrl(path),
         ...args,
       };
 
@@ -58,21 +111,21 @@ export default {
         ...args,
       });
     },
-    put(args = {}) {
+    listUsers(args = {}) {
       return this.makeRequest({
-        method: "put",
+        path: "/users",
         ...args,
       });
     },
-    delete(args = {}) {
+    listWorkspaces(args = {}) {
       return this.makeRequest({
-        method: "delete",
+        path: "/workspaces",
         ...args,
       });
     },
-    patch(args = {}) {
+    listCalls(args = {}) {
       return this.makeRequest({
-        method: "patch",
+        path: "/calls",
         ...args,
       });
     },
@@ -80,10 +133,9 @@ export default {
       resourceFn,
       resourceFnArgs,
       resourceName,
-      lastCreatedAt,
       max = constants.DEFAULT_MAX,
     }) {
-      let page = 1;
+      let cursor;
       let resourcesCount = 0;
 
       while (true) {
@@ -92,7 +144,7 @@ export default {
             ...resourceFnArgs,
             params: {
               ...resourceFnArgs?.params,
-              page,
+              cursor,
             },
           });
 
@@ -104,32 +156,24 @@ export default {
         }
 
         for (const resource of nextResources) {
-          const dateFilter =
-            lastCreatedAt
-            && Date.parse(resource.created_at) > Date.parse(lastCreatedAt);
-
-          if (!lastCreatedAt || dateFilter) {
-            yield resource;
-            resourcesCount += 1;
-          }
+          yield resource;
+          resourcesCount += 1;
 
           if (resourcesCount >= max) {
             return;
           }
         }
 
-        page += 1;
+        if (!response.records?.cursor) {
+          console.log("Stop pagination because no cursor is returned");
+          return;
+        }
+
+        cursor = response.records.cursor;
       }
     },
-    paginate({
-      resourceFn, resourceFnArgs, resourceName, ...args
-    } = {}) {
-      const stream = this.getResourcesStream({
-        resourceFn,
-        resourceFnArgs,
-        resourceName,
-        ...args,
-      });
+    paginate(args = {}) {
+      const stream = this.getResourcesStream(args);
       return utils.streamIterator(stream);
     },
   },

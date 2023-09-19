@@ -8,11 +8,32 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    fromDateTime: {
+      optional: true,
+      propDefinition: [
+        app,
+        "fromDateTime",
+      ],
+    },
+    toDateTime: {
+      optional: true,
+      propDefinition: [
+        app,
+        "toDateTime",
+      ],
+    },
+    workspaceId: {
+      optional: true,
+      propDefinition: [
+        app,
+        "workspaceId",
+      ],
+    },
   },
   methods: {
-    request(args = {}) {
-      return this.app.makeRequest({
-        path: "/path",
+    retrieveTranscriptsOfCalls(args = {}) {
+      return this.app.post({
+        path: "/calls/transcript",
         ...args,
       });
     },
@@ -21,14 +42,16 @@ export default {
     const {
       // eslint-disable-next-line no-unused-vars
       app,
-      request,
-      ...data
+      retrieveTranscriptsOfCalls,
+      ...filter
     } = this;
 
-    return request({
+    return retrieveTranscriptsOfCalls({
       step,
-      data,
-      summary: (response) => `Response: ${response.id}`,
+      data: {
+        filter,
+      },
+      summary: (response) => `Successfully retrieved transcripts of calls with request ID \`${response.requestId}\``,
     });
   },
 };
