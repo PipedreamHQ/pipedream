@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "melo-new-property-created",
-  name: "New Property Created",
+  name: "New Property Created (Instant)",
   description: "Emit new event when a new property ad is created in Melo. Requires a Production Environment.",
   version: "0.0.1",
   type: "source",
@@ -54,7 +54,6 @@ export default {
       type: "integer",
       label: "Maximum Budget",
       description: "Maximum budget for the property.",
-      optional: true,
     },
     excludedCities: {
       type: "string[]",
@@ -193,9 +192,21 @@ export default {
   },
   hooks: {
     async deploy() {
+      if (!this.includedCities?.length
+        && !this.includedDepartments?.length
+        && !(this.lat && this.lon && this.radius)
+      ) {
+        throw new ConfigurationError("Choose at least one location. IncludedCities or includedDepartments or radius/lon/lat.");
+      }
+
       const {
         melo,
         http,
+        transactionType,
+        propertyTypes,
+        publisherTypes,
+        lat,
+        lon,
         ...data
       } = this;
 
@@ -207,6 +218,17 @@ export default {
             ],
             notificationEnabled: true,
             endpointRecipient: http.endpoint,
+            transactionType: parseInt(transactionType),
+            propertyTypes: propertyTypes.map((type) => parseInt(type)),
+            publisherTypes: publisherTypes?.length
+              ? publisherTypes.map((type) => parseInt(type))
+              : undefined,
+            lat: lat
+              ? parseFloat(lat)
+              : undefined,
+            lon: lon
+              ? parseFloat(lon)
+              : undefined,
             ...data,
           },
         });
@@ -215,7 +237,7 @@ export default {
         if (message["hydra:description"] === "Access Denied.") {
           throw new ConfigurationError(`${message["hydra:description"]} Creating webhooks requires a Production Environment API Key.`);
         }
-        throw new Error(message);
+        throw new Error(JSON.stringify(message));
       }
     },
   },
