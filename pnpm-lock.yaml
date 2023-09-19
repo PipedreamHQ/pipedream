@@ -1814,7 +1814,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/getaccept: {}
+  components/getaccept:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/getemails: {}
 
