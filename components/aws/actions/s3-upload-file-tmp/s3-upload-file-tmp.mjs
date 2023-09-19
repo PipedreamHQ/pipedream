@@ -12,7 +12,7 @@ export default {
     Accepts a file path or folder path starting from /tmp, then uploads the contents to S3.
     [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
   `),
-  version: "0.2.1",
+  version: "1.0.0",
   type: "action",
   props: {
     aws: common.props.aws,
@@ -33,6 +33,12 @@ export default {
       type: "string",
       label: "Folder Path",
       description: "A path starting from `/tmp`, i.e. `/tmp/some_folder`. If provided, all the files inside this path will be uploaded. This will override the `Filename Key` and `File Path` props.",
+      optional: true,
+    },
+    customFilename: {
+      type: common.props.key.type,
+      label: common.props.key.label,
+      description: common.props.key.description,
       optional: true,
     },
   },
@@ -68,6 +74,7 @@ export default {
         bucket,
         path,
         prefix,
+        customFilename,
       } = this;
 
       if (!path) {
@@ -76,7 +83,7 @@ export default {
       const file = fs.readFileSync(path, {
         encoding: "base64",
       });
-      const filename = path.split("/").pop();
+      const filename = customFilename || path.split("/").pop();
       const response = await uploadFile({
         Bucket: bucket,
         Key: join(prefix, filename),
