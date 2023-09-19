@@ -2693,6 +2693,12 @@
     },
     {
       "path": "components/serply"
+    },
+    {
+      "path": "components/smsapi"
+    },
+    {
+      "path": "components/axis_lms"
     }
   ]
 }
