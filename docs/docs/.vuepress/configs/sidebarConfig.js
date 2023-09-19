@@ -4,8 +4,14 @@ const docsNav = [
   {
     title: "Quickstart",
     children: [
-      "/quickstart/",
-      "/quickstart/github-sync/"
+      {
+        title: "Workflow Development",
+        path: "/quickstart/",
+      },
+      {
+        title: "GitHub Sync",
+        path: "/quickstart/github-sync/",
+      },
     ]
   },
   "/workspaces/",
