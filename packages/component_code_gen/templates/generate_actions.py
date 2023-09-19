@@ -14,7 +14,7 @@ from templates.common.async_options import async_options
 from templates.common.typescript_definitions import typescript_definitions
 from templates.common.end import end
 
-def system_instructions(auth_example=""):
+def system_instructions(auth_example="", parsed_common_files=""):
     return f"""{introduction}
 
 {main_example}
@@ -37,7 +37,7 @@ def system_instructions(auth_example=""):
 
 {action_metadata}
 
-{common_files}
+{common_files(parsed_common_files)}
 
 {typescript_definitions}
 

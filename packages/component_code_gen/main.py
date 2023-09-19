@@ -25,14 +25,44 @@ def main(component_type, app, instructions, tries, urls=[], verbose=False):
     validate_inputs(app, component_type, instructions, tries)
 
     templates = available_templates[component_type]
+    parsed_common_files = parse_common_files(app, component_type)
     urls_content = parse_urls(urls)
 
     validate_system_instructions(templates)
 
     # this is here so that the DEBUG environment variable is set before the import
     from code_gen.generate_component_code import generate_code
-    result = generate_code(app, instructions, templates, urls_content, tries)
+    result = generate_code(app, instructions, templates, parsed_common_files, urls_content, tries)
     return result
+
+
+def parse_common_files(app, component_type):
+    file_list = []
+    app_path = f'../../components/{app}'
+
+    if "source" in component_type:
+        component_type = "source"
+
+    for root, _, files in os.walk(app_path):
+        for filename in files:
+            filepath = os.path.join(root, filename)
+            if "dist/" in filepath or "node_modules/" in filepath:
+                continue
+            if "actions/" in filepath or "sources/" in filepath:
+                if component_type == "app":
+                    continue
+                elif component_type in filepath and "common" in filepath:
+                    file_list.append(filepath)
+            else:
+                if filepath.endswith(".mjs") or filepath.endswith(".ts"):
+                    file_list.append(filepath)
+
+    parsed_common_files = ""
+    for common_file in file_list:
+        with open(common_file, 'r') as f:
+            common_file = common_file.split(f"{app}/")[1]
+            parsed_common_files += f'### {common_file}\n\n{f.read()}\n'
+    return parsed_common_files
 
 
 def parse_urls(urls):

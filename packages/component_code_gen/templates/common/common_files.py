@@ -1,4 +1,5 @@
-common_files = """## Common Files
+def common_files(parsed_common_files):
+  return """## Common Files
 
 The user may include a code snippet that is contained in a common file, or a common app file. This code is part of the component, and you may call any method that is defined in it. The same applies for prop definitions. If the common file includes props that applies to the response code, you may just use it with the following syntax:
 
@@ -38,5 +39,7 @@ props: {
     optional: true_or_false
   },
 },
+
+
 ```
-"""
+""" + parsed_common_files
