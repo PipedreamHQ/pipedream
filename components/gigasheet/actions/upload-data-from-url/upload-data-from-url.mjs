@@ -20,13 +20,17 @@ export default {
       optional: true,
     },
     folderHandle: {
-      type: "string",
-      label: "Folder Handle",
+      propDefinition: [
+        gigasheet,
+        "folderHandle",
+      ],
       description: "Folder handle of the uploaded file",
-      optional: true,
     },
     targetHandle: {
-      type: "string",
+      propDefinition: [
+        gigasheet,
+        "handle",
+      ],
       label: "Target Handle",
       description: "If specified, records will be appended to this handle",
       optional: true,

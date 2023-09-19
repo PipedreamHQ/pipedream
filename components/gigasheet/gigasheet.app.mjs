@@ -4,9 +4,9 @@ export default {
   type: "app",
   app: "gigasheet",
   propDefinitions: {
-    datasetHandle: {
+    handle: {
       type: "string",
-      label: "Dataset Handle",
+      label: "Handle",
       description: "The handle of the dataset",
       async options() {
         const { datasets } = await this.getDatasets();
@@ -15,6 +15,11 @@ export default {
           label: e.name,
         }));
       },
+    },
+    folderHandle: {
+      type: "string",
+      label: "Folder Handle",
+      optional: true,
     },
   },
   methods: {
@@ -44,17 +49,21 @@ export default {
         path: "/upload/url",
       });
     },
-    async createExport(opts = {}) {
+    async createExport({
+      handle, ...opts
+    } = {}) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: `/dataset/${opts.datasetHandle}/export`,
+        path: `/dataset/${handle}/export`,
       });
     },
-    async downloadExport(opts = {}) {
+    async downloadExport({
+      handle, ...opts
+    } = {}) {
       return this._makeRequest({
         ...opts,
-        path: `/dataset/${opts.datasetHandle}/download/export`,
+        path: `/dataset/${handle}/download/export`,
       });
     },
     async getDatasets(opts = {}) {
