@@ -64,6 +64,15 @@ poetry run python main.py --type action --app slack --instructions instructions.
 ```
 
 
+### Add multiple API docs URLs
+
+You can pass a list of space-separated URLs of specific links for the API docs that will be scraped and added to the prompt
+
+```
+poetry run python main.py --type action --app slack --instructions instructions.md --verbose --urls https://url1.com https://url2.com
+```
+
+
 ### Tests
 
 To run a suite of tests (e.g. webhook_sources):
