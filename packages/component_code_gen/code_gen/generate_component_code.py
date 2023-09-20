@@ -11,7 +11,8 @@ logger = logging_config.getLogger(__name__)
 
 def generate_code(app, prompt, templates, parsed_common_files, urls_content, tries):
     db = supabase_helpers.SupabaseConnector()
-    docs_meta = db.get_app_docs_meta(app)
+    # docs_meta = db.get_app_docs_meta(app)
+    docs_meta = {} # XXX - temporarily disable supabase docs
     results = []
 
     auth_example = None
