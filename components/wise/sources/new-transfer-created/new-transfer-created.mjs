@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Transfer Created (Instant)",
-  version: "0.0.4",
+  version: "0.0.5",
   key: "wise-new-transfer-created",
   description: "Emit new event for a transfer created.",
   type: "source",
