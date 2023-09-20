@@ -2409,7 +2409,14 @@ importers:
 
   components/hyros: {}
 
-  components/iauditor_by_safetyculture: {}
+  components/iauditor_by_safetyculture:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
 
   components/icontact: {}
 
