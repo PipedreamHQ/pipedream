@@ -1,4 +1,7 @@
-import { parseArray } from "../../common/utils.mjs";
+import {
+  parseArray,
+  toSingleLineString,
+} from "../../common/utils.mjs";
 import personio from "../../personio.app.mjs";
 
 export default {
@@ -44,7 +47,11 @@ export default {
     jobPositionId: {
       type: "integer",
       label: "Job Position Id",
-      description: "The personio internal id of the job this application should belong to.",
+      description: toSingleLineString(
+        `The personio internal id of the job this application should belong to.
+        Access your positions page at https://{YOUR_COMPANY}.personio.de/recruiting/positions; Select a position;
+        If your current URL is https://{YOUR_COMPANY}.personio.de/recruiting/positions/12345, then your Job Position ID is \`12345\``,
+      ),
     },
     recruitingChannelId: {
       type: "string",

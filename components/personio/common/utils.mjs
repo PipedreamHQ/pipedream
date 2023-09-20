@@ -31,3 +31,9 @@ export const clearObj = (obj) => {
     }), {});
 };
 
+export const toSingleLineString = (multiLineString) => {
+  return multiLineString
+    .trim()
+    .replace(/\n/g, " ")
+    .replace(/\s{2,}/g, " ");
+};
