@@ -91,6 +91,7 @@ function isComputedField(field) {
     FieldType.LAST_MODIFIED_BY,
     FieldType.LAST_MODIFIED_TIME,
     FieldType.MULTIPLE_LOOKUP_VALUES,
+    FieldType.MULTIPLE_RECORD_LINKS,
   ].includes(field.type);
 
   const fieldOptionsResultExists = Boolean(field.options?.result);
