@@ -1,18 +1,16 @@
 {
   "name": "@pipedream/hyros",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Pipedream Hyros Components",
-  "main": "hyros.app.mjs",
+  "main": "dist/app/hyros.app.mjs",
   "keywords": [
     "pipedream",
     "hyros"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/hyros",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@pipedream/platform": "^1.5.1"
   }
 }
