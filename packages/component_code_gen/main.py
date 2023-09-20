@@ -61,7 +61,7 @@ def parse_common_files(app, component_type):
     for common_file in file_list:
         with open(common_file, 'r') as f:
             common_file = common_file.split(f"{app}/")[1]
-            parsed_common_files += f'### {common_file}\n\n{f.read()}\n'
+            parsed_common_files += f'### ../../{common_file}\n\n{f.read()}\n'
     return parsed_common_files
 
 

@@ -43,7 +43,7 @@ def generate_code(app, prompt, templates, parsed_common_files, urls_content, tri
 
         # If we haven't obtained any results using docs
         if not has_docs_result:
-            results.append(call_langchain(prompt, templates, parsed_common_files, auth_example, urls_content))
+            results.append(call_langchain(prompt, templates, auth_example, parsed_common_files, urls_content))
 
     # Create a new prompt string
     new_prompt = "I've asked other GPT agents to generate the following code based on the prompt and the instructions below. One set of code (or all) may not follow the rules laid out in the prompt or in the instructions below, so you'll need to review it for accuracy. Try to evaluate the examples according to the rules, combine the best parts of each example, and generate a final set of code that solves the problem posed by the prompt and follows all of the rules below. Here are the attempts + code:\n\n---\n\n"

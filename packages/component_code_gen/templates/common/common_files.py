@@ -39,7 +39,8 @@ props: {
     optional: true_or_false
   },
 },
-
-
 ```
+
+Below are the common files that are available for this component. Evaluate throughly each file's code to make sure if there are any props or methods that you can import and use in your code instead of writing the code yourself. You should ALWAYS call a common method that gets you the result you need. Even if it uses a SDK or a different library instead of axios. Only write the code if there isn't any method available. Think about it, we don't want to rewrite exisiting code, we want to re-use it. If you find yourself writing code that is already written, you are doing it wrong. Be sure to import the common file's path correctly in your code.
+
 """ + parsed_common_files
