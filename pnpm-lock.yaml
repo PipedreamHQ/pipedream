@@ -3152,6 +3152,8 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
+  components/microsoft_excel: {}
+
   components/microsoft_onedrive:
     dependencies:
       '@microsoft/microsoft-graph-client':
