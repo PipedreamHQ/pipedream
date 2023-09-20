@@ -12,10 +12,6 @@ Effective 2023-10-15, Shopify will no longer allow their customers to access **[
 
 ### How do I know if this is relevant to me?
 
-::: warning To-Do
-Probably remove the links, because I think we'll unpublish these asap
-:::
-
 These Shopify actions use Protected Customer Data or Fields:
 - Create Customer
 - Create Order
