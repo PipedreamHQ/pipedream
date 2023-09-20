@@ -451,6 +451,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
 
+  components/axis_lms: {}
+
   components/axonaut:
     dependencies:
       '@pipedream/platform':
@@ -2228,6 +2230,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
+  components/gtmetrix: {}
+
   components/gumroad:
     dependencies:
       '@pipedream/platform':
@@ -2405,7 +2409,14 @@ importers:
 
   components/hyros: {}
 
-  components/iauditor_by_safetyculture: {}
+  components/iauditor_by_safetyculture:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
 
   components/icontact: {}
 
@@ -3058,7 +3069,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/melo: {}
+  components/melo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/mem: {}
 
@@ -4031,6 +4046,8 @@ importers:
   components/postgrid_verify: {}
 
   components/posthog: {}
+
+  components/postman: {}
 
   components/practitest:
     dependencies:

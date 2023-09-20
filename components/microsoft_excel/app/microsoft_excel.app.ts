@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "iauditor_by_safetyculture",
+  app: "microsoft_excel",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
