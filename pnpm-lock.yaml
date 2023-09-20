@@ -2407,7 +2407,11 @@ importers:
 
   components/hygraph: {}
 
-  components/hyros: {}
+  components/hyros:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/iauditor_by_safetyculture:
     dependencies:
