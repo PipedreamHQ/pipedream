@@ -2705,6 +2705,9 @@
     },
     {
       "path": "components/gtmetrix"
+    },
+    {
+      "path": "components/microsoft_excel"
     }
   ]
 }
