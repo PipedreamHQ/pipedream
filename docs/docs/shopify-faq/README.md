@@ -1,6 +1,6 @@
 # Update to the Shopify Integration on Pipedream (October 2023)
 
-Effective October 15, 2023, Shopify will no longer allow their customers to access **[Protected Customer Data](https://www.shopify.com/partners/blog/data-protection)** on Pipedream.
+Effective 2023-10-15, Shopify will no longer allow their customers to access **[Protected Customer Data](https://www.shopify.com/partners/blog/data-protection)** on Pipedream.
 
 [[toc]]
 
@@ -39,7 +39,7 @@ In addition, any custom code steps or HTTP requests that are accessing Protected
 We've invested significant Product and Engineering time to get our app approved based on Shopify’s requirements, and unfortunately they’ve been inflexible and unwilling to support the use case of an app-agnostic platform like Pipedream.
 
 ### How will this impact my workflows?
-Starting October 15, the relevant API calls will return a message like this:
+Starting 2023-10-15, the relevant API calls will return a message like this:
 
 ![Restricted Customer Fields](https://res.cloudinary.com/pipedreamin/image/upload/v1695097066/shopify-customer-fields_f7enlk.png)
 
@@ -67,7 +67,10 @@ export default defineComponent({
       type: "app",
       app: "shopify",
     },
-    customerEmail: "string"
+    customerEmail: {
+      type: "string"
+      label: "Customer Email"
+    }
   },
   async run({steps, $}) {
     return await axios($, {
@@ -97,7 +100,10 @@ export default defineComponent({
       type: "app",
       app: "shopify_developer_app",
     },
-    customerEmail: "string"
+    customerEmail: {
+      type: "string"
+      label: "Customer Email"
+    }
   },
   async run({steps, $}) {
     return await axios($, {
