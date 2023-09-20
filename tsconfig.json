@@ -2708,6 +2708,15 @@
     },
     {
       "path": "components/microsoft_excel"
+    },
+    {
+      "path": "components/kingsumo"
+    },
+    {
+      "path": "components/linkedin_ads"
+    },
+    {
+      "path": "components/brevo"
     }
   ]
 }
