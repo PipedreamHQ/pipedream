@@ -36,7 +36,7 @@ These Shopify sources use Protected Customer Data or Fields:
 In addition, any custom code steps or HTTP requests that are accessing Protected Customer Data using the main [Shopify](https://pipedream.com/apps/shopify) app will stop working after 2023-10-15.
 
 ### Why is this data no longer available in Pipedream?
-We've invested significant Product and Engineering time to get our app approved based on Shopify’s requirements, and unfortunately they’ve been inflexible and unwilling to support the use case of an app-agnostic platform like Pipedream.
+We've invested significant Product and Engineering time to get our app approved based on Shopify’s requirements, and unfortunately they’ve been unwilling to support the use case of an app-agnostic platform like Pipedream.
 
 ### How will this impact my workflows?
 Starting 2023-10-15, the relevant API calls will return a message like this:
