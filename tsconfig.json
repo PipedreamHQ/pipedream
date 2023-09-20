@@ -2699,6 +2699,12 @@
     },
     {
       "path": "components/axis_lms"
+    },
+    {
+      "path": "components/postman"
+    },
+    {
+      "path": "components/gtmetrix"
     }
   ]
 }
