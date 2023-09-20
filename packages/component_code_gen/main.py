@@ -18,14 +18,14 @@ available_templates = {
 }
 
 
-def main(component_type, app, instructions, tries, urls=[], verbose=False):
+def main(component_type, app, instructions, tries, urls=[], custom_path=None, verbose=False):
     if verbose:
         os.environ['LOGGING_LEVEL'] = 'DEBUG'
 
     validate_inputs(app, component_type, instructions, tries)
 
     templates = available_templates[component_type]
-    parsed_common_files = parse_common_files(app, component_type)
+    parsed_common_files = parse_common_files(app, component_type, custom_path)
     urls_content = parse_urls(urls)
 
     validate_system_instructions(templates)
@@ -36,9 +36,9 @@ def main(component_type, app, instructions, tries, urls=[], verbose=False):
     return result
 
 
-def parse_common_files(app, component_type):
+def parse_common_files(app, component_type, custom_path=None):
     file_list = []
-    app_path = f'../../components/{app}'
+    app_path = custom_path or f'../../components/{app}'
 
     if "source" in component_type:
         component_type = "source"
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     parser.add_argument('--urls', help='A list of (space-separated) api docs urls to be parsed and sent with the prompt',
                         required=False, default=[], nargs="*")
     parser.add_argument('--num_tries', dest='tries', help='The number of times we call the model to generate code',
-                        required=False, default=3, type=int)
+    parser.add_argument('--custom_path', help='The path for the location of custom files')
     parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
                         required=False, default=False, action='store_true')
     args = parser.parse_args()
@@ -129,5 +129,5 @@ if __name__ == '__main__':
     with open(args.instructions, 'r') as f:
         instructions = f.read()
 
-    result = main(args.type, args.app, instructions, args.tries, args.urls, args.verbose)
+    result = main(args.type, args.app, instructions, args.tries, args.urls, args.custom_path, args.verbose)
     print(result)
