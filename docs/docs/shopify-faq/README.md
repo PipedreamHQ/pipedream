@@ -17,21 +17,21 @@ Probably remove the links, because I think we'll unpublish these asap
 :::
 
 These Shopify actions use Protected Customer Data or Fields:
-- [Create Customer](https://pipedream.com/apps/shopify/actions/create-customer)
-- [Create Order](https://pipedream.com/apps/shopify/actions/create-order)
-- [Search for Customers](https://pipedream.com/apps/shopify/actions/search-customers)
-- [Update Customer](https://pipedream.com/apps/shopify/actions/update-customer)
+- Create Customer
+- Create Order
+- Search for Customers
+- Update Customer
 
 These Shopify sources use Protected Customer Data or Fields:
-- [New Abandoned Cart](https://pipedream.com/apps/shopify/triggers/new-abandoned-cart)
-- [New Cancelled Order (Instant)](https://pipedream.com/apps/shopify/triggers/new-cancelled-order)
-- [New Customer Created (Instant)](https://pipedream.com/apps/shopify/triggers/new-customer-created)
-- [New Draft Order (Instant)](https://pipedream.com/apps/shopify/triggers/new-draft-order)
-- [New Order Created (Instant)](https://pipedream.com/apps/shopify/triggers/new-order-created)
-- [New Paid Order (Instant)](https://pipedream.com/apps/shopify/triggers/new-paid-order)
-- [New Shipment (Instant)](https://pipedream.com/apps/shopify/triggers/new-shipment)
-- [New Updated Customer (Instant)](https://pipedream.com/apps/shopify/triggers/new-updated-customer)
-- [New Updated Order (Instant)](https://pipedream.com/apps/shopify/triggers/new-updated-order)
+- New Abandoned Cart
+- New Cancelled Order (Instant)
+- New Customer Created (Instant)
+- New Draft Order (Instant)
+- New Order Created (Instant)
+- New Paid Order (Instant)
+- New Shipment (Instant)
+- New Updated Customer (Instant)
+- New Updated Order (Instant)
 
 In addition, any custom code steps or HTTP requests that are accessing Protected Customer Data using the main [Shopify](https://pipedream.com/apps/shopify) app will stop working after 2023-10-15.
 
@@ -50,10 +50,10 @@ Starting 2023-10-15, the relevant API calls will return a message like this:
 - You'll need to remove and re-add any Shopify triggers you're currently using, in order to get the latest version
 
 #### Use a custom Shopify app
-- Create a custom Shopify app for your Shopify store
-- Connect it to Pipedream using the [Shopify Developer App](https://pipedream.com/apps/shopify-developer-app)
+- Create a custom Shopify app for your Shopify store and connect it to Pipedream using the [Shopify Developer App](https://pipedream.com/apps/shopify-developer-app#getting-started)
 - Custom apps that are not distributed on Shopify’s app store do not have to meet any of their review requirements, but [can only be connected to a single Shopify store](https://shopify.dev/docs/apps/distribution)
 - Each “app” would be a unique connected account for the Shopify Developer app in Pipedream
+- All of the triggers and actions from the main Shopify app are supported on the [Shopify Developer App](https://pipedream.com/apps/shopify-developer-app/#popular-shopify-developer-app-triggers) (including those that access Protected Customer Data)
 - You’ll need to modify each workflow that uses Shopify to use the Shopify Developer app instead of the main Shopify app 
 
 Here's an example of a code step using the **`shopify`** app:
