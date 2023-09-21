@@ -34,7 +34,7 @@ export default {
     },
     _headers() {
       return {
-        "x-api-key": `${this.postgrid.$auth.api_key}`,
+        "x-api-key": `${this.$auth.api_key}`,
       };
     },
     _makeRequest({
