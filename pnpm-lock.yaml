@@ -625,6 +625,8 @@ importers:
 
   components/braze: {}
 
+  components/brevo: {}
+
   components/brex:
     dependencies:
       '@pipedream/platform':
@@ -827,6 +829,8 @@ importers:
       '@pipedream/platform':
         specifier: ^0.10.0
         version: 0.10.0
+
+  components/clerk: {}
 
   components/cleverreach:
     dependencies:
@@ -2661,6 +2665,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
+  components/kingsumo: {}
+
   components/kintone: {}
 
   components/kite_suite:
@@ -2827,6 +2833,8 @@ importers:
       axios:
         specifier: ^1.2.3
         version: 1.5.0
+
+  components/linkedin_ads: {}
 
   components/linqs_cc: {}
 
