@@ -451,6 +451,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
 
+  components/axis_lms: {}
+
   components/axonaut:
     dependencies:
       '@pipedream/platform':
@@ -2228,6 +2230,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
+  components/gtmetrix: {}
+
   components/gumroad:
     dependencies:
       '@pipedream/platform':
@@ -2405,7 +2409,14 @@ importers:
 
   components/hyros: {}
 
-  components/iauditor_by_safetyculture: {}
+  components/iauditor_by_safetyculture:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
 
   components/icontact: {}
 
@@ -3058,7 +3069,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/melo: {}
+  components/melo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/mem: {}
 
@@ -3136,6 +3151,8 @@ importers:
       lodash.pickby:
         specifier: ^4.6.0
         version: 4.6.0
+
+  components/microsoft_excel: {}
 
   components/microsoft_onedrive:
     dependencies:
@@ -3273,7 +3290,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/more_trees_: {}
+  components/more_trees_:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/motion:
     dependencies:
@@ -4028,6 +4049,8 @@ importers:
 
   components/posthog: {}
 
+  components/postman: {}
+
   components/practitest:
     dependencies:
       '@pipedream/platform':
@@ -4597,7 +4620,11 @@ importers:
 
   components/scraptio: {}
 
-  components/screendesk: {}
+  components/screendesk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/screenshotone:
     dependencies:
