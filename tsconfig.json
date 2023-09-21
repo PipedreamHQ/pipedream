@@ -2735,6 +2735,9 @@
     },
     {
       "path": "components/payhip"
+    },
+    {
+      "path": "components/wufoo"
     }
   ]
 }
