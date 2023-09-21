@@ -12,6 +12,12 @@ Capabilities include:
 - Edit in Pipedream or use a local editor and synchronize via GitHub (e.g., edit code, find and replace across multiple steps or workflows)
 - Organize workflows into projects with support for nested folders
 
+::: tip
+
+Follow our [quickstart guide](/quickstart/github-sync/) to start building projects on Pipedream using GitHub Sync.
+
+:::
+
 ## Getting Started
 
 ### Create a new project and enable GitHub Sync
