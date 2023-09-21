@@ -2717,6 +2717,9 @@
     },
     {
       "path": "components/brevo"
+    },
+    {
+      "path": "components/clerk"
     }
   ]
 }
