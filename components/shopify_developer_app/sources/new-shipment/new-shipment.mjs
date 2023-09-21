@@ -3,22 +3,22 @@ import constants from "../common/constants.mjs";
 
 export default {
   ...common,
-  key: "shopify-new-cancelled-order",
-  name: "New Cancelled Order (Instant)",
+  key: "shopify_developer_app-new-shipment",
+  name: "New Shipment (Instant)",
   type: "source",
-  description: "Emit new event each time a new order is cancelled.",
-  version: "0.0.17",
+  description: "Emit new event for each new fulfillment event for a store.",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getTopic() {
-      return constants.EVENT_TOPIC.ORDERS_CANCELLED;
+      return constants.EVENT_TOPIC.ORDERS_FULFILLED;
     },
     generateMeta(resource) {
       const ts = Date.parse(resource.updated_at);
       return {
         id: ts,
-        summary: `Order Cancelled ${resource.id}.`,
+        summary: `New Shipped Order ${resource.id}.`,
         ts,
       };
     },
