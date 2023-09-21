@@ -2720,6 +2720,15 @@
     },
     {
       "path": "components/clerk"
+    },
+    {
+      "path": "components/airops"
+    },
+    {
+      "path": "components/campaign_cleaner"
+    },
+    {
+      "path": "components/goody"
     }
   ]
 }
