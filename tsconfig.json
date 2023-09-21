@@ -2729,6 +2729,12 @@
     },
     {
       "path": "components/goody"
+    },
+    {
+      "path": "components/hostaway"
+    },
+    {
+      "path": "components/payhip"
     }
   ]
 }
