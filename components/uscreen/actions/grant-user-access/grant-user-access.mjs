@@ -35,8 +35,7 @@ export default {
       props.withManualBilling = {
         type: "boolean",
         label: "Manual billing",
-        description: "Is with manual billing", //Não há explicação do campo
-        reloadProps: true,
+        description: "Is with manual billing",
       };
     }
 
