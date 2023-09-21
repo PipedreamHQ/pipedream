@@ -70,6 +70,9 @@ def parse_urls(urls):
     if len(urls) == 0:
         return contents
 
+    if not config["browserless"]["api_key"]:
+        raise Exception("Missing required browserless api key in config")
+
     # init browserless
     chrome_options = webdriver.ChromeOptions()
     chrome_options.set_capability('browserless:token', config["browserless"]["api_key"])

@@ -25,7 +25,7 @@ cp .env.example .env
 
 1. Add these API Keys to your new `.env` file:
 
-    - BROWSERLESS_API_KEY=api_key # not required
+    - BROWSERLESS_API_KEY=api_key # required when parsing URL links
     - SUPABASE_URL=https://your-project-url.supabase.co # get this from Supabase Project Settings -> API
     - SUPABASE_API_KEY=service_role_key # get this from Supabase Project Settings -> API
 
@@ -75,7 +75,7 @@ poetry run python main.py --type action --app slack --instructions instructions.
 ### GitHub Issues
 
 The command below will parse through GitHub issue description and generate code for the list of components.
-All the code will be written to a folder named `output`.
+All the code will be written to a folder named `output`. Be sure to add `BROWSERLESS_API_KEY` to `.env` to parse API docs.
 
 ```
 poetry run python main.py --issue issue_number
