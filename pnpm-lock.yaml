@@ -193,6 +193,8 @@ importers:
 
   components/airnow: {}
 
+  components/airops: {}
+
   components/airplane:
     dependencies:
       '@pipedream/platform':
@@ -732,6 +734,8 @@ importers:
   components/callingly: {}
 
   components/callrail: {}
+
+  components/campaign_cleaner: {}
 
   components/campaignhq: {}
 
@@ -1970,6 +1974,8 @@ importers:
   components/gong: {}
 
   components/goodbits: {}
+
+  components/goody: {}
 
   components/google_ads: {}
 
