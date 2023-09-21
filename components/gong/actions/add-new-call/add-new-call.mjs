@@ -38,7 +38,7 @@ export default {
     parties: {
       type: "string[]",
       label: "Parties",
-      description: "A list of the call's participants. A party must be provided for the **Primary User**. Each party can have a JSON stucture like this example: `{ \"phoneNumber\": \"123123\", \"emailAddress\": \"email@example.com\", \"name\": \"Name\", \"userId\": \"321132\", \"mediaChannelId\": \"1\" }`",
+      description: "A list of the call's participants. A party must be provided for the **Primary User**. Each party can have a JSON stucture like this example: `{ \"phoneNumber\": \"123123\", \"emailAddress\": \"email@example.com\", \"name\": \"Name\", \"mediaChannelId\": \"1\" }`",
     },
     title: {
       type: "string",
@@ -118,13 +118,28 @@ export default {
         ...args,
       });
     },
+    getParties() {
+      const {
+        primaryUser,
+        parties,
+      } = this;
+
+      return utils.parseArray(parties)
+        .map((party) => {
+          const parsed = utils.parse(party);
+          return {
+            ...parsed,
+            userId: primaryUser,
+          };
+        });
+    },
   },
   run({ $: step }) {
     const {
       // eslint-disable-next-line no-unused-vars
       app,
+      getParties,
       addNewCall,
-      parties,
       ...data
     } = this;
 
@@ -132,7 +147,7 @@ export default {
       step,
       data: {
         ...data,
-        parties: utils.parseArray(parties).map(utils.parse),
+        parties: getParties(),
       },
       summary: (response) => `Successfully added call with request ID \`${response.requestId}\``,
     });
