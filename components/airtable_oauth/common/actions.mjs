@@ -1,12 +1,10 @@
 import airtable from "../airtable_oauth.app.mjs";
 import {
   makeFieldProps, makeRecord,
-} from "../../airtable/common/utils.mjs";
-import common from "../../airtable/common/actions.mjs";
+} from "./utils.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  ...common,
   additionalProps: async (ctx) => {
     const baseId = ctx.baseId?.value ?? ctx.baseId;
     const tableId = ctx.tableId?.value ?? ctx.tableId;
