@@ -4620,7 +4620,11 @@ importers:
 
   components/scraptio: {}
 
-  components/screendesk: {}
+  components/screendesk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/screenshotone:
     dependencies:
