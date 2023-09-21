@@ -4747,7 +4747,11 @@ importers:
         specifier: ^1.4.6
         version: 1.6.6
 
-  components/serply: {}
+  components/serply:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/serveravatar:
     dependencies:
