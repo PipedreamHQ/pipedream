@@ -5,7 +5,7 @@ export default defineComponent({
   name: "Send Document",
   description: "Move a document to sent status and send an optional email. [See the documentation](https://developers.pandadoc.com/reference/send-document)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
     documentId: {
@@ -60,6 +60,24 @@ export default defineComponent({
   },
   async run({ $ }) {
     const documentId = this.documentId;
+
+    let documentStatus = "";
+
+    while (documentStatus !== "document.draft") {
+      try {
+        const response = await this.app.getDocument({
+          id: documentId,
+        });
+        docStatus = response.status;
+        if (docStatus == "document.draft") break;
+        console.log(
+          `Document status is '${documentStatus}' and not 'document.draft'. Waiting 1s and trying again...`
+        );
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
+      } catch (error) {
+        console.error("Error fetching document details:", error);
+      }
+    }
 
     const data = {
       subject: this.subject,
