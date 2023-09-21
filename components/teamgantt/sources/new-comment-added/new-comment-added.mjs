@@ -3,7 +3,7 @@ import teamgantt from "../../teamgantt.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
-  key: "teamgantt-new-comment-aded",
+  key: "teamgantt-new-comment-added",
   name: "New Comment Added",
   version: "0.0.1",
   description: "Emit new event when a new comment is created.",
