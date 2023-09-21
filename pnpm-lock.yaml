@@ -3290,7 +3290,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/more_trees_: {}
+  components/more_trees_:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/motion:
     dependencies:
