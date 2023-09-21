@@ -2684,6 +2684,42 @@
     },
     {
       "path": "components/weglot"
+    },
+    {
+      "path": "components/teamgantt"
+    },
+    {
+      "path": "components/gong"
+    },
+    {
+      "path": "components/serply"
+    },
+    {
+      "path": "components/smsapi"
+    },
+    {
+      "path": "components/axis_lms"
+    },
+    {
+      "path": "components/postman"
+    },
+    {
+      "path": "components/gtmetrix"
+    },
+    {
+      "path": "components/microsoft_excel"
+    },
+    {
+      "path": "components/kingsumo"
+    },
+    {
+      "path": "components/linkedin_ads"
+    },
+    {
+      "path": "components/brevo"
+    },
+    {
+      "path": "components/clerk"
     }
   ]
 }
