@@ -72,6 +72,14 @@ You can pass a list of space-separated URLs of specific links for the API docs t
 poetry run python main.py --type action --app slack --instructions instructions.md --verbose --urls https://url1.com https://url2.com
 ```
 
+### GitHub Issues
+
+The command below will parse through GitHub issue description and generate code for the list of components.
+All the code will be written to a folder named `output`.
+
+```
+poetry run python main.py --issue issue_number
+```
 
 ### Tests
 

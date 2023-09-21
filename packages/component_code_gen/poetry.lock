@@ -905,6 +905,17 @@ pydantic = ">=1,<2"
 requests = ">=2,<3"
 
 [[package]]
+name = "markdown-to-json"
+version = "2.1.0"
+description = "Markdown to dict and json deserializer"
+optional = false
+python-versions = ">=3.6.2"
+files = [
+    {file = "markdown_to_json-2.1.0-py3-none-any.whl", hash = "sha256:44a17e3ff42af4f049fa2a6a86efbe30e27dcf8401c7ad1772b97b2d396d88f8"},
+    {file = "markdown_to_json-2.1.0.tar.gz", hash = "sha256:ea02313f7c5e8d05033d7a2b4e7c891246bc8f6391e1681760579687e6b0ba68"},
+]
+
+[[package]]
 name = "marshmallow"
 version = "3.20.1"
 description = "A lightweight library for converting complex datatypes to and from native Python datatypes."
@@ -2127,4 +2138,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "2d3b84d145fd3897fb292b011c6b02221edc9a234311f3a28e3f9319ca3117b9"
+content-hash = "8cb305dbd5cad045d930146a92e5a1fd913c939f0213e3fb4a7c3b53d055322f"
