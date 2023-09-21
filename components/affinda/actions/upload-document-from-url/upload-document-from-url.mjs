@@ -74,7 +74,7 @@ export default {
       optional: true,
     },
     regionBias: {
-      type: "string",
+      type: "object",
       label: "Region Bias",
       description: "A JSON representation of the RegionBias object. Example: `{\"country\": \"vn\"}`",
       optional: true,
@@ -87,6 +87,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (typeof this.regionBias === "string") {
+      this.regionBias = JSON.parse(this.regionBias);
+    }
+
     const response = await this.affinda.uploadDocument({
       $,
       data: {
