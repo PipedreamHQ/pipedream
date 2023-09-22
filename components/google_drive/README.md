@@ -11,6 +11,6 @@ Using the Google Drive API, you can build applications that:
 
 ## Troubleshooting
 
-[Google Advanced Protection Program](https://support.google.com/accounts/answer/7539956?hl=en) must be disabled in order to use the Google Drive app.
+[Google Advanced Protection Program](https://support.google.com/accounts/answer/7539956?hl=en) must be disabled in order to use the Google Drive app on Pipedream.
 
-If you encounter the error "Google cannot give this app access to your account data because Advanced Protection is turned on for your Google Account", you will need to disable this setting it blocks third-party apps from accessing Google Drive.
+If you encounter the error "Google cannot give this app access to your account data because Advanced Protection is turned on for your Google Account", you will need to disable this setting as it blocks third-party apps from accessing Google Drive.
