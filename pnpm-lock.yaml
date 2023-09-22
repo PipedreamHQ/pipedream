@@ -1871,7 +1871,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/gigasheet: {}
+  components/gigasheet:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/giphy:
     dependencies:
