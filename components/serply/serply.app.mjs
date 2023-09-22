@@ -30,17 +30,14 @@ export default {
     _baseUrl() {
       return "https://api.serply.io/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "get",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    } = {}) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
