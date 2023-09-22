@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "affinda",
+  app: "goody",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
