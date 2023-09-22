@@ -1,4 +1,5 @@
 import postgrid from "../../postgrid.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "postgrid-create-postcard",
@@ -38,11 +39,7 @@ export default {
       type: "string",
       label: "Size",
       description: "The size of the postcard. Must be one of either 6x4, 9x6 or 11x6.",
-      options: [
-        "6x4",
-        "9x6",
-        "11x6",
-      ],
+      options: constants.POSTCARD_SIZE,
     },
     sendDate: {
       type: "string",
@@ -66,6 +63,7 @@ export default {
       type: "string",
       label: "Mailing Class",
       description: "Mailing class. Defaults to first_class.",
+      options: constants.MAILING_CLASS,
       optional: true,
     },
   },

@@ -1,4 +1,5 @@
 import postgrid from "../../postgrid.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "postgrid-create-letter",
@@ -33,6 +34,7 @@ export default {
       type: "string",
       label: "Address Placement",
       description: "The location where the address will be placed.",
+      options: constants.ADDRESS_PLACEMENT,
       optional: true,
     },
     doubleSided: {
@@ -57,19 +59,21 @@ export default {
       type: "string",
       label: "Extra Service",
       description: "Indicates extra services for the letter.",
+      options: constants.EXTRA_SERVICE,
       optional: true,
     },
     envelopeType: {
       type: "string",
       label: "Envelope Type",
       description: "Indicates the envelope type for the letter.",
+      options: constants.ENVELOPE_TYPE,
       optional: true,
     },
     returnEnvelope: {
-      type: "string",
-      label: "Return Envelope",
-      description: "The id of the return envelope to be used.",
-      optional: true,
+      propDefinition: [
+        postgrid,
+        "returnEnvelopeId",
+      ],
     },
     sendDate: {
       type: "string",
@@ -93,12 +97,14 @@ export default {
       type: "string",
       label: "Mailing Class",
       description: "Defaults to first_class. See mailing class.",
+      options: constants.MAILING_CLASS,
       optional: true,
     },
     size: {
       type: "string",
       label: "Size",
       description: "Default size will be chosen based on the destination country, if not provided. Indicates the letter size for the letter being created.",
+      options: constants.LETTER_SIZE,
       optional: true,
     },
   },

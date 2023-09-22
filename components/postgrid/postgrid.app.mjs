@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,7 +10,7 @@ export default {
       label: "Contact",
       description: "Identifier of a contact",
       async options({ page }) {
-        const limit = 20;
+        const limit = constants.DEFAULT_LIMIT;
         const params = {
           limit,
           skip: page * limit,
@@ -25,6 +26,23 @@ export default {
             ? `${firstName} ${lastName}`
             : companyName,
         })) || [];
+      },
+    },
+    returnEnvelopeId: {
+      type: "string",
+      label: "Return Envelope",
+      description: "The id of the return envelope to be used.",
+      optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const params = {
+          limit,
+          skip: page * limit,
+        };
+        const { data } = await this.listReturnEnvelopes({
+          params,
+        });
+        return data?.map(({ id }) => id ) || [];
       },
     },
   },
@@ -51,6 +69,12 @@ export default {
     listContacts(args = {}) {
       return this._makeRequest({
         path: "/contacts",
+        ...args,
+      });
+    },
+    listReturnEnvelopes(args = {}) {
+      return this._makeRequest({
+        path: "/return_envelopes",
         ...args,
       });
     },
