@@ -7,7 +7,8 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "The search query. [See the documentation here.](https://moz.com/learn/seo/search-operators)",
+      description:
+        "The search query. [See the documentation here.](https://moz.com/learn/seo/search-operators)",
     },
     engine: {
       type: "string",
@@ -31,10 +32,7 @@ export default {
       return "https://api.serply.io/v1";
     },
     async _makeRequest({
-      $ = this,
-      path,
-      headers,
-      ...otherOpts
+      $ = this, path, headers, ...otherOpts
     } = {}) {
       return axios($, {
         ...otherOpts,
@@ -61,10 +59,15 @@ export default {
         path: `/b/search/q=${query}`,
       });
     },
-    async searchSerp(opts = {}) {
+    async searchSerp({
+      query, website, domain, ...opts
+    } = {}) {
+      let path = `/serp/q=${query}&num=100`;
+      if (website) path += `&website=${website}`;
+      if (domain) path += `&domain=${domain}`;
       return this._makeRequest({
         ...opts,
-        path: "/serp",
+        path,
       });
     },
   },

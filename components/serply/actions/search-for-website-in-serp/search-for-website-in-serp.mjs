@@ -17,13 +17,13 @@ export default {
     website: {
       type: "string",
       label: "Website",
-      description: "Website to search for. Either `Website` or `Domain` must be provided.",
+      description: "Website to search in. Either `Website` or `Domain` must be provided.",
       optional: true,
     },
     domain: {
       type: "string",
       label: "Domain",
-      description: "Domain to search for. Either `Domain` or `Website` must be provided.",
+      description: "Domain to search in. Either `Domain` or `Website` must be provided.",
       optional: true,
     },
   },
@@ -33,12 +33,9 @@ export default {
     } = this;
     const response = await this.serply.searchSerp({
       $,
-      params: {
-        q: encodeURIComponent(query),
-        num: 100,
-        website: website && encodeURIComponent(website),
-        domain,
-      },
+      query: encodeURIComponent(query),
+      website: website && encodeURIComponent(website),
+      domain: domain && encodeURIComponent(domain),
     });
 
     $.export("$summary", "Successfully performed SERP search");
