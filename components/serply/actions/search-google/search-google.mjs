@@ -4,7 +4,7 @@ export default {
   key: "serply-search-google",
   name: "Search Google",
   description: "Performs a Google search using the Serply API. [See the documentation](https://serply.io/docs/operations/v1/search)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     serply,
@@ -18,9 +18,7 @@ export default {
   async run({ $ }) {
     const response = await this.serply.searchGoogle({
       $,
-      params: {
-        q: encodeURIComponent(this.query),
-      },
+      query: encodeURIComponent(this.query),
     });
 
     $.export("$summary", `Received ${response?.results?.length} results for Google search`);

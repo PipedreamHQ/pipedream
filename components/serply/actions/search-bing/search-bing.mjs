@@ -13,15 +13,13 @@ export default {
         serply,
         "query",
       ],
-      description: "The search query. [See the documentation here.](https://seosly.com/blog/bing-search-operators/",
+      description: "The search query. [See the documentation here.](https://seosly.com/blog/bing-search-operators/)",
     },
   },
   async run({ $ }) {
     const response = await this.serply.searchBing({
       $,
-      params: {
-        q: encodeURIComponent(this.query),
-      },
+      query: encodeURIComponent(this.query),
     });
 
     $.export("$summary", `Received ${response?.results?.length} results for Bing search`);

@@ -7,7 +7,7 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "The search query. [See the documentation here.](https://moz.com/learn/seo/search-operators",
+      description: "The search query. [See the documentation here.](https://moz.com/learn/seo/search-operators)",
     },
     engine: {
       type: "string",
@@ -45,16 +45,20 @@ export default {
         },
       });
     },
-    async searchGoogle(opts = {}) {
+    async searchGoogle({
+      query, ...opts
+    } = {}) {
       return this._makeRequest({
         ...opts,
-        path: "/search",
+        path: `/search/q=${query}`,
       });
     },
-    async searchBing(opts = {}) {
+    async searchBing({
+      query, ...opts
+    } = {}) {
       return this._makeRequest({
         ...opts,
-        path: "/b/search",
+        path: `/b/search/q=${query}`,
       });
     },
     async searchSerp(opts = {}) {
