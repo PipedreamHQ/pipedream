@@ -10,22 +10,6 @@ export default {
       description:
         "The search query. [See the documentation here.](https://moz.com/learn/seo/search-operators)",
     },
-    engine: {
-      type: "string",
-      label: "Search Engine",
-      description: "The search engine to use",
-      options: [
-        "google",
-        "bing",
-        "serp",
-      ],
-    },
-    website: {
-      type: "string",
-      label: "Website",
-      description: "The website to search in SERP",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {
