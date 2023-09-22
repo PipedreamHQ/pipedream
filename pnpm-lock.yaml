@@ -2353,6 +2353,8 @@ importers:
         specifier: ^1.11.7
         version: 1.11.9
 
+  components/hostaway: {}
+
   components/hotjar: {}
 
   components/hotmart: {}
@@ -3794,6 +3796,8 @@ importers:
       '@pipedream/platform':
         specifier: ^0.10.0
         version: 0.10.0
+
+  components/payhip: {}
 
   components/paymo:
     dependencies:
@@ -6174,6 +6178,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
+
+  components/wufoo: {}
 
   components/xata: {}
 
