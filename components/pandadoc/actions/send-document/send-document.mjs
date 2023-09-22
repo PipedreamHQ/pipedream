@@ -5,7 +5,7 @@ export default defineComponent({
   name: "Send Document",
   description: "Move a document to sent status and send an optional email. [See the documentation](https://developers.pandadoc.com/reference/send-document)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.4",
   props: {
     app,
     documentId: {
@@ -60,6 +60,34 @@ export default defineComponent({
   },
   async run({ $ }) {
     const documentId = this.documentId;
+    let documentStatus = "";
+    let retryCount = 0;
+    const maxRetries = 5; // Maximum number of retries
+
+    while (documentStatus !== "document.draft" && retryCount < maxRetries) {
+      try {
+        const response = await this.app.getDocument({
+          id: documentId,
+        });
+        console.log(response);
+        documentStatus = response.status;
+        if (documentStatus === "document.draft") {
+          break;
+        }
+        console.log(
+          `Document status is '${documentStatus}' and not 'document.draft'. Waiting 1s and trying again...`
+        );
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
+        retryCount++;
+      } catch (error) {
+        console.error("Error fetching document details:", error);
+        retryCount++; // Increment the retry count on error
+      }
+    }
+
+    if (documentStatus !== "document.draft") {
+      console.error(`Maximum retry limit (${maxRetries}) reached. Exiting.`);
+    }
 
     const data = {
       subject: this.subject,
@@ -84,7 +112,10 @@ export default defineComponent({
       data,
     });
 
-    $.export("$summary", `Successfully sent "${response.name}" document with ID: ${response.id} to ${response.recipients.length} recipient(s)`);
+    $.export(
+      "$summary",
+      `Successfully sent "${response.name}" document with ID: ${response.id} to ${response.recipients.length} recipient(s)`
+    );
     return response;
   },
 });
