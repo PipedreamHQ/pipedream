@@ -2738,6 +2738,12 @@
     },
     {
       "path": "components/wufoo"
+    },
+    {
+      "path": "components/translate_com"
+    },
+    {
+      "path": "components/piggy"
     }
   ]
 }
