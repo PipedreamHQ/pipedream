@@ -4,7 +4,7 @@ export default {
   key: "serply-search-google",
   name: "Search Google",
   description: "Performs a Google search using the Serply API. [See the documentation](https://serply.io/docs/operations/v1/search)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     serply,
