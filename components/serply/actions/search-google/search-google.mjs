@@ -9,8 +9,10 @@ export default {
   props: {
     serply,
     query: {
-      type: "string",
-      label: "Query",
+      propDefinition: [
+        serply,
+        "query",
+      ],
       description: "The search query. [See the documentation here.](https://moz.com/learn/seo/search-operators",
     },
   },

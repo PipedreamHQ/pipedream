@@ -7,7 +7,7 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "The search query",
+      description: "The search query. [See the documentation here.](https://moz.com/learn/seo/search-operators",
     },
     engine: {
       type: "string",
