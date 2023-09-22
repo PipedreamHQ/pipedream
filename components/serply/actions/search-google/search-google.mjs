@@ -13,7 +13,6 @@ export default {
         serply,
         "query",
       ],
-      description: "The search query. [See the documentation here.](https://moz.com/learn/seo/search-operators",
     },
   },
   async run({ $ }) {
