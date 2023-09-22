@@ -3857,7 +3857,11 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/personio: {}
+  components/personio:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/phantombuster:
     dependencies:
