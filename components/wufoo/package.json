@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/wufoo",
+  "version": "0.0.1",
+  "description": "Pipedream Wufoo Components",
+  "main": "dist/app/wufoo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wufoo"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/wufoo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
