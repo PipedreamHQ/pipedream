@@ -10,16 +10,20 @@ def generate(issue_number, verbose=False):
     md = requests.get(f"https://api.github.com/repos/PipedreamHQ/pipedream/issues/{issue_number}").json()["body"].lower()
     description = markdown_to_json.dictify(md)
     app = list(description.keys())[0]
+    apiDocs = description[app]["api docs"] if "api docs" in description[app] else ""
     requirements = []
     global_urls = []
 
     for h2_header in description[app]:
+        if h2_header == "api docs":
+            continue
+
         if h2_header == "urls":
             global_urls += description[app][h2_header]
             continue
 
         for component_key in description[app][h2_header]:
-            splitted = description[app][h2_header][component_key].split("\n\n")
+            splitted = component_key.split("\n\n")
             instructions = splitted[0]
             urls = [] if len(splitted) == 1 else json.loads(splitted[1].replace("'", "\""))
 
@@ -31,7 +35,7 @@ def generate(issue_number, verbose=False):
             requirements.append({
                 "type": component_type,
                 "key": component_key,
-                "instructions": f"The component key is {app}-{component_key}. {instructions}",
+                "instructions": f"The component key is {app}-{component_key}. {instructions}\n\n## API Docs\n\n {apiDocs}",
                 "urls": global_urls + urls,
             })
 

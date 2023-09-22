@@ -16,3 +16,4 @@ docs/.vuepress/dist
 
 ./package-lock.json
 components/**/package-lock.json
+packages/component_code_gen/output
