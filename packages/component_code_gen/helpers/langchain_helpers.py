@@ -1,13 +1,20 @@
+from templates.common.suffix import suffix
+from templates.common.format_instructions import format_instructions
+from templates.common.docs_system_instructions import docs_system_instructions
+from langchain.schema import (
+    # AIMessage,
+    HumanMessage,
+    SystemMessage
+)
+from langchain.tools.json.tool import JsonSpec
+from langchain.agents.agent_toolkits.json.toolkit import JsonToolkit
+from langchain.chat_models import ChatOpenAI, AzureChatOpenAI
+from langchain.agents import ZeroShotAgent, AgentExecutor
+from langchain import LLMChain
+from config.config import config
+import openai  # required
 from dotenv import load_dotenv
 load_dotenv()
-
-import openai
-from config.config import config
-from langchain import LLMChain
-from langchain.agents import ZeroShotAgent, AgentExecutor
-from langchain.chat_models import ChatOpenAI
-from langchain.agents.agent_toolkits.json.toolkit import JsonToolkit
-from langchain.tools.json.tool import JsonSpec
 
 
 class OpenAPIExplorerTool:
@@ -20,20 +27,25 @@ class OpenAPIExplorerTool:
 
 
 class PipedreamOpenAPIAgent:
-    def __init__(self, docs, templates):
+    def __init__(self, docs, templates, auth_example):
+        system_instructions = format_template(
+            f"{templates.system_instructions(auth_example)}\n{docs_system_instructions}")
+
         tools = OpenAPIExplorerTool.create_tools(docs)
         tool_names = [tool.name for tool in tools]
+
         prompt_template = ZeroShotAgent.create_prompt(
             tools=tools,
-            prefix=format_template(templates.with_docs_system_instructions),
-            suffix=templates.suffix,
-            format_instructions=templates.format_instructions,
+            prefix=system_instructions,
+            suffix=suffix,
+            format_instructions=format_instructions,
             input_variables=['input', 'agent_scratchpad']
         )
-        llm = ChatOpenAI(model_name='gpt-4', temperature=0, request_timeout=300)
-        llm_chain = LLMChain(llm=llm, prompt=prompt_template)
+
+        llm_chain = LLMChain(llm=get_llm(), prompt=prompt_template)
         agent = ZeroShotAgent(llm_chain=llm_chain, allowed_tools=tool_names)
         verbose = True if config['logging']['level'] == 'DEBUG' else False
+
         self.agent_executor = AgentExecutor.from_agent_and_tools(
             agent=agent, tools=tools, verbose=verbose)
 
@@ -51,7 +63,7 @@ class PipedreamOpenAPIAgent:
 
 
 def format_template(text):
-    return text.replace("{", "{{").replace("}", "}}") # escape curly braces
+    return text.replace("{", "{{").replace("}", "}}")  # escape curly braces
 
 
 def format_result(result):
@@ -60,23 +72,30 @@ def format_result(result):
     return result
 
 
-def ask_agent(user_prompt, docs, templates):
-    agent = PipedreamOpenAPIAgent(docs, templates)
+def get_llm():
+    if config['openai_api_type'] == "azure":
+        azure_config = config["azure"]
+        return AzureChatOpenAI(deployment_name=azure_config['deployment_name'],
+                               model_name=azure_config["model"], temperature=config["temperature"], request_timeout=300)
+    else:
+        openai_config = config["openai"]
+        return ChatOpenAI(
+            model_name=openai_config["model"], temperature=config["temperature"], request_timeout=300)
+
+
+def ask_agent(user_prompt, docs, templates, auth_example):
+    agent = PipedreamOpenAPIAgent(docs, templates, auth_example)
     result = agent.run(user_prompt)
     return result
 
 
-def no_docs(app, prompt, templates):
-    openai.api_key = config['openai']['api_key']
-    result = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": format_template(templates.no_docs_system_instructions)},
-            {"role": "user", "content": templates.no_docs_user_prompt % (prompt, app)},
+def no_docs(app, prompt, templates, auth_example):
+    user_prompt = f"{prompt}.The app is {app}."
+    system_instructions = format_template(templates.system_instructions(auth_example))
 
-        ],
-        temperature=0,
-    )
+    result = get_llm()(messages=[
+        SystemMessage(content=system_instructions),
+        HumanMessage(content=user_prompt),
+    ])
 
-    result = result.choices[0].message.content.strip()
-    return format_result(result)
+    return format_result(result.content)

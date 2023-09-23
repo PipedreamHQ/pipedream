@@ -5,7 +5,7 @@ export default {
   name: "List Folders",
   description: "List folders which contain Documents [See the docs here](https://developers.pandadoc.com/reference/list-documents-folders)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     app,
     parentFolderId: {

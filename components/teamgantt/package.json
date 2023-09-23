@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/teamgantt",
+  "version": "0.0.1",
+  "description": "Pipedream TeamGantt Components",
+  "main": "dist/app/teamgantt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "teamgantt"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/teamgantt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/ringover",
+  "version": "0.0.1",
+  "description": "Pipedream Ringover Components",
+  "main": "dist/app/ringover.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ringover"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/ringover",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
