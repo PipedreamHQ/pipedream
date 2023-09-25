@@ -1871,7 +1871,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/gigasheet: {}
+  components/gigasheet:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/giphy:
     dependencies:
@@ -2419,7 +2423,11 @@ importers:
 
   components/hygraph: {}
 
-  components/hyros: {}
+  components/hyros:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/iauditor_by_safetyculture:
     dependencies:
@@ -3253,6 +3261,8 @@ importers:
 
   components/mode: {}
 
+  components/modeck: {}
+
   components/mojo_helpdesk:
     dependencies:
       '@pipedream/platform':
@@ -3861,7 +3871,11 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/personio: {}
+  components/personio:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/phantombuster:
     dependencies:
@@ -3890,6 +3904,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/piggy: {}
 
   components/pikaso:
     dependencies:
@@ -5624,6 +5640,8 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.0
+
+  components/translate_com: {}
 
   components/trello:
     dependencies:

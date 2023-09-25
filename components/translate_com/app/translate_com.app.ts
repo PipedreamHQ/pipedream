@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "personio",
+  app: "translate_com",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
