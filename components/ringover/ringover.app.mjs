@@ -47,6 +47,7 @@ export default {
         headers: {
           ...headers,
           "Authorization": `${this.$auth.api_key}`,
+          "Accept": "application/json",
         },
       });
     },
