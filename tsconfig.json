@@ -2699,6 +2699,54 @@
     },
     {
       "path": "components/axis_lms"
+    },
+    {
+      "path": "components/postman"
+    },
+    {
+      "path": "components/gtmetrix"
+    },
+    {
+      "path": "components/microsoft_excel"
+    },
+    {
+      "path": "components/kingsumo"
+    },
+    {
+      "path": "components/linkedin_ads"
+    },
+    {
+      "path": "components/brevo"
+    },
+    {
+      "path": "components/clerk"
+    },
+    {
+      "path": "components/airops"
+    },
+    {
+      "path": "components/campaign_cleaner"
+    },
+    {
+      "path": "components/goody"
+    },
+    {
+      "path": "components/hostaway"
+    },
+    {
+      "path": "components/payhip"
+    },
+    {
+      "path": "components/wufoo"
+    },
+    {
+      "path": "components/translate_com"
+    },
+    {
+      "path": "components/piggy"
+    },
+    {
+      "path": "components/modeck"
     }
   ]
 }
