@@ -5,7 +5,7 @@ export default {
   name: "Send Document",
   description: "Move a document to sent status and send an optional email. [See the documentation](https://developers.pandadoc.com/reference/send-document)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     app,
     documentId: {
