@@ -27,6 +27,17 @@ export default defineApp({
       return browser
     },
     /**
+     * Alias for launch()
+     * 
+     * After launching the browser, you can start new pages and perform browser actions
+     * 
+     * @param opts = {}
+     * @returns browser
+     */
+    browser(opts = {}) {
+      return this.launch(opts)
+    },
+    /**
      * New Page
      * 
      * Creates a new web brower page.
