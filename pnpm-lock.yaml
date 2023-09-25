@@ -2423,7 +2423,11 @@ importers:
 
   components/hygraph: {}
 
-  components/hyros: {}
+  components/hyros:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/iauditor_by_safetyculture:
     dependencies:
@@ -4015,6 +4019,8 @@ importers:
 
   components/platform_ly: {}
 
+  components/playwright: {}
+
   components/plecto: {}
 
   components/plisio: {}
@@ -4176,6 +4182,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/puppeteer: {}
 
   components/pushcut:
     dependencies:
@@ -5042,7 +5050,14 @@ importers:
 
   components/sms_magic: {}
 
-  components/smsapi: {}
+  components/smsapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      query-string:
+        specifier: ^8.1.0
+        version: 8.1.0
 
   components/smtp2go:
     dependencies:
