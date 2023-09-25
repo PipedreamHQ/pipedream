@@ -1,11 +1,10 @@
-import { axios } from "@pipedream/platform";
 import ringover from "../../ringover.app.mjs";
 
 export default {
   key: "ringover-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in Ringover. [See the documentation](https://developer.ringover.com/?_ga=2.63646317.316145444.1695076986-652152469.1694643800#tag/contacts/paths/~1contacts/post)",
-  version: "0.0.1695076986",
+  version: "0.0.1",
   type: "action",
   props: {
     ringover,
@@ -19,69 +18,58 @@ export default {
       label: "Last Name",
       description: "Last name of the contact",
     },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "Email of the contact",
-      optional: true,
-    },
-    phone: {
-      type: "string",
-      label: "Phone",
-      description: "Phone number of the contact",
-      optional: true,
-    },
-    mobile: {
-      type: "string",
-      label: "Mobile",
-      description: "Mobile number of the contact",
-      optional: true,
-    },
-    position: {
-      type: "string",
-      label: "Position",
-      description: "Position of the contact",
-      optional: true,
-    },
     company: {
       type: "string",
       label: "Company",
       description: "Company of the contact",
       optional: true,
     },
-    notes: {
-      type: "string",
-      label: "Notes",
-      description: "Any notes for the contact",
+    isShared: {
+      type: "boolean",
+      label: "Is Shared",
+      description: "Whether the contact is shared",
       optional: true,
     },
-  },
-  methods: {
-    async createContact({
-      $, ...params
-    }) {
-      return axios($, {
-        method: "POST",
-        url: `https://${this.ringover.$auth.server}.ringover.com/v2/contacts`,
-        headers: {
-          Authorization: `${this.ringover.$auth.api_key}`,
-          accept: "application/json",
-        },
-        data: params,
-      });
+    number: {
+      type: "string",
+      label: "Number",
+      description: "Phone number of the contact (E.164 format)",
+    },
+    numberType: {
+      type: "string",
+      label: "Number Type",
+      description: "The type of the phone number",
+      optional: true,
+      options: [
+        "home",
+        "office",
+        "mobile",
+        "fax",
+        "other",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.createContact({
+    const response = await this.ringover.createContact({
       $,
-      first_name: this.firstName,
-      last_name: this.lastName,
-      email: this.email,
-      phone: this.phone,
-      mobile: this.mobile,
-      position: this.position,
-      company: this.company,
-      notes: this.notes,
+      data: {
+        new_contact_request: {
+          contacts: [
+            {
+              firstname: this.firstName,
+              lastname: this.lastName,
+              company: this.company,
+              is_shared: this.isShared,
+              numbers: [
+                {
+                  number: this.number,
+                  type: this.numberType,
+                },
+              ],
+            },
+          ],
+        },
+      },
     });
     $.export("$summary", "Successfully created contact");
     return response;
