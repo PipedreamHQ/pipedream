@@ -4019,6 +4019,8 @@ importers:
 
   components/platform_ly: {}
 
+  components/playwright: {}
+
   components/plecto: {}
 
   components/plisio: {}
@@ -4180,6 +4182,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/puppeteer: {}
 
   components/pushcut:
     dependencies:
