@@ -4183,7 +4183,14 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/puppeteer: {}
+  components/puppeteer:
+    dependencies:
+      '@sparticuz/chromium':
+        specifier: ^112.0.2
+        version: 112.0.2
+      puppeteer-core:
+        specifier: ^19.8.0
+        version: 19.11.1
 
   components/pushcut:
     dependencies:
@@ -12989,6 +12996,16 @@ packages:
       '@smithy/abort-controller': 2.0.5
       '@smithy/types': 2.2.2
       tslib: 2.6.2
+    dev: false
+
+  /@sparticuz/chromium@112.0.2:
+    resolution: {integrity: sha512-tpoY0o4vhrFE4/mXmJF3fcPLKIeKIQxbokfLgZB62rYW7KOIljbQTqCTBARzRXGN/k2+kLvhys1LVv6PWGwWNw==}
+    engines: {node: '>= 14.18.0'}
+    dependencies:
+      follow-redirects: 1.15.2
+      tar-fs: 2.1.1
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /@supabase/functions-js@2.1.4:
