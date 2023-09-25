@@ -11,7 +11,16 @@ const PARKING_PAY_WITH = [
   "cash",
 ];
 
+const JOB_STATUS = [
+  "scheduled",
+  "in_progress",
+  "completed",
+  "cancelled",
+  "failed",
+];
+
 export default {
   PARKING_SPOT,
   PARKING_PAY_WITH,
+  JOB_STATUS,
 };

@@ -7,7 +7,8 @@ export default {
     addressId: {
       type: "string",
       label: "Address",
-      description: "Identifier of an address",
+      description: "Filter jobs by address",
+      optional: true,
       async options() {
         const { data } = await this.listAddresses();
         return data?.map(({
@@ -21,12 +22,33 @@ export default {
     jobId: {
       type: "string",
       label: "Job",
-      description: "Identifier of a job",
+      description: "Identifier of a job to update",
       async options() {
         const { data } = await this.listJobs();
-        return data?.map(({ id: value }) => ({
+        return data?.map(({
+          id: value, service_type_key: key,
+        }) => ({
           value,
-          label: value,
+          label: `Job ID ${value} - ${key}`,
+        })) || [];
+      },
+    },
+    toDoListIds: {
+      type: "string[]",
+      label: "ToDo List",
+      description: "Filter Jobs by todo list(s)",
+      optional: true,
+      async options({ addressId }) {
+        const { data } = await this.listToDoLists({
+          params: {
+            address_id: addressId,
+          },
+        });
+        return data?.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
         })) || [];
       },
     },
@@ -64,16 +86,15 @@ export default {
         ...args,
       });
     },
-    createAddress(args = {}) {
+    listToDoLists(args = {}) {
       return this._makeRequest({
-        path: "/addresses",
-        method: "POST",
+        path: "/to-do-lists",
         ...args,
       });
     },
-    createJob(args = {}) {
+    createAddress(args = {}) {
       return this._makeRequest({
-        path: "/jobs",
+        path: "/addresses",
         method: "POST",
         ...args,
       });
