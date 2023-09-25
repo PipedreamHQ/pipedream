@@ -2720,6 +2720,39 @@
     },
     {
       "path": "components/clerk"
+    },
+    {
+      "path": "components/airops"
+    },
+    {
+      "path": "components/campaign_cleaner"
+    },
+    {
+      "path": "components/goody"
+    },
+    {
+      "path": "components/hostaway"
+    },
+    {
+      "path": "components/payhip"
+    },
+    {
+      "path": "components/wufoo"
+    },
+    {
+      "path": "components/translate_com"
+    },
+    {
+      "path": "components/piggy"
+    },
+    {
+      "path": "components/modeck"
+    },
+    {
+      "path": "components/playwright"
+    },
+    {
+      "path": "components/puppeteer"
     }
   ]
 }
