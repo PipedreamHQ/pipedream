@@ -2353,6 +2353,8 @@ importers:
         specifier: ^1.11.7
         version: 1.11.9
 
+  components/hostaway: {}
+
   components/hotjar: {}
 
   components/hotmart: {}
@@ -3795,6 +3797,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/payhip: {}
+
   components/paymo:
     dependencies:
       '@pipedream/platform':
@@ -3894,6 +3898,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/piggy: {}
 
   components/pikaso:
     dependencies:
@@ -5629,6 +5635,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
+  components/translate_com: {}
+
   components/trello:
     dependencies:
       '@pipedream/platform':
@@ -6174,6 +6182,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
+
+  components/wufoo: {}
 
   components/xata: {}
 
