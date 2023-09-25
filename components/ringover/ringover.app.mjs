@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://${this.ringover.$auth.server}.ringover.com/v2`;
+      return `https://${this.$auth.server}.ringover.com/v2`;
     },
     async _makeRequest({
       $ = this,

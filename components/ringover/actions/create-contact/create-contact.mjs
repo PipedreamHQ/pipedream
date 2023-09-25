@@ -31,7 +31,7 @@ export default {
       optional: true,
     },
     number: {
-      type: "string",
+      type: "integer",
       label: "Number",
       description: "Phone number of the contact (E.164 format)",
     },
