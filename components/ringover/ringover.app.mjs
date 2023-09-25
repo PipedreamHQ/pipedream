@@ -46,7 +46,7 @@ export default {
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
+          "Authorization": `${this.$auth.api_key}`,
         },
       });
     },
