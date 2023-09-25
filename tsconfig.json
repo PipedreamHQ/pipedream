@@ -2744,6 +2744,15 @@
     },
     {
       "path": "components/piggy"
+    },
+    {
+      "path": "components/modeck"
+    },
+    {
+      "path": "components/playwright"
+    },
+    {
+      "path": "components/puppeteer"
     }
   ]
 }
