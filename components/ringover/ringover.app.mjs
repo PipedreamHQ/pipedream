@@ -54,13 +54,7 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/contacts",
-        data: {
-          name: opts.contactName,
-          phone_numbers: [
-            opts.contactPhone,
-          ],
-          email: opts.contactEmail,
-        },
+        ...opts,
       });
     },
     async sendSMS(opts = {}) {
