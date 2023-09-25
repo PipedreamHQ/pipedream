@@ -37,7 +37,7 @@ export default defineApp({
      * @returns { page, browser }
      */
     async newPage() {
-      const browser = this._launch();
+      const browser = this.launch();
       const page = await browser.newPage();
 
       return {
