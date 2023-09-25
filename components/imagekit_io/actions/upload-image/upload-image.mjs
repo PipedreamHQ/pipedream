@@ -7,7 +7,7 @@ import imagekitIo from "../../imagekit_io.app.mjs";
 export default {
   key: "imagekit_io-upload-image",
   name: "Upload Image",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Upload a new image to ImageKit.io. [See the documentation](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload)",
   type: "action",
   props: {
@@ -113,9 +113,18 @@ export default {
     const data = getFileFormData(file);
 
     let newExt = extensions;
-    if (typeof newExt === "object") {
+
+    if (Array.isArray(newExt)) {
+      newExt = newExt.map((item) => {
+        if (typeof item === "object") {
+          return JSON.stringify(item);
+        }
+        return item;
+      });
+
       newExt = `[${newExt.toString()}]`;
     }
+
     data.append("extensions", newExt);
 
     for (const [

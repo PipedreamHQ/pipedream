@@ -107,6 +107,12 @@ const methods = {
   _setDeltaLink(deltaLink) {
     this.db.set("deltaLink", deltaLink);
   },
+  _getSequentialErrorsCount() {
+    return this.db.get("errorsCount") || 0;
+  },
+  _setSequentialErrorsCount(count) {
+    this.db.set("errorsCount", count);
+  },
   _validateSubscription(validationToken) {
     // See the docs for more information on how webhooks are validated upon
     // creation: https://bit.ly/3fzc3Tr
@@ -127,10 +133,25 @@ const methods = {
       // `next()` since the last/returned value is also useful because it
       // contains the latest Delta Link (using a `for...of` loop will discard
       // such value).
-      const {
-        done,
-        value,
-      } = await itemsStream.next();
+      let done, value;
+      try {
+        ({
+          done,
+          value,
+        } = await itemsStream.next());
+      } catch (e) {
+        // Users have come upon an error with deltaLink, so we need to reset it by
+        // creating a new subscription.
+        console.error(e);
+        const errors = this._getSequentialErrorsCount();
+        if (errors > 3) {
+          console.log("need to renew webhook subscription");
+          return this._renewSubscription();
+        }
+        this._setSequentialErrorsCount(errors + 1);
+      }
+
+      this._setSequentialErrorsCount(0);
 
       if (done) {
         // No more items to retrieve from OneDrive. We update the cached Delta
