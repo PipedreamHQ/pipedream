@@ -53,22 +53,20 @@ export default {
     const response = await this.ringover.createContact({
       $,
       data: {
-        new_contact_request: {
-          contacts: [
-            {
-              firstname: this.firstName,
-              lastname: this.lastName,
-              company: this.company,
-              is_shared: this.isShared,
-              numbers: [
-                {
-                  number: this.number,
-                  type: this.numberType,
-                },
-              ],
-            },
-          ],
-        },
+        contacts: [
+          {
+            firstname: this.firstName,
+            lastname: this.lastName,
+            company: this.company,
+            is_shared: this.isShared,
+            numbers: [
+              {
+                number: this.number,
+                type: this.numberType,
+              },
+            ],
+          },
+        ],
       },
     });
     $.export("$summary", "Successfully created contact");
