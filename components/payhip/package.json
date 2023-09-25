@@ -2,15 +2,17 @@
   "name": "@pipedream/payhip",
   "version": "0.0.1",
   "description": "Pipedream Payhip Components",
-  "main": "dist/app/payhip.app.mjs",
+  "main": "payhip.app.mjs",
   "keywords": [
     "pipedream",
     "payhip"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/payhip",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
