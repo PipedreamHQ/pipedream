@@ -2753,6 +2753,9 @@
     },
     {
       "path": "components/puppeteer"
+    },
+    {
+      "path": "components/jibble"
     }
   ]
 }
