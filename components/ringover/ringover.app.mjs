@@ -33,19 +33,16 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://public-api.ringover.com/v2";
+      return `https://${this.ringover.$auth.server}.ringover.com/v2`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "get",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    } = {}) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
