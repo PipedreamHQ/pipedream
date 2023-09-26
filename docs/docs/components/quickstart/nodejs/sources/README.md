@@ -580,7 +580,7 @@ response.data.forEach((issue) => {
 Here is the updated code.
 
 ```javascript
-import axios from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Source Demo",
@@ -629,7 +629,7 @@ timer: {
 Here's the updated code.
 
 ```javascript
-import axios from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Source Demo",

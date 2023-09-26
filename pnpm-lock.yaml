@@ -4817,7 +4817,11 @@ importers:
 
   components/serwersms_pl: {}
 
-  components/setmoreappointments: {}
+  components/setmoreappointments:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/seven: {}
 
