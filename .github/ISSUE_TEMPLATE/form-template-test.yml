@@ -31,5 +31,5 @@ body:
     attributes:
       label: Source
       description: Specify the details of the source
-      plaeholder: 
+      placeholder: 
         `key: component key without app slug.\nDescription: foo bar\nDocs: https://api.slack.com/methods/chat.postMessage`
