@@ -1,7 +1,8 @@
 import { defineApp } from "@pipedream/types";
 // Table for Chromium <> Puppeteer version support here: https://pptr.dev/chromium-support
-import puppeteer from "puppeteer-core@21.3.2"
-import chromium from "@sparticuz/chromium@117"
+// @note: this is locked to an old chromium version because there's an unfulfilled promise bug in later version of puppeteer-core
+import puppeteer from "puppeteer-core@19.8.0"
+import chromium from "@sparticuz/chromium@112"
 
 export default defineApp({
   type: "app",
