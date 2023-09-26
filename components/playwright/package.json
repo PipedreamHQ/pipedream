@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/playwright",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Playwright Components",
   "main": "dist/app/playwright.app.mjs",
   "keywords": [
