@@ -2,20 +2,12 @@ import get from "lodash.get";
 import Shopify from "shopify-api-node";
 import toPath from "lodash.topath";
 import retry from "async-retry";
-import events from "./sources/common/events.mjs";
 import { toSingleLineString } from "./actions/common/common.mjs";
 
 export default {
   type: "app",
   app: "shopify",
   propDefinitions: {
-    eventTypes: {
-      type: "string[]",
-      label: "Event Types",
-      optional: true,
-      description: "Only emit events for the selected event types.",
-      options: events,
-    },
     productId: {
       type: "string",
       label: "Product ID",
