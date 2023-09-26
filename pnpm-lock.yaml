@@ -1251,6 +1251,8 @@ importers:
 
   components/dictionary_api: {}
 
+  components/diffchecker: {}
+
   components/digicert: {}
 
   components/digistore24: {}
@@ -2588,6 +2590,8 @@ importers:
         version: 1.5.1
 
   components/jellyreach: {}
+
+  components/jibble: {}
 
   components/jira:
     dependencies:
