@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/playwright",
-  "version": "0.0.3",
+  "version": "0.1.1",
   "description": "Pipedream Playwright Components",
   "main": "dist/app/playwright.app.mjs",
   "keywords": [
@@ -14,5 +14,5 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
-  }
+  },
 }
