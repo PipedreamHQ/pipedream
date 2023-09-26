@@ -4,14 +4,30 @@ export default {
   type: "app",
   app: "microsoft_excel",
   propDefinitions: {
+    folderId: {
+      type: "string",
+      label: "Folder Id",
+      description: "The ID of the folder where the item is located.",
+      async options() {
+        const folders = await this.listFolders();
+        return [
+          "root",
+          ...folders,
+        ];
+      },
+    },
     itemId: {
       type: "string",
       label: "Item Id",
       description: "The Id of the item you want to use.",
-      async options() {
-        const { value } = await this.listItems();
+      async options({ folderId }) {
+        const { value } = await this.listItems({
+          folderId,
+        });
 
-        return value.map(({
+        return value.filter(
+          (item) => item.file?.mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        ).map(({
           id: value, name: label,
         }) => ({
           label,
@@ -104,9 +120,45 @@ export default {
         path: `subscriptions/${hookId}`,
       });
     },
-    listItems(args = {}) {
+    async listFolders({
+      folderId = null,
+      prefix = "", ...args
+    } = {}) {
+      const foldersArray = [];
+      const { value: items } = await this._makeRequest({
+        path: folderId
+          ? `/me/drive/items/${folderId}/children`
+          : "me/drive/root/children",
+        ...args,
+      });
+
+      const folders = items.filter((item) => item.folder);
+      for (const {
+        id, name, folder: { childCount = null },
+      } of folders) {
+        foldersArray.push({
+          value: id,
+          label: `${prefix}${name}`,
+        });
+
+        if (childCount) {
+          const children = await this.listFolders({
+            folderId: id,
+            prefix: prefix + "-",
+          });
+          foldersArray.push(...children);
+        }
+      }
+
+      return foldersArray;
+    },
+    listItems({
+      folderId, ...args
+    }) {
       return this._makeRequest({
-        path: "me/drive/root/children",
+        path: (folderId === "root")
+          ? "me/drive/root/children"
+          : `/me/drive/items/${folderId}/children`,
         ...args,
       });
     },
@@ -131,7 +183,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "PATCH",
-        path: `me/drive/items/${itemId}/workbook/tables/${tableId}/rows/${rowId}`,
+        path: `me/drive/items/${itemId}/workbook/tables/${tableId}/rows/itemAt(index=${rowId})`,
         ...args,
       });
     },

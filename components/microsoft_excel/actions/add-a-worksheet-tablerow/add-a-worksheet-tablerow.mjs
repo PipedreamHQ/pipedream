@@ -8,10 +8,19 @@ export default {
   type: "action",
   props: {
     microsoftExcel,
+    folderId: {
+      propDefinition: [
+        microsoftExcel,
+        "folderId",
+      ],
+    },
     itemId: {
       propDefinition: [
         microsoftExcel,
         "itemId",
+        ({ folderId }) => ({
+          folderId,
+        }),
       ],
     },
     tableId: {

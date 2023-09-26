@@ -52,7 +52,9 @@ export default {
       const ts = new Date();
       return {
         id: `${value[0].tenantId}${ts}`,
-        summary: `The item with TenantId: ${value[0].tenantId} was updated!`,
+        summary: `The item ${value[0].tenantId
+          ? `with TenantId: ${value[0].tenantId} `
+          : " "}was updated!`,
         ts: ts,
       };
     },
