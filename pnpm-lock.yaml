@@ -1251,6 +1251,8 @@ importers:
 
   components/dictionary_api: {}
 
+  components/diffchecker: {}
+
   components/digicert: {}
 
   components/digistore24: {}
@@ -2589,6 +2591,8 @@ importers:
 
   components/jellyreach: {}
 
+  components/jibble: {}
+
   components/jira:
     dependencies:
       '@pipedream/platform':
@@ -3854,7 +3858,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/pdfless: {}
+  components/pdfless:
+    dependencies:
+      '@pdfless/pdfless-js':
+        specifier: ^1.0.510
+        version: 1.0.510
 
   components/pdfmonkey: {}
 
@@ -10588,6 +10596,53 @@ packages:
       - debug
     dev: false
 
+  /@microsoft/kiota-abstractions@1.0.0-preview.26:
+    resolution: {integrity: sha512-+8s1TvvJrWLHDjtZeKw9Han3kaKKOuGQ8PSC0KRno/Uj1j1cSGrsYF8kUOsnjIFvC4u5rPRFLkt+0iUNJFRJJA==}
+    dependencies:
+      '@opentelemetry/api': 1.4.1
+      guid-typescript: 1.0.9
+      tinyduration: 3.3.0
+      tslib: 2.6.2
+      uri-template-lite: 23.4.0
+      uuid: 9.0.0
+    dev: false
+
+  /@microsoft/kiota-http-fetchlibrary@1.0.0-preview.25:
+    resolution: {integrity: sha512-rJRvZpBu83zP1x4dKJ9O0Ms7bzOx322EarV9hhzOkQ7ZIhyP5SYyQsezvJz5nb/+QzdsVllkbQMyENn/JquBAg==}
+    dependencies:
+      '@microsoft/kiota-abstractions': 1.0.0-preview.26
+      '@opentelemetry/api': 1.4.1
+      guid-typescript: 1.0.9
+      node-fetch: 2.7.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@microsoft/kiota-serialization-form@1.0.0-preview.15:
+    resolution: {integrity: sha512-mEMqcg4P4gL56FPBbaPeO0fZustiaKhkBt9siBDxmV/cqK6rxEhKMFVsHo18sIWZh3I60nG+VCObKdeXFpXAlw==}
+    dependencies:
+      '@microsoft/kiota-abstractions': 1.0.0-preview.26
+      guid-typescript: 1.0.9
+      tslib: 2.6.2
+    dev: false
+
+  /@microsoft/kiota-serialization-json@1.0.0-preview.26:
+    resolution: {integrity: sha512-JSHA+jDkg2E2M6mizQnRjvuz+dTtZGU4HPSAh7koH+AxcRL5R6CrSu9AB7X9rKyNKc8JotsKy77lFc/1Rz/2tA==}
+    dependencies:
+      '@microsoft/kiota-abstractions': 1.0.0-preview.26
+      guid-typescript: 1.0.9
+      tslib: 2.6.2
+    dev: false
+
+  /@microsoft/kiota-serialization-text@1.0.0-preview.23:
+    resolution: {integrity: sha512-4mu2q6qubcPBXwcslzyHxAGTfoAUnnm3/dwWMQeLKxuHEWopuaEW3OGNdpXpV4ON303OFO2gVCx6pYhjktZ32A==}
+    dependencies:
+      '@microsoft/kiota-abstractions': 1.0.0-preview.26
+      guid-typescript: 1.0.9
+      tslib: 2.6.2
+    dev: false
+
   /@microsoft/microsoft-graph-client@3.0.6:
     resolution: {integrity: sha512-corwIFZ+yzOguEWfzhWycOBqekBzaTH0ymf060D0ONdloICcGfNVNv4LIrhbNUeB3jxsotnTY931crPDTqKM0g==}
     engines: {node: '>=12.0.0'}
@@ -10883,6 +10938,18 @@ packages:
   /@panva/asn1.js@1.0.0:
     resolution: {integrity: sha512-UdkG3mLEqXgnlKsWanWcgb6dOjUzJ+XC5f+aWw30qrtjxeNUSfKX1cd5FBzOaXQumoe9nIqeZUvrRJS03HCCtw==}
     engines: {node: '>=10.13.0'}
+    dev: false
+
+  /@pdfless/pdfless-js@1.0.510:
+    resolution: {integrity: sha512-RmbzdGQcWy/OSuPF/eaT0wQsi9ELu465/r/8DsgajbHumStHrkzRqsm330g1PgBgQipZMi9ZTTHfP4i/Sbs+pw==}
+    dependencies:
+      '@microsoft/kiota-abstractions': 1.0.0-preview.26
+      '@microsoft/kiota-http-fetchlibrary': 1.0.0-preview.25
+      '@microsoft/kiota-serialization-form': 1.0.0-preview.15
+      '@microsoft/kiota-serialization-json': 1.0.0-preview.26
+      '@microsoft/kiota-serialization-text': 1.0.0-preview.23
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@pipedream/helper_functions@0.3.12:
@@ -18114,6 +18181,10 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /guid-typescript@1.0.9:
+    resolution: {integrity: sha512-Y8T4vYhEfwJOTbouREvG+3XDsjr8E3kIr7uf+JZ0BYloFsttiHU0WfvANVsR7TxNUJa/WpCnw/Ino/p+DeBhBQ==}
     dev: false
 
   /handlebars-loader@1.7.3(handlebars@4.7.8):
@@ -25551,6 +25622,10 @@ packages:
     resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
     dev: false
 
+  /tinyduration@3.3.0:
+    resolution: {integrity: sha512-sLR0iVUnnnyGEX/a3jhTA0QMK7UvakBqQJFLiibiuEYL6U1L85W+qApTZj6DcL1uoWQntYuL0gExoe9NU5B3PA==}
+    dev: false
+
   /title-case@3.0.3:
     resolution: {integrity: sha512-e1zGYRvbffpcHIrnuqT0Dh+gEJtDaxDSoG4JAIpq4oDFyooziLBIiYQv0GBT4FUAnUop5uZ1hiIAj7oAF6sOCA==}
     dependencies:
@@ -26273,6 +26348,10 @@ packages:
 
   /uri-parser@1.0.1:
     resolution: {integrity: sha512-TRjjM2M83RD9jIIYttNj7ghUQTKSov+WXZbQIMM8DxY1R1QdJEGWNKKMYCxyeOw1p9re2nQ85usM6dPTVtox1g==}
+    dev: false
+
+  /uri-template-lite@23.4.0:
+    resolution: {integrity: sha512-JsAjquFMpSyZRWAUQguhHIRuh4jb/xDhwQyb1/7C42YLJgkc5WoBF3UkRRM1QtL6Vr9xBa9fB7q3xPzXRwvuUA==}
     dev: false
 
   /url-exist@3.0.1:
