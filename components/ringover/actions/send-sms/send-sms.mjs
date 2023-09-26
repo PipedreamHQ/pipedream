@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import ringover from "../../ringover.app.mjs";
 
 export default {
@@ -9,61 +8,34 @@ export default {
   type: "action",
   props: {
     ringover,
-    number: {
-      type: "string",
-      label: "Number",
-      description: "The phone number to send the SMS to",
+    fromNumber: {
+      propDefinition: [
+        ringover,
+        "number",
+      ],
+      label: "From Number",
     },
-    text: {
+    toNumber: {
+      propDefinition: [
+        ringover,
+        "number",
+      ],
+      label: "To Number",
+    },
+    content: {
       type: "string",
-      label: "Text",
+      label: "Content",
       description: "The text of the SMS to send",
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The user ID to send the SMS from",
-      optional: true,
-    },
-    callBackUrl: {
-      type: "string",
-      label: "Callback URL",
-      description: "The callback URL to receive delivery notifications",
-      optional: true,
-    },
-    callBackMethod: {
-      type: "string",
-      label: "Callback Method",
-      description: "The HTTP method for the callback",
-      optional: true,
-    },
-  },
-  methods: {
-    sendSms: async function({
-      $, data,
-    }) {
-      return axios($, {
-        method: "POST",
-        url: "https://public-api.ringover.com/v2/push/sms",
-        headers: {
-          "Authorization": `${this.ringover.$auth.api_key}`,
-          "accept": "application/json",
-        },
-        data,
-      });
     },
   },
   async run({ $ }) {
-    const data = {
-      number: this.number,
-      text: this.text,
-      user_id: this.userId,
-      callback_url: this.callBackUrl,
-      callback_method: this.callBackMethod,
-    };
-    const response = await this.sendSms({
+    const response = await this.ringover.sendSMS({
       $,
-      data,
+      data: {
+        from_number: this.fromNumber,
+        to_number: this.toNumber,
+        content: this.content,
+      },
     });
     $.export("$summary", "Successfully sent SMS");
     return response;
