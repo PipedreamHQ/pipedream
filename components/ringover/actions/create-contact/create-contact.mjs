@@ -31,9 +31,10 @@ export default {
       optional: true,
     },
     number: {
-      type: "integer",
-      label: "Number",
-      description: "Phone number of the contact (E.164 format)",
+      propDefinition: [
+        ringover,
+        "number",
+      ],
     },
     numberType: {
       type: "string",
@@ -69,7 +70,10 @@ export default {
         ],
       },
     });
-    $.export("$summary", "Successfully created contact");
+    const id = response?.[0];
+    $.export("$summary", "Successfully created contact" + (id
+      ? ` (ID: ${id})`
+      : ""));
     return response;
   },
 };
