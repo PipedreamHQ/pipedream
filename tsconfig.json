@@ -2756,6 +2756,9 @@
     },
     {
       "path": "components/jibble"
+    },
+    {
+      "path": "components/diffchecker"
     }
   ]
 }
