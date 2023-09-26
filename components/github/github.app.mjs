@@ -301,10 +301,10 @@ export default {
         path: `/repos/${repoFullname}/contents/${path}`,
         ...(mediaType && {
           headers: {
-            Accept: mediaType
-          }
-        })
-      })
+            Accept: mediaType,
+          },
+        }),
+      });
     },
     async getRepositoryLabels({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/labels`, {});
