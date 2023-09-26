@@ -37,5 +37,12 @@ export default {
         ...opts,
       });
     },
+    async sendSMS(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/push/sms",
+        ...opts,
+      });
+    },
   },
 };
