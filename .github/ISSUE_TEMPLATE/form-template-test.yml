@@ -17,15 +17,15 @@ body:
       description: Enter API docs for the app below (these should be general docs for things like pagination, etc. Enter as URLs as you can, separated by a newline)
       placeholder: ex. https://api.slack.com/docs/pagination
   - type: dropdown
-    id: source
+    id: source_type
     attributes:
       label: Source Type
       description: Specify whether the source will be polling or webhook-based
       options: 
         - Polling
         - Webhook
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     id: source
     attributes:
