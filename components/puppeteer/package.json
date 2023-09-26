@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/puppeteer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Puppeteer Components",
   "main": "dist/app/puppeteer.app.mjs",
   "keywords": [
     "pipedream",
     "puppeteer"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/puppeteer",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

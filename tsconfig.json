@@ -2753,6 +2753,12 @@
     },
     {
       "path": "components/puppeteer"
+    },
+    {
+      "path": "components/jibble"
+    },
+    {
+      "path": "components/diffchecker"
     }
   ]
 }
