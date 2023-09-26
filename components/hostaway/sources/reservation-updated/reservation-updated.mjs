@@ -10,8 +10,13 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    generateMeta() {
-
+    generateMeta(reservation) {
+      const ts = Date.parse(reservation.updatedOn);
+      return {
+        id: `${reservation.id}-${ts}`,
+        summary: `Reservation Updated - ${reservation.id}`,
+        ts,
+      };
     },
   },
 };

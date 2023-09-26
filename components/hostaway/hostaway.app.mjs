@@ -9,9 +9,12 @@ export default {
       type: "string",
       label: "Conversation",
       description: "Identifier of a conversation",
-      async options({ page }) {
+      async options({
+        page, reservationId,
+      }) {
         const limit = constants.DEFAULT_LIMIT;
         const params = {
+          reservationId,
           limit,
           offset: limit * page,
         };
@@ -22,7 +25,7 @@ export default {
           id: value, recipientName,
         }) => ({
           value,
-          label: `${value} ${recipientName}`,
+          label: `${value} - ${recipientName}`,
         })) || [];
       },
     },
@@ -30,7 +33,6 @@ export default {
       type: "string",
       label: "Listing",
       description: "Identifier of a listing",
-      optional: true,
       async options({ page }) {
         const limit = constants.DEFAULT_LIMIT;
         const params = {
@@ -66,10 +68,10 @@ export default {
           params,
         });
         return result?.map(({
-          id: value, name: label,
+          id: value, listingName,
         }) => ({
           value,
-          label,
+          label: `${value} - ${listingName}`,
         })) || [];
       },
     },
@@ -95,6 +97,27 @@ export default {
         })) || [];
       },
     },
+    taskId: {
+      type: "string",
+      label: "Task",
+      description: "Identifier of a task",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const params = {
+          limit,
+          offset: limit * page,
+        };
+        const { result } = await this.listTasks({
+          params,
+        });
+        return result?.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -114,6 +137,22 @@ export default {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
+        ...args,
+      });
+    },
+    createWebhook(args = {}) {
+      return this._makeRequest({
+        path: "/webhooks/unifiedWebhooks",
+        method: "POST",
+        ...args,
+      });
+    },
+    deleteWebhook({
+      hookId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/webhooks/unifiedWebhooks/${hookId}`,
+        method: "DELETE",
         ...args,
       });
     },
@@ -138,6 +177,12 @@ export default {
     listUsers(args = {}) {
       return this._makeRequest({
         path: "/users",
+        ...args,
+      });
+    },
+    listTasks(args = {}) {
+      return this._makeRequest({
+        path: "/tasks",
         ...args,
       });
     },

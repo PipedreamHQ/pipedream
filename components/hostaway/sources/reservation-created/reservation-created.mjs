@@ -10,8 +10,12 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    generateMeta() {
-
+    generateMeta(reservation) {
+      return {
+        id: reservation.id,
+        summary: `New Reservation Reservation - ${reservation.id}`,
+        ts: Date.parse(reservation.insertedOn),
+      };
     },
   },
 };

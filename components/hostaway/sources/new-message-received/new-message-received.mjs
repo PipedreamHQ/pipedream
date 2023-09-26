@@ -10,8 +10,12 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    generateMeta() {
-
+    generateMeta(message) {
+      return {
+        id: message.id,
+        summary: "",
+        ts: "",
+      };
     },
   },
 };
