@@ -1,0 +1,35 @@
+name: AI Code Gen Template
+description: Define components to build using the AI code gen service
+title: "[Components]: "
+labels: ["ai-assisted", "actions", "sources"]
+
+body:
+  - type: input
+    id: app_slug
+    attributes:
+      label: App Slug
+      description: Enter the app slug here
+      placeholder: ex. slack
+  - type: input
+    id: app_docs
+    attributes:
+      label: API Docs for the app
+      description: Enter API docs for the app below (these should be general docs for things like pagination, etc. Enter as URLs as you can, separated by a newline)
+      placeholder: ex. https://api.slack.com/docs/pagination
+  - type: dropdown
+    id: source
+    attributes:
+      label: Source Type
+      description: Specify whether the source will be polling or webhook-based
+      options: 
+        - Polling
+        - Webhook
+      validations:
+        required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source
+      description: Specify the details of the source
+      plaeholder: 
+        `key: component key without app slug.\nDescription: foo bar\nDocs: https://api.slack.com/methods/chat.postMessage`
