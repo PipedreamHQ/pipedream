@@ -38,7 +38,7 @@ def main(component_type, app, instructions, tries=3, urls=[], custom_path=None, 
 
 def parse_common_files(app, component_type, custom_path=None):
     file_list = []
-    app_path = custom_path or f'../../components/{app}'
+    app_path = custom_path or os.path.join('..', '..', 'components', app)
 
     if "source" in component_type:
         component_type = "source"
@@ -46,9 +46,9 @@ def parse_common_files(app, component_type, custom_path=None):
     for root, _, files in os.walk(app_path):
         for filename in files:
             filepath = os.path.join(root, filename)
-            if "dist/" in filepath or "node_modules/" in filepath:
+            if "dist" in filepath or "node_modules" in filepath:
                 continue
-            if "actions/" in filepath or "sources/" in filepath:
+            if "actions" in filepath or "sources" in filepath:
                 if component_type == "app":
                     continue
                 elif component_type in filepath and "common" in filepath:
@@ -60,7 +60,7 @@ def parse_common_files(app, component_type, custom_path=None):
     parsed_common_files = ""
     for common_file in file_list:
         with open(common_file, 'r') as f:
-            common_file = common_file.split(f"{app}/")[1]
+            common_file = common_file.split(f"{app}{os.sep}")[1]
             parsed_common_files += f'### ../../{common_file}\n\n{f.read()}\n'
     return parsed_common_files
 
