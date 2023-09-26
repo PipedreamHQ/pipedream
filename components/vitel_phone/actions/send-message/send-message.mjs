@@ -33,7 +33,7 @@ export default {
       });
     },
     summary(resp) {
-      const isStr = typeof response === "string";
+      const isStr = typeof resp === "string";
       const response = utils.checkResponse(resp);
       return isStr
         ? response

@@ -1,11 +1,13 @@
 function checkResponse(response) {
-  console.log(JSON.stringify(response, null, 2));
   const isStr = typeof response === "string";
-  const responseToLowerCase = isStr && response.toLocaleLowerCase();
-  const hasSuccess = responseToLowerCase?.includes("success");
-  const hasError = responseToLowerCase?.includes("error");
-  if (!hasSuccess || hasError) {
+  const responseToLowerCase = isStr && response.toLowerCase();
+  const hasInvalid = isStr && responseToLowerCase?.includes("invalid");
+  const hasError = isStr && responseToLowerCase?.includes("error");
+  if (hasInvalid || hasError) {
     throw new Error(response);
+  }
+  if (response?.error) {
+    throw new Error(response.error);
   }
   return response;
 }

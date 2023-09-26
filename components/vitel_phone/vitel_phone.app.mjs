@@ -34,8 +34,17 @@ export default {
         ...headers,
       };
     },
-    parseResponse(response) {
-      return parseStringPromise(`<data>${response}</data>`);
+    async parseResponse(response) {
+      try {
+        return await parseStringPromise(`<data>${response}</data>`);
+      } catch (error) {
+        console.error("Response", response);
+      }
+      return {
+        data: {
+          error: `Error parsing response: ${response}`,
+        },
+      };
     },
     async makeRequest({
       step = this, path, headers, params, summary, ...args
