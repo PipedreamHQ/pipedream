@@ -39,5 +39,12 @@ export default {
         params,
       });
     },
+    async lookupEmailFromLinkedinProfile(params) {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/linkedin/profile/email",
+        params,
+      });
+    },
   },
 };

@@ -4,7 +4,7 @@ export default {
   name: "Find Social Media Profiles from Email",
   description: "Find Social Media Profiles from Email. Cost: 3 credit/successful request [See the documentation](https://nubela.co/proxycurl/docs#contact-api).",
   key: "proxycurl-find-social-media-profiles-from-email",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
