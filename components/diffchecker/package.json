@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/diffchecker",
+  "version": "0.0.1",
+  "description": "Pipedream Diffchecker Components",
+  "main": "dist/app/diffchecker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "diffchecker"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/diffchecker",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

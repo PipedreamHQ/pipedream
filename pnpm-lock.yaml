@@ -1251,6 +1251,8 @@ importers:
 
   components/dictionary_api: {}
 
+  components/diffchecker: {}
+
   components/digicert: {}
 
   components/digistore24: {}
@@ -2588,6 +2590,8 @@ importers:
         version: 1.5.1
 
   components/jellyreach: {}
+
+  components/jibble: {}
 
   components/jira:
     dependencies:
@@ -4190,6 +4194,8 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
+  components/proxycurl: {}
+
   components/puppeteer: {}
 
   components/pushcut:
@@ -4817,7 +4823,11 @@ importers:
 
   components/serwersms_pl: {}
 
-  components/setmoreappointments: {}
+  components/setmoreappointments:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/seven: {}
 
@@ -4956,7 +4966,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/signaturely: {}
+  components/signaturely:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/signaturit: {}
 
@@ -5053,7 +5067,14 @@ importers:
 
   components/sms_magic: {}
 
-  components/smsapi: {}
+  components/smsapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      query-string:
+        specifier: ^8.1.0
+        version: 8.1.0
 
   components/smtp2go:
     dependencies:
@@ -5942,7 +5963,14 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
 
-  components/vitel_phone: {}
+  components/vitel_phone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      xml2js:
+        specifier: ^0.6.2
+        version: 0.6.2
 
   components/vivifyscrum: {}
 
