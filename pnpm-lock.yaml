@@ -4959,7 +4959,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/signaturely: {}
+  components/signaturely:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/signaturit: {}
 
