@@ -18,6 +18,12 @@ export default {
         "tenantId",
       ],
     },
+    emailAddress: {
+      type: "string",
+      label: "Contact email address",
+      description: "Email Address of contact/organization ",
+      optional: true,
+    },
     name: {
       type: "string",
       label: "Contact name",
@@ -61,10 +67,40 @@ export default {
         description: "Last name of contact person.",
         optional: true,
       };
-      props.emailAddress = {
+      props.companyNumber = {
         type: "string",
-        label: "Email address",
-        description: "Email address of contact person.",
+        label: "Company Number",
+        description: "Company registration number.",
+        optional: true,
+      };
+      props.addresses = {
+        type: "string",
+        label: "Address",
+        description: "Store certain address for a contact",
+        optional: true,
+      };
+      props.phones = {
+        type: "string",
+        label: "Phone",
+        description: "Store certain phone number for a contact",
+        optional: true,
+      };
+      props.defaultCurrency = {
+        type: "string",
+        label: "Default Currency",
+        description: "Default currency (Currency Code) for raising invoices against contact",
+        optional: true,
+      };
+      props.isSupplier = {
+        type: "boolean",
+        label: "Is Supplier",
+        description: "Contact that has any AP invoices entered against them.",
+        optional: true,
+      };
+      props.IsCustomer = {
+        type: "boolean",
+        label: "Is Customer",
+        description: "Describes if a contact has any AR invoices entered against them.",
         optional: true,
       };
       props.contactStatus = {
@@ -95,14 +131,15 @@ export default {
       contactStatus,
       createContactIfNotFound,
     } = this;
-    if (createContactIfNotFound === "No" && accountNumber && name) {
+    if (createContactIfNotFound === "No" && accountNumber && name && emailAddress) {
       throw new ConfigurationError(
-        "Choose exclusively between Account Number or Name to find a contact.",
+        "Choose exclusively between Account Number, Name or emailAddress to find a contact.",
       );
     }
     const findPayload = removeNullEntries({
       Name: name,
       AccountNumber: accountNumber,
+      EmailAddress: emailAddress
     });
     const createPayload = removeNullEntries({
       Name: name,
@@ -111,6 +148,12 @@ export default {
       EmailAddress: emailAddress,
       AccountNumber: accountNumber,
       ContactStatus: contactStatus,
+      CompanyNumber: companyNumber,
+      Addresses: addresses,
+      Phones: phones,
+      DefaultCurrency: defaultCurrency,
+      IsSupplier: isSupplier,
+      IsCustomer: isCustomer,
     });
     const queryString = formatQueryString(findPayload, true);
     try {
