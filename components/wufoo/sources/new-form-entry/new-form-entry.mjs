@@ -3,10 +3,10 @@ import wufoo from "../../wufoo.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
-  key: "wufoo-new-recording",
-  name: "New Recording",
+  key: "wufoo-new-form-entry",
+  name: "New Form Entry",
   version: "0.0.1",
-  description: "Emit new event when a new recording is created is sent or received.",
+  description: "Emit new event when a new form entry received.",
   type: "source",
   dedupe: "unique",
   props: {
