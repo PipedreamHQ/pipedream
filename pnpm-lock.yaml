@@ -1251,6 +1251,8 @@ importers:
 
   components/dictionary_api: {}
 
+  components/diffchecker: {}
+
   components/digicert: {}
 
   components/digistore24: {}
@@ -2589,6 +2591,8 @@ importers:
 
   components/jellyreach: {}
 
+  components/jibble: {}
+
   components/jira:
     dependencies:
       '@pipedream/platform':
@@ -3032,6 +3036,8 @@ importers:
 
   components/manifestly_checklists: {}
 
+  components/manychat: {}
+
   components/mapbox: {}
 
   components/mapulus:
@@ -3176,7 +3182,14 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
-  components/microsoft_excel: {}
+  components/microsoft_excel:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
 
   components/microsoft_onedrive:
     dependencies:
@@ -4079,7 +4092,11 @@ importers:
         specifier: ^4.2.1
         version: 4.2.1(typescript@4.9.5)
 
-  components/postgrid: {}
+  components/postgrid:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/postgrid_verify: {}
 
@@ -4182,6 +4199,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/proxycurl: {}
 
   components/puppeteer:
     dependencies:
@@ -4817,7 +4836,11 @@ importers:
 
   components/serwersms_pl: {}
 
-  components/setmoreappointments: {}
+  components/setmoreappointments:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/seven: {}
 
@@ -4956,7 +4979,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/signaturely: {}
+  components/signaturely:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/signaturit: {}
 
@@ -5949,7 +5976,14 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
 
-  components/vitel_phone: {}
+  components/vitel_phone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      xml2js:
+        specifier: ^0.6.2
+        version: 0.6.2
 
   components/vivifyscrum: {}
 
