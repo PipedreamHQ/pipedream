@@ -5,7 +5,7 @@ export default {
   type: "action",
   key: "vero-create-or-update-user",
   name: "Create or Update User",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "This endpoint creates a new user profile if the user doesn't exist yet. Otherwise, the user profile is updated based on the properties provided. [See the documentation](https://developers.getvero.com/track-api-reference/#/operations/identify)",
   props: {
     app,
@@ -24,7 +24,7 @@ export default {
     channels: {
       type: "string[]",
       label: "Channels",
-      description: "A valid JSON array containing hashes of key/value pairs that represent the user's device token. Each hash should represent a single device token and include the fields type, address, and platform.",
+      description: "A valid JSON array containing hashes of key/value pairs that represent the user's device token. Each hash should represent a single device token and include the fields type, address, and platform. Ex: `{\"type:\":\"push\", \"address\":\"UNIQUE_DEVICE_TOKEN\", \"platform\":\"android\"}`",
       optional: true,
     },
     data: {
