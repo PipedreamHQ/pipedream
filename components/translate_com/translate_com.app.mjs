@@ -44,7 +44,7 @@ export default {
         ...args,
       });
     },
-    async getLanguages(args = {}) {
+    getLanguages(args = {}) {
       return this._makeRequest({
         path: "/mt-langs",
         ...args,
