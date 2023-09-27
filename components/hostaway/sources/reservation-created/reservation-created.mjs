@@ -10,10 +10,13 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    isRelevant(eventType) {
+      return eventType === "reservation.created";
+    },
     generateMeta(reservation) {
       return {
         id: reservation.id,
-        summary: `New Reservation Reservation - ${reservation.id}`,
+        summary: `New Reservation Created - ${reservation.id}`,
         ts: Date.parse(reservation.insertedOn),
       };
     },

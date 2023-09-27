@@ -44,10 +44,7 @@ export default {
   },
   async run(event) {
     const { body } = event;
-    if (!body) {
-      return;
-    }
-    if (body?.data === "test") {
+    if (!body || body?.data === "test") {
       this.http.respond({
         status: 200,
       });

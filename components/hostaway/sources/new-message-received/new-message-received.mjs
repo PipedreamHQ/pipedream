@@ -10,11 +10,14 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    isRelevant(eventType) {
+      return eventType === "message.received";
+    },
     generateMeta(message) {
       return {
         id: message.id,
-        summary: "",
-        ts: "",
+        summary: `New Message - ${message.id}`,
+        ts: Date.parse(message.insertedOn),
       };
     },
   },
