@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import languages from "./common/languages.mjs";
 
 export default {
   type: "app",
@@ -9,7 +10,6 @@ export default {
       label: "Language",
       description: "ISO 639-1 code of the language",
       async options() {
-        const languages = await this.listLanguages();
         return languages.map(({
           code: value, english_name: label,
         }) => ({
@@ -38,12 +38,6 @@ export default {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         params: this._authParams(params),
-        ...args,
-      });
-    },
-    listLanguages(args = {}) {
-      return this._makeRequest({
-        path: "/public/languages",
         ...args,
       });
     },
