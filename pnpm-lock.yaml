@@ -4200,7 +4200,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/proxycurl: {}
+  components/proxycurl:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/puppeteer:
     dependencies:
