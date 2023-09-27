@@ -32,5 +32,12 @@ export default {
         params,
       });
     },
+    async findSocialMediaProfilesFromEmail(params) {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/linkedin/profile/resolve/email",
+        params,
+      });
+    },
   },
 };
