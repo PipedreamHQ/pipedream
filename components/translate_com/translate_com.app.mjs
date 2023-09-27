@@ -37,7 +37,7 @@ export default {
         },
       });
     },
-    async transateText(args = {}) {
+    translateText(args = {}) {
       return this._makeRequest({
         path: "/mt",
         method: "post",
