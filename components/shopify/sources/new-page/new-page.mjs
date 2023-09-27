@@ -7,7 +7,7 @@ export default {
   name: "New Page",
   type: "source",
   description: "Emit new event for each new page published.",
-  version: "0.0.16",
+  version: "0.0.17",
   dedupe: "unique",
   props: {
     shopify,
