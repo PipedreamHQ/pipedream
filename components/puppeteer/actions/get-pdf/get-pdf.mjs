@@ -134,7 +134,7 @@ export default {
   methods: {
     async downloadToTMP(pdf) {
       const path = this.downloadPath.includes("/tmp")
-        ? path
+        ? this.downloadPath
         : `/tmp/${this.downloadPath}`;
       fs.writeFileSync(path, pdf);
       return path;
@@ -158,7 +158,9 @@ export default {
       pageRanges: this.pageRanges,
       preferCSSPageSize: this.preferCSSPageSize,
       printBackground: this.printBackground,
-      scale: this.scale,
+      scale: this.scale
+        ? parseFloat(this.scale)
+        : undefined,
       timeout: this.timeout,
       width: this.width,
     };
