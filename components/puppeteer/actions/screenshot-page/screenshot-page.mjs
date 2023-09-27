@@ -7,7 +7,8 @@ export default {
   key: "puppeteer-screenshot-page",
   name: "Screenshot a Page",
   description: "Captures a screenshot of a page using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.screenshot)",
-  version: "0.0.1",
+  //version: "0.0.1",
+  version: "0.0.5",
   type: "action",
   props: {
     puppeteer,
@@ -114,19 +115,19 @@ export default {
   methods: {
     async downloadToTMP(screenshot) {
       const path = this.downloadPath.includes("/tmp")
-        ? path
+        ? this.downloadPath
         : `/tmp/${this.downloadPath}`;
       fs.writeFileSync(path, screenshot);
       return path;
     },
   },
   async run({ $ }) {
-    if ((this.clipHeight || this.clipScale || this.clipWidth || this.clipX || this.clipY)
+    if ((this.clipHeight || this.clipWidth || this.clipX || this.clipY)
       && !(this.clipHeight && this.clipWidth && this.clipX && this.clipY)) {
       throw new ConfigurationError("Clip height, width, X, and Y must be specified to create clip.");
     }
 
-    const clip = this.clipHeight || this.clipScale || this.clipWidth || this.clipX || this.clipY
+    const clip = this.clipHeight || this.clipWidth || this.clipX || this.clipY
       ? {
         height: parseFloat(this.clipHeight),
         scale: parseFloat(this.clipScale),
