@@ -7,8 +7,7 @@ export default {
   key: "puppeteer-screenshot-page",
   name: "Screenshot a Page",
   description: "Captures a screenshot of a page using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.screenshot)",
-  //version: "0.0.1",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "action",
   props: {
     puppeteer,
