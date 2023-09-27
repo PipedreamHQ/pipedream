@@ -25,8 +25,10 @@ def generate(issue_number, verbose=False):
 
             if "source" in h2_header:
                 component_type = "webhook_source" if "webhook" in h2_header else "polling_source"
-            if "action" in h2_header:
+            elif "action" in h2_header:
                 component_type = "action"
+            else:
+                continue
 
             requirements.append({
                 "type": component_type,
