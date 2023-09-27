@@ -16,6 +16,12 @@ export default {
         "lists",
       ],
     },
+    properties: {
+      propDefinition: [
+        common.props.hubspot,
+        "contactProperties",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -51,7 +57,7 @@ export default {
       };
     },
     async processResults() {
-      const properties = this._getProperties();
+      const properties = this.properties;
       for (let list of this.lists) {
         const params = this.getParams();
         let hasMore = true;

@@ -8,6 +8,15 @@ export default {
   version: "0.0.14",
   dedupe: "unique",
   type: "source",
+  props: {
+    ...common.props,
+    properties: {
+      propDefinition: [
+        common.props.hubspot,
+        "contactProperties",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     getTs(contact) {
@@ -37,7 +46,7 @@ export default {
             direction: "DESCENDING",
           },
         ],
-        properties: this._getProperties(),
+        properties: this.properties,
         object: "contacts",
       };
     },
