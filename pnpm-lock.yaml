@@ -4961,7 +4961,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/signaturely: {}
+  components/signaturely:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/signaturit: {}
 
@@ -5954,7 +5958,14 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
 
-  components/vitel_phone: {}
+  components/vitel_phone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      xml2js:
+        specifier: ^0.6.2
+        version: 0.6.2
 
   components/vivifyscrum: {}
 
