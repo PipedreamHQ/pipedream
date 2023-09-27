@@ -2,7 +2,7 @@ import app from "../../phoneburner.app.mjs";
 
 export default {
   name: "Get Contacts",
-  version: "0.0.2",
+  version: "0.0.1",
   key: "phoneburner-get-contacts",
   description: "Get a list of contacts. [See the documentation](https://www.phoneburner.com/developer/route_list#contacts)",
   type: "action",
