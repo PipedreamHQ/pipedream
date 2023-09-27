@@ -32,7 +32,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.transateText({
+    const response = await this.app.translateText({
       $,
       data: {
         source_language: this.sourceLanguage,
