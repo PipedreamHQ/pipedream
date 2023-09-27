@@ -17,6 +17,26 @@ export default {
         }));
       },
     },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email of the contact",
+    },
+    firstName: {
+      type: "string",
+      label: "First name",
+      description: "The first name of the contact",
+    },
+    lastName: {
+      type: "string",
+      label: "Last name",
+      description: "The last name of the contact",
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The phone number of the contact",
+    },
   },
   methods: {
     _oauthAccessToken() {

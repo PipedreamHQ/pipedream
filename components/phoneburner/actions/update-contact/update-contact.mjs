@@ -15,24 +15,28 @@ export default {
       ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "The email of the contact",
+      propDefinition: [
+        app,
+        "email",
+      ],
     },
     firstName: {
-      type: "string",
-      label: "First name",
-      description: "The first name of the contact",
+      propDefinition: [
+        app,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last name",
-      description: "The last name of the contact",
+      propDefinition: [
+        app,
+        "lastName",
+      ],
     },
     phone: {
-      type: "string",
-      label: "Phone",
-      description: "The phone number of the contact",
+      propDefinition: [
+        app,
+        "phone",
+      ],
     },
   },
   async run({ $ }) {
