@@ -3261,6 +3261,8 @@ importers:
 
   components/mode: {}
 
+  components/modeck: {}
+
   components/mojo_helpdesk:
     dependencies:
       '@pipedream/platform':

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/translate_com",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Translate.com Components",
-  "main": "dist/app/translate_com.app.mjs",
+  "main": "translate_com.app.mjs",
   "keywords": [
     "pipedream",
     "translate_com"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/translate_com",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
