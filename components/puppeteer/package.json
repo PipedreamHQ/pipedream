@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/puppeteer",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Puppeteer Components",
   "main": "puppeteer.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@sparticuz/chromium": "^112.0.2",
-    "puppeteer-core": "^19.8.0"
+    "@sparticuz/chromium": "112.0.2",
+    "puppeteer-core": "19.8.0"
   }
 }
