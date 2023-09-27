@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.0.15",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
   hooks: {},

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/manychat",
+  "version": "0.0.1",
+  "description": "Pipedream ManyChat Components",
+  "main": "manychat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "manychat"
+  ],
+  "homepage": "https://pipedream.com/apps/manychat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
