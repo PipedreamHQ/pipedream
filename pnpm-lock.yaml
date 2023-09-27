@@ -62,10 +62,10 @@ importers:
         version: 15.8.1(eslint@8.15.0)(putout@31.7.0)
       graphql:
         specifier: 14 - 16
-        version: 16.8.0
+        version: 16.8.1
       graphql-request:
         specifier: ^3.7.0
-        version: 3.7.0(graphql@16.8.0)
+        version: 3.7.0(graphql@16.8.1)
       husky:
         specifier: ^7.0.4
         version: 7.0.4
@@ -192,6 +192,8 @@ importers:
   components/airmeet: {}
 
   components/airnow: {}
+
+  components/airops: {}
 
   components/airplane:
     dependencies:
@@ -625,6 +627,8 @@ importers:
 
   components/braze: {}
 
+  components/brevo: {}
+
   components/brex:
     dependencies:
       '@pipedream/platform':
@@ -731,6 +735,8 @@ importers:
 
   components/callrail: {}
 
+  components/campaign_cleaner: {}
+
   components/campaignhq: {}
 
   components/campayn:
@@ -827,6 +833,8 @@ importers:
       '@pipedream/platform':
         specifier: ^0.10.0
         version: 0.10.0
+
+  components/clerk: {}
 
   components/cleverreach:
     dependencies:
@@ -1242,6 +1250,8 @@ importers:
         version: 17.0.45
 
   components/dictionary_api: {}
+
+  components/diffchecker: {}
 
   components/digicert: {}
 
@@ -1863,7 +1873,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/gigasheet: {}
+  components/gigasheet:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/giphy:
     dependencies:
@@ -1966,6 +1980,8 @@ importers:
   components/gong: {}
 
   components/goodbits: {}
+
+  components/goody: {}
 
   components/google_ads: {}
 
@@ -2339,6 +2355,8 @@ importers:
         specifier: ^1.11.7
         version: 1.11.9
 
+  components/hostaway: {}
+
   components/hotjar: {}
 
   components/hotmart: {}
@@ -2407,7 +2425,11 @@ importers:
 
   components/hygraph: {}
 
-  components/hyros: {}
+  components/hyros:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/iauditor_by_safetyculture:
     dependencies:
@@ -2569,6 +2591,8 @@ importers:
 
   components/jellyreach: {}
 
+  components/jibble: {}
+
   components/jira:
     dependencies:
       '@pipedream/platform':
@@ -2660,6 +2684,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/kingsumo: {}
 
   components/kintone: {}
 
@@ -2827,6 +2853,8 @@ importers:
       axios:
         specifier: ^1.2.3
         version: 1.5.0
+
+  components/linkedin_ads: {}
 
   components/linqs_cc: {}
 
@@ -3008,6 +3036,8 @@ importers:
 
   components/manifestly_checklists: {}
 
+  components/manychat: {}
+
   components/mapbox: {}
 
   components/mapulus:
@@ -3152,6 +3182,15 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
+  components/microsoft_excel:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
+
   components/microsoft_onedrive:
     dependencies:
       '@microsoft/microsoft-graph-client':
@@ -3235,6 +3274,8 @@ importers:
 
   components/mode: {}
 
+  components/modeck: {}
+
   components/mojo_helpdesk:
     dependencies:
       '@pipedream/platform':
@@ -3288,7 +3329,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
 
-  components/more_trees_: {}
+  components/more_trees_:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/motion:
     dependencies:
@@ -3771,6 +3816,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/payhip: {}
+
   components/paymo:
     dependencies:
       '@pipedream/platform':
@@ -3837,7 +3884,11 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/personio: {}
+  components/personio:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/phantombuster:
     dependencies:
@@ -3866,6 +3917,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/piggy: {}
 
   components/pikaso:
     dependencies:
@@ -3929,11 +3982,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
       graphql:
-        specifier: '>=14.0.0 <15.0.0 || >=15.0.0 <16.0.0 || >=16.0.0 <17.0.0'
-        version: 16.8.0
+        specifier: '>=14.0.0 <15.0.0 || >=15.0.0 <16.0.0 || >=16.0.0 <17.0.0 || ^16.8.1'
+        version: 16.8.1
       graphql-request:
         specifier: ^5.0.0
-        version: 5.2.0(graphql@16.8.0)
+        version: 5.2.0(graphql@16.8.1)
 
   components/pipeline:
     dependencies:
@@ -3978,6 +4031,8 @@ importers:
   components/plasmic: {}
 
   components/platform_ly: {}
+
+  components/playwright: {}
 
   components/plecto: {}
 
@@ -4037,7 +4092,11 @@ importers:
         specifier: ^4.2.1
         version: 4.2.1(typescript@4.9.5)
 
-  components/postgrid: {}
+  components/postgrid:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/postgrid_verify: {}
 
@@ -4103,11 +4162,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
       graphql:
-        specifier: '>=14.0.0 <15.0.0 || >=15.0.0 <16.0.0 || >=16.0.0 <17.0.0'
-        version: 16.8.0
+        specifier: '>=14.0.0 <15.0.0 || >=15.0.0 <16.0.0 || >=16.0.0 <17.0.0 || ^16.8.1'
+        version: 16.8.1
       graphql-request:
         specifier: ^5.1.0
-        version: 5.2.0(graphql@16.8.0)
+        version: 5.2.0(graphql@16.8.1)
 
   components/productboard:
     dependencies:
@@ -4140,6 +4199,17 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/proxycurl: {}
+
+  components/puppeteer:
+    dependencies:
+      '@sparticuz/chromium':
+        specifier: ^112.0.2
+        version: 112.0.2
+      puppeteer-core:
+        specifier: ^19.8.0
+        version: 19.11.1
 
   components/pushcut:
     dependencies:
@@ -4469,11 +4539,11 @@ importers:
         specifier: ^1.2.1
         version: 1.5.1
       graphql:
-        specifier: '>=14.0.0 <15.0.0 || >=15.0.0 <16.0.0 || >=16.0.0 <17.0.0'
-        version: 16.8.0
+        specifier: '>=14.0.0 <15.0.0 || >=15.0.0 <16.0.0 || >=16.0.0 <17.0.0 || ^16.8.1'
+        version: 16.8.1
       graphql-request:
         specifier: ^5.1.0
-        version: 5.2.0(graphql@16.8.0)
+        version: 5.2.0(graphql@16.8.1)
       moment:
         specifier: ^2.29.4
         version: 2.29.4
@@ -4614,7 +4684,11 @@ importers:
 
   components/scraptio: {}
 
-  components/screendesk: {}
+  components/screendesk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/screenshotone:
     dependencies:
@@ -4762,7 +4836,11 @@ importers:
 
   components/serwersms_pl: {}
 
-  components/setmoreappointments: {}
+  components/setmoreappointments:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/seven: {}
 
@@ -4852,11 +4930,11 @@ importers:
   components/shopify_partner:
     dependencies:
       graphql:
-        specifier: ^16.2.0
-        version: 16.8.0
+        specifier: ^16.8.1
+        version: 16.8.1
       graphql-request:
         specifier: ^3.7.0
-        version: 3.7.0(graphql@16.8.0)
+        version: 3.7.0(graphql@16.8.1)
 
   components/short:
     dependencies:
@@ -4901,7 +4979,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/signaturely: {}
+  components/signaturely:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/signaturit: {}
 
@@ -4998,7 +5080,14 @@ importers:
 
   components/sms_magic: {}
 
-  components/smsapi: {}
+  components/smsapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      query-string:
+        specifier: ^8.1.0
+        version: 8.1.0
 
   components/smtp2go:
     dependencies:
@@ -5597,6 +5686,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
+  components/translate_com: {}
+
   components/trello:
     dependencies:
       '@pipedream/platform':
@@ -5778,7 +5869,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/uscreen: {}
+  components/uscreen:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/user_com: {}
 
@@ -5881,7 +5976,14 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
 
-  components/vitel_phone: {}
+  components/vitel_phone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      xml2js:
+        specifier: ^0.6.2
+        version: 0.6.2
 
   components/vivifyscrum: {}
 
@@ -6142,6 +6244,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.5.1
+
+  components/wufoo: {}
 
   components/xata: {}
 
@@ -9895,12 +9999,12 @@ packages:
       graphql: 15.8.0
     dev: false
 
-  /@graphql-typed-document-node/core@3.2.0(graphql@16.8.0):
+  /@graphql-typed-document-node/core@3.2.0(graphql@16.8.1):
     resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      graphql: 16.8.0
+      graphql: 16.8.1
     dev: false
 
   /@grpc/grpc-js@1.6.12:
@@ -10080,14 +10184,14 @@ packages:
       '@jest/test-result': 29.6.4
       '@jest/transform': 29.6.4
       '@jest/types': 29.6.3
-      '@types/node': 20.5.7
+      '@types/node': 17.0.45
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.8.0
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.6.3
-      jest-config: 29.6.4(@types/node@20.5.7)
+      jest-config: 29.6.4(@types/node@17.0.45)
       jest-haste-map: 29.6.4
       jest-message-util: 29.6.3
       jest-regex-util: 29.6.3
@@ -10397,7 +10501,7 @@ packages:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 20.5.7
+      '@types/node': 17.0.45
       '@types/yargs': 17.0.24
       chalk: 4.1.2
     dev: true
@@ -12480,7 +12584,7 @@ packages:
     resolution: {integrity: sha512-OkIJpiU2fz6HOJujhlhfIGrc8hB4ibqtf7nnbJQDerG0BqwZCfmgtK5sWzZ0TkXVRBKD5MpLrTmCYyMxoMCgPw==}
     engines: {node: '>= 8.9.0', npm: '>= 5.5.1'}
     dependencies:
-      '@types/node': 20.5.7
+      '@types/node': 17.0.45
     dev: false
 
   /@slack/types@1.10.0:
@@ -12932,6 +13036,16 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@sparticuz/chromium@112.0.2:
+    resolution: {integrity: sha512-tpoY0o4vhrFE4/mXmJF3fcPLKIeKIQxbokfLgZB62rYW7KOIljbQTqCTBARzRXGN/k2+kLvhys1LVv6PWGwWNw==}
+    engines: {node: '>= 14.18.0'}
+    dependencies:
+      follow-redirects: 1.15.2
+      tar-fs: 2.1.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@supabase/functions-js@2.1.4:
     resolution: {integrity: sha512-5EEhei1hFCMBX4Pig4kGKjJ59DZvXwilcIBYYp4wyK/iHdAN6Vw9di9VN6/oRXRVS/6jgZd0jdmI+QgGGSxZsA==}
     dependencies:
@@ -13090,7 +13204,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 16.18.46
+      '@types/node': 17.0.45
     dev: false
 
   /@types/cacheable-request@6.0.3:
@@ -13117,7 +13231,7 @@ packages:
   /@types/duplexify@3.6.1:
     resolution: {integrity: sha512-n0zoEj/fMdMOvqbHxmqnza/kXyoGgJmEpsXjpP+gEqE1Ye4yNqc7xWipKnUoMpWhMuzJQSfK2gMrwlElly7OGQ==}
     dependencies:
-      '@types/node': 20.5.7
+      '@types/node': 17.0.45
     dev: false
 
   /@types/estree-jsx@1.0.0:
@@ -13192,7 +13306,7 @@ packages:
   /@types/is-stream@1.1.0:
     resolution: {integrity: sha512-jkZatu4QVbR60mpIzjINmtS1ZF4a/FqdTUTBeQDVOQ2PYyidtwFKr0B5G6ERukKwliq+7mIXvxyppwzG5EgRYg==}
     dependencies:
-      '@types/node': 20.5.7
+      '@types/node': 17.0.45
     dev: false
 
   /@types/istanbul-lib-coverage@2.0.4:
@@ -13306,6 +13420,7 @@ packages:
 
   /@types/node@20.5.7:
     resolution: {integrity: sha512-dP7f3LdZIysZnmvP3ANJYTSwg+wLLl8p7RqniVlV7j+oXSXAbt9h0WIBFmJy5inWZoX9wZN6eXx+YXd9Rh3RBA==}
+    dev: false
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -16143,6 +16258,7 @@ packages:
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
+    requiresBuild: true
 
   /emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
@@ -17985,7 +18101,7 @@ packages:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: true
 
-  /graphql-request@3.7.0(graphql@16.8.0):
+  /graphql-request@3.7.0(graphql@16.8.1):
     resolution: {integrity: sha512-dw5PxHCgBneN2DDNqpWu8QkbbJ07oOziy8z+bK/TAXufsOLaETuVO4GkXrbs0WjhdKhBMN3BkpN/RIvUHkmNUQ==}
     peerDependencies:
       graphql: 14 - 16
@@ -17993,20 +18109,20 @@ packages:
       cross-fetch: 3.1.8
       extract-files: 9.0.0
       form-data: 3.0.1
-      graphql: 16.8.0
+      graphql: 16.8.1
     transitivePeerDependencies:
       - encoding
 
-  /graphql-request@5.2.0(graphql@16.8.0):
+  /graphql-request@5.2.0(graphql@16.8.1):
     resolution: {integrity: sha512-pLhKIvnMyBERL0dtFI3medKqWOz/RhHdcgbZ+hMMIb32mEPa5MJSzS4AuXxfI4sRAu6JVVk5tvXuGfCWl9JYWQ==}
     peerDependencies:
       graphql: 14 - 16
     dependencies:
-      '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.0)
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
       cross-fetch: 3.1.8
       extract-files: 9.0.0
       form-data: 3.0.1
-      graphql: 16.8.0
+      graphql: 16.8.1
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -18016,8 +18132,8 @@ packages:
     engines: {node: '>= 10.x'}
     dev: false
 
-  /graphql@16.8.0:
-    resolution: {integrity: sha512-0oKGaR+y3qcS5mCu1vb7KG+a89vjn06C7Ihq/dDl3jA+A8B3TKomvi3CiEcVLJQGalbu8F52LxkOym7U5sSfbg==}
+  /graphql@16.8.1:
+    resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   /gtoken@5.3.2:
@@ -19238,7 +19354,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-config@29.6.4(@types/node@20.5.7):
+  /jest-config@29.6.4(@types/node@17.0.45):
     resolution: {integrity: sha512-JWohr3i9m2cVpBumQFv2akMEnFEPVOh+9L2xIBJhJ0zOaci2ZXuKJj0tgMKQCBZAKA09H049IR4HVS/43Qb19A==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -19253,7 +19369,7 @@ packages:
       '@babel/core': 7.22.11
       '@jest/test-sequencer': 29.6.4
       '@jest/types': 29.6.3
-      '@types/node': 20.5.7
+      '@types/node': 17.0.45
       babel-jest: 29.6.4(@babel/core@7.22.11)
       chalk: 4.1.2
       ci-info: 3.8.0

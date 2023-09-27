@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/campaign_cleaner",
+  "version": "0.0.1",
+  "description": "Pipedream Campaign Cleaner Components",
+  "main": "dist/app/campaign_cleaner.app.mjs",
+  "keywords": [
+    "pipedream",
+    "campaign_cleaner"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/campaign_cleaner",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

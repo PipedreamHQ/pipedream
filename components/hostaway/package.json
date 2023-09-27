@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/hostaway",
+  "version": "0.0.1",
+  "description": "Pipedream Hostaway Components",
+  "main": "dist/app/hostaway.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hostaway"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/hostaway",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
