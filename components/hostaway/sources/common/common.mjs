@@ -35,17 +35,30 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
+    isRelevant() {
+      return true;
+    },
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
   },
   async run(event) {
     const { body } = event;
+    if (!body) {
+      return;
+    }
     if (body?.data === "test") {
       this.http.respond({
         status: 200,
       });
+      return;
     }
-    console.log(event);
+    const {
+      event: eventType, data,
+    } = body;
+    if (this.isRelevant(eventType)) {
+      const meta = this.generateMeta(data);
+      this.$emit(data, meta);
+    }
   },
 };

@@ -10,6 +10,9 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    isRelevant(eventType) {
+      return eventType === "reservation.updated";
+    },
     generateMeta(reservation) {
       const ts = Date.parse(reservation.updatedOn);
       return {
