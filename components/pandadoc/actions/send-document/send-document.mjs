@@ -1,11 +1,11 @@
 import app from "../../pandadoc.app.mjs";
 
-export default defineComponent({
+export default {
   key: "pandadoc-send-document",
   name: "Send Document",
   description: "Move a document to sent status and send an optional email. [See the documentation](https://developers.pandadoc.com/reference/send-document)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     app,
     documentId: {
@@ -31,7 +31,7 @@ export default defineComponent({
       type: "boolean",
       label: "Silent",
       description:
-        `Disables sent, viewed, comment and completed email notifications for document recipients and the document sender. By default, notifications emails are sent for specific actions. If set as true, it won't affect "Approve document" email notification sent to the Approver.`,
+        "Disables sent, viewed, comment and completed email notifications for document recipients and the document sender. By default, notifications emails are sent for specific actions. If set as true, it won't affect \"Approve document\" email notification sent to the Approver.",
       optional: true,
       default: false,
     },
@@ -75,7 +75,7 @@ export default defineComponent({
           break;
         }
         console.log(
-          `Document status is '${documentStatus}' and not 'document.draft'. Waiting 1s and trying again...`
+          `Document status is '${documentStatus}' and not 'document.draft'. Waiting 1s and trying again...`,
         );
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
         retryCount++;
@@ -114,8 +114,8 @@ export default defineComponent({
 
     $.export(
       "$summary",
-      `Successfully sent "${response.name}" document with ID: ${response.id} to ${response.recipients.length} recipient(s)`
+      `Successfully sent "${response.name}" document with ID: ${response.id} to ${response.recipients.length} recipient(s)`,
     );
     return response;
   },
-});
+};
