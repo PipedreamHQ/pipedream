@@ -3036,6 +3036,8 @@ importers:
 
   components/manifestly_checklists: {}
 
+  components/manychat: {}
+
   components/mapbox: {}
 
   components/mapulus:
