@@ -1,5 +1,5 @@
-import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer-core@19.8.0";
+import chromium from "@sparticuz/chromium@112";
 
 export default {
   type: "app",
