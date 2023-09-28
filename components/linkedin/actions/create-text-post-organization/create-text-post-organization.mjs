@@ -20,6 +20,12 @@ export default {
         "text",
       ],
     },
+    article: {
+      propDefinition: [
+        linkedin,
+        "article",
+      ],
+    },
   },
   async run({ $ }) {
     const data = {
@@ -27,6 +33,13 @@ export default {
       commentary: this.text,
       visibility: "PUBLIC",
     };
+    if (this.article) {
+      data.content = {
+        article: {
+          source: this.article,
+        },
+      };
+    }
     const response = await this.linkedin.createPost({
       $,
       data,

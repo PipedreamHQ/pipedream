@@ -20,12 +20,25 @@ export default {
         "text",
       ],
     },
+    article: {
+      propDefinition: [
+        linkedin,
+        "article",
+      ],
+    },
   },
   async run({ $ }) {
     const data = {
       commentary: this.text,
       visibility: this.visibility,
     };
+    if (this.article) {
+      data.content = {
+        article: {
+          source: this.article,
+        },
+      };
+    }
     const response = await this.linkedin.createPost({
       $,
       data,

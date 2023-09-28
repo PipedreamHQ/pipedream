@@ -123,6 +123,12 @@ export default {
       optional: true,
       default: 50,
     },
+    article: {
+      type: "string",
+      label: "Article URL",
+      description: "The URL of an article to share",
+      optional: true,
+    },
   },
   methods: {
     _getHeaders() {
@@ -162,6 +168,24 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/posts",
+        data,
+        ...args,
+      });
+    },
+    initializeUpload({
+      data, ...args
+    }) {
+      data = {
+        ...data,
+        initializeUploadRequest: {
+          owner: `urn:li:${data?.owner
+            ? "organization"
+            : "person"}:${data.owner || this.$auth.oauth_uid}`,
+        },
+      };
+      return this._makeRequest({
+        method: "POST",
+        path: "/images?action=initializeUpload",
         data,
         ...args,
       });
