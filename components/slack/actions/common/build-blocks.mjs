@@ -1,21 +1,19 @@
+import common from "./send-message.mjs";
+
 export default {
   props: {
-    blockType: {
+    passArrayOrConfigure: {
       type: "string",
-      label: "Block Type",
-      description: "Select the type of block to add. Refer to [Slack's docs](https://api.slack.com/reference/block-kit/blocks) for more info.",
+      label: "Reference Previous Step or Configure Individually?",
+      description: "Would you like to reference an array of blocks from a previous step (for example, `{{steps.blocks.$return_value}}`), or configure them individually in this action?",
       options: [
         {
-          label: "Section",
-          value: "section",
+          label: "Reference an array of blocks",
+          value: "array",
         },
         {
-          label: "Context",
-          value: "context",
-        },
-        {
-          label: "Link Button",
-          value: "link_button",
+          label: "Configure blocks individually",
+          value: "configure",
         },
       ],
       reloadProps: true,
@@ -91,6 +89,35 @@ export default {
     const propsContext = this.createBlockProp("string[]", "Context Block", contextDescription);
     const propsLinkButton = this.createBlockProp("object", "Link Button", linkButtonDescription);
 
+    if (this.passArrayOrConfigure == "array") {
+      props.blocks = {
+        propDefinition: [
+          common.props.slack,
+          "blocks",
+        ],
+        optional: false,
+      };
+    } else {
+      props.blockType = {
+        type: "string",
+        label: "Block Type",
+        description: "Select the type of block to add. Refer to [Slack's docs](https://api.slack.com/reference/block-kit/blocks) for more info.",
+        options: [
+          {
+            label: "Section",
+            value: "section",
+          },
+          {
+            label: "Context",
+            value: "context",
+          },
+          {
+            label: "Link Button",
+            value: "link_button",
+          },
+        ],
+        reloadProps: true,
+      };}
     let currentBlockType = this.blockType;
     for (let i = 1; i <= 5; i++) {
       if (currentBlockType === "section") {
@@ -125,7 +152,6 @@ export default {
         currentBlockType = this[`nextBlockType${i}`];
       }
     }
-
     return props;
   },
   async run() {
