@@ -15,6 +15,18 @@ export default {
       label: "File Path",
       description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
+    text: {
+      propDefinition: [
+        linkedin,
+        "text",
+      ],
+    },
+    visibility: {
+      propDefinition: [
+        linkedin,
+        "visibility",
+      ],
+    },
   },
   methods: {
     initializeUpload({
@@ -46,28 +58,37 @@ export default {
     },
   },
   async run({ $ }) {
-    const { value: { uploadUrl } } = await this.initializeUpload({
+    const {
+      value: {
+        uploadUrl, image,
+      },
+    } = await this.initializeUpload({
       $,
     });
 
     const filePath = this.filePath.startsWith("/tmp/")
       ? this.filePath
       : `/tmp/${this.filePath}`;
-
-    const imageBuffer = fs.readFileSync(filePath);
     const formData = new FormData();
-    formData.append("upload-file", imageBuffer);
+    formData.append("file", fs.createReadStream(filePath));
 
-    const response = await this.uploadImage(uploadUrl, formData);
+    await this.uploadImage(uploadUrl, formData);
 
-    /*
-    const response = await this.linkedin.createPost({
+    await this.linkedin.createPost({
+      data: {
+        commentary: this.text,
+        visibility: this.visibility,
+        content: {
+          media: {
+            id: image,
+          },
+        },
+      },
       $,
-      data,
     });
 
-    $.export("$summary", "Successfully posted image."); */
+    $.export("$summary", "Successfully posted image.");
 
-    return response;
+    // nothing to return
   },
 };

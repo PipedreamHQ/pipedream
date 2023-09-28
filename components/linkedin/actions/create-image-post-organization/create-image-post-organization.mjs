@@ -1,4 +1,6 @@
 import linkedin from "../../linkedin.app.mjs";
+import fs from "fs";
+import FormData from "form-data";
 
 export default {
   key: "linkedin-create-image-post-organization",
@@ -12,6 +14,17 @@ export default {
       propDefinition: [
         linkedin,
         "organizationId",
+      ],
+    },
+    filePath: {
+      type: "string",
+      label: "File Path",
+      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+    },
+    text: {
+      propDefinition: [
+        linkedin,
+        "text",
       ],
     },
   },
@@ -32,17 +45,50 @@ export default {
         ...args,
       });
     },
+    uploadImage(url, data) {
+      return this.linkedin._makeRequest({
+        url,
+        method: "PUT",
+        data,
+        headers: {
+          ...this.linkedin._getHeaders(),
+          ...data.getHeaders(),
+        },
+      });
+    },
   },
   async run({ $ }) {
-    const data = {};
-
-    const response = await this.linkedin.createPost({
+    const {
+      value: {
+        uploadUrl, image,
+      },
+    } = await this.initializeUpload({
       $,
-      data,
+    });
+
+    const filePath = this.filePath.startsWith("/tmp/")
+      ? this.filePath
+      : `/tmp/${this.filePath}`;
+    const formData = new FormData();
+    formData.append("file", fs.createReadStream(filePath));
+
+    await this.uploadImage(uploadUrl, formData);
+
+    await this.linkedin.createPost({
+      data: {
+        commentary: this.text,
+        visibility: "PUBLIC",
+        content: {
+          media: {
+            id: image,
+          },
+        },
+      },
+      $,
     });
 
     $.export("$summary", "Successfully posted image.");
 
-    return response;
+    // nothing to return
   },
 };

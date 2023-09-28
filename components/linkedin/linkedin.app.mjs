@@ -143,7 +143,6 @@ export default {
         headers: this._getHeaders(),
         ...otherConfig,
       };
-      console.log(config);
       return axios($ || this, config);
     },
     async createPost({
