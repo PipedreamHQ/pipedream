@@ -5193,7 +5193,11 @@ importers:
         specifier: ^1.4.0
         version: 1.5.1
 
-  components/spreadsheet_com: {}
+  components/spreadsheet_com:
+    dependencies:
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
 
   components/square:
     dependencies:
