@@ -4,7 +4,7 @@ import buildBlocks from "../common/build-blocks.mjs";
 export default {
   ...common,
   ...buildBlocks,
-  name: "Build and Send a Block Kit Message",
+  name: "Build and Send a Block Kit Message (Beta)",
   description: "Configure custom blocks and send to a channel. [See Slack's docs for more info](https://api.slack.com/tools/block-kit-builder).",
   version: "0.0.1",
   type: "action",
