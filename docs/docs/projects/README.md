@@ -65,6 +65,18 @@ Then at the top right of the project's page, click the **Import** button.
 
 You'll be prompted to select a workflow from your **Workflows** area to import.
 
+### Moving workflows between projects
+
+To move a workflow from a project to another project, first check the workflow and then click **Move** to open a dropdown of projects. Select the project to move this workflow to, and click **Move** once more to complete the move.
+
+![How to move workflows from one project to another in the Pipedream dashboard.](https://res.cloudinary.com/pipedreamin/image/upload/v1695662665/docs/docs/projects/CleanShot_2023-09-25_at_13.23.38_2x_dyrtlv.png)
+
+::: warning Github Sync limitation
+
+At this time it's not possible to move workflows out of GitHub Synchronized Projects.
+
+:::
+
 
 ## Frequently Asked Questions
 
