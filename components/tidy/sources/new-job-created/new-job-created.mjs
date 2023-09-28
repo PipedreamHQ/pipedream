@@ -17,15 +17,6 @@ export default {
         "addressId",
       ],
     },
-    toDoListIds: {
-      propDefinition: [
-        common.props.tidy,
-        "toDoListIds",
-        (c) => ({
-          addressId: c.addressId,
-        }),
-      ],
-    },
     status: {
       type: "string[]",
       label: "Status",
@@ -40,9 +31,6 @@ export default {
       const { data } = await this.tidy.listJobs({
         params: {
           address_id: this.addressId,
-          to_do_list_id: this.toDoListIds?.length
-            ? (this.toDoListIds).join()
-            : undefined,
           status: this.status?.length
             ? (this.status).join()
             : undefined,
