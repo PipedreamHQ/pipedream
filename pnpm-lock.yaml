@@ -5504,7 +5504,11 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
-  components/testmo: {}
+  components/testmo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/testmonitor:
     dependencies:
