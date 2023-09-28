@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/clickfunnels",
+  "version": "0.0.1",
+  "description": "Pipedream ClickFunnels Components",
+  "main": "clickfunnels.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clickfunnels"
+  ],
+  "homepage": "https://pipedream.com/apps/clickfunnels",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
