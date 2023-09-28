@@ -35,8 +35,9 @@ export default {
       });
     },
   },
-  async run() {
-    const acknowledgment = await this.sendMessage();
-    return acknowledgment;
+  async run({ $ }) {
+    const resp = await this.sendMessage();
+    $.export("$summary", "Successfully sent a block kit message with ts: " + resp.ts);
+    return resp;
   },
 };
