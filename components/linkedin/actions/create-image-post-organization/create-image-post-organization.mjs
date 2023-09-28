@@ -15,6 +15,24 @@ export default {
       ],
     },
   },
+  methods: {
+    initializeUpload({
+      data, ...args
+    }) {
+      data = {
+        ...data,
+        initializeUploadRequest: {
+          owner: `urn:li:organization:${data.owner}`,
+        },
+      };
+      return this.linkedin._makeRequest({
+        method: "POST",
+        path: "/images?action=initializeUpload",
+        data,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
     const data = {};
 

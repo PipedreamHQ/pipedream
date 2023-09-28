@@ -21,10 +21,10 @@ export default {
       ],
     },
     article: {
-      propDefinition: [
-        linkedin,
-        "article",
-      ],
+      type: "string",
+      label: "Article URL",
+      description: "The URL of an article to share",
+      optional: true,
     },
   },
   async run({ $ }) {
