@@ -2359,7 +2359,14 @@ importers:
         specifier: ^1.11.7
         version: 1.11.9
 
-  components/hostaway: {}
+  components/hostaway:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
 
   components/hotjar: {}
 
