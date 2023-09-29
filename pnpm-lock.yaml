@@ -1989,7 +1989,11 @@ importers:
 
   components/goodbits: {}
 
-  components/goody: {}
+  components/goody:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/google_ads: {}
 
