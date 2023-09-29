@@ -1,3 +1,5 @@
+const DEFAULT_LIMIT = 20;
+
 const SEND_METHODS = [
   {
     value: "email_and_link",
@@ -14,5 +16,6 @@ const SEND_METHODS = [
 ];
 
 export default {
+  DEFAULT_LIMIT,
   SEND_METHODS,
 };

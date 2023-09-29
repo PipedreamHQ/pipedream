@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -31,6 +32,24 @@ export default {
         const { data } = await this.listPaymentMethods();
         return data?.map(({
           id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    orderBatchId: {
+      type: "string",
+      label: "Order Batch",
+      description: "Identifier of an order batch",
+      async options({ page }) {
+        const { data } = await this.listOrderBatches({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          id: value, batch_name: label,
         }) => ({
           value,
           label,
@@ -70,12 +89,55 @@ export default {
         ...args,
       });
     },
+    listOrders(args = {}) {
+      return this._makeRequest({
+        path: "/orders",
+        ...args,
+      });
+    },
+    listOrderBatches(args = {}) {
+      return this._makeRequest({
+        path: "/order_batches",
+        ...args,
+      });
+    },
+    retrieveOrdersForOrderBatch({
+      orderBatchId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/order_batches/${orderBatchId}/orders`,
+        ...args,
+      });
+    },
     createOrder(args = {}) {
       return this._makeRequest({
         path: "/order_batches",
         method: "POST",
         ...args,
       });
+    },
+    async *paginate({
+      resourceFn, args = {},
+    }) {
+      const limit = constants.DEFAULT_LIMIT;
+      let total = 0;
+      args = {
+        ...args,
+        params: {
+          ...args.params,
+          page: 1,
+          per_page: limit,
+        },
+      };
+
+      do {
+        const { data } = await resourceFn(args);
+        for (const item of data) {
+          yield item;
+        }
+        args.params.page++;
+        total = data?.length;
+      } while (total === limit);
     },
   },
 };
