@@ -91,12 +91,12 @@ export default {
       });
     },
     async createRequestComment({
-      issueIdOrKey, ...opts
+      requestId, ...opts
     }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: `/request/${issueIdOrKey}/comment`,
+        path: `/request/${requestId}/comment`,
       });
     },
   },
