@@ -4227,6 +4227,9 @@ importers:
 
   components/puppeteer:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
       '@sparticuz/chromium':
         specifier: 112.0.2
         version: 112.0.2
@@ -5462,7 +5465,11 @@ importers:
 
   components/teamdeck: {}
 
-  components/teamgantt: {}
+  components/teamgantt:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/teamgate:
     dependencies:
@@ -6270,7 +6277,14 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/wufoo: {}
+  components/wufoo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      qs:
+        specifier: ^6.11.2
+        version: 6.11.2
 
   components/xata: {}
 
