@@ -887,6 +887,8 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1
 
+  components/clockwork_recruiting: {}
+
   components/close:
     dependencies:
       '@pipedream/platform':
@@ -4225,6 +4227,9 @@ importers:
 
   components/puppeteer:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
       '@sparticuz/chromium':
         specifier: 112.0.2
         version: 112.0.2
@@ -5695,6 +5700,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/trackingtime: {}
 
   components/trainual: {}
 

@@ -45,6 +45,19 @@ const PAPER_FORMAT = [
   },
 ];
 
+const IMAGE_ENCODING = [
+  "base64",
+  "binary",
+];
+
+const SCREENSHOT_TYPE = [
+  "png",
+  "jpeg",
+  "webp",
+];
+
 export default {
   PAPER_FORMAT,
+  IMAGE_ENCODING,
+  SCREENSHOT_TYPE,
 };
