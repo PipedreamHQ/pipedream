@@ -34,17 +34,14 @@ export default {
     _baseUrl() {
       return "https://api.atlassian.com/ex/jira";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "get",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    } = {}) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -59,29 +56,21 @@ export default {
       });
     },
     async createCustomerRequest({
-      serviceDeskId, requestTypeId, requestFieldValues, ...opts
+      serviceDeskId, ...opts
     }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
         path: `/rest/servicedeskapi/servicedesk/${serviceDeskId}/request`,
-        data: {
-          serviceDeskId,
-          requestTypeId,
-          requestFieldValues,
-        },
       });
     },
     async createRequestComment({
-      issueIdOrKey, comment, ...opts
+      issueIdOrKey, ...opts
     }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
         path: `/rest/servicedeskapi/request/${issueIdOrKey}/comment`,
-        data: {
-          body: comment,
-        },
       });
     },
   },
