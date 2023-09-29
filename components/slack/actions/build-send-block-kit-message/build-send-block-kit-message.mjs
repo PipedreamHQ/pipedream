@@ -17,6 +17,12 @@ export default {
         "conversation",
       ],
     },
+    text: {
+      propDefinition: [
+        common.props.slack,
+        "notificationText",
+      ],
+    },
     ...common.props,
     ...buildBlocks.props,
   },
