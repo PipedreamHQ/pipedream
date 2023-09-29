@@ -82,11 +82,11 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    const sectionDescription = "Add a **section** block to your message using plain text or mrkdwn. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#section) for more info.";
-    const contextDescription = "Add a **context** block to your message using plain text or mrkdwn, or specify multiple elements to pass as an array in the context block. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#context) for more info.";
+    const sectionDescription = "Add a **section** block to your message and configure with plain text or mrkdwn. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#section) for more info.";
+    const contextDescription = "Add a **context** block to your message and configure with plain text or mrkdwn. Define multiple items if you'd like multiple elements in the context block. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#context) for more info.";
     const linkButtonDescription = "Add a **link button** to your message. Enter the button text as the key and the link URL as the value. Configure multiple buttons in the array to render them inline, or add additional Button Link blocks to render them vertically. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#actions) for more info.";
-    const propsSection = this.createBlockProp("string", "Section Block", sectionDescription);
-    const propsContext = this.createBlockProp("string[]", "Context Block", contextDescription);
+    const propsSection = this.createBlockProp("string", "Section Block Text", sectionDescription);
+    const propsContext = this.createBlockProp("string[]", "Context Block Text", contextDescription);
     const propsLinkButton = this.createBlockProp("object", "Link Button", linkButtonDescription);
 
     if (this.passArrayOrConfigure == "array") {
