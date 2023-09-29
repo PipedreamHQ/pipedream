@@ -1,39 +1,36 @@
-import axios from "@pipedream/platform";
-// import jiraServiceDesk from "../../jira_service_desk.app.mjs";
+import jiraServiceDesk from "../../jira_service_desk.app.mjs";
 
 export default {
   key: "jira_service_desk-create-request",
   name: "Create Request",
-  description: "Creates a new customer request. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-post)",
+  description:
+    "Creates a new customer request. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-post)",
   version: "0.0.1",
   type: "action",
   props: {
-    jiraServiceDesk: {
-      type: "app",
-      app: "jira_service_desk",
+    jiraServiceDesk,
+    serviceDeskId: {
+      propDefinition: [
+        jiraServiceDesk,
+        "serviceDeskId",
+      ],
     },
-    requestData: {
+    requestTypeId: {
+      propDefinition: [
+        jiraServiceDesk,
+        "requestTypeId",
+        ({ serviceDeskId }) => ({
+          serviceDeskId,
+        }),
+      ],
+    },
+    requestFieldValues: {
       type: "object",
-      label: "Request Data",
-      description: "The data for the new request. Should include 'serviceDeskId', 'requestTypeId' and 'requestFieldValues'.",
+      label: "Request Field Values",
+      description: "The values for the fields of the request",
     },
   },
-  methods: {
-    async createRequest({
-      $, requestData,
-    }) {
-      return axios($, {
-        method: "POST",
-        url: `https://api.atlassian.com/ex/jira/${this.jiraServiceDesk.$auth.oauth_uid}/rest/servicedeskapi/request`,
-        headers: {
-          "Authorization": `Bearer ${this.jiraServiceDesk.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
-        data: requestData,
-      });
-    },
-  },
-  async run({ /*steps,*/ $ }) {
+  async run({ $ }) {
     const response = await this.createRequest({
       $,
       requestData: this.requestData,
