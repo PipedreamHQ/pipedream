@@ -53,7 +53,9 @@ export default {
       data: parseArray(rowsData),
     });
 
-    $.export("$summary", `New row(s) with Id(s): ${(response.ids).toString()} was successfully created!`);
+    $.export("$summary", `New row(s) with Id(s): ${(response.ids).toString()} ${response.ids.length > 1
+      ? "were"
+      : "was"} successfully created!`);
     return response;
   },
 };
