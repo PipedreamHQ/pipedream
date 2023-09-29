@@ -7,7 +7,7 @@ export default {
     serviceDeskId: {
       type: "integer",
       label: "Service Desk ID",
-      description: "The ID of the service desk",
+      description: "Selet a service desk, or provide a custom ID.",
       async options() {
         const desks = await this.getServiceDesks();
         return desks?.map?.(({
@@ -21,7 +21,7 @@ export default {
     requestTypeId: {
       type: "integer",
       label: "Request Type ID",
-      description: "The ID of the request type",
+      description: "Select a request type, or provide a custom ID.",
       async options({ serviceDeskId }) {
         const types = await this.getRequestTypes(serviceDeskId);
         return types?.map?.(({
