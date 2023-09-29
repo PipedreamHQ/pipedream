@@ -91,11 +91,9 @@ export default {
 
     if (this.passArrayOrConfigure == "array") {
       props.blocks = {
-        propDefinition: [
-          common.props.slack,
-          "blocks",
-        ],
-        optional: false,
+        type: common.props.slack.propDefinitions.blocks.type,
+        label: common.props.slack.propDefinitions.blocks.label,
+        description: common.props.slack.propDefinitions.blocks.description,
       };
     } else {
       props.blockType = {
