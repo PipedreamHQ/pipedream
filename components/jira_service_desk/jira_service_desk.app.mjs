@@ -5,7 +5,7 @@ export default {
   app: "jira_service_desk",
   propDefinitions: {
     serviceDeskId: {
-      type: "integer",
+      type: "string",
       label: "Service Desk ID",
       description: "Selet a service desk, or provide a custom ID.",
       async options() {
@@ -18,8 +18,22 @@ export default {
         }));
       },
     },
+    requestId: {
+      type: "string",
+      label: "Request ID",
+      description: "Select a request, or provide a custom ID.",
+      async options() {
+        const requests = await this.getCustomerRequests();
+        return requests?.map?.(({
+          issueId, issueKey,
+        }) => ({
+          label: issueKey,
+          value: issueId,
+        }));
+      },
+    },
     requestTypeId: {
-      type: "integer",
+      type: "string",
       label: "Request Type ID",
       description: "Select a request type, or provide a custom ID.",
       async options({ serviceDeskId }) {
