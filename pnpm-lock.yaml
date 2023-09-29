@@ -846,6 +846,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
+  components/clickfunnels: {}
+
   components/clickmeeting: {}
 
   components/clicktime: {}
@@ -884,6 +886,8 @@ importers:
       '@pipedreamhq/platform':
         specifier: ^0.8.1
         version: 0.8.1
+
+  components/clockwork_recruiting: {}
 
   components/close:
     dependencies:
@@ -5689,6 +5693,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/trackingtime: {}
 
   components/trainual: {}
 

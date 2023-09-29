@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/goody",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Goody Components",
-  "main": "dist/app/goody.app.mjs",
+  "main": "goody.app.mjs",
   "keywords": [
     "pipedream",
     "goody"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/goody",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
