@@ -6266,7 +6266,14 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/wufoo: {}
+  components/wufoo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      qs:
+        specifier: ^6.11.2
+        version: 6.11.2
 
   components/xata: {}
 
