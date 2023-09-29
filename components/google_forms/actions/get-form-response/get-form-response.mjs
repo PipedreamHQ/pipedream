@@ -26,8 +26,9 @@ export default {
   },
   async run({ $ }) {
 
-    const { responses } = await this.googleForms.listFormResponses({
+    const { responses } = await this.googleForms.getFormResponse({
       formId: this.formId,
+      responseId: this.formResponseId,
       $,
     });
 
