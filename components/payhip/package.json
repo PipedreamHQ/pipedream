@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/payhip",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Payhip Components",
   "main": "payhip.app.mjs",
   "keywords": [
