@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/signaturely",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Signaturely Components",
-  "main": "dist/app/signaturely.app.mjs",
+  "main": "signaturely.app.mjs",
   "keywords": [
     "pipedream",
     "signaturely"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/signaturely",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }

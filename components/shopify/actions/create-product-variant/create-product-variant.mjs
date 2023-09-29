@@ -6,7 +6,7 @@ export default {
   key: "shopify-create-product-variant",
   name: "Create Product Variant",
   description: "Create a new product variant. [See the documentation](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     shopify,
