@@ -13,14 +13,6 @@ export default {
       },
     },
   },
-  hooks: {
-    async deploy() {
-      // By default, only a limited set of properties are returned from the API.
-      // Get all possible contact properties to request for each contact.
-      const properties = await this.hubspot.createPropertiesArray();
-      this._setProperties(properties);
-    },
-  },
   methods: {
     _limiter() {
       return new Bottleneck({
@@ -35,12 +27,6 @@ export default {
     },
     _setAfter(after) {
       this.db.set("after", after);
-    },
-    _getProperties() {
-      return this.db.get("properties");
-    },
-    _setProperties(properties) {
-      this.db.set("properties", properties);
     },
     async paginate(params, resourceFn, resultType = null, after = null) {
       let results = null;
