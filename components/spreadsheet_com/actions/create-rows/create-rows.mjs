@@ -33,7 +33,7 @@ export default {
     rowsData: {
       type: "string[]",
       label: "Rows Data",
-      description: "Data row(s) to add. Rows without any column data will be ignored. Maximum of 100 entries can be provided. [See the documentation](https://developer.spreadsheet.com/#tag/Rows/operation/createRows)",
+      description: "Data row(s) to add. Each entry have the following sample format: `{ \"cellData\": [ { \"field\": \"A\", \"data\": \"Person\" }, { \"field\": \"B\", \"data\": \"Region\" } ] }`. Rows without any column data will be ignored. Maximum of 100 entries can be provided. [See the documentation](https://developer.spreadsheet.com/#tag/Rows/operation/createRows).",
     },
   },
   async run({ $ }) {

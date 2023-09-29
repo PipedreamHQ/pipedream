@@ -27,7 +27,7 @@ export default {
     rowsData: {
       type: "string[]",
       label: "Rows Data",
-      description: "Data row(s) to update. Response will contain list of row ids for which the operation was successful. Maximum of 100 entries can be provided. [Where to find row Ids](https://developer.spreadsheet.com/#section/Using-the-API/Extract-Resource-IDs)",
+      description: "Data row(s) to update. Each entry have the following sample format: `{ \"_id\": \"WTwPho0VQp-goWf_xtSMgQ\", \"cellData\": [ { \"field\": \"A\", \"data\": \"Person\" }, { \"field\": \"B\", \"data\": \"Region\" } ] }`. Response will contain list of row ids for which the operation was successful. Maximum of 100 entries can be provided. [Where to find row Ids](https://developer.spreadsheet.com/#section/Using-the-API/Extract-Resource-IDs)",
     },
   },
   async run({ $ }) {
