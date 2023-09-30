@@ -6,7 +6,7 @@ export default {
   key: "shopify_developer_app-create-metafield",
   name: "Create Metafield",
   description: "Creates a metafield belonging to a resource. [See the docs](https://shopify.dev/api/admin-rest/2023-01/resources/metafield#post-blogs-blog-id-metafields)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...metafieldActions.props,

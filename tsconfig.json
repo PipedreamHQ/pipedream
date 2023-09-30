@@ -2624,6 +2624,141 @@
     },
     {
       "path": "components/tidy"
+    },
+    {
+      "path": "components/postgrid_verify"
+    },
+    {
+      "path": "components/spreadsheet_com"
+    },
+    {
+      "path": "components/passslot"
+    },
+    {
+      "path": "components/mx_technologies"
+    },
+    {
+      "path": "components/fidel_api"
+    },
+    {
+      "path": "components/the_odds_api"
+    },
+    {
+      "path": "components/_twocaptcha"
+    },
+    {
+      "path": "components/postgrid"
+    },
+    {
+      "path": "components/celonis_ems"
+    },
+    {
+      "path": "components/pdfless"
+    },
+    {
+      "path": "components/interzoid"
+    },
+    {
+      "path": "components/realgeeks"
+    },
+    {
+      "path": "components/testmo"
+    },
+    {
+      "path": "components/ringover"
+    },
+    {
+      "path": "components/cardly"
+    },
+    {
+      "path": "components/knorish"
+    },
+    {
+      "path": "components/echtpost_postcards"
+    },
+    {
+      "path": "components/gorillastack"
+    },
+    {
+      "path": "components/signaturely"
+    },
+    {
+      "path": "components/weglot"
+    },
+    {
+      "path": "components/teamgantt"
+    },
+    {
+      "path": "components/gong"
+    },
+    {
+      "path": "components/serply"
+    },
+    {
+      "path": "components/smsapi"
+    },
+    {
+      "path": "components/axis_lms"
+    },
+    {
+      "path": "components/postman"
+    },
+    {
+      "path": "components/gtmetrix"
+    },
+    {
+      "path": "components/microsoft_excel"
+    },
+    {
+      "path": "components/kingsumo"
+    },
+    {
+      "path": "components/linkedin_ads"
+    },
+    {
+      "path": "components/brevo"
+    },
+    {
+      "path": "components/clerk"
+    },
+    {
+      "path": "components/airops"
+    },
+    {
+      "path": "components/campaign_cleaner"
+    },
+    {
+      "path": "components/goody"
+    },
+    {
+      "path": "components/hostaway"
+    },
+    {
+      "path": "components/payhip"
+    },
+    {
+      "path": "components/wufoo"
+    },
+    {
+      "path": "components/translate_com"
+    },
+    {
+      "path": "components/piggy"
+    },
+    {
+      "path": "components/modeck"
+    },
+    {
+      "path": "components/playwright"
+    },
+    {
+      "path": "components/puppeteer"
+    },
+    {
+      "path": "components/jibble"
+    },
+    {
+      "path": "components/diffchecker"
     }
   ]
 }

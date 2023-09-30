@@ -4,6 +4,7 @@ import get from "lodash/get.js";
 import config from "./common/config.mjs";
 import isString from "lodash/isString.js";
 import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
 
 const Dropbox = dropbox.Dropbox;
 
@@ -21,6 +22,7 @@ export default {
         prevContext,
         query,
         returnSimpleString,
+        omitRootFolder,
       }) {
         if (prevContext?.reachedLastPage) {
           return [];
@@ -31,6 +33,7 @@ export default {
           {
             omitFiles: true,
             returnSimpleString,
+            omitRootFolder,
           },
         );
       },
@@ -45,6 +48,7 @@ export default {
         prevContext,
         query,
         returnSimpleString,
+        omitRootFolder,
       }) {
         if (prevContext?.reachedLastPage) {
           return [];
@@ -55,6 +59,7 @@ export default {
           {
             omitFolders: true,
             returnSimpleString,
+            omitRootFolder,
           },
         );
       },
@@ -69,6 +74,7 @@ export default {
         prevContext,
         query,
         returnSimpleString,
+        omitRootFolder,
       }) {
         if (prevContext?.reachedLastPage) {
           return [];
@@ -78,6 +84,7 @@ export default {
           prevContext?.cursor,
           {
             returnSimpleString,
+            omitRootFolder,
           },
         );
       },
@@ -111,6 +118,25 @@ export default {
     },
   },
   methods: {
+    getPath(path) {
+      return Object.prototype.hasOwnProperty.call(path, "value")
+        ? path.value
+        : path;
+    },
+    getNormalizedPath(path, appendFinalBar) {
+      let normalizedPath = this.getPath(path);
+
+      // Check for empties path
+      if (isNil(normalizedPath) || isEmpty(normalizedPath)) {
+        normalizedPath = "/";
+      }
+
+      if (appendFinalBar && normalizedPath[normalizedPath.length - 1] !== "/") {
+        normalizedPath += "/";
+      }
+
+      return normalizedPath;
+    },
     async sdk() {
       const baseClientOpts = {
         accessToken: this.$auth.oauth_access_token,
@@ -171,6 +197,7 @@ export default {
         const {
           omitFolders,
           omitFiles,
+          omitRootFolder,
         } = opts;
 
         let data = [];
@@ -237,7 +264,20 @@ export default {
           data = data.filter((item) => item.type !== "folder");
         }
 
-        data = data.map((item) => (item.path));
+        data = data.map((item) => ({
+          label: item.path,
+          value: item.path,
+        }));
+
+        if (path === "" && !omitFolders && !omitRootFolder) {
+          data = [
+            {
+              label: "Root Folder",
+              value: "",
+            },
+            ...data,
+          ];
+        }
 
         data.sort((a, b) => {
           return a > b ?

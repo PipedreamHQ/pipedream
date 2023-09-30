@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/postgrid",
+  "version": "0.1.0",
+  "description": "Pipedream PostGrid Print & Mail Components",
+  "main": "postgrid.app.mjs",
+  "keywords": [
+    "pipedream",
+    "postgrid"
+  ],
+  "homepage": "https://pipedream.com/apps/postgrid",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

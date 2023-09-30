@@ -4,7 +4,7 @@ export default {
   name: "Create Contact",
   description: "Create a new contact. [See the documentation](https://www.projectbroadcast.com/apidoc/#api-Contacts-CreateContact)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     phoneNumber: {
