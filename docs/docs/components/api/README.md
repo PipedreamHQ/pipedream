@@ -139,7 +139,7 @@ props: {
 | `label`          | `string`                             | optional  | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed to the user.                                                                                                                                                                                                                                                                                                                                                           |
 | `description`    | `string`                             | optional  | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported.                                                                                                                                                                                                                                                                                                                  |
 | `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
-| `useQuery`    | `boolean`                             | optional  | Use in conjunction with **Dynamic Options**. If set to `true`, the prop accepts a real-time query that can be used by the `options` method to obtain results according to that query.                                                                                                                                                                                                                                                                                                                   |
+| `useQuery`       | `boolean`                            | optional  | Use in conjunction with **Dynamic Options**. If set to `true`, the prop accepts a real-time query that can be used by the `options` method to obtain results according to that query.                                                                                                                                                                                                                                                                                          |
 | `optional`       | `boolean`                            | optional  | Set to `true` to make this prop optional. Defaults to `false`.                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `propDefinition` | `[]`                                 | optional  | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage.                                                                                                                                                                                                       |
 | `default`        | `string`                             | optional  | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input).                                                                                                                                                                                                                                                                                                                                   |
@@ -207,9 +207,9 @@ async options({
 | Property      | Type      | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------------- | --------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `options()`   | `method`  | optional  | Typically returns an array of values matching the prop type (e.g., `string`) or an array of object that define the `label` and `value` for each option. The `page` and `prevContext` input parameter names are reserved for pagination (see below).<br>&nbsp;<br>When using `prevContext` for pagination, it must return an object with an `options` array and a `context` object with a `nextPageToken` key. E.g., `{ options, context: { nextPageToken }, }` |
-| `page`        | `integer` | optional  | Returns a `0` indexed page number. Use with APIs that accept a numeric page number for pagination. 
-| `prevContext` | `string`  | optional  | Returns a string representing the context for the previous `options` execution. Use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                              |
-| `query` | `string`  | optional  | Returns a string with the user input if the prop has the `useQuery` property set to `true`. Use with APIs that return items based on a query or search parameter.                                                                                                                                                                                                                                                                                              |
+| `page`        | `integer` | optional  | Returns a `0` indexed page number. Use with APIs that accept a numeric page number for pagination.                                                                                                                                                                                                                                                                                                                                                             |
+| `prevContext` | `string`  | optional  | Returns a string representing the context for the previous `options` execution. Use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                                 |
+| `query`       | `string`  | optional  | Returns a string with the user input if the prop has the `useQuery` property set to `true`. Use with APIs that return items based on a query or search parameter.                                                                                                                                                                                                                                                                                              |
 
 Following is an example source demonstrating the usage of async options:
 
@@ -780,7 +780,7 @@ async run({ $ }) {
 
 When your workflow runs, you'll see the named exports appear below your step, with the data you exported. You can reference these exports in other steps using `steps.[STEP NAME].[EXPORT NAME]`.
 
-**`$.respond`**
+##### Returning HTTP responses with `$.respond`
 
 `$.respond` lets you issue HTTP responses from your workflow. [See the full `$.respond` docs for more information](/workflows/steps/triggers/#customizing-the-http-response).
 
@@ -793,7 +793,7 @@ async run({ $ }) {
 }
 ```
 
-**`return $.flow.exit`**
+##### Ending steps early with `return $.flow.exit`
 
 `return $.flow.exit` terminates the entire workflow. It accepts a single argument: a string that tells the workflow why the workflow terminated, which is displayed in the Pipedream UI.
 
@@ -803,7 +803,7 @@ async run({ $ }) {
 }
 ```
 
-**`$.summary`**
+##### `$.summary`
 
 `$.summary` is used to surface brief, user-friendly summaries about what happened when an action step succeeds. For example, when [adding items to a Spotify playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/actions/add-items-to-playlist/add-items-to-playlist.mjs#L51):
 
@@ -824,7 +824,7 @@ $.export(
 );
 ```
 
-**`$.send`**
+##### `$.send`
 
 `$.send` allows you to send data to [Pipedream destinations](/destinations/).
 
@@ -847,6 +847,18 @@ $.export(
 **`$.send.sse`**
 
 [See the SSE destination docs](/destinations/sse/#using-send-sse-in-component-actions).
+
+##### `$.context`
+
+`$.context` exposes [the same properties as `steps.trigger.context`](/events/#steps-trigger-context), and more. Action authors can use it to get context about the calling workflow and the execution.
+
+All properties from [`steps.trigger.context`](/events/#steps-trigger-context) are exposed, as well as:
+
+| Property   |                                                                           Description                                                                            |
+| ---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| `deadline` |                   An epoch millisecond timestamp marking the point when the workflow is configured to [timeout](/limits/#time-per-execution).                    |
+| `JIT`      |                  Stands for "just in time" (environment). `true` if the user is testing the step, `false` if the step is running in production.                  |
+| `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/rerun/#polling-for-the-status-of-an-external-job) for more detail. |
 
 ### Environment variables
 
