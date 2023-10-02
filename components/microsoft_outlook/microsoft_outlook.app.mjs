@@ -12,23 +12,28 @@ export default {
       label: "Recipients",
       description: "Array of email addresses",
       type: "string[]",
+      optional: true,
+      default: [],
     },
     ccRecipients: {
       label: "CC Recipients",
       description: "Array of email addresses",
       type: "string[]",
       optional: true,
+      default: [],
     },
     bccRecipients: {
       label: "BCC Recipients",
       description: "Array of email addresses",
       type: "string[]",
       optional: true,
+      default: [],
     },
     subject: {
       label: "Subject",
       description: "Subject of the email",
       type: "string",
+      optional: true,
     },
     contentType: {
       label: "Content Type",
