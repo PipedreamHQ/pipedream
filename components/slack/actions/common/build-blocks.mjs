@@ -1,11 +1,14 @@
 import common from "./send-message.mjs";
 
+/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
+  pipedream/required-properties-version, pipedream/required-properties-description */
 export default {
+  type: "action",
   props: {
     passArrayOrConfigure: {
       type: "string",
-      label: "Reference Previous Step or Configure Individually?",
-      description: "Would you like to reference an array of blocks from a previous step (for example, `{{steps.blocks.$return_value}}`), or configure them individually in this action?",
+      label: "Reference Existing Blocks Array or Configure Manually?",
+      description: "Would you like to reference an array of blocks from a previous step (for example, `{{steps.blocks.$return_value}}`), or configure them in this action?",
       options: [
         {
           label: "Reference an array of blocks",
@@ -153,22 +156,24 @@ export default {
     return props;
   },
   async run() {
-    const blocks = [];
+    let blocks = [];
+    if (this.passArrayOrConfigure == "array") {
+      blocks = this.blocks;
+    } else {
+      for (let i = 1; i <= 5; i++) {
+        if (this[`section${i}`]) {
+          blocks.push(this.createBlock("section", this[`section${i}`]));
+        }
 
-    for (let i = 1; i <= 5; i++) {
-      if (this[`section${i}`]) {
-        blocks.push(this.createBlock("section", this[`section${i}`]));
-      }
+        if (this[`context${i}`]) {
+          blocks.push(this.createBlock("context", this[`context${i}`]));
+        }
 
-      if (this[`context${i}`]) {
-        blocks.push(this.createBlock("context", this[`context${i}`]));
-      }
-
-      if (this[`linkButton${i}`]) {
-        blocks.push(this.createBlock("link_button", this[`linkButton${i}`]));
+        if (this[`linkButton${i}`]) {
+          blocks.push(this.createBlock("link_button", this[`linkButton${i}`]));
+        }
       }
     }
-
     return blocks;
   },
 };

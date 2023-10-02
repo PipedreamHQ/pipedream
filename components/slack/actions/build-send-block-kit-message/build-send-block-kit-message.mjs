@@ -32,18 +32,12 @@ export default {
     async getGeneratedBlocks() {
       return await buildBlocks.run.call(this);  // call buildBlocks.run with the current context
     },
-    async sendMessage() {
-      const generatedBlocks = await this.getGeneratedBlocks();
-      return await this.slack.sdk().chat.postMessage({
-        channel: this.conversation,
-        blocks: generatedBlocks,
-        type: common.messageType,
-      });
-    },
   },
   async run({ $ }) {
-    const resp = await this.sendMessage();
-    $.export("$summary", "Successfully sent a block kit message with ts: " + resp.ts);
+    this.blocks = await this.getGeneratedBlocks();  // set the blocks prop for common.run to use
+    const resp = await common.run.call(this, {
+      $,
+    });  // call common.run with the current context
     return resp;
   },
 };
