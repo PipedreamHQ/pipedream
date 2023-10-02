@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "trackingtime",
+  app: "aivoov",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
