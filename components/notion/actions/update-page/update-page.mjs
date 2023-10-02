@@ -24,6 +24,9 @@ export default {
       propDefinition: [
         notion,
         "pageId",
+        (c) => ({
+          databaseId: c.parent,
+        }),
       ],
     },
     archived: {

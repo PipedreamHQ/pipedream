@@ -21,8 +21,10 @@ export default {
       type: "string",
       label: "Page ID",
       description: "The identifier for a Notion page",
-      async options({ prevContext }) {
-        const response = await this.search(undefined, {
+      async options({
+        prevContext, databaseId,
+      }) {
+        const response = await this.queryDatabase(databaseId, {
           start_cursor: prevContext.nextPageParameters ?? undefined,
         });
         const options = this._extractPageTitleOptions(response.results);
