@@ -195,6 +195,16 @@ export default {
         };
       },
     },
+    contactProperties: {
+      type: "string[]",
+      label: "Contact Properties",
+      description: "Select the properties to include in the contact object",
+      optional: true,
+      default: [],
+      async options() {
+        return this.createPropertiesArray();
+      },
+    },
     workflow: {
       type: "string",
       label: "Workflow",
