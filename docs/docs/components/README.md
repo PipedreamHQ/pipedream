@@ -63,8 +63,6 @@ To use a published action, add a new step to your workflow and click **My Action
 
 ### Using Private Sources
 
-<AlphaFeatureNotice feature="Components Page - add a page for published components" />
-
 Private source components deployed from your account via the [CLI](/cli/reference/#pd-deploy) will automatically create a new Source in your account with the prop configuration you specified.
 
 You can also deploy new instances of a source from the [Components dashboard](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165325045_ia5sd5.png). To deploy a new instance of a source, click the menu on the right hand side and select **Create source**.
@@ -106,8 +104,6 @@ Your private components published from the CLI or from Node.js code steps are li
 
 ### Unpublishing Privately Published Components
 
-<AlphaFeatureNotice feature="Components Page - add a page for published components" />
-
 <VideoPlayer src="https://www.youtube.com/embed/3wmnFi7thUg" title="Unpublishing Privately Published Components" />
 
 To unpublish components belonging to your workspace, open the menu on the right hand side of the component details and select **Unpublish Component**.
@@ -118,7 +114,7 @@ A prompt will open to confirm the action, click **Confirm** to unpublish your ac
 
 ::: danger
 
-Unpublishing a component is an permanent action, please be careful to you still have access to the source code.
+Unpublishing a component is a permanent action, please be careful to ensure you still have access to the source code.
 
 :::
 
