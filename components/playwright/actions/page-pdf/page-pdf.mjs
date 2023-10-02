@@ -1,9 +1,9 @@
 import playwright from "../../playwright.app.mjs";
 
 export default {
-  key: "playwright-screenshot",
-  name: "Screenshot",
-  description: "Store a new screenshot file on /tmp directory. [See the documentation](https://playwright.dev/docs/screenshots)",
+  key: "playwright-page-pdf",
+  name: "Page PDF",
+  description: "Generates a pdf of the page and store it on /tmp directory. [See the documentation](https://playwright.dev/docs/api/class-page#page-pdf)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -16,35 +16,24 @@ export default {
     filename: {
       type: "string",
       label: "File Name",
-      description: "The screenshot file name with extension, e.g. `screenshot.png`. it will be stored on `/tmp` directory.",
-      default: "screenshot.png",
+      description: "The PDF file name with extension, e.g. `page.pdf`. it will be stored on `/tmp` directory.",
+      default: "page.pdf",
     },
-    colorScheme: {
-      type: "string",
-      label: "Color Scheme",
-      description: "The user color scheme preferences",
-      options: [
-        "no-preference",
-        "light",
-        "dark",
-      ],
-      default: "no-preference",
-    },
-    fullPage: {
+    emulateMedia: {
       type: "boolean",
-      label: "Full Page",
-      description: "When true, takes a screenshot of the full page.",
+      label: "Emulate Media",
+      description: "Set `true` to generate a pdf with screen media.",
       default: false,
     },
     viewportWidth: {
       type: "integer",
-      label: "Viewport width",
+      label: "Viewport Width",
       description: "The width of viewport. default: `1280`",
       optional: true,
     },
     viewportHeight: {
       type: "integer",
-      label: "Viewport height",
+      label: "Viewport Height",
       description: "The height of viewport. default: `720`",
       optional: true,
     },
@@ -56,17 +45,22 @@ export default {
         width: this.viewportWidth || 1280,
         height: this.viewportHeight || 720,
       },
-      colorScheme: this.colorScheme,
     });
     await page.goto(this.url);
+    if (this.emulateMedia) {
+      await page.emulateMedia({
+        media: "screen",
+      });
+    }
     const opts = {
       path: `/tmp/${this.filename}`,
-      fullPage: this.fullPage,
+      width: this.viewportWidth || 1280,
+      height: this.viewportHeight || 720,
     };
-    await page.screenshot(opts);
+    await page.pdf(opts);
     await browser.close();
 
-    $.export("$summary", `Successfully captured screenshot from ${this.url}`);
+    $.export("$summary", `Successfully generated a PDF file from ${this.url}`);
 
     return opts;
   },
