@@ -210,8 +210,6 @@ importers:
   components/aivoov:
     specifiers: {}
 
-  components/aivoov: {}
-
   components/akeneo:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -1365,10 +1363,6 @@ importers:
   components/docsumo:
     specifiers: {}
 
-  components/docsbot_ai: {}
-
-  components/docsumo: {}
-
   components/docupilot:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -1439,8 +1433,6 @@ importers:
 
   components/dromo:
     specifiers: {}
-
-  components/dromo: {}
 
   components/dropbox:
     specifiers:
@@ -2374,8 +2366,6 @@ importers:
 
   components/herobot_chatbot_marketing:
     specifiers: {}
-
-  components/herobot_chatbot_marketing: {}
 
   components/heysummit:
     specifiers:
@@ -4126,17 +4116,10 @@ importers:
     specifiers: {}
 
   components/playwright:
-<<<<<<< HEAD
+    specifiers:
+      '@sparticuz/chromium': 112.0.2
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.5.1
-      '@sparticuz/chromium':
-        specifier: 112.0.2
-        version: 112.0.2
-=======
-    specifiers: {}
->>>>>>> master
+      '@sparticuz/chromium': 112.0.2
 
   components/plecto:
     specifiers: {}
@@ -4747,8 +4730,6 @@ importers:
 
   components/saleslens:
     specifiers: {}
-
-  components/saleslens: {}
 
   components/salesmate:
     specifiers:
@@ -27213,7 +27194,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     dev: true
     optional: true
 
