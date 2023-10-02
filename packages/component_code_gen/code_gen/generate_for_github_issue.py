@@ -5,7 +5,7 @@ import markdown_to_json
 from code_gen.generate import main
 
 
-def generate(issue_number, verbose=False):
+def generate(issue_number, output_dir, verbose=False):
     # parse github issue description
     md = requests.get(f"https://api.github.com/repos/PipedreamHQ/pipedream/issues/{issue_number}").json()["body"].lower()
     description = markdown_to_json.dictify(md)
@@ -43,7 +43,7 @@ def generate(issue_number, verbose=False):
 
         component_type = "sources" if "source" in component['type'] else "actions"
 
-        file_path = f"./output/{app}/{component_type}/{component['key']}/{component['key']}.mjs"
+        file_path = f"{output_dir}/{app}/{component_type}/{component['key']}/{component['key']}.mjs"
         print(f"writing output to {file_path}")
 
         os.makedirs(os.path.dirname(file_path), exist_ok=True)

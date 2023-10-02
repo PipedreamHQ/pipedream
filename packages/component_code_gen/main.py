@@ -1,3 +1,4 @@
+import os
 import argparse
 from code_gen.generate import main, available_templates
 from code_gen.generate_for_github_issue import generate
@@ -17,12 +18,14 @@ if __name__ == '__main__':
     parser.add_argument('--num_tries', dest='tries', help='The number of times we call the model to generate code',
                         default=3, type=int)
     parser.add_argument('--custom_path', help='The path for the location of custom files')
+    parser.add_argument('--output_dir', help='The path for the output dir',
+                        required=False, default=os.path.join("..", "..", "components"))
     parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
                         default=False, action='store_true')
     args = parser.parse_args()
 
     if args.issue:
-        generate(args.issue, verbose=args.verbose)
+        generate(args.issue, output_dir=args.output_dir, verbose=args.verbose)
     else:
         if not args.type:
             raise argparse.ArgumentTypeError("--type is required")

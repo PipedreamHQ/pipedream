@@ -81,6 +81,12 @@ All the code will be written to a folder named `output`. Be sure to add `BROWSER
 poetry run python main.py --issue issue_number
 ```
 
+#### Output Dir
+
+The default `output_dir` is where Pipedream components live in the repo: `pipedream/components`. The generated components
+will override existing ones in their respective paths. To output someplace else, use the `--output_dir="./custom_output_path"`
+flag.
+
 ### Tests
 
 To run a suite of tests (e.g. webhook_sources):
