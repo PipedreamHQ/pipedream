@@ -40,6 +40,11 @@ export default {
     },
   },
   async run({ $ }) {
+    const {
+      serviceDeskId,
+      requestTypeId,
+      requestParticipants,
+    } = this;
     let requestFieldValues;
     try {
       requestFieldValues = JSON.parse(this.requestFieldValues);
@@ -50,10 +55,10 @@ export default {
     const response = await this.createRequest({
       $,
       data: {
-        serviceDeskId: this.serviceDeskId,
-        requestTypeId: this.requestTypeId,
+        serviceDeskId,
+        requestTypeId,
         requestFieldValues,
-        requestParticipants: this.requestParticipants,
+        requestParticipants,
       },
     });
     $.export("$summary", "Successfully created request");
