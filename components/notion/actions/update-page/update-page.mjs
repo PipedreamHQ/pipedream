@@ -23,7 +23,7 @@ export default {
     pageId: {
       propDefinition: [
         notion,
-        "pageId",
+        "pageIdInDatabase",
         (c) => ({
           databaseId: c.parent,
         }),
