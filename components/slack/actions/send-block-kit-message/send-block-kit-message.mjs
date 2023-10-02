@@ -1,12 +1,14 @@
 import common from "../common/send-message.mjs";
+import buildBlocks from "../common/build-blocks.mjs";
 
 export default {
   ...common,
-  key: "slack-send-block-kit-message",
-  name: "Send Message Using Block Kit",
-  description: "Send a message using Slack's Block Kit UI framework to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.17",
+  ...buildBlocks,
+  name: "Build and Send a Block Kit Message (Beta)",
+  description: "Configure custom blocks and send to a channel, group, or user. [See Slack's docs for more info](https://api.slack.com/tools/block-kit-builder).",
+  version: "0.3.0",
   type: "action",
+  key: "slack-send-block-kit-message",
   props: {
     slack: common.props.slack,
     conversation: {
@@ -14,14 +16,6 @@ export default {
         common.props.slack,
         "conversation",
       ],
-      optional: false,
-    },
-    blocks: {
-      propDefinition: [
-        common.props.slack,
-        "blocks",
-      ],
-      optional: false,
     },
     text: {
       propDefinition: [
@@ -30,5 +24,20 @@ export default {
       ],
     },
     ...common.props,
+    ...buildBlocks.props,
+  },
+  methods: {
+    ...common.methods,
+    ...buildBlocks.methods,
+    async getGeneratedBlocks() {
+      return await buildBlocks.run.call(this);  // call buildBlocks.run with the current context
+    },
+  },
+  async run({ $ }) {
+    this.blocks = await this.getGeneratedBlocks();  // set the blocks prop for common.run to use
+    const resp = await common.run.call(this, {
+      $,
+    });  // call common.run with the current context
+    return resp;
   },
 };
