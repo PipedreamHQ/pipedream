@@ -231,6 +231,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
+  components/aivoov: {}
+
   components/akeneo:
     dependencies:
       '@pipedream/platform':
@@ -1334,6 +1336,10 @@ importers:
 
   components/docraptor: {}
 
+  components/docsbot_ai: {}
+
+  components/docsumo: {}
+
   components/docupilot:
     dependencies:
       '@pipedream/platform':
@@ -1404,6 +1410,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/dromo: {}
 
   components/dropbox:
     dependencies:
@@ -2332,6 +2340,8 @@ importers:
       '@pipedreamhq/platform':
         specifier: ^0.8.1
         version: 0.8.1
+
+  components/herobot_chatbot_marketing: {}
 
   components/heysummit:
     dependencies:
@@ -4655,6 +4665,8 @@ importers:
       salesforce-webhooks:
         specifier: ^1.1.11
         version: 1.1.11(handlebars@4.7.8)
+
+  components/saleslens: {}
 
   components/salesmate:
     dependencies:

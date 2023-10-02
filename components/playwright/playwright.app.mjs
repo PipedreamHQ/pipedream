@@ -1,6 +1,6 @@
 import { defineApp } from "@pipedream/types";
-import { chromium as playwright } from "playwright-core@1.38.1"
-import chromium from "@sparticuz/chromium@117"
+import { chromium as playwright } from "playwright-core@1.38.1";
+import chromium from "@sparticuz/chromium@117";
 
 export default defineApp({
   type: "app",
@@ -9,9 +9,9 @@ export default defineApp({
   methods: {
     /**
      * Launch a new Puppeteer Headless Browser
-     * 
+     *
      * After launching the browser, you can start new pages and perform browser actions
-     * 
+     *
      * @param opts = {}
      * @returns browser
      */
@@ -20,30 +20,34 @@ export default defineApp({
         executablePath: await chromium.executablePath(),
         headless: true,
         ignoreHTTPSErrors: true,
-        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
-        ...opts
+        args: [
+          ...chromium.args,
+          "--hide-scrollbars",
+          "--disable-web-security",
+        ],
+        ...opts,
       });
 
-      return browser
+      return browser;
     },
     /**
      * Alias for launch()
-     * 
+     *
      * After launching the browser, you can start new pages and perform browser actions
-     * 
+     *
      * @param opts = {}
      * @returns browser
      */
     browser(opts = {}) {
-      return this.launch(opts)
+      return this.launch(opts);
     },
     /**
      * New Page
-     * 
+     *
      * Creates a new web brower page.
-     * 
+     *
      * This returns both the page and the browser instance so the browser instance can be closed.
-     * 
+     *
      * @returns { page, browser }
      */
     async newPage() {
@@ -51,20 +55,26 @@ export default defineApp({
       const page = await browser.newPage();
 
       return {
-        page, browser
-      }
+        page,
+        browser,
+      };
     },
     /**
      * Goto URL
-     * 
+     *
      * Shorthand method to go directly to a page
-     * 
+     *
      * @returns { page, browser }
      */
     async goto() {
-      const { page, browser } = this.newPage();
+      const {
+        page, browser,
+      } = this.newPage();
 
-      return { page, browser }
-    }
+      return {
+        page,
+        browser,
+      };
+    },
   },
 });
