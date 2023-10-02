@@ -37,6 +37,7 @@ export default {
       data.content = {
         article: {
           source: this.article,
+          title: this.article,
         },
       };
     }

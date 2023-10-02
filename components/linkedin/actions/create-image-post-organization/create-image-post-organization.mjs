@@ -35,7 +35,7 @@ export default {
       data = {
         ...data,
         initializeUploadRequest: {
-          owner: `urn:li:organization:${data.owner}`,
+          owner: `urn:li:organization:${this.organizationId}`,
         },
       };
       return this.linkedin._makeRequest({
