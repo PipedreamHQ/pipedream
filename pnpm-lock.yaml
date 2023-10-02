@@ -4065,7 +4065,14 @@ importers:
 
   components/platform_ly: {}
 
-  components/playwright: {}
+  components/playwright:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@sparticuz/chromium':
+        specifier: 112.0.2
+        version: 112.0.2
 
   components/plecto: {}
 
