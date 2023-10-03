@@ -23,10 +23,9 @@ def generate(issue_number, output_dir, verbose=False, tries=3):
             continue
 
         for component_key in description[app][h2_header]:
-            splitted = description[app][h2_header][component_key].split("\n\n")
-            instructions = splitted[0]
-            urls = [] if len(splitted) == 1 else json.loads(
-                splitted[1].replace("'", "\""))
+            component_data = description[app][h2_header][component_key]
+            instructions = component_data["description"]
+            urls = component_data["urls"]
 
             if "source" in h2_header:
                 component_type = "webhook_source" if "webhook" in h2_header else "polling_source"

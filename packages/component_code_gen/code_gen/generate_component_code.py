@@ -82,10 +82,9 @@ def generate_code(app, prompt, component_type, templates, parsed_common_files, u
 
 
 def call_langchain(prompt, templates, auth_example, parsed_common_files="", urls_content=[], docs=None, docs_type=None, attempts=0, max_attempts=3):
-    logger.debug(f"Calling langchain")
+    logger.debug(f"Calling LangChain")
     # If we don't have docs, or if we can't reach OpenAI to get the parsed docs
     if not docs:
-        logger.debug('No docs available, calling the model directly')
         return langchain_helpers.no_docs(prompt, templates, auth_example, parsed_common_files, urls_content)
 
     if attempts >= max_attempts:
