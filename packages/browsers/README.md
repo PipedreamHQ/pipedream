@@ -10,12 +10,39 @@ Therefore, it's not possible to offer both the pinned versions of `chromium` & `
 
 ## Usage
 
+This package exports two modules: `puppeteer` & `playwright`. Both modules share the same interface:
+
+* `browser(opts?)` - method to instantiate a new browser (returns a browser instance)
+* `launch(opts?)` - an alias to `browser()`
+* `newPage()` - creates a new page instance and returns both the `page` & `browser`
+
+**Note**: After awaiting the browser instance with either `puppeteer` or `playwright`, make sure to close the browser at the end of your Node.js code step.
+
+### Puppeteer
+
 ```javascript
 import { puppeteer } from '@pipedream/browsers';
 
 export default defineComponent({
   async run({steps, $}) {
-    const browser = await puppeteer.methods.browser();
+    const browser = await puppeteer.browser();
+    
+    console.log(browser)
+    // get page, perform actions, etc.
+
+    await browser.close();
+  },
+})
+```
+
+### Playwright
+
+```javascript
+import { playwright } from '@pipedream/browsers';
+
+export default defineComponent({
+  async run({steps, $}) {
+    const browser = await puppeteer.browser();
     
     console.log(browser)
     // get page, perform actions, etc.
