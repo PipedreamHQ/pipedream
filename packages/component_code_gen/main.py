@@ -17,7 +17,8 @@ if __name__ == '__main__':
                         default=[], nargs="*")
     parser.add_argument('--num_tries', dest='tries', help='The number of times we call the model to generate code',
                         default=3, type=int)
-    parser.add_argument('--custom_path', help='The path for the location of custom files')
+    parser.add_argument(
+        '--custom_path', help='The path for the location of custom files')
     parser.add_argument('--output_dir', help='The path for the output dir',
                         required=False, default=os.path.join("..", "..", "components"))
     parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
@@ -25,7 +26,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.issue:
-        generate(args.issue, output_dir=args.output_dir, verbose=args.verbose)
+        generate(args.issue, output_dir=args.output_dir,
+                 verbose=args.verbose, tries=args.tries)
     else:
         if not args.type:
             raise argparse.ArgumentTypeError("--type is required")
@@ -35,5 +37,6 @@ if __name__ == '__main__':
         with open(args.instructions, 'r') as f:
             instructions = f.read()
 
-        result = main(args.type, args.app, instructions, args.tries, args.urls, args.custom_path, args.verbose)
+        result = main(args.type, args.app, instructions, args.tries,
+                      args.urls, args.custom_path, args.verbose)
         print(result)

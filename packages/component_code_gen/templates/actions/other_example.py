@@ -1,16 +1,19 @@
-other_example = """Here's an example Pipedream component that makes a test request against the Slack API:
+other_example = """## Slack API example component
+
+Here's an example Pipedream component that makes a test request against the Slack API:
+
+```
+import slack from "../../slack.app.mjs"
+import { axios } from "@pipedream/platform"
 
 export default {
   key: "slack-send-message",
   name: "Send Message",
-  version: "0.0.1680019441",
+  version: "0.0.{{ts}}",
   description: "Sends a message to a channel. [See the documentation](${docsLink})",
   type: "action",
   props: {
-    slack: {
-      type: "app",
-      app: "slack",
-    },
+    slack,
     channel: {
       type: "string",
       label: "Channel",
@@ -22,7 +25,7 @@ export default {
       description: "The text of the message to post",
     },
   },
-  async run({ steps, $ }) {
+  async run({ $ }) {
     const response = await axios($, {
       method: "POST",
       url: `https://slack.com/api/chat.postMessage`,
@@ -59,7 +62,7 @@ export default {
       app: "the_app_name_slug",
     },
   },
-  async run({ steps, $ }) {
+  async run({ $ }) {
     const response = await axios($, {
       // Add the axios configuration object to make the HTTP request here
     })

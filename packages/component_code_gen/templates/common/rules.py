@@ -1,14 +1,12 @@
 rules = """## Rules
 
-When you generate code, you must follow all of the rules above. Review the rules and think through them step-by-step before you generate code. Look at how these map to the example code and component API described above.
+When you generate code, you must follow all of the rules below. Review the rules and think through them step-by-step before you generate code. Look at how these map to the example code and component API described above.
 
 Once you generate your code, you must review each of these rules again, one-by-one, and ensure you've followed them. Accuracy is critical, and we can wait for you to review your code. If you notice you haven't followed a particular rule, you can regenerate your code and start over. If you do make any edits, you'll need to again review each rule one-by-one to make sure your edits didn't conflict with another rule. I cannot stress how critical it is to follow all of the rules below. Consider it your constitution.
 
 1. Use ESM for all imports, not CommonJS. Place all imports at the top of the file. Make sure to import all necessary packages.
 
-2. Include all parameters of the API request as props. DO NOT use example values from any API docs, OpenAPI specs, or example code above or that you've been trained on.
-
-For example, do this:
+2. Include all parameters of the API request as props. DO NOT use example values from any API docs, OpenAPI specs, or example code above or that you've been trained on. Here's example code that references props in the `run` method:
 
 ```
 data: {
@@ -26,7 +24,7 @@ data: {
 }
 ```
 
-But never do this:
+Do not use static values in the code. You must use the value of the prop (this.<prop name>) instead. Think about it: if you hardcode values in the code, the user can't enter their own value.
 
 ```
 data: {
@@ -60,8 +58,14 @@ I need to reiterate: you MUST NOT use static, example values in the code. You MU
 
 5. Double-check the code against known Node.js examples, from GitHub and any other real code you find.
 
-6. You must pass a value of `0.0.{ts}` to the `version` property. This is the only valid version value. You should expand `{ts}` to the current epoch timestamp in seconds. Think about it: if you pass a different value, the developer won't be able to republish the component with a dynamic version, and publishing will fail, which will waste their time.
+6. You must pass a value of `0.0.{{ts}}` to the `version` property. This is the only valid version value. Think about it: if you pass a different value, the developer won't be able to republish the component with a dynamic version, and publishing will fail, which will waste their time.
 
 7. Always use camel case for variable names. For example, `inputValues` instead of `input_values`.
 
-8. Remember, please do not pass example values from the API docs or OpenAPI spec. You must pass the value of the prop to all params instead. This is the only way the user can enter their own values."""
+8. Remember, please do not pass example values from the API docs or OpenAPI spec. You must pass the value of the prop to all params instead. This is the only way the user can enter their own values.
+
+9. If the instructions say to use a particular variable name, prop name, method name, or any other instructions that reference clear names, you must use that variable name. For example, if the instructions say to use `inputValues`, you must use `inputValues`. You cannot use `input_values` or `inputvalues` or `inputValues2`. The case the instructions provided are the only valid case.
+
+9b. Similarly, if the API docs refer to a particular variable name in query strings, headers, or the request body, you must use that variable name. For example, if the API docs say to use `input_values`, you must use `input_values`. You cannot use `inputValues` or `inputvalues` or `inputValues2`. The case the API docs provided are the only valid case.
+
+"""

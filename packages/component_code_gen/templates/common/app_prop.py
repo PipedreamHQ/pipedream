@@ -1,4 +1,6 @@
-app_prop = """This object contains a `props` property, which defines a single prop of type "app":
+app_prop = """## App props
+
+The props object must contain a `props` property, which defines a single prop of type "app":
 
 ```
 export default {

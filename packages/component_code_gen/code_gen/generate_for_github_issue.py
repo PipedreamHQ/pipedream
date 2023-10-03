@@ -2,12 +2,16 @@ import os
 import json
 import requests
 import markdown_to_json
+import config.logging_config as logging_config
 from code_gen.generate import main
 
+logger = logging_config.getLogger(__name__)
 
-def generate(issue_number, output_dir, verbose=False):
+
+def generate(issue_number, output_dir, verbose=False, tries=3):
     # parse github issue description
-    md = requests.get(f"https://api.github.com/repos/PipedreamHQ/pipedream/issues/{issue_number}").json()["body"].lower()
+    md = requests.get(
+        f"https://api.github.com/repos/PipedreamHQ/pipedream/issues/{issue_number}").json()["body"].lower()
     description = markdown_to_json.dictify(md)
     app = list(description.keys())[0]
     requirements = []
@@ -21,7 +25,8 @@ def generate(issue_number, output_dir, verbose=False):
         for component_key in description[app][h2_header]:
             splitted = description[app][h2_header][component_key].split("\n\n")
             instructions = splitted[0]
-            urls = [] if len(splitted) == 1 else json.loads(splitted[1].replace("'", "\""))
+            urls = [] if len(splitted) == 1 else json.loads(
+                splitted[1].replace("'", "\""))
 
             if "source" in h2_header:
                 component_type = "webhook_source" if "webhook" in h2_header else "polling_source"
@@ -38,13 +43,14 @@ def generate(issue_number, output_dir, verbose=False):
             })
 
     for component in requirements:
-        print(f"generating {component['key']}...")
-        result = main(component["type"], app, component["instructions"], urls=component["urls"], verbose=verbose)
+        logger.info(f"generating {component['key']}...")
+        result = main(component["type"], app, component["instructions"], tries=tries,
+                      urls=component["urls"], verbose=verbose)
 
         component_type = "sources" if "source" in component['type'] else "actions"
 
         file_path = f"{output_dir}/{app}/{component_type}/{component['key']}/{component['key']}.mjs"
-        print(f"writing output to {file_path}")
+        logger.info(f"writing output to {file_path}")
 
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'w') as f:

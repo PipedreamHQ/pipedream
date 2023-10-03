@@ -32,7 +32,8 @@ def main(component_type, app, instructions, tries=3, urls=[], custom_path=None, 
 
     # this is here so that the DEBUG environment variable is set before the import
     from code_gen.generate_component_code import generate_code
-    result = generate_code(app, instructions, templates, parsed_common_files, urls_content, tries)
+    result = generate_code(app, instructions, component_type, templates,
+                           parsed_common_files, urls_content, tries)
     return result
 
 
@@ -75,7 +76,8 @@ def parse_urls(urls):
 
     # init browserless
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.set_capability('browserless:token', config["browserless"]["api_key"])
+    chrome_options.set_capability(
+        'browserless:token', config["browserless"]["api_key"])
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--headless")
     driver = webdriver.Remote(
@@ -95,7 +97,7 @@ def parse_urls(urls):
         try:
             print(f"Scraping {url}")
             driver.get(url)
-            time.sleep(2) # loads js
+            time.sleep(2)  # loads js
             element = driver.find_element(By.TAG_NAME, 'body')
             content = {
                 "url": url,
@@ -114,7 +116,8 @@ def parse_urls(urls):
 
 
 def validate_inputs(app, component_type, instructions, tries):
-    assert component_type in available_templates.keys(), f'Templates for {component_type}s are not available. Please choose one of {list(available_templates.keys())}'
+    assert component_type in available_templates.keys(
+    ), f'Templates for {component_type}s are not available. Please choose one of {list(available_templates.keys())}'
     assert app and type(app) == str
     assert instructions and type(instructions) == str
     assert tries and type(tries) == int
