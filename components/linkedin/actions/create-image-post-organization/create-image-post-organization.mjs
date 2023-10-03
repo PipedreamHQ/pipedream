@@ -76,6 +76,7 @@ export default {
 
     await this.linkedin.createPost({
       data: {
+        author: this.organizationId,
         commentary: this.text,
         visibility: "PUBLIC",
         content: {
