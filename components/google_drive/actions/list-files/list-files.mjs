@@ -5,7 +5,7 @@ export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. [See the docs](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "0.1.3",
+  version: "0.1.2",
   type: "action",
   props: {
     googleDrive,
@@ -45,7 +45,7 @@ export default {
       type: "boolean",
       description: "List trashed files or non-trashed files. Keep it empty to include both.",
       optional: true,
-    },
+    }
   },
   async run({ $ }) {
     const opts = getListFilesOpts(this.drive, {
