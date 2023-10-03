@@ -1,5 +1,4 @@
-import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
-import querystring from "query-string";
+import woocommerce from "../../woocommerce.app.mjs";
 import pick from "lodash.pick";
 import pickBy from "lodash.pickby";
 
@@ -10,69 +9,30 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {
-    woocommerce: {
-      type: "app",
-      app: "woocommerce",
-    },
+    woocommerce,
     search: {
-      type: "string",
-      label: "Search",
-      description: "Limit results to those matching a string",
-      optional: true,
+      propDefinition: [
+        woocommerce,
+        "search",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "Limit result set to resources with a specific email",
-      optional: true,
+      propDefinition: [
+        woocommerce,
+        "email",
+      ],
     },
     role: {
-      type: "string",
-      label: "Role",
-      description: "Limit result set to resources with a specific role",
-      options: [
-        "all",
-        "administrator",
-        "editor",
-        "author",
-        "contributor",
-        "subscriber",
-        "customer",
+      propDefinition: [
+        woocommerce,
+        "role",
       ],
-      optional: true,
-      default: "customer",
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "Maximum number of results to return",
-      optional: true,
-      default: 20,
-    },
-  },
-  methods: {
-    async getClient() {
-      let url = this.$auth.url;
-
-      if (!/^(http(s?):\/\/)/.test(url)) {
-        url = `https://${url}`;
-      }
-
-      return new WooCommerceRestApi.default({
-        url,
-        consumerKey: this.$auth.key,
-        consumerSecret: this.$auth.secret,
-        wpAPI: true,
-        version: "wc/v3",
-      });
-    },
-    async listResources(endpoint) {
-      const client = await this.getClient();
-      return (await client.get(endpoint)).data;
-    },
-    async listCustomers(params = null) {
-      const q = querystring.stringify(params);
-      return this.listResources(`customers?${q}`);
+      propDefinition: [
+        woocommerce,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {
@@ -90,7 +50,7 @@ export default {
     const customers = [];
     let results;
     do {
-      results = await this.listCustomers(params);
+      results = await this.woocommerce.listCustomers(params);
       customers.push(...results);
       params.page += 1;
     } while (results.length === params.per_page && customers.length < maxResults);
