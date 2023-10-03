@@ -1,11 +1,8 @@
 # Overview
 
-The Generated Photos API lets developers generate realistic photos of people
-and products. This can be useful for creating stock photos, or for building
-applications that require lifelike images of people or products.
+The Generated Photos API lets developers generate realistic AI photos of people. This can be useful for sourcing diverse stock photos or building applications that require lifelike images of people.
 
 Here are some examples of what you can build with the Generated Photos API:
-
-- A stock photo library
-- A photorealistic product rendering tool
+- Photo and graphic editors
+- An application using demo profiles, personas, or avatars
 - A social media application that requires lifelike images of people
