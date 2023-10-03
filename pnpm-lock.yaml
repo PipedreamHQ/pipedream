@@ -738,10 +738,10 @@ importers:
   components/callrail: {}
 
   components/campaign_cleaner:
-    specifiers:
-      '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/campaignhq: {}
 
