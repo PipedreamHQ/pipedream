@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/herobot_chatbot_marketing",
+  "version": "0.0.1",
+  "description": "Pipedream HeroBot Chatbot Marketing Components",
+  "main": "herobot_chatbot_marketing.app.mjs",
+  "keywords": [
+    "pipedream",
+    "herobot_chatbot_marketing"
+  ],
+  "homepage": "https://pipedream.com/apps/herobot_chatbot_marketing",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

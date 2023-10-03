@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "clickfunnels",
+  app: "dromo",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
