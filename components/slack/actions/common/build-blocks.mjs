@@ -15,7 +15,7 @@ export default {
           value: "array",
         },
         {
-          label: "Configure blocks individually",
+          label: "Configure blocks individually (maximum 5 blocks)",
           value: "configure",
         },
       ],
