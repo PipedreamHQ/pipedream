@@ -5,7 +5,7 @@ export default {
   key: "frontapp-import-message",
   name: "Import Message",
   description: "Appends a new message into an inbox. [See the docs here](https://dev.frontapp.com/reference/import-inbox-message).",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     frontApp,
@@ -100,6 +100,7 @@ export default {
       ],
       label: "Assignee ID",
       description: "ID of the teammate who will be assigned to the conversation.",
+      optional: true,
     },
     tags: {
       propDefinition: [

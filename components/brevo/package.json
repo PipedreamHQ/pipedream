@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/brevo",
+  "version": "0.0.1",
+  "description": "Pipedream Brevo Components",
+  "main": "dist/app/brevo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "brevo"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/brevo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

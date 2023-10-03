@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/devrev",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Pipedream DevRev Components",
-  "main": "dist/app/devrev.app.mjs",
+  "main": "devrev.app.mjs",
   "keywords": [
     "pipedream",
     "devrev"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/devrev",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

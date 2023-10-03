@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/smsapi",
+  "version": "0.1.0",
+  "description": "Pipedream SMSAPI Components",
+  "main": "smsapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smsapi"
+  ],
+  "homepage": "https://pipedream.com/apps/smsapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "query-string": "^8.1.0"
+  }
+}

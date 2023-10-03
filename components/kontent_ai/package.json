@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/kontent_ai",
+  "version": "0.1.0",
+  "description": "Pipedream Kontent.ai Components",
+  "main": "kontent_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kontent_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/kontent_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@kontent-ai/delivery-sdk": "^14.4.0",
+    "@kontent-ai/management-sdk": "^5.2.0",
+    "@kontent-ai/webhook-helper": "^2.1.0",
+    "crypto": "^1.0.1"
+  }
+}

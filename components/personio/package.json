@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/personio",
+  "version": "0.1.0",
+  "description": "Pipedream Personio Components",
+  "main": "personio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "personio"
+  ],
+  "homepage": "https://pipedream.com/apps/personio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

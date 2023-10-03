@@ -228,6 +228,7 @@ export default {
     async _makeRequest({
       $ = this,
       path,
+      headers = {},
       ...args
     } = {}) {
       return axios($, {
@@ -235,6 +236,7 @@ export default {
         headers: {
           Authorization: `Bearer ${this._accessToken()}`,
           Accept: "application/vnd.github+json",
+          ...headers,
         },
         ...args,
       });
@@ -293,11 +295,16 @@ export default {
     async getRepoContent({
       repoFullname,
       path,
+      mediaType,
     }) {
-      const { data } = await this
-        ._client()
-        .request(`GET /repos/${repoFullname}/contents/${path}`, {});
-      return data;
+      return this._makeRequest({
+        path: `/repos/${repoFullname}/contents/${path}`,
+        ...(mediaType && {
+          headers: {
+            Accept: mediaType,
+          },
+        }),
+      });
     },
     async getRepositoryLabels({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/labels`, {});
