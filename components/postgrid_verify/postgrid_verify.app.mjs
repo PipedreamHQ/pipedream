@@ -3,12 +3,14 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "postgrid_verify",
-  propDefinitions: {},
-  methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+  propDefinitions: {
+    address: {
+      type: "string",
+      label: "Address",
+      description: "The address you want to parse on a single line.",
     },
+  },
+  methods: {
     _getApiKey() {
       return this.$auth.api_key;
     },
@@ -33,6 +35,13 @@ export default {
       return this._makeHttpRequest({
         method: "POST",
         path: "/addver/verifications",
+        data,
+      });
+    },
+    async parseAddress(data) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: "/addver/parses",
         data,
       });
     },

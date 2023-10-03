@@ -9,8 +9,10 @@ export default {
   props: {
     app,
     address: {
-      type: "string",
-      label: "Address",
+      propDefinition: [
+        app,
+        "address",
+      ],
       description: "The address you want to verify, written on a single line.",
     },
   },
