@@ -14,6 +14,13 @@ from templates.common.async_options import async_options
 from templates.common.typescript_definitions import typescript_definitions
 from templates.common.end import end
 
+checks = [app_prop, auth, props, hooks, db, platform_axios, async_options,
+          source_metadata, rules, additional_rules, typescript_definitions, end]
+
+always_include = [introduction, typescript_definitions,
+                  main_example, end]
+
+
 def system_instructions(auth_example="", parsed_common_files=""):
     return f"""{introduction}
 

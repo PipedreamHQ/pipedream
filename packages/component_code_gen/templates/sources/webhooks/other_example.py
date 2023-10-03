@@ -1,9 +1,11 @@
-other_example = """Here's an example Pipedream source component that receives a webhook from Tally for every new form response and processes the incoming event data:
+other_example = """## Another example source
+
+Here's an example Pipedream source component that receives a webhook from Tally for every new form response and processes the incoming event data:
 
 export default {
   key: "tally-new-response",
   name: "New Response",
-  version: "0.0.1703253824",
+  version: "0.0.{{ts}}",
   description: "Emit new event on each form message. [See the documentation](${docsLink})",
   type: "source",
   dedupe: "unique",

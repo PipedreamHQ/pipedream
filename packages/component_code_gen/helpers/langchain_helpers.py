@@ -80,8 +80,8 @@ def create_user_prompt(prompt, urls_content):
         return prompt
 
     user_prompt = f"{prompt}\n\n## API docs\n\n"
-    for url, content in urls_content:
-        user_prompt += f"\n\n### {url}\n\n{content}"
+    for item in urls_content:
+        user_prompt += f"\n\n### {item['url']}\n\n{item['content']}"
     return user_prompt
 
 
@@ -97,7 +97,8 @@ def get_llm():
 
 
 def ask_agent(prompt, docs, templates, auth_example, parsed_common_files, urls_content):
-    agent = PipedreamOpenAPIAgent(docs, templates, auth_example, parsed_common_files)
+    agent = PipedreamOpenAPIAgent(
+        docs, templates, auth_example, parsed_common_files)
     user_prompt = create_user_prompt(prompt, urls_content)
     result = agent.run(user_prompt)
     return result
@@ -105,7 +106,8 @@ def ask_agent(prompt, docs, templates, auth_example, parsed_common_files, urls_c
 
 def no_docs(prompt, templates, auth_example, parsed_common_files, urls_content):
     user_prompt = create_user_prompt(prompt, urls_content)
-    system_instructions = format_template(templates.system_instructions(auth_example, parsed_common_files))
+    system_instructions = format_template(
+        templates.system_instructions(auth_example, parsed_common_files))
 
     result = get_llm()(messages=[
         SystemMessage(content=system_instructions),

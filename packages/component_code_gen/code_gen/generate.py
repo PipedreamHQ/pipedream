@@ -1,6 +1,8 @@
 import os
 import time
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from config.config import config
 import templates.generate_actions
@@ -26,13 +28,16 @@ def main(component_type, app, instructions, tries=3, urls=[], custom_path=None, 
 
     templates = available_templates[component_type]
     parsed_common_files = parse_common_files(app, component_type, custom_path)
-    urls_content = parse_urls(urls)
+    driver = init_driver(config["browserless"]["api_key"])
+    urls_content = parse_urls(driver, urls)
+    driver.quit()
 
     validate_system_instructions(templates)
 
     # this is here so that the DEBUG environment variable is set before the import
     from code_gen.generate_component_code import generate_code
-    result = generate_code(app, instructions, templates, parsed_common_files, urls_content, tries)
+    result = generate_code(app, instructions, component_type, templates,
+                           parsed_common_files, urls_content, tries)
     return result
 
 
@@ -65,56 +70,46 @@ def parse_common_files(app, component_type, custom_path=None):
     return parsed_common_files
 
 
-def parse_urls(urls):
-    contents = []
-    if len(urls) == 0:
-        return contents
+def init_driver(api_key):
+    if not api_key:
+        raise Exception("Missing required browserless api key")
 
-    if not config["browserless"]["api_key"]:
-        raise Exception("Missing required browserless api key in config")
-
-    # init browserless
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.set_capability('browserless:token', config["browserless"]["api_key"])
+    chrome_options.set_capability('browserless:token', api_key)
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--headless")
     driver = webdriver.Remote(
         command_executor='https://chrome.browserless.io/webdriver',
         options=chrome_options
     )
+    return driver
+
+
+def parse_urls(driver, urls):
+    contents = []
 
     for url in urls:
-        if url in scraped_urls:
-            print(f"Already scraped {url}")
-            contents.append({
-                "url": url,
-                "content": scraped_urls[url]["content"]
-            })
-            continue
-
         try:
             print(f"Scraping {url}")
             driver.get(url)
-            time.sleep(2) # loads js
-            element = driver.find_element(By.TAG_NAME, 'body')
+            element = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.TAG_NAME, 'body'))
+            )
+            body = " ".join(element.text.split())
             content = {
                 "url": url,
-                "content": " ".join(element.text.split()),
+                "content": body,
             }
             contents.append(content)
-            scraped_urls[url] = content
         except Exception as e:
-            return {
-                "url": url,
-                "error": e,
-            }
+            print(f"Error scraping {url}: {e}")
 
-    driver.quit()
     return contents
 
 
 def validate_inputs(app, component_type, instructions, tries):
-    assert component_type in available_templates.keys(), f'Templates for {component_type}s are not available. Please choose one of {list(available_templates.keys())}'
+    assert component_type in available_templates.keys(
+    ), f'Templates for {component_type}s are not available. Please choose one of {list(available_templates.keys())}'
     assert app and type(app) == str
     assert instructions and type(instructions) == str
     assert tries and type(tries) == int

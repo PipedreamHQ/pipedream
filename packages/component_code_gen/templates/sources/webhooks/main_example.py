@@ -1,4 +1,6 @@
-main_example = """Here's an example component:
+main_example = """## Example component
+
+Here's an example component:
 
 ```
 import github from "../../github.app.mjs"
@@ -8,7 +10,7 @@ export default {
   key: "github-new-notification-received",
   name: "New Notification Received",
   description: "Emit new event when a notification is received. [See the documentation](${docsLink})",
-  version: "0.0.1701231931",
+  version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {
