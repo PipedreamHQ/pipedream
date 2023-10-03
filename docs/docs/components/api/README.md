@@ -854,11 +854,11 @@ $.export(
 
 All properties from [`steps.trigger.context`](/events/#steps-trigger-context) are exposed, as well as:
 
-| Property   |                                                                           Description                                                                            |
-| ---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| `deadline` |                   An epoch millisecond timestamp marking the point when the workflow is configured to [timeout](/limits/#time-per-execution).                    |
-| `JIT`      |                  Stands for "just in time" (environment). `true` if the user is testing the step, `false` if the step is running in production.                  |
-| `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/rerun/#polling-for-the-status-of-an-external-job) for more detail. |
+| Property   |                                                                       Description                                                                       |
+| ---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------: |
+| `deadline` |               An epoch millisecond timestamp marking the point when the workflow is configured to [timeout](/limits/#time-per-execution).               |
+| `JIT`      |             Stands for "just in time" (environment). `true` if the user is testing the step, `false` if the step is running in production.              |
+| `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/workflows/events/#steps-trigger-context) for more detail. |
 
 ### Environment variables
 
