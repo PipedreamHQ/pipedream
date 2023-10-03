@@ -4615,7 +4615,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/ringover:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/rise:
     specifiers:
@@ -10173,7 +10176,7 @@ packages:
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.10
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
     dev: false
     optional: true
 
@@ -10388,7 +10391,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       jest-mock: 29.7.0
     dev: true
 
@@ -10427,7 +10430,7 @@ packages:
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -13449,7 +13452,7 @@ packages:
   /@types/express-serve-static-core/4.17.37:
     resolution: {integrity: sha512-ZohaCYTgGFcOP7u6aJOhY9uIZQgZ2vxC2yWoArY+FeDXlqeH66ZVBjgvg+RLVAS/DWNq4Ap9ZXu1+SUQiiWYMg==}
     dependencies:
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       '@types/qs': 6.9.8
       '@types/range-parser': 1.2.5
       '@types/send': 0.17.2
@@ -13475,20 +13478,20 @@ packages:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
     dev: false
 
   /@types/glob/8.1.0:
     resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
     dev: false
 
   /@types/graceful-fs/4.1.7:
     resolution: {integrity: sha512-MhzcwU8aUygZroVwL2jeYk6JisJrPl/oov/gsgGCue9mkgl9wjGbzReYQClxiUgFDnib9FuHqTndccKeZKxTRw==}
     dependencies:
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
     dev: true
 
   /@types/hast/2.3.6:
@@ -13688,7 +13691,7 @@ packages:
     resolution: {integrity: sha512-aAG6yRf6r0wQ29bkS+x97BIs64ZLxeE/ARwyS6wrldMm3C1MdKwCcnnEwMC1slI8wuxJOpiUH9MioC0A0i+GJw==}
     dependencies:
       '@types/mime': 1.3.3
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
     dev: false
 
   /@types/serve-static/1.15.3:
@@ -13696,7 +13699,7 @@ packages:
     dependencies:
       '@types/http-errors': 2.0.2
       '@types/mime': 3.0.2
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
     dev: false
 
   /@types/source-map/0.5.7:
@@ -13717,7 +13720,7 @@ packages:
   /@types/tunnel/0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
     dev: false
 
   /@types/unist/2.0.8:
@@ -13744,7 +13747,7 @@ packages:
   /@types/whatwg-url/8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       '@types/webidl-conversions': 7.0.1
     dev: false
 
@@ -19374,7 +19377,7 @@ packages:
       '@jest/expect': 29.7.0
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       chalk: 4.1.2
       co: 4.6.0
       dedent: 1.5.1
@@ -19665,7 +19668,7 @@ packages:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       jest-mock: 29.7.0
       jest-util: 29.7.0
     dev: true
@@ -19823,7 +19826,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       jest-util: 29.7.0
     dev: true
 
@@ -20188,7 +20191,7 @@ packages:
     resolution: {integrity: sha512-eIz2msL/EzL9UFTFFx7jBTkeZfku0yUAyZZZmJ93H2TYEiroIx2PQjEXcwYtYl8zXCxb+PAmA2hLIt/6ZEkPHw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -23591,7 +23594,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       long: 4.0.0
     dev: false
     optional: true
@@ -23612,7 +23615,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       long: 4.0.0
     dev: false
     optional: true
@@ -23651,7 +23654,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       long: 5.2.3
     dev: false
 
@@ -27191,7 +27194,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     dev: true
     optional: true
 
