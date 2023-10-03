@@ -86,6 +86,7 @@ You can use the data in `steps.trigger.context` to uniquely identify the Pipedre
 | Property           |                                                    Description                                                    |
 | ------------------ | :---------------------------------------------------------------------------------------------------------------: |
 | `deployment_id`    |                     A globally-unique string representing the current version of the workflow                     |
+| `emitter_id`       |           The ID of the workflow trigger that emitted this event, e.g. the [event source](/sources) ID.           |
 | `id`               |                A unique, Pipedream-provided identifier for the event that triggered this workflow                 |
 | `owner_id`         |      The Pipedream-assigned [workspace ID](/workspaces/#finding-your-workspace-s-id) that owns the workflow       |
 | `platform_version` |                       The version of the Pipedream execution environment this event ran on                        |
