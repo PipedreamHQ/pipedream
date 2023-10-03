@@ -1,3 +1,6 @@
+// Table for Chromium <> Puppeteer version support here: https://pptr.dev/chromium-support
+// @note: this is locked to an old chromium version
+//  because there's an unfulfilled promise bug in later version of puppeteer-core
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 
