@@ -46,11 +46,9 @@ You can see that there's no static value present in the first example. In the se
 
 I need to reiterate: you MUST NOT use static, example values in the code. You MUST use the value of the prop (this.<prop name>) instead. Think about it: if you hardcode values in the code, the user can't enter their own value.
 
-2b. Optional inputs should include `"optional": true` in the prop declaration. The default is `"optional": false`, so please do not include this for required inputs. The API docs and OpenAPI spec should specify what inputs are required.
+2b. You should understand what props map to the request path, headers, query string params, and the request body from the API docs. Pass the value of the prop (this.<prop name>) in the appropriate place in the request: the path, `headers`, `params`, or `data` (respectively) properties of the `axios` request.
 
-2c. You should understand what props map to the request path, headers, query string params, and the request body. Pass the value of the prop (this.<prop name>) in the appropriate place in the request: the path, `headers`, `params`, or `data` (respectively) properties of the `axios` request.
-
-2d. Map the types of inputs in the API spec to the correct prop types. Look closely at each param of the API docs, double-checking the final code to make sure each param is included as a prop and not passed as a static value to the API like you may have seen as examples. Values of props should _always_ reference this.<prop name>. Think about it — the user will need to enter these values as props, so they can't be hardcoded.
+2c. Map the types of inputs in the API spec to the correct prop types. Look closely at each param of the API docs, double-checking the final code to make sure each param is included as a prop and not passed as a static value to the API like you may have seen as examples. Values of props should _always_ reference this.<prop name>. Think about it — the user will need to enter these values as props, so they can't be hardcoded.
 
 3. If you produce output files, or if a library produces output files, you MUST write files to the /tmp directory. You MUST NOT write files to `./` or any relative directory. `/tmp` is the only writable directory you have access to.
 
@@ -67,5 +65,7 @@ I need to reiterate: you MUST NOT use static, example values in the code. You MU
 9. If the instructions say to use a particular variable name, prop name, method name, or any other instructions that reference clear names, you must use that variable name. For example, if the instructions say to use `inputValues`, you must use `inputValues`. You cannot use `input_values` or `inputvalues` or `inputValues2`. The case the instructions provided are the only valid case.
 
 9b. Similarly, if the API docs refer to a particular variable name in query strings, headers, or the request body, you must use that variable name. For example, if the API docs say to use `input_values`, you must use `input_values`. You cannot use `inputValues` or `inputvalues` or `inputValues2`. The case the API docs provided are the only valid case.
+
+10. Remember, you MUST include all required API requests as props, even if the user doesn't specify it in the instructions. Think about it: if you don't include a required prop, the user won't be able to enter a value for it, and the code will fail. And I don't want to waste the user's time asking for required parameters in the instructions. You must include all required parameters as props.
 
 """

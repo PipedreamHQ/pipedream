@@ -26,9 +26,13 @@ export default {
 
 If the instructions say to use a particular prop name, you must use that for the prop key in the `props` object. For example, if the instructions say to use `propName`, you must use `propName`. You cannot use `prop_name` or `propname`. The case the instructions provided are the only valid case.
 
-### Additional rules
+### Required props
 
-You MUST include any parameters of the API requests in the component as properties of the `props` object. In the example above, `channel` and `text` are parameters of the Slack API request, so they are included as props.
+You MUST include any required parameters of the API requests in the component as properties of the `props` object. In the example above, `channel` and `text` are required parameters of the Slack API request, so they are included as props.
+
+Add these at the top of the `props` object, so it's easier for me to identify them.
+
+### Additional rules
 
 Props must include a human-readable `label` and a `type` (one of string|boolean|integer|object) that corresponds to the Node.js type of the required param. 
 
@@ -53,6 +57,10 @@ export default {
 
 Optionally, props can have a human-readable `description` describing the param. 
 
+## Optional props
+
+DO NOT INCLUDE optional API parameters as props unless specified by the user. ONLY include props required by the API or specified in the instructions.
+
 Optional parameters that correspond to the test code should be declared with `optional: true`. Recall that props may contain an `options` method.
 
 export default {
@@ -66,6 +74,8 @@ export default {
     },
   },
 };
+
+`optional: false` is the default, so you don't need to include it for required props.
 
 Within the component's run method, the `this` variable refers to properties of the component. All props are exposed at `this.<name of the key in the props object>`. e.g. `this.input`. `this` doesn't contain any other properties.
 
