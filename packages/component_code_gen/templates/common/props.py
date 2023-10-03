@@ -57,7 +57,7 @@ export default {
 
 Optionally, props can have a human-readable `description` describing the param. 
 
-## Optional props
+### Optional props
 
 DO NOT INCLUDE optional API parameters as props unless specified by the user. ONLY include props required by the API or specified in the instructions.
 
