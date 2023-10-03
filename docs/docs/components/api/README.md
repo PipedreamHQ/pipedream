@@ -850,9 +850,9 @@ $.export(
 
 ##### `$.context`
 
-`$.context` exposes [the same properties as `steps.trigger.context`](/events/#steps-trigger-context), and more. Action authors can use it to get context about the calling workflow and the execution.
+`$.context` exposes [the same properties as `steps.trigger.context`](/workflows/events/#steps-trigger-context), and more. Action authors can use it to get context about the calling workflow and the execution.
 
-All properties from [`steps.trigger.context`](/events/#steps-trigger-context) are exposed, as well as:
+All properties from [`steps.trigger.context`](/workflows/events/#steps-trigger-context) are exposed, as well as:
 
 | Property   |                                                                       Description                                                                       |
 | ---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------: |
