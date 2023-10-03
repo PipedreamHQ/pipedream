@@ -4552,10 +4552,10 @@ importers:
         version: 1.5.1
 
   components/ringover:
-    specifiers:
-      '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/rise:
     dependencies:
