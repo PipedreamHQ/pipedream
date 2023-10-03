@@ -1,8 +1,6 @@
-import { defineApp } from "@pipedream/types";
-
-export default defineApp({
+export default {
   type: "app",
-  app: "translate_com",
+  app: "aivoov",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
@@ -10,4 +8,4 @@ export default defineApp({
       console.log(Object.keys(this.$auth));
     },
   },
-});
+};

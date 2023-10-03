@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/saleslens",
+  "version": "0.0.1",
+  "description": "Pipedream SalesLens Components",
+  "main": "saleslens.app.mjs",
+  "keywords": [
+    "pipedream",
+    "saleslens"
+  ],
+  "homepage": "https://pipedream.com/apps/saleslens",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
