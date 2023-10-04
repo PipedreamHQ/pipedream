@@ -27,9 +27,9 @@ class OpenAPIExplorerTool:
 
 
 class PipedreamOpenAPIAgent:
-    def __init__(self, docs, templates, auth_example):
+    def __init__(self, docs, templates, auth_example, parsed_common_files):
         system_instructions = format_template(
-            f"{templates.system_instructions(auth_example)}\n{docs_system_instructions}")
+            f"{templates.system_instructions(auth_example, parsed_common_files)}\n{docs_system_instructions}")
 
         tools = OpenAPIExplorerTool.create_tools(docs)
         tool_names = [tool.name for tool in tools]
@@ -68,8 +68,21 @@ def format_template(text):
 
 def format_result(result):
     if '```' in result:
-        result = result.split('```javascript')[1].split('```')[0].strip()
+        if '```javascript' in result:
+            result = result.split('```javascript')[1].split('```')[0].strip()
+        else:
+            result = result.split('```')[1].split('```')[0].strip()
     return result
+
+
+def create_user_prompt(prompt, urls_content):
+    if len(urls_content) == 0:
+        return prompt
+
+    user_prompt = f"{prompt}\n\n## API docs\n\n"
+    for item in urls_content:
+        user_prompt += f"\n\n### {item['url']}\n\n{item['content']}"
+    return user_prompt
 
 
 def get_llm():
@@ -83,15 +96,18 @@ def get_llm():
             model_name=openai_config["model"], temperature=config["temperature"], request_timeout=300)
 
 
-def ask_agent(user_prompt, docs, templates, auth_example):
-    agent = PipedreamOpenAPIAgent(docs, templates, auth_example)
+def ask_agent(prompt, docs, templates, auth_example, parsed_common_files, urls_content):
+    agent = PipedreamOpenAPIAgent(
+        docs, templates, auth_example, parsed_common_files)
+    user_prompt = create_user_prompt(prompt, urls_content)
     result = agent.run(user_prompt)
     return result
 
 
-def no_docs(app, prompt, templates, auth_example):
-    user_prompt = f"{prompt}.The app is {app}."
-    system_instructions = format_template(templates.system_instructions(auth_example))
+def no_docs(prompt, templates, auth_example, parsed_common_files, urls_content):
+    user_prompt = create_user_prompt(prompt, urls_content)
+    system_instructions = format_template(
+        templates.system_instructions(auth_example, parsed_common_files))
 
     result = get_llm()(messages=[
         SystemMessage(content=system_instructions),
