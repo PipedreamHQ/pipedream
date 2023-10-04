@@ -1,8 +1,8 @@
 // Table for Chromium <> Puppeteer version support here: https://pptr.dev/chromium-support
 // @note: this is locked to an old chromium version
 //  because there's an unfulfilled promise bug in later version of puppeteer-core
-import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer-core@19.8.0";
+import chromium from "@sparticuz/chromium@112";
 
 export default {
   type: "app",

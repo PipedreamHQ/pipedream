@@ -1,13 +1,16 @@
-main_example = """Here's an example component:
+main_example = """## Example component
 
-```javascript
+Here's an example component:
+
+```
+import github from "../../github.app.mjs"
 import crypto from "crypto"
 import { axios } from "@pipedream/platform"
 export default {
   key: "github-new-notification-received",
   name: "New Notification Received",
-  description: "Emit new event when a notification is received.",
-  version: "0.0.1",
+  description: "Emit new event when a notification is received. [See the documentation](${docsLink})",
+  version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {
@@ -41,12 +44,12 @@ export default {
       }
     },
     async activate() {
-      const hookId = await this.createWebhook(opts)
+      const hookId = await this.github.createWebhook(opts)
       this._setWebhookId(hookId)
     },
     async deactivate() {
       const id = this._getWebhookId()
-      await this.deleteWebhook(id)
+      await this.github.deleteWebhook(id)
     },
   },
   async run(event) {
