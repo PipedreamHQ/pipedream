@@ -1,12 +1,14 @@
-main_example = """Here's an example Pipedream source component that fetches all bookmarks from Raindrop.io and emits each bookmark as an event:
+main_example = """## Example source
 
-```javascript
+Here's an example Pipedream source component that fetches all bookmarks from Raindrop.io and emits each bookmark as an event:
+
+```
 import { axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform"
 export default {
   key: "raindrop-bookmark-created",
   name: "New Bookmark Created",
   description: `Emit new event when a bookmark is created. [See the documentation](${docsLink})`,
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {

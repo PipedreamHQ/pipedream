@@ -1,7 +1,7 @@
-import stripe from "stripe";
-import pick from "lodash.pick";
+const pick = require("lodash.pick");
+const stripe = require("../../stripe.app.js");
 
-export default {
+module.exports = {
   key: "stripe-cancel-payment-intent",
   name: "Cancel a Payment Intent",
   type: "action",
@@ -12,85 +12,27 @@ export default {
     "`requires_capture`, the remaining amount_capturable will automatically be refunded. [See the" +
     " docs](https://stripe.com/docs/api/payment_intents/cancel) for more information",
   props: {
-    stripe: {
-      type: "app",
-      app: "stripe",
-    },
+    stripe,
     id: {
-      type: "string",
-      label: "Payment Intent ID",
-      description: "Example: `pi_0FhyHzGHO3mdGsgAJNHu7VeJ`",
-      options: createOptionsMethod("paymentIntents", [
-        "id",
-        "description",
-      ]),
+      propDefinition: [
+        stripe,
+        "payment_intent",
+      ],
+      optional: false,
     },
     cancellation_reason: {
-      type: "string",
-      label: "Cancellation Reason",
-      description: "Indicate why the payment was cancelled",
-      options: [
-        "duplicate",
-        "fraudulent",
-        "requested_by_customer",
-        "abandoned",
+      propDefinition: [
+        stripe,
+        "payment_intent_cancellation_reason",
       ],
-      optional: true,
-    },
-  },
-  methods: {
-    _apiKey() {
-      return this.$auth.api_key;
-    },
-    sdk() {
-      return stripe(this._apiKey(), {
-        apiVersion: "2020-03-02",
-        maxNetworkRetries: 2,
-      });
     },
   },
   async run({ $ }) {
     const params = pick(this, [
       "cancellation_reason",
     ]);
-    const resp = await this.sdk().paymentIntents.cancel(this.id, params);
+    const resp = await this.stripe.sdk().paymentIntents.cancel(this.id, params);
     $.export("$summary", "Successfully cancelled payment intent");
     return resp;
   },
-};
-
-const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({
-  prevContext, ...opts
-}) {
-  let { startingAfter } = prevContext;
-  let result;
-  if (typeof collectionOrFn === "function") {
-    result = await collectionOrFn.call(this, {
-      prevContext,
-      ...opts,
-    });
-  } else {
-    result = await this.sdk()[collectionOrFn].list({
-      starting_after: startingAfter,
-    });
-  }
-
-  let options;
-  if (typeof keysOrFn === "function") {
-    options = result.data.map(keysOrFn.bind(this));
-  } else {
-    options = result.data.map((obj) => ({
-      value: obj[keysOrFn[0]],
-      label: obj[keysOrFn[1]],
-    }));
-  }
-
-  startingAfter = options?.[options.length - 1]?.value;
-
-  return {
-    options,
-    context: {
-      startingAfter,
-    },
-  };
 };

@@ -16,12 +16,17 @@ def run():
 
     test_type = args.type
 
+    output_folder = f'./tests/{test_type}/output'
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
     apps = importlib.import_module(f'tests.{test_type}.apps')
 
     for app in apps.apps:
         print(f"testing {app['app']}...")
-        result = main(test_type[:-1], app['app'], app['instructions'], verbose=True)
-        with open(f'./tests/{test_type}/output/{app["key"]}.mjs', 'w') as f:
+
+        result = main(test_type[:-1], app['app'], app['instructions'], tries=1, verbose=True)
+        with open(f'{output_folder}/{app["key"]}.mjs', 'w') as f:
             f.write(result)
 
 
