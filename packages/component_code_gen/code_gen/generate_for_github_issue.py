@@ -93,7 +93,19 @@ def generate(issue_number, output_dir, verbose=False, tries=3):
 
         for component_key in markdown[app][h2_header]:
             component_data = markdown[app][h2_header][component_key]
-            instructions = f"{component_data['prompt']}\n\nUse the methods and propDefinitions in this app file to solve the requirements: {app_file_content}"
+            instructions = f"""### Requirements
+            
+{component_data['prompt']}
+
+### Use methods and propDefinitions from this app file
+
+Use the methods and propDefinitions in this app file to solve the requirements:
+
+{app_file_content}
+
+You can call methods from the app file using `this.{app}.<method name>`. Think about it: you've already defined props and methods in the app file, so you should use these to promote code reuse.
+
+"""
             urls = component_data["urls"]
 
             if "source" in h2_header:

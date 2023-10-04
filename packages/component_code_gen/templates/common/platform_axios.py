@@ -14,11 +14,74 @@ The `axios` constructor takes two arguments:
 
 For example:
 
-return axios($, {
+```
+import { axios } from "@pipedream/platform";
+
+// Note that we do not export a data property and return the response directly — see below
+const models = await axios($, {
   url: `https://api.openai.com/v1/models`,
   headers: {
     Authorization: `Bearer ${this.openai.$auth.api_key}`,
   },
 })
 
-`@pipedream/platform` axios returns a Promise that resolves to the HTTP response data. There is NO `data` property in the response that contains the data. The data from the HTTP response is returned directly in the response, not in the `data` property."""
+### Data is returned directly from the axios response, NOT in a `data` property
+
+Ignore everything you know about responses from the `axios` package. `@pipedream/platform` axios is written in a different way. We'll describe that API below.
+
+`@pipedream/platform` axios returns a Promise that resolves to the HTTP response data. There is NO `data` property in the response that contains the data. The data from the HTTP response is returned directly in the response, not in the `data` property.
+
+For example, assume you have the following methods defined:
+
+```
+_baseUrl() {
+  return "https://app.saleslens.io/api";
+},
+async _makeRequest(opts = {}) {
+  const {
+    $ = this,
+    method = "GET",
+    path,
+    headers,
+    ...otherOpts
+  } = opts;
+  return axios($, {
+    ...otherOpts,
+    method,
+    url: this._baseUrl() + path,
+    headers: {
+      ...headers,
+      Authorization: this.$auth.api_token,
+    },
+  });
+},
+async getEmployees() {
+  return this._makeRequest({
+    path: "/access_token/employees",
+  });
+},
+```
+
+You should call the getEmployees like this:
+
+```
+const employees = await this.getEmployees();
+```
+
+Do not do this:
+
+```
+const { data } = await this.getEmployees();
+```
+
+and not this:
+
+```
+const { items } = await this.getEmployees();
+```
+
+Do not destructure any properties from the response. The response is returned directly, not in a `data`, `items`, or any other property.
+
+This is critical to get right, and the code will fail if you get it wrong. Think about it: the `axios` constructor returns the data directly, not in a `data` property. Therefore, you should not destructure `data` from the response when calling `axios`. Otherwise the `data` variable will be undefined.
+
+"""
