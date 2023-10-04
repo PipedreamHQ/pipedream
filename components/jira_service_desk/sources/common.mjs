@@ -25,6 +25,9 @@ export default {
     _setLastDate(value) {
       this.db.set("lastDate", value);
     },
+    getSummary() {
+      throw new Error("Summary method not implemented in component");
+    },
     getRequestDate() {
       throw new Error("Date method not implemented in component");
     },
@@ -48,7 +51,7 @@ export default {
         const ts = this.getRequestDate(req);
         this.$emit(req, {
           id,
-          summary: `New Request: ${summary}`,
+          summary: `${this.getSummary()}: ${summary}`,
           ts,
         });
       });

@@ -14,5 +14,8 @@ export default {
     getRequestDate(req) {
       return req.createdDate.epochMillis;
     },
+    getSummary() {
+      return "New Request";
+    },
   },
 };
