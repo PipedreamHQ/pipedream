@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import processStreet from "../../process_street.app.mjs";
 import _ from "lodash";
 
 export default {
@@ -8,21 +8,12 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    processStreet: {
-      type: "app",
-      app: "process_street",
-    },
+    processStreet,
     workflowId: {
-      type: "string",
-      label: "Workflow ID",
-      description: "The ID of the Workflow",
-      async options() {
-        const { workflows } = await this.listWorkflows();
-        return workflows.map((workflow) => ({
-          label: workflow.name,
-          value: workflow.id,
-        }));
-      },
+      propDefinition: [
+        processStreet,
+        "workflowId",
+      ],
     },
     name: {
       type: "string",
@@ -43,39 +34,6 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    _baseUrl() {
-      return "https://public-api.process.st/api/v1.1";
-    },
-    _auth() {
-      return this.$auth.api_key;
-    },
-    async _makeRequest({
-      $ = this, path, ...opts
-    }) {
-      return axios($, {
-        ...opts,
-        url: this._baseUrl() + path,
-        headers: {
-          ...opts.headers,
-          "X-API-KEY": this._auth(),
-        },
-      });
-    },
-    async listWorkflows(opts = {}) {
-      return this._makeRequest({
-        ...opts,
-        path: "/workflows",
-      });
-    },
-    async runWorkflow(opts) {
-      return this._makeRequest({
-        ...opts,
-        path: "/workflow-runs",
-        method: "post",
-      });
-    },
-  },
   async run({ $ }) {
     const data = _.pickBy(_.pick(this, [
       "workflowId",
@@ -83,7 +41,7 @@ export default {
       "dueDate",
       "shared",
     ]));
-    const response = await this.runWorkflow({
+    const response = await this.processStreet.runWorkflow({
       $,
       data,
     });

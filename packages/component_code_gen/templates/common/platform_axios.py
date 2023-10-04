@@ -8,13 +8,13 @@ You MUST use that import format when importing axios. Do NOT attempt to import a
 
 The `axios` constructor takes two arguments:
 
-1. `this` - the context passed by the run method of the component.
+1. `$ = this` - the context passed by the run method of the component.
 
 2. `config` - the same as the `config` object passed to the `axios` constructor in the standard `axios` package, with some extra properties.
 
 For example:
 
-return await axios($, {
+return axios($, {
   url: `https://api.openai.com/v1/models`,
   headers: {
     Authorization: `Bearer ${this.openai.$auth.api_key}`,
