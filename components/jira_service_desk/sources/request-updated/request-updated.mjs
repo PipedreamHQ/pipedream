@@ -2,10 +2,10 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "jira_service_desk-new-request-created",
-  name: "New Request Created",
+  key: "jira_service_desk-request-updated",
+  name: "Request Updated",
   description:
-    "Emit new event when a customer request is created. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/#api-rest-servicedeskapi-request-get)",
+    "Emit new event when a customer request is updated. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/#api-rest-servicedeskapi-request-get)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
