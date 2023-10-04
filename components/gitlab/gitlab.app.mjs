@@ -225,8 +225,14 @@ export default {
   },
   methods: {
     _generateToken: v4,
+    _getBaseApiUrl() {
+      const base = this.$auth.base_api_url ?? "https://gitlab.com";
+      return `${base}${base.endsWith("/")
+        ? ""
+        : "/"}`;
+    },
     _baseUrl() {
-      return "https://gitlab.com/api/v4";
+      return `${this._getBaseApiUrl()}api/v4`;
     },
     _headers() {
       return {
