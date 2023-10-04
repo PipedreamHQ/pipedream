@@ -76,7 +76,7 @@ importers:
         specifier: ^12.3.4
         version: 12.5.0
       pnpm:
-        specifier: ^7.33.4
+        specifier: 7.33.6
         version: 7.33.6
       putout:
         specifier: '>=20'
