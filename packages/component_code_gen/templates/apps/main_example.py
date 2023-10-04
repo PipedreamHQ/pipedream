@@ -1,4 +1,6 @@
-main_example = """Here's an example Pipedream app for Raindrop:
+main_example = """## Example all file for Raindrop
+
+Here's an example Pipedream app for Raindrop:
 
 ```
 import { axios } from "@pipedream/platform";

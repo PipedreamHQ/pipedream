@@ -21,7 +21,7 @@ always_include = [introduction, typescript_definitions,
                   main_example, end]
 
 
-def system_instructions(auth_example="", parsed_common_files=""):
+def system_instructions(auth_details="", parsed_common_files=""):
     return f"""{introduction}
 
 {main_example}
@@ -30,7 +30,7 @@ def system_instructions(auth_example="", parsed_common_files=""):
 
 {auth}
 
-{auth_example}
+{auth_details}
 
 {props}
 
