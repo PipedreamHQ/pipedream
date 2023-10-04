@@ -5084,6 +5084,8 @@ importers:
 
   components/slicktext: {}
 
+  components/slottable: {}
+
   components/slybroadcast: {}
 
   components/smaily:
@@ -5638,7 +5640,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/tidy: {}
+  components/tidy:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/tidycal:
     dependencies:

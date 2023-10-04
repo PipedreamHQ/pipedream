@@ -53,7 +53,7 @@ Once we configure your domain, we'll ask you to create two DNS CNAME records:
 
 #### Add the CNAME validation record
 
-Pipedream uses [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) to create the TLS certificate for your domain. To validate the certificate, you need to add a specific DNS recorded provided by Certificate Manager. Pipedream will provide the name and value.
+Pipedream uses [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) to create the TLS certificate for your domain. To validate the certificate, you need to add a specific DNS record provided by Certificate Manager. Pipedream will provide the name and value.
 
 For example, if you requested `*.eng.example.com` as your custom domain, Pipedream will provide the details of the record, like in this example:
 
