@@ -22,7 +22,7 @@ export default {
     await browser.close();
 
     if (title) {
-      $.export("$summary", "Successfully retrieved Title from page.");
+      $.export("$summary", "Successfully retrieved title from page.");
     }
 
     return title;
