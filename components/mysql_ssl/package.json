@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mysql_ssl",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Pipedream MySQL (SSL) Components",
   "main": "mysql_ssl.app.mjs",
   "keywords": [
