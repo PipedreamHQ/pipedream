@@ -2664,7 +2664,10 @@ importers:
       form-data: 4.0.0
 
   components/jira_service_desk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/jobber:
     specifiers: {}
