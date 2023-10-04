@@ -2,6 +2,9 @@
   "name": "pipedream",
   "version": "1.2.1",
   "description": "Pipedream Monorepo",
+  "engines": {
+    "pnpm": "8.8.0"
+  },
   "keywords": [
     "pipedream",
     "integration",
