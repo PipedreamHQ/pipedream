@@ -2,9 +2,9 @@ import app from "../../clockwork_recruiting.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
-  key: "clockwork_recruiting-document-signed",
-  name: "New Document Signed (Instant)",
-  description: "Emit new event when a document is signed.",
+  key: "clockwork_recruiting-candidate-status-change",
+  name: "New Candidate Status Change (Instant)",
+  description: "Emit new event when a candidate status is changed.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
