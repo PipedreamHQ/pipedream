@@ -4121,7 +4121,10 @@ importers:
     specifiers: {}
 
   components/playwright:
-    specifiers: {}
+    specifiers:
+      '@sparticuz/chromium': 112.0.2
+    dependencies:
+      '@sparticuz/chromium': 112.0.2
 
   components/plecto:
     specifiers: {}
