@@ -8,7 +8,7 @@ export default {
   key: "shopify_developer_app-create-metaobject",
   name: "Create Metaobject",
   description: "Creates a metaobject. [See the documentation](https://shopify.dev/docs/api/admin-graphql/2023-04/mutations/metaobjectCreate)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     shopify,

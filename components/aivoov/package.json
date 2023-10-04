@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/aivoov",
+  "version": "0.0.1",
+  "description": "Pipedream AiVOOV Components",
+  "main": "aivoov.app.mjs",
+  "keywords": [
+    "pipedream",
+    "aivoov"
+  ],
+  "homepage": "https://pipedream.com/apps/aivoov",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

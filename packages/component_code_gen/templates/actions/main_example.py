@@ -1,20 +1,21 @@
-main_example = """Here's an example component:
+main_example = """## OpenAI example component
 
-```javascript
+Here's an example component:
+
+```
+import openai from "../../openai.app.mjs"
 import { axios } from "@pipedream/platform"
-export default defineComponent({
+
+export default {
   key: "openai-list-models",
   name: "List Models",
-  description: "Lists all models available to the user.",
+  description: "Lists all models available to the user. [See the documentation](${docsLink})",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
-    openai: {
-      type: "app",
-      app: "openai",
-    }
+    openai,
   },
-  async run({steps, $}) {
+  async run({ $ }) {
     const response = await axios($, {
       url: `https://api.openai.com/v1/models`,
       headers: {
@@ -24,5 +25,5 @@ export default defineComponent({
     $.export("$summary", "Successfully listed models")
     return response
   },
-})
+};
 ```"""

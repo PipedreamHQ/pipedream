@@ -2747,6 +2747,18 @@
     },
     {
       "path": "components/modeck"
+    },
+    {
+      "path": "components/playwright"
+    },
+    {
+      "path": "components/puppeteer"
+    },
+    {
+      "path": "components/jibble"
+    },
+    {
+      "path": "components/diffchecker"
     }
   ]
 }

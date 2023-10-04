@@ -6,7 +6,7 @@ export default {
   key: "shopify_developer_app-search-customers",
   name: "Search for Customers",
   description: "Search for a customer or a list of customers. [See the documentation](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[get]/admin/api/2022-01/customers.json)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shopify,
