@@ -548,15 +548,9 @@ importers:
       axios: ^0.27.2
       package-lock-only: ^0.0.4
     dependencies:
-      '@pipedream/platform':
-        specifier: ^0.10.0
-        version: 0.10.0
-      axios:
-        specifier: ^0.27.2
-        version: 0.27.2
-      package-lock-only:
-        specifier: ^0.0.4
-        version: 0.0.4
+      '@pipedream/platform': 0.10.0
+      axios: 0.27.2
+      package-lock-only: 0.0.4
 
   components/bitrix24:
     specifiers: {}
@@ -640,12 +634,8 @@ importers:
       '@pipedream/platform': ^1.4.1
       puppeteer-core: ^19.7.5
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.4.1
-        version: 1.5.1
-      puppeteer-core:
-        specifier: ^19.7.5
-        version: 19.11.1
+      '@pipedream/platform': 1.5.1
+      puppeteer-core: 19.11.1
 
   components/budgets_ai:
     specifiers: {}
@@ -2939,9 +2929,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.1
       axios: ^1.2.3
+      form-data: ^4.0.0
     dependencies:
       '@pipedream/platform': 1.5.1
       axios: 1.5.1
+      form-data: 4.0.0
 
   components/linkedin_ads:
     specifiers: {}
@@ -3371,8 +3363,6 @@ importers:
 
   components/modeck:
     specifiers: {}
-
-  components/modeck: {}
 
   components/mojo_helpdesk:
     specifiers:
@@ -4000,10 +3990,10 @@ importers:
     specifiers: {}
 
   components/phoneburner:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.5.1
+      '@pipedream/platform': 1.5.1
 
   components/phrase:
     specifiers:
@@ -4489,25 +4479,17 @@ importers:
       lodash: ^4.17.21
       qs: ^6.11.0
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.4.0
-        version: 1.5.1
-      async-retry:
-        specifier: ^1.3.3
-        version: 1.3.3
-      axios:
-        specifier: ^0.27.2
-        version: 0.27.2
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      qs:
-        specifier: ^6.11.0
-        version: 6.11.2
+      '@pipedream/platform': 1.5.1
+      async-retry: 1.3.3
+      axios: 0.27.2
+      lodash: 4.17.21
+      qs: 6.11.2
 
-  components/referralrock: {}
+  components/referralrock:
+    specifiers: {}
 
-  components/referrizer: {}
+  components/referrizer:
+    specifiers: {}
 
   components/refersion:
     specifiers:
@@ -4981,9 +4963,7 @@ importers:
     specifiers:
       axios: ^0.27.2
     dependencies:
-      axios:
-        specifier: ^0.27.2
-        version: 0.27.2
+      axios: 0.27.2
 
   components/sftp:
     specifiers:
@@ -6198,18 +6178,10 @@ importers:
       axios: ^0.27.2
       openapi-types: ^12.0.0
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.1.1
-        version: 1.5.1
-      api:
-        specifier: ^4.5.2
-        version: 4.5.2(openapi-types@12.1.3)
-      axios:
-        specifier: ^0.27.2
-        version: 0.27.2
-      openapi-types:
-        specifier: ^12.0.0
-        version: 12.1.3
+      '@pipedream/platform': 1.5.1
+      api: 4.5.2_openapi-types@12.1.3
+      axios: 0.27.2
+      openapi-types: 12.1.3
     devDependencies:
       '@pipedream/types': 0.1.6
       '@types/node': 17.0.45
@@ -6793,18 +6765,10 @@ importers:
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
     devDependencies:
-      '@octokit/core':
-        specifier: ^3.6.0
-        version: 3.6.0
-      husky:
-        specifier: ^3.0.0
-        version: 3.1.0
-      jest:
-        specifier: ^29.1.2
-        version: 29.6.4
-      typescript:
-        specifier: ^3.5.3
-        version: 3.9.10
+      '@octokit/core': 3.6.0
+      husky: 3.1.0
+      jest: 29.7.0
+      typescript: 3.9.10
 
   types:
     specifiers:
@@ -14535,16 +14499,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.2
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /axios@0.27.2:
-    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
-    dependencies:
-      follow-redirects: 1.15.2
-      form-data: 4.0.0
+      follow-redirects: 1.15.3
     transitivePeerDependencies:
       - debug
     dev: false
@@ -19611,7 +19566,7 @@ packages:
       - babel-plugin-macros
       - supports-color
     dev: true
-    
+
   /jest-config/29.7.0_@types+node@17.0.45:
     resolution: {integrity: sha512-uXbpfeQ7R6TZBqI3/TxCU4q4ttk3u0PJeC+E0zbfSoSjq6bJ7buBPxzQPL0ifrkY4DNu4JUdk0ImlBUYi840eQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -27004,7 +26959,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
