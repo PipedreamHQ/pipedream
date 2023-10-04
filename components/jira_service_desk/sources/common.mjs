@@ -1,5 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import jiraServiceDesk from "../../jira_service_desk.app.mjs";
+import jiraServiceDesk from "../jira_service_desk.app.mjs";
 
 export default {
   props: {
