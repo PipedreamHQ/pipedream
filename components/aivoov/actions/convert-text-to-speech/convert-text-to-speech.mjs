@@ -67,9 +67,9 @@ export default {
         transcribe_text: this.transcribe_text,
         engine: this.engine,
         transcribe_ssml_style: this.transcribe_ssml_style,
-        transcribe_ssml_spk_rate: this.transcribe_ssml_spk_rate,
-        transcribe_ssml_volume: this.transcribe_ssml_volume,
-        transcribe_ssml_pitch_rate: this.transcribe_ssml_pitch_rate,
+        transcribe_ssml_spk_rate: this.transcribe_ssml_spk_rate + "%",
+        transcribe_ssml_volume: this.transcribe_ssml_volume + "dB",
+        transcribe_ssml_pitch_rate: this.transcribe_ssml_pitch_rate + "%",
       },
     });
     $.export("$summary", "Successfully converted text to speech");

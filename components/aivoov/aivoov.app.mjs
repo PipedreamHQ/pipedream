@@ -13,7 +13,7 @@ export default {
           provider,
         });
         return voices.map((voice) => ({
-          label: voice.name,
+          label: `${voice.name} (${voice.language_code})`,
           value: voice.voice_id,
         }));
       },
@@ -26,7 +26,12 @@ export default {
     engine: {
       type: "string",
       label: "Engine",
-      description: "Select the preferences of the engine from the Voice Response. There are three types of engine supported: neural2, neural, and standard",
+      description: "Select the preferences of the engine from the Voice Response.",
+      options: [
+        "standard",
+        "neural",
+        "neural2",
+      ],
     },
     transcribe_ssml_style: {
       type: "string[]",
@@ -35,27 +40,33 @@ export default {
       optional: true,
     },
     transcribe_ssml_spk_rate: {
-      type: "string[]",
+      type: "integer",
       label: "Transcribe SSML Speak Rate",
-      description: "A string in the format <number>%, where <number> is in the closed interval of [20, 200]. Use this to speed-up, or slow-down the speaking rate of the speech",
+      description: "Must be in the closed interval of `[20, 200] %`. Use this to speed-up, or slow-down the speaking rate of the speech",
       optional: true,
+      min: 20,
+      max: 200,
     },
     transcribe_ssml_volume: {
       type: "string[]",
       label: "Transcribe SSML Volume",
-      description: "A string in the format <number>dB, where <number> is in the closed interval of [-40, 40]. Use this to high or low the speaking volume of the speech",
+      description: "Must be in the closed interval of `[-40, 40] dB`. Use this to high or low the speaking volume of the speech",
       optional: true,
+      min: -40,
+      max: 40,
     },
     transcribe_ssml_pitch_rate: {
       type: "string[]",
       label: "Transcribe SSML Pitch Rate",
-      description: "A string in the format <number>%, where <number> is in the closed interval of [-50, 50]. Use this to pitch-low, or pitch-low the speaking pitch of the speech",
+      description: "Must be in the closed interval of `[-50, 50] %`. Use this to pitch-low, or pitch-low the speaking pitch of the speech",
       optional: true,
+      min: -50,
+      max: 50,
     },
     provider: {
       type: "string",
       label: "Provider",
-      description: "The provider of the voice. Options are: google, azure, ibm, aws",
+      description: "The provider of the voice.",
       options: [
         "google",
         "azure",
@@ -71,14 +82,12 @@ export default {
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -94,6 +103,9 @@ export default {
     async transcribe(opts = {}) {
       return this._makeRequest({
         method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
         path: "/transcribe",
         ...opts,
       });
