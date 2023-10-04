@@ -38,19 +38,19 @@ export default {
       type: "string",
       label: "Request ID",
       description: "Select a request, or provide a custom ID.",
-      async options({
-        cloudId, serviceDeskId,
-      }) {
+      async options({ cloudId }) {
         const requests = await this.getCustomerRequests({
           cloudId,
-          serviceDeskId,
         });
         return requests?.map?.(({
-          issueId, issueKey,
-        }) => ({
-          label: issueKey,
-          value: issueId,
-        }));
+          issueId, issueKey, requestFieldValues,
+        }) => {
+          const summary = requestFieldValues?.find?.(({ fieldId }) => fieldId === "summary")?.value;
+          return ({
+            label: `(${issueKey}) ${summary}`,
+            value: issueId,
+          });
+        });
       },
     },
     requestTypeId: {
@@ -108,11 +108,11 @@ export default {
       });
       return response.values;
     },
-    async getCustomerRequests(opts = {}) {
-      return this._makeRequest({
-        ...opts,
-        path: "/ex/jira/rest/servicedeskapi/request",
+    async getCustomerRequests({ cloudId }) {
+      const response = await this._makeRequest({
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,
       });
+      return response.values;
     },
     async createCustomerRequest({
       cloudId, ...opts
@@ -124,12 +124,12 @@ export default {
       });
     },
     async createRequestComment({
-      requestId, ...opts
+      cloudId, requestId, ...opts
     }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: `/ex/jira/rest/servicedeskapi/request/${requestId}/comment`,
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${requestId}/comment`,
       });
     },
   },

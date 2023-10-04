@@ -8,10 +8,19 @@ export default {
   type: "action",
   props: {
     jiraServiceDesk,
+    cloudId: {
+      propDefinition: [
+        jiraServiceDesk,
+        "cloudId",
+      ],
+    },
     requestId: {
       propDefinition: [
         jiraServiceDesk,
         "requestId",
+        ({ cloudId }) => ({
+          cloudId,
+        }),
       ],
     },
     body: {
@@ -27,10 +36,11 @@ export default {
   },
   async run({ $ }) {
     const {
-      requestId, body, isPublic,
+      cloudId, requestId, body, isPublic,
     } = this;
-    const response = await this.createRequestComment({
+    const response = await this.jiraServiceDesk.createRequestComment({
       $,
+      cloudId,
       requestId,
       data: {
         body,
