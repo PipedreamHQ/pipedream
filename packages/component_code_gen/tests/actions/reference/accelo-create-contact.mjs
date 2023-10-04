@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import accelo from "../../accelo.app.mjs";
 
 export default {
   name: "Create Contact",
@@ -7,21 +7,12 @@ export default {
   description: "Creates a contact. [See docs here](https://api.accelo.com/docs/?_ga=2.136158329.97118171.1674049767-1568937371.1674049767#create-a-contact)",
   type: "action",
   props: {
-    accelo: {
-      type: "app",
-      app: "accelo",
-    },
+    accelo,
     companyId: {
-      label: "Company ID",
-      description: "The company ID",
-      type: "string",
-      async options() {
-        const { response: companies } = await this.getCompanies();
-        return companies.map((company) => ({
-          value: company.id,
-          label: company.name,
-        }));
-      },
+      propDefinition: [
+        accelo,
+        "companyId",
+      ],
     },
     firstname: {
       label: "First Name",
@@ -70,43 +61,8 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    _hostname() {
-      return this.$auth.hostname;
-    },
-    _accessToken() {
-      return this.$auth.oauth_access_token;
-    },
-    _apiUrl() {
-      return `https://${this._hostname()}.api.accelo.com/api/v0`;
-    },
-    async _makeRequest({
-      $ = this, path, ...args
-    }) {
-      return axios($, {
-        url: `${this._apiUrl()}${path}`,
-        headers: {
-          Authorization: `Bearer ${this._accessToken()}`,
-        },
-        ...args,
-      });
-    },
-    async getCompanies(args = {}) {
-      return this._makeRequest({
-        path: "/companies",
-        ...args,
-      });
-    },
-    async createContact(args = {}) {
-      return this._makeRequest({
-        path: "/contacts",
-        method: "post",
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
-    const { response } = await this.createContact({
+    const { response } = await this.accelo.createContact({
       $,
       data: {
         company_id: this.companyId,

@@ -1,16 +1,19 @@
-other_example = """Here's an example Pipedream component that makes a test request against the Slack API:
+other_example = """## Slack API example component
 
-export default defineComponent({
+Here's an example Pipedream component that makes a test request against the Slack API:
+
+```
+import slack from "../../slack.app.mjs"
+import { axios } from "@pipedream/platform"
+
+export default {
   key: "slack-send-message",
   name: "Send Message",
   version: "0.0.{{ts}}",
-  description: "Sends a message to a channel. [See docs here]()",
+  description: "Sends a message to a channel. [See the documentation](${docsLink})",
   type: "action",
   props: {
-    slack: {
-      type: "app",
-      app: "slack",
-    },
+    slack,
     channel: {
       type: "string",
       label: "Channel",
@@ -22,7 +25,7 @@ export default defineComponent({
       description: "The text of the message to post",
     },
   },
-  async run({ steps, $ }) {
+  async run({ $ }) {
     const response = await axios($, {
       method: "POST",
       url: `https://slack.com/api/chat.postMessage`,
@@ -37,7 +40,7 @@ export default defineComponent({
     $.export("$summary", "Sent message successfully")
     return response
   },
-});
+};
 
 Notice this section:
 
@@ -52,18 +55,18 @@ The code you generate should be placed within the `run` method of the Pipedream 
 
 import { axios } from "@pipedream/platform";
 
-export default defineComponent({
+export default {
   props: {
     the_app_name_slug: {
       type: "app",
       app: "the_app_name_slug",
     },
   },
-  async run({ steps, $ }) {
+  async run({ $ }) {
     const response = await axios($, {
       // Add the axios configuration object to make the HTTP request here
     })
     $.export("$summary", "Your summary here")
     return response
   },
-});"""
+};"""
