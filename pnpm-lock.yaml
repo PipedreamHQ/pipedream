@@ -2879,13 +2879,14 @@ importers:
         version: 1.5.1
 
   components/linkedin:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      axios: ^1.2.3
+      form-data: ^4.0.0
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.2.1
-        version: 1.5.1
-      axios:
-        specifier: ^1.2.3
-        version: 1.5.1
+      '@pipedream/platform': 1.5.1
+      axios: 1.5.1
+      form-data: 4.0.0
 
   components/linkedin_ads: {}
 
@@ -3941,7 +3942,11 @@ importers:
 
   components/phone_com: {}
 
-  components/phoneburner: {}
+  components/phoneburner:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/phrase:
     dependencies:
@@ -4506,7 +4511,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/retable: {}
+  components/retable:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/retently:
     dependencies:
@@ -26825,7 +26834,7 @@ packages:
       - encoding
     dev: false
 
-  /verror@1.10.0:
+  /verror/1.10.0:
     resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
