@@ -1,5 +1,6 @@
 additional_rules = """## Additional rules
-### Data is returned directly from the axios response, NOT in a `data` property
+
+### axios responses
 
 Ignore everything you know about responses from the `axios` package. `@pipedream/platform` axios is written in a different way. We'll describe that API below.
 
@@ -34,24 +35,32 @@ async getEmployees() {
     path: "/access_token/employees",
   });
 },
+async getCategories() {
+  return this._makeRequest({
+    path: "/access_token/categories",
+  });
+},
 ```
 
-You should call the getEmployees like this:
+You should call the getEmployees and getCategories like this:
 
 ```
 const employees = await this.getEmployees();
+const categories = await this.getCategories();
 ```
 
 NOT this:
 
 ```
+// data is undefined here
 const { data } = await this.getEmployees();
-```
+const { data } = await this.getCategories();
 
-and not this:
-
-```
+// items is undefined here
 const { items } = await this.getEmployees();
+const { data } = await this.getCategories();
+
+// etc.
 ```
 
 Do not destructure any properties from the response. The response is returned directly, not in a `data`, `items`, or any other property.

@@ -25,9 +25,9 @@ const models = await axios($, {
   },
 })
 
-### Data is returned directly from the axios response, NOT in a `data` property
+### axios responses
 
-Ignore everything you know about responses from the `axios` package. `@pipedream/platform` axios is written in a different way. We'll describe that API below.
+Ignore everything you know about responses from `axios` requests. `@pipedream/platform` axios is different than `axios`.
 
 `@pipedream/platform` axios returns a Promise that resolves to the HTTP response data. There is NO `data` property in the response that contains the data. The data from the HTTP response is returned directly in the response, not in the `data` property.
 
@@ -60,24 +60,104 @@ async getEmployees() {
     path: "/access_token/employees",
   });
 },
+async getCategories() {
+  return this._makeRequest({
+    path: "/access_token/categories",
+  });
+},
 ```
 
-You should call the getEmployees like this:
+You should call the getEmployees and getCategories like this:
 
 ```
 const employees = await this.getEmployees();
+const categories = await this.getCategories();
 ```
 
-Do not do this:
+NOT this:
 
 ```
+// data is undefined here
 const { data } = await this.getEmployees();
-```
+const { data } = await this.getCategories();
 
-and not this:
-
-```
+// items is undefined here
 const { items } = await this.getEmployees();
+const { data } = await this.getCategories();
+
+// etc.
+```
+
+Here's another example of some prop definitions that use these methods. Do this:
+
+```
+export default {
+  type: "app",
+  app: "saleslens",
+  propDefinitions: {
+    employeeExternalId: {
+      type: "string",
+      label: "Employee External ID",
+      description: "The external ID of the employee",
+      async options() {
+        const employees = await this.getEmployees();
+        return employees.map((e) => ({
+          value: e.externalId,
+          label: `${e.firstName} ${e.lastName}`,
+        }));
+      },
+    },
+    categoryId: {
+      type: "string",
+      label: "Category ID",
+      description: "The ID of the category",
+      async options() {
+        const categories = await this.getCategories();
+        return categories.map((e) => ({
+          value: e.id,
+          label: e.title,
+        }));
+      },
+    },
+    ...
+  },
+};
+```
+
+NOT this:
+
+```
+export default {
+  type: "app",
+  app: "saleslens",
+  propDefinitions: {
+    employeeExternalId: {
+      type: "string",
+      label: "Employee External ID",
+      description: "The external ID of the employee",
+      async options() {
+        const { items } = await this.getEmployees();
+        return items.map((e) => ({
+          value: e.externalId,
+          label: `${e.firstName} ${e.lastName}`,
+        }));
+      },
+    },
+    categoryId: {
+      type: "string",
+      label: "Category ID",
+      description: "The ID of the category",
+      async options() {
+        const { items } = await this.getCategories();
+        return items.map((e) => ({
+          value: e.id,
+          label: e.title,
+        }));
+      },
+    },
+    ...
+  },
+};
 ```
 
 Do not destructure any properties from the response. The response is returned directly, not in a `data`, `items`, or any other property.
