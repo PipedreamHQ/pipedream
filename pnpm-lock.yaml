@@ -445,6 +445,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/azure_sql:
+    specifiers: {}
+
   components/badger_maps:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -788,6 +791,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/chatbotic:
+    specifiers: {}
+
   components/chatfuel_dashboard_api_:
     specifiers: {}
 
@@ -845,6 +851,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/clevertap:
+    specifiers: {}
 
   components/clickfunnels:
     specifiers: {}
@@ -2648,6 +2657,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/jeffreyai:
+    specifiers: {}
 
   components/jellyreach:
     specifiers: {}
@@ -5333,6 +5345,9 @@ importers:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
 
+  components/spydra:
+    specifiers: {}
+
   components/square:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -6106,6 +6121,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/vies_api:
+    specifiers: {}
 
   components/viral_loops:
     specifiers:
