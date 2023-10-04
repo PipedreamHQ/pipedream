@@ -25,19 +25,16 @@ export default {
     },
   },
   async run({ $ }) {
-
-    const { responses } = await this.googleForms.getFormResponse({
+    const response = await this.googleForms.getFormResponse({
       formId: this.formId,
       responseId: this.formResponseId,
       $,
     });
 
-    if (responses?.length) {
-      $.export("$summary", `Successfully retrieved ${responses.length} form response${ responses.length === 1
-        ? ""
-        : "s"}.`);
+    if (response) {
+      $.export("$summary", `Successfully retrieved response with ID ${this.formResponseId} for form with ID ${this.formId}`);
     }
 
-    return responses;
+    return response;
   },
 };
