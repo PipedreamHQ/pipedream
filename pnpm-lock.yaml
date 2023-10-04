@@ -867,11 +867,9 @@ importers:
   components/clevertap:
     specifiers: {}
 
-  components/clickfunnels:
-    specifiers: {}
+  components/clickfunnels: {}
 
-  components/clickmeeting:
-    specifiers: {}
+  components/clickmeeting: {}
 
   components/clicktime:
     specifiers: {}
