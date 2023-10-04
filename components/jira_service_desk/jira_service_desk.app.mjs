@@ -22,8 +22,10 @@ export default {
       type: "string",
       label: "Service Desk ID",
       description: "Select a service desk, or provide a custom ID.",
-      async options() {
-        const desks = await this.getServiceDesks();
+      async options({ cloudId }) {
+        const desks = await this.getServiceDesks({
+          cloudId,
+        });
         return desks?.map?.(({
           id, projectName,
         }) => ({
@@ -36,8 +38,13 @@ export default {
       type: "string",
       label: "Request ID",
       description: "Select a request, or provide a custom ID.",
-      async options() {
-        const requests = await this.getCustomerRequests();
+      async options({
+        cloudId, serviceDeskId,
+      }) {
+        const requests = await this.getCustomerRequests({
+          cloudId,
+          serviceDeskId,
+        });
         return requests?.map?.(({
           issueId, issueKey,
         }) => ({
@@ -50,8 +57,13 @@ export default {
       type: "string",
       label: "Request Type ID",
       description: "Select a request type, or provide a custom ID.",
-      async options({ serviceDeskId }) {
-        const types = await this.getRequestTypes(serviceDeskId);
+      async options({
+        cloudId, serviceDeskId,
+      }) {
+        const types = await this.getRequestTypes({
+          cloudId,
+          serviceDeskId,
+        });
         return types?.map?.(({
           id, name,
         }) => ({
@@ -82,31 +94,33 @@ export default {
         path: "/oauth/token/accessible-resources",
       });
     },
-    async getServiceDesks() {
+    async getServiceDesks({ cloudId }) {
       const response = await this._makeRequest({
-        path: "ex/jira/rest/servicedeskapi/servicedesk",
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk`,
       });
       return response.values;
     },
-    async getRequestTypes(serviceDeskId) {
+    async getRequestTypes({
+      cloudId, serviceDeskId,
+    }) {
       const response = await this._makeRequest({
-        path: `ex/jira/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype`,
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype`,
       });
       return response.values;
     },
     async getCustomerRequests(opts = {}) {
       return this._makeRequest({
         ...opts,
-        path: "ex/jira/rest/servicedeskapi/request",
+        path: "/ex/jira/rest/servicedeskapi/request",
       });
     },
     async createCustomerRequest({
-      serviceDeskId, ...opts
+      cloudId, ...opts
     }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: `ex/jira/rest/servicedeskapi/servicedesk/${serviceDeskId}/request`,
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,
       });
     },
     async createRequestComment({
@@ -115,7 +129,7 @@ export default {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: `ex/jira/rest/servicedeskapi/request/${requestId}/comment`,
+        path: `/ex/jira/rest/servicedeskapi/request/${requestId}/comment`,
       });
     },
   },
