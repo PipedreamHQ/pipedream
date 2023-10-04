@@ -1,0 +1,59 @@
+/* eslint-disable no-unused-vars */
+import common from "../common/report.mjs";
+
+export default {
+  ...common,
+  key: "linkedin_ads-create-report-by-campaign",
+  name: "Query Analytics Finder Campaign Sample",
+  description: "Sample query using analytics finder that gets analytics for a particular campaign in a date range starting in a given year. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/ads-reporting/ads-reporting#analytics-finder)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    ...common.props,
+    startYear: {
+      propDefinition: [
+        common.props.app,
+        "startYear",
+      ],
+    },
+    timeGranularity: {
+      propDefinition: [
+        common.props.app,
+        "timeGranularity",
+      ],
+    },
+    campaignId: {
+      propDefinition: [
+        common.props.app,
+        "campaignId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const {
+      startYear,
+      timeGranularity,
+      campaignId,
+      getListParam,
+      createReport,
+    } = this;
+
+    const response = await createReport({
+      $,
+      params: {
+        "pivot": "CAMPAIGN",
+        "dateRange.start.day": 1,
+        "dateRange.start.month": 1,
+        "dateRange.start.year": startYear,
+        timeGranularity,
+        "campaigns": getListParam([
+          campaignId,
+        ]),
+      },
+    });
+
+    $.export("$summary", "Successfully retrieved analytics");
+
+    return response;
+  },
+};
