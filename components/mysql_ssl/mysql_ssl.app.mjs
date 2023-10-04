@@ -15,6 +15,7 @@ export default {
         ca,
         key,
         cert,
+        rejectUnauthorized,
       } = this.$auth;
       return {
         host,
@@ -23,7 +24,7 @@ export default {
         password,
         database,
         ssl: {
-          rejectUnauthorized: true,
+          rejectUnauthorized: !!rejectUnauthorized,
           ca,
           key,
           cert,
