@@ -1,19 +1,21 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
-// import jiraServiceDesk from "../../jira_service_desk.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import jiraServiceDesk from "../../jira_service_desk.app.mjs";
 
 export default {
   key: "jira_service_desk-new-request-created",
   name: "New Request Created",
-  description: "Emits an event when a new customer request is created. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/#api-rest-servicedeskapi-request-get)",
+  description:
+    "Emits an event when a new customer request is created. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/#api-rest-servicedeskapi-request-get)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    jiraServiceDesk: {
-      type: "app",
-      app: "jira_service_desk",
+    jiraServiceDesk,
+    cloudId: {
+      propDefinition: [
+        jiraServiceDesk,
+        "cloudId",
+      ],
     },
     db: "$.service.db",
     timer: {
@@ -24,31 +26,37 @@ export default {
     },
   },
   methods: {
-    _getLastRequestId() {
-      return this.db.get("lastRequestId") ?? 0;
+    _getLastDate() {
+      return this.db.get("lastDate") ?? Date.now();
     },
-    _setLastRequestId(id) {
-      this.db.set("lastRequestId", id);
+    _setLastDate(value) {
+      this.db.set("lastDate", value);
     },
   },
   async run() {
-    const lastRequestId = this._getLastRequestId();
-    const requests = await axios(this, {
-      url: `https://api.atlassian.com/ex/jira/${this.jiraServiceDesk.$auth.oauth_uid}/rest/servicedeskapi/request`,
-      headers: {
-        Authorization: `Bearer ${this.jiraServiceDesk.$auth.oauth_access_token}`,
-      },
+    const newDate = Date.now();
+    const lastDate = this._getLastDate();
+
+    const { cloudId } = this;
+    const requests = await this.jiraServiceDesk.getCustomerRequests({
+      cloudId,
     });
 
-    for (const request of requests) {
-      if (request.id > lastRequestId) {
-        this.$emit(request, {
-          id: request.id,
-          summary: `New Jira Service Desk Request: ${request.summary}`,
-          ts: Date.parse(request.created),
+    requests
+      ?.filter?.(({ createdDate: { epochMillis } }) => epochMillis > lastDate)
+      .forEach((req) => {
+        const id = req.issueId;
+        const summary =
+          req.requestFieldValues.find(({ fieldId }) => fieldId === "summary")
+            ?.value ?? req.issueKey;
+        const ts = req.createdDate.epochMillis;
+        this.$emit(req, {
+          id,
+          summary: `New Request: ${summary}`,
+          ts,
         });
-        this._setLastRequestId(request.id);
-      }
-    }
+      });
+
+    this._setLastDate(newDate);
   },
 };
