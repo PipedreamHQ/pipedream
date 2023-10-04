@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  ConfigurationError, axios,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -250,7 +252,7 @@ export default {
         },
       });
       if (response?.webhookRegistrationResult[0]?.errors) {
-        throw new Error(`Could not create trigger(s). ${response.webhookRegistrationResult[0].errors}`);
+        throw new ConfigurationError(`Could not create trigger(s). ${response.webhookRegistrationResult[0].errors}`);
       }
       return {
         hookId: response?.webhookRegistrationResult[0]?.createdWebhookId,
