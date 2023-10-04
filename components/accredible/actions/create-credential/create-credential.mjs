@@ -1,4 +1,4 @@
-import accredible from "../../accredible.app.mjs"
+import accredible from "../../accredible.app.mjs";
 
 export default {
   key: "accredible-create-credential",
@@ -11,14 +11,14 @@ export default {
     recipientEmail: {
       propDefinition: [
         accredible,
-        "recipientEmail"
-      ]
+        "recipientEmail",
+      ],
     },
     credential: {
       propDefinition: [
         accredible,
-        "credential"
-      ]
+        "credential",
+      ],
     },
   },
   async run({ $ }) {

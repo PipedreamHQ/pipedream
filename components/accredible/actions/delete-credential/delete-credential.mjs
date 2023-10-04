@@ -1,4 +1,4 @@
-import accredible from "../../accredible.app.mjs"
+import accredible from "../../accredible.app.mjs";
 
 export default {
   key: "accredible-delete-credential",

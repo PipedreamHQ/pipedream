@@ -11,14 +11,14 @@ export default {
     credentialId: {
       propDefinition: [
         accredible,
-        "credentialId"
-      ]
+        "credentialId",
+      ],
     },
     credential: {
       propDefinition: [
         accredible,
-        "credential"
-      ]
+        "credential",
+      ],
     },
   },
   async run({ $ }) {

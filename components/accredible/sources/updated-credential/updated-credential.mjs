@@ -1,4 +1,6 @@
-import { axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "@pipedream/platform";
 import accredible from "../../accredible.app.mjs";
 
 export default {
@@ -29,8 +31,10 @@ export default {
   },
   async run() {
     const credentialId = this._getCredentialId();
-    if(credentialId) {
-      const { data: credential } = await this.accredible.updateCredential({ credentialId });
+    if (credentialId) {
+      const { data: credential } = await this.accredible.updateCredential({
+        credentialId,
+      });
       this.$emit(credential, {
         id: credential.id,
         summary: `Credential ${credential.id} updated`,

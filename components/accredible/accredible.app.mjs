@@ -42,20 +42,24 @@ export default {
         },
       });
     },
-    async issueCredential({ recipientEmail, credential, ...opts }) {
+    async issueCredential({
+      recipientEmail, credential, ...opts
+    }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
         path: "/credentials",
         data: {
           recipient: {
-            email: recipientEmail
+            email: recipientEmail,
           },
-          ...credential
+          ...credential,
         },
       });
     },
-    async updateCredential({ credentialId, credential, ...opts }) {
+    async updateCredential({
+      credentialId, credential, ...opts
+    }) {
       return this._makeRequest({
         ...opts,
         method: "PUT",
@@ -63,7 +67,9 @@ export default {
         data: credential,
       });
     },
-    async deleteCredential({ credentialId, ...opts }) {
+    async deleteCredential({
+      credentialId, ...opts
+    }) {
       return this._makeRequest({
         ...opts,
         method: "DELETE",

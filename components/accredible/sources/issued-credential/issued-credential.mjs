@@ -1,4 +1,6 @@
-import { axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "@pipedream/platform";
 import accredible from "../../accredible.app.mjs";
 
 export default {
@@ -18,10 +20,16 @@ export default {
       },
     },
     recipientEmail: {
-      propDefinition: [accredible, "recipientEmail"],
+      propDefinition: [
+        accredible,
+        "recipientEmail",
+      ],
     },
     credential: {
-      propDefinition: [accredible, "credential"],
+      propDefinition: [
+        accredible,
+        "credential",
+      ],
     },
   },
   methods: {
