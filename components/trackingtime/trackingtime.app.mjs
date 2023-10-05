@@ -1,11 +1,65 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "trackingtime",
-  propDefinitions: {},
+  propDefinitions: {
+    taskId: {
+      label: "Task ID",
+      description: "The task ID",
+      type: "string",
+      async options() {
+        const { data: tasks } = await this.getTasks();
+
+        return tasks.map((task) => ({
+          label: task.name,
+          value: task.id,
+        }));
+      },
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _appPassword() {
+      return this.$auth.app_password;
+    },
+    _apiUrl() {
+      return "https://app.trackingtime.co/api/v4";
+    },
+    async _makeRequest({
+      $ = this, path, ...args
+    }) {
+      return axios($, {
+        url: `${this._apiUrl()}${path}`,
+        ...args,
+        auth: {
+          username: "API_TOKEN",
+          password: this._appPassword(),
+        },
+      });
+    },
+    async startTrackingTime({
+      taskId, args,
+    }) {
+      return this._makeRequest({
+        path: `/tasks/track/${taskId}`,
+        method: "post",
+        ...args,
+      });
+    },
+    async stopTrackingTime({
+      taskId, args,
+    }) {
+      return this._makeRequest({
+        path: `/tasks/stop/${taskId}`,
+        method: "post",
+        ...args,
+      });
+    },
+    async getTasks(args = {}) {
+      return this._makeRequest({
+        path: "/tasks",
+        ...args,
+      });
     },
   },
 };
