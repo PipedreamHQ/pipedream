@@ -6,7 +6,7 @@ export default {
   name: "Convert Text to Speech",
   description:
     "Converts text to audio using the Aivoov API. [See the documentation](https://github.com/aivoov/aivoov-api)",
-  version: "0.0.11",
+  version: "0.0.14",
   type: "action",
   props: {
     aivoov,
@@ -69,10 +69,11 @@ export default {
     }
 
     if (this.transcribeText) {
-      data.append("transcribe_text", JSON.stringify(this.transcribeText));
+      data.append("transcribe_text[]", JSON.stringify(this.transcribeText));
     }
 
     if (this.engine) {
+      $.export("engine", this.engine);
       data.append("engine", this.engine);
     }
 
