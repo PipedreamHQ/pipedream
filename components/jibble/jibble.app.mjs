@@ -40,6 +40,54 @@ export default {
         }));
       },
     },
+    clientId: {
+      type: "string",
+      label: "Client Id",
+      description: "The Id of the client to retrieve.",
+      async options() {
+        const res = await this.listClients();
+        return res.value.map((client) => ({
+          label: client.name,
+          value: client.id,
+        }));
+      },
+    },
+    groupId: {
+      type: "string",
+      label: "Group ID",
+      description: "The ID of the group to retrieve.",
+      async options() {
+        const res = await this.listGroups();
+        return res.value.map((group) => ({
+          label: group.name,
+          value: group.id,
+        }));
+      },
+    },
+    locationId: {
+      type: "string",
+      label: "Location ID",
+      description: "The ID of the location to retrieve.",
+      async options() {
+        const res = await this.listLocations();
+        return res.value.map((location) => ({
+          label: location.name,
+          value: location.id,
+        }));
+      },
+    },
+    scheduleId: {
+      type: "string",
+      label: "Schedule ID",
+      description: "The ID of the schedule to retrieve.",
+      async options() {
+        const res = await this.listSchedules();
+        return res.value.map((schedule) => ({
+          label: schedule.name,
+          value: schedule.id,
+        }));
+      },
+    },
     clientType: {
       type: "string",
       label: "Client Type",
@@ -122,6 +170,30 @@ export default {
         method: "GET",
       }, ctx);
     },
+    async listClients(ctx = this) {
+      return this._makeHttpRequest({
+        url: `${this._getWorkspaceBaseUrl()}/Clients`,
+        method: "GET",
+      }, ctx);
+    },
+    async listGroups(ctx = this) {
+      return this._makeHttpRequest({
+        url: `${this._getWorkspaceBaseUrl()}/Groups`,
+        method: "GET",
+      }, ctx);
+    },
+    async listLocations(ctx = this) {
+      return this._makeHttpRequest({
+        url: `${this._getWorkspaceBaseUrl()}/Locations`,
+        method: "GET",
+      }, ctx);
+    },
+    async listSchedules(ctx = this) {
+      return this._makeHttpRequest({
+        url: `${this._getWorkspaceBaseUrl()}/Schedules`,
+        method: "GET",
+      }, ctx);
+    },
     async clockIn(data, ctx = this) {
       return this._makeHttpRequest({
         url: `${this._getTimeTrackingBaseUrl()}/TimeEntries`,
@@ -150,6 +222,13 @@ export default {
           period: "Custom",
           ...params,
         },
+      }, ctx);
+    },
+    async createTimeTrackingReport(params, ctx = this) {
+      return this._makeHttpRequest({
+        url: `${this._getTimeAttendanceBaseUrl()}/TrackedTimeReport`,
+        method: "GET",
+        params,
       }, ctx);
     },
   },
