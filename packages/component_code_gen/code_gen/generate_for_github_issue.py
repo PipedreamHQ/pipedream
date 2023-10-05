@@ -41,7 +41,7 @@ def generate_app_file_prompt(requirements, app_file_content):
 {app_file_content}"""
 
     return f"""Generate an app file that provides propDefinitions and methods that solve the following requirements:
-    
+
 {requirements}"""
 
 
@@ -94,7 +94,7 @@ def generate(issue_number, output_dir, verbose=False, tries=3):
         for component_key in markdown[app][h2_header]:
             component_data = markdown[app][h2_header][component_key]
             instructions = f"""### Requirements
-            
+
 {component_data['prompt']}
 
 ### Use methods and propDefinitions from this app file
@@ -106,7 +106,9 @@ Use the methods and propDefinitions in this app file to solve the requirements:
 You can call methods from the app file using `this.{app}.<method name>`. Think about it: you've already defined props and methods in the app file, so you should use these to promote code reuse.
 
 """
-            urls = component_data["urls"]
+            urls = component_data.get("urls", [])
+            if not urls:
+                logger.warn(f"No API docs URLs found for {component_key}")
 
             if "source" in h2_header:
                 component_type = "webhook_source" if "webhook" in h2_header else "polling_source"
