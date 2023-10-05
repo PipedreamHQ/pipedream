@@ -39,7 +39,11 @@ export default {
     });
 
     $.export("$summary", `Successfully replied review ${this.reviewId}`);
-    return response;
+    return {
+      status: response.status,
+      statusText: response.statusText,
+      data: response.data,
+    };
   },
 };
 

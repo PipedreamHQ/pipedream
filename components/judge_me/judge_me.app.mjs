@@ -83,6 +83,7 @@ export default {
         method: "POST",
         path: "/replies",
         data,
+        returnFullResponse: true,
       });
     },
     privateReply({
@@ -94,6 +95,7 @@ export default {
         method: "POST",
         path: "/private_replies",
         data,
+        returnFullResponse: true,
       });
     },
   },

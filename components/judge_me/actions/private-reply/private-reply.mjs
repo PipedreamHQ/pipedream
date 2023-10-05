@@ -37,7 +37,7 @@ export default {
       data: {
         "review_id": this.reviewId,
         "send_private_email": this.sendPrivateEmail,
-        "reply": {
+        "private_reply": {
           "email_subject": this.replyEmailSubject,
           "email_body": this.replyEmailBody,
         },
@@ -45,7 +45,11 @@ export default {
     });
 
     $.export("$summary", `Successfully replied in private the review ${this.reviewId}`);
-    return response;
+    return {
+      status: response.status,
+      statusText: response.statusText,
+      data: response.data,
+    };
   },
 };
 
