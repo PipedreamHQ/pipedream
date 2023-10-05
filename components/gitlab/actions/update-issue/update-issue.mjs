@@ -2,10 +2,10 @@ import gitlab from "../../gitlab.app.mjs";
 import lodash from "lodash";
 
 export default {
-  key: "gitlab-edit-issue",
-  name: "Edit Issue",
-  description: "Updates an existing project issue. [See docs](https://docs.gitlab.com/ee/api/issues.html#edit-issue)",
-  version: "0.2.0",
+  key: "gitlab-update-issue",
+  name: "Update Issue",
+  description: "Updates an existing project issue. [See the documentation](https://docs.gitlab.com/ee/api/issues.html#edit-issue)",
+  version: "0.0.1",
   type: "action",
   props: {
     gitlab,
@@ -75,16 +75,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = lodash.pickBy(lodash.pick(this, [
-      "title",
-      "description",
-      "labels",
-      "assigneeIds",
-      "stateEvent",
-      "discussionLocked",
-    ]));
-    opts.labels = opts.labels?.join();
-    const response = await this.gitlab.editIssue(this.projectId, this.issueIid, opts);
+    const data = lodash.pickBy({
+      title: this.title,
+      description: this.description,
+      assignee_ids: this.assignee_ids,
+      state_event: this.stateEvent,
+      discussion_locked: this.discussionLocked,
+    });
+    data.labels = data.labels?.join();
+    const response = await this.gitlab.editIssue(this.projectId, this.issueIid, {
+      data,
+    });
     $.export("$summary", `Edited issue ${this.title}`);
     return response;
   },
