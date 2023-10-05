@@ -4612,7 +4612,11 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
-  components/ringover: {}
+  components/ringover:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/rise:
     dependencies:
