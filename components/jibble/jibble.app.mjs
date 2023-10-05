@@ -40,6 +40,41 @@ export default {
         }));
       },
     },
+    clientType: {
+      type: "string",
+      label: "Client Type",
+      description: "The client type. Ex: `Web`.",
+    },
+    clientVersion: {
+      type: "string",
+      label: "Client Version",
+      description: "The client version. Ex: `web 3.0`.",
+    },
+    os: {
+      type: "string",
+      label: "OS",
+      description: "The operating system. Ex: `Windows 10`.",
+    },
+    deviceModel: {
+      type: "string",
+      label: "Device Model",
+      description: "The device model. Ex: `MacbookPro`.",
+    },
+    deviceName: {
+      type: "string",
+      label: "Device Name",
+      description: "The device name. Ex: `TestLaptop`.",
+    },
+    latitude: {
+      type: "string",
+      label: "Latitude",
+      description: "The latitude of the location.",
+    },
+    longitude: {
+      type: "string",
+      label: "Longitude",
+      description: "The longitude of the location.",
+    },
   },
   methods: {
     _getAccessToken() {
@@ -56,6 +91,7 @@ export default {
         "Content-Type": "application/json",
         "Accept": "application/json",
         "Authorization": `Bearer ${this._getAccessToken()}`,
+        "Token": `Bearer ${this._getAccessToken()}`,
       };
     },
     async _makeHttpRequest(opts = {}, ctx = this) {
@@ -87,7 +123,20 @@ export default {
       return this._makeHttpRequest({
         url: `${this._getTimeTrackingBaseUrl()}/TimeEntries`,
         method: "POST",
-        data,
+        data: {
+          ...data,
+          type: "In",
+        },
+      }, ctx);
+    },
+    async clockOut(data, ctx = this) {
+      return this._makeHttpRequest({
+        url: `${this._getTimeTrackingBaseUrl()}/TimeEntries`,
+        method: "POST",
+        data: {
+          ...data,
+          type: "Out",
+        },
       }, ctx);
     },
   },
