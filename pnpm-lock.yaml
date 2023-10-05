@@ -614,6 +614,8 @@ importers:
   components/brevo:
     specifiers: {}
 
+  components/brevo: {}
+
   components/brex:
     specifiers:
       '@pipedream/platform': ^1.4.0
@@ -851,6 +853,8 @@ importers:
 
   components/clerk:
     specifiers: {}
+
+  components/clerk: {}
 
   components/cleverreach:
     specifiers:
@@ -2044,7 +2048,10 @@ importers:
     specifiers: {}
 
   components/gong:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/goodbits:
     specifiers: {}
@@ -2777,8 +2784,7 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
-  components/kintone:
-    specifiers: {}
+  components/kintone: {}
 
   components/kite_suite:
     specifiers:
