@@ -213,8 +213,6 @@ importers:
   components/aivoov:
     specifiers: {}
 
-  components/aivoov: {}
-
   components/akeneo:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -1380,10 +1378,6 @@ importers:
   components/docsumo:
     specifiers: {}
 
-  components/docsbot_ai: {}
-
-  components/docsumo: {}
-
   components/docupilot:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -1454,8 +1448,6 @@ importers:
 
   components/dromo:
     specifiers: {}
-
-  components/dromo: {}
 
   components/dropbox:
     specifiers:
@@ -2390,8 +2382,6 @@ importers:
   components/herobot_chatbot_marketing:
     specifiers: {}
 
-  components/herobot_chatbot_marketing: {}
-
   components/heysummit:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2782,10 +2772,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/kingsumo:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.5.1
+      '@pipedream/platform': 1.5.1
 
   components/kintone:
     specifiers: {}
@@ -3938,8 +3928,6 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
-  components/payhip: {}
-
   components/paymo:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -4783,8 +4771,6 @@ importers:
   components/saleslens:
     specifiers: {}
 
-  components/saleslens: {}
-
   components/salesmate:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -4977,7 +4963,10 @@ importers:
       slugify: 1.6.6
 
   components/serply:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/serveravatar:
     specifiers:
