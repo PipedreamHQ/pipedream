@@ -4966,7 +4966,10 @@ importers:
       slugify: 1.6.6
 
   components/serply:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/serveravatar:
     specifiers:
