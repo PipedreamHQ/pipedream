@@ -210,7 +210,8 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
-  components/aivoov: {}
+  components/aivoov:
+    specifiers: {}
 
   components/akeneo:
     specifiers:
@@ -351,10 +352,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/askyourpdf:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.5.1
+      '@pipedream/platform': 1.5.1
 
   components/assemblyai:
     specifiers:
@@ -1371,9 +1372,11 @@ importers:
   components/docraptor:
     specifiers: {}
 
-  components/docsbot_ai: {}
+  components/docsbot_ai:
+    specifiers: {}
 
-  components/docsumo: {}
+  components/docsumo:
+    specifiers: {}
 
   components/docupilot:
     specifiers:
@@ -1443,7 +1446,8 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
-  components/dromo: {}
+  components/dromo:
+    specifiers: {}
 
   components/dropbox:
     specifiers:
@@ -2375,7 +2379,8 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedreamhq/platform': 0.8.1
 
-  components/herobot_chatbot_marketing: {}
+  components/herobot_chatbot_marketing:
+    specifiers: {}
 
   components/heysummit:
     specifiers:
@@ -2767,10 +2772,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/kingsumo:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.5.1
+      '@pipedream/platform': 1.5.1
 
   components/kintone:
     specifiers: {}
@@ -4760,7 +4765,8 @@ importers:
       lodash-es: 4.17.21
       salesforce-webhooks: 1.1.11_handlebars@4.7.8
 
-  components/saleslens: {}
+  components/saleslens:
+    specifiers: {}
 
   components/salesmate:
     specifiers:
@@ -4955,8 +4961,6 @@ importers:
 
   components/serply:
     specifiers: {}
-
-  components/serply: {}
 
   components/serveravatar:
     specifiers:
