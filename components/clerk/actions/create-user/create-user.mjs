@@ -1,5 +1,7 @@
 import clerk from "../../clerk.app.mjs";
-import { parseObject } from "../../common/utils.mjs";
+import {
+  parseError, parseObject,
+} from "../../common/utils.mjs";
 
 export default {
   key: "clerk-create-user",
@@ -132,31 +134,35 @@ export default {
     if (this.passwordDigest) {
       this.password = null;
     }
-    const response = await this.clerk.createUser({
-      $,
-      data: {
-        external_id: this.externalId,
-        first_name: this.firstName,
-        last_name: this.lastName,
-        email_address: parseObject(this.emailAddress),
-        phone_number: parseObject(this.phoneNumber),
-        web3_wallet: parseObject(this.web3Wallet),
-        username: this.username,
-        password: this.password,
-        password_digest: this.passwordDigest,
-        password_hasher: this.passwordHasher,
-        skip_password_checks: this.skipPasswordChecks,
-        skip_password_requirement: this.skipPasswordRequirement,
-        totp_secret: this.totpSecret,
-        backup_codes: parseObject(this.backupCodes),
-        public_metadata: parseObject(this.publicMetadata),
-        private_metadata: parseObject(this.privateMetadata),
-        unsafe_metadata: parseObject(this.unsafeMetadata),
-        created_at: this.createdAt,
-      },
-    });
+    try {
+      const response = await this.clerk.createUser({
+        $,
+        data: {
+          external_id: this.externalId,
+          first_name: this.firstName,
+          last_name: this.lastName,
+          email_address: parseObject(this.emailAddress),
+          phone_number: parseObject(this.phoneNumber),
+          web3_wallet: parseObject(this.web3Wallet),
+          username: this.username,
+          password: this.password,
+          password_digest: this.passwordDigest,
+          password_hasher: this.passwordHasher,
+          skip_password_checks: this.skipPasswordChecks,
+          skip_password_requirement: this.skipPasswordRequirement,
+          totp_secret: this.totpSecret,
+          backup_codes: parseObject(this.backupCodes),
+          public_metadata: parseObject(this.publicMetadata),
+          private_metadata: parseObject(this.privateMetadata),
+          unsafe_metadata: parseObject(this.unsafeMetadata),
+          created_at: this.createdAt,
+        },
+      });
 
-    $.export("$summary", `A new user with Id: ${response.id} was successfully created!`);
-    return response;
+      $.export("$summary", `A new user with Id: ${response.id} was successfully created!`);
+      return response;
+    } catch (err) {
+      return parseError(err);
+    }
   },
 };
