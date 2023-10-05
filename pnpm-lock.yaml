@@ -614,8 +614,6 @@ importers:
   components/brevo:
     specifiers: {}
 
-  components/brevo: {}
-
   components/brex:
     specifiers:
       '@pipedream/platform': ^1.4.0
@@ -853,8 +851,6 @@ importers:
 
   components/clerk:
     specifiers: {}
-
-  components/clerk: {}
 
   components/cleverreach:
     specifiers:
@@ -2046,10 +2042,10 @@ importers:
     specifiers: {}
 
   components/gong:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.5.1
+      '@pipedream/platform': 1.5.1
 
   components/goodbits:
     specifiers: {}
@@ -2167,6 +2163,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_maps_platform:
+    specifiers: {}
+
+  components/google_merchant_center:
     specifiers: {}
 
   components/google_my_business:
@@ -2782,7 +2781,8 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
-  components/kintone: {}
+  components/kintone:
+    specifiers: {}
 
   components/kite_suite:
     specifiers:
