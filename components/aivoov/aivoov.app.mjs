@@ -34,7 +34,7 @@ export default {
       ],
     },
     transcribe_ssml_style: {
-      type: "string[]",
+      type: "string",
       label: "Transcribe SSML Style",
       description: "A string representing the tone and accent of the voice to read the text",
       optional: true,
@@ -48,7 +48,7 @@ export default {
       max: 200,
     },
     transcribe_ssml_volume: {
-      type: "string[]",
+      type: "integer",
       label: "Transcribe SSML Volume",
       description: "Must be in the closed interval of `[-40, 40] dB`. Use this to high or low the speaking volume of the speech",
       optional: true,
@@ -56,7 +56,7 @@ export default {
       max: 40,
     },
     transcribe_ssml_pitch_rate: {
-      type: "string[]",
+      type: "integer",
       label: "Transcribe SSML Pitch Rate",
       description: "Must be in the closed interval of `[-50, 50] %`. Use this to pitch-low, or pitch-low the speaking pitch of the speech",
       optional: true,
