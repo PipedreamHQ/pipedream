@@ -96,9 +96,10 @@ export default {
       });
     },
     async getVoices({ provider }) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path: `/voices?provider=${provider}`,
       });
+      return response.data;
     },
     async transcribe(opts = {}) {
       return this._makeRequest({
