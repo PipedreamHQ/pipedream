@@ -34,6 +34,6 @@ config = {
         "api_key": get_env_var("SUPABASE_API_KEY", required=True),
     },
     "logging": {
-        "level": get_env_var("LOGGING_LEVEL", default="WARN"),
+        "level": get_env_var("LOGGING_LEVEL", default="DEBUG"),
     },
 }

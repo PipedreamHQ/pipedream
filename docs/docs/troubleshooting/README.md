@@ -85,6 +85,10 @@ On the Free tier, Pipedream imposes a limit on the [daily credits](/limits/#dail
 
 Paid plans have no credit limit. [Upgrade here](https://pipedream.com/pricing).
 
+### Runtime Quota Exceeded
+
+You **do not** use credits testing workflows, but workspaces on the **Free** plan are limited to {{$site.themeConfig.DAILY_TESTING_LIMIT}} of test runtime per day. If you exceed this limit when testing in the builder, you'll see a **Runtime Quota Exceeded** error.
+
 ### Timeout
 
 Event sources and workflows have a [default time limit on a given execution](/limits/#time-per-execution). If your code exceeds that limit, you may encounter a **Timeout** error.

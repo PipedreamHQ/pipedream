@@ -9,4 +9,4 @@ Other GPT agents will be reviewing your work, and will provide feedback on your 
 
 ## Pipedream components
 
-All Pipedream components are Node.js modules that have a default export: `defineComponent`. `defineComponent` is provided to the environment as a global — you do not need to import `defineComponent`. `defineComponent` is a function that takes an object — a Pipedream component — as its single argument."""
+All Pipedream components are Node.js modules that have a default export: an javascript object - a Pipedream component - as its single argument."""

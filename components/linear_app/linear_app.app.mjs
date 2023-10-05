@@ -205,24 +205,7 @@ export default {
       return this.client().updateIssue(issueId, input);
     },
     async listIssues(variables) {
-      const { data: { issues } } = await this.makeAxiosRequest({
-        method: "POST",
-        data: {
-          query: `
-          { 
-            issues(${variables}) { 
-              nodes {
-                ${constants.ISSUE_NODES}
-              }
-              pageInfo {
-                hasNextPage
-                endCursor
-              }
-            } 
-          }`,
-        },
-      });
-      return issues;
+      return this.client().issues(variables);
     },
     async getIssue(id) {
       const { data: { issue } } = await this.makeAxiosRequest({
