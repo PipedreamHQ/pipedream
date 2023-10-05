@@ -76,7 +76,7 @@ importers:
         specifier: ^12.3.4
         version: 12.5.0
       pnpm:
-        specifier: ^7.33.4
+        specifier: 7.33.6
         version: 7.33.6
       putout:
         specifier: '>=20'
@@ -145,6 +145,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.5.1
+
+  components/addevent: {}
 
   components/adp: {}
 
@@ -230,6 +232,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/aivoov: {}
 
   components/akeneo:
     dependencies:
@@ -472,6 +476,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/azure_sql: {}
 
   components/badger_maps:
     dependencies:
@@ -794,6 +800,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/chatbotic: {}
+
   components/chatfuel_dashboard_api_: {}
 
   components/chatrace: {}
@@ -849,6 +857,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.5.1
+
+  components/clevertap: {}
 
   components/clickfunnels: {}
 
@@ -1338,6 +1348,10 @@ importers:
 
   components/docraptor: {}
 
+  components/docsbot_ai: {}
+
+  components/docsumo: {}
+
   components/docupilot:
     dependencies:
       '@pipedream/platform':
@@ -1408,6 +1422,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.5.1
+
+  components/dromo: {}
 
   components/dropbox:
     dependencies:
@@ -1993,7 +2009,11 @@ importers:
 
   components/goodbits: {}
 
-  components/goody: {}
+  components/goody:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/google_ads: {}
 
@@ -2333,6 +2353,8 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1
 
+  components/herobot_chatbot_marketing: {}
+
   components/heysummit:
     dependencies:
       '@pipedream/platform':
@@ -2608,6 +2630,8 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
+  components/jeffreyai: {}
+
   components/jellyreach: {}
 
   components/jibble: {}
@@ -2872,6 +2896,9 @@ importers:
       axios:
         specifier: ^1.2.3
         version: 1.5.0
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
 
   components/linkedin_ads: {}
 
@@ -3835,7 +3862,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/payhip: {}
+  components/payhip:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/paymo:
     dependencies:
@@ -3927,7 +3958,11 @@ importers:
 
   components/phone_com: {}
 
-  components/phoneburner: {}
+  components/phoneburner:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/phrase:
     dependencies:
@@ -4055,7 +4090,11 @@ importers:
 
   components/platform_ly: {}
 
-  components/playwright: {}
+  components/playwright:
+    dependencies:
+      '@sparticuz/chromium':
+        specifier: 112.0.2
+        version: 112.0.2
 
   components/plecto: {}
 
@@ -4492,7 +4531,11 @@ importers:
         specifier: ^1.4.1
         version: 1.5.1
 
-  components/retable: {}
+  components/retable:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/retently:
     dependencies:
@@ -4655,6 +4698,8 @@ importers:
       salesforce-webhooks:
         specifier: ^1.1.11
         version: 1.1.11(handlebars@4.7.8)
+
+  components/saleslens: {}
 
   components/salesmate:
     dependencies:
@@ -5068,6 +5113,8 @@ importers:
 
   components/slicktext: {}
 
+  components/slottable: {}
+
   components/slybroadcast: {}
 
   components/smaily:
@@ -5223,7 +5270,16 @@ importers:
         specifier: ^1.4.0
         version: 1.5.1
 
-  components/spreadsheet_com: {}
+  components/spreadsheet_com:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
+
+  components/spydra: {}
 
   components/square:
     dependencies:
@@ -5448,6 +5504,8 @@ importers:
 
   components/tapfiliate: {}
 
+  components/tave: {}
+
   components/taxjar: {}
 
   components/td_ameritrade: {}
@@ -5615,7 +5673,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/tidy: {}
+  components/tidy:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/tidycal:
     dependencies:
@@ -5979,6 +6041,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
 
+  components/vies_api: {}
+
   components/viral_loops:
     dependencies:
       '@pipedream/platform':
@@ -6124,7 +6188,11 @@ importers:
 
   components/webscraping_ai: {}
 
-  components/weglot: {}
+  components/weglot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.5.1
 
   components/wesupply: {}
 

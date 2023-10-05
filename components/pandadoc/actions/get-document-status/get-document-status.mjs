@@ -10,12 +10,15 @@ export default {
   props: {
     app,
     id: {
-      propDefinition: [app, "documentId"],
+      propDefinition: [
+        app,
+        "documentId",
+      ],
     },
   },
   async run({ $ }) {
     const response = await this.app.getDocument({
-      id: this.id
+      id: this.id,
     });
 
     $.export("$summary", `Successfully fetched document status with ID ${this.id}`);
