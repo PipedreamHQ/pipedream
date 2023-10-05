@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/modeck",
+  "version": "0.0.1",
+  "description": "Pipedream MoDeck Components",
+  "main": "dist/app/modeck.app.mjs",
+  "keywords": [
+    "pipedream",
+    "modeck"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/modeck",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

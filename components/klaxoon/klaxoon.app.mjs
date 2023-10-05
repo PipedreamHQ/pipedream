@@ -10,9 +10,9 @@ export default {
       description: "The ID f the board",
       async options({ page }) {
         const { items: boards } = await this.getBoards({
-           params: {
-              page: page + 1,
-           },
+          params: {
+            page: page + 1,
+          },
         });
 
         return boards.map((board) => ({
@@ -25,11 +25,13 @@ export default {
       type: "string",
       label: "Idea ID",
       description: "The ID of the idea",
-      async options({ boardId, page }) {
+      async options({
+        boardId, page,
+      }) {
         const { items: ideas } = await this.getIdeas({
           boardId,
           params: {
-             page: page + 1,
+            page: page + 1,
           },
         });
 
