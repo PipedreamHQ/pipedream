@@ -38,7 +38,6 @@ export default {
         url: this._getBaseUrl() + opts.path,
         headers: this._getHeaders(),
       };
-      console.log(axiosOpts);
       return axios(ctx, axiosOpts);
     },
     async getUserDetails(ctx = this) {
@@ -52,6 +51,13 @@ export default {
         method: "POST",
         path: "/upload/custom/",
         data,
+      }, ctx);
+    },
+    async listDocuments(params, ctx) {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: "/documents/all/",
+        params,
       }, ctx);
     },
   },
