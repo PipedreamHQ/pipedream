@@ -40,7 +40,7 @@ export default {
       const query = create_destination(this.http.endpoint, this.groupPath);
 
       try {
-        await fetch(`${this._getBaseApiUrl()}api/graphql`, {
+        await fetch(`https://${this._getBaseApiUrl()}/api/graphql`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export default {
 
       try {
 
-        const data = await fetch(`${this._getBaseApiUrl()}api/graphql`, {
+        const data = await fetch(`https://${this._getBaseApiUrl()}/api/graphql`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default {
 
         query = delete_destination(todelete);
 
-        await fetch(`${this._getBaseApiUrl()}api/graphql`, {
+        await fetch(`https://${this._getBaseApiUrl()}/api/graphql`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
