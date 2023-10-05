@@ -86,6 +86,9 @@ export default {
     _getWorkspaceBaseUrl() {
       return "https://workspace.prod.jibble.io/v1";
     },
+    _getTimeAttendanceBaseUrl() {
+      return "https://time-attendance.prod.jibble.io/v1";
+    },
     _getHeaders() {
       return {
         "Content-Type": "application/json",
@@ -136,6 +139,16 @@ export default {
         data: {
           ...data,
           type: "Out",
+        },
+      }, ctx);
+    },
+    async createTimesheetsDailySummary(params, ctx = this) {
+      return this._makeHttpRequest({
+        url: `${this._getTimeAttendanceBaseUrl()}/TimesheetsSummary`,
+        method: "GET",
+        params: {
+          period: "Custom",
+          ...params,
         },
       }, ctx);
     },
