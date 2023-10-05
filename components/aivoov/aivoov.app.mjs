@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import axios from "axios";
 
 export default {
   type: "app",
@@ -80,12 +80,13 @@ export default {
       return "https://aivoov.com/api/v1";
     },
     async _makeRequest({
+      // eslint-disable-next-line no-unused-vars
       $ = this,
       path,
       headers,
       ...otherOpts
     }) {
-      return axios($, {
+      const response = await axios({
         ...otherOpts,
         url: this._baseUrl() + path,
         headers: {
@@ -93,6 +94,7 @@ export default {
           "X-API-KEY": `${this.$auth.api_key}`,
         },
       });
+      return response.data;
     },
     async getVoices({ provider }) {
       const response = await this._makeRequest({

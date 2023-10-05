@@ -6,7 +6,7 @@ export default {
   name: "Convert Text to Speech",
   description:
     "Converts text to audio using the Aivoov API. [See the documentation](https://github.com/aivoov/aivoov-api)",
-  version: "0.0.14",
+  version: "0.0.1",
   type: "action",
   props: {
     aivoov,
@@ -102,10 +102,7 @@ export default {
     const response = await this.aivoov.transcribe({
       $,
       data,
-      headers: {
-        "Content-Type": "multipart/form-data",
-        ...data.getHeaders(),
-      },
+      headers: data.getHeaders(),
     });
     $.export("$summary", "Successfully converted text to speech");
     return response;
