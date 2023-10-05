@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   name: "New Document Status Changed",
   description: "Emit new event when document status is changed",
-  key: "docsumo-status-changed",
+  key: "docsumo-document-status-changed",
   version: "0.0.1",
   type: "source",
   props: {
