@@ -4,7 +4,7 @@ export default {
   type: "app",
   app: "aivoov",
   propDefinitions: {
-    voice_id: {
+    voiceId: {
       type: "string",
       label: "Voice ID",
       description: "The ID of the voice used to synthesize the text",
@@ -18,7 +18,7 @@ export default {
         }));
       },
     },
-    transcribe_text: {
+    transcribeText: {
       type: "string[]",
       label: "Transcribe Text",
       description: "An array of strings, where each string represents a paragraph in plain text format OR valid SSML format",
@@ -33,13 +33,13 @@ export default {
         "neural2",
       ],
     },
-    transcribe_ssml_style: {
+    transcribeSsmlStyle: {
       type: "string",
       label: "Transcribe SSML Style",
       description: "A string representing the tone and accent of the voice to read the text",
       optional: true,
     },
-    transcribe_ssml_spk_rate: {
+    transcribeSsmlSpkRate: {
       type: "integer",
       label: "Transcribe SSML Speak Rate",
       description: "Must be in the closed interval of `[20, 200] %`. Use this to speed-up, or slow-down the speaking rate of the speech",
@@ -47,7 +47,7 @@ export default {
       min: 20,
       max: 200,
     },
-    transcribe_ssml_volume: {
+    transcribeSsmlVolume: {
       type: "integer",
       label: "Transcribe SSML Volume",
       description: "Must be in the closed interval of `[-40, 40] dB`. Use this to high or low the speaking volume of the speech",
@@ -55,7 +55,7 @@ export default {
       min: -40,
       max: 40,
     },
-    transcribe_ssml_pitch_rate: {
+    transcribeSsmlPitchRate: {
       type: "integer",
       label: "Transcribe SSML Pitch Rate",
       description: "Must be in the closed interval of `[-50, 50] %`. Use this to pitch-low, or pitch-low the speaking pitch of the speech",

@@ -16,19 +16,19 @@ export default {
         "provider",
       ],
     },
-    voice_id: {
+    voiceId: {
       propDefinition: [
         aivoov,
-        "voice_id",
+        "voiceId",
         (c) => ({
           provider: c.provider,
         }),
       ],
     },
-    transcribe_text: {
+    transcribeText: {
       propDefinition: [
         aivoov,
-        "transcribe_text",
+        "transcribeText",
       ],
     },
     engine: {
@@ -37,62 +37,64 @@ export default {
         "engine",
       ],
     },
-    transcribe_ssml_style: {
+    transcribeSsmlStyle: {
       propDefinition: [
         aivoov,
-        "transcribe_ssml_style",
+        "transcribeSsmlStyle",
       ],
     },
-    transcribe_ssml_spk_rate: {
+    transcribeSsmlSpkRate: {
       propDefinition: [
         aivoov,
-        "transcribe_ssml_spk_rate",
+        "transcribeSsmlSpkRate",
       ],
     },
-    transcribe_ssml_volume: {
+    transcribeSsmlVolume: {
       propDefinition: [
         aivoov,
-        "transcribe_ssml_volume",
+        "transcribeSsmlVolume",
       ],
     },
-    transcribe_ssml_pitch_rate: {
+    transcribeSsmlPitchRate: {
       propDefinition: [
         aivoov,
-        "transcribe_ssml_pitch_rate",
+        "transcribeSsmlPitchRate",
       ],
     },
   },
   async run({ $ }) {
     const data = new FormData();
-    for (let prop of [
-      "media_data",
-      "voice_id",
-      "engine",
-      "transcribe_ssml_style",
-    ]) {
-      if (this[prop]) {
-        $.export(prop, this[prop]);
-        data.append(prop, JSON.stringify(this[prop]));
-      }
+    if (this.voiceId) {
+      data.append("voice_id", this.voiceId);
     }
 
-    if (this.transcribe_text) {
-      data.append("transcribe_text", JSON.stringify(this.transcribe_text));
+    if (this.transcribeText) {
+      data.append("transcribe_text", JSON.stringify(this.transcribeText));
     }
 
-    if (this.transcribe_ssml_spk_rate) {
+    if (this.engine) {
+      data.append("engine", this.engine);
+    }
+
+    if (this.transcribeSsmlStyle) {
+      data.append("transcribe_ssml_style", this.transcribeSsmlStyle);
+    }
+
+    if (this.transcribeSsmlSpkRate) {
       data.append(
         "transcribe_ssml_spk_rate",
-        this.transcribe_ssml_spk_rate + "%",
+        this.transcribeSsmlSpkRate + "%",
       );
     }
-    if (this.transcribe_ssml_volume) {
-      data.append("transcribe_ssml_volume", this.transcribe_ssml_volume + "dB");
+
+    if (this.transcribeSsmlVolume) {
+      data.append("transcribe_ssml_volume", this.transcribeSsmlVolume + "dB");
     }
-    if (this.transcribe_ssml_pitch_rate) {
+
+    if (this.transcribeSsmlPitchRate) {
       data.append(
         "transcribe_ssml_pitch_rate",
-        this.transcribe_ssml_pitch_rate + "%",
+        this.transcribeSsmlPitchRate + "%",
       );
     }
 
