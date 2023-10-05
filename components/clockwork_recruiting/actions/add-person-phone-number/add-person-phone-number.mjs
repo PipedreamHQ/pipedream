@@ -45,7 +45,7 @@ export default {
       },
     });
 
-    $.export("$summary", `A new phone number with Id: ${response.personPhoneNumber?.id} was successfully created!`);
+    $.export("$summary", `Successfully created new phone number with ID ${response.personPhoneNumber?.id}`);
     return response;
   },
 };

@@ -85,7 +85,7 @@ export default {
       },
     });
 
-    $.export("$summary", `A new person with Id: ${response.id} was successfully created!`);
+    $.export("$summary", `Successfully created new person with ID ${response.id}`);
     return response;
   },
 };

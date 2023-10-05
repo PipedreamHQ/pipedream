@@ -21,23 +21,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      app,
-      personId,
-      linkedinUrl,
-    } = this;
-
-    const response = await app.createLinkedinUrl({
+    const response = await this.app.createLinkedinUrl({
       $,
-      personId,
+      personId: this.personId,
       data: {
         linkedin_url: {
-          url: linkedinUrl,
+          url: this.linkedinUrl,
         },
       },
     });
 
-    $.export("$summary", `A new linkedin URL with Id: ${response.personLinkedinUrl?.id} was successfully created!`);
+    $.export("$summary", `Successfully created new linkedin URL with ID ${response.personLinkedinUrl?.id}`);
     return response;
   },
 };

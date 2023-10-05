@@ -42,7 +42,7 @@ export default {
       },
     });
 
-    $.export("$summary", `A new email with Id: ${response.personEmailAddress?.id} was successfully created!`);
+    $.export("$summary", `Successfully created new email with ID ${response.personEmailAddress?.id}`);
     return response;
   },
 };

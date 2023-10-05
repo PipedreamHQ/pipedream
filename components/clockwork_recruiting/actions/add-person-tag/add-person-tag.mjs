@@ -41,7 +41,7 @@ export default {
       },
     });
 
-    $.export("$summary", `A new tag with Id: ${response.personTag?.id} was successfully created!`);
+    $.export("$summary", `Successfully created new tag with ID ${response.personTag?.id}`);
     return response;
   },
 };

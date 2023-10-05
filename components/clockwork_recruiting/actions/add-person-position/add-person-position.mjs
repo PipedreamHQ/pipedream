@@ -66,7 +66,7 @@ export default {
       ...data
     } = this;
 
-    if (Object.entries(data).length === 0) {
+    if (!Object.entries(data).length) {
       throw new ConfigurationError("At least one field must be provided.");
     }
 
@@ -78,7 +78,7 @@ export default {
       },
     });
 
-    $.export("$summary", `A new position with Id: ${response.position?.id} was successfully created!`);
+    $.export("$summary", `Successfully created new position with ID ${response.position?.id}`);
     return response;
   },
 };
