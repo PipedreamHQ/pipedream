@@ -6,7 +6,7 @@ export default {
   key: "gitlab-new-commit-comment",
   name: "New Commit Comment (Instant)",
   description: "Emit new event when a commit receives a comment",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   type: "source",
   hooks: {
