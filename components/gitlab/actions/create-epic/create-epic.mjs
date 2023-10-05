@@ -5,7 +5,7 @@ export default {
   key: "gitlab-create-epic",
   name: "Create Epic",
   description: "Creates a new epic. [See the documentation](https://docs.gitlab.com/ee/api/epics.html#new-epic)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     gitlab,
@@ -18,11 +18,12 @@ export default {
     parent_id: {
       propDefinition: [
         gitlab,
-        "epicId",
+        "epicIid",
         (c) => ({
-          groupPath: c.groupPath,
+          groupId: c.groupPath,
         }),
       ],
+      label: "Parent ID",
     },
     title: {
       propDefinition: [
@@ -36,7 +37,7 @@ export default {
         gitlab,
         "groupLabels",
         (c) => ({
-          groupPath: c.groupPath,
+          groupId: c.groupPath,
         }),
       ],
     },

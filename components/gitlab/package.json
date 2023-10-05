@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gitlab",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Pipedream Gitlab Components",
   "main": "gitlab.app.mjs",
   "keywords": [
