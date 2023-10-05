@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chatbotic",
+  "version": "0.0.1",
+  "description": "Pipedream Chatbotic Components",
+  "main": "chatbotic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatbotic"
+  ],
+  "homepage": "https://pipedream.com/apps/chatbotic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
