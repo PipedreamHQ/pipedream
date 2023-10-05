@@ -79,13 +79,12 @@ export default {
     _baseUrl() {
       return "https://aivoov.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
@@ -104,9 +103,6 @@ export default {
     async transcribe(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         path: "/transcribe",
         ...opts,
       });
