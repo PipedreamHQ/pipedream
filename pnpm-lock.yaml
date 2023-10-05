@@ -726,7 +726,10 @@ importers:
     specifiers: {}
 
   components/campaign_cleaner:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/campaignhq:
     specifiers: {}
