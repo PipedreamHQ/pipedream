@@ -4,12 +4,6 @@ export default {
   ...app,
   type: "app",
   app: "linkedin_ads",
-  methods: {
-    ...app.methods,
-    getSponsoredAccountUrn(id) {
-      return `urn:li:sponsoredAccount:${id}`;
-    },
-  },
   propDefinitions: {
     ...app.propDefinitions,
     adAccountId: {
@@ -34,6 +28,30 @@ export default {
         return elements?.map(mapper);
       },
     },
+    campaignId: {
+      type: "string",
+      label: "Campaign Id",
+      description: "Sponsored campaign account id to match results by",
+      async options({
+        page, adAccountId,
+      }) {
+        const count = 60;
+        const { elements } = await this.searchCampaigns({
+          adAccountId,
+          params: {
+            count,
+            start: count * page,
+            search: "(test:False)",
+          },
+        });
+        return elements?.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     accounts: {
       type: "string[]",
       label: "Accounts",
@@ -52,6 +70,23 @@ export default {
           label,
         }));
       },
+    },
+  },
+  methods: {
+    ...app.methods,
+    getSponsoredAccountUrn(id) {
+      return `urn:li:sponsoredAccount:${id}`;
+    },
+    getSponsoredCampaignUrn(id) {
+      return `urn:li:sponsoredCampaign:${id}`;
+    },
+    searchCampaigns({
+      adAccountId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/adAccounts/${adAccountId}/adCampaigns?q=search`,
+        ...args,
+      });
     },
   },
 };

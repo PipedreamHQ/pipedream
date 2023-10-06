@@ -22,15 +22,25 @@ export default {
         "timeGranularity",
       ],
     },
+    adAccountId: {
+      propDefinition: [
+        common.props.app,
+        "adAccountId",
+      ],
+    },
     campaignId: {
       propDefinition: [
         common.props.app,
         "campaignId",
+        ({ adAccountId }) => ({
+          adAccountId,
+        }),
       ],
     },
   },
   async run({ $ }) {
     const {
+      app,
       startYear,
       timeGranularity,
       campaignId,
@@ -47,7 +57,7 @@ export default {
         "dateRange.start.year": startYear,
         timeGranularity,
         "campaigns": getListParam([
-          campaignId,
+          app.getSponsoredCampaignUrn(campaignId),
         ]),
       },
     });

@@ -22,22 +22,19 @@ export default {
         "timeGranularity",
       ],
     },
-    account: {
-      type: "string",
-      label: "Account",
-      description: "An [Account URN](https://docs.microsoft.com/en-us/linkedin/shared/references/v2/ads/adaccounts?context=linkedin/marketing/context).",
-      optional: false,
+    adAccountId: {
       propDefinition: [
         common.props.app,
-        "accounts",
+        "adAccountId",
       ],
     },
   },
   async run({ $ }) {
     const {
+      app,
       startYear,
       timeGranularity,
-      account,
+      adAccountId,
       getListParam,
       createReport,
     } = this;
@@ -51,7 +48,7 @@ export default {
         "dateRange.start.year": startYear,
         timeGranularity,
         "accounts": getListParam([
-          account,
+          app.getSponsoredAccountUrn(adAccountId),
         ]),
       },
     });
