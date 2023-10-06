@@ -46,8 +46,12 @@ def generate_app_file_prompt(requirements, app_file_content):
 
 
 def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=False, tries=3):
+    repo_path = os.path.abspath(os.path.join("..", ".."))
+    output_dir = os.path.abspath(output_dir)
+
     if generate_pr:
-        repo = git.Repo(os.path.join("..", ".."))
+        output_dir = os.path.join(repo_path, "components")
+        repo = git.Repo(repo_path)
 
         if not clean and repo.index.diff(None):
             logger.warn("Your git stage is not clean. Please stash/save your changes or use --clean")
@@ -78,7 +82,8 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
     global_urls = []
     requirements = []
 
-    file_path = f"{output_dir}/{app}/{app}.app.mjs"
+    app_base_path = os.path.join(output_dir, app)
+    file_path = os.path.join(app_base_path, f"{app}.app.mjs")
 
     # If the directory at file_path doesn't exist, create it
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
