@@ -3,8 +3,8 @@ import gitlab from "../../gitlab.app.mjs";
 export default {
   key: "gitlab-get-repo-branch",
   name: "Get Repo Branch",
-  description: "Get a single project repository branch. [See docs](https://docs.gitlab.com/ee/api/branches.html#get-single-repository-branch)",
-  version: "0.2.0",
+  description: "Get a single project repository branch. [See the documentation](https://docs.gitlab.com/ee/api/branches.html#get-single-repository-branch)",
+  version: "0.2.1",
   type: "action",
   props: {
     gitlab,
