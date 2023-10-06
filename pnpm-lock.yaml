@@ -4234,7 +4234,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/postgrid_verify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/posthog:
     specifiers: {}
