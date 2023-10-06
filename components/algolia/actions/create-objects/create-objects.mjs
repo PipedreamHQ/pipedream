@@ -27,10 +27,17 @@ export default {
       default: true,
     },
   },
+  methods: {
+    parseObject(object) {
+      return (typeof object === "object")
+        ? object
+        : JSON.parse(object);
+    },
+  },
   async run({ $ }) {
     const parsedObjects = this.objects.length
-      ? this.objects.map((object) => JSON.parse(object))
-      : JSON.parse(this.objects);
+      ? this.objects.map((object) => this.parseObject(object))
+      : this.parseObject(this.objects);
 
     const response = await this.algolia.createObjects({
       indexName: this.indexName,
