@@ -6,7 +6,7 @@ export default {
   key: "linkedin_ads-create-report",
   name: "Create A Report",
   description: "Queries the Analytics Finder to get analytics for the specified entity i.e company, account, campaign. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/ads-reporting/ads-reporting#analytics-finder)",
-  version: "0.0.24",
+  version: "0.0.42",
   type: "action",
   props: {
     ...common.props,
@@ -76,31 +76,19 @@ export default {
       optional: true,
     },
     accounts: {
-      type: "string[]",
-      label: "Accounts",
-      description: "An [Array of Account URN](https://docs.microsoft.com/en-us/linkedin/shared/references/v2/ads/adaccounts?context=linkedin/marketing/context). Required unless another facet is provided.",
-      optional: true,
-      async options({ adAccountId }) {
-        const { elements } =  await this.app.searchAdAccounts({
-          params: {
-            "search.id.values[0]": adAccountId,
-          },
-        });
-        return elements.map(({
-          reference: value, name: label,
-        }) => ({
-          value,
-          label,
-        }));
-      },
+      propDefinition: [
+        common.props.app,
+        "accounts",
+        ({ adAccountId }) => ({
+          adAccountId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
     const {
       app,
-      getDateArray,
       getDateRangeParam,
-      getListParam,
       getListParams,
       createReport,
       adAccountId,
@@ -108,24 +96,22 @@ export default {
       timeGranularity,
       dateRangeStart,
       dateRangeEnd,
-      accounts,
       ...arrayProps
     } = this;
 
     const response = await createReport({
       $,
       params: {
-        "q": "analytics",
+        q: "analytics",
         pivot,
         timeGranularity,
-        "dateRange": getDateRangeParam(dateRangeStart, dateRangeEnd),
-        "accounts": getListParam(accounts),
-        // ...getListParams(arrayProps),
+        dateRange: getDateRangeParam(dateRangeStart, dateRangeEnd),
+        ...getListParams(arrayProps),
       },
     });
 
-    $.export("$summary", "Successfully retrieved analytics information");
+    $.export("$summary", `Successfully retrieved analytics information with ${response.elements.length} elements.`);
 
-    return response;
+    return response.elements;
   },
 };

@@ -24,8 +24,7 @@ export default {
       return `(start:(${start}),end:(${end}))`;
     },
     getListParam(list = []) {
-      return `List(${list.map(encodeURIComponent).join(",")})`;
-      // return `List(${list.map((id) => encodeURIComponent(`urn:li:person:${id}`))})`;
+      return `List(${list?.map(encodeURIComponent).join(",")})`;
     },
     getListParams(props = {}) {
       return Object.entries(props)
@@ -33,21 +32,34 @@ export default {
           key,
           value,
         ]) => {
-          return value === undefined || value === null
-            ? acc
-            : {
-              ...acc,
-              [key]: this.getListParam(
-                typeof(value) === "string"
-                  ? JSON.parse(value)
-                  : value,
-              ),
-            };
+          if (
+            typeof(value) === "function"
+            || value === undefined
+            || value === null
+          ) {
+            return acc;
+          }
+          return {
+            ...acc,
+            [key]: this.getListParam(
+              typeof(value) === "string"
+                ? JSON.parse(value)
+                : value,
+            ),
+          };
         }, {});
     },
     createReport(args = {}) {
       return this.app._makeRequest({
         path: "/adAnalytics",
+        paramsSerializer: (params) => {
+          return Object.entries(params)
+            .map(([
+              key,
+              value,
+            ]) => `${key}=${value}`)
+            .join("&");
+        },
         ...args,
       });
     },
