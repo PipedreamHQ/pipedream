@@ -46,7 +46,7 @@ export default {
         ...args,
       });
     },
-    async stopTrackingTime({
+    stopTrackingTime({
       taskId, args,
     }) {
       return this._makeRequest({
