@@ -101,7 +101,7 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
 
     app_file_instructions = generate_app_file_prompt(
         "\n\n".join(extract_prompts(markdown)), app_file_content)
-    all_docs_urls = get_all_docs_urls(markdown)
+    all_docs_urls = list(set(get_all_docs_urls(markdown)))
     logger.debug("Generating app file")
     app_file_content = main("app",
                             app,
