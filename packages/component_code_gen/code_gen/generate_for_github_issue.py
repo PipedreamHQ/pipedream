@@ -1,6 +1,5 @@
 from collections import OrderedDict
 import os
-import json
 import requests
 import markdown_to_json
 import config.logging_config as logging_config
@@ -45,7 +44,18 @@ def generate_app_file_prompt(requirements, app_file_content):
 {requirements}"""
 
 
-def generate(issue_number, output_dir, verbose=False, tries=3):
+def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=False, tries=3):
+    if generate_pr:
+        # check if git stage is clean
+        if not clean:
+            logger.warn("Your git stage is not clean. Please stash/save your changes or use --clean")
+            return
+        # clean git stage
+        # git checkout new-branch
+        # git reset --hard origin/master
+        # change typescript to javascript
+        pass
+
     # parse github issue description
     md = requests.get(
         f"https://api.github.com/repos/PipedreamHQ/pipedream/issues/{issue_number}").json()["body"].lower()
@@ -137,3 +147,12 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'w') as f:
             f.write(result)
+
+    if generate_pr:
+        # npx pnpm i
+        # add deps to package.json
+        # npx eslint . --fix
+        # git add --all
+        # push branch
+        # open PR
+        pass
