@@ -55,7 +55,8 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
         repo = git.Repo(repo_path)
 
         if not clean and repo.index.diff(None):
-            logger.warn("Your git stage is not clean. Please stash/save your changes or use --clean")
+            logger.warn(
+                "Your git stage is not clean. Please stash/commit your changes or use --clean to discard them")
             return
 
         branch_name = f"issue-{issue_number}"
