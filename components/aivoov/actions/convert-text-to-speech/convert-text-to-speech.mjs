@@ -73,7 +73,6 @@ export default {
     }
 
     if (this.engine) {
-      $.export("engine", this.engine);
       data.append("engine", this.engine);
     }
 
