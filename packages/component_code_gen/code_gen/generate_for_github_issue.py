@@ -2,6 +2,7 @@ from collections import OrderedDict
 import os
 import git
 import requests
+import subprocess
 import markdown_to_json
 import config.logging_config as logging_config
 from code_gen.generate import main
@@ -71,8 +72,6 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
             repo.head.reference = new_branch
 
         repo.git.reset("--hard", origin_master)
-
-        # change typescript to javascript
 
     # parse github issue description
     md = requests.get(
@@ -168,10 +167,12 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
             f.write(result)
 
     if generate_pr:
-        # npx pnpm i
-        # add deps to package.json
-        # npx eslint . --fix
-        # git add --all
-        # push branch
-        # open PR
-        pass
+        # XXX: add deps to package.json
+        subprocess.Popen(["npx", "eslint", app_base_path, "--fix"])
+        subprocess.Popen(["npx", "pnpm", "i"]).wait()
+        # GitPython requires to manually check .gitignore paths when adding files to index
+        # so this is easier
+        subprocess.Popen(["git", "add", app_base_path, f"{repo_path}/pnpm-lock.yaml"]).wait()
+        subprocess.Popen(["git", "commit", "--no-verify", "-m", f"{app} init"]).wait()
+        subprocess.Popen(["git", "push", "--set-upstream", "origin", branch_name]).wait()
+        # XXX: submit PR
