@@ -4,7 +4,7 @@ export default {
   key: "todoist-create-task",
   name: "Create Task",
   description: "Creates a task. [See the docs here](https://developer.todoist.com/rest/v2/#create-a-new-task)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     todoist,
@@ -135,7 +135,7 @@ export default {
       due_date: dueDate,
       due_datetime: dueDatetime,
       due_lang: dueLang,
-      assignee,
+      assignee_id: assignee,
     };
     const resp = await this.todoist.createTask({
       $,
