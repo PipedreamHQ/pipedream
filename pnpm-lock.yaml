@@ -853,7 +853,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/clerk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/cleverreach:
     specifiers:
