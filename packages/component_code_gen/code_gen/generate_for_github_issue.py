@@ -169,11 +169,15 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
 
     if generate_pr:
         # XXX: add deps to package.json
-        subprocess.Popen(["npx", "eslint", app_base_path, "--fix"])
+        subprocess.Popen(["npx", "eslint", app_base_path, "--fix"]).wait()
         subprocess.Popen(["npx", "pnpm", "i"]).wait()
         # GitPython requires to manually check .gitignore paths when adding files to index
         # so this is easier
-        subprocess.Popen(["git", "add", app_base_path, f"{repo_path}/pnpm-lock.yaml"]).wait()
-        subprocess.Popen(["git", "commit", "--no-verify", "-m", f"{app} init"]).wait()
-        subprocess.Popen(["git", "push", "--set-upstream", "origin", branch_name]).wait()
-        # XXX: submit PR
+        subprocess.Popen(["git", "add", app_base_path,
+                         f"{repo_path}/pnpm-lock.yaml"]).wait()
+        subprocess.Popen(["git", "commit", "--no-verify",
+                         "-m", f"{app} init"]).wait()
+        subprocess.Popen(["git", "push", "--set-upstream",
+                         "origin", branch_name]).wait()
+        subprocess.Popen(["gh", "pr", "create", "--draft", "--title",
+                         f"New Components - {app}", "--body", f"Resolves #{issue_number}."]).wait()
