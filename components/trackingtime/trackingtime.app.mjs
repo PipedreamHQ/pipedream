@@ -37,7 +37,7 @@ export default {
         },
       });
     },
-    async startTrackingTime({
+    startTrackingTime({
       taskId, args,
     }) {
       return this._makeRequest({
