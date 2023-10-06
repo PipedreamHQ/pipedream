@@ -55,7 +55,7 @@ export default {
         ...args,
       });
     },
-    async getTasks(args = {}) {
+    getTasks(args = {}) {
       return this._makeRequest({
         path: "/tasks",
         ...args,
