@@ -25,7 +25,7 @@ export default {
     _apiUrl() {
       return "https://app.trackingtime.co/api/v4";
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this, path, ...args
     }) {
       return axios($, {
