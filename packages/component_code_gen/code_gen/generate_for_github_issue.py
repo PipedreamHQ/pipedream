@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import os
+import git
 import requests
 import markdown_to_json
 import config.logging_config as logging_config
@@ -46,15 +47,28 @@ def generate_app_file_prompt(requirements, app_file_content):
 
 def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=False, tries=3):
     if generate_pr:
-        # check if git stage is clean
-        if not clean:
+        repo = git.Repo(os.path.join("..", ".."))
+
+        if not clean and repo.index.diff(None):
             logger.warn("Your git stage is not clean. Please stash/save your changes or use --clean")
             return
-        # clean git stage
-        # git checkout new-branch
-        # git reset --hard origin/master
+
+        branch_name = f"issue-{issue_number}"
+        origin_master = repo.commit("origin/master")
+        repo.remotes.origin.fetch()
+
+        if any(reference.name == branch_name for reference in repo.references):
+            # branch name already exists
+            repo.git.checkout(branch_name)
+        else:
+            # create new branch
+            new_branch = repo.create_head(branch_name)
+            new_branch.set_commit(origin_master)
+            repo.head.reference = new_branch
+
+        repo.git.reset("--hard", origin_master)
+
         # change typescript to javascript
-        pass
 
     # parse github issue description
     md = requests.get(
