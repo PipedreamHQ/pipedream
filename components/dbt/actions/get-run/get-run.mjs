@@ -4,7 +4,7 @@ export default {
   key: "dbt-get-run",
   name: "Get Run",
   description: "Retrieve information about a run. [See the documentation](https://docs.getdbt.com/dbt-cloud/api-v2#/operations/Retrieve%20Run)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     dbt,
@@ -46,11 +46,31 @@ export default {
         }),
       ],
     },
+    includeRelated: {
+      type: "string[]",
+      label: "Include Related",
+      description: "List of related fields to pull with the run",
+      options: [
+        "job",
+        "trigger",
+        "environment",
+        "repository",
+        "run_steps",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { data } = await this.dbt.getRun({
       accountId: this.accountId,
       runId: this.runId,
+      params: this.includeRelated
+        ?
+        {
+          include_related: JSON.stringify(this.includeRelated),
+        }
+        :
+        {},
       $,
     });
 

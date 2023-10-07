@@ -57,15 +57,17 @@ export default {
       this.db.set("token", token);
     },
     async activateHook(eventType) {
-      const opts = this._buildHookOpts(eventType);
-      const url = this.http.endpoint;
+      const data = this._buildHookOpts(eventType);
+      data.url = this.http.endpoint;
       const {
         hookId,
         token,
-      } = await this.gitlab.createProjectHook(this.projectId, url, opts);
+      } = await this.gitlab.createProjectHook(this.projectId, {
+        data,
+      });
       console.log(
         `Created "${eventType}" webhook for project ID ${this.projectId}.
-        (Hook ID: ${hookId}, endpoint: ${url})`,
+        (Hook ID: ${hookId}, endpoint: ${data.url})`,
       );
       this.setHookId(hookId);
       this.setToken(token);

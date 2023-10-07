@@ -1,7 +1,27 @@
 // NEW NAV
 
 const docsNav = [
-  "/quickstart/",
+  {
+    title: "Quickstart",
+    children: [
+      {
+        title: "Develop Workflows",
+        path: "/quickstart/",
+      },
+      {
+        title: "Use GitHub Sync",
+        path: "/quickstart/github-sync/",
+      },
+    ]
+  },
+  "/workspaces/",
+  {
+    title: "Projects",
+    children: [
+      "/projects/",
+      "/projects/git/"
+    ]
+  },
   {
     title: "Workflows",
     children: [
@@ -98,11 +118,11 @@ const docsNav = [
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
   {
-    title: "Workspaces",
+    title: "Single-Sign On (SSO)",
     children: [
-      "/workspaces/",
-      "/workspaces/sso/google/",
       "/workspaces/sso/okta/",
+      "/workspaces/sso/google/",
+      "/workspaces/sso/saml/",
     ],
   },
 ];

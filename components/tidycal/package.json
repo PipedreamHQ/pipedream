@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/tidycal",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream TidyCal Components",
-  "main": "dist/app/tidycal.app.mjs",
+  "main": "tidycal.app.mjs",
   "keywords": [
     "pipedream",
     "tidycal"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/tidycal",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }

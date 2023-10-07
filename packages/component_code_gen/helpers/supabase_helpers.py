@@ -1,8 +1,7 @@
+from supabase import create_client
+from config.config import config
 from dotenv import load_dotenv
 load_dotenv()
-
-from config.config import config
-from supabase import create_client
 
 
 class SupabaseConnector:
@@ -11,6 +10,14 @@ class SupabaseConnector:
             config['supabase']['url'],
             config['supabase']['api_key']
         )
+
+    def get_app_auth_meta(self, app):
+        row = self.client \
+            .table('apps') \
+            .select('auth_type,component_code_scaffold_raw,custom_fields_json') \
+            .match({'name_slug': app}) \
+            .execute()
+        return row.data[0] if len(row.data) else {}
 
     def get_app_docs_meta(self, app):
         row = self.client \

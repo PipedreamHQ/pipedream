@@ -4,7 +4,7 @@ export default {
   key: "linkedin-get-organization-access-control",
   name: "Gets Organization Access Control",
   description: "Gets an organization's access control information, given the organization urn. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-access-control?context=linkedin/compliance/context#find-access-control-information)",
-  version: "0.1.2",
+  version: "0.1.4",
   type: "action",
   props: {
     linkedin,

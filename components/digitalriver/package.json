@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/digitalriver",
+  "version": "0.0.1",
+  "description": "Pipedream DigitalRiver Components",
+  "main": "dist/app/digitalriver.app.mjs",
+  "keywords": [
+    "pipedream",
+    "digitalriver"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/digitalriver",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,4 +1,4 @@
-import { Gitlab } from "@gitbeaker/node";
+import { axios } from "@pipedream/platform";
 import { v4 } from "uuid";
 import constants from "./common/constants.mjs";
 
@@ -10,41 +10,35 @@ export default {
       type: "integer",
       label: "Project ID",
       description: "The project ID, as displayed in the main project page",
-      async options({ prevContext }) {
+      async options({ page }) {
         const response = await this.listProjects({
-          owned: true,
-          page: prevContext.nextPage,
-        });
-        return {
-          options: response.data.map((project) => ({
-            label: project.pathWithNamespace,
-            value: project.id,
-          })),
-          context: {
-            nextPage: response.paginationInfo.next,
+          params: {
+            owned: true,
+            page: page + 1,
           },
-        };
+        });
+        return response.map((project) => ({
+          label: project.path_with_namespace,
+          value: project.id,
+        }));
       },
     },
     groupPath: {
       type: "string",
       label: "Group ID",
       description: "The group path, as displayed in the main group page. You must be an Owner of this group",
-      async options({ prevContext }) {
+      async options({ page }) {
         const response = await this.listGroups({
-          min_access_level: 50, // owner role
-          top_level_only: true, // only can use on root groups
-          page: prevContext.nextPage,
-        });
-        return {
-          options: response.data.map((group) => ({
-            label: group.fullPath,
-            value: group.path,
-          })),
-          context: {
-            nextPage: response.paginationInfo.next,
+          params: {
+            min_access_level: 50, // owner role
+            top_level_only: true, // only can use on root groups
+            page: page + 1,
           },
-        };
+        });
+        return response.map((group) => ({
+          label: group.full_path,
+          value: group.path,
+        }));
       },
     },
     branch: {
@@ -52,17 +46,14 @@ export default {
       label: "Branch Name",
       description: "The name of the branch",
       async options({
-        prevContext, projectId,
+        page, projectId,
       }) {
         const response = await this.listBranches(projectId, {
-          page: prevContext.nextPage,
-        });
-        return {
-          options: response.data.map((branch) => branch.name),
-          context: {
-            nextPage: response.paginationInfo.next,
+          params: {
+            page: page + 1,
           },
-        };
+        });
+        return response.map((branch) => branch.name);
       },
     },
     issueIid: {
@@ -70,48 +61,40 @@ export default {
       label: "Issue Internal ID",
       description: "The internal ID of a project's issue ",
       async options({
-        prevContext, projectId,
+        page, projectId,
       }) {
-        const response = await this.listIssues({
-          projectId,
-          scope: constants.issues.scopes.ALL,
-          page: prevContext.nextPage,
-        });
-        return {
-          options: response.data.map((issue) => ({
-            label: issue.title,
-            value: issue.iid,
-          })),
-          context: {
-            nextPage: response.paginationInfo.next,
+        const response = await this.listIssues(projectId, {
+          params: {
+            scope: constants.issues.scopes.ALL,
+            page: page + 1,
           },
-        };
+        });
+        return response.map((issue) => ({
+          label: issue.title,
+          value: issue.iid,
+        }));
       },
     },
-    epicId: {
+    epicIid: {
       type: "string",
       label: "Epic Internal ID",
       description: "The internal ID of a project's epic",
       async options({
-        prevContext, groupPath,
+        page, groupId,
       }) {
         const response = await this.listEpics(
-          groupPath,
+          groupId,
           {
-            page: prevContext.nextPage,
+            params: {
+              page: page + 1,
+            },
           },
         );
-        return {
-          options: response.data.map((epic) => ({
-            label: epic.title,
-            value: epic.id,
-          })),
-          context: {
-            nextPage: response.paginationInfo.next,
-          },
-        };
+        return response.map((epic) => ({
+          label: epic.title,
+          value: epic.iid,
+        }));
       },
-      optional: true,
     },
     labels: {
       type: "string[]",
@@ -119,17 +102,14 @@ export default {
       description: "Comma-separated label names for the issue",
       optional: true,
       async options({
-        prevContext, projectId,
+        page, projectId,
       }) {
         const response = await this.listLabels(projectId, {
-          page: prevContext.nextPage,
-        });
-        return {
-          options: response.data.map((label) => label.name),
-          context: {
-            nextPage: response.paginationInfo.next,
+          params: {
+            page: page + 1,
           },
-        };
+        });
+        return response.map((label) => label.name);
       },
     },
     groupLabels: {
@@ -138,17 +118,14 @@ export default {
       description: "The comma-separated list of labels",
       optional: true,
       async options({
-        prevContext, groupPath,
+        page, groupId,
       }) {
-        const response = await this.listGroupLabels(groupPath, {
-          page: prevContext.nextPage,
-        });
-        return {
-          options: response.data.map((label) => label.name),
-          context: {
-            nextPage: response.paginationInfo.next,
+        const response = await this.listGroupLabels(groupId, {
+          params: {
+            page: page + 1,
           },
-        };
+        });
+        return response.data.map((label) => label.name);
       },
     },
     assignee: {
@@ -157,26 +134,18 @@ export default {
       description: "Return issues assigned to the given username",
       optional: true,
       async options({
-        prevContext, projectId,
+        page, projectId,
       }) {
         const response = await this.listProjectMembers(projectId, {
-          page: prevContext.nextPage,
-        });
-        return {
-          options: response.data.map((member) => ({
-            label: member.username,
-            value: member.id,
-          })),
-          context: {
-            nextPage: response.paginationInfo.next,
+          params: {
+            page: page + 1,
           },
-        };
+        });
+        return response.map((member) => ({
+          label: member.username,
+          value: member.id,
+        }));
       },
-    },
-    epicIid: {
-      type: "string",
-      label: "Epic IID",
-      description: "The internal ID of the epic",
     },
     issueState: {
       type: "string",
@@ -256,160 +225,165 @@ export default {
   },
   methods: {
     _generateToken: v4,
-    _gitlabClient(opts = {}) {
-      const { oauth_access_token: oauthToken } = this.$auth;
-      return new Gitlab({
-        oauthToken,
-        camelize: true,
-        ...opts,
-      });
+    _getBaseApiUrl() {
+      return this.$auth.base_api_url ?? "gitlab.com";
     },
-    _commonOpts() {
+    _baseUrl() {
+      return `https://${this._getBaseApiUrl()}/api/v4`;
+    },
+    _headers() {
       return {
-        maxPages: 1,
-        perPage: 100,
-        showExpanded: true,
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    async createProjectHook(projectId, url, opts = {}) {
+    _userId() {
+      return this.$auth.oauth_uid;
+    },
+    _makeRequest({
+      $ = this,
+      path,
+      ...args
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
+        ...args,
+      });
+    },
+    async createProjectHook(projectId, opts = {}) {
       const token = this._generateToken();
-      const { id: hookId } = await this._gitlabClient().ProjectHooks.add(projectId, url, {
-        token,
-        ...opts,
+      const { id: hookId } = await this._makeRequest({
+        path: `/projects/${projectId}/hooks`,
+        method: "POST",
+        data: {
+          ...opts.data,
+          token,
+        },
       });
       return {
         hookId,
         token,
       };
     },
-    async deleteProjectHook(projectId, hookId) {
-      return this._gitlabClient().ProjectHooks.remove(projectId, hookId);
-    },
-    async getUnprocessedProjects(lastProcessedProjectId) {
-      const projects = this.pagination(this._gitlabClient().Projects, null, {
-        owned: true,
+    deleteProjectHook(projectId, hookId) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/hooks/${hookId}`,
+        method: "DELETE",
       });
-      return this.getUnprocessedObjects(lastProcessedProjectId, projects);
     },
-    async getUnprocessedMilestones(projectId, lastProcessedMilestoneId) {
-      const milestones = this.pagination(this._gitlabClient().ProjectMilestones, projectId);
-      return this.getUnprocessedObjects(lastProcessedMilestoneId, milestones);
-    },
-    async getUnprocessedObjects(lastProcessedId, list) {
-      const unprocessed = [];
-      for await (const obj of list) {
-        if (obj.id === lastProcessedId) break;
-        unprocessed.push(obj);
-      }
-      return unprocessed;
-    },
-    async listProjects(opts = {}) {
-      return this.listAll(this._gitlabClient().Projects, null, opts);
-    },
-    async listGroups(opts = {}) {
-      return this.listAll(this._gitlabClient().Groups, null, opts);
-    },
-    async listProjectMembers(projectId, opts = {}) {
-      return this.listAll(this._gitlabClient().ProjectMembers, projectId, opts);
-    },
-    async listMilestones(projectId, opts = {}) {
-      return this.listAll(this._gitlabClient().ProjectMilestones, projectId, opts);
-    },
-    async getBranch(projectId, branchName) {
-      return this._gitlabClient().Branches.show(projectId, branchName);
-    },
-    async createBranch(projectId, branchName, ref) {
-      return this._gitlabClient().Branches.create(projectId, branchName, ref);
-    },
-    async listBranches(projectId, opts = {}) {
-      return this.listAll(this._gitlabClient().Branches, projectId, opts);
-    },
-    async listLabels(projectId, opts = {}) {
-      return this.listAll(this._gitlabClient().Labels, projectId, opts);
-    },
-    async listGroupLabels(groupId, opts = {}) {
-      return this.listAll(this._gitlabClient().GroupLabels, groupId, opts);
-    },
-    async getIssue(projectId, issueIid) {
-      return this._gitlabClient().Issues.show(projectId, issueIid);
-    },
-    async createIssue(projectId, opts) {
-      return this._gitlabClient().Issues.create(projectId, opts);
-    },
-    async createEpic(groupId, title, opts) {
-      return this._gitlabClient().Epics.create(groupId, title, opts);
-    },
-    async updateEpic(groupId, epicIid, opts) {
-      return this._gitlabClient().Epics.edit(groupId, epicIid, opts);
-    },
-    async editIssue(projectId, issueIid, opts) {
-      return this._gitlabClient().Issues.edit(projectId, issueIid, opts);
-    },
-    async listIssues(opts = {}) {
-      return this.listAll(this._gitlabClient().Issues, null, opts);
-    },
-    async searchIssues(opts = {}) {
-      /**
-       * client.Issues.all({ projectId, ...opts });
-       */
-      return this.search(this._gitlabClient().Issues, null, opts);
-    },
-    async listEpics(groupPath, opts = {}) {
-      return this.listAll(this._gitlabClient().Epics, groupPath, opts);
-    },
-    async listCommits(projectId, opts = {}) {
-      /**
-       * client.Commits.all(projectId, { ...opts });
-       */
-      return this.search(this._gitlabClient().Commits, projectId, opts);
-    },
-    async search(client, projectId = null, opts = {}) {
-      const data = this.pagination(
-        client,
-        projectId,
-        opts,
-      );
-      const { max } = opts;
-      const results = [];
-      for await (const d of data) {
-        results.push(d);
-        if (max && results.length >= max) {
-          results.length = max;
-          break;
-        }
-      }
-      return results;
-    },
-    async *pagination(api, projectId = null, opts = {}) {
-      while (true) {
-        const response = await this.listAll(api, projectId, opts);
-
-        for (const data of response.data) {
-          yield data;
-        }
-
-        const {
-          current,
-          next,
-          totalPages,
-        } = response.paginationInfo;
-
-        if (current === totalPages || !next) {
-          break;
-        }
-
-        opts.page = next;
-      }
-    },
-    async listAll(api, projectId = null, opts = {}) {
-      const params = {
-        ...this._commonOpts(),
+    listProjects(opts = {}) {
+      return this._makeRequest({
+        path: `/users/${this._userId()}/projects`,
         ...opts,
-      };
-      if (projectId) {
-        return api.all(projectId, params);
-      }
-      return api.all(params);
+      });
+    },
+    listGroups(opts = {}) {
+      return this._makeRequest({
+        path: "/groups",
+        ...opts,
+      });
+    },
+    listProjectMembers(projectId, opts = {}) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/members`,
+        ...opts,
+      });
+    },
+    listMilestones(projectId, opts = {}) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/milestones`,
+        ...opts,
+      });
+    },
+    getBranch(projectId, branchName) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/repository/branches/${branchName}`,
+      });
+    },
+    createBranch(projectId, branchName, ref) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/repository/branches`,
+        method: "POST",
+        data: {
+          branch: branchName,
+          ref,
+        },
+      });
+    },
+    listBranches(projectId, opts = {}) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/repository/branches`,
+        ...opts,
+      });
+    },
+    listLabels(projectId, opts = {}) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/labels`,
+        ...opts,
+      });
+    },
+    listGroupLabels(groupId, opts = {}) {
+      return this._makeRequest({
+        path: `/groups/${groupId}/labels`,
+        ...opts,
+      });
+    },
+    getIssue(projectId, issueIid) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/issues/${issueIid}`,
+      });
+    },
+    createIssue(projectId, opts) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/issues`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    createEpic(groupId, opts) {
+      return this._makeRequest({
+        path: `/groups/${groupId}/epics`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    updateEpic(groupId, epicIid, opts) {
+      return this._makeRequest({
+        path: `/groups/${groupId}/epics/${epicIid}`,
+        method: "PUT",
+        ...opts,
+      });
+    },
+    editIssue(projectId, issueIid, opts) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/issues/${issueIid}`,
+        method: "PUT",
+        ...opts,
+      });
+    },
+    listIssues(projectId, opts = {}) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/issues`,
+        ...opts,
+      });
+    },
+    searchIssues(projectId, opts = {}) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/issues`,
+        ...opts,
+      });
+    },
+    listEpics(groupId, opts = {}) {
+      return this._makeRequest({
+        path: `/groups/${groupId}/epics`,
+        ...opts,
+      });
+    },
+    listCommits(projectId, opts = {}) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/repository/commits`,
+        ...opts,
+      });
     },
   },
 };

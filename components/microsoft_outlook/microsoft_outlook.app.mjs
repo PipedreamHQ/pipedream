@@ -12,11 +12,28 @@ export default {
       label: "Recipients",
       description: "Array of email addresses",
       type: "string[]",
+      optional: true,
+      default: [],
+    },
+    ccRecipients: {
+      label: "CC Recipients",
+      description: "Array of email addresses",
+      type: "string[]",
+      optional: true,
+      default: [],
+    },
+    bccRecipients: {
+      label: "BCC Recipients",
+      description: "Array of email addresses",
+      type: "string[]",
+      optional: true,
+      default: [],
     },
     subject: {
       label: "Subject",
       description: "Subject of the email",
       type: "string",
+      optional: true,
     },
     contentType: {
       label: "Content Type",
@@ -138,6 +155,8 @@ export default {
     },
     prepareMessageBody(self) {
       const toRecipients = [];
+      const ccRecipients = [];
+      const bccRecipients = [];
       for (const address of self.recipients) {
         toRecipients.push({
           emailAddress: {
@@ -145,6 +164,25 @@ export default {
           },
         });
       }
+      for (const address of self.ccRecipients) {
+        if (address.trim() !== "") {
+          ccRecipients.push({
+            emailAddress: {
+              address,
+            },
+          });
+        }
+      }
+      for (const address of self.bccRecipients) {
+        if (address.trim() !== "") {
+          bccRecipients.push({
+            emailAddress: {
+              address,
+            },
+          });
+        }
+      }
+
       const attachments = [];
       for (let i = 0; self.files && i < self.files.length; i++) {
         attachments.push({
@@ -167,6 +205,10 @@ export default {
         toRecipients,
         attachments,
       };
+
+      if (ccRecipients.length > 0) message.ccRecipients = ccRecipients;
+      if (bccRecipients.length > 0) message.bccRecipients = bccRecipients;
+
       return message;
     },
     async sendEmail({ ...args } = {}) {

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/hostaway",
+  "version": "0.1.0",
+  "description": "Pipedream Hostaway Components",
+  "main": "hostaway.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hostaway"
+  ],
+  "homepage": "https://pipedream.com/apps/hostaway",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "lodash.pickby": "^4.6.0"
+  }
+}

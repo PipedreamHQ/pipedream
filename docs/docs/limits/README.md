@@ -35,8 +35,12 @@ Your included credits count is reset, daily, at 00:00 (midnight) UTC.
 
 |    Tier    |                                                                    Notifications                                                                    |
 | :--------: | :-------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Free tiers |                                            You'll receive an email when you reach 100% of your daily usage.                                             |
+| Free tiers |                                          You'll receive an email when you reach 100% of your daily usage.                                           |
 | Paid tiers | You'll receive an email at 80% and 100% of your [included credits](/pricing/#included-credits) for your [billing period](/pricing/#billing-period). |
+
+## Daily workflow testing limit
+
+You **do not** use credits testing workflows, but workspaces on the **Free** plan are limited to {{$site.themeConfig.DAILY_TESTING_LIMIT}} of test runtime per day. If you exceed this limit when testing in the builder, you'll see a **Runtime Quota Exceeded** error.
 
 ## HTTP Triggers
 

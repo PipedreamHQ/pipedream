@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.0
         name: Checkout repo
         with:
           # See https://github.com/actions/checkout#checkout-v2
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3.5.3
+    - uses: actions/checkout@v4.1.0
       name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
@@ -64,7 +64,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.33.1
+    - uses: rojopolis/spellcheck-github-actions@0.34.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -77,14 +77,14 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v4.1.0
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
           fetch-depth: 0
       - uses: pnpm/action-setup@v2.4.0
         with:
-          version: 7.0.0
+          version: 7.33.6
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
@@ -133,10 +133,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.0
       - uses: pnpm/action-setup@v2.4.0
         with:
-          version: 7.0.0
+          version: 7.33.6
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
@@ -167,10 +167,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v4.1.0
       - uses: pnpm/action-setup@v2.4.0
         with:
-          version: 7.0.0
+          version: 7.33.6
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
@@ -256,10 +256,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v4.1.0
       - uses: pnpm/action-setup@v2.4.0
         with:
-          version: 7.0.0
+          version: 7.33.6
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
