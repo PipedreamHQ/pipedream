@@ -352,7 +352,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/askyourpdf:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/assemblyai:
     specifiers:
@@ -850,7 +853,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/clerk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/cleverreach:
     specifiers:
@@ -1376,7 +1382,10 @@ importers:
     specifiers: {}
 
   components/docsumo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/docupilot:
     specifiers:
@@ -2163,6 +2172,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_maps_platform:
+    specifiers: {}
+
+  components/google_merchant_center:
     specifiers: {}
 
   components/google_my_business:
@@ -4225,7 +4237,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/postgrid_verify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/posthog:
     specifiers: {}
