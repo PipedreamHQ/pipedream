@@ -44,11 +44,11 @@ export default {
     requests
       ?.filter?.((req) => this.getRequestDate(req) > lastDate)
       .forEach((req) => {
-        const id = req.issueId;
+        const ts = this.getRequestDate(req);
+        const id = req.issueId + ts.toString();
         const summary =
           req.requestFieldValues.find(({ fieldId }) => fieldId === "summary")
             ?.value ?? req.issueKey;
-        const ts = this.getRequestDate(req);
         this.$emit(req, {
           id,
           summary: `${this.getSummary()}: ${summary}`,
