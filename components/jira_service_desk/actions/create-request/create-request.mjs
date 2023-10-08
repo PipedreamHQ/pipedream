@@ -61,11 +61,11 @@ export default {
         {
           type: "string",
           label: `Field: "${field.name}"`,
-          description: "[See the documentation](https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/servicedesk/%7BserviceDeskId%7D/requesttype/%7BrequestTypeId%7D/field-getRequestTypeFields) for info on specific fields. If the provided value is not a string, it will be parsed as JSON." + field.description
+          description: `[See the documentation](https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/servicedesk/%7BserviceDeskId%7D/requesttype/%7BrequestTypeId%7D/field-getRequestTypeFields) for info on specific fields. If the provided value is not a string, it will be parsed as JSON.${field.description
             ? `
 \\
 Field description: "${field.description}"`
-            : "",
+            : ""}`,
           optional: !field.required,
         },
       ]),
