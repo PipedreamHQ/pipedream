@@ -108,6 +108,14 @@ export default {
       });
       return response.values;
     },
+    async getRequestTypeFields({
+      cloudId, serviceDeskId, requestTypeId,
+    }) {
+      const response = await this._makeRequest({
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype/${requestTypeId}/field`,
+      });
+      return response.requestTypeFields;
+    },
     async getCustomerRequests({ cloudId }) {
       const response = await this._makeRequest({
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,

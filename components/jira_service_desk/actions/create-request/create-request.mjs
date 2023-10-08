@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import jiraServiceDesk from "../../jira_service_desk.app.mjs";
 
 export default {
@@ -36,23 +35,7 @@ export default {
           serviceDeskId,
         }),
       ],
-    },
-    summary: {
-      type: "string",
-      label: "Summary",
-      description: "Summary of the request (a single line of text).",
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "Description of the request (multiple lines of text separated by `\\n`).",
-    },
-    requestFieldValues: {
-      type: "string",
-      label: "Request Field Values",
-      description:
-        "Additional values for the fields of the request. This should be a JSON-stringified object. [See the documentation here.](https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#fieldformats)",
-      optional: true,
+      reloadProps: true,
     },
     requestParticipants: {
       type: "string[]",
@@ -62,23 +45,53 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
+  async additionalProps() {
     const {
+      cloudId, serviceDeskId, requestTypeId,
+    } = this;
+    const types = await this.jiraServiceDesk.getRequestTypeFields({
       cloudId,
       serviceDeskId,
       requestTypeId,
-      summary,
-      description,
+    });
+
+    return Object.fromEntries(
+      types.map((field) => [
+        field.fieldId,
+        {
+          type: "string",
+          label: `Field: "${field.name}"`,
+          description: field.description
+            ? `Field description: "${field.description}"`
+            : "No description available. [See the documentation](https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/servicedesk/%7BserviceDeskId%7D/requesttype/%7BrequestTypeId%7D/field-getRequestTypeFields) for info on specific fields.",
+          optional: !field.required,
+        },
+      ]),
+    );
+  },
+  async run({ $ }) {
+    const {
+      // eslint-disable-next-line no-unused-vars
+      jiraServiceDesk,
+      cloudId,
+      serviceDeskId,
+      requestTypeId,
       requestParticipants,
+      ...requestFieldValues
     } = this;
-    let requestFieldValues;
-    if (this.requestFieldValues) {
+
+    Object.entries(requestFieldValues).forEach(([
+      key,
+      value,
+    ]) => {
       try {
-        requestFieldValues = JSON.parse(this.requestFieldValues);
-      } catch (err) {
-        throw new ConfigurationError("Invalid JSON string for requestFieldValues");
+        const parsedValue = JSON.parse(value);
+        requestFieldValues[key] = parsedValue;
       }
-    }
+      catch (err) {
+        // ignore non-serializable values
+      }
+    });
 
     const response = await this.jiraServiceDesk.createCustomerRequest({
       $,
@@ -86,11 +99,7 @@ export default {
       data: {
         serviceDeskId,
         requestTypeId,
-        requestFieldValues: {
-          summary,
-          description,
-          ...requestFieldValues,
-        },
+        requestFieldValues,
         requestParticipants,
       },
     });
