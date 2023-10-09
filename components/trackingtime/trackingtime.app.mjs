@@ -17,6 +17,19 @@ export default {
         }));
       },
     },
+    projectId: {
+      label: "Project ID",
+      description: "The project ID",
+      type: "string",
+      async options() {
+        const { data: projects } = await this.getProjects();
+
+        return projects.map((task) => ({
+          label: task.name,
+          value: task.id,
+        }));
+      },
+    },
   },
   methods: {
     _appPassword() {
@@ -58,6 +71,12 @@ export default {
     getTasks(args = {}) {
       return this._makeRequest({
         path: "/tasks",
+        ...args,
+      });
+    },
+    getProjects(args = {}) {
+      return this._makeRequest({
+        path: "/projects",
         ...args,
       });
     },
