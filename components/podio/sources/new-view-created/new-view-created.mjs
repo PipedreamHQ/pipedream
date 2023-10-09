@@ -3,8 +3,8 @@ import common from "../common/common-poll.mjs";
 export default {
   key: "podio-new-view-created",
   name: "New View created",
-  description: "Emit new events when a new view created. [See the docs here](https://developers.podio.com/doc/views/get-views-27460)",
-  version: "0.0.1",
+  description: "Emit new events when a new view created. [See the documentation](https://developers.podio.com/doc/views/get-views-27460)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,
