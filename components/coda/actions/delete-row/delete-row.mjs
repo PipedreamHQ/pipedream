@@ -42,6 +42,8 @@ export default {
       this.rowId,
     );
 
-    $.export("$summary", `Deleted row`);
+    $.export("$summary", `Successfully deleted row with ID ${response.id}.`);
+
+    return response;
   },
 };

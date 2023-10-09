@@ -65,7 +65,7 @@ export default {
       params,
     );
 
-    $.export("$summary", `Found row`);
+    $.export("$summary", `Successfully fetched row with ID ${response.id}.`);
 
     return response;
   },

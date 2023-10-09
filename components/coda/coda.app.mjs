@@ -239,12 +239,12 @@ export default {
      * @param {string}  [params.valueFormat]
      * @return {object} Row
      */
-    async getRow($, docId, tableId, params = {}) {
+    getRow($, docId, tableId, rowId, params = {}) {
       let opts = {
         path: `/docs/${docId}/tables/${tableId}/rows/${encodeURIComponent(rowId)}`,
         params,
       };
-      return await this._makeRequest($, opts);
+      return this._makeRequest($, opts);
     },
     /**
      * Delete a single row by name or ID
@@ -254,13 +254,13 @@ export default {
      * @param {string}  rowId
      * @return {void}
      */
-    async deleteRow($, docId, tableId, params = {}) {
+    deleteRow($, docId, tableId, rowId, params = {}) {
       let opts = {
         method: "delete",
         path: `/docs/${docId}/tables/${tableId}/rows/${encodeURIComponent(rowId)}`,
         params,
       };
-      await this._makeRequest($, opts);
+      return this._makeRequest($, opts);
     },
     /**
      * Searches for a row in the selected table using a column match search
