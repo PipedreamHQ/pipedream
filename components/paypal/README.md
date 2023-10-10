@@ -22,6 +22,7 @@ applications, such as:
 
 # Troubleshooting
 **Why can't I connect my PayPal account in Pipedream?**
+<br>
 The most common issue users run into when trying to connect their account is related to one of the below inputs:
 - **Client ID**
 - **Client Secret**
