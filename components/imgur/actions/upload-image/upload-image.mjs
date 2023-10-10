@@ -3,7 +3,7 @@ import imgur from "../../imgur.app.mjs";
 export default {
   name: "Upload Image",
   version: "0.1.0",
-  key: "upload-image",
+  key: "imgur-upload-image",
   description: "Upload an image to Imgur",
   props: {
     imgur,
