@@ -10,6 +10,10 @@ from code_gen.generate import main
 logger = logging_config.getLogger(__name__)
 
 
+def run_command(command):
+    subprocess.run(command, shell=True)
+
+
 def extract_prompts(markdown_dict):
     prompts = []
     for key, value in markdown_dict.items():
@@ -60,19 +64,16 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
             return
 
         branch_name = f"issue-{issue_number}"
-        origin_master = repo.commit("origin/master")
-        repo.remotes.origin.fetch()
+        run_command("git fetch origin")
 
         if any(reference.name == branch_name for reference in repo.references):
             # branch name already exists
-            repo.git.checkout(branch_name)
+            run_command(f"git checkout {branch_name}")
         else:
             # create new branch
-            new_branch = repo.create_head(branch_name)
-            new_branch.set_commit(origin_master)
-            repo.head.reference = new_branch
+            run_command(f"git checkout -b {branch_name}")
 
-        repo.git.reset("--hard", origin_master)
+        run_command("git reset --hard origin/master")
 
     # parse github issue description
     md = requests.get(
@@ -169,15 +170,12 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
 
     if generate_pr:
         # XXX: add deps to package.json
-        subprocess.Popen(["npx", "eslint", app_base_path, "--fix"]).wait()
-        subprocess.Popen(["npx", "pnpm", "i"]).wait()
+        # XXX: remove ts stuff and .gitignore
         # GitPython requires to manually check .gitignore paths when adding files to index
         # so this is easier
-        subprocess.Popen(["git", "add", app_base_path,
-                         f"{repo_path}/pnpm-lock.yaml"]).wait()
-        subprocess.Popen(["git", "commit", "--no-verify",
-                         "-m", f"{app} init"]).wait()
-        subprocess.Popen(["git", "push", "--set-upstream",
-                         "origin", branch_name]).wait()
-        subprocess.Popen(["gh", "pr", "create", "--draft", "--title",
-                         f"New Components - {app}", "--body", f"Resolves #{issue_number}."]).wait()
+        run_command(f"npx eslint {app_base_path} --fix")
+        run_command(["npx pnpm i"])
+        run_command(f"git add -f {app_base_path} {repo_path}/pnpm-lock.yaml")
+        run_command(f"git commit --no-verify -m '{app} init'")
+        run_command(f"git push -f --set-upstream origin {branch_name}")
+        run_command(f"gh pr create --draft --title 'New Components - {app}' --body 'Resolves #{issue_number}.'")
