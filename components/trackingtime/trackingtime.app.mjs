@@ -55,7 +55,6 @@ export default {
     }) {
       return this._makeRequest({
         path: `/tasks/track/${taskId}`,
-        method: "post",
         ...args,
       });
     },
