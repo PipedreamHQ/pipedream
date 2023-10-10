@@ -2732,7 +2732,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/judge_me:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/jumpseller:
     specifiers: {}
