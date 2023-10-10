@@ -1382,14 +1382,10 @@ importers:
     specifiers: {}
 
   components/docsumo:
-<<<<<<< HEAD
-    specifiers: {}
-=======
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
->>>>>>> master
 
   components/docupilot:
     specifiers:
