@@ -452,7 +452,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/azure_sql:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      mssql: ^10.0.1
+      uuid: ^9.0.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      mssql: 10.0.1
+      uuid: 9.0.1
 
   components/badger_maps:
     specifiers:
@@ -13593,7 +13600,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.2
       '@types/keyv': 3.1.4
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       '@types/responselike': 1.0.1
     dev: false
 
@@ -15081,7 +15088,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
