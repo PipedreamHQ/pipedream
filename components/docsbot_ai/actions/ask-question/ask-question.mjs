@@ -67,7 +67,7 @@ export default {
         metadata: this.metadata,
       },
     });
-    $.export("$summary", `Successfully asked question: ${this.question}`);
+    $.export("$summary", "Successfully asked question");
     return response;
   },
 };

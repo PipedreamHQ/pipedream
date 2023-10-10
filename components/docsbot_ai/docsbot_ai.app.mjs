@@ -1,5 +1,8 @@
 import { axios } from "@pipedream/platform";
 
+const BASE_URL_CHAT = "https://api.docsbot.ai";
+const BASE_URL_OTHERS = "https://docsbot.ai/api";
+
 export default {
   type: "app",
   app: "docsbot_ai",
@@ -33,72 +36,99 @@ export default {
     question: {
       type: "string",
       label: "Question",
-      description: "The question to ask the bot",
+      description: "The question to ask the bot (2 to 2000 characters)",
     },
     fullSource: {
       type: "boolean",
       label: "Full Source",
       description: "Whether the full source content should be returned",
+      optional: true,
+      default: false,
     },
     format: {
       type: "string",
       label: "Format",
-      description: "How to format the answer. Can be markdown or text",
+      description: "How to format the answer",
+      optional: true,
+      options: [
+        "markdown",
+        "text",
+      ],
+      default: "markdown",
     },
     history: {
       type: "string[]",
       label: "Chat History",
       description: "The chat history array",
+      optional: true,
     },
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "A user identification object with arbitrary metadata about the user",
+      description: "A user identification object with arbitrary metadata about the the user. Will be saved to the question history log. Keys `referrer`, `email`, and `name` are shown in question history logs",
+      optional: true,
     },
     type: {
       type: "string",
       label: "Source Type",
-      description: "The source type. Can be url, rss, sitemap, urls, csv, document, qa or wp",
+      description: "The source type",
+      options: [
+        "url",
+        "sitemap",
+        "rss",
+        "urls",
+        "csv",
+        "document",
+        "qa",
+        "wp",
+      ],
     },
     title: {
       type: "string",
       label: "Source Title",
-      description: "The source title. Required only for document type",
+      description: "The source title. Required if type is `document`",
+      optional: true,
     },
     url: {
       type: "string",
       label: "Source URL",
-      description: "The source URL. Required if type is url, sitemap, or rss",
+      description: "The source URL. Required if type is `url`, `sitemap`, or `rss`",
+      optional: true,
     },
     file: {
       type: "string",
       label: "Source File Path",
-      description: "The source file path. Required if type is urls, csv, document, or wp",
+      description: "The source file path. Required if type is `urls`, `csv`, `document`, or `wp`. The is usually the cloud storage path from the `GET /upload-url` API response",
+      optional: true,
     },
     faqs: {
       type: "string[]",
       label: "FAQs",
       description: "Required if type is `qa`. An array of objects like `{ \"question\": \"Question text\", \"answer\":\"The answer.\" }`",
+      optional: true,
     },
     scheduleInterval: {
       type: "string",
       label: "Schedule Interval",
-      description: "The source refresh scheduled interval. Can be daily, weekly, monthly, or none depending on your plan",
+      description: "The source refresh scheduled interval. Can be `daily`, `weekly`, `monthly`, or `none` depending on your plan",
+      optional: true,
+      options: [
+        "daily",
+        "weekly",
+        "monthly",
+        "none",
+      ],
+      default: "none",
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.docsbot.ai";
-    },
     async _makeRequest({
       $ = this,
-      path,
       headers,
       ...otherOpts
     } = {}) {
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.api_key}`,
@@ -107,12 +137,12 @@ export default {
     },
     async listTeams() {
       return this._makeRequest({
-        path: "/api/teams",
+        url: `${BASE_URL_OTHERS}/teams`,
       });
     },
     async listBots({ teamId }) {
       return this._makeRequest({
-        path: `/api/teams/${teamId}/bots`,
+        url: `${BASE_URL_OTHERS}/teams/${teamId}/bots`,
       });
     },
     async askQuestion({
@@ -120,7 +150,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/api/teams/${teamId}/bots/${botId}/chat`,
+        url: `${BASE_URL_CHAT}/teams/${teamId}/bots/${botId}/chat`,
         ...args,
       });
     },
@@ -129,7 +159,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/api/teams/${teamId}/bots/${botId}/sources`,
+        url: `${BASE_URL_OTHERS}/teams/${teamId}/bots/${botId}/sources`,
         ...args,
       });
     },
