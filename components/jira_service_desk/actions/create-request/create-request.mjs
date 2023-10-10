@@ -65,6 +65,10 @@ export default {
             ? `
 \\
 Field description: "${field.description}"`
+            : ""}${field.jiraSchema
+            ? `
+  \\
+  Field schema: \`${JSON.stringify(field.jiraSchema)}\``
             : ""}`,
           optional: !field.required,
         },
