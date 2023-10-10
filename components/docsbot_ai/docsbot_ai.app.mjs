@@ -10,7 +10,7 @@ export default {
       description: "The ID of the team",
       async options() {
         const teams = await this.listTeams();
-        return teams.map((team) => ({
+        return teams?.map?.((team) => ({
           label: team.name,
           value: team.id,
         }));
@@ -24,7 +24,7 @@ export default {
         const bots = await this.listBots({
           teamId,
         });
-        return bots.map((bot) => ({
+        return bots?.map?.((bot) => ({
           label: bot.name,
           value: bot.id,
         }));
@@ -78,7 +78,7 @@ export default {
     faqs: {
       type: "string[]",
       label: "FAQs",
-      description: "Required if type is qa. An array of objects like [{\"question\":\"Question text\", \"answer\":\"The answer.\"}]",
+      description: "Required if type is `qa`. An array of objects like `{ \"question\": \"Question text\", \"answer\":\"The answer.\" }`",
     },
     scheduleInterval: {
       type: "string",
