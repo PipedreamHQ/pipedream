@@ -1,4 +1,4 @@
-import docsbot_ai from "../../docsbot_ai.app.mjs";
+import docsbotAi from "../../docsbot_ai.app.mjs";
 
 export default {
   key: "docsbot_ai-ask-question",
@@ -7,16 +7,16 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    docsbot_ai,
+    docsbotAi,
     teamId: {
       propDefinition: [
-        docsbot_ai,
+        docsbotAi,
         "teamId",
       ],
     },
     botId: {
       propDefinition: [
-        docsbot_ai,
+        docsbotAi,
         "botId",
         (c) => ({
           teamId: c.teamId,
@@ -25,44 +25,47 @@ export default {
     },
     question: {
       propDefinition: [
-        docsbot_ai,
+        docsbotAi,
         "question",
       ],
     },
-    full_source: {
+    fullSource: {
       propDefinition: [
-        docsbot_ai,
-        "full_source",
+        docsbotAi,
+        "fullSource",
       ],
     },
     format: {
       propDefinition: [
-        docsbot_ai,
+        docsbotAi,
         "format",
       ],
     },
     history: {
       propDefinition: [
-        docsbot_ai,
+        docsbotAi,
         "history",
       ],
     },
     metadata: {
       propDefinition: [
-        docsbot_ai,
+        docsbotAi,
         "metadata",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.docsbot_ai.askQuestion({
+    const response = await this.docsbotAi.askQuestion({
+      $,
       teamId: this.teamId,
       botId: this.botId,
-      question: this.question,
-      full_source: this.full_source,
-      format: this.format,
-      history: this.history,
-      metadata: this.metadata,
+      data: {
+        question: this.question,
+        full_source: this.fullSource,
+        format: this.format,
+        history: this.history,
+        metadata: this.metadata,
+      },
     });
     $.export("$summary", `Successfully asked question: ${this.question}`);
     return response;

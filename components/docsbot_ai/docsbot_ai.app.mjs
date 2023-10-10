@@ -35,7 +35,7 @@ export default {
       label: "Question",
       description: "The question to ask the bot",
     },
-    full_source: {
+    fullSource: {
       type: "boolean",
       label: "Full Source",
       description: "Whether the full source content should be returned",
@@ -90,17 +90,14 @@ export default {
     _baseUrl() {
       return "https://api.docsbot.ai";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    } = {}) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -119,34 +116,21 @@ export default {
       });
     },
     async askQuestion({
-      teamId, botId, question, full_source, format, history, metadata,
+      teamId, botId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/api/teams/${teamId}/bots/${botId}/chat`,
-        data: {
-          question,
-          full_source,
-          format,
-          history,
-          metadata,
-        },
+        ...args,
       });
     },
     async createSource({
-      teamId, botId, type, title, url, file, faqs, scheduleInterval,
+      teamId, botId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/api/teams/${teamId}/bots/${botId}/sources`,
-        data: {
-          type,
-          title,
-          url,
-          file,
-          faqs,
-          scheduleInterval,
-        },
+        ...args,
       });
     },
   },

@@ -1,4 +1,4 @@
-import docsbot_ai from "../../docsbot_ai.app.mjs";
+import docsbotAi from "../../docsbot_ai.app.mjs";
 
 export default {
   key: "docsbot_ai-create-source",
@@ -7,63 +7,72 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    docsbot_ai,
+    docsbotAi,
     teamId: {
       propDefinition: [
-        docsbot_ai,
+        docsbotAi,
         "teamId",
       ],
     },
     botId: {
       propDefinition: [
-        docsbot_ai,
+        docsbotAi,
         "botId",
-        (c) => ({
-          teamId: c.teamId,
+        ({ teamId }) => ({
+          teamId,
         }),
       ],
     },
     type: {
-      type: "string",
-      label: "Source Type",
-      description: "The source type. Can be url, rss, sitemap, urls, csv, document, qa or wp",
+      propDefinition: [
+        docsbotAi,
+        "type",
+      ],
     },
     title: {
-      type: "string",
-      label: "Source Title",
-      description: "The source title. Required only for document type",
+      propDefinition: [
+        docsbotAi,
+        "title",
+      ],
     },
     url: {
-      type: "string",
-      label: "Source URL",
-      description: "The source URL. Required if type is url, sitemap, or rss",
+      propDefinition: [
+        docsbotAi,
+        "url",
+      ],
     },
     file: {
-      type: "string",
-      label: "Source File Path",
-      description: "The source file path. Required if type is urls, csv, document, or wp",
+      propDefinition: [
+        docsbotAi,
+        "file",
+      ],
     },
     faqs: {
-      type: "string[]",
-      label: "FAQs",
-      description: "Required if type is qa. An array of objects like [{\"question\":\"Question text\", \"answer\":\"The answer.\"}]",
+      propDefinition: [
+        docsbotAi,
+        "faqs",
+      ],
     },
     scheduleInterval: {
-      type: "string",
-      label: "Schedule Interval",
-      description: "The source refresh scheduled interval. Can be daily, weekly, monthly, or none depending on your plan",
+      propDefinition: [
+        docsbotAi,
+        "scheduleInterval",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.docsbot_ai.createSource({
+    const response = await this.docsbotAi.createSource({
+      $,
       teamId: this.teamId,
       botId: this.botId,
-      type: this.type,
-      title: this.title,
-      url: this.url,
-      file: this.file,
-      faqs: this.faqs.map(JSON.parse),
-      scheduleInterval: this.scheduleInterval,
+      data: {
+        type: this.type,
+        title: this.title,
+        url: this.url,
+        file: this.file,
+        faqs: this.faqs.map(JSON.parse),
+        scheduleInterval: this.scheduleInterval,
+      },
     });
     $.export("$summary", `Successfully created source with ID: ${response.id}`);
     return response;
