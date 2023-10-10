@@ -97,21 +97,19 @@ def parse_urls(driver, urls):
             )
             body = " ".join(element.text.split())
 
-            if not contents:
+            # only add unique contents
+            any_similar = False
+            for content in contents:
+                similarity_ratio = fuzz.ratio(body, content["content"])
+                if similarity_ratio >= 95:
+                    any_similar = True
+                    break
+
+            if not any_similar:
                 contents.append({
                     "url": url,
                     "content": body,
                 })
-                continue
-
-            # only add unique contents
-            for content in contents:
-                similarity_ratio = fuzz.ratio(body, content["content"])
-                if similarity_ratio < 95:
-                    contents.append({
-                        "url": url,
-                        "content": body,
-                    })
         except Exception as e:
             print(f"Error scraping {url}: {e}")
 
