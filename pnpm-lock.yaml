@@ -3401,7 +3401,12 @@ importers:
     specifiers: {}
 
   components/modeck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      moment: 2.29.4
 
   components/mojo_helpdesk:
     specifiers:
@@ -13593,7 +13598,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.2
       '@types/keyv': 3.1.4
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
       '@types/responselike': 1.0.1
     dev: false
 
