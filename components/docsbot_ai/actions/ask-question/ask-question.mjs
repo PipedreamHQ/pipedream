@@ -18,8 +18,8 @@ export default {
       propDefinition: [
         docsbotAi,
         "botId",
-        (c) => ({
-          teamId: c.teamId,
+        ({ teamId }) => ({
+          teamId,
         }),
       ],
     },
