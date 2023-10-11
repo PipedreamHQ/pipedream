@@ -2580,6 +2580,9 @@ importers:
   components/imgbb:
     specifiers: {}
 
+  components/imgur:
+    specifiers: {}
+
   components/implisense_api:
     specifiers: {}
 
@@ -2736,7 +2739,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/judge_me:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/jumpseller:
     specifiers: {}
@@ -6073,7 +6079,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/uplisting:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/uploadcare:
     specifiers:
