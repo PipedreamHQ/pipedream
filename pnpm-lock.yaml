@@ -357,7 +357,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/askyourpdf:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/assemblyai:
     specifiers:
@@ -855,7 +858,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/clerk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/cleverreach:
     specifiers:
@@ -1381,7 +1387,10 @@ importers:
     specifiers: {}
 
   components/docsumo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/docupilot:
     specifiers:
@@ -1787,6 +1796,9 @@ importers:
       pluralize: 8.0.0
       showdown: 2.1.0
       title-case: 3.0.3
+
+  components/formbricks:
+    specifiers: {}
 
   components/formdesk:
     specifiers: {}
@@ -2569,6 +2581,9 @@ importers:
   components/imgbb:
     specifiers: {}
 
+  components/imgur:
+    specifiers: {}
+
   components/implisense_api:
     specifiers: {}
 
@@ -2691,7 +2706,10 @@ importers:
       form-data: 4.0.0
 
   components/jira_service_desk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/jobber:
     specifiers: {}
@@ -2725,7 +2743,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/judge_me:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/jumpseller:
     specifiers: {}
@@ -3144,6 +3165,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/mainwp:
+    specifiers: {}
+
+  components/mamo_business:
     specifiers: {}
 
   components/manifestly_checklists:
@@ -3611,6 +3635,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/niftykit:
+    specifiers: {}
 
   components/nightfall_ai:
     specifiers: {}
@@ -4204,6 +4231,9 @@ importers:
   components/pointerpro:
     specifiers: {}
 
+  components/polygonscan:
+    specifiers: {}
+
   components/popupsmart:
     specifiers: {}
 
@@ -4230,7 +4260,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/postgrid_verify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/posthog:
     specifiers: {}
@@ -4305,6 +4338,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/productlane:
+    specifiers: {}
 
   components/profitwell:
     specifiers:
@@ -5879,7 +5915,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/trackingtime:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/trainual:
     specifiers: {}
@@ -6056,7 +6095,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/uplisting:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/uploadcare:
     specifiers:
