@@ -1792,6 +1792,9 @@ importers:
       showdown: 2.1.0
       title-case: 3.0.3
 
+  components/formbricks:
+    specifiers: {}
+
   components/formdesk:
     specifiers: {}
 
@@ -3156,6 +3159,9 @@ importers:
   components/mainwp:
     specifiers: {}
 
+  components/mamo_business:
+    specifiers: {}
+
   components/manifestly_checklists:
     specifiers: {}
 
@@ -3621,6 +3627,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/niftykit:
+    specifiers: {}
 
   components/nightfall_ai:
     specifiers: {}
@@ -4214,6 +4223,9 @@ importers:
   components/pointerpro:
     specifiers: {}
 
+  components/polygonscan:
+    specifiers: {}
+
   components/popupsmart:
     specifiers: {}
 
@@ -4318,6 +4330,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/productlane:
+    specifiers: {}
 
   components/profitwell:
     specifiers:
