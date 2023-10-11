@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/google-merchant-center",
+  "version": "0.0.1",
+  "description": "Pipedream Google Merchant Center Components",
+  "main": "google-merchant-center.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google-merchant-center"
+  ],
+  "homepage": "https://pipedream.com/apps/google-merchant-center",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
