@@ -27,6 +27,17 @@ export default {
         }),
       ],
     },
+    timestampColumn: {
+      propDefinition: [
+        common.props.app,
+        "column",
+        ({ table }) => ({
+          table,
+        }),
+      ],
+      label: "Timestamp Column",
+      description: "A datetime column, such as 'date_updated' or 'last_modified' that is set to the current datetime when a row is updated.",
+    },
   },
   methods: {
     ...common.methods,
