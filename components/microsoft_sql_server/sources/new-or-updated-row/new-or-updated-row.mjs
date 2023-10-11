@@ -7,7 +7,7 @@ export default {
   name: "New Or Updated Row",
   description: "Triggers when a new row is added or an existing row is updated. [See the documentation](https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver16)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -52,6 +52,22 @@ export default {
         summary: "New Row Added/Updated",
         ts: Date.now(),
       };
+    },
+    processResources(resources) {
+      const lastTs = this.getLastTs();
+      let maxTs = lastTs;
+
+      for (const resource of resources) {
+        delete resource.pdId;
+        if (resource[this.timestampColumn] > lastTs) {
+          this.$emit(resource, this.generateMeta(resource));
+          if (resource[this.timestampColumn] > maxTs) {
+            maxTs = resource[this.timestampColumn];
+          }
+        }
+      }
+
+      this.setLastTs(maxTs);
     },
   },
 };

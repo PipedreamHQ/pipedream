@@ -27,6 +27,17 @@ export default {
         }),
       ],
     },
+    timestampColumn: {
+      propDefinition: [
+        common.props.app,
+        "column",
+        ({ table }) => ({
+          table,
+        }),
+      ],
+      label: "Timestamp Column",
+      description: "A datetime column, such as 'date_updated' or 'last_modified' that is set to the current datetime when a row is updated.",
+    },
   },
   methods: {
     ...common.methods,
@@ -52,6 +63,22 @@ export default {
         summary: "New Row Added/Updated",
         ts: Date.now(),
       };
+    },
+    processResources(resources) {
+      const lastTs = this.getLastTs();
+      let maxTs = lastTs;
+
+      for (const resource of resources) {
+        delete resource.pdId;
+        if (resource[this.timestampColumn] > lastTs) {
+          this.$emit(resource, this.generateMeta(resource));
+          if (resource[this.timestampColumn] > maxTs) {
+            maxTs = resource[this.timestampColumn];
+          }
+        }
+      }
+
+      this.setLastTs(maxTs);
     },
   },
 };
