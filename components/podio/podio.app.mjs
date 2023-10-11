@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -51,6 +53,9 @@ export default {
       async options({
         page, appId,
       }) {
+        if (isNaN(appId)) {
+          throw new ConfigurationError("Options are unavailable when the App ID prop is dynamically passed using a custom expression. Please enter a custom expression for this prop instead.");
+        }
         const pageSize = 30;
         const resp = await this.filterItems({
           appId,

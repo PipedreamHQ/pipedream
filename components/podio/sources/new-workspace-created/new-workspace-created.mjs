@@ -3,8 +3,8 @@ import common from "../common/common-poll.mjs";
 export default {
   key: "podio-new-workspace-created",
   name: "New Workspace created",
-  description: "Emit new events when a new workspace created. [See the docs here](https://developers.podio.com/doc/spaces/get-list-of-organization-workspaces-238875316)",
-  version: "0.0.1",
+  description: "Emit new events when a new workspace created. [See the documentation](https://developers.podio.com/doc/spaces/get-list-of-organization-workspaces-238875316)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,
