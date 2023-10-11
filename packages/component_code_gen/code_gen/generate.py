@@ -1,5 +1,4 @@
 import os
-from thefuzz import fuzz
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -96,20 +95,10 @@ def parse_urls(driver, urls):
                 EC.presence_of_element_located((By.TAG_NAME, 'body'))
             )
             body = " ".join(element.text.split())
-
-            # only add unique contents
-            any_similar = False
-            for content in contents:
-                similarity_ratio = fuzz.ratio(body, content["content"])
-                if similarity_ratio >= 95:
-                    any_similar = True
-                    break
-
-            if not any_similar:
-                contents.append({
-                    "url": url,
-                    "content": body,
-                })
+            contents.append({
+                "url": url,
+                "content": body,
+            })
         except Exception as e:
             print(f"Error scraping {url}: {e}")
 
