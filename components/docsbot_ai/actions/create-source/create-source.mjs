@@ -70,7 +70,7 @@ export default {
         title: this.title,
         url: this.url,
         file: this.file,
-        faqs: this.faqs.map(JSON.parse),
+        faqs: this.faqs?.map?.(JSON.parse),
         scheduleInterval: this.scheduleInterval,
       },
     });
