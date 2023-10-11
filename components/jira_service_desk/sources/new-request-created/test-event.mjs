@@ -12,7 +12,6 @@ export default {
   },
   reporter: {
     name: "fred",
-    key: "fred",
     emailAddress: "fred@example.com",
     displayName: "Fred F. User",
     active: true,
