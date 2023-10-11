@@ -25,13 +25,20 @@ def extract_prompts(markdown_dict):
 
 
 def get_all_docs_urls(markdown_dict):
-    urls = []
-    for key, value in markdown_dict.items():
-        if key == "urls":
-            urls.extend(value)
-        elif isinstance(value, (dict, OrderedDict)):
-            urls.extend(get_all_docs_urls(value))
-    return urls
+    def extract_urls(markdown_dict):
+        urls = []
+        for key, value in markdown_dict.items():
+            if key == "urls":
+                urls.extend(value)
+            elif isinstance(value, (dict, OrderedDict)):
+                urls.extend(extract_urls(value))
+        return urls
+    all_urls = extract_urls(markdown_dict)
+    return unique_urls(all_urls)
+
+
+def unique_urls(urls):
+    return list(set([url.split("#")[0] for url in urls]))
 
 
 def generate_app_file_prompt(requirements, app_file_content):
@@ -102,7 +109,7 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
 
     app_file_instructions = generate_app_file_prompt(
         "\n\n".join(extract_prompts(markdown)), app_file_content)
-    all_docs_urls = list(set(get_all_docs_urls(markdown)))
+    all_docs_urls = get_all_docs_urls(markdown)
     logger.debug("Generating app file")
     app_file_content = main("app",
                             app,
@@ -151,7 +158,7 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
                 "type": component_type,
                 "key": component_key,
                 "instructions": f"The component key is {app}-{component_key}. {instructions}",
-                "urls": global_urls + urls,
+                "urls": unique_urls(global_urls + urls),
             })
 
     for component in requirements:
@@ -178,4 +185,5 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         run_command(f"git add -f {app_base_path} {repo_path}/pnpm-lock.yaml")
         run_command(f"git commit --no-verify -m '{app} init'")
         run_command(f"git push -f --set-upstream origin {branch_name}")
-        run_command(f"gh pr create --draft --title 'New Components - {app}' --body 'Resolves #{issue_number}.'")
+        run_command(
+            f"gh pr create --draft --title 'New Components - {app}' --body 'Resolves #{issue_number}.'")
