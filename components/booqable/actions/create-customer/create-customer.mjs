@@ -1,35 +1,50 @@
-import booqable from "../../booqable.app.mjs";
+import app from "../../booqable.app.mjs";
 
 export default {
   key: "booqable-create-customer",
   name: "Create Customer",
-  description: "Create a new customer in Booqable. [See the documentation](https://developers.booqable.com)",
+  description: "Create a new customer in Booqable. [See the documentation](https://developers.booqable.com/#create-a-new-customer)",
   version: "0.0.1",
   type: "action",
   props: {
-    booqable,
+    app,
     name: {
       propDefinition: [
-        booqable,
+        app,
         "name",
       ],
     },
     email: {
       propDefinition: [
-        booqable,
+        app,
         "email",
       ],
     },
   },
-  async run({ $ }) {
-    const response = await this.booqable.createCustomer({
-      $,
-      name: this.name,
-      email: this.email,
+  methods: {
+    createCustomer(args = {}) {
+      return this.app.post({
+        path: "/customers",
+        ...args,
+      });
+    },
+  },
+  run({ $: step }) {
+    const {
+      createCustomer,
+      name,
+      email,
+    } = this;
+
+    return createCustomer({
+      step,
+      data: {
+        customer: {
+          name,
+          email,
+        },
+      },
+      summary: (response) => `Successfully created customer with ID: \`${response.customer.id}\``,
     });
-
-    $.export("$summary", `Successfully created customer with ID: ${response.id}`);
-
-    return response;
   },
 };
