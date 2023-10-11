@@ -32,6 +32,7 @@ export default {
   async run({ $ }) {
     const {
       app,
+      getDateRangeParam,
       startYear,
       timeGranularity,
       adAccountId,
@@ -42,10 +43,9 @@ export default {
     const response = await createReport({
       $,
       params: {
+        "q": "analytics",
         "pivot": "ACCOUNT",
-        "dateRange.start.day": 1,
-        "dateRange.start.month": 1,
-        "dateRange.start.year": startYear,
+        "dateRange": getDateRangeParam(`${startYear}-01-01`),
         timeGranularity,
         "accounts": getListParam([
           app.getSponsoredAccountUrn(adAccountId),

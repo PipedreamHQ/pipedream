@@ -39,12 +39,6 @@ export default {
       description: "Represents the inclusive end time range of the analytics. Must be after start time if it's present. If unset, it indicates an open range from start time to everything after. Should be in the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format, e.g. 2022-12-27.",
       optional: true,
     },
-    campaignType: {
-      type: "string[]",
-      label: "Campaign Type",
-      description: "An [Array of Campaign Type Values](https://docs.microsoft.com/en-us/linkedin/shared/references/v2/ads/adaccounts?context=linkedin/marketing/context). Required unless another facet is provided. Supported types are [TEXT_AD, SPONSORED_UPDATES, SPONSORED_INMAILS, DYNAMIC]. Requires at least one other facet.",
-      optional: true,
-    },
     shares: {
       type: "string[]",
       label: "Shares",
@@ -67,12 +61,6 @@ export default {
       type: "string[]",
       label: "Campaign Groups",
       description: "An [Array of Campaign Group URN](https://docs.microsoft.com/en-us/linkedin/shared/references/v2/ads/adcampaigngroups?context=linkedin/marketing/context). Required unless another facet is provided.",
-      optional: true,
-    },
-    companies: {
-      type: "string[]",
-      label: "Companies",
-      description: "An [Array of Organization URN](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-lookup-api). Required unless another facet is provided.",
       optional: true,
     },
     accounts: {

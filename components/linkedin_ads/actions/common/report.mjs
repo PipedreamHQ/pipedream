@@ -6,21 +6,22 @@ export default {
     app,
   },
   methods: {
-    getDateArray(date) {
+    getDateStr(date) {
       return [
-        `day:${date.getDate() + 1}`,
+        `day:${date.getDate()}`,
         `month:${date.getMonth() + 1}`,
         `year:${date.getFullYear()}`,
-      ];
+      ].join(",");
     },
     getDateRangeParam(startStr, endStr) {
-      const start = this.getDateArray(new Date(startStr)).join(",");
+      const { getDateStr } = this;
+      const start = getDateStr(new Date(startStr));
 
       if (!endStr) {
         return `(start:(${start}))`;
       }
 
-      const end = this.getDateArray(new Date(endStr)).join(",");
+      const end = getDateStr(new Date(endStr));
       return `(start:(${start}),end:(${end}))`;
     },
     getListParam(list = []) {
