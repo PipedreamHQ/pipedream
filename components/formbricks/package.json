@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/formbricks",
+  "version": "0.0.1",
+  "description": "Pipedream Formbricks Components",
+  "main": "formbricks.app.mjs",
+  "keywords": [
+    "pipedream",
+    "formbricks"
+  ],
+  "homepage": "https://pipedream.com/apps/formbricks",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
