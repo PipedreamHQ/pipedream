@@ -70,10 +70,11 @@ export default {
 
       for (const resource of resources) {
         delete resource.pdId;
-        if (resource[this.timestampColumn] > lastTs) {
+        const ts = Date.parse(resource[this.timestampColumn]);
+        if (ts > lastTs) {
           this.$emit(resource, this.generateMeta(resource));
-          if (resource[this.timestampColumn] > maxTs) {
-            maxTs = resource[this.timestampColumn];
+          if (ts > maxTs) {
+            maxTs = ts;
           }
         }
       }
