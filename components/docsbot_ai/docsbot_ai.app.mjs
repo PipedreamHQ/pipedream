@@ -98,7 +98,7 @@ export default {
     file: {
       type: "string",
       label: "Source File Path",
-      description: "The source file path. Required if type is `urls`, `csv`, `document`, or `wp`. The is usually the cloud storage path from the `GET /upload-url` API response",
+      description: "The source file path. Required if type is `urls`, `csv`, `document`, or `wp`. You can upload a file using the **Upload Source File** action and use the returned `file` property here",
       optional: true,
     },
     faqs: {
@@ -119,6 +119,11 @@ export default {
         "none",
       ],
       default: "none",
+    },
+    filePath: {
+      type: "string",
+      label: "File Path",
+      description: "A file path in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/)",
     },
   },
   methods: {
@@ -160,6 +165,26 @@ export default {
       return this._makeRequest({
         method: "POST",
         url: `${BASE_URL_OTHERS}/teams/${teamId}/bots/${botId}/sources`,
+        ...args,
+      });
+    },
+    async getFileUploadUrl({
+      teamId, botId, ...args
+    }) {
+      return this._makeRequest({
+        url: `${BASE_URL_OTHERS}/teams/${teamId}/bots/${botId}/upload-url`,
+        ...args,
+      });
+    },
+
+    async uploadSourceFile(
+      args,
+    ) {
+      return this._makeRequest({
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/octet-stream",
+        },
         ...args,
       });
     },

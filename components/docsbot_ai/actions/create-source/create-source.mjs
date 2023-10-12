@@ -3,7 +3,7 @@ import docsbotAi from "../../docsbot_ai.app.mjs";
 export default {
   key: "docsbot_ai-create-source",
   name: "Create Source",
-  description: "Creates a new source for a bot. [See the documentation](https://docsbot.ai/documentation/developer/source-api#create-source)",
+  description: "Create a new source for a bot. [See the documentation](https://docsbot.ai/documentation/developer/source-api#create-source)",
   version: "0.0.1",
   type: "action",
   props: {
