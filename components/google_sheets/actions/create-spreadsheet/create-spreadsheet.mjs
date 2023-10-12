@@ -64,10 +64,10 @@ export default {
       return response;
     }
 
-    await updateFile(response.spreadsheetId, {
+    const spreadsheet = await updateFile(response.spreadsheetId, {
       addParents: drive,
     });
 
-    return getSpreadsheet(response.spreadsheetId);
+    return getSpreadsheet(spreadsheet.id);
   },
 };
