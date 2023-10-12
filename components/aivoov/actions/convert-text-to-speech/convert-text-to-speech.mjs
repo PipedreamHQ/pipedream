@@ -65,7 +65,7 @@ export default {
   async run({ $ }) {
     const data = new FormData();
     if (this.voiceId) {
-      data.append("voice_id", this.voiceId);
+      data.append("voice_id", this.voiceId.replace("{engine}", "{{engine}}"));
     }
 
     if (this.transcribeText) {

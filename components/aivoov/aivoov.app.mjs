@@ -12,9 +12,11 @@ export default {
         const voices = await this.getVoices({
           provider,
         });
-        return voices.map((voice) => ({
-          label: `${voice.name} (${voice.language_code})`,
-          value: voice.voice_id,
+        return voices.map(({
+          name, language_code, voice_id,
+        }) => ({
+          label: `${name} (${language_code})`,
+          value: voice_id?.replace?.("{{engine}}", "{engine}") ?? voice_id,
         }));
       },
     },
