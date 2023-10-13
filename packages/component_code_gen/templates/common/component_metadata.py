@@ -3,9 +3,10 @@ action_example = """```
 export default {
   key: "google_drive-list-all-drives",
   name: "List All Drives",
-  description: "Lists all drives in an account.",
+  description: "Lists all drives in an account. [See the documentation](${docsLink})",
   version: "0.0.{{ts}}",
   type: "action",
+  ...
 };
 ```"""
 
@@ -15,10 +16,11 @@ source_example = """```
 export default {
   key: "google_drive-new-shared-drive-created",
   name: "New Shared Drive Created",
-  description: "Emits a new event any time a shared drive is created.",
+  description: "Emits a new event any time a shared drive is created. [See the documentation](${docsLink})",
   version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
+  ...
 };
 ```"""
 
@@ -26,17 +28,23 @@ export default {
 # ---------------------------- component metadata ---------------------------- #
 component_metadata = """## Component Metadata
 
-Registry components require a unique key and version, and a friendly name and description. E.g.
+Registry components require a unique key and version, and a friendly name and description, e.g.
 
 {example}
 
 Component keys are in the format app_name_slug-slugified-component-name.
-You should come up with a name and a description for the component you are generating.
-In the description, you should include a link to the app docs, if they exist. Or add this as a placeholder: [See docs here]().
+
+You should come up with a name and a short description for the component you are generating.
+
+In the description, you should always include a link to the app docs. Or add this as a placeholder: [See the documentation]().
+
 Action keys should use active verbs to describe the action that will occur, (e.g., linear_app-create-issue).
-Always add version "0.0.{{ts}}".
+
+Always add a version of "0.0.{{ts}}".
+
 Always put {component_type}.
-You MUST add metadata to the component code you generate."""
+
+You MUST add this metadata to the component code you generate."""
 
 
 # ---------------------------- action metadata ---------------------------- #

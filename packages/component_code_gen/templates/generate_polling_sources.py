@@ -5,6 +5,7 @@ from templates.sources.polling.introduction import introduction
 from templates.sources.polling.main_example import main_example
 from templates.common.app_prop import app_prop
 from templates.common.auth import auth
+from templates.common.common_files import common_files
 from templates.common.component_metadata import source_metadata
 from templates.common.platform_axios import platform_axios
 from templates.common.props import props
@@ -13,7 +14,14 @@ from templates.common.async_options import async_options
 from templates.common.typescript_definitions import typescript_definitions
 from templates.common.end import end
 
-def system_instructions(auth_example=""):
+checks = [app_prop, auth, props, hooks, db, platform_axios, async_options,
+          source_metadata, rules, additional_rules, typescript_definitions, end]
+
+always_include = [introduction, typescript_definitions,
+                  main_example, end]
+
+
+def system_instructions(auth_details="", parsed_common_files=""):
     return f"""{introduction}
 
 {main_example}
@@ -22,7 +30,7 @@ def system_instructions(auth_example=""):
 
 {auth}
 
-{auth_example}
+{auth_details}
 
 {props}
 
@@ -35,6 +43,8 @@ def system_instructions(auth_example=""):
 {async_options}
 
 {source_metadata}
+
+{common_files(parsed_common_files)}
 
 {typescript_definitions}
 
