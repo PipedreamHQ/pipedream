@@ -1,5 +1,4 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import moment from "moment";
 import modeck from "../../modeck.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -53,7 +52,7 @@ export default {
       let count = 0;
 
       for (const render of renderList) {
-        if (moment(render.data).isSameOrBefore(lastDate)) break;
+        if (new Date(render.data) <= new Date(lastDate)) break;
         responseArray.push(render);
         if (maxResults && (++count === maxResults)) break;
       }
