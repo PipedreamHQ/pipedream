@@ -149,3 +149,11 @@ Credit Budgets are configurable limits on your credit usage at the account or wo
 If you're receiving this warning on a source or workflow, this means your allocated Credit Budget has been reached for the defined period.
 
 You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).
+
+## How can support help me?
+
+To get in touch with our support team, start by visiting your **Workflow Settings** and sharing your workflow with Pipedream Support.
+
+If your workflow is part of a Project, navigate to the **Project Settings** to grant access to us.
+
+For assistance, fill out the request form at https://pipedream.com/support, providing detailed information along with the URL from your browser's address bar, which should look something like https://pipedream.com/@yourworkspace/projects/yourproject/test-workflow-pabc123.
