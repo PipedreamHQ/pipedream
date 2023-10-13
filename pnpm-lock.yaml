@@ -3403,10 +3403,8 @@ importers:
   components/modeck:
     specifiers:
       '@pipedream/platform': ^1.5.1
-      moment: ^2.29.4
     dependencies:
       '@pipedream/platform': 1.5.1
-      moment: 2.29.4
 
   components/mojo_helpdesk:
     specifiers:
@@ -13590,7 +13588,7 @@ packages:
     resolution: {integrity: sha512-oyl4jvAfTGX9Bt6Or4H9ni1Z447/tQuxnZsytsCaExKlmJiU8sFgnIBRzJUpKwB5eWn9HuBYlUlVA74q/yN0eQ==}
     dependencies:
       '@types/connect': 3.4.36
-      '@types/node': 18.18.1
+      '@types/node': 17.0.45
     dev: false
 
   /@types/cacheable-request/6.0.3:
@@ -13617,7 +13615,7 @@ packages:
   /@types/duplexify/3.6.2:
     resolution: {integrity: sha512-2/0R4riyD/OS6GNJLIhwRaj+8ZbxHUZl3I0a3PHwH7zhZEEAACUWjzaBrY1qVWckueZ5pouDRP0UxX6P8Hzfww==}
     dependencies:
-      '@types/node': 20.8.0
+      '@types/node': 17.0.45
     dev: false
 
   /@types/estree-jsx/1.0.1:
