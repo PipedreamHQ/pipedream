@@ -1379,7 +1379,10 @@ importers:
     specifiers: {}
 
   components/docsbot_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/docsumo:
     specifiers:
