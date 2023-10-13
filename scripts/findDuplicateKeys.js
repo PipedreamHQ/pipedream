@@ -13,8 +13,9 @@ function included(dirent) {
   if (dirent.isDirectory()) {
     return !excludeDirs.includes(dirent.name);
   }
-  return includedExtensions.includes(path.extname(dirent.name)) &&
-    !excludedExtensions.find((ext) => dirent.name.endsWith(ext));
+  return includedExtensions.includes(path.extname(dirent.name))
+    && !excludedExtensions.find((ext) => dirent.name.endsWith(ext))
+    && !dirent.name.includes("test-event.mjs");
 }
 
 async function* getFiles(dir) {
