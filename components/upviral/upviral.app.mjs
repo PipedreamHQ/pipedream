@@ -49,12 +49,15 @@ export default {
     },
   },
   methods: {
+    _apiKey() {
+      return this.$auth.api_key;
+    },
     _apiUrl() {
       return "https://app.upviral.com/api/v1";
     },
     _getParams(params) {
       return {
-        uvapikey: this.$auth.api_key,
+        uvapikey: this._apiKey(),
         ...params,
       };
     },

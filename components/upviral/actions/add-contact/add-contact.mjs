@@ -95,9 +95,11 @@ export default {
       headers: bodyFormData.getHeaders(),
     });
 
-    if (response.result === "error") throw new ConfigurationError(response.message);
+    if (response.result === "error") {
+      throw new ConfigurationError(response.message);
+    }
 
-    $.export("$summary", `A new contact with UID: ${response.uid} was successfully created!`);
+    $.export("$summary", `A new contact with UID: '${response.uid}' was successfully created!`);
     return response;
   },
 };
