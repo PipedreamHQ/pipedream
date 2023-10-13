@@ -41,7 +41,7 @@ export default {
         },
       });
 
-      contacts.reverse().forEach(this.emitEvent);
+      contacts.forEach(this.emitEvent);
     },
   },
   async run() {
@@ -61,7 +61,7 @@ export default {
         this._setLastResourceId(contacts[0].uuid);
       }
 
-      contacts.reverse().forEach(this.emitEvent);
+      contacts.forEach(this.emitEvent);
 
       if (
         contacts.length < 100 ||
