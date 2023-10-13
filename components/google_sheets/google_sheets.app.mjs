@@ -453,8 +453,7 @@ export default {
         },
         validateStatus: () => true,
         params: {
-          // valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
-          valueInputOption: VALUE_INPUT_OPTION.RAW,
+          valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
           insertDataOption: INSERT_DATA_OPTION.INSERT_ROWS,
           ...params,
         },
