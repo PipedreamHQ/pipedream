@@ -107,22 +107,29 @@ export default {
         return;
       }
 
-      const inputs = updatedContacts.map(({ id }) => ({
-        id,
-      }));
-      // get contacts w/ `propertiesWithHistory`
-      const { results } = await this.batchGetContacts(inputs);
-
+      const batchSize = 45;
       let maxTs = after;
-      for (const result of results) {
-        if (this.isRelevant(result, after)) {
-          this.emitEvent(result);
-          const ts = this.getTs(result);
-          if (ts > maxTs) {
-            maxTs = ts;
+
+      for (let i = 0; i < updatedContacts.length; i += batchSize) {
+        const batchInputs = updatedContacts.slice(i, i + batchSize).map(({id}) => ({id}));
+
+        // get contacts w/ `propertiesWithHistory`
+        const {results} = await this.batchGetContacts(batchInputs);
+
+        maxTs = after;
+        
+        for (const result of results) {
+          if (this.isRelevant(result, after)) {
+            this.emitEvent(result);
+            const ts = this.getTs(result);
+            if (ts > maxTs) {
+              maxTs = ts;
+            }
           }
         }
-      }
+
+      after = maxTs;
+    }
 
       this._setAfter(maxTs);
     },
