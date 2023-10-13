@@ -4,7 +4,8 @@
 
 Using Playwright you can perform tasks including:
 
-* Screenshots and PDFs: Capture web page visuals.
+* Capture Screenshots: Convert webpages into images.
+* Processing PDFs: parse and scan PDFs.
 * Web Scraping: Extract data from websites.
 * UI/UX Testing: Verify user interface and experience.
 * Integration with Test Frameworks: Combine with testing frameworks.
@@ -22,7 +23,7 @@ Simply import this package, launch a browser and navigate using a Playwright Pag
 
 To get started, import the `@pipedream/browsers` package into your Node.js code step. Pipedream will automatically install this specialized package that bundles the dependencies needed to run `playwright` in your code step.
 
-This package exports a `playwright` module that features these methods:
+This package exports a `playwright` module that exposes these methods:
 
 * `browser(opts?)` - method to instantiate a new browser (returns a [Playwright Browser instance](https://playwright.dev/docs/browsers))
 * `launch(opts?)` - an alias to browser()
@@ -50,6 +51,8 @@ export default defineComponent({
 The same `@pipedream/browsers` package can be used in [actions](https://pipedream.com/docs/components/quickstart/nodejs/actions/) as well as [sources](https://pipedream.com/docs/components/quickstart/nodejs/sources/).
 
 The steps are the same as usage in Node.js code. Open a browser, create a page, and close the browser at the end of the code step.
+
+*Please note*: At this time Source's memory are not configurable and are fixed to 256 mb. This is below the recommened 2 gbs for usage in workflows.
 
 # Troubleshooting
 

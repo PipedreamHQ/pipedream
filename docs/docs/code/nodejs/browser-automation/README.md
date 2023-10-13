@@ -56,6 +56,8 @@ Puppeteer can take a full screenshot of a webpage rendered with Chromium. For fu
 :::: tabs :options="{ useUrlFragment: false }"
 
 ::: tab "Save screenshot to /tmp"
+
+Save a screenshot within the local `/tmp` directory:
 ```javascript
 import { puppeteer } from '@pipedreamhq/platform';
 
@@ -73,6 +75,8 @@ export default defineComponent({
 :::
 
 ::: tab "Return screenshot as a base64 encoded string"
+
+Save the screenshot as a base 64 encoded string:
 
 ```javascript
 import { puppeteer } from '@pipedream/browsers';
@@ -100,6 +104,9 @@ Puppeteer can render a PDF of a webpage. For full options [see the Puppeteer Scr
 :::: tabs :options="{ useUrlFragment: false }"
 
 ::: tab "Save PDF to /tmp"
+
+Save the PDF locally to `/tmp`:
+
 ```javascript
 import { puppeteer } from '@pipedreamhq/platform';
 
@@ -116,7 +123,9 @@ export default defineComponent({
 ```
 :::
 
-::: tab "Return screenshot as a base64 encoded string"
+::: tab "Return the PDF as a base64 encoded string"
+
+Save the PDF as a base 64 encoded string:
 
 ```javascript
 import { puppeteer } from '@pipedream/browsers';
@@ -145,6 +154,9 @@ Puppeteer can scrape individual elements or return all content of a webpage.
 :::: tabs :options="{ useUrlFragment: false }"
 
 ::: tab "Extract the h1 tag from a webpage"
+
+Extract individual elements with a CSS selector:
+
 ```javascript
 import { puppeteer } from '@pipedream/browsers';
 
@@ -163,6 +175,8 @@ export default defineComponent({
 :::
 
 ::: tab "Retrieve all HTML content from a webpage"
+
+Extract all HTML content form a webpage:
 
 ```javascript
 import { puppeteer } from '@pipedream/browsers';
@@ -190,6 +204,9 @@ Puppeteer can also programmatically click and type on a webpage.
 :::: tabs :options="{ useUrlFragment: false }"
 
 ::: tab "With Page.type"
+
+`Page.type` accepts a CSS selector and a string to type into the field.
+
 ```javascript
 import { puppeteer } from '@pipedream/browsers';
 
@@ -211,6 +228,9 @@ export default defineComponent({
 :::
 
 ::: tab "With Page.click and Page.keyboard.type"
+
+`Page.click` will click on the element to focus on it, then `Page.keyboard.type` emulates keyboard keystrokes.
+
 ```javascript
 import { puppeteer } from '@pipedream/browsers';
 
@@ -265,7 +285,7 @@ export default defineComponent({
     $.export('content', content);
 
     // The browser context and browser needs to be closed, otherwise the step will hang
-    await page.context().close();
+    await page.context().clos);
     await browser.close();
   },
 })
@@ -291,6 +311,9 @@ Playwright can take a full screenshot of a webpage rendered with Chromium. For f
 :::: tabs :options="{ useUrlFragment: false }"
 
 ::: tab "Save screenshot to /tmp"
+
+Save a screenshot within the local `/tmp` directory:
+
 ```javascript
 import { playwright } from '@pipedreamhq/platform';
 
@@ -310,6 +333,8 @@ export default defineComponent({
 :::
 
 ::: tab "Return screenshot as a base64 encoded string"
+
+Save the screenshot as a base 64 encoded string:
 
 ```javascript
 import { playwright } from '@pipedream/browsers';
@@ -342,6 +367,9 @@ Playwright can render a PDF of a webpage. For full options [see the Playwright S
 :::: tabs :options="{ useUrlFragment: false }"
 
 ::: tab "Save PDF to /tmp"
+
+Save a PDF locally to `/tmp`:
+
 ```javascript
 import { playwright } from '@pipedreamhq/platform';
 
@@ -361,6 +389,8 @@ export default defineComponent({
 :::
 
 ::: tab "Return screenshot as a base64 encoded string"
+
+Save the screenshot as a base 64 encoded string:
 
 ```javascript
 import { playwright } from '@pipedream/browsers';
@@ -393,6 +423,9 @@ Playwright can scrape individual elements or return all content of a webpage.
 :::: tabs :options="{ useUrlFragment: false }"
 
 ::: tab "Extract the h1 tag from a webpage"
+
+Extract individual HTML elements using a CSS Selector:
+
 ```javascript
 import { playwright } from '@pipedream/browsers';
 
@@ -414,6 +447,8 @@ export default defineComponent({
 :::
 
 ::: tab "Retrieve all HTML content from a webpage"
+
+Extract all HTML content from a webpage with `Page.content`:
 
 ```javascript
 import { playwright } from '@pipedream/browsers';
@@ -444,6 +479,9 @@ Playwright can also programmatically click and type on a webpage.
 :::: tabs :options="{ useUrlFragment: false }"
 
 ::: tab "With Page.type"
+
+`Page.type` accepts a CSS selector and a string to type into the selected element.
+
 ```javascript
 import { playwright } from '@pipedream/browsers';
 
@@ -466,6 +504,9 @@ export default defineComponent({
 :::
 
 ::: tab "With Page.click and Page.keyboard.type"
+
+`Page.click` will click on the element to focus on it, then `Page.keyboard.type` emulates keyboard keystrokes.
+
 ```javascript
 import { playwright } from '@pipedream/browsers';
 
