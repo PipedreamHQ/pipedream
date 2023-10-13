@@ -1,6 +1,6 @@
 # Overview
 
-[Playwright](https://pptr.dev/) is a Node.js library which provides a high-level API to control Chrome/Chromium over the DevTools Protocol. Playwright runs in headless mode on Chromium on Pipedream.
+[Playwright](https://playwright.dev/) is a Node.js library which provides a high-level API to control Chrome/Chromium over the DevTools Protocol. Playwright runs in headless mode on Chromium on Pipedream.
 
 Using Playwright you can perform tasks including:
 
