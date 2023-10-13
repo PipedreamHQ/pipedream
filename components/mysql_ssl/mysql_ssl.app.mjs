@@ -24,7 +24,7 @@ export default {
         password,
         database,
         ssl: {
-          rejectUnauthorized: !!rejectUnauthorized,
+          rejectUnauthorized: rejectUnauthorized === "true",
           ca,
           key,
           cert,

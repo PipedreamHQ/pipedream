@@ -9,5 +9,5 @@ export default {
   ...utils.getAppProps(createRow),
   key: "mysql_ssl-create-row",
   description: "Adds a new row (SSL). [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",
-  version: "1.0.0",
+  version: "1.0.1",
 };
