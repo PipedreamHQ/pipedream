@@ -156,4 +156,8 @@ To get in touch with our support team, start by visiting your **Workflow Setting
 
 If your workflow is part of a Project, navigate to the **Project Settings** to grant access to us.
 
-For assistance, fill out the request form at https://pipedream.com/support, providing detailed information along with the URL from your browser's address bar, which should look something like https://pipedream.com/@yourworkspace/projects/yourproject/test-workflow-pabc123.
+For assistance, fill out the request form at https://pipedream.com/support, providing detailed information along with the URL from your browser's address bar, which should look something like:
+
+```
+https://pipedream.com/@yourworkspace/projects/yourproject/test-workflow-pabc123
+```
