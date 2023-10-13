@@ -5,10 +5,11 @@ export default {
   app: "airmeet",
   propDefinitions: {
     airmeetId: {
+      type: "string",
       label: "Airmeet ID",
       description: "The Airmeet ID",
       async options() {
-        const airmeets = await this.getAirmeets();
+        const { data: airmeets } = await this.getAirmeets();
 
         return airmeets.map((airmeet) => ({
           value: airmeet.uid,
@@ -52,6 +53,12 @@ export default {
       return this._makeRequest({
         path: `/airmeet/${airmeetId}/attendee`,
         method: "post",
+        ...args,
+      });
+    },
+    getAirmeets(args = {}) {
+      return this._makeRequest({
+        path: "/airmeets",
         ...args,
       });
     },

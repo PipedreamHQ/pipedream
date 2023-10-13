@@ -31,7 +31,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.createAirmeet({
+    const response = await this.app.addAuthorizedAttendee({
       $,
       airmeetId: this.airmeetId,
       data: {
