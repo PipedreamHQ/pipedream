@@ -33,16 +33,41 @@ export default {
     },
   },
   async run() {
-    if (this.sheetId) {
-      return await this.googleSheets.copySpreadsheet(this.sheetId, this.title);
+    const {
+      googleSheets,
+      sheetId,
+      title,
+      drive,
+    } = this;
+
+    const {
+      copySpreadsheet,
+      createSpreadsheet,
+      getSpreadsheet,
+      updateFile,
+      isMyDrive,
+    } = googleSheets;
+
+    if (sheetId) {
+      return copySpreadsheet(sheetId, title);
     }
-    const request = {
+
+    const response = await createSpreadsheet({
       resource: {
         properties: {
-          title: this.title,
+          title,
         },
       },
-    };
-    return await this.googleSheets.createSpreadsheet(request);
+    });
+
+    if (isMyDrive(drive)) {
+      return response;
+    }
+
+    const spreadsheet = await updateFile(response.spreadsheetId, {
+      addParents: drive,
+    });
+
+    return getSpreadsheet(spreadsheet.id);
   },
 };
