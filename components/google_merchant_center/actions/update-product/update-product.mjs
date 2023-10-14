@@ -20,7 +20,7 @@ export default {
       description: "Values for the attributes to be updated. If a value is not a string, it will be parsed as JSON. [See the documentation here](https://developers.google.com/shopping-content/reference/rest/v2.1/products#Product)",
     },
     updateMask: {
-      type: "string",
+      type: "string[]",
       label: "Update Mask",
       description: "The product attributes to be updated. Attributes specified without a value provided in `Updated Values` will be deleted from the product. If not defined, attributes in `Updated Values` will be updated and other attributes will stay unchanged.",
       optional: true,
@@ -42,11 +42,11 @@ export default {
       }
     });
 
-    const response = await this.updateProduct({
+    const response = await this.googleMerchant.updateProduct({
       $,
       productId,
       data: updatedValues,
-      updateMask,
+      updateMask: updateMask?.join?.() ?? updateMask,
     });
     $.export("$summary", `Successfully updated product ${this.productId}`);
     return response;
