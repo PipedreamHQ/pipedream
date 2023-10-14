@@ -17,57 +17,40 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    merchantId: {
-      propDefinition: [
-        googleMerchantCenter,
-        "merchantId",
-      ],
-    },
   },
   methods: {
-    _getProductId() {
-      return this.db.get("productId") || "";
+    _getSavedIds() {
+      return this.db.get("savedIds") || [];
     },
-    _setProductId(productId) {
-      this.db.set("productId", productId);
+    _setSavedIds(value) {
+      this.db.set("savedIds", value);
+    },
+    async getResources() {
+      return this.googleMerchantCenter.listProducts();
     },
   },
   hooks: {
     async deploy() {
-      // Fetch the current products
-      const products = await this.googleMerchantCenter.listProducts({
-        merchantId: this.merchantId,
-      });
-
-      if (products.resources.length > 0) {
-        // Store the ID of the last product for future runs
-        this._setProductId(products.resources[0].id);
-      }
+      const products = await this.getResources();
+      this._setSavedIds(products?.map?.(({ id }) => id) ?? []);
     },
   },
   async run() {
-    // Fetch the current products
-    const products = await this.googleMerchantCenter.listProducts({
-      merchantId: this.merchantId,
-    });
+    const products = await this.getResources();
+    const savedIds = this._getSavedIds();
 
-    // Get the ID of the last product we processed
-    const lastProductId = this._getProductId();
-
-    // Process the new products
-    for (const product of products.resources) {
-      if (product.id === lastProductId) {
-        break;
-      }
-
-      this.$emit(product, {
-        id: product.id,
-        summary: `New Product: ${product.title}`,
-        ts: Date.now(),
+    products
+      ?.filter?.(({ id }) => !savedIds.includes(id))
+      .forEach((product) => {
+        const { id } = product;
+        this.$emit(product, {
+          id,
+          summary: `New Product: ${product.title ?? id}`,
+          ts: Date.now(),
+        });
+        savedIds.push(id);
       });
 
-      // Store the ID of the last product for future runs
-      this._setProductId(product.id);
-    }
+    this._setProductId(savedIds);
   },
 };

@@ -10,7 +10,7 @@ export default {
       description: "The ID of the product",
       async options() {
         const products = await this.listProducts();
-        return products.resources.map((product) => ({
+        return products?.map?.((product) => ({
           label: product.title,
           value: product.id,
         }));
@@ -40,9 +40,13 @@ export default {
       });
     },
     async listProducts() {
-      return this._makeRequest({
+      const { resources } = await this._makeRequest({
         path: `/${this._merchantId()}/products`,
+        params: {
+          maxResults: 250,
+        },
       });
+      return resources;
     },
     async updateProduct({
       productId, updateMask, ...args
