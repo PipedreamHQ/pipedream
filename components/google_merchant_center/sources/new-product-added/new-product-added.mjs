@@ -45,12 +45,12 @@ export default {
         const { id } = product;
         this.$emit(product, {
           id,
-          summary: `New Product: ${product.title ?? id}`,
+          summary: `New Product: "${product.title ?? id}"`,
           ts: Date.now(),
         });
         savedIds.push(id);
       });
 
-    this._setProductId(savedIds);
+    this._setSavedIds(savedIds);
   },
 };
