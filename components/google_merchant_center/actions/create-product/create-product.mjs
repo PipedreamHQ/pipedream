@@ -52,7 +52,7 @@ export default {
     additionalOptions: {
       type: "object",
       label: "Additional Options",
-      description: "Additional options for the product. [See the documentation here](https://developers.google.com/shopping-content/reference/rest/v2.1/products#Product)",
+      description: "Additional options for the product. If a value is not a string, it will be parsed as JSON. [See the documentation here](https://developers.google.com/shopping-content/reference/rest/v2.1/products#Product)",
       optional: true,
     },
   },
@@ -73,6 +73,7 @@ export default {
     });
 
     const response = await googleMerchant.createProduct({
+      $,
       data: {
         ...data,
         ...additionalOptions,

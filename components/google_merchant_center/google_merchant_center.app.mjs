@@ -8,34 +8,13 @@ export default {
       type: "string",
       label: "Product ID",
       description: "The ID of the product",
-      async options({ merchantId }) {
-        const products = await this.listProducts({
-          merchantId,
-        });
+      async options() {
+        const products = await this.listProducts();
         return products.resources.map((product) => ({
           label: product.title,
           value: product.id,
         }));
       },
-    },
-    product: {
-      type: "object",
-      label: "Product",
-      description: "The product data to update",
-      async options({
-        productId, merchantId,
-      }) {
-        const product = await this.getProduct({
-          productId,
-          merchantId,
-        });
-        return product;
-      },
-    },
-    updatemask: {
-      type: "string",
-      label: "Update Mask",
-      description: "The comma-separated list of product attributes to be updated.",
     },
   },
   methods: {
@@ -60,35 +39,27 @@ export default {
         },
       });
     },
-    async listProducts({ merchantId }) {
+    async listProducts() {
       return this._makeRequest({
-        path: `/${merchantId}/products`,
-      });
-    },
-    async getProduct({
-      productId, merchantId,
-    }) {
-      return this._makeRequest({
-        path: `/${merchantId}/products/${productId}`,
+        path: `/${this._merchantId()}/products`,
       });
     },
     async updateProduct({
-      merchantId, productId, product, updatemask,
+      productId, updateMask, ...args
     }) {
       return this._makeRequest({
         method: "PATCH",
-        path: `/${merchantId}/products/${productId}`,
+        path: `/${this._merchantId()}/products/${productId}`,
         params: {
-          updateMask: updatemask,
+          updateMask,
         },
-        data: product,
+        ...args,
       });
     },
     async createProduct(args) {
-      const merchantId = this._merchantId();
       return this._makeRequest({
         method: "POST",
-        path: `/${merchantId}/products`,
+        path: `/${this._merchantId()}/products`,
         headers: {
           "Content-Type": "application/json",
         },
