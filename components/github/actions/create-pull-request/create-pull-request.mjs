@@ -23,10 +23,57 @@ export default {
     repo: {
       label: "Repository Name",
       description: toSingleLineString(`
-      The name of the repository without the .git extension.
+      The name of the repository without the \`.git\` extension.
       The name is not case sensitive.
       `),
       type: "string",
+    },
+    head: {
+      label: "Head Branch",
+      description: toSingleLineString(`
+      The name of the branch where your changes are implemented.
+      For cross-repository pull requests in the same network, \`namespace\` head with a user like this: \`username:branch\`.
+      `),
+      type: "string",
+    },
+    base: {
+      label: "Base Branch",
+      description: toSingleLineString(`
+      The name of the branch you want the changes pulled into.
+      This should be an existing branch on the current repository.
+      You cannot submit a pull request to one repository that requests a merge to a base of another repository.
+      `),
+      type: "string",
+    },
+    headRepo: {
+      label: "Head Repository's Name",
+      description: toSingleLineString(`
+      The name of the repository where the changes in the pull request were made.
+      This field is required for cross-repository pull requests if both repositories are owned by the same organization.
+      `),
+      type: "string",
+      optional: true,
+    },
+    body: {
+      label: "Body",
+      description: "The contents of the pull request.",
+      type: "string",
+      optional: true,
+    },
+    maintainerCanModify: {
+      label: "Maintainer Can Modify",
+      description: "Indicates whether [maintainers can modify](https://docs.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
+      type: "boolean",
+      optional: true,
+    },
+    draft: {
+      label: "Is Draft",
+      description: toSingleLineString(`
+      Indicates whether the pull request is a draft.
+      See "[Draft Pull Requests](https://docs.github.com/articles/about-pull-requests#draft-pull-requests)" in the GitHub Help documentation to learn more.
+      `),
+      type: "boolean",
+      optional: true,
     },
     convertCurrentIssue: {
       type: "string",
@@ -41,23 +88,6 @@ export default {
       ],
       reloadProps: true,
     },
-    head: {
-      label: "Head Branch",
-      description: toSingleLineString(`
-      The name of the branch where your changes are implemented.
-      For cross-repository pull requests in the same network, namespace head with a user like this: username:branch.
-      `),
-      type: "string",
-    },
-    base: {
-      label: "Base Branch",
-      description: toSingleLineString(`
-      The name of the branch you want the changes pulled into.
-      This should be an existing branch on the current repository.
-      You cannot submit a pull request to one repository that requests a merge to a base of another repository.
-      `),
-      type: "string",
-    },
   },
   async additionalProps() {
     const props = {};
@@ -68,50 +98,13 @@ export default {
         An issue in the repository to convert to a pull request.
         The issue title, body, and comments will become the title, body, and comments on the new pull request.
         `),
-        type: "string",
+        type: "integer",
+        min: 1,
       };
-
-      props.headRepo = {
-        label: "Head Repository's Name",
-        description: toSingleLineString(`
-        The name of the repository where the changes in the pull request were made.
-        This field is required for cross-repository pull requests if both repositories are owned by the same organization.
-        `),
-        type: "string",
-        optional: true,
-      };
-
-      props.body = {
-        label: "Body",
-        description: "The contents of the pull request.",
-        type: "string",
-        optional: true,
-      };
-
-      props.maintainerCanModify = {
-        label: "Maintainer Can Modify",
-        description: "Indicates whether maintainers can modify the pull request.",
-        type: "boolean",
-        optional: true,
-      };
-
-      props.draft = {
-        label: "Is Draft",
-        description: toSingleLineString(`
-        Indicates whether the pull request is a draft.
-        See "Draft Pull Requests" in the GitHub Help documentation to learn more.
-        `),
-        type: "boolean",
-        optional: true,
-      };
-
     } else if (this.convertCurrentIssue === "Create a new pull request") {
       props.title = {
         label: "Title",
-        description: toSingleLineString(`
-        The title of the new pull request.
-        Required unless issue is specified.
-        `),
+        description: "The title of the new pull request.",
         type: "string",
       };
     }
@@ -130,6 +123,7 @@ export default {
       body: this.body,
       maintainer_can_modify: this.maintainerCanModify,
       draft: this.draft,
+      issue: this.issue,
     };
 
     const response = await this.github.createPullRequest({
@@ -138,7 +132,7 @@ export default {
       data: data,
     });
 
-    $.export("$summary", `Successfully created pull request ${response.title}.`);
+    $.export("$summary", `Successfully created pull request: ${response.title}.`);
 
     return response;
   },
