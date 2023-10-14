@@ -402,6 +402,13 @@ export default {
 
       return response.data;
     },
+    async createPullRequest({
+      owner, repo, data,
+    }) {
+      const response = await this._client().request(`POST /repos/${owner}/${repo}/pulls`, data);
+
+      return response.data;
+    },
     async getIssue({
       repoFullname, issueNumber,
     }) {
