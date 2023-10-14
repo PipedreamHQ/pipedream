@@ -1,3 +1,6 @@
+import {
+  languageOptions, territoryOptions,
+} from "../../common/constants.mjs";
 import googleMerchant from "../../google_merchant_center.app.mjs";
 
 export default {
@@ -8,41 +11,57 @@ export default {
   type: "action",
   props: {
     googleMerchant,
-    merchantId: {
-      propDefinition: [
-        googleMerchant,
-        "merchantId",
-      ],
+    offerId: {
+      type: "string",
+      label: "Offer ID",
+      description: "A unique identifier for the item. Leading and trailing whitespaces are stripped and multiple whitespaces are replaced by a single whitespace upon submission. Only valid unicode characters are accepted. See the [products feed specification](https://support.google.com/merchants/answer/188494#id) for details.",
     },
     title: {
       type: "string",
       label: "Title",
       description: "Your product's name. Max 150 characters",
+      optional: true,
     },
     description: {
       type: "string",
       label: "Description",
       description: "Your product's description. Max 5000 characters",
+      optional: true,
     },
-    link: {
+    contentLanguage: {
       type: "string",
-      label: "Link",
-      description: "Your product's landing page",
+      label: "Content Language",
+      description: "The [two-letter ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) for the item.",
+      options: languageOptions,
     },
-    imageLink: {
+    targetCountry: {
       type: "string",
-      label: "Image Link",
-      description: "The URL of your product's main image",
+      label: "Target Country",
+      description: "The [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml) for the item's country of sale.",
+      options: territoryOptions,
+    },
+    channel: {
+      type: "string",
+      label: "Channel",
+      description: "The item's channel (online or local).",
+      options: [
+        "local",
+        "online",
+      ],
     },
     additionalOptions: {
-      type: "string",
+      type: "object",
       label: "Additional Options",
-      description: "Additional options for the product. [See the documentation here](https://support.google.com/merchants/answer/7052112?visit_id=638329007290220641-1391271113)",
+      description: "Additional options for the product. [See the documentation here](https://developers.google.com/shopping-content/reference/rest/v2.1/products#Product)",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const additionalOptions = this.additionalOptions ?? {};
-    Object.entries(additionalOptions).forEach(([
+    const {
+      additionalOptions, googleMerchant, ...data
+    } = this;
+
+    Object.entries(additionalOptions ?? {}).forEach(([
       key,
       value,
     ]) => {
@@ -52,13 +71,10 @@ export default {
         // ignore non-serializable values
       }
     });
-    const response = await this.googleMerchant.createProduct({
-      merchantId: this.merchantId,
+
+    const response = await googleMerchant.createProduct({
       data: {
-        title: this.title,
-        description: this.description,
-        link: this.link,
-        image_link: this.imageLink,
+        ...data,
         ...additionalOptions,
       },
     });

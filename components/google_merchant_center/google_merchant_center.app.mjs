@@ -4,11 +4,6 @@ export default {
   type: "app",
   app: "google_merchant_center",
   propDefinitions: {
-    merchantId: {
-      type: "string",
-      label: "Merchant ID",
-      description: "The ID of the merchant",
-    },
     productId: {
       type: "string",
       label: "Product ID",
@@ -47,12 +42,15 @@ export default {
     _baseUrl() {
       return "https://shoppingcontent.googleapis.com/content/v2.1";
     },
+    _merchantId() {
+      return this.$auth.merchant_id;
+    },
     async _makeRequest({
       $ = this,
       path,
       headers,
       ...otherOpts
-    } = {}) {
+    }) {
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
@@ -86,16 +84,15 @@ export default {
         data: product,
       });
     },
-    async createProduct({
-      merchantId, product,
-    }) {
+    async createProduct(args) {
+      const merchantId = this._merchantId();
       return this._makeRequest({
         method: "POST",
         path: `/${merchantId}/products`,
-        data: product,
         headers: {
           "Content-Type": "application/json",
         },
+        ...args,
       });
     },
   },
