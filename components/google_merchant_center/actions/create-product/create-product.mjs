@@ -1,7 +1,7 @@
-import googleMerchant from "../../google-merchant-center.app.mjs";
+import googleMerchant from "../../google_merchant_center.app.mjs";
 
 export default {
-  key: "google-merchant-center-create-product",
+  key: "google_merchant_center-create-product",
   name: "Create Product",
   description: "Creates a product in your Google Merchant Center account. [See the documentation](https://developers.google.com/shopping-content/reference/rest/v2.1/products/insert)",
   version: "0.0.1",
@@ -49,7 +49,7 @@ export default {
       try {
         additionalOptions[key] = JSON.parse(value);
       } catch (e) {
-        // ignore non-JSON values
+        // ignore non-serializable values
       }
     });
     const response = await this.googleMerchant.createProduct({

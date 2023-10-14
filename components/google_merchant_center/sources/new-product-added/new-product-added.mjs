@@ -1,8 +1,8 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import googleMerchantCenter from "../../google-merchant-center.app.mjs";
+import googleMerchantCenter from "../../google_merchant_center.app.mjs";
 
 export default {
-  key: "google-merchant-center-new-product-added",
+  key: "google_merchant_center-new-product-added",
   name: "New Product Added",
   description: "Emit new event when a new product is added",
   version: "0.0.1",

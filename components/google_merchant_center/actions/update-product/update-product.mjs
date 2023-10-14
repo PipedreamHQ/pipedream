@@ -1,7 +1,7 @@
-import googleMerchant from "../../google-merchant-center.app.mjs";
+import googleMerchant from "../../google_merchant_center.app.mjs";
 
 export default {
-  key: "google-merchant-center-update-product",
+  key: "google_merchant_center-update-product",
   name: "Update Product",
   description: "Updates an existing product in your Merchant Center account. [See the documentation](https://developers.google.com/shopping-content/reference/rest/v2.1/products/update)",
   version: "0.0.1",
