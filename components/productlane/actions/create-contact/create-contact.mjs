@@ -9,9 +9,10 @@ export default {
   props: {
     productlane,
     email: {
-      type: "string",
-      label: "Email",
-      description: "The email of the contact",
+      propDefinition: [
+        productlane,
+        "email",
+      ],
     },
     name: {
       type: "string",

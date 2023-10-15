@@ -14,12 +14,23 @@ export default {
         "projectId",
       ],
     },
+    email: {
+      propDefinition: [
+        productlane,
+        "email",
+      ],
+      description: "The email associated with the upvote",
+    },
   },
   async run({ $ }) {
     const response = await this.productlane.upvoteProject({
+      $,
       projectId: this.projectId,
+      data: {
+        email: this.email,
+      },
     });
-    $.export("$summary", `Successfully upvoted project with ID: ${this.projectId}`);
+    $.export("$summary", "Successfully upvoted project");
     return response;
   },
 };

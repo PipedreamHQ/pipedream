@@ -16,6 +16,11 @@ export default {
         }));
       },
     },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email of the contact",
+    },
     feedbackEmail: {
       type: "string",
       label: "Email",
@@ -79,10 +84,12 @@ export default {
         method: "POST",
       });
     },
-    async upvoteProject(opts = {}) {
+    async upvoteProject({
+      projectId, ...opts
+    }) {
       return this._makeRequest({
         ...opts,
-        path: `/projects/${opts.projectId}/upvote`,
+        path: `/projects/${projectId}/upvotes`,
         method: "POST",
       });
     },
