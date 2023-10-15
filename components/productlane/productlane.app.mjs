@@ -4,21 +4,6 @@ export default {
   type: "app",
   app: "productlane",
   propDefinitions: {
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email of the contact",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the contact",
-    },
-    segments: {
-      type: "string[]",
-      label: "Segments",
-      description: "Array of segments",
-    },
     projectId: {
       type: "string",
       label: "Project ID",
@@ -70,19 +55,16 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.productlane.com";
+      return "https://productlane.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -116,9 +98,6 @@ export default {
         ...opts,
         path: "/projects",
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
