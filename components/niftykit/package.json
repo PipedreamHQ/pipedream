@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/niftykit",
+  "version": "0.0.1",
+  "description": "Pipedream NiftyKit Components",
+  "main": "niftykit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "niftykit"
+  ],
+  "homepage": "https://pipedream.com/apps/niftykit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

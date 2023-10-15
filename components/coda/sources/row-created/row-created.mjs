@@ -4,9 +4,10 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   key: "coda-row-created",
   name: "New Row Created",
-  description: "Emit new event for every created / updated row in a table. [See the docs here.](https://coda.io/developers/apis/v1#tag/Rows/operation/listRows)",
+  description: "Emit new event for every created / updated row in a table. [See the documentation.](https://coda.io/developers/apis/v1#tag/Rows/operation/listRows)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.3",
+  dedupe: "unique",
   props: {
     coda,
     db: "$.service.db",
@@ -38,24 +39,33 @@ export default {
       optional: true,
     },
   },
+  hooks: {
+    async deploy() {
+      const rows = await this.fetchRows(25);
+      this.emitEvents(rows.reverse());
+    },
+  },
   methods: {
-    _getEmittedRows() {
-      return this.db.get("emittedRows") || [];
+    _getLastTs() {
+      return this.db.get("lastTs") || 0;
     },
-    _setEmittedRows(rows) {
-      this.db.set("emittedRows", rows);
+    _setLastTs(lastTs) {
+      this.db.set("lastTs", lastTs);
     },
-    _getNextPageToken() {
-      return this.db.get("nextPageToken");
+    getTsKey() {
+      return this.includeUpdates
+        ? "updatedAt"
+        : "createdAt";
     },
-    _setNextPageToken(nextPageToken) {
-      nextPageToken && this.db.set("nextPageToken", nextPageToken);
-    },
-    async fetchRows() {
+    async fetchRows(maxResults) {
       const rows = [];
-      let nextPageToken = this._getNextPageToken();
+      const tsKey = this.getTsKey();
+      const lastTs = this._getLastTs();
+      let maxTs = lastTs;
+      let done = false;
+
       const params = {
-        pageToken: nextPageToken,
+        sortBy: tsKey,
       };
 
       while (true) {
@@ -68,12 +78,26 @@ export default {
           this.tableId,
           params,
         );
-
-        rows.push(...items);
+        for (const item of items) {
+          const ts = Date.parse(item[tsKey]);
+          if (ts > lastTs) {
+            rows.push(item);
+            if (ts > maxTs) {
+              maxTs = ts;
+            }
+            if (rows.length >= maxResults) {
+              done = true;
+              break;
+            }
+          }
+          else {
+            done = true;
+          }
+        }
         params.pageToken = nextPageToken;
-        this._setNextPageToken(nextPageToken);
 
-        if (!nextPageToken) {
+        if (!nextPageToken || done) {
+          this._setLastTs(maxTs);
           return rows;
         }
       }
@@ -83,24 +107,17 @@ export default {
       return `Row index: ${row.index}` + name;
     },
     emitEvents(events) {
-      const emittedRows = this._getEmittedRows();
-
       for (const row of events) {
         const id = this.includeUpdates
           ? `${row.id}-${row.updatedAt}`
           : row.id;
 
-        if (!emittedRows.includes(id)) {
-          emittedRows.unshift(id);
-          this.$emit(row, {
-            id,
-            summary: this.rowSummary(row),
-            ts: row.updatedAt,
-          });
-        }
+        this.$emit(row, {
+          id,
+          summary: this.rowSummary(row),
+          ts: row.updatedAt,
+        });
       }
-
-      this._setEmittedRows(emittedRows);
     },
   },
   async run() {

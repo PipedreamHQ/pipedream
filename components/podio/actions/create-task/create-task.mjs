@@ -3,9 +3,9 @@ import app from "../../podio.app.mjs";
 export default {
   type: "action",
   key: "podio-create-task",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Create Task",
-  description: "Creates a task to the given workspace. [See the docs](https://developers.podio.com/doc/tasks/create-task-22419)",
+  description: "Creates a task to the given workspace. [See the documentation](https://developers.podio.com/doc/tasks/create-task-22419)",
   props: {
     app,
     text: {

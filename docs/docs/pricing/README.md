@@ -13,51 +13,6 @@ To support these goals, **Pipedream offers a [free trial of our Advanced plan](#
 
 [[toc]]
 
-## Free Trial
-
-All new workspaces have complimentary 14 day access to our [Advanced Plan](https://pipedream.com/pricing). This provides access to [Premium Support](https://pipedream.com/support) as well as functionality like [AI Code Generation](/code/nodejs/ai-code-generation/), [GitHub Project Sync](/projects/git/), and [advanced workflow settings](/workflows/settings/#auto-retry-errors).
-
-<br />
-<div>
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1694217206/docs/Screenshot_2023-09-08_at_4.52.54_PM_xqcjbk.png" alt="Free trial features" />
-</div>
-<br />
-
-### How long does the trial last?
-
-The trial of Advanced features lasts 14 days.
-
-### What happens at the end of the trial?
-
-At the end of the trial, your workspace will revert to the [Free plan](https://pipedream.com/pricing).
-
-**Any workflows still using trial features will be disabled**:
-
-- **Workflow limits**: If you're running more than 5 active workflows, workflows most-recently created above the limit will be disabled.
-- **Connected accounts**: If you have more than 3 connected accounts, workflows using the connected accounts above the limit will be disabled.
-- **Paid settings**: If any workflow is using paid settings — such as [auto-retry](/workflows/settings/#auto-retry-errors) or [execution controls](/workflows/settings/#execution-controls) — those workflows will be disabled.
-
-You can upgrade to a paid plan before the trial ends to get access to that plan's paid features.
-
-### How many credits do I get during the trial?
-
-Each workspace is limited to {{$site.themeConfig.DAILY_CREDITS_LIMIT}} credits per day during the trial. You can run any number of credits by upgrading to a paid plan. Each plan includes a base number of credits and charges per credit after the base quota. Please see [our pricing page](https://pipedream.com/pricing) for more detail.
-
-### What is _not_ available during the trial?
-
-The following features are **not** available on the Advanced trial. You can upgrade to the Advanced or Business plans to use these features:
-
-- [Warm workers](/workflows/settings/#eliminate-cold-starts)
-- Any feature on the Business or Enterprise plans
-
-### Can I extend my trial beyond 14 days?
-
-We are happy to discuss your evaluation needs. Please [reach out to our Support team](https://pipedream.com/support) and tell us a bit about how you are using Pipedream and what you need extra time to evaluate.
-
-### What happens if I upgrade to another plan during the free trial?
-
-If you upgrade to the Basic plan during the trial, you'll keep Advanced features for the duration of the trial. At the end of the trial, any workflows using Advanced features not available on the Basic plan will be disabled [according to the standard end-of-trial process](#what-happens-at-the-end-of-the-trial).
-
 ## Free Tier
 
 Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers.
