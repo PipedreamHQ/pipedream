@@ -21,41 +21,11 @@ export default {
       label: "Email",
       description: "The email of the contact",
     },
-    feedbackEmail: {
-      type: "string",
-      label: "Email",
-      description: "The email for the feedback",
-    },
     notify: {
-      type: "object",
+      type: "boolean",
       label: "Notify",
-      description: "Object with email and slack booleans",
-    },
-    origin: {
-      type: "string",
-      label: "Origin",
-      description: "The origin of the feedback",
-      async options() {
-        const origins = [
-          "option1",
-          "option2",
-          "option3",
-        ]; // replace with actual enum values
-        return origins.map((origin) => ({
-          label: origin,
-          value: origin,
-        }));
-      },
-    },
-    painlevel: {
-      type: "integer",
-      label: "Pain Level",
-      description: "The pain level of the feedback",
-    },
-    text: {
-      type: "string",
-      label: "Text",
-      description: "The text of the feedback",
+      description: "Whether to notify",
+      optional: true,
     },
   },
   methods: {
@@ -77,7 +47,7 @@ export default {
         },
       });
     },
-    async createContact(opts = {}) {
+    async createContact(opts) {
       return this._makeRequest({
         ...opts,
         path: "/contacts",
@@ -93,16 +63,15 @@ export default {
         method: "POST",
       });
     },
-    async createFeedback(opts = {}) {
+    async createFeedback(opts) {
       return this._makeRequest({
         ...opts,
         path: "/feedback",
         method: "POST",
       });
     },
-    async listProjects(opts = {}) {
+    async listProjects() {
       return this._makeRequest({
-        ...opts,
         path: "/projects",
       });
     },

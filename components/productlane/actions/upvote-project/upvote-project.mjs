@@ -3,7 +3,7 @@ import productlane from "../../productlane.app.mjs";
 export default {
   key: "productlane-upvote-project",
   name: "Upvote Project",
-  description: "Upvotes a project by ID. [See the documentation](https://docs.productlane.com/api-reference/portal/upvote-project)",
+  description: "Upvotes a project by ID. [See the documentation](https://productlane.com/docs/api-reference/portal/upvote-project)",
   version: "0.0.1",
   type: "action",
   props: {
