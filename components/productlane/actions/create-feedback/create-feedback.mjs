@@ -74,7 +74,7 @@ export default {
 
     const data = {
       email: email,
-      notify: (notifyByEmail || notifyBySlack)
+      notify: ((notifyByEmail ?? notifyBySlack) !== undefined)
         ? {
           email: notifyByEmail,
           slack: notifyBySlack,
