@@ -7,7 +7,7 @@ export default {
   key: "gitlab-new-commit",
   name: "New Commit (Instant)",
   description: "Emit new event when a new commit is pushed to a branch",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   type: "source",
   props: {
@@ -64,8 +64,10 @@ export default {
       if (totalCommitsCount <= 0) return;
 
       const commits = await this.gitlab.listCommits(this.projectId, {
-        refName,
-        max: Math.min(50, totalCommitsCount),
+        params: {
+          ref_name: refName,
+          per_page: Math.min(50, totalCommitsCount),
+        },
       });
 
       // We need to collect all the relevant commits, sort
