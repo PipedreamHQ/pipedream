@@ -7,7 +7,7 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "The ID of the project to upvote",
+      description: "The ID of the project. [See the documentation](https://productlane.com/docs/api-reference/portal/list-projects) for more information",
       async options() {
         const projects = await this.listProjects();
         return projects.map((p) => ({
@@ -31,6 +31,9 @@ export default {
   methods: {
     _baseUrl() {
       return "https://productlane.com/api/v1";
+    },
+    _workspaceId() {
+      return this.$auth.workspace_id;
     },
     async _makeRequest({
       $ = this,
@@ -71,9 +74,10 @@ export default {
       });
     },
     async listProjects() {
-      return this._makeRequest({
-        path: "/projects",
+      const { projects } = await this._makeRequest({
+        path: `/projects/${this._workspaceId()}`,
       });
+      return projects;
     },
   },
 };
