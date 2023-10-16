@@ -9,5 +9,5 @@ export default {
   ...utils.getAppProps(updateRow),
   key: "mysql_ssl-update-row",
   description: "Updates an existing row (SSL). [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/update.html)",
-  version: "1.0.0",
+  version: "1.0.1",
 };

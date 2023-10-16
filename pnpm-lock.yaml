@@ -211,7 +211,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/aivoov:
-    specifiers: {}
+    specifiers:
+      axios: ^1.5.1
+      form-data: ^4.0.0
+    dependencies:
+      axios: 1.5.1
+      form-data: 4.0.0
 
   components/akeneo:
     specifiers:
@@ -452,7 +457,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/azure_sql:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      mssql: ^10.0.1
+      uuid: ^9.0.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      mssql: 10.0.1
+      uuid: 9.0.1
 
   components/badger_maps:
     specifiers:
@@ -1066,6 +1078,9 @@ importers:
   components/conveyor:
     specifiers: {}
 
+  components/copperx:
+    specifiers: {}
+
   components/corrently:
     specifiers: {}
 
@@ -1379,7 +1394,10 @@ importers:
     specifiers: {}
 
   components/docsbot_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/docsumo:
     specifiers:
@@ -2690,7 +2708,10 @@ importers:
     specifiers: {}
 
   components/jibble:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/jira:
     specifiers:
@@ -2997,6 +3018,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/listen_notes:
+    specifiers: {}
+
+  components/listmonk:
     specifiers: {}
 
   components/little_green_light:
@@ -3407,6 +3431,9 @@ importers:
     specifiers: {}
 
   components/mobilemonkey:
+    specifiers: {}
+
+  components/mocean_api:
     specifiers: {}
 
   components/moco:
@@ -4229,6 +4256,9 @@ importers:
   components/polygonscan:
     specifiers: {}
 
+  components/poof:
+    specifiers: {}
+
   components/popupsmart:
     specifiers: {}
 
@@ -4556,6 +4586,9 @@ importers:
       axios: 0.27.2
       lodash: 4.17.21
       qs: 6.11.2
+
+  components/redmine:
+    specifiers: {}
 
   components/referralrock:
     specifiers: {}
@@ -5443,6 +5476,9 @@ importers:
   components/stannp:
     specifiers: {}
 
+  components/starloop:
+    specifiers: {}
+
   components/starton:
     specifiers: {}
 
@@ -5531,7 +5567,10 @@ importers:
     specifiers: {}
 
   components/superphone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/supersaas:
     specifiers:
