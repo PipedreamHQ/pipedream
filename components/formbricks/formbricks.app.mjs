@@ -7,16 +7,15 @@ export default {
     surveyIds: {
       type: "string[]",
       label: "Survey IDs",
-      description: "The IDs of the surveys to trigger the webhook. Leave empty for all surveys.",
+      description: "The survey(s) to watch for new responses. If not provided, events will be triggered for all surveys.",
       async options() {
         const surveys = await this.listSurveys();
-        return surveys.map((survey) => ({
-          label: survey.name,
-          value: survey.id,
-        })).concat({
-          value: "[]",
-          label: "All Surveys",
-        });
+        return surveys.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
       },
     },
   },
@@ -36,8 +35,26 @@ export default {
       });
     },
     async listSurveys() {
-      return this._makeRequest({
+      const { data } = await this._makeRequest({
         url: "/management/surveys",
+      });
+      return data;
+    },
+    async createWebhook(args) {
+      const { data } = await this._makeRequest({
+        method: "POST",
+        url: "/webhooks",
+        ...args,
+      });
+      return data;
+    },
+    async deleteWebhook({
+      id, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        url: `/webhooks/${id}`,
+        ...args,
       });
     },
   },
