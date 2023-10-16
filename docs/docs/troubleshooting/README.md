@@ -152,7 +152,7 @@ You can increase this limit at any time in the [billing area of your settings](h
 
 ## How do I contact Pipedream Support?
 
-Start by filling out the request form at https://pipedream.com/support, providing detailed information about your issue.
+Start by filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), providing detailed information about your issue.
 
 ### How do I share my workflow with Support?
 
@@ -160,7 +160,7 @@ First, go your **Workflow Settings** and share your workflow with Pipedream Supp
 
 If your workflow is part of a Project, navigate to the **Project Settings** to grant access to us.
 
-When filling out the request form at https://pipedream.com/support, please provide detailed information along with the URL from your browser's address bar, which should look something like:
+When filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), please provide detailed information along with the URL from your browser's address bar, which should look something like:
 
 ```
 https://pipedream.com/@yourworkspace/projects/yourproject/test-workflow-pabc123
