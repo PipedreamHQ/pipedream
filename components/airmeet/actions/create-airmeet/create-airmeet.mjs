@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import app from "../../airmeet.app.mjs";
 import constants from "../common/constants.mjs";
 
@@ -27,12 +28,12 @@ export default {
     startTime: {
       type: "integer",
       label: "Start Time",
-      description: "Start time for the event in milliseconds",
+      description: "Start time for the event in milliseconds or ISO 8601. E.g. `1697458790918` or ` `",
     },
     endTime: {
       type: "integer",
       label: "End Time",
-      description: "End time for the event in milliseconds",
+      description: "End time for the event in milliseconds or ISO 8601. E.g. `1697458790918` or `2023-10-16T12:18:38+00:00`",
     },
     timezone: {
       type: "string",
@@ -42,6 +43,9 @@ export default {
     },
   },
   async run({ $ }) {
+    const startTime = dayjs(this.startTime).valueOf();
+    const endTime = dayjs(this.endTime).valueOf();
+
     const response = await this.app.createAirmeet({
       $,
       data: {
@@ -49,8 +53,8 @@ export default {
         eventName: this.eventName,
         shortDesc: this.shortDesc,
         timing: {
-          startTime: this.startTime,
-          endTime: this.endTime,
+          startTime: startTime,
+          endTime: endTime,
           timezone: this.timezone,
         },
       },

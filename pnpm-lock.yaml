@@ -172,10 +172,12 @@ importers:
     specifiers: {}
 
   components/airmeet:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      dayjs: ^1.11.10
     dependencies:
-      '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.5.1
+      '@pipedream/platform': 1.5.1
+      dayjs: 1.11.10
 
   components/airnow:
     specifiers: {}
@@ -215,8 +217,6 @@ importers:
 
   components/aivoov:
     specifiers: {}
-
-  components/aivoov: {}
 
   components/akeneo:
     specifiers:
@@ -1392,10 +1392,6 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
-  components/docsbot_ai: {}
-
-  components/docsumo: {}
-
   components/docupilot:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -1466,8 +1462,6 @@ importers:
 
   components/dromo:
     specifiers: {}
-
-  components/dromo: {}
 
   components/dropbox:
     specifiers:
@@ -2408,8 +2402,6 @@ importers:
 
   components/herobot_chatbot_marketing:
     specifiers: {}
-
-  components/herobot_chatbot_marketing: {}
 
   components/heysummit:
     specifiers:
@@ -4823,8 +4815,6 @@ importers:
 
   components/saleslens:
     specifiers: {}
-
-  components/saleslens: {}
 
   components/salesmate:
     specifiers:
