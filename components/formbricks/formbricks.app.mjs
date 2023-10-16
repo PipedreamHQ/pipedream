@@ -14,28 +14,21 @@ export default {
           label: survey.name,
           value: survey.id,
         })).concat({
-          value: "",
+          value: "[]",
           label: "All Surveys",
         });
       },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://app.formbricks.com/api/v1";
-    },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: `https://${this.$auth.hostname}/api/v1`,
         headers: {
           ...headers,
           "x-api-key": this.$auth.api_key,
@@ -44,11 +37,8 @@ export default {
     },
     async listSurveys() {
       return this._makeRequest({
-        path: "/management/surveys",
+        url: "/management/surveys",
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
