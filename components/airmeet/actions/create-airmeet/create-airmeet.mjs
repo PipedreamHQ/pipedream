@@ -37,7 +37,7 @@ export default {
     },
     timezone: {
       type: "string",
-      label: "Event Name",
+      label: "Timezone",
       description: "Timezone for the event in the canonical tz name. E.g. 'Asia/Kolkata'",
       options: constants.TIME_ZONES,
     },
