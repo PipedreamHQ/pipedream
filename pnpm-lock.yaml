@@ -457,7 +457,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/azure_sql:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      mssql: ^10.0.1
+      uuid: ^9.0.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      mssql: 10.0.1
+      uuid: 9.0.1
 
   components/badger_maps:
     specifiers:
