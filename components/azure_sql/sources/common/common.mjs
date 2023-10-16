@@ -1,24 +1,21 @@
+import app from "../../azure_sql.app.mjs";
 import {
   ConfigurationError,
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "@pipedream/platform";
-import common from "./base.mjs";
 
 export default {
-  ...common,
   props: {
-    ...common.props,
+    app,
+    db: "$.service.db",
     timer: {
       type: "$.interface.timer",
-      label: "Polling schedule",
-      description: "How often to poll the API",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
   methods: {
-    ...common.methods,
     setLastTs(lastTs) {
       this.db.set("lastTs", lastTs);
     },
@@ -33,6 +30,9 @@ export default {
     },
     getResourceFnArgs() {
       throw new ConfigurationError("getResourceFnArgs is not implemented");
+    },
+    generateMeta() {
+      throw new ConfigurationError("generateMeta is not implemented");
     },
     processEvent(resource) {
       const {

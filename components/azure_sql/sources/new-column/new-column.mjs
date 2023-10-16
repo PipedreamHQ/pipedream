@@ -1,14 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
-import common from "../common/polling.mjs";
-import constants from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "microsoft_sql_server-new-column",
+  key: "azure_sql-new-column",
   name: "New Column",
-  description: "Triggers when a new column is added to a table. [See the documentation](https://learn.microsoft.com/en-us/sql/relational-databases/system-catalog-views/sys-columns-transact-sql?view=sql-server-ver16)",
+  description: "Triggers when a new column is added to a table.",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -22,10 +21,10 @@ export default {
   methods: {
     ...common.methods,
     getCurrentColumns() {
-      return this.db.get(constants.CURRENT_COLUMNS) || [];
+      return this.db.get("currentColumns") || [];
     },
     setCurrentColumns(columns) {
-      this.db.set(constants.CURRENT_COLUMNS, columns);
+      this.db.set("currentColumns", columns);
     },
     generateMeta(resource) {
       return {

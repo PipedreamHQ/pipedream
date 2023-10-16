@@ -1,13 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
-import common from "../common/polling.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "microsoft_sql_server-new-or-updated-row",
-  name: "New Or Updated Row",
-  description: "Triggers when a new row is added or an existing row is updated. [See the documentation](https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver16)",
+  key: "azure_sql-new-or-updated-row",
+  name: "New or Updated Row",
+  description: "Triggers when a new row is added or an existing row is updated.",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
     ...common.props,
