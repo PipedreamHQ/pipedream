@@ -156,9 +156,9 @@ Start by filling out the request form at [https://pipedream.com/support](https:/
 
 ### How do I share my workflow with Support?
 
-First, go your **Workflow Settings** and share your workflow with Pipedream Support.
+First, navigate to your **Project Settings** and share your project with Pipedream Support.
 
-If your workflow is part of a Project, navigate to the **Project Settings** to grant access to us.
+If your workflow is _not_ part of a Project, go to the **Workflow Settings** to grant access to us.
 
 When filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), please provide detailed information along with the URL from your browser's address bar, which should look something like:
 
