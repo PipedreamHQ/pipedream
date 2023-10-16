@@ -9,8 +9,8 @@ export default {
       label: "Deck Name",
       description: "The deck name you want to edit.",
       async options() {
-        const { decks } = await this.listDecks();
-        return decks.map(({ name }) => name);
+        const response = await this.listDecks();
+        return response.decks?.map(({ name }) => name);
       },
     },
   },
