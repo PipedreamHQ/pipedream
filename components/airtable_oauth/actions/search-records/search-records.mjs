@@ -36,7 +36,7 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      filterByFormula: `FIND("${this.value}", ${this.fieldName})`,
+      filterByFormula: `FIND("${this.value}", {${this.fieldName}})`,
     };
     if (this.searchFormula) {
       params.filterByFormula = `AND(${params.filterByFormula}, ${this.searchFormula})`;
