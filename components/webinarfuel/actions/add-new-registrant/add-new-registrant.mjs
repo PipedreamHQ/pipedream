@@ -83,7 +83,7 @@ export default {
           timezone: timeZone,
         },
       },
-      summary: (response) => `Successfully added new registrant with email: ${response.registrant.email}`,
+      summary: (response) => `Successfully added new registrant with email: ${response.email}`,
     });
   },
 };
