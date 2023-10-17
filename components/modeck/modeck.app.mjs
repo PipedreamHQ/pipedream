@@ -10,7 +10,7 @@ export default {
       description: "The deck name you want to edit.",
       async options() {
         const response = await this.listDecks();
-        return response.decks?.map(({ name }) => name);
+        return response.decks?.map(({ name }) => name) || [];
       },
     },
   },
