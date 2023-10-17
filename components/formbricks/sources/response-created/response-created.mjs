@@ -34,6 +34,7 @@ export default {
   hooks: {
     async activate() {
       const data = {
+        surveyIds: this.surveyIds,
         triggers: this.getTriggers(),
         url: this.http.endpoint,
       };
@@ -43,25 +44,19 @@ export default {
     },
     async deactivate() {
       const id = this._getWebhookId();
-      await this.formbricks.deleteWebhook({
-        id,
-      });
+      if (id) {
+        await this.formbricks.deleteWebhook({
+          id,
+        });
+      }
     },
   },
-  async run(event) {
-    const {
-      body, headers,
-    } = event;
-    if (headers["x-api-key"] !== this.formbricks.$auth.api_key) {
-      return;
-    }
-    if (this.surveyIds.length > 0 && !this.surveyIds.includes(body.data.surveyId)) {
-      return;
-    }
+  async run({ body }) {
+    const { data } = body;
     this.$emit(body, {
-      id: body.data.id,
-      summary: `New response for survey: ${body.data.surveyId}`,
-      ts: Date.parse(body.data.createdAt),
+      id: data.id,
+      summary: `New response by ${data.personAttributes?.email ?? data.person?.attributes?.email ?? "(unknown user)"}`,
+      ts: Date.parse(data.createdAt),
     });
   },
 };
