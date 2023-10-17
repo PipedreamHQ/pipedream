@@ -68,7 +68,7 @@ export default {
       }
       if (responseArray.length) this._setLastDate(responseArray[0].created_time);
 
-      for (const item of responseArray.reverse()) {
+      for (const item of responseArray) {
         this.$emit(
           item,
           {

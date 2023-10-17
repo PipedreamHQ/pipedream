@@ -52,7 +52,7 @@ export default {
     }
     const file = fs.createReadStream(path);
     const data = new FormData();
-    const override = this.overrideNameExist.toString();
+    const override = this.overrideNameExist?.toString();
 
     data.append("content", file);
     data.append("parent_id", this.parentId);
