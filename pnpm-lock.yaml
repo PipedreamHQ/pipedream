@@ -594,6 +594,12 @@ importers:
   components/blue:
     specifiers: {}
 
+  components/booqable:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/botbaba:
     specifiers: {}
 
