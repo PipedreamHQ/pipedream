@@ -108,11 +108,17 @@ export default {
     _firmServiceKey() {
       return this.$auth.firm_service_key;
     },
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _apiSecret() {
+      return this.$auth.api_secret;
+    },
     _apiUrl() {
       return `https://api.clockworkrecruiting.com/v3.0/${this._firmName()}`;
     },
     _getHeaders() {
-      const auth_hash = Buffer.from(`${this.$auth.api_key}:${this.$auth.api_secret}`).toString("base64");
+      const auth_hash = Buffer.from(`${this._apiKey()}:${this._apiSecret()}`).toString("base64");
       return {
         "Authorization": `Token ${auth_hash}`,
         "X-API-Key": this._firmServiceKey(),
