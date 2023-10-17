@@ -37,6 +37,9 @@ export default {
       description: "The repository in a organization",
       type: "string",
       async options({ org }) {
+        if (!org) {
+          throw new ConfigurationError("Must specify `org` to display repository options.");
+        }
         const repositories = await this.getOrgRepos({
           org,
         });
