@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/piggy",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Piggy Components",
-  "main": "dist/app/piggy.app.mjs",
+  "main": "piggy.app.mjs",
   "keywords": [
     "pipedream",
     "piggy"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/piggy",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
