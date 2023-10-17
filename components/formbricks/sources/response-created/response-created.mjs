@@ -3,7 +3,8 @@ import formbricks from "../../formbricks.app.mjs";
 export default {
   key: "formbricks-response-created",
   name: "Response Created",
-  description: "Emit new event when a response is created for a survey. [See the documentation](https://formbricks.com/docs/api/management/webhooks)",
+  description:
+    "Emit new event when a response is created for a survey. [See the documentation](https://formbricks.com/docs/api/management/webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -39,7 +40,9 @@ export default {
         url: this.http.endpoint,
       };
 
-      const { id } = await this.formbricks.createWebhook(data);
+      const { id } = await this.formbricks.createWebhook({
+        data,
+      });
       this._setWebhookId(id);
     },
     async deactivate() {
@@ -53,10 +56,16 @@ export default {
   },
   async run({ body }) {
     const { data } = body;
-    this.$emit(body, {
-      id: data.id,
-      summary: `New response by ${data.personAttributes?.email ?? data.person?.attributes?.email ?? "(unknown user)"}`,
-      ts: Date.parse(data.createdAt),
-    });
+    if (data) {
+      this.$emit(body, {
+        id: data.id,
+        summary: `New response by ${
+          data.personAttributes?.email ??
+          data.person?.attributes?.email ??
+          "(unknown user)"
+        }`,
+        ts: Date.parse(data.createdAt),
+      });
+    }
   },
 };
