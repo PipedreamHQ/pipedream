@@ -26,12 +26,12 @@ export default {
       description: "Short description of the event",
     },
     startTime: {
-      type: "integer",
+      type: "string",
       label: "Start Time",
       description: "Start time for the event in milliseconds or ISO 8601. E.g. `1697458790918` or `2023-10-16T12:18:38+00:00`",
     },
     endTime: {
-      type: "integer",
+      type: "string",
       label: "End Time",
       description: "End time for the event in milliseconds or ISO 8601. E.g. `1697458790918` or `2023-10-16T12:18:38+00:00`",
     },
