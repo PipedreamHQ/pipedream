@@ -403,9 +403,9 @@ export default {
       return response.data;
     },
     async createPullRequest({
-      owner, repo, data,
+      repoFullname, data,
     }) {
-      const response = await this._client().request(`POST /repos/${owner}/${repo}/pulls`, data);
+      const response = await this._client().request(`POST /repos/${repoFullname}/pulls`, data);
 
       return response.data;
     },

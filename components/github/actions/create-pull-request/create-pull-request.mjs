@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { toSingleLineString } from "../../common/utils.mjs";
 import github from "../../github.app.mjs";
 
@@ -12,21 +13,11 @@ export default {
   type: "action",
   props: {
     github,
-    owner: {
-      label: "Owner",
-      description: toSingleLineString(`
-      The account owner of the repository.
-      The name is not case sensitive.
-      `),
-      type: "string",
-    },
-    repo: {
-      label: "Repository Name",
-      description: toSingleLineString(`
-      The name of the repository without the \`.git\` extension.
-      The name is not case sensitive.
-      `),
-      type: "string",
+    repoFullname: {
+      propDefinition: [
+        github,
+        "repoFullname",
+      ],
     },
     head: {
       label: "Head Branch",
@@ -45,13 +36,26 @@ export default {
       `),
       type: "string",
     },
+    org: {
+      propDefinition: [
+        github,
+        "orgName",
+      ],
+      optional: true,
+    },
     headRepo: {
+      propDefinition: [
+        github,
+        "repoOrg",
+        (c) => ({
+          org: c.org,
+        }),
+      ],
       label: "Head Repository's Name",
       description: toSingleLineString(`
       The name of the repository where the changes in the pull request were made.
       This field is required for cross-repository pull requests if both repositories are owned by the same organization.
       `),
-      type: "string",
       optional: true,
     },
     body: {
@@ -75,50 +79,42 @@ export default {
       type: "boolean",
       optional: true,
     },
-    convertCurrentIssue: {
+    title: {
+      label: "Title",
+      description: "The title of the new pull request.",
       type: "string",
-      label: "Do you want to convert an issue to a pull request, or create a new pull request?",
-      description: toSingleLineString(`
-      If you convert an issue to a pull request the issue's title, body, and comments will become the title, body, and comments on the new pull request.
-      Otherwise you can manually enter a title, and body for a new pull request.
-      `),
-      options: [
-        "Convert issue to pull request",
-        "Create a new pull request",
-      ],
-      reloadProps: true,
+      optional: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    if (this.convertCurrentIssue === "Convert issue to pull request") {
-      props.issue = {
-        label: "Issue",
-        description: toSingleLineString(`
+    issue: {
+      propDefinition: [
+        github,
+        "issueNumber",
+        (c) => ({
+          repoFullname: c.repoFullname,
+        }),
+      ],
+      label: "Issue",
+      description: toSingleLineString(`
         An issue in the repository to convert to a pull request.
         The issue title, body, and comments will become the title, body, and comments on the new pull request.
         `),
-        type: "integer",
-        min: 1,
-      };
-    } else if (this.convertCurrentIssue === "Create a new pull request") {
-      props.title = {
-        label: "Title",
-        description: "The title of the new pull request.",
-        type: "string",
-      };
-    }
-
-    return props;
+      min: 1,
+      optional: true,
+    },
   },
   async run({ $ }) {
 
+    if (!this.issue && !this.title) {
+      throw new ConfigurationError(toSingleLineString(`
+      Title is required if Issue is unspecified.
+      You can either specify a new pull request with Title or convert an existing issue to a pull request with Issue.
+      `));
+    }
+
     const data = {
-      owner: this.owner,
-      repo: this.repo,
       title: this.title,
-      head: this.head,
-      base: this.base,
+      head: this.head.split("/")[1],
+      base: this.base.split("/")[1],
       head_repo: this.headRepo,
       body: this.body,
       maintainer_can_modify: this.maintainerCanModify,
@@ -128,7 +124,7 @@ export default {
 
     const response = await this.github.createPullRequest({
       owner: this.owner,
-      repo: this.repo,
+      repoFullname: this.repoFullname,
       data: data,
     });
 
