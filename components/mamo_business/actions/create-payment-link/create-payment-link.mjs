@@ -102,7 +102,7 @@ export default {
     enableQuantity: {
       type: "boolean",
       label: "Enable Quantity",
-      description: "The number of times a payment link can be used.",
+      description: "Enable the payment link to be used multiple times.",
       optional: true,
     },
     enableQrCode: {
@@ -139,6 +139,12 @@ export default {
       type: "string",
       label: "External Id",
       description: "The external ID of your choice to associate with payments captured by this payment link.",
+      optional: true,
+    },
+    customData: {
+      type: "object",
+      label: "Custom Data",
+      description: "An object with custom data of the payment link.",
       optional: true,
     },
     isRecurring: {
