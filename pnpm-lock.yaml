@@ -3665,7 +3665,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/niftykit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/nightfall_ai:
     specifiers: {}
