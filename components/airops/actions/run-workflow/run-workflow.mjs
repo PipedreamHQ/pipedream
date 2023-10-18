@@ -35,7 +35,9 @@ export default {
       $,
       appId: this.appId,
       async: this.asynchronous,
-      data: inputs,
+      data: {
+        inputs,
+      },
     });
 
     if (response) {
