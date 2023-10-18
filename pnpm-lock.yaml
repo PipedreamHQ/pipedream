@@ -172,7 +172,12 @@ importers:
     specifiers: {}
 
   components/airmeet:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      dayjs: ^1.11.10
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      dayjs: 1.11.10
 
   components/airnow:
     specifiers: {}
@@ -457,7 +462,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/azure_sql:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      mssql: ^10.0.1
+      uuid: ^9.0.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      mssql: 10.0.1
+      uuid: 9.0.1
 
   components/badger_maps:
     specifiers:
@@ -586,6 +598,12 @@ importers:
 
   components/blue:
     specifiers: {}
+
+  components/booqable:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/botbaba:
     specifiers: {}
@@ -870,7 +888,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/clevertap:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/clickfunnels:
     specifiers: {}
@@ -1069,6 +1090,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/conveyor:
+    specifiers: {}
+
+  components/copperx:
     specifiers: {}
 
   components/corrently:
@@ -2698,7 +2722,10 @@ importers:
     specifiers: {}
 
   components/jibble:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/jira:
     specifiers:
@@ -3005,6 +3032,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/listen_notes:
+    specifiers: {}
+
+  components/listmonk:
     specifiers: {}
 
   components/little_green_light:
@@ -3417,6 +3447,9 @@ importers:
   components/mobilemonkey:
     specifiers: {}
 
+  components/mocean_api:
+    specifiers: {}
+
   components/moco:
     specifiers: {}
 
@@ -3640,7 +3673,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/niftykit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/nightfall_ai:
     specifiers: {}
@@ -4076,7 +4112,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/piggy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pikaso:
     specifiers:
@@ -4235,6 +4274,9 @@ importers:
     specifiers: {}
 
   components/polygonscan:
+    specifiers: {}
+
+  components/poof:
     specifiers: {}
 
   components/popupsmart:
@@ -4567,6 +4609,9 @@ importers:
       axios: 0.27.2
       lodash: 4.17.21
       qs: 6.11.2
+
+  components/redmine:
+    specifiers: {}
 
   components/referralrock:
     specifiers: {}
@@ -5242,7 +5287,10 @@ importers:
     specifiers: {}
 
   components/slottable:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/slybroadcast:
     specifiers: {}
@@ -5454,6 +5502,9 @@ importers:
   components/stannp:
     specifiers: {}
 
+  components/starloop:
+    specifiers: {}
+
   components/starton:
     specifiers: {}
 
@@ -5542,7 +5593,10 @@ importers:
     specifiers: {}
 
   components/superphone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/supersaas:
     specifiers:
@@ -6116,6 +6170,14 @@ importers:
 
   components/uptimerobot:
     specifiers: {}
+
+  components/upviral:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/upwave:
     specifiers: {}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/poof",
+  "version": "0.0.1",
+  "description": "Pipedream Poof Components",
+  "main": "poof.app.mjs",
+  "keywords": [
+    "pipedream",
+    "poof"
+  ],
+  "homepage": "https://pipedream.com/apps/poof",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
