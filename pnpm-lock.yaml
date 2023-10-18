@@ -888,7 +888,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/clevertap:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/clickfunnels:
     specifiers: {}
