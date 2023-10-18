@@ -172,7 +172,12 @@ importers:
     specifiers: {}
 
   components/airmeet:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      dayjs: ^1.11.10
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      dayjs: 1.11.10
 
   components/airnow:
     specifiers: {}
@@ -594,6 +599,12 @@ importers:
   components/blue:
     specifiers: {}
 
+  components/booqable:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/botbaba:
     specifiers: {}
 
@@ -877,7 +888,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/clevertap:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/clickfunnels:
     specifiers: {}
@@ -3659,7 +3673,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/niftykit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/nightfall_ai:
     specifiers: {}
@@ -4095,7 +4112,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/piggy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pikaso:
     specifiers:
@@ -5264,7 +5284,10 @@ importers:
     specifiers: {}
 
   components/slottable:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/slybroadcast:
     specifiers: {}
@@ -6144,6 +6167,14 @@ importers:
 
   components/uptimerobot:
     specifiers: {}
+
+  components/upviral:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/upwave:
     specifiers: {}
