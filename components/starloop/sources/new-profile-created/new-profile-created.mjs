@@ -2,7 +2,7 @@ import app from "../../starloop.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  key: "starloop-new-id",
+  key: "starloop-new-profile-created",
   name: "New Profile Created",
   description: "This source triggers when a new profile is created in Starloop.",
   version: "0.0.1",
