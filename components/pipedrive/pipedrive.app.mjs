@@ -251,6 +251,21 @@ export default {
         };
       },
     },
+    anilityIdFieldKey: {
+      type: "string",
+      label: "Anility Id Field Key",
+      description: "Key of the Anility Id custom field in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getOrganizationFields();
+        return stages.map(({
+          key, name,
+        }) => ({
+          label: name,
+          value: key,
+        }));
+      },
+    },
   },
   methods: {
     setupToken() {
