@@ -1,5 +1,4 @@
 import app from "../../clevertap.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
   name: "Upload Events",
@@ -13,7 +12,6 @@ export default {
       type: "string",
       label: "Event Name",
       description: "Name of the event",
-      options: constants.EVENT_TYPES,
     },
     identity: {
       type: "string",
