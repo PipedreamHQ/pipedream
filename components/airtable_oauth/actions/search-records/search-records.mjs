@@ -5,7 +5,7 @@ export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
   description: "Searches for a record by field value. Search Field must accept string values. [See the documentation](https://airtable.com/developers/web/api/list-records)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
