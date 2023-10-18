@@ -172,7 +172,12 @@ importers:
     specifiers: {}
 
   components/airmeet:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      dayjs: ^1.11.10
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      dayjs: 1.11.10
 
   components/airnow:
     specifiers: {}
@@ -883,7 +888,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/clevertap:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/clickfunnels:
     specifiers: {}
@@ -3665,7 +3673,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/niftykit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/nightfall_ai:
     specifiers: {}
@@ -6157,6 +6168,14 @@ importers:
   components/uptimerobot:
     specifiers: {}
 
+  components/upviral:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
+
   components/upwave:
     specifiers: {}
 
@@ -6856,6 +6875,14 @@ importers:
       moment: ^2.29.4
     dependencies:
       moment: 2.29.4
+
+  components/zoho_workdrive:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      axios: ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      axios: 1.5.1
 
   components/zonka_feedback:
     specifiers:

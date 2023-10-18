@@ -1,19 +1,19 @@
 {
-  "name": "@pipedream/airmeet",
+  "name": "@pipedream/zoho_workdrive",
   "version": "0.1.0",
-  "description": "Pipedream Airmeet Components",
-  "main": "airmeet.app.mjs",
+  "description": "Pipedream Zoho WorkDrive Components",
+  "main": "zoho_workdrive.app.mjs",
   "keywords": [
     "pipedream",
-    "airmeet"
+    "zoho_workdrive"
   ],
-  "homepage": "https://pipedream.com/apps/airmeet",
+  "homepage": "https://pipedream.com/apps/zoho_workdrive",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "@pipedream/platform": "^1.5.1",
-    "dayjs": "^1.11.10"
+    "axios": "^1.5.1"
   }
 }
