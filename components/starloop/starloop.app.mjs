@@ -70,7 +70,7 @@ export default {
     },
     getParams(params = {}) {
       return {
-        token: this.$auth.api_token,
+        token: this.$auth.api_key,
         ...params,
       };
     },
@@ -101,6 +101,10 @@ export default {
 
       if (typeof summary === "function") {
         this.exportSummary(step)(summary(response));
+      }
+
+      if (response.error_msg) {
+        throw new Error(JSON.stringify(response, null, 2));
       }
 
       return response;

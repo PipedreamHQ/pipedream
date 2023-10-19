@@ -10,7 +10,7 @@ export default {
     app,
   },
   run({ $: step }) {
-    return this.listIds({
+    return this.app.listIds({
       step,
       summary: () => "Successfully listed ids",
     });
