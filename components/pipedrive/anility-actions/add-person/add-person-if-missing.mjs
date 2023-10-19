@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-add-person",
   name: "Add Person (Anility)",
   description: "Adds a new person if missing. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     pipedriveApp,
@@ -55,8 +55,10 @@ export default {
       description: "Optional creation date & time of the person in UTC. Requires admin user API token. Format: `YYYY-MM-DD HH:MM:SS`",
     },
     anilityIdFieldKey: {
-      type: "string",
-      label: "AnilityId field key",
+      propDefinition: [
+        pipedriveApp,
+        "personCustomFieldKey",
+      ],
       description: "Anility Id custom field in Pipedrive",
     },
     anilityIdFieldValue: {

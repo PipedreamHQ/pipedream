@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-add-organization-if-missing",
   name: "Add Organization (Anility)",
   description: "Adds a new organization. See the Pipedrive API docs for Organizations [here](https://developers.pipedrive.com/docs/api/v1/Organizations#addOrganization)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     pipedriveApp,
@@ -38,7 +38,7 @@ export default {
     anilityIdFieldKey: {
       propDefinition: [
         pipedriveApp,
-        "anilityIdFieldKey",
+        "orgCustomFieldKey",
       ],
       description: "Anility Id custom field in Pipedrive",
     },

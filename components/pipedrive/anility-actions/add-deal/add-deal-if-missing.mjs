@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-add-deal",
   name: "Add Deal (Anility)",
   description: "Adds a new deal if missing. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     pipedriveApp,
@@ -87,8 +87,10 @@ export default {
       ],
     },
     anilityIdFieldKey: {
-      type: "string",
-      label: "AnilityId field key",
+      propDefinition: [
+        pipedriveApp,
+        "dealCustomFieldKey",
+      ],
       description: "Anility Id custom field in Pipedrive",
     },
     anilityIdFieldValue: {
@@ -97,9 +99,11 @@ export default {
       description: "Anility Id custom field value in Pipedrive",
     },
     anilityCustomerIdFieldKey: {
-      type: "string",
-      label: "CustomerId field key",
-      description: "Pipedrive organization id for customer",
+      propDefinition: [
+        pipedriveApp,
+        "dealCustomFieldKey",
+      ],
+      description: "Customer Id custom field in Pipedrive",
     },
     anilityCustomerIdFieldValue: {
       type: "string",
@@ -107,9 +111,11 @@ export default {
       description: "Pipedrive organization id  (value) for customer",
     },
     anilityOrderByIdFieldKey: {
-      type: "string",
-      label: "Order By Id field key",
-      description: "Pipedrive person id who ordered the assessment",
+      propDefinition: [
+        pipedriveApp,
+        "dealCustomFieldKey",
+      ],
+      description: "Order By Id custom field in Pipedrive",
     },
     anilityOrderByIdFieldValue: {
       type: "string",

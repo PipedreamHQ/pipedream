@@ -251,13 +251,43 @@ export default {
         };
       },
     },
-    anilityIdFieldKey: {
+    orgCustomFieldKey: {
       type: "string",
-      label: "Anility Id Field Key",
-      description: "Key of the Anility Id custom field in Pipedrive",
+      label: "Custom Field Key",
+      description: "Key of the custom field for organization in Pipedrive",
       optional: true,
       async options() {
         const { data: stages } = await this.getOrganizationFields();
+        return stages.map(({
+          key, name,
+        }) => ({
+          label: name,
+          value: key,
+        }));
+      },
+    },
+    personCustomFieldKey: {
+      type: "string",
+      label: "Custom Field Key",
+      description: "Key of the custom field for person in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getPersonFields();
+        return stages.map(({
+          key, name,
+        }) => ({
+          label: name,
+          value: key,
+        }));
+      },
+    },
+    dealCustomFieldKey: {
+      type: "string",
+      label: "Anility Id Field Key",
+      description: "Key of the custom field for deal in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getDealFields();
         return stages.map(({
           key, name,
         }) => ({
@@ -398,6 +428,12 @@ export default {
       ] = constants.API.PERSONS;
       return this.api(className).getPersons(opts);
     },
+    getPersonFields(opts = {}) {
+      const [
+        className,
+      ] = constants.API.PERSON_FIELDS;
+      return this.api(className).getPersonFields(opts);
+    },
     async getLeads(opts) {
       const [
         className,
@@ -439,12 +475,6 @@ export default {
         className,
       ] = constants.API.DEAL_FIELDS;
       return this.api(className).getDealFields(opts);
-    },
-    getPersonFields(opts = {}) {
-      const [
-        className,
-      ] = constants.API.PERSON_FIELDS;
-      return this.api(className).getPersonFields(opts);
     },
     getOrganizationFields(opts = {}) {
       const [
