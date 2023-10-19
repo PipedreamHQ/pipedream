@@ -9,5 +9,5 @@ export default {
   ...utils.getAppProps(newRow),
   key: "mysql_ssl-new-row",
   description: "Emit new event when you add a new row to a table (SSL). [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
-  version: "0.0.1",
+  version: "1.0.1",
 };

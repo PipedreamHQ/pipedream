@@ -85,6 +85,10 @@ On the Free tier, Pipedream imposes a limit on the [daily credits](/limits/#dail
 
 Paid plans have no credit limit. [Upgrade here](https://pipedream.com/pricing).
 
+### Runtime Quota Exceeded
+
+You **do not** use credits testing workflows, but workspaces on the **Free** plan are limited to {{$site.themeConfig.DAILY_TESTING_LIMIT}} of test runtime per day. If you exceed this limit when testing in the builder, you'll see a **Runtime Quota Exceeded** error.
+
 ### Timeout
 
 Event sources and workflows have a [default time limit on a given execution](/limits/#time-per-execution). If your code exceeds that limit, you may encounter a **Timeout** error.
@@ -145,3 +149,19 @@ Credit Budgets are configurable limits on your credit usage at the account or wo
 If you're receiving this warning on a source or workflow, this means your allocated Credit Budget has been reached for the defined period.
 
 You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).
+
+## How do I contact Pipedream Support?
+
+Start by filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), providing detailed information about your issue.
+
+### How do I share my workflow with Support?
+
+First, navigate to your **Project Settings** and share your project with Pipedream Support.
+
+If your workflow is _not_ part of a Project, go to the **Workflow Settings** to grant access to us.
+
+When filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), please provide detailed information along with the URL from your browser's address bar, which should look something like:
+
+```
+https://pipedream.com/@yourworkspace/projects/yourproject/test-workflow-pabc123
+```

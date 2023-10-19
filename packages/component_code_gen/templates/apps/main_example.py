@@ -1,6 +1,8 @@
-main_example = """Here's an example Pipedream app for Raindrop:
+main_example = """## Example all file for Raindrop
 
-```javascript
+Here's an example Pipedream app for Raindrop:
+
+```
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -29,8 +31,11 @@ export default {
         const page = prevContext.page
           ? prevContext.page
           : 0;
-        const { items } = await this.getRaindrops(this, collectionId, {
-          page,
+        const { items } = await this.getRaindrops({
+          collectionId,
+          params: {
+            page,
+          },
         });
         return {
           options: items.map((e) => ({
@@ -45,36 +50,38 @@ export default {
     },
   },
   methods: {
-    async _makeRequest($ = this, opts) {
+    _baseUrl() {
+      return "https://api.raindrop.io/rest/v1";
+    },
+    async _makeRequest(opts = {}) {
       const {
+        $ = this,
         method = "get",
         path,
-        data,
-        params,
+        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
         method,
-        url: `https://api.raindrop.io/rest/v1${path}`,
+        url: this._baseUrl() + path,
         headers: {
-          ...opts.headers,
+          ...headers,
           "user-agent": "@PipedreamHQ/pipedream v0.1",
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
-        data,
-        params,
       });
     },
-    async getCollections($) {
-      return this._makeRequest($, {
+    async getCollections(opts = {}) {
+      return this._makeRequest({
+        ...opts,
         path: "/collections",
       });
     },
-    async getRaindrops($, collectionId, params) {
-      return this._makeRequest($, {
+    async getRaindrops({ collectionId, ...opts}) {
+      return this._makeRequest({
+        ...opts,
         path: `/raindrops/${collectionId}`,
-        params,
       });
     },
   },
@@ -87,7 +94,7 @@ The propDefinitions object contains two props: collectionId and raindropId. The 
 
 This object contains a `props` property, which defines a single prop of type "app":
 
-```javascript
+```
 import { axios } from "@pipedream/platform";
 export default {
   type: "app",
@@ -105,29 +112,30 @@ export default {
     }
   },
   methods: {
-    async _makeRequest($ = this, opts) {
+    _baseUrl() {
+      return "https://api.the_app_name.com"; // the base URL of the app API
+    },
+    async _makeRequest(opts = {}) {
       const {
+        $ = this,
         method = "get",
+        headers,
         path,
-        data,
-        params,
         ...otherOpts
       } = opts;
-      return await axios($, {
+      return axios($, {
         ...otherOpts,
         method,
-        url: `https://api.the_app_name.com${path}`, // the base URL of the app API
+        url: this._baseUrl() + path,
         headers: {
-          ...opts.headers,
+          ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`, // the authentication type depends on the app
         },
-        params,
-        data,
-      })
+      });
     },
-    async getOptions() {
+    async getOptions(opts = {}) {
       // the code to get the options
-      return await this._makeRequest({
+      return this._makeRequest({
         ...opts,
       })
     },

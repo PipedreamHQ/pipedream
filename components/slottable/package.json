@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/slottable",
+  "version": "0.1.0",
+  "description": "Pipedream Slottable Components",
+  "main": "slottable.app.mjs",
+  "keywords": [
+    "pipedream",
+    "slottable"
+  ],
+  "homepage": "https://pipedream.com/apps/slottable",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

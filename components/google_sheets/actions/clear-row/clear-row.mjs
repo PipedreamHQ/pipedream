@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-clear-row",
   name: "Clear Row",
   description: "Delete the content of a row in a spreadsheet. Deleted rows will appear as blank rows.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     googleSheets,
