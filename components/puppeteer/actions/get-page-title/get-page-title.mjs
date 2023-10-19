@@ -4,7 +4,7 @@ export default {
   key: "puppeteer-get-page-title",
   name: "Get Page Title",
   description: "Get the title of a webpage using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.title)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     puppeteer,
