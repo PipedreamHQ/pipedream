@@ -21,7 +21,7 @@ export default {
   key: "google_sheets-upsert-row",
   name: "Upsert Row",
   description: "Upsert a row of data in a Google Sheet",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     googleSheets,
