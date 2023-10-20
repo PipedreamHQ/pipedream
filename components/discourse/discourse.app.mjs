@@ -1,16 +1,32 @@
 import get from "lodash.get";
 import sortBy from "lodash.sortby";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import { nanoid } from "nanoid";
 
 export default {
   type: "app",
   app: "discourse",
   propDefinitions: {
+    topicId: {
+      label: "Topic ID",
+      type: "string",
+      description: "The topic ID",
+      async options({ page }) {
+        const topics = await this.getTopics({
+          params: {
+            page,
+          },
+        });
+
+        return topics.map((topic) => ({
+          label: topic.title,
+          value: topic.id,
+        }));
+      },
+    },
     categories: {
       type: "string[]",
       label: "Categories",
-      optional: true,
       description:
         "The Discourse categories you want to watch for changes. **Leave blank to watch all categories**.",
       async options({ page = 0 }) {
@@ -138,7 +154,9 @@ export default {
         (el) => el.category_id && categories.includes(el.category_id.toString()),
       );
     },
-    async _makeRequest(opts) {
+    async _makeRequest({
+      $ = this, ...opts
+    }) {
       if (!opts.headers) opts.headers = {};
       opts.headers["Accept"] = "application/json";
       opts.headers["Content-Type"] = "application/json";
@@ -150,7 +168,7 @@ export default {
       opts.url = `${this._apiUrl()}${path[0] === "/"
         ? ""
         : "/"}${path}`;
-      return await axios(opts);
+      return axios($, opts);
     },
     generateSecret() {
       return nanoid(12); // Discourse requires at least 12 bytes for secrets
@@ -166,10 +184,7 @@ export default {
       tag_names = [],
       web_hook_event_type_ids = [],
     }) {
-      const {
-        data,
-        status,
-      } = await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: "/admin/api/web_hooks",
         data: {
@@ -189,10 +204,6 @@ export default {
         },
         validateStatus: () => true,
       });
-
-      if (status < 400) return data?.web_hook;
-      console.log(`Request failed with status ${status}`);
-      throw new Error(JSON.stringify(data, null, 2));
     },
     async deleteHook({ hookID }) {
       try {
@@ -206,7 +217,7 @@ export default {
     },
     // https://docs.discourse.org/#tag/Posts/paths/~1posts.json/get
     async getLatestPosts(categories) {
-      const { data } = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/posts",
       });
       const posts = get(data, "latest_posts", []);
@@ -214,23 +225,36 @@ export default {
     },
     // https://docs.discourse.org/#tag/Topics/paths/~1latest.json/get
     async getLatestTopics(categories) {
-      const { data } = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/latest",
       });
       const topics = get(data, "topic_list.topics", []);
       return this._filterOnCategories(topics, categories);
     },
     async listCategories() {
-      const { data } = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/categories",
       });
       return get(data, "category_list.categories", []);
     },
     async listUsers() {
-      const { data } = await this._makeRequest({
+      return this._makeRequest({
         path: "/admin/users",
       });
-      return data;
+    },
+    async getTopics({ ...args }) {
+      const data = await this._makeRequest({
+        path: "/latest.json",
+        ...args,
+      });
+      return data?.topic_list?.topics ?? [];
+    },
+    async createPostOrTopic({ ...args }) {
+      return this._makeRequest({
+        path: "/posts.json",
+        method: "post",
+        ...args,
+      });
     },
   },
 };

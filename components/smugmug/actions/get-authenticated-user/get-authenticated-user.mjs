@@ -1,30 +1,21 @@
-// legacy_hash_id: a_Q3i5Mm
-import { axios } from "@pipedream/platform";
+import smugmug from "../../smugmug.app.mjs";
 
 export default {
   key: "smugmug-get-authenticated-user",
   name: "Get Authenticated User",
-  description: "Gets details of the authenticated user.",
-  version: "0.1.1",
+  description: "Gets details of the authenticated user. [See the docs here](https://api.smugmug.com/api/v2/doc/reference/user.html)",
+  version: "0.1.2",
   type: "action",
   props: {
-    smugmug: {
-      type: "app",
-      app: "smugmug",
-    },
+    smugmug,
   },
   async run({ $ }) {
-    return await axios($, {
-      url: "https://api.smugmug.com/api/v2!authuser",
-      headers: {
-        "Accept": "application/json",
-      },
-    }, {
-      token: {
-        key: this.smugmug.$auth.oauth_access_token,
-        secret: this.smugmug.$auth.oauth_refresh_token,
-      },
-      oauthSignerUri: this.smugmug.$auth.oauth_signer_uri,
+    const response = await this.smugmug.getAuthenticatedUser({
+      $,
     });
+    if (response) {
+      $.export("$summary", `Retrieved authenticated user ${response.Response.User.Name}`);
+    }
+    return response;
   },
 };

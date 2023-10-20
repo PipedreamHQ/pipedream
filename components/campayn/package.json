@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/campayn",
+  "version": "0.0.2",
+  "description": "Pipedream Campayn Components",
+  "main": "campayn.app.mjs",
+  "keywords": [
+    "pipedream",
+    "campayn"
+  ],
+  "homepage": "https://pipedream.com/apps/campayn",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.0"
+  }
+}

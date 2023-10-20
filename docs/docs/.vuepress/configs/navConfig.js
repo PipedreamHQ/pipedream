@@ -16,12 +16,12 @@ module.exports = {
     {
       text: "Reference",
       items: [
-        { text: "Building Components", link: "/components/" },
+        { text: "Components API", link: "/components/api/" },
         { text: "CLI", link: "/cli/install/" },
         { text: "REST API", link: "/api/" },
         { text: "Limits", link: "/limits/" },
         { text: "Security & Privacy", link: "/privacy-and-security/"},
-        { text: "Handling Cold Starts", link: "/workflows/events/cold-starts/"},
+        { text: "Handling Cold Starts", link: "/workflows/settings/#eliminate-cold-starts"},
       ],
     },
   ], 

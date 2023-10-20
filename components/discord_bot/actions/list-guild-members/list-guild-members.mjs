@@ -1,6 +1,6 @@
+import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 import common from "../common.mjs";
-import constants from "../../constants.mjs";
 
 const { discord } = common.props;
 const { emptyStrToUndefined } = utils;
@@ -11,7 +11,7 @@ export default {
   name: "List Guild Members",
   description: "Return a list of guild members. [See the docs here](https://discord.com/developers/docs/resources/guild#list-guild-members)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.12",
   props: {
     discord,
     guildId: {

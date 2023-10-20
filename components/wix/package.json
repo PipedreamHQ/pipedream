@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/wix",
+  "version": "0.0.3",
+  "description": "Pipedream Wix Components",
+  "main": "dist/app/wix.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wix"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/wix",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

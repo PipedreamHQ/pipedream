@@ -1,10 +1,11 @@
 import harvest from "../../harvest.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "harvest-new-timesheet-entry",
   name: "New Timesheet Entry",
-  description: "Emit new notifications when a new timesheet is created",
-  version: "0.0.1",
+  description: "Emit new notifications when a new timesheet entry is created",
+  version: "0.0.4",
   type: "source",
   props: {
     harvest,
@@ -13,10 +14,16 @@ export default {
       description: "Pipedream will poll Harvest API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",
+    accountId: {
+      propDefinition: [
+        harvest,
+        "accountId",
+      ],
+    },
   },
   dedupe: "unique",
   async run() {
@@ -29,6 +36,7 @@ export default {
     const entries = await this.harvest.listTimeEntriesPaginated({
       page: 1,
       updatedSince: lastDateChecked,
+      accountId: this.accountId,
     });
     for await (const entry of entries) {
       data.push(entry);
@@ -41,6 +49,7 @@ export default {
           summary: `Task: ${entry.task.name} - ${entry.spent_date} ${entry.started_time || ""} ${entry.ended_time
             ? " to " + entry.ended_time
             : ""}`,
+          ts: Date.parse(entry.updated_at),
         });
     });
   },

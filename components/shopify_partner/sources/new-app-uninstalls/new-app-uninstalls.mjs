@@ -1,12 +1,12 @@
 import common from "../../common/common.mjs";
 import shopify from "../../shopify_partner.app.mjs";
-import getAppUninstalls from "../../queries/getAppUninstalls.mjs";
+import getAppUninstalls from "../../common/queries/getAppUninstalls.mjs";
 
 export default {
   key: "shopify_partner-new-app-uninstalls",
   name: "New App Uninstalls",
   type: "source",
-  version: "0.0.9",
+  version: "0.0.15",
   description: "Emit new events when new shops uninstall your app.",
   ...common,
   props: {
@@ -29,12 +29,6 @@ export default {
         "occurredAtMax",
       ],
     },
-    paginationEnabled: {
-      propDefinition: [
-        shopify,
-        "paginationEnabled",
-      ],
-    },
   },
   async run() {
     const {
@@ -45,7 +39,7 @@ export default {
     } = this;
 
     const variables = {
-      appId,
+      appId: `gid://partners/App/${appId}`,
       ...(occurredAtMin || {}),
       ...(occurredAtMax || {}),
     };

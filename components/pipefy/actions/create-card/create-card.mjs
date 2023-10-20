@@ -1,24 +1,72 @@
-// legacy_hash_id: a_52ie7G
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-create-card",
   name: "Create Card",
-  description: "Create a new Card in a Pipe",
-  version: "0.1.1",
+  description: "Create a new Card in a Pipe. [See the docs here](https://api-docs.pipefy.com/reference/mutations/createCard/)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_query: {
-      type: "object",
+    pipe: {
+      propDefinition: [
+        pipefy,
+        "pipe",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+      reloadProps: true,
+    },
+    phase: {
+      propDefinition: [
+        pipefy,
+        "phase",
+        (c) => ({
+          pipeId: c.pipe,
+        }),
+      ],
+      reloadProps: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Title of the new card",
     },
   },
+  async additionalProps() {
+    const props = {};
+    const startFields = this.pipe
+      ? await this.pipefy.listPipeFields(this.pipe)
+      : [];
+    const fields = this.phase
+      ? await this.pipefy.listPhaseFields(this.phase)
+      : [];
+    const allFields = [
+      ...startFields,
+      ...fields,
+    ];
+    for (const field of allFields) {
+      props[field.id] = {
+        type: "string",
+        label: field.label,
+        description: `Type: ${field.type}. ${field.description}`,
+        optional: !field.required,
+      };
+      if (field.options.length > 0) {
+        props[field.id].options = field.options;
+      }
+    }
+    return props;
+  },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/mutations/createCard/
-
+  /*
   Example query:
 
   mutation{
@@ -35,17 +83,31 @@ export default {
   }
   */
 
-    if (!this.graphql_query) {
-      throw new Error("Must provide graphql_query parameter.");
+    const fieldsAttributes = [];
+    const startFields = await this.pipefy.listPipeFields(this.pipe);
+    const fields = await this.pipefy.listPhaseFields(this.phase);
+    const allFields = [
+      ...startFields,
+      ...fields,
+    ];
+    for (const field of allFields) {
+      if (this[field.id]) {
+        fieldsAttributes.push({
+          field_id: field.id,
+          field_value: this[field.id],
+        });
+      }
     }
 
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_query,
-    });
+    const variables = {
+      pipeId: this.pipe,
+      phaseId: this.phase,
+      title: this.title,
+      fieldsAttributes,
+    };
+
+    const response = await this.pipefy.createCard(variables);
+    $.export("$summary", "Successfully created card");
+    return response;
   },
 };

@@ -1,10 +1,12 @@
 import shopify from "../../shopify.app.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "shopify-create-product-variant",
   name: "Create Product Variant",
-  description: "Create a new product variant. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)",
-  version: "0.0.1",
+  description: "Create a new product variant. [See the documentation](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)",
+  version: "0.0.11",
   type: "action",
   props: {
     shopify,
@@ -36,18 +38,12 @@ export default {
         }),
       ],
     },
-  },
-  async run({ $ }) {
-    let productVariant = {
-      option1: this.option,
-      price: this.price,
-      image_id: this.imageId,
-    };
-    let response = (await this.shopify.createProductVariant(
-      this.productId,
-      productVariant,
-    )).result;
-    $.export("$summary", `Created new product variant \`${response.title}\` with id \`${response.id}\``);
-    return response;
+    sku: {
+      propDefinition: [
+        shopify,
+        "sku",
+      ],
+    },
+    ...common.props,
   },
 };

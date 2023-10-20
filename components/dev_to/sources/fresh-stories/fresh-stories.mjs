@@ -7,7 +7,7 @@ export default {
   type: "source",
   key: "dev_to-fresh-stories",
   description: "Emit new Dev.to story",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     ...common.props,
     devTo,

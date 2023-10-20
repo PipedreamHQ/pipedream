@@ -5,7 +5,7 @@ export default {
   key: "formstack-get-form",
   name: "Get Form",
   description: "Get the details of the specified form. [See docs here](https://formstack.readme.io/docs/form-id-get)",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     formstack,
     formId: {

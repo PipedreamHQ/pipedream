@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.0.4",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
   hooks: {},
@@ -29,21 +29,28 @@ export default {
   },
   methods: {
     ...common.methods,
-    generateMeta(deal) {
+    async getTs(deal) {
+      const { properties } = await this.hubspot.getDeal({
+        dealId: deal.id,
+        params: {
+          includePropertyVersions: true,
+        },
+      });
+      return properties.dealstage?.versions[0].timestamp;
+    },
+    emitEvent(deal, ts) {
       const {
         id,
         properties,
-        updatedAt,
       } = deal;
-      const ts = Date.parse(updatedAt);
-      return {
+      this.$emit(deal, {
         id: `${id}${properties.dealstage}`,
         summary: `${properties.dealname}`,
         ts,
-      };
+      });
     },
-    isRelevant(deal, updatedAfter) {
-      return Date.parse(deal.updatedAt) > updatedAfter;
+    isRelevant(ts, updatedAfter) {
+      return ts > updatedAfter;
     },
     getParams() {
       return null;
@@ -73,10 +80,38 @@ export default {
         object: "deals",
       };
     },
+    async processDeals(params, after) {
+      let maxTs = after || 0;
+      const limiter = this._limiter();
+
+      do {
+        const results = await this._requestWithLimiter(
+          limiter,
+          this.hubspot.searchCRM.bind(this),
+          params,
+        );
+        if (results.paging) {
+          params.after = results.paging.next.after;
+        } else {
+          delete params.after;
+        }
+
+        for (const deal of results.results) {
+          const ts = await this.getTs(deal);
+          if (this.isRelevant(ts, after)) {
+            this.emitEvent(deal, ts);
+            if (ts > maxTs) {
+              maxTs = ts;
+              this._setAfter(ts);
+            }
+          }
+        }
+      } while (params.after);
+    },
     async processResults(after) {
-      for (let stage of this.stages) {
+      for (const stage of this.stages) {
         const params = this.getStageParams(stage);
-        await this.searchCRM(params, after);
+        await this.processDeals(params, after);
       }
     },
   },

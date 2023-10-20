@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import jwt from "jsonwebtoken";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -34,7 +35,12 @@ export default {
       description: "The member to be edited.",
       async options({ page }) {
         const limit = 15;
-        const res = await this.getMembers(limit, page + 1);
+        const res = await this.getMembers({
+          params: {
+            limit,
+            page: page + 1,
+          },
+        });
         const members = res.members?.map((member) => ({
           label: member.email,
           value: member.id,
@@ -44,16 +50,16 @@ export default {
     },
   },
   methods: {
-    _getBaseURL() {
-      return `${this.$auth.admin_api_url}/ghost/api/v3/admin`;
+    getURL(path) {
+      return `${this.$auth.admin_api_url}${constants.VERSION_PATH}${path}`;
     },
-    async _getHeader() {
-      const token = await this._getToken();
+    getHeader() {
+      const token = this.getToken();
       return {
         Authorization: `Ghost ${token}`,
       };
     },
-    _getToken() {
+    getToken() {
       const key = this.$auth.admin_api_key;
       const [
         id,
@@ -66,57 +72,59 @@ export default {
         audience: "/v3/admin/",
       });
     },
-    async createHook(event, targetUrl) {
-      const data = {
-        webhooks: [
-          {
-            event,
-            target_url: targetUrl,
-          },
-        ],
-      };
-      const res = await this.makeHttpRequest("post", "/webhooks", data);
-      if (!res?.data?.webhooks?.[0]?.id) {
-        console.log(res.data);
-        throw new Error("No webhook id was returned by Ghost. Please try again.");
-      }
-
-      return res.data.webhooks[0].id;
-    },
-    async deleteHook(hookId) {
-      if (!hookId) {
-        console.warn("No hookId provided. No webhook deleted");
-      }
-      await this.makeHttpRequest("delete", `/webhooks/${hookId}`);
-    },
-    async makeHttpRequest(method, path, data, params) {
+    async makeRequest({
+      $ = this, path, ...args
+    } = {}) {
       const config = {
-        method,
-        url: this._getBaseURL() + path,
-        headers: await this._getHeader(),
-        data,
-        params,
+        url: this.getURL(path),
+        headers: this.getHeader(),
+        ...args,
       };
-      return await axios(this, config);
+      return axios($, config);
     },
-    async createMember(data) {
-      return this.makeHttpRequest("post", "/members", {
-        members: [
-          data,
-        ],
+    async createHook(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/webhooks",
+        ...args,
       });
     },
-    async updateMember(id, data) {
-      return this.makeHttpRequest("put", `/members/${id}`, {
-        members: [
-          data,
-        ],
+    async deleteHook({
+      hookId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "delete",
+        path: `/webhooks/${hookId}`,
+        ...args,
       });
     },
-    async getMembers(limit, page) {
-      return this.makeHttpRequest("get", "/members", null, {
-        limit,
-        page,
+    async createPost(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/posts",
+        ...args,
+      });
+    },
+    async createMember(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/members",
+        ...args,
+      });
+    },
+    async updateMember({
+      memberId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "put",
+        path: `/members/${memberId}`,
+        ...args,
+      });
+    },
+    async getMembers(args = {}) {
+      return this.makeRequest({
+        path: "/members",
+        ...args,
       });
     },
   },

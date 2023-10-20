@@ -1,25 +1,40 @@
-// legacy_hash_id: a_gnirYL
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-look-up-phase-by-id",
   name: "Look Up Phase By Id",
-  description: "Looks up a phase by its ID.",
-  version: "0.1.1",
+  description: "Looks up a phase by its ID. [See the docs here](https://api-docs.pipefy.com/reference/queries/#phase)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_query: {
-      type: "object",
-      description: "A graphql query as per [Phase](https://api-docs.pipefy.com/reference/objects/Phase/) specification.",
+    pipe: {
+      propDefinition: [
+        pipefy,
+        "pipe",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+    },
+    phase: {
+      propDefinition: [
+        pipefy,
+        "phase",
+        (c) => ({
+          pipeId: c.pipe,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/queries/#phase
-
+  /*
   Example query:
 
   {
@@ -29,17 +44,8 @@ export default {
   }
   */
 
-    if (!this.graphql_query) {
-      throw new Error("Must provide graphql_query parameter.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_query,
-    });
+    const response = await this.pipefy.getPhase(this.phase);
+    $.export("$summary", "Successfully retrieved phase");
+    return response;
   },
 };

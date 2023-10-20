@@ -15,7 +15,21 @@ Within a workflow, you have full read-write access to the `/tmp` directory. You 
 
 ## Managing `/tmp` across workflow runs
 
-The `/tmp` directory is stored on the virtual machine that runs your workflow. We call this the execution environment ("EE"). More than one EE may be created to handle high-volume workflows. And EEs can be destroyed at any time (for example, after about 10 minutes of receiving no events). This means that you should not expect to have access to files across invocations. At the same time, files _may_ remain, so you should clean them up to make sure that doesn't affect your workflow. **Use [the `tmp-promise` package](https://github.com/benjamingr/tmp-promise) to cleanup files after use, or [delete the files manually](#delete-a-file).**
+The `/tmp` directory is stored on the virtual machine that runs your workflow. We call this the execution environment ("EE"). More than one EE may be created to handle high-volume workflows. And EEs can be destroyed at any time (for example, after about 10 minutes of receiving no events). This means that you should not expect to have access to files across executions. At the same time, files _may_ remain, so you should clean them up to make sure that doesn't affect your workflow. **Use [the `tmp-promise` package](https://github.com/benjamingr/tmp-promise) to cleanup files after use, or [delete the files manually](#delete-a-file).**
+
+## Reading a file from `/tmp`
+
+This example uses [step exports](/workflows/steps/#step-exports) to return the contents of a test file saved in `/tmp` as a string:
+
+```javascript
+import fs from "fs";
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    return (await fs.promises.readFile('/tmp/your-file')).toString()
+  }
+});
+```
 
 ## Writing a file to `/tmp`
 
@@ -44,21 +58,6 @@ import fs from "fs";
 export default defineComponent({
   async run({ steps, $ }) {
     return fs.readdirSync("/tmp");
-  }
-});
-```
-
-## Reading a file from `/tmp`
-
-This example uses [step exports](/workflows/steps/#step-exports) to return the contents of a test file saved in `/tmp`, returned as a string ([`fs.readFileSync` returns a `Buffer`](https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options)):
-
-```javascript
-import fs from "fs";
-
-export default defineComponent({
-  async run({ steps, $ }) {
-    const files = await fs.promises.readFile('/tmp/your-file');
-    this.fileData = files.toString()
   }
 });
 ```

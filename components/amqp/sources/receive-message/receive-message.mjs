@@ -1,11 +1,12 @@
 import amqp from "../../amqp.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "amqp-receive-message",
   name: "New Message",
   description: "Emit new event for each new message in an [AMQP 1.0](https://www.amqp.org/sites/amqp.org/files/amqp.pdf) queue. [See the library example here](https://github.com/amqp/rhea-promise#receiving-a-message).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     amqp,
@@ -14,7 +15,7 @@ export default {
       label: "Timer",
       description: "The timer to use to schedule the next poll.",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     receiverName: {

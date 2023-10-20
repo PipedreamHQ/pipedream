@@ -1,36 +1,31 @@
-// legacy_hash_id: a_G1iLx4
-import { axios } from "@pipedream/platform";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-get-contact",
   name: "Get Contact",
-  description: "Retrieves an existing contact.",
-  version: "0.1.2",
+  description: "Retrieves an existing contact. See the docs [here](https://developers.activecampaign.com/reference/get-contact).",
+  version: "0.2.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
-    contact_id: {
+    activecampaign,
+    contactId: {
       type: "string",
       description: "ID of the contact to retrieve.",
+      propDefinition: [
+        activecampaign,
+        "contacts",
+      ],
     },
   },
   async run({ $ }) {
-  // See the API docs: https://developers.activecampaign.com/reference#get-contact
+    const { contactId } = this;
 
-    if (!this.contact_id) {
-      throw new Error("Must provide contact_id parameter.");
-    }
+    const response = await this.activecampaign.getContact({
+      contactId,
+    });
 
-    const config = {
-      url: `${this.activecampaign.$auth.base_url}/api/3/contacts/${this.contact_id}`,
-      headers: {
-        "Api-Token": `${this.activecampaign.$auth.api_key}`,
-      },
-    };
+    $.export("$summary", `Successfully found contact with ID ${response.contact.id}`);
 
-    return await axios($, config);
+    return response;
   },
 };

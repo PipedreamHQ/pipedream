@@ -4,7 +4,7 @@ export default {
   key: "ghost_org_admin_api-update-member",
   name: "Update Member",
   description: "Update a member in Ghost. [See the docs here](https://ghost.org/docs/admin-api/#updating-a-member)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -34,15 +34,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      name: this.name,
-      note: this.note,
-      labels: this.labels,
-    };
-    const res = await this.app.updateMember(
-      this.member,
-      data,
-    );
+    const res = await this.app.updateMember({
+      $,
+      memberId: this.member,
+      data: {
+        members: [
+          {
+            name: this.name,
+            note: this.note,
+            labels: this.labels,
+          },
+        ],
+      },
+    });
     $.export("$summary", "Successfully updated member");
     return res.members[0];
   },

@@ -1,19 +1,20 @@
 import demio from "../../demio.app.mjs";
 import constants from "../common/constants.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "demio-new-participant",
   name: "New Participant",
   description: "Emit new event for each participant in an event. [See docs here](https://publicdemioapi.docs.apiary.io/#reference/reports/event-date-participants/event-date-participants)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     demio,
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     eventId: {

@@ -1,25 +1,37 @@
-// legacy_hash_id: a_74ijXz
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-get-all-cards",
   name: "Get All Cards",
-  description: "Fetches all pipe cards based on arguments.",
-  version: "0.1.1",
+  description: "Fetches all cards in a pipe. [See the docs here](https://api-docs.pipefy.com/reference/queries/#allCards)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_query: {
-      type: "object",
-      description: "A graphql query as per [All Cards](https://api-docs.pipefy.com/reference/queries/#allCards) specification.",
+    pipe: {
+      propDefinition: [
+        pipefy,
+        "pipe",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+    },
+    max: {
+      type: "integer",
+      label: "Max Cards",
+      description: "Maximum number of cards to return",
+      default: 100,
     },
   },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/queries/#allCards
-
+  /*
   Example query:
 
   {
@@ -27,18 +39,25 @@ export default {
     pageInfo{hasNextPage} edges{node{title}}
   }
   */
+    const cards = [];
+    let hasNextPage, cursor;
+    do {
+      const {
+        edges, pageInfo,
+      } = await this.pipefy.listCards(this.pipe, cursor);
+      cards.push(...edges);
+      if (cards.length >= this.max) {
+        break;
+      }
+      hasNextPage = pageInfo.hasNextPage;
+      cursor = pageInfo.endCursor;
+    } while (hasNextPage);
 
-    if (!this.graphql_query) {
-      throw new Error("Must provide graphql_query parameter.");
+    if (cards.length > this.max) {
+      cards.length = this.max;
     }
 
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_query,
-    });
+    $.export("$summary", `Successfully retrieved ${cards.length} card(s)`);
+    return cards;
   },
 };

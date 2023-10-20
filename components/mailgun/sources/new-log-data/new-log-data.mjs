@@ -6,7 +6,7 @@ export default {
   name: "New Log Data",
   type: "source",
   description: "Emit new event when new data is logged in Mailgun's Control Panel. Occurs for most actions within the associated Mailgun account.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

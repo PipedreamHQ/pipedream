@@ -5,7 +5,7 @@ export default defineAction({
   name: "Create Application Domain",
   description: "Add a new application domain for the application. [See the docs here](https://serveravatar.com/api-docs/endpoint/application-domain/create.html)",
   key: "serveravatar-create-application-domain",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     serverAvatarApp,
@@ -36,7 +36,7 @@ export default defineAction({
       server_id: this.serverId,
       application_id: this.applicationId,
       domain: this.domain,
-    }
+    };
     const result = await this.serverAvatarApp.createApplicationDomain($, newAppDomainData);
     $.export("$summary", `Domain "${result.applicationDomain.domain}" has been successfully added.`);
     return result;

@@ -7,7 +7,7 @@ export default {
   name: "New Saved Item",
   description: "Emit new event when a new item is saved. [See the docs here](https://github.com/feedbin/feedbin-api/blob/master/content/entries.md#get-v2entriesjson)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

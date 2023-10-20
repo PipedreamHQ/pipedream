@@ -1,11 +1,12 @@
 import freshdesk from "../../freshdesk.app.mjs";
 import moment from "moment";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "freshdesk-new-ticket",
   name: "New Ticket",
   description: "Emit new notifications when a new ticket is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     freshdesk,
@@ -14,7 +15,7 @@ export default {
       description: "Pipedream will poll Harvest API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",
@@ -42,7 +43,7 @@ export default {
           {
             id: ticket.id,
             summary: `Ticket number: ${ticket.id}`,
-            ts: Date.parse(ticket.created_at)
+            ts: Date.parse(ticket.created_at),
           });
       }
     });

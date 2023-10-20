@@ -1,22 +1,19 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "hubspot-update-blog-article",
+  key: "hubspot-updated-blog-article",
   name: "Updated Blog Posts",
   description: "Emit new event for each updated blog post.",
-  version: "0.0.1",
+  version: "0.0.12",
   dedupe: "unique",
   type: "source",
-  hooks: {
-    hooks: {
-      async activate() {
-        this._setAfter(Date.now());
-      },
-    },
-  },
+  hooks: {},
   methods: {
     ...common.methods,
+    getTs(blogpost) {
+      return Date.parse(blogpost.updated);
+    },
     generateMeta(blogpost) {
       const {
         id,

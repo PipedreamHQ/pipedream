@@ -33,7 +33,6 @@ When you're [examining event data](#examining-event-data), you'll commonly want 
 
 Hover over the property whose data you want to reference, and click the **Copy Path** button to its right:
 
-
 ![Copy an event path](https://res.cloudinary.com/pipedreamin/image/upload/v1648759215/docs/components/CleanShot_2022-03-31_at_16.39.56_lsus2o.gif)
 
 ## Copying the values of event data
@@ -66,13 +65,13 @@ The specific shape of `steps.trigger.event` depends on the trigger type:
 
 ### Cron Scheduler
 
-| Property              |                                           Description                                            |
-| --------------------- | :----------------------------------------------------------------------------------------------: |
-| `interval_seconds`    |                       The number of seconds between scheduled invocations                        |
-| `cron`                |                  When you've configured a custom cron schedule, the cron string                  |
-| `timestamp`           |                            The epoch timestamp when the workflow ran                             |
-| `timezone_configured` | An object with formatted datetime data for the given invocation, tied to the schedule's timezone |
-| `timezone_utc`        |    An object with formatted datetime data for the given invocation, tied to the UTC timezone     |
+| Property              |                                           Description                                           |
+| --------------------- | :---------------------------------------------------------------------------------------------: |
+| `interval_seconds`    |                       The number of seconds between scheduled executions                        |
+| `cron`                |                 When you've configured a custom cron schedule, the cron string                  |
+| `timestamp`           |                            The epoch timestamp when the workflow ran                            |
+| `timezone_configured` | An object with formatted datetime data for the given execution, tied to the schedule's timezone |
+| `timezone_utc`        |    An object with formatted datetime data for the given execution, tied to the UTC timezone     |
 
 ### Email
 
@@ -80,24 +79,41 @@ We use Amazon SES to receive emails for the email trigger. You can find the shap
 
 ## `steps.trigger.context`
 
-`steps.trigger.event` contain your event's **data**. `steps.trigger.context` contains _metadata_ about the workflow and the invocation tied to this event.
+`steps.trigger.event` contain your event's **data**. `steps.trigger.context` contains _metadata_ about the workflow and the execution tied to this event.
 
 You can use the data in `steps.trigger.context` to uniquely identify the Pipedream event ID, the timestamp at which the event invoked the workflow, and more:
 
-| Property           |                                    Description                                     |
-| ------------------ | :--------------------------------------------------------------------------------: |
-| `deployment_id`    |     A globally-unique string representing the current version of the workflow      |
-| `id`               | A unique, Pipedream-provided identifier for the event that triggered this workflow |
-| `owner_id`         |            The Pipedream-assigned user ID for the owner of the workflow            |
-| `platform_version` |        The version of the Pipedream execution environment this event ran on        |
-| `ts`               |           The ISO 8601 timestamp at which the event invoked the workflow           |
-| `workflow_id`      |                                  The workflow ID                                   |
-| `workflow_name`    |                                 The workflow name                                  |
+| Property           |                                                    Description                                                    |
+| ------------------ | :---------------------------------------------------------------------------------------------------------------: |
+| `deployment_id`    |                     A globally-unique string representing the current version of the workflow                     |
+| `emitter_id`       |           The ID of the workflow trigger that emitted this event, e.g. the [event source](/sources) ID.           |
+| `id`               |                A unique, Pipedream-provided identifier for the event that triggered this workflow                 |
+| `owner_id`         |      The Pipedream-assigned [workspace ID](/workspaces/#finding-your-workspace-s-id) that owns the workflow       |
+| `platform_version` |                       The version of the Pipedream execution environment this event ran on                        |
+| `replay`           |                               A boolean, whether the event was replayed via the UI                                |
+| `trace_id`         | Holds the same value for all executions tied to an original event. [See below for more details](#id-vs-trace-id). |
+| `ts`               |                          The ISO 8601 timestamp at which the event invoked the workflow                           |
+| `workflow_id`      |                                                  The workflow ID                                                  |
+| `workflow_name`    |                                                 The workflow name                                                 |
+
+### `id` vs. `trace_id`
+
+`steps.trigger.context.id` should be unique for every execution of a workflow.
+
+`steps.trigger.context.trace_id` will hold the same value for all executions tied to the same original event, e.g. if you have auto-retry enabled and it retries a workflow three times, id will change, but trace_id will remain the same. For example, if you call `$.flow.suspend()` on a workflow, we run a new execution after the suspend, so you'd see two total executions: `id` will be unique before and after the suspend, but `trace_id` will be the same.
 
 You may notice other properties in `context`. These are used internally by Pipedream, and are subject to change.
 
-## Limits on event history
+## Limits on events queue
 
-Only the last 100 events are retained for each workflow. After 100 events have been processed, Pipedream will delete the oldest event data as new events arrive, keeping only the last 100 events.
+On the Free and Basic plans, only the last 100 events are retained for each workflow. After 100 events have been processed, Pipedream will delete the oldest event data as new events arrive, keeping only the last 100 events.
+
+The Advanced and Business tiers have an upgraded amount of events in the queue, [please see the pricing page](https://pipedream.com/pricing) for more details.
+
+::: tip
+
+For an extended history of events across all of your workflows, included processed events, with the ability to filter by status and time range, please see the [Event History](/event-history/).
+
+:::
 
 <Footer />

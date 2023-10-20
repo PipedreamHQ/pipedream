@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/iauditor_by_safetyculture",
+  "version": "0.1.0",
+  "description": "Pipedream iAuditor by SafetyCulture Components",
+  "main": "iauditor_by_safetyculture.app.mjs",
+  "keywords": [
+    "pipedream",
+    "iauditor_by_safetyculture"
+  ],
+  "homepage": "https://pipedream.com/apps/iauditor_by_safetyculture",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "lodash.pickby": "^4.6.0"
+  }
+}

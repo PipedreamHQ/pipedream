@@ -1,23 +1,25 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-product",
   name: "New Products",
   description: "Emit new event for each new product created.",
-  version: "0.0.1",
+  version: "0.0.12",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(product) {
+      return Date.parse(product.createdAt);
+    },
     generateMeta(product) {
       const {
         id,
         properties,
-        createdAt,
       } = product;
-      const ts = Date.parse(createdAt);
+      const ts = this.getTs(product);
       return {
         id,
         summary: properties.name,
@@ -25,7 +27,7 @@ export default {
       };
     },
     isRelevant(product, createdAfter) {
-      return Date.parse(product.createdAt) > createdAfter;
+      return this.getTs(product) > createdAfter;
     },
     getParams() {
       return {

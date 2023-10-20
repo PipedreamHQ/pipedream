@@ -5,11 +5,13 @@ Prefer to write quick scripts in Bash? We've got you covered.
 You can run any Bash in a Pipedream step within your workflows.
 
 ::: warning
-Bash steps are available in a limited alpha release.
+Bash steps are in **beta**. There might be changes while we prepare it for a full release.
 
-You can still run arbitrary Bash scripts, including [sharing data between steps](/code/bash/#sharing-data-between-steps) as well as [accessing environment variables](/code/bash/#using-environment-variables).
+You can still run Bash scripts, [share data between steps](/code/bash/#sharing-data-between-steps), and [access environment variables](/code/bash/#using-environment-variables).
 
-However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time. If you have any questions, find bugs or have feedback please [contact support](https://pipedream.com/support).
+However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time.
+
+If you have any feedback on the Bash runtime, please let us know in [our community](https://pipedream.com/support).
 :::
 
 ## Adding a Bash code step
@@ -35,17 +37,15 @@ echo $MESSAGE
 
 Bash steps come with many common and useful binaries preinstalled and available in `$PATH` for you to use out of the box. These binaries include but aren't limited to:
 
-* `curl` for making HTTP requests
-* `jq` for manipulating and viewing JSON data
-* `git` for interacting with remote repositories
+- `curl` for making HTTP requests
+- `jq` for manipulating and viewing JSON data
+- `git` for interacting with remote repositories
 
 Unfortunately it is not possible to install packages from a package manager like `apt` or `yum`.
 
 If you need a package pre-installed in your Bash steps, [just ask us](https://pipedream.com/support).
 
 Otherwise, you can use the `/tmp` directory to download and install software from source.
-
-
 
 ## Sharing data between steps
 
@@ -120,6 +120,7 @@ You may need to stop your step immediately. You can use the normal `exit` functi
 echo "Exiting now!" 1>&2
 exit 1
 ```
+
 :::warning
 Using `exit` to quit a Bash step early _won't_ stop the execution of the rest of the workflow.
 

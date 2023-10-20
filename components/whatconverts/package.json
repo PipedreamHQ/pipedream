@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/whatconverts",
+  "version": "0.0.2",
+  "description": "Pipedream WhatConverts Components",
+  "main": "dist/app/whatconverts.app.mjs",
+  "keywords": [
+    "pipedream",
+    "whatconverts"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/whatconverts",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

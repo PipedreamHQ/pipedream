@@ -68,6 +68,7 @@ export default {
         connection.once("error", reject);
         connection.once("end", resolve);
         connection.end();
+        setTimeout(() => resolve("done"), 5000);
       });
     },
     /**

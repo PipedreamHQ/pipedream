@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/mapbox",
+  "version": "0.0.3",
+  "description": "Pipedream Mapbox Components",
+  "main": "dist/app/mapbox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mapbox"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/mapbox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

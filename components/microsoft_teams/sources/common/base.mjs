@@ -1,4 +1,5 @@
 import microsoftTeams from "../../microsoft_teams.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -9,7 +10,7 @@ export default {
       description: "Pipedream will poll the YouTube API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // every 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
@@ -26,7 +27,7 @@ export default {
       }
       return Date.parse(resource.createdDateTime) > lastCreated;
     },
-    async getNewPaginatedResources(fn, params, max, lastCreated) {
+    async getNewPaginatedResources(fn, params, lastCreated) {
       const resources = [];
       const paginator = this.paginate(fn, params);
 
@@ -34,9 +35,6 @@ export default {
         const isNewResource = this.isNew(resource, lastCreated);
         if (isNewResource) {
           resources.push(resource);
-        }
-        if (!isNewResource || resources.length >= max) {
-          break;
         }
       }
       return resources;

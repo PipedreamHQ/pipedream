@@ -4,9 +4,9 @@ export default {
   key: "http-return-http-response",
   name: "Return HTTP Response",
   description:
-    "Use with an HTTP Source that uses `Return a custom response from your workflow` as its `HTTP Response`",
+    "Use with an HTTP trigger that uses \"Return a custom response from your workflow\" as its `HTTP Response`",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.3",
   props: {
     http,
     resStatusCode: {
@@ -39,6 +39,6 @@ export default {
       headers: this.resHeaders,
       body: this.resBody,
     });
-    $.export("summary", `Responded successfully with status ${status}`);
+    $.export("$summary", `Responded successfully with status ${status}`);
   },
 };

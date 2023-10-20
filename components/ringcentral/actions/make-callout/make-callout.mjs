@@ -4,7 +4,7 @@ export default {
   key: "ringcentral-make-callout",
   name: "Make  CallOut",
   description: "Creates a new outbound call out session. See the API docs [here](https://developers.ringcentral.com/api-reference/Call-Control/createCallOutCallSession)",
-  version: "0.4.0",
+  version: "0.4.1",
   type: "action",
   props: {
     ringcentral,

@@ -1,39 +1,29 @@
-// legacy_hash_id: a_bKilPw
-import { axios } from "@pipedream/platform";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-find-contact",
   name: "Find Contact",
-  description: "Finds a contact by email address.",
-  version: "0.1.2",
+  description: "Finds a contact. See the docs [here](https://developers.activecampaign.com/reference/list-all-contacts).",
+  version: "0.2.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
-    email: {
+    activecampaign,
+    search: {
       type: "string",
-      description: "Email address of the contact you want to get.",
+      label: "Search",
+      description: "Filter contacts that match the given value in the contact names, organization, phone or email",
     },
   },
   async run({ $ }) {
-  // See the API docs: https://developers.activecampaign.com/reference#list-all-contacts
-
-    if (!this.email) {
-      throw new Error("Must provide email parameter.");
-    }
-
-    const config = {
-      url: `${this.activecampaign.$auth.base_url}/api/3/contacts`,
-      headers: {
-        "Api-Token": `${this.activecampaign.$auth.api_key}`,
-      },
+    const { search } = this;
+    const { contacts } = await this.activecampaign.listContacts({
       params: {
-        "email": this.email,
+        search,
       },
-    };
+    });
 
-    return await axios($, config);
+    $.export("$summary", `Successfully found ${contacts.length} contact(s)`);
+
+    return contacts;
   },
 };

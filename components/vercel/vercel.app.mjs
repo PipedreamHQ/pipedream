@@ -67,12 +67,17 @@ export default {
     },
   },
   methods: {
+    _auth() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
     async makeRequest(config, $) {
       config = {
         ...config,
         url: `https://api.vercel.com/${config.endpoint}`,
         headers: {
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          ...this._auth(),
           "User-Agent": "@PipedreamHQ/pipedream v0.1",
         },
       };

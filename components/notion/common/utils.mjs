@@ -24,7 +24,14 @@ function parseStringToJSON(value, defaultValue = {}) {
     : defaultValue;
 }
 
+function parseArray(value) {
+  return typeof value === "string"
+    ? JSON.parse(value)
+    : value;
+}
+
 export default {
   buildTextProperty,
   parseStringToJSON,
+  parseArray,
 };

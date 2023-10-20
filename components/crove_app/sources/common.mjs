@@ -60,6 +60,11 @@ export default {
       status: 200,
     });
 
+    // Removing returned properties that are not interesting for users
+    //delete response.response;
+    //delete response.respondents;
+    //delete response.symbol_table;
+
     this.$emit(body, {
       id: body.webhook.id,
       summary: `New event ${body.webhook.id} received`,

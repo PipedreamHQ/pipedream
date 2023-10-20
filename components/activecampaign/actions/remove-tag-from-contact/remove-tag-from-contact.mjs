@@ -1,37 +1,46 @@
-// legacy_hash_id: a_1Wi7JX
-import querystring from "querystring";
-import axiosModule from "axios";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-remove-tag-from-contact",
-  name: "ActiveCampaign - Remove Contact Tag",
-  version: "0.4.2",
+  name: "Remove Contact Tag",
+  description: "Removes a tag from a contact. See the docs [here](https://developers.activecampaign.com/reference/remove-a-contacts-tag)",
+  version: "0.5.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
-    email: {
+    activecampaign,
+    contactId: {
       type: "string",
+      label: "Contact ID",
+      description: "Contact id",
+      optional: false,
+      propDefinition: [
+        activecampaign,
+        "contacts",
+      ],
     },
-    tags: {
+    contactTagId: {
       type: "string",
+      label: "Contact Tag ID",
+      description: "Contact tag id to remove",
+      propDefinition: [
+        activecampaign,
+        "contactTags",
+        ({ contactId }) => ({
+          contactId,
+        }),
+      ],
     },
   },
-  async run() {
-    const axios = axiosModule.default;
+  async run({ $ }) {
+    const { contactTagId } = this;
 
-    const config = {
-      method: "post",
-      url: `${this.activecampaign.$auth.base_url}/admin/api.php?api_action=contact_tag_remove&api_key=${this.activecampaign.$auth.api_key}`, // todo: api path
-      // todo: data
-      data: querystring.stringify({
-        email: this.email,
-        tags: this.tags,
-      }),
-    };
+    await this.activecampaign.removeContactTag({
+      contactTagId,
+    });
 
-    return await axios(config);
+    const msg = "Successfully removed a tag from contact";
+    $.export("$summary", msg);
+
+    return msg;
   },
 };

@@ -5,7 +5,7 @@ prev: false
 
 # Subprocessors
 
-Below, you'll find a list of Pipedream’s Subprocessors in our capacity as a Processor (as defined by our Data Protection Addendum). Please check this list frequently for any updates. 
+Below, you'll find a list of Pipedream’s Subprocessors in our capacity as a Processor (as defined by our Data Protection Addendum). Please check this list frequently for any updates.
 
 _Last updated March 17, 2021_
 
@@ -15,7 +15,6 @@ _Last updated March 17, 2021_
 | [Datadog](https://www.datadoghq.com/security/)                                                                                                                                                                                                                                  | Application monitoring |
 | [Google Cloud Platform](https://cloud.google.com/security/compliance)                                                                                                                                                                                                           | Cloud hosting          |
 | [Looker Data Sciences, Inc.](https://looker.com/trust-center/compliance)                                                                                                                                                                                                        | Business analytics     |
-| [LogRocket](https://docs.logrocket.com/docs/security)                                                                                                                                                                                                                           | Customer support       |
 | [Redis Labs](https://redislabs.com/company/compliance-and-privacy/)                                                                                                                                                                                                             | Cloud hosting          |
 | [Snowflake Computing](https://www.snowflake.com/snowflakes-security-compliance-reports/)                                                                                                                                                                                        | Business analytics     |
 | [Sentry](https://sentry.io/security/)                                                                                                                                                                                                                                           | Application monitoring |

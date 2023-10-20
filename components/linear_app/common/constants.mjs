@@ -1,6 +1,7 @@
 const WEBHOOK_ID = "webhookId";
 const LINEAR_DELIVERY_HEADER = "linear-delivery";
-const DEFAULT_LIMIT = 50;
+const DEFAULT_LIMIT = 100;
+const DEFAULT_MAX_RECORDS = 200;
 
 const ACTION = {
   CREATE: "create",
@@ -42,14 +43,76 @@ const ORDER_BY_OPTIONS = [
   },
 ];
 
+const ISSUE_NODES = `
+  id
+  title
+  description
+  boardOrder
+  branchName
+  createdAt
+  customerTicketCount
+  identifier
+  number
+  priority
+  priorityLabel
+  sortOrder
+  updatedAt
+  url
+  assignee {
+    id
+    name
+    email
+  }
+  creator {
+    id
+    name
+    email
+  }
+  project {
+    id
+    name
+  }
+  state {
+    id
+    name
+  }
+  team {
+    id
+    name
+  }
+`;
+
+const COMMENT_NODES = `
+  id
+  body
+  createdAt
+  reactionData
+  updatedAt
+  issue {
+    id
+    title
+    project {
+      id
+      name
+    }
+  }
+  user {
+    id
+    name
+  }
+`;
+
 export default {
   WEBHOOK_ID,
   LINEAR_DELIVERY_HEADER,
   DEFAULT_LIMIT,
+  DEFAULT_MAX_RECORDS,
   ACTION,
   RESOURCE_TYPE,
   RESOURCE_TYPES,
   CLIENT_IPS,
   ORDER_BY_OPTIONS,
   FIELD,
+  ISSUE_NODES,
+  COMMENT_NODES,
 };

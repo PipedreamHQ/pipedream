@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/rytr",
+  "version": "0.0.2",
+  "description": "Pipedream Rytr Components",
+  "main": "dist/app/rytr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rytr"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/rytr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

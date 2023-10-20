@@ -1,32 +1,30 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import common from "../common.mjs";
 
 export default {
   ...common,
   key: "discord_bot-new-guild-member",
   name: "New Guild Member",
-  description: "Emit new event for every member added to a guild",
+  description: "Emit new event for every member added to a guild. [See docs here](https://discord.com/developers/docs/resources/guild#list-guild-members)",
   type: "source",
-  version: "0.0.3",
+  dedupe: "unique",
+  version: "0.1.3",
   props: {
     ...common.props,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run({ $ }) {
-    const guildMembers = this._getGuildMemberIDs();
     const { guildId } = this;
     const params = {
       limit: 100,
+      after: this._getLastMemberID(),
     };
-    let anyNewMember = false;
 
     while (true) {
       const members = await this.discord.getGuildMembers({
@@ -35,10 +33,7 @@ export default {
         params,
       });
 
-      if (members.length === 1) {
-        if (anyNewMember) {
-          this._setGuildMemberIDs(guildMembers);
-        }
+      if (members.length === 0) {
         return;
       }
 
@@ -48,20 +43,17 @@ export default {
           joined_at: joinedAt,
         } = member;
 
+        params.after = user.id;
         if (user.bot) continue;
 
-        if (!(user.id in guildMembers)) {
-          anyNewMember = true;
-          guildMembers[user.id] = true;
-          this.$emit(member, {
-            summary: `New member: ${user.username}`,
-            id: user.id,
-            ts: Date.parse(joinedAt),
-          });
-        }
-
-        params.after = user.id;
+        this.$emit(member, {
+          summary: `New member: ${user.username}`,
+          id: user.id,
+          ts: Date.parse(joinedAt),
+        });
       }
+
+      this._setLastMemberID(params.after);
     }
   },
 };

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/quaderno",
+  "version": "0.0.3",
+  "description": "Pipedream Quaderno Components",
+  "main": "quaderno.app.mjs",
+  "keywords": [
+    "pipedream",
+    "quaderno"
+  ],
+  "homepage": "https://pipedream.com/apps/quaderno",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

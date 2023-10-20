@@ -55,11 +55,11 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      return "https://readwise.io/api/v2";
+      return "https://readwise.io/api";
     },
     _getHeaders() {
       return {
-        "Authorization": `Token ${this.$auth.accesss_token}`,
+        "Authorization": `Token ${this.$auth.access_token}`,
       };
     },
     async _makeRequest({
@@ -78,7 +78,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: "books",
+        path: "v2/books",
         params,
       });
     },
@@ -87,7 +87,16 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: "highlights",
+        path: "v2/highlights",
+        params,
+      });
+    },
+    async listDocuments({
+      $, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "v3/list",
         params,
       });
     },
@@ -96,7 +105,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `highlights/${highlightId}`,
+        path: `v2/highlights/${highlightId}`,
       });
     },
     async *paginate({

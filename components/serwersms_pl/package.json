@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/serwersms_pl",
+  "version": "0.0.2",
+  "description": "Pipedream SerwerSMS.pl Components",
+  "main": "dist/app/serwersms_pl.app.mjs",
+  "keywords": [
+    "pipedream",
+    "serwersms_pl"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/serwersms_pl",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

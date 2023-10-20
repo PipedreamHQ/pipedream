@@ -82,7 +82,8 @@ export default {
           }
           return this.sdk().paymentMethods.list({
             starting_after: startingAfter,
-            customer: customer,
+            customer,
+            type,
           });
         },
         function ({

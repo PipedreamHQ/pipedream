@@ -10,13 +10,12 @@ export default {
         common.props.snowflake,
         "tableName",
       ],
-      description: "The name of the table to watch for new rows",
+      description: "The table to watch for new rows",
     },
     uniqueKey: {
       type: "string",
       label: "Unique Key",
-      description: "The name of a column in the table to use for deduplication. Defaults to `ID`",
-      default: "ID",
+      description: "The column in the table to use for deduplication. Typically the primary key.",
       async options(context) {
         const { page } = context;
         if (page !== 0) {
@@ -26,6 +25,12 @@ export default {
         const options = await this.snowflake.listFieldsForTable(this.tableName);
         return options.map((i) => i.name);
       },
+    },
+    emitIndividualEvents: {
+      propDefinition: [
+        common.props.snowflake,
+        "emitIndividualEvents",
+      ],
     },
   },
   hooks: {
@@ -37,6 +42,21 @@ export default {
       if (lastResultId === undefined) {
         lastResultId = await this._getLastId();
         this.db.set("lastResultId", lastResultId);
+      }
+
+      // On first run, we want to emit up to 5 rows from the result set
+      const firstRun = this.db.get("firstRun") ?? true;
+      if (firstRun) {
+        try {
+          const emitRowId = Number(lastResultId) - 5;
+          const statement = await this.getStatement(emitRowId);
+          const timestamp = +new Date();
+          this.emitIndividualEvents === true ?
+            await this.processSingle(statement, timestamp) :
+            await this.processCollection(statement, timestamp);
+        } finally {
+          this.db.set("firstRun", false);
+        }
       }
 
       console.log(`
@@ -119,7 +139,7 @@ export default {
     const statement = await this.getStatement(prevLastResultId);
 
     const { timestamp } = event;
-    const { lastResultId = prevLastResultId } = (this.eventSize === 1) ?
+    const { lastResultId = prevLastResultId } = (this.emitIndividualEvents === true) ?
       await this.processSingle(statement, timestamp) :
       await this.processCollection(statement, timestamp);
     this.db.set("lastResultId", lastResultId);

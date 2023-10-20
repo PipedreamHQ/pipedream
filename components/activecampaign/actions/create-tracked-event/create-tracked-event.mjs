@@ -1,64 +1,63 @@
-// legacy_hash_id: a_3Lie1M
-import { axios } from "@pipedream/platform";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-create-tracked-event",
   name: "Create Tracked Event",
-  description: "Tracks an event using event tracking.",
-  version: "0.1.2",
+  description: "Tracks an event using event tracking. See the docs [here](https://developers.activecampaign.com/reference/track-event).",
+  version: "0.2.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
+    activecampaign,
     key: {
       type: "string",
+      label: "Key",
       description: "This value is unique to your ActiveCampaign account and can be found named \"Event Key\" on Settings > Tracking > Event Tracking inside your ActiveCampaign account.",
     },
     event: {
       type: "string",
+      label: "Event",
       description: "The name of the event you wish to track.",
-    },
-    actid: {
-      type: "string",
-      description: "This value is unique to your ActiveCampaign account and can be found named \"actid\" on Settings > Tracking > Event Tracking API.",
-    },
-    visit_email_address: {
-      type: "string",
-      description: "The url encoded email address of the contact you wish to track this event for. (e.g. visit={\"email\":\"email_address_here\"})",
     },
     eventdata: {
       type: "string",
+      label: "Event Data",
       description: "A value you wish to store for the event.",
       optional: true,
     },
+    actid: {
+      type: "string",
+      label: "Act ID",
+      description: "This value is unique to your ActiveCampaign account and can be found named \"actid\" on Settings > Tracking > Event Tracking API.",
+    },
+    visitEmail: {
+      type: "string",
+      label: "Visit Email",
+      description: "Email address of the contact you wish to track this event for.",
+    },
   },
   async run({ $ }) {
-  // See the API docs: https://developers.activecampaign.com/reference#track-event
-  // Note: Event Tracking must be enabled on in your ActiveCampaign account on Settings > Tracking > Event Tracking
+    const {
+      key,
+      event,
+      eventdata,
+      actid,
+      visitEmail,
+    } = this;
 
-    if (!this.key || !this.event || !this.actid || !this.visit_email_address) {
-      throw new Error("Must provide key, event, actid, and visit_email_address parameters.");
-    }
-
-    const config = {
-      method: "post",
-      url: "https://trackcmp.net/event",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      params: {
-        actid: this.actid,
-        key: this.key,
-        event: this.event,
-        eventdata: this.eventdata,
+    const response = await this.activecampaign.trackEvent({
+      data: {
+        key,
+        event,
+        eventdata,
+        actid,
         visit: {
-          email: encodeURIComponent(this.visit_email_address),
+          email: encodeURIComponent(visitEmail),
         },
       },
-    };
+    });
 
-    return await axios($, config);
+    $.export("$summary", "Successfully created tracked event");
+
+    return response;
   },
 };

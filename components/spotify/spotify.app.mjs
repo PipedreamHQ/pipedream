@@ -1,9 +1,9 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
-import isNil from "lodash/isNil.js";
 import isArray from "lodash/isArray.js";
-import isString from "lodash/isString.js";
 import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
+import isString from "lodash/isString.js";
 import { promisify } from "util";
 import {
   ITEM_TYPES,
@@ -197,6 +197,14 @@ export default {
       min: 1,
       max: 100,
     },
+    genres: {
+      type: "string[]",
+      label: "Seed Genres",
+      description: "An array of genres. Up to 5 seed values may be provided in any combination of `seedArtists`, `seedTracks` and `seedGenres`.",
+      async options() {
+        return this.getGenres();
+      },
+    },
   },
   methods: {
     sanitizedArray(value) {
@@ -294,8 +302,10 @@ export default {
     async retry(config, retries = 3) {
       let response;
       try {
-        response = await axios(config);
-        return response;
+        return await axios(this, {
+          ...config,
+          returnFullResponse: true,
+        });
       } catch (err) {
         if (retries <= 1) {
           throw new Error(err);
@@ -346,6 +356,12 @@ export default {
         return item.name;
       }
     },
+    async getPlaylist({
+      playlistId, params,
+    }) {
+      const res = await this._makeRequest("GET", `/playlists/${playlistId}`, params);
+      return get(res, "data", {});
+    },
     async getPlaylists(params) {
       const res = await this._makeRequest("GET", "/me/playlists", params);
       return get(res, "data.items", null);
@@ -362,6 +378,61 @@ export default {
       const { playlistId } = params;
       const res = await this._makeRequest("GET", `/playlists/${playlistId}/tracks`, params);
       return get(res, "data.items", []);
+    },
+    async getGenres() {
+      const { data } = await this._makeRequest("GET", "/recommendations/available-genre-seeds");
+      return data.genres;
+    },
+    async getRecommendations(params) {
+      const { data } = await this._makeRequest("GET", "/recommendations", params);
+      return data;
+    },
+    async fetchChunksOfAlbumsIds({
+      artistId,
+      market,
+    }) {
+      const albums = [];
+      const limit = 20;
+      let page = 0;
+      let next = undefined;
+      do {
+        const { data } = await this._makeRequest(
+          "GET",
+          `/artists/${get(artistId, "value", artistId)}/albums`,
+          {
+            market,
+            limit,
+            offset: limit * page,
+            include_groups: "album,single",
+          },
+        );
+        albums.push([
+          ...data.items.map((album) => album.id),
+        ]);
+        next = data.next;
+        page++;
+      } while (next);
+      return albums;
+    },
+    async getAllTracksByChunksOfAlbumIds({
+      chunksOfAlbumIds,
+      market,
+    }) {
+      const tracks = [];
+      for (const albumIds of chunksOfAlbumIds) {
+        const { data } = await this._makeRequest(
+          "GET",
+          "/albums",
+          {
+            market,
+            ids: albumIds.join(","),
+          },
+        );
+        tracks.push([
+          ...data.albums.map((album) => album.tracks.items).flat(),
+        ]);
+      }
+      return tracks.flat();
     },
   },
 };

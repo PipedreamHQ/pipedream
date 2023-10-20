@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -137,7 +137,9 @@ export default {
         rel,
       };
     },
-    async makeRequest(customConfig) {
+    async makeRequest({
+      $ = this, ...customConfig
+    }) {
       const {
         path,
         headers,
@@ -147,11 +149,12 @@ export default {
       const config = {
         headers: this.getHeaders(headers),
         url: this.getUrl(path),
+        returnFullResponse: true,
         ...otherConfig,
       };
 
       try {
-        const response = await axios(config);
+        const response = await axios($, config);
 
         return {
           ...response.data,

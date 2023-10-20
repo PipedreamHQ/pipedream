@@ -1,23 +1,25 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-engagement",
   name: "New Engagement",
   description: "Emit new event for each new engagement created. This action returns a maximum of 5000 records at a time, make sure you set a correct time range so you don't miss any events",
-  version: "0.0.5",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(engagement) {
+      return Date.parse(engagement.createdAt);
+    },
     generateMeta(engagement) {
       const {
         id,
         type,
-        createdAt,
       } = engagement.engagement;
-      const ts = Date.parse(createdAt);
+      const ts = this.getTs(engagement.engagement);
       return {
         id,
         summary: type,
@@ -25,7 +27,7 @@ export default {
       };
     },
     isRelevant(engagement, createdAfter) {
-      return engagement.engagement.createdAt > createdAfter;
+      return this.getTs(engagement.engagement) > createdAfter;
     },
   },
   async run() {
@@ -41,7 +43,5 @@ export default {
       createdAfter,
       20,
     );
-
-    this._setAfter(Date.now());
   },
 };

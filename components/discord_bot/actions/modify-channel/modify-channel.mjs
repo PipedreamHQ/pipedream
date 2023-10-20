@@ -1,5 +1,5 @@
+import constants from "../../common/constants.mjs";
 import common from "../common.mjs";
-import constants from "../../constants.mjs";
 
 const { discord } = common.props;
 
@@ -18,7 +18,7 @@ export default {
   name: "Modify Channel",
   description: "Update a channel's settings. [See the docs here](https://discord.com/developers/docs/resources/channel#modify-channel)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.13",
   props: {
     ...common.props,
     channelId: {
@@ -195,7 +195,7 @@ export default {
     const permissionOverwrites = [
       ...rolePermissionStrs,
       ...memberPermissionStrs,
-    ].map((str) => JSON.parse(str));
+    ].map((str) => JSON.parse(str)).filter((p) => !(p.allow?.length === 0));
 
     const data = {
       name,

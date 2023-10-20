@@ -5,6 +5,8 @@ const {
   BASE_URL_V1,
   SUBDOMAIN_PLACEHOLDER,
   VERSION_PATH_V1,
+  LIMIT_PAGINATION,
+  INCIDENT_EVENT_TYPES,
 } = constants;
 
 export default {
@@ -52,80 +54,38 @@ export default {
       label: "Escalation Policy ID",
       description: "The ID of the escalation policy",
       optional: true,
-      async options({ prevContext }) {
-        const {
-          offset: prevOffset,
-          more: prevMore,
-        } = prevContext;
+      async options({ page }) {
+        const { escalation_policies: escalationPolicies } = await this.listEscalationPolicies({
+          params: {
+            offset: page * LIMIT_PAGINATION,
+            limit: LIMIT_PAGINATION,
+          },
+        });
 
-        if (prevMore === false) {
-          return [];
-        }
-
-        const {
-          escalation_policies: escalationPolicies,
-          offset,
-          more,
-        } =
-          await this.listEscalationPolicies({
-            params: {
-              offset: prevOffset,
-            },
-          });
-
-        const options = escalationPolicies.map((policy) => {
+        return escalationPolicies.map((policy) => {
           return {
             label: policy.summary,
             value: policy.id,
           };
         });
-
-        return {
-          options,
-          context: {
-            offset,
-            more,
-          },
-        };
       },
     },
     serviceId: {
       type: "string",
       label: "Service ID",
       description: "The ID of the service. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE5Ng-list-services)",
-      async options({ prevContext }) {
-        const {
-          offset: prevOffset,
-          more: prevMore,
-        } = prevContext;
+      async options({ page }) {
+        const { services } = await this.listServices({
+          params: {
+            offset: page * LIMIT_PAGINATION,
+            limit: LIMIT_PAGINATION,
+          },
+        });
 
-        if (prevMore === false) {
-          return [];
-        }
-
-        const {
-          services,
-          offset,
-          more,
-        } =
-          await this.listServices({
-            params: {
-              offset: prevOffset,
-            },
-          });
-
-        const options = services.map((service) => ({
+        return services.map((service) => ({
           label: service.name,
           value: service.id,
         }));
-
-        return {
-          options,
-          context: {
-            offset,
-            more,
-          },
-        };
       },
     },
     incidentId: {
@@ -134,120 +94,57 @@ export default {
       description: "The ID of the incident. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODEzOA-list-incidents)",
       async options({
         statuses,
-        prevContext,
+        page,
       }) {
-        const {
-          offset: prevOffset,
-          more: prevMore,
-        } = prevContext;
+        const { incidents } = await this.listIncidents({
+          params: {
+            offset: page * LIMIT_PAGINATION,
+            limit: LIMIT_PAGINATION,
+            statuses,
+          },
+        });
 
-        if (prevMore === false) {
-          return [];
-        }
-
-        const {
-          incidents,
-          offset,
-          more,
-        } =
-          await this.listIncidents({
-            params: {
-              offset: prevOffset,
-              statuses,
-            },
-          });
-
-        const options = incidents.map((incident) => ({
+        return incidents.map((incident) => ({
           label: incident.summary,
           value: incident.id,
         }));
-
-        return {
-          options,
-          context: {
-            offset,
-            more,
-            statuses,
-          },
-        };
       },
     },
     userId: {
       type: "string",
       label: "User ID",
       description: "The ID of the User.",
-      async options({ prevContext }) {
-        const {
-          offset: prevOffset,
-          more: prevMore,
-        } = prevContext;
+      async options({ page }) {
 
-        if (prevMore === false) {
-          return [];
-        }
+        const { users } = await this.listUsers({
+          params: {
+            offset: page * LIMIT_PAGINATION,
+            limit: LIMIT_PAGINATION,
+          },
+        });
 
-        const {
-          users,
-          offset,
-          more,
-        } =
-          await this.listUsers({
-            params: {
-              offset: prevOffset,
-            },
-          });
-
-        const options = users.map((user) => ({
+        return users.map((user) => ({
           label: user.name,
           value: user.id,
         }));
-
-        return {
-          options,
-          context: {
-            offset,
-            more,
-          },
-        };
       },
     },
     oncallScheduleId: {
       type: "string",
       label: "On-Call Schedule ID",
       description: "Filters the results, showing only on-calls for the specified schedule ID. If `null` is provided, it includes permanent on-calls due to direct user escalation targets.",
-      async options({ prevContext }) {
-        const {
-          offset: prevOffset,
-          more: prevMore,
-        } = prevContext;
+      async options({ page }) {
+        const { schedules } = await this.listSchedules({
+          params: {
+            offset: page * LIMIT_PAGINATION,
+            limit: LIMIT_PAGINATION,
+          },
+        });
 
-        if (prevMore === false) {
-          return [];
-        }
-
-        const {
-          schedules,
-          offset,
-          more,
-        } =
-          await this.listSchedules({
-            params: {
-              offset: prevOffset,
-            },
-          });
-
-        const options = schedules.map((schedule) => ({
+        return schedules.map((schedule) => ({
           label: schedule.name,
           value: schedule.id,
         }));
-
-        return {
-          options,
-          context: {
-            offset,
-            more,
-          },
-        };
       },
     },
     oncallSince: {
@@ -259,6 +156,12 @@ export default {
       type: "string",
       label: "Oncall Until",
       description: "The end of the time range over which you want to search. If an on-call period overlaps with the range, it will be included in the result. Defaults to current time. The search range cannot exceed 3 months, and the **Until** time cannot be before the **Since** time.",
+    },
+    webhookEvent: {
+      type: "string[]",
+      label: "Events",
+      description: "The set of outbound event types the webhook will receive.",
+      options: INCIDENT_EVENT_TYPES,
     },
   },
   methods: {
@@ -328,12 +231,6 @@ export default {
         params,
       });
     },
-    /**
-     * Webhooks V3
-     * According to the docs, this endpoint should be used
-     * after March 31, 2022
-     * https://support.pagerduty.com/docs/v1v2-webhook-extensions
-     */
     async createWebhookSubscription({
       $, data, ...additionalConfig
     }) {
@@ -345,47 +242,13 @@ export default {
         ...additionalConfig,
       });
     },
-    /**
-     * Webhooks V3
-     * According to the docs, this endpoint should be used
-     * after March 31, 2022
-     * https://support.pagerduty.com/docs/v1v2-webhook-extensions
-     */
     async deleteWebhookSubscription({
-      $, webhookId, ...additionalConfig
+      $, webhookId,
     }) {
       return this.makeRequest({
         $,
         method: "delete",
         path: `/webhook_subscriptions/${webhookId}`,
-        ...additionalConfig,
-      });
-    },
-    /**
-     * Webhooks V2
-     * https://support.pagerduty.com/docs/v1v2-webhook-extensions
-     */
-    async createExtension({
-      $, data,
-    }) {
-      return this.makeRequest({
-        $,
-        method: "post",
-        path: "/extensions",
-        data,
-      });
-    },
-    /**
-     * Webhooks V2
-     * https://support.pagerduty.com/docs/v1v2-webhook-extensions
-     */
-    async deleteExtension({
-      $, extensionId,
-    }) {
-      return this.makeRequest({
-        $,
-        method: "delete",
-        path: `/extensions/${extensionId}`,
       });
     },
     async listServices({

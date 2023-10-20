@@ -1,29 +1,27 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-delete-blog-article",
   name: "Deleted Blog Posts",
   description: "Emit new event for each deleted blog post.",
-  version: "0.0.1",
+  version: "0.0.12",
   dedupe: "unique",
   type: "source",
-  hooks: {
-    async activate() {
-      this._setAfter(Date.now());
-    },
-  },
+  hooks: {},
   methods: {
     ...common.methods,
+    getTs(blogpost) {
+      return Date.parse(blogpost.deletedAt);
+    },
     generateMeta(blogpost) {
       const {
         id,
         name: summary,
-        deletedAt,
       } = blogpost;
       const ts = Date.parse(blogpost.created);
       return {
-        id: id + deletedAt,
+        id: `${id}${this.getTs(blogpost)}`,
         summary,
         ts,
       };

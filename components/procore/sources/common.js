@@ -6,9 +6,20 @@ module.exports = {
     procore,
     db: "$.service.db",
     http: "$.interface.http",
-    company: { propDefinition: [procore, "company"] },
+    company: {
+      propDefinition: [
+        procore,
+        "company",
+      ],
+    },
     project: {
-      propDefinition: [procore, "project", (c) => ({ company: c.company })],
+      propDefinition: [
+        procore,
+        "project",
+        (c) => ({
+          company: c.company,
+        }),
+      ],
     },
   },
   methods: {
@@ -24,12 +35,12 @@ module.exports = {
       const hook = await this.procore.createHook(
         this.http.endpoint,
         this.company,
-        this.project
+        this.project,
       );
       this.db.set("hookId", hook.id);
       // create hook triggers
-      eventTypes = this.getComponentEventTypes();
-      resourceName = this.getResourceName();
+      const eventTypes = this.getComponentEventTypes();
+      const resourceName = this.getResourceName();
       const triggerIds = [];
       for (const eventType of eventTypes) {
         const trigger = await this.procore.createHookTrigger(
@@ -37,7 +48,7 @@ module.exports = {
           this.company,
           this.project,
           resourceName,
-          eventType
+          eventType,
         );
         triggerIds.push(trigger.id);
       }
@@ -52,7 +63,7 @@ module.exports = {
           hookId,
           triggerId,
           this.company,
-          this.project
+          this.project,
         );
       }
       // delete hook

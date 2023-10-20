@@ -1,27 +1,33 @@
 import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "zoom-meeting-updated",
   name: "Meeting Updated (Instant)",
   description: "Emit new event each time a meeting is updated where you're the host",
-  version: "0.0.4",
+  version: "0.1.0",
   type: "source",
-  dedupe: "unique", // dedupe on the meeting ID + timestamp
+  dedupe: "unique",
   props: {
     ...common.props,
-    zoomApphook: {
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    apphook: {
       type: "$.interface.apphook",
-      appProp: "zoom",
-      eventNames: [
-        "meeting.updated",
-      ],
+      appProp: "app",
+      eventNames() {
+        return [
+          constants.CUSTOM_EVENT_TYPES.MEETING_UPDATED,
+        ];
+      },
     },
   },
   hooks: {
     async deploy() {
-      const { meetings } = await this.zoom.listMeetings({
-        page_size: 25,
+      const { meetings } = await this.app.listMeetings({
+        params: {
+          page_size: 25,
+        },
       });
       if (!meetings || meetings.length === 0) {
         return;
@@ -40,7 +46,7 @@ export default {
     emitEvent(payload, object) {
       const meta = this.generateMeta(payload, object);
       this.$emit({
-        event: "meeting.updated",
+        event: constants.CUSTOM_EVENT_TYPES.MEETING_UPDATED,
         payload,
       }, meta);
     },

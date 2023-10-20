@@ -5,9 +5,8 @@ export default {
   type: "source",
   key: "spotify-new-saved-track",
   name: "New Saved Track",
-  description:
-    "Emit new event for each new track saved to the current Spotify user's Music Library.",
-  version: "0.0.6",
+  description: "Emit new event for each new track saved to the current Spotify user's Music Library.",
+  version: "0.1.1",
   props: {
     ...common.props,
     db: "$.service.db",

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -87,6 +87,7 @@ export default {
       };
     },
     async _makeRequest({
+      $ = this,
       path,
       headers,
       ...otherConfig
@@ -95,9 +96,10 @@ export default {
         url: this._getUrl(path),
         headers: this._getHeaders(headers),
         auth: this._getAuthKeys(),
+        returnFullResponse: true,
         ...otherConfig,
       };
-      return axios(config);
+      return axios($, config);
     },
     async createHook(args = {}) {
       return this._makeRequest({

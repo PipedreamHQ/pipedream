@@ -1,24 +1,69 @@
-// legacy_hash_id: a_bKilxA
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-update-card-field",
   name: "Update Card Field",
-  description: "Updates a Card Field in a Pipe",
-  version: "0.1.1",
+  description: "Updates a Card Field in a Pipe. [See the docs here](https://api-docs.pipefy.com/reference/mutations/updateCardField/)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_query: {
-      type: "object",
+    pipe: {
+      propDefinition: [
+        pipefy,
+        "pipe",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+    },
+    card: {
+      propDefinition: [
+        pipefy,
+        "card",
+        (c) => ({
+          pipeId: c.pipe,
+        }),
+      ],
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    const { card } = await this.pipefy.getCard(this.card);
+    const phaseId = card.current_phase.id;
+    const fields = await this.pipefy.listPhaseFields(phaseId);
+    props.field = {
+      type: "string",
+      label: "Field",
+      description: "Field to update",
+      options: fields.map((field) => ({
+        label: field.label,
+        value: field.id,
+      })),
+      reloadProps: true,
+    };
+    if (this.field) {
+      const field = fields.find((field) => field.id == this.field);
+      props[field.id] = {
+        type: "string",
+        label: field.label,
+        description: field.description,
+      };
+      if (field.options.length > 0) {
+        props[field.id].options = field.options;
+      }
+    }
+    return props;
+  },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/mutations/updateCardField/
-
+  /*
   Example query:
 
   mutation {
@@ -31,17 +76,14 @@ export default {
   }
   */
 
-    if (!this.graphql_query) {
-      throw new Error("Must provide graphql_query parameter.");
-    }
+    const variables = {
+      cardId: this.card,
+      fieldId: this.field,
+      newValue: this[this.field],
+    };
 
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_query,
-    });
+    const response = await this.pipefy.updateCardField(variables);
+    $.export("$summary", "Successfully updated card field");
+    return response;
   },
 };

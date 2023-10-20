@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/octopus_deploy",
+  "version": "0.0.2",
+  "description": "Pipedream Octopus Deploy Components",
+  "main": "dist/app/octopus_deploy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "octopus_deploy"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/octopus_deploy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

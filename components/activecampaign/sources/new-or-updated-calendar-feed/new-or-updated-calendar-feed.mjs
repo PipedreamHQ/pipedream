@@ -1,3 +1,4 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
 import common from "../common/base.mjs";
 
@@ -6,7 +7,7 @@ export default {
   name: "New or Updated Calendar Feed",
   key: "activecampaign-new-or-updated-calendar-feed",
   description: "Emit new event each time a calendar feed is added or updated.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "greatest",
   props: {
@@ -16,7 +17,7 @@ export default {
       label: "Polling schedule",
       description: "How often to poll the ActiveCampaign API",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

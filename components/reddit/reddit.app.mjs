@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import qs from "qs";
 import isNil from "lodash/isNil.js";
 import retry from "async-retry";
@@ -220,7 +220,9 @@ export default {
         )));
       }
     },
-    async _makeRequest(opts) {
+    async _makeRequest({
+      $ = this, ...opts
+    }) {
       if (!opts.headers) opts.headers = {};
       opts.headers.authorization = `Bearer ${this._accessToken()}`;
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
@@ -229,7 +231,7 @@ export default {
       opts.url = `${this._apiUrl()}${path[0] === "/" ?
         "" :
         "/"}${path}`;
-      return (await axios(opts)).data;
+      return axios($, opts);
     },
     _isRetriableStatusCode(statusCode) {
       return [

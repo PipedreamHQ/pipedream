@@ -1,30 +1,36 @@
 import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "zoom-webinar-ended",
   name: "Webinar Ended (Instant)",
   description: "Emit new event each time a webinar ends where you're the host",
-  version: "0.0.4",
+  version: "0.1.0",
   type: "source",
-  dedupe: "unique", // Dedupe based on webinar ID
+  dedupe: "unique",
   props: {
     ...common.props,
-    zoomApphook: {
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    apphook: {
       type: "$.interface.apphook",
-      appProp: "zoom",
-      eventNames: [
-        "webinar.ended",
-      ],
+      appProp: "app",
+      eventNames() {
+        return [
+          constants.CUSTOM_EVENT_TYPES.WEBINAR_ENDED,
+        ];
+      },
     },
   },
   hooks: {
     async deploy() {
-      const { webinars } = await this.zoom.listWebinarMetrics({
-        from: this.monthAgo(),
-        to: new Date().toISOString()
-          .slice(0, 10),
-        page_size: 25,
+      const { webinars } = await this.app.listWebinarMetrics({
+        params: {
+          from: this.monthAgo(),
+          to: new Date().toISOString()
+            .slice(0, 10),
+          page_size: 25,
+        },
       });
       if (!webinars || webinars.length === 0) {
         return;
@@ -45,7 +51,7 @@ export default {
     emitEvent(payload, object) {
       const meta = this.generateMeta(object);
       this.$emit({
-        event: "webinar.ended",
+        event: constants.CUSTOM_EVENT_TYPES.WEBINAR_ENDED,
         payload,
       }, meta);
     },

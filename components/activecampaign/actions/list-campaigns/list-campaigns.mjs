@@ -5,7 +5,7 @@ export default {
   name: "List Campaigns",
   description: "List Campaigns. See the docs [here](https://developers.activecampaign.com/reference#list-all-campaigns).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     activecampaign,
   },

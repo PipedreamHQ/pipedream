@@ -1,0 +1,20 @@
+export default {
+  WEBHOOK_TYPE_OPTS: [
+    "Comment",
+    "Client::Approval::Response",
+    "Client::Forward",
+    "Client::Reply",
+    "CloudFile",
+    "Document",
+    "GoogleDocument",
+    "Inbox::Forward",
+    "Message",
+    "Question",
+    "Question::Answer",
+    "Schedule::Entry",
+    "Todo",
+    "Todolist",
+    "Upload",
+    "Vault",
+  ],
+};

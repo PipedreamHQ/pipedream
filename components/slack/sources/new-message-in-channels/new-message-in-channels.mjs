@@ -1,10 +1,12 @@
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "slack-new-message-in-channels",
   name: "New Message In Channels (Instant)",
-  version: "1.0.0",
+  version: "1.0.13",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
@@ -53,7 +55,7 @@ export default {
         console.log(`Ignoring event with unexpected type "${event.type}"`);
         return;
       }
-      if (event.subtype != null && event.subtype != "bot_message" && event.subtype != "file_share") {
+      if (event.subtype && !constants.ALLOWED_MESSAGE_IN_CHANNEL_SUBTYPES.includes(event.subtype)) {
         // This source is designed to just emit an event for each new message received.
         // Due to inconsistencies with the shape of message_changed and message_deleted
         // events, we are ignoring them for now. If you want to handle these types of
@@ -81,4 +83,5 @@ export default {
       return event;
     },
   },
+  sampleEmit,
 };

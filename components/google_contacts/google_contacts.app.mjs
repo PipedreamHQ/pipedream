@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import constants from "./constants.mjs";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -97,6 +97,10 @@ export default {
       const { data } = await client.people.connections.list(params);
       return data;
     },
+    async listContactGroups(client, params) {
+      const { data } = await client.contactGroups.list(params);
+      return data;
+    },
     async getContact(client, params) {
       const { data } = await client.people.get(params);
       return data;
@@ -107,6 +111,10 @@ export default {
     },
     async deleteContact(client, params) {
       const { data } = await client.people.deleteContact(params);
+      return data;
+    },
+    async createContact(client, params) {
+      const { data } = await client.people.createContact(params);
       return data;
     },
   },

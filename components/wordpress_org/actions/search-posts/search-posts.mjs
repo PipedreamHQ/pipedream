@@ -4,7 +4,7 @@ export default {
   key: "wordpress_org-search-posts",
   name: "Search Posts",
   description: "Searches for specific posts. [See the docs here](https://developer.wordpress.org/rest-api/reference/posts/#list-posts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     wordpress,

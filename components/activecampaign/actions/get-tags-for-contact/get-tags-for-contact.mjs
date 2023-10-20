@@ -1,32 +1,32 @@
-// legacy_hash_id: a_2wipeG
-import axiosModule from "axios";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-get-tags-for-contact",
   name: "Get Contact Tags",
-  version: "0.2.2",
+  description: "Get Contact Tags.",
+  version: "0.3.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
-    contact_id: {
+    activecampaign,
+    contactId: {
       type: "string",
+      description: "ID of the contact to retrieve.",
+      propDefinition: [
+        activecampaign,
+        "contacts",
+      ],
+      optional: false,
     },
   },
-  async run() {
-    const axios = axiosModule.default;
+  async run({ $ }) {
+    const { contactId } = this;
 
-    const config = {
-      method: "get",
-      url: `${this.activecampaign.$auth.base_url}/api/3/contacts/${this.contact_id}/contactTags`,
-      headers: {
-        "Api-Token": `${this.activecampaign.$auth.api_key}`,
-      },
-    };
-    return await axios(config).then((res) => {
-      return res.data || [];
+    const { contactTags } = await this.activecampaign.getContactTags({
+      contactId,
     });
+
+    $.export("$summary", `Successfully listed ${contactTags.length} contact tag(s)`);
+
+    return contactTags;
   },
 };

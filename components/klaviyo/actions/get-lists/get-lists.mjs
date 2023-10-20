@@ -1,24 +1,23 @@
-// legacy_hash_id: a_2wimkG
-import { axios } from "@pipedream/platform";
+import klaviyo from "../../klaviyo.app.mjs";
 
 export default {
   key: "klaviyo-get-lists",
   name: "Get Lists",
-  description: "Get a listing of all of the lists in an account.",
-  version: "0.1.1",
+  description: "Get a listing of all of the lists in an account. [See the docs here](https://developers.klaviyo.com/en/v1-2/reference/get-lists)",
+  version: "0.2.0",
   type: "action",
   props: {
-    klaviyo: {
-      type: "app",
-      app: "klaviyo",
+    klaviyo,
+  },
+  methods: {
+    getSummary() {
+      return "List Successfully fetched!";
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: "https://a.klaviyo.com/api/v2/lists",
-      params: {
-        api_key: `${this.klaviyo.$auth.api_key}`,
-      },
-    });
+    const response = await this.klaviyo.getLists();
+
+    $.export("$summary", response || this.getSummary(response));
+    return response;
   },
 };

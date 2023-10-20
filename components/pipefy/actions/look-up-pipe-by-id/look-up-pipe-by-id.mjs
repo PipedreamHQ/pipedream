@@ -1,26 +1,31 @@
-// legacy_hash_id: a_WYi4qr
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-look-up-pipe-by-id",
   name: "Look up Pipe by ID",
-  description: "Lookup a pipe by its ID.",
-  version: "0.2.1",
+  description: "Lookup a pipe by its ID. [See the docs here](https://api-docs.pipefy.com/reference/queries/#pipe)",
+  version: "0.2.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_query: {
-      type: "object",
-      description: "A graphql query as per [Pipe](https://api-docs.pipefy.com/reference/queries/#pipe) specification.",
+    pipe: {
+      propDefinition: [
+        pipefy,
+        "pipe",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/queries/#pipe
-
-  Example query:
+  /* Example query:
 
   {
       pipe(id: 301498507) {
@@ -29,17 +34,8 @@ export default {
   }
   */
 
-    if (!this.graphql_query) {
-      throw new Error("Must provide graphql_query parameter.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_query,
-    });
+    const response = await this.pipefy.getPipe(this.pipe);
+    $.export("$summary", "Successfully retrieved pipe");
+    return response;
   },
 };

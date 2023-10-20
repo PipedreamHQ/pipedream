@@ -80,4 +80,74 @@ export default {
       }
     }
   `,
+  createWebhook: `
+    mutation createWebhook (
+      $boardId: Int!
+      $url: String!
+      $event: WebhookEventType!
+      $config: JSON
+    ) {
+      create_webhook(
+        board_id: $boardId
+        url: $url
+        event: $event
+        config: $config
+      ) {
+        id
+        board_id
+      }
+    }
+  `,
+  deleteWebhook: `
+    mutation deleteWebhook (
+      $id: Int!
+    ) {
+      delete_webhook(
+        id: $id
+      ) {
+        id
+        board_id
+      }
+    }
+  `,
+  createColumn: `
+    mutation createColumn (
+      $boardId: Int!
+      $title: String!
+      $columnType: ColumnType!
+      $defaults: JSON
+      $description: String
+    ) {
+      create_column(
+        board_id: $boardId
+        title: $title
+        column_type: $columnType
+        defaults: $defaults
+        description: $description
+      ) {
+        id
+      }
+    }
+  `,
+  updateColumnValues: `
+    mutation updateItem (
+      $boardId: Int!
+      $itemId: Int!
+      $columnValues: JSON!
+    ) {
+      change_multiple_column_values (
+        board_id: $boardId
+        item_id: $itemId
+        column_values: $columnValues
+      ) {
+        id
+        name
+        column_values {
+          id
+          value
+          text
+        }
+      }
+    }
+  `,
 };

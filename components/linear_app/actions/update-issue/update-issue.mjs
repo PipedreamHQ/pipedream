@@ -5,13 +5,23 @@ export default {
   name: "Update Issue",
   description: "Update an issue (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
   type: "action",
-  version: "0.0.4",
+  version: "0.1.3",
   props: {
     linearApp,
+    teamId: {
+      label: "Current Team",
+      propDefinition: [
+        linearApp,
+        "teamId",
+      ],
+    },
     issueId: {
       propDefinition: [
         linearApp,
         "issueId",
+        ({ teamId }) => ({
+          teamId,
+        }),
       ],
     },
     title: {
@@ -28,11 +38,23 @@ export default {
         "issueDescription",
       ],
     },
-    teamId: {
+    teamIdToUpdate: {
+      description: "The identifier or key of the team to update the issue to",
       optional: true,
       propDefinition: [
         linearApp,
         "teamId",
+      ],
+    },
+    stateId: {
+      propDefinition: [
+        linearApp,
+        "stateId",
+        ({
+          teamId, teamIdToUpdate,
+        }) => ({
+          teamId: teamIdToUpdate || teamId,
+        }),
       ],
     },
     assigneeId: {
@@ -47,7 +69,8 @@ export default {
       issueId,
       title,
       description,
-      teamId,
+      teamIdToUpdate,
+      stateId,
       assigneeId,
     } = this;
 
@@ -55,14 +78,15 @@ export default {
       await this.linearApp.updateIssue({
         issueId,
         input: {
-          teamId,
+          teamId: teamIdToUpdate,
           title,
           description,
           assigneeId,
+          stateId,
         },
       });
 
-    const summary = response.summary
+    const summary = response.success
       ? `Updated issue ${response._issue.id}`
       : "Failed to update issue";
     $.export("$summary", summary);

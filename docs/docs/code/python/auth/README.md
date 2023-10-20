@@ -7,9 +7,9 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763806/docs/
 
 :::warning
 
-This is an experimental feature and is available to to enable or disable in the [alpha](https://pipedream.com/alpha).
+This feature is in **beta**. There might be changes while we prepare it for a full release.
 
-There may be changes to this feature while we prepare it for a full release.
+If you have any feedback on the Python runtime, please let us know in [our community](https://pipedream.com/support).
 
 :::
 
@@ -17,7 +17,7 @@ When you use [prebuilt actions](/components#actions) tied to apps, you don't nee
 
 But sometimes you'll need to [write your own code](/code/python/). You can also connect apps to custom code steps, using the auth information to authorize requests to that app.
 
-For example, you may want to send a Slack message from a step. We use Slack's OAuth integration to authorize sending messages from your workflows. 
+For example, you may want to send a Slack message from a step. We use Slack's OAuth integration to authorize sending messages from your workflows.
 
 Add Slack as an app on the Python step, then connect your Slack account.
 
@@ -33,7 +33,7 @@ from slack_sdk import WebClient
 def handler(pd: "pipedream"):
   # Your Slack OAuth token is available under pd.inputs
   token = pd.inputs["slack"]["$auth"]["oauth_access_token"]
-  
+
   # Instantiate a new Slack client with your token
   client = WebClient(token=token)
 
@@ -42,11 +42,10 @@ def handler(pd: "pipedream"):
     channel='#general',
     text='Hello from Pipedream!'
   )
-  
+
   # Export the Slack response payload for use in future steps
   pd.export("response", response.data)
 ```
-
 
 [[toc]]
 

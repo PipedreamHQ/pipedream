@@ -9,7 +9,7 @@ import {
   GetBucketNotificationConfigurationCommand,
   PutBucketNotificationConfigurationCommand,
 } from "@aws-sdk/client-s3";
-import axios from "axios"; // need axios response headers
+import { axios } from "@pipedream/platform";
 
 export default {
   props: {
@@ -84,8 +84,10 @@ export default {
       return this._clientS3().send(new PutObjectCommand(params));
     },
     async streamFile(fileUrl) {
-      return axios.get(fileUrl, {
+      return axios(this, {
+        url: fileUrl,
         responseType: "stream",
+        returnFullResponse: true,
       });
     },
     async getBucketNotificationConfiguration(params) {

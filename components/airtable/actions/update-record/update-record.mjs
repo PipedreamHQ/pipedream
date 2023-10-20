@@ -1,12 +1,12 @@
 import airtable from "../../airtable.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import commonActions from "../../common/actions.mjs";
 
 export default {
   key: "airtable-update-record",
-  name: "Update record",
+  name: "Update Record",
   description: "Update a single record in a table by Record ID.",
-  version: "1.0.2",
+  version: "1.0.5",
   type: "action",
   props: {
     ...common.props,

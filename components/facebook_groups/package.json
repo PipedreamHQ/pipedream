@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/facebook_groups",
+  "version": "0.1.1",
+  "description": "Pipedream Facebook Groups Components",
+  "main": "facebook_groups.app.mjs",
+  "keywords": [
+    "pipedream",
+    "facebook_groups"
+  ],
+  "homepage": "https://pipedream.com/apps/facebook_groups",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

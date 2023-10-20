@@ -5,7 +5,7 @@ export default {
   key: "pushover-push-notification",
   name: "Push Notification",
   description: "Sends a Push Notification to devices with Pushover. More information at [Pushing Messages](https://pushover.net/api#messages)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     pushover,
@@ -40,24 +40,62 @@ export default {
       ],
     },
     priority: {
-      type: "integer",
+      type: "string",
       label: "Priority",
       description: "The message priority. More information at [Pushover API](https://pushover.net/api#priority)",
       optional: true,
       options: constants.PRIORITY_OPTIONS,
     },
+    retry: {
+      propDefinition: [
+        pushover,
+        "retry",
+      ],
+      optional: true,
+    },
+    expire: {
+      propDefinition: [
+        pushover,
+        "expire",
+      ],
+      optional: true,
+    },
+    sound: {
+      propDefinition: [
+        pushover,
+        "sound",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
+    const {
+      message,
+      title,
+      url,
+      urlTitle,
+      device,
+      priority,
+      retry,
+      expire,
+      sound,
+    } = this;
     const response =
       await this.pushover.pushMessage({
-        message: this.message,
-        title: this.title,
-        url: this.url,
-        url_title: this.urlTitle,
-        device: this.device,
-        priority: this.priority,
+        $,
+        params: {
+          message,
+          title,
+          url,
+          device,
+          priority,
+          retry,
+          expire,
+          sound,
+          url_title: urlTitle,
+        },
       });
-    $.export("$summary", "Sent notification");
+    $.export("$summary", `Successfully sent notification with message: "${message}"`);
     return response;
   },
 };

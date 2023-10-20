@@ -3,10 +3,10 @@ import messageTypes from "../common/message-types.mjs";
 
 export default {
   ...common,
-  key: "ringcentral-new-outbound-message-event",
+  key: "ringcentral-new-outbound-message",
   name: "New Outbound Message Event (Instant)",
-  description: "Emit new event for each outbound message status update",
-  version: "0.1.0",
+  description: "Emit new event for each outbound message event. This only includes the event, not the actual message.",
+  version: "0.1.4",
   type: "source",
   props: {
     ...common.props,
@@ -27,7 +27,7 @@ export default {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "ringcentral-message-event-inbound",
+        "ringcentral-message-event-outbound",
       ]);
     },
     getPropValues() {
@@ -36,18 +36,22 @@ export default {
         messageType: this.messageType,
       };
     },
-    generateMeta(data) {
-      const {
-        timestamp,
-        uuid: id,
-      } = data;
-      const summary = "New outbound message event";
-      const ts = Date.parse(timestamp);
-      return {
-        id,
-        summary,
-        ts,
-      };
+    async emitEvent(event) {
+      const { body: { body } } = event;
+
+      for (const messageId of body.changes[0].newMessageIds) {
+        const message = await this.ringcentral.getMessage({
+          accountId: body.accountId,
+          extensionId: body.extensionId,
+          messageId,
+        });
+
+        this.$emit(message, {
+          id: message.id,
+          summary: `New outbound message received with ID ${message.id}`,
+          ts: Date.parse(body.lastUpdated),
+        });
+      }
     },
   },
 };

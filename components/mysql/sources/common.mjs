@@ -1,4 +1,5 @@
 import mysql from "../mysql.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -6,7 +7,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
@@ -37,21 +38,23 @@ export default {
      * @param {string} column - Name of the table column to order by
      */
     async listRowResults(column) {
+      const { table } = this;
+
       let lastResult = this._getLastResult();
-      const rows = await this.mysql.listRows(
-        this.table,
+      const rows = await this.mysql.listRows({
+        table,
         column,
         lastResult,
-      );
+      });
       this._setLastResult(rows, column);
       this.iterateAndEmitEvents(rows);
     },
     async listTopRows(column, maxCount = 10) {
-      const rows = await this.mysql.listMaxRows(
-        this.table,
+      const rows = await this.mysql.listMaxRows({
+        table: this.table,
         column,
         maxCount,
-      );
+      });
       this._setLastResult(rows, column);
       this.iterateAndEmitEvents(rows);
     },

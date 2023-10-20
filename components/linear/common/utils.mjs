@@ -1,3 +1,5 @@
+import linearApp from "../linear.app.mjs";
+
 function buildPropDefinitions({
   app = {}, props = {},
 }) {
@@ -30,6 +32,24 @@ function buildPropDefinitions({
     }, {});
 }
 
+function getAppProps(component = {}) {
+  const {
+    // eslint-disable-next-line no-unused-vars
+    linearApp: app,
+    ...otherProps
+  } = component.props;
+  return {
+    props: {
+      linearApp,
+      ...buildPropDefinitions({
+        app: linearApp,
+        props: otherProps,
+      }),
+    },
+  };
+}
+
 export default {
   buildPropDefinitions,
+  getAppProps,
 };

@@ -1,10 +1,10 @@
 import * as t from "io-ts";
 
-import axios from "./axios";
+import axios, { transformConfigForOauth } from "./axios";
 import { AxiosRequestConfig as AxiosConfig } from "axios";
 
 export {
-  axios,
+  axios, transformConfigForOauth,
 };
 export {
   cloneSafe, jsonStringifySafe,
@@ -13,6 +13,10 @@ export {
 export {
   ConfigurationError,
 } from "./errors";
+
+export {
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "./constants";
 
 const SendPayload = t.union([
   t.string,
@@ -119,13 +123,13 @@ export type SendConfigSSE = t.TypeOf<typeof SendConfigSSE>;
 
 // optionals so we can use self-invoking function below
 interface SendFunctionsWrapper {
-    email: (config: SendConfigEmail) => void;
-    emit: (config: SendConfigEmit) => void;
-    http: (config: SendConfigHTTP) => void;
-    s3: (config: SendConfigS3) => void;
-    sql: (config: SendConfigSQL) => void;
-    snowflake: (config: SendConfigSnowflake) => void;
-    sse: (config: SendConfigSSE) => void;
+  email: (config: SendConfigEmail) => void;
+  emit: (config: SendConfigEmit) => void;
+  http: (config: SendConfigHTTP) => void;
+  s3: (config: SendConfigS3) => void;
+  sql: (config: SendConfigSQL) => void;
+  snowflake: (config: SendConfigSnowflake) => void;
+  sse: (config: SendConfigSSE) => void;
 }
 // XXX would be cool to have this and SendFunctionsWrapper be more shared
 export const sendTypeMap = {
@@ -154,13 +158,13 @@ export function $end(message?: string): void {
 
 export let $send: SendFunctionsWrapper;
 
-export const $sendConfigRuntimeTypeChecker = (function() {
+export const $sendConfigRuntimeTypeChecker = (function () {
   const ret = {};
   for (const [
     sendName,
     sendConfigType,
   ] of Object.entries(sendTypeMap)) {
-    ret[sendName] = function(config) {
+    ret[sendName] = function (config) {
       const result = sendConfigType.decode(config);
       if (!result) throw new Error("io-ts: unexpected decode output");
       if (result._tag === "Left") {
@@ -188,4 +192,5 @@ export const $sendConfigRuntimeTypeChecker = (function() {
 export interface AxiosRequestConfig extends AxiosConfig {
   debug?: boolean;
   body?: any;
+  returnFullResponse?: boolean;
 }

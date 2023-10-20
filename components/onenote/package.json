@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/onenote",
+  "version": "0.1.0",
+  "description": "Pipedream Microsoft 365 OneNote Components",
+  "main": "onenote.app.mjs",
+  "keywords": [
+    "pipedream",
+    "onenote"
+  ],
+  "homepage": "https://pipedream.com/apps/onenote",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

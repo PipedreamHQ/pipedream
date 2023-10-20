@@ -1,14 +1,13 @@
 import pcloud from "../../pcloud.app.mjs";
-import get from "lodash/get.js";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "pcloud-watch-folder",
   name: "Watch Folder",
-  description:
-    "Emit new event when a file is created or modified in the specified folder.",
-  version: "0.0.1",
+  description: "Emit new event when a file is created or modified in the specified folder.",
+  version: "0.0.4",
   type: "source",
-  dedupe: "last",
+  dedupe: "unique",
   props: {
     pcloud,
     db: "$.service.db",
@@ -17,7 +16,7 @@ export default {
       description: "Pipedream polls pCloud for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // by default, run every 15 minutes.
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     folderId: {
@@ -25,9 +24,7 @@ export default {
         pcloud,
         "folderId",
       ],
-      description: `Select a **Folder** to watch for changes.
-        \\
-        Alternatively, you can provide a custom *Folder ID*.`,
+      description: "Select a **Folder** to watch for changes. Alternatively, you can provide a custom *Folder ID*.",
     },
     event: {
       type: "string",
@@ -36,8 +33,7 @@ export default {
         "Created",
         "Modified",
       ],
-      description:
-        "Specify when to emit an event related to a given folder. Note that pCloud preserves files' `created` and `modified` timestamps on upload. If manually uploading via pCloud's `uploadfile` API, these timestamps can be set by specifying the `mtime` and `ctime` parameters, respectively.",
+      description: "Specify when to emit an event related to a given folder.",
       default: "Created",
     },
     showDeleted: {
@@ -50,27 +46,38 @@ export default {
   hooks: {
     async deploy() {
       const files = [];
-      const pCloudContentsData = await this.getContents();
-      const hasContents = get(pCloudContentsData, [
-        "contents",
-      ]);
-      if (hasContents) {
-        for (const folderItem of pCloudContentsData.contents) {
-          if (!folderItem.isfolder) {
-            files.push(folderItem);
-            if (files.length == 10) {
-              break;
-            }
+      const { contents } = await this.getContents();
+      if (!contents) {
+        return;
+      }
+      for (const folderItem of contents) {
+        if (this.isRelevant(folderItem)) {
+          files.push(folderItem);
+          if (files.length == 10) {
+            break;
           }
         }
-      } else {
-        console.log("No data available, skipping iteration");
       }
       files.forEach(this.emitpCloudEvent);
-      this.db.set("lastPolledTime", +Date.now());
+      this._setPreviousFiles(contents);
     },
   },
   methods: {
+    _getPreviousFiles() {
+      return this.db.get("previousFiles");
+    },
+    _setPreviousFiles(files) {
+      const key = this.getFileKey();
+      const previousFiles = files.filter((file) => file[key]).map((file) => ({
+        [file[key]]: true,
+      }));
+      this.db.set("previousFiles", previousFiles);
+    },
+    getFileKey() {
+      return this.event === "Created"
+        ? "fileid"
+        : "hash";
+    },
     async getContents() {
       return this.pcloud._withRetries(() =>
         this.pcloud.listContents(
@@ -86,35 +93,32 @@ export default {
       this.$emit(pCloudEvent, metadata);
     },
     getEventData(pcloudEvent) {
-      const eventDate = pcloudEvent[this.event.toLowerCase()];
-      const ts = +new Date(eventDate);
+      const key = this.getFileKey();
       return {
-        id: ts,
+        id: pcloudEvent[key],
         summary: `${this.event} file "${pcloudEvent.name}"`,
-        ts,
+        ts: Date.now(),
       };
+    },
+    isRelevant(folderItem, previousFiles = []) {
+      const key = this.getFileKey();
+      return !folderItem.isFolder && !previousFiles[folderItem[key]];
     },
   },
   async run() {
-    const lastPolledTime = this.db.get("lastPolledTime");
+    const previousFiles = this._getPreviousFiles();
     const files = [];
-    const pCloudContentsData = await this.getContents();
-    const hasContents = get(pCloudContentsData, [
-      "contents",
-    ]);
-    if (hasContents) {
-      for (const folderItem of pCloudContentsData.contents) {
-        if (!folderItem.isfolder) {
-          let fileTime = +new Date(folderItem[this.event.toLowerCase()]);
-          if (fileTime > lastPolledTime) {
-            files.push(folderItem);
-          }
-        }
-      }
-    } else {
+    const { contents } = await this.getContents();
+    if (!contents) {
       console.log("No data available, skipping iteration");
+      return;
+    }
+    for (const folderItem of contents) {
+      if (this.isRelevant(folderItem, previousFiles)) {
+        files.push(folderItem);
+      }
     }
     files.forEach(this.emitpCloudEvent);
-    this.db.set("lastPolledTime", +Date.now());
+    this._setPreviousFiles(contents);
   },
 };

@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "firebase_admin_sdk-new-doc-in-firestore-collection",
   name: "New Document in Firestore Collection",
   description: "Emit new event when a structured query returns new documents",
-  version: "0.0.2",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "close-search-leads",
-  version: "0.0.1",
+  version: "0.1.0",
   name: "Search Leads",
   description: "Searching leads with a given field and word, [See the docs](https://developer.close.com/resources/advanced-filtering/)",
   props: {

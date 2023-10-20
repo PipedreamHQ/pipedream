@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/wubook_ratechecker",
+  "version": "0.0.2",
+  "description": "Pipedream WuBook RateChecker Components",
+  "main": "wubook_ratechecker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wubook_ratechecker"
+  ],
+  "homepage": "https://pipedream.com/apps/wubook_ratechecker",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  }
+}

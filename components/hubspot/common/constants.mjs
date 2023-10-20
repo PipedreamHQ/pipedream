@@ -2,11 +2,12 @@ import {
   HUBSPOT_OWNER,
   OBJECT_TYPE,
   OBJECT_TYPES,
+  SEARCHABLE_OBJECT_TYPES,
+  SEARCHABLE_OBJECT_PROPERTIES,
 } from "./object-types.mjs";
 
 const BASE_URL = "https://api.hubapi.com";
 const API_PATH = {
-  CALENDAR: "/calendar/v1",
   PROPERTIES: "/properties/v1",
   CONTACTS: "/contacts/v1",
   ENGAGEMENTS: "/engagements/v1",
@@ -20,6 +21,7 @@ const API_PATH = {
   CRMV4: "/crm/v4",
   CMS: "/cms/v3",
   AUTOMATION: "/automation/v2",
+  DEAL: "/deals/v1",
 };
 
 /** Association categories for association types, as defined by the [Hubspot API
@@ -34,6 +36,8 @@ const ASSOCIATION_CATEGORY = {
 export {
   OBJECT_TYPE,
   OBJECT_TYPES,
+  SEARCHABLE_OBJECT_TYPES,
+  SEARCHABLE_OBJECT_PROPERTIES,
   HUBSPOT_OWNER,
   BASE_URL,
   API_PATH,

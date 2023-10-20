@@ -2,10 +2,10 @@ import common from "../common.js";
 
 export default {
   ...common,
-  key: "trello-get-a-card",
+  key: "trello-get-card",
   name: "Get Card",
   description: "Gets a card by its ID. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-get)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     ...common.props,

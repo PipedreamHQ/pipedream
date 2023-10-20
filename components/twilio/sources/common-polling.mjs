@@ -1,4 +1,5 @@
 import twilio from "../twilio.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -9,7 +10,7 @@ export default {
       description: "Pipedream polls Twilio for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

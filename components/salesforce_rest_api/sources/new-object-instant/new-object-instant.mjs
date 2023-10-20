@@ -1,5 +1,4 @@
 import startCase from "lodash/startCase.js";
-
 import common from "../common-instant.mjs";
 
 export default {
@@ -8,7 +7,29 @@ export default {
   name: "New Object (Instant, of Selectable Type)",
   key: "salesforce_rest_api-new-object-instant",
   description: "Emit new event immediately after an object of arbitrary type (selected as an input parameter by the user) is created",
-  version: "0.1.0",
+  version: "0.1.3",
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      const objectType = this.objectType;
+      const nameField = await this.salesforce.getNameFieldForObjectType(objectType);
+      this.setNameField(nameField);
+
+      // emit hisorical events
+      const { recentItems } = await this.salesforce.listSObjectTypeIds(objectType);
+      const ids = recentItems.map((item) => item.Id);
+      for (const id of ids.slice(-25)) {
+        const object = await this.salesforce.getSObject(objectType, id);
+        const event = {
+          body: {
+            "New": object,
+            "UserId": id,
+          },
+        };
+        this.processEvent(event);
+      }
+    },
+  },
   methods: {
     ...common.methods,
     generateMeta(data) {

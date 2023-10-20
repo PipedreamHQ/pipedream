@@ -1,4 +1,8 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
+import FormData from "form-data";
+import fs from "fs";
 import utils from "./common/utils.mjs";
 
 export default {
@@ -45,14 +49,23 @@ export default {
       }) {
         const { after } = prevContext || {};
 
-        const members =
-          await this.getGuildMembers({
-            guildId,
-            params: {
-              after,
-              limit: 20,
-            },
-          });
+        let members;
+        try {
+          members =
+            await this.getGuildMembers({
+              guildId,
+              params: {
+                after,
+                limit: 20,
+              },
+            });
+        } catch (e) {
+          if (e.response.data.code === 50001) {
+            throw new ConfigurationError("Your Discord Bot appears to be missing the \"Server Members Intent\" privilege. Please access Discord applications here (https://discord.com/developers/applications) and update your Bot's permissions, then refresh the fields here to continue.");
+          }
+
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
+        }
 
         const options = members.reduce((reduction, member) => {
           if (member.user.bot) {
@@ -87,37 +100,31 @@ export default {
       async options({
         guildId, userId, isAddRole = true,
       }) {
-        const [
-          member,
-          allRoles,
-        ] = await Promise.all([
-          this.getGuildMember({
-            guildId,
-            userId,
-          }),
-          this.getGuildRoles({
-            guildId,
-          }),
-        ]);
-
+        const allRoles = await this.getGuildRoles({
+          guildId,
+        });
         const roles = allRoles.filter((role) => !role.managed && !role.name.startsWith("@"));
 
-        return roles.reduce((reduction, role) => {
-          const filter =
-            isAddRole
-              ? !member.roles.includes(role.id)
-              : member.roles.includes(role.id);
+        let filter;
+        // If guild member cannot be retrieved, return all guild roles
+        try {
+          const member = await this.getGuildMember({
+            guildId,
+            userId,
+          });
+          filter = isAddRole
+            ? roles.filter((role) => !member.roles.includes(role.id))
+            : roles.filter((role) => member.roles.includes(role.id));
+        } catch {
+          filter = roles;
+        }
 
-          return filter
-            ? [
-              ...reduction,
-              {
-                label: role.name,
-                value: role.id,
-              },
-            ]
-            : reduction;
-        }, []);
+        return filter?.length > 0
+          ? filter.map((role) => ({
+            label: role.name,
+            value: role.id,
+          }))
+          : [];
       },
     },
     channelId: {
@@ -125,14 +132,20 @@ export default {
       label: "Channel",
       description: "Please select a channel",
       async options({
-        guildId, notAllowedChannels,
+        guildId, notAllowedChannels, allowedChannels,
       }) {
-        const channels = await this.getChannels({
-          guildId,
-        });
+        let channels;
+        try {
+          channels = await this.getChannels({
+            guildId,
+          });
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
+        }
         return utils.getChannelOptions({
           channels,
           notAllowedChannels,
+          allowedChannels,
         });
       },
     },
@@ -184,10 +197,14 @@ export default {
       description: "Id of the new parent category for a channel",
       optional: true,
       async options({ guildId }) {
-        const channels = await this.getGuildChannels({
-          guildId,
-        });
-        return utils.getCategoryChannelOptions(channels);
+        try {
+          const channels = await this.getGuildChannels({
+            guildId,
+          });
+          return utils.getCategoryChannelOptions(channels);
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
+        }
       },
     },
     channelRolePermissions: {
@@ -196,10 +213,14 @@ export default {
       description: "Choose the roles you want to add to your channel",
       optional: true,
       async options({ guildId }) {
-        const roles = await this.getGuildRoles({
-          guildId,
-        });
-        return utils.getRolePermissionOptions(roles);
+        try {
+          const roles = await this.getGuildRoles({
+            guildId,
+          });
+          return utils.getRolePermissionOptions(roles);
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
+        }
       },
     },
     channelMemberPermissions: {
@@ -211,24 +232,29 @@ export default {
         guildId, prevContext,
       }) {
         const { after } = prevContext || {};
-        const responses = await Promise.all([
-          this.getGuild({
-            guildId,
-          }),
-          this.getGuildRoles({
-            guildId,
-          }),
-          this.getGuildMembers({
-            guildId,
-            params: {
-              after,
-              limit: 100,
-            },
-          }),
-        ]);
+        let responses;
+        try {
+          responses = await Promise.all([
+            this.getGuild({
+              guildId,
+            }),
+            this.getGuildRoles({
+              guildId,
+            }),
+            this.getGuildMembers({
+              guildId,
+              params: {
+                after,
+                limit: 100,
+              },
+            }),
+          ]);
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
+        }
 
         const [
-          ,, members,
+          , , members,
         ] = responses;
 
         const lastMemberId = utils.getLastId(members);
@@ -247,6 +273,11 @@ export default {
       label: "Max records",
       description: "Max number of records in the whole pagination (eg. `60`)",
       optional: true,
+    },
+    nick: {
+      type: "string",
+      label: "Nickname",
+      description: "Value to set user's nickname to.",
     },
     limit: {
       type: "integer",
@@ -281,13 +312,19 @@ export default {
       }) {
         const { after } = prevContext || {};
 
-        const messages = await this.getMessages({
-          channelId,
-          params: {
-            limit: 10,
-            after,
-          },
-        });
+        let messages;
+        try {
+          messages = await this.getMessages({
+            channelId,
+            params: {
+              limit: 10,
+              after,
+            },
+          });
+        }
+        catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
+        }
 
         const options = utils.getMessageOptions(messages);
 
@@ -399,6 +436,14 @@ export default {
       return await this._makeRequest({
         $,
         path: `/guilds/${guildId}/channels`,
+      });
+    },
+    listThreads({
+      $, guildId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/guilds/${guildId}/threads/active`,
       });
     },
     async getChannelInvites({
@@ -541,6 +586,16 @@ export default {
         data,
       });
     },
+    changeNickname({
+      $, guildId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        method: "patch",
+        path: `/guilds/${guildId}/members/@me`,
+        data,
+      });
+    },
     async modifyChannel({
       $, channelId, data,
     }) {
@@ -548,6 +603,16 @@ export default {
         $,
         method: "patch",
         path: `/channels/${channelId}`,
+        data,
+      });
+    },
+    modifyGuildMember({
+      $, guildId, userId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        method: "patch",
+        path: `/guilds/${guildId}/members/${userId}`,
         data,
       });
     },
@@ -580,6 +645,41 @@ export default {
         path: `/channels/${channelId}/messages`,
         method: "post",
         data,
+      });
+    },
+    async sendMessageWithFile({
+      $, content, username, threadID, filePath, channelId, embeds, avatarURL,
+    }) {
+      const file = fs.createReadStream(filePath);
+      const filename = filePath.split("/").pop();
+      const data = new FormData();
+      data.append("payload_json", JSON.stringify({
+        content,
+        username,
+        threadID,
+        embeds,
+        avatarURL,
+        attachments: [
+          {
+            id: 0,
+            filename,
+          },
+        ],
+      }));
+      data.append("files[0]", file, {
+        header: [
+          `Content-Disposition: form-data; name="files[0]"; filename="${filename}"`,
+          `Content-Type: ${utils.getUploadContentType(filename)}`,
+        ],
+      });
+      return await this._makeRequest({
+        $,
+        path: `/channels/${channelId}/messages`,
+        method: "POST",
+        data,
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+        },
       });
     },
   },

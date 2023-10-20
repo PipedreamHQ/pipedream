@@ -15,17 +15,19 @@ module.exports = {
           // The `sites` API is not paginated:
           // https://api.stackexchange.com/docs/sites
           return {
-            options: []
+            options: [],
           };
         }
 
         const url = this._sitesUrl();
         const { data } = await axios.get(url);
-        const rawOptions = data.items.map(site => ({
+        const rawOptions = data.items.map((site) => ({
           label: site.name,
           value: site.api_site_parameter,
         }));
-        const options = _.sortBy(rawOptions, ['label']);
+        const options = _.sortBy(rawOptions, [
+          "label",
+        ]);
         return {
           options,
         };
@@ -42,15 +44,17 @@ module.exports = {
       description: "Questions to monitor (max: 100)",
       useQuery: true,
       async options(context) {
-        const q = context.query || '';
+        const q = context.query || "";
         const searchParams = {
-          sort: 'relevance',
-          order: 'desc',
+          sort: "relevance",
+          order: "desc",
           closed: false,
           q,
         };
         const url = this._advancedSearchUrl();
-        const { items, hasMore } = await this._propDefinitionsOptions(url, searchParams, context);
+        const {
+          items, hasMore,
+        } = await this._propDefinitionsOptions(url, searchParams, context);
 
         const options = items.map((question) => ({
           label: he.decode(question.title),
@@ -70,14 +74,16 @@ module.exports = {
       description: "Users to monitor (max: 100)",
       useQuery: true,
       async options(context) {
-        const inname = context.query || '';
+        const inname = context.query || "";
         const searchParams = {
-          sort: 'reputation',
-          order: 'desc',
+          sort: "reputation",
+          order: "desc",
           inname,
         };
         const url = this._usersUrl();
-        const { items, hasMore } = await this._propDefinitionsOptions(url, searchParams, context);
+        const {
+          items, hasMore,
+        } = await this._propDefinitionsOptions(url, searchParams, context);
 
         const options = items.map((user) => ({
           label: user.display_name,
@@ -110,16 +116,16 @@ module.exports = {
     },
     _answersForQuestionsUrl(questionIds) {
       const baseUrl = this._apiUrl();
-      const ids = questionIds.join(';');
+      const ids = questionIds.join(";");
       return `${baseUrl}/questions/${ids}/answers`;
     },
     _answersFromUsersUrl(userIds) {
       const baseUrl = this._apiUrl();
-      const ids = userIds.join(';');
+      const ids = userIds.join(";");
       return `${baseUrl}/users/${ids}/answers`;
     },
     _authToken() {
-      return this.$auth.oauth_access_token
+      return this.$auth.oauth_access_token;
     },
     async _propDefinitionsOptions(url, baseSearchParams, context) {
       const {

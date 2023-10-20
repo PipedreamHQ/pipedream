@@ -58,7 +58,7 @@ module.exports = {
       label: "List ID",
       async options ({ page }) {
         const { payload } = await this.getLists(page);
-        return payload.map(list => ({
+        return payload.map((list) => ({
           label: list.name,
           value: list.id,
         }));

@@ -1,10 +1,11 @@
 import formstack from "../../formstack.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "formstack-new-form",
   name: "New Form",
   description: "Emit new event for each new form added. [See docs here](https://formstack.readme.io/docs/form-id-webhook-post)",
-  version: "0.0.2",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {
@@ -13,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

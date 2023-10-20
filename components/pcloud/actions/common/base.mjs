@@ -7,8 +7,8 @@ export default {
   methods: {
     validateLocationId() {
       const VALID_LOCATIONS = [
-        "0",
         "1",
+        "2",
       ];
       const locationId = this.pcloud.$auth.locationid;
 

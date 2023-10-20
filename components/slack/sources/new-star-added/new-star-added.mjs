@@ -1,14 +1,11 @@
 import common from "../common/base.mjs";
-import {
-  events,
-  eventsOptions,
-} from "../common/constants.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "slack-new-star-added",
   name: "New Star Added (Instant)",
-  version: "0.0.3",
+  version: "0.0.17",
   description: "Emit new event when a star is added to an item",
   type: "source",
   dedupe: "unique",
@@ -28,17 +25,19 @@ export default {
       type: "string[]",
       label: "Event Types",
       description: "The types of event to emit. If not specified, all events will be emitted.",
-      options: eventsOptions,
+      options: constants.eventsOptions,
       optional: true,
     },
   },
   methods: {
     ...common.methods,
     getSummary({ item: { type } }) {
-      return `New star added - ${events[type] ?? type}`;
+      return `New star added - ${constants.events[type] ?? type}`;
     },
     async processEvent(event) {
-      if (this.eventTypes?.length === 0 || this.eventTypes.includes(event.item.type)) {
+      if (this.eventTypes == null
+        || this.eventTypes.length === 0
+        || this.eventTypes.includes(event.item.type)) {
         return event;
       }
     },

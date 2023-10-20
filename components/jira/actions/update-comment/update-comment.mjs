@@ -1,18 +1,27 @@
-import jira from "../../jira.app.mjs";
 import utils from "../../common/utils.mjs";
+import jira from "../../jira.app.mjs";
 
 export default {
   key: "jira-update-comment",
   name: "Update Comment",
   description: "Updates a comment, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-id-put)",
-  version: "0.1.2",
+  version: "0.1.7",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId",
+      ],
+    },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
+        (c) => ({
+          cloudId: c.cloudId,
+        }),
       ],
     },
     commentId: {
@@ -70,6 +79,7 @@ export default {
     }
     const response = await this.jira.updateComment({
       $,
+      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       commentId: this.commentId,
       params: {

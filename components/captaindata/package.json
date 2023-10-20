@@ -1,16 +1,17 @@
 {
   "name": "@pipedream/captaindata",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Pipedream Captain Data Components",
   "main": "dist/app/captaindata.app.mjs",
   "keywords": [
     "pipedream",
     "captaindata"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/captaindata",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import crypto from "crypto";
 
 export default {
@@ -21,13 +21,14 @@ export default {
   hooks: {
     async activate() {
       await this.unregisterHook();
-      const res = await axios(this.brexApp._getAxiosParams({
+      const res = await axios(this, this.brexApp._getAxiosParams({
         method: "POST",
         path: "/v1/webhooks",
         data: {
           url: this.http.endpoint,
           event_types: this.events,
         },
+        returnFullResponse: true,
       }));
 
       if (!res.data?.id) {
@@ -48,7 +49,7 @@ export default {
       if (!hookId) {
         return;
       }
-      await axios(this.brexApp._getAxiosParams({
+      await axios(this, this.brexApp._getAxiosParams({
         method: "DELETE",
         path: `/v1/webhooks/${this._getHookId()}`,
       }));
@@ -57,9 +58,10 @@ export default {
     },
     async getSecretKeys() {
       // Get secrets from Brex
-      const res = await axios(this.brexApp._getAxiosParams({
+      const res = await axios(this, this.brexApp._getAxiosParams({
         method: "GET",
         path: "/v1/webhooks/secrets",
+        returnFullResponse: true,
       }));
 
       if (res.data?.length === 0) {
@@ -82,11 +84,10 @@ export default {
       throw new Error("The received request is not trustable. The computed signature does not match with the hook signature. THe request was aborted.");
     },
     async getTransactionDetails(transactionId) {
-      const res = await axios(this.brexApp._getAxiosParams({
+      return axios(this, this.brexApp._getAxiosParams({
         method: "GET",
         path: `/v1/transfers/${transactionId}`,
       }));
-      return res.data;
     },
     _emit(data) {
       this.$emit(data, {

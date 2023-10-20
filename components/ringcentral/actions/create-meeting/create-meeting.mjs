@@ -4,7 +4,7 @@ export default {
   key: "ringcentral-create-meeting",
   name: "Create Meeting",
   description: "Creates a new meeting. See the API docs [here](https://developers.ringcentral.com/api-reference/Meeting-Management/createMeeting).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     ringcentral,

@@ -1,4 +1,5 @@
 import zerotier from "../../zerotier.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   type: "source",
@@ -9,7 +10,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     networkId: {
@@ -35,7 +36,7 @@ export default {
     for (const node of nodes) {
       const {
         clock,
-        online,
+        lastSeen,
         nodeId,
         name,
         networkId,
@@ -43,7 +44,11 @@ export default {
       const previousStatus = this._getNodeStatus(nodeId);
       const rightStatus = this.getRightStatus();
 
-      if (online != previousStatus) {
+      const online = !(lastSeen === 0) && ((clock - lastSeen) < 180000);   //lastSeen === 0 means Zerotier reset api to 0 and indicates device has never connected since
+
+      if (previousStatus == null)
+        this._setNodeStatus(nodeId, online);
+      else if (online != previousStatus) {
         this._setNodeStatus(nodeId, online);
 
         if (online === rightStatus) {

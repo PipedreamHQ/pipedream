@@ -4,7 +4,7 @@ import reddit from "../../reddit.app.mjs";
 export default {
   type: "action",
   key: "reddit-submit-a-comment",
-  version: "0.0.1",
+  version: "0.1.0",
   name: "Submit a Comment",
   description: "Submit a new comment or reply to a message. [See the docs here](https://www.reddit.com/dev/api/#POST_api_comment)",
   props: {
@@ -39,4 +39,3 @@ export default {
     return res?.json?.data?.things?.[0] || res;
   },
 };
-

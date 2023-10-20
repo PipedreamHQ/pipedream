@@ -23,17 +23,17 @@ export default {
     },
     contactIds: {
       type: "string[]",
-      label: "Contact ID's",
+      label: "Contact IDs",
       description: "An array of contact IDs to delete",
       optional: true,
       async options() {
         const contacts = await this.listContacts();
         return contacts.map(({
-          id, first_name: firstName, last_name: lastName,
+          id, first_name: firstName, last_name: lastName, email,
         }) => ({
           label: (firstName && lastName)
-            ? `${firstName} ${lastName}`
-            : id,
+            ? `${firstName} ${lastName} (${email})`
+            : email,
           value: id,
         }));
       },
@@ -87,16 +87,30 @@ export default {
       description: "Indicates if you want to delete all blocked email addresses. This can not be used with the `emails` parameter.",
       default: false,
     },
-    emails: {
+    blockedEmails: {
       type: "string[]",
       label: "Emails",
       description: "A string array of the specific blocked email addresses that you want to delete. This can not be used with the `deleteAll` parameter. Example: `[\"email1@example.com\",\"email2@example.com\"]`",
       optional: true,
+      async options() {
+        const blocks = await this.listBlocks();
+        return blocks.map((block) => block.email);
+      },
+    },
+    bouncedEmails: {
+      type: "string[]",
+      label: "Emails",
+      description: "A string array of the specific blocked email addresses that you want to delete. This can not be used with the `deleteAll` parameter. Example: `[\"email1@example.com\",\"email2@example.com\"]`",
+      optional: true,
+      async options() {
+        const bounces = await this.getAllBounces();
+        return bounces.map((bounce) => bounce.email);
+      },
     },
     email: {
       type: "string",
       label: "Email",
-      description: "The email address of the specific block",
+      description: "The email that you want to validate",
     },
     startTime: {
       type: "integer",
@@ -173,6 +187,38 @@ export default {
       label: "ASM",
       description: "Advanced Suppression Manager. An object allowing you to specify how to handle unsubscribes",
       optional: true,
+    },
+    asmGroupId: {
+      type: "integer",
+      label: "ASM Group ID",
+      description: "Advanced Suppression Manager Group ID. The unsubscribe group to associate with this email. Will override the value set in the asm param if also set",
+      optional: true,
+      async options() {
+        const asmGroups = await this.listAsmGroups();
+        if (asmGroups) {
+          return asmGroups.map((group) => ({
+            label: group.name,
+            value: group.id,
+          }));
+        }
+        return [];
+      },
+    },
+    asmGroupsToDisplay: {
+      type: "integer[]",
+      label: "ASM Groups to Display",
+      description: "An array containing the unsubscribe groups that you would like to be displayed on the unsubscribe preferences page.  Will override the value set in the asm param if also set.  Requires asmGroupId set if this is set",
+      optional: true,
+      async options() {
+        const asmGroups = await this.listAsmGroups();
+        if (asmGroups) {
+          return asmGroups.map((group) => ({
+            label: group.name,
+            value: group.id,
+          }));
+        }
+        return [];
+      },
     },
     ipPoolName: {
       type: "string",
@@ -422,7 +468,7 @@ export default {
         method: "DELETE",
         url: "/v3/marketing/contacts",
         qs: {
-          ids: ids ?
+          ids: ids?.length > 0 ?
             ids.join(",") :
             undefined,
           delete_all_contacts: deleteAllContacts ?
@@ -644,7 +690,9 @@ export default {
         method: "DELETE",
         url: `/v3/marketing/lists/${id}/contacts`,
         qs: {
-          contact_ids: contactIds.join(","),
+          contact_ids: contactIds?.length > 0 ?
+            contactIds.join(",") :
+            undefined,
         },
       };
       return this._makeClientRequest(config);
@@ -684,6 +732,14 @@ export default {
 
       const { templates } = (await this._makeClientRequest(config))[1];
       return templates;
+    },
+    async listAsmGroups() {
+      const config = {
+        method: "GET",
+        url: "/v3/asm/groups",
+      };
+
+      return (await this._makeClientRequest(config))[1];
     },
     /**
      * Sends an email to the specified recipients.
@@ -729,6 +785,13 @@ export default {
       };
       const { results } = (await this._makeClientRequest(config))[1];
       return results;
+    },
+    async getAccountInformation() {
+      const config = {
+        method: "GET",
+        url: "/v3/user/account",
+      };
+      return (await this._makeClientRequest(config))[1];
     },
   },
 };

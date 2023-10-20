@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/salesflare",
+  "version": "0.0.2",
+  "description": "Pipedream Salesflare Components",
+  "main": "salesflare.app.mjs",
+  "keywords": [
+    "pipedream",
+    "salesflare"
+  ],
+  "homepage": "https://pipedream.com/apps/salesflare",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.3.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

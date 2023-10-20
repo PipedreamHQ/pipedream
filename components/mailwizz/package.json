@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/mailwizz",
+  "version": "0.0.2",
+  "description": "Pipedream Mailwizz Components",
+  "main": "mailwizz.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailwizz"
+  ],
+  "homepage": "https://pipedream.com/apps/mailwizz",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  }
+}

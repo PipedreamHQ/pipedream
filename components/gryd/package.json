@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/gryd",
+  "version": "0.1.0",
+  "description": "Pipedream Gryd Components",
+  "main": "gryd.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gryd"
+  ],
+  "homepage": "https://pipedream.com/apps/gryd",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

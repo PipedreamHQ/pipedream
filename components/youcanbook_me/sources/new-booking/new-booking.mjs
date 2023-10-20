@@ -3,7 +3,7 @@ import base from "../common/booking-base.mjs";
 export default {
   ...base,
   name: "New Booking",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "youcanbook_me-new-booking",
   description: "Emit new event for each new booking",
   type: "source",

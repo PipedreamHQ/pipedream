@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/onedesk",
+  "version": "0.0.1",
+  "description": "Pipedream OneDesk Components",
+  "main": "onedesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "onedesk"
+  ],
+  "homepage": "https://pipedream.com/apps/onedesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.3.0",
+    "lodash.pickby": "^4.6.0",
+    "uuid": "^9.0.0"
+  }
+}

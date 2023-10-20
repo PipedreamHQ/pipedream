@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/namely",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Pipedream Namely Components",
   "main": "dist/app/namely.app.mjs",
   "keywords": [
@@ -12,12 +12,11 @@
   ],
   "homepage": "https://pipedream.com/apps/namely",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.1.0",
+    "@pipedream/platform": "^1.2.0",
     "dayjs": "^1.11.3"
   },
   "devDependencies": {

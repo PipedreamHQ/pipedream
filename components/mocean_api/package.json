@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mocean_api",
+  "version": "0.0.1",
+  "description": "Pipedream Mocean API Components",
+  "main": "mocean_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mocean_api"
+  ],
+  "homepage": "https://pipedream.com/apps/mocean_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

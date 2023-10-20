@@ -46,11 +46,7 @@ export default {
     }) {
       return this._makeRequest(`form/${formId}/webhook`, {
         method: "post",
-        data: {
-          ...data,
-          content_type: "json",
-          handshake_key: this._accessToken(),
-        },
+        data,
       });
     },
     async removeWebhook(webhookId) {

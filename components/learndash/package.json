@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/learndash",
+  "version": "0.0.2",
+  "description": "Pipedream LearnDash Components",
+  "main": "dist/app/learndash.app.mjs",
+  "keywords": [
+    "pipedream",
+    "learndash"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/learndash",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

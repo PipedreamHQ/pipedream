@@ -1,5 +1,6 @@
 import notion from "../../notion.app.mjs";
 import constants from "./constants.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 function lastSortParam(timestamp, params = {}) {
   return {
@@ -20,7 +21,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

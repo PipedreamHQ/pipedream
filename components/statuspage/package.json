@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/statuspage",
+  "version": "0.0.3",
+  "description": "Pipedream Statuspage Components",
+  "main": "statuspage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "statuspage"
+  ],
+  "homepage": "https://pipedream.com/apps/statuspage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}

@@ -8,11 +8,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
-      - uses: pnpm/action-setup@v2.2.2
+      - uses: actions/checkout@v4.1.0
+      - uses: pnpm/action-setup@v2.4.0
         with:
-          version: 7.0.0
-      - uses: actions/setup-node@v3.4.1
+          version: 7.33.6
+      - uses: actions/setup-node@v3.8.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/

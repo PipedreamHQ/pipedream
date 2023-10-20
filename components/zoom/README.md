@@ -1,79 +1,35 @@
-# Zoom API Integrations
+# Overview
 
-### Integrate Zoom and thousands of applications with Pipedream. Free for developers.
+<img alt="Connecting Zoom to any app using Pipedream" src="https://res.cloudinary.com/pipedreamin/image/upload/v1681317323/docs/components/zoom/event-sources_mps8ws.png" />
 
----
+**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Zoom API**. Just [create a new workflow](https://pipedream.com/new), then add prebuilt Zoom [actions](/components#actions) (create a meeting, send a chat message, etc.) or [write your own code](/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a Github PR, Zoom events, etc). 
 
-Pipedream is a serverless integration and compute platform. We provide a free, hosted platform that makes it easy to connect apps and develop, execute and maintain event-driven workflows.
 
-**Key Features**:
 
-- [Zoom API Event Sources](#github-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from Zoom
-- [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by a Zoom event
-- Serverless - No server or cloud resources to manage
-- [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
 
-<a href="https://pipedream.com/sources/new?app=zoom"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
-## Zoom API Event Sources
+## Getting Started
 
-- [Custom Events](https://pipedream.com/sources/new?app=zoom) - Build your own event source using one or multiple events ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/custom-event.js))
-- [Meeting Created](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a meeting is created where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-created.js))
-- [Meeting Deleted](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a meeting is deleted where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-deleted.js))
-- [Meeting Ended](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a meeting ends where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-ended.js))
-- [Meeting Started](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a meeting starts where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-started.js))
-- [Meeting Updated](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a meeting is updated where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-updated.js))
-- [Meeting Recording Completed](https://pipedream.com/sources?action=create&key=zoom-recording-completed&utm_source=github.com&utm_medium=referral&utm_campaign=zoom) - Emits an event each time a new recording completes for a meeting or webinar where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/recording-completed.js))
-- [Webinar Created](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a webinar is created where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-created.js))
-- [Webinar Deleted](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a webinar is deleted where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-deleted.js))
-- [Webinar Ended](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a webinar ends where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-ended.js))
-- [Webinar Started](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a webinar starts where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-started.js))
-- [Webinar Updated](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a webinar is updated where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-updated.js))
+1. First, sign up for Pipedream at [https://pipedream.com](https://pipedream.com).
+2. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts).
+3. Click the button labeled **Click Here to Connect an App**.
+4. Search for "Zoom" and select either **Zoom** or **Zoom Admin** ([see the differences below](#zoom-vs-zoom-admin-app)):
 
-Event sources can also be deployed via the [Pipedream CLI](https://docs.pipedream.com/cli/reference/). Once installed, you can deploy an event source by running:
+This will open up a new window prompting you to authorize Pipedream's access to your Zoom account. Once you authorize access, you should see your Zoom account listed among your apps.
 
-```bash
-pd deploy   # prompts you to select a component and pass required options
-```
+1. [Create a new workflow](https://pipedream.com/new), [add a new step](/workflows/steps/), search for "Zoom" or "Zoom Admin". Once you've selected either app, you can choose to either "Run Node.js code" or select one of the prebuilt actions for performing common API operations.
+2. At this stage, you'll be asked to link the Zoom account you connected above, authorizing the request to the Zoom API with your credentials:
 
-## Workflows
+<img src="[./images/connect-zoom-account.png](https://res.cloudinary.com/pipedreamin/image/upload/v1681317323/docs/components/zoom/connect-zoom-account_pagw1y.png)" alt="Connect Zoom Account" width="500px;" />
 
-Workflows are a sequence of linear [steps](https://docs.pipedream.com/workflows/steps) - just Node.js code - triggered by an event (via event source, HTTP endpoint, or timer). Workflows make it easy to transform data and integrate with 300+ APIs from various apps and services.
+### Zoom vs Zoom Admin app
 
-- Trigger your workflow on any [Zoom event](https://pipedream.com/sources/new?app=github), a different event (e.g. [HTTP requests](https://docs.pipedream.com/workflows/steps/triggers/#http) or a [schedule](https://docs.pipedream.com/workflows/steps/triggers/#cron-scheduler)).
-- Add steps to run [Node.js code](https://docs.pipedream.com/workflows/steps/code/) (using virtually any npm package) and [pre-built actions](https://docs.pipedream.com/workflows/steps/actions/).
-- Steps are executed in the order they appear in your workflow.
-- Data is shared between steps via [step exports](https://docs.pipedream.com/workflows/steps/#step-exports).
+Zoom users can be classified into two groups: non-admins and admins. Admins have account-level permissions that users do not, and Zoom has corresponding admin-level scopes that aren't relevant for normal users. Therefore, Pipedream exposes two apps — **Zoom** and **Zoom Admin** — to serve the two groups.
 
-Workflow code is [public by default](https://docs.pipedream.com/public-workflows/) so the community can discover and [copy them](https://docs.pipedream.com/workflows/copy/). Your workflow execution and event data is private.
+In the Zoom Marketplace, these apps are named [Pipedream](https://marketplace.zoom.us/apps/jGaV-kRrT3igAYnn-J5v2g), and [Pipedream for Zoom Admins](https://marketplace.zoom.us/apps/tZvUsiucR96SqtvfBsemXg), respectively.
 
-You can copy [this example workflow](https://pipedream.com/@tod/use-http-requests-to-trigger-a-workflow-p_6lCy5y/readme) to get started, or review some [community-developed workflows](https://pipedream.com/explore) to see what others are building.
+Non-admins have [permissions](https://marketplace.zoom.us/docs/guides/authorization/permissions#user-managed-scopes) to manage standard Zoom resources in their account: meetings, webinars, recordings, and more. **If you're a non-admin, you'll want to use the Zoom app**.
 
-**Example Zoom Workflows**
+Zoom admins have [permissions](https://marketplace.zoom.us/docs/guides/authorization/permissions#account-level-scopes) to manage account-level resources, like users and reports. They can also manage webinars and meetings across their organization. **If you're an admin and need to manage these resources via API, you'll want to use the Zoom Admin app**.
 
-- [Save Zoom recordings to Amazon S3, then delete Zoom recording](https://pipedream.com/@dylburger/save-zoom-recordings-to-amazon-s3-p_PACKJG/readme)
-
-For a deeper introduction to Pipedream and event sources, see the [root `README` in this repo](/README.md), the [component API](/COMPONENT-API.md), or the [docs](https://docs.pipedream.com/apps/zoom/).
-
-## Other Popular API Integrations
-
-- [Airtable](https://github.com/PipedreamHQ/pipedream/tree/master/components/airtable) ([deploy](https://pipedream.com/sources/new?app=airtable))
-- [AWS](https://github.com/PipedreamHQ/pipedream/tree/master/components/aws) ([deploy](https://pipedream.com/sources/new?app=aws))
-- [Dropbox](https://github.com/PipedreamHQ/pipedream/tree/master/components/dropbox) ([deploy](https://pipedream.com/sources/new?app=dropbox))
-- [Github](https://github.com/PipedreamHQ/pipedream/tree/master/components/github) ([deploy](https://pipedream.com/sources/new?app=github))
-- [Google Calendar](https://github.com/PipedreamHQ/pipedream/tree/master/components/google-calendar) ([deploy](https://pipedream.com/sources/new?app=google-calendar))
-- [Google Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google-drive) ([deploy](https://pipedream.com/sources/new?app=google-drive))
-- [RSS](https://github.com/PipedreamHQ/pipedream/tree/master/components/rss) ([deploy](https://pipedream.com/sources/new?app=rss))
-- [Twitter](https://github.com/PipedreamHQ/pipedream/tree/master/components/twitter) ([deploy](https://pipedream.com/sources/new?app=twitter))
-
-## Pricing
-
-Pipedream is currently free, subject to the [limits noted below](https://docs.pipedream.com/limits/). Paid tiers for higher volumes are coming soon.
-
-If you exceed any of these limits, please [reach out](https://docs.pipedream.com/support/).
-
-## Found a Bug? Have a Feature to suggest?
-
-Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/pipedream/issues) or [reach out to our team](https://docs.pipedream.com/support/) to see if a similar request already exists.
-
-If an issue exists, please [add a reaction](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-conversations-on-github) or comment on your specific use case.
+The [Zoom API docs on permissions](https://marketplace.zoom.us/docs/guides/authorization/permissions) provide detailed information on these permissions and their associated OAuth scopes.

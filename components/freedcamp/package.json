@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/freedcamp",
+  "version": "0.0.2",
+  "description": "Pipedream Freedcamp Components",
+  "main": "dist/app/freedcamp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "freedcamp"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/freedcamp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

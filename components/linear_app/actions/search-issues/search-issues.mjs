@@ -1,12 +1,12 @@
-import constants from "../../common/constants.mjs";
 import linearApp from "../../linear_app.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-search-issues",
   name: "Search Issues",
   description: "Search issues (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
   type: "action",
-  version: "0.1.3",
+  version: "0.2.3",
   props: {
     linearApp,
     query: {
@@ -53,58 +53,27 @@ export default {
       ],
     },
   },
-  methods: {
-    buildFilter() {
-      return {
-        team: {
-          id: {
-            eq: this.teamId,
-          },
-        },
-        project: {
-          id: {
-            eq: this.projectId,
-          },
-        },
-        assignee: {
-          id: {
-            eq: this.assigneeId,
-          },
-        },
-        labels: {
-          name: {
-            in: this.issueLabels,
-          },
-        },
-      };
-    },
-  },
   async run({ $ }) {
-    const {
-      query,
-      orderBy,
-      includeArchived,
-    } = this;
-
     const issues = [];
     let hasNextPage;
     let after;
-    const filter = this.buildFilter();
 
     do {
+      const variables = utils.buildVariables(after, {
+        filter: {
+          query: this.query,
+          teamId: this.teamId,
+          projectId: this.projectId,
+          assigneeId: this.assigneeId,
+          issueLabels: this.issueLabels,
+        },
+        orderBy: this.orderBy,
+        includeArchived: this.includeArchived,
+      });
       const {
         nodes,
         pageInfo,
-      } = await this.linearApp.searchIssues({
-        query,
-        variables: {
-          filter,
-          orderBy,
-          after,
-          includeArchived,
-          first: constants.DEFAULT_LIMIT,
-        },
-      });
+      } = await this.linearApp.listIssues(variables);
 
       issues.push(...nodes);
       after = pageInfo.endCursor;

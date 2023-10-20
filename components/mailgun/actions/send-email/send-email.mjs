@@ -1,12 +1,13 @@
 import mailgun from "../../mailgun.app.mjs";
 import common from "../common.mjs";
+import downloader from "@pipedream/helper_functions/actions/download-file-to-tmp/download-file-to-tmp.mjs";
 
 export default {
   ...common,
   key: "mailgun-send-email",
   name: "Send Email",
   description: "Send email with Mailgun. [See the docs here](https://documentation.mailgun.com/en/latest/api-sending.html#sending)",
-  version: "0.0.29",
+  version: "0.1.0",
   type: "action",
   props: {
     mailgun,
@@ -74,6 +75,13 @@ export default {
       ],
       optional: true,
     },
+    attachments: {
+      type: "object",
+      label: "Attachments",
+      description: "Add any attachments you'd like to include as objects. The `key` should be " +
+       "the **filename** and the `value` should be the **url** download link for the attachment.",
+      optional: true,
+    },
     /* eslint-enable pipedream/default-value-required-for-optional-props */
     testMode: {
       type: "boolean",
@@ -100,6 +108,29 @@ export default {
     },
     ...common.props,
   },
+  methods: {
+    ...common.methods,
+    async download($, attachments) {
+      const promises = Object.entries(attachments).map(async ([
+        filename,
+        url,
+      ]) => downloader.run.bind({
+        url,
+        filename,
+      })({
+        $,
+      }));
+
+      return (await Promise.all(promises))
+        .map((filedata) => this.createAttachment(filedata[3], filedata[0]));
+    },
+    createAttachment(data, filename) {
+      return {
+        data,
+        filename,
+      };
+    },
+  },
   async run({ $ }) {
     const msg = {
       "from": `${this.fromName} <${this.from}>`,
@@ -108,6 +139,9 @@ export default {
       "text": this.text,
       "html": this.html,
     };
+    if (this.attachments) {
+      msg["attachment"] = await this.download($, this.attachments);
+    }
     if (this.testMode) {
       msg["o:testmode"] = "yes";
     }
@@ -126,6 +160,7 @@ export default {
       domain: this.domain,
       msg,
     });
+    $.export("filedata", null); // remove set filedata from downloader
     $.export("$summary", "Successfully sent email.");
     return resp;
   },

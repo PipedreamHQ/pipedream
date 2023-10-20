@@ -1,10 +1,14 @@
 import shopify from "../../shopify.app.mjs";
+import metafieldActions from "../common/metafield-actions.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
+  ...metafieldActions,
   key: "shopify-update-product-variant",
   name: "Update Product Variant",
   description: "Update an existing product variant. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[put]/admin/api/2022-01/variants/{variant_id}.json)",
-  version: "0.0.1",
+  version: "0.0.13",
   type: "action",
   props: {
     shopify,
@@ -44,18 +48,31 @@ export default {
         (c) => c,
       ],
     },
-  },
-  async run({ $ }) {
-    let productVariant = {
-      option1: this.option,
-      price: this.price,
-      image_id: this.imageId,
-    };
-    let response = (await this.shopify.updateProductVariant(
-      this.productVariantId,
-      productVariant,
-    )).result;
-    $.export("$summary", `Updated product variant \`${response.title}\` with id \`${response.id}\``);
-    return response;
+    metafields: {
+      propDefinition: [
+        shopify,
+        "metafields",
+      ],
+    },
+    sku: {
+      propDefinition: [
+        shopify,
+        "sku",
+      ],
+    },
+    countryCodeOfOrigin: {
+      propDefinition: [
+        shopify,
+        "country",
+      ],
+      description: "The country code [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of where the item came from",
+    },
+    harmonizedSystemCode: {
+      type: "integer",
+      label: "Harmonized System Code",
+      description: "The general [harmonized system](https://en.wikipedia.org/wiki/Harmonized_System) code for the inventory item",
+      optional: true,
+    },
+    ...common.props,
   },
 };

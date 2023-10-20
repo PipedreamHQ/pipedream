@@ -2,10 +2,10 @@ import common from "../common/webhook.mjs";
 
 export default {
   ...common,
-  name: "Campaign Starts Sending (Instant)",
+  name: "New Campaign Starts Sending (Instant)",
   key: "activecampaign-campaign-starts-sending",
   description: "Emit new event each time a campaign starts sending.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

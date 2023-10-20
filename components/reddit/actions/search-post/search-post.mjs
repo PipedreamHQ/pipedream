@@ -3,7 +3,7 @@ import reddit from "../../reddit.app.mjs";
 export default {
   type: "action",
   key: "reddit-search-post",
-  version: "0.0.1",
+  version: "0.1.0",
   name: "Search Post",
   description: "Search posts by title. [See the docs here](https://www.reddit.com/dev/api/#GET_search)",
   props: {

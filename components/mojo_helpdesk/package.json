@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/mojo_helpdesk",
+  "version": "0.0.1",
+  "description": "Pipedream Mojo Helpdesk Components",
+  "main": "mojo_helpdesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mojo_helpdesk"
+  ],
+  "homepage": "https://pipedream.com/apps/mojo_helpdesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.3.0"
+  }
+}

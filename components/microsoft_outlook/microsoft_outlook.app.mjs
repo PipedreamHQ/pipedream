@@ -12,21 +12,43 @@ export default {
       label: "Recipients",
       description: "Array of email addresses",
       type: "string[]",
+      optional: true,
+      default: [],
+    },
+    ccRecipients: {
+      label: "CC Recipients",
+      description: "Array of email addresses",
+      type: "string[]",
+      optional: true,
+      default: [],
+    },
+    bccRecipients: {
+      label: "BCC Recipients",
+      description: "Array of email addresses",
+      type: "string[]",
+      optional: true,
+      default: [],
     },
     subject: {
       label: "Subject",
       description: "Subject of the email",
       type: "string",
+      optional: true,
     },
     contentType: {
       label: "Content Type",
-      description: "Content type (default `HTML`)",
+      description: "Content type (default `text`)",
       type: "string",
       optional: true,
+      options: [
+        "text",
+        "html",
+      ],
+      default: "text",
     },
     content: {
       label: "Content",
-      description: "Content of the email in text format",
+      description: "Content of the email in text or html format",
       type: "string",
       optional: true,
     },
@@ -35,18 +57,6 @@ export default {
       description: "Absolute paths to the files (eg. `/tmp/my_file.pdf`)",
       type: "string[]",
       optional: true,
-    },
-    timeZone: {
-      label: "Time Zone",
-      description: "Time zone of the event in supported time zones, [See the docs](https://docs.microsoft.com/en-us/graph/api/outlookuser-supportedtimezones)",
-      type: "string",
-      async options() {
-        const timeZonesResponse = await this.getSupportedTimeZones();
-        return timeZonesResponse.value.map((tz) => ({
-          label: tz.displayName,
-          value: tz.alias,
-        }));
-      },
     },
     contact: {
       label: "Contact",
@@ -59,16 +69,6 @@ export default {
           value: co.id,
         }));
       },
-    },
-    start: {
-      label: "Start",
-      description: "Start date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T11:20:00'",
-      type: "string",
-    },
-    end: {
-      label: "End",
-      description: "Start date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T13:30:00'",
-      type: "string",
     },
     givenName: {
       label: "Given name",
@@ -92,23 +92,6 @@ export default {
       label: "Recipients",
       description: "Array of phone numbers",
       type: "string[]",
-      optional: true,
-    },
-    attendees: {
-      label: "Attendees",
-      description: "Array of email addresses",
-      type: "string[]",
-    },
-    location: {
-      label: "Location",
-      description: "Location of the event",
-      type: "string",
-      optional: true,
-    },
-    isOnlineMeeting: {
-      label: "Is Online Meeting",
-      description: "If it is online meeting or not",
-      type: "boolean",
       optional: true,
     },
     expand: {
@@ -172,6 +155,8 @@ export default {
     },
     prepareMessageBody(self) {
       const toRecipients = [];
+      const ccRecipients = [];
+      const bccRecipients = [];
       for (const address of self.recipients) {
         toRecipients.push({
           emailAddress: {
@@ -179,6 +164,25 @@ export default {
           },
         });
       }
+      for (const address of self.ccRecipients) {
+        if (address.trim() !== "") {
+          ccRecipients.push({
+            emailAddress: {
+              address,
+            },
+          });
+        }
+      }
+      for (const address of self.bccRecipients) {
+        if (address.trim() !== "") {
+          bccRecipients.push({
+            emailAddress: {
+              address,
+            },
+          });
+        }
+      }
+
       const attachments = [];
       for (let i = 0; self.files && i < self.files.length; i++) {
         attachments.push({
@@ -196,32 +200,16 @@ export default {
         subject: self.subject,
         body: {
           content: self.content,
-          contentType: self.contentType ?? "HTML",
+          contentType: self.contentType,
         },
         toRecipients,
         attachments,
       };
+
+      if (ccRecipients.length > 0) message.ccRecipients = ccRecipients;
+      if (bccRecipients.length > 0) message.bccRecipients = bccRecipients;
+
       return message;
-    },
-    async getSupportedTimeZones() {
-      return await this._makeRequest({
-        method: "GET",
-        path: "/me/outlook/supportedTimeZones",
-      });
-    },
-    async createCalendarEvent({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "POST",
-        path: "/me/events",
-        ...args,
-      });
-    },
-    async listCalendarEvents({ ...args } = {}) {
-      return await this._makeRequest({
-        method: "GET",
-        path: "/me/events",
-        ...args,
-      });
     },
     async sendEmail({ ...args } = {}) {
       return await this._makeRequest({
@@ -285,16 +273,6 @@ export default {
       return await this._makeRequest({
         method: "GET",
         path: "/me/messages",
-        ...args,
-      });
-    },
-    async getCalendarEvent({
-      eventId,
-      ...args
-    } = {}) {
-      return await this._makeRequest({
-        method: "GET",
-        path: `/me/events/${eventId}`,
         ...args,
       });
     },

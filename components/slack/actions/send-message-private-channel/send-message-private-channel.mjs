@@ -1,18 +1,24 @@
 import common from "../common/send-message.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "slack-send-message-private-channel",
   name: "Send Message to a Private Channel",
   description: "Send a message to a private channel and customize the name and avatar of the bot that posts the message. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.7",
+  version: "0.2.18",
   type: "action",
   props: {
-    ...common.props,
+    slack: common.props.slack,
     conversation: {
       propDefinition: [
         common.props.slack,
-        "privateChannel",
+        "channelId",
+        () => ({
+          types: [
+            constants.CHANNEL_TYPE.PRIVATE,
+          ],
+        }),
       ],
     },
     text: {
@@ -48,5 +54,6 @@ export default {
       ],
       description: "Optionally provide an image URL to use as the bot icon for this message.",
     },
+    ...common.props,
   },
 };

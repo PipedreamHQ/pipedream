@@ -6,7 +6,7 @@ export default {
   name: "New Contact",
   description: "Emit new contact",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event for each new submission of a form.",
-  version: "0.0.4",
+  version: "0.0.17",
   dedupe: "unique",
   type: "source",
   props: {
@@ -21,20 +21,22 @@ export default {
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(result) {
+      return result.submittedAt;
+    },
     generateMeta(result) {
-      const {
-        pageUrl,
-        submittedAt: ts,
-      } = result;
+      const { pageUrl } = result;
+      const ts = this.getTs(result);
       const submitted = new Date(ts);
+      const id = pageUrl.split("/").pop();
       return {
-        id: `${pageUrl}${ts}`,
+        id: `${id}${ts}`,
         summary: `Form submitted at ${submitted.toLocaleDateString()} ${submitted.toLocaleTimeString()}`,
         ts,
       };
     },
     isRelevant(result, submittedAfter) {
-      return result.submittedAt > submittedAfter;
+      return this.getTs(result) > submittedAfter;
     },
     getParams() {
       return {

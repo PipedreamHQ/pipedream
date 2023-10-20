@@ -10,7 +10,7 @@ export default {
       type: "string[]",
       async options() {
         const organizations = await this.getOrganizations();
-        
+
         return organizations.map((organization) => ({
           label: organization.name,
           value: organization.gid,
@@ -90,15 +90,16 @@ export default {
       type: "string[]",
       async options({ project }) {
         const tasks = await this.getTasks({
-          project,
+          params: {
+            project,
+          },
         });
-
-        return tasks.map((task) => {
-          return {
-            label: task.name,
-            value: task.gid,
-          };
-        });
+        return tasks.map(({
+          name: label, gid: value,
+        }) => ({
+          label,
+          value,
+        }));
       },
     },
     sections: {
@@ -114,6 +115,26 @@ export default {
             value: section.gid,
           };
         });
+      },
+    },
+    taskFields: {
+      label: "Task Fields",
+      description: "List of task fields that will emit events when updated. This field uses the field code.",
+      type: "string[]",
+      async options({ project }) {
+        const tasks = await this.getTasks({
+          params: {
+            project,
+            limit: 1,
+          },
+        });
+
+        if (!tasks || tasks.length === 0) {
+          return [];
+        }
+        const task = await this.getTask(tasks[0].gid);
+
+        return Object.keys(task);
       },
     },
   },
@@ -149,11 +170,12 @@ export default {
      * @returns {string} The request result data.
      */
     async _makeRequest(path, options = {}, $ = this) {
-      return axios($, {
+      const config = {
         url: `${this._apiUrl()}/${path}`,
         headers: this._headers(),
         ...options,
-      });
+      };
+      return axios($, config);
     },
     /**
      * Create a webhook
@@ -257,7 +279,8 @@ export default {
      * @returns {string} An Asana Task.
      */
     async getTask(taskId, $) {
-      return (await this._makeRequest(`tasks/${taskId}`), {}, $).data;
+      const response = await this._makeRequest(`tasks/${taskId}`, {}, $);
+      return response.data;
     },
     /**
      * Get an Asana Task list.
@@ -372,6 +395,24 @@ export default {
           team,
         },
       })).data;
+    },
+    async getUserTaskList(params, $) {
+      const { userId } = params;
+
+      return (await this._makeRequest(`users/${userId}/user_task_list`, {
+        params: {
+          workspace: params.workspace,
+          project: params.project,
+        },
+      }, $)).data;
+    },
+    async getTasksFromUserTaskList(params, $) {
+      const taskList = await this.getUserTaskList({
+        ...params,
+        userId: "me",
+      }, $);
+
+      return (await this._makeRequest(`user_task_lists/${taskList.gid}/tasks`, {}, $)).data;
     },
   },
 };

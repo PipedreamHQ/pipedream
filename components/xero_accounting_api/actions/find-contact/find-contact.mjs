@@ -7,9 +7,8 @@ import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 export default {
   key: "xero_accounting_api-find-contact",
   name: "Find contact.  Optionally, create one if none are found",
-  description:
-    "Finds a contact by name or account number. Optionally, create one if none are found. [See the docs here](https://developer.xero.com/documentation/api/accounting/contacts/#get-contacts)",
-  version: "0.0.1",
+  description: "Finds a contact by name or account number. Optionally, create one if none are found. [See the docs here](https://developer.xero.com/documentation/api/accounting/contacts/#get-contacts)",
+  version: "0.0.2",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -19,13 +18,13 @@ export default {
         "tenantId",
       ],
     },
-    Name: {
+    name: {
       type: "string",
       label: "Contact name",
-      description: "Full name of contact/organisation ",
+      description: "Full name of contact/organization ",
       optional: true,
     },
-    AccountNumber: {
+    accountNumber: {
       type: "string",
       label: "Account number",
       description: "Account number of Contact.",
@@ -45,34 +44,34 @@ export default {
   additionalProps() {
     const props = {};
     if (this.createContactIfNotFound === "Yes") {
-      props.Name = {
+      props.name = {
         type: "string",
         label: "Contact name",
-        description: "Full name of contact/organisation.",
+        description: "Full name of contact/organization.",
       };
-      props.FirstName = {
+      props.firstName = {
         type: "string",
         label: "First name",
         description: "First name of contact person .",
         optional: true,
       };
-      props.LastName = {
+      props.lastName = {
         type: "string",
         label: "Last name",
         description: "Last name of contact person.",
         optional: true,
       };
-      props.EmailAddress = {
+      props.emailAddress = {
         type: "string",
         label: "Email address",
         description: "Email address of contact person.",
         optional: true,
       };
-      props.ContactStatus = {
+      props.contactStatus = {
         type: "string",
         label: "Contact status",
         description:
-          "See https://developer.xero.com/documentation/api/accounting/types#contacts",
+          "See [contact status reference](https://developer.xero.com/documentation/api/accounting/types#contacts)",
         options: [
           "ACTIVE",
           "ARCHIVED",
@@ -88,30 +87,30 @@ export default {
     let contactDetail;
     const {
       tenantId,
-      Name,
-      FirstName,
-      LastName,
-      EmailAddress,
-      AccountNumber,
-      ContactStatus,
+      name,
+      firstName,
+      lastName,
+      emailAddress,
+      accountNumber,
+      contactStatus,
       createContactIfNotFound,
     } = this;
-    if (createContactIfNotFound === "No" && AccountNumber && Name) {
+    if (createContactIfNotFound === "No" && accountNumber && name) {
       throw new ConfigurationError(
-        "Only one of AccountNumber and Name is required to find contact",
+        "Choose exclusively between Account Number or Name to find a contact.",
       );
     }
     const findPayload = removeNullEntries({
-      Name,
-      AccountNumber,
+      Name: name,
+      AccountNumber: accountNumber,
     });
     const createPayload = removeNullEntries({
-      Name,
-      FirstName,
-      LastName,
-      EmailAddress,
-      AccountNumber,
-      ContactStatus,
+      Name: name,
+      FirstName: firstName,
+      LastName: lastName,
+      EmailAddress: emailAddress,
+      AccountNumber: accountNumber,
+      ContactStatus: contactStatus,
     });
     const queryString = formatQueryString(findPayload, true);
     try {

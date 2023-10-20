@@ -1,23 +1,49 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-deal",
   name: "New Deals",
-  description: "Emit new event for each new deal created.",
-  version: "0.0.4",
+  description: "Emit new event for each new deal created. [See the docs here](https://developers.hubspot.com/docs/api/crm/search)",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
+  props: {
+    ...common.props,
+    pipeline: {
+      propDefinition: [
+        common.props.hubspot,
+        "dealPipeline",
+      ],
+      description: "Filter deals by pipeline",
+      optional: true,
+    },
+    stage: {
+      propDefinition: [
+        common.props.hubspot,
+        "stages",
+        (c) => ({
+          pipeline: c.pipeline,
+        }),
+      ],
+      type: "string",
+      label: "Stage",
+      description: "Filter deals by stage",
+      optional: true,
+    },
+  },
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(deal) {
+      return Date.parse(deal.createdAt);
+    },
     generateMeta(deal) {
       const {
         id,
         properties,
-        createdAt,
       } = deal;
-      const ts = Date.parse(createdAt);
+      const ts = this.getTs(deal);
       return {
         id,
         summary: properties.dealname,
@@ -25,10 +51,10 @@ export default {
       };
     },
     isRelevant(deal, createdAfter) {
-      return Date.parse(deal.createdAt) > createdAfter;
+      return this.getTs(deal) > createdAfter;
     },
     getParams() {
-      return {
+      const params = {
         limit: 100,
         sorts: [
           {
@@ -38,6 +64,23 @@ export default {
         ],
         object: "deals",
       };
+      if (this.pipeline) {
+        params.filters = [
+          {
+            propertyName: "pipeline",
+            operator: "EQ",
+            value: this.pipeline,
+          },
+        ];
+        if (this.stage) {
+          params.filters.push({
+            propertyName: "dealstage",
+            operator: "EQ",
+            value: this.stage,
+          });
+        }
+      }
+      return params;
     },
     async processResults(after, params) {
       await this.searchCRM(params, after);

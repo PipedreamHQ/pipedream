@@ -1,4 +1,5 @@
 import shopify from "../shopify_partner.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -9,7 +10,7 @@ export default {
       type: "$.interface.timer",
       label: "timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

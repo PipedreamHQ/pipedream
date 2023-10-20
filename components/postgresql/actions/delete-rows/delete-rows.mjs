@@ -4,14 +4,33 @@ export default {
   name: "Delete Row(s)",
   key: "postgresql-delete-rows",
   description: "Deletes a row or rows from a table. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.3",
+  version: "0.0.10",
   type: "action",
   props: {
     postgresql,
+    rejectUnauthorized: {
+      propDefinition: [
+        postgresql,
+        "rejectUnauthorized",
+      ],
+    },
+    schema: {
+      propDefinition: [
+        postgresql,
+        "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
+      ],
+    },
     table: {
       propDefinition: [
         postgresql,
         "table",
+        (c) => ({
+          schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
     column: {
@@ -20,6 +39,8 @@ export default {
         "column",
         (c) => ({
           table: c.table,
+          schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
       label: "Lookup Column",
@@ -32,26 +53,29 @@ export default {
         (c) => ({
           table: c.table,
           column: c.column,
+          schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
-      ],
-    },
-    rejectUnauthorized: {
-      propDefinition: [
-        postgresql,
-        "rejectUnauthorized",
       ],
     },
   },
   async run({ $ }) {
     const {
       table,
+      schema,
       column,
       value,
       rejectUnauthorized,
     } = this;
 
     try {
-      const rows = await this.postgresql.deleteRows(table, column, value, rejectUnauthorized);
+      const rows = await this.postgresql.deleteRows(
+        schema,
+        table,
+        column,
+        value,
+        rejectUnauthorized,
+      );
       $.export("$summary", `Deleted ${rows.length} rows from ${table}`);
       return rows;
     } catch (error) {

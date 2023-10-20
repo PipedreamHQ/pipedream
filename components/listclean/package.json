@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/listclean",
+  "version": "0.1.0",
+  "description": "Pipedream Listclean Components",
+  "main": "listclean.app.mjs",
+  "keywords": [
+    "pipedream",
+    "listclean"
+  ],
+  "homepage": "https://pipedream.com/apps/listclean",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

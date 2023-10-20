@@ -1,137 +1,76 @@
-import conditions from "../../common/conditions.mjs";
 import filter from "../../filter.app.mjs";
+import valueTypes from "../../common/value-types.mjs";
+import {
+  arrayConditions,
+  binaryConditions,
+  textConditions,
+} from "../../common/conditions.mjs";
 
 export default {
   props: {
     filter,
-    valueType: {
-      propDefinition: [
-        filter,
-        "valueType",
-      ],
-      reloadProps: true,
+    messageOnContinue: {
+      type: "string",
+      label: "Reason for continuing",
+      description: "The message that will be displayed when the workflow **continues**",
+      optional: true,
+    },
+    messageOnEnd: {
+      type: "string",
+      label: "Reason for ending",
+      description: "The message that will be displayed when the workflow **ends**",
+      optional: true,
+    },
+    initialValue: {
+      type: "any",
+      label: "Initial value",
+      description: "The 1st of 2 values to compare",
     },
     condition: {
       propDefinition: [
         filter,
         "condition",
-        (c) => ({
-          valueType: c.valueType,
-        }),
       ],
-      reloadProps: true,
     },
   },
   async additionalProps() {
-    switch (this.valueType) {
-    case conditions.types.TEXT:
-      return this.buildTextProps();
-    case conditions.types.NUMBER:
-      return this.buildNumberProps();
-    case conditions.types.DATETIME:
-      return this.buildDateTimeProps();
-    case conditions.types.BOOLEAN:
-      return this.buildBooleanProps();
-    case conditions.types.NULL:
-      return this.buildNullProps();
-    case conditions.types.ARRAY:
-      return this.buildArrayProps();
-    case conditions.types.OBJECT:
-      return this.buildObjectProps();
+    const props = {};
+    if (binaryConditions.includes(this.condition)) {
+      props.secondValue = {
+        type: "any",
+        label: "Second value",
+        description: "The 2nd of 2 values to compare",
+      };
     }
-  },
-  methods: {
-    buildTextProps() {
-      return {
-        operand1: {
-          ...filter.propDefinitions.operand1,
-          type: "string",
-        },
-        operand2: {
-          ...filter.propDefinitions.operand2,
-          type: "string",
-        },
-        caseSensitive: filter.propDefinitions.caseSensitive,
+    if (arrayConditions.includes(this.condition)) {
+      props.arrayType = {
+        type: "string",
+        label: "Initial value type",
+        description: "Type of the value to search for in the array",
+        options: Object.values(valueTypes),
+        default: valueTypes.TEXT,
+        reloadProps: true,
       };
-    },
-    buildNumberProps() {
-      return {
-        operand1: {
-          ...filter.propDefinitions.operand1,
-          type: "string", // needs to accept float
-        },
-        operand2: {
-          ...filter.propDefinitions.operand2,
-          type: "string", // needs to accept float
-        },
+    }
+    if (textConditions.includes(this.condition) ||
+      (arrayConditions.includes(this.condition) && this.arrayType === valueTypes.TEXT)) {
+      props.caseSensitive = {
+        type: "boolean",
+        label: "Case sensitive",
+        description: "Whether the text evaluation should be case sensitive or not",
+        optional: true,
+        default: false,
       };
-    },
-    buildDateTimeProps() {
-      return {
-        operand1: {
-          ...filter.propDefinitions.operand1,
-          type: "integer",
-        },
-        operand2: {
-          ...filter.propDefinitions.operand2,
-          type: "integer",
-        },
-      };
-    },
-    buildBooleanProps() {
-      return {
-        operand1: {
-          ...filter.propDefinitions.operand1,
-          type: "boolean",
-        },
-      };
-    },
-    buildNullProps() {
-      return {
-        operand1: {
-          ...filter.propDefinitions.operand1,
-          type: "string",
-        },
-      };
-    },
-    buildArrayProps() {
-      const props = {};
-      props.arrayType = filter.propDefinitions.arrayType;
-
-      if (this.arrayType) {
-        props.operand1 = {
-          ...filter.propDefinitions.operand1,
-          type: this.arrayType,
-        };
-        props.operand2 = {
-          ...filter.propDefinitions.operand2,
-          type: `${this.arrayType}[]`,
-        };
-      } else {
-        props.operand1 = filter.propDefinitions.operand1;
-      }
-
-      return props;
-    },
-    buildObjectProps() {
-      return {
-        operand1: {
-          ...filter.propDefinitions.operand1,
-          type: "string",
-        },
-        operand2: {
-          ...filter.propDefinitions.operand2,
-          type: "object",
-        },
-      };
-    },
+    }
+    return props;
   },
   async run({ $ }) {
     const result = this.filter.checkCondition(
       this.condition,
-      this.operand1,
-      this.operand2,
+      this.initialValue,
+      this.secondValue,
       this.caseSensitive,
+      this.arrayType,
     );
     return this.consolidateResult($, result);
   },

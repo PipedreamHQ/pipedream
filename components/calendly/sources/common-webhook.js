@@ -41,13 +41,19 @@ module.exports = {
     },
   },
   async run(event) {
-    const { body, headers } = event;
+    const {
+      body, headers,
+    } = event;
 
     if (headers["x-calendly-hook-id"] != this.db.get("hookId")) {
-      return this.http.respond({ status: 404 });
+      return this.http.respond({
+        status: 404,
+      });
     }
 
-    this.http.respond({ status: 200 });
+    this.http.respond({
+      status: 200,
+    });
 
     const meta = this.generateMeta(body);
     this.$emit(body, meta);

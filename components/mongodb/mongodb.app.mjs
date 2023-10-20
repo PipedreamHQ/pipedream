@@ -1,5 +1,5 @@
 import {
-  MongoClient, ObjectID,
+  MongoClient, ObjectId as ObjectID,
 } from "mongodb";
 
 export default {
@@ -70,7 +70,7 @@ export default {
         if (err.code === "ENOTFOUND") {
           // Last attempt to connect to the server
           const url = this._getConnectionUrl(false);
-          return MongoClient.connect(url);
+          return await MongoClient.connect(url);
         }
         throw err;
       }
@@ -106,7 +106,7 @@ export default {
       const client = await this.getClient();
       const collection = this.getCollection(client, databaseName, collectionName);
       const doc = await collection.updateOne({
-        _id: ObjectID(_id),
+        _id: new ObjectID(_id),
       }, {
         "$set": data,
       });
@@ -117,7 +117,7 @@ export default {
       const client = await this.getClient();
       const collection = this.getCollection(client, databaseName, collectionName);
       const doc = await collection.deleteOne({
-        _id: ObjectID(_id),
+        _id: new ObjectID(_id),
       });
       await client.close();
       return doc;
@@ -126,7 +126,7 @@ export default {
       const client = await this.getClient();
       const collection = this.getCollection(client, databaseName, collectionName);
       const doc = await collection.findOne({
-        _id: ObjectID(_id),
+        _id: new ObjectID(_id),
       });
       await client.close();
       return doc;

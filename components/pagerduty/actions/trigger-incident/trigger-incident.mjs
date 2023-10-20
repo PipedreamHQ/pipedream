@@ -1,6 +1,6 @@
-import pagerduty from "../../pagerduty.app.mjs";
-import utils from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
+import pagerduty from "../../pagerduty.app.mjs";
 
 const {
   reduceProperties,
@@ -13,7 +13,7 @@ export default {
   name: "Trigger Incident",
   description: "Trigger an incident. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE0MA-create-an-incident)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     pagerduty,
     title: {

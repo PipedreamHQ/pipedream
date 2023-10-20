@@ -1,9 +1,10 @@
 import dropbox from "dropbox";
 import fetch from "isomorphic-fetch";
 import get from "lodash/get.js";
-import config from "./config.mjs";
+import config from "./common/config.mjs";
 import isString from "lodash/isString.js";
 import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
 
 const Dropbox = dropbox.Dropbox;
 
@@ -14,13 +15,14 @@ export default {
     pathFolder: {
       type: "string",
       label: "Path",
-      description: "The folder path. (Please use a valid path to filter the values)",
+      description: "The folder path. (Please use a valid path to filter the values and type at least 2 characters after the latest '/' to perform the search.)",
       useQuery: true,
       withLabel: true,
       async options({
         prevContext,
         query,
         returnSimpleString,
+        omitRootFolder,
       }) {
         if (prevContext?.reachedLastPage) {
           return [];
@@ -31,6 +33,7 @@ export default {
           {
             omitFiles: true,
             returnSimpleString,
+            omitRootFolder,
           },
         );
       },
@@ -45,6 +48,7 @@ export default {
         prevContext,
         query,
         returnSimpleString,
+        omitRootFolder,
       }) {
         if (prevContext?.reachedLastPage) {
           return [];
@@ -55,6 +59,7 @@ export default {
           {
             omitFolders: true,
             returnSimpleString,
+            omitRootFolder,
           },
         );
       },
@@ -69,6 +74,7 @@ export default {
         prevContext,
         query,
         returnSimpleString,
+        omitRootFolder,
       }) {
         if (prevContext?.reachedLastPage) {
           return [];
@@ -78,6 +84,7 @@ export default {
           prevContext?.cursor,
           {
             returnSimpleString,
+            omitRootFolder,
           },
         );
       },
@@ -111,6 +118,25 @@ export default {
     },
   },
   methods: {
+    getPath(path) {
+      return Object.prototype.hasOwnProperty.call(path, "value")
+        ? path.value
+        : path;
+    },
+    getNormalizedPath(path, appendFinalBar) {
+      let normalizedPath = this.getPath(path);
+
+      // Check for empties path
+      if (isNil(normalizedPath) || isEmpty(normalizedPath)) {
+        normalizedPath = "/";
+      }
+
+      if (appendFinalBar && normalizedPath[normalizedPath.length - 1] !== "/") {
+        normalizedPath += "/";
+      }
+
+      return normalizedPath;
+    },
     async sdk() {
       const baseClientOpts = {
         accessToken: this.$auth.oauth_access_token,
@@ -171,40 +197,63 @@ export default {
         const {
           omitFolders,
           omitFiles,
+          omitRootFolder,
         } = opts;
-
-        const LIMIT = config.GET_PATH_OPTIONS.DEFAULT_MAX_RESULTS;
 
         let data = [];
         let res = null;
-        let nextCursor = null;
-        let lastPage = false;
         path = path === "/" || path === null
           ? ""
           : path;
-        const dpx = await this.sdk();
 
-        if (prevCursor) {
-          res = await dpx.filesListFolderContinue({
-            cursor: prevCursor,
-          });
-        } else {
-          res = await dpx.filesListFolder({
-            path,
-            limit: LIMIT,
-            recursive: true,
-          });
+        if (path.length > 0 && !path.startsWith("/")) {
+          path = "/" + path;
         }
 
-        data = res.result.entries.map((item) => ({
-          path: item.path_display,
-          type: item[".tag"],
-        }));
+        const dpx = await this.sdk();
+        if (path === "") {
+          res = await dpx.filesListFolder({
+            path,
+            limit: config.GET_PATH_OPTIONS.DEFAULT_MAX_RESULTS,
+            recursive: true,
+          });
 
-        if (res.result.has_more) {
-          nextCursor = res.result.cursor;
+          data = res.result.entries.map((item) => ({
+            path: item.path_display,
+            type: item[".tag"],
+          }));
         } else {
-          lastPage = true;
+          let subpath = "";
+          let query = path;
+          if ((path.match(/\//g) || []).length > 1) {
+            const splitPath = path.split("/");
+            query = splitPath.pop();
+            subpath = splitPath.join("/");
+          }
+          res = await this.searchFilesFolders({
+            query,
+            options: {
+              path: subpath,
+            },
+          });
+
+          data = res.map(({ metadata }) => ({
+            path: metadata.metadata.path_display,
+            type: metadata.metadata[".tag"],
+          }));
+
+          const folders = data.filter((item) => item.type !== "file");
+          for (const folder of folders) {
+            res = await dpx.filesListFolder({
+              path: folder.path,
+              recursive: true,
+            });
+            const folderData = res.result?.entries?.map((item) => ({
+              path: item.path_display,
+              type: item[".tag"],
+            }));
+            data.push(...folderData);
+          }
         }
 
         if (omitFiles) {
@@ -215,7 +264,20 @@ export default {
           data = data.filter((item) => item.type !== "folder");
         }
 
-        data = data.map((item) => (item.path));
+        data = data.map((item) => ({
+          label: item.path,
+          value: item.path,
+        }));
+
+        if (path === "" && !omitFolders && !omitRootFolder) {
+          data = [
+            {
+              label: "Root Folder",
+              value: "",
+            },
+            ...data,
+          ];
+        }
 
         data.sort((a, b) => {
           return a > b ?
@@ -223,13 +285,8 @@ export default {
             -1;
         });
 
-        return {
-          options: data,
-          context: {
-            cursor: nextCursor,
-            reachedLastPage: lastPage,
-          },
-        };
+        return data;
+
       } catch (err) {
         console.log(err);
         return [];
@@ -239,7 +296,6 @@ export default {
       const {
         path,
         recursive,
-        db,
       } = context;
       try {
         let fixedPath = path == "/" ?
@@ -259,11 +315,10 @@ export default {
         }
         const { cursor } = response;
         const state = {
-          path,
+          path: fixedPath,
           recursive,
           cursor,
         };
-        db.set("dropbox_state", state);
         return state;
       } catch (err) {
         console.log(err);
@@ -273,24 +328,24 @@ export default {
         }`;
       }
     },
-    async getState(context) {
+    async getState(context, state) {
       const {
         path,
         recursive,
-        db,
       } = context;
-      let state = db.get("dropbox_state");
-      if (state == null || state.path != path || state.recursive != recursive) {
+      const fixedPath = typeof (path) === "object" ?
+        path.value :
+        path;
+      if (state == null || state.path != fixedPath || state.recursive != recursive) {
         state = await this.initState(context);
       }
       return state;
     },
-    async getUpdates(context) {
+    async getUpdates(context, dbState) {
       let ret = [];
-      const state = await this.getState(context);
+      const state = await this.getState(context, dbState);
       if (state) {
         try {
-          const { db } = context;
           let [
             cursor,
             hasMore,
@@ -317,13 +372,15 @@ export default {
             ret = ret.concat(entries);
           }
           state.cursor = cursor;
-          db.set("dropbox_state", state);
         } catch (err) {
           console.log(err);
           throw `Error connecting to Dropbox API to get list of updated files/folders for cursor: ${state.cursor}`;
         }
       }
-      return ret;
+      return {
+        ret,
+        state,
+      };
     },
     async createFolder(args) {
       try {

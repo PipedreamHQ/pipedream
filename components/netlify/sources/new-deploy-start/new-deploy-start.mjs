@@ -7,7 +7,7 @@ export default {
   name: "New Deploy Start (Instant)",
   description: "Emit new event when a new deployment is started",
   type: "source",
-  version: "0.0.3",
+  version: "0.1.0",
   dedupe: "unique",
   methods: {
     ...webhook.methods,

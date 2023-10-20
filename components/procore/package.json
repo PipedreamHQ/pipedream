@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/procore",
+  "version": "0.0.4",
+  "description": "Pipedream Procore (OAuth) Components",
+  "main": "procore.app.js",
+  "keywords": [
+    "pipedream",
+    "procore"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/procore",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}

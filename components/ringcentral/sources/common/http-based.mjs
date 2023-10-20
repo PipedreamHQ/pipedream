@@ -1,6 +1,6 @@
 import template from "lodash.template";
 import { v4 as uuid } from "uuid";
-import base  from "./base.mjs";
+import base from "./base.mjs";
 import notificationTypes from "./notification-types.mjs";
 
 export default {
@@ -18,17 +18,21 @@ export default {
   hooks: {
     ...base.hooks,
     async activate() {
+      // 10 years in seconds (max the API supports - https://developers.ringcentral.com/api-reference/Subscriptions/createSubscription)
+      // years * days * hours * minutes * seconds
+      const expiresIn = 10 * 365 * 24 * 60 * 60;
+
       const verificationToken = this._getVerificationToken();
       this.db.set("verificationToken", verificationToken);
 
       const { id: webhookId } = await this.ringcentral.createHook({
         data: {
+          expiresIn,
           eventFilters: this._getEventFilters(),
           deliveryMode: {
             transportType: "WebHook",
             address: this.http.endpoint,
             verificationToken,
-            expiresIn: 630720000, // 20 years (max. allowed by the API)
           },
         },
       });
@@ -136,6 +140,7 @@ export default {
     },
     processEvent(event) {
       const { body } = event;
+
       if (!body) {
         console.log("Empty event payload. Skipping...");
         return;
@@ -144,6 +149,10 @@ export default {
       if (!this.isEventRelevant(event)) {
         console.log("Event is irrelevant. Skipping...");
         return;
+      }
+
+      if (this.emitEvent) {
+        return this.emitEvent(event);
       }
 
       const meta = this.generateMeta(body);

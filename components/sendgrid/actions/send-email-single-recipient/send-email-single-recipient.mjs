@@ -1,12 +1,12 @@
 import validate from "validate.js";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-send-email-single-recipient",
   name: "Send Email Single Recipient",
   description: "This action sends a personalized e-mail to the specified recipient. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.3",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
@@ -132,6 +132,18 @@ export default {
         "asm",
       ],
     },
+    asmGroupId: {
+      propDefinition: [
+        common.props.sendgrid,
+        "asmGroupId",
+      ],
+    },
+    asmGroupsToDisplay: {
+      propDefinition: [
+        common.props.sendgrid,
+        "asmGroupsToDisplay",
+      ],
+    },
     ipPoolName: {
       propDefinition: [
         common.props.sendgrid,
@@ -154,6 +166,7 @@ export default {
   async run({ $ }) {
     //Performs validation on parameters.
     validate.validators.arrayValidator = this.validateArray; //custom validator for object arrays
+    validate.validators.asmValidator = this.validateAsm; //custom validator for asm object
     //Defines constraints for required parameters
     const constraints = {
       toEmail: {
@@ -177,6 +190,15 @@ export default {
         arrayValidator: {
           value: this.bcc,
           key: "recipient",
+        },
+      };
+    }
+    if (this.asm || this.asmGroupsToDisplay) {
+      constraints.asm = {
+        asmValidator: {
+          asm: this.asm,
+          asmGroupId: this.asmGroupId,
+          asmGroupsToDisplay: this.asmGroupsToDisplay,
         },
       };
     }
@@ -233,10 +255,18 @@ export default {
       personalizations[0].to[0].name = this.toName;
     }
     if (this.cc) {
-      personalizations[0].cc = this.getArrayObject(this.cc);
+      const ccArray = this.getArrayObject(this.cc);
+
+      if (ccArray?.length) {
+        personalizations[0].cc = ccArray;
+      }
     }
     if (this.bcc) {
-      personalizations[0].bcc = this.getArrayObject(this.bcc);
+      const bccArray = this.getArrayObject(this.bcc);
+
+      if (bccArray?.length) {
+        personalizations[0].bcc = bccArray;
+      }
     }
     if (this.personalizationHeaders) {
       personalizations[0].headers = this.convertEmptyStringToUndefined(this.personalizationHeaders);
@@ -266,6 +296,7 @@ export default {
         replyTo.name = this.replyToName;
       }
     }
+
     //Prepares and sends the request configuration
     const config = this.omitEmptyStringValues({
       personalizations,
@@ -283,7 +314,7 @@ export default {
       categories: this.categories,
       custom_args: this.customArgs,
       send_at: this.sendAt,
-      asm: this.asm,
+      asm: this.getAsmConfig(),
       ip_pool_name: this.ipPoolName,
       mail_settings: this.mailSettings,
       tracking_settings: this.trackingSettings,

@@ -1,6 +1,7 @@
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
 import constants from "./constants.mjs";
 import { v4 as uuid } from "uuid";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   props: {
@@ -15,13 +16,21 @@ export default {
   },
   hooks: {
     async deploy() {
+      /*
+       *  Telegram only supports a single webhook at a time for a given Bot. If a webhook
+       *  for this Bot already exists, display configuration error.
+       */
+      const { result } = await this.telegramBotApi.getWebhookInfo();
+      if (result.url?.length > 0) {
+        throw new ConfigurationError("[Telegram only supports](https://core.telegram.org/bots/api#setwebhook) a single webhook at a time, for a given Bot. To get around this, you can reuse an existing Telegram Bot source or disable the active source and try again. [View all your sources here](https://pipedream.com/sources).");
+      }
       /**
        * From the docs: https://core.telegram.org/bots/api#getting-updates
        *
        * Incoming updates are stored on the server until the bot receives them either way,
        * but they will not be kept longer than 24 hours.
        *
-       * So there's a big change that no historical event is emitted.
+       * So there's a big chance that no historical event is emitted.
        */
       console.log("Fetching most recent events...");
       const events = await this.telegramBotApi.getUpdates({

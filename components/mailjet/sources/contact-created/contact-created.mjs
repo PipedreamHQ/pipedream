@@ -6,7 +6,7 @@ export default {
   name: "Contact Created",
   description: "Emit new event when a contact is created. [See the docs here](https://dev.mailjet.com/email/reference/contacts/contact-list/#v3_get_contactslist)",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   methods: {
     ...common.methods,

@@ -1,12 +1,12 @@
-// Read the Twilio docs at https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource
-import twilio from "../../twilio.app.mjs";
 import { phone } from "phone";
+import twilio from "../../twilio.app.mjs";
+import { callToString } from "../../common/utils.mjs";
 
 export default {
   key: "twilio-make-phone-call",
   name: "Make a Phone Call",
   description: "Make a phone call, passing text that Twilio will speak to the recipient of the call. [See the docs](https://www.twilio.com/docs/voice/api/call-resource#create-a-call-resource) for more information",
-  version: "0.0.7",
+  version: "0.1.3",
   type: "action",
   props: {
     twilio,
@@ -36,17 +36,22 @@ export default {
     const toParsed = phone(this.to);
     console.log(toParsed);
     if (!toParsed || !toParsed.phoneNumber) {
-      throw new Error(`Phone number ${this.to} couldn't be parsed as a valid number.`);
+      throw new Error(`Phone number ${this.to} could not be parsed as a valid number.`);
+    }
+
+    const fromParsed = phone(this.from);
+    if (!fromParsed || !fromParsed.phoneNumber) {
+      throw new Error(`Phone number ${this.from} could not be parsed as a valid number.`);
     }
 
     const data = {
       to: toParsed.phoneNumber,
-      from: this.from,
+      from: fromParsed.phoneNumber,
       twiml: `<Response><Say>${this.text}</Say></Response>`,
     };
 
     const resp = await this.twilio.getClient().calls.create(data);
-    $.export("$summary", `Successfully made a new phone call, "${this.twilio.callToString(resp)}"`);
+    $.export("$summary", `Successfully made a new phone call, "${callToString(resp)}"`);
     return resp;
   },
 };

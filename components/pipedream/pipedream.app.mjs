@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -63,7 +63,9 @@ export default {
     },
   },
   methods: {
-    async _makeAPIRequest(opts) {
+    async _makeAPIRequest({
+      $ = this, ...opts
+    }) {
       if (!opts.headers) opts.headers = {};
       opts.headers["Authorization"] = `Bearer ${this.$auth.api_key}`;
       opts.headers["Content-Type"] = "application/json";
@@ -74,7 +76,7 @@ export default {
         ? ""
         : "/"
       }${path}`;
-      return (await axios(opts)).data;
+      return axios($, opts);
     },
     async getComponent(key, globalRegistry) {
       let path = "/components/";

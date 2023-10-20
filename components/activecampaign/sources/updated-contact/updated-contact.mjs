@@ -2,10 +2,10 @@ import common from "../common/webhook.mjs";
 
 export default {
   ...common,
-  name: "Updated Contact (Instant)",
+  name: "New Updated Contact (Instant)",
   key: "activecampaign-updated-contact",
   description: "Emit new event each time a contact is updated.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

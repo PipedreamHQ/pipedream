@@ -4,7 +4,7 @@ export default {
   key: "telegram_bot_api-forward-message",
   name: "Forward a Message",
   description: "Forwards messages of any kind. [See the docs](https://core.telegram.org/bots/api#forwardmessage) for more information",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     telegramBotApi,

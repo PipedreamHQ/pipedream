@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/telesign",
+  "version": "0.0.2",
+  "description": "Pipedream TeleSign Components",
+  "main": "dist/app/telesign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "telesign"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/telesign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

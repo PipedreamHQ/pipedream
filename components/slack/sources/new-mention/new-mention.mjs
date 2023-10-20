@@ -1,11 +1,12 @@
 import common from "../common/base.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "slack-new-mention",
   name: "New Mention (Instant)",
-  version: "1.0.0",
-  description: "Emit new event when a username or specific word is mentioned in a channel",
+  version: "1.0.15",
+  description: "Emit new event when a username or specific keyword is mentioned in a channel",
   type: "source",
   dedupe: "unique",
   props: {
@@ -30,10 +31,10 @@ export default {
         ];
       },
     },
-    word: {
+    keyword: {
       propDefinition: [
         common.props.slack,
-        "word",
+        "keyword",
       ],
     },
     isUsername: {
@@ -49,44 +50,99 @@ export default {
       ],
     },
   },
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      // emit historical events
+      const messages = await this.getMatches({
+        query: this.keyword,
+        sort: "timestamp",
+      });
+      const filteredMessages = this.conversations?.length > 0
+        ? messages.filter((message) => this.conversations.includes(message.channel.id))
+        : messages;
+      await this.emitHistoricalEvents(filteredMessages.slice(-25).reverse());
+    },
+  },
   methods: {
     ...common.methods,
+    async getMatches(params) {
+      return (await this.slack.searchMessages(params)).messages.matches || [];
+    },
+    async emitHistoricalEvents(messages) {
+      for (const message of messages) {
+        const event = await this.processEvent({
+          ...message,
+          subtype: message.subtype || constants.SUBTYPE.PD_HISTORY_MESSAGE,
+        });
+        if (event) {
+          if (!event.client_msg_id) {
+            event.pipedream_msg_id = `pd_${Date.now()}_${Math.random().toString(36)
+              .substr(2, 10)}`;
+          }
+
+          this.$emit(event, {
+            id: event.client_msg_id || event.pipedream_msg_id,
+            summary: this.getSummary(event),
+            ts: event.event_ts || Date.now(),
+          });
+        }
+      }
+    },
     getSummary() {
       return "New mention received";
     },
     async processEvent(event) {
-      if (event.type !== "message") {
-        console.log(`Ignoring event with unexpected type "${event.type}"`);
+      const {
+        type: msgType,
+        subtype,
+        bot_id: botId,
+        text,
+        blocks = [],
+      } = event;
+      const [
+        {
+          elements: [
+            { elements = [] } = {},
+          ] = [],
+        } = {},
+      ] = blocks;
+
+      if (msgType !== "message") {
+        console.log(`Ignoring event with unexpected type "${msgType}"`);
         return;
       }
-      if (event.subtype != null && event.subtype != "bot_message" && event.subtype != "file_share") {
+
       // This source is designed to just emit an event for each new message received.
       // Due to inconsistencies with the shape of message_changed and message_deleted
       // events, we are ignoring them for now. If you want to handle these types of
       // events, feel free to change this code!!
-        console.log("Ignoring message with subtype.");
+      if (subtype && !constants.ALLOWED_SUBTYPES.includes(subtype)) {
+        console.log(`Ignoring message with subtype. "${subtype}"`);
         return;
       }
-      if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
-        return;
-      }
-      let emitEvent = false;
-      const elements = event.blocks[0]?.elements[0]?.elements;
 
+      if ((this.ignoreBot) && (subtype === constants.SUBTYPE.BOT_MESSAGE || botId)) {
+        return;
+      }
+
+      let emitEvent = false;
       if (this.isUsername && elements) {
         for (const item of elements) {
           if (item.user_id) {
             const username = await this.getUserName(item.user_id);
-            if (username === this.word) {
+            if (username === this.keyword) {
               emitEvent = true;
               break;
             }
           }
         }
-
-      } else if (event.text.indexOf(this.word) !== -1) {
+      } else if (text.indexOf(this.keyword) !== -1) {
+        emitEvent = true;
+      } else if (subtype === constants.SUBTYPE.PD_HISTORY_MESSAGE) {
         emitEvent = true;
       }
+
       if (emitEvent) {
         return event;
       }

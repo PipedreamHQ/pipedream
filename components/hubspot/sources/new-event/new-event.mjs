@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emit new event for each new Hubspot event.",
-  version: "0.0.4",
+  version: "0.0.15",
   dedupe: "unique",
   type: "source",
   props: {
@@ -29,6 +29,9 @@ export default {
   hooks: {},
   methods: {
     ...common.methods,
+    getTs() {
+      return Date.now();
+    },
     generateMeta(result) {
       const {
         id,
@@ -37,7 +40,7 @@ export default {
       return {
         id,
         summary: eventType,
-        ts: Date.now(),
+        ts: this.getTs(),
       };
     },
     getParams() {

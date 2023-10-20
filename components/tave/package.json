@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/tave",
+  "version": "0.0.1",
+  "description": "Pipedream Tave Components",
+  "main": "tave.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tave"
+  ],
+  "homepage": "https://pipedream.com/apps/tave",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

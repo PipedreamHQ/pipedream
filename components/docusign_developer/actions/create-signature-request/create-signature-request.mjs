@@ -4,7 +4,7 @@ import common from "../../../docusign/actions/create-signature-request/common.mj
 export default {
   ...common,
   key: "docusign_developer-create-signature-request",
-  version: "0.0.1",
+  version: "0.1.0",
   name: "Create Signature Request",
   description: "Creates a signature request from a template [See the docs here](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create)",
   type: "action",
@@ -25,6 +25,7 @@ export default {
           account: c.account,
         }),
       ],
+      reloadProps: true,
     },
     emailSubject: {
       propDefinition: [

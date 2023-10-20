@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/engage",
+  "version": "0.0.2",
+  "description": "Pipedream Engage Components",
+  "main": "dist/app/engage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "engage"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/engage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/helpwise",
+  "version": "0.0.3",
+  "description": "Pipedream Helpwise Components",
+  "main": "dist/app/helpwise.app.mjs",
+  "keywords": [
+    "pipedream",
+    "helpwise"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/helpwise",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

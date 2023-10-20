@@ -36,5 +36,11 @@ export default {
         params,
       });
     },
+    getReadingList(ctx = this, { params }) {
+      return this._makeRequest(ctx, {
+        path: "/readinglist",
+        params,
+      });
+    },
   },
 };

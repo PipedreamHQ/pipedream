@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/timekit",
+  "version": "0.0.2",
+  "description": "Pipedream Timekit Components",
+  "main": "timekit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "timekit"
+  ],
+  "homepage": "https://pipedream.com/apps/timekit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

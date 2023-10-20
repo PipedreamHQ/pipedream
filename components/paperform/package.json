@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/paperform",
+  "version": "0.0.3",
+  "description": "Pipedream PaperForm Components",
+  "main": "dist/app/paperform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "paperform"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/paperform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

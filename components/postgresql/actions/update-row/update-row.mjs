@@ -4,14 +4,33 @@ export default {
   name: "Update Row",
   key: "postgresql-update-row",
   description: "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.3",
+  version: "0.0.10",
   type: "action",
   props: {
     postgresql,
+    rejectUnauthorized: {
+      propDefinition: [
+        postgresql,
+        "rejectUnauthorized",
+      ],
+    },
+    schema: {
+      propDefinition: [
+        postgresql,
+        "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
+      ],
+    },
     table: {
       propDefinition: [
         postgresql,
         "table",
+        (c) => ({
+          schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
     column: {
@@ -20,6 +39,8 @@ export default {
         "column",
         (c) => ({
           table: c.table,
+          schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
       label: "Lookup Column",
@@ -32,6 +53,8 @@ export default {
         (c) => ({
           table: c.table,
           column: c.column,
+          schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -41,15 +64,10 @@ export default {
         "rowValues",
       ],
     },
-    rejectUnauthorized: {
-      propDefinition: [
-        postgresql,
-        "rejectUnauthorized",
-      ],
-    },
   },
   async run({ $ }) {
     const {
+      schema,
       table,
       column,
       value,
@@ -58,6 +76,7 @@ export default {
     } = this;
     try {
       const res = await this.postgresql.updateRow(
+        schema,
         table,
         column,
         value,

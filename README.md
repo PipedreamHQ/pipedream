@@ -4,12 +4,12 @@
   <a href="https://pipedream.com/community"><img src="https://img.shields.io/badge/discourse-forum-brightgreen.svg?style=flat-square&link=https%3A%2F%2Fpipedream.com%2Fcommunity)](https://pipedream.com/community"></a>
   <a href="https://pipedream.com/support"><img src="https://img.shields.io/badge/-Join%20us%20on%20Slack-green?logo=slack&logoColor=34d28B&labelColor=150d11&color=34d28B&logoWidth=18&link=https%3A%2F%2Fpipedream.com%2Fsupport&link=https%3A%2F%2Fpipedream.com%2Fsupport)](https://pipedream.com/support"></a>
   <a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F%3FbuttonType%3DFollowButton%26query%3Dhttps%253A%252F%252Ftwitter.com%252Fpipedream%26widget%3DButton&ref_src=twsrc%5Etfw&region=follow_link&screen_name=pipedream&tw_p=followbutton"><img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social"></a>
-  <a href="https://angel.co/company/pipedreamhq/jobs/"><img src="https://img.shields.io/badge/%F0%9F%91%8B%F0%9F%8F%BC%20We're%20hiring!-Join%20us-brightgreen"></a>
+  <a href="https://wellfound.com/company/pipedreamhq/jobs"><img src="https://img.shields.io/badge/%F0%9F%91%8B%F0%9F%8F%BC%20We're%20hiring!-Join%20us-brightgreen"></a>
 </p>
 
 Pipedream is an integration platform for developers.
 
-Pipedream provides a free, hosted platform for connecting apps and developing event-driven automations. The platform has over 800 fully-integrated applications, so you can use pre-built components to quickly connect to send messages to Slack, add a new row to Google Sheets, and more. You can also run any Node.js, Python, Golang, or Bash code when you need custom logic.
+Pipedream provides a free, hosted platform for connecting apps and developing event-driven automations. The platform has over 1,000 fully-integrated applications, so you can use pre-built components to quickly send messages to Slack, add a new row to Google Sheets, and more. You can also run any Node.js, Python, Golang, or Bash code when you need custom logic. Pipedream has demonstrated SOC 2 compliance and can provide a SOC 2 Type 2 report upon request (please email support@pipedream.com).
 
 <p align="center">
   <br />
@@ -22,7 +22,7 @@ This repo contains:
 - [The code for all pre-built integration components](https://github.com/PipedreamHQ/pipedream/tree/master/components)
 - [The product roadmap](https://github.com/PipedreamHQ/pipedream/issues)
 - [The Pipedream docs](https://github.com/PipedreamHQ/pipedream/tree/master/docs)
-- And other open-source code related to Pipedream. 
+- And other source code related to Pipedream.
 
 This `README` explains the key features of the platform and how to get started.
 
@@ -30,11 +30,11 @@ To get support, please visit [https://pipedream.com/support](https://pipedream.c
 
 ## Key Features
 
-- [Workflows](#workflows) - Workflows run automations. Workflows are sequence of steps - pre-built actions or custom [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code - triggered by an event (HTTP request, timer, when a new row is added to a Google Sheets, and more).
+- [Workflows](#workflows) - Workflows run automations. Workflows are sequences of steps - pre-built actions or custom [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code - triggered by an event (HTTP request, timer, when a new row is added to a Google Sheets, and more).
 - [Event Sources](#event-sources) - Sources trigger workflows. They emit events from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When you want to run a workflow when an event happens in any third-party app, you're using an event source.
-- [Actions](#actions) - Actions are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 800+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
+- [Actions](#actions) - Actions are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 1,000+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
 - [Custom code](#code) - Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run any [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code. You can import any package from the languages' package managers, connect to any Pipedream connected app, and more. Pipedream is "low-code" in the best way: you can use pre-built components when you're performing common actions, but you can write custom code when you need to.
-- [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email
+- [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email.
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
 
 ## Demo
@@ -50,7 +50,7 @@ Click the image below to watch a brief demo on YouTube.
 
 ### Workflows
 
-Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 800+ integrated apps.
+Workflows are sequences of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 1,000+ integrated apps.
 
 [See our workflow quickstart](https://pipedream.com/docs/quickstart/) to get started.
 
@@ -98,12 +98,12 @@ export default {
     name: {
       type: "string",
       label: "Name",
-    }
+    },
   },
   async run() {
-    return `hello ${this.name}!`
+    return `hello ${this.name}!`;
   },
-}
+};
 ```
 
 You can find the code for all pre-built actions in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process).
@@ -143,7 +143,7 @@ You can import any package from the languages' package managers by declaring the
 
 ```javascript
 // Node.js
-import axios from 'axios'
+import axios from "axios";
 ```
 
 ```python
@@ -162,24 +162,24 @@ import (
 You can also [connect to any Pipedream connected app in custom code steps](https://pipedream.com/docs/code/nodejs/auth/). For example, you can connect your Slack account and send a message to a channel:
 
 ```javascript
-import { WebClient } from '@slack/web-api'
+import { WebClient } from "@slack/web-api";
 
 export default defineComponent({
   props: {
     // This creates a connection called "slack" that connects a Slack account.
     slack: {
-      type: 'app',
-      app: 'slack'
-    }
+      type: "app",
+      app: "slack",
+    },
   },
   async run({ steps, $ }) {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
+    const web = new WebClient(this.slack.$auth.oauth_access_token);
 
     return await web.chat.postMessage({
       text: "Hello, world!",
       channel: "#general",
-    })
-  }
+    });
+  },
 });
 ```
 

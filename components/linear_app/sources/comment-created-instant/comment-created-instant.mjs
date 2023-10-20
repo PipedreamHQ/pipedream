@@ -7,7 +7,7 @@ export default {
   name: "New Created Comment (Instant)",
   description: "Emit new event when a new comment is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.0.3",
+  version: "0.1.3",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -19,27 +19,45 @@ export default {
     getWebhookLabel() {
       return "Comment created";
     },
-    getActions() {
-      return [
-        constants.ACTION.CREATE,
-      ];
-    },
     getResourcesFn() {
       return this.linearApp.listComments;
     },
-    async getLoadedProjectId(event) {
-      return event?._project?.id
-        || (await this.linearApp.getIssue(event?._issue?.id))?._project?.id;
+    useGraphQl() {
+      return false;
+    },
+    async isFromProject(body) {
+      const comment = await this.linearApp.getComment(body.data.id);
+      return !this.projectId || comment?.issue?.project?.id == this.projectId;
+    },
+    getResourcesFnArgs() {
+      return {
+        sortBy: "createdAt",
+        filter: {
+          issue: {
+            team: {
+              id: {
+                in: this.teamIds,
+              },
+            },
+            project: {
+              id: {
+                eq: this.projectId,
+              },
+            },
+          },
+        },
+      };
     },
     getMetadata(resource) {
       const {
         delivery,
+        body,
         data,
         createdAt,
       } = resource;
       return {
-        id: delivery,
-        summary: `New comment event created: ${data.body}`,
+        id: delivery || resource.id,
+        summary: `New comment event created: ${data?.body || body}`,
         ts: Date.parse(createdAt),
       };
     },

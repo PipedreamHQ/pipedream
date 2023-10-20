@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-create-draft-email",
-  version: "0.0.1",
+  version: "0.0.7",
   name: "Create Draft Email",
   description: "Create a draft email, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-post-messages)",
   props: {
@@ -14,10 +14,28 @@ export default {
         "recipients",
       ],
     },
+    ccRecipients: {
+      propDefinition: [
+        microsoftOutlook,
+        "ccRecipients",
+      ],
+    },
+    bccRecipients: {
+      propDefinition: [
+        microsoftOutlook,
+        "bccRecipients",
+      ],
+    },
     subject: {
       propDefinition: [
         microsoftOutlook,
         "subject",
+      ],
+    },
+    contentType: {
+      propDefinition: [
+        microsoftOutlook,
+        "contentType",
       ],
     },
     content: {

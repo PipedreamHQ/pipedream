@@ -1,7 +1,7 @@
-import mondaySdk from "monday-sdk-js";
-import uniqBy from "lodash.uniqby";
-import map from "lodash.map";
 import flatMap from "lodash.flatmap";
+import map from "lodash.map";
+import uniqBy from "lodash.uniqby";
+import mondaySdk from "monday-sdk-js";
 import constants from "./common/constants.mjs";
 import mutations from "./common/mutations.mjs";
 import queries from "./common/queries.mjs";
@@ -115,6 +115,22 @@ export default {
         });
       },
     },
+    column: {
+      type: "string",
+      label: "Column",
+      description: "Column to watch for changes",
+      async options({ boardId }) {
+        const columns = await this.listColumns({
+          boardId: +boardId,
+        });
+        return columns
+          .filter((column) => column.id !== "name")
+          .map((column) => ({
+            label: column.title,
+            value: column.id,
+          }));
+      },
+    },
   },
   methods: {
     async makeRequest({
@@ -123,6 +139,49 @@ export default {
       const monday = mondaySdk();
       monday.setToken(this.$auth.api_key);
       return monday.api(query, options);
+    },
+    async createWebhook(variables) {
+      return this.makeRequest({
+        query: mutations.createWebhook,
+        options: {
+          variables,
+        },
+      });
+    },
+    async deleteWebhook(variables) {
+      return this.makeRequest({
+        query: mutations.deleteWebhook,
+        options: {
+          variables,
+        },
+      });
+    },
+    async getItem(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getItem,
+        options: {
+          variables,
+        },
+      });
+      return data?.items[0];
+    },
+    async getBoard(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getBoard,
+        options: {
+          variables,
+        },
+      });
+      return data?.boards[0];
+    },
+    async getUser(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getUser,
+        options: {
+          variables,
+        },
+      });
+      return data?.users[0];
     },
     async createBoard(variables) {
       return this.makeRequest({
@@ -143,6 +202,14 @@ export default {
     async createItem(variables) {
       return this.makeRequest({
         query: mutations.createItem,
+        options: {
+          variables,
+        },
+      });
+    },
+    async createColumn(variables) {
+      return this.makeRequest({
+        query: mutations.createColumn,
         options: {
           variables,
         },
@@ -201,6 +268,48 @@ export default {
         },
       });
     },
+    async listColumns(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.listColumns,
+        options: {
+          variables,
+        },
+      });
+      return data?.boards[0]?.columns;
+    },
+    async listUsers(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.listUsers,
+        options: {
+          variables,
+        },
+      });
+      return data?.users;
+    },
+    async getColumnValues(variables) {
+      return this.makeRequest({
+        query: queries.getColumnValues,
+        options: {
+          variables,
+        },
+      });
+    },
+    async getItemsByColumnValue(variables) {
+      return this.makeRequest({
+        query: queries.getItemsByColumnValue,
+        options: {
+          variables,
+        },
+      });
+    },
+    async updateColumnValues(variables) {
+      return this.makeRequest({
+        query: mutations.updateColumnValues,
+        options: {
+          variables,
+        },
+      });
+    },
     async listBoardsOptions(variables) {
       const {
         data,
@@ -218,6 +327,7 @@ export default {
 
       const { boards } = data;
       return boards
+        .filter(({ type }) => type !== constants.BOARD_TYPE.SUB_ITEMS_BOARD)
         .map(({
           id, name,
         }) => ({

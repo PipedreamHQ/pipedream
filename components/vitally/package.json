@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/vitally",
+  "version": "0.1.0",
+  "description": "Pipedream Vitally Components",
+  "main": "vitally.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vitally"
+  ],
+  "homepage": "https://pipedream.com/apps/vitally",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "moment": "^2.29.4"
+  }
+}

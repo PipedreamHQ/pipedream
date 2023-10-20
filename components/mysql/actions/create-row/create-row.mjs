@@ -6,7 +6,7 @@ export default {
   name: "Create Row",
   description: "Adds a new row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.5",
   props: {
     mysql,
     table: {
@@ -18,12 +18,10 @@ export default {
       reloadProps: true,
     },
   },
-  async additionalProps() {
-    return await this.getColumnProps(this.table);
+  additionalProps() {
+    return this.getColumnProps(this.table);
   },
-  methods: {
-    ...utils,
-  },
+  methods: utils,
   async run({ $ }) {
     const { table } = this;
 

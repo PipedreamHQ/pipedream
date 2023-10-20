@@ -1,46 +1,45 @@
-// legacy_hash_id: a_l0i8LA
-import { axios } from "@pipedream/platform";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-find-deal",
   name: "Find Deal",
-  description: "Finds an existing deal by title or email.",
-  version: "0.1.2",
+  description: "Finds an existing deal by search field. See the docs [here](https://developers.activecampaign.com/reference/list-all-deals)",
+  version: "0.2.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
-    filters_title: {
+    activecampaign,
+    search: {
       type: "string",
-      description: "Filter by deal's title.",
-      optional: true,
+      label: "Search",
+      description: "Search text to use with **Search Field** parameter.",
     },
-    filters_email: {
+    field: {
       type: "string",
-      description: "Filter by deal's contact email.",
-      optional: true,
+      label: "Search Field",
+      description: "Field to search for. See [available values](https://developers.activecampaign.com/reference/deal#deals-parameters-available-values).",
+      options: [
+        "all",
+        "title",
+        "contact",
+        "org",
+      ],
     },
   },
   async run({ $ }) {
-  // See the API docs: https://developers.activecampaign.com/reference#list-all-deals
+    const {
+      search,
+      field,
+    } = this;
 
-    if (!this.filters_title && !this.filters_email) {
-      throw new Error("Must provide filters_title or filters_email parameter.");
-    }
-
-    const config = {
-      url: `${this.activecampaign.$auth.base_url}/api/3/deals`,
-      headers: {
-        "Api-Token": `${this.activecampaign.$auth.api_key}`,
-      },
+    const response = await this.activecampaign.listDeals({
       params: {
-        "filters[title]": this.filters_title,
-        "filters[email]": this.filters_email,
+        "filters[search]": search,
+        "filters[search_field]": field,
       },
-    };
+    });
 
-    return await axios($, config);
+    $.export("$summary", `Successfully found ${response.deals.length} deal(s)`);
+
+    return response;
   },
 };

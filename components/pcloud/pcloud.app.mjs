@@ -84,6 +84,8 @@ export default {
       const retryOpts = {
         retries: 3,
         factor: 2,
+        minTimeout: 500,
+        maxTimeout: 1500,
       };
       return retry(async (bail) => {
         try {
@@ -160,6 +162,50 @@ export default {
       });
     },
     /**
+     * Takes one file and moves it to another location in the user's filesystem.
+     * pCloud API domain URL depends on the location of pCLoud data center associated to the
+     * account.
+     * @params {integer} fileId - ID of the file to move.
+     * @params {integer} toFolderId - ID of the destination folder.
+     * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly copied file. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
+     */
+    async moveFile(
+      fileId,
+      toFolderId,
+    ) {
+      const params = {
+        fileid: fileId,
+        tofolderid: toFolderId,
+      };
+      return (
+        await this.api()
+      ).api("renamefile", {
+        params,
+      });
+    },
+    /**
+     * Takes one file and renames it.
+     * pCloud API domain URL depends on the location of pCLoud data center associated to the
+     * account.
+     * @params {integer} fileId - ID of the file to rename.
+     * @params {string} toName - New name for the file.
+     * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly copied file. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
+     */
+    async renameFile(
+      fileId,
+      toName,
+    ) {
+      const params = {
+        fileid: fileId,
+        toname: toName,
+      };
+      return (
+        await this.api()
+      ).api("renamefile", {
+        params,
+      });
+    },
+    /**
      * Copies a folder to the specified folder.
      *  @params {integer} folderId - ID of the folder to copy.
      * @params {integer} toFolderId - ID of the destination folder.
@@ -193,6 +239,50 @@ export default {
      */
     async createFolder(name, folderId) {
       return (await this.api()).createfolder(name, folderId);
+    },
+    /**
+     * Takes one folder and moves it to another location in the user's filesystem.
+     * pCloud API domain URL depends on the location of pCLoud data center associated to the
+     * account.
+     * @params {integer} folderId - ID of the folder to move.
+     * @params {integer} toFolderId - ID of the destination folder.
+     * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly copied file. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
+     */
+    async moveFolder(
+      folderId,
+      toFolderId,
+    ) {
+      const params = {
+        folderid: folderId,
+        tofolderid: toFolderId,
+      };
+      return (
+        await this.api()
+      ).api("renamefolder", {
+        params,
+      });
+    },
+    /**
+     * Takes one folder and renames it.
+     * pCloud API domain URL depends on the location of pCLoud data center associated to the
+     * account.
+     * @params {integer} folderId - ID of the folder to rename.
+     * @params {string} toName - New name for the folder.
+     * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly copied file. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
+     */
+    async renameFolder(
+      folderId,
+      toName,
+    ) {
+      const params = {
+        folderid: folderId,
+        toname: toName,
+      };
+      return (
+        await this.api()
+      ).api("renamefolder", {
+        params,
+      });
     },
     /**
      * Downloads one or more files from links supplied in the url parameter.

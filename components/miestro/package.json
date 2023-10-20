@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/miestro",
+  "version": "0.0.1",
+  "description": "Pipedream Miestro Components",
+  "main": "miestro.app.js",
+  "keywords": [
+    "pipedream",
+    "miestro"
+  ],
+  "homepage": "https://pipedream.com/apps/miestro",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

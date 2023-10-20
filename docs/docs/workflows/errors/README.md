@@ -43,7 +43,7 @@ Watch this video to learn more, or check out the step-by-step docs below.
 1. [Create a new workflow](https://pipedream.com/@/new/build?v=2). You do not need to add a trigger, since the workflow will be triggered on errors, which we'll configure next.
 2. Create a subscription with the following configuration:
 
-- `emitter_id`: your org ID, found in your [Account Settings](https://pipedream.com/settings/account).
+- `emitter_id`: your workspace ID, found in your [Account Settings](https://pipedream.com/settings/account).
 - `listener_id`: The [workflow ID](/troubleshooting/#where-do-i-find-my-workflow-s-id) from step #1
 - `event_name`: `$errors`
 
@@ -69,7 +69,7 @@ Let's walk through an end-to-end example:
 
 1. Pick the workflow whose errors you'd like to handle and note its [workflow ID](/troubleshooting/#where-do-i-find-my-workflow-s-id).
 1. [Create a new workflow](https://pipedream.com/@/new/build?v=2). You do not need to add a trigger, since the workflow will be triggered on errors, which we'll configure next. Note the ID for this workflow, as well.
-3. Here, you're going to add the errors from the workflow in step #1 as a trigger for the workflow you created in step #2. In other words, errors from workflow #1 will trigger workflow #2.
+1. Here, you're going to add the errors from the workflow in step #1 as a trigger for the workflow you created in step #2. In other words, errors from workflow #1 will trigger workflow #2.
 
 Make the following request to the Pipedream API, replacing the `emitter_id` with the ID of workflow #1, and the `listener_id` with the ID of workflow #2.
 

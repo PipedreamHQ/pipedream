@@ -1,22 +1,33 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-contact-updated",
   name: "Contact Updated",
   description: "Emit new event each time a contact is updated.",
-  version: "0.0.4",
+  version: "0.1.0",
   dedupe: "unique",
   type: "source",
+  props: {
+    ...common.props,
+    properties: {
+      propDefinition: [
+        common.props.hubspot,
+        "contactProperties",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
+    getTs(contact) {
+      return Date.parse(contact.updatedAt);
+    },
     generateMeta(contact) {
       const {
         id,
         properties,
-        updatedAt,
       } = contact;
-      const ts = Date.parse(updatedAt);
+      const ts = this.getTs(contact);
       return {
         id: `${id}${ts}`,
         summary: `${properties.firstname} ${properties.lastname}`,
@@ -24,7 +35,7 @@ export default {
       };
     },
     isRelevant(contact, updatedAfter) {
-      return Date.parse(contact.updatedAt) > updatedAfter;
+      return this.getTs(contact) > updatedAfter;
     },
     getParams() {
       return {
@@ -35,7 +46,7 @@ export default {
             direction: "DESCENDING",
           },
         ],
-        properties: this._getProperties(),
+        properties: this.properties,
         object: "contacts",
       };
     },

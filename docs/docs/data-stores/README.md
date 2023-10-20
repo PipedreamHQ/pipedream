@@ -121,13 +121,13 @@ In order to free up this Data Store to be deleted manually, you'll need to remov
 
 ### Using with Data Stores in Code Steps
 
-[Refer to our Node.js Data Store documentation](/code/nodejs/using-data-stores/) to learn how to use props to define Data Stores in custom code steps in your workflows.
+Refer to the [Node.js](/code/nodejs/using-data-stores/) and [Python](/code/python/using-data-stores/) Data Store documentation to learn how to use Data Stores in code steps in your workflows.
 
 ## Data store limitations
 
-Pipedream Data Stores are currently in Preview and are subject to change.
+Pipedream Data Stores are currently in Beta and are subject to change.
 
-Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Bash](/code/bash/) or [Go](/code/go/).
+Data Stores are only currently available in [Node.js](/code/nodejs/using-data-stores/) and [Python](/code/python/using-data-stores/) code steps. They are not yet available in other languages like [Bash](/code/bash/) or [Go](/code/go/).
 
 ### Supported data types
 
@@ -141,3 +141,9 @@ Data stores can hold any JSON-serializable data within the storage limits. This 
 * Floats
 
 But you cannot serialize Functions, Classes, or other more complex objects.
+
+### Retrieving a large number of keys
+
+You can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys from a data store in a single query.
+
+If you're using a pre-built action or code to retrieve all records or keys, and your Data Store contains more than {{$site.themeConfig.DATA_STORES_MAX_KEYS}} records, you'll receive a 426 error.

@@ -1,23 +1,21 @@
-// legacy_hash_id: a_zNiJ3R
-import { axios } from "@pipedream/platform";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-create-note",
   name: "Create Note",
-  description: "Adds a note, arbitrary information to a contact, deal, or other Active Campaign objects.",
-  version: "0.1.2",
+  description: "Adds a note, arbitrary information to a contact, deal, or other Active Campaign objects. See the docs [here](https://developers.activecampaign.com/reference/create-a-note).",
+  version: "0.2.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
+    activecampaign,
     note: {
       type: "string",
+      label: "Note",
       description: "The note's text.",
     },
     reltype: {
       type: "string",
+      label: "Type",
       description: "The related type where the note will be added to. Possible Values: `Activity`, `Deal`, `DealTask`, `Subscriber`, `CustomerAccount`",
       options: [
         "Activity",
@@ -29,30 +27,29 @@ export default {
     },
     relid: {
       type: "integer",
+      label: "ID",
       description: "Id of the related object where the note is being added.",
     },
   },
   async run({ $ }) {
-  // See the API docs: https://developers.activecampaign.com/reference#notes
+    const {
+      note,
+      reltype,
+      relid,
+    } = this;
 
-    if (!this.note || !this.reltype || !this.relid) {
-      throw new Error("Must provide note, reltype, and relid parameters.");
-    }
-
-    const config = {
-      method: "post",
-      url: `${this.activecampaign.$auth.base_url}/api/3/notes`,
-      headers: {
-        "Api-Token": `${this.activecampaign.$auth.api_key}`,
-      },
+    const response = await this.activecampaign.createNote({
       data: {
         note: {
-          note: this.note,
-          reltype: this.reltype,
-          relid: parseInt(this.relid),
+          note,
+          reltype,
+          relid,
         },
       },
-    };
-    return await axios($, config);
+    });
+
+    $.export("$summary", `Successfully created a note with ID ${response.note.id}`);
+
+    return response;
   },
 };

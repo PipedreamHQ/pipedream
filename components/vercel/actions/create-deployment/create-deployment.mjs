@@ -4,7 +4,7 @@ export default {
   key: "vercel-create-deployment",
   name: "Create Deployment",
   description: "Create a new deployment from a GitHub repository. [See the docs](https://vercel.com/docs/rest-api#endpoints/deployments/create-a-new-deployment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     vercel,

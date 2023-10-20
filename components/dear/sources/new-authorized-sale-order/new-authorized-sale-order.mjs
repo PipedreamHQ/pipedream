@@ -7,7 +7,7 @@ export default {
   key: "dear-new-authorized-sale-order",
   type: "source",
   description: "Emit new event when a sale order is created and authorized",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...base.methods,
@@ -17,14 +17,15 @@ export default {
     getMetadata(payload) {
       const {
         amznTraceId,
-        ...summary
+        SaleID,
+        SaleOrderNumber,
       } = payload;
 
-      const compositeId = `${payload.SaleID}-${amznTraceId}`;
+      const compositeId = `${SaleID}-${amznTraceId}`;
 
       return {
         id: compositeId,
-        summary: JSON.stringify(summary),
+        summary: `A new sale order with OrderNumber: ${SaleOrderNumber} was successfully authorized!`,
         ts: Date.now(),
       };
     },

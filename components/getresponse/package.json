@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/getresponse",
+  "version": "0.0.3",
+  "description": "Pipedream Getresponse Components",
+  "main": "getresponse.app.mjs",
+  "keywords": [
+    "pipedream",
+    "getresponse"
+  ],
+  "homepage": "https://pipedream.com/apps/getresponse",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

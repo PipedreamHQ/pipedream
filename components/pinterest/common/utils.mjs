@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import fs from "fs";
 import urlExists from "url-exist";
 import { encode } from "js-base64";
@@ -33,10 +33,11 @@ export default {
   async getUrlResource(url) {
     try {
       const path = `/tmp/${(Math.random() + 1).toString(36).substring(2)}`;
-      const response = await axios({
+      const response = await axios(this, {
         url,
         method: "GET",
         responseType: "stream",
+        returnFullResponse: true,
       });
       return new Promise((resolve, reject) => {
         const writeStream = response.data.pipe(fs.createWriteStream(path));

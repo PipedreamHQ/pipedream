@@ -1,25 +1,37 @@
-// legacy_hash_id: a_eliYqY
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-get-table-records",
   name: "Get Table Records",
-  description: "Fetches a group of records based on arguments.",
-  version: "0.1.1",
+  description: "Fetches all records in a table. [See the docs here](https://api-docs.pipefy.com/reference/queries/#table_records)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_query: {
-      type: "object",
-      description: "A graphql query as per [TableRecords](https://api-docs.pipefy.com/reference/queries/#table_records) specification.",
+    table: {
+      propDefinition: [
+        pipefy,
+        "table",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+    },
+    max: {
+      type: "integer",
+      label: "Max Records",
+      description: "Maximum number of records to return",
+      default: 100,
     },
   },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/queries/#table_records
-
+  /*
   Example query:
 
   {
@@ -27,20 +39,34 @@ export default {
       matchCount
     }
   }
-
   */
 
-    if (!this.graphql_query) {
-      throw new Error("Must provide graphql_query parameter.");
+    const records = [];
+    let hasNextPage, cursor;
+
+    do {
+      const {
+        edges, pageInfo,
+      } = await this.pipefy.listTableRecords(this.table, cursor);
+      for (const edge of edges) {
+        const record = {};
+        for (const field of edge.node.record_fields) {
+          record[field.name] = field.value;
+        }
+        records.push(record);
+      }
+      if (records.length >= this.max) {
+        break;
+      }
+      hasNextPage = pageInfo.hasNextPage;
+      cursor = pageInfo.endCursor;
+    } while (hasNextPage);
+
+    if (records.length > this.max) {
+      records.length = this.max;
     }
 
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_query,
-    });
+    $.export("$summary", `Successfully retrieved ${records.length} table record(s)`);
+    return records;
   },
 };

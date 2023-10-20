@@ -5,7 +5,7 @@ export default {
   name: "Query IP address",
   description: "Query IP address using IP2Location API. [See the docs here](https://www.ip2location.com/web-service/ip2location) for how to use this API.",
   key: "ip2location-query-ip-info",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ip2locationApp,
@@ -50,7 +50,7 @@ export default {
       wsPackage,
       addon,
     } = this;
-    var addon_formatted = '';
+    var addon_formatted = "";
     for (let i = 0; i < addon.length; i++) {
       addon_formatted += addon[i] + ",";
     }

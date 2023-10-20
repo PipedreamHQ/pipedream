@@ -1,10 +1,14 @@
 import shopify from "../../shopify.app.mjs";
+import metafieldActions from "../common/metafield-actions.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...metafieldActions,
+  ...common,
   key: "shopify-update-customer",
   name: "Update Customer",
   description: "Update a existing customer. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[put]/admin/api/2022-01/customers/{customer_id}.json)",
-  version: "0.0.1",
+  version: "0.0.13",
   type: "action",
   props: {
     shopify,
@@ -75,26 +79,11 @@ export default {
         "zip",
       ],
     },
-  },
-  async run({ $ }) {
-    let customer = {
-      first_name: this.firstName,
-      last_name: this.lastName,
-      email: this.email,
-      phone: this.phone,
-      addresses: [
-        {
-          address1: this.address,
-          company: this.company,
-          city: this.city,
-          province: this.province,
-          country: this.country,
-          zip: this.zip,
-        },
+    metafields: {
+      propDefinition: [
+        shopify,
+        "metafields",
       ],
-    };
-    let response = (await this.shopify.updateCustomer(this.customerId, customer)).result;
-    $.export("$summary", `Updated customer \`${response.email}\` with id \`${response.id}\``);
-    return response;
+    },
   },
 };

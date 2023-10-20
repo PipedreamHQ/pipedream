@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import verifalia from "../../verifalia.app.mjs";
 import common from "../../common.mjs";
 
@@ -12,11 +12,10 @@ export default {
   description: "Verify an email address and check if it is properly formatted, really exists and can accept mails, " +
         "flagging spam traps, disposable emails and much more. [See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
   key: "verifalia-verify-email",
-  version: "1.0.3",
+  version: "1.1.0",
   type: "action",
   props: {
     verifalia,
-
     emailAddress: {
       type: "string",
       label: "Email address",
@@ -136,7 +135,7 @@ export default {
         // webhook completion callback, as the external one may take a few seconds to
         // fire and we wish to continue the flow as fast as possible.
 
-        return await axios({
+        return axios($, {
           method: "POST",
           url: resumeUrl,
           data: {
@@ -147,6 +146,7 @@ export default {
               },
             },
           },
+          returnFullResponse: true,
         });
       }
 

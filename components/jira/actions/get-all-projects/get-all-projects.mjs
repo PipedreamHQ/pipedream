@@ -2,12 +2,18 @@ import jira from "../../jira.app.mjs";
 
 export default {
   key: "jira-get-all-projects",
-  name: "JIRA - Get All Projects",
+  name: "Get All Projects",
   description: "Gets metadata on all projects, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-project-get)",
-  version: "0.1.2",
+  version: "0.1.8",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId",
+      ],
+    },
     recent: {
       type: "integer",
       label: "Recent",
@@ -38,6 +44,7 @@ export default {
     }
     const projects = [];
     const resourcesStream = await this.jira.getResourcesStream({
+      cloudId: this.cloudId,
       resourceFn: this.jira.getAllProjects,
       resourceFnArgs: {
         $,

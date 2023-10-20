@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import sheets from "@googleapis/sheets";
 import googleDrive from "../google_drive/google_drive.app.mjs";
 import {
@@ -93,6 +93,60 @@ export default {
   },
   methods: {
     ...googleDrive.methods,
+
+    /**
+     * Retrieves the sheet ID corresponding to the provided sheet name from a spreadsheet.
+     *
+     * @async
+     * @param {string} spreadsheetId - The ID of the target spreadsheet.
+     * @param {string} sheetName - The name of the sheet to retrieve the ID for.
+     * @returns {Promise<number>} The ID of the sheet matching the provided name.
+     * @throws Will throw an error if the sheet name is not found.
+     */
+    async _getSheetIdFromName(spreadsheetId, sheetName) {
+      const { sheets } = await this.getSpreadsheet(spreadsheetId);
+      for (let sheet of sheets) {
+        if (sheet.properties.title === sheetName) {
+          return sheet.properties.sheetId;
+        }
+      }
+      throw new Error("Sheet name not found");
+    },
+
+    /**
+     * Parses a range string into its components:
+     * sheet name, start column, end column, start row, and end row.
+     *
+     * @param {string} rangeStr - The range string in the format "SheetName!A1:B10".
+     * @returns {Object} An object with parsed components:
+     * { sheetName, startCol, endCol, startRow, endRow }.
+     */
+    _parseRangeString(rangeStr) {
+      // Remove any single quotes
+      const sanitizedRangeStr = rangeStr.replace(/'/g, "");
+
+      const [
+        sheetName,
+        range,
+      ] = sanitizedRangeStr.split("!");
+      const [
+        startCoord,
+        endCoord,
+      ] = range.split(":");
+      const startCol = startCoord.replace(/\d/g, "");
+      const endCol = endCoord.replace(/\d/g, "");
+      const startRow = parseInt(startCoord.replace(/\D/g, ""), 10) - 1; // 0-based index
+      const endRow = parseInt(endCoord.replace(/\D/g, ""), 10);
+
+      return {
+        sheetName,
+        startCol,
+        endCol,
+        startRow,
+        endRow,
+      };
+    },
+
     sanitizedArray(value) {
       if (isArray(value)) {
         return value.map((item) => get(item, "value", item));
@@ -389,11 +443,11 @@ export default {
       return (await sheets.spreadsheets.values.clear(request)).data;
     },
     async addRowsToSheet({
-      spreadsheetId, range, rows, params,
+      $ = this, spreadsheetId, range, rows, params,
     }) {
-      const resp = await axios({
+      const resp = await axios($, {
         method: "POST",
-        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(range)}:append`,
+        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(`${range}!A:A`)}:append`,
         headers: {
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
@@ -406,6 +460,7 @@ export default {
         data: {
           values: rows,
         },
+        returnFullResponse: true,
       });
       if (resp.status >= 400) {
         throw new Error(JSON.stringify(resp.data));
@@ -539,6 +594,103 @@ export default {
           valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
         },
       );
+    },
+
+    /**
+     * https://developers.google.com/sheets/api/samples/formatting
+     *
+     * Resets the format
+     * (line style, background, foreground color, font size,
+     * bold, italic, strikethrough, horizontalAlignment)
+     * of a specified range in a spreadsheet.
+     *
+     * @async
+     * @param {string} spreadsheetId - The ID of the target spreadsheet.
+     * @param {string} rangeStr - The range string in the format "SheetName!A1:B10".
+     * @param {Object} [opts={}] - Optional additional configurations for the batchUpdate request.
+     * @returns {Promise<Object>} The response data from the batchUpdate request.
+     */
+    async resetRowFormat(spreadsheetId, rangeStr, opts = {}) {
+      const ASCII_A = 65;    // Unicode (UTF-16) value for the character 'A'
+      const OFFSET_INCLUSIVE = -1;  // For making the end column index inclusive
+
+      const {
+        sheetName,
+        startCol,
+        endCol,
+        startRow,
+        endRow,
+      } = this._parseRangeString(rangeStr);
+
+      // Get the sheetId using the parsed sheetName
+      const sheetId = await this._getSheetIdFromName(spreadsheetId, sheetName);
+      const sheets = this.sheets();
+
+      const range = {
+        sheetId: sheetId,
+        startRowIndex: startRow,
+        endRowIndex: endRow,
+        startColumnIndex: startCol.charCodeAt(0) - ASCII_A,
+        endColumnIndex: endCol.charCodeAt(0) - (ASCII_A + OFFSET_INCLUSIVE),
+      };
+      return (await sheets.spreadsheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              updateBorders: {
+                range,
+                top: {
+                  style: "NONE",
+                },
+                bottom: {
+                  style: "NONE",
+                },
+                left: {
+                  style: "NONE",
+                },
+                right: {
+                  style: "NONE",
+                },
+                innerHorizontal: {
+                  style: "NONE",
+                },
+                innerVertical: {
+                  style: "NONE",
+                },
+              },
+            },
+            {
+              repeatCell: {
+                range,
+                cell: {
+                  userEnteredFormat: {
+                    backgroundColor: { // assuming white as the default background color
+                      red: 1,
+                      green: 1,
+                      blue: 1,
+                    },
+                    textFormat: {
+                      foregroundColor: { // assuming black as the default foreground color
+                        red: 0,
+                        green: 0,
+                        blue: 0,
+                      },
+                      fontSize: 10,  // Assuming 10 as the default font size
+                      bold: false,
+                      italic: false,
+                      strikethrough: false,
+                    },
+                    horizontalAlignment: "LEFT",  // Assuming LEFT as the default horizontal alignment
+                  },
+                },
+                fields: "userEnteredFormat(backgroundColor,textFormat.foregroundColor,textFormat.bold,textFormat.italic,textFormat.strikethrough,textFormat.fontSize,horizontalAlignment)",
+              },
+            },
+          ],
+          ...opts,
+        },
+      })).data;
     },
   },
 };

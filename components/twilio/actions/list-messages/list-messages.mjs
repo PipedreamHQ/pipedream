@@ -1,12 +1,12 @@
-import twilio from "../../twilio.app.mjs";
 import { phone } from "phone";
-import { omitEmptyStringValues } from "../../utils.mjs";
+import twilio from "../../twilio.app.mjs";
+import { omitEmptyStringValues } from "../../common/utils.mjs";
 
 export default {
   key: "twilio-list-messages",
   name: "List Messages",
   description: "Return a list of messages associated with your account. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#read-multiple-message-resources) for more information",
-  version: "0.0.1",
+  version: "0.1.3",
   type: "action",
   props: {
     twilio,
@@ -42,14 +42,23 @@ export default {
     if (this.to) {
       const toParsed = phone(this.to);
       if (!toParsed || !toParsed.phoneNumber) {
-        throw new Error(`Phone number ${this.to} couldn't be parsed as a valid number.`);
+        throw new Error(`Phone number ${this.to} could not be parsed as a valid number.`);
       }
       to = toParsed.phoneNumber;
     }
 
+    let from = this.from;
+    if (this.from) {
+      const fromParsed = phone(this.from);
+      if (!fromParsed || !fromParsed.phoneNumber) {
+        throw new Error(`Phone number ${this.from} could not be parsed as a valid number.`);
+      }
+      from = fromParsed.phoneNumber;
+    }
+
     const resp = await this.twilio.listMessages(omitEmptyStringValues({
       to,
-      from: this.from,
+      from,
       limit: this.limit,
     }));
     /* eslint-disable multiline-ternary */
