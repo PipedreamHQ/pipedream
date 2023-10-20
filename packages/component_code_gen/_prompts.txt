@@ -1,3 +1,0 @@
-cd packages/component_code_gen
-
-poetry run python main.py --issue 8440 --skip-pr
