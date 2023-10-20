@@ -2013,9 +2013,9 @@ importers:
 
   components/gist:
     specifiers:
-      '@pipedream/platform': ^0.9.0
+      '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 0.9.0
+      '@pipedream/platform': 1.5.1
 
   components/github:
     specifiers:
