@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Product",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "gumroad-new-product",
   description: "Emit new event on each new product.",
   type: "source",
