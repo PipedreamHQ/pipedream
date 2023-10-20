@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/mocean_api",
-  "version": "0.1.0",
-  "description": "Pipedream Mocean API Components",
-  "main": "mocean_api.app.mjs",
+  "name": "@pipedream/hellosign",
+  "version": "0.0.1",
+  "description": "Pipedream Hellosign Components",
+  "main": "hellosign.app.mjs",
   "keywords": [
     "pipedream",
-    "mocean_api"
+    "hellosign"
   ],
-  "homepage": "https://pipedream.com/apps/mocean_api",
+  "homepage": "https://pipedream.com/apps/hellosign",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
