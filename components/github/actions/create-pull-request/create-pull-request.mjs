@@ -123,6 +123,10 @@ export default {
       `));
     }
 
+    if (this.issue != "" && this.title != "") {
+      throw new ConfigurationError("You can't specify both Title and Issue at the same time.");
+    }
+
     const data = {
       title: this.title,
       head: this.head.split("/")[1],
