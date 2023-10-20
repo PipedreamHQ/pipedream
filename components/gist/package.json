@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/gist",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Gist Components",
-  "main": "dist/app/gist.app.mjs",
+  "main": "gist.app.mjs",
   "keywords": [
     "pipedream",
     "gist"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/gist",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
@@ -16,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^0.9.0"
+    "@pipedream/platform": "^1.5.1"
   }
 }
+
