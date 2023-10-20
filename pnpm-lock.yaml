@@ -2409,6 +2409,12 @@ importers:
   components/helcim:
     specifiers: {}
 
+  components/hellosign:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/helper_functions:
     specifiers:
       '@pipedream/platform': ^1.1.1
