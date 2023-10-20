@@ -80,11 +80,6 @@ export default {
         }));
       },
     },
-    issueId: {
-      type: "integer",
-      label: "Issue ID",
-      description: "The ID of the issue",
-    },
   },
   methods: {
     exportSummary(step) {
