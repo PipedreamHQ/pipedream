@@ -1,4 +1,5 @@
-import redmine from "../../redmine.app.mjs";
+import app from "../../redmine.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "redmine-create-issue",
@@ -7,58 +8,62 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    redmine,
+    app,
     projectId: {
       propDefinition: [
-        redmine,
+        app,
         "projectId",
       ],
     },
-    subject: {
+    trackerId: {
       propDefinition: [
-        redmine,
-        "subject",
+        app,
+        "trackerId",
       ],
     },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "The subject of the issue",
+    },
     description: {
-      propDefinition: [
-        redmine,
-        "description",
-      ],
+      type: "string",
+      label: "Description",
+      description: "The description of the issue",
     },
     statusId: {
       propDefinition: [
-        redmine,
+        app,
         "statusId",
       ],
     },
     priorityId: {
       propDefinition: [
-        redmine,
+        app,
         "priorityId",
       ],
     },
-    trackerId: {
-      propDefinition: [
-        redmine,
-        "trackerId",
-      ],
+  },
+  methods: {
+    createIssue(args = {}) {
+      return this.app.post({
+        path: "/issues.json",
+        ...args,
+      });
     },
   },
-  async run({ $ }) {
-    const response = await this.redmine.createIssue({
+  run({ $: step }) {
+    const {
+      createIssue,
+      ...issue
+    } = this;
+
+    return createIssue({
+      step,
       data: {
-        issue: {
-          project_id: this.projectId,
-          subject: this.subject,
-          description: this.description,
-          status_id: this.statusId,
-          priority_id: this.priorityId,
-          tracker_id: this.trackerId,
-        },
+        issue: utils.transformProps(issue),
       },
+      summary: (response) => `Successfully created issue with ID: \`${response.issue?.id}\``,
     });
-    $.export("$summary", `Successfully created issue with ID: ${response.issue.id}`);
-    return response;
   },
 };

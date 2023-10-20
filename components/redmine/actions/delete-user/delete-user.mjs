@@ -1,4 +1,4 @@
-import redmine from "../../redmine.app.mjs";
+import app from "../../redmine.app.mjs";
 
 export default {
   key: "redmine-delete-user",
@@ -7,19 +7,34 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    redmine,
+    app,
     userId: {
       propDefinition: [
-        redmine,
+        app,
         "userId",
       ],
     },
   },
-  async run({ $ }) {
-    const response = await this.redmine.deleteUser({
-      userId: this.userId,
+  methods: {
+    deleteUser({
+      userId, ...args
+    } = {}) {
+      return this.app.delete({
+        path: `/users/${userId}.json`,
+        ...args,
+      });
+    },
+  },
+  run({ $: step }) {
+    const {
+      deleteUser,
+      userId,
+    } = this;
+
+    return deleteUser({
+      step,
+      userId,
+      summary: () => "Successfully deleted user",
     });
-    $.export("$summary", `Successfully deleted user with ID: ${this.userId}`);
-    return response;
   },
 };

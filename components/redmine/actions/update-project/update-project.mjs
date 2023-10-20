@@ -1,4 +1,5 @@
-import redmine from "../../redmine.app.mjs";
+import app from "../../redmine.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "redmine-update-project",
@@ -7,10 +8,10 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    redmine,
+    app,
     projectId: {
       propDefinition: [
-        redmine,
+        app,
         "projectId",
       ],
     },
@@ -18,12 +19,6 @@ export default {
       type: "string",
       label: "Name",
       description: "The name of the project",
-      optional: true,
-    },
-    identifier: {
-      type: "string",
-      label: "Identifier",
-      description: "The identifier of the project",
       optional: true,
     },
     description: {
@@ -44,13 +39,6 @@ export default {
       description: "Whether the project is public",
       optional: true,
     },
-    parentId: {
-      propDefinition: [
-        redmine,
-        "projectId",
-      ],
-      optional: true,
-    },
     inheritMembers: {
       type: "boolean",
       label: "Inherit Members",
@@ -58,20 +46,30 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
-    const response = await this.redmine.updateProject({
-      projectId: this.projectId,
-      project: {
-        name: this.name,
-        identifier: this.identifier,
-        description: this.description,
-        homepage: this.homepage,
-        is_public: this.isPublic,
-        parent_id: this.parentId,
-        inherit_members: this.inheritMembers,
+  methods: {
+    updateProject({
+      projectId, ...args
+    } = {}) {
+      return this.app.put({
+        path: `/projects/${projectId}.json`,
+        ...args,
+      });
+    },
+  },
+  run({ $: step }) {
+    const {
+      updateProject,
+      projectId,
+      ...project
+    } = this;
+
+    return updateProject({
+      step,
+      projectId,
+      data: {
+        project: utils.transformProps(project),
       },
+      summary: () => "Successfully updated project",
     });
-    $.export("$summary", `Successfully updated project with ID: ${this.projectId}`);
-    return response;
   },
 };
