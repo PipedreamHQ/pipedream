@@ -51,19 +51,19 @@ export default {
 
       for await (const item of items) {
         responseArray.push(item);
+      }
 
-        if (responseArray.length) this._setLastDate(responseArray[0].created_at);
+      if (responseArray.length) this._setLastDate(responseArray[0].created_at);
 
-        for (const item of responseArray.reverse()) {
-          this.$emit(
-            item,
-            {
-              id: item.id,
-              summary: `A new contact with id: "${item.id}" was created!`,
-              ts: item.created_at,
-            },
-          );
-        }
+      for (const item of responseArray.reverse()) {
+        this.$emit(
+          item,
+          {
+            id: item.id,
+            summary: `A new contact with id: "${item.id}" was created!`,
+            ts: item.created_at,
+          },
+        );
       }
     },
   },

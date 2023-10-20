@@ -70,6 +70,12 @@ export default {
         ...args,
       });
     },
+    searchConversations(args = {}) {
+      return this._makeRequest({
+        path: "conversations/search",
+        ...args,
+      });
+    },
     async *paginate({
       fn, params = {
         filter: "open",
@@ -87,9 +93,11 @@ export default {
           params.offset = LIMIT * page;
           page++;
         }
-        const { data } = await fn({
+        const response = await fn({
           params,
         });
+        const data = response.data || response.results;
+
         for (const d of data) {
           yield d;
 
