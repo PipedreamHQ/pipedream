@@ -7,7 +7,7 @@ export default {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
-      static: {
+      default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
