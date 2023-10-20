@@ -20,21 +20,33 @@ export default {
       ],
     },
     head: {
+      propDefinition: [
+        github,
+        "branch",
+        (c) => ({
+          repoFullname: c.repoFullname,
+        }),
+      ],
       label: "Head Branch",
       description: toSingleLineString(`
       The name of the branch where your changes are implemented.
       For cross-repository pull requests in the same network, \`namespace\` head with a user like this: \`username:branch\`.
       `),
-      type: "string",
     },
     base: {
+      propDefinition: [
+        github,
+        "branch",
+        (c) => ({
+          repoFullname: c.repoFullname,
+        }),
+      ],
       label: "Base Branch",
       description: toSingleLineString(`
       The name of the branch you want the changes pulled into.
       This should be an existing branch on the current repository.
       You cannot submit a pull request to one repository that requests a merge to a base of another repository.
       `),
-      type: "string",
     },
     org: {
       propDefinition: [
