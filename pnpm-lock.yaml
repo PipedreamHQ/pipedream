@@ -172,7 +172,12 @@ importers:
     specifiers: {}
 
   components/airmeet:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      dayjs: ^1.11.10
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      dayjs: 1.11.10
 
   components/airnow:
     specifiers: {}
@@ -883,7 +888,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/clevertap:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/clickfunnels:
     specifiers: {}
@@ -1777,6 +1785,9 @@ importers:
   components/float:
     specifiers: {}
 
+  components/flodesk:
+    specifiers: {}
+
   components/fluent_support:
     specifiers: {}
 
@@ -2398,6 +2409,12 @@ importers:
   components/helcim:
     specifiers: {}
 
+  components/hellosign:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/helper_functions:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2771,7 +2788,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/jumpseller:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash: 4.17.21
 
   components/junip:
     specifiers: {}
@@ -3193,7 +3215,10 @@ importers:
     specifiers: {}
 
   components/mamo_business:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/manifestly_checklists:
     specifiers: {}
@@ -3440,7 +3465,10 @@ importers:
     specifiers: {}
 
   components/mocean_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/moco:
     specifiers: {}
@@ -3449,7 +3477,10 @@ importers:
     specifiers: {}
 
   components/modeck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mojo_helpdesk:
     specifiers:
@@ -6871,6 +6902,14 @@ importers:
     dependencies:
       moment: 2.29.4
 
+  components/zoho_workdrive:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      axios: ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      axios: 1.5.1
+
   components/zonka_feedback:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -9865,8 +9904,8 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.179:
-    resolution: {integrity: sha512-mOZ2iWairIcwsroDmnKZ6AjSLhjDizXh2Dk1bzUpPYhDxfzQaI+mxN/bKMicFcpTMzI6THwp6eGRr8yrg7NGyQ==}
+  /@definitelytyped/header-parser/0.0.180:
+    resolution: {integrity: sha512-fCTevUtPRjolPR8SjTOsThoEHKXT0LndD4rCZQV+PWTxJc6YjkSUVCyr2iD8Btb8nOcJdSHt2JMF8xf1OEBZKA==}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.179
       '@definitelytyped/utils': 0.0.179
@@ -16656,7 +16695,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.179
+      '@definitelytyped/header-parser': 0.0.180
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -16672,7 +16711,7 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.179
+      '@definitelytyped/header-parser': 0.0.180
       '@definitelytyped/typescript-versions': 0.0.179
       '@definitelytyped/utils': 0.0.179
       dts-critic: 3.3.11_typescript@4.9.5
