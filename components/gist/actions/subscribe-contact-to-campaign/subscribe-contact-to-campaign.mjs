@@ -1,7 +1,6 @@
 import gist from "../../gist.app.mjs";
 
 export default {
-  ...gist,
   key: "gist-subscribe-contact-to-campaign",
   name: "Subscribe Contact To Campaign",
   description: "This Action subscribes a contact to a campaign. [See docs](https://developers.getgist.com/api/#subscribe-a-contact-to-campaign)",
@@ -20,24 +19,26 @@ export default {
         gist,
         "email",
       ],
+      optional: true,
     },
     userId: {
       propDefinition: [
         gist,
         "userId",
       ],
+      optional: true,
     },
     startingEmailIndex: {
-      propDefinition: [
-        gist,
-        "startingEmailIndex",
-      ],
+      label: "Starting Email Index",
+      description: "The index of the email to send first. Defaults to 0. Required if no User Id",
+      type: "integer",
+      optional: true,
     },
     reactivateIfRemoved: {
-      propDefinition: [
-        gist,
-        "reactivateIfRemoved",
-      ],
+      label: "Reactive If Removed",
+      description: "Sending true will force subscribe the contact even if they unsubscribed from the campaign earlier.",
+      type: "boolean",
+      optional: true,
     },
   },
   async run({ $ }) {

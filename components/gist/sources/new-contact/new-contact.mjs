@@ -1,7 +1,8 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import gist from "../../gist.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
-  ...gist,
   key: "gist-new-contact",
   name: "New Contact",
   description: "Emit new event when a new contact is created",
@@ -16,59 +17,57 @@ export default {
       description: "Pipedream will poll the Gist API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
-  hooks: {
-    async activate() {
-      await this.processContacts({
-        per_page: 25,
-        order_by: "created_at",
-        order: "desc",
-      });
-    },
-  },
   methods: {
-    _getCreatedAt() {
-      return this.db.get("createdAt");
+    _getLastId() {
+      return this.db.get("lastId") || 0;
     },
-    _setCreatedAt(createdAt) {
-      this.db.set("createdAt", createdAt);
+    _setLastId(lastId) {
+      this.db.set("lastId", lastId);
     },
-    async processContacts(params) {
-      const { contacts } = await this.gist.listContacts({
-        params,
+    async startEvent(maxResults = 0) {
+      const lastId = this._getLastId();
+      const items = this.gist.paginate({
+        fn: this.gist.listContacts,
+        params: {
+          order_by: "id",
+          order: "desc",
+        },
+        maxResults,
       });
-      for (const contact of contacts) {
-        this.emitEvent(contact);
+
+      let responseArray = [];
+
+      for await (const item of items) {
+        if (item.id <= lastId) break;
+        responseArray.push(item);
+      }
+      if (responseArray.length) {
+        this._setLastId(responseArray[0].id);
+      }
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(
+          item,
+          {
+            id: item.id,
+            summary: `New contact created: ${item.full_name || item.email} (${item.id})`,
+            ts: item.created_at,
+          },
+        );
       }
     },
-    async processEvent() {
-      const createdAt = this._getCreatedAt();
-      await this.processContacts({
-        per_page: 25,
-        order_by: "created_at",
-        order: "desc",
-        created_at: createdAt,
-      });
-    },
-    emitEvent(event) {
-      const createdAt = this._getCreatedAt();
-
-      if (!createdAt || (new Date(event.created_at) > new Date(createdAt)))
-        this._setCreatedAt(event.created_at);
-
-      const ts = Date.parse(event.created_at);
-      this.$emit(event, {
-        id: `${event.id}_${ts}`,
-        ts,
-        summary: `New contact created: ${event.full_name || event.email} (${event.id})`,
-      });
+  },
+  hooks: {
+    async deploy() {
+      await this.startEvent(25);
     },
   },
   async run() {
-    console.log("Run started:");
-    return this.processEvent();
+    await this.startEvent();
   },
+  sampleEmit,
 };

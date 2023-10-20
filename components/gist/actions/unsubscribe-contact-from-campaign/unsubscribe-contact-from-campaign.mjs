@@ -1,7 +1,6 @@
 import gist from "../../gist.app.mjs";
 
 export default {
-  ...gist,
   key: "gist-unsubscribe-contact-from-campaign",
   name: "Unsubscribe Contact From Campaign",
   description: "This Action unsubscribes a contact to a campaign. [See docs](https://developers.getgist.com/api/#unsubscribe-a-contact-from-campaign)",
@@ -20,12 +19,14 @@ export default {
         gist,
         "email",
       ],
+      optional: true,
     },
     userId: {
       propDefinition: [
         gist,
         "userId",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {

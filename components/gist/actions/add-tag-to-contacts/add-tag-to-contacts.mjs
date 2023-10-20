@@ -1,9 +1,8 @@
 import gist from "../../gist.app.mjs";
 
 export default {
-  ...gist,
   key: "gist-add-tag-to-contacts",
-  name: "Add Tag To An Existing Contacts",
+  name: "Add Tag To Existing Contacts",
   description: "This Action lets you assign a tag to multiple contacts at once. If the tag does not already exist it will be created for you. [See docs](https://developers.getgist.com/api/#add-a-tag-to-contacts)",
   type: "action",
   version: "0.0.1",
@@ -21,12 +20,13 @@ export default {
         gist,
         "tagId",
       ],
+      withLabel: true,
     },
   },
   async run({ $ }) {
     const data = {
       id: this.tagId.value,
-      name: this.tagId.label,
+      name: this.tagId.label || this.tagId,
       contacts: this.contactId.map((contactId) => {
         return {
           id: `${contactId}`,
@@ -39,7 +39,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully added tag ${this.tagId.label} to contact`);
+    $.export("$summary", `Successfully added tag ${this.tagId.label || this.tagId} to contact`);
 
     return response;
   },

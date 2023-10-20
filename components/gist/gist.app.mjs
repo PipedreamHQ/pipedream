@@ -21,7 +21,7 @@ export default {
         return contacts.map(({
           name, email, id,
         }) => ({
-          label: `${name} - ${email}`,
+          label: `${email} ${name || ""}`,
           value: id,
         }));
       },
@@ -70,67 +70,25 @@ export default {
       label: "Email",
       description: "The contact's email address. Required on create. Required if no user_id is supplied on update.",
       type: "string",
-      optional: true,
     },
     userId: {
       label: "User Id",
       description: "A unique string identifier for the user. It is required to create Contact of type User. Required on create. Required if no email is supplied.",
       type: "string",
-      optional: true,
-    },
-    name: {
-      label: "Name",
-      description: "The full name of the contact",
-      type: "string",
-      optional: true,
-    },
-    phone: {
-      label: "Phone",
-      description: "The contact number of the contact",
-      type: "string",
-      optional: true,
-    },
-    signedUpAt: {
-      label: "Signed Up At",
-      description: "The time the contact signed up",
-      type: "string",
-      optional: true,
-    },
-    lastSeenIp: {
-      label: "Last Seen Ip",
-      description: "The last IP address the contact visited your website from",
-      type: "string",
-      optional: true,
-    },
-    lastSeenUserAgent: {
-      label: "Last Seen User Agent",
-      description: "The last contact agent the contact was seen using",
-      type: "string",
-      optional: true,
-    },
-    customProperties: {
-      label: "Custom  Properties",
-      description: "A JSON object containing the contact's custom properties. E.g. { \"name\": \"John Doe\" }",
-      type: "object",
-      optional: true,
-    },
-    unsubscribedFromEmails: {
-      label: "Unsubscribed From Emails",
-      description: "If the contact has unsubscribed from emails or not",
-      type: "boolean",
-      optional: true,
-    },
-    startingEmailIndex: {
-      label: "Starting Email Index",
-      description: "The index of the email to send first. Defaults to 0. Required if no User Id",
-      type: "integer",
-      optional: true,
-    },
-    reactivateIfRemoved: {
-      label: "Reactive If Removed",
-      description: "Sending true will force subscribe the contact even if they unsubscribed from the campaign earlier.",
-      type: "boolean",
-      optional: true,
+      async options({ page }) {
+        const { contacts } = await this.listUsers({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return contacts.map(({
+          name, email, id: value,
+        }) => ({
+          label: `${email} ${name || ""}`,
+          value,
+        }));
+      },
     },
   },
   methods: {
@@ -139,11 +97,11 @@ export default {
     },
     _getHeaders() {
       return {
-        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    async _makeRequest({
-      $, path, ...otherConfig
+    _makeRequest({
+      $ = this, path, ...otherConfig
     }) {
       const config = {
         url: `${this._getBaseUrl()}/${path}`,
@@ -151,72 +109,88 @@ export default {
         ...otherConfig,
       };
 
-      return axios($ || this, config);
+      return axios($, config);
     },
-    async listContacts({
-      $, params,
-    }) {
+    listContacts(args = {}) {
       return this._makeRequest({
-        $,
         path: "contacts",
-        params,
+        ...args,
       });
     },
-    async getContact({
-      $, contactId,
+    getContact({
+      contactId, ...args
     }) {
       return this._makeRequest({
-        $,
         path: `contacts/${contactId}`,
+        ...args,
       });
     },
-    async listTags({
-      $, params,
-    }) {
+    listTags(args = {}) {
       return this._makeRequest({
-        $,
         path: "tags",
-        params,
+        ...args,
       });
     },
-    async listCampaigns({
-      $, params,
-    }) {
+    listCampaigns(args = {}) {
       return this._makeRequest({
-        $,
         path: "campaigns",
-        params,
+        ...args,
       });
     },
-    async updateTagToContact({
-      $, data,
-    }) {
+    listUsers(args = {}) {
       return this._makeRequest({
-        $,
-        method: "POST",
-        path: "tags",
-        data,
+        path: "contacts",
+        ...args,
       });
     },
-    async createOrUpdateContact({
-      $, data,
-    }) {
+    createOrUpdateContact(args = {}) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: "contacts",
-        data,
+        ...args,
       });
     },
-    async addOrRemoveContactInCampaign({
-      $, data,
-    }) {
+    addOrRemoveContactInCampaign(args = {}) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: "campaigns",
-        data,
+        ...args,
       });
+    },
+    updateTagToContact(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "tags",
+        ...args,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...args
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        params.per_page = 60;
+
+        const { contacts } = await fn({
+          params,
+          ...args,
+        });
+
+        for (const d of contacts) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = contacts.length;
+
+      } while (hasMore);
     },
   },
 };

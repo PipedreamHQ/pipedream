@@ -1,7 +1,6 @@
 import gist from "../../gist.app.mjs";
 
 export default {
-  ...gist,
   key: "gist-get-contact",
   name: "Get Contact",
   description: "Find a Contact [See docs](https://developers.getgist.com/api/#add-a-tag-to-contacts)",

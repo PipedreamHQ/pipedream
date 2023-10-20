@@ -1,7 +1,6 @@
 import gist from "../../gist.app.mjs";
 
 export default {
-  ...gist,
   key: "gist-remove-tag-from-contact",
   name: "Remove Tag From Existing Contact",
   description: "Remove a tag from an existing contact or contacts. [See docs](https://developers.getgist.com/api/#remove-a-tag-from-contacts)",
@@ -14,6 +13,7 @@ export default {
         gist,
         "tagId",
       ],
+      withLabel: true,
     },
     contactId: {
       propDefinition: [
