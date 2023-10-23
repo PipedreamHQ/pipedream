@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-social-media-message",
   name: "New Social Media Message",
   description: "Emit new event when a message is posted from HubSpot to the specified social media channel",
-  version: "0.0.10",
+  version: "0.0.12",
   type: "source",
   dedupe: "unique",
   props: {

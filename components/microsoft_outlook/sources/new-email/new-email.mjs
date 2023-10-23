@@ -1,11 +1,12 @@
 import common from "../common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "microsoft_outlook-new-email",
   name: "New Email Event (Instant)",
   description: "Emit new event when an email received",
-  version: "0.0.5",
+  version: "0.0.9",
   type: "source",
   hooks: {
     ...common.hooks,
@@ -53,4 +54,5 @@ export default {
       },
     });
   },
+  sampleEmit,
 };

@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-or-updated-crm-object",
   name: "New or Updated CRM Object",
   description: "Emit new event each time a CRM Object of the specified object type is updated.",
-  version: "0.0.10",
+  version: "0.0.12",
   dedupe: "unique",
   type: "source",
   props: {

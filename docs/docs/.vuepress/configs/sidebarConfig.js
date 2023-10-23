@@ -1,7 +1,27 @@
 // NEW NAV
 
 const docsNav = [
-  "/quickstart/",
+  {
+    title: "Quickstart",
+    children: [
+      {
+        title: "Develop Workflows",
+        path: "/quickstart/",
+      },
+      {
+        title: "Use GitHub Sync",
+        path: "/quickstart/github-sync/",
+      },
+    ]
+  },
+  "/workspaces/",
+  {
+    title: "Projects",
+    children: [
+      "/projects/",
+      "/projects/git/"
+    ]
+  },
   {
     title: "Workflows",
     children: [
@@ -16,7 +36,8 @@ const docsNav = [
       "/workflows/errors/",
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
-      "/workflows/networking/",
+      "/workflows/vpc/",
+      "/workflows/domains/",
       "/workflows/sharing/",
       "/migrate-from-v1/",
     ],
@@ -36,6 +57,7 @@ const docsNav = [
         sidebarDepth: 2,
         children: [
           "/code/nodejs/",
+          "/code/nodejs/ai-code-generation/",
           "/code/nodejs/auth/",
           "/code/nodejs/http-requests/",
           "/code/nodejs/working-with-files/",
@@ -44,7 +66,8 @@ const docsNav = [
           "/code/nodejs/rerun/",
           "/environment-variables/",
           "/code/nodejs/async/",
-          "/code/nodejs/sharing-code/"
+          "/code/nodejs/sharing-code/",
+          "/code/nodejs/browser-automation/"
         ],
       },
       {
@@ -96,11 +119,11 @@ const docsNav = [
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
   {
-    title: "Workspaces",
+    title: "Single-Sign On (SSO)",
     children: [
-      "/workspaces/",
-      "/workspaces/sso/google/",
       "/workspaces/sso/okta/",
+      "/workspaces/sso/google/",
+      "/workspaces/sso/saml/",
     ],
   },
 ];

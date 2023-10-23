@@ -7,7 +7,7 @@ export default {
   key: "gitlab-new-mention",
   name: "New Mention (Instant)",
   description: "Emit new event when you are @mentioned in a new commit, comment, issue or pull request",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   type: "source",
   props: {

@@ -2,6 +2,7 @@ module.exports = {
   PIPEDREAM_BASE_URL: "https://pipedream.com",
   API_BASE_URL: "https://api.pipedream.com/v1",
   SQL_API_BASE_URL: "https://rt.pipedream.com/sql",
+  ENDPOINT_BASE_URL: "*.m.pipedream.net",
   PAYLOAD_SIZE_LIMIT: "512KB",
   MEMORY_LIMIT: "256MB",
   MEMORY_ABSOLUTE_LIMIT: "10GB",
@@ -13,6 +14,7 @@ module.exports = {
   },
   DATA_STORES_MAX_KEYS: "1,024",
   DAILY_CREDITS_LIMIT: "100",
+  DAILY_TESTING_LIMIT: "30 minutes",
   INSPECTOR_EVENT_EXPIRY_DAYS: "365",
   FUNCTION_PAYLOAD_LIMIT: "6MB",
   DAILY_INVOCATIONS_LIMIT: "333",
@@ -34,7 +36,7 @@ module.exports = {
   TMP_SIZE_LIMIT: "2GB",
   DELAY_MIN_MAX_TIME:
     "You can pause your workflow for as little as one millisecond, or as long as one year",
-  PUBLIC_APPS: "1,300",
+  PUBLIC_APPS: "1,400",
   WARM_WORKERS_INTERVAL: "10 minutes",
   WARM_WORKERS_CREDITS_PER_INTERVAL: 5,
 };

@@ -1,18 +1,57 @@
 # User Settings
 
-You can find important account details, text editor configuration, and more in your [Settings](https://pipedream.com/settings).
+You can find important account details, text editor configuration, and more in your [User Settings](https://pipedream.com/user).
 
 [[toc]]
 
 ## Account
 
-You'll find your Pipedream email and other basic account details in your [Account Settings](https://pipedream.com/settings/account).
+You'll find your Pipedream email and other basic account details in your [Account Settings](https://pipedream.com/user).
 
 ### Changing your email
 
 Pipedream sends system emails to the email address tied to your Pipedream login. You can change the email address to which these emails are delivered by modifying the **Email** in your Account Settings. Once changed, an email will be delivered to the new address requesting you verify it.
 
 Pipedream marketing emails may still be sent to the original email address you used when signing up for Pipedream. To change the email address tied to marketing emails, please [reach out to our team](https://pipedream.com/support).
+
+
+### Two-Factor Authentication
+
+Two-factor authentication (2FA) adds an additional layer of security for your Pipedream account and is recommended for all users.
+
+#### Configuring 2FA
+<br>
+
+1. Open your [Account Settings](https://pipedream.com/user)
+2. Click **Configure** under **Two-Factor Authentication**
+3. Scan the QR code in an authenticator app like [1Password](https://1password.com/) or Google Authenticator (available on [iOS](https://apps.apple.com/us/app/google-authenticator/id388497605) and [Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_US&gl=US))
+4. If you're unable to scan the QR code, you can view the setup key to configure 2FA manually in your authenticator app
+5. Enter the one-time-password (OTP) from your authenticator app
+6. **Save your recovery codes in a secure location**. You'll need these to access your Pipedream account in the case you lose access to your authenticator app.
+
+::: danger Save your recovery codes
+
+If you lose access to your authenticator app and your recovery codes, you will permanently lose access to your Pipedream account. **Pipedream Support cannot recover these accounts.**
+
+:::
+
+#### Signing in with 2FA
+
+<br>
+
+1. You'll be prompted to enter your OTP the next time you sign in to Pipedream
+2. When prompted, you can enter the OTP from your authenticator app or a recovery code
+
+::: tip Using recovery codes
+
+Each recovery code is a one-time-use code, so make sure to generate new recovery codes in your [Account Settings](https://pipedream.com/user) when you need to. All previously generated recovery codes expire when you generate new ones.
+
+:::
+
+::: warning 2FA is not currently supported with Single Sign On
+Pipedream recommends enabling 2FA with your identity provider.
+
+:::
 
 ### Pipedream API Key
 

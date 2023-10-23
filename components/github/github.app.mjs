@@ -1,9 +1,8 @@
-import { Octokit } from "@octokit/core@4.2.4";
+import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
 import queries from "./common/queries.mjs";
-import {
-  axios, ConfigurationError,
-} from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -38,6 +37,9 @@ export default {
       description: "The repository in a organization",
       type: "string",
       async options({ org }) {
+        if (!org) {
+          throw new ConfigurationError("Must specify `org` to display repository options.");
+        }
         const repositories = await this.getOrgRepos({
           org,
         });
@@ -229,6 +231,7 @@ export default {
     async _makeRequest({
       $ = this,
       path,
+      headers = {},
       ...args
     } = {}) {
       return axios($, {
@@ -236,6 +239,7 @@ export default {
         headers: {
           Authorization: `Bearer ${this._accessToken()}`,
           Accept: "application/vnd.github+json",
+          ...headers,
         },
         ...args,
       });
@@ -294,11 +298,16 @@ export default {
     async getRepoContent({
       repoFullname,
       path,
+      mediaType,
     }) {
-      const { data } = await this
-        ._client()
-        .request(`GET /repos/${repoFullname}/contents/${path}`, {});
-      return data;
+      return this._makeRequest({
+        path: `/repos/${repoFullname}/contents/${path}`,
+        ...(mediaType && {
+          headers: {
+            Accept: mediaType,
+          },
+        }),
+      });
     },
     async getRepositoryLabels({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/labels`, {});
@@ -372,13 +381,6 @@ export default {
 
       return response.data;
     },
-    async getUserRepoPermissions({
-      repoFullname, username,
-    }) {
-      const response = await this._client().request(`GET /repos/${repoFullname}/collaborators/${username}/permission`, {});
-
-      return response.data;
-    },
     async getFromUrl({ url }) {
       const response = await this._client().request(`GET ${url.replace(this._baseApiUrl(), "")}`, {});
 
@@ -400,6 +402,13 @@ export default {
     },
     async createRepository({ data }) {
       const response = await this._client().request("POST /user/repos", data);
+
+      return response.data;
+    },
+    async createPullRequest({
+      repoFullname, data,
+    }) {
+      const response = await this._client().request(`POST /repos/${repoFullname}/pulls`, data);
 
       return response.data;
     },
@@ -459,16 +468,6 @@ export default {
     },
     async getRepositoryPullRequests({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/pulls`, {});
-    },
-    async getRepositoryLatestPullRequests({
-      repoFullname, ...args
-    }) {
-      const response = await this._client().request(`GET /repos/${repoFullname}/pulls`, {
-        direction: "desc",
-        ...args,
-      });
-
-      return response.data;
     },
     async getPullRequestForCommit({
       repoFullname, sha,

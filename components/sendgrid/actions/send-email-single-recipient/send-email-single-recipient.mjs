@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-send-email-single-recipient",
   name: "Send Email Single Recipient",
   description: "This action sends a personalized e-mail to the specified recipient. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
@@ -255,10 +255,18 @@ export default {
       personalizations[0].to[0].name = this.toName;
     }
     if (this.cc) {
-      personalizations[0].cc = this.getArrayObject(this.cc);
+      const ccArray = this.getArrayObject(this.cc);
+
+      if (ccArray?.length) {
+        personalizations[0].cc = ccArray;
+      }
     }
     if (this.bcc) {
-      personalizations[0].bcc = this.getArrayObject(this.bcc);
+      const bccArray = this.getArrayObject(this.bcc);
+
+      if (bccArray?.length) {
+        personalizations[0].bcc = bccArray;
+      }
     }
     if (this.personalizationHeaders) {
       personalizations[0].headers = this.convertEmptyStringToUndefined(this.personalizationHeaders);

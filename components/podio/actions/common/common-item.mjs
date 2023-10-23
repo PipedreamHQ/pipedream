@@ -18,6 +18,7 @@ export default {
           orgId: configuredProps.orgId,
         }),
       ],
+      reloadProps: true,
     },
     appId: {
       propDefinition: [
@@ -61,16 +62,61 @@ export default {
       }
       return fields;
     },
+    async getSpaceFields() {
+      const apps = await this.app.getApps({
+        spaceId: this.spaceId,
+      });
+      const spaceFields = [];
+      for (const app of apps) {
+        let { fields } = await this.app.getApp({
+          appId: app.app_id,
+        });
+        fields = fields?.map((field) => ({
+          ...field,
+          app_label: app.url_label,
+        })) || [];
+        spaceFields.push(...fields);
+      }
+      return spaceFields;
+    },
     getIfUpdate() {
       return false;
     },
   },
   async additionalProps() {
     const props = {};
-    const { fields } = await this.app.getApp({
-      appId: this.appId,
-    });
-    for (const field of fields) {
+    if (!this.spaceId && isNaN(this.appId)) {
+      return props;
+    }
+    const fields = !isNaN(this.appId)
+      ? (await this.app.getApp({
+        appId: this.appId,
+      })).fields
+      : await this.getSpaceFields();
+
+    props.fieldIds = {
+      type: "integer[]",
+      label: "Fields",
+      description: `Fields to ${this.getIfUpdate()
+        ? "update"
+        : "create"}`,
+      options: fields.map(({
+        field_id: value, label, app_label,
+      }) => ({
+        value,
+        label: `${label}${app_label
+          ? " - for use with App \"" + app_label + "\""
+          : ""}`,
+      })),
+      reloadProps: true,
+    };
+
+    if (!this.fieldIds?.length) {
+      return props;
+    }
+
+    for (const id of this.fieldIds) {
+      const field = fields.find(({ field_id }) => field_id === id );
       if (field.type != "calculation") {
         const newProp = {
           type: utils.getType(field),

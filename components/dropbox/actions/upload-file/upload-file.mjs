@@ -1,15 +1,13 @@
 import dropbox from "../../dropbox.app.mjs";
 import consts from "../../common/consts.mjs";
 import fs from "fs";
-import got from "got@12.4.1";
-import common from "../common/common.mjs";
+import got from "got@13.0.0";
 
 export default {
-  ...common,
   name: "Upload a File",
   description: "Uploads a file to a selected folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-file",
-  version: "0.0.8",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
@@ -80,7 +78,7 @@ export default {
       ? await got.stream(fileUrl)
       : fs.createReadStream(filePath);
 
-    let normalizedPath = this.getNormalizedPath(path, true);
+    let normalizedPath = this.dropbox.getNormalizedPath(path, true);
 
     const res = await this.dropbox.uploadFile({
       contents,

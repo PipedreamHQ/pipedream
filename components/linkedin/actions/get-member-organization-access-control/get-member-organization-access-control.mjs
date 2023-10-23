@@ -4,7 +4,7 @@ export default {
   key: "linkedin-get-member-organization-access-control",
   name: "Get Member's Organization Access Control Information",
   description: "Gets the organization access control information of the current authenticated member. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-access-control?context=linkedin/compliance/context#find-a-members-organization-access-control-information)",
-  version: "0.1.2",
+  version: "0.1.4",
   type: "action",
   props: {
     linkedin,

@@ -1,12 +1,12 @@
 import { axios } from "@pipedream/platform";
-import spotify from "../../spotify.app.mjs";
 import get from "lodash/get.js";
+import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Remove Items from a Playlist",
   description: "Remove one or more items from a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/remove-tracks-playlist)",
   key: "spotify-remove-items-from-playlist",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     spotify,

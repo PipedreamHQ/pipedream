@@ -8,7 +8,7 @@ export default {
   name: "New Row",
   description: "Emit new event when you add a new row to a table. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -29,11 +29,16 @@ export default {
      * If column prop is left blank, get the table's primary key to use for ordering and deduping.
      * */
     async deploy() {
+      const { table } = this;
       let column = this.column;
+
       if (!column) {
-        const keyData = await this.mysql.getPrimaryKey(this.table, this.rejectUnauthorized);
+        const keyData = await this.mysql.getPrimaryKey({
+          table,
+        });
         column = keyData[0].Column_name;
       }
+
       this._setColumn(column);
 
       await this.listTopRows(column);
