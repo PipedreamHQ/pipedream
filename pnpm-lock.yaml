@@ -373,6 +373,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/astica_ai:
+    specifiers: {}
+
   components/astrology_api:
     specifiers: {}
 
@@ -1918,6 +1921,9 @@ importers:
       '@pipedream/platform': 1.5.1
       crypto-js: 4.1.1
 
+  components/function:
+    specifiers: {}
+
   components/funnelcockpit:
     specifiers: {}
 
@@ -2618,6 +2624,9 @@ importers:
       mailparser: 3.6.5
       stream: 0.0.2
       util: 0.12.5
+
+  components/imejis_io:
+    specifiers: {}
 
   components/imgbb:
     specifiers: {}
@@ -3632,6 +3641,12 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/neetoinvoice:
+    specifiers: {}
+
+  components/neetokb:
+    specifiers: {}
 
   components/neon_api_keys:
     specifiers:
@@ -5483,6 +5498,9 @@ importers:
       '@pipedream/platform': ^1.4.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/spotlightr:
+    specifiers: {}
 
   components/spreadsheet_com:
     specifiers:
