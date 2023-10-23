@@ -1786,7 +1786,12 @@ importers:
     specifiers: {}
 
   components/flodesk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash: 4.17.21
 
   components/fluent_support:
     specifiers: {}
