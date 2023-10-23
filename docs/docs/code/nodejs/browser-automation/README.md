@@ -524,7 +524,7 @@ export default defineComponent({
     await page.keyboard.type("Hello, from a Pipedream workflow.");
     await page.click('input[type=submit]');
 
-    await page.context().browser();
+    await page.context().close();
     await browser.close();
   },
 });

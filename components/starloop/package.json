@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/starloop",
+  "version": "0.1.0",
+  "description": "Pipedream Starloop Components",
+  "main": "starloop.app.mjs",
+  "keywords": [
+    "pipedream",
+    "starloop"
+  ],
+  "homepage": "https://pipedream.com/apps/starloop",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

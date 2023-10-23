@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/copperx",
+  "version": "0.0.1",
+  "description": "Pipedream Copperx Components",
+  "main": "copperx.app.mjs",
+  "keywords": [
+    "pipedream",
+    "copperx"
+  ],
+  "homepage": "https://pipedream.com/apps/copperx",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
