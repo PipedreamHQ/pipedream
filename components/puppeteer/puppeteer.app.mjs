@@ -21,12 +21,14 @@ export default {
       const browser = await puppeteer.launch({
         executablePath: await chromium.executablePath(),
         headless: chromium.headless,
+        cacheDirectory: "/tmp",
         ignoreHTTPSErrors: true,
         defaultViewport: chromium.defaultViewport,
         args: [
           ...chromium.args,
           "--hide-scrollbars",
           "--disable-web-security",
+          "--font-render-hinting=none",
         ],
         ...opts,
       });
