@@ -21,7 +21,7 @@ export default defineApp({
     reactivateExisting: {
       type: "boolean",
       label: "Reactivate Existing",
-      description: "Whether or not to reactivate the subscriber if they have already unsubscribed. default: `false`.",
+      description: "Whether or not to reactivate the subscriber if they have already unsubscribed.  **This option should be used only if the subscriber is knowingly resubscribing**. default: `false`.",
       optional: true,
     },
     sendWelcomeEmail: {
