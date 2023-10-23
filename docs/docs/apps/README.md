@@ -17,7 +17,7 @@ The vast majority of integrated apps on Pipedream are free to use in your workfl
 - [Asana](https://pipedream.com/apps/asana)
 - [AWS](https://pipedream.com/apps/aws)
 - [Azure OpenAI Service](https://pipedream.com/apps/azure-openai-service)
-- [Big Commerce](https://pipedream.com/apps/bigcommerce)
+- [BigCommerce](https://pipedream.com/apps/bigcommerce)
 - [Cisco Webex](https://pipedream.com/apps/cisco-webex)
 - [Cisco Webex (Custom App)](https://pipedream.com/apps/cisco-webex-custom-app)
 - [Close](https://pipedream.com/apps/close)
