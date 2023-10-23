@@ -1786,7 +1786,12 @@ importers:
     specifiers: {}
 
   components/flodesk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash: 4.17.21
 
   components/fluent_support:
     specifiers: {}
@@ -2412,6 +2417,12 @@ importers:
   components/helcim:
     specifiers: {}
 
+  components/hellosign:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/helper_functions:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2785,7 +2796,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/jumpseller:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash: 4.17.21
 
   components/junip:
     specifiers: {}
@@ -3457,7 +3473,10 @@ importers:
     specifiers: {}
 
   components/mocean_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/moco:
     specifiers: {}
