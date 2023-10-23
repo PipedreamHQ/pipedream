@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/riskadvisor",
+  "version": "0.0.1",
+  "description": "Pipedream RiskAdvisor Components",
+  "main": "riskadvisor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "riskadvisor"
+  ],
+  "homepage": "https://pipedream.com/apps/riskadvisor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
