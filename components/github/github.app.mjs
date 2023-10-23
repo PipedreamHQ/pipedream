@@ -37,6 +37,9 @@ export default {
       description: "The repository in a organization",
       type: "string",
       async options({ org }) {
+        if (!org) {
+          throw new ConfigurationError("Must specify `org` to display repository options.");
+        }
         const repositories = await this.getOrgRepos({
           org,
         });
@@ -399,6 +402,13 @@ export default {
     },
     async createRepository({ data }) {
       const response = await this._client().request("POST /user/repos", data);
+
+      return response.data;
+    },
+    async createPullRequest({
+      repoFullname, data,
+    }) {
+      const response = await this._client().request(`POST /repos/${repoFullname}/pulls`, data);
 
       return response.data;
     },
