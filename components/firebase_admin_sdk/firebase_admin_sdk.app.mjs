@@ -77,6 +77,7 @@ export default {
         projectId,
         clientEmail,
         privateKey,
+        customDatabaseUrl,
       } = this.$auth;
       const formattedPrivateKey = privateKey.replace(/\\n/g, "\n");
       return admin.initializeApp({
@@ -85,7 +86,7 @@ export default {
           clientEmail,
           privateKey: formattedPrivateKey,
         }),
-        databaseURL: `https://${projectId}-default-rtdb.${region}/`,
+        databaseURL: customDatabaseUrl || `https://${projectId}-default-rtdb.${region}/`,
       });
     },
     /**

@@ -183,7 +183,10 @@ importers:
     specifiers: {}
 
   components/airops:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/airplane:
     specifiers:
@@ -239,6 +242,9 @@ importers:
       algoliasearch: ^4.13.1
     dependencies:
       algoliasearch: 4.20.0
+
+  components/algomo:
+    specifiers: {}
 
   components/alpaca:
     specifiers:
@@ -372,6 +378,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/astica_ai:
+    specifiers: {}
 
   components/astrology_api:
     specifiers: {}
@@ -794,6 +803,9 @@ importers:
   components/census_bureau:
     specifiers: {}
 
+  components/centralstationcrm:
+    specifiers: {}
+
   components/cflow:
     specifiers: {}
 
@@ -892,6 +904,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/click2mail2:
+    specifiers: {}
 
   components/clickfunnels:
     specifiers: {}
@@ -1036,6 +1051,9 @@ importers:
   components/college_football_data:
     specifiers: {}
 
+  components/cometly:
+    specifiers: {}
+
   components/commcare:
     specifiers: {}
 
@@ -1093,7 +1111,10 @@ importers:
     specifiers: {}
 
   components/copperx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/corrently:
     specifiers: {}
@@ -1786,7 +1807,12 @@ importers:
     specifiers: {}
 
   components/flodesk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash: 4.17.21
 
   components/fluent_support:
     specifiers: {}
@@ -1828,7 +1854,10 @@ importers:
       title-case: 3.0.3
 
   components/formbricks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/formdesk:
     specifiers: {}
@@ -1912,6 +1941,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       crypto-js: 4.1.1
+
+  components/function:
+    specifiers: {}
 
   components/funnelcockpit:
     specifiers: {}
@@ -2614,6 +2646,9 @@ importers:
       stream: 0.0.2
       util: 0.12.5
 
+  components/imejis_io:
+    specifiers: {}
+
   components/imgbb:
     specifiers: {}
 
@@ -2652,6 +2687,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/insites:
+    specifiers: {}
 
   components/instagram_business:
     specifiers:
@@ -3049,7 +3087,10 @@ importers:
     specifiers: {}
 
   components/listmonk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/little_green_light:
     specifiers: {}
@@ -3624,6 +3665,12 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/neetoinvoice:
+    specifiers: {}
+
+  components/neetokb:
+    specifiers: {}
 
   components/neon_api_keys:
     specifiers:
@@ -4300,7 +4347,10 @@ importers:
     specifiers: {}
 
   components/poof:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/popupsmart:
     specifiers: {}
@@ -4781,6 +4831,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/riskadvisor:
+    specifiers: {}
 
   components/rkvst:
     specifiers: {}
@@ -5475,6 +5528,9 @@ importers:
       '@pipedream/platform': ^1.4.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/spotlightr:
+    specifiers: {}
 
   components/spreadsheet_com:
     specifiers:
@@ -6435,6 +6491,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/webscraping_ai:
+    specifiers: {}
+
+  components/webvizio:
     specifiers: {}
 
   components/weglot:

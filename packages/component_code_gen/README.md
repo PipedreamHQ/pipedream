@@ -75,10 +75,18 @@ poetry run python main.py --type action --app slack --instructions instructions.
 ### GitHub Issues
 
 The command below will parse through GitHub issue description and generate code for the list of components.
-All the code will be written to a folder named `output`. Be sure to add `BROWSERLESS_API_KEY` to `.env` to parse API docs.
+Be sure to add `BROWSERLESS_API_KEY` to `.env` to parse API docs.
 
 ```
 poetry run python main.py --issue issue_number
+```
+
+#### Draft PRs
+
+The default behaviour is to automatically create a branch and submit a Draft PR. The command above is equivalent to:
+
+```
+poetry run python main.py --issue issue_number --skip_pr=False
 ```
 
 #### Output Dir
