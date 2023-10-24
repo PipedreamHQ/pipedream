@@ -24,6 +24,11 @@ export default {
     _merchantId() {
       return this.$auth.merchant_id;
     },
+    _getHeaders() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
     async _makeRequest({
       $ = this,
       path,
@@ -35,7 +40,7 @@ export default {
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          ...this._getHeaders(),
         },
       });
     },

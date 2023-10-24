@@ -1,5 +1,5 @@
 import {
-  languageOptions, territoryOptions,
+  LANGUAGE_OPTIONS, TERRITORY_OPTIONS,
 } from "../../common/constants.mjs";
 import googleMerchant from "../../google_merchant_center.app.mjs";
 
@@ -32,13 +32,13 @@ export default {
       type: "string",
       label: "Content Language",
       description: "The [two-letter ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) for the item.",
-      options: languageOptions,
+      options: LANGUAGE_OPTIONS,
     },
     targetCountry: {
       type: "string",
       label: "Target Country",
       description: "The [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml) for the item's country of sale.",
-      options: territoryOptions,
+      options: TERRITORY_OPTIONS,
     },
     channel: {
       type: "string",

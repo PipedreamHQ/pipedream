@@ -1,4 +1,4 @@
-export const languageOptions = [
+export const LANGUAGE_OPTIONS = [
   {
     label: "Abkhazian",
     value: "ab",
@@ -733,7 +733,7 @@ export const languageOptions = [
   },
 ];
 
-export const territoryOptions = [
+export const TERRITORY_OPTIONS = [
   {
     label: "World",
     value: "001",
