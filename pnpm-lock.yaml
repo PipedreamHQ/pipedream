@@ -183,7 +183,10 @@ importers:
     specifiers: {}
 
   components/airops:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/airplane:
     specifiers:
