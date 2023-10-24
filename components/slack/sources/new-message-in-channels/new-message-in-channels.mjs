@@ -44,6 +44,11 @@ export default {
         "ignoreBot",
       ],
     },
+    ignoreThreads: {
+      propDefinition: [
+        common.props.slack,
+        "ignoreThreads",
+    },
   },
   methods: {
     ...common.methods,
@@ -64,6 +69,9 @@ export default {
         return;
       }
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
+        return;
+      }
+      if (this.ignoreThreads && event.subtype == "message_replied") {
         return;
       }
       if (this.resolveNames) {
