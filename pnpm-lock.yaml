@@ -240,6 +240,9 @@ importers:
     dependencies:
       algoliasearch: 4.20.0
 
+  components/algomo:
+    specifiers: {}
+
   components/alpaca:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -797,6 +800,9 @@ importers:
   components/census_bureau:
     specifiers: {}
 
+  components/centralstationcrm:
+    specifiers: {}
+
   components/cflow:
     specifiers: {}
 
@@ -895,6 +901,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/click2mail2:
+    specifiers: {}
 
   components/clickfunnels:
     specifiers: {}
@@ -1039,6 +1048,9 @@ importers:
   components/college_football_data:
     specifiers: {}
 
+  components/cometly:
+    specifiers: {}
+
   components/commcare:
     specifiers: {}
 
@@ -1096,7 +1108,10 @@ importers:
     specifiers: {}
 
   components/copperx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/corrently:
     specifiers: {}
@@ -1836,7 +1851,10 @@ importers:
       title-case: 3.0.3
 
   components/formbricks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/formdesk:
     specifiers: {}
@@ -3066,7 +3084,10 @@ importers:
     specifiers: {}
 
   components/listmonk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/little_green_light:
     specifiers: {}
@@ -4323,7 +4344,10 @@ importers:
     specifiers: {}
 
   components/poof:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/popupsmart:
     specifiers: {}
@@ -4804,6 +4828,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/riskadvisor:
+    specifiers: {}
 
   components/rkvst:
     specifiers: {}
@@ -6461,6 +6488,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/webscraping_ai:
+    specifiers: {}
+
+  components/webvizio:
     specifiers: {}
 
   components/weglot:
