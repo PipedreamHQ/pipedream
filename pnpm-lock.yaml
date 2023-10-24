@@ -4341,7 +4341,10 @@ importers:
     specifiers: {}
 
   components/poof:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/popupsmart:
     specifiers: {}
