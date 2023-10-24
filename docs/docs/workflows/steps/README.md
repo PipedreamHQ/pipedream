@@ -69,7 +69,7 @@ For examples of supported data types in your steps language, see the examples be
 
 ## Step Notes
 
-Pipedream lets you add notes to individual steps in your workflow so you can  include helpful context to other workspace members or even yourself, and you can event write markdown!
+Pipedream lets you add notes to individual steps in your workflow so you can  include helpful context to other workspace members or even yourself, and you can even write markdown!
 
 ![Viewing step notes](https://res.cloudinary.com/pipedreamin/image/upload/v1698167274/view_notes_zto8bp.png)
 
