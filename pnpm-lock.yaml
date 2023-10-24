@@ -3084,7 +3084,10 @@ importers:
     specifiers: {}
 
   components/listmonk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/little_green_light:
     specifiers: {}
