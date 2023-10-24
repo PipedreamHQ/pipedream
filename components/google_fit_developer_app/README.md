@@ -96,6 +96,6 @@ Google has a [7 day expiration window](https://developers.google.com/identity/pr
 
 ![Confirmation of changes](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.18_AM_mndtyc.png)
 
-## Troubleshooting
+# Troubleshooting
 **Application disconnects after 7 days**<br>
 If your developer application disconnects after 7 days, you need to follow the steps above to Publish your Google Fit app in order to keep your account connected.
