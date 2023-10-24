@@ -856,6 +856,9 @@ importers:
   components/cheddar:
     specifiers: {}
 
+  components/chmeetings:
+    specifiers: {}
+
   components/circl_hash_lookup:
     specifiers: {}
 
@@ -4833,7 +4836,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/riskadvisor:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash: 4.17.21
 
   components/rkvst:
     specifiers: {}
@@ -5290,6 +5298,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/signable:
+    specifiers: {}
 
   components/signaturely:
     specifiers:
