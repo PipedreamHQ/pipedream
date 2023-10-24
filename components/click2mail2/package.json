@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/click2mail2",
+  "version": "0.0.1",
+  "description": "Pipedream Click2Mail Components",
+  "main": "click2mail2.app.mjs",
+  "keywords": [
+    "pipedream",
+    "click2mail2"
+  ],
+  "homepage": "https://pipedream.com/apps/click2mail2",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

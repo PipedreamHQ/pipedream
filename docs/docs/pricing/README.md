@@ -7,7 +7,7 @@ next: false
 
 We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/components#sources), [workflows](/workflows), [actions](/components#actions), and other integration components so that other Pipedream users benefit from your work.
 
-To support these goals, **Pipedream offers a [free trial of our Advanced plan](#free-trial) and a generous [free tier](#free-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
+To support these goals, Pipedream offers a generous [free tier](#free-tier), and you can **[request a free trial of our Advanced or Business plan](https://pipedream.com/pricing)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
 
 [Read more about our plans and pricing here](https://pipedream.com/pricing).
 
