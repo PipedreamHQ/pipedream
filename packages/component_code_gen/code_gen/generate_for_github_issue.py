@@ -186,4 +186,4 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         run_command(f"git commit --no-verify -m '{app} init'")
         run_command(f"git push -f --set-upstream origin {branch_name}")
         run_command(
-            f"gh pr create --draft --title 'New Components - {app}' --body 'Resolves #{issue_number}.'")
+            f"gh pr create -d -l ai-assisted -t 'New Components - {app}' -b 'Resolves #{issue_number}.'")
