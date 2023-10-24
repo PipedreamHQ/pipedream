@@ -66,7 +66,7 @@ export default {
     },
     transitionId: {
       label: "Transition ID",
-      description: "The ID of the issue transition. Required when specifying a transition to undertake.",
+      description: "The ID of the issue transition. Retrieving options requires a static `issueIdOrKey`. Required when specifying a transition to undertake.",
       propDefinition: [
         common.props.app,
         "transition",

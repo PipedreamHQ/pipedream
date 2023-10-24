@@ -181,26 +181,30 @@ export default {
         }
         let { startAt } = prevContext || {};
         const pageSize = 50;
-        const resp = await this.getTransitions({
-          cloudId,
-          issueIdOrKey,
-          params: {
-            startAt,
-            maxResults: pageSize,
-          },
-        });
-        startAt = startAt > 0
-          ? startAt + pageSize
-          : pageSize;
-        return {
-          options: resp?.transitions?.map((issue) => ({
-            value: issue.id,
-            label: issue.name,
-          })),
-          context: {
-            startAt,
-          },
-        };
+        try {
+          const resp = await this.getTransitions({
+            cloudId,
+            issueIdOrKey,
+            params: {
+              startAt,
+              maxResults: pageSize,
+            },
+          });
+          startAt = startAt > 0
+            ? startAt + pageSize
+            : pageSize;
+          return {
+            options: resp?.transitions?.map((issue) => ({
+              value: issue.id,
+              label: issue.name,
+            })),
+            context: {
+              startAt,
+            },
+          };
+        } catch {
+          return [];
+        }
       },
     },
     fields: {
