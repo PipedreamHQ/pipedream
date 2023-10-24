@@ -96,7 +96,7 @@ export default {
         const response = await fn({
           params,
         });
-        const data = response.data || response.results;
+        const data = response.data || response.results || response;
 
         for (const d of data) {
           yield d;

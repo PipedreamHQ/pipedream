@@ -21,7 +21,7 @@ export default {
 
     $.export("$summary", `${responseArray.length} conversation${responseArray.length > 1
       ? "s were"
-      : "was"} successfully fetched!`);
+      : " was"} successfully fetched!`);
     return responseArray;
   },
 };
