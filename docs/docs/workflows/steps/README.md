@@ -73,10 +73,10 @@ Pipedream lets you add notes to individual steps in your workflow so you can  in
 
 ![Viewing step notes](https://res.cloudinary.com/pipedreamin/image/upload/v1698167274/view_notes_zto8bp.png)
 
-### Adding a note
+### Adding or editing a note
 1. Enter build mode on any workflow
 2. Click into the overflow menu (3 dots) at the top right of any step
-3. Select **Add note**
+3. Select **Add note** (or **Edit note** if making changes to an existing note)
 4. Add any text or markdown, then click **Update**
 
 ![Add note](https://res.cloudinary.com/pipedreamin/image/upload/v1698167274/add_note_kvvxju.png)
