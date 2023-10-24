@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/signable",
+  "version": "0.0.1",
+  "description": "Pipedream Signable Components",
+  "main": "signable.app.mjs",
+  "keywords": [
+    "pipedream",
+    "signable"
+  ],
+  "homepage": "https://pipedream.com/apps/signable",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
