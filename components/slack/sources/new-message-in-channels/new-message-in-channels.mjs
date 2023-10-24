@@ -71,7 +71,7 @@ export default {
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
         return;
       }
-      if (this.ignoreThreads && event.subtype == "message_replied") {
+      if (this.ignoreThreads && event.subtype == constants.SUBTYPE.MESSAGE_REPLIED) {
         return;
       }
       if (this.resolveNames) {
