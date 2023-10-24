@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/airops",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream AirOps Components",
-  "main": "dist/app/airops.app.mjs",
+  "main": "airops.app.mjs",
   "keywords": [
     "pipedream",
     "airops"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/airops",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
