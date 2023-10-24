@@ -1,13 +1,11 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import accredible from "../../accredible.app.mjs";
 
 export default {
   key: "accredible-updated-credential",
   name: "Updated Credential",
   description: "Emit new event when an existing credential's details are updated or modified.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {

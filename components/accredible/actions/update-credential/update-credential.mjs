@@ -4,7 +4,7 @@ export default {
   key: "accredible-update-credential",
   name: "Update Credential",
   description: "Modify the details of an existing credential. [See the documentation](https://accrediblecredentialapi.docs.apiary.io)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     accredible,
