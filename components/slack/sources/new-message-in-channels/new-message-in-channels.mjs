@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "slack-new-message-in-channels",
   name: "New Message In Channels (Instant)",
-  version: "1.0.13",
+  version: "1.0.14",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
@@ -45,9 +45,10 @@ export default {
       ],
     },
     ignoreThreads: {
-      propDefinition: [
-        common.props.slack,
-        "ignoreThreads",
+      type: "boolean",
+      label: "Ignore replies in threads",
+      description: "Ignore replies to messages in threads",
+      optional: true,
     },
   },
   methods: {
@@ -72,6 +73,7 @@ export default {
         return;
       }
       if (this.ignoreThreads && event.subtype == constants.SUBTYPE.MESSAGE_REPLIED) {
+        console.log("Ignoring reply in thread");
         return;
       }
       if (this.resolveNames) {
