@@ -21,7 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const PER_PAGE = 1;
+    const PER_PAGE = 100;
     const MAX_PAGES = 50;
     let page = 1;
     const data = [];
