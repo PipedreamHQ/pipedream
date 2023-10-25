@@ -97,20 +97,16 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://app.cometly.com";
+      return "https://app.cometly.com/public-api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path,
-        headers,
-        data,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -118,12 +114,12 @@ export default {
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
-        data,
       });
     },
     async sendEvent(opts = {}) {
       return this._makeRequest({
-        path: "/public-api/v1/events",
+        path: "/events",
+        method: "POST",
         ...opts,
       });
     },
