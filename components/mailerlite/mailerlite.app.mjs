@@ -106,9 +106,21 @@ export default {
     },
   },
   methods: {
-    async _getClient() {
+    _getApiKey() {
+      return this.$auth.api_key;
+    },
+    async _getClient(baseAPI) {
+      let options;
+      if (baseAPI === "connect") {
+        options = {
+          baseURL: "https://connect.mailerlite.com/api",
+          headers: {
+            Authorization: `Bearer ${this._getApiKey()}`,
+          },
+        };
+      }
       const client = MailerLite.default;
-      return client(this.$auth.api_key);
+      return client(this._getApiKey(), options);
     },
     async listGroups(params) {
       const client = await this._getClient();
@@ -136,6 +148,10 @@ export default {
       const client = await this._getClient();
       return client.addSubscriber(data);
     },
+    async createHook(data) {
+      const client = await this._getClient("connect");
+      return client.createWebhook(data);
+    },
     async updateSubscriber(data, subscriber) {
       const client = await this._getClient();
       return client.updateSubscriber(subscriber, data);
@@ -143,6 +159,10 @@ export default {
     async addSubscriberToGroup(data, group) {
       const client = await this._getClient();
       return client.addSubscriberToGroup(group, data);
+    },
+    async removeHook(hookId) {
+      const client = await this._getClient("connect");
+      return client.removeWebhook(hookId);
     },
     async removeSubscriberFromGroup(group, subscriber) {
       const client = await this._getClient();
