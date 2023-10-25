@@ -963,7 +963,10 @@ importers:
       '@pipedreamhq/platform': 0.8.1
 
   components/clockwork_recruiting:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/close:
     specifiers:
