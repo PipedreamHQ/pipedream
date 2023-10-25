@@ -1058,7 +1058,10 @@ importers:
     specifiers: {}
 
   components/cometly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/commcare:
     specifiers: {}
