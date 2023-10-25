@@ -14,7 +14,7 @@ export default {
     eventTime: {
       type: "integer",
       label: "Event Time",
-      description: "Timestamp in UTC timezone",
+      description: "Timestamp in UTC timezone. You can use an ISO 8601 formatted string, or a Unix timestamp in milliseconds.",
     },
     email: {
       type: "string",

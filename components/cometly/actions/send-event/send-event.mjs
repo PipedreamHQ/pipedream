@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import cometly from "../../cometly.app.mjs";
 
 export default {
@@ -88,9 +89,14 @@ export default {
     },
   },
   async run({ $ }) {
+    const eventTime = new Date(this.eventTime).valueOf();
+    if (isNaN(eventTime)) {
+      throw new ConfigurationError("**Invalid event time.** Make sure it is a valid ISO 8601 date string.");
+    }
+
     const data = {
       event_name: this.eventName,
-      event_time: this.eventTime,
+      event_time: Math.floor(eventTime / 1000),
       email: this.email,
       ip: this.ip,
       full_name: this.fullName,
