@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/ez_texting_",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream EZ Texting_ Components",
-  "main": "dist/app/ez_texting_.app.mjs",
+  "main": "ez_texting_.app.mjs",
   "keywords": [
     "pipedream",
     "ez_texting_"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/ez_texting_",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

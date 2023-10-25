@@ -1696,7 +1696,10 @@ importers:
     specifiers: {}
 
   components/ez_texting_:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ezeep_blue:
     specifiers: {}
