@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/referralhero",
+  "version": "0.0.1",
+  "description": "Pipedream ReferralHero Components",
+  "main": "referralhero.app.mjs",
+  "keywords": [
+    "pipedream",
+    "referralhero"
+  ],
+  "homepage": "https://pipedream.com/apps/referralhero",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
