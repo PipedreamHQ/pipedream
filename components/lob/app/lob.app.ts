@@ -8,6 +8,8 @@ import {
   PostcardsApi,
   Postcard,
   PostcardEditable,
+  LettersApi,
+  LetterEditable,
 } from "@lob/lob-typescript-sdk";
 
 export default defineApp({
@@ -47,6 +49,9 @@ export default defineApp({
         username: this.$auth.secret_api_key,
       });
     },
+    _letterApi(): LettersApi {
+      return new LettersApi(this._authConfig());
+    },
     _postcardsApi(): PostcardsApi {
       return new PostcardsApi(this._authConfig());
     },
@@ -63,6 +68,11 @@ export default defineApp({
     },
     async listAllPostcards(): Promise<Array<Postcard>> {
       return this.paginate(this._postcardsApi());
+    },
+    async createLetter(opts = {}) {
+      const letterApi: LettersApi = this._letterApi();
+      const letter = new LetterEditable(opts);
+      return letterApi.create(letter);
     },
     async createPostcard(opts = {}) {
       const postCardApi: PostcardsApi = this._postcardsApi();
