@@ -8,23 +8,16 @@ export default {
   type: "action",
   props: {
     app,
-    botId: {
-      propDefinition: [
-        app,
-        "botId",
-      ],
-    },
     messageText: {
-      propDefinition: [
-        app,
-        "messageText",
-      ],
+      type: "string",
+      label: "Message Text",
+      description: "The message that you wish to generate a response for",
     },
     conversationId: {
-      propDefinition: [
-        app,
-        "conversationId",
-      ],
+      type: "string",
+      label: "Conversation ID",
+      description: "A user-defined identifier for threading conversations. This allows the bot to refer to previous messages when responding, providing more contextually relevant answers. If conversationId isn't provided, one will be generated for you",
+      optional: true,
     },
   },
   methods: {
@@ -38,7 +31,6 @@ export default {
   run({ $: step }) {
     const {
       sendMessageToChatbot,
-      botId,
       messageText,
       conversationId,
     } = this;
@@ -46,7 +38,6 @@ export default {
     return sendMessageToChatbot({
       step,
       data: {
-        botId,
         messageText,
         conversationId,
       },

@@ -6,24 +6,6 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "algomo",
-  propDefinitions: {
-    botId: {
-      type: "string",
-      label: "Chatbot ID",
-      description: "The identifier for the chatbot",
-    },
-    messageText: {
-      type: "string",
-      label: "Message Text",
-      description: "The message that you wish to generate a response for",
-    },
-    conversationId: {
-      type: "string",
-      label: "Conversation ID",
-      description: "A user-defined identifier for threading conversations. This allows the bot to refer to previous messages when responding, providing more contextually relevant answers. If conversationId isn't provided, one will be generated for you",
-      optional: true,
-    },
-  },
   methods: {
     exportSummary(step) {
       if (!step?.export) {
@@ -42,19 +24,27 @@ export default {
         "Authorization": `Bearer ${this.$auth.api_token}`,
       };
     },
+    getData(data) {
+      return {
+        botId: this.$auth.chatbot_id,
+        ...data,
+      };
+    },
     async makeRequest({
-      step = this, path, headers, summary, ...args
+      step = this, path, headers, summary, data, ...args
     } = {}) {
       const {
         getUrl,
         getHeaders,
         exportSummary,
+        getData,
       } = this;
 
       const config = {
-        ...args,
         url: getUrl(path),
         headers: getHeaders(headers),
+        data: getData(data),
+        ...args,
       };
 
       const response = await axios(step, config);
