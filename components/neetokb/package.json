@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/neetokb",
+  "version": "0.0.1",
+  "description": "Pipedream neetoKB Components",
+  "main": "neetokb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "neetokb"
+  ],
+  "homepage": "https://pipedream.com/apps/neetokb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

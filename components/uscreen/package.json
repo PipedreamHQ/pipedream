@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/uscreen",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Uscreen Components",
-  "main": "dist/app/uscreen.app.mjs",
+  "main": "uscreen.app.mjs",
   "keywords": [
     "pipedream",
     "uscreen"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/uscreen",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

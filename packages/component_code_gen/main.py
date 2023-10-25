@@ -1,50 +1,46 @@
 import os
 import argparse
-import templates.generate_actions
-import templates.generate_webhook_sources
-import templates.generate_polling_sources
-import templates.generate_apps
-
-
-available_templates = {
-    'action': templates.generate_actions,
-    'webhook_source': templates.generate_webhook_sources,
-    'polling_source': templates.generate_polling_sources,
-    'app': templates.generate_apps,
-}
-
-
-def main(component_type, app, instructions, tries, verbose=False):
-    if verbose:
-        os.environ['LOGGING_LEVEL'] = 'DEBUG'
-
-    try:
-        templates = available_templates[component_type]
-    except:
-        raise ValueError(
-            f'Templates for {component_type}s are not available. Please choose one of {available_templates.keys()}')
-
-    # this is here so that the DEBUG environment variable is set before the import
-    from code_gen.generate_component_code import generate_code
-    result = generate_code(app, instructions, templates, tries)
-    return result
+from code_gen.generate import main, available_templates
+from code_gen.generate_for_github_issue import generate
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--type', help='Which kind of code you want to generate?',
-                        choices=available_templates.keys(), required=True)
-    parser.add_argument('--app', help='The app_name_slug', required=True)
-    parser.add_argument(
-        '--instructions', help='Markdown file with instructions: prompt + api docs', required=True)
-    parser.add_argument('--num_tries', dest='tries', help='The number of times we call the model to generate code',
-                        required=False, default=3, action='store_true')
-    parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
+    parser.add_argument('--issue', help='The issue number on github',
+                        type=int, required=False)
+    parser.add_argument('--skip-pr', dest='skip_pr', help='Generate a PR on github',
                         required=False, default=False, action='store_true')
+    parser.add_argument('--clean', dest='clean', help='Clean git stage',
+                        required=False, default=False, action='store_true')
+    parser.add_argument('--type', help='Which kind of code you want to generate?',
+                        choices=available_templates.keys())
+    parser.add_argument('--app', help='The app_name_slug')
+    parser.add_argument('--instructions', help='Markdown file with instructions: prompt + api docs',
+                        default="instructions.md")
+    parser.add_argument('--urls', help='A list of (space-separated) api docs urls to be parsed and sent with the prompt',
+                        default=[], nargs="*")
+    parser.add_argument('--num_tries', dest='tries', help='The number of times we call the model to generate code',
+                        default=3, type=int)
+    parser.add_argument(
+        '--custom_path', help='The path for the location of custom files')
+    parser.add_argument('--output_dir', help='The path for the output dir',
+                        required=False, default=os.path.join("..", "..", "components"))
+    parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
+                        default=False, action='store_true')
     args = parser.parse_args()
 
-    with open(args.instructions, 'r') as f:
-        instructions = f.read()
+    if args.issue:
+        generate(args.issue, output_dir=args.output_dir, generate_pr=not args.skip_pr,
+                 clean=args.clean, verbose=args.verbose, tries=args.tries)
+    else:
+        if not args.type:
+            raise argparse.ArgumentTypeError("--type is required")
+        if not args.app:
+            raise argparse.ArgumentTypeError("--app is required")
 
-    result = main(args.type, args.app, instructions, args.tries, args.verbose)
-    print(result)
+        with open(args.instructions, 'r') as f:
+            instructions = f.read()
+
+        result = main(args.type, args.app, instructions, args.tries,
+                      args.urls, args.custom_path, args.verbose)
+        print(result)

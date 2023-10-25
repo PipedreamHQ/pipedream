@@ -12,6 +12,12 @@ Capabilities include:
 - Edit in Pipedream or use a local editor and synchronize via GitHub (e.g., edit code, find and replace across multiple steps or workflows)
 - Organize workflows into projects with support for nested folders
 
+::: tip
+
+Follow our [quickstart guide](/quickstart/github-sync/) to start building projects on Pipedream using GitHub Sync.
+
+:::
+
 ## Getting Started
 
 ### Create a new project and enable GitHub Sync
@@ -156,10 +162,11 @@ To test external edits in Pipedream:
 
 Below are a list of known issues that do not currently have solutions, but are in progress:
 
-- Project branches on Pipedream cannot be deleted at this time. Even if they are deleted on the Github
-- If a workflow uses an action that has been deprecated, merging to production will fail
-- Legacy (V1) workflows are not supported in Projects and there is no option to automatically convert them to the new format (V2)
+- Project branches on Pipedream cannot be deleted at this time. Even if they are deleted on the Github.
+- If a workflow uses an action that has been deprecated, merging to production will fail.
+- Legacy (V1) workflows are not supported in Projects and there is no option to automatically convert them to the new format (V2).
 - Self-hosted Github Server instances are not yet supported in-product. [Please contact us for help](https://pipedream.com/support).
+- Workflow Attachments are not supported in Github Synchronized projects at this time.
 
 ## Github Enterprise Cloud
 

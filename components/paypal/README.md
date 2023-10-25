@@ -19,3 +19,15 @@ applications, such as:
 - Multi-currency transaction support
 - Payment fraud detection and prevention systems
 - Mobile app monetization
+
+# Troubleshooting
+**Why can't I connect my PayPal account in Pipedream?**
+<br>
+The most common issue users run into when trying to connect their account is related to one of the below inputs:
+- **Client ID**
+- **Client Secret**
+- **Environment**
+
+Make sure to copy the correct values and select the appropriate **App Environment** (**Sandbox** or **Production**)
+
+<img alt="PayPal Developer App Credentials" src="https://res.cloudinary.com/pipedreamin/image/upload/v1696907830/paypal-creds_sycmn3.png" />
