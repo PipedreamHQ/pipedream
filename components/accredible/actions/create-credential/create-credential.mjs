@@ -3,7 +3,7 @@ import accredible from "../../accredible.app.mjs";
 export default {
   key: "accredible-create-credential",
   name: "Create Credential",
-  description: "Issue a new credential to a given recipient. [See the documentation](https://accrediblecredentialapi.docs.apiary.io)",
+  description: "Issue a new credential to a given recipient. [See the documentation](https://accrediblecredentialapi.docs.apiary.io/#reference/credentials/credentials/create-a-new-credential)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -55,7 +55,7 @@ export default {
         },
       },
     });
-    $.export("$summary", `Successfully created credential for ${this.recipientEmail}`);
+    $.export("$summary", `Successfully created credential with ID \`${response.credential.id}\`.`);
     return response;
   },
 };

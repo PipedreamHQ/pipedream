@@ -1,67 +1,53 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import accredible from "../../accredible.app.mjs";
+import common from "../common/polling.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
+  ...common,
   key: "accredible-issued-credential",
   name: "Issued Credential",
-  description: "This source triggers when a new credential is issued to a recipient.",
-  version: "0.0.1",
+  description: "This source triggers when a new credential is issued to a recipient. [See the documentation](https://accrediblecredentialapi.docs.apiary.io/#reference/credentials/search-credentials-v2/search-for-credentials).",
   type: "source",
+  version: "0.0.1",
   dedupe: "unique",
-  props: {
-    accredible,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    credentialId: {
-      propDefinition: [
-        accredible,
-        "credentialId",
-      ],
-    },
-  },
   methods: {
-    _getCredentialId() {
-      return this.db.get("credentialId") || 0;
+    ...common.methods,
+    setLastDate(resource) {
+      this.db.set(constants.LAST_ISSUED_ON, resource?.issued_on);
     },
-    _setCredentialId(credentialId) {
-      this.db.set("credentialId", credentialId);
+    getLastDate() {
+      return this.db.get(constants.LAST_ISSUED_ON);
     },
-  },
-  hooks: {
-    async deploy() {
-      const credential = await this.accredible.getCredential({
-        credentialId: this.credentialId,
-      });
-
-      if (credential) {
-        this.$emit(credential, {
-          id: credential.id,
-          summary: `New Credential Issued: ${credential.name}`,
-          ts: Date.parse(credential.created_at),
-        });
-
-        this._setCredentialId(credential.id);
-      }
+    sortFn(a, b) {
+      // Sort by updated_at in ascending order
+      return new Date(a.updated_at) - new Date(b.updated_at);
     },
-  },
-  async run() {
-    const credential = await this.accredible.getCredential({
-      credentialId: this.credentialId,
-    });
+    getResourceName() {
+      return "credentials";
+    },
+    getResourceFn() {
+      return this.app.searchCredentials;
+    },
+    getResourceFnArgs() {
+      const lastDate = this.getLastDate();
 
-    if (credential && credential.id > this._getCredentialId()) {
-      this.$emit(credential, {
-        id: credential.id,
-        summary: `New Credential Issued: ${credential.name}`,
-        ts: Date.parse(credential.created_at),
-      });
+      const lastIssuedOn = lastDate
+        ? this.getDateFormatted(lastDate)
+        : this.getDateFormatted(undefined, 1);
 
-      this._setCredentialId(credential.id);
-    }
+      return {
+        data: {
+          query: {
+            "issued_on[gte]": lastIssuedOn,
+          },
+        },
+      };
+    },
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: `Credential Issued: ${resource.recipient_name}`,
+        ts: Date.parse(resource.issued_on),
+      };
+    },
   },
 };

@@ -1,57 +1,54 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import accredible from "../../accredible.app.mjs";
+import common from "../common/polling.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
+  ...common,
   key: "accredible-updated-credential",
   name: "Updated Credential",
-  description: "Emit new event when an existing credential's details are updated or modified.",
+  description: "Emit new event when an existing credential's details are updated or modified. [See the documentation](https://accrediblecredentialapi.docs.apiary.io/#reference/credentials/search-credentials-v2/search-for-credentials).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    accredible,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    credentialId: {
-      propDefinition: [
-        accredible,
-        "credentialId",
-      ],
-    },
-  },
   methods: {
-    _getCredentialData() {
-      return this.db.get("credentialData");
+    ...common.methods,
+    setLastDate(resource) {
+      this.db.set(constants.LAST_UPDATED_AT, resource?.issued_on);
     },
-    _setCredentialData(credentialData) {
-      this.db.set("credentialData", credentialData);
+    getLastDate() {
+      return this.db.get(constants.LAST_UPDATED_AT);
     },
-  },
-  hooks: {
-    async deploy() {
-      const credential = await this.accredible.getCredential({
-        credentialId: this.credentialId,
-      });
-      this._setCredentialData(credential);
+    sortFn(a, b) {
+      // Sort by updated_at in ascending order
+      return new Date(a.updated_at) - new Date(b.updated_at);
     },
-  },
-  async run() {
-    const credential = await this.accredible.getCredential({
-      credentialId: this.credentialId,
-    });
+    getResourceName() {
+      return "credentials";
+    },
+    getResourceFn() {
+      return this.app.searchCredentials;
+    },
+    getResourceFnArgs() {
+      const lastDate = this.getLastDate();
 
-    if (JSON.stringify(credential) !== this._getCredentialData()) {
-      this._setCredentialData(JSON.stringify(credential));
-      this.$emit(credential, {
-        id: credential.id,
-        summary: `Credential with ID ${credential.id} was updated.`,
-        ts: Date.now(),
-      });
-    }
+      const lastUpdatedAt = lastDate
+        ? this.getDateFormatted(lastDate)
+        : this.getDateFormatted(undefined, 1);
+
+      return {
+        data: {
+          query: {
+            "updated_at[gte]": lastUpdatedAt,
+          },
+        },
+      };
+    },
+    generateMeta(resource) {
+      const ts = Date.parse(resource.updated_at);
+      return {
+        id: `${resource.id}-${ts}`,
+        summary: `Credential Updated: ${resource.recipient_name}`,
+        ts,
+      };
+    },
   },
 };

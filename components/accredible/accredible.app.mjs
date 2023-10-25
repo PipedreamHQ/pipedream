@@ -1,4 +1,6 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -8,21 +10,19 @@ export default {
       type: "string",
       label: "Credential ID",
       description: "The ID of the existing credential",
-    },
-    recipientEmail: {
-      type: "string",
-      label: "Recipient Email",
-      description: "The email of the recipient",
-    },
-    recipientName: {
-      type: "string",
-      label: "Recipient Name",
-      description: "The name of the recipient",
-    },
-    credentialData: {
-      type: "object",
-      label: "Credential Data",
-      description: "The data of the credential",
+      async options({ page }) {
+        const { credentials } = await this.searchCredentials({
+          params: {
+            page: page + 1,
+          },
+        });
+        return credentials.map(({
+          id: value, recipient: { name: label },
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     groupId: {
       type: "string",
@@ -42,17 +42,33 @@ export default {
         }));
       },
     },
+    recipientEmail: {
+      type: "string",
+      label: "Recipient Email",
+      description: "The email of the recipient",
+    },
+    recipientName: {
+      type: "string",
+      label: "Recipient Name",
+      description: "The name of the recipient",
+    },
+    credentialData: {
+      type: "object",
+      label: "Credential Data",
+      description: "The data of the credential",
+      optional: true,
+    },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.accredible.com/v1";
+    getUrl(path, apiVersion = constants.API.V1) {
+      return `${constants.BASE_URL}${apiVersion}${path}`;
     },
-    _makeRequest({
-      $ = this, path, headers, ...otherOpts
+    makeRequest({
+      $ = this, path, headers, apiVersion, ...otherOpts
     } = {}) {
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: this.getUrl(path, apiVersion),
         headers: {
           ...headers,
           "Content-Type": "application/json",
@@ -61,19 +77,19 @@ export default {
       });
     },
     post(args = {}) {
-      return this._makeRequest({
+      return this.makeRequest({
         method: "post",
         ...args,
       });
     },
     put(args = {}) {
-      return this._makeRequest({
+      return this.makeRequest({
         method: "put",
         ...args,
       });
     },
     delete(args = {}) {
-      return this._makeRequest({
+      return this.makeRequest({
         method: "delete",
         ...args,
       });
@@ -81,7 +97,7 @@ export default {
     getCredential({
       credentialId, ...args
     } = {}) {
-      return this._makeRequest({
+      return this.makeRequest({
         path: `/credentials/${credentialId}`,
         ...args,
       });
@@ -113,6 +129,62 @@ export default {
         path: "/issuer/groups/search",
         ...args,
       });
+    },
+    searchCredentials(args = {}) {
+      return this.post({
+        path: "/credentials/search",
+        apiVersion: constants.API.V2,
+        ...args,
+      });
+    },
+    async *getIterations({
+      resourceFn,
+      resourceFnArgs,
+      resourceName,
+      max = constants.DEFAULT_MAX,
+    }) {
+      let from = 0;
+      let resourcesCount = 0;
+
+      while (true) {
+        const response =
+          await resourceFn({
+            ...resourceFnArgs,
+            data: {
+              ...resourceFnArgs?.data,
+              page: {
+                size: constants.DEFAULT_LIMIT,
+                from,
+              },
+            },
+          });
+
+        const nextResources = resourceName && response[resourceName] || response;
+
+        if (!nextResources?.length) {
+          console.log("No more resources found");
+          return;
+        }
+
+        for (const resource of nextResources) {
+          yield resource;
+          resourcesCount += 1;
+
+          if (resourcesCount >= max) {
+            return;
+          }
+        }
+
+        if (nextResources.length < constants.DEFAULT_LIMIT) {
+          console.log("Less resources than limit found");
+          return;
+        }
+
+        from += constants.DEFAULT_LIMIT;
+      }
+    },
+    paginate(args = {}) {
+      return utils.iterate(this.getIterations(args));
     },
   },
 };

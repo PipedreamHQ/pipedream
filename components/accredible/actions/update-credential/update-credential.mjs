@@ -3,7 +3,7 @@ import accredible from "../../accredible.app.mjs";
 export default {
   key: "accredible-update-credential",
   name: "Update Credential",
-  description: "Modify the details of an existing credential. [See the documentation](https://accrediblecredentialapi.docs.apiary.io)",
+  description: "Modify the details of an existing credential. [See the documentation](https://accrediblecredentialapi.docs.apiary.io/#reference/credentials/credential/update-a-credential)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,10 +14,23 @@ export default {
         "credentialId",
       ],
     },
-    recipientEmail: {
+    email: {
       propDefinition: [
         accredible,
         "recipientEmail",
+      ],
+    },
+    name: {
+      propDefinition: [
+        accredible,
+        "recipientName",
+      ],
+    },
+    groupId: {
+      optional: true,
+      propDefinition: [
+        accredible,
+        "groupId",
       ],
     },
     credentialData: {
@@ -28,16 +41,30 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.accredible.updateCredential({
-      credentialId: this.credentialId,
-      credentialData: {
-        recipient: {
-          email: this.recipientEmail,
+    const {
+      accredible,
+      credentialId,
+      email,
+      name,
+      groupId,
+      credentialData,
+    } = this;
+
+    const response = await accredible.updateCredential({
+      $,
+      credentialId,
+      data: {
+        credential: {
+          recipient: {
+            email,
+            name,
+          },
+          group_id: groupId,
+          ...credentialData,
         },
-        ...this.credentialData,
       },
     });
-    $.export("$summary", `Successfully updated credential with ID: ${this.credentialId}`);
+    $.export("$summary", `Successfully updated credential with ID: \`${response.credential.id}\`.`);
     return response;
   },
 };

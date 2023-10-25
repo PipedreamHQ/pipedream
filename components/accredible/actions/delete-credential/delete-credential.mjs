@@ -3,7 +3,7 @@ import accredible from "../../accredible.app.mjs";
 export default {
   key: "accredible-delete-credential",
   name: "Delete Credential",
-  description: "Remove a specific credential from the system. [See the documentation](https://accrediblecredentialapi.docs.apiary.io)",
+  description: "Remove a specific credential from the system. [See the documentation](https://accrediblecredentialapi.docs.apiary.io/#reference/credentials/credential/delete-a-credential)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -16,10 +16,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.accredible.deleteCredential({
-      credentialId: this.credentialId,
+    const {
+      accredible,
+      credentialId,
+    } = this;
+
+    const response = await accredible.deleteCredential({
+      $,
+      credentialId,
     });
-    $.export("$summary", `Successfully deleted credential with ID: ${this.credentialId}`);
+    $.export("$summary", `Successfully deleted credential with ID: \`${response.credential.id}\`.`);
     return response;
   },
 };
