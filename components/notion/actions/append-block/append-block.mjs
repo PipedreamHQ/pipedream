@@ -5,8 +5,8 @@ export default {
   ...base,
   key: "notion-append-block",
   name: "Append Block to Parent",
-  description: "Creates and appends blocks to the specified parent. [See the docs](https://developers.notion.com/reference/patch-block-children)",
-  version: "0.2.10",
+  description: "Creates and appends blocks to the specified parent. [See the documentation](https://developers.notion.com/reference/patch-block-children)",
+  version: "0.2.11",
   type: "action",
   props: {
     notion,
@@ -40,6 +40,12 @@ export default {
       description: "Content of new blocks to append. You must use Markdown syntax [See docs](https://www.notion.so/help/writing-and-editing-basics#markdown-&-shortcuts)",
       optional: true,
     },
+    imageUrls: {
+      type: "string[]",
+      label: "Image URLs",
+      description: "List of URLs to append as image blocks",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const children = [];
@@ -68,6 +74,21 @@ export default {
       for (const content of this.markupContents) {
         const block = this.createBlocks(content);
         children.push(...block);
+      }
+    }
+
+    // add image blocks
+    if (this.imageUrls?.length) {
+      for (const url of this.imageUrls) {
+        children.push({
+          type: "image",
+          image: {
+            type: "external",
+            external: {
+              url,
+            },
+          },
+        });
       }
     }
 
