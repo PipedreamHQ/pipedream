@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cometly",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Cometly Components",
   "main": "cometly.app.mjs",
   "keywords": [
