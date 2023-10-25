@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/flodesk",
+  "version": "0.1.0",
+  "description": "Pipedream Flodesk Components",
+  "main": "flodesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "flodesk"
+  ],
+  "homepage": "https://pipedream.com/apps/flodesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "lodash": "^4.17.21"
+  }
+}

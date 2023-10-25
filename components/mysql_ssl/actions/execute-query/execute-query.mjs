@@ -9,5 +9,5 @@ export default {
   ...utils.getAppProps(executeQuery),
   key: "mysql_ssl-execute-query",
   description: "Find row(s) via a custom query (SSL). [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
-  version: "0.0.1",
+  version: "1.0.1",
 };

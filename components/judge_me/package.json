@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/judge_me",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Judge.me Components",
-  "main": "dist/app/judge_me.app.mjs",
+  "main": "judge_me.app.mjs",
   "keywords": [
     "pipedream",
     "judge_me"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/judge_me",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
