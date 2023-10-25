@@ -6356,7 +6356,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/vies_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      viesapi-client: ^1.2.5
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      viesapi-client: 1.2.5
 
   components/viral_loops:
     specifiers:
@@ -27413,6 +27418,18 @@ packages:
       vfile-message: 4.0.2
     dev: true
 
+  /viesapi-client/1.2.5:
+    resolution: {integrity: sha512-ZnGNEIHUBVY6xyVefPoiQnwCKlRG5MpZeTL8FusfSj1ivTe2C9qI8ARW+s3OFiuERYy5xxeuMelfRcUV+foFmg==}
+    dependencies:
+      axios: 0.27.2
+      date-fns: 2.30.0
+      url: 0.11.3
+      xmldom: 0.6.0
+      xpath: 0.0.32
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /vm2/3.9.19:
     resolution: {integrity: sha512-J637XF0DHDMV57R6JyVsTak7nIL8gy5KH4r1HiwWLf/4GBbb5MKL5y7LpmF4A8E2nR6XmzpmMFQ7V7ppPTmUQg==}
     engines: {node: '>=6.0'}
@@ -27840,6 +27857,16 @@ packages:
 
   /xmlcreate/2.0.4:
     resolution: {integrity: sha512-nquOebG4sngPmGPICTS5EnxqhKbCmz5Ox5hsszI2T6U5qdrJizBc+0ilYSEjTSzU0yZcmvppztXe/5Al5fUwdg==}
+    dev: false
+
+  /xmldom/0.6.0:
+    resolution: {integrity: sha512-iAcin401y58LckRZ0TkI4k0VSM1Qg0KGSc3i8rU+xrxe19A/BN1zHyVSJY7uoutVlaTSzYyk/v5AmkewAP7jtg==}
+    engines: {node: '>=10.0.0'}
+    dev: false
+
+  /xpath/0.0.32:
+    resolution: {integrity: sha512-rxMJhSIoiO8vXcWvSifKqhvV96GjiD5wYb8/QHdoRyQvraTpp4IEv944nhGausZZ3u7dhQXteZuZbaqfpB7uYw==}
+    engines: {node: '>=0.6.0'}
     dev: false
 
   /xregexp/2.0.0:
