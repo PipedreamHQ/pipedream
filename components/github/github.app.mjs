@@ -535,5 +535,12 @@ export default {
         data: data,
       });
     },
+    async createGist(data) {
+      return this._makeRequest({
+        path: "/gists",
+        method: "post",
+        data,
+      });
+    },
   },
 };
