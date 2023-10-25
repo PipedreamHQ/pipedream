@@ -10,7 +10,7 @@ But Pipedream-integrated apps provide a few benefits:
 
 ## Premium Apps
 
-The vast majority of integrated apps on Pipedream are free to use in your workflows across any plan. However, in order to use any of the below apps in an active workflow, your workspace will need to have a paid plan (Basic or higher):
+The vast majority of integrated apps on Pipedream are free to use in your workflows across any plan. However, in order to use any of the below apps in an active workflow, your workspace will need to have access to [Premium Apps](https://pipedream.com/pricing):
 
 - [ActiveCampaign](https://pipedream.com/apps/activecampaign)
 - [Amazon Advertising](https://pipedream.com/apps/amazon_advertising)
@@ -70,7 +70,7 @@ The vast majority of integrated apps on Pipedream are free to use in your workfl
 </br>
 
 ::: tip Missing an integration?
-If we don't have an integration for an app that you'd like to see, please [request it on our Github roadmap](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D) or [contribute it to the open source Pipedream registry](/apps/contributing/).
+If we don't have an integration for an app that you'd like to see, please [request let us know](https://pipedream.com/support) or [contribute it to the source available Pipedream registry](/apps/contributing/).
 :::
   
 **Check out the full list of integrated apps [here](https://pipedream.com/apps).**

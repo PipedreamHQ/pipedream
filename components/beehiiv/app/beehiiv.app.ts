@@ -21,7 +21,7 @@ export default defineApp({
     reactivateExisting: {
       type: "boolean",
       label: "Reactivate Existing",
-      description: "Whether or not to reactivate the subscriber if they have already unsubscribed. **This option should be used only if the subscriber is knowingly resubscribing**. default: `false`.",
+      description: "Whether or not to reactivate the subscriber if they have already unsubscribed.  **This option should be used only if the subscriber is knowingly resubscribing**. default: `false`.",
       optional: true,
     },
     sendWelcomeEmail: {
@@ -38,12 +38,16 @@ export default defineApp({
     },
   },
   methods: {
-    _getUrl(path) {
-      return `https://api.beehiiv.com/v1${path}`;
+    _getUrl(path, params = {}) {
+      let formattedPath = path;
+      for (const [key, value] of Object.entries(params)) {
+        formattedPath = formattedPath.replace(`{${key}}`, value);
+      }
+      return `https://api.beehiiv.com/v2${formattedPath}`;
     },
     _getHeaders(headers = {}) {
       return {
-        "X-ApiKey": this.$auth.api_key,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
         "Content-Type": "application/json",
         ...headers,
       };
@@ -51,14 +55,15 @@ export default defineApp({
     _getRequestParams(opts: any) {
       return {
         ...opts,
-        url: this._getUrl(opts.path),
+        url: this._getUrl(opts.path, opts.params),
         headers: this._getHeaders(),
       };
     },
     async createSubscriber($ = this, param) {
       const response = await axios($, this._getRequestParams({
         method: "POST",
-        path: "/subscribers",
+        path: "/publications/{publicationId}/subscriptions",
+        params: { publicationId: param.publication_id },
         data: param,
       }));
       return response;
@@ -68,7 +73,7 @@ export default defineApp({
         method: "GET",
         path: "/publications",
       }));
-      return response;
+      return { publications: response.data };
     },
     async getPublicationOpts() {
       const { publications } = await this.listPublications(this);

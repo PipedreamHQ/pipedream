@@ -84,3 +84,19 @@ At this point, you should have a Gmail App under your Google Project, and a set 
     ![Check all scopes to include grant your integration permission](https://res.cloudinary.com/pipedreamin/image/upload/v1663269729/docs/components/CleanShot_2022-09-15_at_15.20.26_jlnyw4.gif)
 
 7. Click the final **Connect** and your custom Gmail app should be integrated into Pipedream!
+
+## Publish your custom Gmail app
+Google has a [7 day expiration window](https://developers.google.com/identity/protocols/oauth2#:~:text=A%20Google%20Cloud,Connect%20equivalents) on refresh tokens for applications with a publishing status of "Testing", so you will need to **Publish** your application in order to maintain your account connection.
+
+1. Navigate to your application, and click **OAuth Consent Screen** on the lefthand sidebar.
+2. Under **Publishing status**, click **Publish App**. If you included any sensitive or restricted scopes in your app, there will be a disclosure stating that you will need to go through the process of verification. Click **Confirm**.
+3. Your application will not be available externally unless you share your **client_id** with others, and you will not have to go through the verification process unless you intend to onboard over 100 users.
+4. The publishing status should be set to **In production**, and your account should maintain its connection without an expiration window.
+
+![Publish your application](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.06_AM_lve7wq.png)
+
+![Confirmation of changes](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.18_AM_mndtyc.png)
+
+# Troubleshooting
+**Application disconnects after 7 days**<br>
+If your developer application disconnects after 7 days, you need to follow the steps above to Publish your custom Gmail app in order to keep your account connected.
