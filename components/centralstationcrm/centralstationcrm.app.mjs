@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -19,22 +20,6 @@ export default {
         return users?.map(({ user }) => ({
           value: user.id,
           label: `${user.first} ${user.name}`,
-        })) || [];
-      },
-    },
-    tagIds: {
-      type: "string[]",
-      label: "Tags",
-      description: "Tags to add to add to the person",
-      async options({ page }) {
-        const tags = await this.listTags({
-          params: {
-            page: page + 1,
-          },
-        });
-        return tags?.map(({ tag }) => ({
-          value: tag.id,
-          label: tag.name,
         })) || [];
       },
     },
@@ -65,9 +50,15 @@ export default {
         ...args,
       });
     },
-    listTags(args = {}) {
+    listPeople(args = {}) {
       return this._makeRequest({
-        path: "/tags.json",
+        path: "/people.json",
+        ...args,
+      });
+    },
+    listDeals(args = {}) {
+      return this._makeRequest({
+        path: "/deals.json",
         ...args,
       });
     },
@@ -77,6 +68,34 @@ export default {
         method: "POST",
         ...args,
       });
+    },
+    createDeal(args = {}) {
+      return this._makeRequest({
+        path: "/deals.json",
+        method: "POST",
+        ...args,
+      });
+    },
+    async *paginate({
+      resourceFn, params = {},
+    }) {
+      params = {
+        ...params,
+        page: 1,
+        perpage: constants.DEFAULT_LIMIT,
+      };
+      let total = 0;
+
+      do {
+        const items = await resourceFn({
+          params,
+        });
+        for (const item of items) {
+          yield item;
+        }
+        total = items?.length;
+        params.page++;
+      } while (total === params.perpage);
     },
   },
 };
