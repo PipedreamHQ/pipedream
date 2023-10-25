@@ -1,5 +1,5 @@
 import github from "../../github.app.mjs";
-import { convertFiles } from "../../common/utils.mjs";
+import utils from "../../actions/common/utils.mjs";
 
 export default {
   key: "github-create-gist",
@@ -28,7 +28,7 @@ export default {
   async run({ $ }) {
     const res = await this.github.createGist({
       description: this.description,
-      files: convertFiles(this.files),
+      files: utils.convertFiles(this.files),
       public: this.public,
     });
 
