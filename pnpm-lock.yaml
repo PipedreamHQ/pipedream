@@ -83,6 +83,9 @@ importers:
   components/abuselpdb:
     specifiers: {}
 
+  components/abyssale:
+    specifiers: {}
+
   components/accelo:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -122,6 +125,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/addevent:
+    specifiers: {}
+
+  components/adobe_pdf_services:
+    specifiers: {}
+
+  components/adobe_sign:
     specifiers: {}
 
   components/adp:
@@ -854,6 +863,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/cheddar:
+    specifiers: {}
+
+  components/chmeetings:
     specifiers: {}
 
   components/circl_hash_lookup:
@@ -5291,6 +5303,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/signable:
+    specifiers: {}
+
   components/signaturely:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6298,6 +6313,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/vendasta:
+    specifiers: {}
 
   components/vercel:
     specifiers:
