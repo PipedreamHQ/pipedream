@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { EVENT_TYPES } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,23 +8,8 @@ export default {
     eventName: {
       type: "string",
       label: "Event Name",
-      description: "One of the following events: lead_generated, view_content, schedule, purchase, subscribe, add_to_cart, contact, initiate_checkout, add_payment_info, complete_registration, start_trial, sign_up, submit_application, webinar_registration",
-      options: [
-        "lead_generated",
-        "view_content",
-        "schedule",
-        "purchase",
-        "subscribe",
-        "add_to_cart",
-        "contact",
-        "initiate_checkout",
-        "add_payment_info",
-        "complete_registration",
-        "start_trial",
-        "sign_up",
-        "submit_application",
-        "webinar_registration",
-      ],
+      description: "The event type.",
+      options: EVENT_TYPES,
     },
     eventTime: {
       type: "integer",
@@ -67,7 +53,7 @@ export default {
     phone: {
       type: "string",
       label: "Phone",
-      description: "Phone number of the user",
+      description: "Phone numbers must include a country code to be used for matching (e.g., the number 1 must precede a phone number in the United States). Always include the country code as part of your customers' phone numbers, even if all of your data is from the same country.",
       optional: true,
     },
     orderId: {

@@ -3,7 +3,7 @@ import cometly from "../../cometly.app.mjs";
 export default {
   key: "cometly-send-event",
   name: "Send Event",
-  description: "Sends an event to the Cometly API. [See the documentation](https://developers.cometly.com/)",
+  description: "Sends an event to the Cometly API. [See the documentation]https://developers.cometly.com/#endpoint-advanced-method)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -66,68 +66,28 @@ export default {
       propDefinition: [
         cometly,
         "orderId",
-        (c) => ({
-          eventName: [
-            "purchase",
-            "subscribe",
-            "add_to_cart",
-            "initiate_checkout",
-            "add_payment_info",
-            "sign_up",
-          ].includes(c.eventName),
-        }),
       ],
     },
     orderName: {
       propDefinition: [
         cometly,
         "orderName",
-        (c) => ({
-          eventName: [
-            "purchase",
-            "subscribe",
-            "add_to_cart",
-            "initiate_checkout",
-            "add_payment_info",
-            "sign_up",
-          ].includes(c.eventName),
-        }),
       ],
     },
     checkoutToken: {
       propDefinition: [
         cometly,
         "checkoutToken",
-        (c) => ({
-          eventName: [
-            "purchase",
-            "subscribe",
-            "add_to_cart",
-            "initiate_checkout",
-            "add_payment_info",
-            "sign_up",
-          ].includes(c.eventName),
-        }),
       ],
     },
     amount: {
       propDefinition: [
         cometly,
         "amount",
-        (c) => ({
-          eventName: [
-            "purchase",
-            "subscribe",
-            "add_to_cart",
-            "initiate_checkout",
-            "add_payment_info",
-            "sign_up",
-          ].includes(c.eventName),
-        }),
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const data = {
       event_name: this.eventName,
       event_time: this.eventTime,
@@ -145,7 +105,8 @@ export default {
     };
 
     const response = await this.cometly.sendEvent({
-      data: data,
+      $,
+      data,
     });
 
     this.$export("$summary", `Successfully sent event ${this.eventName}`);
