@@ -4,7 +4,8 @@ import cometly from "../../cometly.app.mjs";
 export default {
   key: "cometly-send-event",
   name: "Send Event",
-  description: "Sends an event to the Cometly API. [See the documentation]https://developers.cometly.com/#endpoint-advanced-method)",
+  description:
+    "Sends an event to the Cometly API. [See the documentation]https://developers.cometly.com/#endpoint-advanced-method)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -89,9 +90,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const eventTime = new Date(this.eventTime).valueOf();
+    let eventTime =
+      new Date(this.eventTime).valueOf() ||
+      new Date(Number(this.eventTime)).valueOf();
     if (isNaN(eventTime)) {
-      throw new ConfigurationError("**Invalid event time.** Make sure it is a valid ISO 8601 date string.");
+      throw new ConfigurationError(
+        "**Invalid event time.** Make sure it is a valid ISO 8601 date string.",
+      );
     }
 
     const data = {

@@ -12,7 +12,7 @@ export default {
       options: EVENT_TYPES,
     },
     eventTime: {
-      type: "integer",
+      type: "string",
       label: "Event Time",
       description: "Timestamp in UTC timezone. You can use an ISO 8601 formatted string, or a Unix timestamp in milliseconds.",
     },
