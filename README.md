@@ -1,5 +1,6 @@
-![pipedream](https://i.ibb.co/LPhXtH1/logo.png)
 
+![pipedream](https://i.ibb.co/LPhXtH1/logo.png)
+<div id="top"></div>
 <p align="center">
   <a href="https://pipedream.com/community"><img src="https://img.shields.io/badge/discourse-forum-brightgreen.svg?style=flat-square&link=https%3A%2F%2Fpipedream.com%2Fcommunity)](https://pipedream.com/community"></a>
   <a href="https://pipedream.com/support"><img src="https://img.shields.io/badge/-Join%20us%20on%20Slack-green?logo=slack&logoColor=34d28B&labelColor=150d11&color=34d28B&logoWidth=18&link=https%3A%2F%2Fpipedream.com%2Fsupport&link=https%3A%2F%2Fpipedream.com%2Fsupport)](https://pipedream.com/support"></a>
@@ -234,3 +235,4 @@ If an issue _doesn't_ yet exist and you need to create one, please [use the issu
 You can read about our platform security and privacy [here](https://pipedream.com/docs/privacy-and-security/).
 
 If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact our security team at **security@pipedream.com**.
+<p align="right">(<a href="#top">🔼 Back to top</a>)</p>
