@@ -5,7 +5,7 @@ export default defineAction({
   name: "Create Subscriber",
   description: "Create a new subscriber. [See docs](https://www.beehiiv.com/developers/docs)",
   key: "beehiiv-create-subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -49,7 +49,7 @@ export default defineAction({
       utm_source: this.utmSource,
     };
     const response = await this.app.createSubscriber($, param);
-    $.export("$summary", `Successfully created a new subscriber with id: ${response.id}`);
+    $.export("$summary", `Successfully created a new subscriber with id: ${response.data.id}`);
     return response;
   },
 });

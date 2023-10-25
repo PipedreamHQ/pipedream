@@ -584,6 +584,19 @@ files = [
 ]
 
 [[package]]
+name = "gh"
+version = "0.0.4"
+description = ""
+optional = false
+python-versions = "*"
+files = [
+    {file = "gh-0.0.4.tar.gz", hash = "sha256:db58819885a95807f963f8eb798e1d0df22ded41d9a80d5c3dc1fc8d695f1e1b"},
+]
+
+[package.dependencies]
+gitpython = "*"
+
+[[package]]
 name = "gitdb"
 version = "4.0.10"
 description = "Git Object Database"
@@ -2122,4 +2135,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "c73e746679ac131dd4b5dc71b5a609c9c0e92ce9e886599760362b326dfa8c80"
+content-hash = "fa2a277a57b56a56da069d7420e7214b1834812f15d49bd6f705f1442660a817"

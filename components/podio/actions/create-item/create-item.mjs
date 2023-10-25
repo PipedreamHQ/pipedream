@@ -6,13 +6,13 @@ delete props.itemId;
 export default {
   type: "action",
   key: "podio-create-item",
-  version: "0.0.2",
+  version: "0.0.3",
   name: "Create an Item",
   description: "Adds a new item to the given app. [See the documentation](https://developers.podio.com/doc/items/add-new-item-22362)",
   ...common,
   props,
   async run ({ $ }) {
-    const fields = this.getFields();
+    const fields = await this.getFields();
     const reminder = this.reminder ?
       {
         remind_delta: this.reminder,

@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/starloop",
-  "version": "0.0.1",
-  "description": "Pipedream Starloop  Components",
+  "version": "0.1.0",
+  "description": "Pipedream Starloop Components",
   "main": "starloop.app.mjs",
   "keywords": [
     "pipedream",
