@@ -67,6 +67,7 @@ export default {
       app,
       personId,
       regionId,
+      street2,
       ...data
     } = this;
 
@@ -77,6 +78,7 @@ export default {
         address: {
           ...data,
           region_id: regionId,
+          street_2: street2,
         },
       },
     });
