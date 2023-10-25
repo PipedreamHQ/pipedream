@@ -120,7 +120,7 @@ export default {
       data,
     });
 
-    this.$export("$summary", `Successfully sent event ${this.eventName}`);
+    $.export("$summary", `Successfully sent event "${this.eventName}"`);
     return response;
   },
 };
