@@ -5,7 +5,7 @@ export default {
   key: "firebase_admin_sdk-update-document",
   name: "Update Documents",
   description: "Updates a Document. [See the docs here](https://googleapis.dev/nodejs/firestore/latest/DocumentReference.html#update)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
