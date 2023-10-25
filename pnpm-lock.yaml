@@ -124,6 +124,9 @@ importers:
   components/addevent:
     specifiers: {}
 
+  components/adobe_sign:
+    specifiers: {}
+
   components/adp:
     specifiers: {}
 
@@ -854,6 +857,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/cheddar:
+    specifiers: {}
+
+  components/chmeetings:
     specifiers: {}
 
   components/circl_hash_lookup:
@@ -5291,6 +5297,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/signable:
+    specifiers: {}
+
   components/signaturely:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6298,6 +6307,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/vendasta:
+    specifiers: {}
 
   components/vercel:
     specifiers:
