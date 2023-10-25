@@ -6,7 +6,7 @@ export default {
   key: "spotlightr-video-viewed",
   name: "New Video View",
   version: "0.0.1",
-  description: "Emit new event when a specific video is viewed by an user.",
+  description: "Emit new event when a specific video is viewed by a user.",
   type: "source",
   dedupe: "unique",
   props: {
@@ -63,7 +63,7 @@ export default {
           {
             id: item.id,
             summary: `New view with id: "${item.id}" was created!`,
-            ts: item.date,
+            ts: Date.parse(item.date),
           },
         );
       }

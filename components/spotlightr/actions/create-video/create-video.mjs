@@ -8,7 +8,7 @@ export default {
   key: "spotlightr-create-video",
   name: "Create Video",
   version: "0.0.1",
-  description: "It let's you to create a video in an application. [See the documentation](https://app.spotlightr.com/docs/api/#create-video)",
+  description: "Create a video in an application. [See the documentation](https://app.spotlightr.com/docs/api/#create-video)",
   type: "action",
   props: {
     spotlightr,
