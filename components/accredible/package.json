@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/accredible",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Accredible Components",
   "main": "dist/app/accredible.app.mjs",
   "keywords": [
