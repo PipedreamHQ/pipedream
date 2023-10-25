@@ -35,12 +35,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.github.createGist({
+    const res = await this.github.createGist({
       description: this.description,
       files: this.convertFiles(this.files),
       public: this.public,
     });
 
-    $.export("$summary", `Successfully created gist with ID ${response.id}.`);
+    $.export("$summary", `Successfully created gist with ID "${res.id}".`);
+    return res;
   },
 };

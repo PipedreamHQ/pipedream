@@ -542,5 +542,11 @@ export default {
         data,
       });
     },
+    async listGistsFromUser(username, params = {}) {
+      return this._makeRequest({
+        path: `/users/${username}/gists`,
+        params,
+      });
+    },
   },
 };
