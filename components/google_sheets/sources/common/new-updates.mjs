@@ -67,6 +67,14 @@ export default {
     _setSheetValues(id, sheetValues) {
       this.db.set(id, sheetValues);
     },
+    indexToColumnLabel(index) {
+      let columnLabel = "";
+      while (index >= 0) {
+        columnLabel = String.fromCharCode((index % 26) + 65) + columnLabel;
+        index = Math.floor(index / 26) - 1;
+      }
+      return columnLabel;
+    },
     getContentChanges(colCount, newValues, oldValues, changes, i) {
       // loop through comparing the values of each cell
       for (let j = 0; j < colCount; j++) {
@@ -82,7 +90,7 @@ export default {
             : "";
         if (newValue !== oldValue) {
           changes.push({
-            cell: `${String.fromCharCode(j + 65)}:${i + 1}`,
+            cell: `${this.indexToColumnLabel(j)}:${i + 1}`,
             previous_value: oldValue,
             new_value: newValue,
           });
