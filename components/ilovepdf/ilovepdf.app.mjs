@@ -9,10 +9,17 @@ export default {
       label: "Task ID",
       description: "The ID of the task",
     },
-    file: {
+    fileUrl: {
       type: "string",
-      label: "File",
-      description: "The file to be processed",
+      label: "File URL",
+      description: "The URL of the file to be processed.",
+      optional: true,
+    },
+    filePath: {
+      type: "string",
+      label: "File Path",
+      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      optional: true,
     },
     tool: {
       type: "string",
@@ -47,17 +54,14 @@ export default {
     _baseUrl() {
       return "https://api.ilovepdf.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
