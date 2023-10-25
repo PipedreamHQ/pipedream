@@ -57,7 +57,6 @@ export default {
       type: "string",
       label: "Pain Level",
       description: "The pain level of the feedback",
-      optional: true,
       options: PAIN_LEVEL_OPTIONS,
     },
   },
