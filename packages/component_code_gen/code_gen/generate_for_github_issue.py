@@ -180,7 +180,7 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         # XXX: remove ts stuff and .gitignore
         # GitPython requires to manually check .gitignore paths when adding files to index
         # so this is easier
-        run_command(f"npx eslint {app_base_path} --fix --ignore-pattern node_modules")
+        run_command(f"npx eslint {app_base_path} --fix")
         run_command(["npx pnpm i"])
         run_command(f"git add {app_base_path} {repo_path}/pnpm-lock.yaml")
         run_command(f"git commit --no-verify -m '{app} init'")
