@@ -54,7 +54,7 @@ To demote an admin back to a member, click the 3 dots to the right of their emai
 Visit your [workspace settings](https://pipedream.com/settings/account) and scroll down to the **API** section. You'll see your workspace ID here.
 
 ### Requiring Two-Factor Authentication
-As a workspace admin or owner on the [Business plan](https://pipedream.com/pricing), you're able to **require** that everyone in your workspace must configure 2FA on their account.
+As a workspace admin or owner on the [Business plan](https://pipedream.com/pricing), you're able to **require** that all members in your workspace must enable 2FA on their account.
 
 1. Open the Authentication tab in your [workspace settings](https://pipedream.com/settings/authentication) (you must be an admin or owner to make changes here)
 2. Make sure you're in the [correct workspace](/workspaces/#switching-between-workspaces)
