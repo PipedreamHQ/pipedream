@@ -3506,7 +3506,10 @@ importers:
     specifiers: {}
 
   components/miro_custom_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/missive:
     specifiers:
