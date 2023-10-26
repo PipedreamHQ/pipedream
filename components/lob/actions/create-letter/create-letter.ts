@@ -92,6 +92,33 @@ export default defineAction({
       description: "Country of the address.",
       optional: true,
     },
+    file: {
+      type: "string",
+      label: "File",
+      description: "Letter content in HTML",
+    },
+    color: {
+      type: "boolean",
+      label: "Color",
+      description: "Set to true if you want to print in color; set to false for black and white.",
+    },
+    useType: {
+      type: "string or null",
+      label: "Use Type",
+      description: "The use type of the mail. It can only be null if an account default use_type is selected).",
+      options: constants.USE_TYPES,
+    },
+    mailType: {
+      type: "string",
+      label: "Mail Type",
+      description: "Designates the mail postage type.",
+      options: constants.MAIL_TYPES,
+    },
+    sendDate: {
+      type: "string",
+      label: "Send Date",
+      description: "Specifies the date to send the letter off for production (ISO 8601 format, up to 180 days in the future).",
+    },
   },
   async run({ $ }) {
     const response: Letter = await this.lob.createLetter({
@@ -109,6 +136,11 @@ export default defineAction({
       },
       description: this.description,
       from: this.from,
+      file: this.file,
+      color: this.color,
+      use_type: this.useType,
+      mail_type: this.mailType,
+      send_date: this.sendDate,
     });
 
     $.export("$summary", `Successfully created letter with ID ${response.id}`);
