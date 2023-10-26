@@ -54,7 +54,7 @@ Pipedream recommends enabling 2FA with your identity provider.
 :::
 
 #### Requiring 2-Factor Authentication
-Workspace admins and owners on the Business and Enterprise plans can require that everyone in the workspace must configure 2FA. [See here for more info](/workspaces/#requiring-two-factor-authentication). 
+Workspaces on the Business and Enterprise plans can [require all workspace members to configure 2FA](/workspaces/#requiring-two-factor-authentication) in order to log in to Pipedream. 
 
 If you are a member of any workspace where 2FA is required, you cannot disable 2FA, but you can still reconfigure it in your [account settings](https://pipedream.com/account/) if necessary.
 
