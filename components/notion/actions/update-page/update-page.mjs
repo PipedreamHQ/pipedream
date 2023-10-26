@@ -7,7 +7,7 @@ export default {
   key: "notion-update-page",
   name: "Update Page",
   description: "Updates page property values for the specified page. Properties that are not set will remain unchanged. To append page content, use the *append block* action. [See the docs](https://developers.notion.com/reference/patch-page)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     notion,
@@ -78,10 +78,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const currentPage = await this.notion.retrievePage(this.pageId);
-    const page = this.buildPage(currentPage);
-    const response = await this.notion.updatePage(this.pageId, page);
-    $.export("$summary", "Updated page successfully");
-    return response;
+    try {
+      const currentPage = await this.notion.retrievePage(this.pageId);
+      const page = this.buildPage(currentPage);
+      const response = await this.notion.updatePage(this.pageId, page);
+      $.export("$summary", "Updated page successfully");
+      return response;
+    } catch (error) {
+      throw new Error(error.body);
+    }
   },
 };
