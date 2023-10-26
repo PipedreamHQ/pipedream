@@ -3065,6 +3065,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/lightspeed_retail_pos:
+    specifiers: {}
+
   components/lightspeed_vt:
     specifiers: {}
 
