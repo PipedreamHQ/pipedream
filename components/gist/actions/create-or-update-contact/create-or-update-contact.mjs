@@ -99,7 +99,7 @@ export default {
         last_seen_user_agent: lastSeenUserAgent,
         custom_properties: customProperties,
         unsubscribed_from_emails: unsubscribedFromEmails,
-        tags: tagId,
+        tags: tagId && tagId.map((tag) => tag.value),
         ...data,
       },
     });
