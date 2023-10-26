@@ -175,10 +175,10 @@ export default {
     const originalTabs = await this.docusign.listTemplateTabs(baseUri, this.template);
     const tabs = this._setTemplateTabs(originalTabs, this);
 
-    const templateRoles = templateRecipientsResponse.signers.map((role, index) => {
+    const templateRoles = templateRecipientsResponse.signers.map((role) => {
       const roleTabs = {};
       Object.keys(tabs).forEach((key) => {
-        roleTabs[key] = tabs[key].filter((tab) => tab.recipientId === `${index + 1}`);
+        roleTabs[key] = tabs[key].filter((tab) => tab.recipientId === role.recipientIdGuid);
       });
 
       return {
