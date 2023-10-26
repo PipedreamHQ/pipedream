@@ -676,7 +676,13 @@ importers:
       crypto: 1.0.1
       uuid: 8.3.2
 
+  components/brilliant_directories:
+    specifiers: {}
+
   components/brosix:
+    specifiers: {}
+
+  components/browse_ai:
     specifiers: {}
 
   components/browserless:
@@ -694,6 +700,9 @@ importers:
     specifiers: {}
 
   components/builder_io:
+    specifiers: {}
+
+  components/builderall_mailingboss:
     specifiers: {}
 
   components/bulkgate:
@@ -1476,6 +1485,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dokan:
+    specifiers: {}
+
+  components/doppler:
     specifiers: {}
 
   components/doppler_marketing_automation:
@@ -3050,6 +3062,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/lightspeed_vt:
+    specifiers: {}
+
   components/line:
     specifiers:
       '@line/bot-sdk': ^7.5.2
@@ -4286,6 +4301,9 @@ importers:
   components/placetel:
     specifiers: {}
 
+  components/placid:
+    specifiers: {}
+
   components/plain:
     specifiers: {}
 
@@ -4521,6 +4539,9 @@ importers:
       '@sparticuz/chromium': 112.0.2
       puppeteer-core: 19.8.0
 
+  components/push_by_techulus:
+    specifiers: {}
+
   components/pushcut:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -4676,6 +4697,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/recruitee:
+    specifiers: {}
+
   components/recurly:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -4699,6 +4723,9 @@ importers:
       qs: 6.11.2
 
   components/redmine:
+    specifiers: {}
+
+  components/referralhero:
     specifiers: {}
 
   components/referralrock:
@@ -4986,6 +5013,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/satismeter:
+    specifiers: {}
 
   components/saucelabs:
     specifiers: {}
@@ -5861,6 +5891,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/teamup:
+    specifiers: {}
+
   components/teamwave:
     specifiers: {}
 
@@ -6272,6 +6305,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       qs: 6.11.2
+
+  components/upollo:
+    specifiers: {}
 
   components/uptimerobot:
     specifiers: {}
