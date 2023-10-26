@@ -13,6 +13,7 @@ But Pipedream-integrated apps provide a few benefits:
 The vast majority of integrated apps on Pipedream are free to use in your workflows across any plan. However, in order to use any of the below apps in an active workflow, your workspace will need to have access to [Premium Apps](https://pipedream.com/pricing):
 
 - [ActiveCampaign](https://pipedream.com/apps/activecampaign)
+- [ADP](https://pipedream.com/apps/adp)
 - [Amazon Advertising](https://pipedream.com/apps/amazon_advertising)
 - [Asana](https://pipedream.com/apps/asana)
 - [AWS](https://pipedream.com/apps/aws)
