@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/teamup",
+  "version": "0.0.1",
+  "description": "Pipedream TeamUp Components",
+  "main": "teamup.app.mjs",
+  "keywords": [
+    "pipedream",
+    "teamup"
+  ],
+  "homepage": "https://pipedream.com/apps/teamup",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
