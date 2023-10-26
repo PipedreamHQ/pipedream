@@ -65,7 +65,7 @@ As a workspace admin or owner on the [Business plan](https://pipedream.com/prici
 
 ::: warning  Anyone who is currently logged in to Pipedream will be temporarily signed out until they set up 2FA
 
-If anyone is actively making changes to a workflow, their session may get interrupted, so you should enable the 2FA requirement when your team is not in the builder.
+If anyone is actively making changes to a workflow, their session may be interrupted. We recommend enabling the 2FA requirement in off hours.
 
 :::
 
