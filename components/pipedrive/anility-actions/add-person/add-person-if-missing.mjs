@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-add-person",
   name: "Add Person (Anility)",
   description: "Adds a new person if missing. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     pipedriveApp,
@@ -66,6 +66,11 @@ export default {
       label: "AnilityId field value",
       description: "Anility Id custom field value in Pipedrive",
     },
+    label: {
+      type: "string",
+      label: "label",
+      description: "Person label",
+    },
   },
   async run({ $ }) {
     const {
@@ -78,9 +83,19 @@ export default {
       addTime,
       anilityIdFieldKey,
       anilityIdFieldValue,
+      label,
     } = this;
 
     try {
+
+      const { data: stages } = await this.pipedriveApp.getPersonFields();
+      var option = stages.find((stage) => stage.key === "label")
+        .options.find((option) => option.label.toLowerCase() === label.toLowerCase());
+
+      var labelValue = {};
+      if (option) {
+        labelValue["label"] = option.id;
+      }
 
       const searchResp = await this.pipedriveApp.searchPersons({
         term: anilityIdFieldValue,
@@ -104,6 +119,7 @@ export default {
             visible_to: visibleTo,
             add_time: addTime,
             ...customFieldValue,
+            ...labelValue,
           });
 
         $.export("$summary", "Successfully added person");

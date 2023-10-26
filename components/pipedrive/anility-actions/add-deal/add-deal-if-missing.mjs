@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-add-deal",
   name: "Add Deal (Anility)",
   description: "Adds a new deal if missing. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     pipedriveApp,
@@ -122,6 +122,11 @@ export default {
       label: "Order By Id field key",
       description: "Pipedrive person id (value) who ordered the assessment",
     },
+    label: {
+      type: "string",
+      label: "label",
+      description: "Deal label",
+    },
   },
   async run({ $ }) {
     const {
@@ -144,7 +149,19 @@ export default {
       anilityCustomerIdFieldValue,
       anilityOrderByIdFieldKey,
       anilityOrderByIdFieldValue,
+      label,
     } = this;
+
+    const { data: stages } = await this.pipedriveApp.getDealFields();
+    var option = stages.find((stage) => stage.key === "label")
+      .options.find((option) => option.label.toLowerCase() === label.toLowerCase());
+
+    var labelValue = {};
+    if (option) {
+      labelValue["label"] = [
+        option.id,
+      ];
+    }
 
     try {
       const searchResp = await this.pipedriveApp.searchDeals({
@@ -174,6 +191,7 @@ export default {
           add_time: addTime,
           pipeline_id: pipelineId,
           ...customFieldValue,
+          ...labelValue,
         });
 
         $.export("$summary", "Successfully added deal");

@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-add-organization-if-missing",
   name: "Add Organization (Anility)",
   description: "Adds a new organization. See the Pipedrive API docs for Organizations [here](https://developers.pipedrive.com/docs/api/v1/Organizations#addOrganization)",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     pipedriveApp,
@@ -47,6 +47,11 @@ export default {
       label: "AnilityId field value",
       description: "Anility Id custom field value in Pipedrive",
     },
+    label: {
+      type: "string",
+      label: "label",
+      description: "Organization label",
+    },
   },
   async run({ $ }) {
     const {
@@ -56,9 +61,19 @@ export default {
       addTime,
       anilityIdFieldKey,
       anilityIdFieldValue,
+      label,
     } = this;
 
     try {
+      const { data: stages } = await this.pipedriveApp.getOrganizationFields();
+      var option = stages.find((stage) => stage.key === "label")
+        .options.find((option) => option.label === label);
+
+      var labelValue = {};
+      if (option) {
+        labelValue["label"] = option.id;
+      }
+
       const searchResp = await this.pipedriveApp.searchOrganization({
         term: anilityIdFieldValue,
         fields: "custom_fields",
@@ -75,6 +90,7 @@ export default {
           visible_to: visibleTo,
           add_time: addTime,
           ...customFieldValue,
+          ...labelValue,
         });
         $.export("$summary", "Successfully added organization");
         return resp;
