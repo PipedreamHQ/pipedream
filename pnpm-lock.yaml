@@ -813,7 +813,10 @@ importers:
     specifiers: {}
 
   components/centralstationcrm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/cflow:
     specifiers: {}
