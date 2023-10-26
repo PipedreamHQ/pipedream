@@ -2104,6 +2104,9 @@ importers:
   components/givingfuel:
     specifiers: {}
 
+  components/gladia:
+    specifiers: {}
+
   components/gmail:
     specifiers:
       '@google-cloud/local-auth': ^2.1.0
@@ -3064,6 +3067,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/lightspeed_retail_pos:
+    specifiers: {}
 
   components/lightspeed_vt:
     specifiers: {}
