@@ -25,9 +25,15 @@ The limit of active workflows depends on your current plan. [See our pricing pag
 
 ## Daily Credits Limit
 
-Free Pipedream accounts have a limit of number of free incuded credits per day. Paid plans do not have a daily credit limit. [See our pricing page](https://pipedream.com/pricing) for a breakdown of Free tier limits.
+Free Pipedream accounts are limited to {{$site.themeConfig.DAILY_CREDITS_LIMIT}} [credits](/pricing/#credits) per day. Paid plans do not have a daily credit limit.
 
-You can view your credits usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
+You can view your credits usage at the bottom-left of the Pipedream UI.
+
+<div>
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1698267451/docs/Screenshot_2023-10-25_at_1.57.27_PM_kxadt0.png" width="300px" />
+</div>
+
+You can also see more detailed usage in [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, by resource (e.g. your source / workflow).
 
 Your included credits count is reset, daily, at 00:00 (midnight) UTC.
 

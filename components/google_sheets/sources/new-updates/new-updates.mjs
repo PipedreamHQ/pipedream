@@ -9,7 +9,7 @@ export default {
   type: "source",
   name: "New Updates (Instant)",
   description: "Emit new event each time a row or cell is updated in a spreadsheet. To use this source with a spreadsheet in a [Shared Drive](https://support.google.com/a/users/answer/9310351), use the **New Updates (Shared Drive, Instant)** source instead.",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   props: {
     ...httpBase.props,
