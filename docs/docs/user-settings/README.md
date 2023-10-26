@@ -58,7 +58,10 @@ Workspaces on the Business and Enterprise plans can [require all workspace membe
 
 If you are a member of any workspace where 2FA is required, you cannot disable 2FA, but you can still reconfigure it in your [account settings](https://pipedream.com/account/) if necessary.
 
+:::tip Admins and Owners control 2FA settings
 
+Only workspace owner and admin members can enable or disable 2FA for an entire workspace.
+:::
 ### Pipedream API Key
 
 Pipedream provides a [REST API](/api/) for interacting with Pipedream programmatically. You'll find your API key here, which you use to [authorize requests to the API](/api/auth/).
