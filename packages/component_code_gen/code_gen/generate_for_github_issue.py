@@ -182,7 +182,7 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         # so this is easier
         run_command(f"npx eslint {app_base_path} --fix --ignore-pattern node_modules")
         run_command(["npx pnpm i"])
-        run_command(f"git add -f {app_base_path} {repo_path}/pnpm-lock.yaml -- ':!node_modules'")
+        run_command(f"git add {app_base_path} {repo_path}/pnpm-lock.yaml")
         run_command(f"git commit --no-verify -m '{app} init'")
         run_command(f"git push -f --set-upstream {remote_name} {branch_name}")
         run_command(
