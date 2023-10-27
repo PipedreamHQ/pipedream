@@ -9,16 +9,16 @@ export default {
       label: "Task ID",
       description: "The ID of the task",
     },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The URL of the file to be processed.",
+    fileUrls: {
+      type: "string[]",
+      label: "File URLs",
+      description: "The URL(s) of the file(s) to be processed.",
       optional: true,
     },
-    filePath: {
-      type: "string",
-      label: "File Path",
-      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+    filePaths: {
+      type: "string[]",
+      label: "File Paths",
+      description: "The path(s) to file(s) in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
       optional: true,
     },
     tool: {

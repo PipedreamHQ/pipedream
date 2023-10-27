@@ -11,23 +11,23 @@ export default {
   type: "action",
   props: {
     ilovepdf,
-    fileUrl: {
+    fileUrls: {
       propDefinition: [
         ilovepdf,
-        "fileUrl",
+        "fileUrls",
       ],
     },
-    filePath: {
+    filePaths: {
       propDefinition: [
         ilovepdf,
-        "filePath",
+        "filePaths",
       ],
     },
   },
   async run({ $ }) {
     const tool = "compress";
     const {
-      fileUrl, filePath,
+      fileUrls, filePaths,
     } = this;
 
     const { token } = await this.ilovepdf.getAuthToken({
@@ -43,11 +43,17 @@ export default {
       tool,
     });
 
-    let headers, data = {
-      task,
-    };
+    if (!filePaths?.length && !fileUrls.length) {
+      throw new ConfigurationError("You must provide either a File Path or File URL");
+    }
 
-    if (filePath) {
+    const fileNames = [
+      ...filePaths ?? [],
+      ...fileUrls ?? [],
+    ].map((f) => f.split("/").pop());
+
+    // Upload the files
+    const pathUploads = (filePaths ?? []).map((filePath) => {
       const formData = new FormData();
       formData.append("task", task);
 
@@ -55,30 +61,39 @@ export default {
         ? filePath
         : `/tmp/${filePath}`);
       formData.append("file", content);
-      headers = {
+      const headers = {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
       };
-      data = formData;
-    } else if (fileUrl) {
-      data.cloud_file = fileUrl;
-      headers = {
-        "Content-Type": "application/json",
-      };
-    } else {
-      throw new ConfigurationError("You must provide either a file or a file URL");
-    }
-
-    // Upload the file
-    const { server_filename: serverFilename } = await this.ilovepdf.uploadFile({
-      $,
-      token,
-      server,
-      data,
-      headers,
+      return this.ilovepdf.uploadFile({
+        $,
+        token,
+        server,
+        data: formData,
+        headers,
+      });
     });
 
-    // Process the file
-    const fileName = (filePath ?? fileUrl).split("/").pop();
+    const urlUploads = (fileUrls ?? []).map((fileUrl) => {
+      return this.ilovepdf.uploadFile({
+        $,
+        token,
+        server,
+        data: {
+          task,
+          cloud_file: fileUrl,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    });
+
+    const serverFilenames = (await Promise.allSettled([
+      ...pathUploads,
+      ...urlUploads,
+    ])).map(({ value }) => value.server_filename);
+
+    // Process the files
     const processResponse = await this.ilovepdf.processFiles({
       $,
       server,
@@ -86,12 +101,12 @@ export default {
       data: {
         task,
         tool,
-        files: [
+        files: serverFilenames.map((value, index) => (
           {
-            server_filename: serverFilename,
-            filename: fileName,
-          },
-        ],
+            server_filename: value,
+            filename: fileNames[index],
+          }
+        )),
       },
     });
 
