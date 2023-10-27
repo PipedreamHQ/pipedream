@@ -17,7 +17,7 @@ export default {
       default: "BTC-USDT",
       async options() {
         const contractsData = await this.getAllMarketContracts();
-        return contractsData.data.contracts.map((contract) => contract.symbol);
+        return contractsData.data.map((contract) => contract.symbol);
       },
     },
     currency: {
@@ -28,7 +28,7 @@ export default {
       optional: true,
       async options() {
         const contractsData = await this.getAllMarketContracts();
-        return contractsData.data.contracts.map((contract) => contract.currency);
+        return contractsData.data.map((contract) => contract.currency);
       },
     },
     klineType: {
@@ -130,7 +130,7 @@ export default {
   },
   methods: {
     _apiUrl() {
-      return "https://api-swap-rest.bingbon.pro";
+      return "https://open-api.bingx.com";
     },
     _apiKey() {
       return this.$auth.api_key;
@@ -150,17 +150,15 @@ export default {
     },
     _getBasicParameters() {
       return {
-        "apiKey": `${this._apiKey()}`,
         "timestamp": Date.now(),
       };
     },
 
-    _generateSignature(method, apiPath, paramsMap) {
-      const queryString = new URLSearchParams(this._sortKeys(paramsMap)).toString();
-      const signatureQueryString = method + apiPath + queryString;
+    _generateSignature(paramsMap) {
+      const queryString = new URLSearchParams(paramsMap).toString();
       return crypto.createHmac("sha256", this._secretKey())
-        .update(signatureQueryString)
-        .digest("base64");
+        .update(queryString)
+        .digest("hex");
     },
     async _makeRequest({
       $ = this, path, ...args
@@ -170,6 +168,7 @@ export default {
         headers: {
           "user-agent": "@PipedreamHQ/pipedream v0.1",
           "accept": "application/json",
+          "X-BX-APIKEY": `${this._apiKey()}`,
         },
         ...args,
       });
@@ -180,7 +179,7 @@ export default {
         ...pathParameters,
         ...basicParameters,
       };
-      parameters["sign"] = this._generateSignature(method, path, parameters);
+      parameters["signature"] = this._generateSignature(parameters);
       return await this._makeRequest({
         path: path,
         method: method,
@@ -189,13 +188,13 @@ export default {
     },
     async getAllMarketContracts() {
       const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getAllContracts";
+      const API_PATH = "/openApi/swap/v2/quote/contracts";
       const parameters = {};
       return await this.makeRequest(API_METHOD, API_PATH, parameters);
     },
     async listPendingOrders(parameters) {
-      const API_METHOD = "POST";
-      const API_PATH = "/api/v1/user/pendingOrders";
+      const API_METHOD = "GET";
+      const API_PATH = "/openApi/swap/v2/trade/openOrders";
       return this.makeRequest(API_METHOD, API_PATH, parameters);
     },
     convertToFloat(value) {

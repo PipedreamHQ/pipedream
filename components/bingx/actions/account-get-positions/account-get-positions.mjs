@@ -2,9 +2,9 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Account Get Positions",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-account-get-positions",
-  description: "Perpetual Swap Positions [reference](https://bingx-api.github.io/docs/swap/account-api.html#_2-perpetual-swap-positions).",
+  description: "Perpetual Swap Positions [See the documentation](https://bingx-api.github.io/docs/#/swapV2/account-api.html#Perpetual%20Swap%20Positions).",
   props: {
     bingx,
     symbol: {
@@ -16,12 +16,12 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "POST";
-    const API_PATH = "/api/v1/user/getPositions";
+    const API_METHOD = "GET";
+    const API_PATH = "/openApi/swap/v2/user/positions";
     const parameters = {
       "symbol": this.symbol,
     };
-    let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     $.export("$summary", `Positions retrieved for symbol \`${this.symbol}\``);
     return returnValue;
   },

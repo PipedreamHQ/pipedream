@@ -2,9 +2,9 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade Set Leverage",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-trade-set-leverage",
-  description: "Switch Leverage [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_10-switch-leverage).",
+  description: "Switch Leverage [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Switch%20Leverage).",
   props: {
     bingx,
     symbol: {
@@ -29,7 +29,7 @@ export default {
   type: "action",
   async run({ $ }) {
     const API_METHOD = "POST";
-    const API_PATH = "/api/v1/user/setLeverage";
+    const API_PATH = "/openApi/swap/v2/trade/leverage";
     const parameters = {
       "symbol": this.symbol,
       "side": this.side,

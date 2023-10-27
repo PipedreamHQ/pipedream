@@ -2,9 +2,9 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Generic API Call",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "bingx-generic-api-call",
-  description: "Make any API call for Bingx Futures as per the documentation. See docs [here](https://bingx-api.github.io/docs/swap/)",
+  description: "Make any API call for Bingx Futures as per the documentation. [See the documentation](https://bingx-api.github.io/docs/#/swapV2/account-api.html)",
   props: {
     bingx,
     httpMethod: {
@@ -21,7 +21,7 @@ export default {
     },
     apiPath: {
       label: "API Path",
-      description: "Ex. /api/v1/market/getAllContracts",
+      description: "Ex. /openApi/swap/v2/quote/contracts",
       type: "string",
     },
     params: {

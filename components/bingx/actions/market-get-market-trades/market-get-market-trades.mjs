@@ -2,9 +2,9 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Market Get Market Trades",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-market-get-market-trades",
-  description: "The latest Trade of a Trading Pair [reference](https://bingx-api.github.io/docs/swap/market-api.html#_4-the-latest-trade-of-a-trading-pair).",
+  description: "The latest Trade of a Trading Pair [See the documentation](https://bingx-api.github.io/docs/#/swapV2/market-api.html#Get%20Latest%20Price%20of%20a%20Trading%20Pair).",
   props: {
     bingx,
     symbol: {
@@ -17,7 +17,7 @@ export default {
   type: "action",
   async run({ $ }) {
     const API_METHOD = "GET";
-    const API_PATH = "/api/v1/market/getMarketTrades";
+    const API_PATH = "/openApi/swap/v2/quote/price";
     const parameters = {
       "symbol": this.symbol,
     };

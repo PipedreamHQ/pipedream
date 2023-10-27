@@ -2,9 +2,9 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade Query Order",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-trade-query-order",
-  description: "Query Order Details [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_8-query-order-details).",
+  description: "Query Order Details [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Query%20Order).",
   props: {
     bingx,
     symbol: {
@@ -16,14 +16,19 @@ export default {
     orderId: {
       propDefinition: [
         bingx,
-        "orderId",
+        "pendingOrderIds",
+        (c) => ({
+          symbol: c.symbol,
+        }),
       ],
+      label: "Order ID",
+      description: "The Order ID to query",
     },
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "POST";
-    const API_PATH = "/api/v1/user/queryOrderStatus";
+    const API_METHOD = "GET";
+    const API_PATH = "/openApi/swap/v2/trade/order";
     const parameters = {
       "symbol": this.symbol,
       "orderId": this.orderId,
