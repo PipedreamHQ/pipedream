@@ -59,6 +59,7 @@ export default {
       path,
       server,
       headers,
+      token,
       ...args
     }) {
       return axios($, {
@@ -66,7 +67,22 @@ export default {
         url: `https://${server ?? this._baseUrl()}/v1` + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          ...(token && {
+            Authorization: `Bearer ${token}`,
+          }),
+        },
+      });
+    },
+    async getAuthToken(args) {
+      return this._makeRequest({
+        ...args,
+        method: "POST",
+        path: "/auth",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          public_key: this.$auth.public_key,
         },
       });
     },

@@ -30,11 +30,16 @@ export default {
       fileUrl, filePath,
     } = this;
 
+    const { token } = await this.ilovepdf.getAuthToken({
+      $,
+    });
+
     // Start a new task
     const {
       server, task,
     } = await this.ilovepdf.startTask({
       $,
+      token,
       tool,
     });
 
@@ -66,6 +71,7 @@ export default {
     // Upload the file
     const { server_filename: serverFilename } = await this.ilovepdf.uploadFile({
       $,
+      token,
       server,
       data,
       headers,
@@ -76,6 +82,7 @@ export default {
     const processResponse = await this.ilovepdf.processFiles({
       $,
       server,
+      token,
       data: {
         task,
         tool,
@@ -91,6 +98,7 @@ export default {
     // Download the processed file
     const downloadResponse = await this.ilovepdf.downloadFiles({
       $,
+      token,
       server,
       task,
     });
