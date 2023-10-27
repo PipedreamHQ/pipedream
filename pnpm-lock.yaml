@@ -1125,6 +1125,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
 
+  components/convenia:
+    specifiers: {}
+
   components/convertapi:
     specifiers: {}
 
@@ -2074,7 +2077,10 @@ importers:
       form-data: 4.0.0
 
   components/gist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/github:
     specifiers:
@@ -2102,6 +2108,9 @@ importers:
     specifiers: {}
 
   components/givingfuel:
+    specifiers: {}
+
+  components/gladia:
     specifiers: {}
 
   components/gmail:
@@ -3064,6 +3073,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/lightspeed_retail_pos:
+    specifiers: {}
 
   components/lightspeed_vt:
     specifiers: {}
@@ -4503,7 +4515,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/productlane:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/profitwell:
     specifiers:
@@ -5601,7 +5616,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/spotlightr:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/spreadsheet_com:
     specifiers:
