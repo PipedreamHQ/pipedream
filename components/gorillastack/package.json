@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/gorillastack",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream GorillaStack Components",
-  "main": "dist/app/gorillastack.app.mjs",
+  "main": "gorillastack.app.mjs",
   "keywords": [
     "pipedream",
     "gorillastack"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/gorillastack",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
