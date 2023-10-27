@@ -2074,7 +2074,10 @@ importers:
       form-data: 4.0.0
 
   components/gist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/github:
     specifiers:
