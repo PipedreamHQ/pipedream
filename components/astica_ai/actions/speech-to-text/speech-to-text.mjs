@@ -1,5 +1,6 @@
 import asticaAi from "../../astica_ai.app.mjs";
 import fs from "fs";
+import { fileTypeFromBuffer } from "file-type";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
@@ -24,9 +25,11 @@ export default {
     },
   },
   methods: {
-    getFileInput(filePath) {
+    async getFileInput(filePath) {
       const audioData = fs.readFileSync(filePath);
-      const audioExtension = filePath.split(".").pop();
+      const audioExtension = filePath.includes(".")
+        ? filePath.split(".").pop()
+        : (await fileTypeFromBuffer(audioData)).ext;
       return `data:audio/${audioExtension};base64,${audioData.toString("base64")}`;
     },
   },
@@ -37,7 +40,7 @@ export default {
 
     const input = this.fileUrl
       ? this.fileUrl
-      : this.getFileInput(this.filePath);
+      : await this.getFileInput(this.filePath);
 
     const response = await this.asticaAi.speechToText({
       data: {
