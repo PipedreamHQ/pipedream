@@ -3,6 +3,10 @@ prev: false
 next: false
 ---
 
+::: warning This documentation version is deprecated
+📢 For the most updated information, please visit [Pipedream Docs](https://pipedream.com/docs).
+:::
+
 # Overview
 
 ## What is Pipedream?
