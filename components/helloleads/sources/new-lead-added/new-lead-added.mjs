@@ -3,10 +3,10 @@ import helloleads from "../../___helloleads.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
-  key: "helloleads-contact-created",
-  name: "New Contact Created",
+  key: "helloleads-new-lead-added",
+  name: "New Lead Added",
   version: "0.0.1",
-  description: "Emit new event when a new contact is created.",
+  description: "Emit new event when a new lead is created.",
   type: "source",
   dedupe: "unique",
   props: {
