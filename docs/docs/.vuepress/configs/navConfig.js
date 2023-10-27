@@ -24,7 +24,7 @@ module.exports = {
         { text: "Handling Cold Starts", link: "/workflows/settings/#eliminate-cold-starts"},
       ],
     },
-  ], 
+  ],
   right: [
     {
       text: "Support",
@@ -44,13 +44,13 @@ module.exports = {
           text: "v2",
           link: "https://pipedream.com/docs",
           internal: true,
-          badge: "New",
-          badgeVariation: "primary",
         },
         {
           text: "v1",
-          internal: true,
           link: "https://pipedream.com/docs/v1",
+          internal: true,
+          badge: "Deprecated",
+          badgeVariation: "danger",
         },
       ],
     },
