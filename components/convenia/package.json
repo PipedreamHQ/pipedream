@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/convenia",
+  "version": "0.0.1",
+  "description": "Pipedream Convenia Components",
+  "main": "convenia.app.mjs",
+  "keywords": [
+    "pipedream",
+    "convenia"
+  ],
+  "homepage": "https://pipedream.com/apps/convenia",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

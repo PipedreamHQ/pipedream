@@ -5,13 +5,14 @@ export default {
   key: "stripe-canceled-subscription",
   name: "Canceled Subscription",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event for each new canceled subscription",
   methods: {
     ...common.methods,
     getEvents() {
       return [
         "subscription_schedule.canceled",
+        "customer.subscription.deleted",
       ];
     },
   },
