@@ -7,7 +7,7 @@ export default {
   key: "ilovepdf-compress-pdf-file",
   name: "Compress PDF File",
   description: "This action reduces the size of a PDF file while maintaining its quality. [See the documentation](https://developer.ilovepdf.com/docs/api-reference)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     ilovepdf,
@@ -25,22 +25,26 @@ export default {
     },
   },
   async run({ $ }) {
+    const tool = "compress";
     const {
       fileUrl, filePath,
     } = this;
-    let headers, data = {};
-    headers;
+
+    // Start a new task
+    const {
+      server, task,
+    } = await this.ilovepdf.startTask({
+      $,
+      tool,
+    });
+
+    let headers, data = {
+      task,
+    };
 
     if (filePath) {
       const formData = new FormData();
-      // Object.entries(data).forEach(([
-      //   key,
-      //   value,
-      // ]) => {
-      //   if (value !== undefined) {
-      //     formData.append(key, value);
-      //   }
-      // });
+      formData.append("task", task);
 
       const content = fs.createReadStream(filePath.includes("tmp/")
         ? filePath
@@ -59,33 +63,42 @@ export default {
       throw new ConfigurationError("You must provide either a file or a file URL");
     }
 
-    // Start a new task
-    const taskResponse = await this.ilovepdf.startTask({
-      tool: "compress",
-    });
-    const task = taskResponse.task;
-
     // Upload the file
-    const uploadResponse = await this.ilovepdf.uploadFile({
-      task,
-      file: this.file,
+    const { server_filename: serverFilename } = await this.ilovepdf.uploadFile({
+      $,
+      server,
+      data,
+      headers,
     });
-    const serverFilename = uploadResponse.server_filename;
 
     // Process the file
+    const fileName = (filePath ?? fileUrl).split("/").pop();
     const processResponse = await this.ilovepdf.processFiles({
-      task,
-      tool: "compress",
-      serverFilename: serverFilename,
+      $,
+      server,
+      data: {
+        task,
+        tool,
+        files: [
+          {
+            server_filename: serverFilename,
+            filename: fileName,
+          },
+        ],
+      },
     });
-    processResponse;
 
     // Download the processed file
     const downloadResponse = await this.ilovepdf.downloadFiles({
+      $,
+      server,
       task,
     });
 
     $.export("$summary", "Successfully compressed PDF file");
-    return downloadResponse;
+    return {
+      processResponse,
+      downloadResponse,
+    };
   },
 };

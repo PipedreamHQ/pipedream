@@ -52,62 +52,52 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.ilovepdf.com/v1";
+      return "api.ilovepdf.com";
     },
     async _makeRequest({
       $ = this,
       path,
+      server,
       headers,
-      ...otherOpts
+      ...args
     }) {
       return axios($, {
-        ...otherOpts,
-        url: this._baseUrl() + path,
+        ...args,
+        url: `https://${server ?? this._baseUrl()}/v1` + path,
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async startTask({ tool }) {
+    async startTask({
+      tool, ...args
+    }) {
       return this._makeRequest({
-        method: "GET",
         path: `/start/${tool}`,
+        ...args,
       });
     },
-    async uploadFile({
-      task, file,
-    }) {
+    async uploadFile(args) {
       return this._makeRequest({
         method: "POST",
         path: "/upload",
-        data: {
-          task,
-          file,
-        },
+        ...args,
       });
     },
-    async processFiles({
-      task, tool, serverFilename,
-    }) {
+    async processFiles(args) {
       return this._makeRequest({
         method: "POST",
         path: "/process",
-        data: {
-          task,
-          tool,
-          files: [
-            {
-              server_filename: serverFilename,
-            },
-          ],
-        },
+        ...args,
       });
     },
-    async downloadFiles({ task }) {
+    async downloadFiles({
+      task, ...args
+    }) {
       return this._makeRequest({
-        method: "GET",
         path: `/download/${task}`,
+        ...args,
       });
     },
   },
