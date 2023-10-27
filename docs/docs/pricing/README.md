@@ -27,9 +27,7 @@ Free Tier accounts can connect up to 3 different service accounts like Twitter, 
 
 ### Free Tier Workflow Limitations
 
-Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have the lowest amount of active workflows available.
-
-Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
+Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have limits on the number of active workflows. Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
 
 ### Free Tier Polling Interval Limitations
 
@@ -37,15 +35,15 @@ Free Tier account triggers powered by polling are limited to the longest interva
 
 ### Free Tier Support options
 
-Users on the Developer Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
+Users on the Free Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
 
 ## Paid Tiers
 
-[Visit our pricing page](https://pipedream.com/pricing) to learn more about our paid plan options.
+[Visit our pricing page](https://pipedream.com/pricing) to learn more about our paid plans.
 
 All paid plans vary features based on tier, but each paid plan option will:
 
-- Lift the daily 100 credits limit
+- Remove the daily {{$site.themeConfig.DAILY_CREDITS_LIMIT}} [credits](#credits) limit
 - Increase the number of active workflows available
 - Increase the number of connected accounts
 
