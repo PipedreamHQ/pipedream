@@ -2,7 +2,7 @@
 name: App / Integration Request
 about: Request for a new API integration
 title: "[APP]"
-labels: app, enhancement
+labels: enhancement
 assignees: ''
 
 ---

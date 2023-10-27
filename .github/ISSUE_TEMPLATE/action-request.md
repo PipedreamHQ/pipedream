@@ -2,7 +2,7 @@
 name: Action Request
 about: Request a new action
 title: "[ACTION]"
-labels: action, enhancement, good first issue, help wanted
+labels: enhancement, good first issue, help wanted
 assignees: ''
 
 ---
