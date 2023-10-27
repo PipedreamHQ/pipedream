@@ -8,6 +8,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--issue', help='The issue number on github',
                         type=int, required=False)
+    parser.add_argument('--skip-pr', dest='skip_pr', help='Generate a PR on github',
+                        required=False, default=False, action='store_true')
+    parser.add_argument('--clean', dest='clean', help='Clean git stage',
+                        required=False, default=False, action='store_true')
     parser.add_argument('--type', help='Which kind of code you want to generate?',
                         choices=available_templates.keys())
     parser.add_argument('--app', help='The app_name_slug')
@@ -23,11 +27,12 @@ if __name__ == '__main__':
                         required=False, default=os.path.join("..", "..", "components"))
     parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
                         default=False, action='store_true')
+    parser.add_argument('--remote', dest='remote_name', help='The Git remote name', default='origin')
     args = parser.parse_args()
 
     if args.issue:
-        generate(args.issue, output_dir=args.output_dir,
-                 verbose=args.verbose, tries=args.tries)
+        generate(args.issue, output_dir=args.output_dir, generate_pr=not args.skip_pr,
+                 clean=args.clean, verbose=args.verbose, tries=args.tries, remote_name=args.remote_name)
     else:
         if not args.type:
             raise argparse.ArgumentTypeError("--type is required")

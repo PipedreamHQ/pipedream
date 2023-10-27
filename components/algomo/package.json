@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/algomo",
+  "version": "0.1.0",
+  "description": "Pipedream Algomo Components",
+  "main": "algomo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "algomo"
+  ],
+  "homepage": "https://pipedream.com/apps/algomo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

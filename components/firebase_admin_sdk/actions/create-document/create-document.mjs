@@ -5,7 +5,7 @@ export default {
   key: "firebase_admin_sdk-create-document",
   name: "Create Document",
   description: "Creates a New Document. [See the docs here](https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html#add)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     ...common.props,

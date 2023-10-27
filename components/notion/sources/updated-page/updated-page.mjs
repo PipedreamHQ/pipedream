@@ -8,7 +8,7 @@ export default {
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -23,12 +23,13 @@ export default {
   async run() {
     const params = this.lastUpdatedSortParam();
     const lastCheckedTimestamp = this.getLastUpdatedTimestamp();
+    let newLastUpdatedTimestamp = lastCheckedTimestamp;
 
     const pagesStream = this.notion.getPages(this.databaseId, params);
 
     for await (const page of pagesStream) {
       if (!this.isResultNew(page.last_edited_time, lastCheckedTimestamp)) {
-        break;
+        continue;
       }
 
       const meta = this.generateMeta(
@@ -41,8 +42,13 @@ export default {
 
       this.$emit(page, meta);
 
-      this.setLastUpdatedTimestamp(Date.parse(page?.last_edited_time));
+      newLastUpdatedTimestamp = Math.max(
+        newLastUpdatedTimestamp,
+        Date.parse(page?.last_edited_time),
+      );
     }
+
+    this.setLastUpdatedTimestamp(newLastUpdatedTimestamp);
   },
   sampleEmit,
 };
