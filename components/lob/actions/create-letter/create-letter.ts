@@ -103,7 +103,7 @@ export default defineAction({
       description: "Set to true if you want to print in color; set to false for black and white.",
     },
     useType: {
-      type: "string or null",
+      type: "string",
       label: "Use Type",
       description: "The use type of the mail. It can only be null if an account default use_type is selected).",
       options: constants.USE_TYPES,
