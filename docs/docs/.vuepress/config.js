@@ -40,6 +40,8 @@ module.exports = {
             text: "v1",
             link: "https://pipedream.com/docs/v1",
             internal: true,
+            badge: "Deprecated",
+            badgeVariation: "danger",
           },
           {
             text: "v2",
