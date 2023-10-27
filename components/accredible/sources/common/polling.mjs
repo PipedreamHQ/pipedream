@@ -3,6 +3,7 @@ import {
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "@pipedream/platform";
 import common from "./base.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -25,13 +26,7 @@ export default {
     getLastDate() {
       throw new ConfigurationError("getLastDate is not implemented");
     },
-    getDateFormatted(dateStr, yearsAgo = 0) {
-      const date = dateStr && new Date(dateStr) || new Date();
-      const year = date.getFullYear() - yearsAgo;
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      return `${year}-${month}-${day}`;
-    },
+    getDateFormatted: utils.getDateFormatted,
     sortFn(a, b) {
       // Sort by created_at in ascending order by default to then call reverse()
       return new Date(a.created_at) - new Date(b.created_at);

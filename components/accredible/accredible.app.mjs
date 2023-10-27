@@ -12,12 +12,18 @@ export default {
       description: "The ID of the existing credential",
       async options({ page }) {
         const { credentials } = await this.searchCredentials({
-          params: {
-            page: page + 1,
+          data: {
+            query: {
+              "created_at[gte]": utils.getDateFormatted(undefined, 1),
+            },
+            page: {
+              from: page * constants.DEFAULT_LIMIT,
+              size: constants.DEFAULT_LIMIT,
+            },
           },
         });
         return credentials.map(({
-          id: value, recipient: { name: label },
+          id: value, recipient_name: label,
         }) => ({
           label,
           value,
@@ -63,17 +69,20 @@ export default {
     getUrl(path, apiVersion = constants.API.V1) {
       return `${constants.BASE_URL}${apiVersion}${path}`;
     },
+    getHeaders(headers) {
+      return {
+        "Content-Type": "application/json",
+        "Authorization": `Token token=${this.$auth.api_key}`,
+        ...headers,
+      };
+    },
     makeRequest({
-      $ = this, path, headers, apiVersion, ...otherOpts
+      $ = this, path, headers, apiVersion, ...args
     } = {}) {
       return axios($, {
-        ...otherOpts,
         url: this.getUrl(path, apiVersion),
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Token token=${this.$auth.api_key}`,
-        },
+        headers: this.getHeaders(headers),
+        ...args,
       });
     },
     post(args = {}) {
