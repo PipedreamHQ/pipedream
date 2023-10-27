@@ -5,7 +5,7 @@ export default {
   key: "github-new-discussion",
   name: "New Discussion (Instant)",
   description: "Emit new events on new discussion to a repository",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

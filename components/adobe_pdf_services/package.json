@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/adobe_pdf_services",
+  "version": "0.0.1",
+  "description": "Pipedream Adobe PDF Services Components",
+  "main": "adobe_pdf_services.app.mjs",
+  "keywords": [
+    "pipedream",
+    "adobe_pdf_services"
+  ],
+  "homepage": "https://pipedream.com/apps/adobe_pdf_services",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
