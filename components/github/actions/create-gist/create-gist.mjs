@@ -16,7 +16,7 @@ export default {
     },
     files: {
       label: "Files",
-      description: "The files that will be added to the gist. The key is the file name and the value is the content of the file. Ex: `{ \"file1.txt\": \"content of file 1\", \"file2.txt\": \"content of file 2\"`",
+      description: "The files that will be added to the gist. The key is the file name and the value is the content of the file. Ex: `{\"file1.txt\": \"content of file 1\", \"file2.txt\": \"content of file 2\"}`",
       type: "object",
     },
     public: {
