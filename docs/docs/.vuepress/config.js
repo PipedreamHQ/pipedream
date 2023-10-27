@@ -37,7 +37,7 @@ module.exports = {
         ariaLabel: "Docs Version Menu",
         items: [
           {
-            text: "v1",
+            text: "v1 (deprecated)",
             link: "https://pipedream.com/docs/v1",
             internal: true,
             badge: "Deprecated",
