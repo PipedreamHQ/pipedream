@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/flutterwave",
+  "version": "0.0.1",
+  "description": "Pipedream Flutterwave Components",
+  "main": "flutterwave.app.mjs",
+  "keywords": [
+    "pipedream",
+    "flutterwave"
+  ],
+  "homepage": "https://pipedream.com/apps/flutterwave",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
