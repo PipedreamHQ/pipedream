@@ -53,7 +53,7 @@ export default {
     ].map((f) => f.split("/").pop());
 
     // Upload the files
-    const pathUploads = (filePaths ?? []).map((filePath) => {
+    const pathUploads = (filePaths ?? []).map(async (filePath) => {
       const formData = new FormData();
       formData.append("task", task);
 
@@ -73,7 +73,7 @@ export default {
       });
     });
 
-    const urlUploads = (fileUrls ?? []).map((fileUrl) => {
+    const urlUploads = (fileUrls ?? []).map(async (fileUrl) => {
       return this.ilovepdf.uploadFile({
         $,
         token,
@@ -88,10 +88,12 @@ export default {
       });
     });
 
-    const serverFilenames = (await Promise.allSettled([
+    const uploadResponses = await Promise.all([
       ...pathUploads,
       ...urlUploads,
-    ])).map(({ value }) => value.server_filename);
+    ]);
+
+    const serverFilenames = uploadResponses.map((response) => response?.server_filename);
 
     // Process the files
     const processResponse = await this.ilovepdf.processFiles({
@@ -118,7 +120,7 @@ export default {
       task,
     });
 
-    $.export("$summary", "Successfully compressed PDF file");
+    $.export("$summary", `Successfully processed ${processResponse.output_filenumber} files`);
     return {
       processResponse,
       downloadResponse,
