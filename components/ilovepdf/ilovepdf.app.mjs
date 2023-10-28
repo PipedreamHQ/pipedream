@@ -63,7 +63,7 @@ export default {
         },
       });
     },
-    async getAuthToken(args) {
+    async getAuthToken(args = {}) {
       return this._makeRequest({
         ...args,
         method: "POST",
@@ -106,7 +106,9 @@ export default {
         ...args,
       });
     },
-    async listTasks({ tool }) {
+    async listTasks({
+      tool, ...args
+    }) {
       return this._makeRequest({
         method: "POST",
         path: "/task",
@@ -114,6 +116,7 @@ export default {
           tool,
           secret_key: this.$auth.secret_key,
         },
+        ...args,
       });
     },
   },

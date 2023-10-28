@@ -34,18 +34,21 @@ export default {
       return this.db.get("tasks") ?? [];
     },
     async getAndProcessItems() {
+      const { token } = await this.ilovepdf.getAuthToken();
+
       const savedItems = this._getSavedItems();
       const tasks = await this.ilovepdf.listTasks({
+        token,
         tool: this.tool,
       });
 
-      tasks?.filter(({ task }) => !savedItems.includes(task)).forEach((task) => {
+      tasks?.filter?.(({ task }) => !savedItems.includes(task)).forEach((task) => {
         const ts = Date.now();
         this.$emit(task, {
           id: task.task,
           summary: `New task (${task.tool}) - ${task.file_number} file${task.file_number === 1
             ? ""
-            : "s"}})`,
+            : "s"}`,
           ts,
         });
         savedItems.push(task.task);
