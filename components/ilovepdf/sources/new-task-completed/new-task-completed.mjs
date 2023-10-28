@@ -27,19 +27,31 @@ export default {
     },
   },
   methods: {
+    _setSavedItems(value) {
+      this.db.set("tasks", value);
+    },
+    _getSavedItems() {
+      return this.db.get("tasks") ?? [];
+    },
     async getAndProcessItems() {
-      const { tool } = this;
+      const savedItems = this._getSavedItems();
       const tasks = await this.ilovepdf.listTasks({
-        tool,
+        tool: this.tool,
       });
-      tasks?.forEach((task) => {
+
+      tasks?.filter(({ task }) => !savedItems.includes(task)).forEach((task) => {
         const ts = Date.now();
         this.$emit(task, {
-          id: ts,
-          summary: "New task",
+          id: task.task,
+          summary: `New task (${task.tool}) - ${task.file_number} file${task.file_number === 1
+            ? ""
+            : "s"}})`,
           ts,
         });
+        savedItems.push(task.task);
       });
+
+      this._setSavedItems(savedItems);
     },
   },
   hooks: {
