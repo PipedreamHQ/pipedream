@@ -46,7 +46,7 @@ export default {
         const ts = Date.now();
         this.$emit(task, {
           id: task.task,
-          summary: `New task (${task.tool}) - ${task.file_number} file${task.file_number === 1
+          summary: `New task (${task.tool}) - ${task.file_number} file${task.file_number == 1
             ? ""
             : "s"}`,
           ts,
