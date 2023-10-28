@@ -4,11 +4,6 @@ export default {
   type: "app",
   app: "ilovepdf",
   propDefinitions: {
-    task: {
-      type: "string",
-      label: "Task ID",
-      description: "The ID of the task",
-    },
     fileUrls: {
       type: "string[]",
       label: "File URLs",
@@ -43,11 +38,6 @@ export default {
         "htmlpdf",
         "extract",
       ],
-    },
-    serverFilename: {
-      type: "string",
-      label: "Server Filename",
-      description: "The server filename of the uploaded file",
     },
   },
   methods: {
@@ -114,6 +104,16 @@ export default {
       return this._makeRequest({
         path: `/download/${task}`,
         ...args,
+      });
+    },
+    async listTasks({ tool }) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/task",
+        data: {
+          tool,
+          secret_key: this.$auth.secret_key,
+        },
       });
     },
   },
