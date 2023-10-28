@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/redmine",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Redmine Components",
   "main": "redmine.app.mjs",
   "keywords": [

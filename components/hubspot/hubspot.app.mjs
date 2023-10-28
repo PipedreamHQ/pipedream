@@ -89,6 +89,20 @@ export default {
       description: "Watch for new events concerning the object type specified.",
       options: OBJECT_TYPES,
     },
+    objectSchema: {
+      type: "string",
+      label: "Object Schema",
+      description: "Watch for new events of objects with the specified custom schema.",
+      async options() {
+        const response = await this.listSchemas();
+        return response?.results?.map(({
+          objectTypeId, name,
+        }) => ({
+          label: name,
+          value: objectTypeId,
+        }));
+      },
+    },
     objectId: {
       type: "string",
       label: "Object ID",
@@ -564,6 +578,11 @@ export default {
     },
     async getProperties(objectType, $) {
       return this.makeRequest(API_PATH.CRMV3, `/properties/${objectType}`, {
+        $,
+      });
+    },
+    async listSchemas($) {
+      return this.makeRequest(API_PATH.CRMV3, "/schemas", {
         $,
       });
     },

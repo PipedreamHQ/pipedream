@@ -17,6 +17,7 @@ export const puppeteer = {
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
       defaultViewport: chromium.defaultViewport,
+      cacheDirectory: "/tmp",
       args: [
         ...chromium.args,
         "--hide-scrollbars",
