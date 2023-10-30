@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/satismeter",
+  "version": "0.0.1",
+  "description": "Pipedream SatisMeter Components",
+  "main": "satismeter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "satismeter"
+  ],
+  "homepage": "https://pipedream.com/apps/satismeter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

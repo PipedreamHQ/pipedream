@@ -17,6 +17,10 @@ Pipedream marketing emails may still be sent to the original email address you u
 
 ### Two-Factor Authentication
 
+<br/>
+
+<VideoPlayer src="https://www.youtube.com/embed/M2_JrDh6cVI?si=1Yee9XJ10PhzoMmJ" title="Two Factor Authenitcation" />
+
 Two-factor authentication (2FA) adds an additional layer of security for your Pipedream account and is recommended for all users.
 
 #### Configuring 2FA
@@ -53,6 +57,15 @@ Pipedream recommends enabling 2FA with your identity provider.
 
 :::
 
+#### Requiring 2-Factor Authentication
+Workspaces on the Business and Enterprise plans can [require all workspace members to configure 2FA](/workspaces/#requiring-two-factor-authentication) in order to log in to Pipedream. 
+
+If you are a member of any workspace where 2FA is required, you cannot disable 2FA, but you can still reconfigure it in your [account settings](https://pipedream.com/account/) if necessary.
+
+:::tip Admins and Owners control 2FA settings
+
+Only workspace owner and admin members can enable or disable 2FA for an entire workspace.
+:::
 ### Pipedream API Key
 
 Pipedream provides a [REST API](/api/) for interacting with Pipedream programmatically. You'll find your API key here, which you use to [authorize requests to the API](/api/auth/).

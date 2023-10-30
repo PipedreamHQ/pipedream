@@ -676,7 +676,13 @@ importers:
       crypto: 1.0.1
       uuid: 8.3.2
 
+  components/brilliant_directories:
+    specifiers: {}
+
   components/brosix:
+    specifiers: {}
+
+  components/browse_ai:
     specifiers: {}
 
   components/browserless:
@@ -694,6 +700,9 @@ importers:
     specifiers: {}
 
   components/builder_io:
+    specifiers: {}
+
+  components/builderall_mailingboss:
     specifiers: {}
 
   components/bulkgate:
@@ -764,6 +773,9 @@ importers:
   components/callingly:
     specifiers: {}
 
+  components/callpage:
+    specifiers: {}
+
   components/callrail:
     specifiers: {}
 
@@ -813,7 +825,10 @@ importers:
     specifiers: {}
 
   components/centralstationcrm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/cflow:
     specifiers: {}
@@ -1039,6 +1054,9 @@ importers:
   components/codeq_natural_language_processing_api:
     specifiers: {}
 
+  components/codereadr:
+    specifiers: {}
+
   components/coderpad:
     specifiers: {}
 
@@ -1112,6 +1130,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
+
+  components/convenia:
+    specifiers: {}
 
   components/convertapi:
     specifiers: {}
@@ -1478,6 +1499,9 @@ importers:
   components/dokan:
     specifiers: {}
 
+  components/doppler:
+    specifiers: {}
+
   components/doppler_marketing_automation:
     specifiers: {}
 
@@ -1584,6 +1608,9 @@ importers:
   components/elastic_email:
     specifiers: {}
 
+  components/elasticemail:
+    specifiers: {}
+
   components/elevenlabs:
     specifiers: {}
 
@@ -1596,6 +1623,9 @@ importers:
   components/elopage:
     specifiers: {}
 
+  components/emailable:
+    specifiers: {}
+
   components/emailoctopus:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -1606,6 +1636,9 @@ importers:
     specifiers: {}
 
   components/encharge:
+    specifiers: {}
+
+  components/endorsal:
     specifiers: {}
 
   components/enedis:
@@ -1830,6 +1863,9 @@ importers:
       lodash: 4.17.21
 
   components/fluent_support:
+    specifiers: {}
+
+  components/flutterwave:
     specifiers: {}
 
   components/focuster:
@@ -2059,7 +2095,10 @@ importers:
       form-data: 4.0.0
 
   components/gist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/github:
     specifiers:
@@ -2087,6 +2126,9 @@ importers:
     specifiers: {}
 
   components/givingfuel:
+    specifiers: {}
+
+  components/gladia:
     specifiers: {}
 
   components/gmail:
@@ -2895,6 +2937,9 @@ importers:
   components/key_app_demo_1:
     specifiers: {}
 
+  components/kickbox:
+    specifiers: {}
+
   components/kickofflabs:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3049,6 +3094,12 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/lightspeed_retail_pos:
+    specifiers: {}
+
+  components/lightspeed_vt:
+    specifiers: {}
 
   components/line:
     specifiers:
@@ -3333,6 +3384,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/meetingpulse:
+    specifiers: {}
+
   components/meetup:
     specifiers: {}
 
@@ -3503,7 +3557,10 @@ importers:
     specifiers: {}
 
   components/miro_custom_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/missive:
     specifiers:
@@ -4286,6 +4343,9 @@ importers:
   components/placetel:
     specifiers: {}
 
+  components/placid:
+    specifiers: {}
+
   components/plain:
     specifiers: {}
 
@@ -4476,7 +4536,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/productlane:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/profitwell:
     specifiers:
@@ -4520,6 +4583,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@sparticuz/chromium': 112.0.2
       puppeteer-core: 19.8.0
+
+  components/push_by_techulus:
+    specifiers: {}
 
   components/pushcut:
     specifiers:
@@ -4676,6 +4742,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/recruitee:
+    specifiers: {}
+
   components/recurly:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -4699,6 +4768,9 @@ importers:
       qs: 6.11.2
 
   components/redmine:
+    specifiers: {}
+
+  components/referralhero:
     specifiers: {}
 
   components/referralrock:
@@ -4986,6 +5058,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/satismeter:
+    specifiers: {}
 
   components/saucelabs:
     specifiers: {}
@@ -5320,6 +5395,9 @@ importers:
   components/signable:
     specifiers: {}
 
+  components/signalwire:
+    specifiers: {}
+
   components/signaturely:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5525,6 +5603,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/sonix:
+    specifiers: {}
+
   components/sourceforge:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5559,7 +5640,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/spotlightr:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/spreadsheet_com:
     specifiers:
@@ -5608,6 +5696,9 @@ importers:
     specifiers: {}
 
   components/starloop:
+    specifiers: {}
+
+  components/starshipit:
     specifiers: {}
 
   components/starton:
@@ -5860,6 +5951,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/teamup:
+    specifiers: {}
 
   components/teamwave:
     specifiers: {}
@@ -6272,6 +6366,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       qs: 6.11.2
+
+  components/upollo:
+    specifiers: {}
 
   components/uptimerobot:
     specifiers: {}

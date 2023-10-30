@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/elasticemail",
+  "version": "0.0.1",
+  "description": "Pipedream ElasticEmail Components",
+  "main": "elasticemail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "elasticemail"
+  ],
+  "homepage": "https://pipedream.com/apps/elasticemail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
