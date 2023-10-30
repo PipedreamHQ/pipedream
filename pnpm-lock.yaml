@@ -2414,7 +2414,10 @@ importers:
       lodash-es: 4.17.21
 
   components/gorillastack:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/gotowebinar:
     specifiers: {}
@@ -10103,11 +10106,11 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.180:
-    resolution: {integrity: sha512-fCTevUtPRjolPR8SjTOsThoEHKXT0LndD4rCZQV+PWTxJc6YjkSUVCyr2iD8Btb8nOcJdSHt2JMF8xf1OEBZKA==}
+  /@definitelytyped/header-parser/0.0.182:
+    resolution: {integrity: sha512-SF4sN7UUbh3I1UwZk2fJqvgN/hUjb/adJ13fA7FG5u5dr7MuRQFVfcd/dMrXkLpl4G7/pKMNoLmGiL0N7VOodg==}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.179
-      '@definitelytyped/utils': 0.0.179
+      '@definitelytyped/utils': 0.0.181
       semver: 7.5.4
     dev: true
 
@@ -10115,8 +10118,8 @@ packages:
     resolution: {integrity: sha512-E0VjIZkVtOt2ozagGlmWULKJYvFZwMjS6A335QJX8dmn21idRP/0RodxRpjtMU2//ChtvCZZUuKrPZQ2D/owww==}
     dev: true
 
-  /@definitelytyped/utils/0.0.179:
-    resolution: {integrity: sha512-aUNyshFuHT+tDRlLH5pUd9acIzTim5CMiuOZmVHvjlIi7BzMxRBbG7MtzYkpwA5TxHQo2gwumLN2u9UfEklrkQ==}
+  /@definitelytyped/utils/0.0.181:
+    resolution: {integrity: sha512-4FuIV3RK1HEaDJ8na7DStyp9WJRDJqWyaYLbhiObj+iivFnudO06V9FEvl9hDx8dbvrlJt0JvNN8bogyBn+M8A==}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.179
       '@qiwi/npm-registry-client': 8.9.1
@@ -16894,7 +16897,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.180
+      '@definitelytyped/header-parser': 0.0.182
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -16910,9 +16913,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.180
+      '@definitelytyped/header-parser': 0.0.182
       '@definitelytyped/typescript-versions': 0.0.179
-      '@definitelytyped/utils': 0.0.179
+      '@definitelytyped/utils': 0.0.181
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
