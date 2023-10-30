@@ -9,7 +9,7 @@ import {
 } from "../../common/constants.mjs";
 
 export default {
-  key: "click2mail-create-job",
+  key: "click2mail2-create-job",
   name: "Create Job",
   version: "0.0.1",
   description: "Creates a new new job in your account. [See the documentation](https://developers.click2mail.com/reference/post_2).",
