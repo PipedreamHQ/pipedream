@@ -3,7 +3,7 @@ import convertkit from "../../convertkit.app.mjs";
 export default {
   key: "convertkit-add-tag-to-subscriber",
   name: "Add tag to a subscriber",
-  description: "Add subscriber to a form. [See docs here](https://developers.convertkit.com/#tag-a-subscriber)",
+  description: "Add tag to a subscriber. [See docs here](https://developers.convertkit.com/#tag-a-subscriber)",
   version: "0.0.1",
   type: "action",
   props: {

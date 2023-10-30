@@ -1,5 +1,5 @@
 {
-  "name": "@pipedream/bitbucket",
+  "name": "@pipedream/convertkit",
   "version": "0.1.0",
   "description": "Pipedream Convertkit Components",
   "main": "convertkit.app.mjs",
