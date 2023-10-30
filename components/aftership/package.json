@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/aftership",
+  "version": "0.0.1",
+  "description": "Pipedream AfterShip Components",
+  "main": "aftership.app.mjs",
+  "keywords": [
+    "pipedream",
+    "aftership"
+  ],
+  "homepage": "https://pipedream.com/apps/aftership",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
