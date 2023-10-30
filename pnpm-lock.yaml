@@ -1011,6 +1011,9 @@ importers:
       stream: 0.0.2
       util: 0.12.5
 
+  components/cloudflare_r2:
+    specifiers: {}
+
   components/cloudinary:
     specifiers:
       cloudinary: ^1.36.1
@@ -1416,6 +1419,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/digitalriver:
+    specifiers: {}
+
+  components/discogs:
     specifiers: {}
 
   components/discord:
