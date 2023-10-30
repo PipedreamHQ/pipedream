@@ -4,6 +4,11 @@ import fs from "fs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
+  key: "ilovepdf-process-files",
+  name: "Process Files",
+  description: "Process one or more files with the desired tool. [See the documentation](https://developer.ilovepdf.com/docs/api-reference)",
+  version: "0.0.1",
+  type: "action",
   props: {
     ilovepdf,
     fileUrls: {
@@ -18,11 +23,16 @@ export default {
         "filePaths",
       ],
     },
+    tool: {
+      propDefinition: [
+        ilovepdf,
+        "tool",
+      ],
+    },
   },
   async run({ $ }) {
-    const tool = this.getTool();
     const {
-      fileUrls, filePaths,
+      fileUrls, filePaths, tool,
     } = this;
 
     const { token } = await this.ilovepdf.getAuthToken({
