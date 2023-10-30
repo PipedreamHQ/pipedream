@@ -27,11 +27,12 @@ if __name__ == '__main__':
                         required=False, default=os.path.join("..", "..", "components"))
     parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
                         default=False, action='store_true')
+    parser.add_argument('--remote', dest='remote_name', help='The Git remote name', default='origin')
     args = parser.parse_args()
 
     if args.issue:
         generate(args.issue, output_dir=args.output_dir, generate_pr=not args.skip_pr,
-                 clean=args.clean, verbose=args.verbose, tries=args.tries)
+                 clean=args.clean, verbose=args.verbose, tries=args.tries, remote_name=args.remote_name)
     else:
         if not args.type:
             raise argparse.ArgumentTypeError("--type is required")
