@@ -1,5 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
-import helloleads from "../../___helloleads.app.mjs";
+import helloleads from "../../helloleads.app.mjs";
 import {
   clearObj,
   parseObj,
