@@ -93,7 +93,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/accredible:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/acelle_mail:
     specifiers: {}
