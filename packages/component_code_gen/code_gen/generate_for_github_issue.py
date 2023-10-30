@@ -183,6 +183,6 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         run_command(f"npx eslint {app_base_path} --fix")
         run_command(f"git add -f {app_base_path}")
         run_command(f"git commit --no-verify -m '{app} init'")
-        run_command(f"git push -f --no-verifty --set-upstream {remote_name} {branch_name}")
+        run_command(f"git push -f --no-verify --set-upstream {remote_name} {branch_name}")
         run_command(
             f"gh pr create -d -l ai-assisted -t 'New Components - {app}' -b 'Resolves #{issue_number}.'")
