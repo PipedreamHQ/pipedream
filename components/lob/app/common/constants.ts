@@ -17,10 +17,6 @@ export default {
     {
       label: "Operational",
       value: "operational",
-    },
-    {
-      label: "Null",
-      value: null,
-    },
+    }
   ],
 };
