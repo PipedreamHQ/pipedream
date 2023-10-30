@@ -20,25 +20,21 @@ export default {
       type: "string",
       label: "Display Name",
       description: "The user-friendly display name for the transfer config.",
-      optional: true,
     },
     query: {
       type: "string",
       label: "Query",
       description: "The GoogleSQL query to execute. Eg. ``SELECT @run_time AS time, * FROM `bigquery-public-data.samples.shakespeare` LIMIT 1000``. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#query_string).",
-      optional: true,
     },
     schedule: {
       type: "string",
       label: "Schedule",
       description: "Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. [See more explanation about the format here](https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format).",
-      optional: true,
     },
     writeDisposition: {
       type: "string",
       label: "Write Disposition",
       description: "The write preference you select determines how your query results are written to an existing destination table. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#write_preference).",
-      optional: true,
       options: [
         "WRITE_TRUNCATE",
         "WRITE_APPEND",
@@ -47,9 +43,19 @@ export default {
   },
   methods: {
     createTransferConfig(transferConfig = {}) {
-      const client = this.googleCloud.bigQueryDataTransferClient();
-      const parent = client.projectPath(this.googleCloud.sdkParams().projectId);
+      const { googleCloud } = this;
+      const {
+        project_id: projectId,
+        client_email: serviceAccountName,
+      } = googleCloud.authKeyJson();
+      const client = googleCloud.bigQueryDataTransferClient();
+
+      const parent = client.projectPath(projectId);
+      console.log("serviceAccountName", serviceAccountName);
+      console.log("parent", parent);
+      console.log("transferConfig", transferConfig);
       return client.createTransferConfig({
+        serviceAccountName,
         parent,
         transferConfig,
       });
