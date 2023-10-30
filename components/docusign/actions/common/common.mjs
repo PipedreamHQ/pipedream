@@ -51,6 +51,13 @@ export default {
       switch (tabType) {
       case "textTabs":
       case "formulaTabs":
+      case "numericalTabs":
+      case "numberTabs":
+      case "dateTabs":
+      case "noteTabs":
+      case "emailTabs":
+      case "ssnTabs":
+      case "zipTabs":
         propType = "string";
         propLabel = tab.tabLabel;
         propDefault = tab.value
@@ -77,13 +84,8 @@ export default {
           ? tab.value
           : undefined;
         break;
-      case "dateTabs":
       case "notarizeTabs":
-      case "noteTabs":
-      case "numberTabs":
-      case "ssnTabs":
       case "viewTabs":
-      case "zipTabs":
         console.log(`Not yet implemented tab type: ${tabType}`);
         return;
       default:
@@ -123,6 +125,11 @@ export default {
     _insertTabValue(tabType, tab, value) {
       switch (tabType) {
       case "textTabs":
+      case "dateTabs":
+      case "noteTabs":
+      case "emailTabs":
+      case "ssnTabs":
+      case "zipTabs":
         tab.value = value;
         return true;
       case "checkboxTabs":
@@ -146,13 +153,13 @@ export default {
           .filter((radio) => radio.value === value)
           .forEach((radio) => radio.selected = true);
         return true;
-      case "dateTabs":
-      case "notarizeTabs":
-      case "noteTabs":
+      case "numericalTabs":
       case "numberTabs":
-      case "ssnTabs":
+        tab.value = +value;
+        tab.numericalValue = +value;
+        return true;
+      case "notarizeTabs":
       case "viewTabs":
-      case "zipTabs":
         console.log(`Not yet implemented tab type: ${tabType}`);
         return false;
       default:
