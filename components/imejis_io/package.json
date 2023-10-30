@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/imejis_io",
+  "version": "0.0.1",
+  "description": "Pipedream Imejis.io Components",
+  "main": "imejis_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "imejis_io"
+  ],
+  "homepage": "https://pipedream.com/apps/imejis_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

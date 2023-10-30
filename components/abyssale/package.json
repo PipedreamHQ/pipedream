@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/abyssale",
+  "version": "0.0.1",
+  "description": "Pipedream Abyssale Components",
+  "main": "abyssale.app.mjs",
+  "keywords": [
+    "pipedream",
+    "abyssale"
+  ],
+  "homepage": "https://pipedream.com/apps/abyssale",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

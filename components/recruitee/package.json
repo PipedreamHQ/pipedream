@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/recruitee",
+  "version": "0.0.1",
+  "description": "Pipedream Recruitee Components",
+  "main": "recruitee.app.mjs",
+  "keywords": [
+    "pipedream",
+    "recruitee"
+  ],
+  "homepage": "https://pipedream.com/apps/recruitee",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

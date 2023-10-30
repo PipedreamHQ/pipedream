@@ -1,11 +1,14 @@
+import VIESAPI from "viesapi-client";
+
 export default {
   type: "app",
   app: "vies_api",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _client() {
+      return new VIESAPI.VIESAPIClient();
+    },
+    getVATData({ number }) {
+      return this._client().getVIESData(number);
     },
   },
 };

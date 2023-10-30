@@ -1,5 +1,4 @@
 import os
-import time
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -96,11 +95,10 @@ def parse_urls(driver, urls):
                 EC.presence_of_element_located((By.TAG_NAME, 'body'))
             )
             body = " ".join(element.text.split())
-            content = {
+            contents.append({
                 "url": url,
                 "content": body,
-            }
-            contents.append(content)
+            })
         except Exception as e:
             print(f"Error scraping {url}: {e}")
 

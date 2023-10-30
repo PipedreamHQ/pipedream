@@ -33,7 +33,7 @@
         "pipedream/props-description": "warn",
         "pipedream/source-name": "warn",
         "pipedream/source-description": "warn",
-        "pipedream/no-ts-version": "error"
+        "pipedream/no-ts-version": "warn"
       }
     },
     {

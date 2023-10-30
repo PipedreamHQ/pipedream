@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Refund",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "gumroad-new-refund",
   description: "Emit new event on a sale is refunded.",
   type: "source",

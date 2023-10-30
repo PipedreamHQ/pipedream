@@ -14,6 +14,7 @@ export default {
         const { modules } = await this.zohoCrm.listModules();
         const options = modules
           .filter(this.areEventsSupportedByModule)
+          .filter(({ generated_type: type }) => type !== "custom")
           .map(({
             api_name: type,
             singular_label: name,
