@@ -2,7 +2,7 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "List Buckets",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "google_cloud-list-buckets",
   type: "action",
   description: "List Google Cloud Storage buckets, [See the docs](https://googleapis.dev/nodejs/storage/latest/Storage.html#getBuckets)",

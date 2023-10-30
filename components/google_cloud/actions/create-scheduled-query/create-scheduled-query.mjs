@@ -1,52 +1,83 @@
-import google_cloud from "../../google_cloud.app.mjs";
+import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   key: "google_cloud-create-scheduled-query",
   name: "Create Scheduled Query",
   description: "Creates a scheduled query in Google Cloud. [See the documentation](https://cloud.google.com/bigquery/docs/scheduling-queries)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    google_cloud,
-    datasetId: {
-      propDefinition: [
-        google_cloud,
-        "datasetId",
-      ],
+    googleCloud,
+    destinationDatasetId: {
+      label: "Destination Dataset",
+      description: "The name of the dataset to create the table in. If the dataset does not exist, it will be created.",
+      datasetId: {
+        propDefinition: [
+          googleCloud,
+          "datasetId",
+        ],
+      },
     },
-    queryString: {
-      propDefinition: [
-        google_cloud,
-        "queryString",
-      ],
+    displayName: {
+      type: "string",
+      label: "Display Name",
+      description: "The user-friendly display name for the transfer config.",
+      optional: true,
+    },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "The GoogleSQL query to execute. Eg. `SELECT @run_time AS time, * FROM `bigquery-public-data.samples.shakespeare` LIMIT 1000`. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#query_string).",
     },
     schedule: {
-      propDefinition: [
-        google_cloud,
-        "schedule",
+      type: "string",
+      label: "Schedule",
+      description: "Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. [See more explanation about the format here](https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format).",
+      optional: true,
+    },
+    writeDisposition: {
+      type: "string",
+      label: "Write Disposition",
+      description: "The write preference you select determines how your query results are written to an existing destination table. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#write_preference).",
+      optional: true,
+      options: [
+        "WRITE_TRUNCATE",
+        "WRITE_APPEND",
       ],
     },
-    destinationTable: {
-      type: "string",
-      label: "Destination Table",
-      description: "The name of the table to save the query results.",
+  },
+  methods: {
+    createTransferConfig(transferConfig = {}) {
+      const client = this.googleCloud.bigQueryDataTransferClient();
+      const parent = client.projectPath(this.googleCloud.sdkParams().projectId);
+      return client.createTransferConfig({
+        parent,
+        transferConfig,
+      });
     },
   },
   async run({ $ }) {
-    const parent = `projects/${this.google_cloud.sdkParams().projectId}/locations/us`;
-    const transferConfig = {
-      destinationDatasetId: this.datasetId,
-      displayName: "Scheduled Query",
-      dataSourceId: "scheduled_query",
+    const {
+      createTransferConfig,
+      destinationDatasetId,
+      displayName,
+      query,
+      schedule,
+      writeDisposition,
+    } = this;
+
+    const response = await createTransferConfig({
+      schedule,
+      destinationDatasetId,
+      displayName,
       params: {
-        query: this.queryString,
-        destination_table_name_template: this.destinationTable,
-        write_disposition: "WRITE_TRUNCATE",
+        query,
+        write_disposition: writeDisposition,
       },
-      schedule: this.schedule,
-    };
-    const response = await this.google_cloud.createTransferConfig(parent, transferConfig, "");
-    $.export("$summary", `Scheduled query created with ID: ${response.name}`);
+    });
+
+    $.export("$summary", `Scheduled query created with name: ${response.name}`);
+
     return response;
   },
 };

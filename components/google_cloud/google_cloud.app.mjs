@@ -1,10 +1,13 @@
-import { axios } from "@pipedream/platform";
+/* eslint-disable camelcase */
 import { Logging } from "@google-cloud/logging";
 import { Storage } from "@google-cloud/storage";
 import { BigQuery } from "@google-cloud/bigquery";
 import {
-  ZonesClient, ZoneOperationsClient, InstancesClient,
+  ZonesClient,
+  ZoneOperationsClient,
+  InstancesClient,
 } from "@google-cloud/compute";
+import { v1 as bqdt } from "@google-cloud/bigquery-data-transfer";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
@@ -12,18 +15,18 @@ export default {
   app: "google_cloud",
   propDefinitions: {
     zoneName: {
-      type: "string",
       label: "Zone",
       description: "The unique zone name",
+      type: "string",
       async options() {
         const zones = await this.listZones();
         return zones.map((item) => (item.name));
       },
     },
     instanceName: {
-      type: "string",
       label: "Instance Name",
       description: "The unique instance name",
+      type: "string",
       async options({ zone }) {
         if (!zone) { return []; }
         const instances = await this.listVmInstancesByZone(zone);
@@ -31,9 +34,9 @@ export default {
       },
     },
     bucketName: {
-      type: "string",
       label: "Bucket Name",
       description: "The unique bucket name",
+      type: "string",
       async options() {
         const [
           resp,
@@ -42,9 +45,9 @@ export default {
       },
     },
     fileNames: {
-      type: "string[]",
       label: "fileName",
       description: "File names to be selected in GCS bucket",
+      type: "string[]",
       async options({
         bucketName,
         prevContext,
@@ -103,16 +106,6 @@ export default {
         return tables.map(({ id }) => id);
       },
     },
-    queryString: {
-      type: "string",
-      label: "Query",
-      description: "The GoogleSQL query to execute",
-    },
-    schedule: {
-      type: "string",
-      label: "Schedule",
-      description: "The schedule on which the query should run. The syntax is crontab-like: 'every N (hours|mins|minutes) [from time1 to time2]'",
-    },
   },
   methods: {
     authKeyJson() {
@@ -132,6 +125,9 @@ export default {
         credentials,
         projectId,
       };
+    },
+    bigQueryDataTransferClient() {
+      return new bqdt.DataTransferServiceClient(this.sdkParams());
     },
     loggingClient() {
       return new Logging(this.sdkParams());
@@ -207,37 +203,6 @@ export default {
       return new BigQuery({
         credentials,
         projectId,
-      });
-    },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
-    },
-    _baseUrl() {
-      return "https://bigquerydatatransfer.googleapis.com/v1";
-    },
-    async createTransferConfig(parent, transferConfig, authorizationCode) {
-      return this._makeRequest({
-        path: `/projects/${parent}/locations/us/transferConfigs`,
-        data: {
-          parent,
-          transferConfig,
-          authorizationCode,
-        },
       });
     },
   },
