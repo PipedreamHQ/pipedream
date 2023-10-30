@@ -7,7 +7,7 @@ Generate components using OpenAI GPT.
 
 1. Install [gh cli](https://github.com/cli/cli#installation)
 
-2. Install [`asdf` package manager](https://asdf-vm.com/guide/getting-started.html#getting-started).
+2. Install [asdf package manager](https://asdf-vm.com/guide/getting-started.html#getting-started).
 
 3. Run `cd packages/component_code_gen`
 
