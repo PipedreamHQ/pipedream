@@ -5,7 +5,7 @@ export default {
   key: "ilovepdf-new-task-completed",
   name: "New Task Completed",
   description: "Emit new event for each new task. [See the documentation](https://developer.ilovepdf.com/docs/api-reference#task)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
