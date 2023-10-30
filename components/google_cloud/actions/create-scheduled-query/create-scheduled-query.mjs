@@ -11,12 +11,10 @@ export default {
     destinationDatasetId: {
       label: "Destination Dataset",
       description: "The name of the dataset to create the table in. If the dataset does not exist, it will be created.",
-      datasetId: {
-        propDefinition: [
-          googleCloud,
-          "datasetId",
-        ],
-      },
+      propDefinition: [
+        googleCloud,
+        "datasetId",
+      ],
     },
     displayName: {
       type: "string",
