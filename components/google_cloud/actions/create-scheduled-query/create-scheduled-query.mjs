@@ -25,7 +25,8 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "The GoogleSQL query to execute. Eg. `SELECT @run_time AS time, * FROM `bigquery-public-data.samples.shakespeare` LIMIT 1000`. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#query_string).",
+      description: "The GoogleSQL query to execute. Eg. ``SELECT @run_time AS time, * FROM `bigquery-public-data.samples.shakespeare` LIMIT 1000``. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#query_string).",
+      optional: true,
     },
     schedule: {
       type: "string",
