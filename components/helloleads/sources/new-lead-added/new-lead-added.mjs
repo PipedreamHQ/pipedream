@@ -51,7 +51,7 @@ export default {
           {
             id: item.id,
             summary: `A new lead with id: "${item.id}" was added!`,
-            ts: item.created,
+            ts: Date.parse(item.created),
           },
         );
       }
