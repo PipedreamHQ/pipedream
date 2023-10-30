@@ -1,5 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import helloleads from "../../___helloleads.app.mjs";
+import helloleads from "../../helloleads.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
