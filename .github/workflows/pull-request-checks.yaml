@@ -19,6 +19,7 @@ jobs:
       - uses: actions/checkout@v4.1.1
         name: Checkout repo
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           # See https://github.com/actions/checkout#checkout-v2
           # This will be slow. The intent is to fetch all commits
           # since the merge-base (the commit where we branched off)
@@ -27,7 +28,7 @@ jobs:
           # There's no native way to do this in the checkout action, so
           # we have to fetch the entire history. See
           # https://github.com/actions/checkout/issues/266#issuecomment-638346893
-          fetch-depth: 0
+          # fetch-depth: 0
       - uses: jitterbit/get-changed-files@v1
         id: changed_files
         name: Get changed files
@@ -39,6 +40,14 @@ jobs:
           all_files: ${{ steps.changed_files.outputs.all }}
           base_commit: ${{ github.event.pull_request.base.sha }}
           head_commit: ${{ github.event.pull_request.head.sha }}
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+           commit_message: Automatically updating actions and sources versions
+           commit_options:  '--no-verify'
+           commit_user_name: Pipedream [Bot]
+           commit_user_email: pipedream@pipedream.com
+           commit_author: Pipedream [Bot] <pipedream@pipedream.com>
+           push_options: '--force'
 
   spellcheck:
     name: Spellcheck

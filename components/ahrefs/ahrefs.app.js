@@ -1,3 +1,4 @@
+console.log("");
 module.exports = {
   type: "app",
   app: "ahrefs",
