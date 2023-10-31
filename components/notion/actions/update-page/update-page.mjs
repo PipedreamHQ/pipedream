@@ -1,13 +1,13 @@
 import notion from "../../notion.app.mjs";
 import base from "../common/base-page-builder.mjs";
-import { pick } from "lodash-es";
+import pick from "lodash-es/pick.js";
 
 export default {
   ...base,
   key: "notion-update-page",
   name: "Update Page",
   description: "Updates page property values for the specified page. Properties that are not set will remain unchanged. To append page content, use the *append block* action. [See the docs](https://developers.notion.com/reference/patch-page)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     notion,
