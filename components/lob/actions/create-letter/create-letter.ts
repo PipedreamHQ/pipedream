@@ -114,11 +114,13 @@ export default defineAction({
       label: "Mail Type",
       description: "Designates the mail postage type.",
       options: constants.MAIL_TYPES,
+      optional: true,
     },
     sendDate: {
       type: "string",
       label: "Send Date",
       description: "Specifies the date to send the letter off for production (ISO 8601 format, up to 180 days in the future).",
+      optional: true,
     },
   },
   async run({ $ }) {
