@@ -50,6 +50,8 @@ The output for the `print` **logs** will appear in the `Results` section just be
 
 ## Using third party packages
 
+<VideoPlayer src="https://www.youtube.com/embed/VKW5D6PYq-Y" title="Importing PyPi Packages into Python Code Steps" />
+
 You can use any packages from [PyPI](https://pypi.org) in your Pipedream workflows. This includes popular choices such as:
 
 - [`requests` for making HTTP requests](https://pypi.org/project/requests/)
