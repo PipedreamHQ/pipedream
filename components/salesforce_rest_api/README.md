@@ -1,6 +1,23 @@
 # Getting Started
 
-You can install the Pipedream Salesforce app in the [Accounts](https://pipedream.com/accounts) section of your account, or directly in a workflow.
+You can connect your Salesforce account in the [Accounts](https://pipedream.com/accounts) section of your account, or directly in a workflow.
+
+## API Access
+
+Please note that only certain [editions](https://help.salesforce.com/s/articleView?id=000385436&type=1) of Salesforce are granted API Access: 
+
+**Editions with API Access**
+- Enterprise Edition
+- Unlimited Edition
+- Developer Edition
+- Performance Edition
+ 
+**Editions without API Access**
+- Group Edition
+- Essentials Edition
+- Professional Edition (can be purchased as an add-on) 
+
+If you are on a Salesforce edition with API Access, you will need to enable it at the user-profile level under **Administrative Permissions** -> **"API-Enabled"**
 
 ### Webhooks
 
