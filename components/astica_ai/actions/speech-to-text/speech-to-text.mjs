@@ -1,7 +1,4 @@
 import asticaAi from "../../astica_ai.app.mjs";
-import fs from "fs";
-import { fileTypeFromBuffer } from "file-type";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Speech To Text",
@@ -15,36 +12,12 @@ export default {
       type: "string",
       label: "File URL",
       description: "The URL of the audio file to transcribe",
-      optional: true,
-    },
-    filePath: {
-      type: "string",
-      label: "File Path",
-      description: "The path to the file saved to the [`/tmp` directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory) (e.g. `/tmp/myFile.csv`). Must specify either **File URL** or **File Path**.",
-      optional: true,
-    },
-  },
-  methods: {
-    async getFileInput(filePath) {
-      const audioData = fs.readFileSync(filePath);
-      const audioExtension = filePath.includes(".")
-        ? filePath.split(".").pop()
-        : (await fileTypeFromBuffer(audioData)).ext;
-      return `data:audio/${audioExtension};base64,${audioData.toString("base64")}`;
     },
   },
   async run({ $ }) {
-    if (!this.fileUrl && !this.filePath) {
-      throw new ConfigurationError("One of File URL or File Path is required.");
-    }
-
-    const input = this.fileUrl
-      ? this.fileUrl
-      : await this.getFileInput(this.filePath);
-
     const response = await this.asticaAi.speechToText({
       data: {
-        input,
+        input: this.fileUrl,
         modelVersion: "1.0_full",
         doStream: 0,
         low_priority: 0,
@@ -53,7 +26,7 @@ export default {
     });
 
     if (response?.status === "success") {
-      $.export("$summary", "Successfully transcribed text.");
+      $.export("$summary", "Successfully transcribed audio.");
     }
 
     return response;
