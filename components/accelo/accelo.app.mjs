@@ -93,6 +93,7 @@ export default {
       return this.$auth.hostname;
     },
     _accessToken() {
+      console.log("aaa");
       return this.$auth.oauth_access_token;
     },
     _apiUrl() {
