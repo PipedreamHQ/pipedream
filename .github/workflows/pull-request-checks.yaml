@@ -39,6 +39,14 @@ jobs:
           all_files: ${{ steps.changed_files.outputs.all }}
           base_commit: ${{ github.event.pull_request.base.sha }}
           head_commit: ${{ github.event.pull_request.head.sha }}
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+           commit_message: Automatically updating actions and sources versions
+           commit_options:  '--no-verify'
+           commit_user_name: Pipedream [Bot]
+           commit_user_email: pipedream@pipedream.com
+           commit_author: Pipedream [Bot] <pipedream@pipedream.com>
+           push_options: '--force'
 
   spellcheck:
     name: Spellcheck
