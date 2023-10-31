@@ -1,18 +1,15 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import Sonix from "../../sonix.app.mjs";
+import sonix from "../../sonix.app.mjs";
 
 export default {
   key: "sonix-media-upload-complete",
-  name: "Media Upload Complete",
-  description: "Emits a new event any time the media status of an item changes to completed.",
-  version: "0.0.{{ts}}",
+  name: "New Media Upload Complete",
+  description: "Emit new event any time the media status of an item changes to completed.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    sonix: {
-      type: "app",
-      app: "sonix",
-    },
+    sonix,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -22,49 +19,48 @@ export default {
     },
   },
   methods: {
-    _getLastMediaStatus() {
-      return this.db.get("lastMediaStatus") ?? null;
+    _getLastDate() {
+      return this.db.get("lastDate") ?? 0;
     },
-    _setLastMediaStatus(status) {
-      this.db.set("lastMediaStatus", status);
+    _setLastDate(status) {
+      this.db.set("lastDate", status);
     },
-  },
-  hooks: {
-    async deploy() {
-      const media = await this.sonix.listMedia({
+    async startEvent(maxResults = 0) {
+      const lastDate = this._getLastDate();
+      const items = this.sonix.paginate({
+        fn: this.sonix.listMedia,
+        maxResults,
         params: {
           status: "completed",
         },
       });
-      for (const item of media) {
-        if (item.status === "completed") {
-          this.$emit(item, {
+
+      let responseArray = [];
+
+      for await (const item of items) {
+        if (new Date(item.created_at) <= new Date(lastDate)) break;
+        responseArray.push(item);
+      }
+      if (responseArray.length) this._setLastDate(responseArray[0].created_at);
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(
+          item,
+          {
             id: item.id,
             summary: `Media upload completed: ${item.name}`,
             ts: Date.parse(item.created_at),
-          });
-        }
+          },
+        );
       }
     },
   },
+  hooks: {
+    async deploy() {
+      await this.startEvent(25);
+    },
+  },
   async run() {
-    const media = await this.sonix.listMedia({
-      params: {
-        status: "completed",
-      },
-    });
-    const lastMediaStatus = this._getLastMediaStatus();
-    for (const item of media) {
-      if (item.status === "completed" && item.id !== lastMediaStatus?.id) {
-        this.$emit(item, {
-          id: item.id,
-          summary: `Media upload completed: ${item.name}`,
-          ts: Date.parse(item.created_at),
-        });
-      }
-    }
-    if (media.length > 0) {
-      this._setLastMediaStatus(media[0]);
-    }
+    await this.startEvent();
   },
 };

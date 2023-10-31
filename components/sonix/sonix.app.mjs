@@ -4,71 +4,18 @@ export default {
   type: "app",
   app: "sonix",
   propDefinitions: {
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "URL pointing to the audio/video file",
-      required: true,
-    },
-    language: {
-      type: "string",
-      label: "Language",
-      description: "Language code for the transcription",
-      async options() {
-        return [
-          "en",
-          "fr",
-          "de",
-          "es",
-          "ar",
-          "hy-AM",
-          "bg",
-          "ca",
-          "hr",
-          "yue-Hant-HK",
-          "cmn-Hans-CN",
-          "cs",
-          "da",
-          "nl",
-          "fi",
-          "el",
-          "he-IL",
-          "hi",
-          "hu",
-          "id-ID",
-          "it",
-          "ja",
-          "ko",
-          "lv",
-          "lt",
-          "ms-MY",
-          "nb-NO",
-          "pl",
-          "pt",
-          "ro",
-          "ru",
-          "sk",
-          "sl",
-          "sv",
-          "th-TH",
-          "tr-TR",
-          "uk",
-          "vi-VN",
-        ].map((lang) => ({
-          label: lang,
-          value: lang,
-        }));
-      },
-    },
     folderId: {
       type: "string",
       label: "Folder ID",
       description: "ID of folder to place the media in",
       async options() {
-        const folders = await this.listFolders();
-        return folders.map((folder) => ({
-          label: folder.name,
-          value: folder.id,
+        const { folders } = await this.listFolders();
+
+        return folders.map(({
+          id: value, name, email,
+        }) => ({
+          label: name || email,
+          value,
         }));
       },
     },
@@ -76,87 +23,107 @@ export default {
       type: "string",
       label: "Media ID",
       description: "ID of the media file",
-      async options({ prevContext }) {
-        const page = prevContext.page
-          ? prevContext.page
-          : 0;
+      async options({ page }) {
         const { media } = await this.listMedia({
           params: {
-            page,
+            page: page + 1,
             status: "completed",
           },
         });
-        return {
-          options: media.map((m) => ({
-            label: m.name,
-            value: m.id,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
+
+        return media.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
       },
     },
   },
   methods: {
+    _getApiKey() {
+      return this.$auth.api_key;
+    },
     _baseUrl() {
       return "https://api.sonix.ai/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
-      });
+    _getHeaders(headers) {
+      return {
+        ...headers,
+        Authorization: `Bearer ${this._getApiKey()}`,
+      };
     },
-    async listFolders() {
+    _makeRequest({
+      $ = this, path, headers, ...otherOpts
+    }) {
+      const config = {
+        ...otherOpts,
+        url: this._baseUrl() + path,
+        headers: this._getHeaders(headers),
+      };
+
+      return axios($, config);
+    },
+    listFolders() {
       return this._makeRequest({
         path: "/folders",
       });
     },
-    async listMedia(opts = {}) {
+    listMedia(opts = {}) {
       return this._makeRequest({
         ...opts,
         path: "/media",
       });
     },
-    async submitNewMedia(opts = {}) {
+    submitNewMedia(opts = {}) {
       return this._makeRequest({
         ...opts,
         method: "POST",
         path: "/media",
       });
     },
-    async getMediaStatus(mediaId) {
-      return this._makeRequest({
-        path: `/media/${mediaId}`,
-      });
-    },
-    async getTextTranscript(mediaId) {
+    getTextTranscript(mediaId) {
       return this._makeRequest({
         path: `/media/${mediaId}/transcript`,
       });
     },
-    async createTranslation(mediaId, opts = {}) {
+    createTranslation({
+      mediaId, ...opts
+    }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
         path: `/media/${mediaId}/translations`,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      fn, params = {}, maxResults = null,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          media,
+          page: currentPage,
+          total_pages: lastPage,
+        } = await fn({
+          params,
+        });
+
+        for (const d of media) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = currentPage != lastPage;
+
+      } while (hasMore);
     },
   },
 };

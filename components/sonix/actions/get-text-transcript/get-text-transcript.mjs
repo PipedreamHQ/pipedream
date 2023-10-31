@@ -3,8 +3,8 @@ import sonix from "../../sonix.app.mjs";
 export default {
   key: "sonix-get-text-transcript",
   name: "Get Text Transcript",
-  description: "Gets the text transcript of a selected media file. [See the documentation](https://sonix.ai/docs/api)",
-  version: "0.0.{{ts}}",
+  description: "Gets the text transcript of a selected media file. [See the documentation](https://sonix.ai/docs/api#get_transcript)",
+  version: "0.0.1",
   type: "action",
   props: {
     sonix,
@@ -12,9 +12,6 @@ export default {
       propDefinition: [
         sonix,
         "mediaId",
-        (c) => ({
-          status: "completed",
-        }),
       ],
     },
   },
