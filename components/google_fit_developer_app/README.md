@@ -7,7 +7,7 @@ The Google Fit Developer App in Pipedream can integrate with either a personal G
 ## Creating a Google Fit app
 In order to connect your personal or workspace Google Fit account to Pipedream, you'll need to create a custom OAuth app in Google Cloud.
 
-1. Sign in to the [Google Cloud Console](https://cloud.google.com/)
+1. Sign in to the [Google Cloud Console](https://console.cloud.google.com/apis/library)
 2. Select an existing project or create a new one
 
   ![Select an exisiting project or create a a new one in the Google Cloud Console](https://res.cloudinary.com/pipedreamin/image/upload/v1663268100/docs/components/CleanShot_2022-09-15_at_14.54.34_vajyds.png)
@@ -47,7 +47,7 @@ You will need to generate a set of OAuth credentials to connect your new Google 
     
     ![Open the Credentials menu in the left hand nav bar](https://res.cloudinary.com/pipedreamin/image/upload/v1663269973/docs/components/CleanShot_2022-09-15_at_15.13.52_yvllxi.png)
 
-2. Click **Create Credentials** at the top and select **“*OAuth client ID**
+2. Click **Create Credentials** at the top and select **OAuth client ID**
    
   ![Click create credentials to start the process](https://res.cloudinary.com/pipedreamin/image/upload/v1663270014/docs/components/CleanShot_2022-09-15_at_15.14.15_hjulis.png)
   
@@ -58,7 +58,7 @@ You will need to generate a set of OAuth credentials to connect your new Google 
   ![Web application is the type of OAuth credential we're generating](https://res.cloudinary.com/pipedreamin/image/upload/v1663270117/docs/components/CleanShot_2022-09-15_at_15.14.56_hlseq6.png)
 
 4. Name the app “Pipedream”
-5. Click **Add URI** and enter `https://api.pipedream.com/connect/oauth/oa_gA6iex/callback`
+5. Click **Add URI** in the **Authorized Redirect URIs** section, and enter `https://api.pipedream.com/connect/oauth/oa_gA6iex/callback`
 
   ![Add the Pipedream URL to the Callback Redirect URL option](https://res.cloudinary.com/dpenc2lit/image/upload/v1692295499/Screenshot_2023-08-17_at_11.04.54_AM_blco7y.png)
 
