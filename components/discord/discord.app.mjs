@@ -4,7 +4,7 @@ export default {
   propDefinitions: {
     message: {
       type: "string",
-      label: "Message",
+      label: "Message AA",
       description: "Enter a simple message up to 2000 characters. This is the most commonly used field. However, it's optional if you pass embed content.",
     },
     includeSentViaPipedream: {
