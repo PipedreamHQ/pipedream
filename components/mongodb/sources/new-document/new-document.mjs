@@ -5,7 +5,7 @@ export default {
   key: "mongodb-new-document",
   name: "New Document",
   description: "Emit new an event when a new document is added to a collection",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -25,31 +25,56 @@ export default {
         }),
       ],
     },
+    timestampField: {
+      type: "string",
+      label: "Timestamp Field",
+      description: "The key of a timestamp field, such as 'created_at' that is set to the current timestamp when a document is created. Must be of type Timestamp.",
+    },
+  },
+  hooks: {
+    async deploy() {
+      const client = await this.mongodb.getClient();
+      await this.processEvent(client, Date.now(), 25);
+      await client.close();
+    },
   },
   methods: {
     ...common.methods,
-    _getDocumentIds() {
-      return this.db.get("documentIds");
+    _getLastTs() {
+      return this.db.get("lastTs");
     },
-    _setDocumentIds(documentIds) {
-      this.db.set("documentIds", documentIds);
+    _setLastTs(lastTs) {
+      this.db.set("lastTs", lastTs);
     },
-    isRelevant(id, documentIds) {
-      return !documentIds.includes(id);
-    },
-    async processEvent(client, ts) {
-      const documentIds = this._getDocumentIds() || [];
-      const collection = this.mongodb.getCollection(client, this.database, this.collection);
-      const documents = await this.mongodb.listDocuments(collection);
-      for (const doc of documents) {
-        const id = JSON.stringify(doc._id);
-        if (!this.isRelevant(id, documentIds)) {
-          continue;
-        }
-        documentIds.push(id);
-        this.emitEvent(doc, ts);
+    getTs(doc) {
+      try {
+        return JSON.parse(doc[this.timestampField]);
+      } catch {
+        return doc[this.timestampField];
       }
-      this._setDocumentIds(documentIds);
+    },
+    async processEvent(client, eventTs, max) {
+      const lastTs = this._getLastTs() || 0;
+      let maxTs = lastTs;
+      let count = 0;
+      const collection = this.mongodb.getCollection(client, this.database, this.collection);
+      const sort = {
+        [this.timestampField]: -1,
+      };
+      const documents = await collection.find().sort(sort)
+        .toArray();
+      for (const doc of documents) {
+        const ts = this.getTs(doc);
+        if (!(ts > lastTs) || (max && count >= max)) {
+          break;
+        }
+        if (ts > maxTs) {
+          maxTs = ts;
+        }
+        this.emitEvent(doc, eventTs);
+        count++;
+      }
+      this._setLastTs(maxTs);
     },
     generateMeta({ _id: id }, ts) {
       return {
