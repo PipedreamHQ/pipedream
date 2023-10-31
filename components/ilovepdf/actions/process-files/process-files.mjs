@@ -125,10 +125,15 @@ export default {
       task,
     });
 
+    const filePath = `/tmp/${processResponse.download_filename}`;
+
+    fs.writeFileSync(filePath, downloadResponse);
+
     $.export("$summary", `Successfully processed ${processResponse.output_filenumber} files`);
     return {
       processResponse,
       downloadResponse,
+      filePath,
     };
   },
 };
