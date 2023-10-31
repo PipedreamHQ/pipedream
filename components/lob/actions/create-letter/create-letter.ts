@@ -107,7 +107,6 @@ export default defineAction({
       label: "Use Type",
       description: "The use type of the mail. It can only be null if an account default use_type is selected).",
       options: constants.USE_TYPES,
-      optional: true,
     },
     mailType: {
       type: "string",
@@ -141,7 +140,7 @@ export default defineAction({
       from: this.from,
       file: this.file,
       color: this.color,
-      use_type: this.useType ?? null,
+      use_type: this.useType,
       mail_type: this.mailType,
       send_date: this.sendDate,
     });
