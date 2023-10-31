@@ -88,6 +88,21 @@ Use the built in [magic comment system to resolve these mismatches](/code/python
 import telegram
 ```
 
+### Pinning package versions
+
+Each time you deploy a workflow with Python code, Pipedream downloads the PyPi packages you `import` in your step. **By default, Pipedream deploys the latest version of the PyPi package each time you deploy a change**.
+
+There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a workflow, you can add that version in a [magic comment](/code/python/import-mappings/), for example:
+
+```python
+# python add-package pandas==2.0.0
+import pandas
+```
+
+::: warning
+Currently, you cannot use different versions of the same package in different steps in a workflow.
+:::
+
 ## Making an HTTP request
 
 We recommend using the popular `requests` HTTP client package available in Python to send HTTP requests.
