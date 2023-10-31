@@ -638,6 +638,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/bouncer:
+    specifiers: {}
+
   components/box:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -919,6 +922,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/clearout:
+    specifiers: {}
 
   components/clerk:
     specifiers:
@@ -1588,6 +1594,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/dynapictures:
+    specifiers: {}
 
   components/dynatrace_api:
     specifiers: {}
@@ -2531,6 +2540,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/helpcrunch:
+    specifiers: {}
 
   components/helper_functions:
     specifiers:
@@ -4150,6 +4162,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/passcreator:
+    specifiers: {}
+
   components/passslot:
     specifiers: {}
 
@@ -4309,6 +4324,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/pingdom:
+    specifiers: {}
 
   components/pinterest:
     specifiers:
@@ -5326,6 +5344,9 @@ importers:
       '@pipedream/platform': 1.5.1
     devDependencies:
       '@pipedream/types': 0.1.6
+
+  components/shipday:
+    specifiers: {}
 
   components/shipengine:
     specifiers:
