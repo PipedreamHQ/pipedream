@@ -48,12 +48,10 @@ export default {
         project_id: projectId,
         client_email: serviceAccountName,
       } = googleCloud.authKeyJson();
-      const client = googleCloud.bigQueryDataTransferClient();
 
+      const client = googleCloud.bigQueryDataTransferClient();
       const parent = client.projectPath(projectId);
-      console.log("serviceAccountName", serviceAccountName);
-      console.log("parent", parent);
-      console.log("transferConfig", transferConfig);
+
       return client.createTransferConfig({
         serviceAccountName,
         parent,
