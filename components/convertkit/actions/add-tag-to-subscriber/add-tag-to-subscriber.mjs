@@ -1,10 +1,10 @@
 import convertkit from "../../convertkit.app.mjs";
 
 export default {
-  key: "convertkit-add-subscriber-to-form",
-  name: "Add subscriber to a form",
-  description: "Add subscriber to a form. [See docs here](https://developers.convertkit.com/#add-subscriber-to-a-form)",
-  version: "0.0.2",
+  key: "convertkit-add-tag-to-subscriber",
+  name: "Add tag to a subscriber",
+  description: "Add tag to a subscriber. [See docs here](https://developers.convertkit.com/#tag-a-subscriber)",
+  version: "0.0.1",
   type: "action",
   props: {
     convertkit,
@@ -17,18 +17,20 @@ export default {
         }),
       ],
     },
-    form: {
+    tag: {
       propDefinition: [
         convertkit,
-        "form",
+        "tag",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.convertkit.addSubscriberToForm(this.subscriber, this.form, $);
+    const response = await this.convertkit.addTagToSubscriber(this.subscriber, this.tag, $);
+
     if (response) {
-      $.export("$summary", "Successfully added subscriber to form");
+      $.export("$summary", "Successfully added tag to subscriber");
     }
+
     return response;
   },
 };
