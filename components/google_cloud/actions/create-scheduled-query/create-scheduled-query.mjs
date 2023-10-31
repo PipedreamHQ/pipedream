@@ -16,6 +16,15 @@ export default {
         "datasetId",
       ],
     },
+    datasetRegion: {
+      type: "string",
+      label: "Dataset Region",
+      description: "The geographic location where the dataset should reside. [See the documentation here](https://cloud.google.com/bigquery/docs/locations#specifying_your_location)",
+      options: [
+        "US",
+        "EU",
+      ],
+    },
     displayName: {
       type: "string",
       label: "Display Name",
@@ -52,17 +61,20 @@ export default {
       const client = googleCloud.bigQueryDataTransferClient();
       const parent = client.projectPath(projectId);
 
-      return client.createTransferConfig({
+      const args = {
         serviceAccountName,
         parent,
         transferConfig,
-      });
+      };
+
+      return client.createTransferConfig(args);
     },
   },
   async run({ $ }) {
     const {
       createTransferConfig,
       destinationDatasetId,
+      datasetRegion,
       displayName,
       query,
       schedule,
@@ -72,6 +84,7 @@ export default {
     const response = await createTransferConfig({
       schedule,
       destinationDatasetId,
+      datasetRegion,
       displayName,
       params: {
         query,
