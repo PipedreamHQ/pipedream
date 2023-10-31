@@ -24,10 +24,7 @@ export default {
         const { formats } = await this.getTemplateDetails({
           templateId,
         });
-        return formats.map((f) => ({
-          value: f.id,
-          label: f.id,
-        }));
+        return formats.map(({ id }) => id);
       },
     },
     elements: {
@@ -55,81 +52,26 @@ export default {
     _baseUrl() {
       return "https://api.abyssale.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
           "x-api-key": this.$auth.api_key,
         },
+        ...args,
       });
     },
-    async getTemplates() {
+    getTemplates() {
       return this._makeRequest({
         path: "/templates",
       });
     },
-    async getTemplateDetails({ templateId }) {
+    getTemplateDetails({ templateId }) {
       return this._makeRequest({
         path: `/templates/${templateId}`,
-      });
-    },
-    async generateSingleImage({
-      templateId, elements, imageFileType,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/banner-builder/${templateId}/generate`,
-        data: {
-          elements,
-          image_file_type: imageFileType,
-        },
-      });
-    },
-    async generateAnimatedGif({
-      templateId,
-      callbackUrl,
-      elements,
-      imageFileType,
-      templateFormatNames,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/async/banner-builder/${templateId}/generate`,
-        data: {
-          callback_url: callbackUrl,
-          image_file_type: imageFileType,
-          gif: {
-            max_fps: 9,
-            repeat: -1,
-          },
-          template_format_names: templateFormatNames,
-          elements,
-        },
-      });
-    },
-    async generateImageFromUrl({
-      templateId,
-      elements,
-      imageFileType,
-      formatName,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/img.abyssale.com/${templateId}/${formatName}`,
-        data: {
-          elements,
-          image_file_type: imageFileType,
-        },
       });
     },
   },

@@ -27,8 +27,22 @@ export default {
       ],
     },
   },
+  methods: {
+    async generateSingleImage({
+      templateId, elements, imageFileType,
+    }) {
+      return this.abyssale._makeRequest({
+        method: "POST",
+        path: `/banner-builder/${templateId}/generate`,
+        data: {
+          elements,
+          image_file_type: imageFileType,
+        },
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.abyssale.generateSingleImage({
+    const response = await this.generateSingleImage({
       templateId: this.templateId,
       elements: this.elements,
       imageFileType: this.imageFileType,

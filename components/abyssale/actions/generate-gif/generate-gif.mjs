@@ -39,8 +39,32 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    async generateAnimatedGif({
+      templateId,
+      callbackUrl,
+      elements,
+      imageFileType,
+      templateFormatNames,
+    }) {
+      return this.abyssale._makeRequest({
+        method: "POST",
+        path: `/async/banner-builder/${templateId}/generate`,
+        data: {
+          callback_url: callbackUrl,
+          image_file_type: imageFileType,
+          gif: {
+            max_fps: 9,
+            repeat: -1,
+          },
+          template_format_names: templateFormatNames,
+          elements,
+        },
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.abyssale.generateAnimatedGif({
+    const response = await this.generateAnimatedGif({
       templateId: this.templateId,
       callbackUrl: this.callbackUrl,
       elements: this.elements,
