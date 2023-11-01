@@ -21,8 +21,10 @@ export default {
       label: "Subscriber Email",
       description: "The subscriber email",
       type: "string",
-      async options() {
-        const { items: resources } = await this.getSubscribers();
+      async options({ listId }) {
+        const { items: resources } = await this.getSubscribers({
+          listId,
+        });
 
         return resources.map((resource) => resource.email);
       },
@@ -56,9 +58,15 @@ export default {
         ...args,
       });
     },
-    async getSubscribers(args = {}) {
+    async getSubscribers({
+      listId, ...args
+    }) {
+      const extraPath = listId
+        ? `/lists/${listId}`
+        : "";
+
       return this._makeRequest({
-        path: "/subscribers",
+        path: `${extraPath}/subscribers`,
         ...args,
       });
     },

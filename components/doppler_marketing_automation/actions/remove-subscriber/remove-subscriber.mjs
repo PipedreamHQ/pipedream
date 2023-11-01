@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         app,
         "subscriberEmail",
+        (c) => ({
+          listId: c.listId,
+        }),
       ],
     },
   },
