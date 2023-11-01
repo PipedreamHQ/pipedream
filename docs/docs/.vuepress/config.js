@@ -33,13 +33,15 @@ module.exports = {
     repo: "PipedreamHQ/pipedream",
     nav: [
       {
-        text: "v1",
+        text: "v1 (deprecated)",
         ariaLabel: "Docs Version Menu",
         items: [
           {
             text: "v1",
             link: "https://pipedream.com/docs/v1",
             internal: true,
+            badge: "Deprecated",
+            badgeVariation: "danger",
           },
           {
             text: "v2",

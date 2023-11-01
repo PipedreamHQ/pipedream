@@ -43,7 +43,7 @@ Pipedream provides a serverless platform to build and run workflows that connect
 - Use connected accounts to auth APIs in code steps or in "no code" building blocks
 - Compose steps into workflows and trigger on HTTP requests, schedules or app events
 
-Pipedream also provides easy to use services to solve common serverless and integration challenges including state management, execution rate and concurrency controls, large file support (up to 5TB) and more! 
+Pipedream also provides easy to use services to solve common serverless and integration challenges including state management, execution rate and concurrency controls, large file support (up to 5TB) and more!
 
 Watch a demo (4 mins):
 
@@ -51,7 +51,7 @@ Watch a demo (4 mins):
 
 ## Is Pipedream for Me?
 
-We make it easy to connect APIs with code-level control when you need it — and no code when you don't. If you and your team want to stop writing boilerplate code, struggling with authentication and managing infrastructure for integrations, then Pipedream is for you. 
+We make it easy to connect APIs with code-level control when you need it — and no code when you don't. If you and your team want to stop writing boilerplate code, struggling with authentication and managing infrastructure for integrations, then Pipedream is for you.
 
 Developers with a working knowledge of Node.js or Javascript will get the most value from Pipedream (Python, TypeScript, and GitHub integration are coming soon).
 
@@ -66,7 +66,7 @@ Pipedream is trusted by 150k+ developers from startups to Fortune 500 companies:
 Sign up for a [free account (no credit card required)](https://pipedream.com/auth/signup) and complete our [quickstart guide](/quickstart/) to learn the basic patterns for workflow development:
 
 - Trigger workflows on HTTP requests, schedules and app events
-- Return a custom response from your workflow on HTTP requests 
+- Return a custom response from your workflow on HTTP requests
 - Use connected accounts in actions and code steps
 - Pass data between code steps and no code actions
 - Use npm packages in Node.js code steps
@@ -86,7 +86,7 @@ Pipedream supports use cases from prototype to production and is trusted by 150k
 
 ![logos](https://res.cloudinary.com/pipedreamin/image/upload/v1612919944/homepage/logos_kcbviz.png)
 
-The platform processes billions of events and is built and [priced](https://pipedream.com/pricing/) for use at scale. [Our team](https://pipedream.com/about) has built internet scale applications and managed data pipelines in excess of 10 million events per second (EPS) at startups and high-growth environments like BrightRoll, Yahoo!, Affirm and Instacart. 
+The platform processes billions of events and is built and [priced](https://pipedream.com/pricing/) for use at scale. [Our team](https://pipedream.com/about) has built internet scale applications and managed data pipelines in excess of 10 million events per second (EPS) at startups and high-growth environments like BrightRoll, Yahoo!, Affirm and Instacart.
 
 Our [community](https://pipedream.com/community) uses Pipedream for a wide variety of use cases including:
 
