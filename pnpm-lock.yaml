@@ -2792,7 +2792,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/insites:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/instagram_business:
     specifiers:
