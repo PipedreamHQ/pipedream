@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/postalytics",
+  "version": "0.0.1",
+  "description": "Pipedream Postalytics Components",
+  "main": "postalytics.app.mjs",
+  "keywords": [
+    "pipedream",
+    "postalytics"
+  ],
+  "homepage": "https://pipedream.com/apps/postalytics",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

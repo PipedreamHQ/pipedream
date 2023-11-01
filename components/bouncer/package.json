@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bouncer",
+  "version": "0.0.1",
+  "description": "Pipedream Bouncer Components",
+  "main": "bouncer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bouncer"
+  ],
+  "homepage": "https://pipedream.com/apps/bouncer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
