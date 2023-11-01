@@ -178,6 +178,21 @@ export default {
         }));
       },
     },
+    pipelineId: {
+      type: "integer",
+      label: "Pipeline ID",
+      description: "ID of the pipeline this deal will be placed in (note that you can't supply the ID of the pipeline as this will be assigned automatically based on `stage_id`). If omitted, the deal will be placed in the first stage of the default pipeline. Get the `stage_id` from [here](https://developers.pipedrive.com/docs/api/v1/#!/Stages/get_stages).",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getPipelines();
+        return stages.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
     status: {
       type: "string",
       label: "Status",
@@ -234,6 +249,51 @@ export default {
             start: additionalData.pagination.next_start,
           },
         };
+      },
+    },
+    orgCustomFieldKey: {
+      type: "string",
+      label: "Custom Field Key",
+      description: "Key of the custom field for organization in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getOrganizationFields();
+        return stages.map(({
+          key, name,
+        }) => ({
+          label: name,
+          value: key,
+        }));
+      },
+    },
+    personCustomFieldKey: {
+      type: "string",
+      label: "Custom Field Key",
+      description: "Key of the custom field for person in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getPersonFields();
+        return stages.map(({
+          key, name,
+        }) => ({
+          label: name,
+          value: key,
+        }));
+      },
+    },
+    dealCustomFieldKey: {
+      type: "string",
+      label: "Anility Id Field Key",
+      description: "Key of the custom field for deal in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getDealFields();
+        return stages.map(({
+          key, name,
+        }) => ({
+          label: name,
+          value: key,
+        }));
       },
     },
   },
@@ -312,6 +372,16 @@ export default {
       ] = constants.API.PERSONS;
       return this.api(className).searchPersons(term, otherOpts);
     },
+    searchOrganization(opts = {}) {
+      const {
+        term,
+        ...otherOpts
+      } = opts;
+      const [
+        className,
+      ] = constants.API.ORGANIZATIONS;
+      return this.api(className).searchOrganization(term, otherOpts);
+    },
     addFilter(opts = {}) {
       const [
         className,
@@ -342,11 +412,27 @@ export default {
       ] = constants.API.DEALS;
       return this.api(className).getDeals(opts);
     },
+    searchDeals(opts = {}) {
+      const {
+        term,
+        ...otherOpts
+      } = opts;
+      const [
+        className,
+      ] = constants.API.DEALS;
+      return this.api(className).searchDeals(term, otherOpts);
+    },
     getPersons(opts = {}) {
       const [
         className,
       ] = constants.API.PERSONS;
       return this.api(className).getPersons(opts);
+    },
+    getPersonFields(opts = {}) {
+      const [
+        className,
+      ] = constants.API.PERSON_FIELDS;
+      return this.api(className).getPersonFields(opts);
     },
     async getLeads(opts) {
       const [
@@ -378,17 +464,23 @@ export default {
       ] = constants.API.STAGES;
       return this.api(className).getStages(opts);
     },
+    getPipelines(opts) {
+      const [
+        className,
+      ] = constants.API.PIPELINES;
+      return this.api(className).getPipelines(opts);
+    },
     getDealFields(opts = {}) {
       const [
         className,
       ] = constants.API.DEAL_FIELDS;
       return this.api(className).getDealFields(opts);
     },
-    getPersonFields(opts = {}) {
+    getOrganizationFields(opts = {}) {
       const [
         className,
-      ] = constants.API.PERSON_FIELDS;
-      return this.api(className).getPersonFields(opts);
+      ] = constants.API.ORGANIZATION_FIELDS;
+      return this.api(className).getOrganizationFields(opts);
     },
     async *getResourcesStream({
       resourceFn,
