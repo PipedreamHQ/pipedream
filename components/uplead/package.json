@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/uplead",
+  "version": "0.0.1",
+  "description": "Pipedream UpLead Components",
+  "main": "uplead.app.mjs",
+  "keywords": [
+    "pipedream",
+    "uplead"
+  ],
+  "homepage": "https://pipedream.com/apps/uplead",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
