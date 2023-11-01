@@ -1,17 +1,15 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
-import lightspeed_vt from "../../lightspeed_vt.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import lightspeedVt from "../../lightspeed_vt.app.mjs";
 
 export default {
   key: "lightspeed_vt-new-user-added",
   name: "New User Added",
-  description: "Emits a new event every time there is a new user in the system",
-  version: "0.0.{{ts}}",
+  description: "Emit new event every time there is a new user in the system",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    lightspeed_vt,
+    lightspeedVt,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -29,8 +27,8 @@ export default {
     },
   },
   async run() {
-    const users = await this.lightspeed_vt.listUsers();
-    users.sort((a, b) => a.userId - b.userId);  // sort by userId in ascending order
+    const users = await this.lightspeedVt.listUsers();
+    users.sort((a, b) => a.userId - b.userId);
     const lastUserId = this._getLastUserId();
 
     for (const user of users) {

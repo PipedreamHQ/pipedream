@@ -4,86 +4,136 @@ export default {
   type: "app",
   app: "lightspeed_vt",
   propDefinitions: {
-    locationId: {
-      type: "string",
-      label: "Location ID",
-      description: "The ID of the location",
-      async options() {
-        const locations = await this.listLocations();
-        return locations.map((location) => ({
-          label: location.name,
-          value: location.id,
+    contentRole: {
+      type: "integer[]",
+      label: "Content Role Id",
+      description: "List of content roles Ids.",
+      async options({ page }) {
+        const contentRoles = await this.listContentRoles({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return contentRoles.map(({
+          roleId: value, contentRole: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    username: {
+    jobPositionId: {
       type: "string",
-      label: "Username",
-      description: "The username of the new user",
+      label: "Job Position Id",
+      description: "Id for job position assigned to user.",
+      async options({ page }) {
+        const jobPositions = await this.listJobPositions({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return jobPositions.map(({
+          jobPositionId: value, jobPosition: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    password: {
+    locationId: {
       type: "string",
-      label: "Password",
-      description: "The password for the new user",
-      secret: true,
+      label: "Location Id",
+      description: "Specifies the location Id.",
+      async options({ page }) {
+        const locations = await this.listLocations({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return locations.map(({
+          locationId: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    email: {
+    teamId: {
       type: "string",
-      label: "Email",
-      description: "The email of the new user",
-    },
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The first name of the new user",
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The last name of the new user",
-    },
-    accessLevel: {
-      type: "integer",
-      label: "Access Level",
-      description: "The access level for the new user",
+      label: "Team Id",
+      description: "Id for team assigned to user.",
+      async options({ page }) {
+        const teams = await this.listTeams({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return teams.map(({
+          teamId: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://webservices.lightspeedvt.net/REST/V1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
+    _getAuth() {
+      return {
+        username: `${this.$auth.api_key}`,
+        password: `${this.$auth.api_secret}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...otherOpts
+    }) {
+      const config = {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        auth: this._getAuth(),
+      };
+
+      return axios($, config);
+    },
+    listContentRoles(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: "/contentRoles",
       });
     },
-    async listLocations(opts = {}) {
+    listJobPositions(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: "/jobPositions",
+      });
+    },
+    listLocations(opts = {}) {
       return this._makeRequest({
         ...opts,
         path: "/locations/",
       });
     },
-    async createUser(opts = {}) {
+    listTeams(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: "/teams",
+      });
+    },
+    createUser(opts = {}) {
       return this._makeRequest({
         ...opts,
         method: "POST",
         path: "/users/",
       });
     },
-    async listUsers(opts = {}) {
+    listUsers(opts = {}) {
       return this._makeRequest({
         ...opts,
         path: "/users/",
