@@ -9,10 +9,9 @@ export default {
   props: {
     app,
     email: {
-      propDefinition: [
-        app,
-        "subscriberEmail",
-      ],
+      label: "Subscriber Email",
+      description: "The subscriber email",
+      type: "string",
     },
     birthday: {
       type: "string",
