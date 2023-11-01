@@ -267,6 +267,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/alphamoon:
+    specifiers: {}
+
   components/amara:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -366,6 +369,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/appcues:
+    specifiers: {}
+
+  components/appdrag:
     specifiers: {}
 
   components/asana:
@@ -573,6 +579,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/bigmailer:
+    specifiers: {}
 
   components/bigml:
     specifiers:
@@ -1149,6 +1158,9 @@ importers:
       lodash: 4.17.21
 
   components/convenia:
+    specifiers: {}
+
+  components/conversion_tools:
     specifiers: {}
 
   components/convertapi:
@@ -3832,6 +3844,9 @@ importers:
   components/nextdns:
     specifiers: {}
 
+  components/nexweave:
+    specifiers: {}
+
   components/niceboard:
     specifiers: {}
 
@@ -4582,6 +4597,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/productive_io:
+    specifiers: {}
+
   components/productlane:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -4632,7 +4650,10 @@ importers:
       puppeteer-core: 19.8.0
 
   components/push_by_techulus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pushcut:
     specifiers:
@@ -5143,6 +5164,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/scrapeninja:
+    specifiers: {}
+
+  components/scrapingant:
     specifiers: {}
 
   components/scrapingbee:
@@ -27516,7 +27540,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
