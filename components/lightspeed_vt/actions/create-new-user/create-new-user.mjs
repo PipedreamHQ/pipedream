@@ -1,4 +1,6 @@
-import { LANGUAGE_OPTIONS } from "../../common/constants.mjs";
+import {
+  GENDER_OPTIONS, LANGUAGE_OPTIONS,
+} from "../../common/constants.mjs";
 import lightspeedVt from "../../lightspeed_vt.app.mjs";
 
 export default {
@@ -63,10 +65,7 @@ export default {
       type: "string",
       label: "Gender",
       description: "The gender of the new user.",
-      options: [
-        "Female",
-        "Male",
-      ],
+      options: GENDER_OPTIONS,
       optional: true,
     },
     dob: {
@@ -346,7 +345,7 @@ export default {
         grossFeeCharged: grossFeeCharged && parseFloat(grossFeeCharged),
       },
     });
-    $.export("$summary", `Successfully created new user with ID: ${response.userId}`);
+    $.export("$summary", `Successfully created new user with ID ${response.userId}`);
     return response;
   },
 };

@@ -85,10 +85,16 @@ export default {
     _baseUrl() {
       return "https://webservices.lightspeedvt.net/REST/V1";
     },
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _apiSecret() {
+      return this.$auth.api_secret;
+    },
     _getAuth() {
       return {
-        username: `${this.$auth.api_key}`,
-        password: `${this.$auth.api_secret}`,
+        username: `${this._apiKey()}`,
+        password: `${this._apiSecret()}`,
       };
     },
     _makeRequest({

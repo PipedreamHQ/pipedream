@@ -1,3 +1,8 @@
+export const GENDER_OPTIONS = [
+  "Female",
+  "Male",
+];
+
 export const LANGUAGE_OPTIONS = [
   {
     label: "Arabic",
