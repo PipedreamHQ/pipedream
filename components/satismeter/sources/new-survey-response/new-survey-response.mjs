@@ -1,11 +1,11 @@
-import satismeter from "../../satismeter.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import satismeter from "../../satismeter.app.mjs";
 
 export default {
   key: "satismeter-new-survey-response",
   name: "New Survey Response",
-  description: "Emits a new event when a survey response is submitted to a project. [See the documentation](https://app.satismeter.com/apidoc)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a survey response is submitted to a project. [See the documentation](https://app.satismeter.com/apidoc)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -17,12 +17,6 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    projectId: {
-      propDefinition: [
-        satismeter,
-        "projectId",
-      ],
-    },
     surveyId: {
       propDefinition: [
         satismeter,
@@ -32,47 +26,52 @@ export default {
     },
   },
   methods: {
-    _getLastResponseId() {
-      return this.db.get("lastResponseId") || null;
+    _getLastDate() {
+      return this.db.get("lastDate") || null;
     },
-    _setLastResponseId(id) {
-      this.db.set("lastResponseId", id);
+    _setLastDate(created) {
+      this.db.set("lastDate", created);
     },
   },
   async run() {
     const {
       projectId, surveyId,
     } = this;
-    const lastResponseId = this._getLastResponseId();
+    const lastDate = this._getLastDate();
     let hasMore = true;
     let pageCursor = null;
+    const responseArray = [];
 
-    while (hasMore) {
-      const responses = await this.satismeter.getSurveyResponses({
+    do {
+      const {
+        data, page,
+      } = await this.satismeter.getSurveyResponses({
         projectId,
         surveyId,
-        pageCursor,
+        params: {
+          pageCursor,
+          startDate: lastDate,
+          pageSize: 100,
+        },
       });
 
-      for (const response of responses.data) {
-        if (lastResponseId && response.id <= lastResponseId) {
-          hasMore = false;
-          break;
-        }
-        this.$emit(response, {
-          id: response.id,
-          summary: `New response from survey ${surveyId}`,
-          ts: Date.parse(response.created),
-        });
+      for (const response of data) {
+        responseArray.push(response);
       }
 
-      if (responses.page.hasNextPage) {
-        pageCursor = responses.page.nextPageCursor;
-      } else {
-        hasMore = false;
-      }
+      hasMore = page.hasNextPage;
+      if (hasMore) pageCursor = page.nextPageCursor;
+
+    } while (hasMore);
+
+    if (responseArray.length) this._setLastDate(responseArray[0].created);
+
+    for (const response of responseArray.reverse()) {
+      this.$emit(response, {
+        id: response.id,
+        summary: `New response from survey ${surveyId}`,
+        ts: Date.parse(response.created),
+      });
     }
-
-    this._setLastResponseId(responses.data[0].id);
   },
 };

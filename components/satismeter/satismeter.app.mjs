@@ -4,60 +4,58 @@ export default {
   type: "app",
   app: "satismeter",
   propDefinitions: {
-    projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "The ID of the project",
-    },
     surveyId: {
       type: "string",
       label: "Survey ID",
-      description: "The ID of the survey",
+      description: "The ID of the survey.",
       optional: true,
-      async options({ prevContext }) {
-        const { projectId } = this;
-        const surveys = await this.listSurveys({
-          projectId,
-        });
-        return surveys.map((survey) => ({
-          value: survey.id,
-          label: survey.name,
+      async options() {
+        const { data } = await this.listSurveys();
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
         }));
       },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://app.satismeter.com/api";
+      return `https://app.satismeter.com/api/v3/projects/${this._getProjectId()}/`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
-      });
+    _getProjectId() {
+      return this.$auth.project_id;
     },
-    async listSurveys({ projectId }) {
-      return this._makeRequest({
-        path: `/projects/${projectId}/campaigns`,
-      });
+    _getHeaders() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
     },
-    async getSurveyResponses({
-      projectId, surveyId,
+    _makeRequest({
+      $ = this, path, ...args
     }) {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._getHeaders(),
+        ...args,
+      });
+    },
+    listSurveys() {
       return this._makeRequest({
-        path: `/projects/${projectId}/campaigns/${surveyId}/responses`,
+        path: "campaigns",
+      });
+    },
+    getSurveyResponses({
+      surveyId, ...args
+    }) {
+      let path = "responses";
+      if (surveyId) {
+        path = `campaigns/${surveyId}/responses`;
+      }
+      return this._makeRequest({
+        path,
+        ...args,
       });
     },
   },
