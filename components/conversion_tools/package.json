@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/conversion_tools",
+  "version": "0.0.1",
+  "description": "Pipedream Conversion Tools Components",
+  "main": "conversion_tools.app.mjs",
+  "keywords": [
+    "pipedream",
+    "conversion_tools"
+  ],
+  "homepage": "https://pipedream.com/apps/conversion_tools",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
