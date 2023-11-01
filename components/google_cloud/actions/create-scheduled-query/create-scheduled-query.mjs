@@ -1,4 +1,6 @@
 import googleCloud from "../../google_cloud.app.mjs";
+import constants from "../../common/constants.mjs";
+import regions from "../../common/regions.mjs";
 
 export default {
   key: "google_cloud-create-scheduled-query",
@@ -20,10 +22,8 @@ export default {
       type: "string",
       label: "Dataset Region",
       description: "The geographic location where the dataset should reside. [See the documentation here](https://cloud.google.com/bigquery/docs/locations#specifying_your_location)",
-      options: [
-        "US",
-        "EU",
-      ],
+      default: "us",
+      options: regions,
     },
     displayName: {
       type: "string",
@@ -33,33 +33,47 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "The GoogleSQL query to execute. Eg. ``SELECT @run_time AS time, * FROM `bigquery-public-data.samples.shakespeare` LIMIT 1000``. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#query_string).",
+      description: "The GoogleSQL query to execute. Eg. ``SELECT @run_time AS time, * FROM `my_dataset.my_table` LIMIT 1000``. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#query_string).",
     },
     schedule: {
       type: "string",
       label: "Schedule",
-      description: "Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. [See more explanation about the format here](https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format).",
+      description: "Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `every 24 hours`, `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. [See more explanation about the format here](https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format).",
+      optional: true,
     },
     writeDisposition: {
       type: "string",
       label: "Write Disposition",
       description: "The write preference you select determines how your query results are written to an existing destination table. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#write_preference).",
-      options: [
-        "WRITE_TRUNCATE",
-        "WRITE_APPEND",
-      ],
+      default: constants.WRITE_DISPOSITION.WRITE_TRUNCATE,
+      options: Object.values(constants.WRITE_DISPOSITION),
+    },
+    destinationTableNameTemplate: {
+      type: "string",
+      label: "Destination Table Name Template",
+      description: "The destination table name template can contain template variables such as ``{run_date}`` or ``{run_time}``. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#templating-examples).",
+      default: "my_table_{run_date}",
     },
   },
   methods: {
-    createTransferConfig(transferConfig = {}) {
-      const { googleCloud } = this;
+    createTransferConfig(config = {}) {
+      const {
+        googleCloud,
+        datasetRegion,
+      } = this;
+
       const {
         project_id: projectId,
         client_email: serviceAccountName,
       } = googleCloud.authKeyJson();
 
       const client = googleCloud.bigQueryDataTransferClient();
-      const parent = client.projectPath(projectId);
+      const parent = `${client.projectPath(projectId)}/locations/${datasetRegion}`;
+
+      const transferConfig = {
+        dataSourceId: constants.DATA_SOURCE_ID.SCHEDULED_QUERY,
+        ...config,
+      };
 
       const args = {
         serviceAccountName,
@@ -74,21 +88,21 @@ export default {
     const {
       createTransferConfig,
       destinationDatasetId,
-      datasetRegion,
       displayName,
-      query,
       schedule,
+      query,
       writeDisposition,
+      destinationTableNameTemplate,
     } = this;
 
     const response = await createTransferConfig({
       schedule,
       destinationDatasetId,
-      datasetRegion,
       displayName,
       params: {
         query,
         write_disposition: writeDisposition,
+        destination_table_name_template: destinationTableNameTemplate,
       },
     });
 
