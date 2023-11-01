@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/browserless",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Browserless Components",
   "main": "browserless.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.4.1",
+    "@pipedream/platform": "^1.5.1",
     "puppeteer-core": "^19.7.5"
   }
 }

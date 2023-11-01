@@ -1504,6 +1504,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/document360:
+    specifiers: {}
+
   components/docupilot:
     specifiers:
       '@pipedream/platform': ^1.1.0

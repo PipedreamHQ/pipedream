@@ -5,7 +5,7 @@ export default {
   key: "browserless-convert-html-to-pdf",
   name: "Generate PDF from HTML String",
   description: "See https://docs.browserless.io/docs/pdf.html",
-  version: "0.3.0",
+  version: "0.4.{{ts}}",
   type: "action",
   props: {
     browserless: {
@@ -28,6 +28,7 @@ export default {
         "Cache-Control": "no-cache",
         "Content-Type": "application/json",
       },
+      responseType: "arraybuffer",
       data: {
         html,
         options: {
