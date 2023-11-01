@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/originality_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Originality.ai Components",
+  "main": "originality_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "originality_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/originality_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
