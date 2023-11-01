@@ -3,6 +3,7 @@ const FILTER_ID = "filterId";
 const FIELD_ID = "fieldId";
 const DEFAULT_PAGE_LIMIT = 20; // max is 500 per page
 const DEFAULT_MAX_ITEMS = DEFAULT_PAGE_LIMIT * 4;
+const LAST_EXEC_DATE_TIME = "lastExecDataTime";
 
 const STATUS_OPTIONS = [
   "open",
@@ -195,6 +196,7 @@ export default {
   VISIBLE_TO_OPTIONS,
   INCLUDE_FIELDS_OPTIONS,
   LAST_RESOURCE_PROPERTY,
+  LAST_EXEC_DATE_TIME,
   FILTER_ID,
   FIELD_ID,
   EVENT_OBJECT,
