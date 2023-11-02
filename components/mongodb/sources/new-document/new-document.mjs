@@ -63,6 +63,7 @@ export default {
       };
       const documents = await collection.find().sort(sort)
         .toArray();
+      const docs = [];
       for (const doc of documents) {
         const ts = this.getTs(doc);
         if (!(ts > lastTs) || (max && count >= max)) {
@@ -71,9 +72,10 @@ export default {
         if (ts > maxTs) {
           maxTs = ts;
         }
-        this.emitEvent(doc, eventTs);
+        docs.push(doc);
         count++;
       }
+      docs.reverse().forEach((doc) => this.emitEvent(doc, eventTs));
       this._setLastTs(maxTs);
     },
     generateMeta({ _id: id }, ts) {
