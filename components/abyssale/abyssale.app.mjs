@@ -16,10 +16,10 @@ export default {
         }));
       },
     },
-    formatName: {
+    templateFormatName: {
       type: "string",
-      label: "Format Name",
-      description: "The name of the format",
+      label: "Template Format Name",
+      description: "The name of the template format",
       async options({ templateId }) {
         const { formats } = await this.getTemplateDetails({
           templateId,
@@ -30,22 +30,7 @@ export default {
     elements: {
       type: "object",
       label: "Elements",
-      description: "A dictionary containing all elements with properties you would like to override form the default template (keys correspond to layer names)",
-    },
-    imageFileType: {
-      type: "string",
-      label: "Image File Type",
-      description: "The type of the image file",
-      options: [
-        "jpeg",
-        "png",
-        "gif",
-      ],
-    },
-    callbackUrl: {
-      type: "string",
-      label: "Callback URL",
-      description: "The URL that will be called once the generation of your export is done",
+      description: "A dictionary containing all elements with properties you would like to override form the default template. Keys correspond to element names in the layer eg. `bg_image` and `title`. Values correspond to the properties you would like to override eg. For `title` key the value could be `{ \"payload\": \"Hello World\" }`. [See the documentation](https://developers.abyssale.com/rest-api/generation/element-properties)",
     },
   },
   methods: {
@@ -55,14 +40,15 @@ export default {
     _makeRequest({
       $ = this, path, headers, ...args
     } = {}) {
-      return axios($, {
+      const config = {
         url: this._baseUrl() + path,
         headers: {
           ...headers,
           "x-api-key": this.$auth.api_key,
         },
         ...args,
-      });
+      };
+      return axios($, config);
     },
     getTemplates() {
       return this._makeRequest({
@@ -72,6 +58,12 @@ export default {
     getTemplateDetails({ templateId }) {
       return this._makeRequest({
         path: `/templates/${templateId}`,
+      });
+    },
+    post(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        ...args,
       });
     },
   },

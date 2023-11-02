@@ -1,10 +1,11 @@
 import abyssale from "../../abyssale.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "abyssale-generate-image",
   name: "Generate Image",
-  description: "Generates a single image from a template. [See the documentation](https://developers.abyssale.com/rest-api/generation/generate-a-single-image)",
-  version: "0.0.{{ts}}",
+  description: "Generates a single image from a template. [See the documentation](https://api-reference.abyssale.com/#tag/Images/paths/~1banner-builder~1%7BtemplateId%7D~1generate/post)",
+  version: "0.0.1",
   type: "action",
   props: {
     abyssale,
@@ -14,40 +15,50 @@ export default {
         "templateId",
       ],
     },
+    templateFormatName: {
+      propDefinition: [
+        abyssale,
+        "templateFormatName",
+        (c) => ({
+          templateId: c.templateId,
+        }),
+      ],
+    },
     elements: {
       propDefinition: [
         abyssale,
         "elements",
       ],
     },
-    imageFileType: {
-      propDefinition: [
-        abyssale,
-        "imageFileType",
-      ],
-    },
   },
   methods: {
-    async generateSingleImage({
-      templateId, elements, imageFileType,
+    generateImage({
+      templateId, ...args
     }) {
-      return this.abyssale._makeRequest({
-        method: "POST",
+      return this.abyssale.post({
         path: `/banner-builder/${templateId}/generate`,
-        data: {
-          elements,
-          image_file_type: imageFileType,
-        },
+        ...args,
       });
     },
   },
   async run({ $ }) {
-    const response = await this.generateSingleImage({
-      templateId: this.templateId,
-      elements: this.elements,
-      imageFileType: this.imageFileType,
+    const {
+      generateImage,
+      templateId,
+      templateFormatName,
+      elements,
+    } = this;
+
+    const response = await generateImage({
+      templateId,
+      data: {
+        template_format_name: templateFormatName,
+        elements: utils.parseElements(elements),
+      },
     });
-    $.export("$summary", `Successfully generated image with ID: ${response.id}`);
+
+    $.export("$summary", `Successfully generated image with ID: \`${response.id}\``);
+
     return response;
   },
 };
