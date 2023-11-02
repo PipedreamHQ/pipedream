@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nexweave",
+  "version": "0.0.1",
+  "description": "Pipedream Nexweave Components",
+  "main": "nexweave.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nexweave"
+  ],
+  "homepage": "https://pipedream.com/apps/nexweave",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
