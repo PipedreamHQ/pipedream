@@ -177,7 +177,7 @@ export default {
       };
     },
     _generateSignature(paramsMap) {
-      const queryString = new URLSearchParams(paramsMap).toString(); console.log(queryString);
+      const queryString = new URLSearchParams(paramsMap).toString();
       return crypto.createHmac("sha256", this._secretKey())
         .update(queryString)
         .digest("hex");
