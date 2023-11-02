@@ -572,5 +572,17 @@ export default {
         data,
       });
     },
+    async listReleases({
+      repoFullname,
+      perPage,
+      page,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/releases`, {
+        per_page: perPage,
+        page: page,
+      });
+
+      return response.data;
+    },
   },
 };
