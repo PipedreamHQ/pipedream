@@ -1,6 +1,12 @@
+import { protos } from "@google-cloud/bigquery-data-transfer";
 import googleCloud from "../../google_cloud.app.mjs";
 import constants from "../../common/constants.mjs";
 import regions from "../../common/regions.mjs";
+
+const {
+  CreateTransferConfigRequest,
+  TransferConfig,
+} = protos.google.cloud.bigquery.datatransfer.v1;
 
 export default {
   key: "google_cloud-create-scheduled-query",
@@ -24,6 +30,7 @@ export default {
       description: "The geographic location where the dataset should reside. [See the documentation here](https://cloud.google.com/bigquery/docs/locations#specifying_your_location)",
       default: "us",
       options: regions,
+      optional: true,
     },
     displayName: {
       type: "string",
@@ -47,19 +54,42 @@ export default {
       description: "The write preference you select determines how your query results are written to an existing destination table. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#write_preference).",
       default: constants.WRITE_DISPOSITION.WRITE_TRUNCATE,
       options: Object.values(constants.WRITE_DISPOSITION),
+      optional: true,
     },
     destinationTableNameTemplate: {
       type: "string",
       label: "Destination Table Name Template",
       description: "The destination table name template can contain template variables such as ``{run_date}`` or ``{run_time}``. [See the documentation here](https://cloud.google.com/bigquery/docs/scheduling-queries#templating-examples).",
-      default: "my_table_{run_date}",
+      optional: true,
+      default: "logs",
     },
   },
   methods: {
-    createTransferConfig(config = {}) {
+    getTransferConfig({
+      query, writeDisposition, destinationTableNameTemplate, ...args
+    } = {}) {
+      return new TransferConfig({
+        dataSourceId: constants.DATA_SOURCE_ID.SCHEDULED_QUERY,
+        params: {
+          fields: {
+            query: {
+              stringValue: query,
+            },
+            destination_table_name_template: {
+              stringValue: destinationTableNameTemplate,
+            },
+            write_disposition: {
+              stringValue: writeDisposition,
+            },
+          },
+        },
+        ...args,
+      });
+    },
+    createTransferConfig(args = {}) {
       const {
         googleCloud,
-        datasetRegion,
+        getTransferConfig,
       } = this;
 
       const {
@@ -68,45 +98,28 @@ export default {
       } = googleCloud.authKeyJson();
 
       const client = googleCloud.bigQueryDataTransferClient();
-      const parent = `${client.projectPath(projectId)}/locations/${datasetRegion}`;
+      const parent = client.projectPath(projectId);
 
-      const transferConfig = {
-        dataSourceId: constants.DATA_SOURCE_ID.SCHEDULED_QUERY,
-        ...config,
-      };
-
-      const args = {
-        serviceAccountName,
+      const request = new CreateTransferConfigRequest({
         parent,
-        transferConfig,
-      };
+        serviceAccountName,
+        transferConfig: getTransferConfig(args),
+      });
 
-      return client.createTransferConfig(args);
+      return client.createTransferConfig(request);
     },
   },
   async run({ $ }) {
     const {
       createTransferConfig,
-      destinationDatasetId,
-      displayName,
-      schedule,
-      query,
-      writeDisposition,
-      destinationTableNameTemplate,
+      ...props
     } = this;
 
-    const response = await createTransferConfig({
-      schedule,
-      destinationDatasetId,
-      displayName,
-      params: {
-        query,
-        write_disposition: writeDisposition,
-        destination_table_name_template: destinationTableNameTemplate,
-      },
-    });
+    const [
+      response,
+    ] = await createTransferConfig(props);
 
-    $.export("$summary", `Scheduled query created with name: ${response.name}`);
+    $.export("$summary", `Scheduled query created with name: \`${response.name}\``);
 
     return response;
   },
