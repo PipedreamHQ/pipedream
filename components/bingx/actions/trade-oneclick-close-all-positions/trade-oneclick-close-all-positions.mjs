@@ -10,10 +10,11 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "POST";
-    const API_PATH = "/openApi/swap/v2/trade/closeAllPositions";
-    const parameters = {};
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest({
+      path: "/trade/closeAllPositions",
+      method: "POST",
+      $,
+    });
     $.export("$summary", "Oneclick close all positions");
     return returnValue;
   },

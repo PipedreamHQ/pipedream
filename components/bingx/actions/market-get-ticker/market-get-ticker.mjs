@@ -16,12 +16,13 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "GET";
-    const API_PATH = "/openApi/swap/v2/quote/ticker";
-    const parameters = {
-      "symbol": this.symbol,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest({
+      path: "/quote/ticker",
+      params: {
+        symbol: this.symbol,
+      },
+      $,
+    });
     $.export("$summary", `Ticker Information for Trading Pair ${this.symbol}`);
     return returnValue;
   },

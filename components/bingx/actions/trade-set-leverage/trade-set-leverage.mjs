@@ -28,14 +28,14 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "POST";
-    const API_PATH = "/openApi/swap/v2/trade/leverage";
-    const parameters = {
-      "symbol": this.symbol,
-      "side": this.side,
-      "leverage": this.leverage,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.setLeverage({
+      params: {
+        symbol: this.symbol,
+        side: this.side,
+        leverage: this.leverage,
+      },
+      $,
+    });
     $.export("$summary", `Set Leverage ${this.leverage} for ${this.side} of ${this.symbol}`);
     return returnValue;
   },

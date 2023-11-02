@@ -3,6 +3,7 @@ import crypto from "crypto";
 import {
   KLINE_DESC_LIST, TRADE_SIDES, TRADE_TYPES,
   TRADE_ACTIONS, TRADE_MARGIN_MODES, TRADE_LEVERAGE_SIDES,
+  BASE_PATH, VERSION_2_PATH, VERSION_3_PATH,
 } from "./common.mjs";
 
 export default {
@@ -110,7 +111,9 @@ export default {
         if (symbol) {
           params.symbol = symbol;
         }
-        const { orders } = (await this.listPendingOrders(params)).data;
+        const { orders } = (await this.listPendingOrders({
+          params,
+        })).data;
         const options = orders?.map((order) => order.orderId) || [];
         return {
           options,
@@ -129,6 +132,36 @@ export default {
     },
   },
   methods: {
+    getUrl(path, version = VERSION_2_PATH) {
+      return `${this._apiUrl()}${BASE_PATH}${version}${path}`;
+    },
+    getParams(pathParameters) {
+      const basicParameters = this._getBasicParameters();
+      const params = {
+        ...pathParameters,
+        ...basicParameters,
+      };
+      params.signature = this._generateSignature(params);
+      return params;
+    },
+    getHeaders(headers) {
+      return {
+        "user-agent": "@PipedreamHQ/pipedream v0.1",
+        "accept": "application/json",
+        "X-BX-APIKEY": `${this._apiKey()}`,
+        ...headers,
+      };
+    },
+    makeRequest({
+      $ = this, path, version, params, headers, ...args
+    }) {
+      return axios($, {
+        url: this.getUrl(path, version),
+        headers: this.getHeaders(headers),
+        params: this.getParams(params),
+        ...args,
+      });
+    },
     _apiUrl() {
       return "https://open-api.bingx.com";
     },
@@ -144,47 +177,55 @@ export default {
       };
     },
     _generateSignature(paramsMap) {
-      const queryString = new URLSearchParams(paramsMap).toString();
+      const queryString = new URLSearchParams(paramsMap).toString(); console.log(queryString);
       return crypto.createHmac("sha256", this._secretKey())
         .update(queryString)
         .digest("hex");
     },
-    async _makeRequest({
-      $ = this, path, ...args
-    }) {
-      return axios($, {
-        url: `${this._apiUrl()}${path}`,
-        headers: {
-          "user-agent": "@PipedreamHQ/pipedream v0.1",
-          "accept": "application/json",
-          "X-BX-APIKEY": `${this._apiKey()}`,
-        },
+    getAllMarketContracts(args = {}) {
+      return this.makeRequest({
+        path: "/quote/contracts",
         ...args,
       });
     },
-    async makeRequest(method, path, pathParameters) {
-      const basicParameters = this._getBasicParameters();
-      const parameters = {
-        ...pathParameters,
-        ...basicParameters,
-      };
-      parameters["signature"] = this._generateSignature(parameters);
-      return await this._makeRequest({
-        path: path,
-        method: method,
-        params: parameters,
+    listPendingOrders(args = {}) {
+      return this.makeRequest({
+        path: "/trade/openOrders",
+        ...args,
       });
     },
-    async getAllMarketContracts() {
-      const API_METHOD = "GET";
-      const API_PATH = "/openApi/swap/v2/quote/contracts";
-      const parameters = {};
-      return await this.makeRequest(API_METHOD, API_PATH, parameters);
+    getBalance(args = {}) {
+      return this.makeRequest({
+        path: "/user/balance",
+        ...args,
+      });
     },
-    async listPendingOrders(parameters) {
-      const API_METHOD = "GET";
-      const API_PATH = "/openApi/swap/v2/trade/openOrders";
-      return this.makeRequest(API_METHOD, API_PATH, parameters);
+    getLatestPrice(args = {}) {
+      return this.makeRequest({
+        path: "/quote/price",
+        ...args,
+      });
+    },
+    getKline(args = {}) {
+      return this.makeRequest({
+        path: "/quote/klines",
+        version: VERSION_3_PATH,
+        ...args,
+      });
+    },
+    setLeverage(args = {}) {
+      return this.makeRequest({
+        path: "/trade/leverage",
+        method: "POST",
+        ...args,
+      });
+    },
+    createOrder(args = {}) {
+      return this.makeRequest({
+        path: "/trade/order",
+        method: "POST",
+        ...args,
+      });
     },
     convertToFloat(value) {
       if (!isNaN(value)) {

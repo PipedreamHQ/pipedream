@@ -22,13 +22,15 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "POST";
-    const API_PATH = "/openApi/swap/v2/trade/marginType";
-    const parameters = {
-      "symbol": this.symbol,
-      "marginType": this.marginMode,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest({
+      path: "/trade/marginType",
+      method: "POST",
+      params: {
+        symbol: this.symbol,
+        marginType: this.marginType,
+      },
+      $,
+    });
     $.export("$summary", `Set Margin Mode ${this.marginMode} for ${this.symbol}`);
     return returnValue;
   },

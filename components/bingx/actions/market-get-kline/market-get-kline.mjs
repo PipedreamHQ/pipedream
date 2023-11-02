@@ -23,13 +23,13 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "GET";
-    const API_PATH = "/openApi/swap/v3/quote/klines";
-    const parameters = {
-      "symbol": this.symbol,
-      "interval": KLINE_DESC_MAPPING[this.klineType],
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.getKline({
+      params: {
+        symbol: this.symbol,
+        interval: KLINE_DESC_MAPPING[this.klineType],
+      },
+      $,
+    });
     $.export("$summary", `K-Line Data for Trading Pair ${this.symbol}`);
     return returnValue;
   },

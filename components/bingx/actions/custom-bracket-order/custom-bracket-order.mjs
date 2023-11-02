@@ -72,27 +72,27 @@ export default {
   },
   type: "action",
   methods: {
-    async setLeverage() {
-      const API_METHOD = "POST";
-      const API_PATH = "/openApi/swap/v2/trade/leverage";
-      const parametersLong = {
-        "symbol": this.symbol,
-        "side": "LONG",
-        "leverage": this.leverage,
-      };
-      const parametersShort = {
-        "symbol": this.symbol,
-        "side": "SHORT",
-        "leverage": this.leverage,
-      };
-      await this.bingx.makeRequest(API_METHOD, API_PATH, parametersLong);
-      await this.bingx.makeRequest(API_METHOD, API_PATH, parametersShort);
+    async setLeverage($) {
+      await this.bingx.setLeverage({
+        params: {
+          symbol: this.symbol,
+          side: "LONG",
+          leverage: this.leverage,
+        },
+        $,
+      });
+      await this.bingx.setLeverage({
+        params: {
+          symbol: this.symbol,
+          side: "SHORT",
+          leverage: this.leverage,
+        },
+        $,
+      });
     },
   },
   async run({ $ }) {
-    await this.setLeverage();
-    const API_METHOD = "POST";
-    const API_PATH = "/openApi/swap/v2/trade/order";
+    await this.setLeverage($);
 
     const entryParameters = lodash.pickBy({
       "symbol": this.symbol,
@@ -104,7 +104,10 @@ export default {
       "takerProfit": this.takerProfit,
       "stopLoss": this.stopLoss,
     });
-    const entryOrder = await this.bingx.makeRequest(API_METHOD, API_PATH, entryParameters);
+    const entryOrder = await this.bingx.createOrder({
+      params: entryParameters,
+      $,
+    });
 
     const takeProfitParameters = lodash.pickBy({
       "symbol": this.symbol,
@@ -116,7 +119,10 @@ export default {
       "takerProfit": this.takerProfit,
       "stopLoss": this.stopLoss,
     });
-    const exitOrder = await this.bingx.makeRequest(API_METHOD, API_PATH, takeProfitParameters);
+    const exitOrder = await this.bingx.createOrder({
+      params: takeProfitParameters,
+      $,
+    });
 
     const returnValue = {
       "entryOrder": entryOrder,

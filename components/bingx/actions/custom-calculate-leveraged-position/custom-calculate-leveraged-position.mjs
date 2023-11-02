@@ -52,36 +52,27 @@ export default {
     },
   },
   type: "action",
-  methods: {
-    async getBalance() {
-      const API_METHOD = "GET";
-      const API_PATH = "/openApi/swap/v2/user/balance";
-      const parameters = {
-        "currency": this.currency,
-      };
-      return this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getLatestPrice() {
-      const API_METHOD = "GET";
-      const API_PATH = "/openApi/swap/v2/quote/price";
-      const parameters = {
-        "symbol": this.symbol,
-      };
-      let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-      return returnValue.data.indexPrice;
-    },
-  },
   async run({ $ }) {
     let entryPrice = this.limitPrice;
     if (!entryPrice)
-      entryPrice = await this.getLatestPrice();
+      entryPrice = await this.bingx.getLatestPrice({
+        params: {
+          symbol: this.symbol,
+        },
+        $,
+      });
     let tradeDirection = entryPrice > this.stopPrice
       ? "BID"
       : "ASK";
     let tpDirection = entryPrice > this.stopPrice
       ? "ASK"
       : "BID";
-    const balanceQuery = await this.getBalance();
+    const balanceQuery = await this.bingx.getBalance({
+      params: {
+        currency: this.currency,
+      },
+      $,
+    });
     console.log(balanceQuery);
     if (balanceQuery.code) {
       throw new Error(balanceQuery.msg);

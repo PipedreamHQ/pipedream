@@ -25,13 +25,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const API_METHOD = "DELETE";
-    const API_PATH = "openApi/swap/v2/trade/batchOrders";
-    const parameters = {
-      symbol: this.symbol,
-      orderIdList: this.orderIds,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest({
+      path: "/trade/batchOrders",
+      method: "DELETE",
+      params: {
+        symbol: this.symbol,
+        orderIdList: this.orderIds,
+      },
+      $,
+    });
     $.export("$summary", `Batch Cancel Orders for ${this.symbol}`);
     return returnValue;
   },

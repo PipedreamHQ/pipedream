@@ -27,13 +27,14 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "GET";
-    const API_PATH = "/openApi/swap/v2/trade/order";
-    const parameters = {
-      "symbol": this.symbol,
-      "orderId": this.orderId,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest({
+      path: "/trade/order",
+      params: {
+        symbol: this.symbol,
+        orderId: this.orderId,
+      },
+      $,
+    });
     $.export("$summary", `Query Order ${this.orderId} for ${this.symbol}`);
     return returnValue;
   },

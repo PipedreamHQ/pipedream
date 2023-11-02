@@ -22,13 +22,14 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "GET";
-    const API_PATH = "/openApi/swap/v2/quote/depth";
-    const parameters = {
-      "symbol": this.symbol,
-      "level": this.level,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest({
+      path: "/quote/depth",
+      params: {
+        symbol: this.symbol,
+        level: this.level,
+      },
+      $,
+    });
     $.export("$summary", `Market depth of Trading Pair ${this.symbol}`);
     return returnValue;
   },

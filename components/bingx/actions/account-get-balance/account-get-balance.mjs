@@ -10,11 +10,10 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "GET";
-    const API_PATH = "/openApi/swap/v2/user/balance";
-    const parameters = {};
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-    if (returnValue.code) {
+    const returnValue = await this.bingx.getBalance({
+      $,
+    });
+    if (returnValue.code) { console.log(returnValue);
       throw new Error(returnValue.msg);
     } else {
       $.export("$summary", `Balance Retrieved for account \`${returnValue.data.balance.userId}\``);

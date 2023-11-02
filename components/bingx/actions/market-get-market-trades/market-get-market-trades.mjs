@@ -16,12 +16,12 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "GET";
-    const API_PATH = "/openApi/swap/v2/quote/price";
-    const parameters = {
-      "symbol": this.symbol,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.getLatestPrice({
+      params: {
+        symbol: this.symbol,
+      },
+      $,
+    });
     $.export("$summary", `Latest Trade of Trading Pair ${this.symbol}`);
     return returnValue;
   },

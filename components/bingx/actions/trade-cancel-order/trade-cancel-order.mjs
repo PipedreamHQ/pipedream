@@ -27,13 +27,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const API_METHOD = "DELETE";
-    const API_PATH = "/openApi/swap/v2/trade/order";
-    const parameters = {
-      "symbol": this.symbol,
-      "orderId": this.orderId,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest({
+      path: "/trade/order",
+      method: "DELETE",
+      params: {
+        symbol: this.symbol,
+        orderId: this.orderId,
+      },
+      $,
+    });
     $.export("$summary", `Cancel Order ${this.orderId} for ${this.symbol}`);
     return returnValue;
   },

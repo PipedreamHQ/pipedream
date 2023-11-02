@@ -67,9 +67,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const API_METHOD = "POST";
-    const API_PATH = "/openApi/swap/v2/trade/order";
-
     const parameters = {
       "symbol": this.symbol,
       "side": this.side,
@@ -81,7 +78,10 @@ export default {
       "stopLoss": this.stopLossPrice,
     };
     this.cleanObject(parameters);
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.createOrder({
+      params: parameters,
+      $,
+    });
     $.export("$summary", `New Future Order for ${this.symbol}`);
     return returnValue;
   },

@@ -1,3 +1,7 @@
+export const BASE_PATH = "/openApi/swap";
+export const VERSION_2_PATH = "/v2";
+export const VERSION_3_PATH = "/v3";
+
 export const KLINE_DESC_LIST = [
   "1min",
   "3min",

@@ -16,12 +16,14 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "DELETE";
-    const API_PATH = "/openApi/swap/v2/trade/allOpenOrders";
-    const parameters = {
-      symbol: this.symbol,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest({
+      path: "/trade/allOpenOrders",
+      method: "DELETE",
+      params: {
+        symbol: this.symbol,
+      },
+      $,
+    });
     $.export("$summary", "Cancel all orders");
     return returnValue;
   },
