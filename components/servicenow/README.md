@@ -19,7 +19,7 @@ The possibilities are endless! You can:
 No matter whether you are looking to extend existing features or build
 something totally new, the ServiceNow API offers the perfect solution!
 
-## Getting Started
+# Getting Started
 
 Before you can use the ServiceNow REST API from a workflow, you need to configure an OAuth app in your ServiceNow instance that will grant access tokens to your users and authenticate requests to its REST API. 
 
@@ -47,6 +47,30 @@ Before you can use the ServiceNow REST API from a workflow, you need to configur
 
 Collectively, the two apps you configured in your ServiceNow instance allow your instance to issue new OAuth access tokens for the user who authenticated in **Step 6**. This allows Pipedream to retrieve a fresh access token before it makes requests to the ServiceNow REST API.
 
-### ServiceNow Authorization Reference
+## ServiceNow Authorization Reference
 
 [This ServiceNow doc](https://docs.servicenow.com/bundle/orlando-platform-administration/page/administer/security/concept/c_OAuthAuthorizationCodeFlow.html) describes the general flow we ask you to implement above. In that doc, the app you create in **Step 2** is referred to as the **client application**, and the app in **Step 4** is referred to as the **OAuth provider application registry record**.
+
+## Additional Guidance For Hardened or Mature Instances ###
+
+The instructions above are likely to work on a fresh, out-of-the-box instance but may work imperfectly on ServiceNow instances that have been customized or have applied various security hardening recommendations such as the [explicit roles plugin](https://docs.servicenow.com/en-US/bundle/vancouver-platform-security/page/administer/security/reference/explicit-role-plugin.html).
+
+Symptoms of problems here may include getting a **504 Gateway Time-out** error when completing step 6 above. If you manually test the connection deatails in a tool like Postman, you may get an error like this:
+
+```
+{
+  "error_description":"access_denied",
+  "error":"server_error"
+}
+```
+
+In these instances, the following tips may be helpful:
+
+* Create a dedicated role for this purpose, and assign it to a service account that  is only used for this purpose.  You should not set it for web service access only, since interactive access is required to complete Pipedream setup.
+* Ensure that the dedicated role has ACLs configured to allow read for the oauth_credential table - both the table and table.\* for all fields. 
+* Assign snc_internal to this service account. This is important if you are using the explicit roles plugin as part of instance security hardening.
+
+Finally, while not required, you should also check that the role has associated ACLs for any tables you want to work with; by default they may if you use snc_internal, but some fields extended from task or other tables may require additional ACLs based on your instance's configuration.
+
+# Troubleshooting
+If you're getting a **504 Gateway Time-out** error when attempting to connect your ServiceNow account, review the section above on "Additional Guidance For Hardened or Mature Instances".

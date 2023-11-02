@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/productive_io",
+  "version": "0.0.1",
+  "description": "Pipedream Productive.io Components",
+  "main": "productive_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "productive_io"
+  ],
+  "homepage": "https://pipedream.com/apps/productive_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

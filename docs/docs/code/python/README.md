@@ -25,7 +25,7 @@ A new Python Code step will have the following structure:
 from pipedream.script_helpers import (steps, export)
 
 # Export a variable from this step named "message" containing the string "Hello, World!"
-pd.export("message", "Hello, World!")
+export("message", "Hello, World!")
 
 ```
 
