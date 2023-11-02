@@ -13,7 +13,7 @@ export default {
     const returnValue = await this.bingx.getBalance({
       $,
     });
-    if (returnValue.code) { console.log(returnValue);
+    if (returnValue.code) {
       throw new Error(returnValue.msg);
     } else {
       $.export("$summary", `Balance Retrieved for account \`${returnValue.data.balance.userId}\``);
