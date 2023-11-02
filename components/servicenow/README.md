@@ -19,7 +19,7 @@ The possibilities are endless! You can:
 No matter whether you are looking to extend existing features or build
 something totally new, the ServiceNow API offers the perfect solution!
 
-## Getting Started
+# Getting Started
 
 Before you can use the ServiceNow REST API from a workflow, you need to configure an OAuth app in your ServiceNow instance that will grant access tokens to your users and authenticate requests to its REST API. 
 
@@ -47,7 +47,7 @@ Before you can use the ServiceNow REST API from a workflow, you need to configur
 
 Collectively, the two apps you configured in your ServiceNow instance allow your instance to issue new OAuth access tokens for the user who authenticated in **Step 6**. This allows Pipedream to retrieve a fresh access token before it makes requests to the ServiceNow REST API.
 
-### ServiceNow Authorization Reference
+## ServiceNow Authorization Reference
 
 [This ServiceNow doc](https://docs.servicenow.com/bundle/orlando-platform-administration/page/administer/security/concept/c_OAuthAuthorizationCodeFlow.html) describes the general flow we ask you to implement above. In that doc, the app you create in **Step 2** is referred to as the **client application**, and the app in **Step 4** is referred to as the **OAuth provider application registry record**.
 
