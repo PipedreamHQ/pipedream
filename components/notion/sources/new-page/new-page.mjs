@@ -8,7 +8,7 @@ export default {
   key: "notion-new-page",
   name: "New Page in Database",
   description: "Emit new event when a page in a database is created",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     ...base.props,
@@ -19,36 +19,49 @@ export default {
       ],
     },
   },
-  async run() {
-    const pages = [];
-    const params = this.lastCreatedSortParam();
-    const lastCreatedTimestamp = this.getLastCreatedTimestamp();
+  hooks: {
+    ...base.hooks,
+    async deploy() {
+      await this.processEvents(25);
+    },
+  },
+  methods: {
+    ...base.methods,
+    async processEvents(max) {
+      const pages = [];
+      const params = this.lastCreatedSortParam();
+      const lastCreatedTimestamp = this.getLastCreatedTimestamp();
 
-    // Get pages in created order descending until the first page edited after
-    // lastCreatedTimestamp, then reverse list of pages and emit
-    const pagesStream = this.notion.getPages(this.databaseId, params);
+      // Get pages in created order descending until the first page edited after
+      // lastCreatedTimestamp, then reverse list of pages and emit
+      const pagesStream = this.notion.getPages(this.databaseId, params);
 
-    for await (const page of pagesStream) {
-      if (!this.isResultNew(page.created_time, lastCreatedTimestamp)) {
-        break;
+      for await (const page of pagesStream) {
+        if (!this.isResultNew(page.created_time, lastCreatedTimestamp)
+          || (max && pages.length >= max)) {
+          break;
+        }
+        pages.push(page);
       }
-      pages.push(page);
-    }
 
-    pages.reverse().forEach((page) => {
-      const meta = this.generateMeta(
-        page,
-        constants.types.PAGE,
-        constants.timestamps.CREATED_TIME,
-        constants.summaries.PAGE_ADDED,
-      );
-      this.$emit(page, meta);
-    });
+      pages.reverse().forEach((page) => {
+        const meta = this.generateMeta(
+          page,
+          constants.types.PAGE,
+          constants.timestamps.CREATED_TIME,
+          constants.summaries.PAGE_ADDED,
+        );
+        this.$emit(page, meta);
+      });
 
-    const lastCreatedTime = pages[pages.length - 1]?.created_time;
-    if (lastCreatedTime) {
-      this.setLastCreatedTimestamp(Date.parse(lastCreatedTime));
-    }
+      const lastCreatedTime = pages[pages.length - 1]?.created_time;
+      if (lastCreatedTime) {
+        this.setLastCreatedTimestamp(Date.parse(lastCreatedTime));
+      }
+    },
+  },
+  async run() {
+    await this.processEvents(100);
   },
   sampleEmit,
 };
