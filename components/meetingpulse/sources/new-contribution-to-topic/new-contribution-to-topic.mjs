@@ -4,7 +4,7 @@ import meetingpulse from "../../meetingpulse.app.mjs";
 export default {
   key: "meetingpulse-new-contribution-to-topic",
   name: "New Contribution to Topic",
-  description: "Emit new event every time there is new data for all created topics for a meeting.",
+  description: "Emit new event every time there is new data for all created topics for a meeting. [See the documentation](https://app.meet.ps/api/docs/)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

@@ -10,9 +10,11 @@ export default {
       description: "The ID of the meeting",
       async options() {
         const meetings = await this.getOwnedMeetings();
-        return meetings.map((meeting) => ({
-          value: meeting.id,
-          label: meeting.title,
+        return meetings.map(({
+          id, caption,
+        }) => ({
+          value: id,
+          label: caption ?? id,
         }));
       },
     },
@@ -21,17 +23,14 @@ export default {
     _baseUrl() {
       return "https://app.meet.ps/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -40,23 +39,33 @@ export default {
       });
     },
     async getOwnedMeetings() {
-      return this._makeRequest({
+      const { result } = await this._makeRequest({
         path: "/v2/meetings",
       });
+      return result;
     },
-    async getPollResults({ meetingId }) {
+    async getPollResults({
+      meetingId, ...args
+    }) {
       return this._makeRequest({
         path: `/v1/meetings/${meetingId}/polls/`,
+        ...args,
       });
     },
-    async getTopics({ meetingId }) {
+    async getTopics({
+      meetingId, ...args
+    }) {
       return this._makeRequest({
         path: `/v1/meetings/${meetingId}/ideas/sessions`,
+        ...args,
       });
     },
-    async getEmailLeads({ meetingId }) {
+    async getEmailLeads({
+      meetingId, ...args
+    }) {
       return this._makeRequest({
         path: `/v1/meetings/${meetingId}/leads`,
+        ...args,
       });
     },
   },

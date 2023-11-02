@@ -4,7 +4,7 @@ import meetingpulse from "../../meetingpulse.app.mjs";
 export default {
   key: "meetingpulse-new-lead",
   name: "New Lead",
-  description: "Emits a new event when there is a new user who left their email",
+  description: "Emit new event for each new lead generated. [See the documentation](https://app.meet.ps/api/docs/)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

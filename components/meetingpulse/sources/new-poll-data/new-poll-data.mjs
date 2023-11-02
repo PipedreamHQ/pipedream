@@ -4,7 +4,7 @@ import meetingpulse from "../../meetingpulse.app.mjs";
 export default {
   key: "meetingpulse-new-poll-data",
   name: "New Poll Data",
-  description: "Emit new event every time the results of a poll change. [See the documentation]()",
+  description: "Emit new event every time the results of a poll change. [See the documentation](https://app.meet.ps/api/docs/)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
