@@ -7,14 +7,30 @@ export default {
     meetingId: {
       type: "string",
       label: "Meeting ID",
-      description: "The ID of the meeting",
+      description: "Select a Meeting or provide a custom Meeting ID.",
       async options() {
         const meetings = await this.getOwnedMeetings();
         return meetings.map(({
-          id, caption,
+          name, caption,
+        }) => ({
+          value: name,
+          label: caption ?? name,
+        }));
+      },
+    },
+    pollId: {
+      type: "string",
+      label: "Poll ID",
+      description: "Select a Poll or provide a custom Poll ID.",
+      async options({ meetingId }) {
+        const polls = await this.listPolls({
+          meetingId,
+        });
+        return polls.map(({
+          id, question,
         }) => ({
           value: id,
-          label: caption ?? id,
+          label: question ?? id,
         }));
       },
     },
@@ -44,29 +60,41 @@ export default {
       });
       return result;
     },
-    async getPollResults({
-      meetingId, ...args
+    async getPoll({
+      meetingId, pollId, ...args
     }) {
-      return this._makeRequest({
-        path: `/v1/meetings/${meetingId}/polls/`,
+      const { result } = await this._makeRequest({
+        path: `/v1/meetings/${meetingId}/polls/${pollId}`,
         ...args,
       });
+      return result;
+    },
+    async listPolls({
+      meetingId, ...args
+    }) {
+      const { result } = await this._makeRequest({
+        path: `/v1/meetings/${meetingId}/polls`,
+        ...args,
+      });
+      return result;
     },
     async getTopics({
       meetingId, ...args
     }) {
-      return this._makeRequest({
+      const { result } = await this._makeRequest({
         path: `/v1/meetings/${meetingId}/ideas/sessions`,
         ...args,
       });
+      return result;
     },
     async getEmailLeads({
       meetingId, ...args
     }) {
-      return this._makeRequest({
+      const { result } = await this._makeRequest({
         path: `/v1/meetings/${meetingId}/leads`,
         ...args,
       });
+      return result;
     },
   },
 };

@@ -23,32 +23,49 @@ export default {
         "meetingId",
       ],
     },
+    pollId: {
+      propDefinition: [
+        meetingpulse,
+        "pollId",
+        ({ meetingId }) => ({
+          meetingId,
+        }),
+      ],
+    },
+  },
+  hooks: {
+    async deploy() {
+      await this.getAndProcessData();
+    },
   },
   methods: {
     _getPreviousPollResults() {
-      return this.db.get("pollResults") || [];
+      return this.db.get("pollResults") || {};
     },
-    _setPreviousPollResults(pollResults) {
-      this.db.set("pollResults", pollResults);
+    _setPreviousPollResults(value) {
+      this.db.set("pollResults", value);
+    },
+    async getAndProcessData() {
+      const poll = await this.meetingpulse.getPoll({
+        meetingId: this.meetingId,
+        pollId: this.pollId,
+      });
+
+      const previousPollResults = this._getPreviousPollResults();
+      const results = JSON.stringify(poll.results);
+
+      if (results !== previousPollResults) {
+        const ts = Date.now();
+        this.$emit(poll, {
+          id: ts,
+          summary: `Poll updated: ${poll.question}`,
+          ts,
+        });
+        this._setPreviousPollResults(results);
+      }
     },
   },
   async run() {
-    const pollResults = await this.meetingpulse.getPollResults({
-      meetingId: this.meetingId,
-    });
-    const previousPollResults = this._getPreviousPollResults();
-
-    for (const result of pollResults) {
-      // eslint-disable-next-line max-len
-      if (!previousPollResults.find((prev) => prev.id === result.id && prev.voteCount === result.voteCount)) {
-        this.$emit(result, {
-          id: result.id,
-          summary: `New results for poll: ${result.title}`,
-          ts: Date.now(),
-        });
-      }
-    }
-
-    this._setPreviousPollResults(pollResults);
+    await this.getAndProcessData();
   },
 };
