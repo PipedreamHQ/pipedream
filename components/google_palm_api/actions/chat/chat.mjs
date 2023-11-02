@@ -149,9 +149,10 @@ export default {
     const safetySettings = [];
     if (this.harmCategories?.length) {
       for (const category of this.harmCategories) {
+        const threshold = constants.HARM_BLOCK_THRESHOLD.find(({ value }) => value === this[`${category}_threshold`]);
         safetySettings.push({
           category: (constants.HARM_CATEGORIES.find(({ value }) => value === category)).numValue,
-          threshold: (constants.HARM_BLOCK_THRESHOLD.find(({ value }) => value === this[`${category}_threshold`])).numValue,
+          threshold: threshold?.numValue,
         });
       }
     }
