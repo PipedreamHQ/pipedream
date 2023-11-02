@@ -29,10 +29,16 @@ export default {
         "tool",
       ],
     },
+    outputFilename: {
+      type: "string",
+      label: "Output Filename",
+      description: "If specified, the name of the file that will be written to the `/tmp` folder. Defaults to the download filename returned by the API.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
-      fileUrls, filePaths, tool,
+      fileUrls, filePaths, tool, outputFilename,
     } = this;
 
     const { token } = await this.ilovepdf.getAuthToken({
@@ -125,9 +131,10 @@ export default {
       task,
     });
 
-    const filePath = `/tmp/${processResponse.download_filename}`;
+    const filePath = `/tmp/${outputFilename ?? processResponse.download_filename}`;
 
-    fs.writeFileSync(filePath, downloadResponse);
+    const encoded = new TextEncoder().encode(downloadResponse);
+    await fs.promises.writeFile(filePath, encoded);
 
     $.export("$summary", `Successfully processed ${processResponse.output_filenumber} files`);
     return {
