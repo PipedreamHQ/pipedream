@@ -51,7 +51,7 @@ Collectively, the two apps you configured in your ServiceNow instance allow your
 
 [This ServiceNow doc](https://docs.servicenow.com/bundle/orlando-platform-administration/page/administer/security/concept/c_OAuthAuthorizationCodeFlow.html) describes the general flow we ask you to implement above. In that doc, the app you create in **Step 2** is referred to as the **client application**, and the app in **Step 4** is referred to as the **OAuth provider application registry record**.
 
-### Additional Guidance For Hardened or Mature Instances ###
+## Additional Guidance For Hardened or Mature Instances ###
 
 The instructions above are likely to work on a fresh, out-of-the-box instance but may work imperfectly on ServiceNow instances that have been customized or have applied various security hardening recommendations such as the [explicit roles plugin](https://docs.servicenow.com/en-US/bundle/vancouver-platform-security/page/administer/security/reference/explicit-role-plugin.html).
 
@@ -71,3 +71,6 @@ In these instances, the following tips may be helpful:
 * Assign snc_internal to this service account. This is important if you are using the explicit roles plugin as part of instance security hardening.
 
 Finally, while not required, you should also check that the role has associated ACLs for any tables you want to work with; by default they may if you use snc_internal, but some fields extended from task or other tables may require additional ACLs based on your instance's configuration.
+
+# Troubleshooting
+If you're getting a **504 Gateway Time-out** error when attempting to connect your ServiceNow account, review the section above on "Additional Guidance For Hardened or Mature Instances".
