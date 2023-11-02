@@ -401,7 +401,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/astica_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/astrology_api:
     specifiers: {}
