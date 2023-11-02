@@ -138,22 +138,11 @@ export default {
     _secretKey() {
       return this.$auth.secret_key;
     },
-    _sortKeys(unordered) {
-      return Object.keys(unordered).sort()
-        .reduce(
-          (obj, key) => {
-            obj[key] = unordered[key];
-            return obj;
-          },
-          {},
-        );
-    },
     _getBasicParameters() {
       return {
         "timestamp": Date.now(),
       };
     },
-
     _generateSignature(paramsMap) {
       const queryString = new URLSearchParams(paramsMap).toString();
       return crypto.createHmac("sha256", this._secretKey())
