@@ -17,8 +17,8 @@ export default {
       });
       const savedIdeas = this._getSavedValue();
 
-      for (const topic of topics) {
-        const ideas = topic.ideas?.filter?.(
+      for (const topic of Object.values(topics)) {
+        const ideas = Object.values(topic.ideas)?.filter?.(
           ({ id }) => !savedIdeas.includes(id),
         );
         if (ideas?.length) {
@@ -26,7 +26,9 @@ export default {
             const ts = Date.now();
             this.$emit(topic, {
               id: topic.id + ts.toString(),
-              summary: `${ideas.length} new Ideas in Topic: ${
+              summary: `${ideas.length} new idea${ideas.length === 1
+                ? ""
+                : "s"} in topic: ${
                 topic.OCC ?? topic.callout ?? topic.text
               }`,
               ts,

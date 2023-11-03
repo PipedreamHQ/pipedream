@@ -83,7 +83,7 @@ export default {
       meetingId, ...args
     }) {
       const { result } = await this._makeRequest({
-        path: `/v1/meetings/${meetingId}/ideas/sessions`,
+        path: `/v1/meetings/${meetingId}/ideas`,
         ...args,
       });
       return result;
