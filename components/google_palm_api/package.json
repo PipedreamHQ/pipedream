@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_palm_api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Google PaLM Components",
   "main": "google_palm_api.app.mjs",
   "keywords": [
