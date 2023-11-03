@@ -50,13 +50,14 @@ export default {
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          Authorization: `Bearer ${this.$auth.access_token}`,
+          accept: "application/json",
         },
       });
     },
     async getOwnedMeetings() {
       const { result } = await this._makeRequest({
-        path: "/v2/meetings",
+        path: "/v2/meetings/",
       });
       return result;
     },

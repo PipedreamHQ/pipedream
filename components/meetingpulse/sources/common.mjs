@@ -1,5 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import meetingpulse from "../../meetingpulse.app.mjs";
+import meetingpulse from "../meetingpulse.app.mjs";
 
 export default {
   props: {

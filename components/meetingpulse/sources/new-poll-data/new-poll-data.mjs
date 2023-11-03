@@ -29,7 +29,7 @@ export default {
         pollId: this.pollId,
       });
 
-      const previousPollResults = this._getPreviousSavedValue();
+      const previousPollResults = this._getSavedValue();
       const results = JSON.stringify(poll.results);
 
       if (results !== previousPollResults) {
@@ -39,7 +39,7 @@ export default {
           summary: `Poll updated: ${poll.question}`,
           ts,
         });
-        this._setPreviousSavedValue(results);
+        this._setSavedValue(results);
       }
     },
   },
