@@ -1,61 +1,40 @@
-import browseAi from "../../browse_ai.app.mjs";
+import common from "../common/webhook.mjs";
+import events from "../common/events.mjs";
 
 export default {
+  ...common,
   key: "browse_ai-task-finished-with-error",
-  name: "Task Finished With Error",
-  description: "Emit new event when a task finishes with an error. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  name: "Task Finished With Error (Instant)",
+  description: "Emit new event when a task finishes with an error. [See the documentation](https://www.browse.ai/docs/api/v2#tag/webhooks/operation/createNewWebhook)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    browseAi: {
-      type: "app",
-      app: "browse_ai",
+  methods: {
+    ...common.methods,
+    getResourcesFn() {
+      return this.app.getRobotTasks;
     },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+    getResourcesFnArgs() {
+      return {
+        robotId: this.robotId,
+        params: {
+          status: "failed",
+          sort: "-createdAt",
+        },
+      };
     },
-    db: "$.service.db",
-  },
-  hooks: {
-    async activate() {
-      const webhookId = await this.browseAi.createWebhook({
-        targetUrl: this.http.endpoint,
-        events: [
-          "taskfinishedwitherror",
-        ],
-      });
-      this.db.set("webhookId", webhookId);
+    getResourcesName() {
+      return "result.robotTasks.items";
     },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      if (webhookId) {
-        await this.browseAi.deleteWebhook(webhookId);
-      }
+    getEventName() {
+      return events.TASK_FINISHED_WITH_ERROR;
     },
-  },
-  async run(event) {
-    const {
-      body, headers,
-    } = event;
-
-    if (headers["x-browseai-signature"] !== this.browseAi.$auth.api_token) {
-      this.http.respond({
-        status: 401,
-        body: "Unauthorized",
-      });
-      return;
-    }
-
-    this.http.respond({
-      status: 200,
-    });
-
-    this.$emit(body, {
-      id: body.id,
-      summary: `Task ${body.id} finished with error`,
-      ts: Date.parse(body.updated_at),
-    });
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: `Failed Task: ${resource.id}`,
+        ts: resource.createdAt,
+      };
+    },
   },
 };

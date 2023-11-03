@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -10,7 +11,7 @@ export default {
       description: "Select the robot to run",
       async options() {
         const { robots } = await this.getRobots();
-        return robots.map((robot) => ({
+        return robots.items.map((robot) => ({
           value: robot.id,
           label: robot.name,
         }));
@@ -25,43 +26,46 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.browse.ai";
+      return `${constants.BASE_URL}${constants.VERSION_PATH}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      const config = {
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
+        ...args,
+      };
+      console.log(config);
+      return axios($, config);
+    },
+    post(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        ...args,
       });
     },
-    async getRobots() {
+    delete(args = {}) {
       return this._makeRequest({
-        path: "/v1/robots",
+        method: "delete",
+        ...args,
       });
     },
-    async runRobot({
-      robotId, inputParameters,
-    }) {
+    getRobots(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: `/v1/robots/${robotId}/run`,
-        data: inputParameters,
+        path: "/robots",
+        ...args,
       });
     },
-    async getTaskStatus({ taskId }) {
+    getRobotTasks({
+      robotId, ...args
+    } = {}) {
       return this._makeRequest({
-        path: `/v1/tasks/${taskId}/status`,
+        path: `/robots/${robotId}/tasks`,
+        ...args,
       });
     },
   },

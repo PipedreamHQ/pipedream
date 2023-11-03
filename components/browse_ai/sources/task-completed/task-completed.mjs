@@ -1,60 +1,40 @@
-import { axios } from "@pipedream/platform";
-import browse_ai from "../../browse_ai.app.mjs";
+import common from "../common/webhook.mjs";
+import events from "../common/events.mjs";
 
 export default {
+  ...common,
   key: "browse_ai-task-completed",
-  name: "Task Completed",
-  description: "Emits an event when a Browse AI task status changes to successful.",
-  version: "0.0.{{ts}}",
+  name: "Task Completed (Instant)",
+  description: "Emits an event when a Browse AI task is completed. [See the documentation](https://www.browse.ai/docs/api/v2#tag/webhooks/operation/createNewWebhook)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    browse_ai: {
-      type: "app",
-      app: "browse_ai",
+  methods: {
+    ...common.methods,
+    getResourcesFn() {
+      return this.app.getRobotTasks;
     },
-    robotId: {
-      propDefinition: [
-        browse_ai,
-        "robotId",
-      ],
-    },
-    inputParameters: {
-      propDefinition: [
-        browse_ai,
-        "inputParameters",
-      ],
-    },
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-  },
-  hooks: {
-    async activate() {
-      const { id } = await this.browse_ai.runRobot({
+    getResourcesFnArgs() {
+      return {
         robotId: this.robotId,
-        inputParameters: this.inputParameters,
-      });
-      this.db.set("taskId", id);
+        params: {
+          status: "successful",
+          sort: "-createdAt",
+        },
+      };
     },
-  },
-  async run(event) {
-    const taskId = this.db.get("taskId");
-    const { status } = await this.browse_ai.getTaskStatus({
-      taskId,
-    });
-
-    if (status === "successful") {
-      this.$emit({
-        taskId,
-        status,
-      }, {
-        id: taskId,
-        summary: `Task ${taskId} completed successfully`,
-        ts: Date.now(),
-      });
-    }
+    getResourcesName() {
+      return "result.robotTasks.items";
+    },
+    getEventName() {
+      return events.TASK_FINISHED_SUCCESSFULLY;
+    },
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: `New Task: ${resource.id}`,
+        ts: resource.createdAt,
+      };
+    },
   },
 };

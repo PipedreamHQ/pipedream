@@ -1,32 +1,51 @@
-import browse_ai from "../../browse_ai.app.mjs";
+import app from "../../browse_ai.app.mjs";
 
 export default {
   key: "browse_ai-execute-task",
   name: "Execute Task",
-  description: "Runs a robot on-demand with custom input parameters. [See the documentation](https://www.browse.ai/docs/api/v2)",
-  version: "0.0.{{ts}}",
+  description: "Runs a robot on-demand with custom input parameters. [See the documentation](https://www.browse.ai/docs/api/v2#tag/tasks/operation/newRobotTask)",
+  version: "0.0.1",
   type: "action",
   props: {
-    browse_ai,
+    app,
     robotId: {
       propDefinition: [
-        browse_ai,
+        app,
         "robotId",
       ],
     },
     inputParameters: {
       propDefinition: [
-        browse_ai,
+        app,
         "inputParameters",
       ],
     },
   },
+  methods: {
+    runTask({
+      robotId, ...args
+    }) {
+      return this.app.post({
+        path: `/robots/${robotId}/tasks`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.browse_ai.runRobot({
-      robotId: this.robotId,
-      inputParameters: this.inputParameters,
+    const {
+      runTask,
+      robotId,
+      inputParameters,
+    } = this;
+
+    const response = await runTask({
+      $,
+      robotId,
+      data: {
+        inputParameters,
+      },
     });
-    $.export("$summary", `Successfully executed task with ID: ${response.id}`);
+    $.export("$summary", `Successfully executed task with ID: \`${response.result.id}\``);
     return response;
   },
 };
