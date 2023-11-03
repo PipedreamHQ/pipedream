@@ -62,7 +62,7 @@ If you're interested in running Pipedream workflows in your own infrastructure, 
 
 ## Limitations
 
-- Only workflows can run in VPCs (other resources like sources or data stores are not currently supported)
+- Only workflows can run in VPCs (other resources like sources or data stores are not currently supported). For example, [sources](/sources/) cannot yet run in VPCs.
 - Creating a new network can take up to 5 minutes. Deploying your first workflow into a new network and testing that workflow for the first time can take up to 1 min. Subsequent operations should be as fast as normal.
 - VPCs only provide static IPs for outbound network requests. This feature does not provide a static IP for or otherwise restrict inbound requests.
 - You can’t set a default network for all new workflows in a workspace or project (you must select the network every time you create a new workflow). Please [reach out](https://pipedream.com/support) if you're interesting in imposing controls like this in your workspace.

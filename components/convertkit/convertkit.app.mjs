@@ -34,6 +34,18 @@ export default {
         }));
       },
     },
+    tag: {
+      type: "integer",
+      label: "Tag",
+      description: "Select a tag",
+      async options() {
+        const response = await this.listTags();
+        return response.tags.map((tag) => ({
+          label: tag.name,
+          value: tag.id,
+        }));
+      },
+    },
   },
   methods: {
     _apiSecretToken() {
@@ -114,6 +126,14 @@ export default {
     },
     async addSubscriberToForm(email, formId, $) {
       return await this._makeRequest(`forms/${formId}/subscribe`, {
+        method: "post",
+        data: {
+          email,
+        },
+      }, $);
+    },
+    async addTagToSubscriber(email, tagId, $) {
+      return await this._makeRequest(`tags/${tagId}/subscribe`, {
         method: "post",
         data: {
           email,

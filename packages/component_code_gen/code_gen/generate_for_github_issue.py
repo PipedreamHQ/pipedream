@@ -57,7 +57,7 @@ def generate_app_file_prompt(requirements, app_file_content):
 {requirements}"""
 
 
-def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=False, tries=3):
+def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=False, tries=3, remote_name="origin"):
     repo_path = os.path.abspath(os.path.join("..", ".."))
     output_dir = os.path.abspath(output_dir)
 
@@ -71,7 +71,7 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
             return
 
         branch_name = f"issue-{issue_number}"
-        run_command("git fetch origin")
+        run_command(f"git fetch {remote_name}")
 
         if any(reference.name == branch_name for reference in repo.references):
             # branch name already exists
@@ -80,7 +80,7 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
             # create new branch
             run_command(f"git checkout -b {branch_name}")
 
-        run_command("git reset --hard origin/master")
+        run_command(f"git reset --hard {remote_name}/master")
 
     # parse github issue description
     md = requests.get(
@@ -181,9 +181,8 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         # GitPython requires to manually check .gitignore paths when adding files to index
         # so this is easier
         run_command(f"npx eslint {app_base_path} --fix")
-        run_command(["npx pnpm i"])
-        run_command(f"git add -f {app_base_path} {repo_path}/pnpm-lock.yaml")
+        run_command(f"git add -f {app_base_path}")
         run_command(f"git commit --no-verify -m '{app} init'")
-        run_command(f"git push -f --set-upstream origin {branch_name}")
+        run_command(f"git push -f --no-verify --set-upstream {remote_name} {branch_name}")
         run_command(
             f"gh pr create -d -l ai-assisted -t 'New Components - {app}' -b 'Resolves #{issue_number}.'")

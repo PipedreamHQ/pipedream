@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/shipday",
+  "version": "0.0.1",
+  "description": "Pipedream Shipday Components",
+  "main": "shipday.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shipday"
+  ],
+  "homepage": "https://pipedream.com/apps/shipday",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

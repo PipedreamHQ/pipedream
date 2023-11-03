@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/placid",
+  "version": "0.0.1",
+  "description": "Pipedream Placid Components",
+  "main": "placid.app.mjs",
+  "keywords": [
+    "pipedream",
+    "placid"
+  ],
+  "homepage": "https://pipedream.com/apps/placid",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
