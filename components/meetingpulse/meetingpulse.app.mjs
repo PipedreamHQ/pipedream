@@ -45,7 +45,7 @@ export default {
       headers,
       ...otherOpts
     }) {
-      return axios($, {
+      const { result } = await axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
         headers: {
@@ -54,48 +54,44 @@ export default {
           accept: "application/json",
         },
       });
+      return result;
     },
     async getOwnedMeetings() {
-      const { result } = await this._makeRequest({
+      return this._makeRequest({
         path: "/v2/meetings/",
       });
-      return result;
     },
     async getPoll({
       meetingId, pollId, ...args
     }) {
-      const { result } = await this._makeRequest({
+      return this._makeRequest({
         path: `/v1/meetings/${meetingId}/polls/${pollId}`,
         ...args,
       });
-      return result;
     },
     async listPolls({
       meetingId, ...args
     }) {
-      const { result } = await this._makeRequest({
+      return this._makeRequest({
         path: `/v1/meetings/${meetingId}/polls`,
         ...args,
       });
-      return result;
     },
     async getTopics({
       meetingId, ...args
     }) {
-      const { result } = await this._makeRequest({
+      return this._makeRequest({
         path: `/v1/meetings/${meetingId}/ideas`,
         ...args,
       });
-      return result;
     },
     async getEmailLeads({
       meetingId, ...args
     }) {
-      const { result } = await this._makeRequest({
+      return this._makeRequest({
         path: `/v1/meetings/${meetingId}/leads`,
         ...args,
       });
-      return result;
     },
   },
 };
