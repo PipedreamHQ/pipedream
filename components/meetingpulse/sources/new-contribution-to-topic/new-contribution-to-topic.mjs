@@ -1,58 +1,42 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import meetingpulse from "../../meetingpulse.app.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "meetingpulse-new-contribution-to-topic",
   name: "New Contribution to Topic",
-  description: "Emit new event every time there is new data for all created topics for a meeting. [See the documentation](https://app.meet.ps/api/docs/)",
+  description:
+    "Emit new event every time there is new data for all created topics for a meeting. [See the documentation](https://app.meet.ps/api/docs/)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    meetingpulse,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    meetingId: {
-      propDefinition: [
-        meetingpulse,
-        "meetingId",
-      ],
-    },
-  },
   methods: {
-    _getLastContributionId() {
-      return this.db.get("lastContributionId") ?? null;
-    },
-    _setLastContributionId(id) {
-      this.db.set("lastContributionId", id);
-    },
-  },
-  async run() {
-    const lastContributionId = this._getLastContributionId();
-    const topics = await this.meetingpulse.getTopics({
-      meetingId: this.meetingId,
-    });
-    let newLastContributionId = lastContributionId;
+    ...common.methods,
+    async getAndProcessData(emit = false) {
+      const topics = await this.meetingpulse.getTopics({
+        meetingId: this.meetingId,
+      });
+      const savedIdeas = this._getSavedValue();
 
-    for (const topic of topics) {
-      for (const contribution of topic.contributions) {
-        if (lastContributionId && contribution.id <= lastContributionId) {
-          continue;
+      for (const topic of topics) {
+        const ideas = topic.ideas?.filter?.(
+          ({ id }) => !savedIdeas.includes(id),
+        );
+        if (ideas?.length) {
+          if (emit) {
+            const ts = Date.now();
+            this.$emit(topic, {
+              id: topic.id + ts.toString(),
+              summary: `${ideas.length} new Ideas in Topic: ${
+                topic.OCC ?? topic.callout ?? topic.text
+              }`,
+              ts,
+            });
+          }
+          savedIdeas.push(...ideas.map(({ id }) => id));
         }
-        this.$emit(contribution, {
-          id: contribution.id,
-          summary: `New Contribution: ${contribution.title}`,
-          ts: Date.parse(contribution.created),
-        });
-        newLastContributionId = Math.max(newLastContributionId, contribution.id);
       }
-    }
 
-    this._setLastContributionId(newLastContributionId);
+      this._setSavedValue(savedIdeas);
+    },
   },
 };

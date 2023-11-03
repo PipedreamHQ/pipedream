@@ -1,7 +1,8 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import meetingpulse from "../../meetingpulse.app.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "meetingpulse-new-poll-data",
   name: "New Poll Data",
   description: "Emit new event every time the results of a poll change. [See the documentation](https://app.meet.ps/api/docs/)",
@@ -9,20 +10,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    meetingpulse,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    meetingId: {
-      propDefinition: [
-        meetingpulse,
-        "meetingId",
-      ],
-    },
+    ...common.props,
     pollId: {
       propDefinition: [
         meetingpulse,
@@ -33,25 +21,15 @@ export default {
       ],
     },
   },
-  hooks: {
-    async deploy() {
-      await this.getAndProcessData();
-    },
-  },
   methods: {
-    _getPreviousPollResults() {
-      return this.db.get("pollResults") || {};
-    },
-    _setPreviousPollResults(value) {
-      this.db.set("pollResults", value);
-    },
+    ...common.methods,
     async getAndProcessData() {
       const poll = await this.meetingpulse.getPoll({
         meetingId: this.meetingId,
         pollId: this.pollId,
       });
 
-      const previousPollResults = this._getPreviousPollResults();
+      const previousPollResults = this._getPreviousSavedValue();
       const results = JSON.stringify(poll.results);
 
       if (results !== previousPollResults) {
@@ -61,11 +39,8 @@ export default {
           summary: `Poll updated: ${poll.question}`,
           ts,
         });
-        this._setPreviousPollResults(results);
+        this._setPreviousSavedValue(results);
       }
     },
-  },
-  async run() {
-    await this.getAndProcessData();
   },
 };
