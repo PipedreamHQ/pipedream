@@ -3149,7 +3149,10 @@ importers:
     specifiers: {}
 
   components/lightspeed_vt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/line:
     specifiers:
@@ -27540,7 +27543,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
