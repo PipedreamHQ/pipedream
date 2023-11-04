@@ -2,7 +2,7 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "Upload An Object",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "google_cloud-upload-object",
   type: "action",
   description: "Upload an object to a Google Cloud Storage bucket, [See the docs](https://googleapis.dev/nodejs/storage/latest/Bucket.html#upload)",
