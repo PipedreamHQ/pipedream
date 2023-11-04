@@ -1,0 +1,210 @@
+#container{
+    height: 500px;
+    width: 780px;
+    background-color:rgb(255, 255, 255);
+    border-radius: 10px;
+    margin-left: 100px;
+    margin-top: 136px;
+}
+body{
+    background-image: url(real-estate-low-angle-shot-c9wnxm14uva0ydio.jpg);
+    background-size: cover;
+}
+.content{
+    color: black;
+    height: 0px;
+    width: 0px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    /* font-style: oblique; */
+    font-size: 40px;
+    font-weight: bold;
+}
+#fonts{
+    padding: 50px 0px 0px 30px;
+}
+.vertical{
+    border-left: 2px solid rgba(0, 0, 0, 0.2);
+    height: 100px;
+    position: absolute;
+    left: 33%;
+}
+.username{
+    height: 40px;
+    width: 290px;
+    margin-top: 40px;
+    margin-left: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    color: black;
+}
+.password{
+    height: 40px;
+    width: 290px;
+    margin-top: 30px;
+    margin-left: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    color: black;
+}
+.submit{
+    height: 40px;
+    width: 60px;
+    margin-left: 10px;
+    margin-right: 55px;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 255, 0.2);
+    color: rgb(13, 13, 193);
+    font-family: math;
+    cursor: pointer;
+    font-weight: 560;
+    border: none;
+    outline: none;
+}
+.submit:hover{
+    border: 1px solid rgba(0, 0, 0, 0.215);
+}
+.clear{
+    height: 40px;
+    width: 60px;
+    margin-top: 40px;
+    margin-right: 55px;
+    border-radius: 15px;
+    font-family: math;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+.clear:hover{
+    border: 1px solid rgba(0, 0, 0, 0.308);
+}
+.close{
+    height: 40px;
+    width: 60px;
+    margin-top: 40px;
+    border-radius: 15px;
+    font-family: math;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+.close:hover{
+    border: 1px solid rgba(0, 0, 0, 0.215);
+}
+.others{
+    position: absolute;
+    left: 37%;
+    top: 225px;
+    font-family: system-ui;
+}
+.google{
+    width: 30px;
+    height: 30px;
+    left: 38%;
+    top: 290px;
+    position: fixed;
+    display:inline;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#one{
+    width: 75px;
+    height: 48px;
+    left: 36.5%;
+    top: 280px;
+    position:absolute;
+    border: 2px solid rgba(184, 203, 217, 0.899);;
+    border-radius: 10px;
+}
+.linkedin{
+    width: 40px;
+    height: 40px;
+    left: 44.6%;
+    top: 285px;
+    position: fixed;
+    display:inline;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#two{
+    width: 75px;
+    height: 48px;
+    left: 43.5%;
+    top: 280px;
+    position:absolute;
+    border: 2px solid rgba(184, 203, 217, 0.899);;
+    border-radius: 10px;
+}
+.twitter{
+    width: 30px;
+    height: 30px;
+    left: 52%;
+    top: 290px;
+    position:fixed;
+    display:inline;
+    border-radius: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-property: all;
+    transition-duration: 1s;
+}
+#three{
+    width: 75px;
+    height: 48px;
+    border-radius: 10px;
+    left: 50.5%;
+    top: 280px;
+    position:absolute;
+    border: 2px solid rgba(184, 203, 217, 0.899);
+}
+.twitter:hover{
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    transform:scale(1.1,1.1);
+}
+.horizontal{
+    border-top: 2px solid rgba(0, 0, 0, 0.2);
+    width: 200px;
+    position: absolute;
+    left: 10%;
+    top: 530px;
+}
+/* .arrow{
+    height: 70px;
+    width: 70px;
+    left: 75%;
+    position: fixed;
+    bottom: 300px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.arrow:hover{
+    height: 80px;
+    width: 80px;
+} */
+.rememberme{
+    left: 10%;
+    bottom: 130px;
+    /* cursor: pointer; */
+    position:absolute;
+    display: block;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+#home1{
+    font-size: 15px;
+    position: absolute;
+    right: 9%;
+    top: 5%;
+    text-decoration: underline;
+    color: white;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+#home2{
+    font-size: 15px;
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    text-decoration: underline;
+    color: white;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
