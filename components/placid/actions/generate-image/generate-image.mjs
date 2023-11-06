@@ -1,30 +1,48 @@
-import placid from "../../placid.app.mjs";
+import app from "../../placid.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "placid-generate-image",
   name: "Generate Image",
-  description: "Generate a new image based on a specified template. [See the documentation](https://placid.app/docs/2.0/rest/images)",
-  version: "0.0.{{ts}}",
+  description: "Generate a new image based on a specified template. [See the documentation](https://placid.app/docs/2.0/rest/images#create)",
+  version: "0.0.1",
   type: "action",
   props: {
-    placid,
+    app,
     templateId: {
       propDefinition: [
-        placid,
+        app,
         "templateId",
       ],
     },
     layers: {
       propDefinition: [
-        placid,
+        app,
         "layers",
       ],
     },
   },
+  methods: {
+    createImage(args = {}) {
+      return this.app.post({
+        path: "/images",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.placid.createImage({
-      templateId: this.templateId,
-      layers: this.layers,
+    const {
+      createImage,
+      templateId,
+      layers,
+    } = this;
+
+    const response = await createImage({
+      $,
+      data: {
+        template_uuid: templateId,
+        layers: utils.parseLayers(layers),
+      },
     });
     $.export("$summary", `Successfully generated image with ID: ${response.id}`);
     return response;

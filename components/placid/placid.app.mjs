@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -10,7 +11,7 @@ export default {
       description: "The ID of the template",
       async options() {
         const templates = await this.getTemplates();
-        return templates.map((template) => ({
+        return templates.data.map((template) => ({
           value: template.uuid,
           label: template.title,
         }));
@@ -19,58 +20,35 @@ export default {
     layers: {
       type: "object",
       label: "Layers",
-      description: "The layers of the template",
+      description: "The layers of the template. For ech key representing a layer name, the value should be a JSON object representing the layer's properties. Eg. for the key `text`, the value can be `{ \"text\": \"Hello World\" }`. [See the documentation](https://placid.app/docs/2.0/rest/layers)",
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.placid.app/api/rest";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      const config = {
+        url: this.getUrl(path),
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.api_token}`,
         },
-      });
+        ...args,
+      };
+      return axios($, config);
     },
-    async getTemplates() {
+    getTemplates() {
       return this._makeRequest({
         path: "/templates",
       });
     },
-    async createImage({
-      templateId, layers,
-    }) {
+    post(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/images",
-        data: {
-          template_uuid: templateId,
-          layers,
-        },
-      });
-    },
-    async createPdf({
-      templateId, layers,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/pdfs",
-        data: {
-          template_uuid: templateId,
-          layers,
-        },
+        method: "post",
+        ...args,
       });
     },
   },
