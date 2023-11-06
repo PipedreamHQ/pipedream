@@ -39,7 +39,6 @@ export default {
         },
         ...args,
       };
-      console.log(config);
       return axios($, config);
     },
     post(args = {}) {
