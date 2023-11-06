@@ -35,9 +35,8 @@ export default {
       const { data: templates } = await this.app.getTemplates();
       return {
         [`${prefix}templateId`]: {
-          type: "string",
+          ...app.propDefinitions.templateId,
           label: `${label} - Template ID`,
-          description: "The ID of the template.",
           options: templates.map(({
             uuid: value, title: label,
           }) => ({
@@ -46,9 +45,8 @@ export default {
           })),
         },
         [`${prefix}layers`]: {
-          type: "object",
+          ...app.propDefinitions.layers,
           label: `${label} - Layers`,
-          description: "The layers of the template. For ech key representing a layer name, the value should be a JSON object representing the layer's properties. Eg. for the key `text`, the value can be `{ \"text\": \"Hello World\" }`. [See the documentation](https://placid.app/docs/2.0/rest/layers)",
         },
       };
     },

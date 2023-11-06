@@ -20,7 +20,7 @@ export default {
     layers: {
       type: "object",
       label: "Layers",
-      description: "The layers of the template. For ech key representing a layer name, the value should be a JSON object representing the layer's properties. Eg. for the key `text`, the value can be `{ \"text\": \"Hello World\" }`. [See the documentation](https://placid.app/docs/2.0/rest/layers)",
+      description: "The layers of the template. For each key representing a layer name, the value should be a JSON object representing the layer's properties. Eg. for the key `title`, the value can be `{ \"text\": \"Hello World\" }`. [See the documentation](https://placid.app/docs/2.0/rest/layers)",
     },
   },
   methods: {
