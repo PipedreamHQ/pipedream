@@ -69,7 +69,7 @@ export default {
     for (const response of responseArray.reverse()) {
       this.$emit(response, {
         id: response.id,
-        summary: `New response from survey ${surveyId}`,
+        summary: `New response from survey ${response.id}`,
         ts: Date.parse(response.created),
       });
     }
