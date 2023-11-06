@@ -2990,7 +2990,10 @@ importers:
     specifiers: {}
 
   components/kickbox:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/kickofflabs:
     specifiers:
