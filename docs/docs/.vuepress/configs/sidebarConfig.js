@@ -67,7 +67,11 @@ const docsNav = [
           "/environment-variables/",
           "/code/nodejs/async/",
           "/code/nodejs/sharing-code/",
-          "/code/nodejs/browser-automation/"
+          "/code/nodejs/browser-automation/",
+          {
+            title: "Reference",
+            path: "/components/api/#run"
+          }
         ],
       },
       {
