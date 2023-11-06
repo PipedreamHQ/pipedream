@@ -1,90 +1,123 @@
+import { ConfigurationError } from "@pipedream/platform";
+import FormData from "form-data";
+import fs from "fs";
+import {
+  camelToSnakeCase, checkTmp,
+} from "../../common/utils.mjs";
 import gladia from "../../gladia.app.mjs";
 
 export default {
   key: "gladia-send-audio-for-transcription",
-  name: "Send Audio for Transcription",
+  name: "Send Audio For Transcription",
   description: "Sends audio to Gladia for transcription and optional translation. [See the documentation](https://docs.gladia.io/reference/pre-recorded)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     gladia,
-    audio_url: {
+    audio: {
       propDefinition: [
         gladia,
-        "audio_url",
+        "audio",
       ],
+      optional: true,
     },
-    language_behaviour: {
+    audioUrl: {
       propDefinition: [
         gladia,
-        "language_behaviour",
+        "audioUrl",
       ],
+      optional: true,
     },
-    language: {
+    toggleNoiseReduction: {
       propDefinition: [
         gladia,
-        "language",
+        "toggleNoiseReduction",
       ],
+      optional: true,
     },
-    toggle_noise_reduction: {
+    transcriptionHint: {
       propDefinition: [
         gladia,
-        "toggle_noise_reduction",
+        "transcriptionHint",
       ],
+      optional: true,
     },
-    transcription_hint: {
+    toggleDiarization: {
       propDefinition: [
         gladia,
-        "transcription_hint",
+        "toggleDiarization",
       ],
+      optional: true,
     },
-    toggle_diarization: {
+    targetTranslationLanguage: {
       propDefinition: [
         gladia,
-        "toggle_diarization",
+        "targetTranslationLanguage",
       ],
+      optional: true,
     },
-    translate_audio: {
+    toggleDirectTranslate: {
       propDefinition: [
         gladia,
-        "translate_audio",
+        "toggleDirectTranslate",
       ],
+      optional: true,
     },
-    target_translation_language: {
+    languageBehaviour: {
       propDefinition: [
         gladia,
-        "target_translation_language",
-        (c) => ({
-          translate_audio: c.translate_audio,
-        }),
+        "languageBehaviour",
       ],
-    },
-    toggle_direct_translate: {
-      propDefinition: [
-        gladia,
-        "toggle_direct_translate",
-        (c) => ({
-          toggle_direct_translate: c.translate_audio,
-        }),
-      ],
+      reloadProps: true,
+      optional: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (this.languageBehaviour === "manual") {
+      props.language = {
+        type: "string",
+        label: "Language",
+        description: "If language_behaviour is set to manual, define the language to use for the transcription",
+      };
+    }
+    return props;
+  },
   async run({ $ }) {
-    const response = await this.gladia.sendAudioForTranscription({
-      audio_url: this.audio_url,
-      language_behaviour: this.language_behaviour,
-      language: this.language,
-      toggle_noise_reduction: this.toggle_noise_reduction,
-      transcription_hint: this.transcription_hint,
-      toggle_diarization: this.toggle_diarization,
-      toggle_direct_translate: this.translate_audio
-        ? this.toggle_direct_translate
-        : undefined,
-      target_translation_language: this.translate_audio
-        ? this.target_translation_language
-        : undefined,
+    if (!this.audio && !this.audioUrl) {
+      throw new ConfigurationError("You must provite whether **Audio** or **Audio URL**.");
+    }
+
+    const {
+      gladia,
+      audio,
+      toggleNoiseReduction,
+      toggleDiarization,
+      toggleDirectTranslate,
+      ...data
+    } = this;
+
+    const formData = new FormData();
+    if (audio) {
+      const filePath = checkTmp(audio);
+      formData.append("audio", fs.createReadStream(filePath));
+    }
+    formData.append("toggleNoiseReduction", `${toggleNoiseReduction}`);
+    formData.append("toggleDiarization", `${toggleDiarization}`);
+    formData.append("toggleDirectTranslate", `${toggleDirectTranslate}`);
+
+    for (const [
+      key,
+      value,
+    ] of Object.entries(data)) {
+      formData.append(`${camelToSnakeCase(key)}`, value);
+    }
+    const response = await gladia.sendAudioForTranscription({
+      data: formData,
+      headers: formData.getHeaders(),
     });
-    $.export("$summary", "Successfully sent audio for transcription");
+
+    $.export("$summary", "The audio was successfully transcripted!");
     return response;
   },
 };
