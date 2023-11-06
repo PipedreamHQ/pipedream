@@ -1547,7 +1547,10 @@ importers:
     specifiers: {}
 
   components/doppler_marketing_automation:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/doppler_ops:
     specifiers: {}
