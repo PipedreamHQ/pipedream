@@ -56,9 +56,12 @@ export default {
     _baseUrl() {
       return "https://api.gladia.io";
     },
+    _apiKey() {
+      return this.$auth.api_key;
+    },
     _getHeaders(headers = {}) {
       return {
-        "x-gladia-key": this.$auth.api_key,
+        "x-gladia-key": this._apiKey(),
         ...headers,
       };
     },
