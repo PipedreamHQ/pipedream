@@ -14,10 +14,10 @@ def get_env_var(var_name, required=False, default=None):
 
 config = {
     "temperature": get_env_var("OPENAI_TEMPERATURE", default=0.5),
-    "openai_api_type": get_env_var("OPENAI_API_TYPE", default="azure"),
+    "openai_api_type": get_env_var("OPENAI_API_TYPE", default="openai"),
     "openai": {
         "api_key": get_env_var("OPENAI_API_KEY", required=True),
-        "model": get_env_var("OPENAI_MODEL", default="gpt-4"),
+        "model": get_env_var("OPENAI_MODEL", default="gpt-4-1106-preview"),
     },
     "azure": {
         "deployment_name": get_env_var("OPENAI_DEPLOYMENT_NAME", required=True),
