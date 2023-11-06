@@ -4673,7 +4673,10 @@ importers:
       puppeteer-core: 19.8.0
 
   components/push_by_techulus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pushcut:
     specifiers:
