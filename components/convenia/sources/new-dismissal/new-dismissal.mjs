@@ -1,13 +1,12 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import convenia from "../../convenia.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "convenia-new-dismissal",
   name: "New Dismissal",
   description: "Emit new event when an employee is dismissed.",
-  version: "0.0.{{{{ts}}}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -21,44 +20,46 @@ export default {
     },
   },
   methods: {
-    _getDismissalId(dismissal) {
-      return dismissal.id;
+    _getLastDate() {
+      return this.db.get("lastDate") || "1970-01-01";
     },
-    _getCursor() {
-      return this.db.get("cursor") || null;
+    _setLastDate(LastDate) {
+      this.db.set("lastDate", LastDate);
     },
-    _setCursor(cursor) {
-      this.db.set("cursor", cursor);
+    async startEvent(maxResults = false) {
+      const lastDate = this._getLastDate();
+      let count = 0;
+      let tempDate = lastDate;
+
+      const { data: dismissedEmployees } = await this.convenia.getEmployeesTerminated({
+        params: {
+          from_date: lastDate,
+        },
+      });
+
+      for (const employee of dismissedEmployees) {
+        if (maxResults && (++count >= maxResults)) break;
+
+        if (Date.parse(employee.dismissal.date) > Date.parse(tempDate)) {
+          tempDate = employee.dismissal.date;
+        }
+
+        this.$emit(employee, {
+          id: employee.dismissal.id,
+          summary: `New Dismissal with ID: ${employee.dismissal.id}`,
+          ts: Date.now(employee.dismissal.date),
+        });
+      }
+      this._setLastDate(tempDate);
+    },
+  },
+  hooks: {
+    async deploy() {
+      await this.startEvent(25);
     },
   },
   async run() {
-    const lastCursor = this._getCursor();
-    let newCursor = null;
-
-    const dismissedEmployees = await this.convenia.getEmployees();
-
-    for (const employee of dismissedEmployees) {
-      if (employee.dismissal) {
-        const dismissalId = this._getDismissalId(employee.dismissal);
-
-        if (!newCursor) {
-          newCursor = dismissalId;
-        }
-
-        if (lastCursor && dismissalId <= lastCursor) {
-          break;
-        }
-
-        this.$emit(employee.dismissal, {
-          id: dismissalId,
-          summary: `New Dismissal: ${employee.name}`,
-          ts: Date.now(),
-        });
-      }
-    }
-
-    if (newCursor) {
-      this._setCursor(newCursor);
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };
