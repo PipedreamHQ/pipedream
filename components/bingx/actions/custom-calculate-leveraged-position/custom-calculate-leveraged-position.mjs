@@ -98,7 +98,11 @@ export default {
       "profitAmount": profit,
       "riskReward": profit / risk,
     };
-    $.export("$summary", `Calculated bracket order for ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Calculated bracket order for ${this.symbol}`);
+    }
     return returnValue;
   },
 };

@@ -13,7 +13,11 @@ export default {
     const returnValue = await this.bingx.getAllMarketContracts({
       $,
     });
-    $.export("$summary", "Contract Information for Trading Pairs BingX");
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", "Contract Information for Trading Pairs BingX");
+    }
     return returnValue;
   },
 };

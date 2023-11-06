@@ -30,7 +30,11 @@ export default {
       },
       $,
     });
-    $.export("$summary", `Market depth of Trading Pair ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Market depth of Trading Pair ${this.symbol}`);
+    }
     return returnValue;
   },
 };

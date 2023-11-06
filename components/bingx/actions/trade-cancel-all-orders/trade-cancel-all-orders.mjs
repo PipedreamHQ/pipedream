@@ -24,7 +24,11 @@ export default {
       },
       $,
     });
-    $.export("$summary", "Cancel all orders");
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", "Cancel all orders");
+    }
     return returnValue;
   },
 };

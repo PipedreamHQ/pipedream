@@ -34,7 +34,11 @@ export default {
       },
       $,
     });
-    $.export("$summary", `Batch Cancel Orders for ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Batch Cancel Orders for ${this.symbol}`);
+    }
     return returnValue;
   },
 };

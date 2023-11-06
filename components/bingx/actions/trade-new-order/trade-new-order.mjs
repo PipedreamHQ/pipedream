@@ -82,7 +82,11 @@ export default {
       params: parameters,
       $,
     });
-    $.export("$summary", `New Future Order for ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `New Future Order for ${this.symbol}`);
+    }
     return returnValue;
   },
 };

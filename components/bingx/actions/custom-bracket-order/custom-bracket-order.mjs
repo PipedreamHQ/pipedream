@@ -1,5 +1,6 @@
 import bingx from "../../bingx.app.mjs";
 import lodash from "lodash";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "BingX Custom Bracket Order",
@@ -57,15 +58,9 @@ export default {
       type: "string",
       optional: true,
     },
-    takerProfit: {
-      label: "Taker Profit",
-      description: "Support setting take profit while placing an order. Only supports type: TAKE_PROFIT_MARKET/TAKE_PROFIT",
-      type: "string",
-      optional: true,
-    },
-    stopLoss: {
-      label: "Stop Loss",
-      description: "Support setting stop loss while placing an order. Only supports type: STOP_MARKET/STOP",
+    targetPrice: {
+      label: "Take Profit Price",
+      description: "Take Profit price for trade",
       type: "string",
       optional: true,
     },
@@ -92,6 +87,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.tradeType === "LIMIT" && !(this.limitPrice && this.targetPrice)) {
+      throw new ConfigurationError("Limit Price and Take Profit Price are required for trade type `LIMIT`.");
+    }
+
     await this.setLeverage($);
 
     const entryParameters = lodash.pickBy({
@@ -101,8 +100,6 @@ export default {
       "quantity": this.bingx.convertToFloat(this.quantity),
       "type": this.tradeType,
       "positionSide": this.leverage,
-      "takerProfit": this.takerProfit,
-      "stopLoss": this.stopLoss,
     });
     const entryOrder = await this.bingx.createOrder({
       params: entryParameters,
@@ -116,8 +113,6 @@ export default {
       "quantity": this.bingx.convertToFloat(this.quantity),
       "type": "LIMIT",
       "positionSide": this.leverage,
-      "takerProfit": this.takerProfit,
-      "stopLoss": this.stopLoss,
     });
     const exitOrder = await this.bingx.createOrder({
       params: takeProfitParameters,
@@ -128,7 +123,11 @@ export default {
       "entryOrder": entryOrder,
       "exitOrder": exitOrder,
     };
-    $.export("$summary", `Placed a bracket order for symbol ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Placed a bracket order for symbol ${this.symbol}`);
+    }
     return returnValue;
   },
 };

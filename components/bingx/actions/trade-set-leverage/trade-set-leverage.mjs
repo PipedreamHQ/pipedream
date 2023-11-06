@@ -36,7 +36,11 @@ export default {
       },
       $,
     });
-    $.export("$summary", `Set Leverage ${this.leverage} for ${this.side} of ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Set Leverage ${this.leverage} for ${this.side} of ${this.symbol}`);
+    }
     return returnValue;
   },
 };

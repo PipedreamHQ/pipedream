@@ -27,11 +27,15 @@ export default {
       method: "POST",
       params: {
         symbol: this.symbol,
-        marginType: this.marginType,
+        marginType: this.marginMode,
       },
       $,
     });
-    $.export("$summary", `Set Margin Mode ${this.marginMode} for ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Set Margin Mode ${this.marginMode} for ${this.symbol}`);
+    }
     return returnValue;
   },
 };

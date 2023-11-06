@@ -44,7 +44,11 @@ export default {
       },
       $,
     });
-    $.export("$summary", `K-Line Data History for Trading Pair ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `K-Line Data History for Trading Pair ${this.symbol}`);
+    }
     return returnValue;
   },
 };

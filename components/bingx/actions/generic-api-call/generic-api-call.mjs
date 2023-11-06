@@ -20,7 +20,7 @@ export default {
         "POST",
         "PUT",
       ],
-      default: "POST",
+      default: "GET",
     },
     apiPath: {
       label: "API Path",
@@ -61,8 +61,8 @@ export default {
       params: this.params,
       $,
     });
-    if (returnValue["ret_code"]) {
-      throw new Error(returnValue["ret_msg"]);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
     } else {
       $.export("$summary", "Bingx Futures custom action successful");
     }

@@ -22,6 +22,7 @@ export default {
           symbol: c.symbol,
         }),
       ],
+      type: "string",
       label: "Order ID",
       description: "The Order ID to cancel",
     },
@@ -36,7 +37,11 @@ export default {
       },
       $,
     });
-    $.export("$summary", `Cancel Order ${this.orderId} for ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Cancel Order ${this.orderId} for ${this.symbol}`);
+    }
     return returnValue;
   },
 };

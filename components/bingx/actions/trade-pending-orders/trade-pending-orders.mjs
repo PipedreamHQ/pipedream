@@ -23,7 +23,11 @@ export default {
       },
       $,
     });
-    $.export("$summary", `Pending orders for ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Pending orders for ${this.symbol}`);
+    }
     return returnValue;
   },
 };

@@ -51,7 +51,7 @@ export const TRADE_ACTIONS = [
 
 export const TRADE_MARGIN_MODES = [
   "ISOLATED",
-  "CROSS",
+  "CROSSED",
 ];
 
 export const TRADE_LEVERAGE_SIDES = [

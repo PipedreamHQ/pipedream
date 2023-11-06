@@ -155,6 +155,12 @@ export default {
     makeRequest({
       $ = this, path, version, params, headers, ...args
     }) {
+      console.log({
+        url: this.getUrl(path, version),
+        headers: this.getHeaders(headers),
+        params: this.getParams(params),
+        ...args,
+      });
       return axios($, {
         url: this.getUrl(path, version),
         headers: this.getHeaders(headers),

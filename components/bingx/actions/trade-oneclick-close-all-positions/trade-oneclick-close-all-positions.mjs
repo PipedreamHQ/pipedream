@@ -15,7 +15,11 @@ export default {
       method: "POST",
       $,
     });
-    $.export("$summary", "Oneclick close all positions");
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", "Oneclick close all positions");
+    }
     return returnValue;
   },
 };

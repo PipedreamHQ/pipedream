@@ -23,7 +23,11 @@ export default {
       },
       $,
     });
-    $.export("$summary", `Historical Funding Rate for Trading Pair ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Historical Funding Rate for Trading Pair ${this.symbol}`);
+    }
     return returnValue;
   },
 };

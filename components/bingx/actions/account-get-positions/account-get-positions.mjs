@@ -23,7 +23,11 @@ export default {
       },
       $,
     });
-    $.export("$summary", `Positions retrieved for symbol \`${this.symbol}\``);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Positions retrieved for symbol \`${this.symbol}\``);
+    }
     return returnValue;
   },
 };
