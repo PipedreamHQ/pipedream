@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_cloud",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Pipedream Google_cloud Components",
   "main": "google_cloud.app.mjs",
   "keywords": [
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@google-cloud/bigquery": "^6.0.0",
+    "@google-cloud/bigquery-data-transfer": "^4.0.1",
     "@google-cloud/logging": "^10.0.3",
     "@google-cloud/pubsub": "^3.0.1",
     "@google-cloud/storage": "^6.0.1",
