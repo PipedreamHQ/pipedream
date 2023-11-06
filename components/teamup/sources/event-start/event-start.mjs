@@ -24,6 +24,9 @@ export default {
         endDate: this.teamup.getFormattedDate(30),
       };
     },
+    getTsField() {
+      return "start_dt";
+    },
     isRelevant({
       event, timestamp,
     }) {
@@ -33,7 +36,7 @@ export default {
       return {
         id: event.id,
         summary: `Event ${event.title} starting in ${this.timeBeforeEvent} minutes`,
-        ts: timestamp,
+        ts: timestamp * 1000,
       };
     },
   },

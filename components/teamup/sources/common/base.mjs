@@ -45,6 +45,9 @@ export default {
     isRelevant() {
       return true;
     },
+    getTsField() {
+      throw new Error("getTsField is not implemented");
+    },
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
@@ -61,6 +64,10 @@ export default {
         subcalendarId: this.subCalendarIds,
       },
     });
+
+    events.sort((a, b) => Date.parse(a[this.getTsField()]) > Date.parse(b[this.getTsField()])
+      ? 1
+      : -1);
 
     for (const event of events) {
       if (this.isRelevant({

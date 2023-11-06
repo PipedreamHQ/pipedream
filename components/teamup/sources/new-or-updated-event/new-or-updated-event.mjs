@@ -17,17 +17,20 @@ export default {
           : Date.parse(this.teamup.getFormattedDate(-29)) / 1000,
       };
     },
+    getTsField() {
+      return "update_dt";
+    },
     isRelevant({
       event, lastTs,
     }) {
       return event?.update_dt
-        ? Date.parse(event.update_dt) > lastTs
-        : Date.parse(event.creation_dt) > lastTs;
+        ? Date.parse(event.update_dt) / 1000 > lastTs
+        : Date.parse(event.creation_dt) / 1000 > lastTs;
     },
     generateMeta(event) {
       const ts = Date.parse(event.update_dt);
       return {
-        id: `${event.id}${event.id}`,
+        id: `${event.id}${ts}`,
         summary: `Updated Event - ${event.title}`,
         ts,
       };

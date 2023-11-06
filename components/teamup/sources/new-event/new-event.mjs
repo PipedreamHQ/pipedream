@@ -17,10 +17,13 @@ export default {
           : Date.parse(this.teamup.getFormattedDate(-29)) / 1000,
       };
     },
+    getTsField() {
+      return "creation_dt";
+    },
     isRelevant({
       event, lastTs,
     }) {
-      return Date.parse(event.creation_dt) > lastTs;
+      return Date.parse(event.creation_dt) / 1000 > lastTs;
     },
     generateMeta(event) {
       return {
