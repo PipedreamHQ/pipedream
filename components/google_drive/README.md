@@ -9,7 +9,7 @@ Using the Google Drive API, you can build applications that:
 - Track changes to files
 - And much more!
 
-## Troubleshooting
+# Troubleshooting
 
 **Error: "Google cannot give this app access to your account data because Advanced Protection is turned on for your Google Account"**
 

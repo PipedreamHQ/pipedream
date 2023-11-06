@@ -84,7 +84,10 @@ importers:
     specifiers: {}
 
   components/abyssale:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/accelo:
     specifiers:
@@ -707,7 +710,10 @@ importers:
     specifiers: {}
 
   components/browse_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/browserless:
     specifiers:
@@ -2801,7 +2807,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/insites:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/instagram_business:
     specifiers:
@@ -2990,7 +2999,10 @@ importers:
     specifiers: {}
 
   components/kickbox:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/kickofflabs:
     specifiers:
@@ -4661,7 +4673,10 @@ importers:
       puppeteer-core: 19.8.0
 
   components/push_by_techulus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pushcut:
     specifiers:
