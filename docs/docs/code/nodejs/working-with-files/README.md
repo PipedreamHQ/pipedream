@@ -93,39 +93,145 @@ export default defineComponent({
 You should also be aware of the [inbound payload limits](/limits/#email-triggers) associated with the email trigger.
 
 
-## Project Files
+## File Stores
 
-Project Files are a filesystem that is scoped to Project. All workflows within the same Project have access to the Project Files.
+File Stores are a filesystem that is scoped to Project. All workflows within the same Project have access to the File Stores.
 
 You can interact with these files through the Pipedream Dashboard or programmatically through your Project's workflows.
 
-?? Why are we titling these as "Temporary Files"? Just because the URLs are temporary? Seems like "Project Files" is a better description?
+### Managing File Stores from the Dashboard
 
-### Managing Project Files from the Dashboard
+You can access a File Store by opening the Project and selecting the *File Store* on the left hand navigation menu.
 
+![Opening a project's file store in the Pipedream Dashboard.](https://res.cloudinary.com/pipedreamin/image/upload/v1698934897/docs/docs/Project%20Files/CleanShot_2023-11-02_at_10.21.15_2x_z5q5nt.png)
 
+#### Uploading files to the File Store
 
-### Uploading Project Files
+To upload a file, select *New* then select *File*:
 
+![https://res.cloudinary.com/pipedreamin/image/upload/v1698934655/docs/docs/Project%20Files/CleanShot_2023-11-02_at_10.16.13_fqjuv4.gif](Opening the new file pop-up in a Project's File Store)
 
+Then in the new pop-up, you can either drag and drop or browser your computer to stage a file for uploading:
 
-### Viewing Project Files
-@TODO screenshot
+![https://res.cloudinary.com/pipedreamin/image/upload/v1698934655/docs/docs/Project%20Files/CleanShot_2023-11-02_at_10.16.19_2x_w7z8wv.png](Choose to either drag and drop a file to upload or browse your local filesystem to upload the file)
 
+Now that the file(s) are staged for uploaded. Click *Upload* to upload them:
 
-### Deleting Project Files
+![Confirm the upload to the file store](https://res.cloudinary.com/pipedreamin/image/upload/v1698934657/docs/docs/Project%20Files/CleanShot_2023-11-02_at_10.16.49_2x_ha4scn.png)
+
+Finally, click *Done* to close the upload pop-up:
+
+![Closing the file store upload modal](https://res.cloudinary.com/pipedreamin/image/upload/v1698934659/docs/docs/Project%20Files/CleanShot_2023-11-02_at_10.17.01_2x_xmfqfi.png)
+
+You should now see your file is uploaded and available for use within your Project:
+
+![The file is now uploaded to the File Store](https://res.cloudinary.com/pipedreamin/image/upload/v1698935114/docs/docs/Project%20Files/CleanShot_2023-11-02_at_10.24.56_2x_ogoh5t.png)
+
+#### Deleting files from the File Store
+
+You can delete individual files from a File Store by clicking the three dot menu on the far right of the file and selecting *Delete*.
 
 ![Deleting a Project File from the Dashboard](https://res.cloudinary.com/pipedreamin/image/upload/v1698855610/docs/docs/Project%20Files/CleanShot_2023-11-01_at_12.19.20_lb4ddt.png)
 
+After confirming that you want to delete the file, it will be permanently deleted.
+
+:::danger File deletion is permanent
+
+Once a file is deleted, it's not possible to recover it. Please take care when deleting files from File Stores.
+
+:::
+
+### Managing File Stores from Workflows
+
+Files uploaded to a File Store are accessible by workflows within that same project.
+
+You can access these files programmatically using the `$.files` helper within Node.js code steps.
 
 
+:::tip File Stores are scoped to Projects
 
+Only workflows within the same project as the File Store can access the files. Workflows outside of the project will not be able to access that project's File Store.
 
-### Managing Project Files from Workflows
+:::
 
-#### Uploading files from workflows
+#### Opening files
 
-#### Downloading files to workflows
+To interact with a file uploaded to the File Store, you'll first need to open it.
+
+Given there's a file in the File Store called `example.png`, you can open it using the `$.files.open()` method:
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Open the file by it's path in the File Store
+    const file = await $.files.openPath('example.png')
+    // Log the S3 url to access the file publicly
+    console.log(file.url)
+  },
+})
+```
+
+Once the file has been opened, you can [read, write, delete the file and more](/code/nodejs/$.files).
+
+#### Uploading files
+
+You can upload files using Node.js code in your workflows.
+
+`$.files.create()` can upload a file from the `/tmp` directory, or from a public URL.
+
+Pass a `url` to upload a file to the `path` in your project's File Store:
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Download a file to the File Store by a URL
+    const file = await $.files.create({ path: 'pipedream.png', url: 'https://res.cloudinary.com/pipedreamin/image/upload/t_logo48x48/v1597038956/docs/HzP2Yhq8_400x400_1_sqhs70.jpg' })
+
+    console.log(file.url)
+  },
+})
+```
+
+Pass a `file` param to upload a file from the local execution environment into the `path` in your project's File Store:
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Create a File Store file from a local file within the workflow's /tmp/ directory
+    const file = await $.files.create({ path: 'pipedream.png', file: '/tmp/pipedream.png' })
+
+    console.log(file.url)
+  },
+})
+```
+
+File Stores also support streaming to write large files. `File.createWriteStream()` accepts both the `contentType` and the `contentLength`. Then you can pair this stream with a download stream from another remote location:
+
+```javascript
+import { pipeline } from 'stream/promises';
+import got from 'got'
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    const file = await $.files.open('hello.txt')
+    const writeStream = await file.createWriteStream("application/jpeg", 2145)
+
+    const readStream = got.stream('https://pdrm.co/logo')
+
+    await pipeline(readStream, writeStream);
+  },
+})
+```
+
+:::warning Content length must be passed to avoid a ACTIVE HANDLER warning
+
+Due to a constraint within S3, the `contentLength` argument must be passed. Otherwise the step will show an *ACTIVE HANDLER* warning.
+
+The content length is required by S3 to notify when the write stream should end, otherwise the stream will remain open and hold execution to the current step.
+
+:::
+
+#### Downloading files
 
 #### Passing files between steps
 
@@ -145,7 +251,27 @@ Files can also be used with `$.suspend` and `$.delay`.
 
 :::
 
-#### Deleting files from workflows
+#### Deleting files
+
+You can call `delete()` on the file to delete it from the File Store.
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Open the Project File
+    const file = await $.files.open('example.png')
+    // Delete it
+    await file.delete()
+    console.log('File deleted.')
+  },
+})
+```
+
+:::danger Deleting files is irreversible
+
+It's not possible to restore deleted files. Please take care when deleting files.
+
+:::
 
 
 ## `$.files`
@@ -165,7 +291,7 @@ For example, export a `File` as a step export which will render the `File` as JS
 // Creates a new Project File and uploads an image to it
 export default defineComponent({
   async run({ steps, $ }) {
-    // create the new Project file
+    // create the new file
     const file = await $.files.openPath("imgur.png")
     // upload the contents to it from a URL
     await file.uploadFromUrl("https://i.imgur.com/TVIPgNq.png")
@@ -201,7 +327,7 @@ Here's an example of how to iterate over the files in the root directory and ope
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
-    // list all contents of the root Project Files directory in this project
+    // list all contents of the root File Stores directory in this project
     const dirs = $.files.dir();
     let files = [];
 
