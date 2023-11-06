@@ -84,7 +84,10 @@ importers:
     specifiers: {}
 
   components/abyssale:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/accelo:
     specifiers:
