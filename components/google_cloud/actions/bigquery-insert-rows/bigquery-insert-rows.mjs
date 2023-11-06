@@ -3,7 +3,7 @@ import utils from "../../common/utils.mjs";
 
 export default {
   name: "Bigquery Insert Rows",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "google_cloud-bigquery-insert-rows",
   type: "action",
   description: "Inserts rows into a BigQuery table. [See the docs](https://github.com/googleapis/nodejs-bigquery) and for an example [here](https://github.com/googleapis/nodejs-bigquery/blob/main/samples/insertRowsAsStream.js).",
