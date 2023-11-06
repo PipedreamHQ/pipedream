@@ -582,4 +582,4 @@ export default defineComponent({
 
 ```
 
-Please see the []`@pipedream/browsers` source code](https://github.com/PipedreamHQ/pipedream/blob/17888e631857259a6535f9bd13c23a1e7ff95381/packages/browsers/index.mjs#L14) for implementation details.
+Please see the [`@pipedream/browsers` source code](https://github.com/PipedreamHQ/pipedream/blob/17888e631857259a6535f9bd13c23a1e7ff95381/packages/browsers/index.mjs#L14) for implementation details.
