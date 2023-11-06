@@ -4,7 +4,7 @@ export default {
   key: "insites-analyze-business",
   name: "Analyze Business",
   description: "Fetch a report from Insites based on the provided business details. [See the documentation](https://help.insites.com/en/articles/7994946-report-api#h_83076c4431)",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
