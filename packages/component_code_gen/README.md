@@ -2,7 +2,6 @@
 
 Generate components using OpenAI GPT.
 
-
 ### Installation
 
 1. Install [gh cli](https://github.com/cli/cli#installation)
@@ -25,18 +24,18 @@ Generate components using OpenAI GPT.
 
 1. Add these API Keys to your new `.env` file:
 
-    - BROWSERLESS_API_KEY=api_key # required when parsing URL links
-    - SUPABASE_URL=https://your-project-url.supabase.co # get this from Supabase Project Settings -> API
-    - SUPABASE_API_KEY=service_role_key # get this from Supabase Project Settings -> API
+   - BROWSERLESS_API_KEY=api_key # required when parsing URL links
+   - SUPABASE_URL=https://your-project-url.supabase.co # get this from Supabase Project Settings -> API
+   - SUPABASE_API_KEY=service_role_key # get this from Supabase Project Settings -> API
 
 2. Add Azure OpenAI API keys (gpt-4-32k)
 
-    - OPENAI_API_TYPE=azure
-    - OPENAI_DEPLOYMENT_NAME=deployment-name
-    - OPENAI_API_VERSION=2023-05-15
-    - OPENAI_API_BASE=https://resource-name.openai.azure.com
-    - OPENAI_API_KEY=azure-api-key
-    - OPENAI_MODEL=gpt-4-32k
+   - OPENAI_API_TYPE=azure
+   - OPENAI_DEPLOYMENT_NAME=deployment-name
+   - OPENAI_API_VERSION=2023-05-15
+   - OPENAI_API_BASE=https://resource-name.openai.azure.com
+   - OPENAI_API_KEY=azure-api-key
+   - OPENAI_MODEL=gpt-4-32k
 
 ### Running
 
@@ -53,10 +52,10 @@ poetry run python main.py --issue issue_number
 The default behaviour is to automatically create a branch and submit a Draft PR. The command above is equivalent to:
 
 ```
-poetry run python main.py --issue issue_number --skip_pr=False
+poetry run python main.py --issue issue_number --skip-pr=False
 ```
 
-If you don't want to submit a Draft PR and keep the changes local, pass in `--skip_pr=True`.
+If you don't want to submit a Draft PR and keep the changes local, pass in `--skip-pr` (which sets it to `True`).
 
 #### Output Dir
 
