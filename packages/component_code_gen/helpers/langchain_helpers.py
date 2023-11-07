@@ -93,8 +93,9 @@ def get_llm():
                                model_name=azure_config["model"], temperature=config["temperature"], request_timeout=300)
     else:
         openai_config = config["openai"]
+        print(f"Using OpenAI API: {openai_config['model']}")
         return ChatOpenAI(
-            model_name=openai_config["model"], temperature=config["temperature"], request_timeout=300)
+            model_name=openai_config["model"], temperature=config["temperature"])
 
 
 def ask_agent(prompt, docs, templates, auth_example, parsed_common_files, urls_content):

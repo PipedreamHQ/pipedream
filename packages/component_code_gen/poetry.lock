@@ -690,13 +690,13 @@ files = [
 
 [[package]]
 name = "langchain"
-version = "0.0.331"
+version = "0.0.331rc1"
 description = "Building applications with LLMs through composability"
 optional = false
 python-versions = ">=3.8.1,<4.0"
 files = [
-    {file = "langchain-0.0.331-py3-none-any.whl", hash = "sha256:64e6e1a57b8deafc1c4e914820b2b8e22a5eed60d49432cadc3b8cca9d613694"},
-    {file = "langchain-0.0.331.tar.gz", hash = "sha256:b1ac365faf7fe413d5aa38329f70f23589ed07152c1a1398a5f16319eb32beb6"},
+    {file = "langchain-0.0.331rc1-py3-none-any.whl", hash = "sha256:8e3b25881274df2687bfb7f2e28558eb2167c91ca6cbcb582c45e2d14f49e5d2"},
+    {file = "langchain-0.0.331rc1.tar.gz", hash = "sha256:eb8b3aab56b1cf3616e5e3ad8bf0816c8495fec0432b6df2bbaa33544d220a62"},
 ]
 
 [package.dependencies]
@@ -730,13 +730,13 @@ text-helpers = ["chardet (>=5.1.0,<6.0.0)"]
 
 [[package]]
 name = "langsmith"
-version = "0.0.56"
+version = "0.0.59"
 description = "Client library to connect to the LangSmith LLM Tracing and Evaluation Platform."
 optional = false
 python-versions = ">=3.8.1,<4.0"
 files = [
-    {file = "langsmith-0.0.56-py3-none-any.whl", hash = "sha256:5aed1ad2395700442a6511651eca17d60eff56878f18bdd9e1d20b3c6f7e016c"},
-    {file = "langsmith-0.0.56.tar.gz", hash = "sha256:98382931f61a984a3d02cad07e4b986a0a7c843f87830172692c987deb8ba554"},
+    {file = "langsmith-0.0.59-py3-none-any.whl", hash = "sha256:67e674cf0db479adf8153ed151c4e39b4eaec5f62e7704a7f85294e4755f6e02"},
+    {file = "langsmith-0.0.59.tar.gz", hash = "sha256:d512b856357ff479cdd6a224aafe38ef6f82ff6c8bdd4ba44e4e588b1aeb52ad"},
 ]
 
 [package.dependencies]
@@ -1252,13 +1252,13 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "selenium"
-version = "4.15.1"
+version = "4.15.2"
 description = ""
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "selenium-4.15.1-py3-none-any.whl", hash = "sha256:e3a4ebdcc3eed27eec69f8000d798923dbf4897c97cc6441eb88a1386809170d"},
-    {file = "selenium-4.15.1.tar.gz", hash = "sha256:8f0436b5949f1d4aa742f3dff0d748b955c371be92db8b6b008bf9c9ca227de7"},
+    {file = "selenium-4.15.2-py3-none-any.whl", hash = "sha256:9e82cd1ac647fb73cf0d4a6e280284102aaa3c9d94f0fa6e6cc4b5db6a30afbf"},
+    {file = "selenium-4.15.2.tar.gz", hash = "sha256:22eab5a1724c73d51b240a69ca702997b717eee4ba1f6065bf5d6b44dba01d48"},
 ]
 
 [package.dependencies]
@@ -1499,13 +1499,13 @@ telegram = ["requests"]
 
 [[package]]
 name = "trio"
-version = "0.22.2"
+version = "0.23.1"
 description = "A friendly Python library for async concurrency and I/O"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "trio-0.22.2-py3-none-any.whl", hash = "sha256:f43da357620e5872b3d940a2e3589aa251fd3f881b65a608d742e00809b1ec38"},
-    {file = "trio-0.22.2.tar.gz", hash = "sha256:3887cf18c8bcc894433420305468388dac76932e9668afa1c49aa3806b6accb3"},
+    {file = "trio-0.23.1-py3-none-any.whl", hash = "sha256:bb4abb3f4af23f96679e7c8cdabb8b234520f2498550d2cf63ebfd95f2ce27fe"},
+    {file = "trio-0.23.1.tar.gz", hash = "sha256:16f89f7dcc8f7b9dcdec1fcd863e0c039af6d0f9a22f8dfd56f75d75ec73fd48"},
 ]
 
 [package.dependencies]
@@ -1514,7 +1514,7 @@ cffi = {version = ">=1.14", markers = "os_name == \"nt\" and implementation_name
 exceptiongroup = {version = ">=1.0.0rc9", markers = "python_version < \"3.11\""}
 idna = "*"
 outcome = "*"
-sniffio = "*"
+sniffio = ">=1.3.0"
 sortedcontainers = "*"
 
 [[package]]
@@ -1761,4 +1761,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "ac562db9c625e23b44d2b1e4631d1421368484f080ea1661bba221af1c1622b7"
+content-hash = "cf77620fac53e894deb766a9f6930b72099019913b364c9120af35397fd23a10"
