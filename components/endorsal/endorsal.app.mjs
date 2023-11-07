@@ -4,22 +4,55 @@ export default {
   type: "app",
   app: "endorsal",
   propDefinitions: {
-    campaignId: {
+    avatar: {
+      type: "string",
+      label: "Avatar",
+      description: "URL to the image.",
+    },
+    campaignID: {
       type: "string",
       label: "Campaign ID",
       description: "The ID of the campaign",
       async options() {
-        const campaigns = await this.listCampaigns();
-        return campaigns.map((campaign) => ({
-          value: campaign.id,
-          label: campaign.name,
+        const { data } = await this.listCampaigns();
+
+        return data.map(({
+          _id: value, name: label,
+        }) => ({
+          value,
+          label,
         }));
       },
+    },
+    company: {
+      type: "string",
+      label: "Company",
+      description: "The company of the contact.",
     },
     contact: {
       type: "object",
       label: "Contact",
       description: "The contact details for requesting testimonials",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email of the contact. `Email OR phone is required`.",
+    },
+    location: {
+      type: "string",
+      label: "Location",
+      description: "The location of the contact.",
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the contact.",
+    },
+    position: {
+      type: "string",
+      label: "Position",
+      description: "The position of the contact in the company.",
     },
     testimonial: {
       type: "object",
@@ -29,54 +62,45 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.endorsal.io";
+      return "https://api.endorsal.io/v1/";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...args
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
+        headers: this._headers(),
+        ...args,
       });
     },
-    async listCampaigns() {
-      const campaigns = await this._makeRequest({
-        path: "/campaigns",
+    listCampaigns() {
+      return this._makeRequest({
+        path: "autorequests/campaigns",
       });
-      return campaigns;
     },
-    async createContact(contact) {
+    createContact(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/contacts",
-        data: contact,
+        path: "contacts",
+        ...args,
       });
     },
-    async createTestimonial(testimonial) {
+    createTestimonial(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/testimonials",
-        data: testimonial,
+        path: "testimonials",
+        ...args,
       });
     },
-    async getTestimonials() {
-      const testimonials = await this._makeRequest({
-        path: "/testimonials",
+    listTestimonials() {
+      return this._makeRequest({
+        path: "testimonials",
       });
-      return testimonials;
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
