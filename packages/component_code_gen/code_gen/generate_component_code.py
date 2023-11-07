@@ -79,7 +79,7 @@ def generate_code(app, prompt, component_type, templates, parsed_common_files, u
                            auth_details, parsed_common_files, urls_content))
 
     # Create a new prompt string
-    new_prompt = "I've asked other GPT agents to generate the following code based on the prompt and the instructions below. One set of code (or all) may not follow the rules laid out in the prompt or in the instructions below, so you'll need to review it for accuracy. Try to evaluate the examples according to the rules, combine the best parts of each example, and generate a final set of code that solves the problem posed by the prompt and follows all of the rules below. Here are the attempts + code:\n\n---\n\n"
+    new_prompt = "I've asked other GPT agents to generate the following code based on the prompt and the instructions below. One set of code (or all) may not follow the rules laid out in the prompt or in the instructions below, so you'll need to review it for accuracy. Try to evaluate the examples according to the rules, combine the best parts of each example, and generate a final set of code that solves the problem posed by the prompt and follows all of the rules below.\n\nThis is important for my career. You better be sure of your answers.\n\nHere are the attempts + code:\n\n---\n\n"
     for idx, result in enumerate(results, 1):
         new_prompt += f"Try {idx}:\n\n${result}\n\n---\n\n"
     new_prompt += f"---\n\n{prompt}"
