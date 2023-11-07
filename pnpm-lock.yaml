@@ -1547,7 +1547,10 @@ importers:
     specifiers: {}
 
   components/doppler_marketing_automation:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/doppler_ops:
     specifiers: {}
@@ -2963,6 +2966,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/jw_player:
+    specifiers: {}
+
   components/kakao:
     specifiers: {}
 
@@ -3064,6 +3070,9 @@ importers:
     specifiers: {}
 
   components/knowfirst:
+    specifiers: {}
+
+  components/koala_ai:
     specifiers: {}
 
   components/kontent_ai:
@@ -3455,7 +3464,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/meetingpulse:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/meetup:
     specifiers: {}
@@ -4132,6 +4144,9 @@ importers:
       '@pipedream/platform': 1.5.1
       uuid: 9.0.1
 
+  components/orca_scan:
+    specifiers: {}
+
   components/order_desk:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -4748,6 +4763,9 @@ importers:
     specifiers: {}
 
   components/radar:
+    specifiers: {}
+
+  components/rafflys:
     specifiers: {}
 
   components/ragic:
@@ -6341,6 +6359,9 @@ importers:
     specifiers: {}
 
   components/trint:
+    specifiers: {}
+
+  components/truss:
     specifiers: {}
 
   components/trustpilot:

@@ -3,8 +3,8 @@ import bingx from "../../bingx.app.mjs";
 export default {
   key: "bingx-trade-batch-cancel-orders",
   name: "BingX Trade Batch Cancel Orders",
-  description: "Cancel a Batch of Orders [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_5-cancel-a-batch-of-orders).",
-  version: "0.0.3",
+  description: "Cancel a Batch of Orders [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Cancel%20a%20Batch%20of%20Orders).",
+  version: "0.0.4",
   type: "action",
   props: {
     bingx,
@@ -25,14 +25,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const API_METHOD = "POST";
-    const API_PATH = "/api/v1/user/batchCancelOrders";
-    const parameters = {
-      symbol: this.symbol,
-      oids: this.orderIds.join(),
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-    $.export("$summary", `Batch Cancel Orders for ${this.symbol}`);
+    const returnValue = await this.bingx.makeRequest({
+      path: "/trade/batchOrders",
+      method: "DELETE",
+      params: {
+        symbol: this.symbol,
+        orderIdList: this.orderIds,
+      },
+      $,
+    });
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Batch Cancel Orders for ${this.symbol}`);
+    }
     return returnValue;
   },
 };
