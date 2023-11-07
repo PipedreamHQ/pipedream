@@ -3464,7 +3464,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/meetingpulse:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/meetup:
     specifiers: {}
