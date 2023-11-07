@@ -2,19 +2,33 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade Cancel All Orders",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-trade-cancel-all-orders",
-  description: "Cancel All Orders [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_6-cancel-all-orders).",
+  description: "Cancel All Orders [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Cancel%20All%20Orders).",
   props: {
     bingx,
+    symbol: {
+      propDefinition: [
+        bingx,
+        "symbol",
+      ],
+    },
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "POST";
-    const API_PATH = "/api/v1/user/cancelAll";
-    const parameters = {};
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-    $.export("$summary", "Cancel all orders");
+    const returnValue = await this.bingx.makeRequest({
+      path: "/trade/allOpenOrders",
+      method: "DELETE",
+      params: {
+        symbol: this.symbol,
+      },
+      $,
+    });
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", "Cancel all orders");
+    }
     return returnValue;
   },
 };
