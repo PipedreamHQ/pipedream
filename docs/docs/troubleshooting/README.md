@@ -156,7 +156,7 @@ On workflows that are not [synced with GitHub](/projects/git/), you may notice t
 
 > **Undeployed changes** — You have made changes to this workflow. Deploy the latest version from the editor
 
-This means that you've made some changes to your workflow that you haven't yet deployed. To see a diff of what's changed, we recommend [enabling GitHub sync]((/projects/git/), where you'll get a full commit history of changes made to your workflows, synced to your own GitHub repo.
+This means that you've made some changes to your workflow that you haven't yet deployed. To see a diff of what's changed, we recommend [enabling GitHub sync](/projects/git/), where you'll get a full commit history of changes made to your workflows, synced to your own GitHub repo.
 
 ## How do I contact Pipedream Support?
 
