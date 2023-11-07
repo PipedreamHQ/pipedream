@@ -1,50 +1,100 @@
-import slack from "../../slack.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/send-message.mjs";
 
 export default {
+  ...common,
   key: "slack-send-approval-request",
   name: "Send Approval Request",
   description: "Sends a Slack message with approval and cancel buttons using block elements. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
-    slack,
-    channelId: {
+    slack: common.props.slack,
+    conversation: {
       propDefinition: [
-        slack,
-        "channelId",
+        common.props.slack,
+        "conversation",
       ],
     },
     text: {
       propDefinition: [
-        slack,
+        common.props.slack,
         "text",
+      ],
+    },
+    mrkdwn: {
+      propDefinition: [
+        common.props.slack,
+        "mrkdwn",
+      ],
+    },
+    attachments: {
+      propDefinition: [
+        common.props.slack,
+        "attachments",
+      ],
+    },
+    unfurl_links: {
+      propDefinition: [
+        common.props.slack,
+        "unfurl_links",
+      ],
+    },
+    unfurl_media: {
+      propDefinition: [
+        common.props.slack,
+        "unfurl_media",
+      ],
+    },
+    parse: {
+      propDefinition: [
+        common.props.slack,
+        "parse",
       ],
     },
     blocks: {
       propDefinition: [
-        slack,
+        common.props.slack,
         "blocks",
       ],
     },
-    resumeExecutionButtonText: {
+    link_names: {
       propDefinition: [
-        slack,
-        "resumeExecutionButtonText",
+        common.props.slack,
+        "link_names",
       ],
+    },
+    reply_broadcast: {
+      propDefinition: [
+        common.props.slack,
+        "reply_broadcast",
+      ],
+    },
+    thread_ts: {
+      propDefinition: [
+        common.props.slack,
+        "thread_ts",
+      ],
+    },
+    resumeExecutionButtonText: {
+      type: "string",
+      label: "Approval Button Text",
+      description: "Text to display on the approval button",
+      default: "Yes",
     },
     cancelExecutionButtonText: {
-      propDefinition: [
-        slack,
-        "cancelExecutionButtonText",
-      ],
+      type: "string",
+      label: "Cancellation Button Text",
+      description: "Text to display on the cancellation button",
+      default: "No",
     },
     approvalRequestTimeout: {
-      propDefinition: [
-        slack,
-        "approvalRequestTimeout",
-      ],
+      type: "integer",
+      label: "Approval Request Timeout",
+      description: "Time in minutes to wait for approval. After the request times out, workflow execution will cancel.",
+      default: 60,
+      optional: true,
     },
+    ...common.props,
   },
   async run({ $ }) {
     const timeout = this.approvalRequestTimeout * 60 * 1000; // Convert minutes to milliseconds
@@ -55,6 +105,19 @@ export default {
     let blocksArray = this.blocks
       ? JSON.parse(this.blocks)
       : [];
+
+    // Convert the text prop to a block format
+    if (this.text) {
+      const textBlock = {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: this.text,
+        },
+      };
+      // Insert the text block at the start of the blocks array
+      blocksArray.unshift(textBlock);
+    }
 
     // Append the buttons to the end of the existing blocks
     const actionBlocks = [
