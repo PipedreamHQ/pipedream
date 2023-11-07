@@ -2966,6 +2966,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/jw_player:
+    specifiers: {}
+
   components/kakao:
     specifiers: {}
 
@@ -3067,6 +3070,9 @@ importers:
     specifiers: {}
 
   components/knowfirst:
+    specifiers: {}
+
+  components/koala_ai:
     specifiers: {}
 
   components/kontent_ai:
@@ -3458,7 +3464,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/meetingpulse:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/meetup:
     specifiers: {}
@@ -4757,6 +4766,9 @@ importers:
     specifiers: {}
 
   components/radar:
+    specifiers: {}
+
+  components/rafflys:
     specifiers: {}
 
   components/ragic:
@@ -6347,6 +6359,9 @@ importers:
     specifiers: {}
 
   components/trint:
+    specifiers: {}
+
+  components/truss:
     specifiers: {}
 
   components/trustpilot:
