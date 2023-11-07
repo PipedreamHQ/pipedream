@@ -17,8 +17,10 @@ export default {
           : Date.parse(this.teamup.getFormattedDate(-29)) / 1000,
       };
     },
-    getTsField() {
-      return "update_dt";
+    getTsField(event) {
+      return event.update_dt
+        ? "update_dt"
+        : "creation_dt";
     },
     isRelevant({
       event, lastTs,

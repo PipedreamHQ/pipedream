@@ -65,7 +65,7 @@ export default {
       },
     });
 
-    events.sort((a, b) => Date.parse(a[this.getTsField()]) > Date.parse(b[this.getTsField()])
+    events.sort((a, b) => Date.parse(a[this.getTsField(a)]) > Date.parse(b[this.getTsField(b)])
       ? 1
       : -1);
 
