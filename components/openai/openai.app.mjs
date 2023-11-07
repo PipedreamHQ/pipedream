@@ -65,6 +65,26 @@ export default {
       type: "string",
       label: "Description",
       description: "The description of the assistant.",
+    },
+    threadId: {
+      type: "string",
+      label: "Thread ID",
+      description: "The unique identifier for the thread.",
+    },
+    runId: {
+      type: "string",
+      label: "Run ID",
+      description: "The unique identifier for the run.",
+    },
+    assistantId: {
+      type: "string",
+      label: "Assistant ID",
+      description: "The unique identifier for the assistant.",
+    },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "The ID of the model to use.",
       optional: true,
     },
     instructions: {
@@ -100,11 +120,6 @@ export default {
       label: "Messages",
       description: "An array of messages to start the thread with.",
     },
-    threadId: {
-      type: "string",
-      label: "Thread ID",
-      description: "The ID of the thread",
-    },
     messageId: {
       type: "string",
       label: "Message ID",
@@ -133,17 +148,21 @@ export default {
       description: "List of file IDs to attach to the message",
       optional: true,
     },
+    toolOutputs: {
+      type: "string[]",
+      label: "Tool Outputs",
+      description: "The outputs from the tool calls.",
+    },
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of messages to return",
+      description: "Number of items to retrieve.",
       optional: true,
     },
     order: {
       type: "string",
       label: "Order",
-      description: "Sort order by the created_at timestamp of the messages",
-      optional: true,
+      description: "Sort order by the created_at timestamp of the objects.",
       options: [
         {
           label: "Ascending",
@@ -154,11 +173,12 @@ export default {
           value: "desc",
         },
       ],
+      optional: true,
     },
     after: {
       type: "string",
       label: "After",
-      description: "A cursor for use in pagination, identifying the message ID to start the list after",
+      description: "A cursor for use in pagination to fetch the next set of items.",
       optional: true,
     },
     before: {
@@ -440,6 +460,99 @@ export default {
         data: {
           metadata: parsedMetadata,
         },
+      });
+    },
+    async createRun({
+      threadId, assistantId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/threads/${threadId}/runs`,
+        method: "POST",
+        headers: this._betaHeaders(),
+        data: {
+          assistant_id: assistantId,
+          ...opts,
+        },
+      });
+    },
+    async retrieveRun({
+      threadId, runId,
+    }) {
+      return this._makeRequest({
+        headers: this._betaHeaders(),
+        path: `/threads/${threadId}/runs/${runId}`,
+      });
+    },
+    async modifyRun({
+      threadId, runId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/threads/${threadId}/runs/${runId}`,
+        headers: this._betaHeaders(),
+        method: "PATCH", // Assuming modification is done via PATCH
+        data: opts,
+      });
+    },
+    async listRuns({
+      threadId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/threads/${threadId}/runs`,
+        headers: this._betaHeaders(),
+        params: opts,
+      });
+    },
+    async submitToolOutputs({
+      threadId, runId, toolOutputs,
+    }) {
+      // Assuming toolOutputs should be parsed as JSON objects
+      const parsedToolOutputs = toolOutputs.map(JSON.parse);
+      return this._makeRequest({
+        path: `/threads/${threadId}/runs/${runId}/submit_tool_outputs`,
+        headers: this._betaHeaders(),
+        method: "POST",
+        data: {
+          tool_outputs: parsedToolOutputs,
+        },
+      });
+    },
+    async cancelRun({
+      threadId, runId,
+    }) {
+      return this._makeRequest({
+        path: `/threads/${threadId}/runs/${runId}/cancel`,
+        headers: this._betaHeaders(),
+        method: "POST",
+      });
+    },
+    async createThreadAndRun({
+      assistantId, ...opts
+    }) {
+      return this._makeRequest({
+        path: "/threads/runs",
+        headers: this._betaHeaders(),
+        method: "POST",
+        data: {
+          assistant_id: assistantId,
+          ...opts,
+        },
+      });
+    },
+    async retrieveRunStep({
+      threadId, runId, stepId,
+    }) {
+      return this._makeRequest({
+        path: `/threads/${threadId}/runs/${runId}/steps/${stepId}`,
+        headers: this._betaHeaders(),
+      });
+    },
+    async listRunSteps({
+      threadId, runId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/threads/${threadId}/runs/${runId}/steps`,
+        headers: this._betaHeaders(),
+        params: opts,
       });
     },
   },
