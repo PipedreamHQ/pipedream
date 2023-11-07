@@ -1,4 +1,4 @@
-import originality_ai from "../../originality_ai.app.mjs";
+import app from "../../originality_ai.app.mjs";
 
 export default {
   key: "originality_ai-detect-ai-from-url",
@@ -7,16 +7,16 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    originality_ai,
+    app,
     url: {
       propDefinition: [
-        originality_ai,
+        app,
         "url",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.originality_ai.scanWebpageForAI({
+    const response = await this.app.scanWebpageForAI({
       $,
       data: {
         url: this.url,

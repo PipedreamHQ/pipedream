@@ -30,6 +30,12 @@ export default {
       description: "An optional title attribute to help you track scans",
       optional: true,
     },
+    excludedUrl: {
+      type: "string",
+      label: "Excluded URL",
+      description: "An optional URL to exclude from your plagiarism results and scoring",
+      optional: true,
+    },
     url: {
       type: "string",
       label: "URL",
@@ -67,14 +73,14 @@ export default {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: "/scan/ai-url-scan",
+        path: "/scan/url",
       });
     },
     async scanStringForPlagiarismAndReadability(opts = {}) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: "/scan/plagiarism-readability-scan",
+        path: "/scan/plag",
       });
     },
   },
