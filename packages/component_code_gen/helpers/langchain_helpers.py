@@ -9,8 +9,9 @@ from langchain.schema import (
 from langchain.tools.json.tool import JsonSpec
 from langchain.agents.agent_toolkits.json.toolkit import JsonToolkit
 from langchain.chat_models import ChatOpenAI, AzureChatOpenAI
-from langchain.agents import ZeroShotAgent, AgentExecutor
-from langchain import LLMChain
+from langchain.llms.openai import OpenAI
+from langchain.agents import create_json_agent, ZeroShotAgent, AgentExecutor
+from langchain.chains import LLMChain
 from config.config import config
 import openai  # required
 from dotenv import load_dotenv
