@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { AI_MODEL_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,23 +10,25 @@ export default {
       label: "Content",
       description: "The content to be scanned. Ensure it's encoded as UTF-8.",
     },
-    aimodelversion: {
+    aiModelVersion: {
       type: "string",
       label: "AI Model Version",
-      description: "The version of the AI model to use for scanning",
-      options: [
-        "v1",
-        "v2",
-      ],
+      description: "The version of the AI model to use for scanning. [See the documentation](https://docs.originality.ai/api-v1-0-reference/scan/ai-scan) for more information",
+      options: AI_MODEL_OPTIONS,
+      optional: true,
     },
-    storescan: {
+    storeScan: {
       type: "boolean",
       label: "Store Scan",
-      description: "Whether to store the scan result or not",
-      options: [
-        true,
-        false,
-      ],
+      description: "If set to false, will ensure your scan is not stored after running",
+      optional: true,
+      default: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "An optional title attribute to help you track scans",
+      optional: true,
     },
     url: {
       type: "string",
@@ -38,17 +41,14 @@ export default {
     _baseUrl() {
       return "https://api.originality.ai/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    } = {}) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -61,7 +61,7 @@ export default {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: "/scan/ai-scan",
+        path: "/scan/ai",
       });
     },
     async scanWebpageForAI(opts = {}) {

@@ -1,38 +1,48 @@
-import originality_ai from "../../originality_ai.app.mjs";
+import app from "../../originality_ai.app.mjs";
 
 export default {
   key: "originality_ai-detect-ai-content",
   name: "Detect AI Content",
-  description: "Scans a string for AI content. [See the documentation]()",
+  description: "Scans a string for AI content. [See the documentation](https://docs.originality.ai/api-v1-0-reference/scan/ai-scan)",
   version: "0.0.1",
   type: "action",
   props: {
-    originality_ai,
+    app,
     content: {
       propDefinition: [
-        originality_ai,
+        app,
         "content",
       ],
     },
-    aimodelversion: {
+    aiModelVersion: {
       propDefinition: [
-        originality_ai,
-        "aimodelversion",
+        app,
+        "aiModelVersion",
       ],
     },
-    storescan: {
+    title: {
       propDefinition: [
-        originality_ai,
-        "storescan",
+        app,
+        "title",
+      ],
+    },
+    storeScan: {
+      propDefinition: [
+        app,
+        "storeScan",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.originality_ai.scanStringForAI({
+    const response = await this.app.scanStringForAI({
+      $,
       data: {
         content: this.content,
-        aimodelversion: this.aimodelversion,
-        storescan: this.storescan,
+        aiModelVersion: this.aiModelVersion,
+        title: this.title,
+        storeScan: this.storeScan === false
+          ? "false"
+          : undefined,
       },
     });
     $.export("$summary", "Successfully scanned content for AI");
