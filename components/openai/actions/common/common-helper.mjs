@@ -1,4 +1,4 @@
-import openai from "../../app/openai.app.mjs";
+import openai from "../../openai.app.mjs";
 import common from "./common.mjs";
 
 export default {

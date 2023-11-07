@@ -1,9 +1,9 @@
-import openai from "../../app/openai.app.mjs";
+import openai from "../../openai.app.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Image",
-  version: "0.1.2",
+  version: "0.1.3",
   key: "openai-create-image",
   description: "Creates an image given a prompt. returns a URL to the image. [See docs here](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
