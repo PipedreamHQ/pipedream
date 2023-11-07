@@ -150,6 +150,14 @@ If you're receiving this warning on a source or workflow, this means your alloca
 
 You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).
 
+### Undeployed changes
+
+On workflows that are not [synced with GitHub](/projects/git/), you may notice the following warning at the top of your workflow: 
+
+> **Undeployed changes** — You have made changes to this workflow. Deploy the latest version from the editor
+
+This means that you've made some changes to your workflow that you haven't yet deployed. To see a diff of what's changed, we recommend [enabling GitHub sync]((/projects/git/), where you'll get a full commit history of changes made to your workflows, synced to your own GitHub repo.
+
 ## How do I contact Pipedream Support?
 
 Start by filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), providing detailed information about your issue.
