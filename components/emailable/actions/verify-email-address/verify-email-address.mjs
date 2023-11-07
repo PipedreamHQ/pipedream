@@ -35,7 +35,7 @@ export default {
         email,
       },
     });
-    $.export("$summary", `Email verification with status: \`${response.state}\``);
+    $.export("$summary", `Successfully email verified with status: \`${response.state}\``);
     return response;
   },
 };
