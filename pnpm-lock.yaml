@@ -1689,7 +1689,10 @@ importers:
     specifiers: {}
 
   components/endorsal:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/enedis:
     specifiers:
@@ -2005,6 +2008,9 @@ importers:
       '@pipedream/platform': 1.5.1
       async-retry: 1.3.3
       moment: 2.29.4
+
+  components/freshlearn:
+    specifiers: {}
 
   components/freshsales:
     specifiers: {}
@@ -2970,6 +2976,9 @@ importers:
     specifiers: {}
 
   components/kakao:
+    specifiers: {}
+
+  components/kaleido:
     specifiers: {}
 
   components/kanban_tool:
@@ -10231,26 +10240,27 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.184:
-    resolution: {integrity: sha512-e5aTiMFYzrNu/xC9LqzVNXbkyF/e/EU88tJVsEyxKaWr8RjX7Y2ONsXmCJjsKbiQEUjKJobtSgk21XwhoSa3KQ==}
+  /@definitelytyped/header-parser/0.0.186:
+    resolution: {integrity: sha512-rPuE7sNN5Ty5hH3KpFIHTZEdqtkslpzQF0LAP9vz7i9CeJaQm5uwuYGuPrhXL339kh9g2B5Hcct7G3T9BJMf8Q==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.179
-      '@definitelytyped/utils': 0.0.182
+      '@definitelytyped/typescript-versions': 0.0.180
+      '@definitelytyped/utils': 0.0.184
       semver: 7.5.4
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.179:
-    resolution: {integrity: sha512-E0VjIZkVtOt2ozagGlmWULKJYvFZwMjS6A335QJX8dmn21idRP/0RodxRpjtMU2//ChtvCZZUuKrPZQ2D/owww==}
+  /@definitelytyped/typescript-versions/0.0.180:
+    resolution: {integrity: sha512-susENartHdWecD3kvD5iaMpYOFmlEjY9JRvPqTAoWyOeEsUKQbQsxsyHm1OQkfn7YzbURuNvS+5jkSIIbIy59A==}
     dev: true
 
-  /@definitelytyped/utils/0.0.182:
-    resolution: {integrity: sha512-ANeeI+ixK9FYgljDlVtlBqcaPi1Fi9R55MkhtGbNNUY/g4u1S1QXoBY/87oYF92VjQPpbxC0ZuiP8MnVuHqh6w==}
+  /@definitelytyped/utils/0.0.184:
+    resolution: {integrity: sha512-Vj/9jt7VRnm0eNkp9Imy0otZ8YBVFu+As9tQFGrTITc2ONy9T4QFdtSB/KN6U8XAdB9JdLXrqlbqWUJd/Ipe5g==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.179
+      '@definitelytyped/typescript-versions': 0.0.180
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.63
       charm: 1.0.2
       fs-extra: 8.1.0
+      minimatch: 9.0.3
       tar: 6.2.0
       tar-stream: 2.2.0
     dev: true
@@ -15505,7 +15515,6 @@ packages:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
     dependencies:
       balanced-match: 1.0.2
-    dev: false
 
   /braces/3.0.2:
     resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
@@ -17056,7 +17065,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.184
+      '@definitelytyped/header-parser': 0.0.186
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17072,9 +17081,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.184
-      '@definitelytyped/typescript-versions': 0.0.179
-      '@definitelytyped/utils': 0.0.182
+      '@definitelytyped/header-parser': 0.0.186
+      '@definitelytyped/typescript-versions': 0.0.180
+      '@definitelytyped/utils': 0.0.184
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -22779,6 +22788,13 @@ packages:
     dependencies:
       brace-expansion: 2.0.1
     dev: false
+
+  /minimatch/9.0.3:
+    resolution: {integrity: sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==}
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: true
 
   /minimist-options/4.1.0:
     resolution: {integrity: sha512-Q4r8ghd80yhO/0j1O3B2BjweX3fiHg9cdOwjJd2J76Q135c+NDxGCqdYKQ1SKBuFfgWbAUzBfvYjPUEeNgqN1A==}
