@@ -1,27 +1,41 @@
-import emailable from "../../emailable.app.mjs";
+import app from "../../emailable.app.mjs";
 
 export default {
   key: "emailable-verify-email-address",
   name: "Verify Email Address",
-  description: "Verifies a single email address using Emailable. [See the documentation](https://emailable.com/docs/api/)",
-  version: "0.0.{{ts}}",
+  description: "Verifies a single email address using Emailable. [See the documentation](https://emailable.com/docs/api/#verify-an-email)",
+  version: "0.0.1",
   type: "action",
   props: {
-    emailable,
+    app,
     email: {
       propDefinition: [
-        emailable,
+        app,
         "email",
       ],
     },
   },
+  methods: {
+    verifyEmail(args = {}) {
+      return this.app._makeRequest({
+        path: "/verify",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.emailable.verifySingleEmail({
+    const {
+      verifyEmail,
+      email,
+    } = this;
+
+    const response = await verifyEmail({
+      $,
       params: {
-        email: this.email,
+        email,
       },
     });
-    $.export("$summary", `Email verification status: ${response.state}`);
+    $.export("$summary", `Email verification with status: \`${response.state}\``);
     return response;
   },
 };

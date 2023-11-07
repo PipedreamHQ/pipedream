@@ -1,34 +1,51 @@
-import emailable from "../../emailable.app.mjs";
+import app from "../../emailable.app.mjs";
 
 export default {
   key: "emailable-verify-batch-of-emails",
   name: "Verify Batch of Emails",
-  description: "Verifies a batch of emails, up to 50,000 per batch. [See the documentation](https://emailable.com/docs/api/)",
-  version: "0.0.{{ts}}",
+  description: "Verifies a batch of emails, up to 50,000 per batch. [See the documentation](https://emailable.com/docs/api/#verify-a-batch-of-emails)",
+  version: "0.0.1",
   type: "action",
   props: {
-    emailable,
+    app,
     emails: {
       propDefinition: [
-        emailable,
+        app,
         "emails",
       ],
     },
     url: {
       propDefinition: [
-        emailable,
+        app,
         "url",
       ],
     },
   },
+  methods: {
+    verifyBatchEmails(args = {}) {
+      return this.app.post({
+        path: "/batch",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.emailable.verifyBatchEmails({
+    const {
+      verifyBatchEmails,
+      emails,
+      url,
+    } = this;
+
+    const response = await verifyBatchEmails({
+      $,
       data: {
-        emails: this.emails.join(","),
-        url: this.url,
+        url,
+        emails: Array.isArray(emails)
+          ? emails.join(",")
+          : emails,
       },
     });
-    $.export("$summary", "Batch verification started successfully");
+    $.export("$summary", response.message);
     return response;
   },
 };

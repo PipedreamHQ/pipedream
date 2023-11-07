@@ -22,47 +22,37 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.emailable.com/v1";
+    getUrl(path) {
+      return `https://api.emailable.com/v1${path}`;
     },
-    async _makeRequest(opts = {}) {
+    getAuthParams(data) {
+      return {
+        api_key: this.$auth.api_key,
+        ...data,
+      };
+    },
+    _makeRequest({
+      $ = this, path, data, params, ...args
+    } = {}) {
       const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
-      });
+        getUrl,
+        getAuthParams,
+      } = this;
+
+      const config = {
+        url: getUrl(path),
+        params: getAuthParams(params),
+        data: getAuthParams(data),
+        ...args,
+      };
+
+      return axios($, config);
     },
-    async verifySingleEmail(opts = {}) {
+    post(args = {}) {
       return this._makeRequest({
-        ...opts,
-        path: "/verify",
+        method: "post",
+        ...args,
       });
-    },
-    async verifyBatchEmails(opts = {}) {
-      return this._makeRequest({
-        ...opts,
-        method: "POST",
-        path: "/batch",
-      });
-    },
-    async getAccountInfo() {
-      return this._makeRequest({
-        path: "/account",
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };

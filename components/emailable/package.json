@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/emailable",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Emailable Components",
   "main": "emailable.app.mjs",
   "keywords": [
