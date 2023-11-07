@@ -2006,6 +2006,9 @@ importers:
       async-retry: 1.3.3
       moment: 2.29.4
 
+  components/freshlearn:
+    specifiers: {}
+
   components/freshsales:
     specifiers: {}
 
@@ -2970,6 +2973,9 @@ importers:
     specifiers: {}
 
   components/kakao:
+    specifiers: {}
+
+  components/kaleido:
     specifiers: {}
 
   components/kanban_tool:
