@@ -34,7 +34,6 @@ export default {
       type: "string",
       label: "URL",
       description: "The URL of the webpage to be scanned",
-      optional: true,
     },
   },
   methods: {

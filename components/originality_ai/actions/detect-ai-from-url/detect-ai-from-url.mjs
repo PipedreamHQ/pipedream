@@ -14,27 +14,16 @@ export default {
         "url",
       ],
     },
-    aimodelversion: {
-      propDefinition: [
-        originality_ai,
-        "aimodelversion",
-      ],
-    },
-    storescan: {
-      propDefinition: [
-        originality_ai,
-        "storescan",
-      ],
-    },
   },
   async run({ $ }) {
     const response = await this.originality_ai.scanWebpageForAI({
-      url: this.url,
-      aimodelversion: this.aimodelversion,
-      storescan: this.storescan,
+      $,
+      data: {
+        url: this.url,
+      },
     });
 
-    $.export("$summary", `Scanned URL ${this.url} for AI generated content`);
+    $.export("$summary", "Successfully scanned URL for AI");
     return response;
   },
 };
