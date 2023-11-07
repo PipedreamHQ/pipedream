@@ -5169,7 +5169,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/satismeter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/saucelabs:
     specifiers: {}
