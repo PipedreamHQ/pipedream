@@ -4,84 +4,141 @@ export default {
   type: "app",
   app: "starshipit",
   propDefinitions: {
-    orderDetails: {
-      type: "object",
-      label: "Order Details",
-      description: "The details of the order to create",
-    },
     trackingNumber: {
       type: "string",
       label: "Tracking Number",
       description: "The tracking number of the order",
-      async options() {
-        const shippedOrders = await this.listShippedOrders();
-        return shippedOrders.map((order) => ({
-          value: order.trackingNumber,
-          label: order.orderNumber,
-        }));
+      optional: true,
+      async options({ page }) {
+        const params = {
+          page: page + 1,
+        };
+        const { orders } = await this.listShippedOrders({
+          params,
+        });
+        return orders.map(({ tracking_number }) => tracking_number );
       },
     },
     orderNumber: {
       type: "string",
       label: "Order Number",
       description: "The order number to print a shipping label",
-      async options() {
-        const unshippedOrders = await this.listUnshippedOrders();
-        return unshippedOrders.map((order) => ({
-          value: order.orderNumber,
-          label: order.orderNumber,
+      async options({
+        page, shipped,
+      }) {
+        const params = {
+          page: page + 1,
+        };
+        const { orders } = shipped
+          ? await this.listShippedOrders({
+            params,
+          })
+          : await this.listUnshippedOrders({
+            params,
+          });
+        return orders.map(({ order_number }) => order_number );
+      },
+    },
+    contactId: {
+      type: "string",
+      label: "Destination",
+      description: "The contact to send the order to",
+      async options({ page }) {
+        const params = {
+          page: page + 1,
+        };
+        const { addresses } =  await this.listContacts({
+          params,
+        });
+        return addresses.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
         }));
       },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.starshipit.com";
+      return "https://api.starshipit.com/api";
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        "Content-Type": "application/json",
+        "StarShipIT-Api-Key": `${this.$auth.api_key}`,
+        "Ocp-Apim-Subscription-Key": `${this.$auth.subscription_key}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
+        headers: this._headers(),
       });
     },
-    async createOrder(orderDetails) {
+    createOrder(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/orders",
-        data: orderDetails,
+        ...args,
       });
     },
-    async getTrackingDetails(trackingNumber) {
+    getTrackingDetails(args = {}) {
       return this._makeRequest({
-        path: `/tracking/${trackingNumber}`,
+        path: "/track",
+        ...args,
       });
     },
-    async printShippingLabel(orderNumber) {
+    printShippingLabel(args = {}) {
       return this._makeRequest({
-        path: `/orders/${orderNumber}/label`,
+        path: "/orders/shipment",
+        method: "POST",
+        ...args,
       });
     },
-    async listShippedOrders() {
+    listShippedOrders(args = {}) {
       return this._makeRequest({
-        path: "/orders?status=shipped",
+        path: "/orders/shipped",
+        ...args,
       });
     },
-    async listUnshippedOrders() {
+    listUnshippedOrders(args = {}) {
       return this._makeRequest({
-        path: "/orders?status=unshipped",
+        path: "/orders/unshipped",
+        ...args,
       });
+    },
+    listContacts(args = {}) {
+      return this._makeRequest({
+        path: "/addressbook/filtered",
+        ...args,
+      });
+    },
+    async paginate({
+      resourceFn, resourceName,
+    }) {
+      const params = {
+        page: 1,
+        page_size: 50,
+      };
+      let total = 0;
+      const results = [];
+      do {
+        const response = await resourceFn({
+          params,
+        });
+        const items = response[resourceName];
+        results.push(...items);
+        total = items.length;
+        params.page++;
+      } while (total === params.page_size);
+      return results;
     },
   },
 };
