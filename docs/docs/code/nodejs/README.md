@@ -16,9 +16,8 @@ It's important to understand the core difference between Node.js and the JavaScr
 
 1. Click the **+** button below any step of your workflow.
 2. Select the option to **Run custom code**.
-3. Select the `nodejs14.x` runtime.
 
-You can add any Node.js code in the editor that appears. For example, try:
+Note that new code steps will default to Node.js v{{$site.themeConfig.NODE_VERSION}}. You can add any Node.js code in the editor that appears. For example, try:
 
 ```javascript
 export default defineComponent({
