@@ -31,6 +31,76 @@ export default {
       },
       default: "text-embedding-ada-002",
     },
+    assistantModel: {
+      type: "string",
+      label: "Model",
+      description: "The ID of the model to use for the assistant",
+      async options() {
+        const models = await this.models({});
+        return models.map((model) => ({
+          label: model.id,
+          value: model.id,
+        }));
+      },
+    },
+    assistant: {
+      type: "string",
+      label: "Assistant",
+      description: "Select an assistant to modify",
+      async options() {
+        const assistants = await this.listAssistants({});
+        return assistants.map((assistant) => ({
+          label: assistant.name || assistant.id,
+          value: assistant.id,
+        }));
+      },
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the assistant.",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "The description of the assistant.",
+      optional: true,
+    },
+    instructions: {
+      type: "string",
+      label: "Instructions",
+      description: "The system instructions that the assistant uses.",
+      optional: true,
+    },
+    tools: {
+      type: "string[]",
+      label: "Tools",
+      description: "A list of tools enabled on the assistant. There can be a maximum of 128 tools per assistant",
+      options: [
+        "code_interpreter",
+        "retrieval",
+      ],
+      optional: true,
+    },
+    file_ids: {
+      type: "string[]",
+      label: "File IDs",
+      description: "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant.",
+      optional: true,
+    },
+    metadata: {
+      type: "object",
+      label: "Metadata",
+      description: "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.",
+      optional: true,
+    },
+    messages: {
+      type: "string[]",
+      label: "Messages",
+      description: "An array of messages to start the thread with.",
+      optional: true,
+    },
   },
   methods: {
     _apiKey() {
@@ -44,6 +114,12 @@ export default {
         "Authorization": `Bearer ${this._apiKey()}`,
         "Accept": "application/json",
         "User-Agent": "@PipedreamHQ/pipedream v1.0",
+      };
+    },
+    _betaHeaders() {
+      return {
+        ...this._commonHeaders(),
+        "OpenAI-Beta": "assistants=v1",
       };
     },
     async _makeRequest({
@@ -174,6 +250,83 @@ export default {
           "Content-Type": `multipart/form-data; boundary=${form._boundary}`,
         },
         data: form,
+      });
+    },
+    async listAssistants({ $ }) {
+      const { data: assistants } = await this._makeRequest({
+        $,
+        path: "/assistants",
+        headers: this._betaHeaders(),
+      });
+      return assistants;
+    },
+    async createAssistant({
+      $,
+      model,
+      name,
+      description,
+      instructions,
+      tools,
+      file_ids,
+      metadata,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "/assistants",
+        headers: this._betaHeaders(),
+        data: {
+          model,
+          name,
+          description,
+          instructions,
+          tools,
+          file_ids,
+          metadata,
+        },
+      });
+    },
+    async modifyAssistant({
+      $,
+      assistant,
+      model,
+      name,
+      description,
+      instructions,
+      tools,
+      file_ids,
+      metadata,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: `/assistants/${assistant}`,
+        headers: this._betaHeaders(),
+        data: {
+          model,
+          name,
+          description,
+          instructions,
+          tools,
+          file_ids,
+          metadata,
+        },
+      });
+    },
+    async createThread({
+      $,
+      messages,
+      metadata,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "/threads",
+        headers: this._betaHeaders(),
+        data: {
+          messages,
+          metadata,
+        },
       });
     },
   },
