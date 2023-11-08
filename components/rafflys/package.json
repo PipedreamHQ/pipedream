@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rafflys",
+  "version": "0.0.1",
+  "description": "Pipedream Rafflys Components",
+  "main": "rafflys.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rafflys"
+  ],
+  "homepage": "https://pipedream.com/apps/rafflys",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

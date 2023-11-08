@@ -17,7 +17,7 @@ export default {
     template: {
       type: "string",
       label: "Template",
-      description: "Document Template",
+      description: "Document Template. Note: Not all [tab types](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/enveloperecipienttabs/#tab-types) can be set.",
       async options({ account }) {
         const baseUri = await this.getBaseUri({
           accountId: account,

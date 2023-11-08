@@ -562,3 +562,22 @@ For best results, we recommend increasing the amount of memory available to your
 The `@pipedream/browsers` package includes a specific version of Chromium that is compatible with Pipedream Node.js execution environments that run your code.
 
 For details on the specific versions of Chromium, puppeeter and playwright bundled in this package, visit the package's [README](https://github.com/PipedreamHQ/pipedream/tree/master/packages/browsers).
+
+### How to customize `puppeteer.launch()`?
+
+To pass arguments to `puppeteer.launch()` to customize the browser instance, you can pass them directly to `puppeteer.browser()`.
+
+For example, you can alter the `protocolTimeout` length just by passing it as an argument:
+
+```javascript
+import { puppeteer } from '@pipedream/browsers';
+
+export default defineComponent({
+  async run({steps, $}) {
+    // extend the maximum timeout length for puppeteer operations:
+    const browser = await puppeteer.browser({ protocolTimeout: 480000 });
+  },
+})
+```
+
+See the [source code here](https://github.com/PipedreamHQ/pipedream/blob/17888e631857259a6535f9bd13c23a1e7ff95381/packages/browsers/index.mjs#L14) for the default arguments that Pipedream provides.

@@ -143,8 +143,9 @@ Use the methods and propDefinitions in this app file to solve the requirements:
 You can call methods from the app file using `this.{app}.<method name>`. Think about it: you've already defined props and methods in the app file, so you should use these to promote code reuse.
 
 """
-            urls = component_data.get("urls", [])
+            urls = component_data.get("urls")
             if not urls:
+                urls = []
                 logger.warn(f"No API docs URLs found for {component_key}")
 
             if "source" in h2_header:
@@ -183,6 +184,6 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         run_command(f"npx eslint {app_base_path} --fix")
         run_command(f"git add -f {app_base_path}")
         run_command(f"git commit --no-verify -m '{app} init'")
-        run_command(f"git push -f --set-upstream {remote_name} {branch_name}")
+        run_command(f"git push -f --no-verify --set-upstream {remote_name} {branch_name}")
         run_command(
             f"gh pr create -d -l ai-assisted -t 'New Components - {app}' -b 'Resolves #{issue_number}.'")
