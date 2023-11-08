@@ -3,7 +3,7 @@ import openai from "../../openai.app.mjs";
 export default {
   key: "openai-create-fine-tuning-job",
   name: "Create Fine Tuning Job",
-  description: "Creates a job that fine-tunes a specified model from a given dataset. [See the documentation](https://beta.openai.com/docs/guides/fine-tuning)",
+  description: "Creates a job that fine-tunes a specified model from a given dataset. [See the documentation](https://platform.openai.com/docs/api-reference/fine-tuning/create)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -11,10 +11,7 @@ export default {
     model: {
       propDefinition: [
         openai,
-        "model",
-        () => ({
-          model: "gpt-3.5-turbo-1006",
-        }), // Default to recommended model if none provided
+        "fineTuningModel",
       ],
     },
     trainingFile: {
@@ -23,15 +20,33 @@ export default {
         "trainingFile",
       ],
     },
+    hyperParameters: {
+      type: "object",
+      label: "Hyperparameters",
+      description: "The hyperparameters used for the fine-tuning job. [See details on the documentation.](https://platform.openai.com/docs/api-reference/fine-tuning/create#fine-tuning-create-hyperparameters)",
+      optional: true,
+    },
+    suffix: {
+      type: "string",
+      label: "Suffix",
+      description: "A string of up to 18 characters that will be added to your fine-tuned model name.",
+      optional: true,
+    },
+    validationFile: {
+      type: "string",
+      label: "Validation File",
+      description: "The ID of an uploaded file that contains validation data. [See details on the documentation.](https://platform.openai.com/docs/api-reference/fine-tuning/create#fine-tuning-create-validation_file)",
+    },
   },
   async run({ $ }) {
-    const response = await this.openai._makeRequest({
+    const response = await this.openai.createFineTuningJob({
       $,
-      method: "POST",
-      path: "/fine_tuning/jobs",
       data: {
         model: this.model,
         training_file: this.trainingFile,
+        hyperparameters: this.hyperParameters,
+        suffix: this.suffix,
+        validation_file: this.validationFile,
       },
     });
 

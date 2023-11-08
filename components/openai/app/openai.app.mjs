@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { FINE_TUNING_MODEL_OPTIONS } from "../actions/common/constants.mjs";
 
 export default {
   type: "app",
@@ -54,6 +55,12 @@ export default {
         "gpt-4-0613",
       ],
     },
+    fineTuningModel: {
+      type: "string",
+      label: "Fine Tuning Model",
+      description: "The name of the model to fine-tune. [See the supported models.](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned)",
+      options: FINE_TUNING_MODEL_OPTIONS,
+    },
     input: {
       type: "string",
       label: "Input",
@@ -95,7 +102,7 @@ export default {
     trainingFile: {
       type: "string",
       label: "Training File",
-      description: "The reference to a file on `/tmp` that contains training data for fine-tuning.",
+      description: "The ID of an uploaded file that contains training data. You can use the **Upload File** action and reference the returned ID here.",
     },
     file: {
       type: "string",
@@ -296,6 +303,13 @@ export default {
           voice,
           ...args,
         },
+      });
+    },
+    async createFineTuningJob(args) {
+      return this._makeRequest({
+        path: "/fine_tuning/jobs",
+        method: "POST",
+        ...args,
       });
     },
   },
