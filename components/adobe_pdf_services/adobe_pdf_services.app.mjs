@@ -50,7 +50,8 @@ export default {
         );
       extractPDFOperation.setInput(input);
       extractPDFOperation.setOptions(options);
-      await extractPDFOperation.execute(executionContext).then((result) => result.saveAsFile(`/tmp/${filename}`));
+      const { saveAsFile } = await extractPDFOperation.execute(executionContext);
+      return saveAsFile(`/tmp/${filename}`);
     },
   },
 };
