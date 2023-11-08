@@ -6093,7 +6093,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/teamup:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/teamwave:
     specifiers: {}
