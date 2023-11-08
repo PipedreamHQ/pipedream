@@ -3,7 +3,7 @@ import app from "../../uplead.app.mjs";
 export default {
   name: "Get Company By Domain",
   version: "0.0.1",
-  key: "uplead-get-get-company-by-domain",
+  key: "uplead-get-company-by-domain",
   description: "Get a company by domain. [See the documentation](https://docs.uplead.com/#company-api)",
   type: "action",
   props: {
