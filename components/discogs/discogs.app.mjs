@@ -1,4 +1,9 @@
 import { axios } from "@pipedream/platform";
+import {
+  LISTING_CONDITION,
+  ORDER_STATUSES,
+  SLEEVE_CONDITION,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,165 +12,120 @@ export default {
     orderId: {
       type: "string",
       label: "Order ID",
-      description: "Select the order to update",
-      async options({ prevContext }) {
-        const page = prevContext.page
-          ? prevContext.page
-          : 1;
-        const {
-          orders, pagination,
-        } = await this.listOrders({
-          page,
-        });
-        const options = orders.map((order) => ({
-          label: `Order ${order.id} (${order.status})`,
-          value: order.id,
-        }));
-        return {
-          options,
-          context: {
-            page: pagination.page + 1,
+      description: "Select the order to update.",
+      async options({ page }) {
+        const { orders } = await this.listOrders({
+          params: {
+            page: page + 1,
           },
-        };
+        });
+
+        return orders.map(({
+          id: value, status,
+        }) => ({
+          label: `Order ${value} (${status})`,
+          value,
+        }));
       },
     },
     status: {
       type: "string",
       label: "Status",
-      description: "Select the new status for the order",
-      options: [
-        {
-          label: "New Order",
-          value: "New Order",
-        },
-        {
-          label: "Cancelled",
-          value: "Cancelled",
-        },
-        // Include other statuses as needed
-      ],
+      description: "The status of the Order you are updating.",
+      options: ORDER_STATUSES,
     },
     listingCondition: {
       type: "string",
       label: "Condition",
-      description: "Select the condition of the item",
-      options: [
-        {
-          label: "Mint (M)",
-          value: "Mint (M)",
-        },
-        {
-          label: "Near Mint (NM or M-)",
-          value: "Near Mint (NM or M-)",
-        },
-        // Include other conditions as needed
-      ],
+      description: "Select the condition of the item.",
+      options: LISTING_CONDITION,
     },
     sleeveCondition: {
       type: "string",
       label: "Sleeve Condition",
-      description: "Select the condition of the sleeve",
-      options: [
-        {
-          label: "Mint (M)",
-          value: "Mint (M)",
-        },
-        {
-          label: "Near Mint (NM or M-)",
-          value: "Near Mint (NM or M-)",
-        },
-        // Include other sleeve conditions as needed
-      ],
+      description: "Select the condition of the sleeve.",
+      options: SLEEVE_CONDITION,
     },
     listingStatus: {
       type: "string",
       label: "Listing Status",
-      description: "Select the status of the listing",
+      description: "The status of the listing.",
       options: [
-        {
-          label: "For Sale",
-          value: "For Sale",
-        },
-        {
-          label: "Not For Sale",
-          value: "Not For Sale",
-        },
-        // Include other listing statuses as needed
+        "For Sale",
+        "Draft",
       ],
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.discogs.com";
+      return "https://api.discogs.com/";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _getHeaders() {
+      return {
+        "Authorization": `Discogs token=${this.$auth.personal_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...args
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "User-Agent": "PipedreamDiscogsApp/1.0",
-          "Authorization": `Discogs token=${this.$auth.oauth_access_token}`,
-        },
+        headers: this._getHeaders(),
+        ...args,
       });
     },
-    async listOrders({ page }) {
+    listOrders(args = {}) {
       return this._makeRequest({
-        path: `/marketplace/orders?page=${page}`,
+        path: "marketplace/orders",
+        ...args,
       });
     },
-    async updateOrderStatus({
+    updateOrderStatus({
       orderId, status,
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/marketplace/orders/${orderId}`,
+        path: `marketplace/orders/${orderId}`,
         data: {
           status,
         },
       });
     },
-    async createListing({
-      releaseId,
-      condition,
-      sleeveCondition,
-      price,
-      comments,
-      allowOffers,
-      status,
-      externalId,
-      location,
-      weight,
-      formatQuantity,
-    }) {
+    createListing(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/marketplace/listings",
-        data: {
-          release_id: releaseId,
-          condition,
-          sleeve_condition: sleeveCondition,
-          price,
-          comments,
-          allow_offers: allowOffers,
-          status,
-          external_id: externalId,
-          location,
-          weight,
-          format_quantity: formatQuantity,
-        },
+        path: "marketplace/listings",
+        ...args,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      fn, params = {}, maxResults = null,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          orders,
+          pagination: {
+            pages, page: currentPage,
+          },
+        } = await fn({
+          params,
+        });
+        for (const d of orders) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = currentPage < pages;
+
+      } while (hasMore);
     },
   },
 };
