@@ -1,60 +1,74 @@
-import codereadr from "../../codereadr.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../codereadr.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "codereadr-generate-qr-code",
   name: "Generate QR Code",
-  description: "Generates a unique QR code. [See the documentation](https://secure.codereadr.com/apidocs/barcodegenerator.md)",
-  version: "0.0.{{ts}}",
+  description: "Generates a unique QR code. [See the documentation](https://secure.codereadr.com/apidocs/BarcodeGenerator.md#generate)",
+  version: "0.0.1",
   type: "action",
   props: {
-    codereadr,
-    databaseId: {
-      propDefinition: [
-        codereadr,
-        "databaseId",
-      ],
-    },
+    app,
     value: {
-      type: "string",
-      label: "Value",
-      description: "The value to encode in the QR code",
-    },
-    symbology: {
-      type: "string",
-      label: "Symbology",
-      description: "The type of barcode to generate",
-      default: "qrcode",
-      options: [
-        {
-          label: "QR Code",
-          value: "qrcode",
-        },
+      propDefinition: [
+        app,
+        "value",
       ],
+    },
+    barcodeType: {
+      type: "string",
+      label: "Barcode Type",
+      description: "The desired format of your outputted barcode. Set to `qr` by default.",
+      options: [
+        "qr",
+        "pdf417",
+      ],
+      optional: true,
     },
     size: {
       type: "integer",
       label: "Size",
-      description: "The size of the QR code (e.g., 300 for a 300x300 QR code)",
+      description: "An integer between 1 and 10 which specifies the dimensions of your barcode in 50px increments. (Examples: `1` = 50px, `2` = 100px, `10` = 500px).",
+      min: 1,
+      max: 10,
       optional: true,
     },
   },
+  methods: {
+    generateBarcode({
+      params, ...args
+    } = {}) {
+      return this.app.generate({
+        subdomain: constants.SUBDOMAIN.BARCODE,
+        params: {
+          ...params,
+          section: "barcode",
+        },
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const data = {
-      value: this.value,
-      symbology: this.symbology,
-    };
+    const {
+      generateBarcode,
+      value,
+      barcodeType,
+      size,
+    } = this;
 
-    if (this.size) {
-      data.size = this.size;
-    }
-
-    const response = await this.codereadr.generateQRCode({
-      database_id: this.databaseId,
-      ...data,
+    const response = await generateBarcode({
+      $,
+      onlyXml: true,
+      responseType: "arraybuffer",
+      params: {
+        value,
+        barcodetype: barcodeType,
+        size,
+      },
     });
 
-    $.export("$summary", `Successfully generated QR code with value: ${this.value}`);
+    $.export("$summary", "Successfully generated QR code");
+
     return response;
   },
 };

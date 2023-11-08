@@ -1,99 +1,63 @@
-import codereadr from "../../codereadr.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
+import common from "../common/polling.mjs";
 
 export default {
+  ...common,
   key: "codereadr-new-scan",
   name: "New Scan",
-  description: "Emit new event when there is a new scan. [See the documentation](https://secure.codereadr.com/apidocs/scans.md)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when there is a new scan. [See the documentation](https://secure.codereadr.com/apidocs/Scans.md#retrieve)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    codereadr,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
+    ...common.props,
     status: {
       propDefinition: [
-        codereadr,
+        common.props.app,
         "status",
       ],
     },
   },
   methods: {
-    _getLastScanTimestamp() {
-      return this.db.get("lastScanTimestamp") || 0;
+    ...common.methods,
+    getResourceName() {
+      return "scan";
     },
-    _setLastScanTimestamp(lastScanTimestamp) {
-      this.db.set("lastScanTimestamp", lastScanTimestamp);
+    getResourceFn() {
+      return this.app.listScans;
     },
-  },
-  hooks: {
-    async deploy() {
-      // Fetch the most recent scans during the first run
-      const lastScanTimestamp = this._getLastScanTimestamp();
-      const params = {
-        ...(this.status && {
-          status: this.status,
-        }),
+    getResourceFnArgs() {
+      const {
+        getLastTimestamp,
+        status,
+      } = this;
+
+      const lastTimestamp = getLastTimestamp();
+
+      const args = {
+        params: {
+          status: utils.parseArray(status).join(","),
+          order_by: "timestamp",
+        },
       };
-      const scans = await this.codereadr._makeRequest({
-        path: "/scans",
-        params,
-      });
 
-      // Emit at most 50 most recent scans
-      const recentScans = scans.slice(0, 50);
-      for (const scan of recentScans) {
-        this.$emit(scan, {
-          id: scan.id,
-          summary: `New Scan: ${scan.value}`,
-          ts: Date.parse(scan.created_at),
-        });
+      if (!lastTimestamp) {
+        return args;
       }
 
-      // Store the timestamp of the last scan
-      if (recentScans.length > 0) {
-        const lastScanTimestamp = Date.parse(recentScans[0].created_at);
-        this._setLastScanTimestamp(lastScanTimestamp);
-      }
+      return {
+        params: {
+          ...args.params,
+          start_date: lastTimestamp.split(" ")[0],
+        },
+      };
     },
-  },
-  async run() {
-    // Fetch new scans since the last scan timestamp
-    const lastScanTimestamp = this._getLastScanTimestamp();
-    const params = {
-      ...(this.status && {
-        status: this.status,
-      }),
-      ...(lastScanTimestamp && {
-        since: lastScanTimestamp,
-      }),
-    };
-
-    const scans = await this.codereadr._makeRequest({
-      path: "/scans",
-      params,
-    });
-
-    // Emit new scans and update the last scan timestamp
-    for (const scan of scans) {
-      this.$emit(scan, {
-        id: scan.id,
-        summary: `New Scan: ${scan.value}`,
-        ts: Date.parse(scan.created_at),
-      });
-    }
-
-    if (scans.length > 0) {
-      const lastScanTimestamp = Date.parse(scans[0].created_at);
-      this._setLastScanTimestamp(lastScanTimestamp);
-    }
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: `New Scan: ${resource.id}`,
+        ts: Date.parse(resource.timestamp),
+      };
+    },
   },
 };

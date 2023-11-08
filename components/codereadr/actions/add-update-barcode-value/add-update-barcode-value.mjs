@@ -1,45 +1,62 @@
-import codereadr from "../../codereadr.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../codereadr.app.mjs";
 
 export default {
   key: "codereadr-add-update-barcode-value",
   name: "Add or Update Barcode Value",
-  description: "Adds or updates a barcode value in the selected database. [See the documentation](https://secure.codereadr.com/apidocs/databases.md)",
-  version: "0.0.{{ts}}",
+  description: "Adds or updates a barcode value in the selected database. [See the documentation](https://secure.codereadr.com/apidocs/Databases.md#upsertvalue)",
+  version: "0.0.1",
   type: "action",
   props: {
-    codereadr,
+    app,
     databaseId: {
       propDefinition: [
-        codereadr,
+        app,
         "databaseId",
       ],
     },
-    barcodeValue: {
-      type: "string",
-      label: "Barcode Value",
-      description: "The value of the barcode to add or update",
+    value: {
+      propDefinition: [
+        app,
+        "value",
+      ],
     },
-    barcodeId: {
+    responseStr: {
       type: "string",
-      label: "Barcode ID",
-      description: "The ID of the barcode to update (leave blank to add a new barcode)",
+      label: "Response",
+      description: "A string which specifies the barcode value's associated response text.",
       optional: true,
     },
   },
+  methods: {
+    addOrUpdateBarcode({
+      params, ...args
+    } = {}) {
+      return this.app.upsertvalue({
+        ...args,
+        params: {
+          ...params,
+          section: "databases",
+        },
+      });
+    },
+  },
   async run({ $ }) {
-    const data = {
-      value: this.barcodeValue,
-    };
+    const {
+      addOrUpdateBarcode,
+      databaseId,
+      value,
+      responseStr,
+    } = this;
 
-    if (this.barcodeId) {
-      data.id = this.barcodeId;
-    }
-
-    const response = await this.codereadr.addOrUpdateBarcode(this.databaseId, data);
-    $.export("$summary", `Barcode value ${this.barcodeValue} has been ${this.barcodeId
-      ? "updated"
-      : "added"} in the database`);
+    const response = await addOrUpdateBarcode({
+      $,
+      params: {
+        database_id: databaseId,
+        value,
+        response: responseStr,
+      },
+    });
+    $.export("$summary", `Successfully added or updated barcode value \`${value}\` in database with ID \`${databaseId}\``);
     return response;
   },
 };
