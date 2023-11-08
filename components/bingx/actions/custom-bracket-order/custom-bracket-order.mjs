@@ -1,10 +1,12 @@
 import bingx from "../../bingx.app.mjs";
+import lodash from "lodash";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "BingX Custom Bracket Order",
-  version: "0.1.0",
+  version: "0.1.1",
   key: "bingx-custom-bracket-order",
-  description: "Place bracket order",
+  description: "Place bracket order. [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Trade%20order)",
   props: {
     bingx,
     symbol: {
@@ -41,7 +43,7 @@ export default {
     leverage: {
       propDefinition: [
         bingx,
-        "leverage",
+        "leverageSide",
       ],
     },
     quantity: {
@@ -60,74 +62,72 @@ export default {
       label: "Take Profit Price",
       description: "Take Profit price for trade",
       type: "string",
-      optional: false,
-    },
-    takerProfitPrice: {
-      label: "Taker Profit Price",
-      description: "The take profit price",
-      type: "string",
-      optional: true,
-    },
-    stopLossPrice: {
-      label: "Stop Loss Price",
-      description: "The take loss price",
-      type: "string",
       optional: true,
     },
   },
   type: "action",
   methods: {
-    async setLeverage() {
-      const API_METHOD = "POST";
-      const API_PATH = "/api/v1/user/setLeverage";
-      const parametersLong = {
-        "symbol": this.symbol,
-        "side": "Long",
-        "leverage": this.leverage,
-      };
-      const parametersShort = {
-        "symbol": this.symbol,
-        "side": "Short",
-        "leverage": this.leverage,
-      };
-      await this.bingx.makeRequest(API_METHOD, API_PATH, parametersLong);
-      await this.bingx.makeRequest(API_METHOD, API_PATH, parametersShort);
+    async setLeverage($) {
+      await this.bingx.setLeverage({
+        params: {
+          symbol: this.symbol,
+          side: "LONG",
+          leverage: this.leverage,
+        },
+        $,
+      });
+      await this.bingx.setLeverage({
+        params: {
+          symbol: this.symbol,
+          side: "SHORT",
+          leverage: this.leverage,
+        },
+        $,
+      });
     },
   },
   async run({ $ }) {
-    await this.setLeverage();
-    const API_METHOD = "POST";
-    const API_PATH = "/api/v1/user/trade";
+    if (this.tradeType === "LIMIT" && !(this.limitPrice && this.targetPrice)) {
+      throw new ConfigurationError("Limit Price and Take Profit Price are required for trade type `LIMIT`.");
+    }
 
-    const entryParameters = {
+    await this.setLeverage($);
+
+    const entryParameters = lodash.pickBy({
       "symbol": this.symbol,
       "side": this.entrySide,
-      "entrustPrice": this.bingx.convertToFloat(this.limitPrice),
-      "entrustVolume": this.bingx.convertToFloat(this.quantity),
-      "tradeType": this.tradeType,
-      "action": "Open",
-      "takerProfitPrice": this.takerProfitPrice,
-      "stopLossPrice": this.stopLossPrice,
-    };
-    const entryOrder = await this.bingx.makeRequest(API_METHOD, API_PATH, entryParameters);
+      "price": this.bingx.convertToFloat(this.limitPrice),
+      "quantity": this.bingx.convertToFloat(this.quantity),
+      "type": this.tradeType,
+      "positionSide": this.leverage,
+    });
+    const entryOrder = await this.bingx.createOrder({
+      params: entryParameters,
+      $,
+    });
 
-    const takeProfitParameters = {
+    const takeProfitParameters = lodash.pickBy({
       "symbol": this.symbol,
       "side": this.exitSide,
-      "entrustPrice": this.bingx.convertToFloat(this.targetPrice),
-      "entrustVolume": this.bingx.convertToFloat(this.quantity),
-      "tradeType": "Limit",
-      "action": "Close",
-      "takerProfitPrice": this.takerProfitPrice,
-      "stopLossPrice": this.stopLossPrice,
-    };
+      "price": this.bingx.convertToFloat(this.targetPrice),
+      "quantity": this.bingx.convertToFloat(this.quantity),
+      "type": "LIMIT",
+      "positionSide": this.leverage,
+    });
+    const exitOrder = await this.bingx.createOrder({
+      params: takeProfitParameters,
+      $,
+    });
 
-    const exitOrder = await this.bingx.makeRequest(API_METHOD, API_PATH, takeProfitParameters);
     const returnValue = {
       "entryOrder": entryOrder,
       "exitOrder": exitOrder,
     };
-    $.export("$summary", `Place a bracket order for symbol ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Placed a bracket order for symbol ${this.symbol}`);
+    }
     return returnValue;
   },
 };

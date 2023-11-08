@@ -27,7 +27,8 @@ if __name__ == '__main__':
                         required=False, default=os.path.join("..", "..", "components"))
     parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
                         default=False, action='store_true')
-    parser.add_argument('--remote', dest='remote_name', help='The Git remote name', default='origin')
+    parser.add_argument('--remote', dest='remote_name',
+                        help='The Git remote name', default='origin')
     args = parser.parse_args()
 
     if args.issue:

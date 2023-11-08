@@ -84,7 +84,10 @@ importers:
     specifiers: {}
 
   components/abyssale:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/accelo:
     specifiers:
@@ -404,7 +407,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/astica_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/astrology_api:
     specifiers: {}
@@ -707,7 +713,10 @@ importers:
     specifiers: {}
 
   components/browse_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/browserless:
     specifiers:
@@ -1541,7 +1550,10 @@ importers:
     specifiers: {}
 
   components/doppler_marketing_automation:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/doppler_ops:
     specifiers: {}
@@ -2278,6 +2290,7 @@ importers:
   components/google_cloud:
     specifiers:
       '@google-cloud/bigquery': ^6.0.0
+      '@google-cloud/bigquery-data-transfer': ^4.0.1
       '@google-cloud/logging': ^10.0.3
       '@google-cloud/pubsub': ^3.0.1
       '@google-cloud/storage': ^6.0.1
@@ -2287,6 +2300,7 @@ importers:
       uuid: ^8.3.2
     dependencies:
       '@google-cloud/bigquery': 6.2.1
+      '@google-cloud/bigquery-data-transfer': 4.0.1
       '@google-cloud/logging': 10.5.0
       '@google-cloud/pubsub': 3.7.5
       '@google-cloud/storage': 6.12.0
@@ -2799,7 +2813,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/insites:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/instagram_business:
     specifiers:
@@ -2952,6 +2969,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/jw_player:
+    specifiers: {}
+
   components/kakao:
     specifiers: {}
 
@@ -2988,7 +3008,10 @@ importers:
     specifiers: {}
 
   components/kickbox:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/kickofflabs:
     specifiers:
@@ -3050,6 +3073,9 @@ importers:
     specifiers: {}
 
   components/knowfirst:
+    specifiers: {}
+
+  components/koala_ai:
     specifiers: {}
 
   components/kontent_ai:
@@ -3149,7 +3175,10 @@ importers:
     specifiers: {}
 
   components/lightspeed_vt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/line:
     specifiers:
@@ -3242,6 +3271,9 @@ importers:
     specifiers: {}
 
   components/looker:
+    specifiers: {}
+
+  components/loop_returns:
     specifiers: {}
 
   components/loopmessage:
@@ -3435,7 +3467,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/meetingpulse:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/meetup:
     specifiers: {}
@@ -4112,6 +4147,9 @@ importers:
       '@pipedream/platform': 1.5.1
       uuid: 9.0.1
 
+  components/orca_scan:
+    specifiers: {}
+
   components/order_desk:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -4119,7 +4157,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/originality_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ortto:
     specifiers: {}
@@ -4653,7 +4694,10 @@ importers:
       puppeteer-core: 19.8.0
 
   components/push_by_techulus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pushcut:
     specifiers:
@@ -4725,6 +4769,9 @@ importers:
     specifiers: {}
 
   components/radar:
+    specifiers: {}
+
+  components/rafflys:
     specifiers: {}
 
   components/ragic:
@@ -5128,7 +5175,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/satismeter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/saucelabs:
     specifiers: {}
@@ -6315,6 +6365,9 @@ importers:
     specifiers: {}
 
   components/trint:
+    specifiers: {}
+
+  components/truss:
     specifiers: {}
 
   components/trustpilot:
@@ -10205,22 +10258,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.184:
-    resolution: {integrity: sha512-e5aTiMFYzrNu/xC9LqzVNXbkyF/e/EU88tJVsEyxKaWr8RjX7Y2ONsXmCJjsKbiQEUjKJobtSgk21XwhoSa3KQ==}
+  /@definitelytyped/header-parser/0.0.185:
+    resolution: {integrity: sha512-K+ofaa9B1vH5zKVQGRQjPMW7HVTfPRZF3A/CXXMHuSoilJUqy6BHJXg7iNNcIxw9OhKxwk6T/LMMEMLllusGQQ==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.179
-      '@definitelytyped/utils': 0.0.182
+      '@definitelytyped/typescript-versions': 0.0.180
+      '@definitelytyped/utils': 0.0.183
       semver: 7.5.4
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.179:
-    resolution: {integrity: sha512-E0VjIZkVtOt2ozagGlmWULKJYvFZwMjS6A335QJX8dmn21idRP/0RodxRpjtMU2//ChtvCZZUuKrPZQ2D/owww==}
+  /@definitelytyped/typescript-versions/0.0.180:
+    resolution: {integrity: sha512-susENartHdWecD3kvD5iaMpYOFmlEjY9JRvPqTAoWyOeEsUKQbQsxsyHm1OQkfn7YzbURuNvS+5jkSIIbIy59A==}
     dev: true
 
-  /@definitelytyped/utils/0.0.182:
-    resolution: {integrity: sha512-ANeeI+ixK9FYgljDlVtlBqcaPi1Fi9R55MkhtGbNNUY/g4u1S1QXoBY/87oYF92VjQPpbxC0ZuiP8MnVuHqh6w==}
+  /@definitelytyped/utils/0.0.183:
+    resolution: {integrity: sha512-sN3veQsiVhJOX4EiOfsmjRTJwValNxbwOer+/fBwfgMkaXbnxkKLch7iQn6ZVQe8wgLjgHfzc6GGkmq/MumJpg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.179
+      '@definitelytyped/typescript-versions': 0.0.180
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.63
       charm: 1.0.2
@@ -10449,6 +10502,16 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       google-gax: 3.6.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@google-cloud/bigquery-data-transfer/4.0.1:
+    resolution: {integrity: sha512-2tsbjYpNSrm+ykJMG82ArGwIg7WpOYB6+hMOAbMgB/EVAifFYVOgegtEGda9K15D0SJe2RoOiXKpKFM/Dzxz+w==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      google-gax: 4.0.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10799,6 +10862,14 @@ packages:
 
   /@grpc/grpc-js/1.8.21:
     resolution: {integrity: sha512-KeyQeZpxeEBSqFVTi3q2K7PiPXmgBfECc4updA1ejCLjYmoAlvvM3ZMp5ztTDUCUQmoY3CpDxvchjO1+rFkoHg==}
+    engines: {node: ^8.13.0 || >=10.10.0}
+    dependencies:
+      '@grpc/proto-loader': 0.7.10
+      '@types/node': 17.0.45
+    dev: false
+
+  /@grpc/grpc-js/1.9.9:
+    resolution: {integrity: sha512-vQ1qwi/Kiyprt+uhb1+rHMpyk4CVRMTGNUGGPRGS7pLNfWkdCHrGEnT6T3/JyC2VZgoOX/X1KwdoU0WYQAeYcQ==}
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.10
@@ -14024,6 +14095,10 @@ packages:
       '@types/responselike': 1.0.1
     dev: false
 
+  /@types/caseless/0.12.4:
+    resolution: {integrity: sha512-2in/lrHRNmDvHPgyormtEralhPcN3An1gLjJzj2Bw145VBxkQ75JEXW6CTdMAwShiHQcYsl2d10IjQSdJSJz4g==}
+    dev: false
+
   /@types/connect/3.4.36:
     resolution: {integrity: sha512-P63Zd/JUGq+PdrM1lv0Wv5SBYeA2+CORvbrXbngriYY0jzLUWfQMQQxOhjONEz/wlHOAxOdY7CY65rgQdTjq2w==}
     dependencies:
@@ -14256,6 +14331,15 @@ packages:
     resolution: {integrity: sha512-xrO9OoVPqFuYyR/loIHjnbvvyRZREYKLjxV4+dY6v3FQR3stQ9ZxIGkaclF7YhI9hfjpuTbu14hZEy94qKLtOA==}
     dev: false
 
+  /@types/request/2.48.11:
+    resolution: {integrity: sha512-HuihY1+Vss5RS9ZHzRyTGIzwPTdrJBkCm/mAeLRYrOQu/MGqyezKXWOK1VhCnR+SDbp9G2mRUP+OVEqCrzpcfA==}
+    dependencies:
+      '@types/caseless': 0.12.4
+      '@types/node': 17.0.45
+      '@types/tough-cookie': 4.0.4
+      form-data: 2.5.1
+    dev: false
+
   /@types/responselike/1.0.1:
     resolution: {integrity: sha512-TiGnitEDxj2X0j+98Eqk5lv/Cij8oHd32bU4D/Yw6AOq7vvTk0gSD2GPj0G/HkvhMoVsdlhYF4yqqlyPBTM6Sg==}
     dependencies:
@@ -14308,6 +14392,10 @@ packages:
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
     dev: true
+
+  /@types/tough-cookie/4.0.4:
+    resolution: {integrity: sha512-95Sfz4nvMAb0Nl9DTxN3j64adfwfbBPEYq14VN7zT5J5O2M9V6iZMIIQU1U+pJyl9agHYHNCqhCXgyEtIRRa5A==}
+    dev: false
 
   /@types/triple-beam/1.3.3:
     resolution: {integrity: sha512-6tOUG+nVHn0cJbVp25JFayS5UE6+xlbcNF9Lo9mU7U0zk3zeUShZied4YEQZjy1JBF043FSkdXw8YkUJuVtB5g==}
@@ -17020,7 +17108,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.184
+      '@definitelytyped/header-parser': 0.0.185
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17036,9 +17124,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.184
-      '@definitelytyped/typescript-versions': 0.0.179
-      '@definitelytyped/utils': 0.0.182
+      '@definitelytyped/header-parser': 0.0.185
+      '@definitelytyped/typescript-versions': 0.0.180
+      '@definitelytyped/utils': 0.0.183
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -18737,6 +18825,26 @@ packages:
       protobufjs: 7.2.4
       protobufjs-cli: 1.1.1_protobufjs@7.2.4
       retry-request: 5.0.2
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /google-gax/4.0.5:
+    resolution: {integrity: sha512-yLoYtp4zE+8OQA74oBEbNkbzI6c95W01JSL7RqC8XERKpRvj3ytZp1dgnbA6G9aRsc8pZB25xWYBcCmrbYOEhA==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@grpc/grpc-js': 1.9.9
+      '@grpc/proto-loader': 0.7.10
+      '@types/long': 4.0.2
+      abort-controller: 3.0.0
+      duplexify: 4.1.2
+      google-auth-library: 9.1.0
+      node-fetch: 2.7.0
+      object-hash: 3.0.0
+      proto3-json-serializer: 2.0.0
+      protobufjs: 7.2.5
+      retry-request: 7.0.1
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -24261,6 +24369,13 @@ packages:
       protobufjs: 7.2.5
     dev: false
 
+  /proto3-json-serializer/2.0.0:
+    resolution: {integrity: sha512-FB/YaNrpiPkyQNSNPilpn8qn0KdEfkgmJ9JP93PQyF/U4bAiXY5BiUdDhiDO4S48uSQ6AesklgVlrKiqZPzegw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      protobufjs: 7.2.5
+    dev: false
+
   /protobufjs-cli/1.1.1_protobufjs@7.2.4:
     resolution: {integrity: sha512-VPWMgIcRNyQwWUv8OLPyGQ/0lQY/QTQAVN5fh+XzfDwsVw1FZ2L3DM/bcBf8WPiRz2tNpaov9lPZfNcmNo6LXA==}
     engines: {node: '>=12.0.0'}
@@ -25372,6 +25487,19 @@ packages:
       debug: 4.3.4
       extend: 3.0.2
     transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /retry-request/7.0.1:
+    resolution: {integrity: sha512-ZI6vJp9rfB71mrZpw+n9p/B6HCsd7QJlSEQftZ+xfJzr3cQ9EPGKw1FF0BnViJ0fYREX6FhymBD2CARpmsFciQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@types/request': 2.48.11
+      debug: 4.3.4
+      extend: 3.0.2
+      teeny-request: 9.0.0
+    transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -26600,6 +26728,20 @@ packages:
   /teeny-request/8.0.3:
     resolution: {integrity: sha512-jJZpA5He2y52yUhA7pyAGZlgQpcB+xLjcN0eUFxr9c8hP/H7uOXbBNVo/O0C/xVfJLJs680jvkFgVJEEvk9+ww==}
     engines: {node: '>=12'}
+    dependencies:
+      http-proxy-agent: 5.0.0
+      https-proxy-agent: 5.0.1
+      node-fetch: 2.7.0
+      stream-events: 1.0.5
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /teeny-request/9.0.0:
+    resolution: {integrity: sha512-resvxdc6Mgb7YEThw6G6bExlXKkv6+YbuzGg9xuXxSgxJF7Ozs+o8Y9+2R3sArdWdW8nOokoQb1yrpFB0pQK2g==}
+    engines: {node: '>=14'}
     dependencies:
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
