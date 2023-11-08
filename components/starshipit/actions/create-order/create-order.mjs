@@ -109,7 +109,6 @@ export default {
       $,
     });
     if (response?.success === false) {
-      console.log(response);
       throw new Error(`${response.errors[0].message} - ${response.errors[0].details}`);
     }
     if (response?.order?.order_id) {

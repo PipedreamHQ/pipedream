@@ -63,11 +63,17 @@ export default {
     _baseUrl() {
       return "https://api.starshipit.com/api";
     },
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _subscriptionKey() {
+      return this.$auth.subscription_key;
+    },
     _headers() {
       return {
         "Content-Type": "application/json",
-        "StarShipIT-Api-Key": `${this.$auth.api_key}`,
-        "Ocp-Apim-Subscription-Key": `${this.$auth.subscription_key}`,
+        "StarShipIT-Api-Key": `${this._apiKey()}`,
+        "Ocp-Apim-Subscription-Key": `${this._subscriptionKey()}`,
       };
     },
     _makeRequest(opts = {}) {
