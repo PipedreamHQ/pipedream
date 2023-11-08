@@ -77,15 +77,15 @@ export default {
       });
     },
     async getWorkspaces({ $ } = {}) {
-      return this._makeRequest("v8", "workspaces", {}, $);
+      return this._makeRequest("v9", "workspaces", {}, $);
     },
     async getCurrentTimeEntry({ $ } = {}) {
-      return this._makeRequest("v8", "time_entries/current", {}, $);
+      return this._makeRequest("v9", "time_entries/current", {}, $);
     },
     async getTimeEntries({
       params, $,
     } = {}) {
-      return this._makeRequest("v8", "time_entries", {
+      return this._makeRequest("v9", "time_entries", {
         params: {
           ...params,
           per_page: 1000,
@@ -95,7 +95,7 @@ export default {
     async getTimeEntry({
       timeEntryId, $,
     } = {}) {
-      const { data } = await this._makeRequest("v8", `time_entries/${timeEntryId}`, {}, $);
+      const { data } = await this._makeRequest("v9", `time_entries/${timeEntryId}`, {}, $);
 
       return data;
     },
