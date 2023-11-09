@@ -655,9 +655,13 @@ export default {
     },
     async uploadFile(args) {
       return this._makeRequest({
-        path: "/files",
         method: "POST",
+        path: "/files",
         ...args,
+        headers: {
+          ...args.headers,
+          ...this._betaHeaders(),
+        },
       });
     },
     async deleteFile({ file_id }) {

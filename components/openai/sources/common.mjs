@@ -1,5 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import openai from "../../openai.app.mjs";
+import openai from "../openai.app.mjs";
 
 export default {
   props: {
