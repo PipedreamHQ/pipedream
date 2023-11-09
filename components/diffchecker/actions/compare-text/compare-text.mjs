@@ -1,5 +1,4 @@
-import diffchecker from "../../diffchecker.app.mjs";
-import { axios } from "@pipedream/platform";
+import diffchecker from "../../diffchecker.app.mjs"
 
 export default {
   key: "diffchecker-compare-text",
@@ -12,26 +11,26 @@ export default {
     outputType: {
       propDefinition: [
         diffchecker,
-        "outputType",
-      ],
+        "outputType"
+      ]
     },
     diffLevel: {
       propDefinition: [
         diffchecker,
-        "diffLevel",
-      ],
+        "diffLevel"
+      ]
     },
     leftText: {
       propDefinition: [
         diffchecker,
-        "leftText",
-      ],
+        "leftText"
+      ]
     },
     rightText: {
       propDefinition: [
         diffchecker,
-        "rightText",
-      ],
+        "rightText"
+      ]
     },
   },
   async run({ $ }) {
@@ -40,9 +39,8 @@ export default {
       diffLevel: this.diffLevel,
       leftText: this.leftText,
       rightText: this.rightText,
-    });
-
-    $.export("$summary", `Compared texts with output type: ${this.outputType}`);
-    return response;
+    })
+    $.export("$summary", "Successfully compared texts")
+    return response
   },
 };

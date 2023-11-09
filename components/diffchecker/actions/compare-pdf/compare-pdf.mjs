@@ -1,5 +1,4 @@
-import diffchecker from "../../diffchecker.app.mjs";
-import { axios } from "@pipedream/platform";
+import diffchecker from "../../diffchecker.app.mjs"
 
 export default {
   key: "diffchecker-compare-pdf",
@@ -12,44 +11,40 @@ export default {
     outputType: {
       propDefinition: [
         diffchecker,
-        "outputType",
-      ],
+        "outputType"
+      ]
     },
     diffLevel: {
       propDefinition: [
         diffchecker,
-        "diffLevel",
-      ],
+        "diffLevel"
+      ]
     },
     leftPdf: {
       propDefinition: [
         diffchecker,
-        "leftPdf",
-      ],
+        "leftPdf"
+      ]
     },
     rightPdf: {
       propDefinition: [
         diffchecker,
-        "rightPdf",
-      ],
+        "rightPdf"
+      ]
     },
   },
-  async run({ $ }) {
-    // Assuming that the PDFs are provided as URLs, we need to ensure that
-    // the comparePdfs method is implemented to handle URLs or file uploads.
-
-    // The actual logic for handling file uploads or URLs should be implemented
-    // in the comparePdfs method within the app file. For this example, we'll
-    // proceed with the assumption that the method is implemented correctly.
-
-    const response = await this.diffchecker.comparePdfs({
-      outputType: this.outputType,
-      diffLevel: this.diffLevel,
-      leftPdf: this.leftPdf,
-      rightPdf: this.rightPdf,
-    });
-
-    $.export("$summary", "Successfully compared PDFs");
-    return response;
+  async run($) {
+    const responses = [];
+    for (let i = 0; i < this.leftPdf.length; i++) {
+      const response = await this.diffchecker.comparePdfs({
+        outputType: this.outputType,
+        diffLevel: this.diffLevel,
+        leftPdf: this.leftPdf[i],
+        rightPdf: this.rightPdf[i],
+      });
+      responses.push(response);
+    }
+    $.export("$summary", "Successfully compared PDFs")
+    return responses;
   },
 };

@@ -114,12 +114,31 @@ export default {
     async comparePdfs({
       outputType, diffLevel, leftPdf, rightPdf,
     }) {
-      // Logic to handle file uploads for PDFs should be implemented here
+      return this._makeRequest({
+        path: "/pdf",
+        params: {
+          output_type: outputType,
+          diff_level: diffLevel,
+        },
+        data: {
+          left_pdf: leftPdf,
+          right_pdf: rightPdf,
+        },
+      });
     },
     async compareImages({
       outputType, leftImage, rightImage,
     }) {
-      // Logic to handle file uploads for images should be implemented here
+      return this._makeRequest({
+        path: "/image",
+        params: {
+          output_type: outputType,
+        },
+        data: {
+          left_image: leftImage,
+          right_image: rightImage,
+        },
+      });
     },
   },
 };

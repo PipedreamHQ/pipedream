@@ -1,10 +1,10 @@
-import diffchecker from "../../diffchecker.app.mjs";
 import { axios } from "@pipedream/platform";
+import diffchecker from "../../diffchecker.app.mjs";
 
 export default {
   key: "diffchecker-compare-image",
-  name: "Compare Images",
-  description: "Compares two images and returns the result. [See the documentation](https://www.diffchecker.com/public-api/)",
+  name: "Compare Image",
+  description: "Compares two images and returns the result.",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
@@ -12,20 +12,20 @@ export default {
     outputType: {
       propDefinition: [
         diffchecker,
-        "outputType",
-      ],
+        "outputType"
+      ]
     },
     leftImage: {
       propDefinition: [
         diffchecker,
-        "leftImage",
-      ],
+        "leftImage"
+      ]
     },
     rightImage: {
       propDefinition: [
         diffchecker,
-        "rightImage",
-      ],
+        "rightImage"
+      ]
     },
   },
   async run({ $ }) {
@@ -34,8 +34,7 @@ export default {
       leftImage: this.leftImage,
       rightImage: this.rightImage,
     });
-
-    $.export("$summary", "Compared images successfully");
+    $.export("$summary", "Successfully compared images");
     return response;
   },
 };
