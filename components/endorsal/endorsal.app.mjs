@@ -37,7 +37,7 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "The email of the contact. `Email OR phone is required`.",
+      description: "The email of the contact. `Email` OR `Phone` is required.",
     },
     location: {
       type: "string",
