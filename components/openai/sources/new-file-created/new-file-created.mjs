@@ -1,7 +1,8 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import openai from "../../openai.app.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "openai-new-file-created",
   name: "New File Created",
   description: "Emit new event when a new file is created in OpenAI. [See the documentation](https://platform.openai.com/docs/api-reference/files/list)",
@@ -9,14 +10,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    openai,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
+    ...common.props,
     purpose: {
       propDefinition: [
         openai,
@@ -27,12 +21,6 @@ export default {
     },
   },
   methods: {
-    _getSavedItems() {
-      return this.db.get("savedItems") ?? [];
-    },
-    _setSavedItems(value) {
-      this.db.set("savedItems", value);
-    },
     async getAndProcessItems() {
       const savedItems = this._getSavedItems();
       const { data } = await this.openai.listFiles({
@@ -48,13 +36,5 @@ export default {
       });
       this._setSavedItems(savedItems);
     },
-  },
-  hooks: {
-    async deploy() {
-      await this.getAndProcessItems();
-    },
-  },
-  async run() {
-    await this.getAndProcessItems();
   },
 };
