@@ -9,6 +9,7 @@ export default {
   type: "source",
   dedupe: "unique",
   methods: {
+    ...common.methods,
     async getData() {
       return this.openai.listFineTuningJobs();
     },

@@ -21,6 +21,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     async getData() {
       return this.openai.listFiles({
         purpose: this.purpose,

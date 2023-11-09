@@ -42,10 +42,10 @@ export default {
   },
   hooks: {
     async deploy() {
-      await this.getAndProcessItems();
+      await this.getAndProcessItems(10);
     },
   },
   async run() {
-    await this.getAndProcessItems(10);
+    await this.getAndProcessItems();
   },
 };
