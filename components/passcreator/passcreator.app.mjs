@@ -3,23 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "passcreator",
-  propDefinitions: {
-    scanId: {
-      type: "string",
-      label: "Scan ID",
-      description: "The ID of the app scan",
-    },
-    voidPassId: {
-      type: "string",
-      label: "Voided Pass ID",
-      description: "The ID of the voided pass",
-    },
-    newPassId: {
-      type: "string",
-      label: "New Pass ID",
-      description: "The ID of the new wallet pass",
-    },
-  },
   methods: {
     _baseUrl() {
       return "https://app.passcreator.com/api";
