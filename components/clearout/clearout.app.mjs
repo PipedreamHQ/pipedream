@@ -37,7 +37,7 @@ export default {
         ...args,
       });
     },
-    async verifyBusinessEmail(args = {}) {
+    verifyBusinessEmail(args = {}) {
       return this._makeRequest({
         path: "/email/verify/business",
         method: "post",
