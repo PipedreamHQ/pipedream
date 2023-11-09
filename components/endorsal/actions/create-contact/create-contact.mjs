@@ -100,7 +100,7 @@ export default {
     } = this;
 
     if (!email && !phone) {
-      throw new ConfigurationError("You must provide whether **Email** or **Phone**.");
+      throw new ConfigurationError("You must provide either **Email** or **Phone**.");
     }
 
     const response = await endorsal.createContact({
