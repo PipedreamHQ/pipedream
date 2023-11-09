@@ -30,6 +30,7 @@ export default {
       const { data } = await this.getData();
       data
         ?.filter(({ id }) => !savedItems.includes(id))
+        .reverse()
         .forEach((item, index) => {
           if (!maxEvents || index < maxEvents) {
             this.$emit(item, this.getMeta(item));
