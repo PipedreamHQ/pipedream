@@ -305,6 +305,7 @@ export default {
         url: `${this._baseApiUrl()}${path}`,
         headers: {
           ...this._commonHeaders(),
+          ...args.headers,
         },
         maxBodyLength: Infinity,
         ...args,
@@ -652,17 +653,11 @@ export default {
         },
       });
     },
-    async uploadFile({
-      file, purpose,
-    }) {
+    async uploadFile(args) {
       return this._makeRequest({
-        method: "POST",
         path: "/files",
-        headers: this._betaHeaders(),
-        data: {
-          file,
-          purpose,
-        },
+        method: "POST",
+        ...args,
       });
     },
     async deleteFile({ file_id }) {
