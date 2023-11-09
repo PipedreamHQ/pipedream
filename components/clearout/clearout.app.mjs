@@ -30,7 +30,7 @@ export default {
         ...args,
       });
     },
-    async verifyEmail(args = {}) {
+    verifyEmail(args = {}) {
       return this._makeRequest({
         path: "/email_verify/instant",
         method: "post",
