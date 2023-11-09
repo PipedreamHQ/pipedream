@@ -9,18 +9,15 @@ export default {
   type: "source",
   dedupe: "unique",
   methods: {
-    async getAndProcessItems() {
-      const savedItems = this._getSavedItems();
-      const { data } = await this.openai.listFineTuningJobs();
-      data?.filter(({ id }) => !savedItems.includes(id)).forEach((job) => {
-        this.$emit(job, {
-          id: job.id,
-          summary: `New Fine Tuning Job: ${job.id}`,
-          ts: job.created_at * 1000, // Convert to milliseconds
-        });
-        savedItems.push(job.id);
-      });
-      this._setSavedItems(savedItems);
+    async getData() {
+      return this.openai.listFineTuningJobs();
+    },
+    getMeta(item) {
+      return {
+        id: item.id,
+        summary: `New Fine Tuning Job: ${item.id}`,
+        ts: item.created_at * 1000,
+      };
     },
   },
 };

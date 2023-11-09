@@ -19,8 +19,24 @@ export default {
     _setSavedItems(value) {
       this.db.set("savedItems", value);
     },
-    async getAndProcessItems() {
+    getMeta() {
+      throw new Error("No item metadata implemented!");
+    },
+    async getData() {
       throw new Error("No item fetching implemented!");
+    },
+    async getAndProcessItems(maxEvents) {
+      const savedItems = this._getSavedItems();
+      const { data } = await this.getData();
+      data
+        ?.filter(({ id }) => !savedItems.includes(id))
+        .forEach((item, index) => {
+          if (!maxEvents || index < maxEvents) {
+            this.$emit(item, this.getMeta(item));
+          }
+          savedItems.push(item.id);
+        });
+      this._setSavedItems(savedItems);
     },
   },
   hooks: {
@@ -29,6 +45,6 @@ export default {
     },
   },
   async run() {
-    await this.getAndProcessItems();
+    await this.getAndProcessItems(10);
   },
 };

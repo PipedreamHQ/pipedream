@@ -21,20 +21,17 @@ export default {
     },
   },
   methods: {
-    async getAndProcessItems() {
-      const savedItems = this._getSavedItems();
-      const { data } = await this.openai.listFiles({
+    async getData() {
+      return this.openai.listFiles({
         purpose: this.purpose,
       });
-      data?.filter(({ id }) => !savedItems.includes(id)).forEach((file) => {
-        this.$emit(file, {
-          id: file.id,
-          summary: `New File: ${file.filename}`,
-          ts: file.created_at * 1000,
-        });
-        savedItems.push(file.id);
-      });
-      this._setSavedItems(savedItems);
+    },
+    getMeta(item) {
+      return {
+        id: item.id,
+        summary: `New File: ${item.filename}`,
+        ts: item.created_at * 1000,
+      };
     },
   },
 };
