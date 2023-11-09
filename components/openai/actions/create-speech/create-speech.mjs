@@ -11,7 +11,7 @@ export default {
     model: {
       propDefinition: [
         openai,
-        "model",
+        "ttsModel",
       ],
     },
     input: {
