@@ -1,68 +1,31 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
-import Flutterwave from "../../flutterwave.app.mjs";
+import base from "../common/base.mjs";
 
 export default {
+  ...base,
   key: "flutterwave-new-transaction",
   name: "New Transaction",
   description: "Emit new event when a new transaction is added.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    flutterwave: {
-      type: "app",
-      app: "flutterwave",
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-  },
   methods: {
-    _getLatestTransactionId() {
-      return this.db.get("latestTransactionId") ?? 0;
+    ...base.methods,
+    getResourceFn() {
+      return this.flutterwave.getTransactions;
     },
-    _setLatestTransactionId(id) {
-      this.db.set("latestTransactionId", id);
+    getParams(lastTs) {
+      return lastTs
+        ? {
+          from: this.formatDate(lastTs),
+        }
+        : {};
     },
-  },
-  hooks: {
-    async deploy() {
-      // Get most recent transactions
-      const transactions = await this.flutterwave.getTransactions();
-      if (transactions.data.length > 0) {
-        // Store the ID of the most recent transaction
-        this._setLatestTransactionId(transactions.data[0].id);
-      }
+    generateMeta(transaction) {
+      return {
+        id: transaction.id,
+        summary: `New transaction: ${transaction.tx_ref}`,
+        ts: Date.parse(transaction.created_at),
+      };
     },
-  },
-  async run() {
-    // Get the latest transaction ID we've seen
-    const latestTransactionId = this._getLatestTransactionId();
-
-    // Retrieve the latest transactions
-    const transactions = await this.flutterwave.getTransactions();
-
-    // Loop over each transaction
-    for (const transaction of transactions.data) {
-      // If we haven't seen this transaction before, emit it
-      if (transaction.id > latestTransactionId) {
-        this.$emit(transaction, {
-          id: transaction.id,
-          summary: `New transaction: ${transaction.tx_ref}`,
-          ts: Date.parse(transaction.created_at),
-        });
-      }
-    }
-
-    // Store the ID of the latest transaction
-    if (transactions.data.length > 0) {
-      this._setLatestTransactionId(transactions.data[0].id);
-    }
   },
 };

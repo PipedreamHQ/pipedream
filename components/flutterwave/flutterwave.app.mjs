@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,37 +8,52 @@ export default {
     bank: {
       type: "string",
       label: "Bank",
-      async options() {
-        const banks = await this.getBanks();
+      description: "Bank Code of the bank",
+      async options({ country }) {
+        const { data: banks } = await this.getBanks({
+          country,
+        });
         return banks.map((b) => ({
-          value: b.id,
+          value: b.code,
           label: b.name,
         }));
       },
     },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "This is the country code of the Banks being queried",
+      options: constants.COUNTRIES,
+    },
     currency: {
       type: "string",
       label: "Currency",
-      async options() {
-        const currencies = [
-          "USD",
-          "GBP",
-          "EUR",
-          "JPY",
-          "AUD",
-          "CAD",
-        ];
-        return currencies.map((c) => ({
-          value: c,
-          label: c,
-        }));
-      },
+      description: "The currency of the Transfer",
+      options: constants.CURRENCIES,
     },
     payoutSubaccount: {
       type: "string",
       label: "Payout Subaccount",
+      description: "The id of a payout subaccount wallet",
+      optional: true,
       async options() {
-        const subaccounts = await this.getPayoutSubaccounts();
+        const { data: subaccounts } = await this.getPayoutSubaccounts();
+        return subaccounts.map((s) => ({
+          value: s.id,
+          label: s.account_name,
+        }));
+      },
+    },
+    accountNumber: {
+      type: "string",
+      label: "Account Number",
+      description: "This is the recipient's account number.",
+      async options({ bank }) {
+        const { data: subaccounts } = await this.getCollectionSubaccounts({
+          params: {
+            account_bank: bank,
+          },
+        });
         return subaccounts.map((s) => ({
           value: s.id,
           label: s.business_name,
@@ -47,9 +63,13 @@ export default {
     transaction: {
       type: "string",
       label: "Transaction",
-      async options() {
-        const transactions = await this.getTransactions();
-        return transactions.data.map((t) => ({
+      async options({ page }) {
+        const { data: transactions } = await this.getTransactions({
+          params: {
+            page: page + 1,
+          },
+        });
+        return transactions.map((t) => ({
           value: t.id,
           label: `${t.tx_ref} - ${t.amount} ${t.currency}`,
         }));
@@ -58,62 +78,105 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.flutterwave.com/v3";
+      return `${constants.BASE_URL}${constants.VERSION_PATH}`;
     },
-    async _makeRequest(opts = {}) {
+    _secretApiKey() {
+      return this.$auth.secret_api_key;
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this._secretApiKey()}`,
         },
       });
     },
-    async getBanks() {
+    getBanks({
+      country, ...args
+    }) {
       return this._makeRequest({
-        path: "/banks/NG",
+        path: `/banks/${country}`,
+        ...args,
       });
     },
-    async getPayoutSubaccounts() {
+    getPayoutSubaccounts(args = {}) {
+      return this._makeRequest({
+        path: "/payout-subaccounts",
+        ...args,
+      });
+    },
+    getCollectionSubaccounts(args = {}) {
       return this._makeRequest({
         path: "/subaccounts",
+        ...args,
       });
     },
-    async getTransactions() {
+    getTransactions(args = {}) {
       return this._makeRequest({
         path: "/transactions",
+        ...args,
       });
     },
-    async initiateTransfer({
-      bank, currency, payoutSubaccount,
-    }) {
+    getSubscriptions(args = {}) {
+      return this._makeRequest({
+        path: "/subscriptions",
+        ...args,
+      });
+    },
+    getTransfers(args = {}) {
+      return this._makeRequest({
+        path: "/transfers",
+        ...args,
+      });
+    },
+    initiateTransfer(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/transfers",
-        data: {
-          account_bank: bank,
-          account_number: payoutSubaccount,
-          currency: currency,
-          amount: 1000,
-          narration: "cashout",
-          beneficiary_name: "John Doe",
-        },
+        ...args,
       });
     },
-    async confirmTransaction({ transaction }) {
+    confirmTransaction({
+      transaction, ...args
+    }) {
       return this._makeRequest({
-        method: "GET",
         path: `/transactions/${transaction}/verify`,
+        ...args,
       });
+    },
+    async *paginate({
+      resourceFn, params,
+    }) {
+      params = {
+        ...params,
+        page: 1,
+      };
+      let currentPage = 1;
+      let totalPages = 1;
+      do {
+        const {
+          data, meta: { page_info: pageInfo },
+        } = await resourceFn({
+          params,
+        });
+        if (!data?.length) {
+          return;
+        }
+        for (const item of data) {
+          yield item;
+        }
+        currentPage = pageInfo?.current_page;
+        totalPages = pageInfo?.total_pages;
+        params.page++;
+      } while (currentPage !== totalPages);
     },
   },
 };
