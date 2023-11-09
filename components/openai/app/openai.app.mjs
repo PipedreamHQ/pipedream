@@ -249,20 +249,16 @@ export default {
         data: form,
       });
     },
-    async listFineTuningJobs({ after } = {}) {
+    async listFineTuningJobs(args) {
       return this._makeRequest({
         path: "/fine_tuning/jobs",
-        params: {
-          after,
-        },
+        ...args,
       });
     },
-    async listFiles({ purpose } = {}) {
+    async listFiles(args) {
       return this._makeRequest({
         path: "/files",
-        params: {
-          purpose,
-        },
+        ...args,
       });
     },
     async createSpeech(args) {
