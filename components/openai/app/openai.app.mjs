@@ -44,14 +44,10 @@ export default {
     model: {
       type: "string",
       label: "Model",
-      description: "The model to use for the text-to-speech conversion.",
+      description: "One of the available [TTS models](https://platform.openai.com/docs/models/tts).",
       options: [
         "tts-1",
         "tts-1-hd",
-        "gpt-3.5-turbo-1006",
-        "babbage-002",
-        "davinci-002",
-        "gpt-4-0613",
       ],
     },
     fineTuningModel: {
@@ -68,7 +64,7 @@ export default {
     voice: {
       type: "string",
       label: "Voice",
-      description: "The voice to use when generating the audio. Supported voices are alloy, echo, fable, onyx, nova, and shimmer.",
+      description: "The voice to use when generating the audio.",
       options: [
         "alloy",
         "echo",
@@ -81,7 +77,7 @@ export default {
     responseFormat: {
       type: "string",
       label: "Response Format",
-      description: "The format to audio in. Supported formats are mp3, opus, aac, and flac.",
+      description: "The format to audio in.",
       options: [
         "mp3",
         "opus",
@@ -91,11 +87,10 @@ export default {
       optional: true,
     },
     speed: {
-      type: "number",
+      type: "string",
       label: "Speed",
-      description: "The speed of the generated audio. Select a value from 0.25 to 4.0. 1.0 is the default.",
-      min: 0.25,
-      max: 4.0,
+      description: "The speed of the generated audio. Provide a value from 0.25 to 4.0.",
+      default: "1.0",
       optional: true,
     },
     trainingFile: {
@@ -270,21 +265,11 @@ export default {
         },
       });
     },
-    async createSpeech({
-      model,
-      input,
-      voice,
-      ...args
-    }) {
+    async createSpeech(args) {
       return this._makeRequest({
         path: "/audio/speech",
         method: "POST",
-        data: {
-          model,
-          input,
-          voice,
-          ...args,
-        },
+        ...args,
       });
     },
     async createFineTuningJob(args) {
