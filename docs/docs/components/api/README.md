@@ -878,7 +878,7 @@ import axios from "axios";
 
 When you deploy a component, Pipedream downloads the latest versions of these packages and bundles them with your deployment.
 
-Some packages — for example, packages like [Puppeteer](https://pptr.dev/), which includes large dependencies like Chromium — may not work on Pipedream. Please [reach out](https://pipedream.com/community) if you encounter a specific issue.
+Some packages that rely on large dependencies or on unbundled binaries — may not work on Pipedream. Please [reach out](https://pipedream.com/support) if you encounter a specific issue.
 
 #### Referencing a specific version of a package
 

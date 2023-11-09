@@ -143,8 +143,9 @@ Use the methods and propDefinitions in this app file to solve the requirements:
 You can call methods from the app file using `this.{app}.<method name>`. Think about it: you've already defined props and methods in the app file, so you should use these to promote code reuse.
 
 """
-            urls = component_data.get("urls", [])
+            urls = component_data.get("urls")
             if not urls:
+                urls = []
                 logger.warn(f"No API docs URLs found for {component_key}")
 
             if "source" in h2_header:

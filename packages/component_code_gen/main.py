@@ -20,14 +20,15 @@ if __name__ == '__main__':
     parser.add_argument('--urls', help='A list of (space-separated) api docs urls to be parsed and sent with the prompt',
                         default=[], nargs="*")
     parser.add_argument('--num_tries', dest='tries', help='The number of times we call the model to generate code',
-                        default=3, type=int)
+                        default=1, type=int)
     parser.add_argument(
         '--custom_path', help='The path for the location of custom files')
     parser.add_argument('--output_dir', help='The path for the output dir',
                         required=False, default=os.path.join("..", "..", "components"))
     parser.add_argument('--verbose', dest='verbose', help='Set the logging to debug',
                         default=False, action='store_true')
-    parser.add_argument('--remote', dest='remote_name', help='The Git remote name', default='origin')
+    parser.add_argument('--remote', dest='remote_name',
+                        help='The Git remote name', default='origin')
     args = parser.parse_args()
 
     if args.issue:
