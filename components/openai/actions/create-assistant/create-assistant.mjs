@@ -58,7 +58,7 @@ export default {
       name: this.name,
       description: this.description,
       instructions: this.instructions,
-      tools: this.tools.map((tool) => ({
+      tools: (this.tools || []).map((tool) => ({
         type: tool,
       })),
       file_ids: this.file_ids,

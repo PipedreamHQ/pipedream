@@ -187,6 +187,33 @@ export default {
       description: "A cursor for use in pagination, identifying the message ID to end the list before",
       optional: true,
     },
+    file_id: {
+      type: "string",
+      label: "File ID",
+      description: "The ID of the file to use for this request.",
+      async options({ prevContext }) {
+        const files = await this.listFiles({
+          purpose: prevContext
+            ? prevContext.purpose
+            : undefined,
+        });
+        return files.map((file) => ({
+          label: file.filename,
+          value: file.id,
+        }));
+      },
+    },
+    purpose: {
+      type: "string",
+      label: "Purpose",
+      description: "The intended purpose of the file.",
+      optional: true,
+    },
+    file: {
+      type: "string",
+      label: "File",
+      description: "The file content to be uploaded, represented as a string. The size of individual files can be a maximum of 512mb.",
+    },
   },
   methods: {
     _apiKey() {
@@ -553,6 +580,47 @@ export default {
         path: `/threads/${threadId}/runs/${runId}/steps`,
         headers: this._betaHeaders(),
         params: opts,
+      });
+    },
+    async listFiles({ purpose } = {}) {
+      return this._makeRequest({
+        path: "/files",
+        headers: this._betaHeaders(),
+        params: {
+          purpose,
+        },
+      });
+    },
+    async uploadFile({
+      file, purpose,
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/files",
+        headers: this._betaHeaders(),
+        data: {
+          file,
+          purpose,
+        },
+      });
+    },
+    async deleteFile({ file_id }) {
+      return this._makeRequest({
+        method: "DELETE",
+        headers: this._betaHeaders(),
+        path: `/files/${file_id}`,
+      });
+    },
+    async retrieveFile({ file_id }) {
+      return this._makeRequest({
+        headers: this._betaHeaders(),
+        path: `/files/${file_id}`,
+      });
+    },
+    async retrieveFileContent({ file_id }) {
+      return this._makeRequest({
+        headers: this._betaHeaders(),
+        path: `/files/${file_id}/content`,
       });
     },
   },

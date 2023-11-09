@@ -33,10 +33,17 @@ export default {
       description: "_Advanced_. Because [the models have no memory of past chat requests](https://platform.openai.com/docs/guides/chat/introduction), all relevant information must be supplied via the conversation. You can provide [an array of messages](https://platform.openai.com/docs/guides/chat/introduction) from prior conversations here. If this param is set, the action ignores the values passed to **System Instructions** and **Assistant Response**, appends the new **User Message** to the end of this array, and sends it to the API.",
       optional: true,
     },
+    images: {
+      label: "Images",
+      type: "string[]",
+      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview model`",
+      optional: true,
+    },
     ...common.props,
   },
   async run({ $ }) {
     const args = this._getChatArgs();
+    console.log(args);
     const response = await this.openai.createChatCompletion({
       $,
       args,

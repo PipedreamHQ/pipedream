@@ -26,9 +26,7 @@ export default {
   async run({ $ }) {
     const response = await this.openai.createThread({
       $,
-      messages: this.messages
-        ? this.messages.map(JSON.parse)
-        : undefined,
+      messages: this.messages,
       metadata: this.metadata,
     });
 
