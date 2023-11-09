@@ -8,7 +8,7 @@ packages = [{include = "public_q_and_a"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-langchain = "^0.0.325"
+langchain = "^0.0.313"
 openai = "^0.27.2"
 jupyter = "^1.0.0"
 pathlib = "^1.0.1"
@@ -25,7 +25,9 @@ scikit-learn = "^1.2.2"
 torch = "^2.0.0"
 matplotlib = "^3.7.1"
 scikit-optimize = "^0.9.0"
-supabase = "^1.0.3"
+supabase = "^1.2.0"
+markdownify = "^0.11.6"
+lxml = "^4.9.3"
 
 
 [build-system]
