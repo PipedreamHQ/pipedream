@@ -22,39 +22,37 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.passcreator.com";
+      return "https://app.passcreator.com/api";
     },
-    async _makeRequest(opts = {}) {
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.access_token}`,
+          "Authorization": `${this._apiKey()}`,
         },
       });
     },
-    async getScan(scanId) {
+    createSubscription(args = {}) {
       return this._makeRequest({
-        path: `/space/api/23494978/${scanId}`,
+        path: "/hook/subscribe",
+        method: "POST",
+        ...args,
       });
     },
-    async getVoidedPass(voidPassId) {
+    deleteSubscription(args = {}) {
       return this._makeRequest({
-        path: `/space/api/23331211/${voidPassId}`,
-      });
-    },
-    async getNewPass(newPassId) {
-      return this._makeRequest({
-        path: `/space/api/23331116/subscription+endpoint/${newPassId}`,
+        path: "/hook/unsubscribe",
+        method: "DELETE",
+        ...args,
       });
     },
   },
