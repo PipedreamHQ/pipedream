@@ -77,6 +77,11 @@ export default {
       label: "Run ID",
       description: "The unique identifier for the run.",
     },
+    stepId: {
+      type: "string",
+      label: "Step ID",
+      description: "The unique identifier for the step.",
+    },
     assistantId: {
       type: "string",
       label: "Assistant ID",
