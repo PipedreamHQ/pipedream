@@ -40,7 +40,6 @@ export default {
         "fine-tune",
         "assistants",
       ],
-      optional: true,
     },
     model: {
       type: "string",
@@ -107,7 +106,8 @@ export default {
     file: {
       type: "string",
       label: "File",
-      description: "The reference to a file on `/tmp` to be uploaded.",
+      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). See the [Assistants Tools guide](https://platform.openai.com/docs/assistants/tools) to learn more about the types of files supported. The Fine-tuning API only supports `.jsonl` files.",
+      optional: true,
     },
   },
   methods: {
@@ -270,24 +270,6 @@ export default {
         },
       });
     },
-    async createFile({
-      purpose,
-      // file,
-    }) {
-      const form = new FormData();
-      form.append("purpose", purpose);
-      // form.append("file", fs.createReadStream(file));
-
-      return this._makeRequest({
-        path: "/files",
-        method: "POST",
-        headers: {
-          ...this._commonHeaders(),
-          "Content-Type": `multipart/form-data; boundary=${form._boundary}`,
-        },
-        data: form,
-      });
-    },
     async createSpeech({
       model,
       input,
@@ -308,6 +290,13 @@ export default {
     async createFineTuningJob(args) {
       return this._makeRequest({
         path: "/fine_tuning/jobs",
+        method: "POST",
+        ...args,
+      });
+    },
+    async uploadFile(args) {
+      return this._makeRequest({
+        path: "/files",
         method: "POST",
         ...args,
       });

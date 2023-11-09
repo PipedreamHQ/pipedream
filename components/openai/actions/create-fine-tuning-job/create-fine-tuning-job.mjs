@@ -36,6 +36,7 @@ export default {
       type: "string",
       label: "Validation File",
       description: "The ID of an uploaded file that contains validation data. [See details on the documentation.](https://platform.openai.com/docs/api-reference/fine-tuning/create#fine-tuning-create-validation_file)",
+      optional: true,
     },
   },
   async run({ $ }) {
