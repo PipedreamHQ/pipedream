@@ -43,7 +43,7 @@ export default {
   },
   async run({ $ }) {
     const args = this._getChatArgs();
-    console.log(args);
+
     const response = await this.openai.createChatCompletion({
       $,
       args,

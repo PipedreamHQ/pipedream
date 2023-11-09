@@ -146,8 +146,6 @@ export default {
         "content": this._getUserMessageContent(),
       });
 
-      console.log(messages);
-
       return {
         ...this._getCommonArgs(),
         messages,
