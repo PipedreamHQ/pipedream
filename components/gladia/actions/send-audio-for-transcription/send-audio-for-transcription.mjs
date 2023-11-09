@@ -102,9 +102,9 @@ export default {
       const filePath = checkTmp(audio);
       formData.append("audio", fs.createReadStream(filePath));
     }
-    formData.append("toggleNoiseReduction", `${toggleNoiseReduction}`);
-    formData.append("toggleDiarization", `${toggleDiarization}`);
-    formData.append("toggleDirectTranslate", `${toggleDirectTranslate}`);
+    formData.append("toggle_noise_reduction", `${toggleNoiseReduction}`);
+    formData.append("toggle_diarization", `${toggleDiarization}`);
+    formData.append("toggle_direct_translate", `${toggleDirectTranslate}`);
 
     for (const [
       key,
