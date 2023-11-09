@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/freshlearn",
+  "version": "0.0.1",
+  "description": "Pipedream Freshlearn Components",
+  "main": "freshlearn.app.mjs",
+  "keywords": [
+    "pipedream",
+    "freshlearn"
+  ],
+  "homepage": "https://pipedream.com/apps/freshlearn",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -30,6 +30,7 @@ export default {
           "--disable-web-security",
           "--font-render-hinting=none",
         ],
+        protocolTimeout: 240000,
         ...opts,
       });
 
