@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import { FINE_TUNING_MODEL_OPTIONS } from "./actions/common/constants.mjs";
+import { FINE_TUNING_MODEL_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
