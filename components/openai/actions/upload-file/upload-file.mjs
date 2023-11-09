@@ -1,46 +1,41 @@
 import openai from "../../openai.app.mjs";
-import fs from "fs";
-import FormData from "form-data";
 
 export default {
   key: "openai-upload-file",
   name: "Upload File",
-  description: "Uploads a file to be used with features like Assistants and Fine-tuning. [See the documentation](https://platform.openai.com/docs/api-reference/files/create)",
-  version: "0.0.1",
+  description: "Upload a file that can be used across various endpoints/features. The size of individual files can be a maximum of 512mb. [See the documentation](https://beta.openai.com/docs/guides/files)",
+  version: "0.0.4",
   type: "action",
   props: {
     openai,
     file: {
-      propDefinition: [
-        openai,
-        "file",
-      ],
+      type: "string",
+      label: "File",
+      description: "The file content to be uploaded, represented as a string. The size of individual files can be a maximum of 512mb.",
     },
     purpose: {
-      propDefinition: [
-        openai,
-        "purpose",
+      type: "string",
+      label: "Purpose",
+      description: "The intended purpose of the file.",
+      options: [
+        {
+          label: "fine-tune",
+          value: "fine-tune",
+        },
+        {
+          label: "assistants",
+          value: "assistants",
+        },
       ],
     },
   },
   async run({ $ }) {
-    const {
-      file, purpose,
-    } = this;
-    const data = new FormData();
-    const content = fs.createReadStream(file.includes("tmp/")
-      ? file
-      : `/tmp/${file}`);
-    data.append("purpose", purpose);
-    data.append("file", content);
-
     const response = await this.openai.uploadFile({
-      $,
-      data,
-      headers: data.getHeaders(),
+      file: this.file,
+      purpose: this.purpose,
     });
 
-    $.export("$summary", `Successfully uploaded file with purpose: ${purpose}`);
+    $.export("$summary", `Successfully uploaded file with purpose: ${this.purpose}`);
     return response;
   },
 };
