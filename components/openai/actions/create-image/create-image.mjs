@@ -3,12 +3,28 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Image",
-  version: "0.1.3",
+  version: "0.1.4",
   key: "openai-create-image",
   description: "Creates an image given a prompt. returns a URL to the image. [See docs here](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
   props: {
     openai,
+    model: {
+      label: "Model",
+      description: "Choose the DALL·E models to generate image(s) with.",
+      type: "string",
+      options: [
+        {
+          label: "dall-e-2",
+          value: "dall-e-2",
+        },
+        {
+          label: "dall-e-3",
+          value: "dall-e-3",
+        },
+      ],
+      default: "dall-e-3",
+    },
     prompt: {
       label: "Prompt",
       description: "A text description of the desired image(s). The maximum length is 1000 characters.",
@@ -29,6 +45,40 @@ export default {
       options: constants.IMAGE_SIZES,
       default: "1024x1024",
     },
+    quality: {
+      label: "Quality",
+      description: "The quality of the image",
+      type: "string",
+      optional: true,
+      options: [
+        {
+          label: "Standard",
+          value: "standard",
+        },
+        {
+          label: "HD",
+          value: "HD",
+        },
+      ],
+      default: "standard",
+    },
+    style: {
+      label: "Style",
+      description: "The style of the image",
+      type: "string",
+      optional: true,
+      options: [
+        {
+          label: "Natural",
+          value: "natural",
+        },
+        {
+          label: "Vivid",
+          value: "vivid",
+        },
+      ],
+      default: "natural",
+    },
   },
   async run({ $ }) {
     const response = await this.openai.createImage({
@@ -38,6 +88,9 @@ export default {
         n: this.n,
         size: this.size,
         response_format: this.responseFormat,
+        model: this.model,
+        quality: this.quality,
+        style: this.style,
       },
     });
 
