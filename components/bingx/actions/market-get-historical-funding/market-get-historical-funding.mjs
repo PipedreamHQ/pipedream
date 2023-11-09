@@ -2,9 +2,9 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Market Get History Funding",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-market-get-historical-funding",
-  description: "Funding Rate History [reference](https://bingx-api.github.io/docs/swap/market-api.html#_6-funding-rate-history).",
+  description: "Funding Rate History [See the documentation](https://bingx-api.github.io/docs/#/swapV2/market-api.html#Current%20Funding%20Rate).",
   props: {
     bingx,
     symbol: {
@@ -16,13 +16,18 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "GET";
-    const API_PATH = "/api/v1/market/getHistoryFunding";
-    const parameters = {
-      "symbol": this.symbol,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-    $.export("$summary", `Historical Funding Rate for Trading Pair ${this.symbol}`);
+    const returnValue = await this.bingx.makeRequest({
+      path: "/quote/fundingRate",
+      params: {
+        symbol: this.symbol,
+      },
+      $,
+    });
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Historical Funding Rate for Trading Pair ${this.symbol}`);
+    }
     return returnValue;
   },
 };
