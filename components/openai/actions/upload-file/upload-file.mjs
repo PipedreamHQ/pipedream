@@ -1,5 +1,6 @@
 import openai from "../../openai.app.mjs";
 import fs from "fs";
+import FormData from "form-data";
 
 export default {
   key: "openai-upload-file",
@@ -36,6 +37,7 @@ export default {
     const response = await this.openai.uploadFile({
       $,
       data,
+      headers: data.getHeaders(),
     });
 
     $.export("$summary", `Successfully uploaded file with purpose: ${purpose}`);
