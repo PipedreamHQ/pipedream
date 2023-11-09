@@ -33,7 +33,7 @@ export default {
     phone: {
       type: "string",
       label: "Phone",
-      description: "The phone of the contact. `Email OR phone is required`.",
+      description: "The phone of the contact. `Email` OR `Phone` is required.",
       optional: true,
     },
     avatar: {
