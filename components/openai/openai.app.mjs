@@ -302,13 +302,13 @@ export default {
       ...args
     } = {}) {
       return axios($, {
+        ...args,
         url: `${this._baseApiUrl()}${path}`,
         headers: {
-          ...this._commonHeaders(),
           ...args.headers,
+          ...this._commonHeaders(),
         },
         maxBodyLength: Infinity,
-        ...args,
       });
     },
     async models({ $ }) {
