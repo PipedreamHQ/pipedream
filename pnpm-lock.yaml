@@ -1703,7 +1703,10 @@ importers:
     specifiers: {}
 
   components/endorsal:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/enedis:
     specifiers:
