@@ -23,7 +23,7 @@ export default {
         },
       });
     },
-    async getDomainMx(args = {}) {
+    getDomainMx(args = {}) {
       return this._makeRequest({
         path: "/domain/resolve/mx",
         method: "post",
