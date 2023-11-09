@@ -4,22 +4,57 @@ export default {
   type: "app",
   app: "shipday",
   propDefinitions: {
+    orderNumber: {
+      type: "string",
+      label: "Order Number",
+      description: "Alphanumeric identifier for the order object",
+    },
+    customerName: {
+      type: "string",
+      label: "Customer Name",
+      description: "The name of the customer",
+    },
+    customerAddress: {
+      type: "string",
+      label: "Customer Address",
+      description: "The address of the customer",
+    },
+    customerEmail: {
+      type: "string",
+      label: "Customer Email",
+      description: "The email address of the customer",
+    },
+    customerPhoneNumber: {
+      type: "string",
+      label: "Customer Phone Number",
+      description: "Phone number of the customer with country code",
+    },
+    restaurantName: {
+      type: "string",
+      label: "Restaurant Name",
+      description: "The name of the restaurant",
+    },
+    restaurantAddress: {
+      type: "string",
+      label: "Restaurant Address",
+      description: "The address of the restaurant",
+    },
     expecteddeliverydate: {
       type: "string",
       label: "Expected Delivery Date",
-      description: "The expected delivery date for the order",
+      description: "Expected delivery date in UTC for the particular order ( yyyy-mm-dd format)",
       optional: true,
     },
     expectedpickuptime: {
       type: "string",
       label: "Expected Pickup Time",
-      description: "The expected pickup time for the order",
+      description: "Expected pickup time in UTC for the particular order (format hh:mm:ss)",
       optional: true,
     },
     expecteddeliverytime: {
       type: "string",
       label: "Expected Delivery Time",
-      description: "The expected delivery time for the order",
+      description: "Expected Delivery Time in UTC for the particular order (format hh:mm:ss)",
       optional: true,
     },
     pickuplatitude: {
@@ -49,7 +84,7 @@ export default {
     tips: {
       type: "string",
       label: "Tips",
-      description: "The tips for the order",
+      description: "Tips amount for the order",
       optional: true,
     },
     tax: {
@@ -93,33 +128,29 @@ export default {
     _baseUrl() {
       return "https://api.shipday.com";
     },
-    async _makeRequest(opts = {}) {
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_token}`,
+          "Authorization": `Basic ${this._apiKey()}`,
         },
       });
     },
-    async createShippingOrder(opts = {}) {
+    createShippingOrder(opts = {}) {
       return this._makeRequest({
         ...opts,
         method: "POST",
         path: "/orders",
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
