@@ -1462,7 +1462,10 @@ importers:
     specifiers: {}
 
   components/discogs:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/discord:
     specifiers:
