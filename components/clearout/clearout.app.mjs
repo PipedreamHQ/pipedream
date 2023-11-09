@@ -11,7 +11,7 @@ export default {
     _apiUrl() {
       return "https://api.clearout.io/v2";
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this, path, ...args
     }) {
       return axios($, {
