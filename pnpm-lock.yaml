@@ -1930,7 +1930,10 @@ importers:
     specifiers: {}
 
   components/flutterwave:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/focuster:
     specifiers: {}
@@ -10277,7 +10280,7 @@ packages:
       enabled: 2.0.0
       kuler: 2.0.0
     dev: false
-    
+
   /@definitelytyped/header-parser/0.0.186:
     resolution: {integrity: sha512-rPuE7sNN5Ty5hH3KpFIHTZEdqtkslpzQF0LAP9vz7i9CeJaQm5uwuYGuPrhXL339kh9g2B5Hcct7G3T9BJMf8Q==}
     dependencies:
