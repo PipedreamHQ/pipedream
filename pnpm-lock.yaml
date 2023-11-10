@@ -1440,7 +1440,14 @@ importers:
     specifiers: {}
 
   components/diffchecker:
-    specifiers: {}
+    specifiers:
+      axios: ^1.6.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      axios: 1.6.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/digicert:
     specifiers: {}
@@ -11478,7 +11485,7 @@ packages:
     dependencies:
       '@types/body-parser': 1.19.3
       '@types/node': 18.18.3
-      axios: 1.5.1
+      axios: 1.6.1
       body-parser: 1.20.2
       file-type: 16.5.4
       form-data: 4.0.0
@@ -14085,7 +14092,7 @@ packages:
     resolution: {integrity: sha512-KqQnQbdYE54D7oa/UmYVMZKq7CO4l8DEENzOKc4aBRwxCXSlJXGz83flFx5L7AWrOQnmuN3kVsRdt+GZPPjiVQ==}
     deprecated: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
     dependencies:
-      axios: 1.5.1
+      axios: 1.6.1
     transitivePeerDependencies:
       - debug
     dev: true
@@ -15238,9 +15245,19 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
 
-  /axios/1.5.1_debug@3.2.7:
-    resolution: {integrity: sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==}
+  /axios/1.6.1:
+    resolution: {integrity: sha512-vfBmhDpKafglh0EldBEbVuoe7DyAavGSLWhuSm5ZSEKQnHhBf0xAAwybbNH1IkrJNGnS/VG4I5yxig1pCEXE4g==}
+    dependencies:
+      follow-redirects: 1.15.3
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  /axios/1.6.1_debug@3.2.7:
+    resolution: {integrity: sha512-vfBmhDpKafglh0EldBEbVuoe7DyAavGSLWhuSm5ZSEKQnHhBf0xAAwybbNH1IkrJNGnS/VG4I5yxig1pCEXE4g==}
     dependencies:
       follow-redirects: 1.15.3_debug@3.2.7
       form-data: 4.0.0
@@ -25984,7 +26001,7 @@ packages:
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1_asn1.js@5.4.1
       asn1.js-rfc5280: 3.0.0
-      axios: 1.5.1_debug@3.2.7
+      axios: 1.6.1_debug@3.2.7
       big-integer: 1.6.51
       bignumber.js: 2.4.0
       binascii: 0.0.2
