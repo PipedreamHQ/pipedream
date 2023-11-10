@@ -8,7 +8,7 @@ export default {
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   props: {
@@ -29,7 +29,9 @@ export default {
 
     for await (const page of pagesStream) {
       if (!this.isResultNew(page.last_edited_time, lastCheckedTimestamp)) {
-        continue;
+        // The call to getPages() includes a descending sort by last_edited_time.
+        // As soon as one page !isResultNew(), all of the following ones will also.
+        break;
       }
 
       const meta = this.generateMeta(

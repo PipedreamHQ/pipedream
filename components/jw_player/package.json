@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/jw_player",
+  "version": "0.0.1",
+  "description": "Pipedream JW Player Components",
+  "main": "jw_player.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jw_player"
+  ],
+  "homepage": "https://pipedream.com/apps/jw_player",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
