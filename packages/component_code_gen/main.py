@@ -20,7 +20,7 @@ if __name__ == '__main__':
     parser.add_argument('--urls', help='A list of (space-separated) api docs urls to be parsed and sent with the prompt',
                         default=[], nargs="*")
     parser.add_argument('--num_tries', dest='tries', help='The number of times we call the model to generate code',
-                        default=3, type=int)
+                        default=1, type=int)
     parser.add_argument(
         '--custom_path', help='The path for the location of custom files')
     parser.add_argument('--output_dir', help='The path for the output dir',
