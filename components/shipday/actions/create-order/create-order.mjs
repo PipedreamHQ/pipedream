@@ -48,46 +48,46 @@ export default {
         "restaurantAddress",
       ],
     },
-    expecteddeliverydate: {
+    expectedDeliveryDate: {
       propDefinition: [
         shipday,
-        "expecteddeliverydate",
+        "expectedDeliveryDate",
       ],
     },
-    expectedpickuptime: {
+    expectedPickupTime: {
       propDefinition: [
         shipday,
-        "expectedpickuptime",
+        "expectedPickupTime",
       ],
     },
-    expecteddeliverytime: {
+    expectedDeliveryTime: {
       propDefinition: [
         shipday,
-        "expecteddeliverytime",
+        "expectedDeliveryTime",
       ],
     },
-    pickuplatitude: {
+    pickupLatitude: {
       propDefinition: [
         shipday,
-        "pickuplatitude",
+        "pickupLatitude",
       ],
     },
-    pickuplongitude: {
+    pickupLongitude: {
       propDefinition: [
         shipday,
-        "pickuplongitude",
+        "pickupLongitude",
       ],
     },
-    deliverylatitude: {
+    deliveryLatitude: {
       propDefinition: [
         shipday,
-        "deliverylatitude",
+        "deliveryLatitude",
       ],
     },
-    deliverylongitude: {
+    deliveryLongitude: {
       propDefinition: [
         shipday,
-        "deliverylongitude",
+        "deliveryLongitude",
       ],
     },
     tips: {
@@ -102,34 +102,34 @@ export default {
         "tax",
       ],
     },
-    discountamount: {
+    discountAmount: {
       propDefinition: [
         shipday,
-        "discountamount",
+        "discountAmount",
       ],
     },
-    deliveryfee: {
+    deliveryFee: {
       propDefinition: [
         shipday,
-        "deliveryfee",
+        "deliveryFee",
       ],
     },
-    totalordercost: {
+    totalOrderCost: {
       propDefinition: [
         shipday,
-        "totalordercost",
+        "totalOrderCost",
       ],
     },
-    pickupinstruction: {
+    pickupInstruction: {
       propDefinition: [
         shipday,
-        "pickupinstruction",
+        "pickupInstruction",
       ],
     },
-    deliveryinstruction: {
+    deliveryInstruction: {
       propDefinition: [
         shipday,
-        "deliveryinstruction",
+        "deliveryInstruction",
       ],
     },
   },
@@ -143,20 +143,20 @@ export default {
         customerPhoneNumber: this.customerPhoneNumber,
         restaurantName: this.restaurantName,
         restaurantAddress: this.restaurantAddress,
-        expecteddeliverydate: this.expecteddeliverydate,
-        expectedpickuptime: this.expectedpickuptime,
-        expecteddeliverytime: this.expecteddeliverytime,
-        pickuplatitude: this.pickuplatitude,
-        pickuplongitude: this.pickuplongitude,
-        deliverylatitude: this.deliverylatitude,
-        deliverylongitude: this.deliverylongitude,
+        expectedDeliveryDate: this.expectedDeliveryDate,
+        expectedPickupTime: this.expectedPickupTime,
+        expectedDeliveryTime: this.expectedDeliveryTime,
+        pickupLatitude: this.pickupLatitude,
+        pickupLongitude: this.pickupLongitude,
+        deliveryLatitude: this.deliveryLatitude,
+        deliveryLongitude: this.deliveryLongitude,
         tips: this.tips,
         tax: this.tax,
-        discountamount: this.discountamount,
-        deliveryfee: this.deliveryfee,
-        totalordercost: this.totalordercost,
-        pickupinstruction: this.pickupinstruction,
-        deliveryinstruction: this.deliveryinstruction,
+        discountAmount: this.discountAmount,
+        deliveryFee: this.deliveryFee,
+        totalOrderCost: this.totalOrderCost,
+        pickupInstruction: this.pickupInstruction,
+        deliveryInstruction: this.deliveryInstruction,
       },
     });
     if (response?.orderId) {

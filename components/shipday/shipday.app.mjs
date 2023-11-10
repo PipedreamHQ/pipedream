@@ -39,43 +39,43 @@ export default {
       label: "Restaurant Address",
       description: "The address of the restaurant",
     },
-    expecteddeliverydate: {
+    expectedDeliveryDate: {
       type: "string",
       label: "Expected Delivery Date",
       description: "Expected delivery date in UTC for the particular order ( yyyy-mm-dd format)",
       optional: true,
     },
-    expectedpickuptime: {
+    expectedPickupTime: {
       type: "string",
       label: "Expected Pickup Time",
       description: "Expected pickup time in UTC for the particular order (format hh:mm:ss)",
       optional: true,
     },
-    expecteddeliverytime: {
+    expectedDeliveryTime: {
       type: "string",
       label: "Expected Delivery Time",
       description: "Expected Delivery Time in UTC for the particular order (format hh:mm:ss)",
       optional: true,
     },
-    pickuplatitude: {
+    pickupLatitude: {
       type: "string",
       label: "Pickup Latitude",
       description: "The latitude of the pickup location",
       optional: true,
     },
-    pickuplongitude: {
+    pickupLongitude: {
       type: "string",
       label: "Pickup Longitude",
       description: "The longitude of the pickup location",
       optional: true,
     },
-    deliverylatitude: {
+    deliveryLatitude: {
       type: "string",
       label: "Delivery Latitude",
       description: "The latitude of the delivery location",
       optional: true,
     },
-    deliverylongitude: {
+    deliveryLongitude: {
       type: "string",
       label: "Delivery Longitude",
       description: "The longitude of the delivery location",
@@ -93,31 +93,31 @@ export default {
       description: "The tax for the order",
       optional: true,
     },
-    discountamount: {
+    discountAmount: {
       type: "string",
       label: "Discount Amount",
       description: "The discount amount for the order",
       optional: true,
     },
-    deliveryfee: {
+    deliveryFee: {
       type: "string",
       label: "Delivery Fee",
       description: "The delivery fee for the order",
       optional: true,
     },
-    totalordercost: {
+    totalOrderCost: {
       type: "string",
       label: "Total Order Cost",
       description: "The total cost of the order",
       optional: true,
     },
-    pickupinstruction: {
+    pickupInstruction: {
       type: "string",
       label: "Pickup Instruction",
       description: "The pickup instructions for the order",
       optional: true,
     },
-    deliveryinstruction: {
+    deliveryInstruction: {
       type: "string",
       label: "Delivery Instruction",
       description: "The delivery instructions for the order",
