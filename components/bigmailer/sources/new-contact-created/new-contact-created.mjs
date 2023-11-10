@@ -1,13 +1,11 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import bigmailer from "../../bigmailer.app.mjs";
 
 export default {
   key: "bigmailer-new-contact-created",
   name: "New Contact Created",
   description: "Emit new event when a new contact is created.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -27,32 +25,39 @@ export default {
     },
   },
   methods: {
-    _getLastContactId() {
-      return this.db.get("lastContactId") ?? 0;
+    _getLastTs() {
+      return this.db.get("lastTs") ?? 0;
     },
-    _setLastContactId(lastContactId) {
-      this.db.set("lastContactId", lastContactId);
+    _setLastTs(lastTs) {
+      this.db.set("lastTs", lastTs);
+    },
+    generateMeta(contact) {
+      return {
+        id: contact.id,
+        summary: `New Contact: ${contact.email}`,
+        ts: contact.created,
+      };
     },
   },
   async run() {
-    const lastContactId = this._getLastContactId();
-    let newLastContactId = lastContactId;
+    const lastTs = this._getLastTs();
+    let maxTs = lastTs;
 
-    const contacts = await this.bigmailer.listContacts({
-      brandId: this.brandId,
+    const contacts = this.bigmailer.paginate({
+      resourceFn: this.bigmailer.listContacts,
+      args: {
+        brandId: this.brandId,
+      },
     });
-    // Sort the contacts by most recent
-    const sortedContacts = contacts.sort((a, b) => b.id - a.id);
-    for (const contact of sortedContacts) {
-      if (contact.id > lastContactId) {
-        this.$emit(contact, {
-          id: contact.id,
-          summary: `New Contact: ${contact.email}`,
-          ts: Date.now(),
-        });
-        newLastContactId = Math.max(newLastContactId, contact.id);
+
+    for await (const contact of contacts) {
+      if (contact.created > lastTs) {
+        const meta = this.generateMeta(contact);
+        this.$emit(contact, meta);
+        maxTs = Math.max(maxTs, contact.created);
       }
     }
-    this._setLastContactId(newLastContactId);
+
+    this._setLastTs(maxTs);
   },
 };
