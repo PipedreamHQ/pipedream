@@ -129,12 +129,14 @@ export default {
       token,
       server,
       task,
+      responseType: "arraybuffer",
     });
 
-    const filePath = `/tmp/${outputFilename ?? processResponse.download_filename}`;
+    const filePath = outputFilename?.includes?.("tmp/")
+      ? outputFilename
+      : `/tmp/${outputFilename ?? processResponse.download_filename}`;
 
-    const encoded = new TextEncoder().encode(downloadResponse);
-    await fs.promises.writeFile(filePath, encoded);
+    await fs.promises.writeFile(filePath, Buffer.from(downloadResponse));
 
     $.export("$summary", `Successfully processed ${processResponse.output_filenumber} files`);
     return {
