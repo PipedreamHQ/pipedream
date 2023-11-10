@@ -52,25 +52,18 @@ export default {
     _baseUrl() {
       return "https://api.nexweave.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        params,
-        data,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
-        method,
         url: `${this._baseUrl()}${path}`,
         headers: {
           "X-API-KEY": this.$auth.api_key,
           ...headers,
         },
-        params,
-        data,
         ...otherOpts,
       });
     },
