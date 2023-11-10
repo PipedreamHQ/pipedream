@@ -1,10 +1,12 @@
 const stripe = require("../../stripe.app.js");
 
 module.exports = {
+  key: "stripe-cart-abandonment",
   name: "Cart Abandonment",
+  type: "action",
   description: "Emits an event when a customer abandons their cart.",
   version: "0.0.1",
-  dedupe: "unique", // Dedupe events based on the ID of the PaymentIntent
+  dedupe: "unique",
   props: {
     stripe,
     events: {
