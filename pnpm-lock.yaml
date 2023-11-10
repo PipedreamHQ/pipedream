@@ -4135,6 +4135,7 @@ importers:
       form-data: ^4.0.0
       got: ^12.6.0
       openai: ^3.2.1
+      tmp-promise: ^3.0.3
     dependencies:
       '@ffmpeg-installer/ffmpeg': 1.1.0
       '@pipedream/platform': 1.5.1
@@ -4142,6 +4143,7 @@ importers:
       form-data: 4.0.0
       got: 12.6.1
       openai: 3.3.0
+      tmp-promise: 3.0.3
     devDependencies:
       '@types/node': 17.0.45
 

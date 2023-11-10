@@ -1,4 +1,6 @@
 import openai from "../../openai.app.mjs";
+import fs from "fs";
+import { file } from "tmp-promise";
 
 export default {
   key: "openai-create-speech",
@@ -38,6 +40,11 @@ export default {
         "speed",
       ],
     },
+    outputFile: {
+      type: "string",
+      label: "Output Filename",
+      description: "The filename of the output audio file that will be written to the `/tmp` folder, e.g. `myFile.mp3`",
+    },
   },
   async run({ $ }) {
     const response = await this.openai.createSpeech({
@@ -51,7 +58,18 @@ export default {
       },
     });
 
-    $.export("$summary", "Generated speech successfully");
-    return response;
+    const outputFilePath = this.outputFile.includes("tmp/")
+      ? this.outputFile
+      : `/tmp/${this.outputFile}`;
+
+    const { cleanup } = await file();
+    await fs.promises.appendFile(outputFilePath, Buffer.from(response));
+    await cleanup();
+
+    $.export("$summary", "Generated audio successfully");
+    return {
+      outputFilePath,
+      response,
+    };
   },
 };
