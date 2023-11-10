@@ -1,47 +1,38 @@
-import productiveio from "../../productiveio.app.mjs";
+import common from "../common/webhook.mjs";
+import events from "../common/events.mjs";
 
 export default {
+  ...common,
   key: "productiveio-new-booking-instant",
   name: "New Booking (Instant)",
-  description: "Emit new event when a new booking is created. [See the documentation](https://developer.productive.io/index.html)",
-  version: "0.0.1",
+  description: "Emit new event when a new booking is created. [See the documentation](https://developer.productive.io/webhooks.html#webhooks)",
   type: "source",
+  version: "0.0.1",
   dedupe: "unique",
-  props: {
-    productiveio,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  methods: {
+    ...common.methods,
+    getResourcesFn() {
+      return this.app.listBookings;
     },
-    db: "$.service.db",
-  },
-  hooks: {
-    async activate() {
-      const { id } = await this.productiveio.createWebhook({
-        type: "bookings",
-        url: this.http.endpoint,
-      });
-      this.db.set("webhookId", id);
+    getResourcesFnArgs() {
+      return {
+        params: {
+          "sort": "-created_at",
+        },
+      };
     },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      if (webhookId) {
-        await this.productiveio.deleteWebhook(webhookId);
-      }
+    getResourcesName() {
+      return "data";
     },
-  },
-  async run({ body }) {
-    // Signature validation is not provided in the example,
-    // but should be implemented here if applicable
-
-    this.$emit(body, {
-      id: body.data.id,
-      summary: `New booking created: ${body.data.attributes.name}`,
-      ts: Date.parse(body.data.attributes.created_at),
-    });
-
-    this.http.respond({
-      status: 200,
-    });
+    getEventId() {
+      return events.NEW_BOOKING;
+    },
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: `New Booking: ${resource.id}`,
+        ts: Date.parse(resource.attributes.created_at),
+      };
+    },
   },
 };

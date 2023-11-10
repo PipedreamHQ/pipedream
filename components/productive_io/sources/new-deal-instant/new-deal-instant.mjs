@@ -1,71 +1,38 @@
-import productiveio from "../../productiveio.app.mjs";
-import crypto from "crypto";
+import common from "../common/webhook.mjs";
+import events from "../common/events.mjs";
 
 export default {
+  ...common,
   key: "productiveio-new-deal-instant",
   name: "New Deal (Instant)",
-  description: "Emit new event when a new deal is created. [See the documentation](https://developer.productive.io/webhooks.html)",
-  version: "0.0.1",
+  description: "Emit new event when a new deal is created. [See the documentation](https://developer.productive.io/webhooks.html#webhooks)",
   type: "source",
+  version: "0.0.1",
   dedupe: "unique",
-  props: {
-    productiveio,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  methods: {
+    ...common.methods,
+    getResourcesFn() {
+      return this.app.listDeals;
     },
-    db: "$.service.db",
-  },
-  hooks: {
-    async deploy() {
-      // Create a webhook for new deals
-      const { id } = await this.productiveio.createWebhook({
-        type: "deals",
-        target_url: this.http.endpoint,
-      });
-
-      // Save the webhook information to the component's state
-      this.db.set("webhookId", id);
+    getResourcesFnArgs() {
+      return {
+        params: {
+          "sort": "-created_at",
+        },
+      };
     },
-    async deactivate() {
-      // Remove the webhook
-      const webhookId = this.db.get("webhookId");
-      await this.productiveio.deleteWebhook(webhookId);
+    getResourcesName() {
+      return "data";
     },
-  },
-  async run(event) {
-    const productiveSignature = event.headers["productive-signature"];
-    const [
-      , signature,
-    ] = productiveSignature.split(", s=");
-    const token = this.productiveio.$auth.api_token;
-    const timestamp = event.headers["date"];
-    const payload = JSON.stringify(event.body);
-    const computedSignature = crypto
-      .createHmac("sha256", token)
-      .update(`${timestamp}.${payload}`)
-      .digest("hex");
-
-    // Validate signature
-    if (signature !== computedSignature) {
-      this.http.respond({
-        status: 401,
-        body: "Unauthorized",
-      });
-      return;
-    }
-
-    // Emit the event
-    this.$emit(event.body, {
-      id: event.body.data.id,
-      summary: "New deal created",
-      ts: Date.parse(event.body.data.attributes.created_at),
-    });
-
-    // Respond to the webhook
-    this.http.respond({
-      status: 200,
-      body: "Success",
-    });
+    getEventId() {
+      return events.NEW_DEAL;
+    },
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: `New Deal: ${resource.attributes.name}`,
+        ts: Date.parse(resource.attributes.created_at),
+      };
+    },
   },
 };

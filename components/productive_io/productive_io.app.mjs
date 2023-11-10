@@ -1,48 +1,25 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "productive_io",
   propDefinitions: {
-    // Required prop for creating a booking
-    bookingDetails: {
-      type: "object",
-      label: "Booking Details",
-      description: "The details of the booking to create",
-    },
-    // Required prop for creating a contact
-    contactDetails: {
-      type: "object",
-      label: "Contact Details",
-      description: "The details of the contact to create",
-    },
-    // Required prop for creating a task
-    taskDetails: {
-      type: "object",
-      label: "Task Details",
-      description: "The details of the task to create",
-    },
     projectId: {
       type: "string",
       label: "Project",
       description: "Select the project to associate with this task",
-      async options({ prevContext }) {
-        const { page = 1 } = prevContext;
-        const projects = await this.listProjects({
+      async options({ page }) {
+        const { data: projects } = await this.listProjects({
           params: {
             "page[number]": page,
-            "page[size]": 20,
+            "page[size]": constants.DEFAULT_LIMIT,
           },
         });
-        return {
-          options: projects.map((project) => ({
-            label: project.attributes.name,
-            value: project.id,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
+        return projects.map((project) => ({
+          label: project.attributes.name,
+          value: project.id,
+        }));
       },
     },
     taskListId: {
@@ -50,9 +27,8 @@ export default {
       label: "Task List",
       description: "Select the task list to associate with this task",
       async options({
-        projectId, prevContext,
+        page, projectId,
       }) {
-        const { page = 1 } = prevContext;
         const taskLists = await this.listTaskLists({
           params: {
             "filter[project_id]": projectId,
@@ -60,73 +36,105 @@ export default {
             "page[size]": 20,
           },
         });
-        return {
-          options: taskLists.map((taskList) => ({
-            label: taskList.attributes.name,
-            value: taskList.id,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
+        return taskLists.map((taskList) => ({
+          label: taskList.attributes.name,
+          value: taskList.id,
+        }));
       },
     },
-    // Additional props for optional parameters should be added here
+    personId: {
+      type: "string",
+      label: "Person ID",
+      description: "The id of the person.",
+      async options({ page }) {
+        const { data: people } = await this.listPeople({
+          params: {
+            "page[number]": page,
+            "page[size]": constants.DEFAULT_LIMIT,
+          },
+        });
+        return people.map((person) => ({
+          label: person.attributes.email,
+          value: person.id,
+        }));
+      },
+    },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.productive.io/api/v2";
+    getAuth() {
+      return this.$auth;
     },
-    async _makeRequest(opts = {}) {
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
+    },
+    getHeaders(headers) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+        auth_token: authToken,
+        organization_id: organizationId,
+      } = this.getAuth();
+
+      return {
+        ...headers,
+        "X-Auth-Token": authToken,
+        "X-Organization-Id": organizationId,
+        "Content-Type": "application/vnd.api+json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      const {
+        getUrl,
+        getHeaders,
+      } = this;
+
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "X-Auth-Token": this.$auth.api_token,
-          "X-Organization-Id": this.$auth.organization_id,
-          "Content-Type": "application/vnd.api+json",
-        },
+        ...args,
+        url: getUrl(path),
+        headers: getHeaders(headers),
       });
     },
-    async listProjects(opts = {}) {
+    post(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        ...args,
+      });
+    },
+    listProjects(args = {}) {
       return this._makeRequest({
         path: "/projects",
-        ...opts,
+        ...args,
       });
     },
-    async listTaskLists(opts = {}) {
+    listTaskLists(args = {}) {
       return this._makeRequest({
         path: "/task_lists",
-        ...opts,
+        ...args,
       });
     },
-    // Additional methods for creating bookings, contacts, and tasks should be added here
-    async createBooking(opts = {}) {
+    listPeople(args = {}) {
       return this._makeRequest({
-        method: "POST",
+        path: "/people",
+        ...args,
+      });
+    },
+    listBookings(args = {}) {
+      return this._makeRequest({
         path: "/bookings",
-        ...opts,
+        ...args,
       });
     },
-    async createContact(opts = {}) {
+    listDeals(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/contacts",
-        ...opts,
+        path: "/deals",
+        ...args,
       });
     },
-    async createTask(opts = {}) {
+    listInvoices(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/tasks",
-        ...opts,
+        path: "/invoices",
+        ...args,
       });
     },
-    // Methods for emitting events for new deals, invoices, and bookings should be added here
   },
 };

@@ -1,4 +1,4 @@
-import productiveio from "../../productiveio.app.mjs";
+import app from "../../productiveio.app.mjs";
 
 export default {
   key: "productiveio-create-task",
@@ -7,48 +7,54 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    productiveio,
-    taskDetails: productiveio.propDefinitions.taskDetails,
+    app,
     projectId: {
       propDefinition: [
-        productiveio,
+        app,
         "projectId",
       ],
     },
     taskListId: {
       propDefinition: [
-        productiveio,
+        app,
         "taskListId",
         (c) => ({
           projectId: c.projectId,
         }),
       ],
     },
-    // Include additional optional parameters as props here if required
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the task",
+    },
+  },
+  methods: {
+    createTask(args = {}) {
+      return this.app.post({
+        path: "/tasks",
+        ...args,
+      });
+    },
   },
   async run({ $ }) {
-    const response = await this.productiveio.createTask({
-      data: {
-        type: "tasks",
-        attributes: this.taskDetails,
-        relationships: {
-          project: {
-            data: {
-              type: "projects",
-              id: this.projectId,
-            },
-          },
-          task_list: {
-            data: {
-              type: "task_lists",
-              id: this.taskListId,
-            },
-          },
-        },
+    const {
+      createTask,
+      projectId,
+      taskListId,
+      title,
+    } = this;
+
+    const response = await createTask({
+      $,
+      params: {
+        project_id: projectId,
+        task_list_id: taskListId,
+        title,
       },
     });
 
-    $.export("$summary", `Successfully created task with ID ${response.id}`);
+    $.export("$summary", `Successfully created task with title \`${response.data?.attributes?.title}\``);
     return response;
   },
 };
