@@ -940,7 +940,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/clearout:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/clerk:
     specifiers:
