@@ -6533,7 +6533,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/uplead:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/uplisting:
     specifiers:
