@@ -4135,7 +4135,6 @@ importers:
       form-data: ^4.0.0
       got: ^12.6.0
       openai: ^3.2.1
-      tmp-promise: ^3.0.3
     dependencies:
       '@ffmpeg-installer/ffmpeg': 1.1.0
       '@pipedream/platform': 1.5.1
@@ -4143,7 +4142,6 @@ importers:
       form-data: 4.0.0
       got: 12.6.1
       openai: 3.3.0
-      tmp-promise: 3.0.3
     devDependencies:
       '@types/node': 17.0.45
 
@@ -10307,11 +10305,11 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.186:
-    resolution: {integrity: sha512-rPuE7sNN5Ty5hH3KpFIHTZEdqtkslpzQF0LAP9vz7i9CeJaQm5uwuYGuPrhXL339kh9g2B5Hcct7G3T9BJMf8Q==}
+  /@definitelytyped/header-parser/0.0.187:
+    resolution: {integrity: sha512-nib+RZ15Sh02bKFhWqLgTW7ADJObIga7kC6JxPMtJIZqK5PJisKlylHB/9Wt2N2kMIzYuKI0LDWkgQn/8WtRZQ==}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.180
-      '@definitelytyped/utils': 0.0.184
+      '@definitelytyped/utils': 0.0.185
       semver: 7.5.4
     dev: true
 
@@ -10319,8 +10317,8 @@ packages:
     resolution: {integrity: sha512-susENartHdWecD3kvD5iaMpYOFmlEjY9JRvPqTAoWyOeEsUKQbQsxsyHm1OQkfn7YzbURuNvS+5jkSIIbIy59A==}
     dev: true
 
-  /@definitelytyped/utils/0.0.184:
-    resolution: {integrity: sha512-Vj/9jt7VRnm0eNkp9Imy0otZ8YBVFu+As9tQFGrTITc2ONy9T4QFdtSB/KN6U8XAdB9JdLXrqlbqWUJd/Ipe5g==}
+  /@definitelytyped/utils/0.0.185:
+    resolution: {integrity: sha512-IuE+rzrkrquNlddzBAr9tKyvln9BIVqQ1ExuKuZrPUg2RpMX+dAsNLXG7OtOEf0jfYkLli9p0moS54O2D/HjXg==}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.180
       '@qiwi/npm-registry-client': 8.9.1
@@ -10330,6 +10328,7 @@ packages:
       minimatch: 9.0.3
       tar: 6.2.0
       tar-stream: 2.2.0
+      which: 4.0.0
     dev: true
 
   /@eslint-community/eslint-utils/4.4.0_eslint@8.15.0:
@@ -17157,7 +17156,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.186
+      '@definitelytyped/header-parser': 0.0.187
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17173,9 +17172,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.186
+      '@definitelytyped/header-parser': 0.0.187
       '@definitelytyped/typescript-versions': 0.0.180
-      '@definitelytyped/utils': 0.0.184
+      '@definitelytyped/utils': 0.0.185
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -20005,6 +20004,11 @@ packages:
 
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
+    dev: true
+
+  /isexe/3.1.1:
+    resolution: {integrity: sha512-LpB/54B+/2J5hqQ7imZHfdU31OlgQqx7ZicVlkm9kzg9/w8GKLEcFfJl/t7DCEDueOyBAD6zCCwTO6Fzs0NoEQ==}
+    engines: {node: '>=16'}
     dev: true
 
   /isobject/3.0.1:
@@ -28147,6 +28151,14 @@ packages:
     hasBin: true
     dependencies:
       isexe: 2.0.0
+    dev: true
+
+  /which/4.0.0:
+    resolution: {integrity: sha512-GlaYyEb07DPxYCKhKzplCWBJtvxZcZMrL+4UkrTSJHHPyZU4mYYTv3qaOe77H7EODLSSopAUFAc6W8U4yqvscg==}
+    engines: {node: ^16.13.0 || >=18.0.0}
+    hasBin: true
+    dependencies:
+      isexe: 3.1.1
     dev: true
 
   /wide-align/1.1.5:
