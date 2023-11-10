@@ -77,6 +77,26 @@ export default {
         user: this.user,
       };
     },
+    _getUserMessageContent() {
+      let content = [];
+      if (this.images) {
+        for (const image of this.images) {
+          content.push({
+            "type": "image_url",
+            "image_url": {
+              "url": image,
+            },
+          });
+        }
+      }
+
+      content.push({
+        "type": "text",
+        "text": this.userMessage,
+      });
+
+      return content;
+    },
     _getChatArgs() {
       if (this.messages && this.messages.length && !this.userMessage) {
         throw new ConfigurationError(
@@ -112,13 +132,6 @@ export default {
           }
           messages.push(parsed);
         }
-        // Finally, we want to append the user message to the end of the array
-        if (this.userMessage) {
-          messages.push({
-            "role": "user",
-            "content": this.userMessage,
-          });
-        }
       } else {
         if (this.systemInstructions) {
           messages.push({
@@ -126,11 +139,12 @@ export default {
             "content": this.systemInstructions,
           });
         }
-        messages.push({
-          "role": "user",
-          "content": this.userMessage,
-        });
       }
+
+      messages.push({
+        "role": "user",
+        "content": this._getUserMessageContent(),
+      });
 
       return {
         ...this._getCommonArgs(),
