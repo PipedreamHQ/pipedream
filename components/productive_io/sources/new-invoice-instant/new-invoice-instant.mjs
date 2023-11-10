@@ -4,7 +4,7 @@ export default {
   key: "productiveio-new-invoice-instant",
   name: "New Invoice Instant",
   description: "Emit new event when a new invoice is created. [See the documentation](https://developer.productive.io/index.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -33,10 +33,12 @@ export default {
       });
     },
     async activate() {
-      // No webhook activation required, this source is instant and relies on Pipedream's HTTP endpoint
+      // No webhook activation required, this source is instant and
+      // relies on Pipedream's HTTP endpoint
     },
     async deactivate() {
-      // No webhook deactivation required, this source is instant and relies on Pipedream's HTTP endpoint
+      // No webhook deactivation required, this source is instant and
+      // relies on Pipedream's HTTP endpoint
     },
   },
   async run(event) {

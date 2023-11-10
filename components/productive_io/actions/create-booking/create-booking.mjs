@@ -1,11 +1,10 @@
 import productiveio from "../../productiveio.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "productiveio-create-booking",
   name: "Create Booking",
   description: "Creates a new booking in Productive. [See the documentation](https://developer.productive.io/bookings.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     productiveio,

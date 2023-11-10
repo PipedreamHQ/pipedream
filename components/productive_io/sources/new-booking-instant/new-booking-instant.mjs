@@ -1,11 +1,10 @@
 import productiveio from "../../productiveio.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "productiveio-new-booking-instant",
   name: "New Booking (Instant)",
   description: "Emit new event when a new booking is created. [See the documentation](https://developer.productive.io/index.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -31,12 +30,9 @@ export default {
       }
     },
   },
-  async run(event) {
-    const {
-      body, headers,
-    } = event;
-
-    // Signature validation is not provided in the example, but should be implemented here if applicable
+  async run({ body }) {
+    // Signature validation is not provided in the example,
+    // but should be implemented here if applicable
 
     this.$emit(body, {
       id: body.data.id,

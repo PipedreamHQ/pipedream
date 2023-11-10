@@ -1,12 +1,11 @@
 import productiveio from "../../productiveio.app.mjs";
-import { axios } from "@pipedream/platform";
 import crypto from "crypto";
 
 export default {
   key: "productiveio-new-deal-instant",
   name: "New Deal (Instant)",
   description: "Emit new event when a new deal is created. [See the documentation](https://developer.productive.io/webhooks.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
