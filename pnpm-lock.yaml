@@ -940,7 +940,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/clearout:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/clerk:
     specifiers:
@@ -2199,7 +2202,14 @@ importers:
     specifiers: {}
 
   components/gladia:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/gmail:
     specifiers:
@@ -4243,7 +4253,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/passcreator:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/passslot:
     specifiers: {}
@@ -6520,7 +6533,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/uplead:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/uplisting:
     specifiers:
@@ -6797,7 +6813,10 @@ importers:
     specifiers: {}
 
   components/webvizio:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/weglot:
     specifiers:
@@ -10283,7 +10302,7 @@ packages:
       enabled: 2.0.0
       kuler: 2.0.0
     dev: false
-    
+
   /@definitelytyped/header-parser/0.0.186:
     resolution: {integrity: sha512-rPuE7sNN5Ty5hH3KpFIHTZEdqtkslpzQF0LAP9vz7i9CeJaQm5uwuYGuPrhXL339kh9g2B5Hcct7G3T9BJMf8Q==}
     dependencies:
