@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import axios from "axios";
 
 export default {
   type: "app",
@@ -9,22 +9,9 @@ export default {
       label: "Output Type",
       description: "Specifies the type of output you receive in the response body.",
       options: [
-        {
-          label: "JSON",
-          value: "json",
-        },
-        {
-          label: "HTML",
-          value: "html",
-        },
-        {
-          label: "HTML JSON",
-          value: "html_json",
-        },
-        {
-          label: "PNG",
-          value: "png",
-        },
+        "json",
+        "html",
+        "html_json",
       ],
     },
     diffLevel: {
@@ -32,112 +19,74 @@ export default {
       label: "Diff Level",
       description: "Specifies whether you want to diff by word or character.",
       options: [
-        {
-          label: "Word",
-          value: "word",
-        },
-        {
-          label: "Character",
-          value: "character",
-        },
+        "word",
+        "character",
       ],
-      optional: true,
-    },
-    leftText: {
-      type: "string",
-      label: "Left Text",
-      description: "Left text you want to compare.",
-    },
-    rightText: {
-      type: "string",
-      label: "Right Text",
-      description: "Right text you want to compare.",
-    },
-    leftPdf: {
-      type: "string[]",
-      label: "Left PDF",
-      description: "Left PDF file you want to compare. Provide the file path or URL.",
-    },
-    rightPdf: {
-      type: "string[]",
-      label: "Right PDF",
-      description: "Right PDF file you want to compare. Provide the file path or URL.",
-    },
-    leftImage: {
-      type: "string[]",
-      label: "Left Image",
-      description: "Left image you want to compare. Provide the file path or URL.",
-    },
-    rightImage: {
-      type: "string[]",
-      label: "Right Image",
-      description: "Right image you want to compare. Provide the file path or URL.",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.diffchecker.com/public";
+      return `https://${this.$auth.environment}.diffchecker.com/public`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "X-Api-Key": this.$auth.api_key,
-        },
-        ...otherOpts,
-      });
+    _getHeaders(headers) {
+      if (this.$auth.api_key) {
+        headers["X-Api-Key"] = this.$auth.api_key;
+      }
+      return headers;
     },
-    async compareText({
-      outputType, diffLevel, leftText, rightText,
+    _getParams(params) {
+      return {
+        ...params,
+        email: `${this.$auth.email}`,
+      };
+    },
+    async _makeRequest({
+      path, form = false, params, headers, ...args
     }) {
+      const config = {
+        url: this._baseUrl() + path,
+        headers: this._getHeaders(headers),
+        ...args,
+      };
+
+      if (form) {
+        config.url += `&email=${this.$auth.email}`;
+      } else {
+        config.params = this._getParams(params);
+      }
+
+      const { data } = await axios(config);
+      return data;
+    },
+    async compareText(args = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/text",
-        params: {
-          output_type: outputType,
-          diff_level: diffLevel,
-        },
-        data: {
-          left: leftText,
-          right: rightText,
-        },
+        ...args,
       });
     },
     async comparePdfs({
-      outputType, diffLevel, leftPdf, rightPdf,
+      outputType, diffLevel = null, ...args
     }) {
+      let path = `/pdf?output_type=${outputType}`;
+      if (diffLevel) {
+        path += `&diffLevel=${diffLevel}`;
+      }
       return this._makeRequest({
-        path: "/pdf",
-        params: {
-          output_type: outputType,
-          diff_level: diffLevel,
-        },
-        data: {
-          left_pdf: leftPdf,
-          right_pdf: rightPdf,
-        },
+        method: "POST",
+        path,
+        form: true,
+        ...args,
       });
     },
     async compareImages({
-      outputType, leftImage, rightImage,
+      inputType, outputType, ...args
     }) {
       return this._makeRequest({
-        path: "/image",
-        params: {
-          output_type: outputType,
-        },
-        data: {
-          left_image: leftImage,
-          right_image: rightImage,
-        },
+        method: "POST",
+        path: `/image?input_type=${inputType}&output_type=${outputType}`,
+        form: true,
+        ...args,
       });
     },
   },

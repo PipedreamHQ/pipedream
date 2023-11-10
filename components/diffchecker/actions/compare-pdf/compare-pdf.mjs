@@ -1,50 +1,56 @@
-import diffchecker from "../../diffchecker.app.mjs"
+import FormData from "form-data";
+import fs from "fs";
+import { checkTmp } from "../../common/utils.mjs";
+import diffchecker from "../../diffchecker.app.mjs";
 
 export default {
   key: "diffchecker-compare-pdf",
   name: "Compare PDFs",
   description: "Compares two PDFs and returns the result. [See the documentation](https://www.diffchecker.com/public-api/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     diffchecker,
     outputType: {
       propDefinition: [
         diffchecker,
-        "outputType"
-      ]
+        "outputType",
+      ],
     },
     diffLevel: {
       propDefinition: [
         diffchecker,
-        "diffLevel"
-      ]
+        "diffLevel",
+      ],
+      optional: true,
     },
     leftPdf: {
-      propDefinition: [
-        diffchecker,
-        "leftPdf"
-      ]
+      type: "string",
+      label: "Left PDF",
+      description: "Left PDF file you want to compare. Provide the file path.",
     },
     rightPdf: {
-      propDefinition: [
-        diffchecker,
-        "rightPdf"
-      ]
+      type: "string",
+      label: "Right PDF",
+      description: "Right PDF file you want to compare. Provide the file path.",
     },
   },
-  async run($) {
-    const responses = [];
-    for (let i = 0; i < this.leftPdf.length; i++) {
-      const response = await this.diffchecker.comparePdfs({
-        outputType: this.outputType,
-        diffLevel: this.diffLevel,
-        leftPdf: this.leftPdf[i],
-        rightPdf: this.rightPdf[i],
-      });
-      responses.push(response);
-    }
-    $.export("$summary", "Successfully compared PDFs")
-    return responses;
+  async run({ $ }) {
+    let data = new FormData();
+    const leftFilepath = checkTmp(this.leftPdf);
+    const rightFilepath = checkTmp(this.rightPdf);
+
+    data.append("left_pdf", fs.createReadStream(leftFilepath));
+    data.append("right_pdf", fs.createReadStream(rightFilepath));
+
+    const response = await this.diffchecker.comparePdfs({
+      data,
+      outputType: this.outputType,
+      diffLevel: this.diffLevel,
+      headers: data.getHeaders(),
+    });
+
+    $.export("$summary", "Successfully compared PDFs");
+    return response;
   },
 };
