@@ -239,5 +239,12 @@ export default {
         ...args,
       });
     },
+    async uploadFileUrl(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/file/from_url/",
+        ...args,
+      });
+    },
   },
 };
