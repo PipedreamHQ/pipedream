@@ -37,9 +37,6 @@ export default {
       ...this._getCommonArgs(),
       model: "gpt-3.5-turbo",
       messages,
-      response_format: {
-        type: "json_object",
-      },
     };
     const response = await this.openai.createChatCompletion({
       $,
