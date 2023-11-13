@@ -61,3 +61,7 @@ Once you've configured SSO for your workspace, you can restrict the allowed logi
 :::tip Workspace owners can always sign in using any login method
 In order to ensure you don't get locked out of your Pipedream workspace in the event of an outage with your IdP, workspace owners can always sign in via email and password or Google / GitHub.
 :::
+
+:::warning Login methods are enforced when signing in to pipedream.com
+For example, Pat is a member of 2 workspaces. Workspace A **requires SSO** but workspace B allows any login method. Pat will have to sign in to Pipedream using SSO every time, independent of what workspace they are trying to access.
+:::
