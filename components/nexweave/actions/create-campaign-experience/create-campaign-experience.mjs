@@ -1,7 +1,7 @@
 import nexweave from "../../nexweave.app.mjs";
 
 export default {
-  key: "nexweave-create-experience-campaign",
+  key: "nexweave-create-campaign-experience",
   name: "Create Campaign Experience",
   description: "Generates a campaign experience based on a selected campaign. [See the documentation](https://documentation.nexweave.com/nexweave-api)",
   version: "0.0.1",

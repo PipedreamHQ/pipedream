@@ -1,7 +1,7 @@
 import nexweave from "../../nexweave.app.mjs";
 
 export default {
-  key: "nexweave-create-experience-video-template",
+  key: "nexweave-create-video-experience-from-template",
   name: "Create Video Experience from Template",
   description: "Creates a video experience from a Nexweave video template. [See the documentation](https://documentation.nexweave.com/nexweave-api)",
   version: "0.0.1",
