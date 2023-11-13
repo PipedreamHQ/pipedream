@@ -13,32 +13,38 @@ export default {
         nexweave,
         "campaignId",
       ],
-    },
-    variables: {
-      type: "object",
-      label: "Variables",
-      description: "The variables that you want to modify in the campaign.",
-      async options({ campaignId }) {
-        if (!campaignId) {
-          return [];
-        }
-        const campaignDetails = await this.nexweave.getCampaignDetails(campaignId);
-        return campaignDetails.result.variables.map((variable) => ({
-          label: variable.key,
-          value: variable.key,
-        }));
-      },
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const { campaignId } = this;
+    if (!campaignId) return {};
+
+    const campaignDetails = await this.nexweave.getCampaignDetails(campaignId);
+    return Object.fromEntries(campaignDetails?.result?.variables?.map?.((variable) => ([
+      variable.key,
+      {
+        type: "string",
+        label: `Variable: "${variable.key}"`,
+        description: `Default value: "${variable.default}"`,
+        optional: true,
+      },
+    ])) ?? {});
+  },
   async run({ $ }) {
-    const data = this.variables.reduce((acc, variable) => {
-      acc[variable.key] = variable.value;
-      return acc;
-    }, {});
+    const {
+      nexweave, campaignId, ...data
+    } = this;
 
-    const response = await this.nexweave.createCampaignExperience(this.campaignId, data);
+    const response = await nexweave.createCampaignExperience({
+      $,
+      data: {
+        campaign_id: campaignId,
+        data,
+      },
+    });
 
-    $.export("$summary", `Successfully created a campaign experience with ID: ${response.id}`);
+    $.export("$summary", "Successfully created campaign experience");
     return response;
   },
 };

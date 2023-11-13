@@ -50,47 +50,44 @@ export default {
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
+        ...otherOpts,
         headers: {
           "X-API-KEY": this.$auth.api_key,
           ...headers,
         },
-        ...otherOpts,
       });
     },
     async listCampaigns() {
       return this._makeRequest({
-        path: "/campaigns",
+        path: "/integration/campaign",
       });
     },
     async listTemplates() {
       return this._makeRequest({
-        path: "/templates",
+        path: "/integration/template",
       });
     },
     async getCampaignDetails(campaignId) {
       return this._makeRequest({
-        path: `/campaigns/${campaignId}`,
+        path: `/integration/campaign/${campaignId}`,
       });
     },
     async getTemplateDetails(templateId) {
       return this._makeRequest({
-        path: `/templates/${templateId}`,
+        path: `/integration/template/${templateId}`,
       });
     },
-    async createCampaignExperience(campaignId, variables) {
+    async createCampaignExperience(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/experiences",
-        data: {
-          campaign_id: campaignId,
-          variables,
-        },
+        path: "/nexweave-integration/experience",
+        ...args,
       });
     },
     async createTemplateExperience(templateId, variables, type) {
       return this._makeRequest({
         method: "POST",
-        path: "/experiences",
+        path: "/integration/experience",
         data: {
           template_id: templateId,
           type,
