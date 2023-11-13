@@ -39,6 +39,17 @@ export default {
       description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview model`",
       optional: true,
     },
+    responseFormat: {
+      type: "string",
+      label: "Response Format",
+      description: "Specify the format that the model must output. [Setting to `json_object` guarantees the message the model generates is valid JSON](https://platform.openai.com/docs/api-reference/chat/create#chat-create-response_format). Defaults to `text`",
+      optiions: [
+        "text",
+        "json_object",
+      ],
+      optional: true,
+      default: "text",
+    },
     ...common.props,
   },
   async run({ $ }) {

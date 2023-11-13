@@ -148,6 +148,9 @@ export default {
 
       return {
         ...this._getCommonArgs(),
+        response_format: {
+          type: this.responseFormat,
+        },
         messages,
       };
     },
