@@ -58,7 +58,7 @@ export default {
 
     const data = fs.readFileSync(filePath);
     const extension = (await fileTypeFromBuffer(data)).ext;
-    const name = !filename.includes(".") & extension
+    const name = !filename.includes(".") && extension
       ? `${filename}.${extension}`
       : filename;
 
