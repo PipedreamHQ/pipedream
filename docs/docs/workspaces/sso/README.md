@@ -35,15 +35,13 @@ There's no limit on the number of domains you can verify for SSO, so if you use 
 Navigate to the [Authentication section](https://pipedream.com/settings/domains) in your workspace settings to get started.
 
 ### SAML SSO
+
 1. First, make sure you've verified the domain(s) you intend to use for SSO ([see above](#verifying-your-email-domain))
 2. Click the **Enable SSO** toggle and select **SAML**
 3. If setting up SAML SSO, you'll need to enter a metadata URL, which contains all the necessary configuration for Pipedream. Refer to the provider-specific docs for the detailed walk-through ([Okta](./okta), [Google Workspace](./google), [any other SAML provider](./saml)).
 4. Click **Save**
 
 ### Google OAuth
-:::warning Google OAuth is different than Google Workspace SAML
-Make sure you select the right option if using Google as an identity provider. See below for more info.
-:::
 
 1. Click the **Enable SSO** toggle and select **Google**
 2. Enter the domain that you use with Google OAuth. For example, `vandalayindustries.com`
@@ -51,6 +49,8 @@ Make sure you select the right option if using Google as an identity provider. S
 
 ## Restricting Login Methods
 Once you've configured SSO for your workspace, you can restrict the allowed login methods for everyone.
+
+![Restrict Login Methods](https://res.cloudinary.com/pipedreamin/image/upload/v1699914460/Google_Chrome_-_Settings_-_Authentication_-_Pipedream_2023-11-13_at_2.27.08_PM_x1ahod.png)
 
 | Login Method | Description |
 | --  | -- |
@@ -61,9 +61,3 @@ Once you've configured SSO for your workspace, you can restrict the allowed logi
 :::tip Workspace owners can always sign in using any login method
 In order to ensure you don't get locked out of your Pipedream workspace in the event of an outage with your IdP, workspace owners can always sign in via email and password or Google / GitHub.
 :::
-
-## Frequently Asked Questions
-#### What's the difference between Google OAuth and Google SAML?
-foo 
-
-- Owners can always sign in via whatever method
