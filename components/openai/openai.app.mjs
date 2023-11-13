@@ -235,7 +235,7 @@ export default {
     fineTuningModel: {
       type: "string",
       label: "Fine Tuning Model",
-      description: "The name of the model to fine-tune. [See the supported models.](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned)",
+      description: "The name of the model to fine-tune. [See the supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).",
       options: FINE_TUNING_MODEL_OPTIONS,
     },
     input: {

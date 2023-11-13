@@ -42,7 +42,7 @@ export default {
     outputFile: {
       type: "string",
       label: "Output Filename",
-      description: "The filename of the output audio file that will be written to the `/tmp` folder, e.g. `myFile.mp3`",
+      description: "The filename of the output audio file that will be written to the `/tmp` folder, e.g. `/tmp/myFile.mp3`",
     },
   },
   async run({ $ }) {

@@ -23,7 +23,7 @@ export default {
     hyperParameters: {
       type: "object",
       label: "Hyperparameters",
-      description: "The hyperparameters used for the fine-tuning job. [See details on the documentation.](https://platform.openai.com/docs/api-reference/fine-tuning/create#fine-tuning-create-hyperparameters)",
+      description: "The hyperparameters used for the fine-tuning job. [See details in the documentation](https://platform.openai.com/docs/api-reference/fine-tuning/create#fine-tuning-create-hyperparameters).",
       optional: true,
     },
     suffix: {
@@ -35,7 +35,7 @@ export default {
     validationFile: {
       type: "string",
       label: "Validation File",
-      description: "The ID of an uploaded file that contains validation data. [See details on the documentation.](https://platform.openai.com/docs/api-reference/fine-tuning/create#fine-tuning-create-validation_file)",
+      description: "The ID of an uploaded file that contains validation data. [See details in the documentation](https://platform.openai.com/docs/api-reference/fine-tuning/create#fine-tuning-create-validation_file).",
       optional: true,
     },
   },
