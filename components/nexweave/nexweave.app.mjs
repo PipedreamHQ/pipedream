@@ -8,38 +8,28 @@ export default {
       type: "string",
       label: "Campaign ID",
       description: "Select the campaign for which you want to create an experience.",
-      async options({ prevContext }) {
-        const {
-          campaigns, nextPage,
-        } = await this.listCampaigns(prevContext);
-        return {
-          options: campaigns.map((campaign) => ({
-            label: campaign.name,
-            value: campaign.id,
-          })),
-          context: {
-            nextPage,
-          },
-        };
+      async options() {
+        const campaigns = await this.listCampaigns();
+        return campaigns.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
       },
     },
     templateId: {
       type: "string",
       label: "Template ID",
       description: "Select the template for which you want to create an experience.",
-      async options({ prevContext }) {
-        const {
-          templates, nextPage,
-        } = await this.listTemplates(prevContext);
-        return {
-          options: templates.map((template) => ({
-            label: template.name,
-            value: template.id,
-          })),
-          context: {
-            nextPage,
-          },
-        };
+      async options() {
+        const templates = await this.listTemplates();
+        return templates.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
       },
     },
     variables: {
@@ -67,32 +57,15 @@ export default {
         ...otherOpts,
       });
     },
-    async listCampaigns(prevContext = {}) {
-      const nextPage = prevContext.nextPage || 1;
-      const response = await this._makeRequest({
+    async listCampaigns() {
+      return this._makeRequest({
         path: "/campaigns",
-        params: {
-          page: nextPage,
-        },
       });
-      return {
-        campaigns: response.campaigns,
-        nextPage: response.nextPage,
-      };
     },
-    async listTemplates(prevContext = {}, type = "image") {
-      const nextPage = prevContext.nextPage || 1;
-      const response = await this._makeRequest({
+    async listTemplates() {
+      return this._makeRequest({
         path: "/templates",
-        params: {
-          page: nextPage,
-          type,
-        },
       });
-      return {
-        templates: response.templates,
-        nextPage: response.nextPage,
-      };
     },
     async getCampaignDetails(campaignId) {
       return this._makeRequest({
