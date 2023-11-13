@@ -3,7 +3,7 @@ import common from "../common/common-helper.mjs";
 export default {
   ...common,
   name: "Classify Items into Categories",
-  version: "0.0.5",
+  version: "0.0.6",
   key: "openai-classify-items-into-categories",
   description: "Classify items into specific categories using the Chat API",
   type: "action",
