@@ -29,6 +29,12 @@ export default {
         "tool",
       ],
     },
+    extraParameters: {
+      type: "string",
+      label: "Extra Parameters",
+      description: "Any extra parameters to be passed. Values will be parsed as JSON when applicable. [Refer to the documentation for the extra parameters of each tool](https://developer.ilovepdf.com/docs/api-reference#Process).",
+      optional: true,
+    },
     outputFilename: {
       type: "string",
       label: "Output Filename",
@@ -38,7 +44,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      fileUrls, filePaths, tool, outputFilename,
+      fileUrls, filePaths, tool, extraParameters, outputFilename,
     } = this;
 
     const { token } = await this.ilovepdf.getAuthToken({
@@ -120,6 +126,22 @@ export default {
             filename: fileNames[index],
           }
         )),
+        ...Object.fromEntries(Object.entries(extraParameters ?? {}).map(([
+          key,
+          value,
+        ]) => {
+          try {
+            return [
+              key,
+              JSON.parse(value),
+            ];
+          } catch (e) {
+            return [
+              key,
+              value,
+            ];
+          }
+        })),
       },
     });
 
