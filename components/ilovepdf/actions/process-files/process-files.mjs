@@ -30,7 +30,7 @@ export default {
       ],
     },
     extraParameters: {
-      type: "string",
+      type: "object",
       label: "Extra Parameters",
       description: "Any extra parameters to be passed. Values will be parsed as JSON when applicable. [Refer to the documentation for the extra parameters of each tool](https://developer.ilovepdf.com/docs/api-reference#Process).",
       optional: true,
