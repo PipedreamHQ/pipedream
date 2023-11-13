@@ -4924,7 +4924,10 @@ importers:
     specifiers: {}
 
   components/referralhero:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/referralrock:
     specifiers: {}
