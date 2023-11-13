@@ -7,7 +7,7 @@ export default {
   name: "New Abandoned Cart",
   type: "source",
   description: "Emit new event each time a user abandons their cart.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     shopify,
