@@ -1,11 +1,40 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "uplead",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _apiUrl() {
+      return "https://api.uplead.com/v2";
+    },
+    async _makeRequest({
+      $ = this, path, ...args
+    }) {
+      return axios($, {
+        url: `${this._apiUrl()}${path}`,
+        ...args,
+        headers: {
+          ...args.headers,
+          "Authorization": this._apiKey(),
+        },
+      });
+    },
+    async getContactByEmail(args = {}) {
+      return this._makeRequest({
+        path: "/person-search",
+        ...args,
+      });
+    },
+    async getCompanyByDomain(args = {}) {
+      return this._makeRequest({
+        path: "/company-search",
+        method: "post",
+        ...args,
+      });
     },
   },
 };
