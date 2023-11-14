@@ -52,27 +52,20 @@ export default {
     _baseUrl() {
       return "https://api.echtpost.de/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
           "Content-Type": "application/json",
           "Authorization": `Bearer ${this.$auth.api_key}`,
         },
-        data,
-        params,
       });
     },
     async sendPostcard({
@@ -91,18 +84,11 @@ export default {
         },
       });
     },
-    async createContact({
-      name, address, email, phoneNumber,
-    }) {
+    async createContact(args) {
       return this._makeRequest({
         method: "POST",
         path: "/contacts",
-        data: {
-          name: name,
-          address: address,
-          email: email,
-          phone_number: phoneNumber,
-        },
+        ...args,
       });
     },
   },

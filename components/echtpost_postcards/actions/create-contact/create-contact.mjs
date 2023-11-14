@@ -1,4 +1,4 @@
-import echtpost_postcards from "../../echtpost_postcards.app.mjs";
+import echtpostPostcards from "../../echtpost_postcards.app.mjs";
 
 export default {
   key: "echtpost_postcards-create-contact",
@@ -7,39 +7,44 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    echtpost_postcards,
+    echtpostPostcards,
     name: {
       type: "string",
-      label: "Contact Name",
+      label: "Name",
       description: "The name of the new contact.",
     },
-    address: {
+    street: {
       type: "string",
-      label: "Contact Address",
-      description: "The address of the new contact.",
+      label: "Street",
+      description: "The street address of the new contact.",
     },
-    email: {
+    zip: {
       type: "string",
-      label: "Contact Email",
-      description: "The email of the new contact.",
-      optional: true,
+      label: "ZIP Code",
+      description: "ZIP code of the new contact.",
     },
-    phoneNumber: {
+    city: {
       type: "string",
-      label: "Contact Phone Number",
-      description: "The phone number of the new contact.",
+      label: "City",
+      description: "City of the new contact.",
+    },
+    last: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the new contact.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.echtpost_postcards.createContact({
-      name: this.name,
-      address: this.address,
-      email: this.email,
-      phone_number: this.phoneNumber, // Ensure the key matches the API parameter
+    const {
+      echtpostPostcards, ...data
+    } = this;
+    const response = await echtpostPostcards.createContact({
+      $,
+      data,
     });
 
-    $.export("$summary", `Successfully created contact: ${this.name}`);
+    $.export("$summary", `Successfully created contact (ID: ${response.id})`);
     return response;
   },
 };
