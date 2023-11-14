@@ -1,5 +1,5 @@
+import app from "../../productive_io.app.mjs";
 import constants from "../../common/constants.mjs";
-import app from "../../productiveio.app.mjs";
 
 export default {
   key: "productiveio-create-booking",
@@ -35,7 +35,7 @@ export default {
       label: "Booking Method ID",
       description: "The booking method ID: `1` means hours per day, time attribute needs to be set; 2: percentage per day, percentage attribute needs to be set; 3: total time",
       options: Object.values(constants.BOOKING_METHOD_ID),
-      realoadProps: true,
+      reloadProps: true,
     },
     note: {
       type: "string",
@@ -48,7 +48,7 @@ export default {
     const { bookingMethodId } = this;
 
     const percentage = {
-      type: "string",
+      type: "integer",
       label: "Percentage",
       description: "Percentage of working hours, required if *Booking Method ID* is set to *Percentage Per Day*.",
       options: Object.values(constants.PERCENTAGE),
@@ -89,14 +89,32 @@ export default {
 
     const response = await createBooking({
       $,
-      params: {
-        person_id: personId,
-        started_on: startedOn,
-        ended_on: endedOn,
-        time,
-        booking_method_id: bookingMethodId,
-        note,
-        percentage,
+      data: {
+        data: {
+          type: "bookings",
+          attributes: {
+            started_on: startedOn,
+            ended_on: endedOn,
+            time,
+            note,
+            percentage,
+            booking_method_id: bookingMethodId,
+          },
+          relationships: {
+            person: {
+              data: {
+                type: "people",
+                id: personId,
+              },
+            },
+            origin: {
+              data: {
+                type: "bookings",
+                id: "",
+              },
+            },
+          },
+        },
       },
     });
 

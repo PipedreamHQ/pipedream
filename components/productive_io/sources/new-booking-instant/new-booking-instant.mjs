@@ -15,11 +15,7 @@ export default {
       return this.app.listBookings;
     },
     getResourcesFnArgs() {
-      return {
-        params: {
-          "sort": "-created_at",
-        },
-      };
+      return;
     },
     getResourcesName() {
       return "data";

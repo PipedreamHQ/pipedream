@@ -1,5 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
-import app from "../../<%= app %>.app.mjs";
+import app from "../../productive_io.app.mjs";
 
 export default {
   props: {

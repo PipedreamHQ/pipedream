@@ -1,75 +1,47 @@
+import constants from "../../common/constants.mjs";
 import app from "../../productive_io.app.mjs";
 
 export default {
   key: "productiveio-create-contact",
   name: "Create Contact",
   description: "Creates a new contact entry in Productive.io. [See the documentation](https://developer.productive.io/contact_entries.html#contact-entries-contact-entries-post)",
-  version: "0.0.17",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
+    companyId: {
+      propDefinition: [
+        app,
+        "companyId",
+      ],
+    },
     name: {
       type: "string",
       label: "Name",
-      description: "The name of the contact",
+      description: "The name of the contact entry.",
     },
-    type: {
+    email: {
       type: "string",
-      label: "Type",
-      description: "The type of the contact.",
-      options: [
-        {
-          label: "Address",
-          value: "address",
-        },
-        {
-          label: "Bill From",
-          value: "bill_from",
-        },
-        {
-          label: "Bill To",
-          value: "bill_to",
-        },
-        {
-          label: "Email",
-          value: "email",
-        },
-        {
-          label: "Phone",
-          value: "phone",
-        },
-        {
-          label: "Website",
-          value: "website",
-        },
-      ],
+      label: "Email",
+      description: "The email of the contact entry.",
     },
-    contactableType: {
+    address: {
       type: "string",
-      label: "Contactable Type",
-      description: "The type of contactable.",
-      options: [
-        {
-          label: "Person (used for contacts or users)",
-          value: "person",
-        },
-        {
-          label: "Client (used for companies)",
-          value: "client",
-        },
-        {
-          label: "Invoice (used for bill_from/bill_to on invoices)",
-          value: "invoice",
-        },
-        {
-          label: "Subsidiary",
-          value: "subsidiary",
-        },
-        {
-          label: "Purchase Order",
-          value: "purchase_order",
-        },
-      ],
+      label: "Address",
+      description: "The address of the contact entry.",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The phone of the contact entry.",
+      optional: true,
+    },
+    website: {
+      type: "string",
+      label: "Website",
+      description: "The website of the contact entry.",
+      optional: true,
     },
   },
   methods: {
@@ -83,9 +55,12 @@ export default {
   async run({ $ }) {
     const {
       createContact,
-      // name,
-      // type,
-      // contactableType,
+      companyId,
+      name,
+      email,
+      address,
+      phone,
+      website,
     } = this;
 
     const response = await createContact({
@@ -94,32 +69,22 @@ export default {
         data: {
           type: "contact_entries",
           attributes: {
-            contactable_type: "company",
-            type: "email",
-            name: "Home",
-            email: "contact2@email.com",
+            contactable_type: constants.CONTACTABLE_TYPE_OPTION.COMPANY.value,
+            type: constants.CONTACT_TYPE_OPTION.EMAIL.value,
+            name,
+            email,
+            address,
+            phone,
+            website,
           },
           relationships: {
             company: {
               data: {
-                type: "companies",
-                id: "615408",
+                type: constants.CONTACTABLE_TYPE.company,
+                id: companyId,
               },
             },
           },
-          // attributes: {
-          //   name,
-          //   type,
-          //   contactable_type: contactableType,
-          //   person: {
-          //     data: {
-          //       type: "people",
-          //       attributes: {
-          //         first_name: name,
-          //       },
-          //     },
-          //   },
-          // },
         },
       },
     });

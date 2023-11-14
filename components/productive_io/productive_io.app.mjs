@@ -29,7 +29,7 @@ export default {
       async options({
         page, projectId,
       }) {
-        const taskLists = await this.listTaskLists({
+        const { data: taskLists } = await this.listTaskLists({
           params: {
             "filter[project_id]": projectId,
             "page[number]": page,
@@ -54,8 +54,25 @@ export default {
           },
         });
         return people.map((person) => ({
-          label: person.attributes.email,
+          label: `${person.attributes.first_name} ${person.attributes.last_name} ${person.attributes.email}`.trim(),
           value: person.id,
+        }));
+      },
+    },
+    companyId: {
+      type: "string",
+      label: "Company ID",
+      description: "The id of the company.",
+      async options({ page }) {
+        const { data: companies } = await this.listCompanies({
+          params: {
+            "page[number]": page,
+            "page[size]": constants.DEFAULT_LIMIT,
+          },
+        });
+        return companies.map((company) => ({
+          label: company.attributes.name,
+          value: company.id,
         }));
       },
     },
@@ -88,15 +105,23 @@ export default {
         getHeaders,
       } = this;
 
-      return axios($, {
+      const config = {
         ...args,
         url: getUrl(path),
         headers: getHeaders(headers),
-      });
+      };
+
+      return axios($, config);
     },
     post(args = {}) {
       return this._makeRequest({
         method: "post",
+        ...args,
+      });
+    },
+    delete(args = {}) {
+      return this._makeRequest({
+        method: "delete",
         ...args,
       });
     },
@@ -133,6 +158,12 @@ export default {
     listInvoices(args = {}) {
       return this._makeRequest({
         path: "/invoices",
+        ...args,
+      });
+    },
+    listCompanies(args = {}) {
+      return this._makeRequest({
+        path: "/companies",
         ...args,
       });
     },

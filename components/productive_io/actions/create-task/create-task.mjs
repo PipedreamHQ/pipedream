@@ -1,4 +1,4 @@
-import app from "../../productiveio.app.mjs";
+import app from "../../productive_io.app.mjs";
 
 export default {
   key: "productiveio-create-task",
@@ -47,10 +47,27 @@ export default {
 
     const response = await createTask({
       $,
-      params: {
-        project_id: projectId,
-        task_list_id: taskListId,
-        title,
+      data: {
+        data: {
+          type: "tasks",
+          attributes: {
+            title,
+          },
+          relationships: {
+            project: {
+              data: {
+                type: "projects",
+                id: projectId,
+              },
+            },
+            task_list: {
+              data: {
+                type: "task_lists",
+                id: taskListId,
+              },
+            },
+          },
+        },
       },
     });
 

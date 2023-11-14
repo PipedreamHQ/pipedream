@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import common from "./base.mjs";
 import constants from "../../common/constants.mjs";
+import crypto from "crypto";
 
 export default {
   ...common,
@@ -23,13 +24,19 @@ export default {
     async activate() {
       const response =
         await this.createWebhook({
-          params: {
-            target_url: this.http.endpoint,
-            event_id: this.getEventId(),
+          data: {
+            data: {
+              type: "webhooks",
+              attributes: {
+                target_url: this.http.endpoint,
+                event_id: this.getEventId(),
+              },
+            },
           },
         });
 
       this.setWebhookId(response?.data?.id);
+      this.setWebhookToken(response?.data?.attributes?.signature_token);
     },
     async deactivate() {
       const webhookId = this.getWebhookId();
@@ -48,6 +55,12 @@ export default {
     getWebhookId() {
       return this.db.get(constants.WEBHOOK_ID);
     },
+    setWebhookToken(value) {
+      this.db.set(constants.WEBHOOK_TOKEN, value);
+    },
+    getWebhookToken() {
+      return this.db.get(constants.WEBHOOK_TOKEN);
+    },
     getEventId() {
       throw new ConfigurationError("getEventId is not implemented");
     },
@@ -61,25 +74,20 @@ export default {
       this.$emit(resource, this.generateMeta(resource));
     },
     isSignatureValid({
-      signature, body,
+      signature, bodyRaw,
     }) {
-      const { auth_token: authToken } = this.app.getAuth();
+      const token = this.getWebhookToken();
 
       const [
-        timestamp,
+        , timestamp,
         hash,
-      ] = signature.match(/t=(.*?), s=(.*?)/);
-
-      const payload = JSON.stringify(body);
+      ] = signature.match(/t=(.*),s=(.*)/);
 
       const computedSignature =
         crypto
-          .createHmac("sha256", authToken)
-          .update(`${timestamp}.${payload}`)
+          .createHmac("sha256", token)
+          .update(`${timestamp}.${bodyRaw}`)
           .digest("hex");
-
-      console.log("hash!!!", hash);
-      console.log("computedSignature!!!", computedSignature);
 
       return hash === computedSignature;
     },
@@ -99,13 +107,13 @@ export default {
     },
   },
   async run({
-    body, headers,
+    body, bodyRaw, headers,
   }) {
-    const signature = headers["Productive-Signature"];
+    const signature = headers["productive-signature"];
 
     const isValid = this.isSignatureValid({
       signature,
-      body,
+      bodyRaw,
     });
 
     if (!isValid) {
@@ -119,6 +127,6 @@ export default {
       status: 200,
     });
 
-    this.processResource(body);
+    this.processResource(body?.object?.data || body);
   },
 };
