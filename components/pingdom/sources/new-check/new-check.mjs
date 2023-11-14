@@ -1,13 +1,12 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import pingdom from "../../pingdom.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "pingdom-new-check",
-  name: "New Check",
-  description: "Emit new event when a new check is added. [See the documentation](https://docs.pingdom.com/api/)",
-  version: "0.0.{{ts}}",
+  name: "New Check Created",
+  description: "Emit new event when a new check is added in Pingdom. [See the documentation](https://www.pingdom.com/resources/api)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -20,17 +19,27 @@ export default {
       },
     },
   },
-  hooks: {
-    async deploy() {
-      // Fetch all checks to get the latest checks on the first run
-      const checks = await this.pingdom.getChecks();
-      // Store the ID of the most recent check for the next run
-      if (checks.length > 0) {
-        this.db.set("last_check_id", checks[0].id);
+  methods: {
+    _getLastCheckId() {
+      return this.db.get("lastCheckId") || null;
+    },
+    _setLastCheckId(lastCheckId) {
+      this.db.set("lastCheckId", lastCheckId);
+    },
+    async startEvent(maxResults = false) {
+
+      const lastCheckId = this._getLastCheckId();
+      const { checks } = await this.pingdom.listChecks();
+      let mostRecentChecks = maxResults
+        ? checks.slice(checks.length - 25, checks.length)
+        : checks;
+
+      if (mostRecentChecks.length) {
+        if (lastCheckId) mostRecentChecks.filter((item) => item.id > lastCheckId);
+        this._setLastCheckId(mostRecentChecks[0].id);
       }
-      // Emit up to 50 most recent checks
-      const recentChecks = checks.slice(0, 50).reverse();
-      for (const check of recentChecks) {
+
+      for (const check of mostRecentChecks) {
         this.$emit(check, {
           id: check.id,
           summary: `New Check: ${check.name}`,
@@ -39,29 +48,13 @@ export default {
       }
     },
   },
-  methods: {
-    isCheckNew(check) {
-      const lastCheckId = this.db.get("last_check_id");
-      return lastCheckId === undefined || check.id > lastCheckId;
-    },
-    updateLastCheckId(check) {
-      this.db.set("last_check_id", check.id);
+  hooks: {
+    async deploy() {
+      await this.startEvent(25);
     },
   },
   async run() {
-    // Fetch all checks to detect new ones
-    const checks = await this.pingdom.getChecks();
-
-    // Process new checks and emit events
-    for (const check of checks) {
-      if (this.isCheckNew(check)) {
-        this.$emit(check, {
-          id: check.id,
-          summary: `New Check: ${check.name}`,
-          ts: Date.parse(check.created),
-        });
-        this.updateLastCheckId(check);
-      }
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };

@@ -4,107 +4,85 @@ export default {
   type: "app",
   app: "pingdom",
   propDefinitions: {
-    checkName: {
-      type: "string",
-      label: "Check Name",
-      description: "The name of the check",
+    teamids: {
+      type: "integer[]",
+      label: "Team Ids",
+      description: "Teams to alert.",
+      async options() {
+        const { teams } = await this.listTeams();
+
+        return teams.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    host: {
-      type: "string",
-      label: "Host",
-      description: "The target host for the check",
+    userids: {
+      type: "string[]",
+      label: "User Ids",
+      description: "User identifiers.",
+      async options() {
+        const { contacts } = await this.listContacts();
+
+        return contacts.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    type: {
-      type: "string",
-      label: "Check Type",
-      description: "The type of check (e.g., 'http', 'ping')",
-      options: [
-        {
-          label: "HTTP",
-          value: "http",
-        },
-        {
-          label: "HTTP Custom",
-          value: "httpcustom",
-        },
-        {
-          label: "TCP",
-          value: "tcp",
-        },
-        {
-          label: "Ping",
-          value: "ping",
-        },
-        {
-          label: "DNS",
-          value: "dns",
-        },
-        {
-          label: "UDP",
-          value: "udp",
-        },
-        {
-          label: "SMTP",
-          value: "smtp",
-        },
-        {
-          label: "POP3",
-          value: "pop3",
-        },
-        {
-          label: "IMAP",
-          value: "imap",
-        },
-      ],
-      default: "http",
-    },
-    // Include other required and optional prop definitions here.
   },
   methods: {
     _baseUrl() {
-      return "https://api.pingdom.com";
+      return "https://api.pingdom.com/api/3.1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    _getHeaders() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data,
-        params,
+        headers: this._getHeaders(),
+        ...opts,
       });
     },
-    async createCheck({
-      checkName,
-      host,
-      ...otherOpts
-    }) {
+    createCheck(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/checks",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          name: checkName,
-          host,
-          type: "http", // Set type to `http` as required
-          ...otherOpts,
-        },
+        ...opts,
       });
     },
-    // Include other methods to emit events for new checks and alerts here.
+    listActions(opts = {}) {
+      return this._makeRequest({
+        path: "/actions",
+        ...opts,
+      });
+    },
+    listChecks(opts = {}) {
+      return this._makeRequest({
+        path: "/checks",
+        ...opts,
+      });
+    },
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/alerting/contacts",
+        ...opts,
+      });
+    },
+    listTeams(opts = {}) {
+      return this._makeRequest({
+        path: "/alerting/teams",
+        ...opts,
+      });
+    },
   },
 };
