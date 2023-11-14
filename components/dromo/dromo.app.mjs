@@ -6,7 +6,7 @@ export default {
   propDefinitions: {
     schemaId: {
       type: "string",
-      label: "Schema ID",
+      label: "Schema",
       description: "The ID of the import schema",
       async options() {
         const schemas = await this.getSchemas();
@@ -21,71 +21,68 @@ export default {
       label: "Original Filename",
       description: "The original filename of the imported file",
     },
-    importMetadata: {
-      type: "object",
-      label: "Import Metadata",
-      description: "Additional metadata for the import",
-      optional: true,
-    },
-    sourceUrl: {
-      type: "string",
-      label: "Source URL",
-      description: "The URL of the source file for import",
-    },
-    destinationFolderId: {
-      type: "string",
-      label: "Destination Folder ID",
-      description: "The ID of the destination folder for the imported file",
-    },
-    notificationPreferences: {
-      type: "object",
-      label: "Notification Preferences",
-      description: "Preferences for import notifications",
-      optional: true,
-    },
-    excludeFormats: {
-      type: "string[]",
-      label: "File Formats to Exclude",
-      description: "File formats to exclude during the import",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {
       return "https://app.dromo.io/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
-          ...headers,
-          Authorization: this.$auth.api_token,
+          "X-Dromo-License-Key": `${this._apiKey()}`,
         },
       });
     },
-    async getSchemas() {
+    getSchemas(args = {}) {
       return this._makeRequest({
-        path: "/schemas",
+        path: "/schemas/",
+        ...args,
       });
     },
-    async createHeadlessImport(opts) {
+    listHeadlessImports(args = {}) {
       return this._makeRequest({
-        ...opts,
+        path: "/headless/imports/",
+        ...args,
+      });
+    },
+    createHeadlessImport(args = {}) {
+      return this._makeRequest({
         method: "POST",
-        path: "/headless/imports",
+        path: "/headless/imports/",
+        ...args,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      resourceFn, args = {},
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args.params,
+          limit: 100,
+          offset: 0,
+        },
+      };
+      let total = 0;
+
+      do {
+        const { results } = await resourceFn(args);
+        for (const item of results) {
+          yield item;
+        }
+        total = results?.length;
+        args.params.offset += args.params.limit;
+      } while (total === args.params.limit);
     },
   },
 };
