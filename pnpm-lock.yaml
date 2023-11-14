@@ -4899,7 +4899,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/productive_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      crypto: ^1.0.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      crypto: 1.0.1
 
   components/productlane:
     specifiers:
