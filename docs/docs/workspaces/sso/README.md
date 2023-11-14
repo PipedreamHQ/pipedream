@@ -25,7 +25,7 @@ In order to configure SAML SSO for your workspace, you first need to verify owne
 4. Sometimes the DNS changes can take up to 72 hours to propagate. Once they're live, click the **Verify** button for the domain you've entered.
 5. Once Pipedream verifies the `TXT` record, we'll show a green checkmark on the domain
 
-![Verified Domain](https://res.cloudinary.com/pipedreamin/image/upload/v1699911275/Google_Chrome_-_Settings_-_Verified_Domains_-_Pipedream_2023-11-13_at_1.29.35_PM_zhvfj2.png)
+![Verified Domains](https://res.cloudinary.com/pipedreamin/image/upload/v1699938431/verified-domains_qcjpnb.png)
 
 :::tip Make sure to verify all your domains
 There's no limit on the number of domains you can verify for SSO, so if you use `example.com`, `example.net`, and `foo.example.com`, make sure to verify each one.
