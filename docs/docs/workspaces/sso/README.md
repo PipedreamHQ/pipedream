@@ -63,5 +63,5 @@ In order to ensure you don't get locked out of your Pipedream workspace in the e
 :::
 
 :::warning Login methods are enforced when signing in to pipedream.com
-For example, Pat is a member of 2 workspaces. Workspace A **requires SSO** but workspace B allows any login method. Pat will have to sign in to Pipedream using SSO every time, independent of what workspace they are trying to access.
+This means if you are a member of 2 workspaces and of them allows **any login method** but the other **requires SSO**, you will be required to sign in to Pipedream using SSO every time, independent of what workspace you are trying to access.
 :::
