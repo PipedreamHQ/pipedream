@@ -1,7 +1,7 @@
 import app from "../../productive_io.app.mjs";
 
 export default {
-  key: "productiveio-create-task",
+  key: "productive_io-create-task",
   name: "Create Task",
   description: "Creates a new task in Productive. [See the documentation](https://developer.productive.io/tasks.html)",
   version: "0.0.1",

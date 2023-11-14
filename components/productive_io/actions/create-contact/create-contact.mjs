@@ -2,7 +2,7 @@ import constants from "../../common/constants.mjs";
 import app from "../../productive_io.app.mjs";
 
 export default {
-  key: "productiveio-create-contact",
+  key: "productive_io-create-contact",
   name: "Create Contact",
   description: "Creates a new contact entry in Productive.io. [See the documentation](https://developer.productive.io/contact_entries.html#contact-entries-contact-entries-post)",
   version: "0.0.1",

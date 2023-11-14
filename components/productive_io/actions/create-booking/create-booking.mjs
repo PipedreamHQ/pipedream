@@ -2,7 +2,7 @@ import app from "../../productive_io.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
-  key: "productiveio-create-booking",
+  key: "productive_io-create-booking",
   name: "Create Booking",
   description: "Creates a new booking in Productive. [See the documentation](https://developer.productive.io/bookings.html#bookings-bookings-post)",
   version: "0.0.1",

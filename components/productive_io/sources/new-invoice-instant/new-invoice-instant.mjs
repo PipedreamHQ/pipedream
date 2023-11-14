@@ -3,7 +3,7 @@ import events from "../common/events.mjs";
 
 export default {
   ...common,
-  key: "productiveio-new-invoice-instant",
+  key: "productive_io-new-invoice-instant",
   name: "New Invoice (Instant)",
   description: "Emit new event when a new invoice is created. [See the documentation](https://developer.productive.io/webhooks.html#webhooks)",
   type: "source",
