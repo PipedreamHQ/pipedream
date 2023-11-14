@@ -3,9 +3,9 @@ import ghostAdminApi from "../../ghost_org_admin_api.app.mjs";
 export default {
   key: "ghost_org_admin_api-create-post",
   name: "Create post",
-  description: "Create a post. [See the docs here](https://ghost.org/docs/admin-api/#creating-a-post).",
+  description: "Create a post. [See the documentation](https://ghost.org/docs/admin-api/#creating-a-post).",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     ghostAdminApi,
     title: {
@@ -41,6 +41,12 @@ export default {
       description: "Tags of the post",
       optional: true,
     },
+    featured: {
+      type: "boolean",
+      label: "Featured",
+      description: "Set to `true` to make the post featured",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -49,6 +55,7 @@ export default {
       html,
       status,
       tags,
+      featured,
     } = this;
 
     const response = await this.ghostAdminApi.createPost({
@@ -64,6 +71,7 @@ export default {
             html,
             status,
             tags,
+            featured,
           },
         ],
       },
