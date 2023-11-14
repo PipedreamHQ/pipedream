@@ -10,18 +10,8 @@ const COUNTRIES = [
   "TZ",
 ];
 
-const CURRENCIES = [
-  "USD",
-  "GBP",
-  "EUR",
-  "JPY",
-  "AUD",
-  "CAD",
-];
-
 export default {
   BASE_URL,
   VERSION_PATH,
   COUNTRIES,
-  CURRENCIES,
 };

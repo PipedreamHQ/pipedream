@@ -23,7 +23,7 @@ export default {
     generateMeta(subscription) {
       return {
         id: subscription.id,
-        summary: `New Subscription: ${subscription.plan_name}`,
+        summary: `New Subscription: ${subscription.id}`,
         ts: Date.parse(subscription.created_at),
       };
     },

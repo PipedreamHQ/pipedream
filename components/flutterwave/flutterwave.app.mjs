@@ -25,12 +25,6 @@ export default {
       description: "This is the country code of the Banks being queried",
       options: constants.COUNTRIES,
     },
-    currency: {
-      type: "string",
-      label: "Currency",
-      description: "The currency of the Transfer",
-      options: constants.CURRENCIES,
-    },
     payoutSubaccount: {
       type: "string",
       label: "Payout Subaccount",
@@ -44,25 +38,10 @@ export default {
         }));
       },
     },
-    accountNumber: {
-      type: "string",
-      label: "Account Number",
-      description: "This is the recipient's account number.",
-      async options({ bank }) {
-        const { data: subaccounts } = await this.getCollectionSubaccounts({
-          params: {
-            account_bank: bank,
-          },
-        });
-        return subaccounts.map((s) => ({
-          value: s.id,
-          label: s.business_name,
-        }));
-      },
-    },
     transaction: {
       type: "string",
       label: "Transaction",
+      description: "The identifier of a transaction",
       async options({ page }) {
         const { data: transactions } = await this.getTransactions({
           params: {

@@ -24,19 +24,14 @@ export default {
       ],
     },
     accountNumber: {
-      propDefinition: [
-        flutterwave,
-        "accountNumber",
-        (c) => ({
-          bank: c.bank,
-        }),
-      ],
+      type: "string",
+      label: "Account Number",
+      description: "This is the recipient's account number.",
     },
     currency: {
-      propDefinition: [
-        flutterwave,
-        "currency",
-      ],
+      type: "string",
+      label: "Currency",
+      description: "The currency of the Transfer. Learn more about supported currencies [here](https://flutterwave.com/gb/support/payments/what-currencies-can-you-transfer-to).",
     },
     amount: {
       type: "integer",

@@ -23,7 +23,7 @@ export default {
     generateMeta(transfer) {
       return {
         id: transfer.id,
-        summary: `New transfer: ${transfer.tx_ref}`,
+        summary: `New transfer: ${transfer.id}`,
         ts: Date.parse(transfer.created_at),
       };
     },
