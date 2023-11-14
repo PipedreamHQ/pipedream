@@ -84,15 +84,11 @@ export default {
         ...args,
       });
     },
-    async createTemplateExperience(templateId, variables, type) {
+    async createTemplateExperience(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/integration/experience",
-        data: {
-          template_id: templateId,
-          type,
-          variables,
-        },
+        path: "/nexweave-integration/experience",
+        ...args,
       });
     },
   },
