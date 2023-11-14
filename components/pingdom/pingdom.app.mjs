@@ -4,7 +4,7 @@ export default {
   type: "app",
   app: "pingdom",
   propDefinitions: {
-    teamids: {
+    teamIds: {
       type: "integer[]",
       label: "Team Ids",
       description: "Teams to alert.",
@@ -19,7 +19,7 @@ export default {
         }));
       },
     },
-    userids: {
+    userIds: {
       type: "string[]",
       label: "User Ids",
       description: "User identifiers.",

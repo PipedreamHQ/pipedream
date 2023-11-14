@@ -35,7 +35,7 @@ export default {
       description: "Custom message that will be added to email and webhook alerts.",
       optional: true,
     },
-    integrationids: {
+    integrationIds: {
       type: "integer[]",
       label: "Integration Ids",
       description: "Integration identifiers.",
@@ -47,13 +47,13 @@ export default {
       description: "Use ipv6 instead of ipv4, if an IP address is provided as host this will be overrided by the IP address version.",
       optional: true,
     },
-    notifyagainevery: {
+    notifyAgainEvery: {
       type: "string",
       label: "Notify Again Every",
       description: "Notify again every n result. 0 means that no extra notifications will be sent.",
       optional: true,
     },
-    notifywhenbackup: {
+    notifyWhenBackup: {
       type: "boolean",
       label: "Notify When Backup",
       description: "Notify when back up again.",
@@ -79,13 +79,13 @@ export default {
       options: RESOLUTION_OPTIONS,
       optional: true,
     },
-    responsetimeThreshold: {
+    responseTimeThreshold: {
       type: "integer",
       label: "Responsetime Threshold",
       description: "Triggers a down alert if the response time exceeds threshold specified in ms (Not available for Starter and Free plans).",
       optional: true,
     },
-    sendnotificationwhendown: {
+    sendNotificationWhenDown: {
       type: "integer",
       label: "Send Notification When Down",
       description: "Send notification when down X times.",
@@ -97,17 +97,17 @@ export default {
       description: "List of tags for check. The maximum length of a tag is 64 characters.",
       optional: true,
     },
-    teamids: {
+    teamIds: {
       propDefinition: [
         pingdom,
-        "teamids",
+        "teamIds",
       ],
       optional: true,
     },
-    userids: {
+    userIds: {
       propDefinition: [
         pingdom,
-        "userids",
+        "userIds",
       ],
       optional: true,
     },
@@ -135,25 +135,25 @@ export default {
       description: "Treat target site as down if an invalid/unverifiable certificate is found.",
       optional: true,
     },
-    postdata: {
+    postData: {
       type: "string",
       label: "Post Data",
       description: "Data that should be posted to the web page, for example submission data for a sign-up or login form. The data needs to be formatted in the same way as a web browser would send it to the web server.",
       optional: true,
     },
-    requestheaders: {
+    requestHeaders: {
       type: "string[]",
       label: "Request Headers",
       description: "Custom HTTP header.",
       optional: true,
     },
-    shouldcontain: {
+    shouldContain: {
       type: "string",
       label: "Should Contain",
       description: "Target site should contain this string. Note! This parameter cannot be used together with the parameter 'shouldnotcontain', use only one of them in your request.",
       optional: true,
     },
-    shouldnotcontain: {
+    shouldNotContain: {
       type: "string",
       label: "Should Not Contain",
       description: "Target site should NOT contain this string. Note! This parameter cannot be used together with the parameter 'shouldcontain', use only one of them in your request.",
@@ -171,11 +171,20 @@ export default {
       pingdom,
       host,
       customMessage,
-      notifyagainevery,
+      notifyAgainEvery,
       probeFilters,
-      responsetimeThreshold,
+      responseTimeThreshold,
       sslDownDaysBefore,
       verifyCertificate,
+      integrationIds,
+      notifyWhenBackup,
+      sendNotificationWhenDown,
+      teamIds,
+      userIds,
+      postData,
+      requestHeaders,
+      shouldContain,
+      shouldNotContain,
       ...data
     } = this;
 
@@ -184,9 +193,18 @@ export default {
         type: "http",
         host: removeHttp(host),
         custom_message: customMessage,
-        notifyagainevery: notifyagainevery && parseInt(notifyagainevery),
+        integrationids: integrationIds,
+        notifyagainevery: notifyAgainEvery && parseInt(notifyAgainEvery),
+        notifywhenbackup: notifyWhenBackup,
         probe_filters: probeFilters && probeFilters.map((item) => `region:${item}`),
-        responsetime_threshold: responsetimeThreshold,
+        sendnotificationwhendown: sendNotificationWhenDown,
+        teamids: teamIds,
+        userids: userIds,
+        responsetime_threshold: responseTimeThreshold,
+        postdata: postData,
+        requestheaders: requestHeaders,
+        shouldcontain: shouldContain,
+        shouldnotcontain: shouldNotContain,
         ssl_down_days_before: sslDownDaysBefore && parseInt(sslDownDaysBefore),
         verify_certificate: verifyCertificate,
         ...data,

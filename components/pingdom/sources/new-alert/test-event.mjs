@@ -9,4 +9,4 @@ export default {
   "messagefull": "PingdomAlert UP: MyCheck (example.com) is UP again at 2010-12-13 14:50:54. Downtime: 12m.",
   "sentto": "46-555555",
   "charged": true
-  }
+}
