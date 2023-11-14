@@ -4,89 +4,97 @@ export default {
   type: "app",
   app: "helpcrunch",
   propDefinitions: {
-    chatId: {
+    name: {
       type: "string",
-      label: "Chat ID",
-      description: "The ID of the chat",
+      label: "Name",
+      description: "Name of the customer",
     },
-    customerId: {
+    email: {
       type: "string",
-      label: "Customer ID",
-      description: "The ID of the customer",
+      label: "Email",
+      description: "Email address of the customer",
     },
-    customerAttributes: {
-      type: "object",
-      label: "Customer Attributes",
-      description: "Attributes to search or create the customer",
+    company: {
+      type: "string",
+      label: "Company",
+      description: "Company of the user",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Phone number of the user",
+      optional: true,
+    },
+    notes: {
+      type: "string",
+      label: "Notes",
+      description: "Notes about the user",
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.helpcrunch.com";
+      return "https://api.helpcrunch.com/v1";
     },
-    async _makeRequest(opts = {}) {
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          Authorization: `Bearer ${this._apiKey()}`,
         },
       });
     },
-    async getChat(chatId) {
-      return this._makeRequest({
-        path: `/chats/${chatId}`,
-      });
-    },
-    async updateChat(chatId, data) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/chats/${chatId}`,
-        data,
-      });
-    },
-    async createChat(data) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/chats",
-        data,
-      });
-    },
-    async getCustomer(customerId) {
-      return this._makeRequest({
-        path: `/customers/${customerId}`,
-      });
-    },
-    async createCustomer(data) {
+    createCustomer(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/customers",
-        data,
+        ...args,
       });
     },
-    async searchOrCreateCustomer(attributes) {
-      try {
-        const searchResponse = await this._makeRequest({
-          method: "GET",
-          path: "/customers/search",
-          params: attributes,
-        });
-        if (searchResponse && searchResponse.length > 0) {
-          return searchResponse[0];
+    searchChats(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/chats/search",
+        ...args,
+      });
+    },
+    searchCustomers(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customers/search",
+        ...args,
+      });
+    },
+    async *paginate({
+      resourceFn, args = {},
+    }) {
+      args = {
+        ...args,
+        data: {
+          ...args.data,
+          limit: 100,
+          offset: 0,
+        },
+      };
+      let total = 0;
+      do {
+        const { data } = await resourceFn(args);
+        for (const item of data) {
+          yield item;
         }
-      } catch (error) {
-        console.error("Error searching for customer", error);
-      }
-      return this.createCustomer(attributes);
+        total = data?.length;
+        args.data.offset += args.data.limit;
+      } while (total === args.data.limit);
     },
   },
 };
