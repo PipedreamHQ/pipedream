@@ -1,32 +1,38 @@
+import common from "../common.mjs";
 import nexweave from "../../nexweave.app.mjs";
 
 export default {
   key: "nexweave-create-video-experience-from-template",
   name: "Create Video Experience from Template",
-  description: "Creates a video experience from a Nexweave video template. [See the documentation](https://documentation.nexweave.com/nexweave-api)",
+  description: "Creates a video experience from a template. [See the documentation](https://documentation.nexweave.com/nexweave-api#4OZFt)",
   version: "0.0.1",
   type: "action",
+  ...common,
   props: {
     nexweave,
     templateId: {
       propDefinition: [
         nexweave,
         "templateId",
-        () => ({
-          type: "video",
-        }),
       ],
     },
-    variables: {
-      type: "string[]",
-      label: "Variables",
-      description: "An array of objects representing the variables for the template. Each item should be a JSON string.",
-    },
   },
-  async run({ $ }) {
-    const parsedVariables = this.variables.map(JSON.parse);
-    const response = await this.nexweave.createTemplateExperience(this.templateId, parsedVariables, "video");
-    $.export("$summary", `Successfully created a video experience from the template with ID: ${this.templateId}`);
-    return response;
+  methods: {
+    getSummary() {
+      return "Successfully created video experience";
+    },
+    async getItemDetails() {
+      return this.nexweave.getTemplateDetails(this.templateId);
+    },
+    async getData() {
+      const { // eslint-disable-next-line no-unused-vars
+        nexweave, templateId, ...data
+      } = this;
+
+      return {
+        template_id: templateId,
+        data,
+      };
+    },
   },
 };

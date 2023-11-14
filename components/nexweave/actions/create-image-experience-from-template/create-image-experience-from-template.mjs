@@ -4,7 +4,7 @@ import nexweave from "../../nexweave.app.mjs";
 export default {
   key: "nexweave-create-image-experience-from-template",
   name: "Create Image Experience from Template",
-  description: "Creates an image experience based on a Nexweave template. [See the documentation](https://documentation.nexweave.com/nexweave-api)",
+  description: "Creates an image experience from a template. [See the documentation](https://documentation.nexweave.com/nexweave-api#4OZFt)",
   version: "0.0.1",
   type: "action",
   ...common,
