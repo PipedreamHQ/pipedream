@@ -359,8 +359,8 @@ export default {
         const response = await this._client().users.drafts.create({
           userId: constants.USER_ID,
           requestBody: {
-            threadId: threadId,
             message: {
+              threadId: threadId,
               raw: message.toString("base64"),
             },
           },

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/reapit_foundations",
+  "version": "0.0.1",
+  "description": "Pipedream Reapit Foundations Components",
+  "main": "reapit_foundations.app.mjs",
+  "keywords": [
+    "pipedream",
+    "reapit_foundations"
+  ],
+  "homepage": "https://pipedream.com/apps/reapit_foundations",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -23,6 +23,7 @@ export const puppeteer = {
         "--hide-scrollbars",
         "--disable-web-security",
       ],
+      protocolTimeout: 240000,
       ...opts,
     });
 
