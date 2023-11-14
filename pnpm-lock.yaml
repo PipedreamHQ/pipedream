@@ -1131,7 +1131,10 @@ importers:
     specifiers: {}
 
   components/cometly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/commcare:
     specifiers: {}
@@ -4872,6 +4875,9 @@ importers:
     specifiers: {}
 
   components/realphonevalidation:
+    specifiers: {}
+
+  components/reapit_foundations:
     specifiers: {}
 
   components/rebrandly:
