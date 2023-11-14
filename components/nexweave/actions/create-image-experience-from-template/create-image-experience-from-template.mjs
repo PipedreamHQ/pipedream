@@ -13,7 +13,7 @@ export default {
     templateId: {
       propDefinition: [
         nexweave,
-        "templateId",
+        "imageTemplateId",
       ],
     },
   },
@@ -24,7 +24,7 @@ export default {
     async getItemDetails() {
       return this.nexweave.getTemplateDetails(this.templateId);
     },
-    async getData() {
+    getData() {
       const { // eslint-disable-next-line no-unused-vars
         nexweave, templateId, ...data
       } = this;

@@ -10,27 +10,27 @@ export default {
       description: "Select the campaign for which you want to create an experience.",
       async options() {
         const campaigns = await this.listCampaigns();
-        return campaigns.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
+        return this.getItemOptions(campaigns);
       },
       reloadProps: true,
     },
-    templateId: {
+    imageTemplateId: {
       type: "string",
-      label: "Template ID",
-      description: "Select the template for which you want to create an experience.",
+      label: "Image Template ID",
+      description: "Select the image template for which you want to create an experience.",
       async options() {
-        const templates = await this.listTemplates();
-        return templates.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
+        const templates = await this.listTemplates("image");
+        return this.getItemOptions(templates);
+      },
+      reloadProps: true,
+    },
+    videoTemplateId: {
+      type: "string",
+      label: "Video Template ID",
+      description: "Select the video template for which you want to create an experience.",
+      async options() {
+        const templates = await this.listTemplates("video");
+        return this.getItemOptions(templates);
       },
       reloadProps: true,
     },
@@ -38,6 +38,14 @@ export default {
   methods: {
     _baseUrl() {
       return "https://api.nexweave.com/api/v1";
+    },
+    getItemOptions(items) {
+      return items?.map?.(({
+        id, name,
+      }) => ({
+        label: name,
+        value: id,
+      }));
     },
     async _makeRequest({
       $ = this,
@@ -59,9 +67,12 @@ export default {
         path: "/integration/campaign",
       });
     },
-    async listTemplates() {
+    async listTemplates(type) {
       return this._makeRequest({
         path: "/integration/template",
+        params: {
+          template_type: type,
+        },
       });
     },
     async getCampaignDetails(campaignId) {
