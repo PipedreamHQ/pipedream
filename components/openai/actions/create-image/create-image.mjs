@@ -1,9 +1,8 @@
 import openai from "../../openai.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Image",
-  version: "0.1.4",
+  version: "0.1.8",
   key: "openai-create-image",
   description: "Creates an image given a prompt. returns a URL to the image. [See docs here](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
@@ -36,14 +35,6 @@ export default {
       type: "integer",
       optional: true,
       default: 1,
-    },
-    size: {
-      label: "Size",
-      description: "The size of the generated images.",
-      type: "string",
-      optional: true,
-      options: constants.IMAGE_SIZES,
-      default: "1024x1024",
     },
     quality: {
       label: "Quality",
@@ -78,6 +69,52 @@ export default {
         },
       ],
       default: "natural",
+    },
+    responseFormat: {
+      label: "Response Format",
+      description: "The format in which the generated images are returned.",
+      type: "string",
+      optional: true,
+      options: [
+        {
+          label: "URL",
+          value: "url",
+        },
+        {
+          label: "Base64 JSON",
+          value: "b64_json",
+        },
+      ],
+      default: "url",
+    },
+    size: {
+      label: "Size",
+      description: "The size of the generated images.",
+      type: "string",
+      optional: true,
+      options: [
+        {
+          label: "256x256",
+          value: "256x256",
+        },
+        {
+          label: "512x512",
+          value: "512x512",
+        },
+        {
+          label: "1024x1024",
+          value: "1024x1024",
+        },
+        {
+          label: "1792x1024",
+          value: "1792x1024",
+        },
+        {
+          label: "1024x1792",
+          value: "1024x1792",
+        },
+      ],
+      default: "1024x1024",
     },
   },
   async run({ $ }) {

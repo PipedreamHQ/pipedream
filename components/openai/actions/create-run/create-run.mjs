@@ -4,7 +4,7 @@ export default {
   key: "openai-create-run",
   name: "Create Run",
   description: "Creates a run given a thread ID and assistant ID. [See the documentation](https://platform.openai.com/docs/api-reference/runs/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     openai,
