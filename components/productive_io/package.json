@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/productive_io",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Productive.io Components",
   "main": "productive_io.app.mjs",
   "keywords": [
