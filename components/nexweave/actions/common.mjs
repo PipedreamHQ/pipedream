@@ -1,22 +1,7 @@
-import nexweave from "../nexweave.app.mjs";
-
 export default {
-  props: {
-    nexweave,
-    campaignId: {
-      propDefinition: [
-        nexweave,
-        "campaignId",
-      ],
-      reloadProps: true,
-    },
-  },
   async additionalProps() {
-    const { campaignId } = this;
-    if (!campaignId) return {};
-
-    const campaignDetails = await this.nexweave.getCampaignDetails(campaignId);
-    return Object.fromEntries(campaignDetails?.result?.variables?.map?.((variable) => ([
+    const itemDetails = await this.getItemDetails();
+    return Object.fromEntries(itemDetails?.result?.variables?.map?.((variable) => ([
       variable.key,
       {
         type: "string",
@@ -27,16 +12,9 @@ export default {
     ])) ?? {});
   },
   async run({ $ }) {
-    const { // eslint-disable-next-line no-unused-vars
-      nexweave, campaignId, ...data
-    } = this;
-
-    const response = await this.createExperience({
+    const response = await this.nexweave.createExperience({
       $,
-      data: {
-        campaign_id: campaignId,
-        data,
-      },
+      data: this.getData(),
     });
 
     $.export("$summary", this.getSummary());

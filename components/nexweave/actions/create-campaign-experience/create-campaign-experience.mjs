@@ -1,4 +1,5 @@
 import common from "../common.mjs";
+import nexweave from "../../nexweave.app.mjs";
 
 export default {
   key: "nexweave-create-campaign-experience",
@@ -7,12 +8,31 @@ export default {
   version: "0.0.1",
   type: "action",
   ...common,
+  props: {
+    nexweave,
+    campaignId: {
+      propDefinition: [
+        nexweave,
+        "campaignId",
+      ],
+    },
+  },
   methods: {
     getSummary() {
       return "Successfully created campaign experience";
     },
-    async createExperience(args) {
-      return this.nexweave.createCampaignExperience(args);
+    async getItemDetails() {
+      return this.nexweave.getCampaignDetails(this.campaignId);
+    },
+    getData() {
+      const { // eslint-disable-next-line no-unused-vars
+        nexweave, campaignId, ...data
+      } = this;
+
+      return {
+        campaign_id: campaignId,
+        data,
+      };
     },
   },
 };

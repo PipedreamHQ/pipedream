@@ -17,6 +17,7 @@ export default {
           value: id,
         }));
       },
+      reloadProps: true,
     },
     templateId: {
       type: "string",
@@ -31,11 +32,7 @@ export default {
           value: id,
         }));
       },
-    },
-    variables: {
-      type: "object",
-      label: "Variables",
-      description: "The variables that you want to modify in the campaign or template.",
+      reloadProps: true,
     },
   },
   methods: {
@@ -77,14 +74,7 @@ export default {
         path: `/integration/template/${templateId}`,
       });
     },
-    async createCampaignExperience(args) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/nexweave-integration/experience",
-        ...args,
-      });
-    },
-    async createTemplateExperience(args) {
+    async createExperience(args) {
       return this._makeRequest({
         method: "POST",
         path: "/nexweave-integration/experience",
