@@ -1,13 +1,13 @@
-import { pick } from "lodash-es";
 import notion from "../../notion.app.mjs";
 import base from "../common/base-page-builder.mjs";
+import pick from "lodash-es/pick.js";
 
 export default {
   ...base,
   key: "notion-create-page-from-database",
   name: "Create Page from Database",
   description: "Creates a page from a database. [See the docs](https://developers.notion.com/reference/post-page)",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "action",
   props: {
     notion,
