@@ -4,48 +4,38 @@ export default {
   type: "app",
   app: "echtpost_postcards",
   propDefinitions: {
-    design: {
+    templateId: {
       type: "string",
       label: "Design Template ID",
       description: "The ID of the template used for the postcard design.",
+      async options() {
+        const templates = await this.listTemplates();
+        return templates.map((template) => ({
+          label: template.best_name ?? template.content,
+          value: template.id,
+        }));
+      },
     },
-    message: {
-      type: "string",
-      label: "Message",
-      description: "The message to be included in the postcard.",
-    },
-    recipient: {
-      type: "object",
-      label: "Recipient Contact Information",
-      description: "The contact information of the postcard recipient.",
+    contactId: {
+      type: "string[]",
+      label: "Recipient Contact(s)",
+      description: "The ID(s) of the recipient contact(s).",
+      async options() {
+        const contacts = await this.listContacts();
+        return contacts.map(({
+          id, name, first,
+        }) => ({
+          label: name && first
+            ? `${first} ${name}`
+            : name ?? first ?? id,
+          value: id,
+        }));
+      },
     },
     scheduledDate: {
       type: "string",
       label: "Scheduled Date",
-      description: "The date when the postcard should be delivered.",
-      optional: true,
-    },
-    name: {
-      type: "string",
-      label: "Contact Name",
-      description: "The name of the new contact.",
-    },
-    address: {
-      type: "string",
-      label: "Contact Address",
-      description: "The address of the new contact.",
-    },
-    email: {
-      type: "string",
-      label: "Contact Email",
-      description: "The email of the new contact.",
-      optional: true,
-    },
-    phoneNumber: {
-      type: "string",
-      label: "Contact Phone Number",
-      description: "The phone number of the new contact.",
-      optional: true,
+      description: "The date when the postcard should be delivered, e.g. `2024-03-15`",
     },
   },
   methods: {
@@ -55,33 +45,40 @@ export default {
     async _makeRequest({
       $ = this,
       path,
-      headers,
+      data,
+      params,
       ...otherOpts
     }) {
+      if (!(data || params)) {
+        params = {};
+      }
+      (data || params).apikey = this.$auth.api_key;
+
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
         headers: {
-          ...headers,
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
         },
+        data,
+        params,
       });
     },
-    async sendPostcard({
-      design, message, recipient, scheduledDate,
-    }) {
+    async sendPostcard(args) {
       return this._makeRequest({
         method: "POST",
         path: "/cards",
-        data: {
-          card: {
-            template_id: design,
-            deliver_at: scheduledDate,
-            contacts_attributes: recipient,
-            message: message,
-          },
-        },
+        ...args,
+      });
+    },
+    async listTemplates() {
+      return this._makeRequest({
+        path: "/templates",
+      });
+    },
+    async listContacts() {
+      return this._makeRequest({
+        path: "/contacts",
       });
     },
     async createContact(args) {

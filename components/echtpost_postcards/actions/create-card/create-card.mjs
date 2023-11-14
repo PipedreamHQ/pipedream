@@ -8,22 +8,16 @@ export default {
   type: "action",
   props: {
     echtpost_postcards,
-    design: {
+    templateId: {
       propDefinition: [
         echtpost_postcards,
-        "design",
+        "templateId",
       ],
     },
-    message: {
+    contactId: {
       propDefinition: [
         echtpost_postcards,
-        "message",
-      ],
-    },
-    recipient: {
-      propDefinition: [
-        echtpost_postcards,
-        "recipient",
+        "contactId",
       ],
     },
     scheduledDate: {
@@ -31,15 +25,20 @@ export default {
         echtpost_postcards,
         "scheduledDate",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
+    const data = {
+      template_id: this.templateId,
+      deliver_at: this.scheduledDate,
+    };
+    const { contactId } = this;
+    data[typeof contactId === "string"
+      ? "contact_id"
+      : "contact_ids"] = contactId;
     const response = await this.echtpost_postcards.sendPostcard({
-      design: this.design,
-      message: this.message,
-      recipient: this.recipient,
-      scheduledDate: this.scheduledDate,
+      $,
+      data,
     });
 
     $.export("$summary", `Successfully scheduled postcard creation with design template ID ${this.design}`);
