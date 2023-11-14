@@ -4,91 +4,95 @@ export default {
   type: "app",
   app: "jw_player",
   propDefinitions: {
-    mediaId: {
+    siteId: {
       type: "string",
-      label: "Media ID",
-      description: "The ID of the media",
-    },
-    methodType: {
-      type: "string",
-      label: "Upload Method",
-      description: "Method for uploading the media (fetch or external)",
-      options: [
-        "fetch",
-        "external",
-      ],
-    },
-    mediaSource: {
-      type: "string",
-      label: "Media Source",
-      description: "The source of the media",
-    },
-    searchQuery: {
-      type: "string",
-      label: "Search Query",
-      description: "The query for searching the media",
-      optional: true,
-    },
-    listAll: {
-      type: "boolean",
-      label: "List All",
-      description: "Whether to list all media",
-      optional: true,
+      label: "Site ID",
+      description: "The [site ID](https://docs.jwplayer.com/platform/reference/building-a-request#site-id) is a unique identifier for an account property. This value is sometimes referred to as the Property ID.",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.jwplayer.com";
+      return "https://api.jwplayer.com/v2";
     },
-    async _makeRequest(opts = {}) {
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `${this._apiKey()}`,
         },
       });
     },
-    async createMedia({
-      methodType, mediaSource,
+    createWebhook(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks/",
+        ...args,
+      });
+    },
+    deleteWebhook({
+      hookId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${hookId}/`,
+        ...args,
+      });
+    },
+    getMedia({
+      siteId, mediaId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}/media/${mediaId}/`,
+        ...args,
+      });
+    },
+    createMedia({
+      siteId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/v2/sites/${this.$auth.site_id}/media/`,
-        data: {
-          upload: {
-            method: methodType,
-            download_url: mediaSource,
-          },
-        },
+        path: `/sites/${siteId}/media/`,
+        ...args,
       });
     },
-    async listMedia({
-      searchQuery, listAll,
+    listMedia({
+      siteId, ...args
     }) {
-      const params = {};
-      if (searchQuery) {
-        params.q = searchQuery;
-      }
-      if (listAll) {
-        params.page_length = 10000;
-      }
       return this._makeRequest({
-        path: `/v2/sites/${this.$auth.site_id}/media/`,
-        params,
+        path: `/sites/${siteId}/media/`,
+        ...args,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      resourceFn, args = {}, resourceType,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args.params,
+          page: 1,
+          page_length: 100,
+        },
+      };
+      let total = 0;
+      do {
+        const response = await resourceFn(args);
+        const items = response[resourceType];
+        for (const item of items) {
+          yield item;
+        }
+        total = items?.length;
+        args.params.page++;
+      } while (total === args.params.page_length);
     },
   },
 };

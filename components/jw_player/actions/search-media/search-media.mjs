@@ -1,36 +1,49 @@
-import jw_player from "../../jw_player.app.mjs";
+import jwPlayer from "../../jw_player.app.mjs";
 
 export default {
   key: "jw_player-search-media",
   name: "Search Media",
-  description: "Searches for a media or lists all media available in JW Player. This action can be configured with optional props like 'searchQuery' for specific media search, and 'listAll' to display all media.",
-  version: "0.0.{{ts}}",
+  description: "Searches for a media or lists all media available in JW Player. [See the documentation](https://docs.jwplayer.com/platform/reference/get_v2-sites-site-id-media)",
+  version: "0.0.1",
   type: "action",
   props: {
-    jw_player,
-    searchQuery: {
+    jwPlayer,
+    siteId: {
       propDefinition: [
-        jw_player,
-        "searchQuery",
+        jwPlayer,
+        "siteId",
       ],
     },
-    listAll: {
-      propDefinition: [
-        jw_player,
-        "listAll",
-      ],
+    searchQuery: {
+      type: "string",
+      label: "Search Query",
+      description: "The query for searching the media",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const searchParams = {};
-    if (this.searchQuery) {
-      searchParams.q = this.searchQuery;
+    const results = this.jwPlayer.paginate({
+      resourceFn: this.jwPlayer.listMedia,
+      args: {
+        siteId: this.siteId,
+        params: {
+          q: this.searchQuery,
+        },
+      },
+      resourceType: "media",
+    });
+
+    const media = [];
+    for await (const item of results) {
+      media.push(item);
     }
-    if (this.listAll) {
-      searchParams.page_length = 10000;
+
+    if (media?.length) {
+      $.export("$summary", `Found ${media.length} media item${media.length === 1
+        ? ""
+        : "s"}.`);
     }
-    const response = await this.jw_player.listMedia(searchParams);
-    $.export("$summary", `Found ${response.length} media items`);
-    return response;
+
+    return media;
   },
 };
