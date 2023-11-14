@@ -2777,7 +2777,12 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/ilovepdf:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.5.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/imagekit_io:
     specifiers:
