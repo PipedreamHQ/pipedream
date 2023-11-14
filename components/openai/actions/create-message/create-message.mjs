@@ -4,7 +4,7 @@ export default {
   key: "openai-create-message",
   name: "Create Message",
   description: "Create a message in a thread. [See the documentation](https://platform.openai.com/docs/api-reference)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     openai,

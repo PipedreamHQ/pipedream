@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { FINE_TUNING_MODEL_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -75,6 +76,11 @@ export default {
       type: "string",
       label: "Run ID",
       description: "The unique identifier for the run.",
+    },
+    stepId: {
+      type: "string",
+      label: "Step ID",
+      description: "The unique identifier for the step.",
     },
     assistantId: {
       type: "string",
@@ -203,16 +209,76 @@ export default {
         }));
       },
     },
-    purpose: {
-      type: "string",
-      label: "Purpose",
-      description: "The intended purpose of the file.",
-      optional: true,
-    },
     file: {
       type: "string",
       label: "File",
-      description: "The file content to be uploaded, represented as a string. The size of individual files can be a maximum of 512mb.",
+      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). See the [Assistants Tools guide](https://platform.openai.com/docs/assistants/tools) to learn more about the types of files supported. The Fine-tuning API only supports `.jsonl` files.",
+    },
+    purpose: {
+      type: "string",
+      label: "Purpose",
+      description: "The intended purpose of the uploaded file. Use 'fine-tune' for fine-tuning and 'assistants' for assistants and messages.",
+      options: [
+        "fine-tune",
+        "assistants",
+      ],
+    },
+    ttsModel: {
+      type: "string",
+      label: "Model",
+      description: "One of the available [TTS models](https://platform.openai.com/docs/models/tts).",
+      options: [
+        "tts-1",
+        "tts-1-hd",
+      ],
+    },
+    fineTuningModel: {
+      type: "string",
+      label: "Fine Tuning Model",
+      description: "The name of the model to fine-tune. [See the supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).",
+      options: FINE_TUNING_MODEL_OPTIONS,
+    },
+    input: {
+      type: "string",
+      label: "Input",
+      description: "The text to generate audio for. The maximum length is 4096 characters.",
+    },
+    voice: {
+      type: "string",
+      label: "Voice",
+      description: "The voice to use when generating the audio.",
+      options: [
+        "alloy",
+        "echo",
+        "fable",
+        "onyx",
+        "nova",
+        "shimmer",
+      ],
+    },
+    responseFormat: {
+      type: "string",
+      label: "Response Format",
+      description: "The format to audio in.",
+      options: [
+        "mp3",
+        "opus",
+        "aac",
+        "flac",
+      ],
+      optional: true,
+    },
+    speed: {
+      type: "string",
+      label: "Speed",
+      description: "The speed of the generated audio. Provide a value from 0.25 to 4.0.",
+      default: "1.0",
+      optional: true,
+    },
+    trainingFile: {
+      type: "string",
+      label: "Training File",
+      description: "The ID of an uploaded file that contains training data. You can use the **Upload File** action and reference the returned ID here.",
     },
   },
   methods: {
@@ -241,12 +307,13 @@ export default {
       ...args
     } = {}) {
       return axios($, {
+        ...args,
         url: `${this._baseApiUrl()}${path}`,
         headers: {
+          ...args.headers,
           ...this._commonHeaders(),
         },
         maxBodyLength: Infinity,
-        ...args,
       });
     },
     async models({ $ }) {
@@ -591,16 +658,14 @@ export default {
         },
       });
     },
-    async uploadFile({
-      file, purpose,
-    }) {
+    async uploadFile(args) {
       return this._makeRequest({
         method: "POST",
         path: "/files",
-        headers: this._betaHeaders(),
-        data: {
-          file,
-          purpose,
+        ...args,
+        headers: {
+          ...args.headers,
+          ...this._betaHeaders(),
         },
       });
     },
@@ -621,6 +686,26 @@ export default {
       return this._makeRequest({
         headers: this._betaHeaders(),
         path: `/files/${file_id}/content`,
+      });
+    },
+    async listFineTuningJobs(args) {
+      return this._makeRequest({
+        path: "/fine_tuning/jobs",
+        ...args,
+      });
+    },
+    async createSpeech(args) {
+      return this._makeRequest({
+        path: "/audio/speech",
+        method: "POST",
+        ...args,
+      });
+    },
+    async createFineTuningJob(args) {
+      return this._makeRequest({
+        path: "/fine_tuning/jobs",
+        method: "POST",
+        ...args,
       });
     },
   },
