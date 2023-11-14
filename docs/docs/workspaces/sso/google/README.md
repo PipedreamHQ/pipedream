@@ -91,11 +91,11 @@ First, click the **Download Metadata** button on the left of the app configurati
 
 <br />
 <div>
-<img alt="Pipedream metadata URL" src="https://res.cloudinary.com/pipedreamin/image/upload/v1694026745/docs/Screenshot_2023-09-06_at_11.58.51_AM_vng2ja.png" width="600px" />
+<img alt="Pipedream SAML Metadata URL" src="https://res.cloudinary.com/pipedreamin/image/upload/v1699919663/saml-metadata-url_cxciur.png">
 </div>
 <br />
 
-Any user in your workspace can now log into Pipedream at [https://pipedream.com/auth/sso](https://pipedream.com/auth/sso) by entering your workspaces's name (found in your [Settings](https://pipedream.com/settings/account)). You can also access your SSO sign in URL directly by visiting [https://pipedream.com/auth/sso/your_workspace_name](https://pipedream.com/auth/sso), where `your_workspace_name` is the name of your workspace.
+Any user in your workspace can now log into Pipedream at [https://pipedream.com/auth/sso](https://pipedream.com/auth/sso) by entering your workspaces's name (found in your [Settings](https://pipedream.com/settings/account)). You can also access your SSO sign in URL directly by visiting [https://pipedream.com/auth/sso/your-workspace-name](https://pipedream.com/auth/sso), where `your-workspace-name` is the name of your workspace.
 
 ## Important details
 
