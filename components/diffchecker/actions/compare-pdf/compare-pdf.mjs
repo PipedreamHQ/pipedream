@@ -27,12 +27,12 @@ export default {
     leftPdf: {
       type: "string",
       label: "Left PDF",
-      description: "Left PDF file you want to compare. Provide the file path.",
+      description: "Left PDF file you want to compare. Provide the file path `/tmp/file.pdf`. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
     rightPdf: {
       type: "string",
       label: "Right PDF",
-      description: "Right PDF file you want to compare. Provide the file path.",
+      description: "Right PDF file you want to compare. Provide the file path `/tmp/file.pdf`. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
   },
   async run({ $ }) {

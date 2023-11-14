@@ -28,7 +28,7 @@ export default {
     _baseUrl() {
       return `https://${this.$auth.environment}.diffchecker.com/public`;
     },
-    _getHeaders(headers) {
+    _getHeaders(headers = {}) {
       if (this.$auth.api_key) {
         headers["X-Api-Key"] = this.$auth.api_key;
       }
