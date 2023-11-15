@@ -4,7 +4,7 @@ export default {
   key: "orca_scan-add-update-row",
   name: "Add or Update Row",
   description: "Adds a new row or updates an existing row in a sheet. [See the documentation](https://orcascan.com/guides/add-barcode-tracking-to-your-system-using-a-rest-api-f09a21c3)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     orca_scan,
@@ -32,19 +32,40 @@ export default {
 
     // Check if a row with the given barcode exists
     if (this.barcode) {
-      const rows = await this.orca_scan.getRows(this.sheetId, this.barcode);
-      if (rows.length > 0) {
+      const { data } = await this.orca_scan.listRows({
+        sheetId: this.sheetId,
+        params: {
+          barcode: this.barcode || null,
+        },
+      });
+      if (data.length > 0) {
+        const row = data[0];
         // Assume the first row is the one to update
-        rowId = rows[0]._id;
+        rowId = row._id;
+        for (const [
+          key,
+          value,
+        ] of Object.entries(this.rowData)) {
+          row[key] = value;
+        }
+        this.rowData = row;
+      } else {
+        this.rowData.barcode = this.barcode;
       }
     }
 
+    if (!this.rowData.date) this.rowData.date = new Date();
+
     // Make the request to add or update the row
-    const response = await this.orca_scan.addOrUpdateRow(this.sheetId, this.rowData, rowId);
+    const response = await this.orca_scan.addOrUpdateRow({
+      sheetId: this.sheetId,
+      data: this.rowData,
+      rowId: rowId,
+    });
 
     $.export("$summary", `Successfully ${rowId
       ? "updated"
-      : "added"} row in sheet ${this.sheetId}`);
+      : "added"} row with ID: ${response.data?._id}`);
     return response;
   },
 };

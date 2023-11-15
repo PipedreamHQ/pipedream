@@ -8,6 +8,20 @@ export default {
       type: "string",
       label: "Sheet ID",
       description: "The ID of the sheet where the row will be created or updated.",
+      async options({ page }) {
+        const { data } = await this.listSheets({
+          params: {
+            page,
+          },
+        });
+
+        return data.map(({
+          _id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     rowData: {
       type: "object",
@@ -25,90 +39,75 @@ export default {
     _baseUrl() {
       return "https://api.orcascan.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    _getHeaders(headers) {
+      return {
+        ...headers,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
-        data,
-        params,
+        headers: this._getHeaders(),
+        ...opts,
       });
     },
-    async getSheets() {
+    listSheets() {
       return this._makeRequest({
         path: "/sheets",
       });
     },
-    async getFields(sheetId) {
+    getFields(sheetId) {
       return this._makeRequest({
         path: `/sheets/${sheetId}/fields`,
       });
     },
-    async getSettings(sheetId) {
+    getSettings(sheetId) {
       return this._makeRequest({
         path: `/sheets/${sheetId}/settings`,
       });
     },
-    async clearSheet(sheetId) {
+    clearSheet(sheetId) {
       return this._makeRequest({
         method: "PUT",
         path: `/sheets/${sheetId}/clear`,
       });
     },
-    async getRows(sheetId, barcode) {
-      const params = barcode
-        ? {
-          barcode,
-        }
-        : {};
+    listRows({
+      sheetId, ...opts
+    }) {
       return this._makeRequest({
         path: `/sheets/${sheetId}/rows`,
-        params,
+        ...opts,
       });
     },
-    async getSingleRow(sheetId, rowId) {
+    getSingleRow(sheetId, rowId) {
       return this._makeRequest({
         path: `/sheets/${sheetId}/rows/${rowId}`,
       });
     },
-    async addOrUpdateRow(sheetId, rowData, rowId) {
+    addOrUpdateRow({
+      sheetId, rowId, ...opts
+    }) {
       const method = rowId
         ? "PUT"
         : "POST";
-      const path = rowId
-        ? `/sheets/${sheetId}/rows/${rowId}`
-        : `/sheets/${sheetId}/rows`;
+      const path = `/sheets/${sheetId}/rows${rowId
+        ? `/${rowId}`
+        : ""}`;
       return this._makeRequest({
         method,
         path,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: rowData,
+        ...opts,
       });
     },
-    async deleteRow(sheetId, rowId) {
+    deleteRow(sheetId, rowId) {
       return this._makeRequest({
         method: "DELETE",
         path: `/sheets/${sheetId}/rows/${rowId}`,
       });
-    },
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
