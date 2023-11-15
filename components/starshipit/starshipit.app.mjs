@@ -16,7 +16,7 @@ export default {
         const { orders } = await this.listShippedOrders({
           params,
         });
-        return orders.map(({ tracking_number }) => tracking_number );
+        return orders.map(({ tracking_number }) => tracking_number ).filter((num) => num?.length);
       },
     },
     orderNumber: {

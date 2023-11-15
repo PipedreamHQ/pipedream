@@ -20,15 +20,6 @@ export default {
         "contactId",
       ],
     },
-    sender: {
-      propDefinition: [
-        starshipit,
-        "contactId",
-      ],
-      label: "Sender",
-      description: "The sender of the order",
-      optional: true,
-    },
     numItems: {
       type: "integer",
       label: "Number of Items",
@@ -67,17 +58,12 @@ export default {
     return props;
   },
   methods: {
-    async getOrderContacts(destinationId, senderId) {
+    async getOrderContact(destinationId) {
       const contacts = await this.starshipit.paginate({
         resourceFn: this.starshipit.listContacts,
         resourceName: "addresses",
       });
-      const destination = contacts.find(({ id }) => id === destinationId);
-      const sender = contacts.find(({ id }) => id === senderId);
-      return {
-        destination,
-        sender,
-      };
+      return contacts.find(({ id }) => id === destinationId);
     },
     parseFloat(i, type) {
       return utils.parseFloatProp(this, "item", i, type);
@@ -93,23 +79,20 @@ export default {
         value: this.parseFloat(i, "value"),
       });
     }
-    const {
-      destination, sender,
-    } = await this.getOrderContacts(this.destination, this.sender);
+    const destination = await this.getOrderContact(this.destination, this.sender);
 
     const response = await this.starshipit.createOrder({
       data: {
         order: {
           order_number: this.orderNumber,
           destination,
-          sender,
           items,
         },
       },
       $,
     });
     if (response?.success === false) {
-      throw new Error(`${response.errors[0].message} - ${response.errors[0].details}`);
+      throw new Error(`${response.errors[0].message}: ${response.errors[0].details}`);
     }
     if (response?.order?.order_id) {
       $.export("$summary", `Successfully created order with ID: ${response.order.order_id}`);

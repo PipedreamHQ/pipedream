@@ -95,6 +95,9 @@ export default {
       },
       $,
     });
+    if (response?.success === false) {
+      throw new Error(`${response.errors[0].message}: ${response.errors[0].details}`);
+    }
     if (response) {
       $.export("$summary", `Successfully printed shipping label for order number ${this.orderNumber}`);
     }

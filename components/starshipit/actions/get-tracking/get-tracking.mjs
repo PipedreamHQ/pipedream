@@ -23,6 +23,7 @@ export default {
           shipped: true,
         }),
       ],
+      description: "The order number of a shipped order to get tracking details for",
       optional: true,
     },
   },
