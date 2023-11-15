@@ -51,6 +51,12 @@ export default {
         "reminder",
       ],
     },
+    fileIds: {
+      type: "string[]",
+      label: "File IDs",
+      description: "Temporary files that have been uploaded and should be attached to this item",
+      optional: true,
+    },
   },
   methods: {
     async getFields() {
