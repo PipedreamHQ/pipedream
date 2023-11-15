@@ -5,7 +5,7 @@ export default {
   name: "New Alert Received (Instant)",
   description: "Emit new event when an alert is received via webhook. [See the documentation](https://docs.loopmessage.com/imessage-conversation-api/messaging/webhooks)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
     app,
