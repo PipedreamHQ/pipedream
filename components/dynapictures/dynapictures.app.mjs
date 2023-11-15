@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -16,82 +17,38 @@ export default {
         }));
       },
     },
-    imageParams: {
-      type: "string[]",
-      label: "Image Parameters",
-      description: "Custom parameters for the image layers as a JSON document",
-    },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.dynapictures.com";
-    },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      const config = {
+        ...args,
+        url: constants.BASE_URL + path,
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.api_key}`,
           "Content-Type": "application/json",
         },
+      };
+      return axios($, config);
+    },
+    post(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        ...args,
       });
     },
-    async listTemplates() {
+    delete(args = {}) {
+      return this._makeRequest({
+        method: "delete",
+        ...args,
+      });
+    },
+    listTemplates() {
       return this._makeRequest({
         path: "/templates",
       });
     },
-    async generateImage({
-      templateId, imageParams,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/designs/${templateId}`,
-        data: {
-          ...JSON.parse(imageParams),
-        },
-      });
-    },
-    // This method is not required by the instructions or the prompt
-    // and is therefore omitted in the final code.
-    // async deleteGeneratedImage({ imagePath }) {
-    //   return this._makeRequest({
-    //     method: "DELETE",
-    //     path: `/images/${imagePath}`,
-    //   });
-    // },
-    // These webhook methods are not required by the instructions or the prompt
-    // and are therefore omitted in the final code.
-    // async subscribeWebhook({ targetUrl, eventType, templateId }) {
-    //   return this._makeRequest({
-    //     method: "POST",
-    //     path: `/hooks`,
-    //     data: {
-    //       targetUrl,
-    //       eventType,
-    //       templateId,
-    //     },
-    //   });
-    // },
-    // async unsubscribeWebhook({ targetUrl, eventType, templateId }) {
-    //   return this._makeRequest({
-    //     method: "DELETE",
-    //     path: `/hooks`,
-    //     data: {
-    //       targetUrl,
-    //       eventType,
-    //       templateId,
-    //     },
-    //   });
-    // },
   },
 };

@@ -1,43 +1,91 @@
-import { axios } from "@pipedream/platform";
-import dynapictures from "../../dynapictures.app.mjs";
+import app from "../../dynapictures.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "dynapictures-new-image-instant",
-  name: "New Image Instant",
-  description: "Emit new event when an image has been generated. [See the documentation](https://dynapictures.com/docs/)",
-  version: "0.0.{{ts}}",
+  name: "New Image (Instant)",
+  description: "Emit new event when an image has been generated. [See the documentation](https://dynapictures.com/docs/#webhook-notification)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    dynapictures,
+    app,
     http: {
       type: "$.interface.http",
       customResponse: true,
     },
-    db: "$.service.db",
+    templateId: {
+      propDefinition: [
+        app,
+        "templateId",
+      ],
+    },
   },
-  async run(event) {
-    const { body } = event;
-    const {
-      id, templateId, imageUrl, thumbnailUrl, retinaThumbnailUrl, metadata, width, height,
-    } = body;
+  hooks: {
+    async activate() {
+      const {
+        createWebhook,
+        getWebhookData,
+      } = this;
 
-    // Emit the event if it contains an ID and imageUrl indicating a new image generation
-    if (id && imageUrl) {
-      this.$emit(body, {
-        id,
-        summary: `New image generated with ID: ${id}`,
-        ts: Date.now(),
+      const response = await createWebhook(getWebhookData());
+      if (response?.error) {
+        const msg = "Error creating webhook";
+        console.log(msg, response);
+        throw new Error(response?.message || msg);
+      }
+    },
+    async deactivate() {
+      const {
+        deleteWebhook,
+        getWebhookData,
+      } = this;
+
+      const response = await deleteWebhook(getWebhookData());
+      if (response?.error) {
+        const msg = "Error deleting webhook";
+        console.log(msg, response);
+        throw new Error(response?.message || msg);
+      }
+    },
+  },
+  methods: {
+    getWebhookData() {
+      const {
+        http,
+        templateId,
+      } = this;
+
+      return {
+        data: {
+          targetUrl: http.endpoint,
+          eventType: constants.EVENT.NEW_IMAGE,
+          templateId,
+        },
+      };
+    },
+    createWebhook(args = {}) {
+      return this.app.post({
+        path: "/hooks",
+        ...args,
       });
-      this.http.respond({
-        status: 200,
-        body: "Event received",
+    },
+    deleteWebhook(args = {}) {
+      return this.app.delete({
+        path: "/hooks",
+        ...args,
       });
-    } else {
-      this.http.respond({
-        status: 400,
-        body: "This webhook is not for a new image generation event.",
-      });
-    }
+    },
+  },
+  async run({ body }) {
+    this.http.respond({
+      status: 200,
+    });
+
+    this.$emit(body, {
+      id: body.id,
+      summary: `New Image: ${body.id}`,
+      ts: Date.now(),
+    });
   },
 };
