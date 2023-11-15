@@ -79,7 +79,7 @@ export default {
         value: this.parseFloat(i, "value"),
       });
     }
-    const destination = await this.getOrderContact(this.destination, this.sender);
+    const destination = await this.getOrderContact(this.destination);
 
     const response = await this.starshipit.createOrder({
       data: {
