@@ -7,7 +7,7 @@ export default defineAction({
   description:
     "Find a number out of a text field. Finds the first number only.",
   key: "formatting-extract-number",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...commonExtractText.props,
