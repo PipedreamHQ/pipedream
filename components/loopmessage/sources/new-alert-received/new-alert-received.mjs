@@ -1,0 +1,49 @@
+import app from "../../loopmessage.app.mjs";
+
+export default {
+  key: "loopmessage-new-alert-received",
+  name: "New Alert Received (Instant)",
+  description: "Emit new event when an alert is received via webhook. [See the documentation](https://docs.loopmessage.com/imessage-conversation-api/messaging/webhooks)",
+  type: "source",
+  version: "0.0.2",
+  dedupe: "unique",
+  props: {
+    app,
+    db: "$.service.db",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
+    alertType: {
+      propDefinition: [
+        app,
+        "alertType",
+      ],
+    },
+    senderName: {
+      description: "The name of the sender associated with the alert.",
+      propDefinition: [
+        app,
+        "senderName",
+      ],
+    },
+  },
+  async run({ body }) {
+    const { senderName } = this;
+
+    if (senderName !== body.sender_name) {
+      console.error("Sender name does not match");
+      return;
+    }
+
+    this.$emit(body, {
+      id: body.webhook_id,
+      summary: `New alert from ${body.sender_name}`,
+      ts: Date.parse(body.created_at),
+    });
+
+    this.http.respond({
+      status: 200,
+    });
+  },
+};
