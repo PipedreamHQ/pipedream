@@ -69,18 +69,18 @@ Given there's a file in the File Store called `example.png`, you can open it usi
 export default defineComponent({
   async run({ steps, $ }) {
     // Open the file by it's path in the File Store
-    const file = await $.files.open('example.png')
+    const file = $.files.open('example.png')
     // Log the S3 url to access the file publicly
     return await file.toUrl()
   },
 })
 ```
 
-Once the file has been opened, you can [read, write, delete the file and more](/code/nodejs/$.files).
+Once the file has been opened, you can [read, write, delete the file and more](/projects/file-stores/reference/).
 
-### Uploading files
+### Uploading files to File Stores
 
-You can upload files using Node.js code in your workflows, either from URLs or from the `/tmp` directory in your workflows.
+You can upload files using Node.js code in your workflows, either from URLs, from the `/tmp` directory in your workflows or directly from streams for high memory efficency.
 
 #### Uploading files from URLs
 
