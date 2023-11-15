@@ -1644,7 +1644,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dynapictures:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dynatrace_api:
     specifiers: {}
@@ -10328,12 +10331,12 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.188:
-    resolution: {integrity: sha512-s2223ipUtaKy68u7Ku4QsB3ZmRLMKYGMlOrKALbG9dhkOF/zTO/jckcn1ZAU338oL0q+q5xDFMHja9qxs4TEaw==}
+  /@definitelytyped/header-parser/0.0.189:
+    resolution: {integrity: sha512-5zzTaVAJayCJXWgm6T3kn0V/J/TGY/5mqkfio9bGI0dlKvV/xt0gXCBUFpUT6a0buPcqpsr5eS540XftHvgThQ==}
     engines: {node: '>=16.17.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.181
-      '@definitelytyped/utils': 0.0.186
+      '@definitelytyped/utils': 0.0.187
       semver: 7.5.4
     dev: true
 
@@ -10342,8 +10345,8 @@ packages:
     engines: {node: '>=16.17.0'}
     dev: true
 
-  /@definitelytyped/utils/0.0.186:
-    resolution: {integrity: sha512-T2e5QTVRFBP49B5yfk5kjbr3YYE2q1WqLkTTQNhhkJTTLoVFjhBSYF4PnWA0Op302aRiiCwDIuweqMmu3Zt8wg==}
+  /@definitelytyped/utils/0.0.187:
+    resolution: {integrity: sha512-sJlAKn7Rnqrw4qvgYudjs8vyqsOzgwWmqX20QWt7EW1c3Z1Pt7JkeaaSA3TSWDlwjP6gLGbf2pmDOBnQkAdR5w==}
     engines: {node: '>=16.17.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.181
@@ -17193,7 +17196,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.188
+      '@definitelytyped/header-parser': 0.0.189
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17209,9 +17212,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.188
+      '@definitelytyped/header-parser': 0.0.189
       '@definitelytyped/typescript-versions': 0.0.181
-      '@definitelytyped/utils': 0.0.186
+      '@definitelytyped/utils': 0.0.187
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
