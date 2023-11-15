@@ -22,7 +22,7 @@ In order to configure SAML SSO for your workspace, you first need to verify owne
 1. Navigate to the [Verified Domains](https://pipedream.com/settings/domains) section of your workspace settings
 2. Enter the domain you'd like to use for SSO (for example, `example.com`), then click **Add Domain**
 3. You'll see a modal with instructions for adding a `TXT` record in the DNS configuration for your domain
-4. Sometimes the DNS changes can take up to 72 hours to propagate. Once they're live, click the **Verify** button for the domain you've entered.
+4. DNS changes may take between a few minutes and up to 72 hours to propagate. Once they're live, click the **Verify** button for the domain you've entered.
 5. Once Pipedream verifies the `TXT` record, we'll show a green checkmark on the domain
 
 ![Verified Domains](https://res.cloudinary.com/pipedreamin/image/upload/v1699938431/verified-domains_qcjpnb.png)
@@ -62,4 +62,4 @@ Once you've configured SSO for your workspace, you can restrict the allowed logi
 In order to ensure you don't get locked out of your Pipedream workspace in the event of an outage with your identity provider, workspace owners can always sign in via the login method they used to create the account (email / password, Google, or GitHub).
 
 ### Login methods are enforced when signing in to pipedream.com
-This means if you are a member of 2 workspaces and of them allows **any login method** but the other **requires SSO**, you will be required to sign in to Pipedream using SSO every time, independent of the workspace you are trying to access.
+This means if you are a member of 2 workspaces and one of them allows **any login method** but the other **requires SSO**, you will be required to sign in to Pipedream using SSO every time, independent of the workspace you are trying to access.
