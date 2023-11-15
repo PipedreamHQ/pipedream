@@ -76,8 +76,8 @@ export default {
       break;
     case "json" :
       objToSend.data = {
-        left_image: this.leftImage,
-        right_image: this.rightImage,
+        left_image: this.leftImage.replace(/(\r\n|\n|\r)/gm, ""),
+        right_image: this.rightImage.replace(/(\r\n|\n|\r)/gm, ""),
       };
     }
     const response = await this.diffchecker.compareImages(objToSend);
