@@ -29,8 +29,20 @@ export default {
     ...base.methods,
     async processEvents(max) {
       const pages = [];
-      const params = this.lastCreatedSortParam();
       const lastCreatedTimestamp = this.getLastCreatedTimestamp();
+      const lastCreatedTimestampDate = new Date(lastCreatedTimestamp);
+      const lastCreatedTimestampISO = lastCreatedTimestampDate.toISOString();
+
+      // Add a filter so that we only receive pages that have been created since the saved time.
+      const params = {
+        ...this.lastCreatedSortParam(),
+        filter: {
+          timestamp: "created_time",
+          created_time: {
+            after: lastCreatedTimestampISO
+          }
+        }
+      };
 
       // Get pages in created order descending until the first page edited after
       // lastCreatedTimestamp, then reverse list of pages and emit
