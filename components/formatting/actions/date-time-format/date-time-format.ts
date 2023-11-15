@@ -9,7 +9,7 @@ export default defineAction({
   name: "[Date/Time] Format",
   description: "Format a date string to another date string",
   key: "formatting-date-time-format",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...commonDateTime.props,
