@@ -4,7 +4,7 @@ export default {
   key: "openai-list-files",
   name: "List Files",
   description: "Returns a list of files that belong to the user's organization. [See the documentation](https://platform.openai.com/docs/api-reference/files/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     openai,
@@ -13,6 +13,7 @@ export default {
         openai,
         "purpose",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
