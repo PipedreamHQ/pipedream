@@ -16,11 +16,6 @@ export default {
         }));
       },
     },
-    originalFilename: {
-      type: "string",
-      label: "Original Filename",
-      description: "The original filename of the imported file",
-    },
   },
   methods: {
     _baseUrl() {
@@ -32,15 +27,26 @@ export default {
     _makeRequest(opts = {}) {
       const {
         $ = this,
+        url,
         path,
+        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: url || this._baseUrl() + path,
         headers: {
+          ...headers,
           "X-Dromo-License-Key": `${this._apiKey()}`,
         },
+      });
+    },
+    getHeadlessImport({
+      importId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/headless/imports/${importId}/`,
+        ...args,
       });
     },
     getSchemas(args = {}) {
