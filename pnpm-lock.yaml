@@ -590,7 +590,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/bigmailer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/bigml:
     specifiers:
@@ -660,7 +663,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/bouncer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/box:
     specifiers:
@@ -1131,7 +1137,10 @@ importers:
     specifiers: {}
 
   components/cometly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/commcare:
     specifiers: {}
@@ -2768,7 +2777,12 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/ilovepdf:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.5.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/imagekit_io:
     specifiers:
@@ -4872,6 +4886,9 @@ importers:
     specifiers: {}
 
   components/realphonevalidation:
+    specifiers: {}
+
+  components/reapit_foundations:
     specifiers: {}
 
   components/rebrandly:
