@@ -17,7 +17,7 @@ export default defineAction({
   name: "[Date/Time] Add/Subtract Time",
   description: "Add or subtract time from a given input",
   key: "formatting-add-subtract-time",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...commonDateTime.props,
@@ -89,10 +89,9 @@ export default defineAction({
 
       $.export(
         "$summary",
-        `Successfully ${
-          operation === OPERATION_OPTIONS.SUBTRACT
-            ? "subtracted"
-            : "added"
+        `Successfully ${operation === OPERATION_OPTIONS.SUBTRACT
+          ? "subtracted"
+          : "added"
         } time`,
       );
       return output;
