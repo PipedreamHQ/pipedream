@@ -9,7 +9,7 @@ export default defineAction({
   name: "[Numbers] Format Currency",
   description: "Format a number as a currency",
   key: "formatting-format-currency",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -68,18 +68,18 @@ export default defineAction({
     result += numberString;
 
     switch (currencyFormat.match(/¤+$/g)?.[0].length) {
-    default:
-      break;
+      default:
+        break;
 
       // ¤¤ - ISO currency symbol: USD, BRL, etc.
-    case 2:
-      result += ` ${isoCode}`;
-      break;
+      case 2:
+        result += ` ${isoCode}`;
+        break;
 
       // ¤¤¤ - Currency display name: United States dollar, Brazilian real, etc.
-    case 3:
-      result += ` ${currencyName}`;
-      break;
+      case 3:
+        result += ` ${currencyName}`;
+        break;
     }
 
     $.export("$summary", "Successfully formatted as currency");
