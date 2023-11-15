@@ -5,7 +5,7 @@ export default defineAction({
   name: "[Data] Convert JSON to String",
   description: "Convert an object to a JSON format string",
   key: "formatting-convert-json-to-string",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/meetingpulse",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream MeetingPulse  Components",
   "main": "meetingpulse.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

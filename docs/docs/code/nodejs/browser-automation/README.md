@@ -563,11 +563,11 @@ The `@pipedream/browsers` package includes a specific version of Chromium that i
 
 For details on the specific versions of Chromium, puppeeter and playwright bundled in this package, visit the package's [README](https://github.com/PipedreamHQ/pipedream/tree/master/packages/browsers).
 
-### Can I customize the options passed to `puppeteer.launch`?
+### How to customize `puppeteer.launch()`?
 
-Yes, the `puppeteer.browser()` method accepts arguments that are passed directly to the underlying Puppeteer `.launch()` method.
+To pass arguments to `puppeteer.launch()` to customize the browser instance, you can pass them directly to `puppeteer.browser()`.
 
-For example, if you wanted to increase the `protocolTimeout` argument, you can pass it as an argument to the `puppeteer.browser()` method:
+For example, you can alter the `protocolTimeout` length just by passing it as an argument:
 
 ```javascript
 import { puppeteer } from '@pipedream/browsers';
@@ -582,4 +582,5 @@ export default defineComponent({
 
 ```
 
-Please see the [`@pipedream/browsers` source code](https://github.com/PipedreamHQ/pipedream/blob/17888e631857259a6535f9bd13c23a1e7ff95381/packages/browsers/index.mjs#L14) for implementation details.
+Please see the [`@pipedream/browsers` source code](https://github.com/PipedreamHQ/pipedream/blob/17888e631857259a6535f9bd13c23a1e7ff95381/packages/browsers/index.mjs#L14) for the default arguments that Pipedream provides.
+```

@@ -32,6 +32,7 @@ export default {
       /* eslint-disable no-unused-vars */
       propertyGroups,
       $db,
+      updateIfExists,
       ...properties
     } = this;
     const objectType = this.getObjectType();
@@ -44,12 +45,24 @@ export default {
           properties[key] = value.join(";");
         }
       });
+    try {
+      const response = await hubspot.createObject(objectType, properties, $);
+      const objectName = hubspot.getObjectTypeName(objectType);
+      $.export("$summary", `Successfully created ${objectName}`);
 
-    const response = await hubspot.createObject(objectType, properties, $);
-
-    const objectName = hubspot.getObjectTypeName(objectType);
-    $.export("$summary", `Successfully created ${objectName}`);
-
-    return response;
+      return response;
+    } catch (err) {
+      if (updateIfExists && err?.message) {
+        const errorObj = JSON.parse(err?.message);
+        if (errorObj?.category === "CONFLICT") {
+          const objectId = parseInt(errorObj.message.replace(/[^\d]/g, ""));
+          const response = await hubspot.updateObject(objectType, properties, objectId, $);
+          const objectName = hubspot.getObjectTypeName(objectType);
+          $.export("$summary", `Successfully updated ${objectName}`);
+          return response;
+        }
+      }
+      throw err;
+    }
   },
 };

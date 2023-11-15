@@ -138,7 +138,7 @@ Each execution of this source would result 1 credit because:
 
 :::
 
-::: details A custom source that finised under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+::: details A custom source that finished under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
 
 This would result in 1 credit per execution.
 

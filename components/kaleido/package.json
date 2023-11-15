@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kaleido",
+  "version": "0.0.1",
+  "description": "Pipedream Kaleido Components",
+  "main": "kaleido.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kaleido"
+  ],
+  "homepage": "https://pipedream.com/apps/kaleido",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
