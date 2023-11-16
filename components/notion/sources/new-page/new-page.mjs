@@ -8,7 +8,7 @@ export default {
   key: "notion-new-page",
   name: "New Page in Database",
   description: "Emit new event when a page in a database is created",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   props: {
     ...base.props,
@@ -39,9 +39,9 @@ export default {
         filter: {
           timestamp: "created_time",
           created_time: {
-            after: lastCreatedTimestampISO
-          }
-        }
+            after: lastCreatedTimestampISO,
+          },
+        },
       };
 
       // Get pages in created order descending until the first page edited after
