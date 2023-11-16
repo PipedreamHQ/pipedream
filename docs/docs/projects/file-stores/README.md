@@ -73,6 +73,31 @@ Only workflows within the same project as the File Store can access the files. W
 
 :::
 
+### Listing files in the File Store
+
+The `$.files.dir()` method allows you to list files and directories within the Project's File Store. By default it will list the files at the root directory.
+
+Here's an example of how to iterate over the files in the root directory and open them as `File` instances:
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    // list all contents of the root File Stores directory in this project
+    const dirs = $.files.dir();
+    let files = [];
+
+    for await(const dir of dirs) {
+      // if this is a file, let's open it
+      if(dir.isFile()) {
+        files.push(dir.path)
+      }
+    }
+
+    return files
+  },
+})
+```
+
 ### Opening files
 
 To interact with a file uploaded to the File Store, you'll first need to open it.
@@ -108,7 +133,8 @@ export default defineComponent({
     // Upload a file to the File Store by a URL
     const file = await $.files.open('pipedream.png').fromUrl('https://res.cloudinary.com/pipedreamin/image/upload/t_logo48x48/v1597038956/docs/HzP2Yhq8_400x400_1_sqhs70.jpg')
 
-    console.log(file.url)
+    // display the uploaded file's URL from the File Store:
+    console.log(await file.toURL())
   },
 })
 ```
@@ -125,7 +151,8 @@ export default defineComponent({
     // Upload a file to the File Store from the local /tmp/ directory
     const file = await $.files.open('recording.mp3').fromFile('/tmp/recording.mp3')
 
-    console.log(file.url)
+    // Display the URL to the File Store hosted file
+    console.log(await file.toUrl())
   },
 })
 ```
@@ -197,23 +224,74 @@ Make sure that your path to `toFile(path)` includes
 
 :::
 
-#### Passing files between steps
+### Passing files between steps
 
-Files can be passed between steps. Pipedream will automatically serialize the file as a JSON _description_ of the file.
+Files can be passed between steps. Pipedream will automatically serialize the file as a JSON _description_ of the file. Then when you access the file as a step export as a prop in a Node.js code step, then you can interact with the `File` instance directly.
 
-The description of the file includes these properties:
+For example, if you have a file stored at the path `logo.png` within your File Store, then within a Node.js code step you can open it:
 
-* `path` - The path to the Project File (compatible with `$.files.open()`).
-* `get_url` - A pre-signed S3 GET URL.
-* `put_url` - A pre-signed S3 PUT URL.
-* `expires_at_ms` - The Unix timestamp of the expiration date of both pre-signed S3 URLs.
-* `type` - a static property. The `type` will always be `"PipedreamProjectFile"`, in order for the `$.files.openDescriptor()` to function properly.
+```javascript
+// "open_file" Node.js code step
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Return data to use it in future steps
+    const file = $.files.open('logo.png')
+
+    return file
+  },
+})
+```
+
+Then in a downstream code step, you can use it via the `steps` path:
+
+```javascript
+// "get_file_url" Node.js code step
+export default defineComponent({
+  async run({ steps, $ }) {
+    // steps.open_file.$return_value is automatically parsed back into a File instance:
+    return await steps.open_file.$return_value.toUrl()
+  },
+})
+```
 
 :::tip Files descriptions are compatible with other workflow helpers
 
 Files can also be used with `$.suspend` and `$.delay`.
 
 :::
+
+#### Handling lists of files
+
+One limitation of the automatic parsing of files between steps is that it currently doesn't automatically handle lists of files between steps.
+
+For example, if you have a step that returns an array of `File` instances:
+
+```javascript
+// "open_files" Node.js code step
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Return data to use it in future steps
+    const file1 = $.files.open('vue-logo.svg')
+    const file2 = $.files.open('react-logo.svg')
+
+    return [file1, file]
+  },
+})
+```
+
+Then you'll need to use `$.files.openDescriptor` to parse the JSON definition of the files back into `File` instances:
+
+```javascript
+// "parse_files" Node.js code step
+export default defineComponent({
+  async run({ steps, $ }) {
+    const files = steps.open_files.$return_value.map(object => $.files.openDescriptor(object))
+
+    // log the URL to the first File
+    console.log(await files[0].toUrl());
+  },
+})
+```
 
 ### Deleting files
 
