@@ -1945,7 +1945,10 @@ importers:
     specifiers: {}
 
   components/flutterwave:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/focuster:
     specifiers: {}
