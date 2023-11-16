@@ -4441,7 +4441,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/pingdom:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pinterest:
     specifiers:
