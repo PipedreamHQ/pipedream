@@ -217,7 +217,7 @@ jobs:
                   KEY=`echo $PD_OUTPUT | jq -r ".key"`
                   echo "published ${KEY}"
                   echo "${KEY} will be added to the registry"
-                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String, $orgId: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath, orgId: $orgId){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${changed_output_file}'","orgId":"'${PD_ORG_ID}'"}}'
+                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String, $orgId: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath, orgId: $orgId){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'","orgId":"'${PD_ORG_ID}'"}}'
                   [[ "$PREV_VERSION" == "null" ]] && PUBLISHED+="*${changed_output_file}" || PUBLISHED+="*${changed_output_file}~$PREV_VERSION"
                 else
                   ERROR=`echo $PD_OUTPUT | jq -r ".error"`
