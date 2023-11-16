@@ -8,7 +8,7 @@ export default {
   name: "Upload File",
   description: "Upload a file to OneDrive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_put_content?view=odsp-graph-online)",
   key: "microsoft_onedrive-upload-file",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     onedrive,
@@ -56,11 +56,13 @@ export default {
       throw new ConfigurationError("You must specify the **Upload Folder ID**.");
     }
 
-    const data = fs.readFileSync(filePath);
-    const extension = (await fileTypeFromBuffer(data)).ext;
-    const name = !filename.includes(".") && extension
-      ? `${filename}.${extension}`
-      : filename;
+    const data = fs.reaeFileSync(filePath);
+    let name = filename;
+    if (!filename.includes(".")) {
+      const fileTypeFromBuffer = await fileTypeFromBuffer(data);
+      const extension = fileTypeFromBuffer?.ext || "";
+      name = `${filename}.${extension}`;
+    }
 
     const response = await this.uploadFile({
       uploadFolderId,
