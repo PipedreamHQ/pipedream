@@ -1,5 +1,13 @@
 # File Stores
 
+:::warning Beta Feature
+
+File Stores are in beta. There might be changes while we prepare it for a full release.
+
+If you have any feedback on File Stores, please let us know in our [community](https://pipedream.com/support).
+
+:::
+
 File Stores are a filesystem that are scoped to a Project. All workflows within the same Project have access to the File Stores.
 
 You can interact with these files through the Pipedream Dashboard or programmatically through your Project's workflows.
