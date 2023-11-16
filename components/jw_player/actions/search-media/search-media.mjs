@@ -4,7 +4,7 @@ export default {
   key: "jw_player-search-media",
   name: "Search Media",
   description: "Searches for a media or lists all media available in JW Player. [See the documentation](https://docs.jwplayer.com/platform/reference/get_v2-sites-site-id-media)",
-  version: "0.0.1",
+  version: "0.0.1700053174",
   type: "action",
   props: {
     jwPlayer,
@@ -17,7 +17,7 @@ export default {
     searchQuery: {
       type: "string",
       label: "Search Query",
-      description: "The query for searching the media",
+      description: "The query for searching the media. For example: `title:Flower`. See [all available attributes here](https://docs.jwplayer.com/platform/reference/get_v2-sites-site-id-media#:~:text=Media%20can%20be%20queried%20by%20the%20following%20attributes%3A) and [the full list of supported search queries here](https://docs.jwplayer.com/platform/reference/building-a-request#query-parameter-q).",
       optional: true,
     },
   },
@@ -40,8 +40,10 @@ export default {
 
     if (media?.length) {
       $.export("$summary", `Found ${media.length} media item${media.length === 1
-        ? ""
-        : "s"}.`);
+        ?
+        ""
+        :
+        "s"}.`);
     }
 
     return media;
