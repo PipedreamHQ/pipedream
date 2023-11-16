@@ -20,25 +20,11 @@ export default {
         "alertType",
       ],
     },
-    senderName: {
-      description: "The name of the sender associated with the alert.",
-      propDefinition: [
-        app,
-        "senderName",
-      ],
-    },
   },
   async run({ body }) {
-    const { senderName } = this;
-
-    if (senderName !== body.sender_name) {
-      console.error("Sender name does not match");
-      return;
-    }
-
     this.$emit(body, {
       id: body.webhook_id,
-      summary: `New alert from ${body.sender_name}`,
+      summary: `New Alert From ${body.sender_name}`,
       ts: Date.parse(body.created_at),
     });
 
