@@ -14,6 +14,8 @@ You can interact with these files through the Pipedream Dashboard or programmati
 
 Unlike files stored within a workflow's `/tmp` directory which are subject to deletion between executions, File Stores are separate cloud storage. Files within a File Store can be long term storage accessible by your workflows.
 
+![File Stores are scoped to Projects, and workflows within the Project can interact with files stored](https://res.cloudinary.com/pipedreamin/image/upload/v1700156062/docs/docs/Project%20Files/Untitled_7_cn9njj.png)
+
 [[toc]]
 
 ## Managing File Stores from the Dashboard
