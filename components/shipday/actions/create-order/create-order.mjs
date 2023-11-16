@@ -9,14 +9,16 @@ export default {
   props: {
     shipday,
     orderNumber: {
-      type: "string",
-      label: "Order Number",
-      description: "Alphanumeric identifier for the order object",
+      propDefinition: [
+        shipday,
+        "orderNumber",
+      ],
     },
     customerName: {
-      type: "string",
-      label: "Customer Name",
-      description: "The name of the customer",
+      propDefinition: [
+        shipday,
+        "customerName",
+      ],
     },
     customerAddress: {
       propDefinition: [
