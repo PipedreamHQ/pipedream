@@ -8,10 +8,10 @@ export default {
   type: "action",
   props: {
     smsAlert,
-    groupId: {
+    groupName: {
       propDefinition: [
         smsAlert,
-        "groupId",
+        "groupName",
       ],
     },
     contactName: {
@@ -25,13 +25,14 @@ export default {
         smsAlert,
         "mobileNumber",
       ],
+      description: "The number of the contact.",
     },
   },
   async run({ $ }) {
     const response = await this.smsAlert.createContact({
       $,
       params: {
-        grpname: this.groupId,
+        grpname: this.groupName,
         name: this.contactName,
         mobileNumber: this.mobileNumber,
       },

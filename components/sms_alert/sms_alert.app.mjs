@@ -9,20 +9,20 @@ export default {
       label: "API Key",
       description: "The API Key generated from your SMS Alert account.",
     },
-    groupId: {
+    groupName: {
       type: "string",
-      label: "Group ID",
-      description: "The ID of the group.",
+      label: "Group Name",
+      description: "The group in which you want to create the contact.",
       async options({ prevContext }) {
         const { page } = prevContext || {
           page: 1,
         };
-        const groups = await this.getGroupList({
+        const response = await this.listGroups({
           page,
         });
-        return groups.map((group) => ({
-          label: group.Group.name,
-          value: group.Group.id,
+        return response?.description?.map?.(({ Group: { name } }) => ({
+          label: name,
+          value: name,
         }));
       },
     },
@@ -53,12 +53,6 @@ export default {
       description: "The name of the contact.",
       optional: true,
     },
-    groupName: {
-      type: "string",
-      label: "Group Name",
-      description: "The name of the group to create a contact in.",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {
@@ -67,16 +61,24 @@ export default {
     async _makeRequest({
       $ = this,
       path,
+      params,
       ...otherOpts
     }) {
       return axios($, {
         ...otherOpts,
+        params: {
+          ...params,
+          apikey: this.$auth.api_key,
+        },
         url: this._baseUrl() + path,
       });
     },
-    async getGroupList({ page = 1 }) {
+    async listGroups({ page }) {
       return this._makeRequest({
-        path: `/grouplist.json?page=${page}`,
+        path: "/grouplist.json",
+        params: {
+          page,
+        },
       });
     },
     async createGroup({ name }) {
