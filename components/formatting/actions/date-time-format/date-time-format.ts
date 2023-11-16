@@ -10,7 +10,7 @@ export default defineAction({
   name: "[Date/Time] Format",
   description: "Format a date string to another date string",
   key: "formatting-date-time-format",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...commonDateTime.props,
@@ -30,7 +30,9 @@ export default defineAction({
 
     try {
       const response = DATE_FORMAT_PARSE_MAP.get(outputFormat);
-      const output = response ? response.outputFn(dateObj) : moment(dateObj).format(outputFormat);
+      const output = response
+        ? response.outputFn(dateObj)
+        : moment(dateObj).format(outputFormat);
 
       $.export("$summary", "Successfully formatted date/time");
       return output;
