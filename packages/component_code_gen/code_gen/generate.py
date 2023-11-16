@@ -20,7 +20,7 @@ available_templates = {
 }
 
 
-def main(component_type, app, instructions, tries=3, urls=[], custom_path=None, verbose=False):
+def main(component_type, app, instructions, prompt, tries=3, urls=[], custom_path=None, verbose=False):
     if verbose:
         os.environ['LOGGING_LEVEL'] = 'DEBUG'
 
@@ -29,7 +29,7 @@ def main(component_type, app, instructions, tries=3, urls=[], custom_path=None, 
     templates = available_templates[component_type]
     parsed_common_files = parse_common_files(app, component_type, custom_path)
     driver = init_driver(config["browserless"]["api_key"])
-    urls_content = parse_urls(driver, urls, instructions)
+    urls_content = parse_urls(driver, urls, prompt)
     driver.quit()
 
     validate_system_instructions(templates)
@@ -85,7 +85,7 @@ def init_driver(api_key):
     return driver
 
 
-def parse_urls(driver, urls, instructions):
+def parse_urls(driver, urls, prompt):
     contents = []
 
     for url in urls:
@@ -96,7 +96,7 @@ def parse_urls(driver, urls, instructions):
                 EC.presence_of_element_located((By.TAG_NAME, 'body'))
             )
             document = " ".join(element.text.split())
-            relevant_docs = get_relevant_docs(instructions, document)
+            relevant_docs = get_relevant_docs(prompt, document)
             contents.append({
                 "url": url,
                 "content": relevant_docs
