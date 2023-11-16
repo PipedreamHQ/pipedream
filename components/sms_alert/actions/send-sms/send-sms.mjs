@@ -1,37 +1,40 @@
-import sms_alert from "../../sms_alert.app.mjs";
+import smsAlert from "../../sms_alert.app.mjs";
 
 export default {
   key: "sms_alert-send-sms",
   name: "Send SMS",
-  description: "Sends a text message directly. [See the documentation](https://kb.smsalert.co.in/developers-api/)",
+  description: "Sends a text message directly. [See the documentation](https://kb.smsalert.co.in/developers-api/#Send-a-SMS)",
   version: "0.0.1",
   type: "action",
   props: {
-    sms_alert,
+    smsAlert,
     senderId: {
       propDefinition: [
-        sms_alert,
+        smsAlert,
         "senderId",
       ],
     },
     mobileNumber: {
       propDefinition: [
-        sms_alert,
+        smsAlert,
         "mobileNumber",
       ],
     },
     messageText: {
       propDefinition: [
-        sms_alert,
+        smsAlert,
         "messageText",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.sms_alert.sendSMS({
-      senderId: this.senderId,
-      mobileNumber: this.mobileNumber,
-      messageText: this.messageText,
+    const response = await this.smsAlert.sendSMS({
+      $,
+      params: {
+        sender: this.senderId,
+        mobileno: this.mobileNumber.join(),
+        text: this.messageText,
+      },
     });
 
     $.export("$summary", `Sent message to ${this.mobileNumber} successfully`);

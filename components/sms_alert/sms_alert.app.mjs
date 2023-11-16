@@ -57,7 +57,7 @@ export default {
     scheduleTime: {
       type: "string",
       label: "Schedule Time",
-      description: "The date and time for the schedule (Format: YYYY-MM-DD HH:MM:SS).",
+      description: "The date and time for the schedule (Format: `YYYY-MM-DD HH:MM:SS`).",
       optional: true,
     },
     contactName: {
@@ -94,23 +94,6 @@ export default {
         },
       });
     },
-    async createGroup({ name }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/creategroup.json?name=${name}`,
-      });
-    },
-    async sendGroupSMS({
-      groupId, senderId, messageText, scheduleTime,
-    }) {
-      const path = `/grouppush.json?id=${groupId}&sender=${senderId}&text=${encodeURIComponent(messageText)}${scheduleTime
-        ? `&schedule=${encodeURIComponent(scheduleTime)}`
-        : ""}`;
-      return this._makeRequest({
-        method: "POST",
-        path,
-      });
-    },
     async createContact(args) {
       return this._makeRequest({
         method: "POST",
@@ -118,21 +101,11 @@ export default {
         ...args,
       });
     },
-    async sendSMS({
-      senderId, mobileNumber, messageText,
-    }) {
-      return this._makeRequest({
-
-        method: "POST",
-        path: `/push.json?sender=${senderId}&mobileno=${mobileNumber}&text=${encodeURIComponent(messageText)}`,
-      });
-    },
-    async scheduleSMS({
-      senderId, mobileNumber, messageText, scheduleTime,
-    }) {
+    async sendSMS(args) {
       return this._makeRequest({
         method: "POST",
-        path: `/push.json?sender=${senderId}&mobileno=${mobileNumber}&text=${encodeURIComponent(messageText)}&schedule=${encodeURIComponent(scheduleTime)}`,
+        path: "/push.json",
+        ...args,
       });
     },
   },
