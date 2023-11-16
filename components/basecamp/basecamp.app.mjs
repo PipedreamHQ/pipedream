@@ -295,6 +295,15 @@ export default {
         ...args,
       });
     },
+    async createCard(args = {}) {
+      return this.makeRequest({
+        $: args.$,
+        accountId: args.accountId,
+        path: `/buckets/${args.projectId}/card_tables/lists/${args.columnid}/cards.json`,
+        method: "post",
+        ...args,
+      });
+    },
     async createCampfireMessage(args = {}) {
       return this.makeRequest({
         $: args.$,
