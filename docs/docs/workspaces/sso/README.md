@@ -52,14 +52,15 @@ Once you've configured SSO for your workspace, you can restrict the allowed logi
 
 ![Restrict Login Methods](https://res.cloudinary.com/pipedreamin/image/upload/v1699914460/Google_Chrome_-_Settings_-_Authentication_-_Pipedream_2023-11-13_at_2.27.08_PM_x1ahod.png)
 
+
 | Login Method | Description |
 | --  | -- |
-| **Any login method** | Everyone in the workspace can sign in using email and password, Google OAuth, GitHub, or SSO |
+| **Any login method** | Everyone in the workspace can sign in either using SSO or via the login method they used to create their account (email and password, Google OAuth, GitHub) |
 | **SSO only** | Workspace members and admins must [sign in using SSO](https://pipedream.com/auth/sso) |
-| **SSO with guests** | Workspace members and admins must [sign in using SSO](https://pipedream.com/auth/sso) when signing in with a verified email domain. Guests can sign in with any login method. |
+| **SSO with guests** | When siging in using a verified email domain, members and admins must [sign in using SSO](https://pipedream.com/auth/sso). If signing in with a different domain (`gmail.com` for example), members (guests) can sign in using any login method. |
 
 ### Workspace owners can always sign in using any login method
-In order to ensure you don't get locked out of your Pipedream workspace in the event of an outage with your identity provider, workspace owners can always sign in via the login method they used to create the account (email / password, Google, or GitHub).
+In order to ensure you don't get locked out of your Pipedream workspace in the event of an outage with your identity provider, workspace owners can always sign in via the login method they used to create the account (email and password, Google, or GitHub).
 
 ### Login methods are enforced when signing in to pipedream.com
 This means if you are a member of 2 workspaces and one of them allows **any login method** but the other **requires SSO**, you will be required to sign in to Pipedream using SSO every time, independent of the workspace you are trying to access.
