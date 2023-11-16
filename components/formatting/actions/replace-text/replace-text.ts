@@ -9,7 +9,7 @@ export default defineAction({
   description:
     "Replace all instances of any character, word or phrase in the text with another character, word or phrase.",
   key: "formatting-replace-text",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     app,

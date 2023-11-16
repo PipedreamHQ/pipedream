@@ -17,7 +17,7 @@ export default defineAction({
   name: "[Date/Time] Add/Subtract Time",
   description: "Add or subtract time from a given input",
   key: "formatting-add-subtract-time",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...commonDateTime.props,
