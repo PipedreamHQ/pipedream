@@ -1452,7 +1452,14 @@ importers:
     specifiers: {}
 
   components/diffchecker:
-    specifiers: {}
+    specifiers:
+      axios: ^1.6.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      axios: 1.6.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/digicert:
     specifiers: {}
@@ -1945,7 +1952,10 @@ importers:
     specifiers: {}
 
   components/flutterwave:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/focuster:
     specifiers: {}
@@ -1971,6 +1981,7 @@ importers:
       '@pipedream/types': ^0.1.4
       html-to-text: ^8.2.1
       linkedom: ^0.14.26
+      moment: ^2.29.4
       pluralize: ^8.0.0
       showdown: ^2.1.0
       title-case: ^3.0.3
@@ -1979,6 +1990,7 @@ importers:
       '@pipedream/types': 0.1.6
       html-to-text: 8.2.1
       linkedom: 0.14.26
+      moment: 2.29.4
       pluralize: 8.0.0
       showdown: 2.1.0
       title-case: 3.0.3
@@ -3014,7 +3026,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/jw_player:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/kakao:
     specifiers: {}
@@ -4441,7 +4456,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/pingdom:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pinterest:
     specifiers:
@@ -4656,6 +4674,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/printify:
+    specifiers: {}
 
   components/process_street:
     specifiers:
@@ -10331,12 +10352,12 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.188:
-    resolution: {integrity: sha512-s2223ipUtaKy68u7Ku4QsB3ZmRLMKYGMlOrKALbG9dhkOF/zTO/jckcn1ZAU338oL0q+q5xDFMHja9qxs4TEaw==}
+  /@definitelytyped/header-parser/0.0.189:
+    resolution: {integrity: sha512-5zzTaVAJayCJXWgm6T3kn0V/J/TGY/5mqkfio9bGI0dlKvV/xt0gXCBUFpUT6a0buPcqpsr5eS540XftHvgThQ==}
     engines: {node: '>=16.17.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.181
-      '@definitelytyped/utils': 0.0.186
+      '@definitelytyped/utils': 0.0.187
       semver: 7.5.4
     dev: true
 
@@ -10345,8 +10366,8 @@ packages:
     engines: {node: '>=16.17.0'}
     dev: true
 
-  /@definitelytyped/utils/0.0.186:
-    resolution: {integrity: sha512-T2e5QTVRFBP49B5yfk5kjbr3YYE2q1WqLkTTQNhhkJTTLoVFjhBSYF4PnWA0Op302aRiiCwDIuweqMmu3Zt8wg==}
+  /@definitelytyped/utils/0.0.187:
+    resolution: {integrity: sha512-sJlAKn7Rnqrw4qvgYudjs8vyqsOzgwWmqX20QWt7EW1c3Z1Pt7JkeaaSA3TSWDlwjP6gLGbf2pmDOBnQkAdR5w==}
     engines: {node: '>=16.17.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.181
@@ -11515,7 +11536,7 @@ packages:
     dependencies:
       '@types/body-parser': 1.19.3
       '@types/node': 18.18.3
-      axios: 1.5.1
+      axios: 1.6.1
       body-parser: 1.20.2
       file-type: 16.5.4
       form-data: 4.0.0
@@ -14122,7 +14143,7 @@ packages:
     resolution: {integrity: sha512-KqQnQbdYE54D7oa/UmYVMZKq7CO4l8DEENzOKc4aBRwxCXSlJXGz83flFx5L7AWrOQnmuN3kVsRdt+GZPPjiVQ==}
     deprecated: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
     dependencies:
-      axios: 1.5.1
+      axios: 1.6.1
     transitivePeerDependencies:
       - debug
     dev: true
@@ -15280,9 +15301,19 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
 
-  /axios/1.5.1_debug@3.2.7:
-    resolution: {integrity: sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==}
+  /axios/1.6.1:
+    resolution: {integrity: sha512-vfBmhDpKafglh0EldBEbVuoe7DyAavGSLWhuSm5ZSEKQnHhBf0xAAwybbNH1IkrJNGnS/VG4I5yxig1pCEXE4g==}
+    dependencies:
+      follow-redirects: 1.15.3
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  /axios/1.6.1_debug@3.2.7:
+    resolution: {integrity: sha512-vfBmhDpKafglh0EldBEbVuoe7DyAavGSLWhuSm5ZSEKQnHhBf0xAAwybbNH1IkrJNGnS/VG4I5yxig1pCEXE4g==}
     dependencies:
       follow-redirects: 1.15.3_debug@3.2.7
       form-data: 4.0.0
@@ -17196,7 +17227,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.188
+      '@definitelytyped/header-parser': 0.0.189
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17212,9 +17243,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.188
+      '@definitelytyped/header-parser': 0.0.189
       '@definitelytyped/typescript-versions': 0.0.181
-      '@definitelytyped/utils': 0.0.186
+      '@definitelytyped/utils': 0.0.187
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -26049,7 +26080,7 @@ packages:
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1_asn1.js@5.4.1
       asn1.js-rfc5280: 3.0.0
-      axios: 1.5.1_debug@3.2.7
+      axios: 1.6.1_debug@3.2.7
       big-integer: 1.6.51
       bignumber.js: 2.4.0
       binascii: 0.0.2

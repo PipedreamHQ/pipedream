@@ -10,27 +10,6 @@ Effective 2023-10-15, Shopify will no longer allow their customers to access **[
 
 > Protected customer fields require individual configuration and approval, in addition to approval for protected customer data. This includes information like name, address, email, and phone number. Apps that require this layer of data will need to abide by [additional requirements](https://shopify.dev/apps/store/data-protection/protected-customer-data?shpxid=aa95abd6-7955-4C12-6DB9-B3C3859B16AE#requirements), including encrypting your data back ups, keeping test and production data separate, and more.
 
-### How do I know if this is relevant to me?
-
-These Shopify actions use Protected Customer Data or Fields:
-- Create Customer
-- Create Order
-- Search for Customers
-- Update Customer
-
-These Shopify sources use Protected Customer Data or Fields:
-- New Abandoned Cart
-- New Cancelled Order (Instant)
-- New Customer Created (Instant)
-- New Draft Order (Instant)
-- New Order Created (Instant)
-- New Paid Order (Instant)
-- New Shipment (Instant)
-- New Updated Customer (Instant)
-- New Updated Order (Instant)
-
-In addition, any custom code steps or HTTP requests that are accessing Protected Customer Data using the main [Shopify](https://pipedream.com/apps/shopify) app will stop working after 2023-10-15.
-
 ### Why is this data no longer available in Pipedream?
 We've invested significant Product and Engineering time to get our app approved based on Shopify’s requirements, and unfortunately they’ve been unwilling to support the use case of an app-agnostic platform like Pipedream.
 
@@ -39,16 +18,12 @@ Starting 2023-10-15, the relevant API calls will return a message like this:
 
 ![Restricted Customer Fields](https://res.cloudinary.com/pipedreamin/image/upload/v1695097066/shopify-customer-fields_f7enlk.png)
 
-### What are my options?
-#### Continue using the main [Shopify app](https://pipedream.com/apps/shopify)
-- The main Shopify app and all of the **current** sources and actions will continue to work in Pipedream (we've already removed the impacted sources and actions from the public registry)
-- Make sure to [update any Shopify actions to the latest version](https://pipedream.com/docs/workflows/steps/actions/#updating-actions-to-the-latest-version)
-- You'll need to remove and re-add any Shopify triggers you're currently using, in order to get the latest version
+### What do I need to do?
 
 #### Use a custom Shopify app
 - Create a custom Shopify app for your Shopify store and connect it to Pipedream using the [Shopify Developer App](https://pipedream.com/apps/shopify-developer-app#getting-started)
 - Custom apps that are not distributed on Shopify’s app store do not have to meet any of their review requirements, but [can only be connected to a single Shopify store](https://shopify.dev/docs/apps/distribution)
-- Each “app” would be a unique connected account for the Shopify Developer app in Pipedream
+- Each “app” represents a unique connected account for the Shopify Developer app in Pipedream
 - All of the triggers and actions from the main Shopify app are supported on the [Shopify Developer App](https://pipedream.com/apps/shopify-developer-app/#popular-shopify-developer-app-triggers) (including those that access Protected Customer Data)
 - You’ll need to modify each workflow that uses Shopify to use the Shopify Developer app instead of the main Shopify app 
 

@@ -9,7 +9,7 @@ export default defineAction({
   name: "[Text] Transform Case",
   description: "Transform case for a text input",
   key: "formatting-transform-case",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
