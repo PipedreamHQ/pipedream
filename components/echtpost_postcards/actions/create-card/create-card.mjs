@@ -28,17 +28,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
+    const card = {
       template_id: this.templateId,
       deliver_at: this.scheduledDate,
+      contact_id: this.contactId,
     };
-    const { contactId } = this;
-    data[typeof contactId === "string"
-      ? "contact_id"
-      : "contact_ids"] = contactId;
     const response = await this.echtpost_postcards.sendPostcard({
       $,
-      data,
+      data: {
+        card,
+      },
     });
 
     $.export("$summary", `Successfully scheduled postcard creation with design template ID ${this.design}`);

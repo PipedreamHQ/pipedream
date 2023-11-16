@@ -17,9 +17,9 @@ export default {
       },
     },
     contactId: {
-      type: "string[]",
-      label: "Recipient Contact(s)",
-      description: "The ID(s) of the recipient contact(s).",
+      type: "string",
+      label: "Recipient Contact",
+      description: "The ID of the recipient contact.",
       async options() {
         const contacts = await this.listContacts();
         return contacts.map(({
@@ -45,23 +45,19 @@ export default {
     async _makeRequest({
       $ = this,
       path,
-      data,
       params,
       ...otherOpts
     }) {
-      if (!(data || params)) {
-        params = {};
-      }
-      (data || params).apikey = this.$auth.api_key;
-
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
         headers: {
           "Content-Type": "application/json",
         },
-        data,
-        params,
+        params: {
+          ...params,
+          apikey: this.$auth.api_key,
+        },
       });
     },
     async sendPostcard(args) {
