@@ -34,7 +34,7 @@ export default {
       params: {
         grpname: this.groupName,
         name: this.contactName,
-        mobileNumber: this.mobileNumber,
+        number: this.mobileNumber,
       },
     });
 
