@@ -4,7 +4,7 @@ export default {
   key: "clickup-get-view",
   name: "Get View",
   description: "Get a view. See the docs [here](https://clickup.com/api) in **Views / Get View** section.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: common.props,
   async run({ $ }) {
