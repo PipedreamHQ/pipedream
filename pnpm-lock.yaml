@@ -1945,7 +1945,10 @@ importers:
     specifiers: {}
 
   components/flutterwave:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/focuster:
     specifiers: {}
@@ -2605,7 +2608,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/helpcrunch:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/helper_functions:
     specifiers:
@@ -3930,7 +3936,10 @@ importers:
     specifiers: {}
 
   components/nexweave:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/niceboard:
     specifiers: {}
@@ -4438,7 +4447,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/pingdom:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pinterest:
     specifiers:
@@ -4944,7 +4956,10 @@ importers:
     specifiers: {}
 
   components/referralhero:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/referralrock:
     specifiers: {}
