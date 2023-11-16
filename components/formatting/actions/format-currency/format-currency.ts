@@ -9,7 +9,7 @@ export default defineAction({
   name: "[Numbers] Format Currency",
   description: "Format a number as a currency",
   key: "formatting-format-currency",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
