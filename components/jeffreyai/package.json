@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/jeffreyai",
+  "version": "0.0.1",
+  "description": "Pipedream JeffreyAI Components",
+  "main": "jeffreyai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jeffreyai"
+  ],
+  "homepage": "https://pipedream.com/apps/jeffreyai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

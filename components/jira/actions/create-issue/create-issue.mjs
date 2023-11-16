@@ -1,13 +1,13 @@
-import common from "../common/issue.mjs";
-import utils from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
+import common from "../common/issue.mjs";
 
 export default {
   ...common,
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post)",
-  version: "0.1.12",
+  version: "0.1.14",
   type: "action",
   props: {
     ...common.props,

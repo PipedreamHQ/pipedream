@@ -4,8 +4,8 @@ import lodash from "lodash";
 export default {
   key: "gitlab-list-commits",
   name: "List Commits",
-  description: "List commits in a repository branch. [See docs](https://docs.gitlab.com/ee/api/commits.html#list-repository-commits)",
-  version: "0.0.1",
+  description: "List commits in a repository branch. [See the documentation](https://docs.gitlab.com/ee/api/commits.html#list-repository-commits)",
+  version: "0.0.2",
   type: "action",
   props: {
     gitlab,
@@ -33,11 +33,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = lodash.pickBy(lodash.pick(this, [
-      "refName",
-      "max",
-    ]));
-    const commits = await this.gitlab.listCommits(this.projectId, opts);
+    const params = lodash.pickBy({
+      ref_name: this.refName,
+      per_page: this.max,
+    });
+    const commits = await this.gitlab.listCommits(this.projectId, {
+      params,
+    });
     const suffix = commits.length === 1
       ? ""
       : "s";

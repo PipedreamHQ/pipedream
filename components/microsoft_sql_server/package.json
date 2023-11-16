@@ -1,15 +1,18 @@
 {
   "name": "@pipedream/microsoft_sql_server",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Pipedream Microsoft SQL Server Components",
-  "main": "dist/app/microsoft_sql_server.app.mjs",
+  "main": "microsoft_sql_server.app.mjs",
   "keywords": [
     "pipedream",
     "microsoft_sql_server"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/microsoft_sql_server",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "mssql": "^10.0.1"
+  },
   "publishConfig": {
     "access": "public"
   }

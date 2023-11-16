@@ -5,7 +5,7 @@ export default {
   key: "gitlab-new-milestone",
   name: "New Milestone",
   description: "Emit new event when a milestone is created in a project",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "greatest",
   type: "source",
   props: {
@@ -27,21 +27,23 @@ export default {
   hooks: {
     async activate() {
       const milestones = await this.gitlab.listMilestones(this.projectId, {
-        max: 1,
+        params: {
+          max: 1,
+        },
       });
       if (milestones.length > 0) {
-        const lastProcessedMilestoneId = milestones[0].id;
-        this.db.set("lastProcessedMilestoneId", lastProcessedMilestoneId);
-        console.log(`Polling GitLab milestones created after ID ${lastProcessedMilestoneId}`);
+        const lastProcessedMilestoneTime = milestones[0].created_at;
+        this.db.set("lastProcessedMilestoneTime", lastProcessedMilestoneTime);
+        console.log(`Polling GitLab milestones created after ${lastProcessedMilestoneTime}`);
       }
     },
   },
   methods: {
-    _getLastProcessedMilestoneId() {
-      return this.db.get("lastProcessedMilestoneId");
+    _getLastProcessedMilestoneTime() {
+      return this.db.get("lastProcessedMilestoneTime") || 0;
     },
-    _setLastProcessedMilestoneId(lastProcessedMilestoneId) {
-      this.db.set("lastProcessedMilestoneId", lastProcessedMilestoneId);
+    _setLastProcessedMilestoneTime(lastProcessedMilestoneTime) {
+      this.db.set("lastProcessedMilestoneTime", lastProcessedMilestoneTime);
     },
     generateMeta(data) {
       const {
@@ -57,13 +59,15 @@ export default {
     },
   },
   async run() {
-    // We use the ID of the last processed milestone so that we
-    // don't emit events for them (i.e. we only want to emit events
-    // for new milestones).
-    let lastProcessedMilestoneId = this._getLastProcessedMilestoneId();
-    const milestones = await this.gitlab.getUnprocessedMilestones(
-      this.projectId,
-      lastProcessedMilestoneId,
+    let lastProcessedMilestoneTime = this._getLastProcessedMilestoneTime();
+    const newOrUpdatedMilestones = await this.gitlab.listMilestones(this.projectId, {
+      params: {
+        updated_after: lastProcessedMilestoneTime,
+      },
+    });
+
+    const milestones = newOrUpdatedMilestones.filter(
+      ({ created_at }) => Date.parse(created_at) > Date.parse(lastProcessedMilestoneTime),
     );
 
     if (milestones.length === 0) {
@@ -75,8 +79,8 @@ export default {
 
     // We store the most recent milestone ID in the DB so that
     // we don't process it (and previous milestones) in future runs.
-    lastProcessedMilestoneId = milestones[0].id;
-    this._setLastProcessedMilestoneId(lastProcessedMilestoneId);
+    lastProcessedMilestoneTime = milestones[0].created_at;
+    this._setLastProcessedMilestoneTime(lastProcessedMilestoneTime);
 
     // We need to sort the retrieved milestones
     // in reverse order (since the Gitlab API sorts them

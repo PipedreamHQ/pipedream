@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
   description: "Add multiple rows of data to a Google Sheet",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     googleSheets,
@@ -38,6 +38,12 @@ export default {
         "rows",
       ],
     },
+    resetRowFormat: {
+      type: "boolean",
+      label: "Reset Row Format",
+      description: "Reset the formatting of the rows that were added (line style to none, background to white, foreground color to black, font size to 10, no bold, no italic, no strikethrough, horizontalAlignment to left). This is useful if you want to add rows to a formatted table in Google Sheets.",
+      optional: true,
+    },
   },
   async run() {
     let rows = this.rows;
@@ -61,10 +67,15 @@ export default {
       throw new Error("Rows data is not an array of arrays. Please enter an array of arrays in the `Rows` parameter above. If you're trying to send a single rows to Google Sheets, search for the action to add a single row to Sheets or try modifying the code for this step.");
     }
 
-    return await this.googleSheets.addRowsToSheet({
+    const addRowsResponse = await this.googleSheets.addRowsToSheet({
       spreadsheetId: this.sheetId,
       range: this.sheetName,
       rows,
     });
+
+    if (this.resetRowFormat) {
+      await this.googleSheets.resetRowFormat(this.sheetId, addRowsResponse.updatedRange);
+    }
+    return addRowsResponse;
   },
 };

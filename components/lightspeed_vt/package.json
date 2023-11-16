@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/lightspeed_vt",
+  "version": "0.1.0",
+  "description": "Pipedream LightSpeed VT Components",
+  "main": "lightspeed_vt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lightspeed_vt"
+  ],
+  "homepage": "https://pipedream.com/apps/lightspeed_vt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

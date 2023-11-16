@@ -4,7 +4,7 @@ export default {
   key: "google_forms-get-form-response",
   name: "Get Form Response",
   description: "Get a response from a form. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms.responses/get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleForms,
@@ -25,18 +25,16 @@ export default {
     },
   },
   async run({ $ }) {
-
-    const { responses } = await this.googleForms.listFormResponses({
+    const response = await this.googleForms.getFormResponse({
       formId: this.formId,
+      responseId: this.formResponseId,
       $,
     });
 
-    if (responses?.length) {
-      $.export("$summary", `Successfully retrieved ${responses.length} form response${ responses.length === 1
-        ? ""
-        : "s"}.`);
+    if (response) {
+      $.export("$summary", `Successfully retrieved response with ID ${this.formResponseId} for form with ID ${this.formId}`);
     }
 
-    return responses;
+    return response;
   },
 };

@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/superphone",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream SuperPhone Components",
-  "main": "dist/app/superphone.app.mjs",
+  "main": "superphone.app.mjs",
   "keywords": [
     "pipedream",
     "superphone"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/superphone",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }

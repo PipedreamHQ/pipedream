@@ -2,6 +2,9 @@
   "name": "pipedream",
   "version": "1.2.1",
   "description": "Pipedream Monorepo",
+  "engines": {
+    "pnpm": "7.33.6"
+  },
   "keywords": [
     "pipedream",
     "integration",
@@ -49,7 +52,7 @@
     "husky": "^7.0.4",
     "jest": "^27.5.1",
     "lint-staged": "^12.3.4",
-    "pnpm": "^7.33.4",
+    "pnpm": "7.33.6",
     "putout": ">=20",
     "renamer": "^4.0.0",
     "ts-jest": "^27.1.4",

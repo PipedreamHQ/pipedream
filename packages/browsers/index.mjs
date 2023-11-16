@@ -17,11 +17,13 @@ export const puppeteer = {
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
       defaultViewport: chromium.defaultViewport,
+      cacheDirectory: "/tmp",
       args: [
         ...chromium.args,
         "--hide-scrollbars",
         "--disable-web-security",
       ],
+      protocolTimeout: 240000,
       ...opts,
     });
 

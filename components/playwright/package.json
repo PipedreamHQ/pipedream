@@ -1,18 +1,18 @@
 {
   "name": "@pipedream/playwright",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Playwright Components",
-  "main": "dist/app/playwright.app.mjs",
+  "main": "playwright.app.mjs",
   "keywords": [
     "pipedream",
     "playwright"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/playwright",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@sparticuz/chromium": "112.0.2"
   }
 }

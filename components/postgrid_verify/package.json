@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/postgrid_verify",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream PostGrid Verify Components",
-  "main": "dist/app/postgrid_verify.app.mjs",
+  "main": "postgrid_verify.app.mjs",
   "keywords": [
     "pipedream",
     "postgrid_verify"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/postgrid_verify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

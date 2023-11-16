@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/serply",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Serply Components",
-  "main": "dist/app/serply.app.mjs",
+  "main": "serply.app.mjs",
   "keywords": [
     "pipedream",
     "serply"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/serply",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/kingsumo",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream KingSumo Components",
-  "main": "dist/app/kingsumo.app.mjs",
+  "main": "kingsumo.app.mjs",
   "keywords": [
     "pipedream",
     "kingsumo"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/kingsumo",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

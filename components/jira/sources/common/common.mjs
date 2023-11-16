@@ -11,8 +11,8 @@ export default {
     cloudId: {
       propDefinition: [
         jira,
-        "cloudId"
-      ]
+        "cloudId",
+      ],
     },
     jqlFilter: {
       propDefinition: [

@@ -9,7 +9,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 import lang from "../common/lang.mjs";
-import openai from "../../app/openai.app.mjs";
+import openai from "../../openai.app.mjs";
 import { promisify } from "util";
 import stream from "stream";
 import { exec } from "child_process";
@@ -22,7 +22,7 @@ const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription",
-  version: "0.0.9",
+  version: "0.1.2",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
@@ -43,7 +43,6 @@ export default {
       description: "**Optional**. The language of the input audio. Supplying the input language will improve accuracy and latency.",
       type: "string",
       optional: true,
-      default: "en",
       options: lang.LANGUAGES.map((l) => ({
         label: l.label,
         value: l.value,

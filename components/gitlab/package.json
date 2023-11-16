@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/gitlab",
-  "version": "0.4.4",
+  "version": "0.5.5",
   "description": "Pipedream Gitlab Components",
-  "main": "gitlab.app.js",
+  "main": "gitlab.app.mjs",
   "keywords": [
     "pipedream",
     "gitlab"
@@ -10,7 +10,6 @@
   "homepage": "https://pipedream.com/apps/gitlab",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@gitbeaker/node": "^35.5.0",
     "@pipedream/platform": "^1.2.0",
     "lodash": "^4.17.21",
     "uuid": "^8.3.2"

@@ -43,10 +43,15 @@ import { playwright } from '@pipedream/browsers';
 export default defineComponent({
   async run({steps, $}) {
     const browser = await puppeteer.browser();
-    
-    console.log(browser)
-    // get page, perform actions, etc.
+    const page = await browser.newPage();
 
+    page.goto('https://pipedream.com');
+    const title = await page.title()
+
+
+    // Puppeteer requires you to close page context's before closing the browser itself
+    // otherwise, the code step's execution will hang
+    await page.context().close();
     await browser.close();
   },
 })

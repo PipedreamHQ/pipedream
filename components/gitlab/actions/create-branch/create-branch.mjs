@@ -3,8 +3,8 @@ import gitlab from "../../gitlab.app.mjs";
 export default {
   key: "gitlab-create-branch",
   name: "Create Branch",
-  description: "Create a new branch in the repository. [See docs](https://docs.gitlab.com/ee/api/branches.html#create-repository-branch)",
-  version: "0.3.0",
+  description: "Create a new branch in the repository. [See the documentation](https://docs.gitlab.com/ee/api/branches.html#create-repository-branch)",
+  version: "0.3.1",
   type: "action",
   props: {
     gitlab,

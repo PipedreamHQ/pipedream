@@ -40,7 +40,7 @@ function getAppProps(component = {}) {
   } = component.props;
   return {
     props: {
-      app: mysqlSslApp,
+      mysql: mysqlSslApp,
       ...buildPropDefinitions({
         app: mysqlSslApp,
         props: otherProps,

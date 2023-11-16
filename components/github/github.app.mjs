@@ -37,6 +37,9 @@ export default {
       description: "The repository in a organization",
       type: "string",
       async options({ org }) {
+        if (!org) {
+          throw new ConfigurationError("Must specify `org` to display repository options.");
+        }
         const repositories = await this.getOrgRepos({
           org,
         });
@@ -195,6 +198,23 @@ export default {
         return columns.map((column) => ({
           label: column.name,
           value: column.id,
+        }));
+      },
+    },
+    gistId: {
+      label: "Gist Id",
+      description: "The Gist Id to perform your action",
+      type: "string",
+      async options({ page }) {
+        const PER_PAGE = 100;
+        const gists = await this.getGists({
+          per_page: PER_PAGE,
+          page: page + 1,
+        });
+
+        return gists.map((gist) => ({
+          label: gist.description ?? gist.id,
+          value: gist.id,
         }));
       },
     },
@@ -402,6 +422,13 @@ export default {
 
       return response.data;
     },
+    async createPullRequest({
+      repoFullname, data,
+    }) {
+      const response = await this._client().request(`POST /repos/${repoFullname}/pulls`, data);
+
+      return response.data;
+    },
     async getIssue({
       repoFullname, issueNumber,
     }) {
@@ -524,6 +551,38 @@ export default {
         method: "put",
         data: data,
       });
+    },
+    async createGist(data) {
+      return this._makeRequest({
+        path: "/gists",
+        method: "post",
+        data,
+      });
+    },
+    async listGistsFromUser(username, params = {}) {
+      return this._makeRequest({
+        path: `/users/${username}/gists`,
+        params,
+      });
+    },
+    async updateGist(gistId, data) {
+      return this._makeRequest({
+        path: `/gists/${gistId}`,
+        method: "patch",
+        data,
+      });
+    },
+    async listReleases({
+      repoFullname,
+      perPage,
+      page,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/releases`, {
+        per_page: perPage,
+        page: page,
+      });
+
+      return response.data;
     },
   },
 };

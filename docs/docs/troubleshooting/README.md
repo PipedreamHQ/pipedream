@@ -149,3 +149,27 @@ Credit Budgets are configurable limits on your credit usage at the account or wo
 If you're receiving this warning on a source or workflow, this means your allocated Credit Budget has been reached for the defined period.
 
 You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).
+
+### Undeployed changes
+
+On workflows that are not [synced with GitHub](/projects/git/), you may notice the following warning at the top of your workflow: 
+
+> **Undeployed changes** — You have made changes to this workflow. Deploy the latest version from the editor
+
+This means that you've made some changes to your workflow that you haven't yet deployed. To see a diff of what's changed, we recommend [enabling GitHub sync](/projects/git/), where you'll get a full commit history of changes made to your workflows, synced to your own GitHub repo.
+
+## How do I contact Pipedream Support?
+
+Start by filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), providing detailed information about your issue.
+
+### How do I share my workflow with Support?
+
+First, navigate to your **Project Settings** and share your project with Pipedream Support.
+
+If your workflow is _not_ part of a Project, go to the **Workflow Settings** to grant access to us.
+
+When filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), please provide detailed information along with the URL from your browser's address bar, which should look something like:
+
+```
+https://pipedream.com/@yourworkspace/projects/yourproject/test-workflow-pabc123
+```

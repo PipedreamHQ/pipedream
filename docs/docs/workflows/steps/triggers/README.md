@@ -6,7 +6,7 @@
 
 Today, we support the following triggers:
 
-- [Triggers for apps like Twitter, Github, and more](#app-based-triggers)
+- [Triggers for apps like Twitter, GitHub, and more](#app-based-triggers)
 - [HTTP / Webhook](#http)
 - [Schedule](#schedule)
 - [Email](#email)

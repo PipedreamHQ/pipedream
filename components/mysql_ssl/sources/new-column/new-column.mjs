@@ -9,5 +9,5 @@ export default {
   ...utils.getAppProps(newColumn),
   key: "mysql_ssl-new-column",
   description: "Emit new event when you add a new column to a table (SSL). [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/show-columns.html)",
-  version: "0.0.1",
+  version: "1.0.1",
 };

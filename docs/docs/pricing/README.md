@@ -7,56 +7,11 @@ next: false
 
 We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/components#sources), [workflows](/workflows), [actions](/components#actions), and other integration components so that other Pipedream users benefit from your work.
 
-To support these goals, **Pipedream offers a [free trial of our Advanced plan](#free-trial) and a generous [free tier](#free-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
+To support these goals, Pipedream offers a generous [free tier](#free-tier), and you can **[request a free trial of our Advanced or Business plan](https://pipedream.com/pricing)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
 
 [Read more about our plans and pricing here](https://pipedream.com/pricing).
 
 [[toc]]
-
-## Free Trial
-
-All new workspaces have complimentary 14 day access to our [Advanced Plan](https://pipedream.com/pricing). This provides access to [Premium Support](https://pipedream.com/support) as well as functionality like [AI Code Generation](/code/nodejs/ai-code-generation/), [GitHub Project Sync](/projects/git/), and [advanced workflow settings](/workflows/settings/#auto-retry-errors).
-
-<br />
-<div>
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1694217206/docs/Screenshot_2023-09-08_at_4.52.54_PM_xqcjbk.png" alt="Free trial features" />
-</div>
-<br />
-
-### How long does the trial last?
-
-The trial of Advanced features lasts 14 days.
-
-### What happens at the end of the trial?
-
-At the end of the trial, your workspace will revert to the [Free plan](https://pipedream.com/pricing).
-
-**Any workflows still using trial features will be disabled**:
-
-- **Workflow limits**: If you're running more than 5 active workflows, workflows most-recently created above the limit will be disabled.
-- **Connected accounts**: If you have more than 3 connected accounts, workflows using the connected accounts above the limit will be disabled.
-- **Paid settings**: If any workflow is using paid settings — such as [auto-retry](/workflows/settings/#auto-retry-errors) or [execution controls](/workflows/settings/#execution-controls) — those workflows will be disabled.
-
-You can upgrade to a paid plan before the trial ends to get access to that plan's paid features.
-
-### How many credits do I get during the trial?
-
-Each workspace is limited to {{$site.themeConfig.DAILY_CREDITS_LIMIT}} credits per day during the trial. You can run any number of credits by upgrading to a paid plan. Each plan includes a base number of credits and charges per credit after the base quota. Please see [our pricing page](https://pipedream.com/pricing) for more detail.
-
-### What is _not_ available during the trial?
-
-The following features are **not** available on the Advanced trial. You can upgrade to the Advanced or Business plans to use these features:
-
-- [Warm workers](/workflows/settings/#eliminate-cold-starts)
-- Any feature on the Business or Enterprise plans
-
-### Can I extend my trial beyond 14 days?
-
-We are happy to discuss your evaluation needs. Please [reach out to our Support team](https://pipedream.com/support) and tell us a bit about how you are using Pipedream and what you need extra time to evaluate.
-
-### What happens if I upgrade to another plan during the free trial?
-
-If you upgrade to the Basic plan during the trial, you'll keep Advanced features for the duration of the trial. At the end of the trial, any workflows using Advanced features not available on the Basic plan will be disabled [according to the standard end-of-trial process](#what-happens-at-the-end-of-the-trial).
 
 ## Free Tier
 
@@ -72,9 +27,7 @@ Free Tier accounts can connect up to 3 different service accounts like Twitter, 
 
 ### Free Tier Workflow Limitations
 
-Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have the lowest amount of active workflows available.
-
-Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
+Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have limits on the number of active workflows. Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
 
 ### Free Tier Polling Interval Limitations
 
@@ -82,15 +35,15 @@ Free Tier account triggers powered by polling are limited to the longest interva
 
 ### Free Tier Support options
 
-Users on the Developer Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
+Users on the Free Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
 
 ## Paid Tiers
 
-[Visit our pricing page](https://pipedream.com/pricing) to learn more about our paid plan options.
+[Visit our pricing page](https://pipedream.com/pricing) to learn more about our paid plans.
 
 All paid plans vary features based on tier, but each paid plan option will:
 
-- Lift the daily 100 credits limit
+- Remove the daily {{$site.themeConfig.DAILY_CREDITS_LIMIT}} [credits](#credits) limit
 - Increase the number of active workflows available
 - Increase the number of connected accounts
 
@@ -151,7 +104,7 @@ Execution time used to develop a workflow in the builder does not count towards 
 
 When an [event source](/sources) triggers a workflow, the first credit per source execution is included for free. This means that the first {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute doesn't incur credits. This includes [Free Tier](/pricing/#free-tier) accounts.
 
-When a source is configured as a workflow trigger, the core value is in the workflow. We don't want to charge you two credits (one to run the source, one to run the workflow) when the workflow contains the core logic. Sources that trigger workflows are called "dependent" sources.
+When a source is configured as a workflow trigger, the core value is in the workflow. You won't be charged for two credits (one to run the source, one to run the workflow) when the workflow contains the core logic. Sources that trigger workflows are called "dependent" sources.
 
 On the other hand, sources that don't trigger workflows are "independent", since they run independently. Pipedream charges credits for all indepedent source executions.
 
@@ -159,7 +112,7 @@ On the other hand, sources that don't trigger workflows are "independent", since
 
 This free first credit per execution **only** applies to sources from the [Pipedream public registry](/sources).
 
-If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counted toward credits.
+If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counted toward credits. Even if the custom source is dependent and triggers at least one workflow.
 
 :::
 
@@ -185,19 +138,17 @@ Each execution of this source would result 1 credit because:
 
 :::
 
-::: details A custom source that finised under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+::: details A custom source that finished under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
 
 This would result in 1 credit per execution.
 
-The initial free credit only applies to Pipedream Public Registry sources.
+The initial free credit only applies to Pipedream Public Registry sources attached to at least one workflow.
 
 :::
 
 ::: details A source not connected to any workflow
 
-A source that isn't connected to any workflow is called an [**Independent Source**](https://pipedream.com/docs/workflows/steps/triggers/#dependent-and-independent-sources). Independent sources do not incur credits.
-
-Only when sources are attached to workflows and begin to trigger workflow executions do source execution credits incur.
+A source that isn't connected to any workflow is called an [**Independent Source**](https://pipedream.com/docs/workflows/steps/triggers/#dependent-and-independent-sources). Independent sources incur credits per execution, regardless if any unique event is emitted.
 
 :::
 

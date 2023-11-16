@@ -7,6 +7,7 @@ import {
   ZoneOperationsClient,
   InstancesClient,
 } from "@google-cloud/compute";
+import { v1 as bqdt } from "@google-cloud/bigquery-data-transfer";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
@@ -125,6 +126,9 @@ export default {
         projectId,
       };
     },
+    bigQueryDataTransferClient() {
+      return new bqdt.DataTransferServiceClient(this.sdkParams());
+    },
     loggingClient() {
       return new Logging(this.sdkParams());
     },
@@ -162,7 +166,10 @@ export default {
       return zones;
     },
     async switchInstanceBootStatus(zone, instance, newStatus) {
-      if (!["start", "stop"].includes(newStatus)) {
+      if (![
+        "start",
+        "stop",
+      ].includes(newStatus)) {
         throw new ConfigurationError("The new VM boot status must be 'start' or 'stop'.");
       }
       const instancesClient = this.instancesClient();

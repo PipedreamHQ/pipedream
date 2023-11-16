@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/appdrag",
+  "version": "0.0.1",
+  "description": "Pipedream AppDrag Components",
+  "main": "appdrag.app.mjs",
+  "keywords": [
+    "pipedream",
+    "appdrag"
+  ],
+  "homepage": "https://pipedream.com/apps/appdrag",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

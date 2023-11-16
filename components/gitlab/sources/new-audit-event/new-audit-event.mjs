@@ -12,7 +12,7 @@ export default {
   key: "gitlab-new-audit-event",
   name: "New Audit Event (Instant)",
   description: "Emit new event when a new audit event is created",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   type: "source",
   props: {
@@ -40,7 +40,7 @@ export default {
       const query = create_destination(this.http.endpoint, this.groupPath);
 
       try {
-        await fetch("https://gitlab.com/api/graphql", {
+        await fetch(`https://${this._getBaseApiUrl()}/api/graphql`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export default {
 
       try {
 
-        const data = await fetch("https://gitlab.com/api/graphql", {
+        const data = await fetch(`https://${this._getBaseApiUrl()}/api/graphql`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default {
 
         query = delete_destination(todelete);
 
-        await fetch("https://gitlab.com/api/graphql", {
+        await fetch(`https://${this._getBaseApiUrl()}/api/graphql`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

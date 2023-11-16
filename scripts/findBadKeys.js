@@ -23,8 +23,7 @@ const isCommonFile = (subname) => {
   return regex.test(subname);
 };
 
-const isTestEventFile = (subname) =>
-  subname.split("/").pop() === "test-event.mjs";
+const isTestEventFile = (subname) => subname.includes("test-event.mjs");
 
 const getComponentKey = (p) => {
   const data = fs.readFileSync(p, "utf8");

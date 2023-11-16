@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/gong",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Gong Components",
-  "main": "dist/app/gong.app.mjs",
+  "main": "gong.app.mjs",
   "keywords": [
     "pipedream",
     "gong"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/gong",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
   "publishConfig": {
     "access": "public"
   }

@@ -229,6 +229,40 @@ export default {
       return await this._makeRequest($, opts);
     },
     /**
+     * Fetch a single row by name or ID
+     * @param {object}  $
+     * @param {string}  docId
+     * @param {string}  tableId
+     * @param {string}  rowId
+     * @param {object}  [params]
+     * @param {boolean} [params.useColumnNames]
+     * @param {string}  [params.valueFormat]
+     * @return {object} Row
+     */
+    getRow($, docId, tableId, rowId, params = {}) {
+      let opts = {
+        path: `/docs/${docId}/tables/${tableId}/rows/${encodeURIComponent(rowId)}`,
+        params,
+      };
+      return this._makeRequest($, opts);
+    },
+    /**
+     * Delete a single row by name or ID
+     * @param {object}  $
+     * @param {string}  docId
+     * @param {string}  tableId
+     * @param {string}  rowId
+     * @return {void}
+     */
+    deleteRow($, docId, tableId, rowId, params = {}) {
+      let opts = {
+        method: "delete",
+        path: `/docs/${docId}/tables/${tableId}/rows/${encodeURIComponent(rowId)}`,
+        params,
+      };
+      return this._makeRequest($, opts);
+    },
+    /**
      * Searches for a row in the selected table using a column match search
      * @param {object}  $
      * @param {string}  docId
