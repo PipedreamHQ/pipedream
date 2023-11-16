@@ -62,38 +62,33 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://www.smsalert.co.in";
+      return "https://www.smsalert.co.in/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
       });
     },
     async getGroupList({ page = 1 }) {
       return this._makeRequest({
-        path: `/api/grouplist.json?page=${page}`,
+        path: `/grouplist.json?page=${page}`,
       });
     },
     async createGroup({ name }) {
       return this._makeRequest({
         method: "POST",
-        path: `/api/creategroup.json?name=${name}`,
+        path: `/creategroup.json?name=${name}`,
       });
     },
     async sendGroupSMS({
       groupId, senderId, messageText, scheduleTime,
     }) {
-      const path = `/api/grouppush.json?id=${groupId}&sender=${senderId}&text=${encodeURIComponent(messageText)}${scheduleTime
+      const path = `/grouppush.json?id=${groupId}&sender=${senderId}&text=${encodeURIComponent(messageText)}${scheduleTime
         ? `&schedule=${encodeURIComponent(scheduleTime)}`
         : ""}`;
       return this._makeRequest({
@@ -106,7 +101,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/api/createcontact.json?grpname=${groupName}&name=${contactName}&number=${mobileNumber}`,
+        path: `/createcontact.json?grpname=${groupName}&name=${contactName}&number=${mobileNumber}`,
       });
     },
     async sendSMS({
@@ -114,7 +109,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/api/push.json?sender=${senderId}&mobileno=${mobileNumber}&text=${encodeURIComponent(messageText)}`,
+        path: `/push.json?sender=${senderId}&mobileno=${mobileNumber}&text=${encodeURIComponent(messageText)}`,
       });
     },
     async scheduleSMS({
@@ -122,11 +117,8 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/api/push.json?sender=${senderId}&mobileno=${mobileNumber}&text=${encodeURIComponent(messageText)}&schedule=${encodeURIComponent(scheduleTime)}`,
+        path: `/push.json?sender=${senderId}&mobileno=${mobileNumber}&text=${encodeURIComponent(messageText)}&schedule=${encodeURIComponent(scheduleTime)}`,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
