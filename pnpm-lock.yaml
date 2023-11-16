@@ -3354,7 +3354,10 @@ importers:
     specifiers: {}
 
   components/loop_returns:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/loopmessage:
     specifiers:
