@@ -1,95 +1,53 @@
-import { axios } from "@pipedream/platform";
-import loopReturns from "../../loop_returns.app.mjs";
+import common from "../common/webhook.mjs";
+import events from "../common/events.mjs";
 
 export default {
+  ...common,
   key: "loop_returns-return-status-updated-instant",
   name: "Return Status Updated (Instant)",
-  description: "Emit new event when the status of a return has been updated. [See the documentation](https://docs.loopreturns.com/reference)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when the status of a return has been updated. [See the documentation](https://docs.loopreturns.com/reference/return-webhook)",
   type: "source",
+  version: "0.0.1",
   dedupe: "unique",
-  props: {
-    loopReturns,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    returnId: {
-      propDefinition: [
-        loopReturns,
-        "returnId",
-      ],
-    },
-  },
   methods: {
-    _getWebhookId() {
-      return this.db.get("webhookId");
+    ...common.methods,
+    setReturnState(resource) {
+      this.db.set(resource.id, resource.state);
     },
-    _setWebhookId(id) {
-      this.db.set("webhookId", id);
+    getReturnState(returnId) {
+      return this.db.get(returnId);
     },
-  },
-  hooks: {
-    async deploy() {
-      // Emit events for the 50 most recent updates
-      const { returns } = await this.loopReturns.listReturns({
-        prevContext: {},
-      });
-      returns.slice(-50).forEach((ret) => {
-        this.$emit(ret, {
-          id: ret.id,
-          summary: `Return #${ret.id} status updated`,
-          ts: Date.parse(ret.updated_at),
-        });
-      });
-    },
-    async activate() {
-      // Create webhook subscription
-      const webhook = await this.loopReturns.createWebhook({
-        topic: "return",
-        trigger: "return.updated",
-        url: this.http.endpoint,
-      });
-      this._setWebhookId(webhook.id);
-    },
-    async deactivate() {
-      // Delete webhook subscription
-      const webhookId = this._getWebhookId();
-      await this.loopReturns.deleteWebhook({
-        webhookId,
-      });
-    },
-  },
-  async run(event) {
-    const { body } = event;
-    if (!body) {
-      this.http.respond({
-        status: 404,
-        body: "No event data received",
-      });
-      return;
-    }
+    isResourceRelevant(resource) {
+      const previousState = this.getReturnState(resource.id);
 
-    // Validate the event is for the returnId configured
-    if (body.id.toString() !== this.returnId) {
-      this.http.respond({
-        status: 200, // Acknowledge receipt but do not process
-        body: "Return ID does not match the configured value",
-      });
-      return;
-    }
+      if (!previousState) {
+        return true;
+      }
 
-    this.$emit(body, {
-      id: body.id,
-      summary: `Return #${body.id} status updated`,
-      ts: Date.parse(body.updated_at),
-    });
-
-    // Respond to the webhook
-    this.http.respond({
-      status: 200,
-      body: "Event processed",
-    });
+      return resource.state !== previousState;
+    },
+    processResource(resource) {
+      if (this.isResourceRelevant(resource)) {
+        this.setReturnState(resource);
+        return this.$emit(resource, this.generateMeta(resource));
+      }
+      console.log("Skipping irrelevant resource", resource);
+    },
+    getResourcesFn() {
+      return this.app.listReturns;
+    },
+    getEventData() {
+      return {
+        topic: events.TOPIC.RETURN,
+        trigger: events.TRIGGER.RETURN_UPDATED,
+      };
+    },
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: `Return Status Updated: ${resource.id}`,
+        ts: Date.parse(resource.created_at),
+      };
+    },
   },
 };

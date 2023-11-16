@@ -1,24 +1,39 @@
-import loop_returns from "../../loop_returns.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../loop_returns.app.mjs";
 
 export default {
   key: "loop_returns-cancel-return",
   name: "Cancel Return",
   description: "Cancels a pending return request in Loop. [See the documentation](https://docs.loopreturns.com/reference/post_warehouse-return-return-id-cancel)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    loop_returns,
+    app,
     returnId: {
       propDefinition: [
-        loop_returns,
+        app,
         "returnId",
       ],
     },
   },
+  methods: {
+    cancelReturn({
+      returnId, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/warehouse/return/${returnId}/cancel`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.loop_returns.cancelReturn({
-      returnId: this.returnId,
+    const {
+      cancelReturn,
+      returnId,
+    } = this;
+
+    const response = await cancelReturn({
+      $,
+      returnId,
     });
 
     $.export("$summary", `Successfully cancelled return with ID ${this.returnId}`);

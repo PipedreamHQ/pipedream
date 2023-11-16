@@ -1,27 +1,39 @@
-import loop_returns from "../../loop_returns.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../loop_returns.app.mjs";
 
 export default {
   key: "loop_returns-flag-return",
   name: "Flag Return",
   description: "Flags a particular return as important inside Loop. Requires return ID as a mandatory prop.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    loop_returns,
+    app,
     returnId: {
       propDefinition: [
-        loop_returns,
+        app,
         "returnId",
-        (c) => ({
-          prevContext: c.prevContext,
-        }), // Assuming prevContext is a prop that holds pagination context
       ],
     },
   },
+  methods: {
+    flagReturn({
+      returnId, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/warehouse/return/${returnId}/flag`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.loop_returns.flagReturn({
-      returnId: this.returnId,
+    const {
+      flagReturn,
+      returnId,
+    } = this;
+
+    const response = await flagReturn({
+      $,
+      returnId,
     });
     $.export("$summary", `Successfully flagged return with ID ${this.returnId}`);
     return response;

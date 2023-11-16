@@ -1,66 +1,29 @@
-import loopReturns from "../../loop_returns.app.mjs";
+import common from "../common/webhook.mjs";
+import events from "../common/events.mjs";
 
 export default {
+  ...common,
   key: "loop_returns-label-updated-instant",
   name: "Label Updated (Instant)",
   description: "Emit new event when a label is updated. [See the documentation](https://docs.loopreturns.com/reference/post_webhooks)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    loopReturns,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  methods: {
+    ...common.methods,
+    getEventData() {
+      return {
+        topic: events.TOPIC.LABEL,
+        trigger: events.TRIGGER.LABEL_UPDATED,
+      };
     },
-    labelId: {
-      propDefinition: [
-        loopReturns,
-        "labelId",
-      ],
+    generateMeta(resource) {
+      const ts = Date.parse(resource.updated_at);
+      return {
+        id: ts,
+        summary: `Label Updated: ${resource.updated_at}`,
+        ts,
+      };
     },
-  },
-  hooks: {
-    async deploy() {
-      // Since the API does not provide an endpoint for fetching labels,
-      // we will assume this is not possible. If an endpoint becomes available,
-      // this method should be updated to fetch and emit labels.
-    },
-    async activate() {
-      // Create a webhook subscription
-      const webhook = await this.loopReturns._makeRequest({
-        method: "POST",
-        path: "/webhooks",
-        data: {
-          topic: "label",
-          trigger: "label.updated",
-          url: this.http.endpoint,
-        },
-      });
-      this.db.set("webhookId", webhook.id);
-    },
-    async deactivate() {
-      // Delete the webhook subscription
-      const webhookId = this.db.get("webhookId");
-      await this.loopReturns._makeRequest({
-        method: "DELETE",
-        path: `/webhooks/${webhookId}`,
-      });
-    },
-  },
-  async run(event) {
-    const { body } = event;
-
-    // Check if the labelId matches the updated label
-    if (body.label && body.label.id.toString() === this.labelId) {
-      this.$emit(body, {
-        id: body.label.id,
-        summary: `Label #${body.label.id} updated`,
-        ts: Date.parse(body.label.updated_at),
-      });
-    } else {
-      console.log("Received a label update event, but the label ID does not match the configured label ID.");
-    }
   },
 };

@@ -1,77 +1,31 @@
-import { axios } from "@pipedream/platform";
-import loopReturns from "../../loop_returns.app.mjs";
+import common from "../common/webhook.mjs";
+import events from "../common/events.mjs";
 
 export default {
+  ...common,
   key: "loop_returns-return-created-instant",
-  name: "Return Created (Instant)",
-  description: "Emits an event when a new return is created. [See the documentation](https://docs.loopreturns.com/reference/post_webhooks)",
-  version: "0.0.{{ts}}",
+  name: "New Return Created (Instant)",
+  description: "Emit new event when a new return is created. [See the documentation](https://docs.loopreturns.com/reference/return-webhook)",
   type: "source",
+  version: "0.0.1",
   dedupe: "unique",
-  props: {
-    loopReturns,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  methods: {
+    ...common.methods,
+    getResourcesFn() {
+      return this.app.listReturns;
     },
-  },
-  hooks: {
-    async deploy() {
-      // Fetch the 50 most recent returns to backfill events
-      const returns = await this.loopReturns.listReturns({});
-      for (const returnItem of returns.slice(-50).reverse()) {
-        this.$emit(returnItem, {
-          id: returnItem.id,
-          summary: `Return #${returnItem.id} created`,
-          ts: Date.parse(returnItem.created_at),
-        });
-      }
+    getEventData() {
+      return {
+        topic: events.TOPIC.RETURN,
+        trigger: events.TRIGGER.RETURN_CREATED,
+      };
     },
-    async activate() {
-      // Create webhook for return.created event
-      const { data } = await this.loopReturns._makeRequest({
-        method: "POST",
-        path: "/webhooks",
-        data: {
-          topic: "return",
-          trigger: "return.created",
-        },
-      });
-
-      // Store webhook ID for later deletion
-      this.db.set("webhookId", data.id);
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: `New Resource: ${resource.name}`,
+        ts: Date.parse(resource.created_at),
+      };
     },
-    async deactivate() {
-      // Retrieve stored webhook ID
-      const webhookId = this.db.get("webhookId");
-      if (webhookId) {
-        // Delete the webhook subscription
-        await this.loopReturns._makeRequest({
-          method: "DELETE",
-          path: `/webhooks/${webhookId}`,
-        });
-      }
-    },
-  },
-  async run(event) {
-    const {
-      body, headers,
-    } = event;
-
-    // Validate webhook signature if applicable (code for validation not provided in API docs)
-
-    // Emit the event for new return
-    this.$emit(body, {
-      id: body.id,
-      summary: `New return created: #${body.id}`,
-      ts: Date.parse(body.created_at),
-    });
-
-    // Respond to the HTTP request
-    this.http.respond({
-      status: 200,
-      body: "Webhook received",
-    });
   },
 };

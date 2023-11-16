@@ -1,4 +1,6 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+import url from "url";
 
 export default {
   type: "app",
@@ -9,79 +11,70 @@ export default {
       label: "Return ID",
       description: "The ID of the return",
       async options({ prevContext }) {
+        let cursor;
+        const { nextPageUrl: nextUrl } = prevContext;
+
+        if (nextUrl) {
+          ({ cursor } = url.parse(nextUrl, true).query);
+        }
+
         const {
           returns, nextPageUrl,
         } = await this.listReturns({
-          prevContext,
+          params: {
+            paginate: true,
+            pageSize: constants.DEFAULT_LIMIT,
+            cursor,
+          },
         });
-        const options = returns.map((r) => ({
-          label: `Return #${r.id}`,
-          value: r.id.toString(),
+
+        const options = returns.map(({ id }) => ({
+          label: `Return #${id}`,
+          value: id.toString(),
         }));
+
         return {
           options,
-          context: nextPageUrl
-            ? {
-              nextPageUrl,
-            }
-            : {},
+          context: {
+            nextPageUrl,
+          },
         };
-      },
-    },
-    labelId: {
-      type: "string",
-      label: "Label ID",
-      description: "The ID of the label to monitor for updates",
-      async options() {
-        // Since the API docs do not provide an endpoint for fetching labels,
-        // we will assume that the user has to input the Label ID manually.
-        // If an endpoint becomes available, this method should be updated to fetch labels.
-        return [];
       },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.loopreturns.com/api/v1";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      const config = {
+        url: this.getUrl(path),
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.api_token}`,
         },
+        ...args,
+      };
+      return axios($, config);
+    },
+    post(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        ...args,
       });
     },
-    async listReturns({ prevContext }) {
-      const path = prevContext && prevContext.nextPageUrl
-        ? prevContext.nextPageUrl
-        : "/warehouse/return/list?paginate=true&pageSize=50";
+    delete(args = {}) {
       return this._makeRequest({
-        path,
+        method: "delete",
+        ...args,
       });
     },
-    async flagReturn({ returnId }) {
+    listReturns(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: `/warehouse/return/${returnId}/flag`,
-      });
-    },
-    async cancelReturn({ returnId }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/warehouse/return/${returnId}/cancel`,
-      });
-    },
-    async processReturn({ returnId }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/warehouse/return/${returnId}/process`,
+        path: "/warehouse/return/list",
+        ...args,
       });
     },
   },
