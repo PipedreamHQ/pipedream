@@ -1628,7 +1628,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dromo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dropbox:
     specifiers:
@@ -4218,7 +4221,10 @@ importers:
       uuid: 9.0.1
 
   components/orca_scan:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/order_desk:
     specifiers:
