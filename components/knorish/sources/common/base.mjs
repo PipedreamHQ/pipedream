@@ -51,7 +51,9 @@ export default {
           {
             id: item.id,
             summary: this.getSummary(item),
-            ts: Date.parse(item.timestamp),
+            ts: item.timestamp
+              ? Date.parse(item.timestamp)
+              : new Date(),
           },
         );
       }
