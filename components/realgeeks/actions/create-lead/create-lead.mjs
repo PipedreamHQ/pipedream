@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import realGeeks from "../../realgeeks.app.mjs";
 
 export default {
@@ -8,47 +9,85 @@ export default {
   type: "action",
   props: {
     realGeeks,
-    leadName: {
-      propDefinition: [
-        realGeeks,
-        "leadName",
-      ],
+    source: {
+      type: "string",
+      label: "Source",
+      description: "Name of your source, where leads are coming from. This will be displayed to agents so they know where this lead was generated",
     },
-    leadEmail: {
-      propDefinition: [
-        realGeeks,
-        "leadEmail",
-      ],
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Valid email address",
+      optional: true,
     },
-    leadPhone: {
-      propDefinition: [
-        realGeeks,
-        "leadPhone",
-      ],
+    firstName: {
+      type: "string",
+      label: "First Name",
+      optional: true,
     },
-    leadSource: {
-      propDefinition: [
-        realGeeks,
-        "leadSource",
-      ],
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      optional: true,
     },
-    leadStatus: {
-      propDefinition: [
-        realGeeks,
-        "leadStatus",
-      ],
+    phone: {
+      type: "string",
+      label: "Email",
+      description: "Phone number. US numbers could be formatted as `808-123-1234` or `(808) 123-1234`. International number format: `+55 83 1234-1234`",
+      optional: true,
+    },
+    address: {
+      type: "string",
+      label: "Address",
+      description: "Full formatted address",
+      optional: true,
+    },
+    additionalOptions: {
+      type: "object",
+      label: "Additional Fields",
+      description: "Any additional fields to be passed. Values will be parsed as JSON when applicable. [See the documentation for all available fields](https://developers.realgeeks.com/leads/).",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.realGeeks.createLead({
-      leadName: this.leadName,
-      leadEmail: this.leadEmail,
-      leadPhone: this.leadPhone,
-      leadSource: this.leadSource,
-      leadStatus: this.leadStatus,
+    const {
+      realGeeks, additionalOptions, source, ...idProps
+    } = this;
+    if (Object.keys(idProps).length === 0) {
+      throw new ConfigurationError("You must provide **at least one** of `email`, `firstName`, `lastName`, `phone`, `address`");
+    }
+
+    const {
+      firstName, lastName, ...otherIdProps
+    } = idProps;
+
+    const response = await realGeeks.createLead({
+      $,
+      data: {
+        source,
+        first_name: firstName,
+        last_name: lastName,
+        ...otherIdProps,
+        ...Object.fromEntries(Object.entries(additionalOptions ?? {}).map(([
+          key,
+          value,
+        ]) => {
+          try {
+            return [
+              key,
+              JSON.parse(value),
+            ];
+          } catch (e) {
+            return [
+              key,
+              value,
+            ];
+          }
+        })),
+      },
     });
 
-    $.export("$summary", `Successfully created lead: ${this.leadName}`);
+    $.export("$summary", "Successfully created lead");
     return response;
   },
 };
