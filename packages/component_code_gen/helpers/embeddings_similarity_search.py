@@ -31,7 +31,7 @@ def get_embedding(text):
     return np.asarray(embedding).reshape(1, -1)
 
 
-def split_document(document, chunk_size=500):
+def split_document(document, chunk_size=1000):
     return [document[i:i+chunk_size] for i in range(0, len(document), chunk_size)]
 
 
