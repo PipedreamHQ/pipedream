@@ -12,8 +12,8 @@ Using SSO with your Identity Provider (IdP) centralizes user login management an
 - Only workspace admins and owners can configure SSO
 - Your workspace admin or owner must [verify ownership](#verifying-your-email-domain) of the SSO email domain
 
-:::tip The below content is for workspace admins and owners
-Only workspace admins and owners have access to add verified domains, set up SSO, and configure workspace login methods
+:::warning The below content is for workspace admins and owners
+Only workspace admins and owners have access to add verified domains, set up SSO, and configure workspace login methods.
 :::
 
 ## Verifying your Email Domain
