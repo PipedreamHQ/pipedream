@@ -5515,7 +5515,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/shipday:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/shipengine:
     specifiers:
