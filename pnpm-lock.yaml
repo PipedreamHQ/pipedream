@@ -5727,7 +5727,10 @@ importers:
     specifiers: {}
 
   components/sms_alert:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/sms_it:
     specifiers: {}
