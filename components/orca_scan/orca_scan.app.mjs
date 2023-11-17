@@ -26,12 +26,12 @@ export default {
     rowData: {
       type: "object",
       label: "Row Data",
-      description: "The data for the new row to be added or updated in JSON format.",
+      description: "The data for the new row to be added or updated. To get the fields, use the `Find Row` action to find a row and refer to the JSON output.",
     },
     barcode: {
       type: "string",
       label: "Barcode",
-      description: "The barcode value to locate a specific row record.",
+      description: "The barcode value to locate a specific row record. If the barcode is not found, a new row will be created. If the barcode is found, the row will be updated with the data in `Row Data`.",
       optional: true,
     },
   },
