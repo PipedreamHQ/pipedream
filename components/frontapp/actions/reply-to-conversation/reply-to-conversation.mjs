@@ -20,6 +20,7 @@ export default {
         frontApp,
         "tagIds",
       ],
+      optional: true,
       description: "List of all the tag IDs replacing the old conversation tags",
     },
     authorId: {
@@ -64,6 +65,7 @@ export default {
         frontApp,
         "tagIds",
       ],
+      optional: true,
       description: "List of tag names to add to the conversation (unknown tags will automatically be created)",
     },
     optionsIsArchive: {

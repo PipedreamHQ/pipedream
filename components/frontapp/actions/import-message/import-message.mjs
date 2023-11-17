@@ -107,6 +107,7 @@ export default {
         frontApp,
         "tagIds",
       ],
+      optional: true,
       description: "List of tag names to add to the conversation (unknown tags will automatically be created)",
     },
     threadRef: {

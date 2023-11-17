@@ -16,7 +16,6 @@ export default {
         common.props.frontapp,
         "tagIds",
       ],
-      type: "string",
       withLabel: true,
     },
   },
@@ -34,10 +33,11 @@ export default {
       };
     },
     _getEmit(item) {
-      if (item.target?.data?.id === this.tagIds.value) {
+      const tagIdsArray = this.tagIds.map((tag) => tag.value);
+      if (item.type === "tag" && tagIdsArray.includes(item.target?.data?.id)) {
         return {
           id: item.id,
-          summary: `New conversation with id: "${item.id}" was tagged as '${this.tagIds.label}'!`,
+          summary: `New conversation with id: "${item.id}" was tagged as '${item.target?.data?.name}'!`,
           ts: Date.parse(item.created_at),
         };
       }

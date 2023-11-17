@@ -51,6 +51,7 @@ export default {
         frontApp,
         "tagIds",
       ],
+      optional: true,
       description: "List of all the tag IDs replacing the old conversation tags",
     },
   },

@@ -135,7 +135,6 @@ export default {
       type: "string[]",
       label: "Tag IDs",
       description: "List of all the tag IDs.",
-      optional: true,
       async options({ prevContext }) {
         return this.paginateOptions({
           prevContext,
