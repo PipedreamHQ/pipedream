@@ -1,4 +1,4 @@
-import echtpost_postcards from "../../echtpost_postcards.app.mjs";
+import echtpostPostcards from "../../echtpost_postcards.app.mjs";
 
 export default {
   key: "echtpost_postcards-create-card",
@@ -7,22 +7,22 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    echtpost_postcards,
+    echtpostPostcards,
     templateId: {
       propDefinition: [
-        echtpost_postcards,
+        echtpostPostcards,
         "templateId",
       ],
     },
     contactId: {
       propDefinition: [
-        echtpost_postcards,
+        echtpostPostcards,
         "contactId",
       ],
     },
     scheduledDate: {
       propDefinition: [
-        echtpost_postcards,
+        echtpostPostcards,
         "scheduledDate",
       ],
     },
@@ -33,14 +33,14 @@ export default {
       deliver_at: this.scheduledDate,
       contact_id: this.contactId,
     };
-    const response = await this.echtpost_postcards.sendPostcard({
+    const response = await this.echtpostPostcards.sendPostcard({
       $,
       data: {
         card,
       },
     });
 
-    $.export("$summary", `Successfully scheduled postcard creation with design template ID ${this.design}`);
+    $.export("$summary", "Successfully scheduled postcard");
     return response;
   },
 };
