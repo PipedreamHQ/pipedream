@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "orca-scan-new-row",
+  key: "orca_scan-new-row",
   name: "New Row in Orca Scan Sheet",
   description: "Emit new event when a new row is created in an Orca Scan sheet. [See the documentation](https://orcascan.com/guides/add-barcode-tracking-to-your-system-using-a-rest-api-f09a21c3)",
   version: "0.0.1",
