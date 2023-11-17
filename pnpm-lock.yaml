@@ -1628,7 +1628,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dromo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dropbox:
     specifiers:
