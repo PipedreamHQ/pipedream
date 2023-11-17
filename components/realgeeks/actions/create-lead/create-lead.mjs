@@ -1,4 +1,4 @@
-import realGeeks from "../../real-geeks.app.mjs";
+import realGeeks from "../../realgeeks.app.mjs";
 
 export default {
   key: "real-geeks-create-lead",

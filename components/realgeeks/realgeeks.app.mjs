@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "your_app_name",
+  app: "realgeeks",
   propDefinitions: {
     leadName: {
       type: "string",
