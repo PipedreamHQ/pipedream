@@ -3,7 +3,7 @@ import app from "../../loop_returns.app.mjs";
 export default {
   key: "loop_returns-cancel-return",
   name: "Cancel Return",
-  description: "Cancels a pending return request in Loop. [See the documentation](https://docs.loopreturns.com/reference/post_warehouse-return-return-id-cancel)",
+  description: "Cancels a pending return request in Loop. [See the documentation](https://docs.loopreturns.com/reference/cancelreturn)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -53,7 +53,7 @@ export default {
         url: this.getUrl(path),
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "X-Authorization": this.$auth.api_key,
         },
         ...args,
       };
