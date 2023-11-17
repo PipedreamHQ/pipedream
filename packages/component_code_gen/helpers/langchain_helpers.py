@@ -106,14 +106,14 @@ def ask_agent(prompt, docs, templates, auth_example, parsed_common_files, urls_c
     return result
 
 
-def no_docs(prompt, templates, auth_example, parsed_common_files, urls_content):
+def no_docs(prompt, templates, auth_example, parsed_common_files, urls_content, normal_order=True):
     user_prompt = create_user_prompt(prompt, urls_content)
     system_instructions = format_template(
         templates.system_instructions(auth_example, parsed_common_files))
 
     result = get_llm()(messages=[
-        SystemMessage(content=system_instructions),
-        HumanMessage(content=user_prompt),
+        SystemMessage(content=system_instructions if normal_order else user_prompt),
+        HumanMessage(content=user_prompt if normal_order else system_instructions),
     ])
 
     return format_result(result.content)
