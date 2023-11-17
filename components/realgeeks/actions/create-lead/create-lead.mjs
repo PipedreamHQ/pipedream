@@ -3,7 +3,7 @@ import realGeeks from "../../realgeeks.app.mjs";
 export default {
   key: "real-geeks-create-lead",
   name: "Create Lead",
-  description: "Creates a new lead in Real Geeks. [See the documentation](https://docs.realgeeks.com/api-create-lead)", // Link to the documentation should be provided here
+  description: "Creates a new lead in Real Geeks. [See the documentation](https://developers.realgeeks.com/leads/)",
   version: "0.0.1",
   type: "action",
   props: {

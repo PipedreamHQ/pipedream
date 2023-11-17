@@ -34,43 +34,24 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.your_app_name.com";
-    },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path,
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        baseURL: "https://receivers.leadrouter.realgeeks.com/rest",
+        auth: {
+          username: this.$auth.username,
+          password: this.$auth.password,
         },
-        data,
-        params,
       });
     },
-    async createLead({
-      leadName, leadEmail, leadPhone, leadSource, leadStatus,
-    }) {
+    async createLead(args) {
       return this._makeRequest({
-        path: "/leads",
-        data: {
-          name: leadName,
-          email: leadEmail,
-          phone: leadPhone,
-          source: leadSource,
-          status: leadStatus,
-        },
+        method: "post",
+        url: `/sites/${this.$auth.site_uuid}/users`,
+        ...args,
       });
     },
   },
