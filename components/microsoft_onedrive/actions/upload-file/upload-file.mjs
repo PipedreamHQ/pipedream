@@ -56,11 +56,11 @@ export default {
       throw new ConfigurationError("You must specify the **Upload Folder ID**.");
     }
 
-    const data = fs.reaeFileSync(filePath);
+    const data = fs.readFileSync(filePath);
     let name = filename;
     if (!filename.includes(".")) {
-      const fileTypeFromBuffer = await fileTypeFromBuffer(data);
-      const extension = fileTypeFromBuffer?.ext || "";
+      const fileType = await fileTypeFromBuffer(data);
+      const extension = fileType?.ext || "";
       name = `${filename}.${extension}`;
     }
 
