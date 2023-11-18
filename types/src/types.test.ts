@@ -121,21 +121,6 @@ const methods: Pipedream.Methods = {
   },
 };
 
-const flowFunctions: Pipedream.FlowFunctions = {
-  exit: (reason: string) => { console.log(reason); },
-  delay: (ms: number) => { return {
-    resume_url: "https://example.com",
-    cancel_url: "https://example.com",
-  };},
-};
-
-const theDollar: Pipedream.Pipedream = {
-  export: (key: string, value: Pipedream.JSONValue) => { console.log("foo");},
-  send: dollarSend,
-  respond: (response: Pipedream.HTTPResponse) => { console.log("foo"); },
-  flow: flowFunctions,
-};
-
 const googleSheets: Pipedream.App<Pipedream.Methods, Pipedream.AppPropDefinitions> = {
   type: "app",
   app: "google_sheets",
