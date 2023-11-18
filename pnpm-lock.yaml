@@ -7408,11 +7408,13 @@ importers:
 
   types:
     specifiers:
+      '@types/node': ^20.9.2
       dtslint: ^4.2.1
       typescript: ^5.2.2
     dependencies:
       typescript: 5.2.2
     devDependencies:
+      '@types/node': 20.9.2
       dtslint: 4.2.1_typescript@5.2.2
 
 packages:
