@@ -99,7 +99,7 @@ export interface FlowFunctions {
   refreshTimeout: () => string;
 }
 
-interface IApi {
+export interface IApi {
   open(path: string): IFile;
   openDescriptor(descriptor: any): IFile;
   dir(path?: string): AsyncGenerator<{
@@ -113,7 +113,7 @@ interface IApi {
   }>;
 }
 
-interface IFile {
+export interface IFile {
   delete(): Promise<void>;
   createReadStream(): Promise<ReadableStream<any>>;
   createWriteStream(contentType?: string, contentLength?: number): Promise<WritableStream<any>>;
