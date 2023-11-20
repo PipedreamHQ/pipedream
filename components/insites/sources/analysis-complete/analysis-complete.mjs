@@ -9,8 +9,8 @@ export default {
   type: "source",
   key: "insites-analysis-complete",
   name: "New Analysis Complete",
-  description: "Emit new event when a new analysis is completed.",
-  version: "0.0.1",
+  description: "Emit new event when a new analysis is completed. [See the documentation](https://help.insites.com/en/articles/7994946-report-api#h_e59622a8e7)",
+  version: "0.0.2",
   props: {
     app,
     db: "$.service.db",
@@ -23,7 +23,7 @@ export default {
     filter: {
       type: "string",
       label: "Filter",
-      description: "JSON encoded string – attributes by which the reports should be filtered by.",
+      description: "JSON encoded string - attributes by which the reports should be filtered by. [See the documentation for more details](https://help.insites.com/en/articles/7994946-report-api#h_e59622a8e7). Example: `[{\"operator\":\"equal\",\"property\":\"mobile.is_mobile\",\"targetValue\":false}]`",
       optional: true,
     },
     includeHistoric: {
