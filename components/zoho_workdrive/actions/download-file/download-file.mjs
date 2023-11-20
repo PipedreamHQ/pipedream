@@ -2,7 +2,7 @@ import app from "../../zoho_workdrive.app.mjs";
 import { getFilePath } from "../../common/utils.mjs";
 import { LIMIT } from "../../common/constants.mjs";
 import fs from "fs";
-import qs from "qs";
+import * as qs from "qs";
 
 export default {
   key: "zoho_workdrive-download-file",
