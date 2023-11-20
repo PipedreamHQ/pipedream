@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/types",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Pipedream TypeScript types",
   "keywords": [
     "pipedream",
@@ -21,6 +21,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@types/node": "^20.9.2",
     "dtslint": "^4.2.1"
   },
   "scripts": {
@@ -31,6 +32,6 @@
     "test": "npm run build && dtslint dist"
   },
   "dependencies": {
-    "typescript": "^4.6.4"
+    "typescript": "^5.2.2"
   }
 }
