@@ -3,13 +3,14 @@ import { ConfigurationError } from "@pipedream/platform";
 import { DATE_FORMAT_PARSE_MAP } from "../../common/date-time/dateFormats";
 import commonDateTime from "../../common/date-time/commonDateTime";
 import app from "../../app/formatting.app";
+import moment from "moment";
 
 export default defineAction({
   ...commonDateTime,
   name: "[Date/Time] Format",
   description: "Format a date string to another date string",
   key: "formatting-date-time-format",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     ...commonDateTime.props,
@@ -28,8 +29,10 @@ export default defineAction({
     const dateObj = this.getDateFromInput();
 
     try {
-      const { outputFn } = DATE_FORMAT_PARSE_MAP.get(outputFormat);
-      const output = outputFn(dateObj);
+      const response = DATE_FORMAT_PARSE_MAP.get(outputFormat);
+      const output = response
+        ? response.outputFn(dateObj)
+        : moment(dateObj).format(outputFormat);
 
       $.export("$summary", "Successfully formatted date/time");
       return output;
