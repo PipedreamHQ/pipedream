@@ -28,10 +28,10 @@ export default {
       label: "City",
       description: "City of the new contact.",
     },
-    last: {
+    first: {
       type: "string",
-      label: "Last Name",
-      description: "The last name of the new contact.",
+      label: "First Name",
+      description: "The first name of the new contact.",
       optional: true,
     },
   },
