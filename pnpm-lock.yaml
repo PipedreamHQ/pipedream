@@ -1710,7 +1710,10 @@ importers:
     specifiers: {}
 
   components/emailable:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/emailoctopus:
     specifiers:
@@ -10388,6 +10391,7 @@ packages:
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 16.18.61
       charm: 1.0.2
+      fs-extra: 8.1.0
       minimatch: 9.0.3
       tar: 6.2.0
       tar-stream: 3.1.6
