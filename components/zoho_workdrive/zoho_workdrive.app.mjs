@@ -59,6 +59,7 @@ export default {
         headers: this._getHeaders(headers),
         ...opts,
       };
+
       const { data } = await axios(config);
       return data;
     },
