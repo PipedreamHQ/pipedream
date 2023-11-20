@@ -47,6 +47,7 @@ export default {
         email: this.email,
         fullName: this.fullName,
         source: this.source,
+        phone: this.phone,
         city: this.city,
       },
       $,
