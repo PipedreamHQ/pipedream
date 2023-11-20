@@ -3132,7 +3132,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/knorish:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/knowbe4:
     specifiers: {}
