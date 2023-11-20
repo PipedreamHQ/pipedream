@@ -1,10 +1,14 @@
 import app from "../../zoho_workdrive.app.mjs";
+import { getFilePath } from "../../common/utils.mjs";
+import { LIMIT } from "../../common/constants.mjs";
+import fs from "fs";
+import qs from "qs";
 
 export default {
   key: "zoho_workdrive-download-file",
   name: "Download File to Tmp Direcory",
-  version: "0.0.1",
   description: "Download a file to the /tmp directory. [See the documentation](https://workdrive.zoho.com/apidocs/v1/filesfolders/downloadserverfile)",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -26,20 +30,54 @@ export default {
       description: "The unique ID of the folder where file is located.",
     },
     fileId: {
-      propDefinition: [
-        app,
-        "fileId",
-        ({ folderId }) => ({
-          folderId,
-        }),
-      ],
+      type: "string",
+      label: "File Id",
+      description: "The unique ID of the file to download.",
+      async options({ page }) {
+        const { data } = await this.app.listFiles({
+          folderId: this.folderId,
+          filter: "allfiles",
+          params: qs.stringify({
+            "page[limit]": LIMIT,
+            "page[offset]": LIMIT * page,
+          }),
+        });
+        return data.map(({
+          id, attributes,
+        }) => ({
+          value: id,
+          label: attributes.name,
+        }));
+      },
+    },
+    fileName: {
+      type: "string",
+      label: "Filename",
+      description: "What to name the new file saved to /tmp directory",
     },
   },
-  async run() {
-    const response = await this.app.downloadFile({
+  methods: {
+    downloadFile({
+      fileId, ...args
+    }) {
+      return this.app._makeRequest({
+        url: `https://download.${this.app.$auth.base_api_uri}/v1/workdrive/download/${fileId}`,
+        responseType: "arraybuffer",
+        ...args,
+      });
+    },
+  },
+  async run({ $ }) {
+    const filePath = getFilePath(this.fileName);
+
+    const fileContent = await this.downloadFile({
       fileId: this.fileId,
     });
 
-    return response;
+    fs.writeFileSync(filePath, fileContent);
+
+    $.export("$summary", `The file was successfully downloaded to \`${filePath}\`.`);
+
+    return filePath;
   },
 };

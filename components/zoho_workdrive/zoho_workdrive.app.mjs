@@ -38,29 +38,6 @@ export default {
         });
       },
     },
-    fileId: {
-      type: "string",
-      label: "File Id",
-      description: "The unique ID of the file to download.",
-      async options({
-        page, folderId,
-      }) {
-        const { data } = await this.listFiles({
-          folderId,
-          filter: "allfiles",
-          params: qs.stringify({
-            "page[limit]": LIMIT,
-            "page[offset]": LIMIT * page,
-          }),
-        });
-        return data.map(({
-          id, attributes,
-        }) => ({
-          value: id,
-          label: attributes.name,
-        }));
-      },
-    },
   },
   methods: {
     _apiUrl(path, params = "") {
@@ -167,14 +144,6 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "upload",
-        ...args,
-      });
-    },
-    downloadFile({
-      fileId, ...args
-    }) {
-      return this._makeRequest({
-        url: `https://download.${this.$auth.base_api_uri}/v1/workdrive/download/${fileId}`,
         ...args,
       });
     },
