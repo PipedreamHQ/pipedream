@@ -1,10 +1,10 @@
 import testmo from "../../testmo.app.mjs";
 
 export default {
-  key: "testmo-list-automation-runs",
-  name: "List Automation Runs",
-  version: "0.0.2",
-  description: "List all automation runs for a project. [See the documentation](https://docs.testmo.com/api/reference/automation-runs#get-projects-project_id-automation-runs)",
+  key: "testmo-list-project-sessions",
+  name: "List Project Sessions",
+  version: "0.0.1",
+  description: "List all sessions for a project. [See the documentation](https://docs.testmo.com/api/reference/sessions#get-projects-project_id-sessions)",
   type: "action",
   props: {
     testmo,
@@ -22,7 +22,7 @@ export default {
     } = this;
 
     const items = testmo.paginate({
-      fn: testmo.listAutomationRuns,
+      fn: testmo.listSessions,
       projectId,
     });
 
@@ -32,9 +32,9 @@ export default {
       responseArray.push(item);
     }
 
-    $.export("$summary", `${responseArray.length} automation run${responseArray.length > 1
-      ? "s were"
-      : " was"} successfully fetched!`);
+    $.export("$summary", `${responseArray.length} session${responseArray.length === 1
+      ? " was"
+      : "s were"} successfully retrieved!`);
 
     return responseArray;
   },
