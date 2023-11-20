@@ -2,7 +2,6 @@ import app from "../../zoho_workdrive.app.mjs";
 import { getFilePath } from "../../common/utils.mjs";
 import { LIMIT } from "../../common/constants.mjs";
 import fs from "fs";
-import * as qs from "qs";
 
 export default {
   key: "zoho_workdrive-download-file",
@@ -37,10 +36,7 @@ export default {
         const { data } = await this.app.listFiles({
           folderId: this.folderId,
           filter: "allfiles",
-          params: qs.stringify({
-            "page[limit]": LIMIT,
-            "page[offset]": LIMIT * page,
-          }),
+          params: `page%5Blimit%5D=${LIMIT}&page%5Boffset%5D=${LIMIT * page}`,
         });
         return data.map(({
           id, attributes,
