@@ -3,44 +3,59 @@ import freshlearn from "../../freshlearn.app.mjs";
 export default {
   key: "freshlearn-create-member",
   name: "Create Member",
-  description: "Creates a new member within FreshLearn. [See the documentation](https://freshlearn.com/support/api)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new member within FreshLearn. [See the documentation](https://freshlearn.com/support/api#createMember)",
+  version: "0.0.1",
   type: "action",
   props: {
     freshlearn,
-    memberId: {
+    email: {
       propDefinition: [
         freshlearn,
-        "memberId",
+        "email",
       ],
     },
-    courseId: {
+    fullName: {
       propDefinition: [
         freshlearn,
-        "courseId",
+        "fullName",
       ],
     },
-    productBundleId: {
+    source: {
       propDefinition: [
         freshlearn,
-        "productBundleId",
+        "source",
       ],
     },
-    memberDetails: {
+    phone: {
       propDefinition: [
         freshlearn,
-        "memberDetails",
+        "phone",
       ],
+      optional: true,
+    },
+    city: {
+      propDefinition: [
+        freshlearn,
+        "city",
+      ],
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.freshlearn.createMember({
-      memberId: this.memberId,
-      courseId: this.courseId,
-      productBundleId: this.productBundleId,
-      memberDetails: this.memberDetails,
+      data: {
+        email: this.email,
+        fullName: this.fullName,
+        source: this.source,
+        city: this.city,
+      },
+      $,
     });
-    $.export("$summary", "Successfully created new member");
+
+    if (response?.id) {
+      $.export("$summary", `Successfully created new member with ID ${response.id}.`);
+    }
+
     return response;
   },
 };

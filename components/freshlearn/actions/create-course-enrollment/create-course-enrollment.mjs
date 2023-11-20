@@ -4,14 +4,14 @@ export default {
   key: "freshlearn-create-course-enrollment",
   name: "Create Course Enrollment",
   description: "Enrolls an existing member in a new course. [See the documentation](https://freshlearn.com/support/api)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     freshlearn,
-    memberId: {
+    email: {
       propDefinition: [
         freshlearn,
-        "memberId",
+        "email",
       ],
     },
     courseId: {
@@ -20,13 +20,37 @@ export default {
         "courseId",
       ],
     },
+    source: {
+      propDefinition: [
+        freshlearn,
+        "source",
+      ],
+    },
+    planId: {
+      type: "string",
+      label: "Plan ID",
+      description: "You will find this against the course -> pricing",
+    },
+    transactionId: {
+      type: "string",
+      label: "Transaction ID",
+      description: "Payment unique identifier for the enrollment",
+    },
   },
   async run({ $ }) {
     const response = await this.freshlearn.enrollMemberInCourse({
-      memberId: this.memberId,
-      courseId: this.courseId,
+      data: {
+        memberEmail: this.email,
+        courseId: this.courseId,
+        source: this.source,
+        planId: this.planId,
+        transactionId: this.transactionId,
+      },
+      $,
     });
-    $.export("$summary", `Successfully enrolled member ${this.memberId} in course ${this.courseId}`);
+
+    $.export("$summary", `Successfully enrolled member ${this.email} in course ${this.courseId}.`);
+
     return response;
   },
 };

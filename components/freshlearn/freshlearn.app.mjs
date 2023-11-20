@@ -4,83 +4,83 @@ export default {
   type: "app",
   app: "freshlearn",
   propDefinitions: {
-    memberId: {
+    email: {
       type: "string",
-      label: "Member ID",
-      description: "The ID of the member",
+      label: "Email",
+      description: "The email address of the member",
+    },
+    fullName: {
+      type: "string",
+      label: "Full Name",
+      description: "The full name of the member",
+    },
+    source: {
+      type: "string",
+      label: "Source",
+      description: "Zapier/FreshLearn/etc",
     },
     courseId: {
       type: "string",
       label: "Course ID",
       description: "The ID of the course",
     },
-    productBundleId: {
+    phone: {
       type: "string",
-      label: "Product Bundle ID",
-      description: "The ID of the product bundle",
+      label: "Phone",
+      description: "The phone number of the member",
     },
-    memberDetails: {
-      type: "object",
-      label: "Member Details",
-      description: "The details of the member to be updated or created",
+    city: {
+      type: "string",
+      label: "City",
+      description: "The city of the member",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.freshlearn.com/v1/integration";
     },
-    async _makeRequest(opts = {}) {
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
-          ...headers,
-          "api-key": this.$auth.api_key,
+          "api-key": `${this._apiKey()}`,
         },
       });
     },
-    async emitNewMemberEvent() {
+    listMembers(args = {}) {
       return this._makeRequest({
-        path: "/member/new",
+        path: "/member",
+        ...args,
       });
     },
-    async emitNewProductBundleEnrollmentEvent() {
+    createMember(args = {}) {
       return this._makeRequest({
-        path: "/member/enroll/productBundle",
-      });
-    },
-    async emitNewCourseEnrollmentEvent() {
-      return this._makeRequest({
-        path: "/member/enroll/course",
-      });
-    },
-    async createMember(opts = {}) {
-      return this._makeRequest({
-        ...opts,
         method: "POST",
         path: "/member",
+        ...args,
       });
     },
-    async updateMember(opts = {}) {
+    updateMember(args = {}) {
       return this._makeRequest({
-        ...opts,
         method: "PUT",
-        path: `/member/${opts.memberId}`,
+        path: "/member/update",
+        ...args,
       });
     },
-    async enrollMemberInCourse(opts = {}) {
+    enrollMemberInCourse(args = {}) {
       return this._makeRequest({
-        ...opts,
         method: "POST",
-        path: `/member/${opts.memberId}/enroll/course/${opts.courseId}`,
+        path: "/member/enroll",
+        ...args,
       });
     },
   },

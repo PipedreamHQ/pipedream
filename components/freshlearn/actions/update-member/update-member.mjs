@@ -1,33 +1,62 @@
-js;
 import freshlearn from "../../freshlearn.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "freshlearn-update-member",
   name: "Update Member",
-  description: "Updates the details of an existing member. [See the documentation](https://freshlearn.com/support/api)",
-  version: "0.0.{{ts}}",
+  description: "Updates the details of an existing member. [See the documentation](https://freshlearn.com/support/api#updateMember)",
+  version: "0.0.1",
   type: "action",
   props: {
     freshlearn,
-    memberId: {
+    email: {
       propDefinition: [
         freshlearn,
-        "memberId",
+        "email",
+      ],
+      description: "Member’s email address, (email can not be modified)",
+    },
+    fullName: {
+      propDefinition: [
+        freshlearn,
+        "fullName",
       ],
     },
-    memberDetails: {
+    source: {
       propDefinition: [
         freshlearn,
-        "memberDetails",
+        "source",
+      ],
+    },
+    phone: {
+      propDefinition: [
+        freshlearn,
+        "phone",
+      ],
+    },
+    city: {
+      propDefinition: [
+        freshlearn,
+        "city",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.freshlearn.updateMember({
-      memberId: this.memberId,
-      memberDetails: this.memberDetails,
+      data: utils.cleanObject({
+        email: this.email,
+        fullName: this.fullName,
+        source: this.source,
+        phone: this.phone,
+        city: this.city,
+      }),
+      $,
     });
-    $.export("$summary", `Successfully updated member with ID ${this.memberId}`);
+
+    if (response?.id) {
+      $.export("$summary", `Successfully created new member with ID ${response.id}.`);
+    }
+
     return response;
   },
 };
