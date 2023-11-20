@@ -36,7 +36,10 @@ export default {
         const { data } = await this.app.listFiles({
           folderId: this.folderId,
           filter: "allfiles",
-          params: `page%5Blimit%5D=${LIMIT}&page%5Boffset%5D=${LIMIT * page}`,
+          params: new URLSearchParams({
+            "page[limit]": LIMIT,
+            "page[offset]": LIMIT * page,
+          }).toString(),
         });
         return data.map(({
           id, attributes,
