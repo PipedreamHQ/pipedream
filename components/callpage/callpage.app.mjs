@@ -1,105 +1,95 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "callpage",
   propDefinitions: {
-    callStatus: {
-      type: "string[]",
-      label: "Call Status",
-      description: "Select the status of the call events to emit.",
-      options: [
-        {
-          label: "Answered",
-          value: "answered",
-        },
-        {
-          label: "Missed",
-          value: "missed",
-        },
-        {
-          label: "Voicemail",
-          value: "voicemail",
-        },
-        // Add additional statuses as needed
-      ],
-    },
     widgetId: {
       type: "string",
-      label: "Widget ID",
-      description: "Select the widget for the call or SMS.",
-      async options() {
-        const widgets = await this.getWidgets();
-        return widgets.map((widget) => ({
-          label: widget.description,
-          value: widget.id,
-        }));
-      },
-    },
-    messageId: {
-      type: "string",
-      label: "Message Identifier",
-      description: "Select the message identifier for the voice or SMS message.",
-      async options() {
-        const messages = await this.getMessages();
-        return messages.map((message) => ({
-          label: message.name,
-          value: message.id,
+      label: "Widget",
+      description: "The widget associated with the call or SMS.",
+      async options({ page }) {
+        const { data } = await this.listWidgets({
+          params: {
+            offset: LIMIT * page,
+            limit: LIMIT,
+          },
+        });
+        return data.map(({
+          id: value, description: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://core.callpage.io/api";
+    _baseUrl(version = "v1") {
+      return `https://core.callpage.io/api/${version}/external`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
-      });
+    _getHeaders() {
+      return {
+        "Authorization": `${this.$auth.api_key}`,
+        "Accept": "application/json",
+      };
     },
-    async getWidgets(opts = {}) {
-      return this._makeRequest({
-        path: "/v1/external/widgets/all",
-        ...opts,
-      });
-    },
-    async getMessages(opts = {}) {
-      return this._makeRequest({
-        path: "/v1/external/messages/all",
-        ...opts,
-      });
-    },
-    async createSMS({
-      widgetId, messageId, enabled, text, ...opts
+    async _makeRequest({
+      $ = this, path, version, ...opts
     }) {
+      return axios($, {
+        url: this._baseUrl(version) + path,
+        headers: this._getHeaders(),
+        ...opts,
+      });
+    },
+    async createSMS(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/external/sms/create",
-        data: {
-          widget_id: widgetId,
-          message_id: messageId,
-          enabled,
-          text,
-        },
+        path: "/sms/create",
         ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async listEvents(opts = {}) {
+      return this._makeRequest({
+        version: "v3",
+        path: "/calls/history",
+        ...opts,
+      });
+    },
+    async listWidgets(opts = {}) {
+      return this._makeRequest({
+        path: "/widgets/all",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page;
+        page++;
+
+        const { data } = await fn({
+          params,
+        });
+        for (const d of data) {
+          yield d.data;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

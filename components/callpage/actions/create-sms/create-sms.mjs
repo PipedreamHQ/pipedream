@@ -1,11 +1,11 @@
 import callpage from "../../callpage.app.mjs";
-import { axios } from "@pipedream/platform";
+import { MESSAGE_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "callpage-create-sms",
   name: "Create SMS",
   description: "Creates a new SMS in CallPage. [See the documentation](https://callpage.github.io/documentation-rest/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     callpage,
@@ -16,32 +16,34 @@ export default {
       ],
     },
     messageId: {
-      propDefinition: [
-        callpage,
-        "messageId",
-      ],
+      type: "string",
+      label: "Message Id",
+      description: "Select a message identifier.",
+      options: MESSAGE_OPTIONS,
     },
     enabled: {
       type: "boolean",
       label: "Enabled",
-      description: "Indicates whether the SMS message should be enabled or not.",
-      default: true,
+      description: "Indicates whether the message should be enabled or not.",
+      optional: true,
     },
     text: {
       type: "string",
-      label: "Text",
-      description: "The text of the SMS message. It cannot be longer than 240 characters.",
+      label: "SMS Text",
+      description: "The text of the SMS to send.",
     },
   },
   async run({ $ }) {
     const response = await this.callpage.createSMS({
-      widgetId: this.widgetId,
-      messageId: this.messageId,
-      enabled: this.enabled,
-      text: this.text,
+      data: {
+        widget_id: this.widgetId,
+        message_id: this.messageId,
+        enbled: this.enabled || true,
+        text: this.text,
+      },
     });
 
-    $.export("$summary", `Successfully created SMS with ID: ${response.id}`);
+    $.export("$summary", `Successfully created SMS with id ${response.data?.id}`);
     return response;
   },
 };
