@@ -15,7 +15,7 @@ export default {
         const response = await this.listGroups({
           page,
         });
-        return response?.description?.map?.(({ Group: { name } }) => name);
+        return response?.description?.map?.(({ Group: { name } }) => name) ?? [];
       },
     },
     mobileNumber: {
