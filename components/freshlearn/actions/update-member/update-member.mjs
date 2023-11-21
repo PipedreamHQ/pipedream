@@ -21,6 +21,7 @@ export default {
         freshlearn,
         "fullName",
       ],
+      optional: true,
     },
     source: {
       propDefinition: [
@@ -33,12 +34,14 @@ export default {
         freshlearn,
         "phone",
       ],
+      optional: true,
     },
     city: {
       propDefinition: [
         freshlearn,
         "city",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
