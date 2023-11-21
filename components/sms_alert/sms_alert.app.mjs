@@ -89,6 +89,14 @@ export default {
         },
       });
     },
+    async listSenderIds({ page }) {
+      return this._makeRequest({
+        path: "/senderlist.json",
+        params: {
+          page,
+        },
+      });
+    },
     async createContact(args) {
       return this._makeRequest({
         method: "POST",
