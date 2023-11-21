@@ -1654,7 +1654,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dynapictures:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dynatrace_api:
     specifiers: {}
