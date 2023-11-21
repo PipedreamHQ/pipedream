@@ -84,10 +84,47 @@ export interface Methods {
 
 export interface FlowFunctions {
   exit: (reason: string) => void;
-  delay: (ms: number) => {
+  delay: (ms: number, context: object) => {
     resume_url: string;
     cancel_url: string;
   };
+  rerun: (ms: number, context: object) => {
+    resume_url: string;
+    cancel_url: string;
+  };
+  suspend: (ms: number, context: object) => {
+    resume_url: string;
+    cancel_url: string;
+  };
+  refreshTimeout: () => string;
+}
+
+export interface IApi {
+  open(path: string): IFile;
+  openDescriptor(descriptor: any): IFile;
+  dir(path?: string): AsyncGenerator<{
+    isDirectory: () => boolean;
+    isFile: () => boolean;
+    path: string;
+    name: string;
+    size?: number;
+    modifiedAt?: Date;
+    file?: IFile;
+  }>;
+}
+
+export interface IFile {
+  delete(): Promise<void>;
+  createReadStream(): Promise<ReadableStream<any>>;
+  createWriteStream(contentType?: string, contentLength?: number): Promise<WritableStream<any>>;
+  toEncodedString(encoding?: string, start?: number, end?: number): Promise<string>;
+  toUrl(): Promise<string>;
+  toFile(localFilePath: string): Promise<void>;
+  toBuffer(): Promise<Buffer>;
+  fromReadableStream(readableStream: ReadableStream<any>, contentType?: string, contentSize?: number): Promise<IFile>;
+  fromFile(localFilePath: string, contentType?: string): Promise<IFile>;
+  fromUrl(url: string, options?: any): Promise<IFile>;
+  toJSON(): any;
 }
 
 export interface Pipedream {
@@ -100,6 +137,7 @@ export interface Pipedream {
    */
   respond: (response: HTTPResponse) => Promise<any> | void;
   flow: FlowFunctions;
+  files: IApi;
 }
 
 // https://pipedream.com/docs/components/api/#async-options-example

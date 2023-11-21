@@ -1,6 +1,6 @@
-import { createReadStream } from "fs";
-import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
+import FormData from "form-data";
+import { createReadStream } from "fs";
 
 function emptyStrToUndefined(value) {
   const trimmed = typeof(value) === "string" && value.trim();
@@ -112,6 +112,11 @@ function hasArrayItems(value = []) {
   return Array.isArray(value) && value?.length > 0;
 }
 
+function getPageToken(url) {
+  const urlParams = new URLSearchParams(url);
+  return urlParams.get("page_token");
+}
+
 export default {
   emptyStrToUndefined,
   emptyObjectToUndefined,
@@ -119,4 +124,5 @@ export default {
   reduceProperties,
   getFormData,
   hasArrayItems,
+  getPageToken,
 };
