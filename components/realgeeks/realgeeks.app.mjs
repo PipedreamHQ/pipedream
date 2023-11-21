@@ -50,7 +50,7 @@ export default {
     async createLead(args) {
       return this._makeRequest({
         method: "post",
-        url: `/sites/${this.$auth.site_uuid}/users`,
+        url: `/sites/${this.$auth.site_uuid}/leads`,
         ...args,
       });
     },
