@@ -38,7 +38,11 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created contact ${this.contactName}`);
+    if (response.status === "error") {
+      throw new Error(`API response: "${response?.description?.desc ?? JSON.stringify(response)}"`);
+    }
+
+    $.export("$summary", `Successfully created contact ${this.contactName ?? this.mobileNumber}`);
     return response;
   },
 };

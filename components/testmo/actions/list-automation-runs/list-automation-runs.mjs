@@ -3,7 +3,7 @@ import testmo from "../../testmo.app.mjs";
 export default {
   key: "testmo-list-automation-runs",
   name: "List Automation Runs",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "List all automation runs for a project. [See the documentation](https://docs.testmo.com/api/reference/automation-runs#get-projects-project_id-automation-runs)",
   type: "action",
   props: {
