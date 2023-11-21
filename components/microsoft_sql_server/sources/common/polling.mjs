@@ -19,11 +19,11 @@ export default {
   },
   methods: {
     ...common.methods,
-    setCurrentRow(key, value) {
-      this.db.set(key, value);
+    setLastTs(lastTs) {
+      this.db.set("lastTs", lastTs);
     },
-    getCurrentRow(key) {
-      return this.db.get(key);
+    getLastTs() {
+      return this.db.get("lastTs") || 0;
     },
     getResourceName() {
       throw new ConfigurationError("getResourceName is not implemented");
@@ -34,31 +34,13 @@ export default {
     getResourceFnArgs() {
       throw new ConfigurationError("getResourceFnArgs is not implemented");
     },
-    processEvent({
-      pdId, ...resource
-    } = {}) {
+    processEvent(resource) {
       const {
         generateMeta,
-        setCurrentRow,
-        getCurrentRow,
         $emit,
       } = this;
 
-      if (!pdId) {
-        return $emit(resource, generateMeta(resource));
-      }
-
-      const currentRow = JSON.stringify(resource, null, 2);
-      const key = `id-${pdId}`;
-      const row = getCurrentRow(key);
-
-      if (row && row === currentRow) {
-        // Don't emit if the row hasn't changed
-        return;
-      }
-
-      $emit(resource, generateMeta(resource));
-      setCurrentRow(key, currentRow);
+      return $emit(resource, generateMeta(resource));
     },
     processResources(resources) {
       Array.from(resources).forEach(this.processEvent);

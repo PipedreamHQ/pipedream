@@ -1,12 +1,17 @@
 from collections import OrderedDict
 import os
-import json
+import git
 import requests
+import subprocess
 import markdown_to_json
 import config.logging_config as logging_config
 from code_gen.generate import main
 
 logger = logging_config.getLogger(__name__)
+
+
+def run_command(command):
+    subprocess.run(command, shell=True)
 
 
 def extract_prompts(markdown_dict):
@@ -20,13 +25,20 @@ def extract_prompts(markdown_dict):
 
 
 def get_all_docs_urls(markdown_dict):
-    urls = []
-    for key, value in markdown_dict.items():
-        if key == "urls":
-            urls.extend(value)
-        elif isinstance(value, (dict, OrderedDict)):
-            urls.extend(get_all_docs_urls(value))
-    return urls
+    def extract_urls(markdown_dict):
+        urls = []
+        for key, value in markdown_dict.items():
+            if key == "urls":
+                urls.extend(value)
+            elif isinstance(value, (dict, OrderedDict)):
+                urls.extend(extract_urls(value))
+        return urls
+    all_urls = extract_urls(markdown_dict)
+    return unique_urls(all_urls)
+
+
+def unique_urls(urls):
+    return list(set([url.split("#")[0] for url in urls]))
 
 
 def generate_app_file_prompt(requirements, app_file_content):
@@ -45,7 +57,31 @@ def generate_app_file_prompt(requirements, app_file_content):
 {requirements}"""
 
 
-def generate(issue_number, output_dir, verbose=False, tries=3):
+def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=False, tries=3, remote_name="origin"):
+    repo_path = os.path.abspath(os.path.join("..", ".."))
+    output_dir = os.path.abspath(output_dir)
+
+    if generate_pr:
+        output_dir = os.path.join(repo_path, "components")
+        repo = git.Repo(repo_path)
+
+        if not clean and repo.index.diff(None):
+            logger.warn(
+                "Your git stage is not clean. Please stash/commit your changes or use --clean to discard them")
+            return
+
+        branch_name = f"issue-{issue_number}"
+        run_command(f"git fetch {remote_name}")
+
+        if any(reference.name == branch_name for reference in repo.references):
+            # branch name already exists
+            run_command(f"git checkout {branch_name}")
+        else:
+            # create new branch
+            run_command(f"git checkout -b {branch_name}")
+
+        run_command(f"git reset --hard {remote_name}/master")
+
     # parse github issue description
     md = requests.get(
         f"https://api.github.com/repos/PipedreamHQ/pipedream/issues/{issue_number}").json()["body"].lower()
@@ -54,7 +90,8 @@ def generate(issue_number, output_dir, verbose=False, tries=3):
     global_urls = []
     requirements = []
 
-    file_path = f"{output_dir}/{app}/{app}.app.mjs"
+    app_base_path = os.path.join(output_dir, app)
+    file_path = os.path.join(app_base_path, f"{app}.app.mjs")
 
     # If the directory at file_path doesn't exist, create it
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
@@ -106,8 +143,9 @@ Use the methods and propDefinitions in this app file to solve the requirements:
 You can call methods from the app file using `this.{app}.<method name>`. Think about it: you've already defined props and methods in the app file, so you should use these to promote code reuse.
 
 """
-            urls = component_data.get("urls", [])
+            urls = component_data.get("urls")
             if not urls:
+                urls = []
                 logger.warn(f"No API docs URLs found for {component_key}")
 
             if "source" in h2_header:
@@ -121,7 +159,7 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
                 "type": component_type,
                 "key": component_key,
                 "instructions": f"The component key is {app}-{component_key}. {instructions}",
-                "urls": global_urls + urls,
+                "urls": unique_urls(global_urls + urls),
             })
 
     for component in requirements:
@@ -137,3 +175,15 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'w') as f:
             f.write(result)
+
+    if generate_pr:
+        # XXX: add deps to package.json
+        # XXX: remove ts stuff and .gitignore
+        # GitPython requires to manually check .gitignore paths when adding files to index
+        # so this is easier
+        run_command(f"npx eslint {app_base_path} --fix")
+        run_command(f"git add -f {app_base_path}")
+        run_command(f"git commit --no-verify -m '{app} init'")
+        run_command(f"git push -f --no-verify --set-upstream {remote_name} {branch_name}")
+        run_command(
+            f"gh pr create -d -l ai-assisted -t 'New Components - {app}' -b 'Resolves #{issue_number}.'")

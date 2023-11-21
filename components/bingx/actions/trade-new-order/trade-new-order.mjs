@@ -3,8 +3,8 @@ import bingx from "../../bingx.app.mjs";
 export default {
   name: "BingX Trade New Order",
   key: "bingx-trade-new-order",
-  description: "Place a New Order. [See the documentation](https://bingx-api.github.io/docs/swap/trade-api.html#_1-place-a-new-order)",
-  version: "0.1.3",
+  description: "Place a New Order. [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Trade%20order)",
+  version: "0.1.4",
   type: "action",
   props: {
     bingx,
@@ -41,18 +41,18 @@ export default {
     action: {
       propDefinition: [
         bingx,
-        "action",
+        "leverageSide",
       ],
     },
-    takerProfitPrice: {
-      label: "Taker Profit Price",
-      description: "The take profit price",
+    takerProfit: {
+      label: "Taker Profit",
+      description: "Support setting take profit while placing an order. Only supports type: TAKE_PROFIT_MARKET/TAKE_PROFIT",
       type: "string",
       optional: true,
     },
-    stopLossPrice: {
-      label: "Stop Loss Price",
-      description: "The take loss price",
+    stopLoss: {
+      label: "Stop Loss",
+      description: "Support setting stop loss while placing an order. Only supports type: STOP_MARKET/STOP",
       type: "string",
       optional: true,
     },
@@ -67,22 +67,26 @@ export default {
     },
   },
   async run({ $ }) {
-    const API_METHOD = "POST";
-    const API_PATH = "/api/v1/user/trade";
-
     const parameters = {
       "symbol": this.symbol,
       "side": this.side,
-      "entrustPrice": this.bingx.convertToFloat(this.entrustPrice),
-      "entrustVolume": this.bingx.convertToFloat(this.entrustVolume),
-      "tradeType": this.tradeType,
-      "action": this.action,
-      "takerProfitPrice": this.bingx.convertToFloat(this.takerProfitPrice?.toString().replace(",", ".")),
-      "stopLossPrice": this.bingx.convertToFloat(this.stopLossPrice?.toString().replace(",", ".")),
+      "price": this.bingx.convertToFloat(this.entrustPrice),
+      "quantity": this.bingx.convertToFloat(this.entrustVolume),
+      "type": this.tradeType,
+      "positionSide": this.action,
+      "takerProfit": this.takerProfit,
+      "stopLoss": this.stopLossPrice,
     };
     this.cleanObject(parameters);
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-    $.export("$summary", `New Future Order for ${this.symbol}`);
+    const returnValue = await this.bingx.createOrder({
+      params: parameters,
+      $,
+    });
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `New Future Order for ${this.symbol}`);
+    }
     return returnValue;
   },
 };

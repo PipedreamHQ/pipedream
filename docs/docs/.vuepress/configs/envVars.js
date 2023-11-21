@@ -13,7 +13,7 @@ module.exports = {
     seconds: 30,
   },
   DATA_STORES_MAX_KEYS: "1,024",
-  DAILY_CREDITS_LIMIT: "100",
+  DAILY_CREDITS_LIMIT: "25",
   DAILY_TESTING_LIMIT: "30 minutes",
   INSPECTOR_EVENT_EXPIRY_DAYS: "365",
   FUNCTION_PAYLOAD_LIMIT: "6MB",
@@ -36,7 +36,7 @@ module.exports = {
   TMP_SIZE_LIMIT: "2GB",
   DELAY_MIN_MAX_TIME:
     "You can pause your workflow for as little as one millisecond, or as long as one year",
-  PUBLIC_APPS: "1,400",
+  PUBLIC_APPS: "1,600",
   WARM_WORKERS_INTERVAL: "10 minutes",
   WARM_WORKERS_CREDITS_PER_INTERVAL: 5,
 };

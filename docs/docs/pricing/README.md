@@ -7,7 +7,7 @@ next: false
 
 We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/components#sources), [workflows](/workflows), [actions](/components#actions), and other integration components so that other Pipedream users benefit from your work.
 
-To support these goals, **Pipedream offers a [free trial of our Advanced plan](#free-trial) and a generous [free tier](#free-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
+To support these goals, Pipedream offers a generous [free tier](#free-tier), and you can **[request a free trial of our Advanced or Business plan](https://pipedream.com/pricing)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
 
 [Read more about our plans and pricing here](https://pipedream.com/pricing).
 
@@ -27,9 +27,7 @@ Free Tier accounts can connect up to 3 different service accounts like Twitter, 
 
 ### Free Tier Workflow Limitations
 
-Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have the lowest amount of active workflows available.
-
-Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
+Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have limits on the number of active workflows. Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
 
 ### Free Tier Polling Interval Limitations
 
@@ -37,15 +35,15 @@ Free Tier account triggers powered by polling are limited to the longest interva
 
 ### Free Tier Support options
 
-Users on the Developer Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
+Users on the Free Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
 
 ## Paid Tiers
 
-[Visit our pricing page](https://pipedream.com/pricing) to learn more about our paid plan options.
+[Visit our pricing page](https://pipedream.com/pricing) to learn more about our paid plans.
 
 All paid plans vary features based on tier, but each paid plan option will:
 
-- Lift the daily 100 credits limit
+- Remove the daily {{$site.themeConfig.DAILY_CREDITS_LIMIT}} [credits](#credits) limit
 - Increase the number of active workflows available
 - Increase the number of connected accounts
 
@@ -140,7 +138,7 @@ Each execution of this source would result 1 credit because:
 
 :::
 
-::: details A custom source that finised under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+::: details A custom source that finished under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
 
 This would result in 1 credit per execution.
 

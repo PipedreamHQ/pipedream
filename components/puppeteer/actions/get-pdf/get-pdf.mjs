@@ -6,7 +6,7 @@ export default {
   key: "puppeteer-get-pdf",
   name: "Get PDF",
   description: "Generate a PDF of a page using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.pdf)",
-  version: "0.0.6",
+  version: "1.0.0",
   type: "action",
   props: {
     puppeteer,

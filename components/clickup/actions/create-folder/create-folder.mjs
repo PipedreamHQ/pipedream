@@ -4,7 +4,7 @@ export default {
   key: "clickup-create-folder",
   name: "Create Folder",
   description: "Creates a new folder. See the docs [here](https://clickup.com/api) in **Folders / Create Folder** section.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     ...common.props,

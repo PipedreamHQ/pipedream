@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clickup",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Pipedream Clickup Components",
   "main": "clickup.app.mjs",
   "keywords": [

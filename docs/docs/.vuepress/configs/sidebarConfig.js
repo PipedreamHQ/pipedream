@@ -67,7 +67,11 @@ const docsNav = [
           "/environment-variables/",
           "/code/nodejs/async/",
           "/code/nodejs/sharing-code/",
-          "/code/nodejs/browser-automation/"
+          "/code/nodejs/browser-automation/",
+          {
+            title: "Reference",
+            path: "/components/api/#run"
+          }
         ],
       },
       {
@@ -121,6 +125,7 @@ const docsNav = [
   {
     title: "Single-Sign On (SSO)",
     children: [
+      "/workspaces/sso/",
       "/workspaces/sso/okta/",
       "/workspaces/sso/google/",
       "/workspaces/sso/saml/",
