@@ -37,7 +37,7 @@ export default {
         }) => ({
           label: id,
           value: name,
-        }));
+        })) ?? [];
       },
     },
     messageText: {
