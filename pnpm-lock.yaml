@@ -1672,7 +1672,10 @@ importers:
     specifiers: {}
 
   components/echtpost_postcards:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ecologi:
     specifiers: {}
