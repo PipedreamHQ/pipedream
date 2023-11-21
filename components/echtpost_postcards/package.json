@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/echtpost_postcards",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream EchtPost Postcards Components",
-  "main": "dist/app/echtpost_postcards.app.mjs",
+  "main": "echtpost_postcards.app.mjs",
   "keywords": [
     "pipedream",
     "echtpost_postcards"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/echtpost_postcards",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
