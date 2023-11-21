@@ -5,7 +5,7 @@ export default {
   key: "frontapp-update-conversation",
   name: "Update Conversation",
   description: "Updates a conversation. [See the docs here](https://dev.frontapp.com/reference/patch_conversations-conversation-id).",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     frontApp,
@@ -51,6 +51,7 @@ export default {
         frontApp,
         "tagIds",
       ],
+      optional: true,
       description: "List of all the tag IDs replacing the old conversation tags",
     },
   },

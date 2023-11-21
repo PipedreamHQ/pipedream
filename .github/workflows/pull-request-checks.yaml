@@ -64,7 +64,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.34.0
+    - uses: rojopolis/spellcheck-github-actions@0.35.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -101,7 +101,7 @@ jobs:
       - name: Setup Node Env
         uses: actions/setup-node@v4.0.0
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Compile TypeScript
@@ -150,7 +150,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - uses: actions/setup-node@v4.0.0
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: pnpm install
@@ -185,7 +185,7 @@ jobs:
       - name: Setup Node Env
         uses: actions/setup-node@v4.0.0
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Install Dependencies
@@ -274,7 +274,7 @@ jobs:
       - name: Setup Node Env
         uses: actions/setup-node@v4.0.0
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Install Dependencies
