@@ -13,6 +13,7 @@ export default {
     ...common.methods,
     getEventData() {
       return {
+        url: this.http.endpoint,
         topic: events.TOPIC.LABEL,
         trigger: events.TRIGGER.LABEL_UPDATED,
       };

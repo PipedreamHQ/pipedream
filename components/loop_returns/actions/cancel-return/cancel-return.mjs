@@ -36,7 +36,7 @@ export default {
       returnId,
     });
 
-    $.export("$summary", `Successfully cancelled return with ID ${this.returnId}`);
+    $.export("$summary", `Successfully cancelled return with ID \`${returnId}\``);
     return response;
   },
 };

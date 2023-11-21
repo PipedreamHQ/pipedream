@@ -38,15 +38,17 @@ export default {
     },
     getEventData() {
       return {
+        url: this.http.endpoint,
         topic: events.TOPIC.RETURN,
         trigger: events.TRIGGER.RETURN_UPDATED,
       };
     },
     generateMeta(resource) {
+      const ts = Date.parse(resource.updated_at);
       return {
-        id: resource.id,
-        summary: `Return Status Updated: ${resource.id}`,
-        ts: Date.parse(resource.created_at),
+        id: `${resource.id}-${ts}`,
+        summary: `Return Status Updated: ${resource.order_name}`,
+        ts,
       };
     },
   },

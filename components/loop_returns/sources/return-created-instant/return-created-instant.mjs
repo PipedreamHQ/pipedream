@@ -16,6 +16,7 @@ export default {
     },
     getEventData() {
       return {
+        url: this.http.endpoint,
         topic: events.TOPIC.RETURN,
         trigger: events.TRIGGER.RETURN_CREATED,
       };
@@ -23,7 +24,7 @@ export default {
     generateMeta(resource) {
       return {
         id: resource.id,
-        summary: `New Resource: ${resource.name}`,
+        summary: `Return Created With Order: ${resource.order_name}`,
         ts: Date.parse(resource.created_at),
       };
     },

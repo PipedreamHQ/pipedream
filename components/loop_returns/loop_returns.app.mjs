@@ -28,10 +28,12 @@ export default {
           },
         });
 
-        const options = returns.map(({ id }) => ({
-          label: `Return #${id}`,
+        const options = returns?.map(({
+          id, order_name: order,
+        }) => ({
+          label: `Order ${order}`,
           value: id.toString(),
-        }));
+        })) || [];
 
         return {
           options,
@@ -62,6 +64,12 @@ export default {
     post(args = {}) {
       return this._makeRequest({
         method: "post",
+        ...args,
+      });
+    },
+    put(args = {}) {
+      return this._makeRequest({
+        method: "put",
         ...args,
       });
     },

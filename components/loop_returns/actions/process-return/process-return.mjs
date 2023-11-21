@@ -19,7 +19,7 @@ export default {
     processReturn({
       returnId, ...args
     } = {}) {
-      return this.post({
+      return this.app.post({
         path: `/warehouse/return/${returnId}/process`,
         ...args,
       });
@@ -36,7 +36,7 @@ export default {
       returnId,
     });
 
-    $.export("$summary", `Successfully processed return with ID ${this.returnId}`);
+    $.export("$summary", `Successfully processed return with ID \`${returnId}\``);
     return response;
   },
 };

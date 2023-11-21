@@ -35,7 +35,7 @@ export default {
       $,
       returnId,
     });
-    $.export("$summary", `Successfully flagged return with ID ${this.returnId}`);
+    $.export("$summary", `Successfully flagged return with ID \`${returnId}\``);
     return response;
   },
 };

@@ -27,20 +27,38 @@ export default {
         .forEach(this.processResource);
     },
     async activate() {
-      const response =
-        await this.createWebhook({
-          data: {
-            url: this.http.endpoint,
-            ...this.getEventData(),
-          },
-        });
+      const {
+        createWebhook,
+        updateWebhook,
+        getEventData,
+        setWebhookId,
+      } = this;
 
-      this.setWebhookId(response.id);
+      const args = {
+        data: getEventData(),
+      };
+
+      const { id: webhookId } = await createWebhook(args);
+
+      await updateWebhook({
+        webhookId,
+        data: {
+          ...args.data,
+          status: "active",
+        },
+      });
+
+      setWebhookId(webhookId);
     },
     async deactivate() {
-      const webhookId = this.getWebhookId();
+      const {
+        deleteWebhook,
+        getWebhookId,
+      } = this;
+
+      const webhookId = getWebhookId();
       if (webhookId) {
-        await this.deleteWebhook({
+        await deleteWebhook({
           webhookId,
         });
       }
@@ -75,6 +93,14 @@ export default {
     createWebhook(args = {}) {
       return this.app.post({
         path: "/webhooks",
+        ...args,
+      });
+    },
+    updateWebhook({
+      webhookId, ...args
+    } = {}) {
+      return this.app.put({
+        path: `/webhooks/${webhookId}`,
         ...args,
       });
     },
