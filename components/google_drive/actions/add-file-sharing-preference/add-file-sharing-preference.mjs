@@ -10,8 +10,8 @@ export default {
   key: "google_drive-add-file-sharing-preference",
   name: "Add File Sharing Preference",
   description:
-    "Add a [sharing](https://support.google.com/drive/answer/7166529) permission to the sharing preferences of a file and provide a sharing URL. [See the docs](https://developers.google.com/drive/api/v3/reference/permissions/create) for more information",
-  version: "0.1.1",
+    "Add a [sharing](https://support.google.com/drive/answer/7166529) permission to the sharing preferences of a file or folder and provide a sharing URL. [See the docs](https://developers.google.com/drive/api/v3/reference/permissions/create) for more information",
+  version: "0.1.2",
   type: "action",
   props: {
     googleDrive,
@@ -22,16 +22,16 @@ export default {
       ],
       optional: true,
     },
-    fileId: {
+    fileOrFolderId: {
       propDefinition: [
         googleDrive,
-        "fileId",
+        "fileOrFolderId",
         (c) => ({
           drive: c.drive,
         }),
       ],
       optional: false,
-      description: "The file to share",
+      description: "The file or folder to share",
     },
     role: {
       propDefinition: [
@@ -60,14 +60,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      fileId,
+      fileOrFolderId,
       role,
       type,
       domain,
       emailAddress,
     } = this;
     // Create the permission for the file
-    await this.googleDrive.createPermission(fileId, {
+    await this.googleDrive.createPermission(fileOrFolderId, {
       role,
       type,
       domain,
@@ -75,7 +75,7 @@ export default {
     });
 
     // Get the file to get the `webViewLink` sharing URL
-    const resp = await this.googleDrive.getFile(this.fileId);
+    const resp = await this.googleDrive.getFile(this.fileOrFolderId);
     const webViewLink = resp.webViewLink;
     $.export("$summary", `Successfully added a sharing permission to the file, "${resp.name}"`);
     return webViewLink;
