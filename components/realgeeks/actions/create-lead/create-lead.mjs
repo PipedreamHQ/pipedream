@@ -2,7 +2,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import realGeeks from "../../realgeeks.app.mjs";
 
 export default {
-  key: "real-geeks-create-lead",
+  key: "realgeeks-create-lead",
   name: "Create Lead",
   description: "Creates a new lead in Real Geeks. [See the documentation](https://developers.realgeeks.com/leads/)",
   version: "0.0.1",
