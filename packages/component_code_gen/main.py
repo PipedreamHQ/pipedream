@@ -43,6 +43,6 @@ if __name__ == '__main__':
         with open(args.instructions, 'r') as f:
             instructions = f.read()
 
-        result = main(args.type, args.app, instructions, args.tries,
+        result = main(args.type, args.app, instructions, instructions, args.tries,
                       args.urls, args.custom_path, args.verbose)
         print(result)
