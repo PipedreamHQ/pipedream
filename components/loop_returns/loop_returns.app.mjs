@@ -48,7 +48,7 @@ export default {
     getUrl(path) {
       return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this, path, headers, ...args
     } = {}) {
       const config = {
@@ -59,7 +59,13 @@ export default {
         },
         ...args,
       };
-      return axios($, config);
+      const response = await axios($, config);
+
+      if (response?.errors) {
+        throw new Error(JSON.stringify(response, null, 2));
+      }
+
+      return response;
     },
     post(args = {}) {
       return this._makeRequest({
