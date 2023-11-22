@@ -107,13 +107,14 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
     else:
         logger.debug("No existing app file found, creating new one")
 
-    app_file_instructions = generate_app_file_prompt(
-        "\n\n".join(extract_prompts(markdown)), app_file_content)
+    prompt = "\n\n".join(extract_prompts(markdown))
+    app_file_instructions = generate_app_file_prompt(prompt, app_file_content)
     all_docs_urls = get_all_docs_urls(markdown)
     logger.debug("Generating app file")
     app_file_content = main("app",
                             app,
                             instructions=app_file_instructions,
+                            prompt=prompt,
                             tries=tries,
                             urls=all_docs_urls,
                             verbose=verbose)
@@ -164,7 +165,7 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
 
     for component in requirements:
         logger.info(f"generating {component['key']}...")
-        result = main(component["type"], app, component["instructions"], tries=tries,
+        result = main(component["type"], app, component["instructions"], prompt, tries=tries,
                       urls=component["urls"], verbose=verbose)
 
         component_type = "sources" if "source" in component['type'] else "actions"
@@ -184,6 +185,7 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         run_command(f"npx eslint {app_base_path} --fix")
         run_command(f"git add -f {app_base_path}")
         run_command(f"git commit --no-verify -m '{app} init'")
-        run_command(f"git push -f --no-verify --set-upstream {remote_name} {branch_name}")
+        run_command(
+            f"git push -f --no-verify --set-upstream {remote_name} {branch_name}")
         run_command(
             f"gh pr create -d -l ai-assisted -t 'New Components - {app}' -b 'Resolves #{issue_number}.'")

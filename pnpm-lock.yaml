@@ -161,7 +161,10 @@ importers:
     specifiers: {}
 
   components/aftership:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/agendor:
     specifiers:
@@ -1654,7 +1657,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dynapictures:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dynatrace_api:
     specifiers: {}
@@ -1669,7 +1675,10 @@ importers:
     specifiers: {}
 
   components/echtpost_postcards:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ecologi:
     specifiers: {}
@@ -1710,7 +1719,10 @@ importers:
     specifiers: {}
 
   components/emailable:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/emailoctopus:
     specifiers:
@@ -10390,6 +10402,7 @@ packages:
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 16.18.61
       charm: 1.0.2
+      fs-extra: 8.1.0
       minimatch: 9.0.3
       tar: 6.2.0
       tar-stream: 3.1.6
