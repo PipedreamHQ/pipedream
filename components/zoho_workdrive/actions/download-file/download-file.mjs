@@ -32,6 +32,7 @@ export default {
       type: "string",
       label: "File Id",
       description: "The unique ID of the file to download.",
+      withLabel: true,
       async options({ page }) {
         const { data } = await this.app.listFiles({
           folderId: this.folderId,
@@ -53,6 +54,7 @@ export default {
       type: "string",
       label: "Filename",
       description: "What to name the new file saved to /tmp directory",
+      optional: true,
     },
   },
   methods: {
@@ -67,10 +69,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const filePath = getFilePath(this.fileName);
+    const fileName = this.fileName || this.fileId.label;
+    const filePath = getFilePath(fileName);
 
     const fileContent = await this.downloadFile({
-      fileId: this.fileId,
+      fileId: this.fileId.value,
     });
 
     fs.writeFileSync(filePath, fileContent);
