@@ -1,41 +1,57 @@
-// legacy_hash_id: a_oViVKv
-import puppeteer from "puppeteer-core";
+import browserless from "../../browserless.app.mjs";
+import fs from "fs";
 
 export default {
   key: "browserless-take-screenshot",
   name: "Take a Screenshot",
-  version: "0.5.1",
+  description: "Take a screenshot of a page. [See the documentation](https://www.browserless.io/docs/screenshot)",
+  version: "0.5.2",
   type: "action",
   props: {
-    browserless: {
-      type: "app",
-      app: "browserless",
-    },
+    browserless,
     url: {
       type: "string",
       label: "URL",
       description: "Enter the URL you'd like to take a screenshot of here",
     },
+    downloadPath: {
+      type: "string",
+      label: "Download Path",
+      description: "Download the screenshot to the `/tmp` directory with the specified filename",
+      optional: true,
+    },
+  },
+  methods: {
+    async downloadToTMP(screenshot) {
+      const path = this.downloadPath.includes("/tmp")
+        ? this.downloadPath
+        : `/tmp/${this.downloadPath}`;
+      fs.writeFileSync(path, screenshot);
+      return path;
+    },
   },
   async run({ $ }) {
-    const browser = await puppeteer.connect({
-      browserWSEndpoint: `wss://chrome.browserless.io?token=${this.browserless.$auth.api_key}`,
+    const screenshot = await this.browserless.takeScreenshot({
+      data: {
+        url: this.url,
+      },
+      $,
     });
-    const page = await browser.newPage();
 
-    const { url } = this;
-    await page.goto(url);
-    const screenshot = await page.screenshot();
+    const result = {
+      screenshot: screenshot.toString("base64"),
+      type: "png",
+    };
 
-    // export the base64-encoded screenshot for use in future steps,
-    // along with the image type and filename
-    $.export("screenshot", Buffer.from(screenshot, "binary").toString("base64"));
-    $.export("type", "png");
-    $.export(
-      "filename",
-      `${url.replace(/[&\/\\#, +()$~%.'":*?<>{}]/g, "_")}-${+new Date()}.${this.type}`,
-    );
+    if (screenshot && this.downloadPath) {
+      const filePath = await this.downloadToTMP(screenshot);
+      result.filename = filePath;
+    }
 
-    await browser.close();
+    if (screenshot) {
+      $.export("$summary", `Successfully created screenshot of URL ${this.url}.`);
+    }
+
+    return result;
   },
 };
