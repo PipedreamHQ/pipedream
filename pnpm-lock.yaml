@@ -5285,7 +5285,10 @@ importers:
       salesforce-webhooks: 1.1.11_handlebars@4.7.8
 
   components/saleslens:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/salesmate:
     specifiers:
