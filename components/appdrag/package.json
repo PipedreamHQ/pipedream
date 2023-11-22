@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/appdrag",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream AppDrag Components",
   "main": "appdrag.app.mjs",
   "keywords": [
