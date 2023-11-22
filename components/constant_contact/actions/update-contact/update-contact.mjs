@@ -4,7 +4,7 @@ import constantContact from "../../constant_contact.app.mjs";
 export default {
   key: "constant_contact-update-contact",
   name: "Update Contact",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Update an existing contact. [See the documentation](https://developer.constantcontact.com/api_reference/index.html#!/Contacts/putContact)",
   type: "action",
   props: {
