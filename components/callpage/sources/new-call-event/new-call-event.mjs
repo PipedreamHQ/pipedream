@@ -50,7 +50,7 @@ export default {
       }
 
       if (responseArray.length) {
-        this._setLastDate(responseArray[responseArray.length - 1].created_at);
+        this._setLastDate(Date.parse(responseArray[responseArray.length - 1].created_at));
       }
 
       for (const event of responseArray) {
