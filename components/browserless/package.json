@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/browserless",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Browserless Components",
   "main": "browserless.app.mjs",
   "keywords": [
