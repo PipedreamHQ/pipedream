@@ -31,12 +31,10 @@ export default {
         const response = await this.listSenderIds({
           page,
         });
-        if (response.status === "error") throw new Error(response.description);
-        return response.description?.map?.(({
-          id, name,
-        }) => ({
+        if (response.status === "error") throw new Error(`API response: "${response.description.desc}"`);
+        return response.description?.map?.(({ id }) => ({
           label: id,
-          value: name,
+          value: id,
         })) ?? [];
       },
     },
