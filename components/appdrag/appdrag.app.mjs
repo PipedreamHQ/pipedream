@@ -1,138 +1,136 @@
-import { axios } from "@pipedream/platform";
+import sqlstring from "sqlstring";
+import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "appdrag",
   propDefinitions: {
-    tableId: {
+    table: {
       type: "string",
-      label: "Table ID",
-      description: "The ID of the table where the row will be updated or inserted.",
+      label: "Table Name",
+      description: "The name of the table.",
       async options() {
-        const tables = await this.listTables();
-        return tables.map((table) => ({
-          label: table.name,
-          value: table.id,
-        }));
-      },
-    },
-    formId: {
-      type: "string",
-      label: "Form ID",
-      description: "The ID of the form to monitor for submissions.",
-      async options() {
-        const forms = await this.listForms();
-        return forms.map((form) => ({
-          label: form.name,
-          value: form.id,
-        }));
-      },
-    },
-    orderId: {
-      type: "string",
-      label: "Order ID",
-      description: "The ID of the order to monitor for status updates or new orders.",
-      async options() {
-        const orders = await this.listOrders();
-        return orders.map((order) => ({
-          label: order.name,
-          value: order.id,
-        }));
-      },
-    },
-    rowId: {
-      type: "string",
-      label: "Row ID",
-      description: "The ID of the row to update in the cloud database table.",
-      async options({ tableId }) {
-        const rows = await this.listRows({
-          tableId,
+        const { Table: tables } = await this.listTables();
+        return tables.map((obj) => {
+          const [
+            table,
+          ] = Object.values(obj);
+          return table;
         });
-        return rows.map((row) => ({
-          label: row.name,
-          value: row.id,
-        }));
+      },
+    },
+    columns: {
+      type: "string[]",
+      label: "Columns",
+      description: "The name of the columns in the table. Eg. `[\"column1\", \"column2\"]`",
+      async options({ table }) {
+        const { Table: columns } = await this.listColumns({
+          table,
+        });
+        return columns.map(({ Field: column }) => column);
       },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.appdrag.com/CloudBackend";
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Content-Type": "application/x-www-form-urlencoded",
+      };
     },
-    async _makeRequest(opts = {}) {
+    getUrl(path) {
+      return path
+        ? constants.URL.FUNCTION
+          .replace(constants.APP_ID_PLACEHOLDER, this.$auth.app_id)
+          .replace(constants.FUNCTION_PLACEHOLDER, path)
+        : constants.URL.BACKEND;
+    },
+    getAuthData(data) {
       const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
+        api_key: apiKey,
+        app_id: appId,
+      } = this.$auth;
+      return {
+        ...data,
+        appID: appId,
+        APIKey: apiKey,
+      };
+    },
+    async makeRequest({
+      step = this, path, headers, data, params, method, ...args
+    } = {}) {
+      const {
+        getHeaders,
+        getUrl,
+        getAuthData,
+      } = this;
+
+      const isGet = method === constants.HTTP_METHOD.GET || method === undefined;
+
+      const response = await utils.callAxios({
+        ...args,
+        debug: true,
+        step,
         method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        url: getUrl(path),
+        data: !isGet && getAuthData(data),
+        params: isGet && getAuthData(params),
+        headers: getHeaders(headers),
+      });
+
+      if (response?.error || parseInt(response?.affectedRows) === 0) {
+        throw new Error(JSON.stringify(response, null, 2));
+      }
+
+      return response;
+    },
+    post(args = {}) {
+      return this.makeRequest({
+        ...args,
+        method: "post",
       });
     },
-    async listTables() {
-      return this._makeRequest({
-        path: "/listTables",
-      });
-    },
-    async listForms() {
-      return this._makeRequest({
-        path: "/listForms",
-      });
-    },
-    async listOrders() {
-      return this._makeRequest({
-        path: "/listOrders",
-      });
-    },
-    async listRows({ tableId }) {
-      return this._makeRequest({
-        path: `/listRows/${tableId}`,
-      });
-    },
-    async updateRow({
-      tableId, rowId, data,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/updateRow",
+    executeRawQuery({
+      query, values = [], ...args
+    } = {}) {
+      return this.post({
+        ...args,
         data: {
-          tableId,
-          rowId,
-          ...data,
+          ...args?.data,
+          command: "CloudDBExecuteRawQuery",
+          query: sqlstring.format(query, values),
         },
       });
     },
-    async insertRow({
-      tableId, data,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/insertRow",
+    getDataset(args = {}) {
+      return this.post({
+        ...args,
         data: {
-          tableId,
-          ...data,
+          ...args?.data,
+          command: "CloudDBGetDataset",
         },
       });
     },
-    async executeApiFunction({
-      functionName, data,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/executeFunction/${functionName}`,
-        data,
+    listTables(args = {}) {
+      return this.getDataset({
+        ...args,
+        data: {
+          ...args?.data,
+          query: "show tables",
+        },
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    listColumns({
+      table, ...args
+    } = {}) {
+      return this.getDataset({
+        ...args,
+        data: {
+          ...args?.data,
+          query: `show columns from ${table}`,
+        },
+      });
     },
   },
 };

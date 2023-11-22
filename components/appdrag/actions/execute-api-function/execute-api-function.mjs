@@ -1,32 +1,68 @@
-import appdrag from "../../appdrag.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../appdrag.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "appdrag-execute-api-function",
   name: "Execute API Function",
-  description: "Executes an API function from a cloud backend. [See the documentation](https://support.appdrag.com/doc/export-documentation)",
-  version: "0.0.{{ts}}",
+  description: "Executes an API function from a cloud backend. [See the documentation](https://support.appdrag.com/doc/Interacting-with-my-API-Functions)",
+  version: "0.0.1",
   type: "action",
   props: {
-    appdrag,
-    functionName: {
+    app,
+    path: {
       type: "string",
-      label: "Function Name",
-      description: "The name of the function to execute.",
+      label: "Function Name Path",
+      description: "The name of the function name path to execute. Eg. `/insert-user`",
+    },
+    method: {
+      type: "string",
+      label: "HTTP Method",
+      description: "The HTTP method to use when executing the function.",
+      options: Object.values(constants.HTTP_METHOD),
     },
     data: {
-      type: "string",
+      type: "object",
       label: "Data",
-      description: "The JSON string of the data to send in the request body.",
+      description: "The data to pass to the function.",
+      optional: true,
     },
   },
-  async run({ $ }) {
-    const parsedData = JSON.parse(this.data); // Assuming the user passes a JSON string
-    const response = await this.appdrag.executeApiFunction({
-      functionName: this.functionName,
-      data: parsedData,
+  methods: {
+    executeApiFunction({
+      method, data, ...args
+    } = {}) {
+      return this.app.makeRequest(
+        method === constants.HTTP_METHOD.GET
+          ? {
+            ...args,
+            method,
+            params: data,
+          }
+          : {
+            ...args,
+            method,
+            data,
+          },
+      );
+    },
+  },
+  async run({ $: step }) {
+    const {
+      executeApiFunction,
+      path,
+      method,
+      data,
+    } = this;
+
+    const response = await executeApiFunction({
+      step,
+      path,
+      method,
+      data,
     });
-    $.export("$summary", `Executed function ${this.functionName} successfully`);
+
+    step.export("$summary", `Executed function \`${path}\` successfully`);
+
     return response;
   },
 };
