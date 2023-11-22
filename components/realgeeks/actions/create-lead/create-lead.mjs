@@ -23,11 +23,13 @@ export default {
     firstName: {
       type: "string",
       label: "First Name",
+      description: "First name of the lead",
       optional: true,
     },
     lastName: {
       type: "string",
       label: "Last Name",
+      description: "Last name of the lead",
       optional: true,
     },
     phone: {
