@@ -23,7 +23,6 @@ export default {
       label: "Sender ID",
       description:
         "The Sender ID assigned to your account. [See the documentation for more details](https://kb.smsalert.co.in/developers-api/#Get-Available-Sender-Id-List).",
-      optional: true,
       async options({ prevContext }) {
         const { page } = prevContext || {
           page: 1,
