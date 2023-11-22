@@ -1,94 +1,102 @@
-import saleslens from "../../saleslens.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../saleslens.app.mjs";
 
 export default {
   key: "saleslens-upload-conversation-recording",
   name: "Upload Conversation Recording",
-  description: "Uploads a conversation recording. [See the documentation](https://app.saleslens.io/api)",
-  version: "0.0.{{ts}}",
+  description: "Uploads a conversation recording. [See the documentation](https://app.saleslens.io/api#tag/ConversationRecord/operation/api_access_tokencall_recordupload_post)",
+  version: "0.0.1",
   type: "action",
   props: {
-    saleslens,
+    app,
     employeeExternalId: {
       propDefinition: [
-        saleslens,
+        app,
         "employeeExternalId",
       ],
     },
+    downloadRecordUrl: {
+      type: "string",
+      label: "Download Record URL",
+      description: "URL of the recording",
+    },
     categoryId: {
       propDefinition: [
-        saleslens,
+        app,
         "categoryId",
       ],
     },
     locale: {
       propDefinition: [
-        saleslens,
+        app,
         "locale",
-      ],
-    },
-    title: {
-      propDefinition: [
-        saleslens,
-        "title",
       ],
     },
     fileExtension: {
       propDefinition: [
-        saleslens,
+        app,
         "fileExtension",
+      ],
+    },
+    title: {
+      propDefinition: [
+        app,
+        "title",
       ],
     },
     httpHeader: {
       propDefinition: [
-        saleslens,
+        app,
         "httpHeader",
       ],
     },
     tags: {
       propDefinition: [
-        saleslens,
+        app,
         "tags",
       ],
     },
     email: {
       propDefinition: [
-        saleslens,
+        app,
         "email",
       ],
     },
     phone: {
       propDefinition: [
-        saleslens,
+        app,
         "phone",
       ],
     },
     firstName: {
       propDefinition: [
-        saleslens,
+        app,
         "firstName",
       ],
     },
     lastName: {
       propDefinition: [
-        saleslens,
+        app,
         "lastName",
       ],
     },
   },
+  methods: {
+    uploadConversation(opts = {}) {
+      return this.app.post({
+        path: "/access_token/call_record/upload",
+        ...opts,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.saleslens.uploadConversation({
-      employeeExternalId: this.employeeExternalId,
-      categoryId: this.categoryId,
-      locale: this.locale,
-      title: this.title,
-      fileExtension: this.fileExtension,
-      httpHeader: this.httpHeader,
-      tags: this.tags,
-      email: this.email,
-      phone: this.phone,
-      firstName: this.firstName,
-      lastName: this.lastName,
+    const {
+      uploadConversation,
+      ...data
+    } = this;
+
+    const response = await uploadConversation({
+      $,
+      data,
     });
 
     $.export("$summary", "Successfully uploaded the conversation recording");

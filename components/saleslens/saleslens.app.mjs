@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -10,9 +11,14 @@ export default {
       description: "The external ID of the employee",
       async options() {
         const employees = await this.listEmployees();
-        return employees.map((employee) => ({
-          label: `${employee.firstName} ${employee.lastName}`,
-          value: employee.employeeExternalId,
+        return employees.map(({
+          firstName, lastName, externalId: value,
+        }) => ({
+          label: [
+            firstName,
+            lastName,
+          ].join(" ").trim() || value,
+          value,
         }));
       },
     },
@@ -20,47 +26,45 @@ export default {
       type: "string",
       label: "Category ID",
       description: "The ID of the category",
+      optional: true,
       async options() {
         const categories = await this.getCategories();
-        return categories.map((category) => ({
-          label: category.name,
-          value: category.id,
+        return categories.map(({
+          title: label, id: value,
+        }) => ({
+          label,
+          value,
         }));
       },
-    },
-    transcription: {
-      type: "string",
-      label: "Transcription",
-      description: "The transcription of the conversation",
     },
     locale: {
       type: "string",
       label: "Locale",
-      description: "Locale of the transcription",
+      description: "Locale of the transcription or recording",
       optional: true,
     },
     title: {
       type: "string",
       label: "Title",
-      description: "Title of the transcription",
+      description: "Title of the transcription or recording",
       optional: true,
     },
     fileExtension: {
       type: "string",
       label: "File Extension",
-      description: "File extension of the recording",
+      description: "File extension of the transcription or recording",
       optional: true,
     },
     httpHeader: {
       type: "string",
       label: "HTTP Header",
-      description: "HTTP header for the recording download URL",
+      description: "HTTP header for the transcription or recording download URL",
       optional: true,
     },
     tags: {
       type: "string",
       label: "Tags",
-      description: "Tags associated with the transcription",
+      description: "Tags associated with the transcription or recording separated by commas. Eg. `api, download, example`",
       optional: true,
     },
     email: {
@@ -92,50 +96,37 @@ export default {
     _baseUrl() {
       return "https://app.saleslens.io/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
+        ...args,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: this.$auth.api_token,
         },
-        data,
-        params,
       });
     },
-    async listEmployees() {
+    post({
+      data, ...args
+    } = {}) {
       return this._makeRequest({
-        path: "/employees",
+        ...args,
+        method: "post",
+        data: utils.filterProps(data),
       });
     },
-    async getCategories() {
+    listEmployees(args = {}) {
       return this._makeRequest({
-        path: "/categories",
+        ...args,
+        path: "/access_token/employees",
       });
     },
-    async uploadConversation(opts = {}) {
+    getCategories(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/access_token/call_record/upload",
-        ...opts,
-      });
-    },
-    async uploadTranscription(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/access_token/conversation_transcription/upload",
-        ...opts,
+        ...args,
+        path: "/access_token/categories",
       });
     },
   },

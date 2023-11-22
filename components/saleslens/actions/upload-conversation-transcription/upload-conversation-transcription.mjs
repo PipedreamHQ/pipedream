@@ -1,89 +1,90 @@
-import saleslens from "../../saleslens.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../saleslens.app.mjs";
 
 export default {
   key: "saleslens-upload-conversation-transcription",
   name: "Upload Conversation Transcription",
-  description: "Uploads a transcript of the conversation. [See the documentation](https://app.saleslens.io/api)",
-  version: "0.0.{{ts}}",
+  description: "Uploads a transcript of the conversation. [See the documentation](https://app.saleslens.io/api#tag/ConversationTranscription/operation/api_access_tokencall_transcriptionupload_post)",
+  version: "0.0.1",
   type: "action",
   props: {
-    saleslens,
+    app,
     employeeExternalId: {
       propDefinition: [
-        saleslens,
+        app,
         "employeeExternalId",
       ],
     },
+    transcription: {
+      type: "string",
+      label: "Transcription",
+      description: "The transcription of the conversation",
+    },
     categoryId: {
       propDefinition: [
-        saleslens,
+        app,
         "categoryId",
-      ],
-    },
-    transcription: {
-      propDefinition: [
-        saleslens,
-        "transcription",
       ],
     },
     locale: {
       propDefinition: [
-        saleslens,
+        app,
         "locale",
       ],
     },
     title: {
       propDefinition: [
-        saleslens,
+        app,
         "title",
       ],
     },
     tags: {
       propDefinition: [
-        saleslens,
+        app,
         "tags",
       ],
     },
     email: {
       propDefinition: [
-        saleslens,
+        app,
         "email",
       ],
     },
     phone: {
       propDefinition: [
-        saleslens,
+        app,
         "phone",
       ],
     },
     firstName: {
       propDefinition: [
-        saleslens,
+        app,
         "firstName",
       ],
     },
     lastName: {
       propDefinition: [
-        saleslens,
+        app,
         "lastName",
       ],
     },
   },
+  methods: {
+    uploadTranscription(args = {}) {
+      return this.app.post({
+        path: "/access_token/call_transcription/upload",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.saleslens.uploadTranscription({
-      data: {
-        employeeExternalId: this.employeeExternalId,
-        categoryId: this.categoryId,
-        transcription: this.transcription,
-        locale: this.locale,
-        title: this.title,
-        tags: this.tags,
-        email: this.email,
-        phone: this.phone,
-        firstName: this.firstName,
-        lastName: this.lastName,
-      },
+    const {
+      uploadTranscription,
+      ...data
+    } = this;
+
+    const response = await uploadTranscription({
+      $,
+      data,
     });
 
     $.export("$summary", "Successfully uploaded the conversation transcription");
