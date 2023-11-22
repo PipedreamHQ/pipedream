@@ -35,17 +35,14 @@ export default {
     _baseUrl() {
       return "https://apihub.document360.io";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -63,20 +60,11 @@ export default {
         path: `/v2/ProjectVersions/${projectVersionId}/articles`,
       });
     },
-    async createDocument({
-      categoryId, projectVersionId, title, userId, content, order,
-    }) {
+    async createDocument(args) {
       return this._makeRequest({
         method: "POST",
         path: "/v2/articles",
-        data: {
-          category_id: categoryId,
-          project_version_id: projectVersionId,
-          title: title,
-          user_id: userId,
-          content: content,
-          order: order,
-        },
+        ...args,
       });
     },
     // Additional method to fulfill the requirement of emitting new article events
