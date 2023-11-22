@@ -3,45 +3,10 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "neetoinvoice",
-  propDefinitions: {
-    pageSize: {
-      type: "integer",
-      label: "Page Size",
-      description: "The number of items to be returned per page.",
-      default: 5,
-      min: 1,
-    },
-    pageIndex: {
-      type: "integer",
-      label: "Page Index",
-      description: "The page number to be returned.",
-      default: 1,
-      min: 1,
-    },
-    subscriptionUrl: {
-      type: "string",
-      label: "Subscription URL",
-      description: "URL to which events are to be sent.",
-    },
-    eventType: {
-      type: "string",
-      label: "Event Type",
-      description: "The type of event to subscribe to.",
-      options: [
-        {
-          label: "New Client",
-          value: "new_client",
-        },
-        {
-          label: "New Invoice",
-          value: "new_invoice",
-        },
-      ],
-    },
-  },
+  propDefinitions: {},
   methods: {
-    _baseUrl() {
-      return "https://neetoinvoice.com";
+    _baseUrl(version = "api/v1/") {
+      return `https://${this.$auth.organization_name}.neetoinvoice.com/${version}neeto_integrations/zapier`;
     },
     _headers() {
       return {
@@ -49,71 +14,40 @@ export default {
       };
     },
     async _makeRequest({
-      $ = this, method, path, headers, data, params,
+      $ = this, path, version, ...opts
     }) {
       return axios($, {
-        method,
-        url: this._baseUrl() + path,
-        headers: headers
-          ? {
-            ...this._headers(),
-            ...headers,
-          }
-          : this._headers(),
-        data,
-        params,
+        url: this._baseUrl(version) + path,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async subscribe({
-      url, event,
-    }) {
+    async createHook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/neeto_integrations/zapier/subscriptions",
-        data: {
-          zapier_subscription: {
-            options: {
-              url,
-              event,
-            },
-            subscription_for: "Zapier",
-          },
-        },
+        path: "/subscriptions",
+        version: "/",
+        ...opts,
       });
     },
-    async unsubscribe(apiKey) {
+    async deleteHook(hookId) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/neeto_integrations/zapier/subscriptions/${apiKey}`,
+        path: `/subscriptions/${hookId}`,
+        version: "/",
       });
     },
-    async getClients({
-      pageSize, pageIndex,
-    }) {
+    async listClients(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/api/v1/neeto_integrations/zapier/clients",
-        params: {
-          page_size: pageSize,
-          page_index: pageIndex,
-        },
+        path: "/clients",
+        ...opts,
       });
     },
-    async getInvoices({
-      pageSize, pageIndex,
-    }) {
+    async listInvoices(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/api/v1/neeto_integrations/zapier/invoices",
-        params: {
-          page_size: pageSize,
-          page_index: pageIndex,
-        },
+        path: "/invoices",
+        ...opts,
       });
-    },
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };

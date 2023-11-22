@@ -1,74 +1,34 @@
-import neetoinvoice from "../../neetoinvoice.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "neetoinvoice-new-invoice",
-  name: "New Invoice",
+  name: "New Invoice (Instant)",
   description: "Emit new event when there is a new invoice. [See the documentation](https://help.neetoinvoice.com/articles/neetoinvoice-zapier-integration)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    neetoinvoice,
+    ...common.props,
+    http: "$.interface.http",
     db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  },
+  methods: {
+    ...common.methods,
+    getEvent() {
+      return "new_invoice";
     },
-    subscriptionUrl: {
-      propDefinition: [
-        neetoinvoice,
-        "subscriptionUrl",
-      ],
+    getFunction() {
+      return this.neetoinvoice.listInvoices;
     },
-    eventType: {
-      propDefinition: [
-        neetoinvoice,
-        "eventType",
-        (c) => ({
-          event: c.eventType,
-        }),
-      ],
+    getDataToEmit(body) {
+      return {
+        id: body.id,
+        summary: `A new invoice with Id: ${body.id} has been created!`,
+        ts: new Date(body.createdAt),
+      };
     },
   },
-  hooks: {
-    async deploy() {
-      const pageSize = 50;
-      const pageIndex = 1;
-      const invoices = await this.neetoinvoice.getInvoices({
-        pageSize,
-        pageIndex,
-      });
-      invoices.slice(-50).forEach((invoice) => {
-        this.$emit(invoice, {
-          id: invoice.id,
-          summary: `New invoice: ${invoice.number}`,
-          ts: Date.parse(invoice.created_at),
-        });
-      });
-    },
-    async activate() {
-      const subscription = await this.neetoinvoice.subscribe({
-        url: this.subscriptionUrl,
-        event: this.eventType.value,
-      });
-      this.db.set("subscriptionId", subscription.id);
-    },
-    async deactivate() {
-      const subscriptionId = this.db.get("subscriptionId");
-      await this.neetoinvoice.unsubscribe(subscriptionId);
-    },
-  },
-  async run(event) {
-    const body = event.body;
-    this.$emit(body, {
-      id: body.id,
-      summary: `New invoice: ${body.number}`,
-      ts: Date.parse(body.created_at),
-    });
-
-    this.http.respond({
-      status: 200,
-      body: "",
-    });
-  },
+  sampleEmit,
 };

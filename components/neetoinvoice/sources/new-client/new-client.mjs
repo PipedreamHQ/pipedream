@@ -1,71 +1,34 @@
-import neetoinvoice from "../../neetoinvoice.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "neetoinvoice-new-client",
-  name: "New Client",
-  description: "Emits a new event every time there is a new client in neetoInvoice. [See the documentation](https://help.neetoinvoice.com/articles/neetoinvoice-zapier-integration)",
-  version: "0.0.{{ts}}",
+  name: "New Client (Instant)",
+  description: "Emit new event every time there is a new client in neetoInvoice. [See the documentation](https://help.neetoinvoice.com/articles/neetoinvoice-zapier-integration)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    neetoinvoice,
+    ...common.props,
+    http: "$.interface.http",
     db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  },
+  methods: {
+    ...common.methods,
+    getEvent() {
+      return "new_client";
     },
-    subscriptionUrl: {
-      propDefinition: [
-        neetoinvoice,
-        "subscriptionUrl",
-      ],
+    getFunction() {
+      return this.neetoinvoice.listClients;
     },
-    eventType: {
-      propDefinition: [
-        neetoinvoice,
-        "eventType",
-        (c) => ({
-          event: c.eventType,
-        }),
-      ],
+    getDataToEmit(body) {
+      return {
+        id: body.id,
+        summary: `A new client with Id: ${body.id} has been created!`,
+        ts: new Date(body.createdAt),
+      };
     },
   },
-  hooks: {
-    async deploy() {
-      const clients = await this.neetoinvoice.getClients({
-        pageSize: 5,
-        pageIndex: 1,
-      });
-      clients.forEach((client) => {
-        this.$emit(client, {
-          id: client.id,
-          summary: client.name,
-          ts: Date.parse(client.created_at),
-        });
-      });
-    },
-    async activate() {
-      const subscription = await this.neetoinvoice.subscribe({
-        url: this.subscriptionUrl,
-        event: this.eventType,
-      });
-      this.db.set("subscriptionId", subscription.id);
-    },
-    async deactivate() {
-      const subscriptionId = this.db.get("subscriptionId");
-      await this.neetoinvoice.unsubscribe(subscriptionId);
-    },
-  },
-  async run(event) {
-    const body = event.body;
-    this.$emit(body, {
-      id: body.id,
-      summary: `New client: ${body.name}`,
-      ts: Date.parse(body.created_at),
-    });
-    this.http.respond({
-      status: 200,
-      body: "OK",
-    });
-  },
+  sampleEmit,
 };
