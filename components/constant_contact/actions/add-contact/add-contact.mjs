@@ -94,10 +94,10 @@ export default {
       optional: true,
       reloadProps: true,
     },
-    listMembership: {
+    listMemberships: {
       propDefinition: [
         constantContact,
-        "listMembership",
+        "listMemberships",
       ],
       optional: true,
     },
