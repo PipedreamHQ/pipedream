@@ -72,7 +72,7 @@ export default {
       label: "Last Name",
       description: "The last name of the contact.",
     },
-    listMembership: {
+    listMemberships: {
       type: "string[]",
       label: "List Membership",
       description: "Array of lists to which the contact is being subscribed, up to a maximum of 50.",
