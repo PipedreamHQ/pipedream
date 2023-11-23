@@ -1,4 +1,3 @@
-import openai from "../../openai.app.mjs";
 import common from "../common.mjs";
 
 export default {
@@ -13,7 +12,7 @@ export default {
     ...common.props,
     purpose: {
       propDefinition: [
-        openai,
+        common.props.openai,
         "purpose",
       ],
       description: "If specified, events will only be emitted for files with the specified purpose.",

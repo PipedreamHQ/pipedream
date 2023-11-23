@@ -76,6 +76,18 @@ export default {
       type: "string",
       label: "Run ID",
       description: "The unique identifier for the run.",
+      async options({ threadId }) {
+        if (!threadId) {
+          return [];
+        }
+        const runs = await this.listRuns({
+          threadId,
+        });
+        return runs.map((run) => ({
+          label: `Run ${run.id} (${run.status})`,
+          value: run.id,
+        }));
+      },
     },
     stepId: {
       type: "string",
@@ -579,7 +591,7 @@ export default {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}`,
         headers: this._betaHeaders(),
-        method: "PATCH", // Assuming modification is done via PATCH
+        method: "POST",
         data: opts,
       });
     },
