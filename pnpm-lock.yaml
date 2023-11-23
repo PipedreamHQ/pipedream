@@ -808,7 +808,10 @@ importers:
     specifiers: {}
 
   components/callpage:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/callrail:
     specifiers: {}
@@ -3354,7 +3357,10 @@ importers:
     specifiers: {}
 
   components/loop_returns:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/loopmessage:
     specifiers:
@@ -3907,7 +3913,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/neetoinvoice:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/neetokb:
     specifiers: {}
@@ -4931,7 +4940,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/realgeeks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/realphonevalidation:
     specifiers: {}
@@ -5751,7 +5763,10 @@ importers:
     specifiers: {}
 
   components/sms_alert:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/sms_it:
     specifiers: {}
@@ -7357,9 +7372,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
       axios: ^1.5.1
+      form-data: ^4.0.0
     dependencies:
       '@pipedream/platform': 1.5.1
       axios: 1.5.1
+      form-data: 4.0.0
 
   components/zonka_feedback:
     specifiers:
@@ -18350,7 +18367,6 @@ packages:
       graceful-fs: 4.2.11
       jsonfile: 4.0.0
       universalify: 0.1.2
-    dev: false
 
   /fs-minipass/2.1.0:
     resolution: {integrity: sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==}
@@ -27419,7 +27435,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
