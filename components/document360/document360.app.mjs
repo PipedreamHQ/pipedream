@@ -42,20 +42,6 @@ export default {
         })) ?? [];
       },
     },
-    articleId: {
-      type: "string",
-      label: "Article",
-      description: "Select the article to publish.",
-      async options({ projectVersionId }) {
-        const articles = await this.getArticles({
-          projectVersionId,
-        });
-        return articles.map((article) => ({
-          label: article.title,
-          value: article.id,
-        }));
-      },
-    },
   },
   methods: {
     _baseUrl() {
@@ -91,7 +77,7 @@ export default {
         path: `/v2/ProjectVersions/${projectVersionId}/categories`,
       });
     },
-    async getArticles({ projectVersionId }) {
+    async getArticles(projectVersionId) {
       return this._makeRequest({
         path: `/v2/ProjectVersions/${projectVersionId}/articles`,
       });
@@ -103,12 +89,5 @@ export default {
         ...args,
       });
     },
-    // Additional method to fulfill the requirement of emitting new article events
-    // async watchNewArticles({
-    //   projectVersionId, after,
-    // }) {
-    // Implementation to watch for new articles within a project version
-    // after a specific timestamp or ID
-    // },
   },
 };
