@@ -6,14 +6,40 @@ export default {
   propDefinitions: {
     projectVersionId: {
       type: "string",
-      label: "Project Version",
-      description: "Select the project version.",
+      label: "Project Version ID",
+      description: "Select a Project Version or provide a custom Project Version ID.",
       async options() {
         const versions = await this.getProjectVersions();
-        return versions.map((version) => ({
+        return versions?.data?.map?.((version) => ({
           label: `Version ${version.version_number}: ${version.version_code_name}`,
           value: version.id,
-        }));
+        })) ?? [];
+      },
+    },
+    categoryId: {
+      type: "string",
+      label: "Category ID",
+      description: "Select a Category or provide a custom Category ID.",
+      async options({ projectVersionId }) {
+        const categories = await this.getCategories(projectVersionId);
+        return categories?.data?.map?.(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        })) ?? [];
+      },
+    },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "Select a User or provide a custom User ID.",
+      async options() {
+        const users = await this.getUsers();
+        return users?.result?.map?.((user) => ({
+          label: `${user.first_name} ${user.last_name} (${user.email_id})`,
+          value: user.user_id,
+        })) ?? [];
       },
     },
     articleId: {
@@ -46,13 +72,23 @@ export default {
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          "api_token": this.$auth.api_token,
+          "api_token": this.$auth.api_key,
         },
       });
     },
     async getProjectVersions() {
       return this._makeRequest({
         path: "/v2/ProjectVersions",
+      });
+    },
+    async getUsers() {
+      return this._makeRequest({
+        path: "/v2/Teams",
+      });
+    },
+    async getCategories(projectVersionId) {
+      return this._makeRequest({
+        path: `/v2/ProjectVersions/${projectVersionId}/categories`,
       });
     },
     async getArticles({ projectVersionId }) {

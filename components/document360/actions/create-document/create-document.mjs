@@ -4,7 +4,7 @@ export default {
   key: "document360-create-document",
   name: "Create Document",
   description: "Creates a new document in Document360 from text. [See the documentation](https://apidocs.document360.com/apidocs/how-to-create-and-publish-an-article)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     document360,
@@ -15,9 +15,13 @@ export default {
       ],
     },
     categoryId: {
-      type: "string",
-      label: "Category ID",
-      description: "The ID of the category where the document will be created.",
+      propDefinition: [
+        document360,
+        "categoryId",
+        ({ projectVersionId }) => ({
+          projectVersionId,
+        }),
+      ],
     },
     title: {
       type: "string",
@@ -25,9 +29,10 @@ export default {
       description: "The title of the new document.",
     },
     userId: {
-      type: "string",
-      label: "User ID",
-      description: "The user ID of the creator of the document.",
+      propDefinition: [
+        document360,
+        "userId",
+      ],
     },
     content: {
       type: "string",
@@ -53,6 +58,11 @@ export default {
         order: this.order,
       },
     });
+
+    if (!response.success) {
+      $.export("response", response);
+      throw new Error("Failed to create document - see the API response for more details.");
+    }
 
     $.export("$summary", `Successfully created document "${this.title}"`);
     return response;
