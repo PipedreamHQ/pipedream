@@ -808,7 +808,10 @@ importers:
     specifiers: {}
 
   components/callpage:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/callrail:
     specifiers: {}
