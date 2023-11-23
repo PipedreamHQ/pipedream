@@ -1820,7 +1820,10 @@ importers:
       crypto: 1.0.1
 
   components/ewebinar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/exact:
     specifiers:
