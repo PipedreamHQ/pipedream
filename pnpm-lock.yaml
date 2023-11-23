@@ -808,7 +808,10 @@ importers:
     specifiers: {}
 
   components/callpage:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/callrail:
     specifiers: {}
@@ -3357,7 +3360,10 @@ importers:
     specifiers: {}
 
   components/loop_returns:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/loopmessage:
     specifiers:
@@ -3910,7 +3916,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/neetoinvoice:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/neetokb:
     specifiers: {}
@@ -4934,7 +4943,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/realgeeks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/realphonevalidation:
     specifiers: {}
@@ -5754,7 +5766,10 @@ importers:
     specifiers: {}
 
   components/sms_alert:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/sms_it:
     specifiers: {}
@@ -7360,9 +7375,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
       axios: ^1.5.1
+      form-data: ^4.0.0
     dependencies:
       '@pipedream/platform': 1.5.1
       axios: 1.5.1
+      form-data: 4.0.0
 
   components/zonka_feedback:
     specifiers:
