@@ -34,7 +34,7 @@ export default {
     },
     phone: {
       type: "string",
-      label: "Email",
+      label: "Phone number",
       description: "Phone number. US numbers could be formatted as `808-123-1234` or `(808) 123-1234`. International number format: `+55 83 1234-1234`",
       optional: true,
     },
