@@ -1,10 +1,11 @@
+import { parseToolsArray } from "../../common/helpers.mjs";
 import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-modify-assistant",
   name: "Modify an Assistant",
   description: "Modifies an existing OpenAI assistant. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/modifyAssistant)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     openai,
@@ -72,7 +73,7 @@ export default {
       name: this.name,
       description: this.description,
       instructions: this.instructions,
-      tools: this.tools,
+      tools: parseToolsArray(this.tools),
       file_ids: this.file_ids,
       metadata: this.metadata,
     });
