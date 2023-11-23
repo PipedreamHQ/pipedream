@@ -45,9 +45,9 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://apihub.document360.io";
+      return "https://apihub.document360.io/v2";
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this,
       path,
       headers,
@@ -62,30 +62,30 @@ export default {
         },
       });
     },
-    async getProjectVersions() {
+    getProjectVersions() {
       return this._makeRequest({
-        path: "/v2/ProjectVersions",
+        path: "/ProjectVersions",
       });
     },
-    async getUsers() {
+    getUsers() {
       return this._makeRequest({
-        path: "/v2/Teams",
+        path: "/Teams",
       });
     },
-    async getCategories(projectVersionId) {
+    getCategories(projectVersionId) {
       return this._makeRequest({
-        path: `/v2/ProjectVersions/${projectVersionId}/categories`,
+        path: `/ProjectVersions/${projectVersionId}/categories`,
       });
     },
-    async getArticles(projectVersionId) {
+    getArticles(projectVersionId) {
       return this._makeRequest({
-        path: `/v2/ProjectVersions/${projectVersionId}/articles`,
+        path: `/ProjectVersions/${projectVersionId}/articles`,
       });
     },
-    async createDocument(args) {
+    createDocument(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/v2/Articles",
+        path: "/Articles",
         ...args,
       });
     },
