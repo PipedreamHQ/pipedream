@@ -97,7 +97,7 @@ Each time you deploy a workflow with Python code, Pipedream downloads the PyPi p
 There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a workflow, you can add that version in a [magic comment](/code/python/import-mappings/), for example:
 
 ```python
-# python add-package pandas==2.0.0
+# pipedream add-package pandas==2.0.0
 import pandas
 ```
 
