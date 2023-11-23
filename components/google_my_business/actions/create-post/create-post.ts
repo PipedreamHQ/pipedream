@@ -3,7 +3,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import app from "../../app/google_my_business.app";
 import { CreatePostParams } from "../../common/requestParams";
 import {
-  LOCAL_POST_ALERT_TYPES, LOCAL_POST_TOPIC_TYPES,
+  LOCAL_POST_ALERT_TYPES, LOCAL_POST_TOPIC_TYPES, MEDIA_FORMAT_OPTIONS,
 } from "../../common/constants";
 
 const DOCS_LINK = "https://developers.google.com/my-business/reference/rest/v4/accounts.locations.localPosts/create";
@@ -67,6 +67,14 @@ export default defineAction({
       description: "The media associated with the post. Each entry is treated as a `sourceUrl` (a publicly accessible URL where the media item can be retrieved from). [See the documentation for more details](https://developers.google.com/my-business/reference/rest/v4/accounts.locations.media#MediaItem)",
       optional: true,
     },
+    mediaFormat: {
+      type: "string",
+      label: "Media Format",
+      description: "The format of the media item(s). [See the documentation for more details](https://developers.google.com/my-business/reference/rest/v4/accounts.locations.media#MediaItem.MediaFormat)",
+      optional: true,
+      options: MEDIA_FORMAT_OPTIONS,
+      default: MEDIA_FORMAT_OPTIONS[0].value,
+    },
     alertType: {
       type: "string",
       label: "Alert Type",
@@ -94,7 +102,7 @@ export default defineAction({
   },
   async run({ $ }) {
     const {
-      account, location, topicType, languageCode, summary, media, alertType,
+      account, location, topicType, languageCode, summary, media, mediaFormat, alertType,
     } = this;
 
     const params: CreatePostParams = {
@@ -109,6 +117,7 @@ export default defineAction({
         event: this.checkAndParseObject(this.event),
         media: media?.map?.((sourceUrl: string) => ({
           sourceUrl,
+          mediaFormat,
         })),
         alertType,
         offer: this.checkAndParseObject(this.offer),
