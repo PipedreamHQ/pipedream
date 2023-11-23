@@ -37,21 +37,24 @@ export default {
     order: {
       type: "integer",
       label: "Document Order",
-      description: "The order position of the document within the category.",
+      description: "The order position of the document within the category. For example, `0` will be the first in the category, `4` will be the fifth in the category.",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.document360.createDocument({
-      categoryId: this.categoryId,
-      projectVersionId: this.projectVersionId,
-      title: this.title,
-      userId: this.userId,
-      content: this.content,
-      order: this.order,
+      $,
+      data: {
+        category_id: this.categoryId,
+        project_version_id: this.projectVersionId,
+        title: this.title,
+        user_id: this.userId,
+        content: this.content,
+        order: this.order,
+      },
     });
 
-    $.export("$summary", `Successfully created document titled '${this.title}'`);
+    $.export("$summary", `Successfully created document "${this.title}"`);
     return response;
   },
 };

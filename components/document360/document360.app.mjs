@@ -63,7 +63,7 @@ export default {
     async createDocument(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/v2/articles",
+        path: "/v2/Articles",
         ...args,
       });
     },
