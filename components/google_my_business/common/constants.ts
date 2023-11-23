@@ -34,10 +34,10 @@ export const LOCAL_POST_ALERT_TYPES = [
 
 // https://developers.google.com/my-business/reference/rest/v4/accounts.locations.media#MediaItem.MediaFormat
 export const MEDIA_FORMAT_OPTIONS = [
-  {
-    label: "Format unspecified.",
-    value: "MEDIA_FORMAT_UNSPECIFIED",
-  },
+  // {
+  //   label: "Format unspecified.",
+  //   value: "MEDIA_FORMAT_UNSPECIFIED",
+  // },
   {
     label: "Media item is a photo. In this version, only photos are supported.",
     value: "PHOTO",

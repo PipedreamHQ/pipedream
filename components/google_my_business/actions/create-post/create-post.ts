@@ -12,7 +12,7 @@ export default defineAction({
   key: "google_my_business-create-post",
   name: "Create Post",
   description: `Create a new local post associated with a location. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -64,7 +64,7 @@ export default defineAction({
     media: {
       type: "string[]",
       label: "Media",
-      description: "The media associated with the post. Each entry is treated as a `sourceUrl` (a publicly accessible URL where the media item can be retrieved from). [See the documentation for more details](https://developers.google.com/my-business/reference/rest/v4/accounts.locations.media#MediaItem)",
+      description: "The media associated with the post. Each entry is treated as a `sourceUrl` (a publicly accessible URL where the media item can be retrieved from). If included, **Media Format** must also be specified. [See the documentation for more details](https://developers.google.com/my-business/reference/rest/v4/accounts.locations.media#MediaItem)",
       optional: true,
     },
     mediaFormat: {
@@ -73,7 +73,6 @@ export default defineAction({
       description: "The format of the media item(s). [See the documentation for more details](https://developers.google.com/my-business/reference/rest/v4/accounts.locations.media#MediaItem.MediaFormat)",
       optional: true,
       options: MEDIA_FORMAT_OPTIONS,
-      default: MEDIA_FORMAT_OPTIONS[0].value,
     },
     alertType: {
       type: "string",
