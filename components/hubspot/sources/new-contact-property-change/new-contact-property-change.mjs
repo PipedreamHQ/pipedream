@@ -6,7 +6,7 @@ export default {
   key: "hubspot-new-contact-property-change",
   name: "New Contact Property Change",
   description: "Emit new event when a specified property is provided or updated on a contact. [See the docs here](https://developers.hubspot.com/docs/api/crm/contacts)",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   type: "source",
   props: {
@@ -111,13 +111,15 @@ export default {
       let maxTs = after;
 
       for (let i = 0; i < updatedContacts.length; i += batchSize) {
-        const batchInputs = updatedContacts.slice(i, i + batchSize).map(({id}) => ({id}));
+        const batchInputs = updatedContacts.slice(i, i + batchSize).map(({ id }) => ({
+          id,
+        }));
 
         // get contacts w/ `propertiesWithHistory`
-        const {results} = await this.batchGetContacts(batchInputs);
+        const { results } = await this.batchGetContacts(batchInputs);
 
         maxTs = after;
-        
+
         for (const result of results) {
           if (this.isRelevant(result, after)) {
             this.emitEvent(result);
@@ -128,8 +130,8 @@ export default {
           }
         }
 
-      after = maxTs;
-    }
+        after = maxTs;
+      }
 
       this._setAfter(maxTs);
     },

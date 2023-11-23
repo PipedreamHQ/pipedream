@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sms_alert",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream SMS Alert  Components",
   "main": "sms_alert.app.mjs",
   "keywords": [
