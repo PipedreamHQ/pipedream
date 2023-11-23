@@ -49,7 +49,7 @@ export default {
       response.data
         ?.filter((item) => !savedItems.includes(item.id))
         .forEach((article, index) => {
-          if (maxItems && index < maxItems) {
+          if (!maxItems || index < maxItems) {
             this.$emit(article, {
               id: article.id,
               summary: `New Article: "${article.title}"`,
