@@ -19,11 +19,11 @@ export default {
   },
   methods: {
     ...common.methods,
-    getItemStatus(id) {
-      return this.db.get(id);
+    getStatusItems() {
+      return this.db.get("statusItems");
     },
-    setItemStatus(id, value) {
-      this.db.set(id, value);
+    setStatusItems(value) {
+      this.db.set("statusItems", value);
     },
     async getData() {
       const {
@@ -45,28 +45,41 @@ export default {
         ts,
       };
     },
+    statusByItemId(itemId, statusItems) {
+      const { [itemId]: status } = statusItems || {};
+      return status;
+    },
+    buildStatusItems(data) {
+      return data?.reduce((acc, item) => ({
+        ...acc,
+        [item.id]: item.status,
+      }), {});
+    },
     async getAndProcessItems(maxEvents) {
+      console.log("getAndProcessItems!!!");
       const {
         getData,
-        getItemStatus,
-        setItemStatus,
+        getStatusItems,
+        setStatusItems,
+        statusByItemId,
+        buildStatusItems,
         getMeta,
         $emit: emit,
       } = this;
 
       const data = await getData();
+      const statusItems = getStatusItems();
 
       Array.from(data)
         .reverse()
         .forEach((item, index) => {
-          if (!maxEvents || index < maxEvents) {
-
-            if (getItemStatus(item.id) !== item.status) {
-              setItemStatus(item.id, item.status);
-              emit(item, getMeta(item));
-            }
+          const statusChanged = statusByItemId(item.id, statusItems) !== item.status;
+          if ((!maxEvents || index < maxEvents) && statusChanged) {
+            emit(item, getMeta(item));
           }
         });
+
+      setStatusItems(buildStatusItems(data));
     },
   },
 };

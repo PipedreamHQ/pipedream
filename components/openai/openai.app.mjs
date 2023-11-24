@@ -80,13 +80,10 @@ export default {
         if (!threadId) {
           return [];
         }
-        const runs = await this.listRuns({
+        const { data: runs } = await this.listRuns({
           threadId,
         });
-        return runs.map((run) => ({
-          label: `Run ${run.id} (${run.status})`,
-          value: run.id,
-        }));
+        return runs.map(({ id }) => id);
       },
     },
     stepId: {

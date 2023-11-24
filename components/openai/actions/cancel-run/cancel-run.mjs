@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         openai,
         "runId",
+        ({ threadId }) => ({
+          threadId,
+        }),
       ],
     },
   },
