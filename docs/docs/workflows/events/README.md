@@ -96,7 +96,7 @@ You can use the data in `steps.trigger.context` to uniquely identify the Pipedre
 | `workflow_id`      |                                                  The workflow ID                                                  |
 | `workflow_name`    |                                                 The workflow name                                                 |
 
-### `id` vs. `trace_id`
+### How do I retrieve the execution ID for a workflow?
 
 `steps.trigger.context.id` should be unique for every execution of a workflow.
 
