@@ -83,18 +83,18 @@ We use Amazon SES to receive emails for the email trigger. You can find the shap
 
 You can use the data in `steps.trigger.context` to uniquely identify the Pipedream event ID, the timestamp at which the event invoked the workflow, and more:
 
-| Property           |                                                    Description                                                    |
-| ------------------ | :---------------------------------------------------------------------------------------------------------------: |
-| `deployment_id`    |                     A globally-unique string representing the current version of the workflow                     |
-| `emitter_id`       |           The ID of the workflow trigger that emitted this event, e.g. the [event source](/sources) ID.           |
-| `id`               |                A unique, Pipedream-provided identifier for the event that triggered this workflow                 |
-| `owner_id`         |      The Pipedream-assigned [workspace ID](/workspaces/#finding-your-workspace-s-id) that owns the workflow       |
-| `platform_version` |                       The version of the Pipedream execution environment this event ran on                        |
-| `replay`           |                               A boolean, whether the event was replayed via the UI                                |
-| `trace_id`         | Holds the same value for all executions tied to an original event. [See below for more details](#id-vs-trace-id). |
-| `ts`               |                          The ISO 8601 timestamp at which the event invoked the workflow                           |
-| `workflow_id`      |                                                  The workflow ID                                                  |
-| `workflow_name`    |                                                 The workflow name                                                 |
+| Property           |                                                                     Description                                                                      |
+| ------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------: |
+| `deployment_id`    |                                      A globally-unique string representing the current version of the workflow                                       |
+| `emitter_id`       |                            The ID of the workflow trigger that emitted this event, e.g. the [event source](/sources) ID.                             |
+| `id`               |                                  A unique, Pipedream-provided identifier for the event that triggered this workflow                                  |
+| `owner_id`         |                        The Pipedream-assigned [workspace ID](/workspaces/#finding-your-workspace-s-id) that owns the workflow                        |
+| `platform_version` |                                         The version of the Pipedream execution environment this event ran on                                         |
+| `replay`           |                                                 A boolean, whether the event was replayed via the UI                                                 |
+| `trace_id`         | Holds the same value for all executions tied to an original event. [See below for more details](#how-do-i-retrieve-the-execution-id-for-a-workflow). |
+| `ts`               |                                            The ISO 8601 timestamp at which the event invoked the workflow                                            |
+| `workflow_id`      |                                                                   The workflow ID                                                                    |
+| `workflow_name`    |                                                                  The workflow name                                                                   |
 
 ### How do I retrieve the execution ID for a workflow?
 

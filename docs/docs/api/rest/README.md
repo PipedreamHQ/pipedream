@@ -10,7 +10,7 @@ Pipedream exposes a limited API for retrieving workflow events, and plans to exp
 
 ## Base URL
 
-The base URL for all requests is [**{{$site.themeConfig.API_BASE_URL}}**](**{{$site.themeConfig.API_BASE_URL}}**) .
+The base URL for all requests is [https://api.pipedream.com/v1](https://api.pipedream.com/v1).
 
 ## Authentication
 
