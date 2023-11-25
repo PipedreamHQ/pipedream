@@ -4,12 +4,13 @@
 
 ## Overview
 
-Use the REST API to create and manage sources, workflows and source events.
-Workflow development and management is not currently supported via the API.
+Use the REST API to create and manage sources, workflows, subscriptions, and more.
+
+Pipedream exposes a limited API for retrieving workflow events, and plans to expose APIs for creating, updating, and deleting workflows programmatically in the future. If you'd like to see this, please upvote and add detail on your use case on [this GitHub issue](https://github.com/PipedreamHQ/pipedream/issues/8735).
 
 ## Base URL
 
-The base URL for all requests is **{{$site.themeConfig.API_BASE_URL}}** .
+The base URL for all requests is [**{{$site.themeConfig.API_BASE_URL}}**](**{{$site.themeConfig.API_BASE_URL}}**) .
 
 ## Authentication
 
@@ -538,7 +539,6 @@ GET /v1/workspaces/<workspace_id>
 	}
 }
 ```
-
 
 ### Get Workspaces's Subscriptions
 
@@ -1222,6 +1222,8 @@ curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
 ```
 
 ## Workflows
+
+Pipedream exposes a limited API for retrieving workflow events, and plans to expose APIs for creating, updating, and deleting workflows programmatically in the future. If you'd like to see this, please upvote and add detail on your use case on [this GitHub issue](https://github.com/PipedreamHQ/pipedream/issues/8735).
 
 ### Get Workflow Emits
 

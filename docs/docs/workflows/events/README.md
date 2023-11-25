@@ -98,9 +98,11 @@ You can use the data in `steps.trigger.context` to uniquely identify the Pipedre
 
 ### How do I retrieve the execution ID for a workflow?
 
+Pipedream exposes two identifies for workflow executions: one for the execution, and one for the "trace".
+
 `steps.trigger.context.id` should be unique for every execution of a workflow.
 
-`steps.trigger.context.trace_id` will hold the same value for all executions tied to the same original event, e.g. if you have auto-retry enabled and it retries a workflow three times, id will change, but trace_id will remain the same. For example, if you call `$.flow.suspend()` on a workflow, we run a new execution after the suspend, so you'd see two total executions: `id` will be unique before and after the suspend, but `trace_id` will be the same.
+`steps.trigger.context.trace_id` will hold the same value for all executions tied to the same original event, e.g. if you have auto-retry enabled and it retries a workflow three times, the `id` will change, but the `trace_id` will remain the same. For example, if you call `$.flow.suspend()` on a workflow, we run a new execution after the suspend, so you'd see two total executions: `id` will be unique before and after the suspend, but `trace_id` will be the same.
 
 You may notice other properties in `context`. These are used internally by Pipedream, and are subject to change.
 
