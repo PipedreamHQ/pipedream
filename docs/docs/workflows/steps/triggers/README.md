@@ -2,7 +2,7 @@
 
 <VideoPlayer url="https://www.youtube.com/embed/Jjq-ZoYZQoQ" title="Using Triggers" />
 
-**Triggers** define the type of event that runs your workflow. For example, HTTP triggers expose a URL where you can send any HTTP requests. Pipedream will run your workflow on each request. The Cron Scheduler trigger runs your workflow on a schedule.
+**Triggers** define the type of event that runs your workflow. For example, HTTP triggers expose a URL where you can send any HTTP requests. Pipedream will run your workflow on each request. The Scheduler trigger runs your workflow on a schedule, like a cron job.
 
 Today, we support the following triggers:
 
@@ -50,14 +50,13 @@ For example, you might create a single source to listen for new Twitter mentions
 
 Moreover, you can access events emitted by sources using Pipedream's [SSE](/api/sse/) and [REST APIs](/api/rest/). This allows you to access these events in your own app, outside Pipedream's platform.
 
-### Dependent and Independent Sources
+### Can I add multiple triggers to a workflow
 
-In order to reduce unintentional workflow executions, certain sources are classified as "dependent" and will mirror the state of their parent workflow. For example,
+Yes, you can add any number of triggers to a workflow. Click the top right menu in the trigger step and select **Add trigger**.
 
-- When adding a source to a new workflow, that source will initially be set as dependent. If you pause or delete the workflow, that source will also be paused or deleted. If you re-enable the workflow after pausing it, the source will be re-enabled as well.
-- If you add that same source to another workflow, or create a workflow then later remove and add a different source, the source will be independent from the workflow, which means pausing, re-enabling, or deleting the workflow will not impact the source.
-
-There is not currently any user-facing indication for dependent vs. independent sources at this time.
+<div>
+<img src="./images/add-multi-trigger.gif" alt="Add multiple triggers to a workflow" />
+</div>
 
 ### Shape of the `steps.trigger.event` object
 
@@ -292,11 +291,13 @@ If you need to issue a custom HTTP response from a workflow, you can either:
 
 #### Using the HTTP Response Action
 
-With this action, you do not need to write any custom code. You can customize the response status code, and optionally specify response headers and body.
+The HTTP Response action lets you return HTTP responses without the need to write code. You can customize the response status code, and optionally specify response headers and body.
 
 This action uses `$.respond()` and will always [respond immediately](#returning-a-response-immediately) when called in your workflow. A [response error](#errors-with-http-responses) will still occur if your workflow throws an Error before this action runs.
 
 #### Using custom code with `$.respond()`
+
+You can return HTTP responses in Node.js code with the `$.respond()` function.
 
 `$.respond()` takes a single argument: an object with properties that specify the body, headers, and HTTP status code you'd like to respond with:
 
@@ -311,10 +312,6 @@ defineComponent({
   },
 });
 ```
-
-:::warning
-The `$.respond` function is currently only available in Node.js (Javascript) workflow steps.
-:::
 
 The value of the `body` property can be either a string, object, a [Buffer](https://nodejs.org/api/buffer.html#buffer_buffer) (binary data), or a [Readable stream](https://nodejs.org/api/stream.html#stream_readable_streams). Attempting to return any other data may yield an error.
 
@@ -443,35 +440,26 @@ Since you can [run any code](/code/) in a workflow, you can implement more compl
 
 ## Schedule
 
-Pipedream allows you to run hosted scheduled jobs — commonly-referred to as a "cron job" — [for free](/pricing/).
+Pipedream allows you to run hosted scheduled jobs — commonly-referred to as a "cron job" — [for free](/pricing/). You can think of workflows like scripts that run on a schedule.
 
-We call these cron jobs "[workflows](/workflows/)". Workflows are just scripts that run on a schedule.
+You can write scheduled job to send an HTTP request, send a scheduled email, run any Node.js or Python code, connect to any API, and much more. Pipedream manages the servers where these jobs run, so you don't have to worry about setting up a server of your own or operating some service just to run code on a schedule. You write the workflow, we take care of the rest.
 
-You can write a cron job to:
+### Choosing a Schedule trigger
 
-- [Send an HTTP request to any URL on a schedule](https://pipedream.com/@dylburger/send-an-http-post-request-on-a-schedule-p_KwCYBx/readme)
-- [Send a scheduled message to email](https://pipedream.com/@dylburger/541cd2a9ef220f04fefa8f2d440c38d2-p_q6CMjp/readme), Slack, Discord, or any messaging app
-- Pull data from an API, process it, and send the results to Slack, or even data stores like Amazon S3
-- [Run any Node.js (JavaScript) code, using almost any npm package](https://pipedream.com/@dylburger/email-the-top-story-from-hacker-news-every-day-p_JZC28O/readme). **This lets you do almost anything you want on a schedule**.
-
-Pipedream manages the servers where these cron jobs run, so you don't have to worry about setting up a server of your own or operating some service just to run code on a schedule. You write the workflow, we take care of the rest.
-
-### Choosing a cron trigger
-
-To create a cron job, create a new workflow and search for the **Schedule** trigger:
+To create a new scheduled job, create a new workflow and search for the **Schedule** trigger:
 
 <div>
 <img alt="Cron Scheduler source" width="400px" src="./images/schedule.png">
 </div>
 
-By default, your cron job will be turned **Off**. **To enable it, select either of the scheduling options**:
+By default, your trigger will be turned **Off**. **To enable it, select either of the scheduling options**:
 
 - **Every** : run the job every N days, hours, minutes (e.g. every 1 day, every 3 hours).
 - **Cron Expression** : schedule your job using a cron expression. For example, the expression `0 0 * * *` will run the job every day at midnight. Cron expressions can be tied to any timezone.
 
-### Testing a cron job
+### Testing a scheduled job
 
-If you're running a cron job once a day, you probably don't want to wait until the next day's run to test your new code. You can manually run the workflow associated with a cron job at any time by pressing the **Run Now** button.
+If you're running a scheduled job once a day, you probably don't want to wait until the next day's run to test your new code. You can manually run the workflow associated with a scheduled job at any time by pressing the **Run Now** button.
 
 ### Job History
 
@@ -487,15 +475,11 @@ If you'd like to email yourself when a job finishes successfully, you can use th
 
 You can also [write code](/code/) to trigger any complex notification logic you'd like.
 
-### Rate Limit
-
-When you're testing cron jobs, you may encounter **Rate Limit Exceeded** errors. Cron jobs can be tested no more than twice a minute. If you encounter this error, wait one minute and try again.
-
 ### Troubleshooting your scheduled jobs
 
-When you run a cron job, you may need to troubleshoot errors or other execution issues. Pipedream offers built-in, step-level logs that show you detailed execution information that should aid troubleshooting.
+When you run a scheduled job, you may need to troubleshoot errors or other execution issues. Pipedream offers built-in, step-level logs that show you detailed execution information that should aid troubleshooting.
 
-Any time a cron job runs, you'll see a new execution appear in the [Inspector](/workflows/events/inspect/). This shows you when the cron job ran, how long it took to run, and any errors that might have occurred. **Click on any of these lines in the Inspector to view the details for a given run**.
+Any time a scheduled job runs, you'll see a new execution appear in the [Inspector](/workflows/events/inspect/). This shows you when the job ran, how long it took to run, and any errors that might have occurred. **Click on any of these lines in the Inspector to view the details for a given run**.
 
 Code steps show [logs](/code/nodejs/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
 
@@ -606,18 +590,6 @@ This will create an RSS [event source](/sources/) that polls the feed for new it
 
 ## Don't see a trigger you need?
 
-If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/community/).
-
-## Multiple triggers for one workflow
-
-Want to trigger a workflow on a schedule, but at the same time trigger it on demand with a Slack message? Yes this is possible and yes it's very cool.
-
-Click the top right menu in the trigger itself, and select "Add trigger".
-
-Now you can add an additional trigger to the same workflow, opening up multiple ways that a workflow can be started.
-
-<div>
-<img src="./images/add-multi-trigger.gif" alt="Add multiple triggers to a workflow" />
-</div>
+If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/support/).
 
 <Footer />
