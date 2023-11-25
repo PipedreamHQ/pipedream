@@ -858,13 +858,10 @@ DELETE /sources/{id}
 
 ---
 
-You can configure a source, or a workflow, to receive events from any number of
+You can configure a source or workflow to receive events from any number of
 other workflows or sources. For example, if you want a single workflow to run on
 10 different RSS sources, you can configure the workflow to _listen_ for events
 from those 10 sources.
-
-**Currently, this feature is enabled only on the API. The Pipedream UI will not
-display the sources configured as listeners using this API**.
 
 ---
 
