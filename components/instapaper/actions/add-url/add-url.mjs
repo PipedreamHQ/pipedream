@@ -15,7 +15,7 @@ export default {
     url: {
       type: "string",
     },
-    sitle: {
+    title: {
       type: "string",
       description: "Optional, plain text, no HTML, UTF-8. If omitted or empty, Instapaper will crawl the URL to detect a title.",
       optional: true,
@@ -28,16 +28,16 @@ export default {
   },
   async run({ $ }) {
     return await axios($, {
-      url: "https://www.instapaper.com/api/authenticate",
+      url: "https://www.instapaper.com/api/add",
       auth: {
         username: `${this.instapaper.$auth.username}`,
         password: `${this.instapaper.$auth.password}`,
-        params: {
-          url: this.url,
-          title: this.sitle,
-          selection: this.selection,
-        },
       },
+      params: {
+        url: this.url,
+        title: this.title,
+        selection: this.selection,
+      }
     });
   },
 };
