@@ -8,7 +8,7 @@ export default {
   name: "Upload File",
   description: "Upload a file to OneDrive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_put_content?view=odsp-graph-online)",
   key: "microsoft_onedrive-upload-file",
-  version: "0.0.4",
+  version: "0.1.0",
   type: "action",
   props: {
     onedrive,
