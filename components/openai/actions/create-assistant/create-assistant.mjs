@@ -1,10 +1,11 @@
+import { parseToolsArray } from "../../common/helpers.mjs";
 import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-create-assistant",
   name: "Create Assistant",
   description: "Creates an assistant with a model and instructions. [See the docs here](https://platform.openai.com/docs/api-reference/assistants/createAssistant)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     openai,
@@ -58,9 +59,7 @@ export default {
       name: this.name,
       description: this.description,
       instructions: this.instructions,
-      tools: (this.tools || []).map((tool) => ({
-        type: tool,
-      })),
+      tools: parseToolsArray(this.tools),
       file_ids: this.file_ids,
       metadata: this.metadata,
     });
