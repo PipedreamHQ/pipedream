@@ -1823,7 +1823,10 @@ importers:
       crypto: 1.0.1
 
   components/ewebinar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/exact:
     specifiers:
@@ -2069,7 +2072,10 @@ importers:
       moment: 2.29.4
 
   components/freshlearn:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/freshsales:
     specifiers: {}
@@ -4203,6 +4209,8 @@ importers:
       '@pipedream/platform': ^1.2.1
       '@pipedream/types': ^0.1.4
       '@types/node': ^17.0.45
+      axios: ^1.6.2
+      bottleneck: ^2.19.5
       form-data: ^4.0.0
       got: ^12.6.0
       openai: ^3.2.1
@@ -4210,6 +4218,8 @@ importers:
       '@ffmpeg-installer/ffmpeg': 1.1.0
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+      axios: 1.6.2
+      bottleneck: 2.19.5
       form-data: 4.0.0
       got: 12.6.1
       openai: 3.3.0
@@ -6822,7 +6832,10 @@ importers:
     specifiers: {}
 
   components/vtiger_crm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/wachete:
     specifiers: {}
@@ -15256,6 +15269,16 @@ packages:
     resolution: {integrity: sha512-vfBmhDpKafglh0EldBEbVuoe7DyAavGSLWhuSm5ZSEKQnHhBf0xAAwybbNH1IkrJNGnS/VG4I5yxig1pCEXE4g==}
     dependencies:
       follow-redirects: 1.15.3_debug@3.2.7
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/1.6.2:
+    resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
+    dependencies:
+      follow-redirects: 1.15.3
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:

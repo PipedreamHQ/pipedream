@@ -4,7 +4,7 @@ export default {
   key: "openai-modify-run",
   name: "Modify Run",
   description: "Modifies an existing run. [See the documentation](https://platform.openai.com/docs/api-reference)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     openai,
