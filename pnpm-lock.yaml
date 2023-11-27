@@ -1557,7 +1557,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/document360:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/docupilot:
     specifiers:
@@ -2893,6 +2896,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/instagram_business:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
+  components/instapaper:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:

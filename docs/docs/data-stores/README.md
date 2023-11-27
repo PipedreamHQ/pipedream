@@ -2,17 +2,11 @@
 
 <VideoPlayer url="https://www.youtube.com/embed/0WMcAnDF7FA" title="Data Store Basics" />
 
-**Data stores** are key-value databases to easily set and get any JSON-serializable data and maintain state across workflow executions.
+**Data stores** are key-value stores. You can set and get any JSON-serializable data at a specific key and maintain state across workflow executions.
 
-It's useful for counting values, summing up data between run, or tracking unique data points like email addresses.
+They're useful for counting values, retrieving data across workflow executions, caching, and more.
 
-Data stores are:
-
-* Persisted between workflow runs
-* Shareable between workflows
-* Quick to get started, since they don't require any setup or external connections
-
-You can also use native pre-built actions to store, update, and clear data without code.
+You can connect to a data store in any workflow, so they're also great for sharing state across different services. You can also use pre-built actions to store, update, and clear data without code.
 
 ## Using pre-built Data Store actions
 
@@ -44,7 +38,7 @@ The **Key** should always evaluate to a string.
 
 However, you can use dynamic keys as well by passing a path to another step's exports. For instance, retrieving an `id` entry in the body of an HTTP Webhook trigger:
 
-::: v-pre 
+::: v-pre
 `{{ steps.trigger.event.body.id }}`
 :::
 
@@ -119,9 +113,13 @@ If the delete icon is greyed out and unclickable, it means that you have depende
 In order to free up this Data Store to be deleted manually, you'll need to remove those steps from the workflow consuming that Data Store, or switch them to use a different Data Store to allow it to be deleted.
 :::
 
-### Using with Data Stores in Code Steps
+### Using Data Stores in Code Steps
 
-Refer to the [Node.js](/code/nodejs/using-data-stores/) and [Python](/code/python/using-data-stores/) Data Store documentation to learn how to use Data Stores in code steps in your workflows.
+Refer to the [Node.js](/code/nodejs/using-data-stores/) and [Python](/code/python/using-data-stores/) Data Store documentation to learn how to use Data Stores in code steps in your workflows. You can get, set, delete and perform any other data store operations in code.
+
+## Compression
+
+Data saved in data stores is [Brotli-compressed](https://github.com/google/brotli), minimizing storage. The total compression ratio depends on the data being compressed. To test this on your own data, run it through a package that supports Brotli compression and measure the size of the data before and after.
 
 ## Data store limitations
 
@@ -133,14 +131,14 @@ Data Stores are only currently available in [Node.js](/code/nodejs/using-data-st
 
 Data stores can hold any JSON-serializable data within the storage limits. This includes data types including:
 
-* Strings
-* Objects
-* Arrays
-* Dates
-* Integers
-* Floats
+- Strings
+- Objects
+- Arrays
+- Dates
+- Integers
+- Floats
 
-But you cannot serialize Functions, Classes, or other more complex objects.
+But you cannot serialize functions, classes, sets, maps, or other complex objects.
 
 ### Retrieving a large number of keys
 
