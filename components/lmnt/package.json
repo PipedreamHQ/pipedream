@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lmnt",
+  "version": "0.0.1",
+  "description": "Pipedream LMNT Components",
+  "main": "lmnt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lmnt"
+  ],
+  "homepage": "https://pipedream.com/apps/lmnt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
