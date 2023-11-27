@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/usersketch",
+  "version": "0.0.1",
+  "description": "Pipedream UserSketch Components",
+  "main": "usersketch.app.mjs",
+  "keywords": [
+    "pipedream",
+    "usersketch"
+  ],
+  "homepage": "https://pipedream.com/apps/usersketch",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
