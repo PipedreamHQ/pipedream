@@ -99,5 +99,39 @@ export default {
 
       return data;
     },
+    async createNewClient({name, workspace_id, $, } = {}) {
+      const { data } = await this._makeRequest("v9", `workspaces/${workspace_id}/clients`, {
+        method: 'post',
+        data: {
+          name,
+          wid: workspace_id,
+        }
+      }, $)
+      return data;
+    },
+    async updateClient({name, workspace_id, client_id, $, } = {}) {
+      const { data } = await this._makeRequest("v9", `workspaces/${workspace_id}/clients/${client_id}`, {
+        method: 'put',
+        data: {
+          name,
+          wid: workspace_id,
+        }
+      }, $)
+      return data;
+    },
+    async createProject({workspace_id, payload, $, } = {}) {
+      const { data } = await this._makeRequest("v9", `workspaces/${workspace_id}/projects`, {
+        method: 'post',
+        data: payload,
+      }, $)
+      return data;
+    },
+    async updateProject({workspace_id, payload, project_id, $, } = {}) {
+      const { data } = await this._makeRequest("v9", `workspaces/${workspace_id}/projects/${project_id}`, {
+        method: 'put',
+        data: payload,
+      }, $)
+      return data;
+    },
   },
 };
