@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bugbug",
+  "version": "0.0.1",
+  "description": "Pipedream BugBug Components",
+  "main": "bugbug.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bugbug"
+  ],
+  "homepage": "https://pipedream.com/apps/bugbug",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
