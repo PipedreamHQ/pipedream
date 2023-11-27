@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/ewebinar",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream eWebinar Components",
-  "main": "dist/app/ewebinar.app.mjs",
+  "main": "ewebinar.app.mjs",
   "keywords": [
     "pipedream",
     "ewebinar"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/ewebinar",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
+

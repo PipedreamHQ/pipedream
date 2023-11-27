@@ -3,9 +3,9 @@ import { KLINE_DESC_MAPPING } from "../../common.mjs";
 
 export default {
   name: "BingX Market Get History Klines",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-market-get-kline-history",
-  description: "K-Line Data History [reference](https://bingx-api.github.io/docs/swap/market-api.html#_8-k-line-data-history).",
+  description: "K-Line Data History [See the documentation](https://bingx-api.github.io/docs/#/swapV2/market-api.html#%20K-Line%20Data).",
   props: {
     bingx,
     symbol: {
@@ -35,16 +35,20 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const API_METHOD = "GET";
-    const API_PATH = "/api/v1/market/getHistoryKlines";
-    const parameters = {
-      "symbol": this.symbol,
-      "klineType": KLINE_DESC_MAPPING[this.klineType],
-      "startTs": this.startTime,
-      "endTs": this.endTime,
-    };
-    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-    $.export("$summary", `K-Line Data History for Trading Pair ${this.symbol}`);
+    const returnValue = await this.bingx.getKline({
+      params: {
+        symbol: this.symbol,
+        interval: KLINE_DESC_MAPPING[this.klineType],
+        startTime: this.startTime,
+        endTime: this.endTime,
+      },
+      $,
+    });
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `K-Line Data History for Trading Pair ${this.symbol}`);
+    }
     return returnValue;
   },
 };

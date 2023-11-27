@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Custom Calculate Leveraged Position",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-custom-calculate-leveraged-position",
   description: "Calculate leveraged position based on entry, stop price and account balance",
   props: {
@@ -52,41 +52,32 @@ export default {
     },
   },
   type: "action",
-  methods: {
-    async getBalance() {
-      const API_METHOD = "POST";
-      const API_PATH = "/api/v1/user/getBalance";
-      const parameters = {
-        "currency": this.currency,
-      };
-      return this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getLatestPrice() {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getLatestPrice";
-      const parameters = {
-        "symbol": this.symbol,
-      };
-      let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-      return returnValue.data.indexPrice;
-    },
-  },
   async run({ $ }) {
     let entryPrice = this.limitPrice;
     if (!entryPrice)
-      entryPrice = await this.getLatestPrice();
+      entryPrice = await this.bingx.getLatestPrice({
+        params: {
+          symbol: this.symbol,
+        },
+        $,
+      });
     let tradeDirection = entryPrice > this.stopPrice
-      ? "Bid"
-      : "Ask";
+      ? "BID"
+      : "ASK";
     let tpDirection = entryPrice > this.stopPrice
-      ? "Ask"
-      : "Bid";
-    const balanceQuery = await this.getBalance();
+      ? "ASK"
+      : "BID";
+    const balanceQuery = await this.bingx.getBalance({
+      params: {
+        currency: this.currency,
+      },
+      $,
+    });
     console.log(balanceQuery);
     if (balanceQuery.code) {
       throw new Error(balanceQuery.msg);
     }
-    const balance = balanceQuery.data.account.balance;
+    const balance = balanceQuery.data.balance.balance;
     const risk = this.bingx.convertToFloat(this.riskOnCapital) * balance / 100;
 
     const stopDiff = Math.abs(entryPrice - this.stopPrice);
@@ -107,7 +98,11 @@ export default {
       "profitAmount": profit,
       "riskReward": profit / risk,
     };
-    $.export("$summary", `Calculate bracket order for ${this.symbol}`);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", `Calculated bracket order for ${this.symbol}`);
+    }
     return returnValue;
   },
 };

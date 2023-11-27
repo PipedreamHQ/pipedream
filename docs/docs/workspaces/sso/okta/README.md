@@ -68,10 +68,10 @@ Click the **Identity Provider metadata** link and copy the URL from your browser
 <img alt="Okta - Identity Metadata URL" src="./images/step-9-2.png">
 </div>
 
-10. Visit your [Pipedream workspace authentication settings](https://pipedream.com/settings/authentication). Under the **Single Sign-On** section, add the metadata URL in the **SAML** section and click **Confirm**:
+10. Visit your [Pipedream workspace authentication settings](https://pipedream.com/settings/authentication). Click the toggle to **Enable SSO**, then click **Edit SSO Configuration**, and add the metadata URL in the **SAML** section and click **Save**:
 
 <div>
-<img alt="Okta - Pipdeream Metadata URL" src="./images/step-10.png">
+<img alt="Pipedream SAML Metadata URL" src="https://res.cloudinary.com/pipedreamin/image/upload/v1699919663/saml-metadata-url_cxciur.png">
 </div>
 
 11. Back in Okta, click on the **Assignments** tab of the Pipedream application. Click on the **Assign** dropdown and select **Assign to People**:
@@ -82,7 +82,7 @@ Click the **Identity Provider metadata** link and copy the URL from your browser
 
 Assign the application to the relevant users in Okta, and Pipedream will configure the associated accounts on our end.
 
-Users configured in your Okta app can log into Pipedream at [https://pipedream.com/auth/sso](https://pipedream.com/auth/sso) by entering your workspaces's name (found in your [Settings](https://pipedream.com/settings/account)). You can also access your SSO sign in URL directly by visiting [https://pipedream.com/auth/sso/your_workspace_name](https://pipedream.com/auth/sso), where `your_workspace_name` is the name of your workspace.
+Users configured in your Okta app can log into Pipedream at [https://pipedream.com/auth/sso](https://pipedream.com/auth/sso) by entering your workspaces's name (found in your [Settings](https://pipedream.com/settings/account)). You can also access your SSO sign in URL directly by visiting [https://pipedream.com/auth/sso/your-workspace-name](https://pipedream.com/auth/sso), where `your-workspace-name` is the name of your workspace.
 
 ## Important details
 

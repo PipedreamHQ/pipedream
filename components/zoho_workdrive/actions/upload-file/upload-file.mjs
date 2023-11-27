@@ -7,7 +7,7 @@ import app from "../../zoho_workdrive.app.mjs";
 export default {
   key: "zoho_workdrive-upload-file",
   name: "Upload File",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Upload a new file to your WorkDrive account. [See the documentation](https://workdrive.zoho.com/apidocs/v1/chunkupload/chunkuploadcreatesession)",
   type: "action",
   props: {

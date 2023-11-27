@@ -58,6 +58,6 @@ export default {
         newLastCreatedTime = createdTime;
       }
     }
-    this.getLastCreatedTime(newLastCreatedTime);
+    this.setLastCreatedTime(newLastCreatedTime);
   },
 };
