@@ -6832,7 +6832,10 @@ importers:
     specifiers: {}
 
   components/vtiger_crm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/wachete:
     specifiers: {}
