@@ -133,10 +133,10 @@ export default {
       }
       return props;
     },
-    async getOptionalProps(moduleType) {
+    async getOptionalProps(moduleType, type = "create") {
       const props = {};
       const { fields } = await this.listFields(moduleType);
-      for (const field of this.filterFields(fields)) {
+      for (const field of this.filterFields(fields, type)) {
         props[field.api_name] = {
           type: this.getType(fields),
           label: field.display_label,
