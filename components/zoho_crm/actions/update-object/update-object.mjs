@@ -22,7 +22,7 @@ export default {
   },
   async additionalProps() {
     const requiredProps = this.getRequiredProps(this.moduleType, "update");
-    const optionalProps = await this.getOptionalProps(this.moduleType);
+    const optionalProps = await this.getOptionalProps(this.moduleType, "update");
     return {
       ...requiredProps,
       ...optionalProps,
