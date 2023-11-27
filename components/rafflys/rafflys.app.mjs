@@ -3,32 +3,43 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "rafflys",
-  propDefinitions: {},
+  propDefinitions: {
+    promotionId: {
+      type: "string",
+      label: "Promotion ID",
+      description: "The ID of the promotion to monitor.",
+      async options() {
+        const { data } = await this.listPromotions();
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+  },
   methods: {
     _baseUrl() {
-      return "https://api.rafflys.com/v1";
+      return "https://app-sorteos.com/api/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
+        ...args,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "X-API-KEY": this.$auth.api_key,
         },
       });
     },
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    listPromotions(args = {}) {
+      return this._makeRequest({
+        path: "/promotions",
+        ...args,
+      });
     },
   },
 };
