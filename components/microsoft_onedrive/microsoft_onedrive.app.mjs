@@ -14,35 +14,48 @@ export default {
       async options({
         driveId, folderId, prevContext,
       }) {
-        const drivePath = this._getDrivePath(driveId);
-        const driveItemPath = this._getDriveItemPath(folderId);
-        const firstLink = drivePath + driveItemPath + "/children";
-        const url = get(prevContext, "nextLink", firstLink);
+        const responses = await Promise.all((prevContext.items ?? [
+          folderId,
+        ]).map(async (itemId) => {
+          const drivePath = this._getDrivePath(driveId);
+          const driveItemPath = this._getDriveItemPath(itemId);
+          const firstLink = drivePath + driveItemPath + "/children";
+          const url = get(prevContext, "nextLink", firstLink);
 
-        const response = await this.client()
-          .api(url)
-          .select(
-            "folder",
-            "id",
-            "name",
-          )
-          .orderby("name")
-          .get();
+          const response = await this.client()
+            .api(url)
+            .select(
+              "folder",
+              "id",
+              "name",
+            )
+            .orderby("name")
+            .get();
 
-        const {
-          "@odata.nextLink": nextLink,
-          "value": children,
-        } = response;
+          const {
+            "@odata.nextLink": nextLink,
+            "value": children,
+          } = response;
 
-        const folders = children.filter((child) => !!child.folder);
+          const folders = children.filter((child) => !!child.folder);
+
+          return {
+            options: folders.map((folder) => ({
+              value: folder.id,
+              label: folder.name,
+            })),
+            context: {
+              nextLink,
+              items: folders.map(({ id }) => id),
+            },
+          };
+        }));
 
         return {
-          options: folders.map((folder) => ({
-            value: folder.id,
-            label: folder.name,
-          })),
+          options: responses.flatMap(({ options }) => options),
           context: {
-            nextLink,
+            nextLink: responses.find(({ context }) => !!context.nextLink)?.context.nextLink,
+            items: responses.flatMap(({ context }) => context.items),
           },
         };
       },
