@@ -138,7 +138,7 @@ export default {
       const { fields } = await this.listFields(moduleType);
       for (const field of this.filterFields(fields, type)) {
         props[field.api_name] = {
-          type: this.getType(fields),
+          type: this.getType(field.data_type),
           label: field.display_label,
           optional: true,
         };
