@@ -1,11 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import printify from "../../printify.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "printify-create-product",
   name: "Create a Product",
   description: "Creates a new product on Printify. [See the documentation](https://developers.printify.com/#create-a-new-product)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     printify,
@@ -15,35 +15,68 @@ export default {
         "shopId",
       ],
     },
-    productBlueprint: {
+    title: {
       propDefinition: [
         printify,
-        "productBlueprint",
+        "title",
       ],
     },
-    productDetails: {
+    description: {
       propDefinition: [
         printify,
-        "productDetails",
+        "description",
       ],
     },
-    images: {
+    tags: {
       propDefinition: [
         printify,
-        "images",
+        "tags",
       ],
       optional: true,
+    },
+    blueprintId: {
+      propDefinition: [
+        printify,
+        "blueprintId",
+      ],
+    },
+    printAreas: {
+      propDefinition: [
+        printify,
+        "printAreas",
+      ],
+    },
+    variants: {
+      propDefinition: [
+        printify,
+        "variants",
+      ],
+    },
+    printProviderId: {
+      propDefinition: [
+        printify,
+        "printProviderId",
+        ({ blueprintId }) => ({
+          blueprintId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
     const response = await this.printify.createProduct({
       shopId: this.shopId,
-      productBlueprint: this.productBlueprint,
-      productDetails: this.productDetails,
-      images: this.images,
+      data: {
+        title: this.title,
+        description: this.description,
+        tags: this.tags,
+        blueprint_id: this.blueprintId,
+        print_provider_id: this.printProviderId,
+        print_areas: parseObject(this.printAreas),
+        variants: parseObject(this.variants),
+      },
     });
 
-    $.export("$summary", `Successfully created a new product with blueprint ID ${this.productBlueprint.id}`);
+    $.export("$summary", `Successfully created a new product with ID: ${response.id}`);
     return response;
   },
 };

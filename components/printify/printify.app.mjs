@@ -1,164 +1,195 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "printify",
   propDefinitions: {
-    shopId: {
+    description: {
       type: "string",
-      label: "Shop ID",
-      description: "The ID of the merchant's store.",
+      label: "Description",
+      description: "A description of the product. Supports HTML formatting.",
     },
-    webhookId: {
+    blueprintId: {
       type: "string",
-      label: "Webhook ID",
-      description: "The unique identifier for the webhook.",
-    },
-    topic: {
-      type: "string",
-      label: "Webhook Topic",
-      description: "The event that triggers the webhook.",
+      label: "Blueprint Id",
+      description: "The blueprint of the product to create.",
       async options() {
-        return [
-          {
-            label: "Shop Disconnected",
-            value: "shop:disconnected",
-          },
-          {
-            label: "Product Deleted",
-            value: "product:deleted",
-          },
-          {
-            label: "Product Publish Started",
-            value: "product:publish:started",
-          },
-          {
-            label: "Order Created",
-            value: "order:created",
-          },
-          {
-            label: "Order Updated",
-            value: "order:updated",
-          },
-          {
-            label: "Order Sent to Production",
-            value: "order:sent-to-production",
-          },
-          {
-            label: "Order Shipment Created",
-            value: "order:shipment:created",
-          },
-          {
-            label: "Order Shipment Delivered",
-            value: "order:shipment:delivered",
-          },
-        ];
+        const data = await this.listBlueprints();
+
+        return data.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    printAreas: {
+      type: "string[]",
+      label: "Print Areas",
+      description: "A list of placeholder objects. [See the documentation](https://developers.printify.com/#create-a-new-product)",
+    },
+    variants: {
+      type: "string[]",
+      label: "Variants",
+      description: "A list of variant objects. [See the documentation](https://developers.printify.com/#create-a-new-product)",
+    },
+    printAreaVariantId: {
+      type: "string[]",
+      label: "Print Area Variant Id",
+      description: "The variant Ids of the blueprint from a specific print provider.",
+      async options({
+        blueprintId, printProviderId,
+      }) {
+        const { variants } = await this.listVariants({
+          blueprintId,
+          printProviderId,
+        });
+
+        return variants.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    printProviderId: {
+      type: "string",
+      label: "Print Provider Id",
+      description: "The print provider that fulfill orders for a specific blueprint.",
+      async options({ blueprintId }) {
+        const data = await this.listPrintProviders({
+          blueprintId,
+        });
+
+        return data.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
       },
     },
     productId: {
       type: "string",
       label: "Product ID",
       description: "The unique identifier for the product.",
+      async options({
+        page, shopId,
+      }) {
+        const { data } = await this.listProducts({
+          shopId,
+          params: {
+            limit: LIMIT,
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    productBlueprint: {
-      type: "object",
-      label: "Product Blueprint",
-      description: "The blueprint of the product to create.",
-      optional: true,
-    },
-    productDetails: {
-      type: "object",
-      label: "Product Details",
-      description: "The details of the product to create or update.",
-      optional: true,
-    },
-    quantity: {
-      type: "integer",
-      label: "Quantity",
-      description: "The quantity of the product to order.",
-      optional: true,
-    },
-    shippingDetails: {
-      type: "object",
-      label: "Shipping Details",
-      description: "The shipping details for the order.",
-      optional: true,
-    },
-    webhookUrl: {
+    shopId: {
       type: "string",
-      label: "Webhook URL",
-      description: "The URL the webhook subscription should send the POST request to.",
-      optional: true,
+      label: "Shop ID",
+      description: "The ID of the merchant's store.",
+      async options() {
+        const data = await this.listShops();
+
+        return data.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    webhookSecret: {
-      type: "string",
-      label: "Webhook Secret",
-      description: "The secret used to sign requests for the webhook.",
-      optional: true,
-    },
-    images: {
+    tags: {
       type: "string[]",
-      label: "Images",
-      description: "URLs of images associated with the product.",
-      optional: true,
+      label: "Tags",
+      description: "Tags are also published to sales channel.",
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The name of the product.",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.printify.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _getHeaders() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data,
-        params,
+        headers: this._getHeaders(),
+        ...opts,
       });
     },
-    async listWebhooks({ shopId }) {
+    createProduct({
+      shopId, ...opts
+    }) {
       return this._makeRequest({
-        path: `/shops/${shopId}/webhooks.json`,
+        method: "POST",
+        path: `/shops/${shopId}/products.json`,
+        ...opts,
       });
     },
-    async createWebhook({
-      shopId, topic, url, secret,
+    listBlueprints() {
+      return this._makeRequest({
+        path: "/catalog/blueprints.json",
+      });
+    },
+    listPrintProviders({ blueprintId }) {
+      return this._makeRequest({
+        path: `/catalog/blueprints/${blueprintId}/print_providers.json`,
+      });
+    },
+    listProducts({
+      shopId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/shops/${shopId}/products.json`,
+        ...opts,
+      });
+    },
+    listShops() {
+      return this._makeRequest({
+        path: "/shops.json",
+      });
+    },
+    updateProduct({
+      shopId, productId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/shops/${shopId}/products/${productId}.json`,
+        ...opts,
+      });
+    },
+    createHook({
+      shopId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/shops/${shopId}/webhooks.json`,
-        data: {
-          topic,
-          url,
-          secret,
-        },
+        ...opts,
       });
     },
-    async updateWebhook({
-      shopId, webhookId, url,
-    }) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/shops/${shopId}/webhooks/${webhookId}.json`,
-        data: {
-          url,
-        },
-      });
-    },
-    async deleteWebhook({
+    deleteHook({
       shopId, webhookId,
     }) {
       return this._makeRequest({
@@ -166,48 +197,14 @@ export default {
         path: `/shops/${shopId}/webhooks/${webhookId}.json`,
       });
     },
-    async createProduct({
-      shopId, productBlueprint, productDetails, images,
+    submitOrder({
+      shopId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/shops/${shopId}/products.json`,
-        data: {
-          blueprint: productBlueprint,
-          details: productDetails,
-          images,
-        },
+        path: `/shops/${shopId}/orders.json`,
+        ...opts,
       });
-    },
-    async updateProduct({
-      shopId, productId, productDetails,
-    }) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/shops/${shopId}/products/${productId}.json`,
-        data: productDetails,
-      });
-    },
-    async placeOrder({
-      shopId, productId, quantity, shippingDetails,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/orders.json",
-        data: {
-          shop_id: shopId,
-          line_items: [
-            {
-              product_id: productId,
-              quantity: quantity || 1,
-            },
-          ],
-          shipping_details: shippingDetails,
-        },
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
