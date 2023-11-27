@@ -79,12 +79,16 @@ export default {
   async run({ $ }) {
     const {
       uploadTranscription,
+      categoryId,
       ...data
     } = this;
 
     const response = await uploadTranscription({
       $,
-      data,
+      data: {
+        categoryId: categoryId && String(categoryId),
+        ...data,
+      },
     });
 
     $.export("$summary", "Successfully uploaded the conversation transcription");

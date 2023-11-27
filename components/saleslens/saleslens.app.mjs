@@ -58,7 +58,7 @@ export default {
     httpHeader: {
       type: "string",
       label: "HTTP Header",
-      description: "HTTP header for the transcription or recording download URL",
+      description: "If your download URL requires authorization, use this parameter as a string. Eg. `Authorization: Bearer <token>`",
       optional: true,
     },
     tags: {
