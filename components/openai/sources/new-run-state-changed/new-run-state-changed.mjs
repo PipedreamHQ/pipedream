@@ -56,7 +56,6 @@ export default {
       }), {});
     },
     async getAndProcessItems(maxEvents) {
-      console.log("getAndProcessItems!!!");
       const {
         getData,
         getStatusItems,
