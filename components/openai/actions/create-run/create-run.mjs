@@ -1,10 +1,11 @@
+import { parseToolsArray } from "../../common/helpers.mjs";
 import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-create-run",
   name: "Create Run",
   description: "Creates a run given a thread ID and assistant ID. [See the documentation](https://platform.openai.com/docs/api-reference/runs/create)",
-  version: "0.0.3",
+  version: "0.1.0",
   type: "action",
   props: {
     openai,
@@ -51,7 +52,7 @@ export default {
       assistantId: this.assistantId,
       model: this.model,
       instructions: this.instructions,
-      tools: this.tools,
+      tools: parseToolsArray(this.tools),
       metadata: this.metadata,
     });
 

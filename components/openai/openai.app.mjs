@@ -102,11 +102,7 @@ export default {
     tools: {
       type: "string[]",
       label: "Tools",
-      description: "A list of tools enabled on the assistant. There can be a maximum of 128 tools per assistant",
-      options: [
-        "code_interpreter",
-        "retrieval",
-      ],
+      description: "Each tool should be a valid JSON object. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/createAssistant#assistants-createassistant-tools) for more information. Examples of function tools [can be found here](https://cookbook.openai.com/examples/how_to_call_functions_with_chat_models#basic-concepts).",
       optional: true,
     },
     file_ids: {
