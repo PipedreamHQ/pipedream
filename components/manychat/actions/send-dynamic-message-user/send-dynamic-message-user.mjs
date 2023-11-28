@@ -1,11 +1,11 @@
+import { parseObj } from "../../common/utils.mjs";
 import manychat from "../../manychat.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "manychat-send-dynamic-message-user",
   name: "Send Dynamic Message to User",
   description: "Delivers a dynamic message to a particular user specified by their user ID. [See the documentation](https://api.manychat.com)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     manychat,
@@ -16,16 +16,23 @@ export default {
       ],
     },
     message: {
-      propDefinition: [
-        manychat,
-        "message",
-      ],
+      type: "string",
+      label: "Message",
+      description: "The message to deliver to the user. [See the documentation](https://manychat.github.io/dynamic_block_docs/) to Data Format.",
+    },
+    messageTag: {
+      type: "string",
+      label: "Message Tag",
+      description: "The message tag. [See the documentation](https://developers.facebook.com/docs/messenger-platform/reference/send-api/) to supported message tags.",
     },
   },
   async run({ $ }) {
     const response = await this.manychat.sendContent({
-      userId: this.userId,
-      message: this.message,
+      data: {
+        subscriber_id: this.userId,
+        data: parseObj(this.message),
+        message_tag: this.messageTag,
+      },
     });
 
     $.export("$summary", `Successfully sent dynamic message to user with ID ${this.userId}`);

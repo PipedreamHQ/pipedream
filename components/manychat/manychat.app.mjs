@@ -7,101 +7,98 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the user",
+      description: "The ID of the user.",
     },
-    tag: {
+    tagId: {
       type: "string",
-      label: "Tag",
-      description: "The tag to add to the user",
+      label: "Tag Id",
+      description: "The ID of the tag to add to the user.",
+      async options() {
+        const { data } = await this.listTags();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    message: {
+    customFieldId: {
       type: "string",
-      label: "Message",
-      description: "The message to deliver to the user",
+      label: "Custom Field Id",
+      description: "The ID of the custom field.",
+      async options() {
+        const { data } = await this.listCustomFields();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    customField: {
+    customFieldValue: {
       type: "string",
-      label: "Custom Field",
-      description: "The name of the custom field",
-    },
-    value: {
-      type: "string",
-      label: "Value",
-      description: "The value of the custom field",
+      label: "Custom Field Value",
+      description: "The value of the custom field to search for.",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.manychat.com";
+      return "https://api.manychat.com/fb";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    getHeaders() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+        accept: "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
+        headers: this.getHeaders(),
+        ...opts,
       });
     },
-    async addTag({
-      userId, tag,
-    }) {
+    addTag(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/fb/subscriber/addTag",
-        data: {
-          subscriber_id: userId,
-          tag,
-        },
+        path: "/subscriber/addTag",
+        ...opts,
       });
     },
-    async removeTag({
-      userId, tag,
-    }) {
+    findByCustomField(opts = {}) {
+      return this._makeRequest({
+        path: "/subscriber/findByCustomField",
+        ...opts,
+      });
+    },
+    getInfo(opts = {}) {
+      return this._makeRequest({
+        path: "/subscriber/getInfo",
+        ...opts,
+      });
+    },
+    listCustomFields() {
+      return this._makeRequest({
+        path: "/page/getCustomFields",
+      });
+    },
+    listTags() {
+      return this._makeRequest({
+        path: "/page/getTags",
+      });
+    },
+    sendContent(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/fb/subscriber/removeTag",
-        data: {
-          subscriber_id: userId,
-          tag,
-        },
+        path: "/sending/sendContent",
+        ...opts,
       });
-    },
-    async sendContent({
-      userId, message,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/fb/sending/sendContent",
-        data: {
-          subscriber_id: userId,
-          message,
-        },
-      });
-    },
-    async findByCustomField({
-      customField, value,
-    }) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/fb/subscriber/findByCustomField",
-        params: {
-          field: customField,
-          value,
-        },
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
