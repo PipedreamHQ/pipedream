@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/browserhub",
+  "version": "0.0.1",
+  "description": "Pipedream Browserhub Components",
+  "main": "browserhub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "browserhub"
+  ],
+  "homepage": "https://pipedream.com/apps/browserhub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
