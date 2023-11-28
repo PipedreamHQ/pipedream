@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sitespeakai",
+  "version": "0.0.1",
+  "description": "Pipedream SiteSpeakAI Components",
+  "main": "sitespeakai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sitespeakai"
+  ],
+  "homepage": "https://pipedream.com/apps/sitespeakai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
