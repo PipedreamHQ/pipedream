@@ -43,6 +43,7 @@ The vast majority of integrated apps on Pipedream are free to use in your workfl
 - [MongoDB](https://pipedream.com/apps/mongodb)
 - [Outreach](https://pipedream.com/apps/outreach)
 - [PagerDuty](https://pipedream.com/apps/pagerduty)
+- [Pinterest](https://pipedream.com/apps/pinterest)
 - [Pipedrive](https://pipedream.com/apps/pipedrive)
 - [Pipefy](https://pipedream.com/apps/pipefy)
 - [Propeller](https://pipedream.com/apps/propeller)
