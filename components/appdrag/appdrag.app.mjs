@@ -12,7 +12,7 @@ export default {
       description: "The name of the table.",
       async options() {
         const { Table: tables } = await this.listTables();
-        return tables.map((obj) => {
+        return tables?.map((obj) => {
           const [
             table,
           ] = Object.values(obj);
@@ -25,10 +25,13 @@ export default {
       label: "Columns",
       description: "The name of the columns in the table. Eg. `[\"column1\", \"column2\"]`",
       async options({ table }) {
+        if (!table) {
+          return [];
+        }
         const { Table: columns } = await this.listColumns({
           table,
         });
-        return columns.map(({ Field: column }) => column);
+        return columns?.map(({ Field: column }) => column);
       },
     },
   },
