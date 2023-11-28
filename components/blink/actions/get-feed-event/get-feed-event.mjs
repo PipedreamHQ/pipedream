@@ -22,7 +22,7 @@ export default {
       },
     });
 
-    if (response) {
+    if (response?.data?.event_id) {
       $.export("$summary", `Successfully retrieved post to feed with event ID \`${response.data.event_id}\``);
     }
 
