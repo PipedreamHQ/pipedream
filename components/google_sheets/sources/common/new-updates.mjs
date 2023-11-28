@@ -63,18 +63,20 @@ export default {
       return this.worksheetIDs.map((i) => i.toString());
     },
     _getSheetValues(id) {
-      const compressed = this.db.get(id);
+      const stringBuffer = this.db.get(id);
 
-      if (!compressed) {
+      if (!stringBuffer) {
         return;
       }
 
-      const decompressed = zlib.gunzipSync(compressed);
+      const buffer = Buffer.from(stringBuffer, "base64");
+      const decompressed = zlib.gunzipSync(buffer);
       return JSON.parse(decompressed);
     },
     _setSheetValues(id, sheetValues) {
       const compressed = zlib.gzipSync(JSON.stringify(sheetValues));
-      this.db.set(id, compressed);
+      const stringBuffer = compressed.toString("base64");
+      this.db.set(id, stringBuffer);
     },
     indexToColumnLabel(index) {
       let columnLabel = "";
