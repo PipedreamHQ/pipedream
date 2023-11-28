@@ -6,7 +6,7 @@ export default {
   key: "deepgram-transcribe-audio",
   name: "Transcribe Audio",
   description: "Transcribes the specified audio file. [See the documentation](https://developers.deepgram.com/api-reference/transcription/#transcribe-pre-recorded-audio)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     deepgram,
@@ -173,10 +173,21 @@ export default {
       description: "Tag to associate with the request",
       optional: true,
     },
+    callbackWithSuspend: {
+      type: "boolean",
+      label: "Callback with Suspend",
+      description: "Use the `$.flow.suspend` Node.js helper to suspend the workflow until the transcription is completed. Overrides the `callback` parameter to Deepgram.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     if (!this.url && !this.filePath) {
       throw new ConfigurationError("Either URL or File Path must be provided.");
+    }
+
+    let callback  = this.callback;
+    if (this.callbackWithSuspend) {
+      ({ resume_url: callback } = $.flow.suspend());
     }
 
     const params = {
@@ -196,7 +207,7 @@ export default {
       numerals: this.numerals,
       search: this.search,
       replace: this.replace,
-      callback: this.callback,
+      callback,
       keywords: this.keywords,
       paragraph: this.paragraph,
       summarize: this.summarize,
