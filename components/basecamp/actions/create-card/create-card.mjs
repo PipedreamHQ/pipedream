@@ -69,7 +69,7 @@ export default {
     dueOn: {
       type: "string",
       label: "Due on",
-      description: "due date (ISO 8601) of the card, e.g.: 2023-12-12",
+      description: "Due date (ISO 8601) of the card, e.g.: `2023-12-12`",
     },
     notify: {
       type: "boolean",
