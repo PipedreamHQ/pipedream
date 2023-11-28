@@ -295,11 +295,9 @@ export default {
         ...args,
       });
     },
-    async createCard(args = {}) {
+    async createCard({ columnId, projectId, ...args }) {
       return this.makeRequest({
-        $: args.$,
-        accountId: args.accountId,
-        path: `/buckets/${args.projectId}/card_tables/lists/${args.columnid}/cards.json`,
+        path: `/buckets/${projectId}/card_tables/lists/${columnId}/cards.json`,
         method: "post",
         ...args,
       });
