@@ -279,6 +279,9 @@ importers:
   components/alphamoon:
     specifiers: {}
 
+  components/alttext_ai:
+    specifiers: {}
+
   components/amara:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -604,6 +607,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/bilionis:
+    specifiers: {}
+
   components/bill:
     specifiers: {}
 
@@ -650,11 +656,17 @@ importers:
   components/blue:
     specifiers: {}
 
+  components/bolt_iot:
+    specifiers: {}
+
   components/booqable:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/bot9:
+    specifiers: {}
 
   components/botbaba:
     specifiers: {}
@@ -727,6 +739,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/browserhub:
+    specifiers: {}
+
   components/browserless:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -736,6 +751,9 @@ importers:
       puppeteer-core: 19.8.0
 
   components/budgets_ai:
+    specifiers: {}
+
+  components/bugbug:
     specifiers: {}
 
   components/bugsnag:
@@ -1291,6 +1309,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/customgpt:
+    specifiers: {}
+
   components/cyfe:
     specifiers: {}
 
@@ -1781,6 +1802,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/espocrm:
+    specifiers: {}
+
   components/esputnik:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1833,6 +1857,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/exhibitday:
+    specifiers: {}
 
   components/expensify:
     specifiers:
@@ -1951,6 +1978,9 @@ importers:
       '@pipedream/platform': 0.9.0
       firebase-admin: 10.3.0_@firebase+app-types@0.7.0
       google-auth-library: 7.14.1
+
+  components/fireberry:
+    specifiers: {}
 
   components/firmalyzer_iotvas:
     specifiers: {}
@@ -3129,6 +3159,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/kizeo_forms:
+    specifiers: {}
+
   components/klaviyo:
     specifiers:
       '@babel/core': ^7.0.0-0
@@ -3352,6 +3385,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/lmnt:
+    specifiers: {}
 
   components/lob:
     specifiers:
@@ -4727,6 +4763,9 @@ importers:
   components/printify:
     specifiers: {}
 
+  components/printnode:
+    specifiers: {}
+
   components/process_street:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -4897,7 +4936,10 @@ importers:
     specifiers: {}
 
   components/rafflys:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ragic:
     specifiers:
@@ -5615,6 +5657,9 @@ importers:
     dependencies:
       graphql: 16.8.1
       graphql-request: 3.7.0_graphql@16.8.1
+
+  components/shoprocket:
+    specifiers: {}
 
   components/short:
     specifiers:
@@ -6691,6 +6736,9 @@ importers:
   components/user_com:
     specifiers: {}
 
+  components/usersketch:
+    specifiers: {}
+
   components/uservoice:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -6747,6 +6795,9 @@ importers:
       verifalia: 3.2.2
 
   components/verifybee:
+    specifiers: {}
+
+  components/veriphone:
     specifiers: {}
 
   components/vero:
@@ -7073,6 +7124,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/wp_maps:
+    specifiers: {}
+
   components/wrike:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -7148,6 +7202,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/yoprint:
+    specifiers: {}
+
   components/yotpo:
     specifiers:
       axios: ^0.21.1
@@ -7197,6 +7254,9 @@ importers:
   components/yumpu:
     specifiers: {}
 
+  components/zagomail:
+    specifiers: {}
+
   components/zendesk:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -7225,6 +7285,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zest:
+    specifiers: {}
 
   components/zoho_analytics:
     specifiers: {}
@@ -10417,29 +10480,28 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.189:
-    resolution: {integrity: sha512-5zzTaVAJayCJXWgm6T3kn0V/J/TGY/5mqkfio9bGI0dlKvV/xt0gXCBUFpUT6a0buPcqpsr5eS540XftHvgThQ==}
+  /@definitelytyped/header-parser/0.0.190:
+    resolution: {integrity: sha512-awWRynVpFt6uAVDzgOa1Ry0ttjQywtt4nh9wa3/MbSTEx6PNohL1X6xDjifUElLSTIUMDSAJyWO9FuKBjnX7IQ==}
     engines: {node: '>=16.17.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.181
-      '@definitelytyped/utils': 0.0.187
+      '@definitelytyped/typescript-versions': 0.0.182
+      '@definitelytyped/utils': 0.0.188
       semver: 7.5.4
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.181:
-    resolution: {integrity: sha512-D3iVQSPLNg8r9xissfcrBP0dsv9hsexz1z/KXBJ97fsqSLIGIiAzaDJJnY9NLzbAOzeazk6Ezetn8k0sIlXetg==}
+  /@definitelytyped/typescript-versions/0.0.182:
+    resolution: {integrity: sha512-ebGzGyZJW3ZSuE/nfAokKBo40HKnq/XvBbBnmCTR/3FCDX4aT7/6pQYEu2ihVI/2tf4+76GMoq0jRE69QWJ93g==}
     engines: {node: '>=16.17.0'}
     dev: true
 
-  /@definitelytyped/utils/0.0.187:
-    resolution: {integrity: sha512-sJlAKn7Rnqrw4qvgYudjs8vyqsOzgwWmqX20QWt7EW1c3Z1Pt7JkeaaSA3TSWDlwjP6gLGbf2pmDOBnQkAdR5w==}
+  /@definitelytyped/utils/0.0.188:
+    resolution: {integrity: sha512-NPUP1FvRbpac09qETtr1dw3Ri7Q07hp9WGOBjqhzXeXOSxfKs7c3BY6I+XJ2yxexG05LKrCKwgKRKgZlj+Zjzw==}
     engines: {node: '>=16.17.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.181
+      '@definitelytyped/typescript-versions': 0.0.182
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 16.18.61
       charm: 1.0.2
-      fs-extra: 8.1.0
       minimatch: 9.0.3
       tar: 6.2.0
       tar-stream: 3.1.6
@@ -17128,7 +17190,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.189
+      '@definitelytyped/header-parser': 0.0.190
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17143,7 +17205,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.189
+      '@definitelytyped/header-parser': 0.0.190
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17159,9 +17221,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.189
-      '@definitelytyped/typescript-versions': 0.0.181
-      '@definitelytyped/utils': 0.0.187
+      '@definitelytyped/header-parser': 0.0.190
+      '@definitelytyped/typescript-versions': 0.0.182
+      '@definitelytyped/utils': 0.0.188
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -17179,9 +17241,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.189
-      '@definitelytyped/typescript-versions': 0.0.181
-      '@definitelytyped/utils': 0.0.187
+      '@definitelytyped/header-parser': 0.0.190
+      '@definitelytyped/typescript-versions': 0.0.182
+      '@definitelytyped/utils': 0.0.188
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -18399,6 +18461,7 @@ packages:
       graceful-fs: 4.2.11
       jsonfile: 4.0.0
       universalify: 0.1.2
+    dev: false
 
   /fs-minipass/2.1.0:
     resolution: {integrity: sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==}
