@@ -7084,6 +7084,9 @@ importers:
   components/woopra:
     specifiers: {}
 
+  components/woovi:
+    specifiers: {}
+
   components/wordpress_org:
     specifiers:
       lodash.pickby: ^4.6.0
@@ -7293,7 +7296,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/zest:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/zoho_analytics:
     specifiers: {}
@@ -7458,6 +7464,9 @@ importers:
       moment: ^2.29.4
     dependencies:
       moment: 2.29.4
+
+  components/zoho_survey:
+    specifiers: {}
 
   components/zoho_workdrive:
     specifiers:
