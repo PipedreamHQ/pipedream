@@ -7277,6 +7277,9 @@ importers:
   components/zagomail:
     specifiers: {}
 
+  components/zamzar:
+    specifiers: {}
+
   components/zendesk:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -7477,7 +7480,10 @@ importers:
       moment: 2.29.4
 
   components/zoho_survey:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/zoho_workdrive:
     specifiers:
