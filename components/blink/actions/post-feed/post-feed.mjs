@@ -12,6 +12,7 @@ export default {
       type: "boolean",
       label: "Allow comments",
       description: "Allow users to comment on the feed event.",
+      optional: true,
     },
     category: {
       propDefinition: [
@@ -23,6 +24,7 @@ export default {
       type: "string",
       label: "Ribbon color",
       description: "Color of the card. Hex code",
+      optional: true,
     },
     sections: {
       type: "object",
@@ -38,11 +40,31 @@ export default {
         "userId",
       ],
     },
+    externalId: {
+      type: "string",
+      label: "External ID",
+      description: "A unique identifier for this event you can use to retrieve the event_id for the event using the Get Event Id By External Id endpoint.",
+      optional: true,
+    },
+    notificationTitle: {
+      type: "string",
+      label: "Notification Title",
+      description: "Title of push notification to be send to devices of recipients of this event.",
+      optional: true,
+    },
+    notificationText: {
+      type: "string",
+      label: "Notification Text",
+      description: "Body of push notification to be sent to devices of recipients of this event.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const sections = typeof this.sections === "string"
-      ? JSON.parse(this.sections)
-      : this.sections;
+      ?
+      JSON.parse(this.sections)
+      :
+      this.sections;
 
     const response = await this.app.postFeed({
       $,
@@ -54,6 +76,9 @@ export default {
           sections,
         },
         user_ids: this.userIds,
+        external_id: this.externalId,
+        notification_title: this.notificationTitle,
+        notification_text: this.notificationText,
       },
     });
 
