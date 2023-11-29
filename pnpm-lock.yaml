@@ -3553,7 +3553,10 @@ importers:
     specifiers: {}
 
   components/manychat:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mapbox:
     specifiers: {}
@@ -5751,6 +5754,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/sitespeakai:
+    specifiers: {}
 
   components/slack:
     specifiers:
