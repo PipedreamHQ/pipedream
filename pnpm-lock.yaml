@@ -5767,7 +5767,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sitespeakai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/slack:
     specifiers:
