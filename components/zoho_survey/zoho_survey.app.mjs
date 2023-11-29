@@ -35,7 +35,7 @@ export default {
       },
     },
     surveyId: {
-      type: "integer",
+      type: "string",
       label: "Survey",
       description: "Identifier of a survey",
       async options({
