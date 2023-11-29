@@ -676,7 +676,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/bot9:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/botbaba:
     specifiers: {}
