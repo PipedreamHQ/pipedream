@@ -1,74 +1,95 @@
-import bot9 from "../../bot9.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../bot9.app.mjs";
 
 export default {
   key: "bot9-init-chat",
   name: "Initiate Chat",
-  description: "Initiates a new conversation with a Bot9 chatbot. [See the documentation](https://bot9ai.apimatic.dev/v/1_0)",
-  version: "0.0.{{ts}}",
+  description: "Initiates a new conversation with a Bot9 chatbot. [See the documentation](https://bot9ai.apimatic.dev/v/1_0#/rest/introduction/introduction/getting-started-with-bot9/end-user-chat-api/initchat-endpoint)",
+  version: "0.0.7",
   type: "action",
   props: {
-    bot9,
+    app,
     chatbotId: {
       propDefinition: [
-        bot9,
+        app,
         "chatbotId",
       ],
     },
     source: {
       propDefinition: [
-        bot9,
+        app,
         "source",
       ],
     },
     status: {
       propDefinition: [
-        bot9,
+        app,
         "status",
       ],
     },
     externalSessionId: {
       propDefinition: [
-        bot9,
+        app,
         "externalSessionId",
       ],
     },
     userName: {
       propDefinition: [
-        bot9,
+        app,
         "userName",
       ],
     },
-    externalId: {
+    userExternalId: {
       propDefinition: [
-        bot9,
-        "externalId",
+        app,
+        "userExternalId",
       ],
     },
-    emailId: {
+    userEmailId: {
       propDefinition: [
-        bot9,
-        "emailId",
+        app,
+        "userEmailId",
       ],
     },
   },
+  methods: {
+    initChat({
+      chatbotId, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/${chatbotId}/conversations`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.bot9._makeRequest({
-      method: "POST",
-      path: `/${this.chatbotId}/conversations`,
+    const {
+      initChat,
+      chatbotId,
+      source,
+      status,
+      externalSessionId,
+      userName,
+      userExternalId,
+      userEmailId,
+    } = this;
+
+    const response = await initChat({
+      debug: true,
+      $,
+      chatbotId,
       data: {
-        Source: this.source,
-        Status: this.status,
-        ExternalSessionId: this.externalSessionId,
+        Source: source,
+        Status: status,
+        ExternalSessionId: externalSessionId,
         user: {
-          name: this.userName,
-          externalId: this.externalId,
-          emailId: this.emailId,
+          name: userName,
+          externalId: userExternalId,
+          emailId: userEmailId,
         },
       },
     });
 
-    $.export("$summary", `Successfully initiated conversation with ID: ${response.id}`);
+    $.export("$summary", `Successfully initiated conversation with ID: \`${response.id}\``);
     return response;
   },
 };

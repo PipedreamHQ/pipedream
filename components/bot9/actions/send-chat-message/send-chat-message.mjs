@@ -1,43 +1,61 @@
-import bot9 from "../../bot9.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../bot9.app.mjs";
 
 export default {
   key: "bot9-send-chat-message",
   name: "Send Chat Message",
-  description: "Send a chat message to a Bot9 chatbot. [See the documentation](https://bot9ai.apimatic.dev/v/1_0)",
-  version: "0.0.{{ts}}",
+  description: "Send a chat message to a Bot9 chatbot. [See the documentation](https://bot9ai.apimatic.dev/v/1_0#/rest/introduction/introduction/getting-started-with-bot9/end-user-chat-api/chat-endpoint)",
+  version: "0.0.2",
   type: "action",
   props: {
-    bot9,
+    app,
     chatbotId: {
       propDefinition: [
-        bot9,
+        app,
         "chatbotId",
       ],
     },
     conversationId: {
       propDefinition: [
-        bot9,
+        app,
         "conversationId",
       ],
     },
     message: {
       propDefinition: [
-        bot9,
+        app,
         "message",
       ],
     },
-    // The following props are not used in the action and are not required by the API for this specific action.
-    // They should be removed to avoid confusion unless the instructions explicitly say to include them.
+  },
+  methods: {
+    sendMessage({
+      chatbotId, conversationId, ...args
+    }) {
+      return this.app.post({
+        path: `/${chatbotId}/conversations/${conversationId}/chat`,
+        ...args,
+      });
+    },
   },
   async run({ $ }) {
-    const response = await this.bot9.sendMessage({
-      chatbotId: this.chatbotId,
-      conversationId: this.conversationId,
-      message: this.message,
+    const {
+      sendMessage,
+      chatbotId,
+      conversationId,
+      message,
+    } = this;
+
+    const response = await sendMessage({
+      debug: true,
+      $,
+      chatbotId,
+      conversationId,
+      data: {
+        message,
+      },
     });
 
-    $.export("$summary", `Sent message to conversation ID ${this.conversationId}`);
+    $.export("$summary", `Sent message with code \`${response.code}\``);
     return response;
   },
 };
