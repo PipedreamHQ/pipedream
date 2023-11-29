@@ -4,7 +4,7 @@ export default {
   key: "deepgram-list-balances",
   name: "List Balances",
   description: "Generates a list of outstanding balances for the specified project. [See the documentation](https://developers.deepgram.com/api-reference/billing/#get-all-balances)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     deepgram,
