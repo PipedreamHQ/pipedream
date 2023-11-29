@@ -3553,7 +3553,10 @@ importers:
     specifiers: {}
 
   components/manychat:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mapbox:
     specifiers: {}
@@ -7296,7 +7299,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/zest:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/zoho_analytics:
     specifiers: {}
