@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { secureCompare } from "../../common/utils.mjs";
 import printify from "../../printify.app.mjs";
 
@@ -59,25 +60,20 @@ export default {
         ];
       },
     },
-    secret: {
-      type: "string",
-      label: "Webhook Secret",
-      description: "The secret used to sign requests for the webhook.",
-    },
   },
   hooks: {
     async activate() {
-      const data = {
-        topic: this.topic,
-        url: this.http.endpoint,
-      };
-      if (this.secret) data.secret = this.secret;
-
+      const uuid = randomUUID();
       const webhook = await this.printify.createHook({
         shopId: this.shopId,
-        data,
+        data: {
+          topic: this.topic,
+          url: this.http.endpoint,
+          secret: uuid,
+        },
       });
       this.db.set("webhookId", webhook.id);
+      this.db.set("uuid", uuid);
     },
     async deactivate() {
       const webhookId = this.db.get("webhookId");
@@ -88,10 +84,9 @@ export default {
     },
   },
   async run(event) {
-    if (this.secret) {
-      if (!secureCompare(event.headers["x-pfy-signature"], event, this.secret)) {
-        return false;
-      }
+    const uuid = this.db.get("uuid");
+    if (!secureCompare(event.headers["x-pfy-signature"], event, uuid)) {
+      return false;
     }
 
     this.$emit(event.body, {
