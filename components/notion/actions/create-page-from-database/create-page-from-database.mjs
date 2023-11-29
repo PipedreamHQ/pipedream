@@ -57,35 +57,33 @@ export default {
      * @param parentDatabase - the parent database
      * @returns the constructed page in Notion format
      */
-    buildPage(parentDatabase, $) {
-      const MAX_BLOCKS = 100;
+    buildPage(parentDatabase) {
       const meta = this.buildDatabaseMeta(parentDatabase);
       const properties = this.buildPageProperties(parentDatabase.properties);
-      let children = this.createBlocks(this.pageContent);
-      const trim = children.length > MAX_BLOCKS;
-      if (trim) {
-        $.export("warning", {
-          message: "Content trimmed",
-          detail: `Notion limits the content to 100 blocks. Your Page Content had ${children.length} blocks. The page was created with the first ${MAX_BLOCKS} blocks, and the remaining content is available on the contentNotIncluded property.`,
-          contentNotIncluded: children.slice(MAX_BLOCKS),
-        });
-        children = children.slice(0, MAX_BLOCKS);
-      }
+      const children = this.createBlocks(this.pageContent);
       return {
         ...meta,
         properties,
         children,
-        trim,
       };
     },
   },
   async run({ $ }) {
+    const MAX_BLOCKS = 100;
     const parentPage = await this.notion.retrieveDatabase(this.parent);
-    const page = this.buildPage(parentPage, $);
-    const response = await this.notion.createPage(page);
-    $.export("$summary", `Created page ${page.trim
-      ? "(content trimmed, see warning)"
-      : "successfully"}`);
+    const {
+      children, ...page
+    } = this.buildPage(parentPage);
+    const response = await this.notion.createPage({
+      ...page,
+      children: children.slice(0, MAX_BLOCKS),
+    });
+    let remainingBlocks = children.slice(MAX_BLOCKS);
+    while (remainingBlocks.length > 0) {
+      await this.notion.appendBlock(response.id, remainingBlocks.slice(0, MAX_BLOCKS));
+      remainingBlocks = remainingBlocks.slice(MAX_BLOCKS);
+    }
+    $.export("$summary", "Created page successfully");
     return response;
   },
 };
