@@ -158,6 +158,13 @@ export default {
         path: `/catalog/blueprints/${blueprintId}/print_providers.json`,
       });
     },
+    listPrintProviderVariants({
+      blueprintId, printProviderId,
+    }) {
+      return this._makeRequest({
+        path: `/catalog/blueprints/${blueprintId}/print_providers/${printProviderId}/variants.json`,
+      });
+    },
     listProducts({
       shopId, ...opts
     }) {
