@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/shoprocket",
+  "version": "0.0.1",
+  "description": "Pipedream Shoprocket Components",
+  "main": "shoprocket.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shoprocket"
+  ],
+  "homepage": "https://pipedream.com/apps/shoprocket",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

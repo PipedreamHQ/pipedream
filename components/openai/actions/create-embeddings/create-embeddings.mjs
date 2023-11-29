@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Create Embeddings",
-  version: "0.0.4",
+  version: "0.0.5",
   key: "openai-create-embeddings",
   description: "Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms. [See the docs here](https://platform.openai.com/docs/api-reference/embeddings)",
   type: "action",

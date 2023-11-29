@@ -87,6 +87,36 @@ export default {
         };
       },
     },
+    itemId: {
+      type: "string",
+      label: "Item",
+      description: "Identifier of an item",
+      async options({
+        prevContext, siteId, listId,
+      }) {
+        if (!siteId) {
+          return [];
+        }
+        const args = {
+          siteId,
+          listId,
+        };
+        if (prevContext?.nextLink) {
+          args.url = prevContext.nextLink;
+        }
+        const response = await this.listItems(args);
+        const options = response.value?.map(({ id: value }) => ({
+          value,
+          label: `Item ${value}`,
+        })) || [];
+        return {
+          options,
+          context: {
+            nextLink: response["@odata.nextLink"],
+          },
+        };
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -153,6 +183,15 @@ export default {
       return this._makeRequest({
         path: `/sites/${siteId}/lists/${listId}/items`,
         method: "POST",
+        ...args,
+      });
+    },
+    updateItem({
+      siteId, listId, itemId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}/lists/${listId}/items/${itemId}/fields`,
+        method: "PATCH",
         ...args,
       });
     },
