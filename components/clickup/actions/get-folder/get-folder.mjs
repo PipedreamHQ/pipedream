@@ -4,7 +4,7 @@ export default {
   key: "clickup-get-folder",
   name: "Get Folder",
   description: "Get a folder in a workplace. See the docs [here](https://clickup.com/api) in **Folders / Get Folder** section.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: common.props,
   async run({ $ }) {

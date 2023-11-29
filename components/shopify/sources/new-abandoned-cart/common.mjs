@@ -20,13 +20,13 @@ export default {
   },
   async run() {
     const sinceId = this._getSinceId();
-    const results = await this.shopify.getCollects(sinceId);
+    const results = await this.shopify.getAbandonedCheckouts(sinceId);
 
-    for (const collect of results) {
-      this.$emit(collect, {
-        id: collect.id,
-        summary: `Product ${collect.product_id} added to collection ${collect.collection_id}`,
-        ts: Date.parse(collect.created_at),
+    for (const cart of results) {
+      this.$emit(cart, {
+        id: cart.id,
+        summary: cart.email,
+        ts: Date.now(),
       });
     }
 
