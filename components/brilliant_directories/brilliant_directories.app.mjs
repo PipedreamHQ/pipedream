@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://${this.$auth.website_domain}/api/v2`;
+      return `${this.$auth.website_domain}/api/v2`;
     },
     _getHeaders() {
       return {
