@@ -6249,7 +6249,10 @@ importers:
     specifiers: {}
 
   components/tally:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/tapfiliate:
     specifiers: {}
@@ -7281,6 +7284,9 @@ importers:
     specifiers: {}
 
   components/zagomail:
+    specifiers: {}
+
+  components/zamzar:
     specifiers: {}
 
   components/zendesk:
