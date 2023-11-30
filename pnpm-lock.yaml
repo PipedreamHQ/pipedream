@@ -738,7 +738,12 @@ importers:
       uuid: 8.3.2
 
   components/brilliant_directories:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      qs: ^6.11.2
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      qs: 6.11.2
 
   components/brosix:
     specifiers: {}
@@ -7281,6 +7286,9 @@ importers:
     specifiers: {}
 
   components/zagomail:
+    specifiers: {}
+
+  components/zamzar:
     specifiers: {}
 
   components/zendesk:
