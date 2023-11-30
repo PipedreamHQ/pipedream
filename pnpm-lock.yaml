@@ -6411,8 +6411,10 @@ importers:
   components/the_odds_api:
     specifiers:
       '@pipedream/platform': ^1.5.1
+      dayjs: ^1.11.10
     dependencies:
       '@pipedream/platform': 1.5.1
+      dayjs: 1.11.10
 
   components/threads:
     specifiers:
