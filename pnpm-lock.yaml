@@ -1974,6 +1974,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/file_store:
+    specifiers: {}
+
   components/filter:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -7168,7 +7171,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wp_maps:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/wrike:
     specifiers:
