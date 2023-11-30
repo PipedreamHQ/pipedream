@@ -1244,6 +1244,9 @@ importers:
   components/conveyor:
     specifiers: {}
 
+  components/convolo_ai:
+    specifiers: {}
+
   components/copperx:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3396,6 +3399,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/livechat:
+    specifiers: {}
 
   components/livestorm:
     specifiers:
@@ -7284,6 +7290,9 @@ importers:
     specifiers: {}
 
   components/zagomail:
+    specifiers: {}
+
+  components/zamzar:
     specifiers: {}
 
   components/zendesk:
