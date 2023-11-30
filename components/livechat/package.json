@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/livechat",
+  "version": "0.0.1",
+  "description": "Pipedream LiveChat Components",
+  "main": "livechat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "livechat"
+  ],
+  "homepage": "https://pipedream.com/apps/livechat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,7 @@ export default {
   key: "deepgram-list-projects",
   name: "List Projects",
   description: "Retrieves basic information about the specified project. [See the documentation](https://developers.deepgram.com/api-reference/projects/#get-projects)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     deepgram,

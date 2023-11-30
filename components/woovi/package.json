@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/woovi",
+  "version": "0.0.1",
+  "description": "Pipedream Woovi Components",
+  "main": "woovi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "woovi"
+  ],
+  "homepage": "https://pipedream.com/apps/woovi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

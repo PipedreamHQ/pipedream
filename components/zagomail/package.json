@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zagomail",
+  "version": "0.0.1",
+  "description": "Pipedream Zagomail Components",
+  "main": "zagomail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zagomail"
+  ],
+  "homepage": "https://pipedream.com/apps/zagomail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

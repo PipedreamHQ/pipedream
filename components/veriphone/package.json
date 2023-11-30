@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/veriphone",
+  "version": "0.0.1",
+  "description": "Pipedream Veriphone Components",
+  "main": "veriphone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "veriphone"
+  ],
+  "homepage": "https://pipedream.com/apps/veriphone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

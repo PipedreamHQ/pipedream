@@ -5,7 +5,7 @@ export default {
   name: "Create Message",
   description: "Publishes a message in the project and message board selected. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/messages.md#create-a-message)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.3",
   props: {
     app,
     accountId: {
