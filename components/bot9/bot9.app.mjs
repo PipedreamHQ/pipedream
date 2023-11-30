@@ -102,6 +102,7 @@ export default {
       type: "string",
       label: "External Session ID",
       description: "An ID you want to reference from an external system, such as your own database.",
+      optional: true,
     },
     userName: {
       type: "string",
