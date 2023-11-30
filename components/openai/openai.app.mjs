@@ -1,6 +1,5 @@
 import { axios } from "@pipedream/platform";
 import { FINE_TUNING_MODEL_OPTIONS } from "./common/constants.mjs";
-import { clearObj } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -303,7 +302,7 @@ export default {
       path,
       ...args
     } = {}) {
-      return axios($, clearObj({
+      return axios($, {
         ...args,
         url: `${this._baseApiUrl()}${path}`,
         headers: {
@@ -311,7 +310,7 @@ export default {
           ...this._commonHeaders(),
         },
         maxBodyLength: Infinity,
-      }));
+      });
     },
     async models({ $ }) {
       const { data: models } = await this._makeRequest({
