@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bot9",
+  "version": "0.0.1",
+  "description": "Pipedream bot9 Components",
+  "main": "bot9.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bot9"
+  ],
+  "homepage": "https://pipedream.com/apps/bot9",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
