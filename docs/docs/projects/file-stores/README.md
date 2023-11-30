@@ -325,4 +325,4 @@ At this time no, only Node.js includes a helper to interact with the File Store 
 
 ### Are File Stores generally available?
 
-At this time File Stores are only available to Business tier subscribed workspaces. You can change your plan within the [pricing page](https://pipedream.com/pricing).
+At this time File Stores are only available to Advanced plan and above subscribed workspaces. You can change your plan within the [pricing page](https://pipedream.com/pricing).
