@@ -46,7 +46,6 @@ export default {
     } = this;
 
     const response = await sendMessage({
-      debug: true,
       $,
       chatbotId,
       conversationId,

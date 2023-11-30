@@ -80,7 +80,6 @@ export default {
     }
 
     const response = await initChat({
-      debug: true,
       $,
       chatbotId,
       data: utils.reduceProperties({
