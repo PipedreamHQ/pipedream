@@ -210,7 +210,7 @@ First open a new file at a specific path in the File Store, and then call the `t
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
-    // Upload a file to the File Store from the local /tmp/ directory
+    // Download a file from the File Store to the local /tmp/ directory
     const file = await $.files.open('recording.mp3').toFile('/tmp/recording.mp3')
 
     console.log(file.url)
