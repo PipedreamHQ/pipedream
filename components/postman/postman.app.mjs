@@ -4,111 +4,129 @@ export default {
   type: "app",
   app: "postman",
   propDefinitions: {
-    collectionId: {
-      type: "string",
-      label: "Collection ID",
-      description: "The ID of the collection to run",
-      async options() {
-        const collections = await this.listCollections();
-        return collections.map((collection) => ({
-          label: collection.name,
-          value: collection.id,
-        }));
-      },
-    },
     environmentId: {
       type: "string",
       label: "Environment ID",
-      description: "The ID of the environment to be used",
-      async options() {
-        const environments = await this.listEnvironments();
-        return environments.map((environment) => ({
-          label: environment.name,
-          value: environment.id,
+      description: "The ID of the environment to be used.",
+      async options({ workspaceId }) {
+        const { environments } = await this.listEnvironments({
+          params: {
+            workspace: workspaceId,
+          },
+        });
+        return environments.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    environmentVariableKey: {
+    monitorId: {
       type: "string",
-      label: "Environment Variable Key",
-      description: "The key of the environment variable to update",
+      label: "Monitor ID",
+      description: "The ID of the monitor to run.",
+      async options() {
+        const { monitors } = await this.listMonitors();
+        return monitors.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    environmentVariableValue: {
+    variable: {
       type: "string",
-      label: "Environment Variable Value",
-      description: "The new value for the environment variable",
+      label: "Variable",
+      description: "The varriable to be updated.",
+      async options({ environmentId }) {
+        const { environment: { values: variables } } = await this.getEnvironment({
+          environmentId,
+        });
+
+        return variables.map(({ key }) => key);
+      },
     },
-    newEnvironmentName: {
+    workspaceId: {
       type: "string",
-      label: "New Environment Name",
-      description: "The name for the new environment",
+      label: "Workspace ID",
+      description: "The ID of the workspace to be used.",
+      async options() {
+        const { workspaces } = await this.listWorkspaces();
+        return workspaces.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.getpostman.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "X-Api-Key": `${this.$auth.api_key}`,
+        "Accept": "application/vnd.api.v10+json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "X-Api-Key": `${this.$auth.api_key}`,
-          "Accept": "application/vnd.api.v10+json",
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listCollections() {
-      const response = await this._makeRequest({
-        path: "/collections",
+    getEnvironment({ environmentId }) {
+      return this._makeRequest({
+        path: `/environments/${environmentId}`,
       });
-      return response.collections;
     },
-    async listEnvironments() {
-      const response = await this._makeRequest({
+    getMonitor({ monitorId }) {
+      return this._makeRequest({
+        path: `/monitors/${monitorId}`,
+      });
+    },
+    listEnvironments() {
+      return this._makeRequest({
         path: "/environments",
       });
-      return response.environments;
     },
-    async createEnvironment(name) {
+    listMonitors() {
+      return this._makeRequest({
+        path: "/monitors",
+      });
+    },
+    listWorkspaces() {
+      return this._makeRequest({
+        path: "/workspaces",
+      });
+    },
+    createEnvironment(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/environments",
-        data: {
-          name,
-        },
+        ...opts,
       });
     },
-    async updateEnvironmentVariable(environmentId, key, value) {
+    updateEnvironment({
+      environmentId, ...opts
+    }) {
       return this._makeRequest({
         method: "PUT",
         path: `/environments/${environmentId}`,
-        data: {
-          values: [
-            {
-              key,
-              value,
-            },
-          ],
-        },
+        ...opts,
       });
     },
-    async runCollection(collectionId, environmentId) {
+    runMonitor({ monitorId }) {
       return this._makeRequest({
         method: "POST",
-        path: `/collections/${collectionId}/run`,
-        data: {
-          environment_id: environmentId,
-        },
+        path: `/monitors/${monitorId}/run`,
       });
     },
   },
