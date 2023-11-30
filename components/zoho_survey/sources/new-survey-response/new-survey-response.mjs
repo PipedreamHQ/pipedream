@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -13,8 +14,13 @@ export default {
     getEvent() {
       return "response_completed";
     },
-    generateMeta() {
-      return {};
+    generateMeta(response) {
+      return {
+        id: response.RESPONSE_ID,
+        summary: `New Response ${response.RESPONSE_ID}`,
+        ts: Date.now(),
+      };
     },
   },
+  sampleEmit,
 };

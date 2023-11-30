@@ -38,6 +38,7 @@ export default {
         groupId: this.groupId,
         surveyId: this.surveyId,
         data: {
+          name: "Pipedream Webhook",
           event: this.getEvent(),
           callbackUrl: this.http.endpoint,
           responseContentType: "json",
@@ -52,6 +53,9 @@ export default {
       const hookId = this._getHookId();
       if (hookId) {
         await this.zohoSurvey.deleteWebhook({
+          portalId: this.portalId,
+          groupId: this.groupId,
+          surveyId: this.surveyId,
           hookId,
         });
       }
@@ -69,6 +73,8 @@ export default {
     },
   },
   async run(event) {
-    console.log(event);
+    const { body } = event;
+    const meta = this.generateMeta(body);
+    this.$emit(body, meta);
   },
 };

@@ -181,10 +181,10 @@ export default {
       });
     },
     listEmailFields({
-      portalId, groupId, surveyId, collectorId, ...args
+      portalId, groupId, surveyId, collectorId, distributionId, ...args
     }) {
       return this._makeRequest({
-        path: `/portals/${portalId}/departments/${groupId}/surveys/${surveyId}/collectors/${collectorId}/distributions/email/fields`,
+        path: `/portals/${portalId}/departments/${groupId}/surveys/${surveyId}/collectors/${collectorId}/distributions/${distributionId}/email/fields`,
         ...args,
       });
     },

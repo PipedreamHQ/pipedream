@@ -43,7 +43,6 @@ export default {
           surveyId: c.surveyId,
         }),
       ],
-      reloadProps: true,
     },
     distributionId: {
       propDefinition: [
@@ -56,6 +55,7 @@ export default {
           collectorId: c.collectorId,
         }),
       ],
+      reloadProps: true,
     },
   },
   async additionalProps() {
@@ -65,6 +65,7 @@ export default {
       groupId: this.groupId,
       surveyId: this.surveyId,
       collectorId: this.collectorId,
+      distributionId: this.distributionId,
     });
     for (const field of fields) {
       props[field.key] = {
@@ -93,7 +94,7 @@ export default {
       collectorId,
       distributionId,
       data: {
-        constactsList: [
+        contactsList: [
           otherProps,
         ],
       },
