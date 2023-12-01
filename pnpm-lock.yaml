@@ -5264,6 +5264,9 @@ importers:
   components/rkvst:
     specifiers: {}
 
+  components/roam_research:
+    specifiers: {}
+
   components/roboflow:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6785,6 +6788,9 @@ importers:
   components/user_com:
     specifiers: {}
 
+  components/userflow:
+    specifiers: {}
+
   components/usersketch:
     specifiers: {}
 
@@ -7310,7 +7316,14 @@ importers:
     specifiers: {}
 
   components/zamzar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/zendesk:
     specifiers:
@@ -7444,6 +7457,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zoho_forms:
+    specifiers: {}
 
   components/zoho_inventory:
     specifiers:
