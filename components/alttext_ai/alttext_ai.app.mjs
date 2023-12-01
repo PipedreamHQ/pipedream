@@ -1,9 +1,77 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "alttext_ai",
-  propDefinitions: {},
+  propDefinitions: {
+    imageData: {
+      type: "string",
+      label: "Image Data",
+      description: "The image data in base64 encoding or as a URL to the image.",
+      optional: false,
+    },
+    language: {
+      type: "string",
+      label: "Language",
+      description: "The language to use for the alt text. Defaults to English (en).",
+      options: [
+        {
+          label: "English",
+          value: "en",
+        },
+        {
+          label: "Spanish",
+          value: "es",
+        },
+        {
+          label: "French",
+          value: "fr",
+        },
+        // Add more languages as needed
+      ],
+      optional: true,
+      default: "en",
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
+    _baseUrl() {
+      return "https://api.alttext.org/v1";
+    },
+    async _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        method = "POST",
+        path,
+        data,
+        headers,
+        params,
+        ...otherOpts
+      } = opts;
+
+      return axios($, {
+        ...otherOpts,
+        method,
+        url: this._baseUrl() + path,
+        headers: {
+          ...headers,
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "application/json",
+        },
+        data,
+        params,
+      });
+    },
+    async generateAltText({
+      imageData, language,
+    }) {
+      return this._makeRequest({
+        path: "/generate",
+        data: {
+          image: imageData,
+          language,
+        },
+      });
+    },
     authKeys() {
       console.log(Object.keys(this.$auth));
     },
