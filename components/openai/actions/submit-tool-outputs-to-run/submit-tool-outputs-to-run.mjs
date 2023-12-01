@@ -4,7 +4,7 @@ export default {
   key: "openai-submit-tool-outputs-to-run",
   name: "Submit Tool Outputs to Run",
   description: "Submits tool outputs to a run that requires action. [See the documentation](https://platform.openai.com/docs/api-reference)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     openai,
