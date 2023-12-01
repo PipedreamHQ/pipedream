@@ -7,7 +7,7 @@ export default {
     format: {
       type: "string",
       label: "Audio Format",
-      description: "The format of the audio file. Either mp3 or wav; defaults to mp3.",
+      description: "The format of the audio file.",
       options: [
         "mp3",
         "wav",
@@ -36,25 +36,21 @@ export default {
       optional: true,
     },
     speed: {
-      type: "number",
+      type: "string",
       label: "Speed",
       description: "The talking speed of the generated speech. A floating point value between 0.25 (slow) and 2.0 (fast); defaults to 1.0.",
       optional: true,
-      min: 0.25,
-      max: 2.0,
       default: 1.0,
     },
     text: {
       type: "string",
       label: "Text",
       description: "The text to synthesize.",
-      required: true,
     },
     voice: {
       type: "string",
       label: "Voice",
-      description: "The voice ID of the voice to use for synthesis. Voice IDs can be retrieved by calls to List voices or Voice info.",
-      required: true,
+      description: "The voice ID of the voice to use for synthesis.",
       async options() {
         const voices = await this.listVoices();
         return voices.map((voice) => ({
@@ -62,23 +58,6 @@ export default {
           value: voice.id,
         }));
       },
-    },
-    owner: {
-      type: "string",
-      label: "Owner",
-      description: "The owner of this voice.",
-      options: [
-        "system",
-        "me",
-        "other",
-      ],
-      optional: true,
-    },
-    state: {
-      type: "string",
-      label: "State",
-      description: "The state of this voice in the training pipeline (e.g., ready, training).",
-      optional: true,
     },
     name: {
       type: "string",
@@ -128,19 +107,15 @@ export default {
         },
       });
     },
-    async listVoices(opts = {}) {
+    async listVoices() {
       return this._makeRequest({
         path: "/voice/list",
-        ...opts,
       });
     },
     async synthesizeSpeech(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/speech",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         ...opts,
       });
     },

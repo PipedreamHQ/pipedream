@@ -8,6 +8,18 @@ export default {
   type: "action",
   props: {
     lmnt,
+    voice: {
+      propDefinition: [
+        lmnt,
+        "voice",
+      ],
+    },
+    text: {
+      propDefinition: [
+        lmnt,
+        "text",
+      ],
+    },
     format: {
       propDefinition: [
         lmnt,
@@ -38,35 +50,18 @@ export default {
         "speed",
       ],
     },
-    text: {
-      propDefinition: [
-        lmnt,
-        "text",
-      ],
-    },
-    voice: {
-      propDefinition: [
-        lmnt,
-        "voice",
-        (c) => ({
-          format: c.format,
-        }), // Pass format as input to the options method if needed
-      ],
-    },
   },
   async run({ $ }) {
     const response = await this.lmnt.synthesizeSpeech({
+      $,
       data: {
         format: this.format,
         length: this.length,
         return_durations: this.returnDurations,
         seed: this.seed,
-        speed: this.speed,
+        speed: this.speed && Number(this.speed),
         text: this.text,
         voice: this.voice,
-      },
-      headers: {
-        "Content-Type": "application/json",
       },
     });
 
