@@ -63,17 +63,6 @@ export default {
         }));
       },
     },
-    gender: {
-      type: "string",
-      label: "Gender",
-      description: "A tag describing the gender of this voice, e.g. male, female, nonbinary.",
-      options: [
-        "male",
-        "female",
-        "nonbinary",
-      ],
-      optional: true,
-    },
     owner: {
       type: "string",
       label: "Owner",
@@ -91,14 +80,32 @@ export default {
       description: "The state of this voice in the training pipeline (e.g., ready, training).",
       optional: true,
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The display name for this voice.",
+    },
+    enhance: {
+      type: "boolean",
+      label: "Enhance",
+      description: "For unclean audio with background noise, applies processing to attempt to improve quality. Not on by default as it can also degrade quality in some circumstances.",
+    },
     type: {
       type: "string",
       label: "Type",
-      description: "The method by which this voice was created: instant or professional.",
-      options: [
-        "instant",
-        "professional",
-      ],
+      description: "The type of voice to create. Defaults to instant.",
+      optional: true,
+    },
+    gender: {
+      type: "string",
+      label: "Gender",
+      description: "A tag describing the gender of this voice. Has no effect on voice creation.",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "A text description of this voice.",
       optional: true,
     },
   },
@@ -106,26 +113,19 @@ export default {
     _baseUrl() {
       return "https://api.lmnt.com/v1/ai";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
-        method,
         url: this._baseUrl() + path,
+        ...otherOpts,
         headers: {
           ...headers,
           "X-API-Key": this.$auth.api_key,
         },
-        data,
-        params,
-        ...otherOpts,
       });
     },
     async listVoices(opts = {}) {
@@ -144,9 +144,12 @@ export default {
         ...opts,
       });
     },
-    // Added method from the requirements
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async createVoice(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/voice",
+        ...opts,
+      });
     },
   },
 };

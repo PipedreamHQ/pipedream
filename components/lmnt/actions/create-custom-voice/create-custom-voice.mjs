@@ -1,9 +1,11 @@
 import lmnt from "../../lmnt.app.mjs";
+import fs from "fs";
+import FormData from "form-data";
 
 export default {
   key: "lmnt-create-custom-voice",
   name: "Create Custom Voice",
-  description: "Generates a custom voice from a batch of input audio data. [See the documentation](https://docs.lmnt.com/api-reference/speech/synthesize-speech-1)",
+  description: "Generates a custom voice from a batch of input audio data. [See the documentation](https://docs.lmnt.com/api-reference/voice/create-voice)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -11,73 +13,18 @@ export default {
     files: {
       type: "string[]",
       label: "Audio Files",
-      description: "The batch of input audio data in base64 format.",
-      required: true,
+      description: "One or more `.wav` or `.mp3` filepaths in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory). Max attached files: 20. Max total file size: 250 MB.",
     },
-    metadata: {
-      type: "string[]",
-      label: "Metadata Objects",
-      description: "Metadata for each audio file, in JSON format.",
-      required: true,
-    },
-    format: {
+    name: {
       propDefinition: [
         lmnt,
-        "format",
+        "name",
       ],
     },
-    length: {
+    enhance: {
       propDefinition: [
         lmnt,
-        "length",
-      ],
-    },
-    returnDurations: {
-      propDefinition: [
-        lmnt,
-        "returnDurations",
-      ],
-    },
-    seed: {
-      propDefinition: [
-        lmnt,
-        "seed",
-      ],
-    },
-    speed: {
-      propDefinition: [
-        lmnt,
-        "speed",
-      ],
-    },
-    text: {
-      propDefinition: [
-        lmnt,
-        "text",
-      ],
-    },
-    voice: {
-      propDefinition: [
-        lmnt,
-        "voice",
-      ],
-    },
-    gender: {
-      propDefinition: [
-        lmnt,
-        "gender",
-      ],
-    },
-    owner: {
-      propDefinition: [
-        lmnt,
-        "owner",
-      ],
-    },
-    state: {
-      propDefinition: [
-        lmnt,
-        "state",
+        "enhance",
       ],
     },
     type: {
@@ -86,39 +33,43 @@ export default {
         "type",
       ],
     },
+    gender: {
+      propDefinition: [
+        lmnt,
+        "gender",
+      ],
+    },
+    description: {
+      propDefinition: [
+        lmnt,
+        "description",
+      ],
+    },
   },
   async run({ $ }) {
-    const metadataObjects = this.metadata.map(JSON.parse);
-    const formData = new FormData();
+    const data = new FormData();
 
-    // Append files and metadata to the form data
-    this.files.forEach((file, index) => {
-      formData.append("files[]", file);
-      formData.append(`metadata[${index}]`, JSON.stringify(metadataObjects[index]));
+    this.files.forEach?.((file) => {
+      const content = fs.createReadStream(file.includes("tmp/")
+        ? file
+        : `/tmp/${file}`);
+      data.append("files", content);
     });
 
-    // Append other fields to the form data
-    formData.append("format", this.format);
-    formData.append("length", this.length);
-    formData.append("return_durations", this.returnDurations);
-    if (this.seed) formData.append("seed", this.seed);
-    formData.append("speed", this.speed);
-    formData.append("text", this.text);
-    formData.append("voice", this.voice);
+    [
+      "name",
+      "enhance",
+      "type",
+      "gender",
+      "description",
+    ].forEach((field) => {
+      if (this[field]) data.append(field, this[field]);
+    });
 
-    // Optional fields
-    if (this.gender) formData.append("gender", this.gender);
-    if (this.owner) formData.append("owner", this.owner);
-    if (this.state) formData.append("state", this.state);
-    if (this.type) formData.append("type", this.type);
-
-    const response = await this.lmnt._makeRequest({
-      method: "POST",
-      path: "/voice/create",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      data: formData,
+    const response = await this.lmnt.createVoice({
+      $,
+      headers: data.getHeaders(),
+      data,
     });
 
     $.export("$summary", "Successfully created a custom voice");
