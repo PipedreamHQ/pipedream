@@ -56,6 +56,7 @@ export default {
       data.append("files", content);
     });
 
+    const metadata = {};
     [
       "name",
       "enhance",
@@ -63,8 +64,9 @@ export default {
       "gender",
       "description",
     ].forEach((field) => {
-      if (this[field]) data.append(field, this[field]);
+      if (this[field]) metadata[field] = this[field];
     });
+    data.append("metadata", JSON.stringify(metadata));
 
     const response = await this.lmnt.createVoice({
       $,
