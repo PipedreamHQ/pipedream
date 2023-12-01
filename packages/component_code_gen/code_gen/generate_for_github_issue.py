@@ -1,9 +1,7 @@
 from collections import OrderedDict
 import os
 import git
-import requests
 import subprocess
-import markdown_to_json
 import config.logging_config as logging_config
 from code_gen.generate import main
 
@@ -57,7 +55,7 @@ def generate_app_file_prompt(requirements, app_file_content):
 {requirements}"""
 
 
-def generate_from_issue(issue_number, output_dir, generate_pr=True, clean=False, verbose=False, tries=3, remote_name="origin"):
+def generate_from_issue(markdown, issue_number, output_dir, generate_pr=True, clean=False, verbose=False, tries=3, remote_name="origin"):
     repo_path = os.path.abspath(os.path.join("..", ".."))
     output_dir = os.path.abspath(output_dir)
 
@@ -82,17 +80,12 @@ def generate_from_issue(issue_number, output_dir, generate_pr=True, clean=False,
 
         run_command(f"git reset --hard {remote_name}/master")
 
-    # parse github issue description
-    md = requests.get(
-        f"https://api.github.com/repos/PipedreamHQ/pipedream/issues/{issue_number}").json()["body"].lower()
-    markdown = markdown_to_json.dictify(md)
-
-    app = list(markdown.keys())[0]
-    app_base_path = os.path.join(output_dir, app)
-
     generate_from_markdown(markdown, output_dir=output_dir, verbose=verbose, tries=tries)
 
     if generate_pr:
+        app = list(markdown.keys())[0]
+        app_base_path = os.path.join(output_dir, app)
+
         # XXX: add deps to package.json
         # XXX: remove ts stuff and .gitignore
         # GitPython requires to manually check .gitignore paths when adding files to index

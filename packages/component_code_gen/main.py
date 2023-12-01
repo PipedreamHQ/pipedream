@@ -1,5 +1,7 @@
 import os
 import argparse
+import requests
+import markdown_to_json
 from code_gen.generate_for_github_issue import generate_from_issue, generate_from_markdown
 
 
@@ -23,8 +25,15 @@ if __name__ == '__main__':
         '--verbose', dest='verbose', help='Set the logging to debug', default=False, action='store_true')
     args = parser.parse_args()
 
+    def clean_instructions(instructions):
+        return instructions.replace("\r", " ").lower()
+
     if args.issue:
-        generate_from_issue(args.issue, output_dir=args.output_dir, generate_pr=not args.skip_pr,
+        # parse github issue description
+        instructions = requests.get(
+            f"https://api.github.com/repos/PipedreamHQ/pipedream/issues/{args.issue}").json()["body"]
+        markdown = markdown_to_json.dictify(clean_instructions(instructions))
+        generate_from_issue(markdown, args.issue, output_dir=args.output_dir, generate_pr=not args.skip_pr,
                             clean=args.clean, verbose=args.verbose, tries=args.tries, remote_name=args.remote_name)
 
     elif args.instructions:
@@ -34,8 +43,9 @@ if __name__ == '__main__':
             with open(instructions, 'r') as f:
                 instructions = f.read()
 
+        markdown = markdown_to_json.dictify(clean_instructions(instructions))
         generate_from_markdown(
-            instructions, output_dir=args.output_dir, verbose=args.verbose, tries=args.tries)
+            markdown, output_dir=args.output_dir, verbose=args.verbose, tries=args.tries)
 
     else:
         raise Exception("Missing required argument: issue or instructions")
