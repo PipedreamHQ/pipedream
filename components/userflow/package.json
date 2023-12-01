@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/userflow",
+  "version": "0.0.1",
+  "description": "Pipedream Userflow Components",
+  "main": "userflow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "userflow"
+  ],
+  "homepage": "https://pipedream.com/apps/userflow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
