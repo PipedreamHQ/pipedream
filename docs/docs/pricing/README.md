@@ -108,9 +108,7 @@ When a source is configured as a workflow trigger, the core value is in the work
 
 ::: tip
 
-This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources).
-
-If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counts toward credits.
+This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources). If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counts toward credits.
 
 :::
 
@@ -118,9 +116,7 @@ If you deploy a private custom source to your account, then all computation time
 
 For example, a source that polls an API for new events like [Airtable - New Row Added](https://pipedream.com/apps/airtable/triggers/new-records) only takes ~5 seconds to poll and emit events to subscribing workflows.
 
-This would result 0 credits per run because:
-
-- The **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
+This would result 0 credits per run because the **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
 
 :::
 
@@ -128,17 +124,13 @@ This would result 0 credits per run because:
 
 Consider an a source (like **RSS - New Item in Feed** for instance) that takes 60 seconds total to finish polling, per execution.
 
-Each execution of this source would result 0 credits because:
-
-- The **RSS - New Item in Feed** source is a [publicly available component](https://pipedream.com/apps/rss/triggers/new-item-in-feed).
+Each execution of this source would result in 0 credits because the **RSS - New Item in Feed** source is a [publicly available component](https://pipedream.com/apps/rss/triggers/new-item-in-feed).
 
 :::
 
 ::: details A custom source that finished under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
 
-This would result in 1 credit per execution.
-
-- The initial free credit only applies to Pipedream Public Registry sources attached to at least one workflow.
+This would result in 1 credit per execution because the initial free credit only applies to Pipedream Public Registry sources attached to at least one workflow.
 
 :::
 
