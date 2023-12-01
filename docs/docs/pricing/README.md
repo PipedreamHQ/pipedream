@@ -116,7 +116,7 @@ This free credit per execution **only** applies to sources from the [Pipedream p
 
 For example, a source that polls an API for new events like [Airtable - New Row Added](https://pipedream.com/apps/airtable/triggers/new-records) only takes ~5 seconds to poll and emit events to subscribing workflows.
 
-This would result 0 credits per run because the **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
+This would result in 0 credits per run because the **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
 
 :::
 
