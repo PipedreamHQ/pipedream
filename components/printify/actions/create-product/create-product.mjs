@@ -1,3 +1,7 @@
+import fs from "fs";
+import {
+  checkTmp, isValidHttpUrl,
+} from "../../common/utils.mjs";
 import printify from "../../printify.app.mjs";
 
 export default {
@@ -107,10 +111,15 @@ export default {
           label: `Position ${i}`,
           description: `The placeholder position ${i}`,
         };
-        props[`imageId_${i}`] = {
+        props[`imageName_${i}`] = {
           type: "string",
-          label: `Image Id ${i}`,
-          description: `The Id of the image ${i}`,
+          label: `Image Name ${i}`,
+          description: `The name of the image ${i}.`,
+        };
+        props[`imagePath_${i}`] = {
+          type: "string",
+          label: `Image Path or URL ${i}`,
+          description: `The URL or path to a file in the \`/tmp\` directory of the image ${i}. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).`,
         };
         props[`imageX_${i}`] = {
           type: "string",
@@ -147,18 +156,52 @@ export default {
       });
     }
     for (let i = 1; i <= this.imageCount; i++) {
-      placeholders.push({
-        position: this[`position_${i}`],
-        images: [
+      const imageString = this[`imagePath_${i}`];
+
+      let file = "";
+      let fieldName = "";
+
+      if (isValidHttpUrl(imageString)) {
+        file = imageString;
+        fieldName = "url";
+      } else {
+        file = fs.readFileSync(checkTmp(imageString));
+        file = Buffer.from(file).toString("base64");
+        fieldName = "contents";
+      }
+
+      const responseImage = await this.printify.uploadImage({
+        data: {
+          file_name: this[`imageName_${i}`],
+          [fieldName]: file,
+        },
+      });
+
+      const verifyPos = placeholders.findIndex((item) => item.position === this[`position_${i}`]);
+      if (verifyPos === -1) {
+        placeholders.push({
+          position: this[`position_${i}`],
+          images: [
+            {
+              id: responseImage.id,
+              x: this[`imageX_${i}`],
+              y: this[`imageY_${i}`],
+              scale: this[`imageScale_${i}`],
+              angle: this[`imageAngle_${i}`],
+            },
+          ],
+        });
+      } else {
+        placeholders[verifyPos].images.push(
           {
-            id: this[`imageId_${i}`],
+            id: responseImage.id,
             x: this[`imageX_${i}`],
             y: this[`imageY_${i}`],
             scale: this[`imageScale_${i}`],
             angle: this[`imageAngle_${i}`],
           },
-        ],
-      });
+        );
+      }
     }
     const response = await this.printify.createProduct({
       shopId: this.shopId,

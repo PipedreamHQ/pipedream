@@ -26,3 +26,22 @@ const sha256hash = (request, secret) => {
   const getHmac = data.digest("hex");
   return `sha256=${getHmac}`;
 };
+
+export const checkTmp = (filename) => {
+  if (!filename.startsWith("/tmp")) {
+    return `/tmp/${filename}`;
+  }
+  return filename;
+};
+
+export const isValidHttpUrl = (string) => {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+};

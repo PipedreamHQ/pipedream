@@ -213,5 +213,12 @@ export default {
         ...opts,
       });
     },
+    uploadImage(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/uploads/images.json",
+        ...opts,
+      });
+    },
   },
 };
