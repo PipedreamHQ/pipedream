@@ -9,7 +9,7 @@ const langOptions = lang.LANGUAGES.map((l) => ({
 export default {
   ...common,
   name: "Translate Text",
-  version: "0.0.9",
+  version: "0.0.10",
   key: "openai-translate-text",
   description: "Translate text from one language to another using the Chat API",
   type: "action",
