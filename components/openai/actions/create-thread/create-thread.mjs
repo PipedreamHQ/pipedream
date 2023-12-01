@@ -4,7 +4,7 @@ export default {
   key: "openai-create-thread",
   name: "Create Thread",
   description: "Creates a thread with optional messages and metadata. [See the documentation](https://platform.openai.com/docs/api-reference/threads/createThread)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     openai,
