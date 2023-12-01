@@ -1,6 +1,5 @@
 import json
 import config.logging_config as logging_config
-from config.config import config
 import helpers.supabase_helpers as supabase_helpers
 import helpers.langchain_helpers as langchain_helpers
 from templates import generate_actions, generate_webhook_sources, generate_polling_sources, generate_apps
@@ -33,7 +32,7 @@ def generate_qa_checks(component_type):
     }
 
 
-def generate_code(app, prompt, component_type, templates, parsed_common_files, urls_content, tries):
+def generate_code(app, prompt, templates, parsed_common_files, urls_content, tries):
     db = supabase_helpers.SupabaseConnector()
     # docs_meta = db.get_app_docs_meta(app)
     docs_meta = {}  # XXX - temporarily disable supabase docs

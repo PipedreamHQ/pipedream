@@ -36,7 +36,7 @@ def main(component_type, app, instructions, prompt, tries=3, urls=[], custom_pat
 
     # this is here so that the DEBUG environment variable is set before the import
     from code_gen.generate_component_code import generate_code
-    result = generate_code(app, instructions, component_type, templates,
+    result = generate_code(app, instructions, templates,
                            parsed_common_files, urls_content, tries)
     return result
 
