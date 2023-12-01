@@ -4743,7 +4743,10 @@ importers:
     specifiers: {}
 
   components/postman:
-    specifiers: {}
+    specifiers:
+      fs: ^0.0.1-security
+    dependencies:
+      fs: 0.0.1-security
 
   components/practitest:
     specifiers:
@@ -4778,9 +4781,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
       crypto: ^1.0.1
+      fs: ^0.0.1-security
     dependencies:
       '@pipedream/platform': 1.5.1
       crypto: 1.0.1
+      fs: 0.0.1-security
 
   components/printnode:
     specifiers: {}
