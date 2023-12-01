@@ -35,7 +35,7 @@ You can view your credits usage at the bottom-left of the Pipedream UI.
 
 You can also see more detailed usage in [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, by resource (e.g. your source / workflow).
 
-Your included credits count is reset, daily, at 00:00 (midnight) UTC.
+Your included credits count is reset daily at 00:00 (midnight) UTC.
 
 ### Included Credits Usage Notifications
 
