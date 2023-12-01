@@ -13,18 +13,18 @@ export default {
         return charges?.map(({ correlationID }) => correlationID) || [];
       },
     },
-    customerId: {
+    customer: {
       type: "string",
       label: "Customer",
-      description: "Identifier of a customer",
+      description: "The customer to charge",
       optional: true,
       withLabel: true,
       async options() {
         const { customers } = await this.listCustomers();
         return customers?.map(({
-          email: value, name: label,
+          taxID, name: label,
         }) => ({
-          value,
+          value: taxID.taxID,
           label,
         })) || [];
       },

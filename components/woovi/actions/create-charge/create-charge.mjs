@@ -40,10 +40,10 @@ export default {
       description: "Custom identifier for EMV",
       optional: true,
     },
-    customerId: {
+    customer: {
       propDefinition: [
         woovi,
-        "customerId",
+        "customer",
       ],
     },
     daysForDueDate: {
@@ -94,7 +94,7 @@ export default {
         customer: this.customer
           ? {
             name: this.customer.label,
-            email: this.customer.value,
+            taxID: this.customer.value,
           }
           : undefined,
         daysForDueDate: this.daysForDueDate,
@@ -116,7 +116,7 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully deleted charge with ID ${this.correlationId}.`);
+      $.export("$summary", `Successfully created charge with ID ${this.correlationId}.`);
     }
 
     return response;
