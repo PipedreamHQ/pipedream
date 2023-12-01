@@ -8,7 +8,7 @@ export default {
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,11 +19,49 @@ export default {
         "databaseId",
       ],
     },
+    properties: {
+      propDefinition: [
+        notion,
+        "propertyTypes",
+        (c) => ({
+          parentId: c.databaseId,
+          parentType: "database",
+        }),
+      ],
+      description: "Only emit events when one or more of the selected properties has changed",
+      optional: true,
+    },
+  },
+  hooks: {
+    async deploy() {
+      if (!this.properties?.length) {
+        return;
+      }
+      const propertyValues = {};
+      const pagesStream = this.notion.getPages(this.databaseId);
+      for await (const page of pagesStream) {
+        propertyValues[page.id] = {};
+        for (const property of this.properties) {
+          propertyValues[page.id][property] = JSON.stringify(page.properties[property]);
+        }
+      }
+      this._setPropertyValues(propertyValues);
+    },
+  },
+  methods: {
+    ...base.methods,
+    _getPropertyValues() {
+      return this.db.get("propertyValues");
+    },
+    _setPropertyValues(propertyValues) {
+      this.db.set("propertyValues", propertyValues);
+    },
   },
   async run() {
     const lastCheckedTimestamp = this.getLastUpdatedTimestamp();
     const lastCheckedTimestampDate = new Date(lastCheckedTimestamp);
     const lastCheckedTimestampISO = lastCheckedTimestampDate.toISOString();
+    const propertyValues = this._getPropertyValues();
 
     // Add a filter so that we only receive pages that have been updated since the last call.
     const params = {
@@ -48,6 +86,28 @@ export default {
         break;
       }
 
+      newLastUpdatedTimestamp = Math.max(
+        newLastUpdatedTimestamp,
+        Date.parse(page?.last_edited_time),
+      );
+
+      if (this.properties?.length) {
+        let propertyChangeFound = false;
+        for (const property of this.properties) {
+          const currentProperty = JSON.stringify(page.properties[property]);
+          if (!propertyValues[page.id] || currentProperty !== propertyValues[page.id][property]) {
+            propertyChangeFound = true;
+            propertyValues[page.id] = {
+              ...propertyValues[page.id],
+              [property]: currentProperty,
+            };
+          }
+        }
+        if (!propertyChangeFound) {
+          continue;
+        }
+      }
+
       const meta = this.generateMeta(
         page,
         constants.types.PAGE,
@@ -57,14 +117,10 @@ export default {
       );
 
       this.$emit(page, meta);
-
-      newLastUpdatedTimestamp = Math.max(
-        newLastUpdatedTimestamp,
-        Date.parse(page?.last_edited_time),
-      );
     }
 
     this.setLastUpdatedTimestamp(newLastUpdatedTimestamp);
+    this._setPropertyValues(propertyValues);
   },
   sampleEmit,
 };

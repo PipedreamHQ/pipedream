@@ -63,6 +63,53 @@ export default {
       description: "Value in [ISO-2 country code](https://en.wikipedia.org/wiki/ISO_3166-2). For example: `US`, `GB`, `CA`, `AU` etc. This parameter should be passed only if you passed phone numbers without a country code.",
       optional: true,
     },
+    alertType: {
+      type: "string",
+      label: "Alert Type",
+      description: "The type of alert received via webhook.",
+      options: [
+        {
+          label: "Message Scheduled",
+          value: "message_scheduled",
+        },
+        {
+          label: "Conversation Initiated",
+          value: "conversation_inited",
+        },
+        {
+          label: "Message Failed",
+          value: "message_failed",
+        },
+        {
+          label: "Message Sent",
+          value: "message_sent",
+        },
+        {
+          label: "Message Inbound",
+          value: "message_inbound",
+        },
+        {
+          label: "Message Reaction",
+          value: "message_reaction",
+        },
+        {
+          label: "Message Timeout",
+          value: "message_timeout",
+        },
+        {
+          label: "Group Created",
+          value: "group_created",
+        },
+        {
+          label: "Inbound Call",
+          value: "inbound_call",
+        },
+        {
+          label: "Unknown Event",
+          value: "unknown",
+        },
+      ],
+    },
   },
   methods: {
     getBaseUrl(api = constants.API.SERVER) {

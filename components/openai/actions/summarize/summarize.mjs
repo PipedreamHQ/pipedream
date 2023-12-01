@@ -3,7 +3,7 @@ import common from "../common/common-helper.mjs";
 export default {
   ...common,
   name: "Summarize Text",
-  version: "0.0.6",
+  version: "0.0.7",
   key: "openai-summarize",
   description: "Summarizes text using the Chat API",
   type: "action",

@@ -22,7 +22,7 @@ const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription",
-  version: "0.1.2",
+  version: "0.1.3",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",

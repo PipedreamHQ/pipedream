@@ -441,15 +441,13 @@ export default defineComponent({
 This example shows you how to download a file to a file in [the `/tmp` directory](/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
 
 ```javascript
-import stream from "stream";
-import { promisify } from "util";
+import { pipeline } from "stream/promises";
 import fs from "fs";
 import got from "got";
 
 export default defineComponent({
   async run({ steps, $ }) {
     // Download the webpage HTML file to /tmp
-    const pipeline = promisify(stream.pipeline);
     return await pipeline(
       got.stream("https://example.com"),
       fs.createWriteStream('/tmp/file.html')
@@ -458,7 +456,7 @@ export default defineComponent({
 })
 ```
 
-[Copy this workflow](https://pipedream.com/@dylburger/download-a-file-from-a-url-to-tmp-p_pWCYA8y/edit) to run this example.
+[Copy this workflow](https://pipedream.com/new?h=tch_wqKfoW) to run this example.
 
 ## Upload a file from the `/tmp` directory
 
@@ -488,7 +486,7 @@ export default defineComponent({
 });
 ```
 
-[Copy this workflow](https://pipedream.com/@dylburger/stream-a-file-upload-p_6lC1d2Z/edit) to run this example.
+[Copy this workflow](https://pipedream.com/new?h=tch_Oknf4r) to run this example.
 
 ## IP addresses for HTTP requests made from Pipedream workflows
 

@@ -42,5 +42,13 @@ export default {
         method: "post",
       });
     },
+    takeScreenshot(opts = {}) {
+      return this._makeRequest({
+        path: "/screenshot",
+        method: "post",
+        responseType: "arraybuffer",
+        ...opts,
+      });
+    },
   },
 };
