@@ -1,4 +1,5 @@
 import lmnt from "../../lmnt.app.mjs";
+import FormData from "form-data";
 
 export default {
   key: "lmnt-generate-speech-from-text",
@@ -52,17 +53,23 @@ export default {
     },
   },
   async run({ $ }) {
+    const data = new FormData();
+    if (this.returnDurations) data.append("return_durations", this.returnDurations);
+    if (this.speed) data.append("speed", Number(this.speed));
+    [
+      "format",
+      "length",
+      "seed",
+      "text",
+      "voice",
+    ].forEach((key) => {
+      if (this[key]) data.append(key, this[key]);
+    });
+
     const response = await this.lmnt.synthesizeSpeech({
       $,
-      data: {
-        format: this.format,
-        length: this.length,
-        return_durations: this.returnDurations,
-        seed: this.seed,
-        speed: this.speed && Number(this.speed),
-        text: this.text,
-        voice: this.voice,
-      },
+      headers: data.getHeaders(),
+      data,
     });
 
     $.export("$summary", `Generated speech from text: "${this.text}"`);

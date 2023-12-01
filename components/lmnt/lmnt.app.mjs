@@ -40,7 +40,7 @@ export default {
       label: "Speed",
       description: "The talking speed of the generated speech. A floating point value between 0.25 (slow) and 2.0 (fast); defaults to 1.0.",
       optional: true,
-      default: 1.0,
+      default: "1.0",
     },
     text: {
       type: "string",
