@@ -4743,10 +4743,7 @@ importers:
     specifiers: {}
 
   components/postman:
-    specifiers:
-      fs: ^0.0.1-security
-    dependencies:
-      fs: 0.0.1-security
+    specifiers: {}
 
   components/practitest:
     specifiers:
