@@ -1,122 +1,186 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "zamzar",
   propDefinitions: {
-    jobSource: {
+    sourceFile: {
       type: "string",
-      label: "Job Source",
-      description: "The source of the job to check for completion",
-      optional: false,
-    },
-    fileType: {
-      type: "string",
-      label: "File Type",
-      description: "The file type to convert the source file to",
-      optional: false,
-    },
-    jobState: {
-      type: "string",
-      label: "Job State",
-      description: "The state of the job to filter by",
-      options: [
-        "initialising",
-        "converting",
-        "successful",
-        "failed",
-        "cancelled",
-      ],
-      optional: true,
-    },
-    jobId: {
-      type: "integer",
-      label: "Job ID",
-      description: "The unique identifier of the job",
-      optional: false,
+      label: "Source File",
+      description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
     targetFormat: {
       type: "string",
       label: "Target Format",
       description: "The desired output format for the conversion",
-      optional: false,
+      options(args) {
+        return this.getResourcesOptions({
+          listResourcesFn: this.listFormats,
+          mapResourceFn: ({ name }) => name,
+          ...args,
+        });
+      },
     },
-    content: {
+    jobId: {
       type: "string",
-      label: "Content",
-      description: "The content to create a PDF file from",
-      optional: false,
-    },
-    fileName: {
-      type: "string",
-      label: "File Name",
-      description: "The desired name for the created PDF file",
-      optional: false,
+      label: "Job ID",
+      description: "The unique identifier of the job",
+      options(args) {
+        return this.getResourcesOptions({
+          listResourcesFn: this.listJobs,
+          ...args,
+        });
+      },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.zamzar.com/v1";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
-      });
-    },
-    async startConversion({
-      sourceFile, targetFormat, sourceFormat = null,
-    }) {
-      const data = {
-        target_format: targetFormat,
-        source_file: sourceFile,
+    getAuth() {
+      return {
+        username: this.$auth.api_key,
+        password: "",
       };
-      if (sourceFormat) {
-        data.source_format = sourceFormat;
-      }
+    },
+    _makeRequest({
+      $ = this, path, headers, data: rawData, ...args
+    } = {}) {
+      const {
+        getUrl,
+        getAuth,
+      } = this;
 
-      return this._makeRequest({
-        method: "POST",
-        path: "/jobs",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const contentType = constants.CONTENT_TYPE_KEY_HEADER;
+      const hasMultipartHeader = utils.hasMultipartHeader(headers);
+      const data = hasMultipartHeader && utils.getFormData(rawData) || rawData;
+
+      const config = {
+        ...args,
+        debug: true,
+        url: getUrl(path),
+        auth: getAuth(),
+        headers: hasMultipartHeader
+          ? {
+            ...headers,
+            [contentType]: data.getHeaders()[contentType.toLowerCase()],
+          }
+          : headers,
         data,
+      };
+
+      return axios($, config);
+    },
+    post(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        ...args,
       });
     },
-    async getJobStatus({ jobId }) {
+    retrieveJob({
+      jobId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/jobs/${jobId}`,
+        ...args,
       });
     },
-    async convertToPDF({
-      content, fileName,
+    listFormats(args = {}) {
+      return this._makeRequest({
+        path: "/formats",
+        ...args,
+      });
+    },
+    listJobs(args = {}) {
+      return this._makeRequest({
+        path: "/jobs",
+        ...args,
+      });
+    },
+    listFiles(args = {}) {
+      return this._makeRequest({
+        path: "/files",
+        ...args,
+      });
+    },
+    async getResourcesOptions({
+      prevContext, listResourcesFn, mapResourceFn = ({ id }) => String(id),
+    } = {}) {
+      const {
+        hasMore,
+        before,
+      } = prevContext;
+
+      if (hasMore === false) {
+        return [];
+      }
+
+      const {
+        data,
+        paging: {
+          total_count: totalCount,
+          first,
+        },
+      } = await listResourcesFn({
+        params: {
+          before,
+          limit: constants.DEFAULT_LIMIT,
+        },
+      });
+
+      const options = data.map(mapResourceFn);
+
+      return {
+        options,
+        context: {
+          before: first,
+          hasMore: data.length && totalCount > data.length,
+        },
+      };
+    },
+    async *getIterations({
+      listResourcesFn, listResourcesFnArgs, resourcesFilter = () => true,
+      max = constants.DEFAULT_MAX,
     }) {
-      // The content should be a URL or a path to a file, not the actual content
-      return this.startConversion({
-        sourceFile: content,
-        targetFormat: "pdf",
-      });
+      let before;
+      let resourcesCount = 0;
+
+      while (true) {
+        const {
+          data: nextResources,
+          paging,
+        } =
+          await listResourcesFn({
+            ...listResourcesFnArgs,
+            params: {
+              ...listResourcesFnArgs?.params,
+              limit: constants.DEFAULT_LIMIT,
+              before: before || listResourcesFnArgs?.params?.before,
+            },
+          });
+
+        if (!nextResources?.length) {
+          return console.log("No more resources found");
+        }
+
+        const resources = nextResources.filter(resourcesFilter);
+
+        for (const resource of resources) {
+          yield resource;
+          resourcesCount += 1;
+
+          if (resourcesCount >= max) {
+            return console.log("Max resources reached");
+          }
+        }
+
+        before = paging?.first;
+      }
     },
-    async findProcessedFile({ jobId }) {
-      return this.getJobStatus({
-        jobId,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    paginate(args = {}) {
+      return utils.iterate(this.getIterations(args));
     },
   },
 };
