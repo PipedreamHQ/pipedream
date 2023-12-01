@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zoho_forms",
+  "version": "0.0.1",
+  "description": "Pipedream Zoho Forms Components",
+  "main": "zoho_forms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_forms"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_forms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
