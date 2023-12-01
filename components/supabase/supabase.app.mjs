@@ -67,7 +67,6 @@ export default {
       if (resp.error) {
         throw new Error(JSON.stringify(resp.error, null, 2));
       }
-      console.log("resp: ", resp);
       return resp.data;
     },
     baseFilter(client, table, orderBy, ascending, max) {
