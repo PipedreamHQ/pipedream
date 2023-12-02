@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     _apiUrl() {
-      return "https://api-swap-rest.bingbon.pro";
+      return "https://api-swap-rest.bingx.com";
     },
     _apiKey() {
       return this.$auth.api_key;
