@@ -23,7 +23,7 @@ const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription",
-  version: "0.1.4",
+  version: "0.1.5",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
@@ -131,7 +131,10 @@ export default {
       const ext = extname(file);
 
       const fileSizeInMB = fs.statSync(file).size / (1024 * 1024);
-      const numberOfChunks = Math.ceil(fileSizeInMB / 24);
+      // We're limited to 26MB per request. Because of how ffmpeg splits files,
+      // we need to be conservative in the number of chunks we create
+      const conservativeChunkSizeMB = 20;
+      const numberOfChunks = Math.ceil(fileSizeInMB / conservativeChunkSizeMB);
 
       if (numberOfChunks === 1) {
         await execAsync(`cp "${file}" "${outputDir}/chunk-000${ext}"`);
