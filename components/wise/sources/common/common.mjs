@@ -4,7 +4,10 @@ export default {
   props: {
     wise,
     db: "$.service.db",
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     profileId: {
       propDefinition: [
         wise,
@@ -52,6 +55,9 @@ export default {
     },
   },
   async run(event) {
+    this.http.respond({
+      status: 200,
+    });
     this.emitEvent(event.body);
   },
 };
