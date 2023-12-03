@@ -4,6 +4,22 @@ When you generate code, you must follow all of the rules below. Review the rules
 
 Once you generate your code, you must review each of these rules again, one-by-one, and ensure you've followed them. Accuracy is critical, and we can wait for you to review your code. If you notice you haven't followed a particular rule, you can regenerate your code and start over. If you do make any edits, you'll need to again review each rule one-by-one to make sure your edits didn't conflict with another rule. I cannot stress how critical it is to follow all of the rules below. Consider it your constitution.
 
+0. Produce full, working code. Complete all methods, prop definitions, hooks, the run method, and all code needed to solve the problem. Do not include examples like this:
+
+export default {
+  methods: {
+    request() {
+      // Implement this
+    },
+    getAuth() {
+      return 'test'
+    },
+  }
+  // the rest of the component
+}
+
+In the example above, there's a comment in the `request` method, and the `getAuth` method returns a string. This is not acceptable. You must implement the `request` method the `getAuth` method. You must produce full, working code.
+
 1. Use ESM for all imports, not CommonJS. Place all imports at the top of the file. Make sure to import all necessary packages.
 
 2. Include all parameters of the API request as props. DO NOT use example values from any API docs, OpenAPI specs, or example code above or that you've been trained on. Here's example code that references props in the `run` method:

@@ -83,24 +83,26 @@ We use Amazon SES to receive emails for the email trigger. You can find the shap
 
 You can use the data in `steps.trigger.context` to uniquely identify the Pipedream event ID, the timestamp at which the event invoked the workflow, and more:
 
-| Property           |                                                    Description                                                    |
-| ------------------ | :---------------------------------------------------------------------------------------------------------------: |
-| `deployment_id`    |                     A globally-unique string representing the current version of the workflow                     |
-| `emitter_id`       |           The ID of the workflow trigger that emitted this event, e.g. the [event source](/sources) ID.           |
-| `id`               |                A unique, Pipedream-provided identifier for the event that triggered this workflow                 |
-| `owner_id`         |      The Pipedream-assigned [workspace ID](/workspaces/#finding-your-workspace-s-id) that owns the workflow       |
-| `platform_version` |                       The version of the Pipedream execution environment this event ran on                        |
-| `replay`           |                               A boolean, whether the event was replayed via the UI                                |
-| `trace_id`         | Holds the same value for all executions tied to an original event. [See below for more details](#id-vs-trace-id). |
-| `ts`               |                          The ISO 8601 timestamp at which the event invoked the workflow                           |
-| `workflow_id`      |                                                  The workflow ID                                                  |
-| `workflow_name`    |                                                 The workflow name                                                 |
+| Property           |                                                                     Description                                                                      |
+| ------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------: |
+| `deployment_id`    |                                      A globally-unique string representing the current version of the workflow                                       |
+| `emitter_id`       |                            The ID of the workflow trigger that emitted this event, e.g. the [event source](/sources) ID.                             |
+| `id`               |                                  A unique, Pipedream-provided identifier for the event that triggered this workflow                                  |
+| `owner_id`         |                        The Pipedream-assigned [workspace ID](/workspaces/#finding-your-workspace-s-id) that owns the workflow                        |
+| `platform_version` |                                         The version of the Pipedream execution environment this event ran on                                         |
+| `replay`           |                                                 A boolean, whether the event was replayed via the UI                                                 |
+| `trace_id`         | Holds the same value for all executions tied to an original event. [See below for more details](#how-do-i-retrieve-the-execution-id-for-a-workflow). |
+| `ts`               |                                            The ISO 8601 timestamp at which the event invoked the workflow                                            |
+| `workflow_id`      |                                                                   The workflow ID                                                                    |
+| `workflow_name`    |                                                                  The workflow name                                                                   |
 
-### `id` vs. `trace_id`
+### How do I retrieve the execution ID for a workflow?
+
+Pipedream exposes two identifies for workflow executions: one for the execution, and one for the "trace".
 
 `steps.trigger.context.id` should be unique for every execution of a workflow.
 
-`steps.trigger.context.trace_id` will hold the same value for all executions tied to the same original event, e.g. if you have auto-retry enabled and it retries a workflow three times, id will change, but trace_id will remain the same. For example, if you call `$.flow.suspend()` on a workflow, we run a new execution after the suspend, so you'd see two total executions: `id` will be unique before and after the suspend, but `trace_id` will be the same.
+`steps.trigger.context.trace_id` will hold the same value for all executions tied to the same original event, e.g. if you have auto-retry enabled and it retries a workflow three times, the `id` will change, but the `trace_id` will remain the same. For example, if you call `$.flow.suspend()` on a workflow, we run a new execution after the suspend, so you'd see two total executions: `id` will be unique before and after the suspend, but `trace_id` will be the same.
 
 You may notice other properties in `context`. These are used internally by Pipedream, and are subject to change.
 

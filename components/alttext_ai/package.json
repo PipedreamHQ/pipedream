@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/alttext_ai",
+  "version": "0.0.1",
+  "description": "Pipedream AltText.ai Components",
+  "main": "alttext_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alttext_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/alttext_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

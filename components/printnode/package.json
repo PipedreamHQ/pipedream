@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/printnode",
+  "version": "0.0.1",
+  "description": "Pipedream PrintNode Components",
+  "main": "printnode.app.mjs",
+  "keywords": [
+    "pipedream",
+    "printnode"
+  ],
+  "homepage": "https://pipedream.com/apps/printnode",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
