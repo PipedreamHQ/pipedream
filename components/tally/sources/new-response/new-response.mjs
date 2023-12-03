@@ -3,10 +3,10 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  name: "New Response",
-  version: "0.0.3",
+  name: "New Response (Instant)",
+  version: "0.0.4",
   key: "tally-new-response",
-  description: "Emit new event on each form message. [See docs here](https://tallyso.notion.site/Tally-OAuth-2-reference-d0442c679a464664823628f675f43454)",
+  description: "Emit new event on each form message. [See the documentation](https://tallyso.notion.site/Tally-OAuth-2-reference-d0442c679a464664823628f675f43454)",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -25,7 +25,11 @@ export default {
       });
     },
     getSingleResponse(field) {
-      return (field.options.find(({ id }) => id === field.value[0])).text;
+      const fieldValue = Array.isArray(field.value)
+        ? field.value[0]
+        : field.value;
+      const { text } = field.options.find(({ id }) => id === fieldValue);
+      return text;
     },
     getMultipeResponses(field) {
       return (field.options.filter(({ id }) => field.value.includes(id)).map(({ text }) => text))

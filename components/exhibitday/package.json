@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/exhibitday",
+  "version": "0.0.1",
+  "description": "Pipedream ExhibitDay Components",
+  "main": "exhibitday.app.mjs",
+  "keywords": [
+    "pipedream",
+    "exhibitday"
+  ],
+  "homepage": "https://pipedream.com/apps/exhibitday",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

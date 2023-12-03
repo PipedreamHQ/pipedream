@@ -14,6 +14,7 @@ supabase = "^1.0.3"
 selenium = "^4.12.0"
 markdown-to-json = "^2.1.0"
 gitpython = "^3.1.40"
+scikit-learn = "^1.3.2"
 
 
 [build-system]

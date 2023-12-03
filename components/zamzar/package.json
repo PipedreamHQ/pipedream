@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zamzar",
+  "version": "0.0.1",
+  "description": "Pipedream Zamzar Components",
+  "main": "zamzar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zamzar"
+  ],
+  "homepage": "https://pipedream.com/apps/zamzar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

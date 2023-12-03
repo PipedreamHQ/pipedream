@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@supabase/supabase-js@2.39.0";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -63,8 +63,11 @@ export default {
         const filterMethod = this[filter];
         filterMethod(query, column, value);
       }
-      const { data } = await query;
-      return data;
+      const resp = await query;
+      if (resp.error) {
+        throw new Error(JSON.stringify(resp.error, null, 2));
+      }
+      return resp.data;
     },
     baseFilter(client, table, orderBy, ascending, max) {
       return client
