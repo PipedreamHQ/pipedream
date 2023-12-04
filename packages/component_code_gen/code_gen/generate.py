@@ -1,4 +1,5 @@
 import os
+import html2text
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -36,7 +37,7 @@ def main(component_type, app, instructions, prompt, tries=3, urls=[], custom_pat
 
     # this is here so that the DEBUG environment variable is set before the import
     from code_gen.generate_component_code import generate_code
-    result = generate_code(app, instructions, component_type, templates,
+    result = generate_code(app, instructions, templates,
                            parsed_common_files, urls_content, tries)
     return result
 
@@ -89,20 +90,30 @@ def parse_urls(driver, urls, prompt):
     contents = []
 
     for url in urls:
-        try:
-            print(f"Scraping {url}")
-            driver.get(url)
-            element = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.TAG_NAME, 'body'))
-            )
-            document = " ".join(element.text.split())
-            relevant_docs = get_relevant_docs(prompt, document)
-            contents.append({
-                "url": url,
-                "content": relevant_docs
-            })
-        except Exception as e:
-            print(f"Error scraping {url}: {e}")
+        if url in scraped_urls:
+            print(f"Using cached content for {url}")
+            document = scraped_urls[url]
+        else:
+            try:
+                print(f"Scraping {url}")
+                driver.get(url)
+                element = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.TAG_NAME, 'body'))
+                )
+                html_content = element.get_attribute("innerHTML")
+                converter = html2text.HTML2Text()
+                converter.ignore_links = False
+                document = converter.handle(html_content)
+                scraped_urls[url] = document
+            except Exception as e:
+                print(f"Error scraping {url}: {e}")
+                continue
+
+        relevant_docs = get_relevant_docs(prompt, document)
+        contents.append({
+            "url": url,
+            "content": relevant_docs
+        })
 
     return contents
 
