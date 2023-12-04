@@ -4,100 +4,53 @@ export default {
   type: "app",
   app: "shoprocket",
   propDefinitions: {
-    customerEmail: {
+    environment: {
       type: "string",
-      label: "Customer Email",
-      description: "The email of the customer",
-    },
-    orderId: {
-      type: "string",
-      label: "Order ID",
-      description: "The unique identifier for the order",
-    },
-    orderedProducts: {
-      type: "string[]",
-      label: "Ordered Products",
-      description: "A list of ordered product IDs",
-      optional: true,
-    },
-    productId: {
-      type: "string",
-      label: "Product ID",
-      description: "The unique identifier for the product",
-    },
-    productName: {
-      type: "string",
-      label: "Product Name",
-      description: "The name of the product",
-    },
-    productPrice: {
-      type: "string",
-      label: "Product Price",
-      description: "The price of the product",
-      optional: true,
-    },
-    productStockQuantity: {
-      type: "integer",
-      label: "Stock Quantity",
-      description: "The quantity of the product in stock",
-      optional: true,
-    },
-    productDescription: {
-      type: "string",
-      label: "Product Description",
-      description: "A description of the product",
-      optional: true,
+      label: "Environment",
+      description: "The store environment in which you want to configure the webhook.",
+      options: [
+        "test",
+        "live",
+      ],
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.shoprocket.io/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "x-api-key": this.$auth.api_key,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "x-api-key": this.$auth.api_key,
-        },
-        data,
-        params,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async createCustomer(customerData) {
+    createCustomer(opts = {}) {
       return this._makeRequest({
-        method: "POST",
+        method: "PUT",
         path: "/customers",
-        data: customerData,
+        ...opts,
       });
     },
-    async createOrder(orderData) {
+    createHook(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/orders",
-        data: orderData,
+        method: "PUT",
+        path: "/webhooks",
+        ...opts,
       });
     },
-    async createProduct(productData) {
+    deleteHook(webhookId) {
       return this._makeRequest({
-        method: "POST",
-        path: "/products",
-        data: productData,
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };

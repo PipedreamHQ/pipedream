@@ -4,20 +4,45 @@ export default {
   key: "shoprocket-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in Shoprocket. [See the documentation](https://docs.shoprocket.io/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     shoprocket,
-    customerEmail: shoprocket.propDefinitions.customerEmail,
+    email: {
+      type: "string",
+      label: "Customer Email",
+      description: "Customer's email address.",
+    },
+    name: {
+      type: "string",
+      label: "Customer Name",
+      description: "The customer's full name.",
+      optional: true,
+    },
+    contact: {
+      type: "string",
+      label: "Customer Contact",
+      description: "The customer's phone number.",
+      optional: true,
+    },
+    marketing: {
+      type: "boolean",
+      label: "Marketing",
+      description: "Whether customer has opted-in for newsletter",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const customerData = {
-      email: this.customerEmail,
-    };
+    const response = await this.shoprocket.createCustomer({
+      data: {
+        customer_email: this.email,
+        customer_name: this.name,
+        customer_contact: this.contact,
+        marketing_subscribed: +this.marketing,
+      },
+    });
 
-    const response = await this.shoprocket.createCustomer(customerData);
-
-    $.export("$summary", `Successfully created customer with email ${this.customerEmail}`);
+    $.export("$summary", `Successfully created customer with ID: ${response.data?.id}`);
     return response;
   },
 };
