@@ -61,6 +61,7 @@ export default {
   },
   async run() {
     const lastTimestamp = this._getLastTimestamp();
+    this._setLastTimestamp(dayjs());
 
     const resources = await this.app.getUpcomingEvents({
       sport: this.sport,
