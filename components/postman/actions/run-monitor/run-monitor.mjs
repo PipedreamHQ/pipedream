@@ -17,6 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.postman.runMonitor({
+      $,
       monitorId: this.monitorId,
     });
 

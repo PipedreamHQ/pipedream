@@ -65,6 +65,7 @@ export default {
     } = this;
 
     const { environment } = await postman.getEnvironment({
+      $,
       environmentId,
     });
 
@@ -78,6 +79,7 @@ export default {
     // This step is to delete all variables and create them again.
     // Without this step, the postman will only update the variables` initial value.
     await postman.updateEnvironment({
+      $,
       environmentId,
       data: {
         environment: {
@@ -87,6 +89,7 @@ export default {
     });
 
     const response = await postman.updateEnvironment({
+      $,
       environmentId,
       data: {
         environment: {

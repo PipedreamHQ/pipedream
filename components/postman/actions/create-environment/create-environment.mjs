@@ -23,7 +23,7 @@ export default {
     variablesCount: {
       type: "integer",
       label: "Variables Quantity",
-      description: "The quantity of the variables you want to create into the environment.",
+      description: "The quantity of variables you want to create into the environment.",
       reloadProps: true,
       optional: true,
     },
@@ -72,6 +72,7 @@ export default {
     }
 
     const response = await this.postman.createEnvironment({
+      $,
       data: {
         environment: {
           name: this.environmentName,

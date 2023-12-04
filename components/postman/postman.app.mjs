@@ -82,9 +82,12 @@ export default {
         ...opts,
       });
     },
-    getEnvironment({ environmentId }) {
+    getEnvironment({
+      environmentId, ...opts
+    }) {
       return this._makeRequest({
         path: `/environments/${environmentId}`,
+        ...opts,
       });
     },
     getMonitor({ monitorId }) {
@@ -123,10 +126,13 @@ export default {
         ...opts,
       });
     },
-    runMonitor({ monitorId }) {
+    runMonitor({
+      monitorId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/monitors/${monitorId}/run`,
+        ...opts,
       });
     },
   },
