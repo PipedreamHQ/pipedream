@@ -1,19 +1,20 @@
+import ffmpegInstaller from "@ffmpeg-installer/ffmpeg";
+import { ConfigurationError } from "@pipedream/platform";
 import axios from "axios";
 import Bottleneck from "bottleneck";
+import { exec } from "child_process";
+import FormData from "form-data";
 import fs from "fs";
 import {
-  join, extname,
+  extname,
+  join,
 } from "path";
-import FormData from "form-data";
-import { ConfigurationError } from "@pipedream/platform";
+import stream from "stream";
+import { promisify } from "util";
+import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 import lang from "../common/lang.mjs";
-import openai from "../../openai.app.mjs";
-import { promisify } from "util";
-import stream from "stream";
-import { exec } from "child_process";
-import ffmpegInstaller from "@ffmpeg-installer/ffmpeg";
 
 const COMMON_AUDIO_FORMATS_TEXT = "Your audio file must be in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.";
 
@@ -22,7 +23,7 @@ const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription",
-  version: "0.1.3",
+  version: "0.1.5",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
@@ -130,7 +131,10 @@ export default {
       const ext = extname(file);
 
       const fileSizeInMB = fs.statSync(file).size / (1024 * 1024);
-      const numberOfChunks = Math.ceil(fileSizeInMB / 24);
+      // We're limited to 26MB per request. Because of how ffmpeg splits files,
+      // we need to be conservative in the number of chunks we create
+      const conservativeChunkSizeMB = 20;
+      const numberOfChunks = Math.ceil(fileSizeInMB / conservativeChunkSizeMB);
 
       if (numberOfChunks === 1) {
         await execAsync(`cp "${file}" "${outputDir}/chunk-000${ext}"`);

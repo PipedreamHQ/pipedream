@@ -7,7 +7,7 @@ export default {
   key: "notion-create-page-from-database",
   name: "Create Page from Database",
   description: "Creates a page from a database. [See the docs](https://developers.notion.com/reference/post-page)",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "action",
   props: {
     notion,
@@ -69,9 +69,20 @@ export default {
     },
   },
   async run({ $ }) {
+    const MAX_BLOCKS = 100;
     const parentPage = await this.notion.retrieveDatabase(this.parent);
-    const page = this.buildPage(parentPage);
-    const response = await this.notion.createPage(page);
+    const {
+      children, ...page
+    } = this.buildPage(parentPage);
+    const response = await this.notion.createPage({
+      ...page,
+      children: children.slice(0, MAX_BLOCKS),
+    });
+    let remainingBlocks = children.slice(MAX_BLOCKS);
+    while (remainingBlocks.length > 0) {
+      await this.notion.appendBlock(response.id, remainingBlocks.slice(0, MAX_BLOCKS));
+      remainingBlocks = remainingBlocks.slice(MAX_BLOCKS);
+    }
     $.export("$summary", "Created page successfully");
     return response;
   },

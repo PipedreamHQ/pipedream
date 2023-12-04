@@ -1,12 +1,12 @@
-import openai from "../../openai.app.mjs";
 import FormData from "form-data";
 import fs from "fs";
+import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-upload-file",
   name: "Upload File",
   description: "Upload a file that can be used across various endpoints/features. The size of individual files can be a maximum of 512mb. [See the documentation](https://platform.openai.com/docs/api-reference/files/create)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     openai,
