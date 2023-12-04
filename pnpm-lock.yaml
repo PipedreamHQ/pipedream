@@ -4778,7 +4778,10 @@ importers:
     specifiers: {}
 
   components/postman:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/practitest:
     specifiers:
