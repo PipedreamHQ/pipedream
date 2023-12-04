@@ -1,4 +1,4 @@
-import trello from "../trello.app";
+import trello from "../trello.app.mjs";
 
 export default {
   props: {

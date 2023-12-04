@@ -1,7 +1,7 @@
 import { axios } from "@pipedream/platform";
 import crypto from "crypto";
-import events from "./common/events.js";
-import fields from "./common/fields.js";
+import events from "./common/events.mjs";
+import fields from "./common/fields.mjs";
 import mime from "mime";
 
 export default {
