@@ -1,4 +1,4 @@
-import common from "../common.js";
+import common from "../common.mjs";
 import pickBy from "lodash/pickBy.js";
 import pick from "lodash/pick.js";
 
