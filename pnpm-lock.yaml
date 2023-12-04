@@ -6596,13 +6596,13 @@ importers:
 
   components/trello:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.5.1
       crypto: ^1.0.1
       lodash.pick: ^4.4.0
       lodash.pickby: ^4.6.0
       mime: ^3.0.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.5.1
       crypto: 1.0.1
       lodash.pick: 4.4.0
       lodash.pickby: 4.6.0
