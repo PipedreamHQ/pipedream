@@ -37,7 +37,7 @@ export default {
     let maxTs = lastTs;
 
     const resourceFn = this.getResourceFn();
-    const args = this.getArgs(); console.log(args);
+    const args = this.getArgs();
 
     const { list_data: items } = await resourceFn(args);
     for (const item of items) {
