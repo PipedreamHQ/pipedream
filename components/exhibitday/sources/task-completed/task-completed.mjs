@@ -1,64 +1,47 @@
-import exhibitday from "../../exhibitday.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "exhibitday-task-completed",
   name: "Task Completed",
   description: "Emit new event when a task is marked as complete in ExhibitDay",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    exhibitday,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-    taskName: {
-      type: "string",
-      label: "Task Name",
-      description: "The name of the task",
-    },
-    userName: {
-      type: "string",
-      label: "User",
-      description: "The user who completed the task",
+    ...common.props,
+    eventId: {
+      propDefinition: [
+        common.props.exhibitday,
+        "eventId",
+      ],
+      description: "Only emit tasks belonging to this event",
     },
   },
   methods: {
-    _getTaskId() {
-      return this.db.get("taskId") ?? null;
+    ...common.methods,
+    getResourceFn() {
+      return this.exhibitday.listTasks;
     },
-    _setTaskId(taskId) {
-      this.db.set("taskId", taskId);
+    getArgs() {
+      return {
+        params: {
+          filter_by_completed_only: true,
+          filter_by_event_id: this.eventId || undefined,
+        },
+      };
+    },
+    getTsField() {
+      return "task_completed_timestamp";
+    },
+    generateMeta(task) {
+      return {
+        id: task.id,
+        summary: `Task Completed - ${task.name}`,
+        ts: Date.parse(task[this.getTsField()]),
+      };
     },
   },
-  hooks: {
-    async deploy() {
-      const tasks = await this.exhibitday.getTaskCompleted();
-      if (tasks.length > 0) {
-        const { id } = tasks[0];
-        this._setTaskId(id);
-      }
-    },
-  },
-  async run() {
-    const tasks = await this.exhibitday.getTaskCompleted();
-    const lastTaskId = this._getTaskId();
-    for (const task of tasks) {
-      if (task.id === lastTaskId) break;
-      if (task.name === this.taskName && task.completedBy === this.userName) {
-        this.$emit(task, {
-          id: task.id,
-          summary: `Task ${task.name} completed by ${task.completedBy}`,
-          ts: Date.parse(task.completedAt),
-        });
-      }
-    }
-    if (tasks.length > 0) {
-      this._setTaskId(tasks[0].id);
-    }
-  },
+  sampleEmit,
 };

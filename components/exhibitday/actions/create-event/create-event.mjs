@@ -1,11 +1,10 @@
-import { axios } from "@pipedream/platform";
 import exhibitday from "../../exhibitday.app.mjs";
 
 export default {
   key: "exhibitday-create-event",
   name: "Create Event",
-  description: "Creates a new event in ExhibitDay. [See the documentation](https://api.exhibitday.com/)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new event in ExhibitDay. [See the documentation](https://api.exhibitday.com/Help/V1?epf=1)",
+  version: "0.0.1",
   type: "action",
   props: {
     exhibitday,
@@ -14,52 +13,45 @@ export default {
       label: "Event Name",
       description: "The name of the event",
     },
-    eventDate: {
+    startDate: {
       type: "string",
-      label: "Event Date",
-      description: "The date of the event",
+      label: "Start Date",
+      description: "Event Start Date (format: YYYY-MM-DD). Must be smaller or equal to Event End Date.",
     },
-    eventLocation: {
+    endDate: {
       type: "string",
-      label: "Event Location",
-      description: "The location of the event",
+      label: "End Date",
+      description: "Event End Date (format: YYYY-MM-DD). Must be greater or equal to Event Start Date.",
     },
-    eventDescription: {
-      type: "string",
-      label: "Event Description",
-      description: "The description of the event",
-      optional: true,
+    eventFormat: {
+      propDefinition: [
+        exhibitday,
+        "eventFormat",
+      ],
     },
-    attendees: {
-      type: "string[]",
-      label: "Attendees",
-      description: "The attendees of the event",
-      optional: true,
-    },
-    cost: {
-      type: "integer",
-      label: "Cost",
-      description: "The cost of the event",
-      optional: true,
+    participationType: {
+      propDefinition: [
+        exhibitday,
+        "participationType",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await axios($, {
-      method: "POST",
-      url: "https://api.exhibitday.com/create-event",
-      headers: {
-        Authorization: `Bearer ${this.exhibitday.$auth.api_key}`,
-      },
+    const response = await this.exhibitday.createEvent({
+      $,
       data: {
         name: this.eventName,
-        date: this.eventDate,
-        location: this.eventLocation,
-        description: this.eventDescription,
-        attendees: this.attendees,
-        cost: this.cost,
+        start_date: this.startDate,
+        end_date: this.endDate,
+        format_id: this.eventFormat,
+        participation_type_id: this.participationType,
       },
     });
-    $.export("$summary", `Created event ${this.eventName}`);
+
+    if (response?.id) {
+      $.export("$summary", `Successfully created event with ID ${response.id}.`);
+    }
+
     return response;
   },
 };

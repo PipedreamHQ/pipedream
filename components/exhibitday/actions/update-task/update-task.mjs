@@ -1,68 +1,91 @@
-import ExhibitDay from "../../exhibitday.app.mjs";
+import exhibitday from "../../exhibitday.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "exhibitday-update-task",
   name: "Update Task",
-  description: "Updates an existing task in ExhibitDay. [See the documentation](https://api.exhibitday.com/)",
-  version: "0.0.{{ts}}",
+  description: "Updates an existing task in ExhibitDay. [See the documentation](https://api.exhibitday.com/Help/V1?epf=2)",
+  version: "0.0.1",
   type: "action",
   props: {
-    ExhibitDay,
+    exhibitday,
+    eventId: {
+      propDefinition: [
+        exhibitday,
+        "eventId",
+      ],
+    },
     taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "The ID of the task to update",
+      propDefinition: [
+        exhibitday,
+        "taskId",
+        (c) => ({
+          eventId: c.eventId,
+        }),
+      ],
     },
     taskName: {
-      type: "string",
-      label: "Task Name",
-      description: "The new name of the task",
+      propDefinition: [
+        exhibitday,
+        "taskName",
+      ],
       optional: true,
     },
-    assignee: {
-      type: "string",
-      label: "Assignee",
-      description: "The new assignee of the task",
-      optional: true,
+    taskSectionId: {
+      propDefinition: [
+        exhibitday,
+        "taskSectionId",
+        (c) => ({
+          eventId: c.eventId,
+        }),
+      ],
+    },
+    isCompleted: {
+      propDefinition: [
+        exhibitday,
+        "isCompleted",
+      ],
     },
     dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "The new due date of the task",
-      optional: true,
+      propDefinition: [
+        exhibitday,
+        "dueDate",
+      ],
     },
-    taskStatus: {
-      type: "string",
-      label: "Task Status",
-      description: "The new status of the task",
-      optional: true,
+    assigneeId: {
+      propDefinition: [
+        exhibitday,
+        "assigneeId",
+      ],
     },
-    taskDescription: {
-      type: "string",
-      label: "Task Description",
-      description: "The new description of the task",
-      optional: true,
-    },
-    taskComponent: {
-      type: "string",
-      label: "Task Component",
-      description: "The new component of the task",
-      optional: true,
+    details: {
+      propDefinition: [
+        exhibitday,
+        "details",
+      ],
     },
   },
   async run({ $ }) {
-    const taskData = {
-      taskName: this.taskName,
-      assignee: this.assignee,
-      dueDate: this.dueDate,
-      taskStatus: this.taskStatus,
-      taskDescription: this.taskDescription,
-      taskComponent: this.taskComponent,
-    };
+    const data = utils.cleanObject({
+      id: this.taskId,
+      name: this.taskName,
+      event_id: this.eventId,
+      task_section_id: this.taskSectionId,
+      is_completed: this.is_completed,
+      due_date: this.dueDate,
+      assignee_user_id: this.assigneeId,
+      details: this.details,
+    });
 
-    const response = await this.ExhibitDay.updateTask(this.taskId, taskData);
+    const response = await this.exhibitday.updateTask({
+      $,
+      data,
+    });
 
-    $.export("$summary", `Successfully updated task ${this.taskId}`);
+    if (response) {
+      $.export("$summary", `Successfully updated task with ID ${this.taskId}.`);
+    }
+
     return response;
   },
 };
