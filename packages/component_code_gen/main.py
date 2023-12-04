@@ -26,7 +26,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     def clean_instructions(instructions):
-        return instructions.replace("\r", " ").lower()
+        return instructions.replace("\r", "").lower()
 
     if args.issue:
         # parse github issue description
