@@ -5,7 +5,7 @@ export default {
   key: "trello-new-card",
   name: "New Card (Instant)",
   description: "Emit new event for each new Trello card on a board.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "source",
   dedupe: "unique",
   props: {

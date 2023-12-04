@@ -5,7 +5,7 @@ export default {
   key: "trello-rename-list",
   name: "Rename List",
   description: "Renames an existing list. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-put)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

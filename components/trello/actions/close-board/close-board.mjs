@@ -5,7 +5,7 @@ export default {
   key: "trello-close-board",
   name: "Close Board",
   description: "Closes a board. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-put)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
