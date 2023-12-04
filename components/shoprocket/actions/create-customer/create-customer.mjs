@@ -3,7 +3,7 @@ import shoprocket from "../../shoprocket.app.mjs";
 export default {
   key: "shoprocket-create-customer",
   name: "Create Customer",
-  description: "Creates a new customer in Shoprocket. [See the documentation](https://docs.shoprocket.io/)",
+  description: "Creates a new customer in Shoprocket. [See the documentation](https://docs.shoprocket.io/#72180ccd-3b7d-4597-9f1e-f669397555e7)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -34,6 +34,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.shoprocket.createCustomer({
+      $,
       data: {
         customer_email: this.email,
         customer_name: this.name,

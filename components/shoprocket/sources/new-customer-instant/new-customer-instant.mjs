@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "shoprocket-new-customer-instant",
   name: "New Customer (Instant)",
-  description: "Emit new event when a customer is created. [See the documentation](https://api.shoprocket.io/docs)",
+  description: "Emit new event when a customer is created.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "shoprocket-new-product-instant",
   name: "New Product (Instant)",
-  description: "Emit new event when a product is created. [See the documentation](https://docs.shoprocket.io/)",
+  description: "Emit new event when a product is created.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "shoprocket-new-order-instant",
   name: "New Order (Instant)",
-  description: "Emit new event when a new order is placed. [See the documentation](https://docs.shoprocket.io/)",
+  description: "Emit new event when a new order is placed.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
