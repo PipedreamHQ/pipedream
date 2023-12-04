@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/convolo_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Convolo.ai Components",
+  "main": "convolo_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "convolo_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/convolo_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

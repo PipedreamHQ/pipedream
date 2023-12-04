@@ -1,10 +1,10 @@
+import { ConfigurationError } from "@pipedream/platform";
 import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Create Embeddings",
-  version: "0.0.5",
+  version: "0.0.6",
   key: "openai-create-embeddings",
   description: "Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms. [See the docs here](https://platform.openai.com/docs/api-reference/embeddings)",
   type: "action",

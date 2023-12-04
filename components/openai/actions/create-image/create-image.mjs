@@ -2,7 +2,7 @@ import openai from "../../openai.app.mjs";
 
 export default {
   name: "Create Image",
-  version: "0.1.9",
+  version: "0.1.10",
   key: "openai-create-image",
   description: "Creates an image given a prompt. returns a URL to the image. [See docs here](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
