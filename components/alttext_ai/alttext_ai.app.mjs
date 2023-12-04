@@ -37,28 +37,20 @@ export default {
     _baseUrl() {
       return "https://api.alttext.org/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path,
-        data,
-        headers,
-        params,
-        ...otherOpts
-      } = opts;
-
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
           "Content-Type": "application/json",
         },
-        data,
-        params,
       });
     },
     async generateAltText({
