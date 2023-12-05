@@ -59,6 +59,7 @@ export default {
       description: "The language for the generated alt text.",
       options: LANGUAGE_OPTIONS,
       default: "en",
+      optional: true,
     },
   },
   async run({ $ }) {
