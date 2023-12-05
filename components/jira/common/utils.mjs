@@ -1,5 +1,3 @@
-import constants from "./constants.mjs";
-
 function addProperty({
   src, predicate, addition,
 }) {
@@ -53,16 +51,12 @@ export default {
   reduceProperties({
     initialProps = {}, additionalProps = {},
   }) {
-    const keysToUseArrayContext = [
-      constants.FIELD_KEY.LABELS,
-    ];
-
     return Object.entries(additionalProps)
       .reduce((src, [
         key,
         context,
       ]) => {
-        const isArrayContext = Array.isArray(context) && !keysToUseArrayContext.includes(key);
+        const isArrayContext = Array.isArray(context);
         return addProperty({
           src,
           predicate: isArrayContext
