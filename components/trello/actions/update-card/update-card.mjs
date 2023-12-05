@@ -1,6 +1,6 @@
 import common from "../common.mjs";
-import pickBy from "lodash/pickBy.js";
-import pick from "lodash/pick.js";
+import pickBy from "lodash.pickby";
+import pick from "lodash.pick";
 
 export default {
   ...common,
