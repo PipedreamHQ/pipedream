@@ -5724,7 +5724,10 @@ importers:
       graphql-request: 3.7.0_graphql@16.8.1
 
   components/shoprocket:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/short:
     specifiers:
@@ -7208,7 +7211,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wp_maps:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/wrike:
     specifiers:
