@@ -1259,7 +1259,10 @@ importers:
     specifiers: {}
 
   components/convolo_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/copperx:
     specifiers:
