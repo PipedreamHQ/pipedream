@@ -19,17 +19,14 @@ export default {
           return [];
         }
 
-        const response = await this.listUsers({
+        const {
+          data,
+          has_more: hasMoreData,
+        } = await this.listUsers({
           params: {
             starting_after: lastId,
           },
         });
-
-        console.log("response!!!", JSON.stringify(response, null, 2));
-        const {
-          data,
-          has_more: hasMoreData,
-        } = response;
 
         const options = data.map(({
           id: value, attributes: { name: label },
