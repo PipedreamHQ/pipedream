@@ -78,12 +78,12 @@ def format_result(result):
 
 def create_user_prompt(prompt, urls_content):
     if len(urls_content) == 0:
-        return prompt
+        return prompt + "\n\n"
 
     user_prompt = f"{prompt}\n\n## API docs\n\n"
     for item in urls_content:
         user_prompt += f"\n\n### {item['url']}\n\n{item['content']}"
-    return user_prompt
+    return user_prompt + "\n\n"
 
 
 def get_llm():
@@ -106,14 +106,14 @@ def ask_agent(prompt, docs, templates, auth_example, parsed_common_files, urls_c
     return result
 
 
-def no_docs(prompt, templates, auth_example, parsed_common_files, urls_content):
+def no_docs(prompt, templates, auth_example, parsed_common_files, urls_content, normal_order=True):
     user_prompt = create_user_prompt(prompt, urls_content)
-    system_instructions = format_template(
+    pd_instructions = format_template(
         templates.system_instructions(auth_example, parsed_common_files))
 
     result = get_llm()(messages=[
-        SystemMessage(content=system_instructions),
-        HumanMessage(content=user_prompt),
+        SystemMessage(content="You are a world-class coding assistant. You are helping a developer write code. Follow each and every instruction the user gives you. Keep in mind all the rules and examples the user has given you."),
+        HumanMessage(content=user_prompt+pd_instructions if normal_order else pd_instructions+user_prompt),
     ])
 
     return format_result(result.content)

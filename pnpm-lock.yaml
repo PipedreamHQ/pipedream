@@ -618,7 +618,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/bilionis:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/bill:
     specifiers: {}
@@ -4778,7 +4781,10 @@ importers:
     specifiers: {}
 
   components/postman:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/practitest:
     specifiers:
@@ -4810,7 +4816,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/printify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      crypto: ^1.0.1
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      crypto: 1.0.1
+      fs: 0.0.1-security
 
   components/printnode:
     specifiers: {}
@@ -5714,7 +5727,10 @@ importers:
       graphql-request: 3.7.0_graphql@16.8.1
 
   components/shoprocket:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/short:
     specifiers:
@@ -7146,7 +7162,10 @@ importers:
     specifiers: {}
 
   components/woovi:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/wordpress_org:
     specifiers:
@@ -7195,7 +7214,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wp_maps:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/wrike:
     specifiers:
@@ -7328,7 +7350,14 @@ importers:
     specifiers: {}
 
   components/zamzar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/zendesk:
     specifiers:
