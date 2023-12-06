@@ -1,4 +1,6 @@
-import { axios, ConfigurationError } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -48,7 +50,7 @@ export default {
       optional: true,
       async options({ eventId }) {
         if (!eventId) {
-          throw new ConfigurationError("Enter `eventId` to list task sections.")
+          throw new ConfigurationError("Enter `eventId` to list task sections.");
         }
         const { task_sections: sections } = await this.getEvent({
           params: {
