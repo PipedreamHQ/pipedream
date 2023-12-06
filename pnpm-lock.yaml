@@ -7559,7 +7559,10 @@ importers:
       moment: 2.29.4
 
   components/zoho_survey:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/zoho_workdrive:
     specifiers:
