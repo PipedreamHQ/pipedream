@@ -1,6 +1,7 @@
 import alttextAi from "../../alttext_ai.app.mjs";
 import fs from "fs";
 import { LANGUAGE_OPTIONS } from "../../commons/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "alttext_ai-generate-alt-text",
@@ -63,6 +64,15 @@ export default {
     },
   },
   async run({ $ }) {
+    if (
+      (!this.imageData && !this.imageFilePath && !this.imageUrl)
+      || (this.imageData && this.imageFilePath)
+      || (this.imageData && this.imageUrl)
+      || (this.imageFilePath && this.imageUrl)
+    ) {
+      throw new ConfigurationError("Only one of `Image Data`, `Image File Path` or `Image URL` should be specified.");
+    }
+
     const response = await this.alttextAi.generateAltText({
       $,
       data: {
