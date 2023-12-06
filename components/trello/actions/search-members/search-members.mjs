@@ -5,7 +5,7 @@ export default {
   key: "trello-search-members",
   name: "Search Members",
   description: "Search for Trello members.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     trello: {

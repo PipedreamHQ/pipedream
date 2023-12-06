@@ -280,7 +280,10 @@ importers:
     specifiers: {}
 
   components/alttext_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/amara:
     specifiers:
@@ -615,7 +618,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/bilionis:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/bill:
     specifiers: {}
@@ -676,7 +682,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/bot9:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/botbaba:
     specifiers: {}
@@ -738,7 +747,12 @@ importers:
       uuid: 8.3.2
 
   components/brilliant_directories:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      qs: ^6.11.2
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      qs: 6.11.2
 
   components/brosix:
     specifiers: {}
@@ -1055,6 +1069,12 @@ importers:
     dependencies:
       '@pipedreamhq/platform': 0.8.1
 
+  components/clockify:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/clockwork_recruiting:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1241,6 +1261,9 @@ importers:
   components/conveyor:
     specifiers: {}
 
+  components/convolo_ai:
+    specifiers: {}
+
   components/copperx:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1410,6 +1433,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash-es: 4.17.21
       uuid: 8.3.2
+
+  components/decision_journal:
+    specifiers: {}
 
   components/deepgram:
     specifiers:
@@ -1592,6 +1618,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/documint:
+    specifiers: {}
 
   components/docupilot:
     specifiers:
@@ -1965,6 +1994,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/file_store:
+    specifiers: {}
 
   components/filter:
     specifiers:
@@ -4079,6 +4111,9 @@ importers:
   components/nightfall_ai:
     specifiers: {}
 
+  components/nimble:
+    specifiers: {}
+
   components/ninox:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4751,7 +4786,10 @@ importers:
     specifiers: {}
 
   components/postman:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/practitest:
     specifiers:
@@ -4783,7 +4821,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/printify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      crypto: ^1.0.1
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      crypto: 1.0.1
+      fs: 0.0.1-security
 
   components/printnode:
     specifiers: {}
@@ -5249,6 +5294,9 @@ importers:
   components/rkvst:
     specifiers: {}
 
+  components/roam_research:
+    specifiers: {}
+
   components/roboflow:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5349,7 +5397,10 @@ importers:
       salesforce-webhooks: 1.1.11_handlebars@4.7.8
 
   components/saleslens:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/salesmate:
     specifiers:
@@ -5681,7 +5732,10 @@ importers:
       graphql-request: 3.7.0_graphql@16.8.1
 
   components/shoprocket:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/short:
     specifiers:
@@ -6127,10 +6181,10 @@ importers:
   components/supabase:
     specifiers:
       '@pipedream/platform': ^1.2.1
-      '@supabase/supabase-js': ^2.1.0
+      '@supabase/supabase-js': ^2.39.0
     dependencies:
       '@pipedream/platform': 1.5.1
-      '@supabase/supabase-js': 2.37.0
+      '@supabase/supabase-js': 2.39.0
 
   components/superdocu:
     specifiers:
@@ -6254,7 +6308,10 @@ importers:
     specifiers: {}
 
   components/tally:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/tapfiliate:
     specifiers: {}
@@ -6560,13 +6617,13 @@ importers:
 
   components/trello:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.5.1
       crypto: ^1.0.1
       lodash.pick: ^4.4.0
       lodash.pickby: ^4.6.0
       mime: ^3.0.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.5.1
       crypto: 1.0.1
       lodash.pick: 4.4.0
       lodash.pickby: 4.6.0
@@ -6762,6 +6819,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/user_com:
+    specifiers: {}
+
+  components/userflow:
     specifiers: {}
 
   components/usersketch:
@@ -7107,7 +7167,10 @@ importers:
     specifiers: {}
 
   components/woovi:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/wordpress_org:
     specifiers:
@@ -7156,7 +7219,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wp_maps:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/wrike:
     specifiers:
@@ -7289,7 +7355,14 @@ importers:
     specifiers: {}
 
   components/zamzar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/zendesk:
     specifiers:
@@ -7424,6 +7497,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/zoho_forms:
+    specifiers: {}
+
   components/zoho_inventory:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -7491,7 +7567,10 @@ importers:
       moment: 2.29.4
 
   components/zoho_survey:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/zoho_workdrive:
     specifiers:
@@ -13996,8 +14075,8 @@ packages:
       '@supabase/node-fetch': 2.6.14
     dev: false
 
-  /@supabase/gotrue-js/2.54.1:
-    resolution: {integrity: sha512-KCbxuE/1TgMapf3mRma0pD/5gOWxMASA+u/I1OR+Hr/tsVPcMLCcuboK2e/UPO3psKGfh9Q+5M/paiuguo9NRA==}
+  /@supabase/gotrue-js/2.57.1:
+    resolution: {integrity: sha512-nA64K8vuIAzykTfNM06qukl+vBcRTX7uOcnX+OwBEQb361TossSFnUoYCkoDFkZRGjf8PqFRctCAzEZO+HDtGA==}
     dependencies:
       '@supabase/node-fetch': 2.6.14
     dev: false
@@ -14009,21 +14088,22 @@ packages:
       whatwg-url: 5.0.0
     dev: false
 
-  /@supabase/postgrest-js/1.8.4:
-    resolution: {integrity: sha512-ELjpvhb04wILUiJz9zIsTSwaz9LQNlX+Ig5/LgXQ7k68qQI6NqHVn+ISRNt53DngUIyOnLHjeqqIRHBZ7zpgGA==}
+  /@supabase/postgrest-js/1.9.0:
+    resolution: {integrity: sha512-axP6cU69jDrLbfihJKQ6vU27tklD0gzb9idkMN363MtTXeJVt5DQNT3JnJ58JVNBdL74hgm26rAsFNvHk+tnSw==}
     dependencies:
       '@supabase/node-fetch': 2.6.14
     dev: false
 
-  /@supabase/realtime-js/2.8.0:
-    resolution: {integrity: sha512-j1OP2nRJhqLNEoYSMkIl1+cHK/Ow9fektemazkF2CvrIrmwgfJJGaFGiWGVgwoKtwVcrdknSsYWpxs90hys1EQ==}
+  /@supabase/realtime-js/2.9.0:
+    resolution: {integrity: sha512-e/SI+/eqFJorAKAgVAwKQ9hSDQSBp86Yh7XbQmfJJ90LEfpM52HlTfJt/03lcepRu6BmH5h1uYn1b4zta7ghdw==}
     dependencies:
       '@supabase/node-fetch': 2.6.14
       '@types/phoenix': 1.6.2
       '@types/websocket': 1.0.7
-      websocket: 1.0.34
+      ws: 8.14.2
     transitivePeerDependencies:
-      - supports-color
+      - bufferutil
+      - utf-8-validate
     dev: false
 
   /@supabase/storage-js/2.5.4:
@@ -14032,17 +14112,18 @@ packages:
       '@supabase/node-fetch': 2.6.14
     dev: false
 
-  /@supabase/supabase-js/2.37.0:
-    resolution: {integrity: sha512-kWXVvGWAkThQodHh3yaSQoNHNDm5bwp+H6f1BfC4tr0k096zzTb3ACMnZLQBS0qOXEEbuAnGxIWUv+RE8GaIhg==}
+  /@supabase/supabase-js/2.39.0:
+    resolution: {integrity: sha512-cYfnwWRW5rYBbPT/BNIejtRT9ULdD9PnIExQV28PZpqcqm3PLwS4f3pY7WGB01Da63VYdvktZPKuYvreqsj/Zg==}
     dependencies:
       '@supabase/functions-js': 2.1.5
-      '@supabase/gotrue-js': 2.54.1
+      '@supabase/gotrue-js': 2.57.1
       '@supabase/node-fetch': 2.6.14
-      '@supabase/postgrest-js': 1.8.4
-      '@supabase/realtime-js': 2.8.0
+      '@supabase/postgrest-js': 1.9.0
+      '@supabase/realtime-js': 2.9.0
       '@supabase/storage-js': 2.5.4
     transitivePeerDependencies:
-      - supports-color
+      - bufferutil
+      - utf-8-validate
     dev: false
 
   /@szmarczak/http-timer/4.0.6:
@@ -15755,14 +15836,6 @@ packages:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
-    dev: false
-
-  /bufferutil/4.0.7:
-    resolution: {integrity: sha512-kukuqc39WOHtdxtw4UScxF/WVnMFVSQVKhtx3AjZJzhd0RGZZldcrfSEbVsWWe6KNH253574cq5F+wpv0G9pJw==}
-    engines: {node: '>=6.14.2'}
-    requiresBuild: true
-    dependencies:
-      node-gyp-build: 4.6.1
     dev: false
 
   /build-url/1.3.3:
@@ -23032,11 +23105,6 @@ packages:
     engines: {node: '>= 6.13.0'}
     dev: false
 
-  /node-gyp-build/4.6.1:
-    resolution: {integrity: sha512-24vnklJmyRS8ViBNI8KbtK/r/DmXQMRiOMXTNz2nrTnAYUwjmEEbnnpB/+kt+yWRv73bPsSPRFddrcIbAxSiMQ==}
-    hasBin: true
-    dev: false
-
   /node-int64/0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
     dev: true
@@ -27046,6 +27114,7 @@ packages:
     dependencies:
       is-typedarray: 1.0.0
     dev: false
+    optional: true
 
   /typedarray/0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
@@ -27436,14 +27505,6 @@ packages:
       qs: 6.11.2
     dev: false
 
-  /utf-8-validate/5.0.10:
-    resolution: {integrity: sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ==}
-    engines: {node: '>=6.14.2'}
-    requiresBuild: true
-    dependencies:
-      node-gyp-build: 4.6.1
-    dev: false
-
   /utf7/1.0.2:
     resolution: {integrity: sha512-qQrPtYLLLl12NF4DrM9CvfkxkYI97xOb5dsnGZHE3teFr0tWiEZ9UdgMPczv24vl708cYMpe6mGXGHrotIp3Bw==}
     dependencies:
@@ -27760,20 +27821,6 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /websocket/1.0.34:
-    resolution: {integrity: sha512-PRDso2sGwF6kM75QykIesBijKSVceR6jL2G8NGYyq2XrItNC2P5/qL5XeR056GhA+Ly7JMFvJb9I312mJfmqnQ==}
-    engines: {node: '>=4.0.0'}
-    dependencies:
-      bufferutil: 4.0.7
-      debug: 2.6.9
-      es5-ext: 0.10.62
-      typedarray-to-buffer: 3.1.5
-      utf-8-validate: 5.0.10
-      yaeti: 0.0.6
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /whatwg-fetch/3.6.19:
     resolution: {integrity: sha512-d67JP4dHSbm2TrpFj8AbO8DnL1JXL5J9u0Kq2xW6d0TFDbCA3Muhdt8orXC22utleTVj7Prqt82baN6RBvnEgw==}
     dev: false
@@ -27988,6 +28035,19 @@ packages:
         optional: true
     dev: false
 
+  /ws/8.14.2:
+    resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
+
   /ws/8.7.0:
     resolution: {integrity: sha512-c2gsP0PRwcLFzUiA8Mkr37/MI7ilIlHQxaEAtd0uNMbVMoy8puJyafRlm0bV9MbGSabUPeLrRRaqIBcFcA2Pqg==}
     engines: {node: '>=10.0.0'}
@@ -28087,11 +28147,6 @@ packages:
   /y18n/5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
-
-  /yaeti/0.0.6:
-    resolution: {integrity: sha512-MvQa//+KcZCUkBTIC9blM+CU9J2GzuTytsOUwf2lidtvkx/6gnEp1QvJv34t9vdjhFmha/mUiNDbN0D0mJWdug==}
-    engines: {node: '>=0.10.32'}
-    dev: false
 
   /yallist/2.1.2:
     resolution: {integrity: sha512-ncTzHV7NvsQZkYe1DW7cbDLm0YpzHmZF5r/iyP3ZnQtMiJ+pjzisCiMNI+Sj+xQF5pXhSHxSB3uDbsBTzY/c2A==}

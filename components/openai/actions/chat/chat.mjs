@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "Chat",
-  version: "0.1.6",
+  version: "0.1.7",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See docs here](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",

@@ -102,17 +102,13 @@ Execution time used to develop a workflow in the builder does not count towards 
 
 #### Source Credit Usage
 
-When an [event source](/sources) triggers a workflow, the first credit per source execution is included for free. This means that the first {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute doesn't incur credits. This includes [Free Tier](/pricing/#free-tier) accounts.
+When an [event source](/sources) triggers a workflow, **the source execution is included for free.** This includes workspaces on the [Free Tier](/pricing/#free-tier).
 
-When a source is configured as a workflow trigger, the core value is in the workflow. You won't be charged for two credits (one to run the source, one to run the workflow) when the workflow contains the core logic. Sources that trigger workflows are called "dependent" sources.
-
-On the other hand, sources that don't trigger workflows are "independent", since they run independently. Pipedream charges credits for all indepedent source executions.
+When a source is configured as a workflow trigger, the core value is in the workflow. You won't be charged for two credits (one to run the source, one to run the workflow) when the workflow contains the core logic.
 
 ::: tip
 
-This free first credit per execution **only** applies to sources from the [Pipedream public registry](/sources).
-
-If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counted toward credits. Even if the custom source is dependent and triggers at least one workflow.
+This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources). If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counts toward credits.
 
 :::
 
@@ -120,37 +116,24 @@ If you deploy a private custom source to your account, then all computation time
 
 For example, a source that polls an API for new events like [Airtable - New Row Added](https://pipedream.com/apps/airtable/triggers/new-records) only takes ~5 seconds to poll and emit events to subscribing workflows.
 
-This would result 0 credits per run because:
-
-- The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
-- The **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
+This would result in **0 credits** per run because the **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
 
 :::
 
 ::: details A polling source finishing over {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
 
-Consider an a source (like **RSS - New Item in Feed** for instance) that takes 60 seconds total to finish polling, per execution.
+Consider a source (like **RSS - New Item in Feed** for instance) that takes 60 seconds total to finish polling, per execution.
 
-Each execution of this source would result 1 credit because:
-
-- The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
-- The **RSS - New Item in Feed** source is a [publicly available component](https://pipedream.com/apps/rss/triggers/new-item-in-feed).
+Each execution of this source would result in **0 credits** because the **RSS - New Item in Feed** source is a [publicly available component](https://pipedream.com/apps/rss/triggers/new-item-in-feed).
 
 :::
 
 ::: details A custom source that finished under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
 
-This would result in 1 credit per execution.
-
-The initial free credit only applies to Pipedream Public Registry sources attached to at least one workflow.
+This would result in **1 credit** per execution because the initial free credit only applies to Pipedream Public Registry sources attached to at least one workflow.
 
 :::
 
-::: details A source not connected to any workflow
-
-A source that isn't connected to any workflow is called an [**Independent Source**](https://pipedream.com/docs/workflows/steps/triggers/#dependent-and-independent-sources). Independent sources incur credits per execution, regardless if any unique event is emitted.
-
-:::
 
 ### Billing Period
 
