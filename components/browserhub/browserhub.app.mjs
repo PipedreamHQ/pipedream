@@ -4,66 +4,88 @@ export default {
   type: "app",
   app: "browserhub",
   propDefinitions: {
-    automationId: {
-      type: "string",
-      label: "Automation ID",
-      description: "The unique identifier of the automation to monitor",
-    },
     scraperId: {
       type: "string",
       label: "Scraper ID",
       description: "The unique identifier for the scraper automation designed to run",
+      async options({ page }) {
+        const { data } = await this.listScrapers({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.browserhub.io/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async triggerScraper({ scraperId }) {
+    createRun(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/runs",
-        data: {
-          scraper_id: scraperId,
-        },
+        ...opts,
       });
     },
-    async getRunStatus({ automationId }) {
-      return this._makeRequest({
-        path: `/runs/${automationId}`,
-      });
-    },
-    async listRuns({
-      scraperId, page,
-    }) {
+    listRuns(opts = {}) {
       return this._makeRequest({
         path: "/runs",
-        params: {
-          scraper_id: scraperId,
-          page,
-        },
+        ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    listScrapers(opts = {}) {
+      return this._makeRequest({
+        path: "/scrapers",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, baseDate,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          data,
+          next_page: nextPage,
+        } = await fn({
+          params,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (baseDate && (new Date(baseDate) > new Date(d.created_at))) break;
+          if (maxResults && ++count === maxResults) return count;
+        }
+
+        hasMore = nextPage;
+
+      } while (hasMore);
     },
   },
 };
