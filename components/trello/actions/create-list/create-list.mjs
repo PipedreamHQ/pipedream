@@ -5,7 +5,7 @@ export default {
   key: "trello-create-list",
   name: "Create a List",
   description: "Creates a new list on a board",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     trello: {

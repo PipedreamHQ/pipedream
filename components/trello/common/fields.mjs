@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   board: [
     "closed",
     "dateLastActivity",
