@@ -761,7 +761,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/browserhub:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/browserless:
     specifiers:
@@ -1430,6 +1433,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash-es: 4.17.21
       uuid: 8.3.2
+
+  components/decision_journal:
+    specifiers: {}
 
   components/deepgram:
     specifiers:
