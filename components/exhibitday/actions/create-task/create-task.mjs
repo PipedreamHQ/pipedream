@@ -61,7 +61,7 @@ export default {
         name: this.taskName,
         event_id: this.eventId,
         task_section_id: this.taskSectionId,
-        is_completed: this.is_completed,
+        is_completed: this.isCompleted,
         due_date: this.dueDate,
         assignee_user_id: this.assigneeId,
         details: this.details,
