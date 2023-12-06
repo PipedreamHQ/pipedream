@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/decision_journal",
+  "version": "0.0.1",
+  "description": "Pipedream Decision Journal Components",
+  "main": "decision_journal.app.mjs",
+  "keywords": [
+    "pipedream",
+    "decision_journal"
+  ],
+  "homepage": "https://pipedream.com/apps/decision_journal",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
