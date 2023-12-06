@@ -16,7 +16,7 @@ export default {
         onedrive,
         "folder",
       ],
-      description: "The OneDrive folder to watch for new files (leave empty to watch the entire drive)",
+      description: "The OneDrive folder to watch for new files (leave empty to watch the entire drive). Use the \"Load More\" button to load subfolders.",
       optional: true,
     },
     fileTypes: {

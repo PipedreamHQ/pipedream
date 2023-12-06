@@ -18,7 +18,7 @@ export default {
         "folder",
       ],
       label: "Upload Folder ID",
-      description: "The ID of the folder where you want to upload the file.",
+      description: "The ID of the folder where you want to upload the file. Use the \"Load More\" button to load subfolders.",
     },
     filePath: {
       type: "string",

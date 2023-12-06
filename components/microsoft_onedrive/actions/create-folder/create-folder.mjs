@@ -16,7 +16,7 @@ export default {
         "folder",
       ],
       label: "Parent Folder ID",
-      description: "The ID of the folder which the the new folder should be created.",
+      description: "The ID of the folder which the the new folder should be created. Use the \"Load More\" button to load subfolders.",
       optional: true,
     },
     sharedFolderReference: {

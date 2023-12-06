@@ -10,7 +10,7 @@ export default {
     folder: {
       type: "string",
       label: "Folder",
-      description: "The folder to watch for new files",
+      description: "The folder to watch for new files. Use the \"Load More\" button to load subfolders.",
       async options({
         driveId, folderId, prevContext,
       }) {
