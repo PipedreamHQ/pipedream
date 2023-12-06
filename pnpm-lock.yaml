@@ -7003,6 +7003,12 @@ importers:
   components/wakatime:
     specifiers: {}
 
+  components/wappalyzer:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/warpcast:
     specifiers: {}
 
