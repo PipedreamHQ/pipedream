@@ -1,6 +1,5 @@
 import json
 import config.logging_config as logging_config
-from config.config import config
 import helpers.supabase_helpers as supabase_helpers
 import helpers.langchain_helpers as langchain_helpers
 from templates import generate_actions, generate_webhook_sources, generate_polling_sources, generate_apps
@@ -33,7 +32,7 @@ def generate_qa_checks(component_type):
     }
 
 
-def generate_code(app, prompt, component_type, templates, parsed_common_files, urls_content, tries):
+def generate_code(app, prompt, templates, parsed_common_files, urls_content, tries):
     db = supabase_helpers.SupabaseConnector()
     # docs_meta = db.get_app_docs_meta(app)
     docs_meta = {}  # XXX - temporarily disable supabase docs
@@ -51,8 +50,10 @@ def generate_code(app, prompt, component_type, templates, parsed_common_files, u
     if auth_meta.get('component_code_scaffold_raw'):
         auth_details = f"\n\n## Auth example\n\nHere's example Node.js code to show how authentication is done in {app}:\n\n{auth_meta['component_code_scaffold_raw']}\n\n"
 
+    normal_order = False
     for i in range(tries):
         logger.debug(f'Attempt {i+1} of {tries}')
+        normal_order = not normal_order
 
         # Initialize a flag to track if we obtained any results with docs
         has_docs_result = False
@@ -62,7 +63,7 @@ def generate_code(app, prompt, component_type, templates, parsed_common_files, u
             if contents:
                 docs = {row['url']: row['content'] for row in contents}
                 results.append(call_langchain(
-                    prompt, templates, auth_details, parsed_common_files, urls_content, docs, 'api reference'))
+                    prompt, templates, auth_details, parsed_common_files, urls_content, docs, 'api reference', normal_order=normal_order))
                 has_docs_result = True
 
         if 'openapi_url' in docs_meta:
@@ -70,13 +71,13 @@ def generate_code(app, prompt, component_type, templates, parsed_common_files, u
             if contents:
                 docs = {row['path']: row['content'] for row in contents}
                 results.append(call_langchain(
-                    prompt, templates, auth_details, parsed_common_files, urls_content, docs, 'openapi'))
+                    prompt, templates, auth_details, parsed_common_files, urls_content, docs, 'openapi', normal_order=normal_order))
                 has_docs_result = True
 
         # If we haven't obtained any results using docs
         if not has_docs_result:
             results.append(call_langchain(prompt, templates,
-                           auth_details, parsed_common_files, urls_content))
+                           auth_details, parsed_common_files, urls_content, normal_order=normal_order))
 
     # Create a new prompt string
     new_prompt = "I've asked other GPT agents to generate the following code based on the prompt and the instructions below. One set of code (or all) may not follow the rules laid out in the prompt or in the instructions below, so you'll need to review it for accuracy. Try to evaluate the examples according to the rules, combine the best parts of each example, and generate a final set of code that solves the problem posed by the prompt and follows all of the rules below.\n\nThis is important for my career. You better be sure of your answers.\n\nHere are the attempts + code:\n\n---\n\n"
@@ -89,15 +90,15 @@ def generate_code(app, prompt, component_type, templates, parsed_common_files, u
     return call_langchain(new_prompt, templates, auth_details)
 
 
-def call_langchain(prompt, templates, auth_details, parsed_common_files="", urls_content=[], docs=None, docs_type=None, attempts=0, max_attempts=3):
+def call_langchain(prompt, templates, auth_details, parsed_common_files="", urls_content=[], docs=None, docs_type=None, attempts=0, max_attempts=3, normal_order=True):
     logger.debug(f"Calling LangChain")
     # If we don't have docs, or if we can't reach OpenAI to get the parsed docs
     if not docs:
-        return langchain_helpers.no_docs(prompt, templates, auth_details, parsed_common_files, urls_content)
+        return langchain_helpers.no_docs(prompt, templates, auth_details, parsed_common_files, urls_content, normal_order)
 
     if attempts >= max_attempts:
         logger.debug('Max attempts reached, calling the model directly')
-        return langchain_helpers.no_docs(prompt, templates, auth_details, urls_content)
+        return langchain_helpers.no_docs(prompt, templates, auth_details, urls_content, normal_order)
 
     # else if we have docs, call the model with docs
     logger.debug(f"Using {docs_type} docs")
@@ -109,4 +110,4 @@ def call_langchain(prompt, templates, auth_details, parsed_common_files="", urls
         return result
 
     logger.debug("Trying again without docs")
-    return call_langchain(prompt, templates, auth_details, parsed_common_files, urls_content, attempts=attempts+1)
+    return call_langchain(prompt, templates, auth_details, parsed_common_files, urls_content, attempts=attempts+1, normal_order=normal_order)

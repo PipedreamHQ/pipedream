@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tally",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Tally Components",
   "main": "tally.app.mjs",
   "keywords": [
@@ -12,5 +12,8 @@
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
