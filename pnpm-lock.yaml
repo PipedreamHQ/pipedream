@@ -1435,7 +1435,10 @@ importers:
       uuid: 8.3.2
 
   components/decision_journal:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/deepgram:
     specifiers:
@@ -7001,6 +7004,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/wakatime:
+    specifiers: {}
+
+  components/wappalyzer:
     specifiers: {}
 
   components/warpcast:
