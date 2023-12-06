@@ -1,33 +1,36 @@
-## Prompt
+# printify
 
-How to send myself a direct message?
+## URLs
+- https://developers.printify.com/#overview
 
-## API docs
+## Polling Sources
 
-https://api.slack.com/messaging/sending
-https://api.slack.com/methods/chat.postMessage
+### watch-events-instant
+#### Prompt
+Emits new event when you specify a specific event in the props. Use this to get instant alerts on specific events.
+#### URLs
+- https://developers.printify.com/#create-a-new-webhook
+- https://developers.printify.com/#events
 
-### Picking the right conversation
+## Actions
 
-Now we need to find somewhere within your workspace that we'll send a message. This could be any Slack conversation, but we'll use a public channel in this guide.
+### create-product
+#### Prompt
+Creates a new product on Printify. Required props are product blueprint and details. Optional props are images.
+#### URLs
+- https://developers.printify.com/#create-a-new-product
+- https://developers.printify.com/#product-properties
 
-We'll remind you again - it's not a good idea to attempt the instructions in this guide with a real, living workspace. If you really have to, then at least create a new, empty public channel within the workspace, for testing purposes.
+### update-product
+#### Prompt
+Updates an existing product on Printify. Required prop is product ID. Optional props are blueprint and details that you want to update.
+#### URLs
+- https://developers.printify.com/#update-a-product
+- https://developers.printify.com/#product-properties
 
-In order to find a valid Slack conversation ID, we'll use the conversations.list API method. This API will return a list of all public channels in the workspace your app is installed to. You'll need the channels:read permission granted to your app.
-
-Within that list, we'll be able to find a specific id of the conversation that we want to access. Here's an example API call:
-
-GET https://slack.com/api/conversations.list
-Authorization: Bearer xoxb-your-token
-
-### Publishing your message
-
-We're nearly there, we just need to make one more API call, this time to chat.postMessage. Again substitute in the values of the token and conversation ID that you noted earlier:
-
-POST https://slack.com/api/chat.postMessage
-Content-type: application/json
-Authorization: Bearer xoxb-your-token
-{
-  "channel": "YOUR_CHANNEL_ID",
-  "text": "Hello world :tada:"
-}
+### submit-order
+#### Prompt
+Places an order of an existing product on Printify. Required prop is product ID. Optional props include quantity and shipping details.
+#### URLs
+- https://developers.printify.com/#submit-an-order
+- https://developers.printify.com/#order-properties

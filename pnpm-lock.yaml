@@ -280,7 +280,10 @@ importers:
     specifiers: {}
 
   components/alttext_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/amara:
     specifiers:
@@ -1430,6 +1433,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash-es: 4.17.21
       uuid: 8.3.2
+
+  components/decision_journal:
+    specifiers: {}
 
   components/deepgram:
     specifiers:
@@ -4781,7 +4787,10 @@ importers:
     specifiers: {}
 
   components/postman:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/practitest:
     specifiers:
@@ -4813,7 +4822,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/printify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      crypto: ^1.0.1
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      crypto: 1.0.1
+      fs: 0.0.1-security
 
   components/printnode:
     specifiers: {}
@@ -5717,7 +5733,10 @@ importers:
       graphql-request: 3.7.0_graphql@16.8.1
 
   components/shoprocket:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/short:
     specifiers:
@@ -6599,13 +6618,13 @@ importers:
 
   components/trello:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.5.1
       crypto: ^1.0.1
       lodash.pick: ^4.4.0
       lodash.pickby: ^4.6.0
       mime: ^3.0.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.5.1
       crypto: 1.0.1
       lodash.pick: 4.4.0
       lodash.pickby: 4.6.0
@@ -7201,7 +7220,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wp_maps:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/wrike:
     specifiers:
@@ -7546,7 +7568,10 @@ importers:
       moment: 2.29.4
 
   components/zoho_survey:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/zoho_workdrive:
     specifiers:

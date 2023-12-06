@@ -5,7 +5,7 @@ export default {
   key: "trello-create-label",
   name: "Create Label",
   description: "Creates a new label on the specified board.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     trello: {

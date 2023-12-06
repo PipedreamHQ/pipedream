@@ -1,6 +1,6 @@
-const trello = require("../../trello.app");
+import trello from "../../trello.app.mjs";
 
-module.exports = {
+export default {
   props: {
     trello,
     db: "$.service.db",
