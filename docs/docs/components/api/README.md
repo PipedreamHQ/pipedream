@@ -128,7 +128,9 @@ props: {
     default: "",
     secret: true || false,
     min: <integer>,
-    max: <integer>
+    max: <integer>,
+    disabled: true || false,
+    hidden: true || false
   },
 },
 ```
@@ -146,6 +148,8 @@ props: {
 | `secret`         | `boolean`                            | optional  | If set to `true`, this field will hide your input in the browser like a password field, and its value will be encrypted in Pipedream's database. The value will be decrypted when the component is run in [the execution environment](/privacy-and-security/#execution-environment). Defaults to `false`. Only allowed for `string` props.                                                                                                                                     |
 | `min`            | `integer`                            | optional  | Minimum allowed integer value. Only allowed for `integer` props..                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `max`            | `integer`                            | optional  | Maximum allowed integer value . Only allowed for `integer` props.                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `disabled`       | `boolean`                            | optional  | Set to `true` to disable usage of this prop. Defaults to `false`.   |
+| `hidden`         | `boolean`                            | optional  | Set to `true` to hide this field. Defaults to `false`.              |
 
 **`PropType`s**
 
@@ -434,7 +438,7 @@ props: {
 | Property  | Type     | Required? | Description                                                                                                                                  |
 | --------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`    | `string` | required  | Must be set to `$.interface.timer`                                                                                                           |
-| `default` | `object` | optional  | **Define a default interval**<br>`{ intervalSeconds: 60, },`<br>&nbsp;<br>**Define a default cron expression**<br>` { cron: "0 0 * * *", },` |
+| `default` | `object` | optional  | **Define a default interval**<br>`{ intervalSeconds: 60, },`<br>&nbsp;<br>**Define a default cron expression**<br>`{ cron: "0 0 * * *", },` |
 
 **Usage**
 
