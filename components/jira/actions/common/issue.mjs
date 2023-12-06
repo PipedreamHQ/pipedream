@@ -23,12 +23,6 @@ export default {
       ],
       description: "Details of issue properties to be add or update, please provide an array of objects with keys and values.",
     },
-    transitionLooped: {
-      type: "boolean",
-      label: "Transition Looped",
-      description: "Whether the transition is looped.",
-      optional: true,
-    },
     update: {
       type: "object",
       label: "Update",
