@@ -1,10 +1,10 @@
-const { axios } = require("@pipedream/platform");
-const crypto = require("crypto");
-const events = require("./common/events.js");
-const fields = require("./common/fields.js");
-const mime = require("mime");
+import { axios } from "@pipedream/platform";
+import crypto from "crypto";
+import events from "./common/events.mjs";
+import fields from "./common/fields.mjs";
+import mime from "mime";
 
-module.exports = {
+export default {
   type: "app",
   app: "trello",
   description: "Pipedream Trello Components",
