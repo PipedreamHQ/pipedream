@@ -7005,6 +7005,9 @@ importers:
   components/wakatime:
     specifiers: {}
 
+  components/wappalyzer:
+    specifiers: {}
+
   components/warpcast:
     specifiers: {}
 
