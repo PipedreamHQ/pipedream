@@ -6846,7 +6846,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/vendasta:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/vercel:
     specifiers:
