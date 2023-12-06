@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import { axios, ConfigurationError } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -47,6 +47,9 @@ export default {
       description: "The id of the event task section that the task should be placed under. Leave this value blank if you don't want to place/categorize the task under a specific event task section.",
       optional: true,
       async options({ eventId }) {
+        if (!eventId) {
+          throw new ConfigurationError("Enter `eventId` to list task sections.")
+        }
         const { task_sections: sections } = await this.getEvent({
           params: {
             id: eventId,
