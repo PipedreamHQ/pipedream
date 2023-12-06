@@ -46,7 +46,7 @@ export default {
           const options = folders.map((folder) => ({
             value: folder.id,
             label: (label
-              ? `${label} / `
+              ? `${label} > `
               : "") + folder.name,
           }));
 
