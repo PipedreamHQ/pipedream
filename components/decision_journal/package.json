@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/decision_journal",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Decision Journal Components",
   "main": "decision_journal.app.mjs",
   "keywords": [
