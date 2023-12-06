@@ -14,11 +14,15 @@ export default {
       async options({
         driveId, folderId, prevContext,
       }) {
-        const responses = await Promise.all((prevContext.items ?? [
-          folderId,
-        ]).map(async (itemId) => {
+        const responses = await Promise.all((prevContext.options ?? [
+          {
+            value: folderId,
+          },
+        ]).map(async ({
+          label, value,
+        }) => {
           const drivePath = this._getDrivePath(driveId);
-          const driveItemPath = this._getDriveItemPath(itemId);
+          const driveItemPath = this._getDriveItemPath(value);
           const firstLink = drivePath + driveItemPath + "/children";
           const url = get(prevContext, "nextLink", firstLink);
 
@@ -39,14 +43,18 @@ export default {
 
           const folders = children.filter((child) => !!child.folder);
 
+          const options = folders.map((folder) => ({
+            value: folder.id,
+            label: (label
+              ? `${label} / `
+              : "") + folder.name,
+          }));
+
           return {
-            options: folders.map((folder) => ({
-              value: folder.id,
-              label: folder.name,
-            })),
+            options,
             context: {
               nextLink,
-              items: folders.map(({ id }) => id),
+              options,
             },
           };
         }));
@@ -55,7 +63,7 @@ export default {
           options: responses.flatMap(({ options }) => options),
           context: {
             nextLink: responses.find(({ context }) => !!context.nextLink)?.context.nextLink,
-            items: responses.flatMap(({ context }) => context.items),
+            options: responses.flatMap(({ context }) => context.options),
           },
         };
       },
