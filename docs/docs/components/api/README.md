@@ -411,6 +411,21 @@ async additionalProps(previousPropDefs)
 
 where `previousPropDefs` are the full set of props (props merged with the previous `additionalProps`). When the function is executed, `this` is bound similar to when the `run` function is called, where you can access the values of the props as currently configured, and call any `methods`. The return value of `additionalProps` will replace any previous call, and that return value will be merged with props to define the final set of props.
 
+Following is an example that demonstrates how to use `additionalProps` to dynamically change a prop's `disabled` and `hidden` properties:
+
+```javascript
+async additionalProps(previousPropDefs) {
+  if (this.myCondition === "Yes") {
+    previousPropDefs.myPropName.disabled = true;
+    previousPropDefs.myPropName.hidden = true;
+  } else {
+    previousPropDefs.myPropName.disabled = false;
+    previousPropDefs.myPropName.hidden = false;
+  }
+  return previousPropDefs;
+},
+```
+
 #### Interface Props
 
 Interface props are infrastructure abstractions provided by the Pipedream platform. They declare how a source is invoked — via HTTP request, run on a schedule, etc. — and therefore define the shape of the events it processes.
