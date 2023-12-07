@@ -33,7 +33,7 @@ export default {
       return constants.CLIENT_IPS.includes(clientIp);
     },
     isFromProject(body) {
-      return !this.projectId || !body?.data?.projectId || body?.data?.projectId == this.projectId;
+      return !this.projectId || body?.data?.projectId == this.projectId;
     },
     isRelevant() {
       return true;
