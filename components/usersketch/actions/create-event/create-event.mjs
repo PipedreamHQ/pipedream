@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Event",
-  version: "0.0.1",
+  version: "0.0.11",
   key: "usersketch-create-event",
   description: "Create an event. [See the documentation](https://usersketch.readme.io/reference/post_api-customer-event-create)",
   type: "action",
@@ -24,6 +24,7 @@ export default {
       type: "string",
       label: "Date",
       description: "Unix timestamp in seconds representing when the event occurred",
+      optional: true,
     },
     link: {
       type: "string",
@@ -42,6 +43,12 @@ export default {
     },
   },
   async run({ $ }) {
+    const date = !this.date
+      ? Math.floor(Date.now() / 1000)
+      : Math.floor((new Date(this.date.length === 10
+        ? +this.date * 1000
+        : this.date)).getTime() / 1000);
+
     const response = await this.app.createEvent({
       $,
       data: {
@@ -50,7 +57,7 @@ export default {
         },
         eventData: {
           eventType: this.eventType,
-          date: this.date,
+          date,
           link: this.link,
           message: this.message,
           subject: this.subject,
