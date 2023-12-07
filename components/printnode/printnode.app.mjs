@@ -42,26 +42,11 @@ export default {
         },
       });
     },
-    async createPrintJob({
-      printerId, title, contentType, content, source, options, expireAfter, qty, authentication,
-    }) {
+    async createPrintJob(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/printjobs",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          printerId,
-          title,
-          contentType,
-          content,
-          source,
-          options,
-          expireAfter,
-          qty,
-          authentication,
-        },
+        url: "/printjobs",
+        ...args,
       });
     },
     async getPrinter({
@@ -81,6 +66,19 @@ export default {
       return this._makeRequest({
         url: "/printjobs",
         ...args,
+      });
+    },
+    async createWebhook(args) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/webhooks",
+        ...args,
+      });
+    },
+    async deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        url: `/webhooks/${webhookId}`,
       });
     },
   },
