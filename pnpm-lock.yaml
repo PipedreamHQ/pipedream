@@ -764,7 +764,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/browserhub:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/browserless:
     specifiers:
