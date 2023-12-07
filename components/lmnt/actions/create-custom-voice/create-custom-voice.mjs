@@ -49,13 +49,6 @@ export default {
   async run({ $ }) {
     const data = new FormData();
 
-    this.files.forEach?.((file) => {
-      const content = fs.createReadStream(file.includes("tmp/")
-        ? file
-        : `/tmp/${file}`);
-      data.append("files", content);
-    });
-
     const metadata = {};
     [
       "name",
@@ -66,7 +59,16 @@ export default {
     ].forEach((field) => {
       if (this[field]) metadata[field] = this[field];
     });
-    data.append("metadata", JSON.stringify(metadata));
+    data.append("metadata", JSON.stringify(metadata), {
+      contentType: "application/json",
+    });
+
+    this.files.forEach?.((file) => {
+      const content = fs.createReadStream(file.includes("tmp/")
+        ? file
+        : `/tmp/${file}`);
+      data.append("files", content);
+    });
 
     const response = await this.lmnt.createVoice({
       $,

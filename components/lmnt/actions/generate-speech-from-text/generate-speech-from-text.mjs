@@ -1,10 +1,11 @@
 import lmnt from "../../lmnt.app.mjs";
 import FormData from "form-data";
+import fs from "fs";
 
 export default {
   key: "lmnt-generate-speech-from-text",
   name: "Generate Speech from Text",
-  description: "Generates speech from text using LMNT's API. [See the documentation](https://docs.lmnt.com/api-reference/speech/synthesize-speech-1)",
+  description: "Generates an audio file from the provided text. [See the documentation](https://docs.lmnt.com/api-reference/speech/synthesize-speech-1)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -51,6 +52,12 @@ export default {
         "speed",
       ],
     },
+    outputFilename: {
+      type: "string",
+      label: "Output Filename",
+      description: "If specified, the result will be written to this filename in the `/tmp` folder.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const data = new FormData();
@@ -72,7 +79,19 @@ export default {
       data,
     });
 
-    $.export("$summary", `Generated speech from text: "${this.text}"`);
+    const { outputFilename } = this;
+
+    if (outputFilename) {
+      const filePath = outputFilename.includes("tmp/")
+        ? outputFilename
+        : `/tmp/${this.outputFilename}`;
+      fs.writeFileSync(filePath, response.audio, {
+        encoding: "base64",
+      } );
+      response.filePath = filePath;
+    }
+
+    $.export("$summary", "Generated audio from text");
     return response;
   },
 };
