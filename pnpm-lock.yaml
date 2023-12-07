@@ -7018,7 +7018,10 @@ importers:
     specifiers: {}
 
   components/wappalyzer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/warpcast:
     specifiers: {}
