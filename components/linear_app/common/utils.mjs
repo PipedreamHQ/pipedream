@@ -8,7 +8,7 @@ async function streamIterator(stream) {
   return resources;
 }
 
-function strToObj(str) { console.log(str);
+function strToObj(str) {
   var obj = {};
   if (str && typeof str === "string") {
     var objStr = str.match(/\{(.)+\}/g);
