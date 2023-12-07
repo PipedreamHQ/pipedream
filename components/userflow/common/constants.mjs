@@ -11,6 +11,25 @@ const CONTENT_TYPE = {
   LAUNCHER: "launcher",
 };
 
+const DATA_TYPE_TO_PROP_TYPE = {
+  string: "string",
+  datetime: "string",
+};
+
+const SCOPE = {
+  USER: "user",
+  GROUP: "group",
+  GROUP_MEMBERSHIP: "group_membership",
+};
+
+const SEP = "_";
+
+const KEYATTR = {
+  USER: `userattr${SEP}`,
+  GROUP: `groupattr${SEP}`,
+  MEMBERSHIP: `membershipattr${SEP}`,
+};
+
 export default {
   BASE_URL,
   API_VERSION,
@@ -19,4 +38,8 @@ export default {
   WEBHOOK_ID,
   WEBHOOK_SECRET,
   CONTENT_TYPE,
+  DATA_TYPE_TO_PROP_TYPE,
+  SCOPE,
+  KEYATTR,
+  SEP,
 };

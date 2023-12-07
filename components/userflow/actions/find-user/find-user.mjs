@@ -53,7 +53,6 @@ export default {
     }
 
     const response = await findUser({
-      debug: true,
       $,
       userId,
       email,

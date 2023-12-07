@@ -104,5 +104,17 @@ export default {
         ...args,
       });
     },
+    listAttributeDefinitions(args = {}) {
+      return this._makeRequest({
+        path: "/attribute_definitions",
+        ...args,
+      });
+    },
+    listGroups(args = {}) {
+      return this._makeRequest({
+        path: "/groups",
+        ...args,
+      });
+    },
   },
 };

@@ -100,7 +100,7 @@ export default {
     },
     getHeaderParts(header) {
       const tolerance = 300; // seconds
-      const headerParts = header.split(",")
+      const headerParts = header?.split(",")
         .reduce((acc, part) => {
           const [
             key,
@@ -141,7 +141,7 @@ export default {
       headers, bodyRaw,
     } = {}) {
       const secret = this.getSecret();
-      const { ["Userflow-Signature"]: header } = headers;
+      const { ["userflow-signature"]: header } = headers;
 
       const {
         timestamp,
