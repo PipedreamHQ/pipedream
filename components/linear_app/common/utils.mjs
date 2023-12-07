@@ -11,7 +11,7 @@ async function streamIterator(stream) {
 function strToObj(str) { console.log(str);
   var obj = {};
   if (str && typeof str === "string") {
-    var objStr = str.match(/\{(.)+\}/g); console.log(objStr);
+    var objStr = str.match(/\{(.)+\}/g);
     eval("obj =" + objStr);
   }
   return obj;
