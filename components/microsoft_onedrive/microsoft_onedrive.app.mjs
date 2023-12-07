@@ -10,39 +10,60 @@ export default {
     folder: {
       type: "string",
       label: "Folder",
-      description: "The folder to watch for new files",
+      description: "The folder to watch for new files. Use the \"Load More\" button to load subfolders.",
       async options({
         driveId, folderId, prevContext,
       }) {
-        const drivePath = this._getDrivePath(driveId);
-        const driveItemPath = this._getDriveItemPath(folderId);
-        const firstLink = drivePath + driveItemPath + "/children";
-        const url = get(prevContext, "nextLink", firstLink);
+        const responses = await Promise.all((prevContext.options ?? [
+          {
+            value: folderId,
+          },
+        ]).map(async ({
+          label, value,
+        }) => {
+          const drivePath = this._getDrivePath(driveId);
+          const driveItemPath = this._getDriveItemPath(value);
+          const firstLink = drivePath + driveItemPath + "/children";
+          const url = get(prevContext, "nextLink", firstLink);
 
-        const response = await this.client()
-          .api(url)
-          .select(
-            "folder",
-            "id",
-            "name",
-          )
-          .orderby("name")
-          .get();
+          const response = await this.client()
+            .api(url)
+            .select(
+              "folder",
+              "id",
+              "name",
+            )
+            .orderby("name")
+            .get();
 
-        const {
-          "@odata.nextLink": nextLink,
-          "value": children,
-        } = response;
+          const {
+            "@odata.nextLink": nextLink,
+            "value": children,
+          } = response;
 
-        const folders = children.filter((child) => !!child.folder);
+          const folders = children.filter((child) => !!child.folder);
+
+          const options = folders.map((folder) => ({
+            value: folder.id,
+            label: (label
+              ? `${label} > `
+              : "") + folder.name,
+          }));
+
+          return {
+            options,
+            context: {
+              nextLink,
+              options,
+            },
+          };
+        }));
 
         return {
-          options: folders.map((folder) => ({
-            value: folder.id,
-            label: folder.name,
-          })),
+          options: responses.flatMap(({ options }) => options),
           context: {
-            nextLink,
+            nextLink: responses.find(({ context }) => !!context.nextLink)?.context.nextLink,
+            options: responses.flatMap(({ context }) => context.options),
           },
         };
       },
