@@ -1,4 +1,5 @@
 import printnode from "../../printnode.app.mjs";
+import fs from "fs";
 
 export default {
   key: "printnode-send-print-job",
@@ -14,17 +15,23 @@ export default {
         "printerId",
       ],
     },
-    documentContent: {
-      propDefinition: [
-        printnode,
-        "documentContent",
-      ],
-    },
     contentType: {
       propDefinition: [
         printnode,
         "contentType",
       ],
+    },
+    filePath: {
+      type: "string",
+      label: "File Path",
+      description: "The path to a document file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory).",
+      optional: true,
+    },
+    fileUrl: {
+      type: "string",
+      label: "File URL",
+      description: "The URL to a document file.",
+      optional: true,
     },
     title: {
       type: "string",
@@ -41,7 +48,7 @@ export default {
     options: {
       type: "object",
       label: "Options",
-      description: "An object describing various options which can be set for this print job.",
+      description: "An object describing various options which can be set for this print job. [See the documentation for more information](https://www.printnode.com/en/docs/api/curl#printjob-options).",
       optional: true,
     },
     expireAfter: {
@@ -60,21 +67,28 @@ export default {
     authentication: {
       type: "object",
       label: "Authentication",
-      description: "If access to the location requires HTTP Basic or Digest Authentication, specify the username and password information here.",
+      description: "If access to the file URL requires HTTP Basic or Digest Authentication, specify the username and password information here. [See the documentation for more information](https://www.printnode.com/en/docs/api/curl#printjob-creating).",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.printnode.createPrintJob({
-      printerId: this.printerId,
-      title: this.title,
-      contentType: this.contentType,
-      content: this.documentContent,
-      source: this.source,
-      options: this.options,
-      expireAfter: this.expireAfter,
-      qty: this.qty,
-      authentication: this.authentication,
+    const {
+      printnode, contentType, filePath, fileUrl, ...props
+    } = this;
+    const content = contentType.endsWith("base64")
+      ? fs.readFileSync(filePath.includes("tmp/")
+        ? filePath
+        : `/tmp/${filePath}`, {
+        encoding: "base64",
+      })
+      : fileUrl;
+    const response = await printnode.createPrintJob({
+      $,
+      data: {
+        contentType,
+        content,
+        ...props,
+      },
     });
 
     $.export("$summary", `Successfully sent print job to printer with ID ${this.printerId}`);
