@@ -3140,6 +3140,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/kajabi:
+    specifiers: {}
+
   components/kakao:
     specifiers: {}
 
@@ -7003,6 +7006,9 @@ importers:
   components/wakatime:
     specifiers: {}
 
+  components/wappalyzer:
+    specifiers: {}
+
   components/warpcast:
     specifiers: {}
 
@@ -7221,6 +7227,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/wpforms:
+    specifiers: {}
 
   components/wrike:
     specifiers:
