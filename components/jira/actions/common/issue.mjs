@@ -199,6 +199,10 @@ export default {
         constants.FIELD_KEY.ISSUETYPE,
       ];
 
+      const keysToConsiderAsArray = [
+        constants.FIELD_KEY.LABELS,
+      ];
+
       return Object.entries(fields)
         .reduce((props, [
           key,
@@ -225,7 +229,12 @@ export default {
                 ? {
                   id: value,
                 }
-                : value,
+                : keysToConsiderAsArray.includes(fieldName) && Array.isArray(value)
+                  ? [
+                    value,
+                    value.length,
+                  ]
+                  : value,
           };
         }, {});
     },

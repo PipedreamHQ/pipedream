@@ -17,13 +17,14 @@ import constants from "../common/constants.mjs";
 import lang from "../common/lang.mjs";
 
 const COMMON_AUDIO_FORMATS_TEXT = "Your audio file must be in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.";
+const CHUNK_SIZE_MB = 20;
 
 const execAsync = promisify(exec);
 const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription",
-  version: "0.1.5",
+  version: "0.1.6",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
@@ -104,6 +105,18 @@ export default {
       form.append("file", readStream);
       return form;
     },
+    async splitLargeChunks(files, outputDir) {
+      for (const file of files) {
+        if (fs.statSync(`${outputDir}/${file}`).size / (1024 * 1024) > CHUNK_SIZE_MB) {
+          await this.chunkFile({
+            file: `${outputDir}/${file}`,
+            outputDir,
+            index: file.slice(6, 9),
+          });
+          await execAsync(`rm -f "${outputDir}/${file}"`);
+        }
+      }
+    },
     async chunkFileAndTranscribe({
       file, $,
     }) {
@@ -116,16 +129,20 @@ export default {
         outputDir,
       });
 
-      const files = await fs.promises.readdir(outputDir);
+      let files = await fs.promises.readdir(outputDir);
+      // ffmpeg will sometimes return chunks larger than the allowed size,
+      // so we need to identify large chunks and break them down further
+      await this.splitLargeChunks(files, outputDir);
+      files = await fs.promises.readdir(outputDir);
 
-      return await this.transcribeFiles({
+      return this.transcribeFiles({
         files,
         outputDir,
         $,
       });
     },
     async chunkFile({
-      file, outputDir,
+      file, outputDir, index,
     }) {
       const ffmpegPath = ffmpegInstaller.path;
       const ext = extname(file);
@@ -133,8 +150,10 @@ export default {
       const fileSizeInMB = fs.statSync(file).size / (1024 * 1024);
       // We're limited to 26MB per request. Because of how ffmpeg splits files,
       // we need to be conservative in the number of chunks we create
-      const conservativeChunkSizeMB = 20;
-      const numberOfChunks = Math.ceil(fileSizeInMB / conservativeChunkSizeMB);
+      const conservativeChunkSizeMB = CHUNK_SIZE_MB;
+      const numberOfChunks = !index
+        ? Math.ceil(fileSizeInMB / conservativeChunkSizeMB)
+        : 2;
 
       if (numberOfChunks === 1) {
         await execAsync(`cp "${file}" "${outputDir}/chunk-000${ext}"`);
@@ -152,7 +171,9 @@ export default {
       const totalSeconds = (hours * 60 * 60) + (minutes * 60) + seconds;
       const segmentTime = Math.ceil(totalSeconds / numberOfChunks);
 
-      const command = `${ffmpegPath} -i "${file}" -f segment -segment_time ${segmentTime} -c copy "${outputDir}/chunk-%03d${ext}"`;
+      const command = `${ffmpegPath} -i "${file}" -f segment -segment_time ${segmentTime} -c copy "${outputDir}/chunk-${index
+        ? `${index}-`
+        : ""}%03d${ext}"`;
       await execAsync(command);
     },
     transcribeFiles({
@@ -194,14 +215,14 @@ export default {
     } = this;
 
     if (!url && !path) {
-      throw new Error("Must specify either File URL or File Path");
+      throw new ConfigurationError("Must specify either File URL or File Path");
     }
 
     let file;
 
     if (path) {
       if (!fs.existsSync(path)) {
-        throw new Error(`${path} does not exist`);
+        throw new ConfigurationError(`${path} does not exist`);
       }
 
       file = path;
