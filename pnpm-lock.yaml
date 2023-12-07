@@ -764,7 +764,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/browserhub:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/browserless:
     specifiers:
@@ -1262,7 +1265,10 @@ importers:
     specifiers: {}
 
   components/convolo_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/copperx:
     specifiers:
@@ -3139,6 +3145,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/kajabi:
+    specifiers: {}
 
   components/kakao:
     specifiers: {}
@@ -7227,6 +7236,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/wpforms:
+    specifiers: {}
 
   components/wrike:
     specifiers:
