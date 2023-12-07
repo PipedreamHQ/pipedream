@@ -33,7 +33,7 @@ export default {
       return constants.CLIENT_IPS.includes(clientIp);
     },
     isFromProject(body) {
-      return !this.projectId || body?.data?.projectId == this.projectId;
+      return !this.projectId || !body?.data?.projectId || body?.data?.projectId == this.projectId;
     },
     isRelevant() {
       return true;
@@ -78,6 +78,17 @@ export default {
         });
     },
     async activate() {
+      const args = {
+        resourceTypes: this.getResourceTypes(),
+        url: this.http.endpoint,
+        label: this.getWebhookLabel(),
+      };
+      if (!this.teamIds && !this.teamId) {
+        args.allPublicTeams = true;
+        const { _webhook: webhook } = await this.linearApp.createWebhook(args);
+        this.setWebhookId("1", webhook.id);
+        return;
+      }
       const teamIds = this.teamIds || [
         this.teamId,
       ];
@@ -85,14 +96,19 @@ export default {
         const { _webhook: webhook } =
           await this.linearApp.createWebhook({
             teamId,
-            resourceTypes: this.getResourceTypes(),
-            url: this.http.endpoint,
-            label: this.getWebhookLabel(),
+            ...args,
           });
         this.setWebhookId(teamId, webhook.id);
       }
     },
     async deactivate() {
+      if (!this.teamIds && !this.teamId) {
+        const webhookId = this.getWebhookId("1");
+        if (webhookId) {
+          await this.linearApp.deleteWebhook(webhookId);
+        }
+        return;
+      }
       const teamIds = this.teamIds || [
         this.teamId,
       ];
