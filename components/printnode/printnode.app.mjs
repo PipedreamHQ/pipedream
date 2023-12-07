@@ -7,7 +7,16 @@ export default {
     printerId: {
       type: "integer",
       label: "Printer ID",
-      description: "The ID of the printer you wish to print to or retrieve data about.",
+      description: "Select a Printer or provide a custom Printer ID.",
+      async options() {
+        const printers = await this.listPrinters();
+        return printers?.map?.(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
     },
     documentContent: {
       type: "string",
@@ -48,17 +57,15 @@ export default {
     _baseUrl() {
       return "https://api.printnode.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Basic ${Buffer.from(`${this.$auth.api_key}:`).toString("base64")}`,
+        baseURL: this._baseUrl(),
+        auth: {
+          username: this.$auth.api_key,
+          password: "",
         },
       });
     },
@@ -84,23 +91,24 @@ export default {
         },
       });
     },
-    async getPrinter({ printerId }) {
+    async getPrinter({
+      printerId, ...args
+    }) {
       return this._makeRequest({
-        path: `/printers/${printerId}`,
+        url: `/printers/${printerId}`,
+        ...args,
       });
     },
-    async listPrintJobs({ dateRange }) {
-      const params = {};
-      if (dateRange) {
-        params.dateRange = dateRange.join(",");
-      }
+    async listPrinters() {
       return this._makeRequest({
-        path: "/printjobs",
-        params,
+        url: "/printers",
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async listPrintJobs(args) {
+      return this._makeRequest({
+        url: "/printjobs",
+        ...args,
+      });
     },
   },
 };

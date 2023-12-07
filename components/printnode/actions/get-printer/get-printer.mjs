@@ -17,9 +17,10 @@ export default {
   },
   async run({ $ }) {
     const printerData = await this.printnode.getPrinter({
+      $,
       printerId: this.printerId,
     });
-    $.export("$summary", `Retrieved data for printer with ID ${this.printerId}`);
+    $.export("$summary", `Retrieved data for printer (ID: ${this.printerId})`);
     return printerData;
   },
 };
