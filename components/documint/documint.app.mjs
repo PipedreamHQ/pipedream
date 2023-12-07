@@ -8,8 +8,8 @@ export default {
       label: "Template ID",
       description: "The template ID",
       type: "string",
-      async options() {
-        const { data: templates } = await this.getTemplates();
+      async options({ page }) {
+        const { data: templates } = await this.getTemplates({ params: { page: page + 1 } });
 
         return templates.map(({
           id, name,
