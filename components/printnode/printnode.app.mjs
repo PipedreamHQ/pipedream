@@ -71,14 +71,14 @@ export default {
     async createWebhook(args) {
       return this._makeRequest({
         method: "POST",
-        url: "/webhooks",
+        url: "/webhook",
         ...args,
       });
     },
     async deleteWebhook(webhookId) {
       return this._makeRequest({
         method: "DELETE",
-        url: `/webhooks/${webhookId}`,
+        url: `/webhook/${webhookId}`,
       });
     },
   },

@@ -41,7 +41,7 @@ export default {
     async activate() {
       const secret = `pd-${Date.now()}`;
       this._setSecret(secret);
-      const { webhookId } = await this.printnode.createWebhook({
+      const { 0: { webhookId } } = await this.printnode.createWebhook({
         data: {
           url: this.http.endpoint,
           secret,
@@ -54,7 +54,7 @@ export default {
     },
     async deactivate() {
       const id = this._getWebhookId();
-      await this.printNode.deleteWebhook(id);
+      await this.printnode.deleteWebhook(id);
     },
   },
   async run({ body }) {
