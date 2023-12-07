@@ -38,9 +38,21 @@ If you've never developed Pipedream components before, [start here](/components/
 npm run build
 ``` 
 
-The build process should print the compiled JS files to your console.
+The build process should print the compiled JS files to your console and produce them at the `/dist` directory.
 
-6. Use [the Pipedream CLI](/cli/reference/) to `pd publish` or `pd dev` the JavaScript components emitted by step 5.
+For example, if you compile a TypeScript file at `pipedream/components/rss/sources/new-item-in-feed/new-item-in-feed.ts`, the corresponding JS file will be produced at `pipedream/components/rss/dist/sources/new-item-in-feed/new-item-in-feed.js`.
+
+6. Use [the Pipedream CLI](/cli/reference/) to `pd publish` or `pd dev` the JavaScript components emitted by step 5 by the full path to the file.
+
+```bash
+pd publish pipedream/components/rss/dist/sources/new-item-in-feed/new-item-in-feed.js
+```
+
+::: tip Don't forget to use the dist directory
+
+If you attempt to deploy the TypeScript component directly, you'll receive a 500 error from the publish endpoint. Instead deploy the JavaScript file produced within the `/dist` directory as described in step 5.
+
+:::
 
 7. If it doesn't exist in the app directory, add a `.gitignore` file that ignores the following files. Commit only `ts` files to Git, not compiled `*js` files.
 
