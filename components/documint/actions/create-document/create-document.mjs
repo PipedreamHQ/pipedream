@@ -23,7 +23,7 @@ export default {
   async run({ $ }) {
     const variables = typeof this.variables === "string"
       ? JSON.parse(this.variables)
-      : variables;
+      : this.variables;
 
     const response = await this.app.createDocument({
       $,

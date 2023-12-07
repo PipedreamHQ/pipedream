@@ -9,7 +9,11 @@ export default {
       description: "The template ID",
       type: "string",
       async options({ page }) {
-        const { data: templates } = await this.getTemplates({ params: { page: page + 1 } });
+        const { data: templates } = await this.getTemplates({
+          params: {
+            page: page + 1,
+          },
+        });
 
         return templates.map(({
           id, name,
