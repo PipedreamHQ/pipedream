@@ -1,12 +1,11 @@
 import app from "../../userflow.app.mjs";
-// import utils from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "userflow-create-update-user",
   name: "Create or Update User",
   description: "Creates or updates a user in Userflow. If the user does not already exist in Userflow, it will be created. If it already exists, the given attributes will be merged into the existing user's attributes. [See the documentation](https://docs.userflow.com/api/users/create-or-update)",
-  version: "0.0.15",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
