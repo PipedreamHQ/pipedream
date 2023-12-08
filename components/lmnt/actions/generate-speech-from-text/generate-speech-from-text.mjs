@@ -83,7 +83,7 @@ export default {
 
     const filePath = outputFilename.includes("tmp/")
       ? outputFilename
-      : `/tmp/${this.outputFilename}`;
+      : `/tmp/${outputFilename}`;
     fs.writeFileSync(filePath, response.audio, {
       encoding: "base64",
     } );
