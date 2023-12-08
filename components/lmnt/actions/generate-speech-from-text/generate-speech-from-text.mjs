@@ -55,13 +55,13 @@ export default {
     outputFilename: {
       type: "string",
       label: "Output Filename",
-      description: "If specified, the result will be written to this filename in the `/tmp` folder.",
+      description: "The result will be written to this filename in the `/tmp` folder. If not specified, defaults to `output.mp3` or `output.wav` depending on the selected format.",
       optional: true,
     },
   },
   async run({ $ }) {
     const data = new FormData();
-    if (this.returnDurations) data.append("return_durations", this.returnDurations);
+    if (this.returnDurations) data.append("return_durations", this.returnDurations.toString());
     if (this.speed) data.append("speed", Number(this.speed));
     [
       "format",
@@ -70,7 +70,7 @@ export default {
       "text",
       "voice",
     ].forEach((key) => {
-      if (this[key]) data.append(key, this[key]);
+      if (this[key]) data.append(key, this[key].toString());
     });
 
     const response = await this.lmnt.synthesizeSpeech({
@@ -79,17 +79,15 @@ export default {
       data,
     });
 
-    const { outputFilename } = this;
+    const outputFilename = this.outputFilename ?? `output.${this.format}`;
 
-    if (outputFilename) {
-      const filePath = outputFilename.includes("tmp/")
-        ? outputFilename
-        : `/tmp/${this.outputFilename}`;
-      fs.writeFileSync(filePath, response.audio, {
-        encoding: "base64",
-      } );
-      response.filePath = filePath;
-    }
+    const filePath = outputFilename.includes("tmp/")
+      ? outputFilename
+      : `/tmp/${this.outputFilename}`;
+    fs.writeFileSync(filePath, response.audio, {
+      encoding: "base64",
+    } );
+    response.filePath = filePath;
 
     $.export("$summary", "Generated audio from text");
     return response;
