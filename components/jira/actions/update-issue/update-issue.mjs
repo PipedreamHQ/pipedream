@@ -8,7 +8,7 @@ export default {
   key: "jira-update-issue",
   name: "Update Issue",
   description: "Updates an issue. A transition may be applied and issue properties updated as part of the edit, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-  version: "0.2.9",
+  version: "0.2.10",
   type: "action",
   props: {
     ...common.props,
@@ -77,6 +77,12 @@ export default {
           issueIdOrKey,
         }),
       ],
+    },
+    transitionLooped: {
+      type: "boolean",
+      label: "Transition Looped",
+      description: "Whether the transition is looped.",
+      optional: true,
     },
   },
   async additionalProps() {
