@@ -73,6 +73,11 @@ export default {
       type: "string",
       label: "Type",
       description: "The type of voice to create. Defaults to instant.",
+      options: [
+        "instant",
+        "professional",
+      ],
+      default: "instant",
       optional: true,
     },
     gender: {
