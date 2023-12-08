@@ -44,7 +44,7 @@ export default {
   methods: {
     emitEvent(data) {
       this.$emit(data, {
-        id: data.key,
+        id: `${data.key} - ${data?.markets[0]?.last_update}`,
         summary: `New odd ${data.title}`,
         ts: Date.parse(data?.markets[0]?.last_update) ?? Date.now(),
       });

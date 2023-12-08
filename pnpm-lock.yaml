@@ -1431,6 +1431,9 @@ importers:
       lodash-es: 4.17.21
       uuid: 8.3.2
 
+  components/decision_journal:
+    specifiers: {}
+
   components/deepgram:
     specifiers:
       '@pipedream/platform': ^1.5.1
