@@ -764,7 +764,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/browserhub:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/browserless:
     specifiers:
@@ -1262,7 +1265,10 @@ importers:
     specifiers: {}
 
   components/convolo_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/copperx:
     specifiers:
@@ -1435,7 +1441,10 @@ importers:
       uuid: 8.3.2
 
   components/decision_journal:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/deepgram:
     specifiers:
@@ -1620,7 +1629,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/documint:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/docupilot:
     specifiers:
@@ -1898,7 +1910,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/exhibitday:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/expensify:
     specifiers:
@@ -3140,6 +3155,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/kajabi:
+    specifiers: {}
+
   components/kakao:
     specifiers: {}
 
@@ -3773,11 +3791,13 @@ importers:
     specifiers:
       '@microsoft/microsoft-graph-client': ^3.0.1
       '@pipedream/platform': ^1.1.0
+      file-type: ^18.7.0
       isomorphic-fetch: ^3.0.0
       lodash.get: ^4.4.2
     dependencies:
       '@microsoft/microsoft-graph-client': 3.0.7
       '@pipedream/platform': 1.5.1
+      file-type: 18.7.0
       isomorphic-fetch: 3.0.0
       lodash.get: 4.4.2
 
@@ -7004,7 +7024,10 @@ importers:
     specifiers: {}
 
   components/wappalyzer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/warpcast:
     specifiers: {}
@@ -7224,6 +7247,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/wpforms:
+    specifiers: {}
 
   components/wrike:
     specifiers:
@@ -18267,6 +18293,15 @@ packages:
       token-types: 4.2.1
     dev: false
 
+  /file-type/18.7.0:
+    resolution: {integrity: sha512-ihHtXRzXEziMrQ56VSgU7wkxh55iNchFkosu7Y9/S+tXHdKyrGjVK0ujbqNnsxzea+78MaLhN6PGmfYSAv1ACw==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      readable-web-to-node-stream: 3.0.2
+      strtok3: 7.0.0
+      token-types: 5.0.1
+    dev: false
+
   /file-type/3.9.0:
     resolution: {integrity: sha512-RLoqTXE8/vPmMuTI88DAzhMYC99I8BWv7zYP4A1puo5HIjEJ5EX48ighy4ZyKMG9EDXxBgW6e++cn7d1xuFghA==}
     engines: {node: '>=0.10.0'}
@@ -23829,6 +23864,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /peek-readable/5.0.0:
+    resolution: {integrity: sha512-YtCKvLUOvwtMGmrniQPdO7MwPjgkFBtFIrmfSbYmYuq3tKDV/mcfAhBth1+C3ru7uXIZasc/pHnb+YDYNkkj4A==}
+    engines: {node: '>=14.16'}
+    dev: false
+
   /pend/1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
     dev: false
@@ -26203,6 +26243,14 @@ packages:
       peek-readable: 4.1.0
     dev: false
 
+  /strtok3/7.0.0:
+    resolution: {integrity: sha512-pQ+V+nYQdC5H3Q7qBZAz/MO6lwGhoC2gOAjuouGf/VO0m7vQRh8QNMl2Uf6SwAtzZ9bOw3UIeBukEGNJl5dtXQ==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      '@tokenizer/token': 0.3.0
+      peek-readable: 5.0.0
+    dev: false
+
   /stubs/3.0.0:
     resolution: {integrity: sha512-PdHt7hHUJKxvTCgbKX9C1V/ftOcjJQgz8BZwNfV5c4B6dcGqlpelTbJ999jBGZ2jYiPAwcX5dP6oBwVlBlUbxw==}
     dev: false
@@ -26721,6 +26769,14 @@ packages:
   /token-types/4.2.1:
     resolution: {integrity: sha512-6udB24Q737UD/SDsKAHI9FCRP7Bqc9D/MQUV02ORQg5iskjtLJlZJNdN4kKtcdtwCeWIwIHDGaUsTsCCAa8sFQ==}
     engines: {node: '>=10'}
+    dependencies:
+      '@tokenizer/token': 0.3.0
+      ieee754: 1.2.1
+    dev: false
+
+  /token-types/5.0.1:
+    resolution: {integrity: sha512-Y2fmSnZjQdDb9W4w4r1tswlMHylzWIeOKpx0aZH9BgGtACHhrk3OkT52AzwcuqTRBZtvvnTjDBh8eynMulu8Vg==}
+    engines: {node: '>=14.16'}
     dependencies:
       '@tokenizer/token': 0.3.0
       ieee754: 1.2.1
