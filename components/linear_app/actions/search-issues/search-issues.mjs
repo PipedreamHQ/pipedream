@@ -6,7 +6,7 @@ export default {
   name: "Search Issues",
   description: "Search issues (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
   type: "action",
-  version: "0.2.3",
+  version: "0.2.4",
   props: {
     linearApp,
     query: {
