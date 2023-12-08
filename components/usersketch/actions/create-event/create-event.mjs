@@ -23,7 +23,7 @@ export default {
     date: {
       type: "string",
       label: "Date",
-      description: "Unix timestamp in seconds representing when the event occurred",
+      description: "The time when the event occurred. Can be in Unix timestamp or ISO8601 format, for example, `2023-12-08T10:00:00+07:00`",
       optional: true,
     },
     link: {
