@@ -25,6 +25,12 @@ export default {
       label: "Ended On",
       description: "The end date of the booking. Eg. `2020-03-01`",
     },
+    note: {
+      type: "string",
+      label: "Note",
+      description: "A note for the booking",
+      optional: true,
+    },
     time: {
       type: "integer",
       label: "Time",
@@ -33,39 +39,36 @@ export default {
     bookingMethodId: {
       type: "integer",
       label: "Booking Method ID",
-      description: "The booking method ID: `1` means hours per day, time attribute needs to be set; 2: percentage per day, percentage attribute needs to be set; 3: total time",
+      description: "The booking method ID: `1`: means hours per day, **Time** prop needs to be set; `2`: percentage per day, **Percentage** prop needs to be set; `3`: Total time",
       options: Object.values(constants.BOOKING_METHOD_ID),
       reloadProps: true,
-    },
-    note: {
-      type: "string",
-      label: "Note",
-      description: "A note for the booking",
-      optional: true,
     },
   },
   additionalProps() {
     const { bookingMethodId } = this;
 
-    const percentage = {
-      type: "integer",
-      label: "Percentage",
-      description: "Percentage of working hours, required if *Booking Method ID* is set to *Percentage Per Day*.",
-      options: Object.values(constants.PERCENTAGE),
-    };
-
     if (bookingMethodId === constants.BOOKING_METHOD_ID.PERCENTAGE_PER_DAY.value) {
       return {
-        percentage,
+        percentage: {
+          type: "integer",
+          label: "Percentage",
+          description: "Percentage of working hours. Only values of `50` and `100` are allowed.",
+          options: Object.values(constants.PERCENTAGE),
+        },
       };
     }
 
-    return {
-      percentage: {
-        ...percentage,
-        optional: true,
-      },
-    };
+    if (bookingMethodId === constants.BOOKING_METHOD_ID.TOTAL_TIME.value) {
+      return {
+        totalTime: {
+          type: "integer",
+          label: "Total Time",
+          description: "Total time in minutes.",
+        },
+      };
+    }
+
+    return {};
   },
   methods: {
     createBooking(args = {}) {
@@ -82,6 +85,7 @@ export default {
       startedOn,
       endedOn,
       time,
+      totalTime,
       bookingMethodId,
       note,
       percentage,
@@ -95,10 +99,11 @@ export default {
           attributes: {
             started_on: startedOn,
             ended_on: endedOn,
-            time,
             note,
-            percentage,
             booking_method_id: bookingMethodId,
+            time,
+            total_time: totalTime,
+            percentage,
           },
           relationships: {
             person: {
