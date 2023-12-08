@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     label: "Add Attachment To Card",
     value: "addAttachmentToCard",
