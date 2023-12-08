@@ -5,7 +5,7 @@ export default {
   key: "trello-new-board",
   name: "New Board (Instant)",
   description: "Emit new event for each new board added.",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "source",
   dedupe: "unique",
   methods: {

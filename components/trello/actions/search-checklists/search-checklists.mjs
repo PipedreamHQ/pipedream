@@ -5,7 +5,7 @@ export default {
   key: "trello-search-checklists",
   name: "Find Checklist",
   description: "Find a checklist on a particular board or card by name.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     trello: {
