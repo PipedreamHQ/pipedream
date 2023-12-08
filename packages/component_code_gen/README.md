@@ -32,6 +32,7 @@ Generate components using OpenAI GPT.
 
    - OPENAI_API_TYPE=azure
    - OPENAI_DEPLOYMENT_NAME=deployment-name
+   - OPENAI_EMBEDDINGS_DEPLOYMENT_NAME=embeddings-deployment-name
    - OPENAI_API_VERSION=2023-05-15
    - OPENAI_API_BASE=https://resource-name.openai.azure.com
    - OPENAI_API_KEY=azure-api-key
