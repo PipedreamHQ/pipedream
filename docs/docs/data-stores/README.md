@@ -16,6 +16,8 @@ You can connect to the same data store across workflows, so they're also great f
 
 You can use pre-built, no-code actions to store, update, and clear data, or interact with data stores programmatically in [Node.js](/code/nodejs/using-data-stores/) or [Python](/code/python/using-data-stores/).
 
+[[toc]]
+
 ## Using pre-built Data Store actions
 
 Pipedream provides several pre-built actions to set, get, delete, and perform other operations with data stores.
@@ -151,7 +153,7 @@ Data stores can hold any JSON-serializable data within the storage limits. This 
 
 But you cannot serialize functions, classes, sets, maps, or other complex objects.
 
-### Retrieving a large number of keys
+## Retrieving a large number of keys
 
 You can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys from a data store in a single query.
 
