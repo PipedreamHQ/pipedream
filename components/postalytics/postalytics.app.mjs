@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/contants.mjs";
 
 export default {
   type: "app",
@@ -8,129 +9,138 @@ export default {
       type: "string",
       label: "Campaign ID",
       description: "The unique identifier for a campaign",
-      async options() {
+      async options({ flagId }) {
         const campaigns = await this.listCampaigns();
-        return campaigns.map((campaign) => ({
-          label: campaign.name,
-          value: campaign.id,
+
+        return campaigns.map(({
+          endpoint, drop_id, name: label,
+        }) => ({
+          label,
+          value: flagId
+            ? drop_id
+            : endpoint,
         }));
       },
     },
-    contactId: {
+    listId: {
       type: "string",
-      label: "Contact ID",
-      description: "The unique identifier for a contact",
-      async options({ prevContext }) {
-        const page = prevContext.page
-          ? prevContext.page
-          : 0;
-        const response = await this.listContacts({
-          page,
-        });
-        return {
-          options: response.map((contact) => ({
-            label: `${contact.firstName} ${contact.lastName}`,
-            value: contact.id,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
-      },
-    },
-    templateId: {
-      type: "string",
-      label: "Template ID",
-      description: "The unique identifier of the template",
+      label: "List ID",
+      description: "The unique identifier for a contact list",
       async options() {
-        const templates = await this.listTemplates();
-        return templates.map((template) => ({
-          label: template.name,
-          value: template.id,
+        const data = await this.listLists();
+        return data.map(({
+          contact_list_id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.postalytics.com";
+      return "https://api.postalytics.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        "username": `${this.$auth.api_key}`,
+        "password": "",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        auth: this._auth(),
+        ...opts,
       });
     },
-    async listCampaigns() {
+    listContacts({
+      listId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/contacts/${listId}`,
+        ...opts,
+      });
+    },
+    listLists(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    listCampaigns() {
       return this._makeRequest({
         path: "/campaigns",
       });
     },
-    async listContacts(opts = {}) {
-      const { page } = opts;
-      return this._makeRequest({
-        path: `/contacts?page=${page}`,
-      });
-    },
-    async listTemplates() {
-      return this._makeRequest({
-        path: "/templates",
-      });
-    },
-    async sendMailItem({
-      campaignId, contactId, templateId,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/send",
-        data: {
-          campaignId,
-          contactId,
-          templateId,
-        },
-      });
-    },
-    async createContact({ contactData }) {
+    createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contacts",
-        data: contactData,
+        ...opts,
       });
     },
-    async getContact({ contactId }) {
-      return this._makeRequest({
-        path: `/contacts/${contactId}`,
-      });
-    },
-    async getCampaign({ campaignId }) {
-      return this._makeRequest({
-        path: `/campaigns/${campaignId}`,
-      });
-    },
-    async sendMailPiece(campaignId, contactId, mailPieceData) {
+    createHook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/campaigns/${campaignId}/send`,
-        data: {
-          contactId,
-          ...mailPieceData,
-        },
+        path: "/webhooks",
+        ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    deleteHook(hookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
+      });
+    },
+    sendMailPiece({
+      campaignId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/send/${campaignId}`,
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.start = (LIMIT * page) + page;
+        params.limit = LIMIT;
+        page++;
+
+        let data;
+        try {
+
+          data = await fn({
+            params,
+            ...opts,
+          });
+        } catch (error) {
+          if (error.message === "\"No contacts received\"") {
+            return;
+          }
+          throw Error(error);
+        }
+
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

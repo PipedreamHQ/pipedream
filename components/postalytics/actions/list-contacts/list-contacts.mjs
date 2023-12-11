@@ -1,27 +1,33 @@
 import postalytics from "../../postalytics.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "postalytics-list-contacts",
   name: "List Contacts",
-  description: "Displays a list of contacts in Postalytics. [See the documentation](https://postalytics.docs.apiary.io/)",
-  version: "0.0.{{ts}}",
+  description: "Displays a list of contacts in Postalytics. [See the documentation](https://postalytics.docs.apiary.io/#reference/contact-api/contact-collection/get-all-contacts-on-a-list)",
+  version: "0.0.1",
   type: "action",
   props: {
     postalytics,
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "The page number to list the contacts from",
-      default: 0,
-      optional: true,
+    listId: {
+      propDefinition: [
+        postalytics,
+        "listId",
+      ],
     },
   },
   async run({ $ }) {
-    const contacts = await this.postalytics.listContacts({
-      page: this.page,
+    const response = this.postalytics.paginate({
+      fn: this.postalytics.listContacts,
+      listId: this.listId,
     });
-    $.export("$summary", `Successfully listed contacts from page ${this.page}`);
-    return contacts;
+
+    const responseArray = [];
+    for await (const item of response) {
+      responseArray.push(item);
+    }
+
+    $.export("$summary", `Successfully listed ${responseArray.length} contacts!`);
+    return responseArray;
   },
 };
+

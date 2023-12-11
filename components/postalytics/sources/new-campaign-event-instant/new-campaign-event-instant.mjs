@@ -3,67 +3,55 @@ import postalytics from "../../postalytics.app.mjs";
 export default {
   key: "postalytics-new-campaign-event-instant",
   name: "New Campaign Event (Instant)",
-  description: "Emits a new event when a Postalytics mail piece has a delivery or online response status change. [See the documentation](https://postalytics.docs.apiary.io/)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new campaign event occurs.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     postalytics,
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60, // Set a default polling interval
-      },
-    },
+    http: "$.interface.http",
     campaignId: {
       propDefinition: [
         postalytics,
         "campaignId",
+        () => ({
+          flagId: true,
+        }),
       ],
     },
   },
   methods: {
-    _getEventLastFetchedTime() {
-      return this.db.get("lastFetchedTime") || 0;
+    _getLastEventId() {
+      return this.db.get("lastEventId") || 0;
     },
-    _setEventLastFetchedTime(lastFetchedTime) {
-      this.db.set("lastFetchedTime", lastFetchedTime);
+    _setLastEventId(eventId) {
+      this.db.set("lastEventId", eventId);
     },
   },
   hooks: {
-    async deploy() {
-      // Since this is an instant source, we don't need to fetch historical data
-      // We just set the last fetched time to the current time during deploy
-      this._setEventLastFetchedTime(Date.now());
-    },
     async activate() {
-      // TODO: Create a webhook subscription if needed
+      await this.postalytics.createHook({
+        data: {
+          campaign_id: this.campaignId,
+          is_enabled: 1,
+          url: this.http.endpoint,
+        },
+      });
     },
     async deactivate() {
-      // TODO: Delete a webhook subscription if needed
+      try {
+        await this.postalytics.deleteHook(this.campaignId);
+      } catch (e) {
+        return true;
+      }
     },
   },
-  async run() {
-    const lastFetchedTime = this._getEventLastFetchedTime();
-    const currentTime = Date.now();
-
-    // Fetch events from the Postalytics API
-    const events = await this.postalytics.getCampaignEvents({
-      campaignId: this.campaignId,
-      since: lastFetchedTime,
+  async run({ body }) {
+    this.$emit(body, {
+      id: body.id,
+      summary: `New campaign event with ID: ${body.id}`,
+      ts: body.created_date,
     });
-
-    // Emit each event and update the last fetched time
-    for (const event of events) {
-      this.$emit(event, {
-        id: event.id,
-        summary: `New Event in Campaign ${this.campaignId}: ${event.type}`,
-        ts: Date.parse(event.timestamp),
-      });
-    }
-
-    // Update the last fetched time to the current time
-    this._setEventLastFetchedTime(currentTime);
   },
 };
