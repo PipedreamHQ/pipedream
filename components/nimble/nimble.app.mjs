@@ -18,11 +18,9 @@ export default {
         });
 
         return resources.filter((contact) => contact.record_type === "person").map((contact) => ({
-          label: `${contact?.fields["first name"]
-            ? contact?.fields["first name"][0]?.value
-            : ""} ${contact?.fields["last name"]
-            ? contact?.fields["last name"][0]?.value
-            : ""}`,
+          label: contact?.fields["first name"]?.[0]?.value
+            || contact?.fields["last name"]?.[0]?.value
+            || "",
           value: contact.id,
         }));
       },
