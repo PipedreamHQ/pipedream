@@ -1,10 +1,10 @@
 import openai from "../../openai.app.mjs";
 
 export default {
-  name: "Create Image",
-  version: "0.1.11",
+  name: "Create Image (Dall-E)",
+  version: "0.1.12",
   key: "openai-create-image",
-  description: "Creates an image given a prompt. returns a URL to the image. [See docs here](https://platform.openai.com/docs/api-reference/images)",
+  description: "Creates an image given a prompt returning a URL to the image. [See docs here](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
   props: {
     openai,
