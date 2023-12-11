@@ -222,7 +222,7 @@ export default {
     ttsModel: {
       type: "string",
       label: "Model",
-      description: "One of the available [TTS models](https://platform.openai.com/docs/models/tts).",
+      description: "One of the available [TTS models](https://platform.openai.com/docs/models/tts). `tts-1` is optimized for speed, while `tts-1-hd` is optimized for quality.",
       options: [
         "tts-1",
         "tts-1-hd",
