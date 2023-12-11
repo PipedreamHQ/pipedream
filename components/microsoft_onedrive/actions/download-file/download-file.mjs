@@ -9,7 +9,7 @@ export default {
   name: "Download File",
   description: "Download a file stored in OneDrive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_get_content?view=odsp-graph-online)",
   key: "microsoft_onedrive-download-file",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     onedrive,

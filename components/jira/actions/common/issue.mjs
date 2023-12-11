@@ -23,12 +23,6 @@ export default {
       ],
       description: "Details of issue properties to be add or update, please provide an array of objects with keys and values.",
     },
-    transitionLooped: {
-      type: "boolean",
-      label: "Transition Looped",
-      description: "Whether the transition is looped.",
-      optional: true,
-    },
     update: {
       type: "object",
       label: "Update",
@@ -199,6 +193,10 @@ export default {
         constants.FIELD_KEY.ISSUETYPE,
       ];
 
+      const keysToConsiderAsArray = [
+        constants.FIELD_KEY.LABELS,
+      ];
+
       return Object.entries(fields)
         .reduce((props, [
           key,
@@ -225,7 +223,12 @@ export default {
                 ? {
                   id: value,
                 }
-                : value,
+                : keysToConsiderAsArray.includes(fieldName) && Array.isArray(value)
+                  ? [
+                    value,
+                    value.length,
+                  ]
+                  : value,
           };
         }, {});
     },

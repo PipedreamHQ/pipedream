@@ -5,7 +5,7 @@ export default {
   key: "trello-add-label-to-card",
   name: "Add Existing Label to Card",
   description: "Add an existing label to a card.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     trello: {

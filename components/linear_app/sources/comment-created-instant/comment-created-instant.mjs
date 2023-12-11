@@ -7,7 +7,7 @@ export default {
   name: "New Created Comment (Instant)",
   description: "Emit new event when a new comment is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   methods: {
     ...common.methods,
