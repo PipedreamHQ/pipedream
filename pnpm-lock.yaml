@@ -2788,7 +2788,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/hookdeck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/hootsuite:
     specifiers:
