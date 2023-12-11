@@ -132,7 +132,7 @@ Depending on your plan, Pipedream sets limits on:
 
 1. The total number of data stores
 2. The total number of keys across all data stores
-3. The total storage used across all data stores
+3. The total storage used across all data stores, [after compression](#compression)
 
 You'll find your workspace's limits in the **Data Stores** section of usage dashboard in the bottom-left of [https://pipedream.com](https://pipedream.com).
 
