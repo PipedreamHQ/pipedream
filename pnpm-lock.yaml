@@ -4849,7 +4849,10 @@ importers:
       fs: 0.0.1-security
 
   components/printnode:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/process_street:
     specifiers:
