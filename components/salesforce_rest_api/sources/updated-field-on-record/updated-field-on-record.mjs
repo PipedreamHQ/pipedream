@@ -15,7 +15,7 @@ export default {
   name: "New Updated Field on Record (of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record",
   description: "Emit new event (at regular intervals) when a field of your choosing is updated on any record of a specified Salesforce object. Field history tracking must be enabled for the chosen field. See the docs on [field history tracking](https://sforce.co/3mtj0rF) and [history objects](https://sforce.co/3Fn4lWB) for more information.",
-  version: "0.1.5",
+  version: "0.1.6",
   props: {
     ...common.props,
     objectType: {
@@ -117,6 +117,8 @@ export default {
       };
     },
     async processEvent(eventData) {
+      let historyItemRetrievals = [];
+      let itemRetrievals = [];
       const {
         startTimestamp,
         endTimestamp,
@@ -132,17 +134,19 @@ export default {
       );
       this.setLatestDateCovered(latestDateCovered);
 
-      // By the time we try to retrieve an item, it might've been deleted. This
-      // will cause `getSObject` to throw a 404 exception, which will reject its
-      // promise. Hence, we need to filter those items that are still in Salesforce
-      // and exclude those that are not.
-      const historyItemRetrievals = await Promise.allSettled(
-        ids.map((id) => this.salesforce.getSObject(historyObjectType, id)),
-      );
+      if (ids?.length) {
+        ({ results: historyItemRetrievals } = await this.batchRequest({
+          data: {
+            batchRequests: this.getBatchRequests(ids),
+          },
+        }));
+      }
+
       const historyItems = historyItemRetrievals
-        .filter((result) => result.status === "fulfilled")
-        .map((result) => result.value)
-        .filter(this.isRelevant);
+        .filter(({
+          statusCode, result: item,
+        }) => statusCode === 200 && this.isRelevant(item))
+        .map(({ result: item }) => item);
 
       // To fetch associated sObject records only once, create a set of the "parent IDs" of the
       // history object records
@@ -153,16 +157,20 @@ export default {
       );
       const parentIds = Array.from(parentIdSet);
 
-      const itemRetrievals = await Promise.allSettled(
-        parentIds.map((id) => this.salesforce.getSObject(this.objectType, id)),
-      );
+      if (parentIds.length) {
+        ({ results: itemRetrievals } = await this.batchRequest({
+          data: {
+            batchRequests: this.getBatchRequests(parentIds),
+          },
+        }));
+      }
+
       const itemsById = itemRetrievals
-        .filter((result) => result.status === "fulfilled")
-        .map((result) => result.value)
-        .reduce((acc, item) => {
-          acc[item.Id] = item;
-          return acc;
-        }, {});
+        .filter(({ statusCode }) => statusCode === 200)
+        .reduce((acc, { result: item }) => ({
+          ...acc,
+          [item.Id]: item,
+        }), {});
 
       const events = historyItems.map((item) => ({
         update: item,

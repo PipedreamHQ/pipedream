@@ -51,6 +51,27 @@ export default {
     processEvent() {
       throw new Error("processEvent is not implemented");
     },
+    getRelativeObjectUrl(id) {
+      const {
+        salesforce,
+        objectType,
+      } = this;
+      return `/services/data/v${salesforce._apiVersion()}/sobjects/${objectType}/${id}`;
+    },
+    getBatchRequests(ids) {
+      return ids.map((id) => ({
+        method: "GET",
+        url: this.getRelativeObjectUrl(id),
+      }));
+    },
+    batchRequest(args = {}) {
+      const { salesforce } = this;
+      return salesforce._makeRequest({
+        method: "POST",
+        url: `${salesforce._baseApiVersionUrl()}/composite/batch`,
+        ...args,
+      });
+    },
   },
   async run(event) {
     const startTimestamp = this.getLatestDateCovered();
