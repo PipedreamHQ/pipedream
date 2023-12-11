@@ -3454,7 +3454,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/lmnt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/lob:
     specifiers:
@@ -4849,7 +4854,10 @@ importers:
       fs: 0.0.1-security
 
   components/printnode:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/process_street:
     specifiers:
@@ -6483,7 +6491,12 @@ importers:
     specifiers: {}
 
   components/the_odds_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      dayjs: ^1.11.10
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      dayjs: 1.11.10
 
   components/threads:
     specifiers:
