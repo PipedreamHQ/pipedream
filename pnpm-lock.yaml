@@ -2665,7 +2665,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/gtmetrix:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/gumroad:
     specifiers:
