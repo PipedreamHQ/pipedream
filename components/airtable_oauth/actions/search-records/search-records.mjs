@@ -26,7 +26,7 @@ export default {
       props.searchFormula = {
         type: "string",
         label: "Search Formula",
-        description: "Use an Airtable search formula to find records. Learn more on [Airtable's website](https://support.airtable.com/docs/formula-field-reference)",
+        description: "Use an Airtable search formula to find records. For example, if you want to find records with `Tags` includes `test-1`, use `FIND('test-1', {Tags})`. Learn more on [Airtable's website](https://support.airtable.com/docs/formula-field-reference)",
         optional: true,
       };
     }
