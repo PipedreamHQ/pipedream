@@ -2,9 +2,9 @@ import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-create-message",
-  name: "Create Message",
-  description: "Create a message in a thread. [See the documentation](https://platform.openai.com/docs/api-reference)",
-  version: "0.0.5",
+  name: "Create Message (Assistants)",
+  description: "Create a message in a thread. [See the documentation](https://platform.openai.com/docs/api-reference/messages/createMessage)",
+  version: "0.0.6",
   type: "action",
   props: {
     openai,

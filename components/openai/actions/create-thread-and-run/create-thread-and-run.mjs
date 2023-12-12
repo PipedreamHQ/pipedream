@@ -3,9 +3,9 @@ import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-create-thread-and-run",
-  name: "Create Thread and Run",
+  name: "Create Thread and Run (Assistants)",
   description: "Create a thread and run it in one request using the specified assistant ID and optional parameters. [See the documentation](https://platform.openai.com/docs/api-reference)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     openai,
