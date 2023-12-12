@@ -3,9 +3,9 @@ import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-create-speech",
-  name: "Create Speech",
+  name: "Create Speech (TTS)",
   description: "Generates audio from the input text. [See the documentation](https://platform.openai.com/docs/api-reference/audio/createSpeech)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     openai,

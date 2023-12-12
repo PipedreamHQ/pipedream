@@ -4,12 +4,10 @@ export default {
   key: "google_calendar-new-calendar",
   name: "New Calendar Created",
   description: "Emit new event when a calendar is created.",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "source",
   props: {
-    ...common.props({
-      useCalendarId: false,
-    }),
+    ...common.props,
     db: "$.service.db",
   },
   hooks: {
