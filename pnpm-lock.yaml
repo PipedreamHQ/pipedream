@@ -6856,7 +6856,10 @@ importers:
     specifiers: {}
 
   components/usersketch:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/uservoice:
     specifiers:
