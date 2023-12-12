@@ -3,7 +3,7 @@ import fileStore from "../../file_store.app.mjs";
 export default {
   key: "file_store-list-files",
   name: "List Files",
-  description: "Lists all files in the specified directory of the file store. [See the documentation](https://pipedream.com/docs/projects/file-stores/reference/)",
+  description: "Lists all files in the specified directory of the file store. [See the documentation](https://pipedream.com/docs/projects/file-stores/reference/#files-dir-path)",
   version: "0.0.1",
   type: "action",
   props: {
