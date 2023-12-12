@@ -5411,16 +5411,20 @@ importers:
   components/salesforce_rest_api:
     specifiers:
       '@pipedream/platform': ^1.2.0
+      fast-xml-parser: ^4.3.2
       handlebars: ^4.7.7
       lodash: ^4.17.21
       lodash-es: ^4.17.21
       salesforce-webhooks: ^1.1.11
+      uuid: ^9.0.1
     dependencies:
       '@pipedream/platform': 1.5.1
+      fast-xml-parser: 4.3.2
       handlebars: 4.7.8
       lodash: 4.17.21
       lodash-es: 4.17.21
       salesforce-webhooks: 1.1.11_handlebars@4.7.8
+      uuid: 9.0.1
 
   components/saleslens:
     specifiers:
