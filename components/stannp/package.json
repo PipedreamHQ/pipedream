@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/stannp",
+  "version": "0.0.2",
+  "description": "Pipedream Stannp Components",
+  "main": "dist/app/stannp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "stannp"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/stannp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

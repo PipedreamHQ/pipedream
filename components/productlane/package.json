@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/productlane",
+  "version": "0.1.0",
+  "description": "Pipedream Productlane Components",
+  "main": "productlane.app.mjs",
+  "keywords": [
+    "pipedream",
+    "productlane"
+  ],
+  "homepage": "https://pipedream.com/apps/productlane",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/clockwork_recruiting",
+  "version": "0.1.0",
+  "description": "Pipedream Clockwork Recruiting Components",
+  "main": "clockwork_recruiting.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clockwork_recruiting"
+  ],
+  "homepage": "https://pipedream.com/apps/clockwork_recruiting",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

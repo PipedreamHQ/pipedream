@@ -4,7 +4,7 @@ module.exports = {
   key: "ongage-update-subscriber",
   name: "Ongage Update Subscriber",
   description: "Update a list subscriber in Ongage.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ongage,

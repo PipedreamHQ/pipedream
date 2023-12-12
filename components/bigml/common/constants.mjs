@@ -1,0 +1,5 @@
+export default {
+  ASYNC_OPTIONS_LIMIT: 20,
+  MAX_LIMIT: 200,
+  HISTORICAL_EVENTS_LIMIT: 50,
+};

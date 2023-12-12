@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/imagga",
+  "version": "0.0.1",
+  "description": "Pipedream Imagga Components",
+  "main": "dist/app/imagga.app.mjs",
+  "keywords": [
+    "pipedream",
+    "imagga"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/imagga",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

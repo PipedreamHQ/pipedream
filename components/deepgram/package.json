@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/deepgram",
+  "version": "0.0.6",
+  "description": "Pipedream Deepgram Components",
+  "main": "deepgram.app.mjs",
+  "keywords": [
+    "pipedream",
+    "deepgram"
+  ],
+  "homepage": "https://pipedream.com/apps/deepgram",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

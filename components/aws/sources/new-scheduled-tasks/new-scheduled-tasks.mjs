@@ -1,5 +1,5 @@
 import base from "../common/scheduled.mjs";
-import { toSingleLineString } from "../common/utils.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   ...base,
@@ -10,7 +10,7 @@ export default {
     to an SNS topic at a specific timestamp. The SNS topic delivers
     the message to this Pipedream source, and the source emits it as a new event.
   `),
-  version: "0.2.0",
+  version: "0.4.1",
   type: "source",
   dedupe: "unique", // Dedupe on SNS message ID
   methods: {

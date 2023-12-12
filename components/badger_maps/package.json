@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/badger_maps",
+  "version": "0.0.3",
+  "description": "Pipedream Badger Maps Components",
+  "main": "badger_maps.app.mjs",
+  "keywords": [
+		"pipedream",
+		"badger_maps"
+  ],
+  "homepage": "https://pipedream.com/apps/badger_maps",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

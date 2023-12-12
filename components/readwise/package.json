@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/readwise",
+  "version": "0.1.0",
+  "description": "Pipedream Readwise Components",
+  "main": "dist/app/readwise.app.mjs",
+  "keywords": [
+    "pipedream",
+    "readwise"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/readwise",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

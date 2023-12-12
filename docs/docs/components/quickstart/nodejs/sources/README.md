@@ -1,10 +1,10 @@
 # Quickstart: Source Development
 
-This document is intended for a technical audience (including those interested in learning how to author and edit components).  After completing this quickstart, you will understand how to:
+This document is intended for a technical audience (including those interested in learning how to author and edit components). After completing this quickstart, you will understand how to:
 
 - Deploy components to Pipedream using the CLI
 - Invoke a component manually, or on a schedule or HTTP request
-- Maintain state across component invocations
+- Maintain state across component executions
 - Emit deduped events using the `unique` and `greatest` strategies
 - Use Pipedream managed OAuth for an app
 - Use npm packages in components
@@ -18,7 +18,7 @@ We recommend that you execute the examples in order — each one builds on the 
 **Hello World! (~10 minutes)**
 
 - Deploy a `hello world!` component using the Pipedream CLI and invoke it manually
-- Use `$.service.db` to maintain state across invocations
+- Use `$.service.db` to maintain state across executions
 - Use `$.interface.timer` to invoke a component on a schedule
 - Use `$.interface.http` to invoke code on HTTP requests
 
@@ -55,14 +55,25 @@ The examples in this guide use the `pd dev` command. This command will deploy yo
 If your `pd dev` session is terminated and you need to re-attach to a deployed component, run the following command.
 
 ```bash
-pd dev [--dc <existing-deployed-component-id>] <file-or-name>
+pd dev [--dc <existing-deployed-component-id>] <path-to-file>
+```
+
+For example, if you're building a new source at `components/sources/my-source.mjs`, then pass the fully qualified path to `pd dev`:
+
+```bash
+pd dev components/sources/my-source.mjs
+```
+If you need to update a deployed instance of a source, pass it's ID to the `dc` argument to update it with new source code:
+
+```bash
+pd dev --dc dc_123456 components/sources/my-source.mjs
 ```
 
 See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
 
 # Hello World!
 
-Here is a simple component that will emit an event with a payload of `{ message: "hello world!" }` on each invocation.
+Here is a simple component that will emit an event with a payload of `{ message: "hello world!" }` on each execution.
 
 ```javascript
 export default {
@@ -99,7 +110,7 @@ Then click **RUN NOW** to invoke your source. Your event will appear in real-tim
 
 ![source](./images/quickstart/hello-world-1.gif)
 
-### Maintain state across invocations
+### Maintain state across executions
 
 Next, we'll use Pipedream's `db` service to track the number of times the component is invoked.
 
@@ -123,7 +134,7 @@ let count = this.db.get("count") || 1;
 this.$emit(
   { message: "hello world!" },
   {
-    summary: `Invocation #${count}`,
+    summary: `Execution #${count}`,
   }
 );
 
@@ -145,7 +156,7 @@ export default {
     this.$emit(
       { message: "hello world!" },
       {
-        summary: `Invocation #${count}`,
+        summary: `Execution #${count}`,
       }
     );
 
@@ -154,19 +165,19 @@ export default {
 };
 ```
 
-Save the changes to your local file. Your component on Pipedream should automatically update. Return to the Pipedream UI and press **RUN NOW** — you should see the invocation count appear in the event list.
+Save the changes to your local file. Your component on Pipedream should automatically update. Return to the Pipedream UI and press **RUN NOW** — you should see the execution count appear in the event list.
 
 ![source](./images/quickstart/hello-world-2.gif)
 
 ### Invoke your code on a schedule
 
-Next, we'll update our component so it runs on a schedule. To do that, we'll use Pipedream's `timer` interface and we'll set the default execution interval to 15 seconds by adding the following code to props:
+Next, we'll update our component so it runs on a schedule. To do that, we'll use Pipedream's `timer` interface and we'll set the default execution interval to 15 minutes by adding the following code to props:
 
 ```
 timer: {
   type: "$.interface.timer",
   default: {
-    intervalSeconds: 15,
+    intervalSeconds: 15 * 60,
   },
 },
 ```
@@ -182,7 +193,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15,
+        intervalSeconds: 15 * 60,
       },
     },
   },
@@ -192,7 +203,7 @@ export default {
     this.$emit(
       { message: "hello world!" },
       {
-        summary: `Invocation #${count}`,
+        summary: `Execution #${count}`,
       }
     );
 
@@ -201,7 +212,7 @@ export default {
 };
 ```
 
-Save the changes to your file (your component on Pipedream should automatically update). and then, return to the Pipedream UI and **reload the page**. You should now see the timer settings in the summary and a countdown to the next execution (you can still run your component manually). Your component will now run every 15 seconds.
+Save the changes to your file (your component on Pipedream should automatically update). and then, return to the Pipedream UI and **reload the page**. You should now see the timer settings in the summary and a countdown to the next execution (you can still run your component manually). Your component will now run every 15 minutes.
 
 ![source](./images/quickstart/hello-world-3.gif)
 
@@ -218,9 +229,9 @@ to set a different schedule than the default specified in the code.
 Next, we'll update our component to run on HTTP requests instead of a timer. To do that, we'll just replace the `timer` interface with an `http` interface.
 
 ```javascript
-http: { 
-        type: "$.interface.http", 
-        customResponse: true 
+http: {
+        type: "$.interface.http",
+        customResponse: true
       },
 ```
 
@@ -242,7 +253,7 @@ this.http.respond({
 });
 
 this.$emit(event.body, {
-  summary: `Invocation #${count}`,
+  summary: `Execution #${count}`,
 });
 ```
 
@@ -256,7 +267,7 @@ export default {
     db: "$.service.db",
     http: {
       type: "$.interface.http",
-      customResponse: true
+      customResponse: true,
     },
   },
   async run(event) {
@@ -271,7 +282,7 @@ export default {
     });
 
     this.$emit(event.body, {
-      summary: `Invocation #${count}`,
+      summary: `Execution #${count}`,
     });
 
     this.db.set("count", ++count);
@@ -423,7 +434,7 @@ export default {
 };
 ```
 
-Save the changes to your file and then click **RUN NOW** in the Pipedream UI. Similar to previous invocations, you should see 10 events emitted. Now, run the component **again**. You should see a maximum of **one, if any** events emitted (the reason one event may be emitted is if a new item was added to the RSS feed). If no new events were emitted, wait for ~1 minute and try again.
+Save the changes to your file and then click **RUN NOW** in the Pipedream UI. Similar to previous executions, you should see 10 events emitted. Now, run the component **again**. You should see a maximum of **one, if any** events emitted (the reason one event may be emitted is if a new item was added to the RSS feed). If no new events were emitted, wait for ~1 minute and try again.
 
 ## Add a timer interface to invoke the component on a schedule
 
@@ -470,7 +481,7 @@ export default {
 };
 ```
 
-**Save** your component then return to the UI and reload the page. You should see the updated configuration on your summary card and a countdown to the next invocation. You can still click **RUN NOW** to execute your source manually.
+**Save** your component then return to the UI and reload the page. You should see the updated configuration on your summary card and a countdown to the next execution. You can still click **RUN NOW** to execute your source manually.
 
 # Use managed auth to pull data from Github (~10 mins)
 
@@ -489,7 +500,7 @@ export default {
 First, import `axios` so we can make a request to the Github REST API:
 
 ```javascript
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 ```
 
 Next, let's add an **app prop**, which will enable us to use Pipedream managed auth with this component. For this example, we'll add Github:
@@ -511,14 +522,14 @@ Finally, we'll update the `run()` method to fetch issues from Github using `axio
 
 ```javascript
 async run() {
-  const response = await axios({
+  const data = await axios(this, {
     method: 'get',
     headers: {
       Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
     },
     url: `https://api.github.com/repos/pddemo/demo/issues`
   })
-  response.data.forEach(issue => {
+  data.forEach(issue => {
     this.$emit(issue)
   })
 }
@@ -527,7 +538,7 @@ async run() {
 Here's the updated code.
 
 ```javascript
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Source Demo",
@@ -539,14 +550,14 @@ export default {
     },
   },
   async run() {
-    const response = await axios({
+    const data = await axios(this, {
       method: "get",
       headers: {
         Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
       },
       url: `https://api.github.com/repos/pddemo/demo/issues`,
     });
-    response.data.forEach((issue) => {
+    data.forEach((issue) => {
       this.$emit(issue);
     });
   },
@@ -580,7 +591,7 @@ response.data.forEach((issue) => {
 Here is the updated code.
 
 ```javascript
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Source Demo",
@@ -593,14 +604,14 @@ export default {
   },
   dedupe: "greatest",
   async run() {
-    const response = await axios({
+    const data = await axios(this, {
       method: "get",
       headers: {
         Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
       },
       url: `https://api.github.com/repos/pddemo/demo/issues`,
     });
-    response.data.forEach((issue) => {
+    data.forEach((issue) => {
       this.$emit(issue, {
         id: issue.id,
         summary: `ISSUE ${issue.number}: ${issue.title}`,
@@ -621,7 +632,7 @@ As the final step of this walk-through, we'll update our component to check for 
 timer: {
   type: "$.interface.timer",
   default: {
-    intervalSeconds: 60 * 15,
+    intervalSeconds: 15 * 60,
   },
 },
 ```
@@ -629,7 +640,7 @@ timer: {
 Here's the updated code.
 
 ```javascript
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Source Demo",
@@ -642,20 +653,20 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60,
       },
     },
   },
   dedupe: "greatest",
   async run() {
-    const response = await axios({
+    const data = await axios(this, {
       method: "get",
       headers: {
         Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
       },
       url: `https://api.github.com/repos/pddemo/demo/issues`,
     });
-    response.data.forEach((issue) => {
+    data.forEach((issue) => {
       this.$emit(issue, {
         id: issue.id,
         summary: `ISSUE ${issue.number}: ${issue.title}`,
@@ -670,6 +681,6 @@ Save and reload your source in the Pipedream UI. You should now see a countdown 
 
 # What's Next?
 
-You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](../api/) at any time!
+You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](../../../api/) at any time!
 
 If you have any questions or feedback, please join our [public Slack](https://pipedream.com/support).

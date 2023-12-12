@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/campaignhq",
+  "version": "0.1.0",
+  "description": "Pipedream CampaignHQ Components",
+  "main": "dist/app/campaignhq.app.mjs",
+  "keywords": [
+    "pipedream",
+    "campaignhq"
+  ],
+  "homepage": "https://pipedream.com/apps/campaignhq",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

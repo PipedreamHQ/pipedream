@@ -4,8 +4,9 @@ module.exports = {
   key: "stripe-retrieve-invoice",
   name: "Retrieve an Invoice",
   type: "action",
-  version: "0.0.1",
-  description: "Retrieves the details of an existing invoice.",
+  version: "0.0.2",
+  description: "Retrieves the details of an existing invoice. [See the " +
+    "docs](https://stripe.com/docs/api/invoices/retrieve) for more information",
   props: {
     stripe,
     id: {
@@ -16,7 +17,9 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().invoices.retrieve(this.id);
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().invoices.retrieve(this.id);
+    $.export("$summary", `Successfully retrieved the invoice, "${resp.number || resp.id}"`);
+    return resp;
   },
 };

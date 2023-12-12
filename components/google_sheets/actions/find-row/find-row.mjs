@@ -3,8 +3,8 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-find-row",
   name: "Find Row",
-  description: "Find a row by a column and value",
-  version: "0.0.2",
+  description: "Find one or more rows by a column and value",
+  version: "0.2.2",
   type: "action",
   props: {
     googleSheets,
@@ -13,7 +13,6 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "",
     },
     sheetId: {
       propDefinition: [
@@ -52,12 +51,17 @@ export default {
       spreadsheetId: this.sheetId,
       range: `${this.sheetName}!${this.column}:${this.column}`,
     })).data.values;
-    const rowNumbers = [];
+
+    const rows = [];
     return colValues.reduce((values, value, index) => {
       if (value == this.value) {
-        rowNumbers.push(index + 1);
+        rows.push({
+          value,
+          index,
+          googleSheetsRowNumber: index + 1,
+        });
       }
-      return rowNumbers;
+      return rows;
     });
   },
 };

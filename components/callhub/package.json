@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/callhub",
+  "version": "0.0.3",
+  "description": "Pipedream CallHub Components",
+  "main": "callhub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "callhub"
+  ],
+  "homepage": "https://pipedream.com/apps/callhub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.3.0"
+  }
+}

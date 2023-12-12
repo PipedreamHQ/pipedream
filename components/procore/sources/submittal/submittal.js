@@ -1,4 +1,3 @@
-const procore = require("../../procore.app.js");
 const common = require("../common.js");
 
 module.exports = {
@@ -7,7 +6,8 @@ module.exports = {
   key: "procore-submittal",
   description:
     "Emits an event each time a Submittal is created, updated, or deleted in a project.",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   methods: {
     ...common.methods,
     getResourceName() {
@@ -18,12 +18,19 @@ module.exports = {
       const resource = await this.procore.getSubmittal(
         this.company,
         this.project,
-        resourceId
+        resourceId,
       );
-      return { ...body, resource };
+      return {
+        ...body,
+        resource,
+      };
     },
-    getMeta({ id, event_type, timestamp, resource }) {
-      const { title, id: submittalId } = resource;
+    getMeta({
+      id, event_type, timestamp, resource,
+    }) {
+      const {
+        title, id: submittalId,
+      } = resource;
       const eventType = event_type;
       const summary = title
         ? `${eventType} ${title}`

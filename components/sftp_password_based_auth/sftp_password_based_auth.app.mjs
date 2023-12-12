@@ -1,11 +1,26 @@
+import Client from "ssh2-sftp-client";
+
 export default {
   type: "app",
   app: "sftp_password_based_auth",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async connect() {
+      const {
+        host,
+        username,
+        password,
+      } = this.$auth;
+
+      const config = {
+        host,
+        username,
+        password,
+      };
+
+      const sftp = new Client();
+      await sftp.connect(config);
+      return sftp;
     },
   },
 };

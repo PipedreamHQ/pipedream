@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/vectera",
+  "version": "0.0.4",
+  "description": "Pipedream Vectera Components",
+  "main": "dist/app/vectera.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vectera"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/vectera",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

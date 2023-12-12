@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/memberstack",
+  "version": "0.0.1",
+  "description": "Pipedream Memberstack Components",
+  "main": "memberstack.app.mjs",
+  "keywords": [
+    "pipedream",
+    "memberstack"
+  ],
+  "homepage": "https://pipedream.com/apps/memberstack",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@memberstack/admin": "^1.2.2",
+    "@pipedream/platform": "^1.4.1",
+    "lodash.pickby": "^4.6.0"
+  }
+}

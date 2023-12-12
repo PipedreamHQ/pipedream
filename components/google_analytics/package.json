@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/google_analytics",
+  "version": "0.0.5",
+  "description": "Pipedream Google_analytics Components",
+  "main": "google_analytics.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_analytics"
+  ],
+  "homepage": "https://pipedream.com/apps/google_analytics",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@googleapis/analyticsreporting": "^1.0.0",
+    "@pipedream/platform": "^1.2.0"
+  }
+}

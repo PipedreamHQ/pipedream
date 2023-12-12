@@ -5,8 +5,9 @@ module.exports = {
   key: "stripe-update-invoice",
   name: "Update Invoice",
   type: "action",
-  version: "0.0.1",
-  description: "Update an invoice",
+  version: "0.0.2",
+  description: "Update an invoice. [See the docs](https://stripe.com/docs/api/invoices/update) " +
+    "for more information",
   props: {
     stripe,
     id: {
@@ -33,6 +34,7 @@ module.exports = {
         stripe,
         "invoice_collection_method",
       ],
+      description: "When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.",
     },
     days_until_due: {
       propDefinition: [
@@ -63,8 +65,8 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.stripe.sdk().invoices.update(this.id, {
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().invoices.update(this.id, {
       ...pick(this, [
         "description",
         "auto_advance",
@@ -75,5 +77,7 @@ module.exports = {
       ]),
       ...this.advanced,
     });
+    $.export("$summary", `Successfully updated the invoice, "${resp.number || resp.id}"`);
+    return resp;
   },
 };

@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/brex_staging",
+  "version": "0.0.3",
+  "description": "Pipedream Brex Staging Components",
+  "main": "brex_staging.app.js",
+  "keywords": [
+    "pipedream",
+    "brex_staging"
+  ],
+  "homepage": "https://pipedream.com/apps/brex_staging",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "axios": "^0.25.0",
+    "crypto": "^1.0.1",
+    "uuid": "^8.3.2"
+  }
+}

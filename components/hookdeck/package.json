@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hookdeck",
+  "version": "0.1.0",
+  "description": "Pipedream Hookdeck Components",
+  "main": "hookdeck.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hookdeck"
+  ],
+  "homepage": "https://pipedream.com/apps/hookdeck",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

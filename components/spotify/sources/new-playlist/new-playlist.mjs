@@ -3,11 +3,10 @@ import common from "../common.mjs";
 export default {
   dedupe: "unique",
   type: "source",
-  key: "spotify-source-new-playlist",
+  key: "spotify-new-playlist",
   name: "New Playlist",
-  description:
-    "Emit new event when a new playlist is created or followed by the current Spotify user.",
-  version: "0.0.3",
+  description: "Emit new event when a new playlist is created or followed by the current Spotify user.",
+  version: "0.1.1",
   props: {
     ...common.props,
   },

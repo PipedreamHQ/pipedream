@@ -11,8 +11,7 @@ This document is intended for developers who want to author and edit [Pipedream 
 - Use props to capture user input
 - Update an action
 - Use npm packages
-- Use Pipedream managed auth for a 3rd party app 
-
+- Use Pipedream managed auth for a 3rd party app
 
 ::: tip
 If you previously developed actions using Pipedream's UI, we recommend reviewing our [migration guide](/components/migrating/) after completing this quickstart.
@@ -24,7 +23,7 @@ If you previously developed actions using Pipedream's UI, we recommend reviewing
 - Download and install the [Pipedream CLI](/cli/install/)
 - Once the CLI is installed, [link your Pipedream account](/cli/login/#existing-pipedream-account) to the CLI by running `pd login` in your terminal
 
->  **NOTE:** See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
+> **NOTE:** See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
 
 ## Walkthrough
 
@@ -39,7 +38,7 @@ We recommend that you complete the examples below in order.
 **hello [name]! (~5 minutes)**
 
 - Capture user input using a `string` prop
-- Publish a new version of your action 
+- Publish a new version of your action
 - Update the action in your workflow
 
 **Use an npm Package (~5 mins)**
@@ -56,7 +55,7 @@ We recommend that you complete the examples below in order.
 
 ### hello world!
 
-The following code represents a simple component that can be published as an action ([learn more](/components/api) about the component structure). When used in a workflow, it will export `hello world!` as the return value for the step.
+The following code represents a simple component that can be published as an action ([learn more](/components/api/) about the component structure). When used in a workflow, it will export `hello world!` as the return value for the step.
 
 ```javascript
 export default {
@@ -67,9 +66,9 @@ export default {
   type: "action",
   props: {},
   async run() {
-    return `hello world!`
+    return `hello world!`;
   },
-}
+};
 ```
 
 To get started, save the code to a local `.js` file (e.g., `action.js`) and run the following CLI command:
@@ -96,7 +95,6 @@ To test the action:
 
 4. Click on **My Actions** and then select the **Action Demo** action to add it to your workflow.
    ![image-20210411165325045](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165325045_ia5sd5.png)
-   
 5. Deploy your workflow
 
 6. Click **RUN NOW** to execute your workflow and action
@@ -143,12 +141,12 @@ export default {
     name: {
       type: "string",
       label: "Name",
-    }
+    },
   },
   async run() {
-    return `hello ${this.name}!`
+    return `hello ${this.name}!`;
   },
-}
+};
 ```
 
 Finally, update the component version to `0.0.2`. If you fail to update the version, the CLI will throw an error.
@@ -164,12 +162,12 @@ export default {
     name: {
       type: "string",
       label: "Name",
-    }
+    },
   },
   async run() {
-    return `hello ${this.name}!`
+    return `hello ${this.name}!`;
   },
-}
+};
 ```
 
 Save the file and run the `pd publish` command again to update the action in your account.
@@ -190,7 +188,7 @@ Next, let's update the action in the workflow from the previous example and run 
 
    ![image-20210411164514490](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411164514490_qghbzf.png)
 
-2. After saving the workflow, you should see an input field appear. Enter a value for the `Name` input (e.g., `foo`). 
+2. After saving the workflow, you should see an input field appear. Enter a value for the `Name` input (e.g., `foo`).
    ![image-20210411165053922](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165053922_pckn5y.png)
 3. Deploy the workflow and click **RUN NOW**
 
@@ -201,7 +199,7 @@ You should see `hello foo!` (or the value you entered for `Name`) as the value r
 Next, we'll update the component to get data from the Star Wars API using the `axios` npm package. To use the `axios` package, just `import` it.
 
 ```javascript
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Action Demo",
@@ -213,12 +211,12 @@ export default {
     name: {
       type: "string",
       label: "Name",
-    }
+    },
   },
   async run() {
-    return `hello ${this.name}!`
+    return `hello ${this.name}!`;
   },
-}
+};
 ```
 
 ::: tip
@@ -231,7 +229,7 @@ Then, update the `run()` method to:
 - Reference the `name` field of the payload returned by the API
 
 ```javascript
-import axios from "axios"
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Action Demo",
@@ -243,19 +241,21 @@ export default {
     name: {
       type: "string",
       label: "Name",
-    }
+    },
   },
-  async run() {
-    const response = await axios.get("https://swapi.dev/api/people/1/")
-    return `hello ${response.data.name}!`
+  async run({ $ }) {
+    const data = await axios($, {
+      url: "https://swapi.dev/api/people/1/",
+    });
+    return `hello ${data.name}!`;
   },
-}
+};
 ```
 
 Next, remove the `name` prop since we're no longer using it.
 
 ```javascript
-import axios from "axios"
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Action Demo",
@@ -264,17 +264,19 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {},
-  async run() {
-    const response = await axios.get("https://swapi.dev/api/people/1/")
-    return `hello ${response.data.name}!`
+  async run({ $ }) {
+    const data = await axios($, {
+      url: "https://swapi.dev/api/people/1/",
+    });
+    return `hello ${data.name}!`;
   },
-}
+};
 ```
 
 Finally, update the version to `0.0.3`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-import axios from "axios"
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Action Demo",
@@ -283,11 +285,13 @@ export default {
   version: "0.0.3",
   type: "action",
   props: {},
-  async run() {
-    const response = await axios.get("https://swapi.dev/api/people/1/")
-		return `hello ${response.data.name}!`
+  async run({ $ }) {
+    const data = await axios($, {
+      url: "https://swapi.dev/api/people/1/",
+    });
+    return `hello ${data.name}!`;
   },
-}
+};
 ```
 
 Save the file and run the `pd publish` command again to update the action in your account.
@@ -316,13 +320,13 @@ export default {
   version: "0.0.3",
   type: "action",
   async run() {},
-}
+};
 ```
 
 Next, import Github's `octokit` npm package
 
 ```javascript
-import { Octokit } from '@octokit/rest';
+import { Octokit } from "@octokit/rest";
 
 export default {
   name: "Action Demo",
@@ -331,13 +335,13 @@ export default {
   version: "0.0.3",
   type: "action",
   async run() {},
-}
+};
 ```
 
 Then add an [app prop](/components/api/#app-props) to use Pipedream managed auth with this component. For this example, we'll add an app prop for Github:
 
 ```javascript
-import { Octokit } from '@octokit/rest';
+import { Octokit } from "@octokit/rest";
 
 export default {
   name: "Action Demo",
@@ -349,20 +353,20 @@ export default {
     github: {
       type: "app",
       app: "github",
-    }
+    },
   },
   async run() {},
-}
+};
 ```
 
 ::: tip
 The value for the `app` property is the name slug for the app in Pipedream. This is not currently discoverable, but it will be in the near future on app pages in the [Pipedream Marketplace](https://pipedream.com/explore). For the time being, if you want to know how to reference an app, please please [reach out](https://pipedream.com/community).
 :::
 
-Next, update the `run()` method to get a repo from Github and return it. For this example, we'll pass static values to get the `pipedreamhq/pipedream` repo. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the `$auth` property of the app prop — `this.github.$auth.oauth_access_token`. You can discover how to reference auth tokens in the **Authentication Strategy** section for each app in the [Pipedream Marketplace](https://pipedream.com/explore). 
+Next, update the `run()` method to get a repo from Github and return it. For this example, we'll pass static values to get the `pipedreamhq/pipedream` repo. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the `$auth` property of the app prop — `this.github.$auth.oauth_access_token`. You can discover how to reference auth tokens in the **Authentication Strategy** section for each app in the [Pipedream Marketplace](https://pipedream.com/explore).
 
 ```javascript
-import { Octokit } from '@octokit/rest';
+import { Octokit } from "@octokit/rest";
 
 export default {
   name: "Action Demo",
@@ -374,25 +378,27 @@ export default {
     github: {
       type: "app",
       app: "github",
-    }
+    },
   },
   async run() {
     const octokit = new Octokit({
-      auth: this.github.$auth.oauth_access_token
-    })
-    
-    return (await octokit.repos.get({
-      owner: `pipedreamhq`,
-      repo: `pipedream`,
-    })).data
+      auth: this.github.$auth.oauth_access_token,
+    });
+
+    return (
+      await octokit.rest.repos.get({
+        owner: `pipedreamhq`,
+        repo: `pipedream`,
+      })
+    ).data;
   },
-}
+};
 ```
 
 In order to help users understand what's happening with each action step, we recommend surfacing a brief summary with `$summary` ([read more](/components/api/#actions) about exporting data using `$.export`).
 
 ```javascript
-import { Octokit } from '@octokit/rest';
+import { Octokit } from "@octokit/rest";
 
 export default {
   name: "Action Demo",
@@ -404,30 +410,29 @@ export default {
     github: {
       type: "app",
       app: "github",
-    }
+    },
   },
   async run({ $ }) {
     const octokit = new Octokit({
-      auth: this.github.$auth.oauth_access_token
-    })
-    
-    const { data } = await octokit.repos.get({
+      auth: this.github.$auth.oauth_access_token,
+    });
+
+    const { data } = await octokit.rest.repos.get({
       owner: `pipedreamhq`,
       repo: `pipedream`,
-    })
+    });
 
-    $.export("$summary", `Successfully fetched info for \`${data.full_name}\``)
-    
+    $.export("$summary", `Successfully fetched info for \`${data.full_name}\``);
+
     return data;
   },
-}
+};
 ```
-
 
 Finally, update the version to `0.0.4`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-import { Octokit } from '@octokit/rest';
+import { Octokit } from "@octokit/rest";
 
 export default {
   name: "Action Demo",
@@ -439,23 +444,23 @@ export default {
     github: {
       type: "app",
       app: "github",
-    }
+    },
   },
   async run({ $ }) {
     const octokit = new Octokit({
-      auth: this.github.$auth.oauth_access_token
-    })
-    
-    const { data } = await octokit.repos.get({
+      auth: this.github.$auth.oauth_access_token,
+    });
+
+    const { data } = await octokit.rest.repos.get({
       owner: `pipedreamhq`,
       repo: `pipedream`,
-    })
+    });
 
-    $.export("$summary", `Successfully fetched info for \`${data.full_name}\``)
-    
+    $.export("$summary", `Successfully fetched info for \`${data.full_name}\``);
+
     return data;
   },
-}
+};
 ```
 
 Save the file and run the `pd publish` command again to update the action in your account.
@@ -482,4 +487,3 @@ Select an existing account or connect a new one, and then deploy your workflow a
 You're ready to start authoring and publishing actions on Pipedream! You can also check out the [detailed component reference](/components/api/#component-api) at any time!
 
 If you have any questions or feedback, please [reach out](https://pipedream.com/community)!
-

@@ -1,9 +1,9 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
-import isNil from "lodash/isNil.js";
 import isArray from "lodash/isArray.js";
-import isString from "lodash/isString.js";
 import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
+import isString from "lodash/isString.js";
 import { promisify } from "util";
 import {
   ITEM_TYPES,
@@ -20,13 +20,14 @@ export default {
     market: {
       type: "string",
       label: "Market",
-      description: "Search for a country with \"Structured Mode\" enabled or enter the specific [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) with \"Structured Mode\" disabled.",
+      description: "Type to search for a country or enter a custom expression to specify the [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).",
       options: Countries,
     },
     playlistTracksUris: {
       type: "string[]",
       label: "Tracks",
-      description: "Select tracks or episodes to remove with \"Structured Mode\" enabled, or reference specific [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 URIs can be sent at once.",
+      description: "Select tracks or episodes to remove, or enter a custom expression to reference specific [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 URIs can be sent at once.",
+      withLabel: true,
       async options({
         page, playlistId,
       }) {
@@ -38,23 +39,18 @@ export default {
         });
 
         return {
-          options: items.map((item) => {
-            const label = this.getItemOptionLabel(item.track);
-            return {
-              label,
-              value: {
-                label,
-                value: item.track.uri,
-              },
-            };
-          }),
+          options: items.map((item) => ({
+            label: this.getItemOptionLabel(item.track),
+            value: item.track.uri,
+          })),
         };
       },
     },
     savedUserTracksId: {
       type: "string[]",
       label: "Track ID",
-      description: "Search saved user tracks in \"Liked Songs\" with \"Structure Mode\" enabled, or reference specific [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. Maximum: 50 IDs.",
+      description: "Search saved user tracks in \"Liked Songs\" or enter a custom expression to reference specific [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. Maximum: 50 IDs.",
+      withLabel: true,
       async options({ page }) {
         const limit = 20;
         const items = await this.getUserTracks({
@@ -63,24 +59,19 @@ export default {
         });
 
         return {
-          options: items.map((item) => {
-            const label = this.getItemOptionLabel(item.track);
-            return {
-              label,
-              value: {
-                label,
-                value: item.track.id,
-              },
-            };
-          }),
+          options: items.map((item) => ({
+            label: this.getItemOptionLabel(item.track),
+            value: item.track.id,
+          })),
         };
       },
     },
     artistId: {
       type: "string",
       label: "Artist ID",
-      description: "Search for any artist on Spotify with \"Structured Mode\" enabled or enter an artist's [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `43ZHCT0cAZBISjO8DG9PnE`).",
+      description: "Type to search for any artist on Spotify or enter a custom expression to specify an artist's [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `43ZHCT0cAZBISjO8DG9PnE`).",
       useQuery: true,
+      withLabel: true,
       async options({
         query,
         page,
@@ -95,10 +86,7 @@ export default {
         return {
           options: artists.map((artist) => ({
             label: artist.name,
-            value: {
-              label: artist.name,
-              value: artist.id,
-            },
+            value: artist.id,
           })),
         };
       },
@@ -106,7 +94,8 @@ export default {
     playlistId: {
       type: "string",
       label: "Playlist ID",
-      description: "Select an existing playlist with \"Structured Mode\" enabled, or reference a specific [`playlist_id`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `3cEYpjA9oz9GiPac4AsH4n`).",
+      description: "Select an existing playlist or pass a custom expression to reference a specific [`playlist_id`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `3cEYpjA9oz9GiPac4AsH4n`).",
+      withLabel: true,
       async options({ page }) {
         const limit = 20;
         const playlists = await this.getPlaylists({
@@ -116,10 +105,7 @@ export default {
         return {
           options: playlists.map((playlist) => ({
             label: playlist.name,
-            value: {
-              label: playlist.name,
-              value: playlist.id,
-            },
+            value: playlist.id,
           })),
         };
       },
@@ -127,7 +113,8 @@ export default {
     categoryId: {
       type: "string",
       label: "Category ID",
-      description: "Search for a category with \"Structured Mode\" enabled, or reference a specific [category ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `party`).",
+      description: "Type to search for a category or enter a custom expression to reference a specific [category ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `party`).",
+      withLabel: true,
       async options({ page }) {
         const limit = 20;
         const categories = await this.getCategories({
@@ -137,10 +124,7 @@ export default {
         return {
           options: categories.map((category) => ({
             label: category.name,
-            value: {
-              label: category.name,
-              value: category.id,
-            },
+            value: category.id,
           })),
         };
       },
@@ -148,8 +132,9 @@ export default {
     trackId: {
       type: "string",
       label: "Track ID",
-      description: "Search for any track on Spotify with \"Structured Mode\" enabled, or reference a specific [track ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `4iV5W9uYEdYUVa79Axb7Rh`).",
+      description: "Type to search for any track or artist on Spotify, or enter a custom expression to reference a specific [track ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `4iV5W9uYEdYUVa79Axb7Rh`).",
       useQuery: true,
+      withLabel: true,
       async options({
         query,
         page,
@@ -162,24 +147,19 @@ export default {
           limit * page,
         );
         return {
-          options: tracks.map((track) => {
-            const label = this.getItemOptionLabel(track);
-            return {
-              label,
-              value: {
-                label,
-                value: track.id,
-              },
-            };
-          }),
+          options: tracks.map((track) => ({
+            label: this.getItemOptionLabel(track),
+            value: track.id,
+          })),
         };
       },
     },
     uris: {
       type: "string[]",
       label: "Track or Episode URIs",
-      description: "Search for any tracks or episodes on Spotify with \"Structured Mode\" enabled, or reference the specific [track or episode URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 items can be added in one request.",
+      description: "Type to search for any tracks or episodes on Spotify, or enter a custom expression to reference specific [track or episode URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 items can be added in one request.",
       useQuery: true,
+      withLabel: true,
       async options({
         query,
         page,
@@ -195,16 +175,10 @@ export default {
           limit * page,
         );
         return {
-          options: items.map((item) => {
-            const label = this.getItemOptionLabel(item);
-            return {
-              label,
-              value: {
-                label,
-                value: item.uri,
-              },
-            };
-          }),
+          options: items.map((item) => ({
+            label: this.getItemOptionLabel(item),
+            value: item.uri,
+          })),
         };
       },
     },
@@ -222,6 +196,14 @@ export default {
       optional: true,
       min: 1,
       max: 100,
+    },
+    genres: {
+      type: "string[]",
+      label: "Seed Genres",
+      description: "An array of genres. Up to 5 seed values may be provided in any combination of `seedArtists`, `seedTracks` and `seedGenres`.",
+      async options() {
+        return this.getGenres();
+      },
     },
   },
   methods: {
@@ -320,8 +302,10 @@ export default {
     async retry(config, retries = 3) {
       let response;
       try {
-        response = await axios(config);
-        return response;
+        return await axios(this, {
+          ...config,
+          returnFullResponse: true,
+        });
       } catch (err) {
         if (retries <= 1) {
           throw new Error(err);
@@ -372,6 +356,12 @@ export default {
         return item.name;
       }
     },
+    async getPlaylist({
+      playlistId, params,
+    }) {
+      const res = await this._makeRequest("GET", `/playlists/${playlistId}`, params);
+      return get(res, "data", {});
+    },
     async getPlaylists(params) {
       const res = await this._makeRequest("GET", "/me/playlists", params);
       return get(res, "data.items", null);
@@ -388,6 +378,61 @@ export default {
       const { playlistId } = params;
       const res = await this._makeRequest("GET", `/playlists/${playlistId}/tracks`, params);
       return get(res, "data.items", []);
+    },
+    async getGenres() {
+      const { data } = await this._makeRequest("GET", "/recommendations/available-genre-seeds");
+      return data.genres;
+    },
+    async getRecommendations(params) {
+      const { data } = await this._makeRequest("GET", "/recommendations", params);
+      return data;
+    },
+    async fetchChunksOfAlbumsIds({
+      artistId,
+      market,
+    }) {
+      const albums = [];
+      const limit = 20;
+      let page = 0;
+      let next = undefined;
+      do {
+        const { data } = await this._makeRequest(
+          "GET",
+          `/artists/${get(artistId, "value", artistId)}/albums`,
+          {
+            market,
+            limit,
+            offset: limit * page,
+            include_groups: "album,single",
+          },
+        );
+        albums.push([
+          ...data.items.map((album) => album.id),
+        ]);
+        next = data.next;
+        page++;
+      } while (next);
+      return albums;
+    },
+    async getAllTracksByChunksOfAlbumIds({
+      chunksOfAlbumIds,
+      market,
+    }) {
+      const tracks = [];
+      for (const albumIds of chunksOfAlbumIds) {
+        const { data } = await this._makeRequest(
+          "GET",
+          "/albums",
+          {
+            market,
+            ids: albumIds.join(","),
+          },
+        );
+        tracks.push([
+          ...data.albums.map((album) => album.tracks.items).flat(),
+        ]);
+      }
+      return tracks.flat();
     },
   },
 };

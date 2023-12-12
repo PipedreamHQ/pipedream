@@ -1,17 +1,23 @@
 {
-    "name": "@pipedream/snowflake",
-    "version": "0.3.3",
-    "description": "Pipedream Snowflake Components",
-    "main": "snowflake.app.js",
-    "keywords": [
-        "pipedream",
-        "snowflake"
-    ],
-    "homepage": "https://pipedream.com/apps/snowflake",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/snowflake",
+  "version": "0.9.3",
+  "description": "Pipedream Snowflake Components",
+  "main": "snowflake.app.mjs",
+  "keywords": [
+    "pipedream",
+    "snowflake"
+  ],
+  "homepage": "https://pipedream.com/apps/snowflake",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0",
+    "asn1.js": "^5.0.0",
+    "lodash-es": "^4.17.21",
+    "snowflake-sdk": "^1.6.10",
+    "uuid": "^8.3.2"
+  }
 }

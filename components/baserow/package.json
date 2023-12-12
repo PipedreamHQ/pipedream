@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/baserow",
+  "version": "0.0.4",
+  "description": "Pipedream Baserow Components",
+  "main": "dist/app/baserow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "baserow"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/baserow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1",
+    "@pipedream/types": "^0.1.4"
+  }
+}

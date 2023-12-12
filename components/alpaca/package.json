@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/alpaca",
+  "version": "0.0.2",
+  "description": "Pipedream Alpaca Components",
+  "main": "alpaca.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alpaca"
+  ],
+  "homepage": "https://pipedream.com/apps/alpaca",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/detrack",
+  "version": "0.0.4",
+  "description": "Pipedream Detrack Components",
+  "main": "dist/app/detrack.app.mjs",
+  "keywords": [
+    "pipedream",
+    "detrack"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/detrack",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0",
+    "@pipedream/types": "^0.1.4"
+  }
+}

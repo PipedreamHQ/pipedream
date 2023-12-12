@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/dots_",
+  "version": "0.0.3",
+  "description": "Pipedream Dots! Components",
+  "main": "dist/app/dots_.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dots_"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/dots_",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

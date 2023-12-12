@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/godial",
+  "version": "0.0.4",
+  "description": "Pipedream GoDial Components",
+  "main": "app/godial.app.mjs",
+  "keywords": [
+    "pipedream",
+    "godial"
+  ],
+  "homepage": "https://pipedream.com/apps/godial",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

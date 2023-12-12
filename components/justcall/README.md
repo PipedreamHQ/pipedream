@@ -1,0 +1,2 @@
+# Overview
+The JustCall API allows developers to integrate JustCall’s cloud phone and SMS features into their own applications. With the API, developers can manage calls, make and receive texts, create contacts, and much more. 

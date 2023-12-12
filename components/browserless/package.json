@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/browserless",
+  "version": "0.1.1",
+  "description": "Pipedream Browserless Components",
+  "main": "browserless.app.mjs",
+  "keywords": [
+    "pipedream",
+    "browserless"
+  ],
+  "homepage": "https://pipedream.com/apps/browserless",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "puppeteer-core": "^19.7.5"
+  }
+}

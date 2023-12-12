@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/survey_monkey",
+  "version": "0.0.3",
+  "description": "Pipedream SurveyMonkey Components",
+  "main": "survey_monkey.app.mjs",
+  "keywords": [
+    "pipedream",
+    "survey_monkey"
+  ],
+  "homepage": "https://pipedream.com/apps/survey-monkey",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2",
+    "@pipedream/platform": "^0.9.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/clevertap",
+  "version": "0.1.0",
+  "description": "Pipedream CleverTap Components",
+  "main": "clevertap.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clevertap"
+  ],
+  "homepage": "https://pipedream.com/apps/clevertap",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

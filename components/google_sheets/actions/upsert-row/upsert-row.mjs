@@ -21,7 +21,7 @@ export default {
   key: "google_sheets-upsert-row",
   name: "Upsert Row",
   description: "Upsert a row of data in a Google Sheet",
-  version: "0.0.1",
+  version: "0.1.2",
   type: "action",
   props: {
     googleSheets,
@@ -30,8 +30,6 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "",
-      optional: true,
     },
     sheetId: {
       propDefinition: [
@@ -61,7 +59,7 @@ export default {
         Insert statement: the row data you want to add to the Google sheet if the key *doesn't*
         exist. If the key *does* exist and **Update** is not set, the row will be updated using
         this array.
-        Use structured mode to enter individual cell values. Disable structured mode to pass an
+        Enter individual cell values or enter a custom expression to pass an
         array with each element representing a cell/column value (e.g. \`{{ [5, "test"] }}\`).
       `),
     },
@@ -84,10 +82,10 @@ export default {
       label: "Update - Column / Values",
       description: toSingleLineString(`
         Update statment: if the spreadsheet contains duplicate key **Value** in some row in
-        specified **Column**, individual cells in the *first* duplicate row will be updated using
+        the specified **Column**, individual cells in the *first* duplicate row will be updated using
         this object's column-value pairs.<br />
         Enter the column name for the key (e.g. \`B\`) and the corresponding column value (e.g.
-        \`test\`). You may also disable structured mode to pass a JSON object with key/value pairs
+        \`test\`). You may also enter a custom expression and pass a JSON object with key/value pairs
         representing columns and values (e.g. \`{{ { A: 5, B: "test" } }}\`).
       `),
       optional: true,
@@ -161,7 +159,7 @@ export default {
         }),
         deleteSheetPromise,
       ]));
-      $.export("$summary", `Cound't find the key, "${keyValue}", so inserted new row: "${insert}"`);
+      $.export("$summary", `Couldn't find the key, "${keyValue}", so inserted new row: "${insert}"`);
       return result;
     }
 

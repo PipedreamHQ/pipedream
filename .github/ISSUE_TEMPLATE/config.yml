@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Pipedream Community Support
+    url: https://pipedream.com/support
+    about: Please ask and answer questions here.
+  - name: GitHub Security Bug Bounty
+    url: https://pipedream.com/docs/privacy-and-security/#reporting-a-vulnerability
+    about: Please report security vulnerabilities here.

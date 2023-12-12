@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/google_palm_api",
+  "version": "0.0.3",
+  "description": "Pipedream Google PaLM Components",
+  "main": "google_palm_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_palm_api"
+  ],
+  "homepage": "https://pipedream.com/apps/google_palm_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@google-ai/generativelanguage": "^0.2.0",
+    "google-auth-library": "^8.8.0"
+  }
+}

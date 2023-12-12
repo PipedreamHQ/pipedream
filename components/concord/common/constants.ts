@@ -1,0 +1,34 @@
+export const AGREEMENT_STATUS_OPTIONS = [
+  "DRAFT",
+  "TEMPLATE",
+  "CONTRACT",
+];
+
+export const AGREEMENT_PATCH_STATUS_OPTIONS = [
+  "SIGNING",
+  "BROKEN",
+];
+
+export const AGREEMENT_PARAMETERS_SOURCE = [
+  "NONE",
+  "EXCEL",
+  "SALESFORCE",
+];
+
+export const AGREEMENT_LIST_STATUSES = [
+  "DRAFT",
+  "VALIDATION",
+  "NEGOTIATION",
+  "SIGNING",
+  "UNKNOWN_CONTRACT",
+  "FUTURE_CONTRACT",
+  "CURRENT_CONTRACT",
+  "COMPLETED_CONTRACT",
+  "COMPLETED_CANCEL_CONTRACT",
+  "COMPLETED_CONTRACT_RENEWABLE",
+  "BROKEN",
+  // "TRASHED", // listed in the API documentation, but when included the endpoints returns no results
+  "NEGO_INVITE",
+  "TEMPLATE",
+  "TEMPLATE_AUTO",
+];

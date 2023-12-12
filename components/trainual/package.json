@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/trainual",
+  "version": "0.0.2",
+  "description": "Pipedream Trainual Components",
+  "main": "dist/app/trainual.app.mjs",
+  "keywords": [
+    "pipedream",
+    "trainual"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/trainual",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/woxo",
+  "version": "0.0.4",
+  "description": "Pipedream WOXO Components",
+  "main": "woxo.app.js",
+  "keywords": [
+    "pipedream",
+    "woxo"
+  ],
+  "homepage": "https://pipedream.com/apps/woxo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

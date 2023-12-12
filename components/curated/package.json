@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/curated",
+  "version": "0.0.5",
+  "description": "Pipedream Curated Components",
+  "main": "curated.app.mjs",
+  "keywords": [
+    "pipedream",
+    "curated"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/curated",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

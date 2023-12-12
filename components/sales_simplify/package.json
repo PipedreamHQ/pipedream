@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sales_simplify",
+  "version": "0.0.4",
+  "description": "Pipedream Sales Simplify Components",
+  "main": "dist/app/sales_simplify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sales_simplify"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/sales_simplify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

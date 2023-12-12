@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/float",
+  "version": "0.0.2",
+  "description": "Pipedream Float Components",
+  "main": "dist/app/float.app.mjs",
+  "keywords": [
+    "pipedream",
+    "float"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/float",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

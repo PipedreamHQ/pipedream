@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sapling_ai",
+  "version": "0.1.1",
+  "description": "Pipedream Sapling.ai Components",
+  "main": "sapling_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sapling_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/sapling_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

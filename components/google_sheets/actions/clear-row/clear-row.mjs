@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-clear-row",
   name: "Clear Row",
   description: "Delete the content of a row in a spreadsheet. Deleted rows will appear as blank rows.",
-  version: "0.0.2",
+  version: "0.1.2",
   type: "action",
   props: {
     googleSheets,
@@ -13,7 +13,7 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "The drive containing the spreadsheet to edit",
+      description: "The drive containing the spreadsheet to edit. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
     },
     sheetId: {
       propDefinition: [

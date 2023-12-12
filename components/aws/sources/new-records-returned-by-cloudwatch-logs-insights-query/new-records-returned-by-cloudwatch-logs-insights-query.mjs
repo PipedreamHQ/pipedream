@@ -1,40 +1,33 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-cloudwatch-logs.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
+  ...common,
   key: "aws-new-records-returned-by-cloudwatch-logs-insights-query",
   name: "New Records Returned by CloudWatch Logs Insights Query",
   // eslint-disable-next-line pipedream/source-description
-  description:
-    "Executes a CloudWatch Logs Insights query on a schedule, and emits the records as invidual events (default) or in batch",
-  version: "0.1.0",
+  description: "Executes a CloudWatch Logs Insights query on a schedule, and emits the records as invidual events (default) or in batch",
+  version: "0.2.1",
   type: "source",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
     db: "$.service.db",
+    // eslint-disable-next-line pipedream/props-label
     logGroupNames: {
+      ...common.props.logGroupName,
+      type: "string[]",
       description: "The log groups you'd like to query",
-      propDefinition: [
-        aws,
-        "logGroupNames",
-      ],
     },
     queryString: {
       label: "Logs Insights Query",
-      description:
-        "The query you'd like to run. See [this AWS doc](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html) for help with query syntax",
+      description: "The query you'd like to run. See [this AWS doc](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html) for help with query syntax",
       type: "string",
     },
     emitResultsInBatch: {
       type: "boolean",
       label: "Emit query results as a single event",
-      description:
-        "If `true`, all events are emitted as an array, within a single Pipedream event. If `false`, each row of results is emitted as its own event. Defaults to `true`",
+      description: "If `true`, all events are emitted as an array, within a single Pipedream event. If `false`, each row of results is emitted as its own event. Defaults to `true`",
       optional: true,
       default: true,
     },
@@ -43,16 +36,13 @@ export default {
       description: "How often you want to query CloudWatch Logs Insights for results",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 5 * 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
   async run() {
     const now = +new Date();
     const startTime = this.db.get("startTime") || now - 1000 * 60 * 60;
-
-    const AWS = this.aws.sdk(this.region);
-    const cloudwatchlogs = new AWS.CloudWatchLogs();
 
     // First, start the query
     const params = {
@@ -62,7 +52,7 @@ export default {
       logGroupNames: this.logGroupNames,
     };
 
-    const { queryId } = await cloudwatchlogs.startQuery(params).promise();
+    const { queryId } = await this.startQuery(params);
 
     // Then poll for its status, emitting each record as its own event when completed
     async function sleep(ms) {
@@ -72,9 +62,9 @@ export default {
     let result, res;
     do {
       await sleep(1000);
-      res = await cloudwatchlogs.getQueryResults({
+      res = await this.getQueryResults({
         queryId,
-      }).promise();
+      });
       result = res.status;
     } while (result === "Running" || result === "Scheduled");
 

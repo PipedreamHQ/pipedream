@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/wesupply",
+  "version": "0.0.2",
+  "description": "Pipedream WeSupply Components",
+  "main": "wesupply.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wesupply"
+  ],
+  "homepage": "https://pipedream.com/apps/wesupply",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

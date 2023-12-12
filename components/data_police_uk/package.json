@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/data_police_uk",
+  "version": "0.0.2",
+  "description": "Pipedream Data.Police.UK Components",
+  "main": "data_police_uk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "data_police_uk"
+  ],
+  "homepage": "https://pipedream.com/apps/data_police_uk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/wachete",
+  "version": "0.0.1",
+  "description": "Pipedream Wachete Components",
+  "main": "dist/app/wachete.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wachete"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/wachete",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

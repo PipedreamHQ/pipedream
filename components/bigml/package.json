@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/bigml",
+  "version": "0.0.3",
+  "description": "Pipedream BigML Components",
+  "main": "bigml.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bigml"
+  ],
+  "homepage": "https://pipedream.com/apps/bigml",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  }
+}

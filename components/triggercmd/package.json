@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/triggercmd",
+  "version": "0.0.4",
+  "description": "Pipedream TRIGGERcmd Components",
+  "main": "dist/app/triggercmd.app.mjs",
+  "keywords": [
+    "pipedream",
+    "triggercmd"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/triggercmd",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

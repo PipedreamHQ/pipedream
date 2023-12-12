@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/hellosign",
+  "version": "0.0.1",
+  "description": "Pipedream Hellosign Components",
+  "main": "hellosign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hellosign"
+  ],
+  "homepage": "https://pipedream.com/apps/hellosign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

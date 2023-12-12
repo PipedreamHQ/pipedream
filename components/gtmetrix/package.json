@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/gtmetrix",
+  "version": "0.0.1",
+  "description": "Pipedream GTmetrix Components",
+  "main": "dist/app/gtmetrix.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gtmetrix"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/gtmetrix",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

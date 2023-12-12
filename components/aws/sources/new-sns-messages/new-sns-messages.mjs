@@ -1,5 +1,7 @@
 import base from "../common/sns.mjs";
-import { toSingleLineString } from "../common/utils.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
+import commonSNS from "../../common/common-sns.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...base,
@@ -9,11 +11,15 @@ export default {
     Creates an SNS topic in your AWS account.
     Messages published to this topic are emitted from the Pipedream source.
   `),
-  version: "0.2.0",
+  version: "0.4.1",
   type: "source",
   dedupe: "unique", // Dedupe on SNS message ID
   props: {
     ...base.props,
+    topicArn: {
+      ...commonSNS.props.topic,
+      optional: true,
+    },
     topic: {
       label: "SNS Topic Name",
       description: toSingleLineString(`
@@ -22,6 +28,7 @@ export default {
         name](https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html).
       `),
       type: "string",
+      optional: true,
     },
   },
   methods: {
@@ -29,5 +36,19 @@ export default {
     getTopicName() {
       return this.convertNameToValidSNSTopicName(this.topic);
     },
+  },
+  async run(event) {
+    if (!this.topicArn && !this.topic) {
+      throw new ConfigurationError("Must specify either an existing topic or a new topic name");
+    }
+
+    if (this._isSubscriptionConfirmationEvent(event)) {
+      const { body } = event;
+      const subscriptionArn = await this._confirmSubscription(body);
+      this._setSubscriptionArn(subscriptionArn);
+      return;
+    }
+
+    await this.processEvent(event);
   },
 };

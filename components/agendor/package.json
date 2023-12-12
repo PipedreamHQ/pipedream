@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/agendor",
+  "version": "0.1.0",
+  "description": "Pipedream Agendor Components",
+  "main": "dist/app/agendor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "agendor"
+  ],
+  "homepage": "https://pipedream.com/apps/agendor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

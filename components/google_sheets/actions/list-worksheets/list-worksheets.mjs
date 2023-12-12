@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-list-worksheets",
   name: "List Worksheets",
   description: "Get a list of all worksheets in a spreadsheet",
-  version: "0.0.2",
+  version: "0.1.2",
   type: "action",
   props: {
     googleSheets,
@@ -13,7 +13,7 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "The drive to select a spreadsheet from",
+      description: "The drive to select a spreadsheet from. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
     },
     sheetId: {
       propDefinition: [

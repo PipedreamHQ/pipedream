@@ -1,14 +1,14 @@
 # REST API Example: Webhooks
 
-Pipedream supports webhooks as a way to deliver events to a endpoint you own. Webhooks are managed at an account-level, and you send data to these webhooks using [subscriptions](#subscriptions).
+Pipedream supports webhooks as a way to deliver events to a endpoint you own. Webhooks are managed at an account-level, and you send data to these webhooks using [subscriptions](/api/rest/#subscriptions).
 
-For example, you can run a Twitter [event source](/event-sources) that listens for new tweets. If you [subscribe](#subscriptions) the webhook to this source, Pipedream will deliver those tweets directly to your webhook's URL without running a workflow. 
+For example, you can run a Twitter [event source](/sources/) that listens for new tweets. If you [subscribe](/api/rest/#subscriptions) the webhook to this source, Pipedream will deliver those tweets directly to your webhook's URL without running a workflow. 
 
 [[toc]]
 
 ## Send events from an existing event source to a webhook
 
-[Event sources](/event-sources) source data from a service / API, emitting events that can trigger Pipedream workflows. For example, you can run a Github event source that emits an event anytime someone stars your repo, triggering a workflow on each new star.
+[Event sources](/sources/) source data from a service / API, emitting events that can trigger Pipedream workflows. For example, you can run a Github event source that emits an event anytime someone stars your repo, triggering a workflow on each new star.
 
 **You can also send the events emitted by an event source to a webhook**.
 
@@ -37,7 +37,7 @@ You can create a webhook using the [`POST /webhooks` endpoint](/api/rest/#create
 You can make a request to this endpoint using `cURL`:
 
 ```bash
-curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description \
+curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description" \
   -X POST \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json"

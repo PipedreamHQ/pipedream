@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/inoreader",
+  "version": "0.1.0",
+  "description": "Pipedream Inoreader Components",
+  "main": "inoreader.app.mjs",
+  "keywords": [
+    "pipedream",
+    "inoreader"
+  ],
+  "homepage": "https://pipedream.com/apps/inoreader",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

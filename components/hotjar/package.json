@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/hotjar",
+  "version": "0.0.1",
+  "description": "Pipedream Hotjar Components",
+  "main": "dist/app/hotjar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hotjar"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/hotjar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

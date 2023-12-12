@@ -5,8 +5,9 @@ module.exports = {
   key: "stripe-update-invoice-item",
   name: "Update Invoice Line Item",
   type: "action",
-  version: "0.0.1",
-  description: "Update an invoice line item",
+  version: "0.0.2",
+  description: "Update an invoice line item. [See the " +
+    "docs](https://stripe.com/docs/api/invoiceitems/update) for more information",
   props: {
     stripe,
     // Used to filter subscription and invoice options
@@ -21,6 +22,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "subscription",
+        ({ customer }) => ({
+          customer,
+        }),
       ],
     },
     // Used to populate invoice item options
@@ -28,12 +32,21 @@ module.exports = {
       propDefinition: [
         stripe,
         "invoice",
+        ({
+          customer, subscription,
+        }) => ({
+          customer,
+          subscription,
+        }),
       ],
     },
     id: {
       propDefinition: [
         stripe,
         "invoice_item",
+        ({ invoice }) => ({
+          invoice,
+        }),
       ],
       optional: false,
     },
@@ -74,8 +87,8 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.stripe.sdk().invoiceItems.update(this.id, {
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().invoiceItems.update(this.id, {
       ...pick(this, [
         "amount",
         "currency",
@@ -85,5 +98,7 @@ module.exports = {
       ]),
       ...this.advanced,
     });
+    $.export("$summary", `Successfully updated the invoice item, "${resp.description || resp.id}"`);
+    return resp;
   },
 };

@@ -1,0 +1,37 @@
+{
+  "name": "@pipedream/types",
+  "version": "0.2.0",
+  "description": "Pipedream TypeScript types",
+  "keywords": [
+    "pipedream",
+    "typescript",
+    "types"
+  ],
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "files": [
+    "package.json",
+    "dist/**/*"
+  ],
+  "prepublish": "test && tsc",
+  "homepage": "https://github.com/PipedreamHQ/pipedream",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^20.9.2",
+    "dtslint": "^4.2.1"
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "prepublish": "rm -rf dist && tsc",
+    "build": "tsc",
+    "postbuild": "cp tsconfig.json dist",
+    "test": "npm run build && dtslint dist"
+  },
+  "dependencies": {
+    "typescript": "^5.2.2"
+  }
+}

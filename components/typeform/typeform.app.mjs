@@ -1,5 +1,5 @@
-import { axios } from "@pipedreamhq/platform";
-import constants from "./actions/constants.mjs";
+import { axios } from "@pipedream/platform";
+import constants from "./constants.mjs";
 
 export default {
   type: "app",
@@ -8,25 +8,20 @@ export default {
     formId: {
       type: "string",
       label: "Form",
-      description: "Form ID",
+      description: "Unique ID for the form, which you can find in your form URL. For example, in the URL, `https://mysite.typeform.com/to/u6nXL7`, the form_id is `u6nXL7`.",
       async options({ page }) {
-        try {
-          const { items } = await this.getForms({
-            params: {
-              page: page + 1, // pipedream page 0-indexed, typeform is 1
-              page_size: 10,
-            },
-          });
-          return items.map((form) => {
-            return {
-              label: form.title,
-              value: form.id,
-            };
-          });
-
-        } catch (error) {
-          throw new Error(error);
-        }
+        const { items } = await this.getForms({
+          params: {
+            page: page + 1, // pipedream page 0-indexed, typeform is 1
+            page_size: 10,
+          },
+        });
+        return items.map((form) => {
+          return {
+            label: form.title,
+            value: form.id,
+          };
+        });
       },
     },
     search: {
@@ -38,7 +33,7 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page size",
-      description: "Maximum number of responses. Maximum value is 1000. If your typeform has more than 1000 responses, use the `since/until` or `before/after` parameters to narrow the scope of your request.",
+      description: "Maximum number of responses. Maximum value is 1000. If your typeform has more than 1000 responses, use the `since`/`until` or `before`/`after` parameters to narrow the scope of your request.",
       optional: true,
       default: 25,
     },
@@ -52,25 +47,25 @@ export default {
     since: {
       type: "string",
       label: "Since",
-      description: "Limit request to responses submitted since the specified date and time. Could be passed as int (timestamp in seconds) or in ISO 8601 format, UTC time, to the second, with `T` as a delimiter between the date and time `(2020-03-20T14:00:59)`.",
+      description: "Limit request to responses submitted since the specified date and time. Could be passed as int (timestamp in seconds) or in ISO 8601 format, UTC time, to the second, with `T` as a delimiter between the date and time (`2020-03-20T14:00:59`).",
       optional: true,
     },
     until: {
       type: "string",
       label: "Until",
-      description: "Limit request to responses submitted until the specified date and time. Could be passed as int (timestamp in seconds) or in ISO 8601 format, UTC time, to the second, with `T` as a delimiter between the date and time `(2020-03-20T14:00:59)`.",
+      description: "Limit request to responses submitted until the specified date and time. Could be passed as int (timestamp in seconds) or in ISO 8601 format, UTC time, to the second, with `T` as a delimiter between the date and time (`2020-03-20T14:00:59`).",
       optional: true,
     },
     after: {
       type: "string",
       label: "After",
-      description: "Limit request to responses submitted after the specified token. Could not be used together with `sort` parameter, as it sorts responses in the order that the system processed them `(submitted_at)`. This ensures that you can traverse the complete set of responses without repeating entries.",
+      description: "Limit request to responses submitted after the specified token. Could not be used together with `sort` parameter, as it sorts responses in the order that the system processed them (`submitted_at`). This ensures that you can traverse the complete set of responses without repeating entries.",
       optional: true,
     },
     before: {
       type: "string",
       label: "Before",
-      description: "Limit request to responses submitted after the specified token. Could not be used together with `sort` parameter, as it sorts responses in the order that the system processed them `(submitted_at)`. This ensures that you can traverse the complete set of responses without repeating entries.",
+      description: "Limit request to responses submitted before the specified token. Could not be used together with `sort` parameter, as it sorts responses in the order that the system processed them (`submitted_at`). This ensures that you can traverse the complete set of responses without repeating entries.",
       optional: true,
     },
     title: {
@@ -84,67 +79,50 @@ export default {
       description: "URL of the workspace to use for the typeform. If you don't specify a URL for the workspace, Typeform saves the form in the default workspace.",
       optional: true,
       async options({ page }) {
-        try {
-          const { items } = await this.getWorkspaces({
-            params: {
-              page_size: 10,
-              page: page + 1, // pipedream page 0-indexed, github is 1
-            },
-          });
+        const { items } = await this.getWorkspaces({
+          params: {
+            page_size: 10,
+            page: page + 1, // pipedream page 0-indexed, github is 1
+          },
+        });
 
-          return items.map(({
-            name, self,
-          }) => ({
-            label: name,
-            value: self.href,
-          }));
-
-        } catch (error) {
-          throw new Error(error);
-        }
+        return items.map(({
+          name, self,
+        }) => ({
+          label: name,
+          value: self.href,
+        }));
       },
     },
-    field: {
+    fieldId: {
       type: "string",
       label: "Field",
       description: "Unique ID for the field",
       async options({
-        formId, allowedFields = constants.ALL_FIELD_TYPES, returnFieldObject,
+        formId, allowedFields = constants.ALL_FIELD_TYPES,
       }) {
-        try {
-          const { fields } =
-            await this.getForm({
-              formId,
-            });
+        const { fields } =
+          await this.getForm({
+            formId,
+          });
 
-          if (!fields) {
-            return [];
+        if (!fields) {
+          return [];
+        }
+
+        return fields.reduce((reduction, field) => {
+          if (!allowedFields.includes(field.type)) {
+            return reduction;
           }
 
-          return fields.reduce((reduction, field) => {
-            if (!allowedFields.includes(field.type)) {
-              return reduction;
-            }
-
-            const value =
-              returnFieldObject
-                ? JSON.stringify(field)
-                : field.id;
-
-            const option = {
+          return [
+            ...reduction,
+            {
               label: field.title,
-              value,
-            };
-
-            return [
-              ...reduction,
-              option,
-            ];
-          }, []);
-
-        } catch (error) {
-          throw new Error(error);
-        }
+              value: field.id,
+            },
+          ];
+        }, []);
       },
     },
     query: {
@@ -159,24 +137,40 @@ export default {
       async options({
         page, formId, fieldId,
       }) {
-        try {
-          const { items: responses } = await this.getResponses({
-            formId,
-            params: {
-              answered_fields: fieldId,
-              page_size: 20,
-              page: page + 1,
-            },
-          });
+        const { items: responses } = await this.getResponses({
+          formId,
+          params: {
+            answered_fields: fieldId,
+            page_size: 20,
+            page: page + 1,
+          },
+        });
 
-          return responses.map((response) => ({
-            label: response.response_id,
-            value: response.response_id,
-          }));
+        return responses.map((response) => ({
+          label: response.response_id,
+          value: response.response_id,
+        }));
+      },
+    },
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "Retrieve typeforms for the specified workspace.",
+      optional: true,
+      async options({ page }) {
+        const { items } = await this.getWorkspaces({
+          params: {
+            page_size: 10,
+            page: page + 1, // pipedream page 0-indexed, github is 1
+          },
+        });
 
-        } catch (error) {
-          throw new Error(error);
-        }
+        return items.map(({
+          name, id,
+        }) => ({
+          label: name,
+          value: id,
+        }));
       },
     },
   },
@@ -189,8 +183,7 @@ export default {
         ...otherOpts
       } = opts;
 
-      const basePath = "https://api.typeform.com";
-      const baseUrl = `${basePath}${path}`;
+      const baseUrl = `${constants.BASE_URL}${path}`;
       const url = fileUrl ?? baseUrl;
 
       const authorization = `Bearer ${this.$auth.oauth_access_token}`;

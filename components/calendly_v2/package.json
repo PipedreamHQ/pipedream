@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/calendly_v2",
+  "version": "1.1.4",
+  "description": "Pipedream Calendly V2 Components",
+  "main": "calendly_v2.app.mjs",
+  "keywords": [
+    "pipedream",
+    "calendly"
+  ],
+  "homepage": "https://pipedream.com/apps/calendly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "url": "^0.11.0"
+  }
+}

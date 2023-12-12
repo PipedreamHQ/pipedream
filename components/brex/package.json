@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/brex",
+  "version": "0.1.0",
+  "description": "Pipedream Brex Components",
+  "main": "brex.app.js",
+  "keywords": [
+    "pipedream",
+    "brex"
+  ],
+  "homepage": "https://pipedream.com/apps/brex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2",
+    "@pipedream/platform": "^1.4.0"
+  }
+}

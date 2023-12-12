@@ -4,8 +4,9 @@ module.exports = {
   key: "stripe-retrieve-customer",
   name: "Retrieve a Customer",
   type: "action",
-  version: "0.0.1",
-  description: "Retrieves the details of an existing customer.",
+  version: "0.0.2",
+  description: "Retrieves the details of an existing customer. [See the " +
+    "docs](https://stripe.com/docs/api/customers/retrieve) for more information",
   props: {
     stripe,
     id: {
@@ -16,7 +17,9 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().customers.retrieve(this.id);
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().customers.retrieve(this.id);
+    $.export("$summary", `Successfully retrieved the customer, "${resp.id}"`);
+    return resp;
   },
 };

@@ -1,0 +1,15 @@
+{
+  "name": "imgur",
+  "version": "1.0.0",
+  "description": "The imgur app file for Pipedream action & trigger integrations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "imgur",
+    "api"
+  ],
+  "author": "Dylan Pierce <pierce@pipedream.com>",
+  "license": "ISC"
+}

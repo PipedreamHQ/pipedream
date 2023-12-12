@@ -1,11 +1,7 @@
+import commonApp from "./common-app.mjs";
+
 export default {
+  ...commonApp,
   type: "app",
   app: "brex",
-  propDefinitions: {},
-  methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-  },
 };

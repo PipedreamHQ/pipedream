@@ -5,11 +5,11 @@ next: false
 
 # Limits
 
-Pipedream imposes limits on source and workflow execution, the events you send to Pipedream, and other properties. You'll receive an [error](/errors/) if you encounter these limits. 
+Pipedream imposes limits on source and workflow execution, the events you send to Pipedream, and other properties. You'll receive an error if you encounter these limits. See our [troubleshooting guide](/troubleshooting/) for more information on these specific errors.
 
-Some of these limits apply only on the free tier. For example, Pipedream limits the daily number of invocations and execution time you can use on the free tier. **On paid tiers, you can run an unlimited number of invocations, for any amount of execution time**.
+Some of these limits apply only on the free tier. For example, Pipedream limits the daily number of credits and active workflows you can use on the free tier. **On paid tiers, you can run an unlimited number of credits per day, for any amount of execution time**.
 
-Other limits apply to both the free and paid tiers, but many can be raised upon request. Please see the details on each limit below.
+Other limits apply across the free and paid tiers. Please see the details on each limit below.
 
 **These limits are subject to change at any time**.
 
@@ -17,50 +17,50 @@ Other limits apply to both the free and paid tiers, but many can be raised upon 
 
 ## Number of Workflows
 
-**You can run an unlimited number of workflows**, as long as each operates under the limits below.
+The limit of active workflows depends on your current plan. [See our pricing page](https://pipedream.com/pricing) for more details.
 
 ## Number of Event Sources
 
 **You can run an unlimited number of event sources**, as long as each operates under the limits below.
 
-## Daily Invocations
+## Daily Credits Limit
 
-|     Tier     |                                                                          Daily Invocations Quota                                                                          |
-| :----------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|  Developer   |                                                  {{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}}                                                   |
-|  Professional Plan   |                                                  No limit (pay per invocation above the [base invocations quota](/pricing/#base-invocations-quota))                                                   |
-|  Orgs (free)   |                                                  {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}}                                                   |
-|  Orgs (Team Plan) |                                                  No limit (pay per invocation above the [base invocations quota](/pricing/#base-invocations-quota))                                                   |
+Free Pipedream accounts are limited to {{$site.themeConfig.DAILY_CREDITS_LIMIT}} [credits](/pricing/#credits) per day. Paid plans do not have a daily credit limit.
 
-You can view your invocations usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
+You can view your credits usage at the bottom-left of [the Pipedream UI](https://pipedream.com).
 
-Your quota is reset, daily, at 00:00 (midnight) UTC.
+<div>
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1702249243/docs/Screenshot_2023-12-10_at_3.00.21_PM_kcs9dk.png" width="300px" />
+</div>
 
-### Invocations Quota Notifications
+You can also see more detailed usage in [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, by resource (e.g. your source / workflow).
 
-|     Tier     |                                                                          Notifications                                                                          |
-| :----------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|  Free tiers   |                                                  You'll receive an email at 80% and 100% of your daily usage.                                                   |
-| Paid tiers | You'll receive an email at 80% and 100% of your [base invocations quota](/pricing/#base-invocations-quota) for your [billing period](/pricing/#billing-period). |
+Your included credits count is reset daily at 00:00 (midnight) UTC.
 
-## Compute time per day
+### Included Credits Usage Notifications
 
-Users on the [Developer (free) tier](/pricing/#developer-tier), and free Organizations, have a default compute time quota of
+|    Tier    |                                                                    Notifications                                                                    |
+| :--------: | :-------------------------------------------------------------------------------------------------------------------------------------------------: |
+| Free tiers |                                          You'll receive an email when you reach 100% of your daily usage.                                           |
+| Paid tiers | You'll receive an email at 80% and 100% of your [included credits](/pricing/#included-credits) for your [billing period](/pricing/#billing-period). |
 
-**30 minutes (1,800,000 milliseconds) per day**
+## Daily workflow testing limit
 
-across all workflows and event sources. **You are _not_ limited on compute time on paid plans like the [Professional tier](/pricing/#professional-tier)**.
+You **do not** use credits testing workflows, but workspaces on the **Free** plan are limited to {{$site.themeConfig.DAILY_TESTING_LIMIT}} of test runtime per day. If you exceed this limit when testing in the builder, you'll see a **Runtime Quota Exceeded** error.
 
-You can view your current usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing).
+## Data stores
 
-Your compute time quota is reset, daily, at 00:00 (midnight) UTC.
+Depending on your plan, Pipedream sets limits on:
 
-### Compute Time Quota Notifications
+1. The total number of data stores
+2. The total number of keys across all data stores
+3. The total storage used across all data stores
 
-|     Tier     |                                             Notifications                                             |
-| :----------: | :---------------------------------------------------------------------------------------------------: |
-|  Free tiers   |                     You'll receive an email at 80% and 100% of your daily usage.                      |
-| Paid tiers | **Not applicable** - Paid tiers have unlimited compute time, so receive no notifications |
+You'll find your workspace's limits in the **Data Stores** section of usage dashboard in the bottom-left of [the Pipedream UI](https://pipedream.com).
+
+<div>
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1702248992/docs/Screenshot_2023-12-10_at_2.56.28_PM_xmwqbq.png" width="300px" />
+</div>
 
 ## HTTP Triggers
 
@@ -85,17 +85,13 @@ Generally the rate of HTTP requests sent to an endpoint is quantified by QPS, or
 
 We'll also accept short bursts of traffic, as long as you remain close to an average of 10 QPS (e.g. sending a batch of 50 requests every 30 seconds should not trigger rate limiting).
 
-**This limit can be raised for Professional, Teams, and Enterprise customers**. To request an increase, [reach out to our Support team](https://pipedream.com/support/) with the HTTP endpoint whose QPS you'd like to increase, with the new, desired limit.
+**This limit can be raised for paying customers**. To request an increase, [reach out to our Support team](https://pipedream.com/support/) with the HTTP endpoint whose QPS you'd like to increase, with the new, desired limit.
 
 ## Email Triggers
 
 Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also apply to [email triggers](/workflows/steps/triggers/#email).
 
-The only limit that differs between email and HTTP triggers is the payload size: the body of HTTP requests is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`, where the total size of an email sent to a workflow - its body, headers, and attachments - is limited to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LIMIT}}` on the default interface.
-
-**However, you can send emails up to `30MB` in size using the address `[YOUR EMAIL ENDPOINT]@upload.pipedream.net`**. [Read more here](/workflows/steps/triggers/#sending-large-emails).
-
-This `30MB` limit cannot be raised.
+The only limit that differs between email and HTTP triggers is the payload size: the total size of an email sent to a workflow - its body, headers, and attachments - is limited to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LIMIT}}`.
 
 ## Memory
 
@@ -103,11 +99,11 @@ By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. Y
 
 Increasing your workflow's memory gives you a proportional increase in CPU. If your workflow is limited by memory or compute, increasing your workflow's memory can reduce its overall runtime and make it more performant.
 
-**Pipedream charges invocations proportional to your memory configuration**. [Read more here](/pricing/#how-does-workflow-memory-affect-billable-invocations).
+**Pipedream charges credits proportional to your memory configuration**. [Read more here](/pricing/#how-does-workflow-memory-affect-credits).
 
 ## Disk
 
-Your code, or a third party library, may need access to disk during the execution of your workflow or event source. **You have access to `512 MB` of disk in the `/tmp` directory**.
+Your code, or a third party library, may need access to disk during the execution of your workflow or event source. **You have access to `{{$site.themeConfig.TMP_SIZE_LIMIT}}` of disk in the `/tmp` directory**.
 
 This limit cannot be raised.
 
@@ -122,36 +118,31 @@ Every event sent to a workflow triggers a new execution of that workflow. Workfl
 
 If your code exceeds your workflow-level limit, we'll throw a **Timeout** error and stop your workflow. Any partial logs and observability associated with code cells that ran successfully before the timeout will be attached to the event in the UI, so you can examine the state of your workflow and troubleshoot where it may have failed.
 
-**You can change this default timeout in your [workflow's settings](/workflows/settings/), up to 300 seconds (5 minutes), or down to 1 second**.
+You can increase the timeout limit, up to a max value set by your plan:
+
+|    Tier    | Maximum time per execution |
+| :--------: | :------------------------: |
+| Free tiers |    300 seconds (5 min)     |
+| Paid tiers |   750 seconds (12.5 min)   |
 
 Events that trigger a **Timeout** error will appear in red in the [Inspector](/workflows/events/inspect/). You'll see the timeout error, also in red, in the cell at which the code timed out.
 
-If you need to run a workflow that exceeds 5 minutes, please [reach out to our team](https://pipedream.com/support/).
-
 ### Event / Execution History
 
-The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. There are two limits that impact this history:
+The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. We retain up to {{$site.themeConfig.PAID_INSPECTOR_EVENT_LIMIT}} per workflow:
 
-- You can view the last {{$site.themeConfig.INSPECTOR_EVENT_LIMIT}} events sent to your workflow. Sending events over this limit removes the oldest event in the history from Pipedream's system.
-- The execution details for a specific run also expires after {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} days. So if a workflow was triggered once a day, you’d only see a rolling history of {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} executions.
+|    Tier    |                           Events retained per workflow                           |
+| :--------: | :------------------------------------------------------------------------------: |
+| Free tiers |                 {{$site.themeConfig.FREE_INSPECTOR_EVENT_LIMIT}}                 |
+| Paid tiers | [View breakdown of events history per paid plan](https://pipedream.com/pricing/) |
 
-If you'd like to store execution or error history for a longer period, consider sending execution data to a table in the [SQL Service](/destinations/sql/), an [Amazon S3 bucket](/destinations/s3/), or another external data store.
+The execution details for a specific event also expires after {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} days.
 
 ### Logs, Step Exports, and other observability
 
 The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
 This limit cannot be raised.
-
-## SQL Service
-
-You can create any number of tables in the SQL service, and store any number of records. However, there are a few limits you should be aware of
-
-- Events sent to a SQL Destination are stored for 30 days. After 30 days, the record is completely deleted. Records newer than 30 days (for example, data sent a day ago) will be retained, until that record is 30 days old, at which point it will be deleted. [Read more here](/destinations/sql/#data-retention).
-- Queries are limited to a runtime of 60 seconds.
-- You cannot issue a query that returns over `1GB` of data.
-
-[Read more about the SQL Service here](/destinations/sql/).
 
 ## Acceptable Use
 

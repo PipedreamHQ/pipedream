@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/mux",
+  "version": "0.1.0",
+  "description": "Pipedream Mux Components",
+  "main": "mux.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mux"
+  ],
+  "homepage": "https://pipedream.com/apps/mux",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

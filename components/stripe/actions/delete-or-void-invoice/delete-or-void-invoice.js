@@ -4,8 +4,9 @@ module.exports = {
   key: "stripe-delete-or-void-invoice",
   name: "Delete Or Void Invoice",
   type: "action",
-  version: "0.0.1",
-  description: "Delete a draft invoice, or void a non-draft or subscription invoice",
+  version: "0.0.2",
+  description: "Delete a draft invoice, or void a non-draft or subscription invoice. [See the " +
+    "docs](https://stripe.com/docs/api/invoiceitems/delete) for more information",
   props: {
     stripe,
     id: {
@@ -16,14 +17,18 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       status,
       subscription,
     } = await this.stripe.sdk().invoices.retrieve(this.id);
     if (status === "draft" && !subscription) {
-      return await this.stripe.sdk().invoices.del(this.id);
+      const resp = await this.stripe.sdk().invoices.del(this.id);
+      $.export("$summary", `Successfully deleted the draft invoice, "${resp.id}"`);
+      return resp;
     }
-    return await this.stripe.sdk().invoices.voidInvoice(this.id);
+    const resp = await this.stripe.sdk().invoices.voidInvoice(this.id);
+    $.export("$summary", `Successfully voided the invoice, "${resp.id}"`);
+    return resp;
   },
 };

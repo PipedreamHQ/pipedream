@@ -4,12 +4,13 @@
 
 ## Overview
 
-Use the REST API to create and manage sources, workflows and source events.
-Workflow development and management is not currently supported via the API. 
+Use the REST API to create and manage sources, workflows, subscriptions, and more.
+
+Pipedream exposes a limited API for retrieving workflow events, and plans to expose APIs for creating, updating, and deleting workflows programmatically in the future. If you'd like to see this, please upvote and add detail on your use case on [this GitHub issue](https://github.com/PipedreamHQ/pipedream/issues/8735).
 
 ## Base URL
 
-The base URL for all requests is **{{$site.themeConfig.API_BASE_URL}}** .
+The base URL for all requests is [https://api.pipedream.com/v1](https://api.pipedream.com/v1).
 
 ## Authentication
 
@@ -29,7 +30,7 @@ curl 'https://api.pipedream.com/v1/users/me' \
   -H 'Authorization: Bearer <api_key>'
 ```
 
-Learn more about [API authentication](/api/auth)
+Learn more about [API authentication](/api/auth/)
 
 ## Required headers
 
@@ -70,6 +71,26 @@ including all fields). Pass as a string of comma-separated values:
 `comma,separated,fields,to,include`
 
 ---
+
+`workspace_id` **string**
+
+Some endpoints require you to specify [your workspace ID](/workspaces/#finding-your-workspace-s-id) you want the operation to take effect in. For example, if you're creating a new event source in a specific workspace, you'll want to pass the workspace ID in the `workspace_id` query string parameter.
+
+[Find your workspace's ID here](/workspaces/#finding-your-workspace-s-id).
+
+::: tip
+
+If your organization is on one of our legacy plans like the Free Teams or Teams plan, the `workspace_id` is synonymous with your `org_id`. Just pass your organization ID as the same parameter.
+
+:::
+
+## Working with resources owned by a workspace
+
+If you're interacting with resources owned by a [workspace](/workspaces/), you may need to specify the workspace ID as a part of the request's query string parameter or route:
+
+- When fetching specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), you should not need to pass your workspace's ID. If your user is a part of the workspace, you should have access to that resource, and the API will return the details of the resource.
+- When _creating_ new resources, you'll need to specify the `org_id` where you want the resource to live as a query string parameter (`?org_id=o_abc123`). Read more about the `org_id` parameter in the [Common Parameters section](#common-parameters).
+- When _listing_ resources, use [the workspace-specific endpoints here](#workspaces).
 
 ## Pagination
 
@@ -484,32 +505,63 @@ curl -X DELETE \
 Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status
 code in response to any deletion requests.
 
-## Organizations
+## Workspaces
 
-[Organizations](/orgs/) provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
+[Workspaces](/workspaces/) provide your team a way to manage resources in a shared workspace. Any resources created by the workspace are owned by the workspace and accessible to its members.
 
-### Get Org's Subscriptions
+### Get a Workspace
 
----
-
-Retrieve all the [subscriptions](#subscriptions) configured for a specific organization.
+Programmatically view your workspace's current credit usage for the billing period in real time.
 
 #### Endpoint
 
 ```
-GET /orgs/<org_id>/subscriptions
+GET /v1/workspaces/<workspace_id>
 ```
 
 #### Path Parameters
 
-`org_id` **string**
+`workspaces_id` **string**
 
-[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+#### Example Response
+
+```
+{
+	"data": {
+		"id": "o_Qa8I1Z",
+		"orgname": "asdf",
+		"name": "asdf",
+		"email": "makedev@pipedream.com",
+		"daily_credits_quota": 100,
+		"daily_credits_used": 0
+	}
+}
+```
+
+### Get Workspaces's Subscriptions
+
+---
+
+Retrieve all the [subscriptions](#subscriptions) configured for a specific workspace.
+
+#### Endpoint
+
+```
+GET /workspaces/<workspace_id>/subscriptions
+```
+
+#### Path Parameters
+
+`workspaces_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
 
 #### Example Request
 
 ```shell
-curl 'https://api.pipedream.com/v1/orgs/o_abc123/subscriptions' \
+curl 'https://api.pipedream.com/v1/workspaces/o_abc123/subscriptions' \
   -H 'Authorization: Bearer <api_key>'
 ```
 
@@ -534,11 +586,65 @@ curl 'https://api.pipedream.com/v1/orgs/o_abc123/subscriptions' \
 }
 ```
 
+### Get Workspaces's Sources
+
+---
+
+Retrieve all the [event sources](#sources) configured for a specific workspace.
+
+#### Endpoint
+
+```
+GET /orgs/<workspace_id>/sources
+```
+
+#### Path Parameters
+
+`org_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/orgs/o_abc123/sources' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 19,
+    "count": 10,
+    "start_cursor": "ZGNfSzB1QWVl",
+    "end_cursor": "ZGNfeUx1alJx"
+  },
+  "data": [
+    {
+      "id": "dc_abc123",
+      "component_id": "sc_def456",
+      "configured_props": {
+        "http": {
+          "endpoint_url": "https://myendpoint.m.pipedream.net"
+        }
+      },
+      "active": true,
+      "created_at": 1587679599,
+      "updated_at": 1587764467,
+      "name": "test",
+      "name_slug": "test"
+    }
+  ]
+}
+```
+
 ## Sources
 
 Event sources run code to collect events from an API, or receive events via
 webhooks, emitting those events for use on Pipedream. Event sources can function
-as workflow triggers. [Read more here](/event-sources/).
+as workflow triggers. [Read more here](/sources/).
 
 ### List Current User Sources
 
@@ -752,13 +858,10 @@ DELETE /sources/{id}
 
 ---
 
-You can configure a source, or a workflow, to receive events from any number of
+You can configure a source or workflow to receive events from any number of
 other workflows or sources. For example, if you want a single workflow to run on
 10 different RSS sources, you can configure the workflow to _listen_ for events
 from those 10 sources.
-
-**Currently, this feature is enabled only on the API. The Pipedream UI will not
-display the sources configured as listeners using this API**.
 
 ---
 
@@ -792,13 +895,19 @@ in your workflow's URL - it's the string `p_2gCPml` in
 
 `event_name` **string** (optional)
 
-The name of the event stream whose events you'd like to receive:
+**Only pass `event_name` when you're listening for events on a custom channel, with the name of the custom channel**:
 
-- `$errors`: any errors thrown by workflows or sources are emitted to this
+```
+event_name=<custom_channel>
+```
+
+See [the `this.$emit` docs](/components/api/#emit) for more information on how to emit events on custom channels.
+
+Pipedream also exposes channels for logs and errors:
+
+- `$errors`: Any errors thrown by workflows or sources are emitted to this
   stream
-- `default`: any events emitted by event sources (or from workflows, using
-  `$send.emit()`) are included in this stream
-- `$logs`: any logs produced by **event sources** are emitted to this stream
+- `$logs`: Any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -858,11 +967,9 @@ POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_i
 
 The name of the event stream whose events you'd like to receive:
 
-- `$errors`: any errors thrown by workflows or sources are emitted to this
+- `$errors`: Any errors thrown by workflows or sources are emitted to this
   stream
-- `default`: any events emitted by event sources (or from workflows, using
-  `$send.emit()`) are included in this stream
-- `$logs`: any logs produced by **event sources** are emitted to this stream
+- `$logs`: Any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -982,12 +1089,12 @@ Pipedream supports webhooks as a way to deliver events to a endpoint you own.
 Webhooks are managed at an account-level, and you send data to these webhooks
 using [subscriptions](#subscriptions).
 
-For example, you can run a Twitter [event source](/event-sources) that listens
+For example, you can run a Twitter [event source](/sources/) that listens
 for new tweets. If you [subscribe](#subscriptions) the webhook to this source,
 Pipedream will deliver those tweets directly to your webhook's URL without
 running a workflow.
 
-[**See these tutorials**](/api/rest/webhooks) for examples.
+[**See these tutorials**](/api/rest/webhooks/) for examples.
 
 ### Create a webhook
 
@@ -1080,7 +1187,40 @@ creating [subscriptions](#subscriptions).
 You can list webhooks you've created in your account using the
 [`/users/me/webhooks` endpoint](#get-current-user-s-webhooks)
 
+### Delete a webhook
+
+---
+
+Use this endpoint to delete a webhook in your account.
+
+#### Endpoint
+
+```
+DELETE /webhooks/{id}
+```
+
+#### Path Parameters
+
+---
+
+`id` **string**
+
+The ID of a webhook in your account.
+
+---
+
+#### Example Request
+
+```shell
+curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
+  -X DELETE \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
+
 ## Workflows
+
+Pipedream exposes a limited API for retrieving workflow events, and plans to expose APIs for creating, updating, and deleting workflows programmatically in the future. If you'd like to see this, please upvote and add detail on your use case on [this GitHub issue](https://github.com/PipedreamHQ/pipedream/issues/8735).
 
 ### Get Workflow Emits
 
@@ -1266,18 +1406,33 @@ Free user:
     "id": "u_abc123",
     "username": "dylburger",
     "email": "dylan@pipedream.com",
-    "orgs": [
-      {
-        "name": "MyTestOrg",
-        "id": "o_abc123",
-        "orgname": "mytestorg",
-        "email": "test@pipedream.com"
-      }
-    ],
     "daily_compute_time_quota": 95400000,
     "daily_compute_time_used": 8420300,
     "daily_invocations_quota": 27344,
     "daily_invocations_used": 24903
+    "orgs": [
+      {
+        "name": "MyWorkspace",
+        "id": "o_abc123",
+        "orgname": "myworkspace",
+        "email": "workspace@pipedream.com",
+        "daily_credits_quota": 100,
+        "daily_credits_used": 0
+      },
+      {
+        "name": "MyTeam",
+        "id": "o_edf456",
+        "orgname": "myteam",
+        "email": "team@pipedream.com",
+        "daily_credits_quota": 100,
+        "daily_credits_used": 0,
+        "daily_compute_time_quota": 1800000,
+        "daily_compute_time_used": 0,
+        "daily_invocations_quota": 100,
+        "daily_invocations_used": 0
+      }
+    ],
+
   }
 }
 ```
@@ -1288,11 +1443,11 @@ Paid user:
 {
   "data": {
     "id": "u_abc123",
-    "username": "dylburger",
+    "username": "user-35b7389db9e5222d42df6b3f0cfa8143"
     "email": "dylan@pipedream.com",
     "billing_period_start_ts": 1610154978,
     "billing_period_end_ts": 1612833378,
-    "billing_period_invocations": 12345
+    "billing_period_credits": 12345
   }
 }
 ```

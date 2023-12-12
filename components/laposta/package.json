@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/laposta",
+  "version": "0.0.4",
+  "description": "Pipedream Laposta Components",
+  "main": "dist/app/laposta.app.mjs",
+  "keywords": [
+    "pipedream",
+    "laposta"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/laposta",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}

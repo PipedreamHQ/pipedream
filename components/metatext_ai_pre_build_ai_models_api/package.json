@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/metatext_ai_pre_build_ai_models_api",
+  "version": "0.0.3",
+  "description": "Pipedream Metatext.AI Pre-build AI models API Components",
+  "main": "metatext_ai_pre_build_ai_models_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "metatext_ai_pre_build_ai_models_api"
+  ],
+  "homepage": "https://pipedream.com/apps/metatext_ai_pre_build_ai_models_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/vbout",
+  "version": "0.0.3",
+  "description": "Pipedream VBOUT Components",
+  "main": "vbout.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vbout"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/vbout",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0",
+    "moment": "^2.29.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

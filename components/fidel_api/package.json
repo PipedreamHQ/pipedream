@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/fidel_api",
+  "version": "0.0.1",
+  "description": "Pipedream Fidel API Components",
+  "main": "dist/app/fidel_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fidel_api"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/fidel_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

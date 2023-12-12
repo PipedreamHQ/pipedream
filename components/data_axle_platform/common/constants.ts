@@ -1,0 +1,31 @@
+export const PLACES_PACKAGES = [
+  "bankruptcy_credit_v1",
+  "benefit_plans_v1",
+  "contacts_v1",
+  "core_v1",
+  "direct_mail_v1",
+  "email_v2",
+  "enhanced_v1",
+  "expenses_v1",
+  "financial_v1",
+  "location_intents_v2",
+  "marketing_location_v1",
+  "point_of_interest_v1",
+  "standard_v1",
+  "ucc_filings_v1",
+];
+
+export const PEOPLE_PACKAGES = [
+  "cell_phones_v1",
+  "core_v1",
+  "direct_mail_v1",
+  "email_v2",
+  "enhanced_v2",
+  "generations_v2",
+  "interests_v2",
+  "landline_phones_v1",
+  "marketing_location_v1",
+  "property_v1",
+  "standard_v3",
+  "vehicles_v2",
+];

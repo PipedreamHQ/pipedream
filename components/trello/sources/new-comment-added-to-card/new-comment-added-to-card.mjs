@@ -1,12 +1,11 @@
-import common from "../common-webhook.mjs";
-import get from "lodash/get.js";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
   key: "trello-new-comment-added-to-card",
   name: "New Comment Added to Card (Instant)",
   description: "Emit new event for each new comment added to a card.",
-  version: "0.0.5",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -27,31 +26,66 @@ export default {
       ],
     },
   },
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      const {
+        sampleEvents, sortField,
+      } = await this.getSampleEvents();
+      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
+        ? 1
+        : -1);
+      for (const action of sampleEvents.slice(-25)) {
+        this.emitEvent(action);
+      }
+    },
+  },
   methods: {
     ...common.methods,
+    async getSampleEvents() {
+      const cards = this.cards && this.cards.length > 0
+        ? this.cards
+        : (await this.trello.getCards(this.board)).map((card) => card.id);
+      const actions = [];
+      for (const card of cards) {
+        const activities = await this.trello.getCardActivity(card, "commentCard");
+
+        for (const activity of activities) {
+          actions.push(await this.getResult(activity));
+        }
+      }
+      return {
+        sampleEvents: actions,
+        sortField: "date",
+      };
+    },
     isCorrectEventType(event) {
-      const eventType = get(event, "body.action.type");
+      const eventType = event.body?.action?.type;
       return eventType === "commentCard";
     },
     async getResult(event) {
-      const cardId = get(event, "body.action.data.card.id");
-      const comment = get(event, "body.action.data.text");
-      /** Record comment to use in generateMeta() */
-      this.db.set("comment", comment);
-      return await this.trello.getCard(cardId);
+      const card = await this.trello.getCard(event?.body?.action?.data?.card?.id ??
+        event?.data?.card?.id);
+      const member = await this.trello.getMember(event?.body?.action?.idMemberCreator ??
+        event.idMemberCreator);
+
+      return {
+        member,
+        card,
+        event: event?.body ?? event,
+      };
     },
-    isRelevant({ result: card }) {
+    isRelevant({ result: { card } }) {
       return (
         (!this.board || this.board === card.idBoard) &&
         (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
       );
     },
-    generateMeta({ id }) {
-      const comment = this.db.get("comment");
+    generateMeta({ event }) {
       return {
-        id,
-        summary: comment,
-        ts: Date.now(),
+        id: event?.action?.id ?? event?.id,
+        summary: event?.action?.data?.text ?? event?.data?.text,
+        ts: Date.parse(event?.date),
       };
     },
   },

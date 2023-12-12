@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/exact",
+  "version": "0.0.5",
+  "description": "Pipedream Exact Components",
+  "main": "exact.app.mjs",
+  "keywords": [
+    "pipedream",
+    "exact"
+  ],
+  "homepage": "https://pipedream.com/apps/exact",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  }
+}

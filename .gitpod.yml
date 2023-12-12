@@ -1,0 +1,29 @@
+
+
+image:
+  file: .gitpod.Dockerfile
+
+# List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
+tasks:
+  - name: Monorepo setup
+    init: npm install --frozen-lockfile
+#     openMode: split-left
+
+  - name: PD CLI
+    command: printf "\033[3J\033c\033[3J" && pd
+#     openMode: split-right
+
+  - command: gp ports await 23000 1>/dev/null && gp preview https://pipedream.com/docs/components/ && exit
+
+  - name: Init pipedream api key
+    command: printf "\033[3J\033c\033[3J" && source scripts/gitpod_api_wizard.sh; exit
+
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
+    pullRequestsFromForks: true
+    addCheck: false
+    addComment: false
+    addBadge: true

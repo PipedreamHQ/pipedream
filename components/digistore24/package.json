@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/digistore24",
+  "version": "0.0.2",
+  "description": "Pipedream Digistore24 Components",
+  "main": "dist/app/digistore24.app.mjs",
+  "keywords": [
+    "pipedream",
+    "digistore24"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/digistore24",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

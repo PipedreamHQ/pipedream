@@ -1,13 +1,15 @@
 import typeform from "../../typeform.app.mjs";
-import common from "../common.mjs";
+import utils from "../utils.mjs";
+import constants from "../../constants.mjs";
+
+const { commaSeparatedList } = utils;
 
 export default {
   key: "typeform-list-responses",
   name: "List Responses",
   description: "Returns form responses and date and time of form landing and submission. [See the docs here](https://developer.typeform.com/responses/reference/retrieve-responses/)",
   type: "action",
-  version: "0.0.1",
-  methods: common.methods,
+  version: "0.0.2",
   props: {
     typeform,
     formId: {
@@ -81,15 +83,15 @@ export default {
     completed: {
       type: "boolean",
       label: "Completed",
-      description: "Limit responses only to those which were submitted. This parameter changes `since/until` filter, so if `completed=true`, it will filter by `submitted_at`, otherwise - `landed_at`.",
+      description: "Limit responses only to those which were submitted. This parameter changes `since`/`until` filter, so if `completed=true`, it will filter by `submitted_at`, otherwise - `landed_at`.",
       optional: true,
     },
     sort: {
       type: "string",
       label: "Sort",
-      description: "Responses order in `{fieldID},{asc|desc}` format. You can use built-in `submitted_at/landed_at` field IDs or any field ID from your typeform, possible directions are `asc/desc`. Default value is `submitted_at,desc`.",
+      description: "Responses order in `{fieldID},{asc|desc}` format. You can use built-in `submitted_at`/`landed_at` field IDs or any field ID from your typeform, possible directions are `asc`/`desc`. Default value is `submitted_at,desc`.",
       optional: true,
-      default: "submitted_at,desc",
+      default: `${constants.RESPONSE_FIELDS.SUBMITTED_AT},desc`,
     },
     query: {
       optional: true,
@@ -105,7 +107,7 @@ export default {
       optional: true,
       propDefinition: [
         typeform,
-        "field",
+        "fieldId",
         ({ formId }) => ({
           formId,
         }),
@@ -118,7 +120,7 @@ export default {
       optional: true,
       propDefinition: [
         typeform,
-        "field",
+        "fieldId",
         ({ formId }) => ({
           formId,
         }),
@@ -148,26 +150,26 @@ export default {
       until,
       after,
       before,
-      included_response_ids: includedResponseIds?.join(","),
-      excluded_response_ids: excludedResponseIds?.join(","),
+      included_response_ids: commaSeparatedList(includedResponseIds),
+      excluded_response_ids: commaSeparatedList(excludedResponseIds),
       completed,
-      sort,
+      sort: completed === false
+        ? constants.RESPONSE_FIELDS.LANDED_AT
+        : sort,
       query,
-      fields: fields?.join(","),
-      answered_fields: answeredFields?.join(","),
+      fields: commaSeparatedList(fields),
+      answered_fields: commaSeparatedList(answeredFields),
     };
 
-    try {
-      const { items } = await this.typeform.getResponses({
-        $,
-        formId,
-        params,
-      });
+    const { items } = await this.typeform.getResponses({
+      $,
+      formId,
+      params,
+    });
 
-      return items;
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully listed ${items.length} ${items.length == 1 ? "response" : "responses"}`);
 
-    } catch (error) {
-      throw new Error(error);
-    }
+    return items;
   },
 };

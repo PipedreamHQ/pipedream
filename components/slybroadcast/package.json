@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/slybroadcast",
+  "version": "0.0.2",
+  "description": "Pipedream Slybroadcast Components",
+  "main": "dist/app/slybroadcast.app.mjs",
+  "keywords": [
+    "pipedream",
+    "slybroadcast"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/slybroadcast",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

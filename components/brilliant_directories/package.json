@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/brilliant_directories",
+  "version": "0.1.0",
+  "description": "Pipedream Brilliant Directories Components",
+  "main": "brilliant_directories.app.mjs",
+  "keywords": [
+    "pipedream",
+    "brilliant_directories"
+  ],
+  "homepage": "https://pipedream.com/apps/brilliant_directories",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "qs": "^6.11.2"
+  }
+}

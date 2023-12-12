@@ -1,12 +1,12 @@
 import { axios } from "@pipedream/platform";
-import spotify from "../../spotify.app.mjs";
 import isEmpty from "lodash/isEmpty.js";
+import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Save Tracks for User",
   description: "Save one or more tracks to the current user’s \"Your Music\" library. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/save-tracks-user).",
   key: "spotify-save-track",
-  version: "0.0.2",
+  version: "0.1.1",
   type: "action",
   props: {
     spotify,
@@ -17,7 +17,7 @@ export default {
       ],
       type: "string[]",
       label: "Track IDs",
-      description: "Search for any tracks on Spotify with \"Structured Mode\" enabled, or reference specific [Track IDs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `4iV5W9uYEdYUVa79Axb7Rh` or `4iV5W9uYEdYUVa79Axb7Rh, 0gplL1WMoJ6iYaPgMCL0gX`).",
+      description: "Type to search for any tracks on Spotify or enter a custom expression to reference specific [Track IDs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `4iV5W9uYEdYUVa79Axb7Rh` or `4iV5W9uYEdYUVa79Axb7Rh, 0gplL1WMoJ6iYaPgMCL0gX`).",
     },
   },
   async run({ $ }) {
@@ -31,7 +31,7 @@ export default {
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully saved ${ids.length} ${ids.length == 1 ? `track` : `tracks`} to "Liked Songs"`);
+    $.export("$summary", `Successfully saved ${ids.length} ${ids.length == 1 ? "track" : "tracks"} to "Liked Songs"`);
 
     return isEmpty(res)
       ? ids

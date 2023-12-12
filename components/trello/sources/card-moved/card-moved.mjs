@@ -1,12 +1,11 @@
-import common from "../common-webhook.mjs";
-import get from "loadsh/get.js";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
   key: "trello-card-moved",
   name: "Card Moved (Instant)",
   description: "Emit new event each time a card is moved to a list.",
-  version: "0.0.5",
+  version: "0.0.11",
   type: "source",
   props: {
     ...common.props,
@@ -28,6 +27,15 @@ export default {
   },
   methods: {
     ...common.methods,
+    async getSampleEvents() {
+      const cards = this.lists && this.lists.length > 0
+        ? await this.trello.getCardsInList(this.lists[0])
+        : await this.trello.getCards(this.board);
+      return {
+        sampleEvents: cards,
+        sortFilter: "dateLastActivity",
+      };
+    },
     _getListAfter() {
       return this.db.get("listAfter");
     },
@@ -35,24 +43,21 @@ export default {
       this.db.set("listAfter", listAfter);
     },
     isCorrectEventType(event) {
-      const eventTranslationKey = get(
-        event,
-        "body.action.display.translationKey",
-      );
+      const eventTranslationKey = event.body?.action?.display?.translationKey;
       return eventTranslationKey === "action_move_card_from_list_to_list";
     },
     async getResult(event) {
-      const cardId = get(event, "body.action.data.card.id");
-      const listAfter = get(event, "body.action.data.listAfter.name");
+      const cardId = event.body?.action?.data?.card?.id;
+      const listAfter = event.body?.action?.data?.listAfter?.name;
       /** Record listAfter to use in generateMeta() */
       this._setListAfter(listAfter);
-      return await this.trello.getCard(cardId);
+      return this.trello.getCard(cardId);
     },
     isRelevant({
       result: card, event,
     }) {
-      const listIdAfter = get(event, "body.action.data.listAfter.id");
-      const listIdBefore = get(event, "body.action.data.listBefore.id");
+      const listIdAfter = event.body?.action?.data?.listAfter?.id;
+      const listIdBefore = event.body?.action?.data?.listBefore?.id;
 
       return (
         (!this.board || this.board === card.idBoard) &&
@@ -66,9 +71,12 @@ export default {
       id, name,
     }) {
       const listAfter = this._getListAfter();
+      const summary = listAfter
+        ? `${name} - moved to ${listAfter}`
+        : name;
       return {
         id,
-        summary: `${name} - moved to ${listAfter}`,
+        summary,
         ts: Date.now(),
       };
     },

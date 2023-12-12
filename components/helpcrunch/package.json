@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/helpcrunch",
+  "version": "0.1.0",
+  "description": "Pipedream HelpCrunch  Components",
+  "main": "helpcrunch.app.mjs",
+  "keywords": [
+    "pipedream",
+    "helpcrunch"
+  ],
+  "homepage": "https://pipedream.com/apps/helpcrunch",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

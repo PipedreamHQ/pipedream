@@ -1,13 +1,11 @@
 import typeform from "../../typeform.app.mjs";
-import common from "../common.mjs";
 
 export default {
   key: "typeform-list-forms",
   name: "List Forms",
   description: "Retrieves a list of forms. [See the docs here](https://developer.typeform.com/create/reference/retrieve-forms/)",
   type: "action",
-  version: "0.0.1",
-  methods: common.methods,
+  version: "0.0.2",
   props: {
     typeform,
     search: {
@@ -31,30 +29,10 @@ export default {
       ],
     },
     workspaceId: {
-      type: "string",
-      label: "Workspace ID",
-      description: "Retrieve typeforms for the specified workspace.",
-      optional: true,
-      async options({ page }) {
-        try {
-          const { items } = await this.typeform.getWorkspaces({
-            params: {
-              page_size: 10,
-              page: page + 1, // pipedream page 0-indexed, github is 1
-            },
-          });
-
-          return items.map(({
-            name, id,
-          }) => ({
-            label: name,
-            value: id,
-          }));
-
-        } catch (error) {
-          throw new Error(error);
-        }
-      },
+      propDefinition: [
+        typeform,
+        "workspaceId",
+      ],
     },
   },
   async run({ $ }) {
@@ -72,16 +50,14 @@ export default {
       workspace_id: workspaceId,
     };
 
-    try {
-      const { items } = await this.typeform.getForms({
-        $,
-        params,
-      });
+    const { items } = await this.typeform.getForms({
+      $,
+      params,
+    });
 
-      return items;
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully retrieved ${items.length} ${items.length == 1 ? "form" : "forms"}`);
 
-    } catch (error) {
-      throw new Error(error);
-    }
+    return items;
   },
 };

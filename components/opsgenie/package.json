@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/opsgenie",
+  "version": "0.0.2",
+  "description": "Pipedream Opsgenie Components",
+  "main": "dist/app/opsgenie.app.mjs",
+  "keywords": [
+    "pipedream",
+    "opsgenie"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/opsgenie",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,7 +1,0 @@
-{
-  "packages": [
-    "components/*",
-    "interfaces/*"
-  ],
-  "version": "0.3.3"
-}

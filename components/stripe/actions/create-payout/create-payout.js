@@ -5,9 +5,10 @@ module.exports = {
   key: "stripe-create-payout",
   name: "Create a Payout",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Send funds to your own bank account. Your Stripe balance must be able to cover " +
-    "the payout amount, or you'll receive an 'Insufficient Funds' error.",
+    "the payout amount, or you'll receive an 'Insufficient Funds' error. [See the " +
+    "docs](https://stripe.com/docs/api/payouts/create) for more information",
   props: {
     stripe,
     amount: {
@@ -55,7 +56,7 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const data = pick(this, [
       "amount",
       "currency",
@@ -65,6 +66,8 @@ module.exports = {
       "source_type",
       "metadata",
     ]);
-    return await this.stripe.sdk().payouts.create(data);
+    const resp = await this.stripe.sdk().payouts.create(data);
+    $.export("$summary", `Successfully created a new payout for ${resp.amount} of the smallest unit of currency of ${resp.currency}`);
+    return resp;
   },
 };

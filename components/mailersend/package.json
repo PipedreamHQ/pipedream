@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/mailersend",
+  "version": "0.0.1",
+  "description": "Pipedream MailerSend Components",
+  "main": "mailersend.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailersend"
+  ],
+  "homepage": "https://pipedream.com/apps/mailersend",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "mailersend": "^2.0.5",
+    "crypto": "^1.0.1"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/jibble",
+  "version": "0.1.0",
+  "description": "Pipedream Jibble Components",
+  "main": "jibble.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jibble"
+  ],
+  "homepage": "https://pipedream.com/apps/jibble",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

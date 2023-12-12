@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/chargebee",
+  "version": "0.0.1",
+  "description": "Pipedream Chargebee Components",
+  "main": "chargebee.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chargebee"
+  ],
+  "homepage": "https://pipedream.com/apps/chargebee",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1",
+    "chargebee": "^2.22.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

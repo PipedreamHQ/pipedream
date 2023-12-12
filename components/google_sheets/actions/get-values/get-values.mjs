@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-get-values",
   name: "Get Values",
   description: "Get all values from a sheet.",
-  version: "0.0.14",
+  version: "0.1.2",
   type: "action",
   props: {
     googleSheets,
@@ -13,7 +13,6 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "",
     },
     sheetId: {
       propDefinition: [

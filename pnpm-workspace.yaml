@@ -1,0 +1,5 @@
+packages:
+  - 'types/**'
+  - 'components/**'
+  - 'helpers/**'
+  - 'platform/**'

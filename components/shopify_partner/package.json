@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/shopify_partner",
+  "version": "0.0.11",
+  "description": "Pipedream Shopify Partner Components",
+  "main": "shopify_partner.app.js",
+  "keywords": [
+    "pipedream",
+    "shopify",
+    "shopify partner"
+  ],
+  "author": "Pipedream <support@pipedream> (https://pipedream.com)",
+  "dependencies": {
+    "graphql": "^16.8.1",
+    "graphql-request": "^3.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

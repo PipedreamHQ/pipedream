@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/world_news_api",
+  "version": "0.0.3",
+  "description": "Pipedream World News API Components",
+  "main": "world_news_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "world_news_api"
+  ],
+  "homepage": "https://pipedream.com/apps/world_news_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  }
+}

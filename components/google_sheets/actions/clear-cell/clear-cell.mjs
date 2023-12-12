@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-clear-cell",
   name: "Clear Cell",
   description: "Delete the content of a specific cell in a spreadsheet",
-  version: "0.0.2",
+  version: "0.1.3",
   type: "action",
   props: {
     googleSheets,
@@ -13,7 +13,7 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "The drive containing the spreadsheet to edit",
+      description: "The drive containing the spreadsheet to edit. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
     },
     sheetId: {
       propDefinition: [

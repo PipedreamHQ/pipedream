@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-copy-worksheet",
   name: "Copy Worksheet",
   description: "Copy an existing worksheet to another Google Sheets file",
-  version: "0.0.2",
+  version: "0.1.2",
   type: "action",
   props: {
     googleSheets,
@@ -13,7 +13,7 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "The drive containing the worksheet to copy",
+      description: "The drive containing the worksheet to copy. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
     },
     sheetId: {
       propDefinition: [

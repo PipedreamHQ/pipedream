@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/givebutter",
+  "version": "0.3.5",
+  "description": "Pipedream Givebutter Components",
+  "main": "givebutter.app.js",
+  "keywords": [
+    "pipedream",
+    "givebutter"
+  ],
+  "homepage": "https://pipedream.com/apps/givebutter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

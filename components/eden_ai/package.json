@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/eden_ai",
+  "version": "0.1.1",
+  "description": "Pipedream Eden AI Components",
+  "main": "eden_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "eden_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/eden_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "form-data": "^4.0.0"
+  }
+}

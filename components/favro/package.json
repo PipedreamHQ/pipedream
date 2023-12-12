@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/favro",
+  "version": "0.0.2",
+  "description": "Pipedream Favro Components",
+  "main": "dist/app/favro.app.mjs",
+  "keywords": [
+    "pipedream",
+    "favro"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/favro",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

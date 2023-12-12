@@ -1,19 +1,18 @@
 /* eslint-disable camelcase */
-import { BigQuery } from "@google-cloud/bigquery";
-import { GoogleAuth } from "google-auth-library";
 import { chunk } from "lodash-es";
-import google_cloud from "../../google_cloud.app.mjs";
+import googleCloud from "../../google_cloud.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
-    google_cloud,
+    googleCloud,
     db: "$.service.db",
     timer: {
       label: "Polling interval",
       description: "How often to run your query",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     eventSize: {
@@ -24,47 +23,15 @@ export default {
       min: 1,
     },
     datasetId: {
-      type: "string",
-      label: "Dataset",
-      description: "The BigQuery dataset against which queries will be executed",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          return [];
-        }
-
-        const client = this.getBigQueryClient();
-        const [
-          datasets,
-        ] = await client.getDatasets();
-        return datasets.map(({ id }) => id);
-      },
+      propDefinition: [
+        googleCloud,
+        "datasetId",
+      ],
     },
   },
   methods: {
-    _getBigQueryClientOpts() {
-      const credentials = this.google_cloud.authKeyJson();
-      const scopes = [
-        "https://www.googleapis.com/auth/bigquery",
-        // Needed for datasets that were built from a Google Sheet
-        "https://www.googleapis.com/auth/drive.readonly",
-      ];
-      const authOpts = {
-        credentials,
-        scopes,
-        projectId: credentials.project_id,
-      };
-      const authClient = new GoogleAuth(authOpts);
-      return {
-        authClient,
-      };
-    },
-    getBigQueryClient() {
-      const clientOpts = this._getBigQueryClientOpts();
-      return new BigQuery(clientOpts);
-    },
     async getRowsForQuery(queryOpts) {
-      const client = this
+      const client = this.googleCloud
         .getBigQueryClient()
         .dataset(this.datasetId);
       const [

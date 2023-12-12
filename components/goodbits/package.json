@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/goodbits",
+  "version": "0.0.2",
+  "description": "Pipedream Goodbits Components",
+  "main": "dist/app/goodbits.app.mjs",
+  "keywords": [
+    "pipedream",
+    "goodbits"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/goodbits",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

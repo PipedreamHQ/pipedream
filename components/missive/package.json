@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/missive",
+  "version": "0.1.0",
+  "description": "Pipedream Missive Components",
+  "main": "missive.app.mjs",
+  "keywords": [
+    "pipedream",
+    "missive"
+  ],
+  "homepage": "https://pipedream.com/apps/missive",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

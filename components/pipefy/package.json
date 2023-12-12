@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/pipefy",
+  "version": "0.0.3",
+  "description": "Pipedream Pipefy Components",
+  "main": "pipefy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pipefy"
+  ],
+  "homepage": "https://pipedream.com/apps/pipefy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0",
+    "graphql-request": "^5.0.0",
+    "graphql": ">=14.0.0 <15.0.0 || >=15.0.0 <16.0.0 || >=16.0.0 <17.0.0 || ^16.8.1"
+  }
+}

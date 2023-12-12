@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/corrently",
+  "version": "0.0.2",
+  "description": "Pipedream Corrently Components",
+  "main": "dist/app/corrently.app.mjs",
+  "keywords": [
+    "pipedream",
+    "corrently"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/corrently",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

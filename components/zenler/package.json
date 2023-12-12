@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/zenler",
+  "version": "0.0.3",
+  "description": "Pipedream Zenler Components",
+  "main": "zenler.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zenler"
+  ],
+  "homepage": "https://pipedream.com/apps/zenler",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,33 +1,48 @@
 <template>
   <header class="navbar">
-    <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
+    <div class="nav-left">
+      <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
+      <RouterLink :to="$localePath" class="home-link mr-8">
+        <img
+          v-if="$site.themeConfig.logo"
+          class="logo"
+          :src="$withBase($site.themeConfig.logo)"
+          :alt="$siteTitle"
+        />
+        <span
+          v-if="$siteTitle"
+          ref="siteName"
+          class="site-name"
+          :class="{ 'can-hide': $site.themeConfig.logo }"
+          >{{ $siteTitle }}</span
+        >
+      </RouterLink>
+      <NavLinks class="can-hide" slice="left" />
+    </div>
 
-    <RouterLink :to="$localePath" class="home-link">
-      <img
-        v-if="$site.themeConfig.logo"
-        class="logo"
-        :src="$withBase($site.themeConfig.logo)"
-        :alt="$siteTitle"
-      />
-      <span
-        v-if="$siteTitle"
-        ref="siteName"
-        class="site-name"
-        :class="{ 'can-hide': $site.themeConfig.logo }"
-      >{{ $siteTitle }}</span>
-    </RouterLink>
-
-    <div
-      class="links"
-      :style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
-      } : {}"
-    >
+    <div class="nav-right">
+      <NavLinks class="can-hide" slice="right" />
+      <!-- repo link -->
+      <a
+        v-if="repoLink"
+        :href="repoLink"
+        class="repo-link inline-block"
+        target="_blank"
+        rel="noopener"
+      >
+        <img
+          alt="Pipedream on Github"
+          src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+          width="25px"
+        />
+      </a>
       <AlgoliaSearchBox v-if="isAlgoliaSearch" :options="algolia" />
       <SearchBox
-        v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"
+        v-else-if="
+          $site.themeConfig.search !== false &&
+          $page.frontmatter.search !== false
+        "
       />
-      <NavLinks class="can-hide" />
     </div>
   </header>
 </template>
@@ -40,6 +55,7 @@ import NavLinks from "@theme/components/NavLinks.vue";
 
 export default {
   name: "Navbar",
+  props: ["repoLink"],
 
   components: {
     SidebarButton,
@@ -102,10 +118,9 @@ $navbar-horizontal-padding = 1.5rem;
   padding: $navbar-vertical-padding $navbar-horizontal-padding;
   line-height: $navbarHeight - 1.4rem;
 
-  a, span, img {
-    display: inline-block;
-  }
-
+  // span, img {
+  // display: inline-block;
+  // }
   .logo {
     height: $navbarHeight - 1.4rem;
     min-width: $navbarHeight - 1.4rem;
@@ -126,15 +141,23 @@ $navbar-horizontal-padding = 1.5rem;
     background-color: white;
     white-space: nowrap;
     font-size: 0.9rem;
-    position: absolute;
     right: $navbar-horizontal-padding;
     top: $navbar-vertical-padding;
     display: flex;
+    align-items: center;
 
     .search-box {
       flex: 0 0 auto;
       vertical-align: top;
     }
+  }
+
+  .nav-left {
+    display: inherit;
+  }
+
+  .nav-right {
+    display: inherit;
   }
 }
 

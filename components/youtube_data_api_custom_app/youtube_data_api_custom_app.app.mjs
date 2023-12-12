@@ -1,11 +1,7 @@
+import commonApp from "../youtube_data_api/common-app.mjs";
+
 export default {
+  ...commonApp,
   type: "app",
   app: "youtube_data_api_custom_app",
-  propDefinitions: {},
-  methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-  },
 };

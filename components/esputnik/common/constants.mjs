@@ -1,0 +1,7 @@
+const DEFAULT_PAGE_SIZE = 20;
+const DEFAULT_MAX_REQUESTS = 1;
+
+export default {
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_MAX_REQUESTS,
+};

@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/simpletexting",
+  "version": "0.0.3",
+  "description": "Pipedream SimpleTexting Components",
+  "main": "dist/app/simpletexting.app.mjs",
+  "keywords": [
+    "pipedream",
+    "simpletexting"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/simpletexting",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

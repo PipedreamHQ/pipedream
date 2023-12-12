@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { isString } from "lodash-es";
+import googleCloud from "../../google_cloud.app.mjs";
 import common from "../common/bigquery.mjs";
 
 export default {
@@ -8,38 +9,24 @@ export default {
   // eslint-disable-next-line pipedream/source-name
   name: "BigQuery - New Row",
   description: "Emit new events when a new row is added to a table",
-  version: "0.1.0",
+  version: "0.1.6",
   dedupe: "unique",
   type: "source",
   props: {
     ...common.props,
     tableId: {
-      type: "string",
-      label: "Table Name",
-      description: "The name of the table to watch for new rows",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          return [];
-        }
-
-        const client = this
-          .getBigQueryClient()
-          .dataset(this.datasetId);
-        const [
-          tables,
-        ] = await client.getTables();
-        return tables.map(({ id }) => id);
-      },
+      propDefinition: [
+        googleCloud,
+        "tableId",
+        ({ datasetId }) => ({
+          datasetId,
+        }),
+      ],
     },
     uniqueKey: {
       type: "string",
       label: "Unique Key",
-      description: `
-        The name of a column in the table to use for deduplication. See [the
-        docs](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_cloud/sources/bigquery-new-row#technical-details)
-        for more info.
-      `,
+      description: "The name of a column in the table to use for deduplication. See [the docs](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_cloud/sources/bigquery-new-row#technical-details) for more info.",
       async options(context) {
         const { page } = context;
         if (page !== 0) {
@@ -102,7 +89,7 @@ export default {
       }
     },
     async _getColumnNames() {
-      const table = this
+      const table = this.googleCloud
         .getBigQueryClient()
         .dataset(this.datasetId)
         .table(this.tableId);
@@ -142,7 +129,7 @@ export default {
       const query = `
         SELECT *
         FROM \`${this.tableId}\`
-        WHERE \`${this.uniqueKey}\` > @lastResultId
+        WHERE \`${this.uniqueKey}\` >= @lastResultId
         ORDER BY \`${this.uniqueKey}\` ASC
       `;
       const params = {
