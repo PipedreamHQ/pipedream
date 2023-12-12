@@ -15,8 +15,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const url = await $.files.open(this.filePath).toUrl();
-    $.export("$summary", `Successfully created a URL for "${this.filePath}"`);
-    return url;
+    const { filePath } = this;
+    const file = await $.files.open(filePath);
+    $.export("$summary", `Successfully created a URL for "${filePath}"`);
+    return file.toUrl();
   },
 };
