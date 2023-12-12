@@ -67,6 +67,7 @@ export default {
     batchRequest(args = {}) {
       const { salesforce } = this;
       return salesforce._makeRequest({
+        debug: true,
         method: "POST",
         url: `${salesforce._baseApiVersionUrl()}/composite/batch`,
         ...args,
