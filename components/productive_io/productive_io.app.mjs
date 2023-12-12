@@ -76,6 +76,40 @@ export default {
         }));
       },
     },
+    eventId: {
+      type: "string",
+      label: "Event ID",
+      description: "The id of the event.",
+      async options({ page }) {
+        const { data: events } = await this.listEvents({
+          params: {
+            "page[number]": page,
+            "page[size]": constants.DEFAULT_LIMIT,
+          },
+        });
+        return events.map((event) => ({
+          label: event.attributes.name,
+          value: event.id,
+        }));
+      },
+    },
+    serviceId: {
+      type: "string",
+      label: "Service ID",
+      description: "The id of the service.",
+      async options({ page }) {
+        const { data: services } = await this.listServices({
+          params: {
+            "page[number]": page,
+            "page[size]": constants.DEFAULT_LIMIT,
+          },
+        });
+        return services.map((service) => ({
+          label: service.attributes.name,
+          value: service.id,
+        }));
+      },
+    },
   },
   methods: {
     getAuth() {
@@ -164,6 +198,18 @@ export default {
     listCompanies(args = {}) {
       return this._makeRequest({
         path: "/companies",
+        ...args,
+      });
+    },
+    listEvents(args = {}) {
+      return this._makeRequest({
+        path: "/events",
+        ...args,
+      });
+    },
+    listServices(args = {}) {
+      return this._makeRequest({
+        path: "/services",
         ...args,
       });
     },

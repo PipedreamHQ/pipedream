@@ -1,5 +1,7 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../productive_io.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "productive_io-create-booking",
@@ -13,6 +15,20 @@ export default {
       propDefinition: [
         app,
         "personId",
+      ],
+    },
+    eventId: {
+      optional: true,
+      propDefinition: [
+        app,
+        "eventId",
+      ],
+    },
+    serviceId: {
+      optional: true,
+      propDefinition: [
+        app,
+        "serviceId",
       ],
     },
     startedOn: {
@@ -47,7 +63,8 @@ export default {
   additionalProps() {
     const { bookingMethodId } = this;
 
-    if (bookingMethodId === constants.BOOKING_METHOD_ID.PERCENTAGE_PER_DAY.value) {
+    switch (bookingMethodId) {
+    case constants.BOOKING_METHOD_ID.PERCENTAGE_PER_DAY.value:
       return {
         percentage: {
           type: "integer",
@@ -56,9 +73,7 @@ export default {
           options: Object.values(constants.PERCENTAGE),
         },
       };
-    }
-
-    if (bookingMethodId === constants.BOOKING_METHOD_ID.TOTAL_TIME.value) {
+    case constants.BOOKING_METHOD_ID.TOTAL_TIME.value:
       return {
         totalTime: {
           type: "integer",
@@ -71,6 +86,58 @@ export default {
     return {};
   },
   methods: {
+    getRelationships() {
+      const {
+        personId,
+        eventId,
+        serviceId,
+      } = this;
+
+      if (eventId && serviceId) {
+        throw new ConfigurationError("You can only set either **Event ID** or **Service ID**, not both.");
+      }
+
+      if (!eventId && !serviceId) {
+        throw new ConfigurationError("You need to set either **Event ID** or **Service ID**.");
+      }
+
+      return utils.reduceProperties({
+        initialProps: {
+          person: {
+            data: {
+              type: "people",
+              id: personId,
+            },
+          },
+          origin: {
+            data: {
+              type: "bookings",
+              id: "",
+            },
+          },
+        },
+        additionalProps: {
+          event: [
+            {
+              data: {
+                type: "events",
+                id: eventId,
+              },
+            },
+            eventId,
+          ],
+          service: [
+            {
+              data: {
+                type: "services",
+                id: serviceId,
+              },
+            },
+            serviceId,
+          ],
+        },
+      });
+    },
     createBooking(args = {}) {
       return this.app.post({
         path: "/bookings",
@@ -81,7 +148,7 @@ export default {
   async run({ $ }) {
     const {
       createBooking,
-      personId,
+      getRelationships,
       startedOn,
       endedOn,
       time,
@@ -105,20 +172,7 @@ export default {
             total_time: totalTime,
             percentage,
           },
-          relationships: {
-            person: {
-              data: {
-                type: "people",
-                id: personId,
-              },
-            },
-            origin: {
-              data: {
-                type: "bookings",
-                id: "",
-              },
-            },
-          },
+          relationships: getRelationships(),
         },
       },
     });
