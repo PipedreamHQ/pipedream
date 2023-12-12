@@ -86,7 +86,7 @@ For example, you can delete the data at the **Triggered At** key that we've crea
 
 ![Delete a record example](https://res.cloudinary.com/pipedreamin/image/upload/v1648064157/docs/components/CleanShot_2022-03-23_at_15.35.48_2x_ay1bbw.png)
 
-Deleting a record does not delete the entire data store. [To delete an entire data store, use the Pipedream Data Stores Dashboard](#deleting-data-stores-manually).
+Deleting a record does not delete the entire data store. [To delete an entire data store, use the Pipedream Data Stores Dashboard](#deleting-data-stores).
 
 ## Managing data stores
 
