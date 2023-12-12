@@ -3414,6 +3414,9 @@ importers:
   components/linkedin_ads:
     specifiers: {}
 
+  components/linkly:
+    specifiers: {}
+
   components/linqs_cc:
     specifiers: {}
 
@@ -5232,6 +5235,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/resource_guru:
+    specifiers: {}
+
   components/respond_io:
     specifiers: {}
 
@@ -6837,6 +6843,9 @@ importers:
   components/upwave:
     specifiers: {}
 
+  components/urlbae:
+    specifiers: {}
+
   components/urlbox_io:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -7426,6 +7435,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zenrows:
+    specifiers: {}
 
   components/zerobounce:
     specifiers: {}
