@@ -8,116 +8,88 @@ export default {
       type: "string",
       label: "Form ID",
       description: "The ID of the form for which to create or get entries.",
-      async options({ prevContext }) {
-        const page = prevContext.page
-          ? prevContext.page
-          : 0;
-        const forms = await this.getForms({
-          page,
-        });
-        return {
-          options: forms.map((form) => ({
-            label: form.title,
-            value: form.id,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
+      async options() {
+        const response = await this.listForms();
+
+        const forms = Object.keys(response)
+          .map((key) => response[key]);
+
+        return  forms.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
       },
-    },
-    entryData: {
-      type: "object",
-      label: "Entry Data",
-      description: "The form data to submit, using field input names (e.g., `input_1`) as keys.",
-    },
-    fieldValues: {
-      type: "object",
-      label: "Field Values",
-      description: "An object of dynamic population parameter keys with their corresponding values used to populate the fields.",
-      optional: true,
-    },
-    targetPage: {
-      type: "integer",
-      label: "Target Page",
-      description: "For multi-page forms, indicates which page would be loaded next if the current page passes validation.",
-      optional: true,
-    },
-    sourcePage: {
-      type: "integer",
-      label: "Source Page",
-      description: "For multi-page forms, indicates which page was active when the values were submitted for validation.",
-      optional: true,
-    },
-    additionalProps: {
-      type: "object",
-      label: "Additional Properties",
-      description: "An object containing additional properties for the entry.",
-      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://yourdomain.gravityforms.com/wp-json/gf/v2";
+      return `https://${this.$auth.base_api_url}/wp-json/gf/v2`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        "username": `${this.$auth.consumer_key}`,
+        "password": `${this.$auth.consumer_secret}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        method,
         url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data,
-        params,
-        ...otherOpts,
+        auth: this._auth(),
+        ...opts,
       });
     },
-    async getForms({ page }) {
+    listForms(opts = {}) {
       return this._makeRequest({
         path: "/forms",
-        params: {
-          page,
-        },
+        ...opts,
       });
     },
-    async createEntry({
-      formId, entryData, additionalProps = {},
+    listEntries({
+      formId, ...opts
     }) {
-      const data = {
-        ...entryData,
-        ...additionalProps,
-      };
+      return this._makeRequest({
+        path: `/forms/${formId}/entries`,
+        ...opts,
+      });
+    },
+    createEntry({
+      formId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/forms/${formId}/entries`,
-        data,
+        ...opts,
       });
     },
-    async submitForm({
-      formId, entryData, fieldValues, targetPage, sourcePage, additionalProps = {},
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
     }) {
-      const data = {
-        ...entryData,
-        field_values: fieldValues,
-        target_page: targetPage,
-        source_page: sourcePage,
-        ...additionalProps,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: `/forms/${formId}/submissions`,
-        data,
-      });
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params["paging[current_page]"] = ++page;
+        const data = await fn({
+          params,
+          ...opts,
+        });
+
+        for (const d of data.entries) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.entries.length;
+
+      } while (hasMore);
     },
   },
 };
