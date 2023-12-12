@@ -103,11 +103,13 @@ export default {
       }
       const response = await resourceFn(args);
       const attributes = response["@attributes"];
-      const items = Array.isArray(response[resourceKey])
-        ? response[resourceKey]
-        : [
-          response[resourceKey],
-        ];
+      const items = !response[resourceKey]
+        ? []
+        : Array.isArray(response[resourceKey])
+          ? response[resourceKey]
+          : [
+            response[resourceKey],
+          ];
       const options = items?.map((item) => ({
         value: item[valueKey],
         label: item[labelKey],

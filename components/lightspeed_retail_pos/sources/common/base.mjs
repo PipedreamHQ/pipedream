@@ -66,7 +66,7 @@ export default {
         if (!item[tsField]) {
           continue;
         }
-        if (Date.parse(item[tsField] > lastTs)) {
+        if (Date.parse(item[tsField]) > lastTs) {
           results.push(item);
         } else {
           break;
