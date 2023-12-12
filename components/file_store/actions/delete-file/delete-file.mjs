@@ -13,6 +13,7 @@ export default {
         app,
         "filePath",
       ],
+      description: "The path to the file to delete.",
     },
   },
   async run({ $ }) {
