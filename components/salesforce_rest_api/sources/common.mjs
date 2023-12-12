@@ -51,17 +51,17 @@ export default {
     processEvent() {
       throw new Error("processEvent is not implemented");
     },
-    getRelativeObjectUrl(id) {
+    getRelativeObjectUrl(id, historyObjectType) {
       const {
         salesforce,
         objectType,
       } = this;
-      return `/services/data/v${salesforce._apiVersion()}/sobjects/${objectType}/${id}`;
+      return `/services/data/v${salesforce._apiVersion()}/sobjects/${historyObjectType || objectType}/${id}`;
     },
-    getBatchRequests(ids) {
+    getBatchRequests(ids, historyObjectType) {
       return ids.map((id) => ({
         method: "GET",
-        url: this.getRelativeObjectUrl(id),
+        url: this.getRelativeObjectUrl(id, historyObjectType),
       }));
     },
     batchRequest(args = {}) {

@@ -50,6 +50,7 @@ export default {
         "field",
         ({ objectType }) => ({
           objectType,
+          filter: ({ updateable }) => updateable,
         }),
       ],
     },
@@ -82,6 +83,12 @@ export default {
     _getParentId(item) {
       const parentIdKey = `${this.objectType}Id`;
       return item[parentIdKey] ?? item["ParentId"];
+    },
+    getUniqueParentIds(items) {
+      // To fetch associated sObject records only once, create a set of the "parent IDs" of the
+      // history object records
+      const parentIdSet = new Set(items.map(this._getParentId).filter((id) => id));
+      return Array.from(parentIdSet);
     },
     isValidSObject(sobject) {
       // Only the activity of those SObject types that have the `replicateable`
@@ -116,28 +123,40 @@ export default {
         ts,
       };
     },
-    async processEvent(eventData) {
+    async processEvent({
+      startTimestamp, endTimestamp,
+    }) {
+      const {
+        salesforce,
+        _getHistoryObjectType,
+        setLatestDateCovered,
+        batchRequest,
+        getBatchRequests,
+        isRelevant,
+        getUniqueParentIds,
+        _getParentId,
+        generateMeta,
+        $emit: emit,
+      } = this;
+
       let historyItemRetrievals = [];
       let itemRetrievals = [];
-      const {
-        startTimestamp,
-        endTimestamp,
-      } = eventData;
-      const historyObjectType = this._getHistoryObjectType();
+      const historyObjectType = _getHistoryObjectType();
       const {
         ids,
         latestDateCovered,
-      } = await this.salesforce.getUpdatedForObjectType(
+      } = await salesforce.getUpdatedForObjectType(
         historyObjectType,
         startTimestamp,
         endTimestamp,
       );
-      this.setLatestDateCovered(latestDateCovered);
+
+      setLatestDateCovered((new Date(latestDateCovered)).toISOString());
 
       if (ids?.length) {
-        ({ results: historyItemRetrievals } = await this.batchRequest({
+        ({ results: historyItemRetrievals } = await batchRequest({
           data: {
-            batchRequests: this.getBatchRequests(ids),
+            batchRequests: getBatchRequests(ids, historyObjectType),
           },
         }));
       }
@@ -145,22 +164,15 @@ export default {
       const historyItems = historyItemRetrievals
         .filter(({
           statusCode, result: item,
-        }) => statusCode === 200 && this.isRelevant(item))
+        }) => statusCode === 200 && isRelevant(item))
         .map(({ result: item }) => item);
 
-      // To fetch associated sObject records only once, create a set of the "parent IDs" of the
-      // history object records
-      const parentIdSet = new Set(
-        historyItems
-          .map(this._getParentId)
-          .filter((id) => id),
-      );
-      const parentIds = Array.from(parentIdSet);
+      const parentIds = getUniqueParentIds(historyItems);
 
       if (parentIds.length) {
-        ({ results: itemRetrievals } = await this.batchRequest({
+        ({ results: itemRetrievals } = await batchRequest({
           data: {
-            batchRequests: this.getBatchRequests(parentIds),
+            batchRequests: getBatchRequests(parentIds),
           },
         }));
       }
@@ -174,12 +186,12 @@ export default {
 
       const events = historyItems.map((item) => ({
         update: item,
-        record: itemsById[this._getParentId(item)],
+        record: itemsById[_getParentId(item)],
       }));
 
       events.forEach((event) => {
-        const meta = this.generateMeta(event);
-        this.$emit(event, meta);
+        const meta = generateMeta(event);
+        emit(event, meta);
       });
     },
   },
