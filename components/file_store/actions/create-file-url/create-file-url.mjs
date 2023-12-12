@@ -1,4 +1,4 @@
-import fileStoreApp from "../../file_store.app.mjs";
+import app from "../../file_store.app.mjs";
 
 export default {
   key: "file_store-create-file-url",
@@ -7,11 +7,12 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    fileStoreApp,
+    app,
     filePath: {
-      type: "string",
-      label: "File Path",
-      description: "The path to the file to create a URL for.",
+      propDefinition: [
+        app,
+        "filePath",
+      ],
     },
   },
   async run({ $ }) {

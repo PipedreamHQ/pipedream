@@ -1,4 +1,4 @@
-import fileStore from "../../file_store.app.mjs";
+import app from "../../file_store.app.mjs";
 
 export default {
   key: "file_store-list-files",
@@ -7,10 +7,10 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    fileStore,
+    app,
     directory: {
       propDefinition: [
-        fileStore,
+        app,
         "directory",
       ],
     },
