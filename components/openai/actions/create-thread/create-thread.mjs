@@ -2,9 +2,9 @@ import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-create-thread",
-  name: "Create Thread",
+  name: "Create Thread (Assistants)",
   description: "Creates a thread with optional messages and metadata. [See the documentation](https://platform.openai.com/docs/api-reference/threads/createThread)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     openai,

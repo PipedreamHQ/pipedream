@@ -8,22 +8,28 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 def get_embedding(text):
     if config["openai_api_type"] == "azure":
-        url = f"{config['azure']['api_base']}/openai/deployments/{config['azure']['deployment_name']}/embeddings"
-        api_key = config["azure"]["api_key"]
+        url = f"{config['azure']['api_base']}/openai/deployments/{config['azure']['embeddings_deployment_name']}/embeddings"
+        headers = {
+            "api-key": config["azure"]["api_key"],
+        }
+        params = {
+            "api-version": config["azure"]["api_version"],
+        }
+        data = {
+            "input": text,
+            "model": "text-embedding-ada-002",
+        }
+        response = requests.post(url, headers=headers, params=params, json=data)
     else:
         url = "https://api.openai.com/v1/embeddings"
-        api_key = config["openai"]["api_key"]
-
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-    }
-
-    data = {
-        "input": text,
-        "model": "text-embedding-ada-002",
-    }
-
-    response = requests.post(url, headers=headers, json=data)
+        headers = {
+            "Authorization": f'Bearer {config["openai"]["api_key"]}',
+        }
+        data = {
+            "input": text,
+            "model": "text-embedding-ada-002",
+        }
+        response = requests.post(url, headers=headers, json=data)
 
     if not response.ok:
         raise Exception(
