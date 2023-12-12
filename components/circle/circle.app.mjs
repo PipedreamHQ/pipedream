@@ -4,111 +4,156 @@ export default {
   type: "app",
   app: "circle",
   propDefinitions: {
-    community_id: {
+    body: {
+      type: "string",
+      label: "Body",
+      description: "The body of the post.",
+    },
+    communityId: {
       type: "string",
       label: "Community ID",
-      description: "Select the community you want to interact with",
+      description: "Select the community you want to interact with.",
       async options() {
         const communities = await this.listCommunities();
-        return communities.map((community) => ({
-          label: community.name,
-          value: community.id,
+
+        return communities.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    space_id: {
-      type: "string",
-      label: "Space ID",
-      description: "Select the space within the community",
-      async options({ community_id }) {
-        if (!community_id) {
-          return [];
-        }
-        const spaces = await this.listSpaces(community_id);
-        return spaces.map((space) => ({
-          label: space.name,
-          value: space.id,
-        }));
-      },
-    },
-    post_id: {
+    postId: {
       type: "string",
       label: "Post ID",
-      description: "Select the post you want to create a comment for",
+      description: "Select the post you want to create a comment for.",
       async options({
-        community_id, space_id,
+        communityId, spaceId, page,
       }) {
-        if (!community_id || !space_id) {
-          return [];
-        }
-        const posts = await this.listPosts(community_id, space_id);
-        return posts.map((post) => ({
-          label: post.title,
-          value: post.id,
+        const posts = await this.listPosts({
+          params: {
+            communityId,
+            spaceId,
+            page: page + 1,
+            status: "all",
+          },
+        });
+
+        return posts.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    postData: {
-      type: "object",
-      label: "Post Data",
-      description: "The data for creating a new post",
+    spaceId: {
+      type: "string",
+      label: "Space ID",
+      description: "Select the space within the community.",
+      async options({
+        communityId, page,
+      }) {
+        const spaces = await this.listSpaces({
+          params: {
+            communityId,
+            page: page + 1,
+          },
+        });
+
+        return spaces.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    commentData: {
-      type: "object",
-      label: "Comment Data",
-      description: "The data for creating a new comment",
+    userEmail: {
+      type: "string",
+      label: "User Email",
+      description: "Email of the community member to post from. Defaults to admin if empty.",
     },
   },
   methods: {
     _baseUrl() {
       return "https://app.circle.so/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Token ${this.$auth.api_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Token ${this.$auth.api_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listCommunities() {
+    listCommunities() {
       return this._makeRequest({
         path: "/communities",
       });
     },
-    async listSpaces(communityId) {
+    listSpaces(opts = {}) {
       return this._makeRequest({
-        path: `/communities/${communityId}/spaces`,
+        path: "/spaces",
+        ...opts,
       });
     },
-    async listPosts(communityId, spaceId) {
+    listPosts(opts = {}) {
       return this._makeRequest({
-        path: `/communities/${communityId}/spaces/${spaceId}/posts`,
+        path: "/posts",
+        ...opts,
       });
     },
-    async createPost({
-      community_id, space_id, ...postData
-    }) {
+    listComments(opts = {}) {
+      return this._makeRequest({
+        path: "/comments",
+        ...opts,
+      });
+    },
+    createPost(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/communities/${community_id}/spaces/${space_id}/posts`,
-        data: postData,
+        path: "/posts",
+        ...opts,
       });
     },
-    async createComment({
-      community_id, space_id, post_id, ...commentData
-    }) {
+    createComment(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/communities/${community_id}/spaces/${space_id}/posts/${post_id}/comments`,
-        data: commentData,
+        path: "/comments",
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const data = await fn({
+          params,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

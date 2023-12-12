@@ -1,64 +1,67 @@
 import circle from "../../circle.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "circle-create-comment",
   name: "Create Comment",
-  description: "Creates a comment on a post in Circle. [See the documentation](https://api.circle.so)",
-  version: "0.0.{{ts}}",
+  description: "Creates a comment on a post in Circle. [See the documentation](https://api.circle.so/#4cb2eea1-6832-4ffc-8614-078b88dee4e2)",
+  version: "0.0.1",
   type: "action",
   props: {
     circle,
-    community_id: {
+    communityId: {
       propDefinition: [
         circle,
-        "community_id",
-        {
-          async options() {
-            const communities = await this.circle.listCommunities();
-            return communities.map((community) => ({
-              label: community.name,
-              value: community.id,
-            }));
-          },
-        },
+        "communityId",
       ],
     },
-    space_id: {
+    spaceId: {
       propDefinition: [
         circle,
-        "space_id",
-        (c) => ({
-          community_id: c.community_id,
+        "spaceId",
+        ({ communityId }) => ({
+          communityId,
         }),
       ],
     },
-    post_id: {
+    postId: {
       propDefinition: [
         circle,
-        "post_id",
-        (c) => ({
-          community_id: c.community_id,
-          space_id: c.space_id,
+        "postId",
+        ({
+          communityId, spaceId,
+        }) => ({
+          communityId,
+          spaceId,
         }),
       ],
     },
-    commentData: {
+    body: {
       propDefinition: [
         circle,
-        "commentData",
+        "body",
       ],
+      description: "The body of the comment.",
+    },
+    userEmail: {
+      propDefinition: [
+        circle,
+        "userEmail",
+      ],
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.circle.createComment({
-      community_id: this.community_id,
-      space_id: this.space_id,
-      post_id: this.post_id,
-      ...this.commentData,
+      params: {
+        community_id: this.communityId,
+        space_id: this.spaceId,
+        post_id: this.postId,
+        body: this.body,
+        user_email: this.userEmail,
+      },
     });
 
-    $.export("$summary", `Successfully created a comment on post ID ${this.post_id}`);
+    $.export("$summary", `Successfully created a comment with ID ${response.comment?.id}`);
     return response;
   },
 };

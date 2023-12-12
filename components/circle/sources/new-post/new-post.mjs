@@ -1,13 +1,12 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import circle from "../../circle.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "circle-new-post",
   name: "New Post Published",
-  description: "Emits an event each time a new post gets published in the community. [See the documentation](https://api.circle.so)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event each time a new post gets published in the community.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,77 +18,69 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    community_id: {
+    communityId: {
       propDefinition: [
         circle,
-        "community_id",
+        "communityId",
       ],
     },
-    space_id: {
+    spaceId: {
       propDefinition: [
         circle,
-        "space_id",
-        (c) => ({
-          community_id: c.community_id,
+        "spaceId",
+        ({ communityId }) => ({
+          communityId,
         }),
       ],
+      optional: true,
     },
   },
   methods: {
-    _getAfter() {
-      return this.db.get("after") || null;
+    _getLastId() {
+      return this.db.get("lastId") || 0;
     },
-    _setAfter(after) {
-      this.db.set("after", after);
+    _setLastId(lastId) {
+      return this.db.set("lastId", lastId);
+    },
+    async startEvent(maxResults = false) {
+      const lastId = this._getLastId();
+      const response = this.circle.paginate({
+        fn: this.circle.listPosts,
+        maxResults,
+        params: {
+          status: "all",
+          community_id: this.communityId,
+          space_id: this.spaceId,
+        },
+      });
+
+      const responseArray = [];
+
+      for await (const item of response) {
+        if (item.id <= lastId) break;
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) {
+        this._setLastId(responseArray[0].id);
+      }
+
+      for (const event of responseArray.reverse()) {
+        this.$emit(event, {
+          id: event.id,
+          summary: `New post with ID: ${event.id}`,
+          ts: Date.parse(event.created_at),
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      // Fetching the most recent posts to determine the current state
-      const posts = await this.circle.listPosts(this.community_id, this.space_id);
-      if (posts.length > 0) {
-        // Assuming posts are sorted in descending order (newest first)
-        this._setAfter(posts[0].created_at);
-      }
+      await this.startEvent(25);
     },
   },
   async run() {
-    let after = this._getAfter();
-    let hasMore = true;
-    let maxCreatedAt = after;
-
-    while (hasMore) {
-      const params = after
-        ? {
-          after,
-        }
-        : {};
-      const posts = await this.circle.listPosts(this.community_id, this.space_id, params);
-
-      if (posts.length === 0) {
-        hasMore = false;
-      } else {
-        for (const post of posts) {
-          this.$emit(post, {
-            id: post.id,
-            summary: `New Post: ${post.title}`,
-            ts: Date.parse(post.created_at),
-          });
-
-          if (!maxCreatedAt || new Date(post.created_at) > new Date(maxCreatedAt)) {
-            maxCreatedAt = post.created_at;
-          }
-        }
-
-        const lastPost = posts[posts.length - 1];
-        if (new Date(lastPost.created_at) <= new Date(after)) {
-          hasMore = false;
-        }
-      }
-    }
-
-    if (maxCreatedAt) {
-      this._setAfter(maxCreatedAt);
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };

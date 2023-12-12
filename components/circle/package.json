@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/circle",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Circle Components",
-  "main": "dist/app/circle.app.mjs",
+  "main": "circle.app.mjs",
   "keywords": [
     "pipedream",
     "circle"
@@ -14,5 +14,9 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
+

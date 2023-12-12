@@ -1,13 +1,12 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import circle from "../../circle.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "circle-new-comment-posted",
   name: "New Comment Posted",
-  description: "Emits an event each time a new comment is posted in the selected community space. [See the documentation](https://api.circle.so)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event each time a new comment is posted in the selected community space.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,93 +18,77 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    community_id: {
+    communityId: {
       propDefinition: [
         circle,
-        "community_id",
+        "communityId",
       ],
     },
-    space_id: {
+    spaceId: {
       propDefinition: [
         circle,
-        "space_id",
-        (c) => ({
-          community_id: c.community_id,
+        "spaceId",
+        ({ communityId }) => ({
+          communityId,
         }),
       ],
       optional: true,
     },
-    post_id: {
+    postId: {
       propDefinition: [
         circle,
-        "post_id",
-        (c) => ({
-          community_id: c.community_id,
-          space_id: c.space_id,
+        "postId",
+        ({
+          communityId, spaceId,
+        }) => ({
+          communityId,
+          spaceId,
         }),
       ],
       optional: true,
+    },
+  },
+  methods: {
+    _getLastId() {
+      return this.db.get("lastId") || 0;
+    },
+    _setLastId(lastId) {
+      return this.db.set("lastId", lastId);
+    },
+    async startEvent(maxResults = false) {
+      const lastId = this._getLastId();
+      const response = await this.circle.listComments({
+        params: {
+          community_id: this.communityId,
+          space_id: this.spaceId,
+          post_id: this.postId,
+        },
+      });
+
+      if (maxResults && response.length > maxResults) response.length = maxResults;
+
+      if (response.length) {
+        this._setLastId(response[0].id);
+      }
+
+      const responseArray = response.filter((item) => item.id > lastId);
+
+      for (const event of responseArray.reverse()) {
+        this.$emit(event, {
+          id: event.id,
+          summary: `New comment with ID: ${event.id}`,
+          ts: Date.parse(event.created_at),
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      // Fetching the most recent comments to set the initial state for polling
-      const params = {
-        community_id: this.community_id,
-        space_id: this.space_id,
-        post_id: this.post_id,
-        sort: "created_at",
-        order: "desc",
-      };
-      const comments = await this.circle.listComments(params);
-      const latestComments = comments.slice(0, 50); // We only emit up to 50 events on deploy
-
-      for (const comment of latestComments) {
-        const meta = this.generateMeta(comment);
-        this.$emit(comment, meta);
-      }
-
-      // Store the timestamp of the latest comment for the next polling interval
-      if (latestComments.length > 0) {
-        const after = latestComments[0].created_at;
-        this.db.set("after", after);
-      }
-    },
-  },
-  methods: {
-    _getAfter() {
-      return this.db.get("after") ?? null;
-    },
-    _setAfter(after) {
-      this.db.set("after", after);
-    },
-    generateMeta(comment) {
-      return {
-        id: comment.id,
-        summary: `New Comment by ${comment.user.name}: ${comment.text.substring(0, 140)}...`,
-        ts: Date.parse(comment.created_at),
-      };
+      await this.startEvent(25);
     },
   },
   async run() {
-    const after = this._getAfter();
-    const params = {
-      community_id: this.community_id,
-      space_id: this.space_id,
-      post_id: this.post_id,
-      after,
-    };
-
-    // Poll for new comments
-    const comments = await this.circle.listComments(params);
-    if (comments.length > 0) {
-      // Store the timestamp of the latest comment for the next polling interval
-      this._setAfter(comments[0].created_at);
-
-      for (const comment of comments) {
-        const meta = this.generateMeta(comment);
-        this.$emit(comment, meta);
-      }
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };
