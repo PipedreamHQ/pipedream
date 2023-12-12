@@ -3,8 +3,8 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-update-collection-item",
   name: "Update Collection Item",
-  description: "Update collection item. [See the docs here](https://developers.webflow.com/#update-collection-item)",
-  version: "0.1.5",
+  description: "Update collection item. [See the documentation](https://developers.webflow.com/#update-collection-item)",
+  version: "0.1.6",
   type: "action",
   props: {
     webflow,
@@ -52,6 +52,15 @@ export default {
   async run({ $ }) {
     const webflow = this.webflow._createApiClient();
 
+    const customFields = {};
+    for (const [
+      key,
+      value,
+    ] of Object.entries(this.customFields)) {
+      const formattedKey = key.replace(/\s+/g, "-").toLowerCase();
+      customFields[formattedKey] = value;
+    }
+
     const response = await webflow.updateItem({
       collectionId: this.collectionId,
       itemId: this.itemId,
@@ -59,7 +68,7 @@ export default {
       slug: this.slug,
       _archived: false,
       _draft: false,
-      ...this.customFields,
+      ...customFields,
     });
 
     $.export("$summary", "Successfully updated collection item");
