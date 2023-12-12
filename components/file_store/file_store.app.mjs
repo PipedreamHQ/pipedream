@@ -7,21 +7,8 @@ export default {
     directory: {
       type: "string",
       label: "Directory",
-      description: "The directory to list or upload files to. Leave blank to use the root directory.",
+      description: "The directory to list or upload files to. Defaults to the root directory.",
       optional: true,
-      async options({ prevContext }) {
-        const page = prevContext.page || 0;
-        const dirs = await this.listFiles({
-          path: "",
-          page,
-        });
-        return dirs
-          .filter((dir) => dir.isDirectory())
-          .map((dir) => ({
-            label: dir.path,
-            value: dir.path,
-          }));
-      },
     },
     file: {
       type: "string",
@@ -41,23 +28,17 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.pipedream.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,

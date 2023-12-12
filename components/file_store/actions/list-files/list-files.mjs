@@ -13,16 +13,42 @@ export default {
         fileStore,
         "directory",
       ],
+    },
+    filter: {
+      type: "string",
+      label: "Filter",
+      description: "Whether to list only files, directories, or both (default).",
       optional: true,
+      options: [
+        "Files",
+        "Directories",
+        "Both",
+      ],
+      default: "Both",
     },
   },
   async run({ $ }) {
-    const directoryPath = this.directory || "";
-    const files = await this.fileStore.listFiles({
-      path: directoryPath,
-    });
+    let result = [], summary = "files and directories";
+    const dirs = $.files.dir();
 
-    $.export("$summary", `Successfully listed files in the directory: ${directoryPath || "root"}`);
-    return files;
+    for await (const dir of dirs) {
+      result.push(dir);
+    }
+
+    switch (this.filter) {
+    case "Files":
+      result = result.filter((file) => file.isFile());
+      summary = "files";
+      break;
+    case "Directories":
+      result = result.filter((file) => file.isDirectory());
+      summary = "directories";
+      break;
+    default:
+      break;
+    }
+
+    $.export("$summary", `Successfully listed ${summary} in ${this.directory ?? "the root directory"}`);
+    return result;
   },
 };
