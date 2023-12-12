@@ -6,23 +6,41 @@ export default {
   key: "google_calendar-event-start",
   name: "New Event Start",
   description: "Emit new event when the specified time before the Google Calendar event starts",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "source",
   dedupe: "unique",
   props: {
-    ...common.props({
-      useCalendarId: true,
-    }),
+    ...common.props,
+    calendarId: {
+      propDefinition: [
+        common.props.googleCalendar,
+        "calendarId",
+      ],
+    },
+    minutesBefore: {
+      type: "integer",
+      label: "Minutes Before",
+      description: "Emit the event this many minutes before the event starts",
+      default: 5,
+    },
   },
   methods: {
     ...common.methods,
+    getMillisecondsBefore() {
+      return +this.minutesBefore * 60 * 1000;
+    },
     getConfig({
-      intervalMs, now,
+      now, intervalMs,
     }) {
-      const timeMin = now.toISOString();
+      const {
+        getMillisecondsBefore,
+        calendarId,
+      } = this;
+
+      const timeMin = new Date(now.getTime() - getMillisecondsBefore()).toISOString();
       const timeMax = new Date(now.getTime() + intervalMs).toISOString();
       return {
-        calendarId: this.calendarId,
+        calendarId,
         timeMax,
         timeMin,
         singleEvents: true,
@@ -30,12 +48,12 @@ export default {
       };
     },
     isRelevant(event, {
-      intervalMs, now,
+      now, intervalMs,
     }) {
-      const eventStart = event?.start?.dateTime;
-      const start = new Date(eventStart);
+      const start = new Date(event?.start?.dateTime);
       const msFromStart = start.getTime() - now.getTime();
-      return eventStart && msFromStart > 0 && msFromStart < intervalMs;
+      return msFromStart > 0
+        && msFromStart < (this.getMillisecondsBefore() + intervalMs);
     },
   },
   sampleEmit,

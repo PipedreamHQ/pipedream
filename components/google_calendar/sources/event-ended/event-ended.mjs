@@ -5,13 +5,17 @@ export default {
   key: "google_calendar-event-ended",
   name: "New Ended Event",
   description: "Emit new event when a Google Calendar event ends",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "source",
   dedupe: "unique",
   props: {
-    ...common.props({
-      useCalendarId: true,
-    }),
+    ...common.props,
+    calendarId: {
+      propDefinition: [
+        common.props.googleCalendar,
+        "calendarId",
+      ],
+    },
   },
   methods: {
     ...common.methods,
