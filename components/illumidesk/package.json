@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/illumidesk",
+  "version": "0.0.1",
+  "description": "Pipedream Illumidesk Components",
+  "main": "illumidesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "illumidesk"
+  ],
+  "homepage": "https://pipedream.com/apps/illumidesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

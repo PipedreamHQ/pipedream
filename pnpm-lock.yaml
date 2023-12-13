@@ -2647,7 +2647,10 @@ importers:
     specifiers: {}
 
   components/gravity_forms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/grist:
     specifiers: {}
@@ -6859,7 +6862,10 @@ importers:
     specifiers: {}
 
   components/usersketch:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/uservoice:
     specifiers:
