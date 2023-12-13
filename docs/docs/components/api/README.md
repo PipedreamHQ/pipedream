@@ -106,7 +106,7 @@ Props are custom attributes you can register on a component. When a value is pas
 | [User Input](#user-input-props) | Enable components to accept input on deploy                                                   |
 | [Interface](#interface-props)   | Attaches a Pipedream interface to your component (e.g., an HTTP interface or timer)           |
 | [Service](#service-props)       | Attaches a Pipedream service to your component (e.g., a key-value database to maintain state) |
-| [App](#user-input-props)        | Enables managed auth for a component                                                          |
+| [App](#app-props)               | Enables managed auth for a component                                                          |
 
 #### User Input Props
 
