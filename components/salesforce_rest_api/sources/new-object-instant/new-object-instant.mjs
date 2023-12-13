@@ -7,7 +7,7 @@ export default {
   name: "New Object (Instant, of Selectable Type)",
   key: "salesforce_rest_api-new-object-instant",
   description: "Emit new event immediately after an object of arbitrary type (selected as an input parameter by the user) is created",
-  version: "0.1.3",
+  version: "0.1.4",
   hooks: {
     ...common.hooks,
     async deploy() {
