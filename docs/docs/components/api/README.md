@@ -671,7 +671,7 @@ props: {
 
 **Example**
 
-Following is an example action that demonstrates how to accept an HTTP Request configuration as input and execute the request when the component is run:
+Following is an example action that demonstrates how to accept an HTTP request configuration as input and execute the request when the component is run:
 
 ```javascript
 export default {
