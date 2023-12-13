@@ -430,6 +430,19 @@ async additionalProps(previousPropDefs) {
 },
 ```
 
+A dynamic props can have one of the following prop types:
+
+- `app`
+- `boolean`
+- `integer`
+- `string`
+- `object`
+- `any`
+- `$.interface.http`
+- `$.interface.timer`
+- `data_store`
+- `http_request`
+
 #### Interface Props
 
 Interface props are infrastructure abstractions provided by the Pipedream platform. They declare how a source is invoked — via HTTP request, run on a schedule, etc. — and therefore define the shape of the events it processes.
