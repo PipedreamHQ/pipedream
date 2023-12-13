@@ -74,6 +74,20 @@ export default {
       type: "string",
       label: "User Email",
       description: "Email of the community member to post from. Defaults to admin if empty.",
+      async options({ page }) {
+        const spaces = await this.listMembers({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return spaces.map(({
+          email: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
@@ -97,6 +111,11 @@ export default {
     listCommunities() {
       return this._makeRequest({
         path: "/communities",
+      });
+    },
+    listMembers() {
+      return this._makeRequest({
+        path: "/community_members",
       });
     },
     listSpaces(opts = {}) {

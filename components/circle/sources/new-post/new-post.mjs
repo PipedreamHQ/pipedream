@@ -1,49 +1,25 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import circle from "../../circle.app.mjs";
+import common from "../common/base.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "circle-new-post",
   name: "New Post Published",
   description: "Emit new event each time a new post gets published in the community.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    circle,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    communityId: {
-      propDefinition: [
-        circle,
-        "communityId",
-      ],
-    },
-    spaceId: {
-      propDefinition: [
-        circle,
-        "spaceId",
-        ({ communityId }) => ({
-          communityId,
-        }),
-      ],
-      optional: true,
-    },
-  },
   methods: {
+    ...common.methods,
     _getLastId() {
       return this.db.get("lastId") || 0;
     },
     _setLastId(lastId) {
       return this.db.set("lastId", lastId);
     },
-    async startEvent(maxResults = false) {
-      const lastId = this._getLastId();
+    async getResponse({
+      maxResults, lastId,
+    }) {
       const response = this.circle.paginate({
         fn: this.circle.listPosts,
         maxResults,
@@ -64,23 +40,11 @@ export default {
       if (responseArray.length) {
         this._setLastId(responseArray[0].id);
       }
-
-      for (const event of responseArray.reverse()) {
-        this.$emit(event, {
-          id: event.id,
-          summary: `New post with ID: ${event.id}`,
-          ts: Date.parse(event.created_at),
-        });
-      }
+      return responseArray;
     },
-  },
-  hooks: {
-    async deploy() {
-      await this.startEvent(25);
+    getSummary({ id }) {
+      return `New post with ID: ${id}`;
     },
-  },
-  async run() {
-    await this.startEvent();
   },
   sampleEmit,
 };

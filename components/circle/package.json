@@ -7,9 +7,6 @@
     "pipedream",
     "circle"
   ],
-  "files": [
-    "dist"
-  ],
   "homepage": "https://pipedream.com/apps/circle",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
