@@ -5,10 +5,10 @@ import common from "../common.mjs";
 export default {
   ...common,
   type: "source",
-  name: "New Deleted Object (of Selectable Type)",
-  key: "salesforce_rest_api-object-deleted",
-  description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is deleted. [See the docs](https://sforce.co/3msDDEE) for more information.",
-  version: "0.1.6",
+  name: "New Deleted Record (of Selectable Type)",
+  key: "salesforce_rest_api-record-deleted",
+  description: "Emit new event (at regular intervals) when a record of arbitrary object type (selected as an input parameter by the user) is deleted. [See the docs](https://sforce.co/3msDDEE) for more information.",
+  version: "0.0.1",
   methods: {
     ...common.methods,
     generateMeta(item) {
