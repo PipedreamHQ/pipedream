@@ -1533,6 +1533,9 @@ importers:
       form-data: 4.0.0
       fs: 0.0.1-security
 
+  components/diffy:
+    specifiers: {}
+
   components/digicert:
     specifiers: {}
 
@@ -1599,6 +1602,9 @@ importers:
       nanoid: 4.0.2
 
   components/dispatch:
+    specifiers: {}
+
+  components/dnsfilter:
     specifiers: {}
 
   components/dock_certs:
@@ -2912,6 +2918,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/illumidesk:
+    specifiers: {}
+
   components/ilovepdf:
     specifiers:
       '@pipedream/platform': 1.5.1
@@ -3295,6 +3304,9 @@ importers:
     specifiers: {}
 
   components/kyvio:
+    specifiers: {}
+
+  components/l3mbda:
     specifiers: {}
 
   components/labs64_netlicensing:
@@ -3827,6 +3839,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/microsoft_power_bi:
+    specifiers: {}
 
   components/microsoft_sql_server:
     specifiers:
@@ -5134,6 +5149,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/recruitis:
+    specifiers: {}
 
   components/recurly:
     specifiers:
@@ -7139,6 +7157,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/whop:
+    specifiers: {}
 
   components/whosonlocation:
     specifiers: {}
