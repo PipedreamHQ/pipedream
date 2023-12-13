@@ -36,6 +36,12 @@ export default {
       description: "An object representing the source of the connection. Object must contain at least `name`. Please check the [documentation](https://hookdeck.com/api-ref#create-a-connection) for more information.",
       optional: true,
     },
+    destinationName: {
+      type: "string",
+      label: "Destination Name",
+      description: "The destination name that will be created or updated with Pipedream HTTP endpoint for Pipedream source to receive your event. Existing destination with the same name will be overridden with the new HTTP endpoint",
+      optional: true,
+    },
   },
   hooks: {
     async deploy() {
@@ -48,12 +54,12 @@ export default {
     },
     async activate() {
       const { id } = await this.app.createConnection({
-        name: this.name || "Pipedream",
+        name: this.name || `Pipedream_Connection_${this.getCurrentDateTime()}`,
         description: this.description,
         source_id: this.sourceId,
         source: this.source,
         destination: {
-          name: "Pipedream_Source",
+          name: this.destinationName || `Pipedream_Source_${this.getCurrentDateTime()}`,
           url: this.http.endpoint,
         },
       });
@@ -78,6 +84,19 @@ export default {
         method: "DELETE",
         path: `/connections/${id}`,
       });
+    },
+    getCurrentDateTime() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = (now.getMonth() + 1).toString().padStart(2, "0");
+      const day = now.getDate().toString()
+        .padStart(2, "0");
+      const hours = now.getHours().toString()
+        .padStart(2, "0");
+      const minutes = now.getMinutes().toString()
+        .padStart(2, "0");
+
+      return `${year}${month}${day}${hours}${minutes}`;
     },
     generateMeta() {
       return {
