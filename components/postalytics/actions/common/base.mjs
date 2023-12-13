@@ -131,6 +131,7 @@ export default {
           address_street2: this.addressStreet2,
           address_city: this.addressCity,
           address_state: this.addressState,
+          address_zip: this.addressZip,
           email_address: this.emailAddress,
           var_field_1: this.varField1,
           var_field_2: this.varField2,
