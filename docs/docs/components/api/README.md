@@ -430,7 +430,7 @@ async additionalProps(previousPropDefs) {
 },
 ```
 
-A dynamic props can have one of the following prop types:
+Dynamic props can have any one of the following prop types:
 
 - `app`
 - `boolean`
