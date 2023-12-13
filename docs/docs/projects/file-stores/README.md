@@ -187,7 +187,7 @@ export default defineComponent({
     const readStream = got.stream('https://pdrm.co/logo')
 
     // Populate the file's content from the read stream
-    await $files.open("logo.png").fromReadableStream(readStream)
+    await $.files.open("logo.png").fromReadableStream(readStream)
   },
 })
 ```
