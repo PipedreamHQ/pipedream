@@ -9,24 +9,28 @@ export default {
   props: {
     app,
     firstName: {
-      type: "string",
-      label: "First name",
-      description: "First name of the contact",
+      propDefinition: [
+        app,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last name",
-      description: "Last name of the contact",
+      propDefinition: [
+        app,
+        "lastName",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "Email of the contact",
+      propDefinition: [
+        app,
+        "email",
+      ],
     },
     phone: {
-      type: "string",
-      label: "Phone number",
-      description: "Phone number of the contact",
+      propDefinition: [
+        app,
+        "phone",
+      ],
     },
   },
   async run({ $ }) {

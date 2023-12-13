@@ -26,11 +26,43 @@ export default {
         ts: Date.parse(data.created),
       });
     },
+    _setLastResourceId(id) {
+      this.db.set("lastResourceId", id);
+    },
+    _getLastResourceId() {
+      return this.db.get("lastResourceId");
+    },
   },
   async run() {
     const { resources } = await this.app.getContacts();
 
     resources.filter((contact) => contact.record_type === "person")
       .forEach(this.emitEvent);
+
+    const lastResourceId = this._getLastResourceId();
+
+    let page = 1;
+
+    while (page >= 0) {
+      let { resources } = await this.webinargeek.getContacts({
+        params: {
+          page,
+          per_page: 100,
+        },
+      });
+
+      resources = resources.filter((contact) => contact.record_type === "person");
+
+      resources.reverse().forEach(this.emitEvent);
+
+      if (
+        resources.length < 100 ||
+        resources.filter((resource) => resource.id === lastResourceId)
+      ) {
+        return;
+      }
+
+      page++;
+    }
   },
 };
