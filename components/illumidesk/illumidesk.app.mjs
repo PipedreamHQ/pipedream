@@ -4,112 +4,139 @@ export default {
   type: "app",
   app: "illumidesk",
   propDefinitions: {
-    courseId: {
+    courseSlug: {
       type: "string",
       label: "Course ID",
-      description: "The ID of the course",
+      description: "The slug for the course",
+      async options({
+        campusSlug, prevContext,
+      }) {
+        const args = {
+          campusSlug,
+        };
+        if (prevContext?.next) {
+          args.url = prevContext.next;
+        }
+        const {
+          results, next,
+        } = await this.listCoursesByCampus(args);
+        const options = results?.map(({
+          slug: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+        return {
+          options,
+          context: {
+            next,
+          },
+        };
+      },
     },
-    courseTitle: {
+    campusSlug: {
       type: "string",
-      label: "Course Title",
-      description: "The title of the course",
-    },
-    courseDescription: {
-      type: "string",
-      label: "Course Description",
-      optional: true,
-      description: "The description of the course",
-    },
-    courseDuration: {
-      type: "integer",
-      label: "Course Duration",
-      optional: true,
-      description: "The duration of the course in minutes",
-    },
-    memberEmail: {
-      type: "string",
-      label: "Member Email",
-      description: "The email address of the member to be added",
-    },
-    campusId: {
-      type: "string",
-      label: "Campus ID",
-      description: "The ID of the campus",
+      label: "Campus Slug",
+      description: "The slug for the campus",
+      async options() {
+        const campuses = await this.listCampuses();
+        return campuses?.map(({
+          slug: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.illumidesk.com";
+      return "https://api.illumidesk.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        Authorization: `Token ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
       });
     },
-    async createCourseActivity({ courseId }) {
+    listCampuses(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: `/courses/${courseId}/activities`,
+        path: "/campuses/",
+        ...args,
       });
     },
-    async createCourseLesson({ courseId }) {
+    listCourseActivities({
+      courseSlug, ...args
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: `/courses/${courseId}/lessons`,
+        path: `/courses/${courseSlug}/activities/`,
+        ...args,
       });
     },
-    async addMemberToCourse({
-      courseId, memberEmail,
+    listCourseParticipants({
+      courseSlug, ...args
+    }) {
+      return this._makeRequest({
+        path: `/courses/${courseSlug}/participants/`,
+        ...args,
+      });
+    },
+    listCourseLessons({
+      courseSlug, ...args
+    }) {
+      return this._makeRequest({
+        path: `/courses/${courseSlug}/lessons/`,
+        ...args,
+      });
+    },
+    createCourse({
+      campusSlug, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/courses/${courseId}/members`,
-        data: {
-          email: memberEmail,
-        },
+        path: `/campuses/${campusSlug}/courses/`,
+        ...args,
       });
     },
-    async createCourse({
-      courseTitle, courseDescription, courseDuration,
+    inviteUserToCourse({
+      courseSlug, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/courses",
-        data: {
-          title: courseTitle,
-          description: courseDescription,
-          duration: courseDuration,
-        },
+        path: `/courses/${courseSlug}/invitations/`,
+        ...args,
       });
     },
-    async inviteUserToCourse({
-      courseId, memberEmail,
+    listCoursesByCampus({
+      campusSlug, ...args
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: `/courses/${courseId}/invitations`,
-        data: {
-          email: memberEmail,
-        },
+        path: `/campuses/${campusSlug}/courses/`,
+        ...args,
       });
     },
-    async listCoursesByCampus({ campusId }) {
-      return this._makeRequest({
-        path: `/campuses/${campusId}/courses`,
-      });
+    async *paginate({
+      resourceFn, args,
+    }) {
+      do {
+        const response = await resourceFn(args);
+        const items = response?.results || response;
+        for (const item of items) {
+          yield item;
+        }
+        args.url = response?.next;
+      } while (args.url);
     },
   },
 };

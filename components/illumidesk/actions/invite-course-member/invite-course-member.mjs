@@ -4,29 +4,54 @@ export default {
   key: "illumidesk-invite-course-member",
   name: "Invite Course Member",
   description: "Invites a user to a selected course. [See the documentation](https://developers.illumidesk.com/reference)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     illumidesk,
-    courseId: {
+    campusSlug: {
       propDefinition: [
         illumidesk,
-        "courseId",
+        "campusSlug",
       ],
     },
-    memberEmail: {
+    courseSlug: {
       propDefinition: [
         illumidesk,
-        "memberEmail",
+        "courseSlug",
+        (c) => ({
+          campusSlug: c.campusSlug,
+        }),
+      ],
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email address of the member to invite",
+    },
+    role: {
+      type: "string",
+      label: "Role",
+      description: "Role of the member in the course",
+      options: [
+        "student",
+        "instructor",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.illumidesk.inviteUserToCourse({
-      courseId: this.courseId,
-      memberEmail: this.memberEmail,
+      courseSlug: this.courseSlug,
+      data: {
+        invitations: [
+          {
+            email: this.email,
+            role: this.role,
+          },
+        ],
+      },
+      $,
     });
-    $.export("$summary", `Successfully invited member ${this.memberEmail} to course ${this.courseId}`);
+    $.export("$summary", `Successfully invited member ${this.memberEmail} to course ${this.courseSlug}.`);
     return response;
   },
 };

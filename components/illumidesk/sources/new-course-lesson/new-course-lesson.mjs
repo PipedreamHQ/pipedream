@@ -1,68 +1,29 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import illumidesk from "../../illumidesk.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "illumidesk-new-course-lesson",
   name: "New Course Lesson",
-  description: "Emits an event when a new lesson for a specific course is created",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new lesson for a specific course is created",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    illumidesk,
-    courseId: {
-      propDefinition: [
-        illumidesk,
-        "courseId",
-      ],
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-  },
   methods: {
-    _getCourseId() {
-      return this.db.get("courseId") ?? "";
+    ...common.methods,
+    getResourceFn() {
+      return this.illumidesk.listCourseLessons;
     },
-    _setCourseId(courseId) {
-      this.db.set("courseId", courseId);
-    },
-    generateMeta(lesson) {
-      const {
-        id,
-        created_at: ts,
-        name,
-      } = lesson;
+    getArgs() {
       return {
-        id,
-        summary: `New Lesson: ${name}`,
-        ts: Date.parse(ts),
+        courseSlug: this.courseSlug,
       };
     },
-  },
-  hooks: {
-    async deploy() {
-      const courseId = this._getCourseId();
-      if (courseId) {
-        const lesson = await this.illumidesk.createCourseLesson({
-          courseId,
-        });
-        this.$emit(lesson, this.generateMeta(lesson));
-      }
+    generateMeta(lesson) {
+      return {
+        id: lesson.uuid,
+        summary: lesson.title,
+        ts: Date.parse(lesson[this.getTsField()]),
+      };
     },
-  },
-  async run() {
-    const courseId = this._getCourseId();
-    if (courseId !== this.courseId) {
-      const lesson = await this.illumidesk.createCourseLesson({
-        courseId: this.courseId,
-      });
-      this.$emit(lesson, this.generateMeta(lesson));
-      this._setCourseId(this.courseId);
-    }
   },
 };
