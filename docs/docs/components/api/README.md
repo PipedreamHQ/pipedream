@@ -108,6 +108,7 @@ Props are custom attributes you can register on a component. When a value is pas
 | [Service](#service-props)       | Attaches a Pipedream service to your component (e.g., a key-value database to maintain state) |
 | [App](#app-props)               | Enables managed auth for a component                                                          |
 | [Data Store](/data-stores/#using-data-stores-in-code-steps) | Provides access to a Pipedream [data store](/data-stores/)        |
+| [HTTP Request](#http-request-prop)| Enables components to execute HTTP requests based on user input                             |
 
 #### User Input Props
 
@@ -166,6 +167,7 @@ props: {
 | `$.interface.timer` |                 | ✓                     |                       |
 | `$.service.db`      |                 | ✓                     |                       |
 | `data_store`        |                 |                       | ✓                     |
+| `http_request`      |                 |                       | ✓                     |
 
 **Usage**
 
@@ -645,6 +647,41 @@ props: {
 | `this.myAppPropName.methodName()` | Execute a common method defined for an app from a component that includes the app as a prop      | **Parent Component:** `run()` `hooks` `methods` | n/a         |
 
 > **Note:** The specific `$auth` keys supported for each app will be published in the near future.
+
+#### HTTP Request Prop
+
+**Usage**
+
+| Code                              | Description                                                                                      | Read Scope                                      | Write Scope |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------- | ----------- |
+| `this.myPropName.execute()`       | Execute an HTTP request as configured                                                            | n/a                                             | `run()` `methods` |
+
+**Example**
+
+Following is an example action that demonstrates how to accept an HTTP Request configuration as input and execute the request when the component is run:
+
+```javascript
+export default {
+  name: "HTTP Request Example",
+  version: "0.0.1",
+  props: {
+    httpRequest: {
+      type: "http_request",
+      label: "API Request",
+      default: {
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/posts",
+      }
+    },
+  },
+  async run() {
+    const { data } = await this.httpRequest.execute();
+    return data;
+  },
+};
+```
+
+For more examples, see the [docs on making HTTP requests with Node.js](/code/nodejs/http-requests/#send-a-get-request-to-fetch-data).
 
 #### Limits on props
 
