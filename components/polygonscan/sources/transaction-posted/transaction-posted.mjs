@@ -1,13 +1,12 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import polygonscan from "../../polygonscan.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "polygonscan-transaction-posted",
-  name: "Transaction Posted",
-  description: "Emits an event when a new transaction with status 1 is posted on the PolygonScan network for a specific address.",
-  version: "0.0.{{ts}}",
+  name: "New Transaction Posted",
+  description: "Emit new event when a new transaction is posted on the PolygonScan network for a specific address.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,36 +18,6 @@ export default {
         "address",
       ],
     },
-    startBlock: {
-      propDefinition: [
-        polygonscan,
-        "startBlock",
-      ],
-    },
-    endBlock: {
-      propDefinition: [
-        polygonscan,
-        "endBlock",
-      ],
-    },
-    page: {
-      propDefinition: [
-        polygonscan,
-        "page",
-      ],
-    },
-    offset: {
-      propDefinition: [
-        polygonscan,
-        "offset",
-      ],
-    },
-    sort: {
-      propDefinition: [
-        polygonscan,
-        "sort",
-      ],
-    },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -56,68 +25,50 @@ export default {
       },
     },
   },
-  hooks: {
-    async deploy() {
-      const since = this.db.get("since") || this.startBlock;
-      const transactions = await this.polygonscan.getTransactionsByAddress({
-        address: this.address,
-        startBlock: since,
-        endBlock: this.endBlock,
-        page: this.page,
-        offset: this.offset,
-        sort: this.sort,
-      });
-
-      const latestBlock = Math.max(...transactions.result.map((tx) => parseInt(tx.blockNumber)));
-      this.db.set("since", latestBlock + 1);
-
-      transactions.result
-        .filter((txn) => txn.isError === "0" && txn.txreceipt_status === "1")
-        .slice(0, 50)
-        .forEach((txn) => {
-          this.$emit(txn, {
-            id: txn.hash,
-            summary: `New transaction ${txn.hash}`,
-            ts: parseInt(txn.timeStamp, 10) * 1000,
-          });
-        });
-    },
-    async activate() {
-      // This code will run when the source is activated
-    },
-    async deactivate() {
-      // This code will run when the source is deactivated
-    },
-  },
   methods: {
-    async checkTransactions() {
-      const since = this.db.get("since") || this.startBlock;
-      const transactions = await this.polygonscan.getTransactionsByAddress({
-        address: this.address,
-        startBlock: since,
-        endBlock: this.endBlock,
-        page: this.page,
-        offset: this.offset,
-        sort: this.sort,
+    _getLastBlockNumber() {
+      return this.db.get("lastBlockNumber") || 0;
+    },
+    _setLastBlockNumber(lastBlockNumber = null) {
+      this.db.set("lastBlockNumber", lastBlockNumber);
+    },
+    async startEvent(maxResults = 0) {
+      const lastBlockNumber = this._getLastBlockNumber();
+
+      const response = this.polygonscan.paginate({
+        fn: this.polygonscan.getTransactionsByAddress,
+        maxResults,
+        params: {
+          startblock: lastBlockNumber,
+          address: this.address,
+          sort: "desc",
+        },
       });
 
-      if (transactions.result && transactions.result.length > 0) {
-        transactions.result.forEach((transaction) => {
-          if (transaction.isError === "0" && transaction.txreceipt_status === "1") {
-            this.$emit(transaction, {
-              id: transaction.hash,
-              summary: `New transaction ${transaction.hash}`,
-              ts: Date.parse(transaction.timeStamp) * 1000,
-            });
-          }
-        });
+      let responseArray = [];
 
-        const latestBlock = Math.max(...transactions.result.map((tx) => parseInt(tx.blockNumber)));
-        this.db.set("since", latestBlock + 1);
+      for await (const item of response) {
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) this._setLastBlockNumber(responseArray[0].blockNumber);
+
+      for (const item of responseArray) {
+        this.$emit(item, {
+          id: item.blockNumber,
+          summary: `New transaction with hash: ${item.hash}`,
+          ts: item.timeStamp,
+        });
       }
     },
   },
-  async run() {
-    await this.checkTransactions();
+  hooks: {
+    async deploy() {
+      await this.startEvent(25);
+    },
   },
+  async run() {
+    await this.startEvent();
+  },
+  sampleEmit,
 };

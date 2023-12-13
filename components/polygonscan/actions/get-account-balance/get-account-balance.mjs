@@ -1,11 +1,10 @@
 import polygonscan from "../../polygonscan.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "polygonscan-get-account-balance",
   name: "Get Account Balance",
-  description: "Retrieves the balance of a specific address within the Polygon network. [See the documentation](https://docs.polygonscan.com/api-endpoints/accounts)",
-  version: "0.0.{{ts}}",
+  description: "Retrieves the balance of a specific address within the Polygon network. [See the documentation](https://docs.polygonscan.com/api-endpoints/accounts#get-matic-balance-for-a-single-address)",
+  version: "0.0.1",
   type: "action",
   props: {
     polygonscan,
@@ -16,10 +15,9 @@ export default {
       ],
     },
     blockNumber: {
-      propDefinition: [
-        polygonscan,
-        "blockNumber",
-      ],
+      type: "integer",
+      label: "Block Number",
+      description: "The block number to check balance for",
       optional: true,
     },
   },

@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,96 +8,36 @@ export default {
     address: {
       type: "string",
       label: "Address",
-      description: "The address to watch for new transactions or to fetch the balance.",
-    },
-    startBlock: {
-      type: "integer",
-      label: "Start Block",
-      description: "The starting block from which to begin searching for transactions.",
-      optional: true,
-    },
-    endBlock: {
-      type: "integer",
-      label: "End Block",
-      description: "The ending block up to which to search for transactions.",
-      optional: true,
-    },
-    page: {
-      type: "integer",
-      label: "Page Number",
-      description: "The page number to fetch.",
-      optional: true,
-    },
-    offset: {
-      type: "integer",
-      label: "Offset",
-      description: "The number of records to return per page.",
-      optional: true,
-    },
-    sort: {
-      type: "string",
-      label: "Sort Order",
-      description: "The sort order of the transactions. Can be 'asc' or 'desc'.",
-      options: [
-        "asc",
-        "desc",
-      ],
-      optional: true,
-    },
-    transactionHash: {
-      type: "string",
-      label: "Transaction Hash",
-      description: "The hash of a specific transaction to fetch.",
-    },
-    contractAddress: {
-      type: "string",
-      label: "Contract Address",
-      description: "The contract address to interact with.",
-    },
-    blockNumber: {
-      type: "integer",
-      label: "Block Number",
-      description: "The block number to check balance for",
-      optional: true,
+      description: "The address to watch for new transactions.",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.polygonscan.com/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, params, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: this._baseUrl(),
         params: {
           apikey: this.$auth.api_key,
           ...params,
         },
-        headers,
+        ...opts,
       });
     },
-    async getTransactionByHash({ transactionHash }) {
+    getTransactionByHash({ transactionHash }) {
       return this._makeRequest({
-        path: "",
         params: {
           module: "transaction",
-          action: "getstatus",
+          action: "gettxreceiptstatus",
           txhash: transactionHash,
         },
       });
     },
-    async getContractABI({ contractAddress }) {
+    getContractABI({ contractAddress }) {
       return this._makeRequest({
-        path: "",
         params: {
           module: "contract",
           action: "getabi",
@@ -104,7 +45,7 @@ export default {
         },
       });
     },
-    async getBalance({
+    getBalance({
       address, blockNumber,
     }) {
       const params = {
@@ -117,26 +58,45 @@ export default {
         params.tag = blockNumber.toString();
       }
       return this._makeRequest({
-        path: "",
-        params: params,
+        params,
       });
     },
-    async getTransactionsByAddress({
-      address, startBlock, endBlock, page, offset, sort,
+    getTransactionsByAddress({
+      params, ...opts
     }) {
       return this._makeRequest({
-        path: "",
         params: {
           module: "account",
           action: "txlist",
-          address: address,
-          startblock: startBlock,
-          endblock: endBlock,
-          page: page,
-          offset: offset,
-          sort: sort,
+          ...params,
         },
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        params.offset = LIMIT;
+        const { result } = await fn({
+          params,
+        });
+        for (const d of result) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = result.length;
+
+      } while (hasMore);
     },
   },
 };
