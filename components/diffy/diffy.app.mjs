@@ -4,58 +4,85 @@ export default {
   type: "app",
   app: "diffy",
   propDefinitions: {
-    ticketDetails: {
-      type: "object",
-      label: "Ticket Details",
-      description: "The details of the bug-tracking ticket to be monitored for creation.",
+    projectId: {
+      type: "string",
+      label: "Project",
+      description: "Identifier of a project",
+      async options() {
+        const { projects } = await this.listProjects();
+        return projects?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://app.diffy.website/api";
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
       });
     },
-    async createTicket(ticketDetails) {
+    listProjects(args = {}) {
       return this._makeRequest({
-        method: "POST",
         path: "/projects",
-        data: ticketDetails,
+        ...args,
       });
     },
-    async getTicketInfo(ticketId) {
+    listScreenshots({
+      projectId, ...args
+    }) {
       return this._makeRequest({
-        path: `/projects/${ticketId}`,
+        path: `/projects/${projectId}/screenshots`,
+        ...args,
       });
     },
-    async updateTicket(ticketId, ticketDetails) {
+    listDiffs({
+      projectId, ...args
+    }) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/projects/${ticketId}`,
-        data: ticketDetails,
+        path: `/projects/${projectId}/diffs`,
+        ...args,
       });
     },
-    async deleteTicket(ticketId) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/projects/${ticketId}`,
-      });
+    async *paginate({
+      resourceFn, args = {}, resourceType,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args.params,
+          page: 0,
+        },
+      };
+      let done;
+      do {
+        const response = await resourceFn(args);
+        const items = response[resourceType];
+        for (const item of items) {
+          yield item;
+        }
+        const totalPages = response.totalPages;
+        done = args.params.page === totalPages;
+        args.params.page++;
+      } while (!done);
     },
   },
 };
