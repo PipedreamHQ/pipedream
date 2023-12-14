@@ -23,7 +23,7 @@ export default {
     waitFor: {
       type: "string",
       label: "waitFor",
-      description: "allows you to wait for a selector to appear in the DOM, to wait for a timeout to happen, or to execute a custom function before screenshotting. See [more details in the API Doc](https://www.browserless.io/docs/screenshot#custom-behavior-with-waitfor)",
+      description: "Allows you to wait for a selector to appear in the DOM, to wait for a timeout to happen, or to execute a custom function before screenshotting. See [more details in the API Doc](https://www.browserless.io/docs/screenshot#custom-behavior-with-waitfor)",
       optional: true,
     },
   },
