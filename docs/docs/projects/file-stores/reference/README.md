@@ -89,7 +89,7 @@ When using `$.files.open` or `$.files.openDescriptor`, you'll create a new insta
 
 ### `File.toUrl()`
 
-The pre-signed GET URL to retrieve the file.
+*Async.* The pre-signed GET URL to retrieve the file.
 
 ```javascript
 export default defineComponent({
