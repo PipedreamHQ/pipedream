@@ -1,4 +1,5 @@
 import illumidesk from "../../illumidesk.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "illumidesk-invite-course-member",
@@ -32,10 +33,7 @@ export default {
       type: "string",
       label: "Role",
       description: "Role of the member in the course",
-      options: [
-        "student",
-        "instructor",
-      ],
+      options: constants.ROLES,
     },
   },
   async run({ $ }) {
@@ -51,7 +49,7 @@ export default {
       },
       $,
     });
-    $.export("$summary", `Successfully invited member ${this.memberEmail} to course ${this.courseSlug}.`);
+    $.export("$summary", `Successfully invited member ${this.email} to course ${this.courseSlug}.`);
     return response;
   },
 };
