@@ -22,7 +22,7 @@ export default defineAction({
   key: "twitter-list-followers",
   name: "List Followers",
   description: `Return a collection of user objects for users following the specified user. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.4",
   type: "action",
   props: {
     app,
@@ -48,28 +48,24 @@ export default defineAction({
     getUserFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<User>> {
-    try {
-      const userId = await this.getUserId();
+    const userId = await this.getUserId();
 
-      const params: GetUserFollowersParams = {
-        $,
-        maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: this.maxResults,
-        params: this.getUserFields(),
-        userId,
-      };
+    const params: GetUserFollowersParams = {
+      $,
+      maxPerPage: MAX_RESULTS_PER_PAGE,
+      maxResults: this.maxResults,
+      params: this.getUserFields(),
+      userId,
+      fallbackError: ACTION_ERROR_MESSAGE,
+    };
 
-      const response = await this.app.getUserFollowers(params);
+    const response = await this.app.getUserFollowers(params);
 
-      $.export(
-        "$summary",
-        this.getMultiItemSummary("follower", response.data?.length),
-      );
+    $.export(
+      "$summary",
+      this.getMultiItemSummary("follower", response.data?.length),
+    );
 
-      return response;
-    } catch (err) {
-      $.export("error", err);
-      throw new Error(ACTION_ERROR_MESSAGE);
-    }
+    return response;
   },
 });

@@ -12,7 +12,7 @@ export default defineAction({
   key: "twitter-upload-media",
   name: "Upload Media",
   description: `Upload new media. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     app,
@@ -31,10 +31,11 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    try {
-      const isLocalFile = this.filePath?.startsWith("/tmp");
+    const isLocalFile = this.filePath?.startsWith("/tmp");
+    let content;
 
-      const content = isLocalFile
+    try {
+      content = isLocalFile
         ? fs.createReadStream(this.filePath, {
           encoding: "base64",
         })
@@ -43,28 +44,30 @@ export default defineAction({
           responseType: "arraybuffer",
         });
 
-      const data = new FormData();
-
-      if (isLocalFile) {
-        data.append("media_data", content);
-      } else {
-        data.append("media", content);
-      }
-
-      const response = await this.app.uploadMedia({
-        $,
-        data,
-        params: {
-          media_category: this.media_category,
-        },
-      });
-
-      $.export("$summary", `Successfully uploaded media with ID ${response.media_id}`);
-
-      return response;
     } catch (err) {
       $.export("error", err);
       throw new Error(ACTION_ERROR_MESSAGE);
     }
+
+    const data = new FormData();
+
+    if (isLocalFile) {
+      data.append("media_data", content);
+    } else {
+      data.append("media", content);
+    }
+
+    const response = await this.app.uploadMedia({
+      $,
+      data,
+      params: {
+        media_category: this.media_category,
+      },
+      fallbackError: ACTION_ERROR_MESSAGE,
+    });
+
+    $.export("$summary", `Successfully uploaded media with ID ${response.media_id}`);
+
+    return response;
   },
 });

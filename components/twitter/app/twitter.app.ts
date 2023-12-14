@@ -2,7 +2,7 @@ import OAuth from "oauth-1.0a";
 import crypto from "crypto";
 import { defineApp } from "@pipedream/types";
 import {
-  axios, transformConfigForOauth,
+  axios, transformConfigForOauth, ConfigurationError,
 } from "@pipedream/platform";
 import {
   AddUserToListParams,
@@ -40,7 +40,9 @@ import {
   TwitterEntity,
   User,
 } from "../common/types/responseSchemas";
-import { ERROR_MESSAGE } from "../common/errorMessage";
+import {
+  ERROR_MESSAGE, PROBLEM_TYPE,
+} from "../common/errorMessage";
 
 export default defineApp({
   type: "app",
@@ -110,6 +112,14 @@ export default defineApp({
     },
   },
   methods: {
+    throwError(data) {
+      const errorMessage = PROBLEM_TYPE[data?.type];
+      if (!errorMessage) {
+        return;
+      }
+      const stringifiedData = JSON.stringify(data);
+      throw new ConfigurationError(`${errorMessage} \`${stringifiedData}\``);
+    },
     _getAuthHeader(config: HttpRequestParams) {
       const {
         developer_consumer_key: devKey,
@@ -147,10 +157,12 @@ export default defineApp({
       return "https://api.twitter.com/2";
     },
     async _httpRequest({
-      $ = this,
-      specialAuth,
-      ...args
+      $ = this, headers, specialAuth = false, throwError = true, fallbackError, ...args
     }: HttpRequestParams): Promise<ResponseObject<TwitterEntity>> {
+      const maxRetries = 3;
+      let response: ResponseObject<TwitterEntity>;
+      let counter = 1;
+
       const config = {
         baseURL: this._getBaseUrl(),
         ...args,
@@ -164,28 +176,33 @@ export default defineApp({
         }
         : config;
 
-      const request = async () => {
-        const headers = {
-          ...config.headers,
+      const axiosConfig = {
+        debug: true,
+        ...config,
+        headers: {
+          ...headers,
           ...this._getAuthHeader(authConfig),
-        };
-
-        return axios($, {
-          ...config,
-          headers,
-        });
+        },
       };
 
-      let response: ResponseObject<TwitterEntity>,
-        counter = 1;
       do {
         try {
-          response = await request();
+          response = await axios($, axiosConfig);
+
         } catch (err) {
           console.log(`Request error on attempt #${counter}: `, err);
+          if (counter === maxRetries) {
+            if (throwError && err.response?.data) {
+              this.throwError(err.response.data);
+            }
+            if (fallbackError) {
+              throw new ConfigurationError(fallbackError);
+            }
+            throw err;
+          }
         }
-      } while (!response && ++counter < 3);
-      if (!response) response = await request();
+      } while (!response && ++counter <= maxRetries);
+
       return response;
     },
     async _paginatedRequest({
@@ -269,6 +286,7 @@ export default defineApp({
     },
     async createTweet(args: CreateTweetParams): Promise<object> {
       return this._httpRequest({
+        throwError: false,
         method: "POST",
         url: "/tweets",
         ...args,

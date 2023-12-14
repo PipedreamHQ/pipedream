@@ -11,7 +11,7 @@ export default defineAction({
   key: "twitter-send-dm",
   name: "Send Direct Message (DM)",
   description: `Send a message to a user. [See the documentation](${DOCS_LINK})`,
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     app,
@@ -34,28 +34,24 @@ export default defineAction({
     getUserId,
   },
   async run({ $ }): Promise<object> {
-    try {
-      const userId = await this.getUserId();
+    const userId = await this.getUserId();
 
-      const params: SendMessageParams = {
-        $,
-        userId,
-        data: {
-          text: this.text,
-        },
-      };
+    const params: SendMessageParams = {
+      $,
+      userId,
+      data: {
+        text: this.text,
+      },
+      fallbackError: ACTION_ERROR_MESSAGE,
+    };
 
-      const response = await this.app.sendMessage(params);
+    const response = await this.app.sendMessage(params);
 
-      $.export(
-        "$summary",
-        `Successfully sent message (event ID ${response.data?.dm_event_id})`,
-      );
+    $.export(
+      "$summary",
+      `Successfully sent message (event ID ${response.data?.dm_event_id})`,
+    );
 
-      return response;
-    } catch (err) {
-      $.export("error", err);
-      throw new Error(ACTION_ERROR_MESSAGE);
-    }
+    return response;
   },
 });

@@ -14,7 +14,7 @@ export default defineAction({
   key: "twitter-get-tweet",
   name: "Get Tweet",
   description: `Return a single tweet specified by ID. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.4",
   type: "action",
   props: {
     app,
@@ -29,22 +29,18 @@ export default defineAction({
     getTweetFields,
   },
   async run({ $ }): Promise<ResponseObject<Tweet>> {
-    try {
-      const { tweetId } = this;
-      const params: GetTweetParams = {
-        $,
-        params: this.getTweetFields(),
-        tweetId,
-      };
+    const { tweetId } = this;
+    const params: GetTweetParams = {
+      $,
+      params: this.getTweetFields(),
+      tweetId,
+      fallbackError: ACTION_ERROR_MESSAGE,
+    };
 
-      const response = await this.app.getTweet(params);
+    const response = await this.app.getTweet(params);
 
-      $.export("$summary", `Successfully retrieved tweet (ID ${tweetId})`);
+    $.export("$summary", `Successfully retrieved tweet (ID ${tweetId})`);
 
-      return response;
-    } catch (err) {
-      $.export("error", err);
-      throw new Error(ACTION_ERROR_MESSAGE);
-    }
+    return response;
   },
 });

@@ -10,7 +10,7 @@ export default defineAction({
   key: "twitter-delete-tweet",
   name: "Delete Tweet",
   description: `Remove a posted tweet. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.4",
   type: "action",
   props: {
     app,
@@ -22,21 +22,17 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    try {
-      const { tweetId } = this;
-      const params: DeleteTweetParams = {
-        $,
-        tweetId,
-      };
+    const { tweetId } = this;
+    const params: DeleteTweetParams = {
+      $,
+      tweetId,
+      fallbackError: ACTION_ERROR_MESSAGE,
+    };
 
-      const response = await this.app.deleteTweet(params);
+    const response = await this.app.deleteTweet(params);
 
-      $.export("$summary", `Successfully deleted tweet (ID ${tweetId})`);
+    $.export("$summary", `Successfully deleted tweet (ID ${tweetId})`);
 
-      return response;
-    } catch (err) {
-      $.export("error", err);
-      throw new Error(ACTION_ERROR_MESSAGE);
-    }
+    return response;
   },
 });

@@ -10,7 +10,7 @@ export default defineAction({
   key: "twitter-retweet",
   name: "Retweet a tweet",
   description: `Retweet a tweet specified by ID. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.4",
   type: "action",
   props: {
     app,
@@ -23,28 +23,24 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    try {
-      const { tweetId } = this;
-      const params: RetweetParams = {
-        $,
-        data: {
-          tweet_id: tweetId,
-        },
-      };
+    const { tweetId } = this;
+    const params: RetweetParams = {
+      $,
+      data: {
+        tweet_id: tweetId,
+      },
+      fallbackError: ACTION_ERROR_MESSAGE,
+    };
 
-      const response = await this.app.retweet(params);
+    const response = await this.app.retweet(params);
 
-      $.export(
-        "$summary",
-        response.data?.retweeted !== true
-          ? "Retweet failed"
-          : "Tweet successfully retweeted",
-      );
+    $.export(
+      "$summary",
+      response.data?.retweeted !== true
+        ? "Retweet failed"
+        : "Tweet successfully retweeted",
+    );
 
-      return response;
-    } catch (err) {
-      $.export("error", err);
-      throw new Error(ACTION_ERROR_MESSAGE);
-    }
+    return response;
   },
 });

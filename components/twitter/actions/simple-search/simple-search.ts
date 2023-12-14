@@ -20,7 +20,7 @@ export default defineAction({
   key: "twitter-simple-search",
   name: "Search Tweets",
   description: `Retrieve Tweets from the last seven days that match a query. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.4",
   type: "action",
   props: {
     app,
@@ -45,28 +45,24 @@ export default defineAction({
     getTweetFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
-    try {
-      const params: SearchTweetsParams = {
-        $,
-        maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: this.maxResults,
-        params: {
-          query: this.query,
-          ...this.getTweetFields(),
-        },
-      };
+    const params: SearchTweetsParams = {
+      $,
+      maxPerPage: MAX_RESULTS_PER_PAGE,
+      maxResults: this.maxResults,
+      params: {
+        query: this.query,
+        ...this.getTweetFields(),
+      },
+      fallbackError: ACTION_ERROR_MESSAGE,
+    };
 
-      const response = await this.app.searchTweets(params);
+    const response = await this.app.searchTweets(params);
 
-      $.export(
-        "$summary",
-        this.getMultiItemSummary("tweet", response.data?.length),
-      );
+    $.export(
+      "$summary",
+      this.getMultiItemSummary("tweet", response.data?.length),
+    );
 
-      return response;
-    } catch (err) {
-      $.export("error", err);
-      throw new Error(ACTION_ERROR_MESSAGE);
-    }
+    return response;
   },
 });

@@ -11,7 +11,7 @@ export default defineAction({
   key: "twitter-unfollow-user",
   name: "Unfollow User",
   description: `Unfollow a user. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.4",
   type: "action",
   props: {
     app,
@@ -26,22 +26,18 @@ export default defineAction({
     getUserId,
   },
   async run({ $ }): Promise<object> {
-    try {
-      const userId = await this.getUserId();
+    const userId = await this.getUserId();
 
-      const params: UnfollowUserParams = {
-        $,
-        userId,
-      };
+    const params: UnfollowUserParams = {
+      $,
+      userId,
+      fallbackError: ACTION_ERROR_MESSAGE,
+    };
 
-      const response = await this.app.unfollowUser(params);
+    const response = await this.app.unfollowUser(params);
 
-      $.export("$summary", "Successfully unfollowed user");
+    $.export("$summary", "Successfully unfollowed user");
 
-      return response;
-    } catch (err) {
-      $.export("error", err);
-      throw new Error(ACTION_ERROR_MESSAGE);
-    }
+    return response;
   },
 });
