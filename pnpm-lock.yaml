@@ -1533,6 +1533,9 @@ importers:
       form-data: 4.0.0
       fs: 0.0.1-security
 
+  components/diffy:
+    specifiers: {}
+
   components/digicert:
     specifiers: {}
 
@@ -1599,6 +1602,9 @@ importers:
       nanoid: 4.0.2
 
   components/dispatch:
+    specifiers: {}
+
+  components/dnsfilter:
     specifiers: {}
 
   components/dock_certs:
@@ -2912,6 +2918,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/illumidesk:
+    specifiers: {}
+
   components/ilovepdf:
     specifiers:
       '@pipedream/platform': 1.5.1
@@ -3297,6 +3306,9 @@ importers:
   components/kyvio:
     specifiers: {}
 
+  components/l3mbda:
+    specifiers: {}
+
   components/labs64_netlicensing:
     specifiers: {}
 
@@ -3415,6 +3427,9 @@ importers:
       form-data: 4.0.0
 
   components/linkedin_ads:
+    specifiers: {}
+
+  components/linkly:
     specifiers: {}
 
   components/linqs_cc:
@@ -3824,6 +3839,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/microsoft_power_bi:
+    specifiers: {}
 
   components/microsoft_sql_server:
     specifiers:
@@ -5135,6 +5153,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/recruitis:
+    specifiers: {}
+
   components/recurly:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -5237,6 +5258,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/resource_guru:
+    specifiers: {}
 
   components/respond_io:
     specifiers: {}
@@ -6847,6 +6871,9 @@ importers:
   components/upwave:
     specifiers: {}
 
+  components/urlbae:
+    specifiers: {}
+
   components/urlbox_io:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -7137,6 +7164,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/whop:
+    specifiers: {}
 
   components/whosonlocation:
     specifiers: {}
@@ -7436,6 +7466,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zenrows:
+    specifiers: {}
 
   components/zerobounce:
     specifiers: {}
