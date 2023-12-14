@@ -106,7 +106,9 @@ Props are custom attributes you can register on a component. When a value is pas
 | [User Input](#user-input-props) | Enable components to accept input on deploy                                                   |
 | [Interface](#interface-props)   | Attaches a Pipedream interface to your component (e.g., an HTTP interface or timer)           |
 | [Service](#service-props)       | Attaches a Pipedream service to your component (e.g., a key-value database to maintain state) |
-| [App](#user-input-props)        | Enables managed auth for a component                                                          |
+| [App](#app-props)               | Enables managed auth for a component                                                          |
+| [Data Store](/data-stores/#using-data-stores-in-code-steps) | Provides access to a Pipedream [data store](/data-stores/)        |
+| [HTTP Request](#http-request-prop)| Enables components to execute HTTP requests based on user input                             |
 
 #### User Input Props
 
@@ -128,7 +130,9 @@ props: {
     default: "",
     secret: true || false,
     min: <integer>,
-    max: <integer>
+    max: <integer>,
+    disabled: true || false,
+    hidden: true || false
   },
 },
 ```
@@ -146,6 +150,8 @@ props: {
 | `secret`         | `boolean`                            | optional  | If set to `true`, this field will hide your input in the browser like a password field, and its value will be encrypted in Pipedream's database. The value will be decrypted when the component is run in [the execution environment](/privacy-and-security/#execution-environment). Defaults to `false`. Only allowed for `string` props.                                                                                                                                     |
 | `min`            | `integer`                            | optional  | Minimum allowed integer value. Only allowed for `integer` props..                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `max`            | `integer`                            | optional  | Maximum allowed integer value . Only allowed for `integer` props.                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `disabled`       | `boolean`                            | optional  | Set to `true` to disable usage of this prop. Defaults to `false`.   |
+| `hidden`         | `boolean`                            | optional  | Set to `true` to hide this field. Defaults to `false`.              |
 
 **`PropType`s**
 
@@ -160,6 +166,8 @@ props: {
 | `$.interface.http`  |                 | ✓                     |                       |
 | `$.interface.timer` |                 | ✓                     |                       |
 | `$.service.db`      |                 | ✓                     |                       |
+| `data_store`        |                 |                       | ✓                     |
+| `http_request`      |                 |                       | ✓                     |
 
 **Usage**
 
@@ -407,6 +415,34 @@ async additionalProps(previousPropDefs)
 
 where `previousPropDefs` are the full set of props (props merged with the previous `additionalProps`). When the function is executed, `this` is bound similar to when the `run` function is called, where you can access the values of the props as currently configured, and call any `methods`. The return value of `additionalProps` will replace any previous call, and that return value will be merged with props to define the final set of props.
 
+Following is an example that demonstrates how to use `additionalProps` to dynamically change a prop's `disabled` and `hidden` properties:
+
+```javascript
+async additionalProps(previousPropDefs) {
+  if (this.myCondition === "Yes") {
+    previousPropDefs.myPropName.disabled = true;
+    previousPropDefs.myPropName.hidden = true;
+  } else {
+    previousPropDefs.myPropName.disabled = false;
+    previousPropDefs.myPropName.hidden = false;
+  }
+  return previousPropDefs;
+},
+```
+
+Dynamic props can have any one of the following prop types:
+
+- `app`
+- `boolean`
+- `integer`
+- `string`
+- `object`
+- `any`
+- `$.interface.http`
+- `$.interface.timer`
+- `data_store`
+- `http_request`
+
 #### Interface Props
 
 Interface props are infrastructure abstractions provided by the Pipedream platform. They declare how a source is invoked — via HTTP request, run on a schedule, etc. — and therefore define the shape of the events it processes.
@@ -434,7 +470,7 @@ props: {
 | Property  | Type     | Required? | Description                                                                                                                                  |
 | --------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`    | `string` | required  | Must be set to `$.interface.timer`                                                                                                           |
-| `default` | `object` | optional  | **Define a default interval**<br>`{ intervalSeconds: 60, },`<br>&nbsp;<br>**Define a default cron expression**<br>` { cron: "0 0 * * *", },` |
+| `default` | `object` | optional  | **Define a default interval**<br>`{ intervalSeconds: 60, },`<br>&nbsp;<br>**Define a default cron expression**<br>`{ cron: "0 0 * * *", },` |
 
 **Usage**
 
@@ -624,6 +660,41 @@ props: {
 | `this.myAppPropName.methodName()` | Execute a common method defined for an app from a component that includes the app as a prop      | **Parent Component:** `run()` `hooks` `methods` | n/a         |
 
 > **Note:** The specific `$auth` keys supported for each app will be published in the near future.
+
+#### HTTP Request Prop
+
+**Usage**
+
+| Code                              | Description                                                                                      | Read Scope                                      | Write Scope |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------- | ----------- |
+| `this.myPropName.execute()`       | Execute an HTTP request as configured                                                            | n/a                                             | `run()` `methods` |
+
+**Example**
+
+Following is an example action that demonstrates how to accept an HTTP request configuration as input and execute the request when the component is run:
+
+```javascript
+export default {
+  name: "HTTP Request Example",
+  version: "0.0.1",
+  props: {
+    httpRequest: {
+      type: "http_request",
+      label: "API Request",
+      default: {
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/posts",
+      }
+    },
+  },
+  async run() {
+    const { data } = await this.httpRequest.execute();
+    return data;
+  },
+};
+```
+
+For more examples, see the [docs on making HTTP requests with Node.js](/code/nodejs/http-requests/#send-a-get-request-to-fetch-data).
 
 #### Limits on props
 
