@@ -53,11 +53,13 @@ export default {
 
       resources = resources.filter((contact) => contact.record_type === "person");
 
+      this._setLastResourceId(resources[0].id);
+
       resources.reverse().forEach(this.emitEvent);
 
       if (
         resources.length < 100 ||
-        resources.filter((resource) => resource.id === lastResourceId)
+        resources.find((resource) => resource.id === lastResourceId)
       ) {
         return;
       }
