@@ -1,0 +1,33 @@
+import powerBi from "../../microsoft-power-bi.app.mjs";
+
+export default {
+  key: "microsoft-power-bi-cancel-refresh",
+  name: "Cancel Power BI Dataset Refresh",
+  description: "Cancels a refresh operation for a specified dataset in Power BI. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/cancel-refresh)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    powerBi,
+    datasetId: {
+      propDefinition: [
+        powerBi,
+        "datasetId",
+      ],
+    },
+    refreshId: {
+      propDefinition: [
+        powerBi,
+        "refreshId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.powerBi.cancelRefresh({
+      datasetId: this.datasetId,
+      refreshId: this.refreshId,
+    });
+
+    $.export("$summary", `Successfully cancelled refresh operation for dataset ID ${this.datasetId}`);
+    return response;
+  },
+};

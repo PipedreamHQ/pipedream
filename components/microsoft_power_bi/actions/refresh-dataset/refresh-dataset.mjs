@@ -1,0 +1,26 @@
+import powerBi from "../../microsoft-power-bi.app.mjs";
+
+export default {
+  key: "microsoft-power-bi-refresh-dataset",
+  name: "Refresh Power BI Dataset",
+  description: "Triggers a refresh operation for a specified Power BI dataset. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/refresh-dataset)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    powerBi,
+    datasetId: {
+      propDefinition: [
+        powerBi,
+        "datasetId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.powerBi.refreshDataset({
+      datasetId: this.datasetId,
+    });
+
+    $.export("$summary", `Successfully triggered a refresh for the dataset with ID ${this.datasetId}`);
+    return response;
+  },
+};
