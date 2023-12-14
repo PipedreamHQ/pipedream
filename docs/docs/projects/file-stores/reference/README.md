@@ -10,11 +10,11 @@ The `$.files` helper is the main module to interact with the Project's File Stor
 
 ### `$.files.open(path)`
 
-Opens a file from the relative `path`. If the file doesn't exist, a new empty file is created.
+*Sync.* Opens a file from the relative `path`. If the file doesn't exist, a new empty file is created.
 
 ### `$.files.openDescriptor(fileDescriptor)`
 
-Creates a new `File` from the JSON friendly description of a file. Useful for recreating a `File` from a step export.
+*Async.* Creates a new `File` from the JSON friendly description of a file. Useful for recreating a `File` from a step export.
 
 For example, export a `File` as a step export which will render the `File` as JSON:
 
@@ -50,7 +50,7 @@ export default defineComponent({
 
 ### `$.files.dir(?path)`
 
-Lists the files & directories at the given `path`. By default it will list the files at the root directory.
+*Async.* Lists the files & directories at the given `path`. By default it will list the files at the root directory.
 
 Here's an example of how to iterate over the files in the root directory and open them as `File` instances:
 
