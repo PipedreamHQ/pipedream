@@ -969,7 +969,10 @@ importers:
     specifiers: {}
 
   components/circle:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/cisco_meraki:
     specifiers:
@@ -1685,6 +1688,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
+
+  components/dreamhost:
+    specifiers: {}
 
   components/dreamstudio:
     specifiers:
@@ -2797,7 +2803,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/hookdeck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/hootsuite:
     specifiers:
@@ -3382,7 +3391,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/lightspeed_retail_pos:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/lightspeed_vt:
     specifiers:
