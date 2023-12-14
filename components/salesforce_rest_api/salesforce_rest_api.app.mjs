@@ -37,17 +37,15 @@ export default {
       type: "string",
       label: "Field",
       description: "The object field to watch for changes",
-      async options(context) {
-        const {
-          page,
-          objectType,
-        } = context;
+      async options({
+        page, objectType, filter = () => true,
+      }) {
         if (page !== 0) {
           return [];
         }
 
         const fields = await this.getFieldsForObjectType(objectType);
-        return fields.map((field) => field.name);
+        return fields.filter(filter).map(({ name }) => name);
       },
     },
     fieldUpdatedTo: {

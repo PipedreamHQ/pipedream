@@ -134,7 +134,7 @@ export default defineComponent({
     const file = await $.files.open('pipedream.png').fromUrl('https://res.cloudinary.com/pipedreamin/image/upload/t_logo48x48/v1597038956/docs/HzP2Yhq8_400x400_1_sqhs70.jpg')
 
     // display the uploaded file's URL from the File Store:
-    console.log(await file.toURL())
+    console.log(await file.toUrl())
   },
 })
 ```
@@ -187,7 +187,7 @@ export default defineComponent({
     const readStream = got.stream('https://pdrm.co/logo')
 
     // Populate the file's content from the read stream
-    await $files.open("logo.png").fromReadableStream(readStream)
+    await $.files.open("logo.png").fromReadableStream(readStream)
   },
 })
 ```

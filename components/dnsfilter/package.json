@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dnsfilter",
+  "version": "0.0.1",
+  "description": "Pipedream DNSFilter Components",
+  "main": "dnsfilter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dnsfilter"
+  ],
+  "homepage": "https://pipedream.com/apps/dnsfilter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

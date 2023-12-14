@@ -2,9 +2,9 @@ import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-list-runs",
-  name: "List Runs",
+  name: "List Runs (Assistants)",
   description: "Returns a list of runs belonging to a thread. [See the documentation](https://platform.openai.com/docs/api-reference/runs/list)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     openai,

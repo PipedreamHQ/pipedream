@@ -2647,7 +2647,10 @@ importers:
     specifiers: {}
 
   components/gravity_forms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/grist:
     specifiers: {}
@@ -3454,7 +3457,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/lmnt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/lob:
     specifiers:
@@ -4773,7 +4781,10 @@ importers:
     specifiers: {}
 
   components/postalytics:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/postgresql:
     specifiers:
@@ -4849,7 +4860,10 @@ importers:
       fs: 0.0.1-security
 
   components/printnode:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/process_street:
     specifiers:
@@ -5403,16 +5417,20 @@ importers:
   components/salesforce_rest_api:
     specifiers:
       '@pipedream/platform': ^1.2.0
+      fast-xml-parser: ^4.3.2
       handlebars: ^4.7.7
       lodash: ^4.17.21
       lodash-es: ^4.17.21
       salesforce-webhooks: ^1.1.11
+      uuid: ^9.0.1
     dependencies:
       '@pipedream/platform': 1.5.1
+      fast-xml-parser: 4.3.2
       handlebars: 4.7.8
       lodash: 4.17.21
       lodash-es: 4.17.21
       salesforce-webhooks: 1.1.11_handlebars@4.7.8
+      uuid: 9.0.1
 
   components/saleslens:
     specifiers:
@@ -6483,7 +6501,12 @@ importers:
     specifiers: {}
 
   components/the_odds_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      dayjs: ^1.11.10
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      dayjs: 1.11.10
 
   components/threads:
     specifiers:
@@ -6843,7 +6866,10 @@ importers:
     specifiers: {}
 
   components/usersketch:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/uservoice:
     specifiers:
