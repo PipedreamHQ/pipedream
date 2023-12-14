@@ -15,7 +15,7 @@ export default {
   name: "New Updated Field on Record (of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record",
   description: "Emit new event (at regular intervals) when a field of your choosing is updated on any record of a specified Salesforce object. Field history tracking must be enabled for the chosen field. See the docs on [field history tracking](https://sforce.co/3mtj0rF) and [history objects](https://sforce.co/3Fn4lWB) for more information.",
-  version: "0.1.5",
+  version: "0.1.6",
   props: {
     ...common.props,
     objectType: {
@@ -50,6 +50,7 @@ export default {
         "field",
         ({ objectType }) => ({
           objectType,
+          filter: ({ updateable }) => updateable,
         }),
       ],
     },
@@ -82,6 +83,12 @@ export default {
     _getParentId(item) {
       const parentIdKey = `${this.objectType}Id`;
       return item[parentIdKey] ?? item["ParentId"];
+    },
+    getUniqueParentIds(items) {
+      // To fetch associated sObject records only once, create a set of the "parent IDs" of the
+      // history object records
+      const parentIdSet = new Set(items.map(this._getParentId).filter((id) => id));
+      return Array.from(parentIdSet);
     },
     isValidSObject(sobject) {
       // Only the activity of those SObject types that have the `replicateable`
@@ -116,62 +123,75 @@ export default {
         ts,
       };
     },
-    async processEvent(eventData) {
+    async processEvent({
+      startTimestamp, endTimestamp,
+    }) {
       const {
-        startTimestamp,
-        endTimestamp,
-      } = eventData;
-      const historyObjectType = this._getHistoryObjectType();
+        salesforce,
+        _getHistoryObjectType,
+        setLatestDateCovered,
+        batchRequest,
+        getBatchRequests,
+        isRelevant,
+        getUniqueParentIds,
+        _getParentId,
+        generateMeta,
+        $emit: emit,
+      } = this;
+
+      let historyItemRetrievals = [];
+      let itemRetrievals = [];
+      const historyObjectType = _getHistoryObjectType();
       const {
         ids,
         latestDateCovered,
-      } = await this.salesforce.getUpdatedForObjectType(
+      } = await salesforce.getUpdatedForObjectType(
         historyObjectType,
         startTimestamp,
         endTimestamp,
       );
-      this.setLatestDateCovered(latestDateCovered);
 
-      // By the time we try to retrieve an item, it might've been deleted. This
-      // will cause `getSObject` to throw a 404 exception, which will reject its
-      // promise. Hence, we need to filter those items that are still in Salesforce
-      // and exclude those that are not.
-      const historyItemRetrievals = await Promise.allSettled(
-        ids.map((id) => this.salesforce.getSObject(historyObjectType, id)),
-      );
+      setLatestDateCovered((new Date(latestDateCovered)).toISOString());
+
+      if (ids?.length) {
+        ({ results: historyItemRetrievals } = await batchRequest({
+          data: {
+            batchRequests: getBatchRequests(ids, historyObjectType),
+          },
+        }));
+      }
+
       const historyItems = historyItemRetrievals
-        .filter((result) => result.status === "fulfilled")
-        .map((result) => result.value)
-        .filter(this.isRelevant);
+        .filter(({
+          statusCode, result: item,
+        }) => statusCode === 200 && isRelevant(item))
+        .map(({ result: item }) => item);
 
-      // To fetch associated sObject records only once, create a set of the "parent IDs" of the
-      // history object records
-      const parentIdSet = new Set(
-        historyItems
-          .map(this._getParentId)
-          .filter((id) => id),
-      );
-      const parentIds = Array.from(parentIdSet);
+      const parentIds = getUniqueParentIds(historyItems);
 
-      const itemRetrievals = await Promise.allSettled(
-        parentIds.map((id) => this.salesforce.getSObject(this.objectType, id)),
-      );
+      if (parentIds.length) {
+        ({ results: itemRetrievals } = await batchRequest({
+          data: {
+            batchRequests: getBatchRequests(parentIds),
+          },
+        }));
+      }
+
       const itemsById = itemRetrievals
-        .filter((result) => result.status === "fulfilled")
-        .map((result) => result.value)
-        .reduce((acc, item) => {
-          acc[item.Id] = item;
-          return acc;
-        }, {});
+        .filter(({ statusCode }) => statusCode === 200)
+        .reduce((acc, { result: item }) => ({
+          ...acc,
+          [item.Id]: item,
+        }), {});
 
       const events = historyItems.map((item) => ({
         update: item,
-        record: itemsById[this._getParentId(item)],
+        record: itemsById[_getParentId(item)],
       }));
 
       events.forEach((event) => {
-        const meta = this.generateMeta(event);
-        this.$emit(event, meta);
+        const meta = generateMeta(event);
+        emit(event, meta);
       });
     },
   },
