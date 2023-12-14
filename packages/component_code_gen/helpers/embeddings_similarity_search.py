@@ -1,27 +1,35 @@
+import requests
+import numpy as np
 from config.config import config
 from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-import requests
+from langchain.text_splitter import MarkdownHeaderTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 def get_embedding(text):
     if config["openai_api_type"] == "azure":
-        url = f"{config['azure']['api_base']}/openai/deployments/{config['azure']['deployment_name']}/embeddings"
-        api_key = config["azure"]["api_key"]
+        url = f"{config['azure']['api_base']}/openai/deployments/{config['azure']['embeddings_deployment_name']}/embeddings"
+        headers = {
+            "api-key": config["azure"]["api_key"],
+        }
+        params = {
+            "api-version": config["azure"]["api_version"],
+        }
+        data = {
+            "input": text,
+            "model": "text-embedding-ada-002",
+        }
+        response = requests.post(url, headers=headers, params=params, json=data)
     else:
         url = "https://api.openai.com/v1/embeddings"
-        api_key = config["openai"]["api_key"]
-
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-    }
-
-    data = {
-        "input": text,
-        "model": "text-embedding-ada-002",
-    }
-
-    response = requests.post(url, headers=headers, json=data)
+        headers = {
+            "Authorization": f'Bearer {config["openai"]["api_key"]}',
+        }
+        data = {
+            "input": text,
+            "model": "text-embedding-ada-002",
+        }
+        response = requests.post(url, headers=headers, json=data)
 
     if not response.ok:
         raise Exception(
@@ -31,8 +39,23 @@ def get_embedding(text):
     return np.asarray(embedding).reshape(1, -1)
 
 
-def split_document(document, chunk_size=1000):
-    return [document[i:i+chunk_size] for i in range(0, len(document), chunk_size)]
+def split_document(document, max_size=8000):
+    markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on=[
+        ("#", "Header 1"),
+        ("##", "Header 2"),
+        ("###", "Header 3"),
+    ])
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=max_size) # openai embedding limits to 8k
+
+    document_splits = []
+    md_header_splits = markdown_splitter.split_text(document)
+    char_splits = text_splitter.split_documents(md_header_splits)
+
+    for chunk in char_splits:
+        headers = " -> ".join(chunk.metadata.values())
+        document_splits.append(f"{headers}\n\n{chunk.page_content}")
+
+    return document_splits
 
 
 def store_embeddings(chunks):

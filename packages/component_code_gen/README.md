@@ -32,6 +32,7 @@ Generate components using OpenAI GPT.
 
    - OPENAI_API_TYPE=azure
    - OPENAI_DEPLOYMENT_NAME=deployment-name
+   - OPENAI_EMBEDDINGS_DEPLOYMENT_NAME=embeddings-deployment-name
    - OPENAI_API_VERSION=2023-05-15
    - OPENAI_API_BASE=https://resource-name.openai.azure.com
    - OPENAI_API_KEY=azure-api-key
@@ -62,3 +63,11 @@ If you don't want to submit a Draft PR and keep the changes local, pass in `--sk
 The default `output_dir` is where Pipedream components live in the repo: `pipedream/components`. The generated components
 will override existing ones in their respective paths. To output someplace else, use the `--output_dir="./custom_output_path"`
 flag.
+
+#### Local Testing
+
+You may test with a local file, e.g. `instructions.md`, without having to use GitHub:
+
+```
+poetry run python main.py --instructions instructions.md
+```

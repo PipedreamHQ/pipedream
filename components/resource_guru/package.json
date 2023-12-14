@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/resource_guru",
+  "version": "0.0.1",
+  "description": "Pipedream Resource Guru Components",
+  "main": "resource_guru.app.mjs",
+  "keywords": [
+    "pipedream",
+    "resource_guru"
+  ],
+  "homepage": "https://pipedream.com/apps/resource_guru",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

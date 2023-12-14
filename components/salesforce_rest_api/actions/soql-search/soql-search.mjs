@@ -8,7 +8,7 @@ export default {
     Executes a SOQL query.
     See [docs](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm)
   `),
-  version: "0.2.4",
+  version: "0.2.5",
   type: "action",
   props: {
     salesforce,

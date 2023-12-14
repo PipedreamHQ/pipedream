@@ -8,7 +8,7 @@ export default {
   name: "New Deleted Object (of Selectable Type)",
   key: "salesforce_rest_api-object-deleted",
   description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is deleted. [See the docs](https://sforce.co/3msDDEE) for more information.",
-  version: "0.1.5",
+  version: "0.1.6",
   methods: {
     ...common.methods,
     generateMeta(item) {

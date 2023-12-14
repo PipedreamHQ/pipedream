@@ -1,11 +1,11 @@
-import common from "../common.js";
+import common from "../common.mjs";
 
 export default {
   ...common,
   key: "trello-create-checklist",
   name: "Create Checklist",
   description: "Creates a checklist on the specified card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
