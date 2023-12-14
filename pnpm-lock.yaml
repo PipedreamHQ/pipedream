@@ -1689,6 +1689,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
 
+  components/dreamhost:
+    specifiers: {}
+
   components/dreamstudio:
     specifiers:
       '@pipedream/platform': ^1.5.1
