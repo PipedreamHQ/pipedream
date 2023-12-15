@@ -4,7 +4,7 @@ You can install the Pipedream Salesforce app in the [Accounts](https://pipedream
 
 ### Webhooks
 
-The following three permissions must be in place on your Salesforce user in order to use the Salesforce Instant (webhook) triggers:
+The following three permissions must be configured on your Salesforce user in order to use the Salesforce Instant (webhook) triggers:
 1. Apex REST Services
 2. API Enabled
 3. Author Apex (which adds in additional permissions.)
