@@ -4796,7 +4796,10 @@ importers:
     specifiers: {}
 
   components/polygonscan:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/poof:
     specifiers:
@@ -10697,25 +10700,42 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.190:
-    resolution: {integrity: sha512-awWRynVpFt6uAVDzgOa1Ry0ttjQywtt4nh9wa3/MbSTEx6PNohL1X6xDjifUElLSTIUMDSAJyWO9FuKBjnX7IQ==}
+  /@definitelytyped/header-parser/0.0.192:
+    resolution: {integrity: sha512-VCpQJlvdd+HJpqHA4MTRobWdu+aSxXHR57fyKlhsb7C0rP2RWYY+yx+pLTwWrkL3yQ6xzMC16BiPoEGFMDOAtg==}
     engines: {node: '>=16.17.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.182
-      '@definitelytyped/utils': 0.0.188
+      '@definitelytyped/typescript-versions': 0.0.183
+      '@definitelytyped/utils': 0.0.190
       semver: 7.5.4
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.182:
-    resolution: {integrity: sha512-ebGzGyZJW3ZSuE/nfAokKBo40HKnq/XvBbBnmCTR/3FCDX4aT7/6pQYEu2ihVI/2tf4+76GMoq0jRE69QWJ93g==}
+  /@definitelytyped/typescript-packages/0.0.3:
+    resolution: {integrity: sha512-XksZgSfgBYh+r+QKQ2TWO8lsRi/p5PTXjBx8GL2KbfVjc0ess5NF+26M0WNFBUL6XAQBkJ7wL/u3MqV5ZdGAsw==}
+    engines: {node: '>=16.17.0'}
+    dependencies:
+      '@definitelytyped/typescript-versions': 0.0.183
+      typescript-4.6: /typescript/4.6.4
+      typescript-4.7: /typescript/4.7.4
+      typescript-4.8: /typescript/4.8.4
+      typescript-4.9: /typescript/4.9.5
+      typescript-5.0: /typescript/5.0.4
+      typescript-5.1: /typescript/5.1.6
+      typescript-5.2: /typescript/5.2.2
+      typescript-5.3: /typescript/5.3.3
+      typescript-5.4: /typescript/5.4.0-dev.20231213
+    dev: true
+
+  /@definitelytyped/typescript-versions/0.0.183:
+    resolution: {integrity: sha512-cZs1xGhFQl+zCB6sKFahAc7qPRYk0H15eBaEyxWX1oQZl3L7gf6MrbnzTrpbGNh5oL9bUClmtfFa6+vDqQZ6ZQ==}
     engines: {node: '>=16.17.0'}
     dev: true
 
-  /@definitelytyped/utils/0.0.188:
-    resolution: {integrity: sha512-NPUP1FvRbpac09qETtr1dw3Ri7Q07hp9WGOBjqhzXeXOSxfKs7c3BY6I+XJ2yxexG05LKrCKwgKRKgZlj+Zjzw==}
+  /@definitelytyped/utils/0.0.190:
+    resolution: {integrity: sha512-ecVcyZ8DZJs8X8t+5iRQrUx8iaPRSNJ7jMotuot6jEQ/RWFc5HUEhQHRpChzKzFTQwDKI+bnlJSPiZHS4XvZFg==}
     engines: {node: '>=16.17.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.182
+      '@definitelytyped/typescript-packages': 0.0.3
+      '@definitelytyped/typescript-versions': 0.0.183
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 16.18.61
       charm: 1.0.2
@@ -17401,7 +17421,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.190
+      '@definitelytyped/header-parser': 0.0.192
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17416,7 +17436,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.190
+      '@definitelytyped/header-parser': 0.0.192
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17432,9 +17452,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.190
-      '@definitelytyped/typescript-versions': 0.0.182
-      '@definitelytyped/utils': 0.0.188
+      '@definitelytyped/header-parser': 0.0.192
+      '@definitelytyped/typescript-versions': 0.0.183
+      '@definitelytyped/utils': 0.0.190
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -17452,9 +17472,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.190
-      '@definitelytyped/typescript-versions': 0.0.182
-      '@definitelytyped/utils': 0.0.188
+      '@definitelytyped/header-parser': 0.0.192
+      '@definitelytyped/typescript-versions': 0.0.183
+      '@definitelytyped/utils': 0.0.190
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -27229,15 +27249,57 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
 
+  /typescript/4.6.4:
+    resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
+
+  /typescript/4.7.4:
+    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
+
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
+
   /typescript/4.9.5:
     resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
 
+  /typescript/5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
+    engines: {node: '>=12.20'}
+    hasBin: true
+    dev: true
+
+  /typescript/5.1.6:
+    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: true
+
   /typescript/5.2.2:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
+
+  /typescript/5.3.3:
+    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: true
+
+  /typescript/5.4.0-dev.20231213:
+    resolution: {integrity: sha512-Djk7lYdNtrxX60s6h4kvV27+K6qjqJIWvhQEIGqI++nN0Abq4imuBPTd27DzhOQnGjUH3lD9lYAfiHvb+jATxQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: true
 
   /typical/4.0.0:
     resolution: {integrity: sha512-VAH4IvQ7BDFYglMd7BPRDfLgxZZX4O4TFcRDA6EN5X7erNJJq+McIEp8np9aVtxrCJ6qx4GTYVfOWNjcqwZgRw==}
