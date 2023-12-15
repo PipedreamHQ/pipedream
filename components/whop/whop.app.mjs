@@ -4,112 +4,138 @@ export default {
   type: "app",
   app: "whop",
   propDefinitions: {
+    affiliateCode: {
+      type: "string",
+      label: "Affiliate Code",
+      description: "The code to apply as the affiliate for the transaction.",
+      async options({ page }) {
+        const { data } = await this.listMembers({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          username: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     membershipId: {
       type: "string",
       label: "Membership ID",
       description: "The unique identifier for the membership.",
+      async options({ page }) {
+        const { data } = await this.listMemberships({
+          params: {
+            page: page + 1,
+            status: "active",
+          },
+        });
+
+        return data.map(({
+          id: value, email, plan,
+        }) => ({
+          label: `${email} - ${plan}`,
+          value,
+        }));
+      },
     },
-    transactionDetails: {
+    metadata: {
       type: "object",
-      label: "Transaction Details",
-      description: "The details of the transaction including payment amount and method.",
+      label: "Metadata",
+      description: "The metadata that will be attached to the Membership upon successful purchase.",
     },
-    membershipInformation: {
-      type: "object",
-      label: "Membership Information",
-      description: "The information about the user's membership.",
-    },
-    checkoutData: {
-      type: "object",
-      label: "Checkout Data",
-      description: "The data needed to configure the checkout experience.",
-    },
-    promotionDetails: {
-      type: "object",
-      label: "Promotion Details",
-      description: "The details of the promotion for generating a promo code.",
-    },
-    planParameters: {
-      type: "object",
-      label: "Plan Parameters",
-      description: "The parameters for the plan affected by the promo code.",
-    },
-    userEligibilityDetails: {
-      type: "object",
-      label: "User Eligibility Details",
-      description: "Details for user eligibility for the promo code.",
-      optional: true,
-    },
-    usageLimit: {
-      type: "integer",
-      label: "Usage Limit",
-      description: "The usage limit for the promo code.",
-      optional: true,
-    },
-    expirationDate: {
+    planId: {
       type: "string",
-      label: "Expiration Date",
-      description: "The expiration date for the promo code.",
-      optional: true,
+      label: "Plan Id",
+      description: "The ID of the plan that the checkout session is associated with.",
+      async options({ page }) {
+        const { data } = await this.listPlans({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, internal_notes: label, product, plan_type,
+        }) => ({
+          label: label || `${product} - ${plan_type}`,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.whop.com/api/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, data, params, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data,
-        params,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async terminateMembership({ membershipId }) {
+    createHook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    createPromoCode(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/promo_codes",
+        ...opts,
+      });
+    },
+    createCheckoutSession(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/checkout_sessions",
+        ...opts,
+      });
+    },
+    deleteHook(hookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
+      });
+    },
+    listMembers(opts = {}) {
+      return this._makeRequest({
+        path: "/members",
+        ...opts,
+      });
+    },
+    listMemberships(opts = {}) {
+      return this._makeRequest({
+        path: "/memberships",
+        ...opts,
+      });
+    },
+    listPlans(opts = {}) {
+      return this._makeRequest({
+        path: "/plans",
+        ...opts,
+      });
+    },
+    terminateMembership({ membershipId }) {
       return this._makeRequest({
         method: "POST",
         path: `/memberships/${membershipId}/terminate`,
       });
-    },
-    async createPromoCode({
-      promotionDetails, planParameters, userEligibilityDetails, usageLimit, expirationDate,
-    }) {
-      const data = {
-        ...promotionDetails,
-        plan_ids: planParameters.plan_ids,
-        new_users_only: userEligibilityDetails?.new_users_only,
-        number_of_intervals: usageLimit,
-        expiration_datetime: expirationDate,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: "/promo_codes",
-        data,
-      });
-    },
-    async createCheckoutSession({
-      membershipInformation, checkoutData,
-    }) {
-      const data = {
-        ...checkoutData,
-        metadata: membershipInformation,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: "/checkout_sessions",
-        data,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };

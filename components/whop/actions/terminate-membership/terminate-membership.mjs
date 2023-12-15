@@ -1,11 +1,10 @@
 import whop from "../../whop.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "whop-terminate-membership",
   name: "Terminate Membership",
   description: "Permanently invalidates a specified membership using its unique ID, effectively unfulfilling the user's product experiences. Termination is irreversible. [See the documentation](https://dev.whop.com/api-reference/v2/memberships/terminate-a-membership)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     whop,
@@ -19,6 +18,9 @@ export default {
   async run({ $ }) {
     const response = await this.whop.terminateMembership({
       membershipId: this.membershipId,
+      params: {
+        status: "active",
+      },
     });
 
     $.export("$summary", `Successfully terminated membership with ID: ${this.membershipId}`);
