@@ -3,6 +3,7 @@ const {
   rootDir,
   iterateComponentFiles,
 } = require("./findBadKeys.js");
+const tsconfig = require("../tsconfig.json");
 
 function checkComponentHasAppProp(component, appNameSlug) {
   const matching = Object.values(component.props)
@@ -15,12 +16,13 @@ function checkComponentHasAppProp(component, appNameSlug) {
 }
 
 function getComponentPath(filePath) {
+  const { outDir } = tsconfig.compilerOptions;
   const appNameSlug = filePath.split("/")[1];
   const isTypeScript = filePath.endsWith(".ts");
 
   const componentPath = isTypeScript
     ? filePath
-      .replace(appNameSlug, `${appNameSlug}/dist`)
+      .replace(appNameSlug, path.join(appNameSlug, outDir))
       .replace(/\.ts$/, ".mjs")
     : filePath;
 
