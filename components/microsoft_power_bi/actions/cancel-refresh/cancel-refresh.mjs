@@ -18,11 +18,15 @@ export default {
       propDefinition: [
         powerBi,
         "refreshId",
+        ({ datasetId }) => ({
+          datasetId,
+        }),
       ],
     },
   },
   async run({ $ }) {
     const response = await this.powerBi.cancelRefresh({
+      $,
       datasetId: this.datasetId,
       refreshId: this.refreshId,
     });

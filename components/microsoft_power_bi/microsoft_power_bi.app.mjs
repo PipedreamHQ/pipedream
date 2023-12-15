@@ -7,7 +7,16 @@ export default {
     datasetId: {
       type: "string",
       label: "Dataset ID",
-      description: "The unique identifier of the dataset you wish to refresh or manipulate.",
+      description: "Select a Dataset or provide a custom Dataset ID.",
+      async options() {
+        const datasets = await this.getDatasets();
+        return datasets?.map?.(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
     },
     tableName: {
       type: "string",
@@ -24,8 +33,18 @@ export default {
     refreshId: {
       type: "string",
       label: "Refresh ID",
-      description: "The unique identifier of the refresh operation you wish to cancel.",
-      optional: true,
+      description: "Select a refresh operation or provide a custom ID.",
+      async options({ datasetId }) {
+        const refreshes = await this.getRefreshHistory({
+          datasetId,
+        });
+        return refreshes?.map?.(({
+          id, startTime, status,
+        }) => ({
+          label: `${startTime} (${status})`,
+          value: id,
+        }));
+      },
     },
     top: {
       type: "integer",
@@ -81,11 +100,19 @@ export default {
     async getRefreshHistory({
       datasetId, ...args
     }) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         method: "GET",
         path: `/datasets/${datasetId}/refreshes`,
         ...args,
       });
+      return response.value;
+    },
+    async getDatasets() {
+      const response = await this._makeRequest({
+        method: "GET",
+        path: "/datasets/",
+      });
+      return response.value;
     },
     async emitEvent(eventName, data) {
       this.$emit(data, {

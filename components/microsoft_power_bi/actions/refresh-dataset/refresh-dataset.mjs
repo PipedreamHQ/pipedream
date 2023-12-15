@@ -17,10 +17,11 @@ export default {
   },
   async run({ $ }) {
     const response = await this.powerBi.refreshDataset({
+      $,
       datasetId: this.datasetId,
     });
 
-    $.export("$summary", `Successfully triggered a refresh for the dataset with ID ${this.datasetId}`);
+    $.export("$summary", `Successfully triggered a refresh for dataset (ID ${this.datasetId})`);
     return response;
   },
 };
