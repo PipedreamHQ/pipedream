@@ -38,13 +38,11 @@ export default {
     _baseUrl() {
       return "https://api.powerbi.com/v1.0/myorg";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, path, headers, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -54,39 +52,39 @@ export default {
       });
     },
     async addRowsToTable({
-      datasetId, tableName, rows,
+      datasetId, tableName, ...args
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/datasets/${datasetId}/tables/${tableName}/rows`,
-        data: {
-          rows: rows.map(JSON.parse),
-        },
+        ...args,
       });
     },
-    async refreshDataset({ datasetId }) {
+    async refreshDataset({
+      datasetId, ...args
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/datasets/${datasetId}/refreshes`,
+        ...args,
       });
     },
     async cancelRefresh({
-      datasetId, refreshId,
+      datasetId, refreshId, ...args
     }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/datasets/${datasetId}/refreshes/${refreshId}`,
+        ...args,
       });
     },
     async getRefreshHistory({
-      datasetId, top,
+      datasetId, ...args
     }) {
       return this._makeRequest({
         method: "GET",
         path: `/datasets/${datasetId}/refreshes`,
-        params: {
-          $top: top,
-        },
+        ...args,
       });
     },
     async emitEvent(eventName, data) {
