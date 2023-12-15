@@ -4,10 +4,10 @@ import common from "../common-instant.mjs";
 export default {
   ...common,
   type: "source",
-  name: "New Object (Instant, of Selectable Type)",
-  key: "salesforce_rest_api-new-object-instant",
-  description: "Emit new event immediately after an object of arbitrary type (selected as an input parameter by the user) is created",
-  version: "0.1.4",
+  name: "New Record (Instant, of Selectable Type)",
+  key: "salesforce_rest_api-new-record-instant",
+  description: "Emit new event immediately after a record of arbitrary object type (selected as an input parameter by the user) is created",
+  version: "0.0.1",
   hooks: {
     ...common.hooks,
     async deploy() {

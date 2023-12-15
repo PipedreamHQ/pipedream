@@ -5,10 +5,10 @@ import common from "../common-instant.mjs";
 export default {
   ...common,
   type: "source",
-  name: "New Deleted Object (Instant, of Selectable Type)",
-  key: "salesforce_rest_api-object-deleted-instant",
-  description: "Emit new event immediately after an object of arbitrary type (selected as an input parameter by the user) is deleted",
-  version: "0.1.3",
+  name: "New Deleted Record (Instant, of Selectable Type)",
+  key: "salesforce_rest_api-record-deleted-instant",
+  description: "Emit new event immediately after a record of arbitrary object type (selected as an input parameter by the user) is deleted",
+  version: "0.0.1",
   methods: {
     ...common.methods,
     generateMeta(data) {
