@@ -14,6 +14,7 @@ The most straightforward way to add these permissions is to create a new Permiss
 Here is a step-by-step on how to do this:
 
 **Create New Permission Set**
+
 1. Navigate to your Salesforce instance, and click the Setup wheel in the top-right corner.
 2. Under the Administration tab on the lefthand sidebar, click Users --> Permission Sets.
 3. On the Permissions Set page, click New.
@@ -45,6 +46,7 @@ Here is a step-by-step on how to do this:
 <img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598417/Screenshot_2023-12-14_at_3.10.17_PM_urgge8.png" width=500>
 
 **Add Permission Set to User**
+
 9. From the newly created Permission Set, click Manage Assignments, then Add Assignment.
 <img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598514/Screenshot_2023-12-14_at_3.21.59_PM_rqedtd.png" width=500>
 
