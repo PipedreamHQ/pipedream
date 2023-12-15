@@ -44,7 +44,7 @@ export default {
     let page = 1;
 
     while (page >= 0) {
-      let { resources } = await this.webinargeek.getContacts({
+      let { resources } = await this.app.getContacts({
         params: {
           page,
           per_page: 100,
