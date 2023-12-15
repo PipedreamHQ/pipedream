@@ -1,7 +1,7 @@
-import powerBi from "../../microsoft-power-bi.app.mjs";
+import powerBi from "../../microsoft_power_bi.app.mjs";
 
 export default {
-  key: "microsoft-power-bi-refresh-dataset",
+  key: "microsoft_power_bi-refresh-dataset",
   name: "Refresh Power BI Dataset",
   description: "Triggers a refresh operation for a specified Power BI dataset. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/refresh-dataset)",
   version: "0.0.1",

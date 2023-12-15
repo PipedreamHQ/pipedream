@@ -1,7 +1,7 @@
-import powerBiApp from "../../microsoft-power-bi.app.mjs";
+import powerBiApp from "../../microsoft_power_bi.app.mjs";
 
 export default {
-  key: "microsoft-power-bi-dataset-refresh-failed",
+  key: "microsoft_power_bi-dataset-refresh-failed",
   name: "Dataset Refresh Failed",
   description: "Emits an event when a dataset refresh operation has failed in Power BI. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-refresh-history)",
   version: "0.0.1",

@@ -1,8 +1,8 @@
-import powerBi from "../../microsoft-power-bi.app.mjs";
+import powerBi from "../../microsoft_power_bi.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  key: "microsoft-power-bi-dataset-refresh-completed",
+  key: "microsoft_power_bi-dataset-refresh-completed",
   name: "Dataset Refresh Completed",
   description: "Emits a new event when a dataset refresh operation has completed. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-refresh-history)",
   version: "0.0.1",

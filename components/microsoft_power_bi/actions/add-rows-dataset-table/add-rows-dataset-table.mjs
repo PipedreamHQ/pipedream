@@ -1,7 +1,7 @@
-import powerBi from "../../microsoft-power-bi.app.mjs";
+import powerBi from "../../microsoft_power_bi.app.mjs";
 
 export default {
-  key: "microsoft-power-bi-add-rows-dataset-table",
+  key: "microsoft_power_bi-add-rows-dataset-table",
   name: "Add Rows to Power BI Dataset Table",
   description: "Adds new data rows to the specified table within the specified dataset from My workspace. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/push-datasets/datasets-post-rows)",
   version: "0.0.1",
