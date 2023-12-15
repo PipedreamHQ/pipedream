@@ -2,7 +2,60 @@
 
 You can install the Pipedream Salesforce app in the [Accounts](https://pipedream.com/accounts) section of your account, or directly in a workflow.
 
-### Webhooks
+## Configuring Webhook Sources in Salesforce
+
+The following three permissions must be configured on your Salesforce user in order to use the Salesforce Instant (webhook) triggers:
+1. Apex REST Services
+2. API Enabled
+3. Author Apex (which adds in additional permissions.)
+
+The most straightforward way to add these permissions is to create a new Permission Set in Salesforce, and to add it to the user once created.
+
+Here is a step-by-step on how to do this:
+
+**Create New Permission Set**
+
+1. Navigate to your Salesforce instance, and click the Setup wheel in the top-right corner.
+2. Under the Administration tab on the lefthand sidebar, click Users --> Permission Sets.
+3. On the Permissions Set page, click New.
+4. Create a new permission set, give it a label, API name, and description. Example:
+**Label**: Pipedream API Access
+**API Name**: Pipedream
+**Description**: Adds a set of permissions required for Pipedream sources:
+- Apex REST Services
+- API Enabled
+- Author Apex
+
+ <img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598220/Screenshot_2023-12-14_at_2.57.21_PM_dfgsrw.png" width=500>
+
+**Add Permissions**
+
+5. Now that the permission set is created, navigate to System Permissions.
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598358/Screenshot_2023-12-14_at_3.00.49_PM_axtws5.png" width=500>
+
+6. From System Permissions, click Edit.
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598417/Screenshot_2023-12-14_at_3.01.38_PM_pvbopv.png" width=500>
+
+7. Select the following permissions, and click Save.
+- Apex REST Services
+- API Enabled
+- Author Apex (which adds in additional permissions.)
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598514/Screenshot_2023-12-14_at_3.48.50_PM_pcychy.png" width=500>
+
+8. The list of added permissions should look like this, and click save again.
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598417/Screenshot_2023-12-14_at_3.10.17_PM_urgge8.png" width=500>
+
+**Add Permission Set to User**
+
+9. From the newly created Permission Set, click Manage Assignments, then Add Assignment.
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598514/Screenshot_2023-12-14_at_3.21.59_PM_rqedtd.png" width=500>
+
+10. Select the user you'd like to assign this permission set to, and click Assign. The user should now show up under Current Assignments.
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598514/Screenshot_2023-12-14_at_3.52.42_PM_w4ge4p.png" width=500>
+
+11. You should now be able to use any of the Salesforce (Instant) Triggers on Pipedream!
+
+# Troubleshooting
 
 If you happen to stumble on the error: `UNKNOWN_EXCEPTION: admin operation already in progress` when creating an **Instant** trigger, you can follow the steps below to use the Salesforce Flow Builder to be able to use webhooks with Pipedream. This is a known error in Salesforce.
 
