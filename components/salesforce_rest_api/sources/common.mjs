@@ -1,6 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import salesforce from "../salesforce_rest_api.app.mjs";
-import { chunkArray } from "../common/utils.mjs";
 
 export default {
   dedupe: "unique",
@@ -52,6 +51,19 @@ export default {
     processEvent() {
       throw new Error("processEvent is not implemented");
     },
+    chunkArray(array, chunkSize = 25) {
+      return array.reduce((chunks, item, index) => {
+        const chunkIndex = Math.floor(index / chunkSize);
+
+        if (!chunks[chunkIndex]) {
+          chunks[chunkIndex] = [];
+        }
+
+        chunks[chunkIndex].push(item);
+
+        return chunks;
+      }, []);
+    },
     getRelativeObjectUrl(id, historyObjectType) {
       const {
         salesforce,
@@ -77,7 +89,11 @@ export default {
     makeChunkBatchRequests({
       ids, objectType, ...args
     } = {}) {
-      const { batchRequest } = this;
+      const {
+        batchRequest,
+        chunkArray,
+      } = this;
+
       const chunks = chunkArray(ids);
       const promises = chunks.map((ids) => batchRequest({
         data: {
