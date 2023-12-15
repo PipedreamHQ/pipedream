@@ -40,7 +40,9 @@ export default {
     const screenshot = await this.browserless.takeScreenshot({
       data: {
         url: this.url,
-        waitFor: this.waitFor,
+        waitFor: !isNaN(this.waitFor)
+          ? parseInt(this.waitFor)
+          : this.waitFor,
       },
       $,
     });
