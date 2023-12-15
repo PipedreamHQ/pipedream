@@ -51,6 +51,8 @@ Here is a step-by-step on how to do this:
 10. Select the user you'd like to assign this permission set to, and click Assign. The user should now show up under Current Assignments.
 <img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598514/Screenshot_2023-12-14_at_3.52.42_PM_w4ge4p.png" width=500>
 
+11. You should now be able to use any of the Salesforce (Instant) Triggers on Pipedream!
+
 # Troubleshooting
 
 If you happen to stumble on the error: `UNKNOWN_EXCEPTION: admin operation already in progress` when creating an **Instant** trigger, you can follow the steps below to use the Salesforce Flow Builder to be able to use webhooks with Pipedream. This is a known error in Salesforce.
