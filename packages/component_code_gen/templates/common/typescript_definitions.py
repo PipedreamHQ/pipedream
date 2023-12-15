@@ -1,16 +1,9 @@
 typescript_definitions = """## TypeScript Definitions
 
+Below, you'll find the TypeScript definitions for the component API. You'll see references to these in the instructions.
+
 export interface Methods {
   [key: string]: (...args: any) => unknown;
-}
-
-// $.flow.exit() and $.flow.delay()
-export interface FlowFunctions {
-  exit: (reason: string) => void;
-  delay: (ms: number) => {
-    resume_url: string;
-    cancel_url: string;
-  };
 }
 
 export interface Pipedream {
@@ -22,7 +15,6 @@ export interface Pipedream {
    * @returns A promise that is fulfilled when the body is read or an immediate response is issued
    */
   respond: (response: HTTPResponse) => Promise<any> | void;
-  flow: FlowFunctions;
 }
 
 // Arguments to the options method for props
@@ -96,16 +88,6 @@ export interface UserProp extends BasePropInterface {
 export interface InterfaceProp extends BasePropInterface {
   type: "$.interface.http" | "$.interface.timer";
   default?: string | DefaultConfig;
-}
-
-// When users ask about data stores, remember to include a prop of type "data_store" in the props object
-export interface DataStoreProp extends BasePropInterface {
-  type: "data_store";
-}
-
-export interface HttpRequestProp extends BasePropInterface {
-  type: "http_request";
-  default?: DefaultHttpRequestPropConfig;
 }
 
 export interface ActionPropDefinitions {
