@@ -28,7 +28,7 @@ export default {
     waitForReport: {
       type: "boolean",
       label: "Wait for Report",
-      description: "Set to `true` to poll the API in 3 second intervals until the test is completed. Will retrun the report.",
+      description: "Set to `true` to poll the API in 3-second intervals until the test is completed. Will return the report.",
       optional: true,
     },
   },
