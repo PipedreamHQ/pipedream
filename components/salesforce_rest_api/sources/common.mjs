@@ -1,5 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import salesforce from "../salesforce_rest_api.app.mjs";
+import { chunkArray } from "../common/utils.mjs";
 
 export default {
   dedupe: "unique",
@@ -72,6 +73,34 @@ export default {
         url: `${salesforce._baseApiVersionUrl()}/composite/batch`,
         ...args,
       });
+    },
+    makeChunkBatchRequests({
+      ids, objectType, ...args
+    } = {}) {
+      const { batchRequest } = this;
+      const chunks = chunkArray(ids);
+      const promises = chunks.map((ids) => batchRequest({
+        data: {
+          batchRequests: this.getBatchRequests(ids, objectType),
+          ...args?.data,
+        },
+        ...args,
+      }));
+      return Promise.all(promises);
+    },
+    getChunkBatchResults(responses) {
+      return responses.reduce((acc, { results }) => [
+        ...acc,
+        ...results,
+      ], []);
+    },
+    async makeChunkBatchRequestsAndGetResults(args) {
+      const {
+        makeChunkBatchRequests,
+        getChunkBatchResults,
+      } = this;
+      const responses = await makeChunkBatchRequests(args);
+      return getChunkBatchResults(responses);
     },
   },
   async run(event) {

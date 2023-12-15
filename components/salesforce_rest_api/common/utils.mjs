@@ -46,6 +46,22 @@ const removeNullEntries = (obj) =>
       : acc;
   }, {});
 
+function chunkArray(array, chunkSize = 25) {
+  return array.reduce((chunks, item, index) => {
+    const chunkIndex = Math.floor(index / chunkSize);
+
+    if (!chunks[chunkIndex]) {
+      chunks[chunkIndex] = [];
+    }
+
+    chunks[chunkIndex].push(item);
+
+    return chunks;
+  }, []);
+}
+
 export {
-  toSingleLineString, removeNullEntries,
+  toSingleLineString,
+  removeNullEntries,
+  chunkArray,
 };
