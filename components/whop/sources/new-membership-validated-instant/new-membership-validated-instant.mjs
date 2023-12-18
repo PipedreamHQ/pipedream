@@ -16,7 +16,7 @@ export default {
       ];
     },
     getSummary({ id }) {
-      return `New ,embership validation with ID: ${id}`;
+      return `New membership validation with ID: ${id}`;
     },
   },
 };
