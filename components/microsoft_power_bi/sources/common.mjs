@@ -1,5 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import powerBiApp from "../../microsoft_power_bi.app.mjs";
+import powerBiApp from "../microsoft_power_bi.app.mjs";
 
 export default {
   props: {
