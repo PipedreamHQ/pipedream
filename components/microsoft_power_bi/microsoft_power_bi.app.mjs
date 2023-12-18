@@ -44,12 +44,12 @@ export default {
     refreshId: {
       type: "string",
       label: "Refresh ID",
-      description: "Select a refresh operation or provide a custom ID.",
+      description: "Select a refresh operation or provide a custom ID. Refreshes that have already been completed are not listed.",
       async options({ datasetId }) {
         const refreshes = await this.getRefreshHistory({
           datasetId,
         });
-        return refreshes?.map?.(({
+        return refreshes?.filter?.(({ status }) => status !== "Completed").map(({
           requestId, startTime, status,
         }) => ({
           label: `${startTime} (${status})`,
