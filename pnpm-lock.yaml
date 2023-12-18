@@ -1161,6 +1161,15 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/codacy:
+    specifiers: {}
+
+  components/code_climate:
+    specifiers: {}
+
+  components/codemagic:
+    specifiers: {}
+
   components/codeq_natural_language_processing_api:
     specifiers: {}
 
@@ -1173,6 +1182,9 @@ importers:
       xml2json-light: 1.0.6
 
   components/coderpad:
+    specifiers: {}
+
+  components/codescene:
     specifiers: {}
 
   components/cohere_platform:
@@ -3004,6 +3016,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/inmobile:
+    specifiers: {}
+
   components/inoreader:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -3451,7 +3466,10 @@ importers:
     specifiers: {}
 
   components/linkly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/linqs_cc:
     specifiers: {}
@@ -6083,6 +6101,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/sonarcloud:
+    specifiers: {}
 
   components/sonix:
     specifiers:
@@ -10712,8 +10733,8 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.1.0:
-    resolution: {integrity: sha512-pN5pnRBb2lAWlBaKGEXnCx7+CCR5mDny4mQqWfA7KSGZTHlV3d2bBgc+BrjAaa6LwHWNrW6P/7wZi1emkHCWOg==}
+  /@definitelytyped/header-parser/0.1.1:
+    resolution: {integrity: sha512-2VLz+MPysuV0BuI2HMYwHUapAIJQA43bsFiJrPgFwPu8nNDZZY4DI5EevgaTk8UA1jNBUtcZIzXMUi6kzHjBmA==}
     engines: {node: '>=16.17.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.184
@@ -17433,7 +17454,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.1.0
+      '@definitelytyped/header-parser': 0.1.1
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17448,7 +17469,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.1.0
+      '@definitelytyped/header-parser': 0.1.1
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17464,7 +17485,7 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.1.0
+      '@definitelytyped/header-parser': 0.1.1
       '@definitelytyped/typescript-versions': 0.0.184
       '@definitelytyped/utils': 0.0.191
       dts-critic: 3.3.11_typescript@4.9.5
@@ -17484,7 +17505,7 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.1.0
+      '@definitelytyped/header-parser': 0.1.1
       '@definitelytyped/typescript-versions': 0.0.184
       '@definitelytyped/utils': 0.0.191
       dts-critic: 3.3.11_typescript@5.2.2
