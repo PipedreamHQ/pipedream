@@ -1540,7 +1540,10 @@ importers:
       fs: 0.0.1-security
 
   components/diffy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/digicert:
     specifiers: {}
@@ -10734,7 +10737,7 @@ packages:
       typescript-5.1: /typescript/5.1.6
       typescript-5.2: /typescript/5.2.2
       typescript-5.3: /typescript/5.3.3
-      typescript-5.4: /typescript/5.4.0-dev.20231213
+      typescript-5.4: /typescript/5.4.0-dev.20231214
     dev: true
 
   /@definitelytyped/typescript-versions/0.0.184:
@@ -27307,8 +27310,8 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript/5.4.0-dev.20231213:
-    resolution: {integrity: sha512-Djk7lYdNtrxX60s6h4kvV27+K6qjqJIWvhQEIGqI++nN0Abq4imuBPTd27DzhOQnGjUH3lD9lYAfiHvb+jATxQ==}
+  /typescript/5.4.0-dev.20231214:
+    resolution: {integrity: sha512-kza7DF4odrht7PR6eNM+/DM9KUJJtla1nmAzF/jnEoCZje3qnui6t3CC0sSbqKZMDi7gN8C0vZGFe3/yuwMo9Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
