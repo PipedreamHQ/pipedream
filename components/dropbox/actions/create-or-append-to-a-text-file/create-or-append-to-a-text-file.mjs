@@ -4,7 +4,7 @@ export default {
   name: "Create or Append to a Text File",
   description: "Adds a new line to an existing text file, or creates a file if it doesn't exist. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-create-or-append-to-a-text-file",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     dropbox,
