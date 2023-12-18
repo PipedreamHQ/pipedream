@@ -1,3 +1,4 @@
+
 # Emit events
 
 Like [event sources](/sources/), workflows can emit events. These events can trigger other workflows, or be consumed using Pipedream's [REST API](/api/rest/#get-workflow-emits). 
@@ -31,7 +32,7 @@ $.send.emit(
 
 By default, events are emitted to the default channel. You can optionally emit events to a different channel, and listening sources or workflows can subscribe to events on this channel, running the source or workflow only on events emitted to that channel.
 
-Pass the channel as the second argument to `$.send.emit`:
+Pass the channel as the second argument to `$.send.emit()`:
 
 ```javascript
 export default defineComponent({
@@ -46,11 +47,11 @@ export default defineComponent({
 });
 ```
 
-## Using `$.send.emit` in component actions
+## Using `$.send.emit()` in component actions
 
-If you're authoring a [component action](/components#actions), you can emit data using `$.send.emit`.
+If you're authoring a [component action](/components#actions), you can emit data using `$.send.emit()`.
 
-`$.send.emit` functions the same as [`$.send.emit` in workflow code steps](#using-send-emit-in-workflows):
+`$.send.emit()` functions the same as [`$.send.emit()` in workflow code steps](#using-send-emit-in-workflows):
 
 ```javascript
 export default defineComponent({

@@ -112,8 +112,9 @@ def no_docs(prompt, templates, auth_example, parsed_common_files, urls_content, 
         templates.system_instructions(auth_example, parsed_common_files))
 
     result = get_llm()(messages=[
-        SystemMessage(content="You are a world-class coding assistant. You are helping a developer write code. Follow each and every instruction the user gives you. Keep in mind all the rules and examples the user has given you."),
-        HumanMessage(content=user_prompt+pd_instructions if normal_order else pd_instructions+user_prompt),
+        SystemMessage(content="You are the most intelligent software engineer in the world. You carefully provide accurate, factual, thoughtful, nuanced code, and are brilliant at reasoning. Follow all of the instructions below — they are all incredibly important. This code will be shipped directly to production, so it's important that it's accurate and complete."),
+        HumanMessage(content=user_prompt +
+                     pd_instructions if normal_order else pd_instructions+user_prompt),
     ])
 
     return format_result(result.content)
