@@ -2686,7 +2686,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/gtmetrix:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/gumroad:
     specifiers:
@@ -7187,7 +7190,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/whop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/whosonlocation:
     specifiers: {}
@@ -10706,8 +10712,8 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.193:
-    resolution: {integrity: sha512-9dZVIMjYKkOc8pdsz2dhIr2YGka5Ay1V2lKkKOmEuq2MNBpMX45TKCHIg8t5bmtnUvYO8pOlX5ni64YueZCbTw==}
+  /@definitelytyped/header-parser/0.1.0:
+    resolution: {integrity: sha512-pN5pnRBb2lAWlBaKGEXnCx7+CCR5mDny4mQqWfA7KSGZTHlV3d2bBgc+BrjAaa6LwHWNrW6P/7wZi1emkHCWOg==}
     engines: {node: '>=16.17.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.184
@@ -17427,7 +17433,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.193
+      '@definitelytyped/header-parser': 0.1.0
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17442,7 +17448,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.193
+      '@definitelytyped/header-parser': 0.1.0
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17458,7 +17464,7 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.193
+      '@definitelytyped/header-parser': 0.1.0
       '@definitelytyped/typescript-versions': 0.0.184
       '@definitelytyped/utils': 0.0.191
       dts-critic: 3.3.11_typescript@4.9.5
@@ -17478,7 +17484,7 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.193
+      '@definitelytyped/header-parser': 0.1.0
       '@definitelytyped/typescript-versions': 0.0.184
       '@definitelytyped/utils': 0.0.191
       dts-critic: 3.3.11_typescript@5.2.2
