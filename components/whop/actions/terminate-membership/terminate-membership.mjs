@@ -18,9 +18,6 @@ export default {
   async run({ $ }) {
     const response = await this.whop.terminateMembership({
       membershipId: this.membershipId,
-      params: {
-        status: "active",
-      },
     });
 
     $.export("$summary", `Successfully terminated membership with ID: ${this.membershipId}`);

@@ -31,7 +31,6 @@ export default {
         const { data } = await this.listMemberships({
           params: {
             page: page + 1,
-            status: "active",
           },
         });
 
