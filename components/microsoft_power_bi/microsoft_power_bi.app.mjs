@@ -50,10 +50,10 @@ export default {
           datasetId,
         });
         return refreshes?.map?.(({
-          id, startTime, status,
+          requestId, startTime, status,
         }) => ({
           label: `${startTime} (${status})`,
-          value: id,
+          value: requestId,
         }));
       },
     },
