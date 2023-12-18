@@ -1,94 +1,46 @@
-import { axios } from "@pipedream/platform";
-import dnsfilter from "../../dnsfilter.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "dnsfilter-new-policy-created",
   name: "New Policy Created",
-  description: "Emit new event when a new policy is created.",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new policy is created. [See the documentation](https://app.swaggerhub.com/apis-docs/DNSFilter/dns-filter_api/1.0.15#/Policies/Policies-index)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    dnsfilter,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    organizationName: {
-      propDefinition: [
-        dnsfilter,
-        "organizationName",
-      ],
-    },
-    location: {
-      propDefinition: [
-        dnsfilter,
-        "location",
-      ],
-    },
-    siteName: {
-      propDefinition: [
-        dnsfilter,
-        "siteName",
-      ],
-    },
-    policyName: {
-      propDefinition: [
-        dnsfilter,
-        "policyName",
-      ],
-    },
-    categoryName: {
-      propDefinition: [
-        dnsfilter,
-        "categoryName",
-      ],
-    },
-  },
   methods: {
-    ...dnsfilter.methods,
-    _getPolicyId() {
-      return this.db.get("policyId") ?? null;
-    },
-    _setPolicyId(id) {
-      this.db.set("policyId", id);
-    },
-  },
-  hooks: {
-    async deploy() {
-      const policy = await this.dnsfilter.assignPolicyToSite({
-        siteName: this.siteName,
-        policyName: this.policyName,
-      });
-
-      await this.dnsfilter.blockCategoryFromPolicy({
-        policyName: this.policyName,
-        categoryName: this.categoryName,
-      });
-
-      this._setPolicyId(policy.id);
+    ...common.methods,
+    generateMeta(policy) {
+      return {
+        id: policy.id,
+        summary: `New Policy ${policy.attributes.name}`,
+        ts: Date.now(),
+      };
     },
   },
   async run() {
-    const policyId = this._getPolicyId();
+    const lastPolicyId = this._getLast();
+    let maxId = lastPolicyId;
+    const args = {};
 
-    const { data: policy } = await axios(this, {
-      url: `${this.dnsfilter._baseUrl()}/policies/${policyId}`,
-      headers: {
-        Authorization: `Bearer ${this.dnsfilter.$auth.oauth_access_token}`,
-      },
-    });
+    do {
+      const {
+        data, links,
+      } = await this.dnsfilter.listPolicies();
+      for (const item of data) {
+        if (item.id > lastPolicyId) {
+          const meta = this.generateMeta(item);
+          this.$emit(item, meta);
+          if (item.id > maxId) {
+            maxId = item.id;
+          }
+        }
+      }
+      args.url = links?.next;
+    } while (args.url);
 
-    if (policy.id !== policyId) {
-      this.$emit(policy, {
-        id: policy.id,
-        summary: `New Policy: ${policy.name}`,
-        ts: Date.now(),
-      });
-      this._setPolicyId(policy.id);
-    }
+    this._setLast(maxId);
   },
+  sampleEmit,
 };

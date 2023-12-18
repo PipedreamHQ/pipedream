@@ -4,81 +4,157 @@ export default {
   type: "app",
   app: "dnsfilter",
   propDefinitions: {
-    organizationName: {
+    policyId: {
       type: "string",
-      label: "Organization Name",
-      description: "The name of the organization to be created",
+      label: "Policy",
+      description: "Identifier of a policy",
+      async options({ prevContext }) {
+        const args = prevContext?.next
+          ? {
+            url: prevContext.next,
+          }
+          : {};
+        const {
+          data, links,
+        } = await this.listPolicies(args);
+        const options = data?.map(({
+          id: value, attributes,
+        }) => ({
+          value,
+          label: attributes.name,
+        })) || [];
+        return {
+          options,
+          context: {
+            next: links?.next,
+          },
+        };
+      },
     },
-    location: {
+    networkId: {
       type: "string",
-      label: "Location",
-      description: "The location of the organization to be created",
-      optional: true,
+      label: "Network",
+      description: "Identifier of a network",
+      async options({ prevContext }) {
+        const args = prevContext?.next
+          ? {
+            url: prevContext.next,
+          }
+          : {};
+        const {
+          data, links,
+        } = await this.listNetworks(args);
+        const options = data?.map(({
+          id: value, attributes,
+        }) => ({
+          value,
+          label: attributes.name,
+        })) || [];
+        return {
+          options,
+          context: {
+            next: links?.next,
+          },
+        };
+      },
     },
-    siteName: {
+    categoryId: {
       type: "string",
-      label: "Site Name",
-      description: "The name of the site to which a policy should be assigned",
-    },
-    policyName: {
-      type: "string",
-      label: "Policy Name",
-      description: "The name of the policy to be assigned to a site",
-    },
-    categoryName: {
-      type: "string",
-      label: "Category Name",
-      description: "The name of the category to be blocked from a policy",
+      label: "Category",
+      description: "Identifier of a category",
+      async options({ prevContext }) {
+        const args = prevContext?.next
+          ? {
+            url: prevContext.next,
+          }
+          : {};
+        const {
+          data, links,
+        } = await this.listCategories(args);
+        const options = data?.map(({
+          id: value, attributes,
+        }) => ({
+          value,
+          label: attributes.name,
+        })) || [];
+        return {
+          options,
+          context: {
+            next: links?.next,
+          },
+        };
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.dnsfilter.com/v1";
     },
+    _headers() {
+      return {
+        Authorization: `Token ${this.$auth.oauth_access_token}`,
+      };
+    },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
       });
     },
-    async createOrganization(opts = {}) {
+    getNetwork({
+      networkId, ...opts
+    }) {
       return this._makeRequest({
+        path: `/networks/${networkId}`,
         ...opts,
-        path: "/organizations",
+      });
+    },
+    listNetworks(opts = {}) {
+      return this._makeRequest({
+        path: "/networks",
+        ...opts,
+      });
+    },
+    listPolicies(opts = {}) {
+      return this._makeRequest({
+        path: "/policies",
+        ...opts,
+      });
+    },
+    listCategories(opts = {}) {
+      return this._makeRequest({
+        path: "/categories",
+        ...opts,
+      });
+    },
+    assignPolicyToSite({
+      networkId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/networks/${networkId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    blockCategoryFromPolicy({
+      policyId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/policies/${policyId}/add_blacklist_category`,
         method: "POST",
-        data: {
-          name: opts.organizationName,
-          location: opts.location,
-        },
+        ...opts,
       });
     },
-    async assignPolicyToSite(opts = {}) {
+    getTotalThreatsTrafficReport(opts = {}) {
       return this._makeRequest({
+        path: "/traffic_reports/total_threats",
         ...opts,
-        path: `/sites/${opts.siteName}/policies/${opts.policyName}`,
-        method: "PUT",
-      });
-    },
-    async blockCategoryFromPolicy(opts = {}) {
-      return this._makeRequest({
-        ...opts,
-        path: `/policies/${opts.policyName}/categories/${opts.categoryName}`,
-        method: "PUT",
-        data: {
-          action: "block",
-        },
       });
     },
   },
