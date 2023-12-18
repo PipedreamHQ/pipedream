@@ -15,7 +15,7 @@ The `options` method is an optional method that can be defined on a prop. It is 
 ]
 ```
 
-The `label` MUST BE a human-readable name of the option presented to the user in the UI, and the `value` is the value of the prop in the `run` method. The `label` MUST be set to the property that defines the name of the object, and the `value` should be the property that defines the unique identifier of the object.
+The `label` MUST be a human-readable name of the option presented to the user in the UI, and the `value` is the value of the prop in the `run` method. The `label` MUST be set to the property that defines the name of the object, and the `value` should be the property that defines the unique identifier of the object.
 
 If an API endpoint exists that can be used to fetch the options for the prop, you MUST define an `async` options method. This allows Pipedream to make an API call to fetch the options for the prop when the user is configuring the component, rather than forcing the user to enter values for the option manually. Think about it: this is so much easier for the user.
 
@@ -44,20 +44,5 @@ board: {
       return { label: board.name, value: board.id };
     });
   },
-},
-```
-
-```
-async options(opts) {
-  const response = await axios(this, {
-    method: "GET",
-    url: `https://api.spotify.com/v1/me/playlists`,
-    headers: {
-      Authorization: `Bearer \${this.spotify.$auth.oauth_access_token}`,
-    },
-  });
-  return response.items.map((playlist) => {
-    return { label: playlist.name, value: playlist.id };
-  });
 },
 ```"""
