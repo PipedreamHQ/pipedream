@@ -22,13 +22,24 @@ export default {
       type: "string",
       label: "Table Name",
       description: "The name of the table you're updating.",
-      optional: true,
+      async options({ datasetId }) {
+        const datasets = await this.getTables({
+          datasetId,
+        });
+        return datasets?.map?.(({
+          description, name,
+        }) => ({
+          label: `"${name}"${description
+            ? `: ${description}`
+            : ""}`,
+          value: name,
+        }));
+      },
     },
     rows: {
       type: "string[]",
       label: "Rows",
       description: "An array of data rows to add to the dataset table. Each element should be a JSON object represented using key-value format.",
-      optional: true,
     },
     refreshId: {
       type: "string",
@@ -103,6 +114,16 @@ export default {
       const response = await this._makeRequest({
         method: "GET",
         path: `/datasets/${datasetId}/refreshes`,
+        ...args,
+      });
+      return response.value;
+    },
+    async getTables({
+      datasetId, ...args
+    }) {
+      const response = await this._makeRequest({
+        method: "GET",
+        path: `/datasets/${datasetId}/tables`,
         ...args,
       });
       return response.value;
