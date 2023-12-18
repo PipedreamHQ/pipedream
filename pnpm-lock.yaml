@@ -65,6 +65,9 @@ importers:
       tsc-watch: 5.0.3_typescript@5.2.2
       typescript: 5.2.2
 
+  components/_0codekit:
+    specifiers: {}
+
   components/_twocaptcha:
     specifiers: {}
 
@@ -1537,7 +1540,10 @@ importers:
       fs: 0.0.1-security
 
   components/diffy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/digicert:
     specifiers: {}
@@ -2680,7 +2686,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/gtmetrix:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/gumroad:
     specifiers:
@@ -7181,7 +7190,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/whop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/whosonlocation:
     specifiers: {}
@@ -10700,20 +10712,20 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.192:
-    resolution: {integrity: sha512-VCpQJlvdd+HJpqHA4MTRobWdu+aSxXHR57fyKlhsb7C0rP2RWYY+yx+pLTwWrkL3yQ6xzMC16BiPoEGFMDOAtg==}
+  /@definitelytyped/header-parser/0.1.0:
+    resolution: {integrity: sha512-pN5pnRBb2lAWlBaKGEXnCx7+CCR5mDny4mQqWfA7KSGZTHlV3d2bBgc+BrjAaa6LwHWNrW6P/7wZi1emkHCWOg==}
     engines: {node: '>=16.17.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.183
-      '@definitelytyped/utils': 0.0.190
+      '@definitelytyped/typescript-versions': 0.0.184
+      '@definitelytyped/utils': 0.0.191
       semver: 7.5.4
     dev: true
 
-  /@definitelytyped/typescript-packages/0.0.3:
-    resolution: {integrity: sha512-XksZgSfgBYh+r+QKQ2TWO8lsRi/p5PTXjBx8GL2KbfVjc0ess5NF+26M0WNFBUL6XAQBkJ7wL/u3MqV5ZdGAsw==}
+  /@definitelytyped/typescript-packages/0.0.4:
+    resolution: {integrity: sha512-c5ZzI3HuCzHOdMg0cif15uJ/1dRXANGYl8FJ6Ku/hk3qmf5zCeMraHabu4uVA5rXtGoPwKwatAw0wZ/P882JvA==}
     engines: {node: '>=16.17.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.183
+      '@definitelytyped/typescript-versions': 0.0.184
       typescript-4.6: /typescript/4.6.4
       typescript-4.7: /typescript/4.7.4
       typescript-4.8: /typescript/4.8.4
@@ -10722,20 +10734,20 @@ packages:
       typescript-5.1: /typescript/5.1.6
       typescript-5.2: /typescript/5.2.2
       typescript-5.3: /typescript/5.3.3
-      typescript-5.4: /typescript/5.4.0-dev.20231213
+      typescript-5.4: /typescript/5.4.0-dev.20231214
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.183:
-    resolution: {integrity: sha512-cZs1xGhFQl+zCB6sKFahAc7qPRYk0H15eBaEyxWX1oQZl3L7gf6MrbnzTrpbGNh5oL9bUClmtfFa6+vDqQZ6ZQ==}
+  /@definitelytyped/typescript-versions/0.0.184:
+    resolution: {integrity: sha512-9nMrTUEOX6BJp+BfCWsb1f0WUJ7UFmnIsr6fEXvoc1LCUUlpeWV2Cq5iJZGXCI4RP5LItxyOw/F7NqRcRO937g==}
     engines: {node: '>=16.17.0'}
     dev: true
 
-  /@definitelytyped/utils/0.0.190:
-    resolution: {integrity: sha512-ecVcyZ8DZJs8X8t+5iRQrUx8iaPRSNJ7jMotuot6jEQ/RWFc5HUEhQHRpChzKzFTQwDKI+bnlJSPiZHS4XvZFg==}
+  /@definitelytyped/utils/0.0.191:
+    resolution: {integrity: sha512-WtoU24Y3khQCxLJd54smd8VLpIdd0UZuzlTcxCh7wdcp33lgEUo8EWNclXgAjBbXNng8l4pqjbSuUWikqbbfhg==}
     engines: {node: '>=16.17.0'}
     dependencies:
-      '@definitelytyped/typescript-packages': 0.0.3
-      '@definitelytyped/typescript-versions': 0.0.183
+      '@definitelytyped/typescript-packages': 0.0.4
+      '@definitelytyped/typescript-versions': 0.0.184
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 16.18.61
       charm: 1.0.2
@@ -17421,7 +17433,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.192
+      '@definitelytyped/header-parser': 0.1.0
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17436,7 +17448,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.192
+      '@definitelytyped/header-parser': 0.1.0
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17452,9 +17464,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.192
-      '@definitelytyped/typescript-versions': 0.0.183
-      '@definitelytyped/utils': 0.0.190
+      '@definitelytyped/header-parser': 0.1.0
+      '@definitelytyped/typescript-versions': 0.0.184
+      '@definitelytyped/utils': 0.0.191
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -17472,9 +17484,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.192
-      '@definitelytyped/typescript-versions': 0.0.183
-      '@definitelytyped/utils': 0.0.190
+      '@definitelytyped/header-parser': 0.1.0
+      '@definitelytyped/typescript-versions': 0.0.184
+      '@definitelytyped/utils': 0.0.191
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -27295,8 +27307,8 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript/5.4.0-dev.20231213:
-    resolution: {integrity: sha512-Djk7lYdNtrxX60s6h4kvV27+K6qjqJIWvhQEIGqI++nN0Abq4imuBPTd27DzhOQnGjUH3lD9lYAfiHvb+jATxQ==}
+  /typescript/5.4.0-dev.20231214:
+    resolution: {integrity: sha512-kza7DF4odrht7PR6eNM+/DM9KUJJtla1nmAzF/jnEoCZje3qnui6t3CC0sSbqKZMDi7gN8C0vZGFe3/yuwMo9Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true

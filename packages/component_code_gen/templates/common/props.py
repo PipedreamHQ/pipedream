@@ -1,6 +1,8 @@
 props = """## Props
 
-The object must contain a `props` property. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables. 
+The component must contain a `props` property. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables.
+
+For example:
 
 export default {
   ...
@@ -24,7 +26,7 @@ export default {
 
 ### Naming conventions are critical
 
-If the instructions say to use a particular prop name, you must use that for the prop key in the `props` object. For example, if the instructions say to use `propName`, you must use `propName`. You cannot use `prop_name` or `propname`. The case the instructions provided are the only valid case.
+If the instructions say to use a particular prop name, you must use that for the prop key in the `props` object. For example, if the instructions say to use `propName`, you must use `propName`, not `prop_name` or `propname`.
 
 ### Required props
 
@@ -59,7 +61,7 @@ Optionally, props can have a human-readable `description` describing the param.
 
 ### Optional props
 
-DO NOT INCLUDE optional API parameters as props unless specified by the user. ONLY include props required by the API or specified in the instructions.
+DO NOT INCLUDE optional API parameters as props, unless specified in the instructions.
 
 Optional parameters that correspond to the test code should be declared with `optional: true`. Recall that props may contain an `options` method.
 
