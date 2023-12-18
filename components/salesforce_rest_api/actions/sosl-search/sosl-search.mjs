@@ -8,7 +8,7 @@ export default {
     Executes the specified SOSL search.
     See [docs](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl.htm)
   `),
-  version: "0.2.4",
+  version: "0.2.5",
   type: "action",
   props: {
     salesforce,
