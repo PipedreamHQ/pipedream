@@ -5,10 +5,10 @@ import common from "../common.mjs";
 export default {
   ...common,
   type: "source",
-  name: "New Object (of Selectable Type)",
-  key: "salesforce_rest_api-new-object",
-  description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for more information.",
-  version: "0.1.7",
+  name: "New Record (of Selectable Type)",
+  key: "salesforce_rest_api-new-record",
+  description: "Emit new event (at regular intervals) when a record of arbitrary object type (selected as an input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for more information.",
+  version: "0.0.1",
   methods: {
     ...common.methods,
     isItemRelevant(item, startTimestamp, endTimestamp) {
