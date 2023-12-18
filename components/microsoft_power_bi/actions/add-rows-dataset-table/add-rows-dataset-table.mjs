@@ -33,15 +33,18 @@ export default {
   },
   async run({ $ }) {
     const response = await this.powerBi.addRowsToTable({
+      $,
       datasetId: this.datasetId,
       tableName: this.tableName,
-      rows: this.rows.map((row, index) => {
-        try {
-          return JSON.parse(row);
-        } catch (err) {
-          throw new ConfigurationError(`Error parsing entry index ${index} as JSON: \`${row}\``);
-        }
-      }),
+      data: {
+        rows: this.rows.map((row, index) => {
+          try {
+            return JSON.parse(row);
+          } catch (err) {
+            throw new ConfigurationError(`Error parsing entry index ${index} as JSON: \`${row}\``);
+          }
+        }),
+      },
     });
 
     $.export("$summary", `Successfully added rows to table "${this.tableName}"`);
