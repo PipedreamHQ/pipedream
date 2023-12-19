@@ -249,32 +249,5 @@ export default {
         ...opts,
       });
     },
-    /*async *paginate({
-      fn, params = {}, maxResults = null,
-    }) {
-      let lastPage = false;
-      let count = 0;
-      let page = 0;
-
-      do {
-        params.page = ++page;
-        const {
-          data,
-          meta: {
-            current_page, last_page,
-          },
-        } = await fn({params});
-        for (const d of data) {
-          yield d;
-
-          if (maxResults && ++count === maxResults) {
-            return count;
-          }
-        }
-
-        lastPage = !(current_page == last_page);
-
-      } while (lastPage);
-    },*/
   },
 };
