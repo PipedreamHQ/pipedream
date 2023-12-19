@@ -9,4 +9,14 @@ export default {
     "6x9",
     "6x11",
   ],
+  USE_TYPES: [
+    {
+      label: "Marketing",
+      value: "marketing",
+    },
+    {
+      label: "Operational",
+      value: "operational",
+    }
+  ],
 };

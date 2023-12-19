@@ -51,13 +51,23 @@ export default {
         "reminder",
       ],
     },
+    fileIds: {
+      type: "string[]",
+      label: "File IDs",
+      description: "Temporary files that have been uploaded and should be attached to this item",
+      optional: true,
+    },
   },
   methods: {
-    getFields() {
+    async getFields() {
       const fields = {};
       for (let key of Object.keys(this)) {
         if (key.startsWith("field_")) {
-          fields[key.split("_")[1]] = utils.extractPropValues(this[key]);
+          const fieldName = key.split("_")[1];
+          const fieldId = await this.getFieldId(this.appId, fieldName);
+          if (fieldId) {
+            fields[fieldId] = utils.extractPropValues(this[key]);
+          }
         }
       }
       return fields;
@@ -77,7 +87,25 @@ export default {
         })) || [];
         spaceFields.push(...fields);
       }
-      return spaceFields;
+      return this.eliminateDuplicateFields(spaceFields);
+    },
+    eliminateDuplicateFields(fields) {
+      const seen = new Set();
+      return fields.filter((field) => {
+        const isDuplicate = seen.has(field.label);
+        seen.add(field.label);
+        return !isDuplicate;
+      });
+    },
+    async getFieldId(appId, fieldName) {
+      const { fields } = await this.app.getApp({
+        appId,
+      });
+      const field = fields.find(({ label }) => label === fieldName);
+      if (!field) {
+        console.log(`Field "${fieldName}" not found in app with ID ${appId}.`);
+      }
+      return field?.field_id;
     },
     getIfUpdate() {
       return false;
@@ -94,29 +122,22 @@ export default {
       })).fields
       : await this.getSpaceFields();
 
-    props.fieldIds = {
-      type: "integer[]",
+    props.fieldNames = {
+      type: "string[]",
       label: "Fields",
       description: `Fields to ${this.getIfUpdate()
         ? "update"
         : "create"}`,
-      options: fields.map(({
-        field_id: value, label, app_label,
-      }) => ({
-        value,
-        label: `${label}${app_label
-          ? " - for use with App \"" + app_label + "\""
-          : ""}`,
-      })),
+      options: fields.map(({ label }) => label),
       reloadProps: true,
     };
 
-    if (!this.fieldIds?.length) {
+    if (!this.fieldNames?.length) {
       return props;
     }
 
-    for (const id of this.fieldIds) {
-      const field = fields.find(({ field_id }) => field_id === id );
+    for (const fieldName of this.fieldNames) {
+      const field = fields.find(({ label }) => fieldName === label );
       if (field.type != "calculation") {
         const newProp = {
           type: utils.getType(field),
@@ -134,7 +155,7 @@ export default {
             };
           });
         }
-        props[`field_${field.field_id}`] = newProp;
+        props[`field_${field.label}`] = newProp;
       }
     }
     return props;

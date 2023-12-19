@@ -25,7 +25,7 @@ A new Python Code step will have the following structure:
 from pipedream.script_helpers import (steps, export)
 
 # Export a variable from this step named "message" containing the string "Hello, World!"
-pd.export("message", "Hello, World!")
+export("message", "Hello, World!")
 
 ```
 
@@ -49,6 +49,8 @@ The output for the `print` **logs** will appear in the `Results` section just be
 </div>
 
 ## Using third party packages
+
+<VideoPlayer src="https://www.youtube.com/embed/VKW5D6PYq-Y" title="Importing PyPi Packages into Python Code Steps" />
 
 You can use any packages from [PyPI](https://pypi.org) in your Pipedream workflows. This includes popular choices such as:
 
@@ -88,6 +90,21 @@ Use the built in [magic comment system to resolve these mismatches](/code/python
 import telegram
 ```
 
+### Pinning package versions
+
+Each time you deploy a workflow with Python code, Pipedream downloads the PyPi packages you `import` in your step. **By default, Pipedream deploys the latest version of the PyPi package each time you deploy a change**.
+
+There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a workflow, you can add that version in a [magic comment](/code/python/import-mappings/), for example:
+
+```python
+# pipedream add-package pandas==2.0.0
+import pandas
+```
+
+::: warning
+Currently, you cannot use different versions of the same package in different steps in a workflow.
+:::
+
 ## Making an HTTP request
 
 We recommend using the popular `requests` HTTP client package available in Python to send HTTP requests.
@@ -109,7 +126,7 @@ r = requests.get(url)
 print(r.text)
 
 # The response status code is logged in your Pipedream step results:
-print(r.status)
+print(r.status_code)
 ```
 
 ### Making a POST request
@@ -128,7 +145,7 @@ r = requests.post(url, data)
 print(r.text)
 
 # The response status code is logged in your Pipedream step results:
-print(r.status)
+print(r.status_code)
 ```
 
 ### Sending files
@@ -211,6 +228,7 @@ To share data created, retrieved, transformed or manipulated by a step to others
 ```python
 # This step is named "code" in the workflow
 from pipedream.script_helpers import (steps, export)
+import requests
 
 r = requests.get("https://pokeapi.co/api/v2/pokemon/charizard")
 # Store the JSON contents into a variable called "pokemon"
@@ -239,7 +257,6 @@ To access them, use the `os` module.
 
 ```python
 import os
-import requests
 
 token = os.environ['AIRTABLE_API_KEY']
 
@@ -262,7 +279,7 @@ token = os.environ['AIRTABLE_API_KEY']
 
 url = 'https://api.airtable.com/v0/your-airtable-base/your-table'
 
-headers { 'Authorization': f"Bearer {token}"}
+headers = { 'Authorization': f"Bearer {token}"}
 r = requests.get(url, headers=headers)
 
 print(r.text)
@@ -301,7 +318,7 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 
 ```python
 def handler(pd: 'pipedream'):
-    return pd.flow.exit()
+    return pd.flow.exit("reason")
     print("This code will not run, since pd.flow.exit() was called above it")
 ```
 
@@ -316,10 +333,12 @@ def handler(pd: 'pipedream'):
 Or exit the workflow early within a conditional:
 
 ```python
+import random
+
 def handler(pd: 'pipedream'):
     # Flip a coin, running pd.flow.exit() for 50% of events
     if random.randint(0, 100) <= 50:
-        return pd.flow.exit()
+        return pd.flow.exit("reason")
 
     print("This code will only run 50% of the time");
 ```
@@ -353,9 +372,7 @@ Now `/tmp/python-logo.png` holds the official Python logo.
 You can also open files you have previously stored in the `/tmp` directory. Let's open the `python-logo.png` file.
 
 ```python
-import os
-
-with open('/tmp/python-logo.png') as f:
+with open('/tmp/python-logo.png', 'rb') as f:
     # Store the contents of the file into a variable
     file_data = f.read()
 ```

@@ -2,25 +2,14 @@ import googleCalendar from "../../google_calendar.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  props: ({ useCalendarId }) => {
-    const props = {
-      googleCalendar,
-      timer: {
-        type: "$.interface.timer",
-        default: {
-          intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-        },
+  props: {
+    googleCalendar,
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
-    };
-    if (useCalendarId) {
-      props.calendarId = {
-        propDefinition: [
-          googleCalendar,
-          "calendarId",
-        ],
-      };
-    }
-    return props;
+    },
   },
   hooks: {
     async activate() {

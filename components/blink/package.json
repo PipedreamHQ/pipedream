@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/blink",
+  "version": "0.1.0",
+  "description": "Pipedream Blink Components",
+  "main": "blink.app.mjs",
+  "keywords": [
+    "pipedream",
+    "blink"
+  ],
+  "homepage": "https://pipedream.com/apps/blink",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

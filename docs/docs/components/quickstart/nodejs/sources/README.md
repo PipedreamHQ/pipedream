@@ -55,7 +55,18 @@ The examples in this guide use the `pd dev` command. This command will deploy yo
 If your `pd dev` session is terminated and you need to re-attach to a deployed component, run the following command.
 
 ```bash
-pd dev [--dc <existing-deployed-component-id>] <file-or-name>
+pd dev [--dc <existing-deployed-component-id>] <path-to-file>
+```
+
+For example, if you're building a new source at `components/sources/my-source.mjs`, then pass the fully qualified path to `pd dev`:
+
+```bash
+pd dev components/sources/my-source.mjs
+```
+If you need to update a deployed instance of a source, pass it's ID to the `dc` argument to update it with new source code:
+
+```bash
+pd dev --dc dc_123456 components/sources/my-source.mjs
 ```
 
 See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.

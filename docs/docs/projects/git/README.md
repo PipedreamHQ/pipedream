@@ -207,3 +207,9 @@ Then pushing changes to the `production` branch will trigger a deploy for your P
 ### Why am I seeing an error when trying to merge a branch that includes a connected account in a workflow?
 
 Make sure that all connected accounts in use are accessible to the entire workspace. [Private accounts](/connected-accounts/#access-control) not shared with the workspace will not be able to be merged.
+
+### Can I sync an existing GitHub Repository with workflows to a new Pipedream Project?
+
+No, at this time it’s not possible because of how resources are connected during the bootstrapping process from the workflow YAML specification.
+However, this is on our roadmap, [please subscribe to this issue](https://github.com/PipedreamHQ/pipedream/issues/9255) for the latest details.
+

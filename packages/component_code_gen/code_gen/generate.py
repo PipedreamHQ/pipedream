@@ -1,10 +1,11 @@
 import os
-import time
+import html2text
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from config.config import config
+from helpers.embeddings_similarity_search import get_relevant_docs
 import templates.generate_actions
 import templates.generate_webhook_sources
 import templates.generate_polling_sources
@@ -20,7 +21,7 @@ available_templates = {
 }
 
 
-def main(component_type, app, instructions, tries=3, urls=[], custom_path=None, verbose=False):
+def main(component_type, app, instructions, prompt, tries=3, urls=[], custom_path=None, verbose=False):
     if verbose:
         os.environ['LOGGING_LEVEL'] = 'DEBUG'
 
@@ -29,14 +30,14 @@ def main(component_type, app, instructions, tries=3, urls=[], custom_path=None, 
     templates = available_templates[component_type]
     parsed_common_files = parse_common_files(app, component_type, custom_path)
     driver = init_driver(config["browserless"]["api_key"])
-    urls_content = parse_urls(driver, urls)
+    urls_content = parse_urls(driver, urls, prompt)
     driver.quit()
 
     validate_system_instructions(templates)
 
     # this is here so that the DEBUG environment variable is set before the import
     from code_gen.generate_component_code import generate_code
-    result = generate_code(app, instructions, component_type, templates,
+    result = generate_code(app, instructions, templates,
                            parsed_common_files, urls_content, tries)
     return result
 
@@ -85,24 +86,34 @@ def init_driver(api_key):
     return driver
 
 
-def parse_urls(driver, urls):
+def parse_urls(driver, urls, prompt):
     contents = []
 
     for url in urls:
-        try:
-            print(f"Scraping {url}")
-            driver.get(url)
-            element = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.TAG_NAME, 'body'))
-            )
-            body = " ".join(element.text.split())
-            content = {
-                "url": url,
-                "content": body,
-            }
-            contents.append(content)
-        except Exception as e:
-            print(f"Error scraping {url}: {e}")
+        if url in scraped_urls:
+            print(f"Using cached content for {url}")
+            document = scraped_urls[url]
+        else:
+            try:
+                print(f"Scraping {url}")
+                driver.get(url)
+                element = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.TAG_NAME, 'body'))
+                )
+                html_content = element.get_attribute("innerHTML")
+                converter = html2text.HTML2Text()
+                converter.ignore_links = False
+                document = converter.handle(html_content)
+                scraped_urls[url] = document
+            except Exception as e:
+                print(f"Error scraping {url}: {e}")
+                continue
+
+        relevant_docs = get_relevant_docs(prompt, document)
+        contents.append({
+            "url": url,
+            "content": relevant_docs
+        })
 
     return contents
 

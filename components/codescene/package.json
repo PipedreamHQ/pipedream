@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/codescene",
+  "version": "0.0.1",
+  "description": "Pipedream CodeScene Components",
+  "main": "codescene.app.mjs",
+  "keywords": [
+    "pipedream",
+    "codescene"
+  ],
+  "homepage": "https://pipedream.com/apps/codescene",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

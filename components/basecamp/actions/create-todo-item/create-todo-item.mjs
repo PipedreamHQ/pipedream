@@ -5,7 +5,7 @@ export default {
   name: "Create Todo Item",
   description: "Creates a todo in the project and message board selected. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/todos.md#create-a-to-do)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.3",
   props: {
     app,
     accountId: {

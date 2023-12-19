@@ -1,46 +1,90 @@
-import airtable from "../../airtable_oauth.app.mjs";
 import common from "../common/common.mjs";
+import { fieldTypeToPropType } from "../../common/utils.mjs";
 
 export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
-  description: "Searches for a record by field value. Search Field must accept string values. [See the documentation](https://airtable.com/developers/web/api/list-records)",
-  version: "0.0.2",
+  description: "Searches for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
-    fieldName: {
-      propDefinition: [
-        airtable,
-        "fieldName",
-        ({
-          baseId, tableId,
-        }) => ({
-          baseId: baseId.value,
-          tableId: tableId.value,
-          fieldType: "string",
-        }),
+    searchMethod: {
+      type: "string",
+      label: "Search Method",
+      description: "Select the search method to use",
+      options: [
+        "Search by Field and Value",
+        "Search by Formula",
       ],
+      reloadProps: true,
     },
-    value: {
-      type: "string",
-      label: "Search Value",
-      description: "The value to search for",
-    },
-    searchFormula: {
-      type: "string",
-      label: "Search Formula",
-      description: "Use an Airtable search formula to find records. Learn more on [Airtable's website](https://support.airtable.com/docs/formula-field-reference)",
-      optional: true,
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.searchMethod === "Search by Formula") {
+      props.searchFormula = {
+        type: "string",
+        label: "Search Formula",
+        description: "Use an Airtable search formula to find records. For example, if you want to find records with `Tags` includes `test-1`, use `FIND('test-1', {Tags})`. Learn more on [Airtable's website](https://support.airtable.com/docs/formula-field-reference)",
+        optional: true,
+      };
+    }
+    if (this.searchMethod === "Search by Field and Value") {
+      props.fieldName = {
+        type: "string",
+        label: "Search Field",
+        description: "The field to match against the search value",
+        reloadProps: true,
+        options: async () => {
+          const fields = await this.listFields();
+          return fields.map((field) => field.name);
+        },
+      };
+      if (this.fieldName) {
+        const fields = await this.listFields();
+        const { type } = fields.find(({ name }) => name === this.fieldName);
+        props.value = {
+          type: this.fieldTypeToPropType(type) || "string",
+          label: "Search Value",
+          description: "The value to search for",
+        };
+      }
+    }
+    return props;
+  },
+  methods: {
+    ...common.methods,
+    fieldTypeToPropType,
+    async listFields() {
+      const { tables } = await this.airtable.listTables({
+        baseId: this.baseId.value,
+      });
+      const table = tables.find(({ id }) => id === this.tableId.value);
+      return table.fields ?? [];
     },
   },
   async run({ $ }) {
-    const params = {
-      filterByFormula: `FIND("${this.value}", {${this.fieldName}})`,
-    };
-    if (this.searchFormula) {
-      params.filterByFormula = `AND(${params.filterByFormula}, ${this.searchFormula})`;
+    const fields = await this.listFields();
+    const field = fields.find(({ name }) => name === this.fieldName);
+
+    let filterByFormula = this.searchFormula;
+    if (!this.searchFormula) {
+      const type = fieldTypeToPropType(field.type);
+      filterByFormula = type === "string"
+        ? `FIND("${this.value}", {${this.fieldName}})`
+        : type === "boolean"
+          ? `${this.fieldName} = ${this.value
+            ? 1
+            : 0}`
+          : type === "integer"
+            ? `${this.fieldName} = ${this.value}`
+            : `{${this.fieldName}} = "${this.value}"`;
     }
+
+    const params = {
+      filterByFormula,
+    };
     const results = [];
     do {
       const {

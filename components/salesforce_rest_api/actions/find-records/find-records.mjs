@@ -5,7 +5,7 @@ export default {
   name: "Get Object Records",
   description:
     "Retrieves all records in an object or a record in an object by the given ID or criteria. [API Doc](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     salesForceRestApi,
