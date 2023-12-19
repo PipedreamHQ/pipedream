@@ -26,7 +26,7 @@ Here is a step-by-step on how to do this:
 1. Navigate to your Salesforce instance, and click the Setup wheel in the top-right corner.
 2. Under the Administration tab on the lefthand sidebar, click Users --> Permission Sets.
 3. On the Permissions Set page, click New.
-4. Create a new permission set, give it a label, API name, and description. Example:
+4. Create a new permission set, give it a label, API name, and description. Example: <br>
 **Label**: Pipedream API Access
 **API Name**: Pipedream
 **Description**: Adds a set of permissions required for Pipedream. 
