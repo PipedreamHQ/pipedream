@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cutt_ly",
+  "version": "0.0.1",
+  "description": "Pipedream Cutt.ly Components",
+  "main": "cutt_ly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cutt_ly"
+  ],
+  "homepage": "https://pipedream.com/apps/cutt_ly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -21,7 +21,13 @@ always_include = [introduction, typescript_definitions,
 def system_instructions(auth_details="", parsed_common_files=""):
     return f"""{introduction}
 
+{rules}
+
+{additional_rules}
+
 {main_example}
+
+{typescript_definitions}
 
 {auth_details}
 
@@ -34,13 +40,5 @@ def system_instructions(auth_details="", parsed_common_files=""):
 {platform_axios}
 
 {async_options}
-
-{common_files(parsed_common_files)}
-
-{typescript_definitions}
-
-{rules}
-
-{additional_rules}
 
 {end}"""
