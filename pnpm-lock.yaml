@@ -2558,7 +2558,10 @@ importers:
     specifiers: {}
 
   components/google_merchant_center:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_my_business:
     specifiers:
