@@ -130,8 +130,7 @@ export default {
         salesforce,
         _getHistoryObjectType,
         setLatestDateCovered,
-        batchRequest,
-        getBatchRequests,
+        makeChunkBatchRequestsAndGetResults,
         isRelevant,
         getUniqueParentIds,
         _getParentId,
@@ -154,11 +153,10 @@ export default {
       setLatestDateCovered((new Date(latestDateCovered)).toISOString());
 
       if (ids?.length) {
-        ({ results: historyItemRetrievals } = await batchRequest({
-          data: {
-            batchRequests: getBatchRequests(ids, historyObjectType),
-          },
-        }));
+        historyItemRetrievals = await makeChunkBatchRequestsAndGetResults({
+          ids,
+          objectType: historyObjectType,
+        });
       }
 
       const historyItems = historyItemRetrievals
@@ -170,11 +168,9 @@ export default {
       const parentIds = getUniqueParentIds(historyItems);
 
       if (parentIds.length) {
-        ({ results: itemRetrievals } = await batchRequest({
-          data: {
-            batchRequests: getBatchRequests(parentIds),
-          },
-        }));
+        itemRetrievals = await makeChunkBatchRequestsAndGetResults({
+          ids: parentIds,
+        });
       }
 
       const itemsById = itemRetrievals

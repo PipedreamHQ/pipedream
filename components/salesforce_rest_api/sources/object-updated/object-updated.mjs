@@ -30,34 +30,42 @@ export default {
     },
     async processEvent(eventData) {
       const {
+        salesforce,
+        objectType,
+        setLatestDateCovered,
+        makeChunkBatchRequestsAndGetResults,
+        generateMeta,
+        $emit: emit,
+      } = this;
+
+      const {
         startTimestamp,
         endTimestamp,
       } = eventData;
+
       const {
         ids,
         latestDateCovered,
-      } = await this.salesforce.getUpdatedForObjectType(
-        this.objectType,
+      } = await salesforce.getUpdatedForObjectType(
+        objectType,
         startTimestamp,
         endTimestamp,
       );
-      this.setLatestDateCovered(latestDateCovered);
+      setLatestDateCovered(latestDateCovered);
 
       if (!ids?.length) {
         return console.log("No batch requests to send");
       }
 
-      const { results } = await this.batchRequest({
-        data: {
-          batchRequests: this.getBatchRequests(ids),
-        },
+      const results = await makeChunkBatchRequestsAndGetResults({
+        ids,
       });
 
       results
         .filter(({ statusCode }) => statusCode === 200)
         .forEach(({ result: item }) => {
-          const meta = this.generateMeta(item);
-          this.$emit(item, meta);
+          const meta = generateMeta(item);
+          emit(item, meta);
         });
     },
   },
