@@ -2349,10 +2349,10 @@ importers:
 
   components/github:
     specifiers:
-      '@octokit/core': ^4.0.4
+      '@octokit/core': ^4.2.4
       '@octokit/plugin-paginate-rest': ^2.17.0
       '@octokit/webhooks-definitions': ^3.29.0
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.5.1
     dependencies:
       '@octokit/core': 4.2.4
       '@octokit/plugin-paginate-rest': 2.21.3_@octokit+core@4.2.4
@@ -2558,7 +2558,10 @@ importers:
     specifiers: {}
 
   components/google_merchant_center:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_my_business:
     specifiers:

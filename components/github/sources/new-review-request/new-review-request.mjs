@@ -5,7 +5,7 @@ export default {
   key: "github-new-review-request",
   name: "New Review Request",
   description: "Emit new events when you or a team you're a member of are requested to review a pull request",
-  version: "0.1.12",
+  version: "0.1.13",
   type: "source",
   dedupe: "unique",
   async run() {
