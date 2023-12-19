@@ -16,13 +16,6 @@ export default {
   props: {
     github,
     db: "$.service.db",
-    http: "$.interface.http",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
     repoFullname: {
       propDefinition: [
         github,
@@ -35,6 +28,9 @@ export default {
     const props = {};
 
     if (await this.checkAdminPermission()) {
+      props.http = {
+        type: "$.interface.http",
+      };
       props.eventTypes = {
         type: "string[]",
         label: "Filter Event Types",
@@ -43,6 +39,12 @@ export default {
         optional: true,
       };
     } else {
+      props.timer = {
+        type: "$.interface.timer",
+        default: {
+          intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+        },
+      };
       props.emitUpdates = {
         type: "boolean",
         label: "Emit Updates",
