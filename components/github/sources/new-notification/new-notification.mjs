@@ -5,7 +5,7 @@ export default {
   key: "github-new-notification",
   name: "New Notification",
   description: "Emit new events when you received a new notification",
-  version: "0.1.12",
+  version: "0.1.13",
   type: "source",
   dedupe: "unique",
   async run() {
