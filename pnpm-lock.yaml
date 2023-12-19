@@ -6935,7 +6935,10 @@ importers:
     specifiers: {}
 
   components/urlbae:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/urlbox_io:
     specifiers:
