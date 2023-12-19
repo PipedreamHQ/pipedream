@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/_0codekit",
+  "version": "0.0.1",
+  "description": "Pipedream 0codekit Components",
+  "main": "_0codekit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "_0codekit"
+  ],
+  "homepage": "https://pipedream.com/apps/_0codekit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

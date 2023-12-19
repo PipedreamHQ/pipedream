@@ -10,11 +10,11 @@ The `$.files` helper is the main module to interact with the Project's File Stor
 
 ### `$.files.open(path)`
 
-Opens a file from the relative `path`. If the file doesn't exist, a new empty file is created.
+*Sync.* Opens a file from the relative `path`. If the file doesn't exist, a new empty file is created.
 
 ### `$.files.openDescriptor(fileDescriptor)`
 
-Creates a new `File` from the JSON friendly description of a file. Useful for recreating a `File` from a step export.
+*Sync.* Creates a new `File` from the JSON friendly description of a file. Useful for recreating a `File` from a step export.
 
 For example, export a `File` as a step export which will render the `File` as JSON:
 
@@ -50,7 +50,7 @@ export default defineComponent({
 
 ### `$.files.dir(?path)`
 
-Lists the files & directories at the given `path`. By default it will list the files at the root directory.
+*Sync.* Lists the files & directories at the given `path`. By default it will list the files at the root directory.
 
 Here's an example of how to iterate over the files in the root directory and open them as `File` instances:
 
@@ -89,7 +89,7 @@ When using `$.files.open` or `$.files.openDescriptor`, you'll create a new insta
 
 ### `File.toUrl()`
 
-The pre-signed GET URL to retrieve the file.
+*Async.* The pre-signed GET URL to retrieve the file.
 
 ```javascript
 export default defineComponent({
@@ -199,7 +199,7 @@ export default defineComponent({
 })
 ```
 
-### `File.fromReadStream(?contentType, ?contentLength)`
+### `File.fromReadableStream(?contentType, ?contentLength)`
 
 *Async.* Populates a file's contents from the `ReadableStream`.
 
@@ -218,7 +218,7 @@ export default defineComponent({
     const readStream = got.stream('https://pdrm.co/logo')
 
     // Populate the file's content from the read stream
-    await $.files.open("logo.png").fromReadStream(readStream, "image/png", 2153)
+    await $.files.open("logo.png").fromReadableStream(readStream, "image/png", 2153)
   },
 })
 ```
