@@ -1,7 +1,7 @@
 import resourceGuru from "../../resource_guru.app.mjs";
 
 export default {
-  key: "resourceGuru-delete-booking",
+  key: "resource_guru-delete-booking",
   name: "Delete Booking",
   version: "0.0.1",
   description: "Delete a specific booking identified by Id. [See the documentation](https://resourceguruapp.com/docs/api#tag/booking/paths/~1v1~1%7Baccount%7D~1bookings~1%7Bid%7D/delete)",

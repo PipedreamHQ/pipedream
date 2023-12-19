@@ -2,7 +2,7 @@ import { parseObject } from "../../common/utils.mjs";
 import resourceGuru from "../../resource_guru.app.mjs";
 
 export default {
-  key: "resourceGuru-create-booking",
+  key: "resource_guru-create-booking",
   name: "Create Booking",
   version: "0.0.1",
   description: "Create a new booking for an account. [See the documentation](https://resourceguruapp.com/docs/api#tag/booking/paths/~1v1~1%7Baccount%7D~1bookings/post)",
