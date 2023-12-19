@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/code_climate",
+  "version": "0.0.1",
+  "description": "Pipedream Code Climate Components",
+  "main": "code_climate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "code_climate"
+  ],
+  "homepage": "https://pipedream.com/apps/code_climate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

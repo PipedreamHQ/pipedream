@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/patreon",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Patreon Components",
   "main": "patreon.app.mjs",
   "keywords": [

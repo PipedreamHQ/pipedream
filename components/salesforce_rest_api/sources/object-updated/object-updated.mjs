@@ -8,7 +8,7 @@ export default {
   name: "New Updated Object (of Selectable Type)",
   key: "salesforce_rest_api-object-updated",
   description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is updated. [See the docs](https://sforce.co/3yPSJZy) for more information.",
-  version: "0.1.5",
+  version: "0.1.7",
   methods: {
     ...common.methods,
     generateMeta(item) {
@@ -30,32 +30,42 @@ export default {
     },
     async processEvent(eventData) {
       const {
+        salesforce,
+        objectType,
+        setLatestDateCovered,
+        makeChunkBatchRequestsAndGetResults,
+        generateMeta,
+        $emit: emit,
+      } = this;
+
+      const {
         startTimestamp,
         endTimestamp,
       } = eventData;
+
       const {
         ids,
         latestDateCovered,
-      } = await this.salesforce.getUpdatedForObjectType(
-        this.objectType,
+      } = await salesforce.getUpdatedForObjectType(
+        objectType,
         startTimestamp,
         endTimestamp,
       );
-      this.setLatestDateCovered(latestDateCovered);
+      setLatestDateCovered(latestDateCovered);
 
-      // By the time we try to retrieve an item, it might've been deleted. This
-      // will cause `getSObject` to throw a 404 exception, which will reject its
-      // promise. Hence, we need to filter those items that are still in Salesforce
-      // and exclude those that are not.
-      const itemRetrievals = await Promise.allSettled(
-        ids.map((id) => this.salesforce.getSObject(this.objectType, id)),
-      );
-      itemRetrievals
-        .filter((result) => result.status === "fulfilled")
-        .map((result) => result.value)
-        .forEach((item) => {
-          const meta = this.generateMeta(item);
-          this.$emit(item, meta);
+      if (!ids?.length) {
+        return console.log("No batch requests to send");
+      }
+
+      const results = await makeChunkBatchRequestsAndGetResults({
+        ids,
+      });
+
+      results
+        .filter(({ statusCode }) => statusCode === 200)
+        .forEach(({ result: item }) => {
+          const meta = generateMeta(item);
+          emit(item, meta);
         });
     },
   },

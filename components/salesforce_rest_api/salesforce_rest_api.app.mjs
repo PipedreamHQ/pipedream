@@ -37,17 +37,15 @@ export default {
       type: "string",
       label: "Field",
       description: "The object field to watch for changes",
-      async options(context) {
-        const {
-          page,
-          objectType,
-        } = context;
+      async options({
+        page, objectType, filter = () => true,
+      }) {
         if (page !== 0) {
           return [];
         }
 
         const fields = await this.getFieldsForObjectType(objectType);
-        return fields.map((field) => field.name);
+        return fields.filter(filter).map(({ name }) => name);
       },
     },
     fieldUpdatedTo: {
@@ -184,12 +182,6 @@ export default {
         instance: this._subdomain(),
       };
       return new SalesforceClient(clientOpts);
-    },
-    async additionalProps(selector, sobject) {
-      return selector.reduce((props, prop) => ({
-        ...props,
-        [prop]: sobject[prop],
-      }), {});
     },
     isValidSObject(sobject) {
       // Only the activity of those SObject types that have the `replicateable`

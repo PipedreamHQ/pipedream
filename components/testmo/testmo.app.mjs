@@ -62,6 +62,53 @@ export default {
         return result.map(({ name }) => name);
       },
     },
+    automationRunId: {
+      type: "string",
+      label: "Automation Run Id",
+      description: "The Id of the automation run.",
+      async options({
+        projectId, page,
+      }) {
+        const { result } = await this.listAutomationRuns({
+          projectId,
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return result.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    threadId: {
+      type: "string",
+      label: "Thread Id",
+      description: "The Id of the thread of the automation run.",
+      async options({ automationRunId }) {
+        const { result } = await this.getAutomationRun({
+          automationRunId,
+        });
+        if (!result || !result?.threads) {
+          return;
+        }
+        return result.threads.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    artifacts: {
+      type: "string[]",
+      label: "Artifacts",
+      description: "List of URLs of externally stored test artifacts to link to the thread (such as log files, screenshots or test data)",
+      optional: true,
+    },
   },
   methods: {
     _apiUrl() {
@@ -119,6 +166,40 @@ export default {
     }) {
       return this._makeRequest({
         path: `projects/${projectId}/automation/sources`,
+        ...args,
+      });
+    },
+    getAutomationRun({
+      automationRunId, ...args
+    }) {
+      return this._makeRequest({
+        path: `automation/runs/${automationRunId}`,
+        ...args,
+      });
+    },
+    listSessions({
+      projectId, ...args
+    }) {
+      return this._makeRequest({
+        path: `projects/${projectId}/sessions`,
+        ...args,
+      });
+    },
+    appendToAutomationRun({
+      automationRunId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `automation/runs/${automationRunId}/append`,
+        ...args,
+      });
+    },
+    appendToThread({
+      threadId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `automation/runs/threads/${threadId}/append`,
         ...args,
       });
     },

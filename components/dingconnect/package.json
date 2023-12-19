@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dingconnect",
+  "version": "0.0.1",
+  "description": "Pipedream DingConnect Components",
+  "main": "dingconnect.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dingconnect"
+  ],
+  "homepage": "https://pipedream.com/apps/dingconnect",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

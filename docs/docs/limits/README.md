@@ -27,15 +27,15 @@ The limit of active workflows depends on your current plan. [See our pricing pag
 
 Free Pipedream accounts are limited to {{$site.themeConfig.DAILY_CREDITS_LIMIT}} [credits](/pricing/#credits) per day. Paid plans do not have a daily credit limit.
 
-You can view your credits usage at the bottom-left of the Pipedream UI.
+You can view your credits usage at the bottom-left of [the Pipedream UI](https://pipedream.com).
 
 <div>
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1698267451/docs/Screenshot_2023-10-25_at_1.57.27_PM_kxadt0.png" width="300px" />
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1702249243/docs/Screenshot_2023-12-10_at_3.00.21_PM_kcs9dk.png" width="300px" />
 </div>
 
 You can also see more detailed usage in [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, by resource (e.g. your source / workflow).
 
-Your included credits count is reset, daily, at 00:00 (midnight) UTC.
+Your included credits count is reset daily at 00:00 (midnight) UTC.
 
 ### Included Credits Usage Notifications
 
@@ -47,6 +47,20 @@ Your included credits count is reset, daily, at 00:00 (midnight) UTC.
 ## Daily workflow testing limit
 
 You **do not** use credits testing workflows, but workspaces on the **Free** plan are limited to {{$site.themeConfig.DAILY_TESTING_LIMIT}} of test runtime per day. If you exceed this limit when testing in the builder, you'll see a **Runtime Quota Exceeded** error.
+
+## Data stores
+
+Depending on your plan, Pipedream sets limits on:
+
+1. The total number of data stores
+2. The total number of keys across all data stores
+3. The total storage used across all data stores
+
+You'll find your workspace's limits in the **Data Stores** section of usage dashboard in the bottom-left of [the Pipedream UI](https://pipedream.com).
+
+<div>
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1702248992/docs/Screenshot_2023-12-10_at_2.56.28_PM_xmwqbq.png" width="300px" />
+</div>
 
 ## HTTP Triggers
 
@@ -71,7 +85,7 @@ Generally the rate of HTTP requests sent to an endpoint is quantified by QPS, or
 
 We'll also accept short bursts of traffic, as long as you remain close to an average of 10 QPS (e.g. sending a batch of 50 requests every 30 seconds should not trigger rate limiting).
 
-**This limit can be raised for Professional, Teams, and Enterprise customers**. To request an increase, [reach out to our Support team](https://pipedream.com/support/) with the HTTP endpoint whose QPS you'd like to increase, with the new, desired limit.
+**This limit can be raised for paying customers**. To request an increase, [reach out to our Support team](https://pipedream.com/support/) with the HTTP endpoint whose QPS you'd like to increase, with the new, desired limit.
 
 ## Email Triggers
 

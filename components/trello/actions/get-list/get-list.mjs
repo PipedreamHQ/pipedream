@@ -4,7 +4,7 @@ export default {
   key: "trello-get-list",
   name: "Get List",
   description: "Get information about a List",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description

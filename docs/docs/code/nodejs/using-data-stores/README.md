@@ -14,11 +14,11 @@ For example, you can define a data store as a data prop, and reference it at `th
 ```javascript
 export default defineComponent({
   props: {
-    // Define that the "db" variable in our component is a data store
+    // Define that the "data" variable in our component is a data store
     data: { type: "data_store" }
   },
   async run({ steps, $ }) {
-    // Now we can access the data store at "this.store"
+    // Now we can access the data store at "this.data"
     await this.data.get("email");
   }
 });
