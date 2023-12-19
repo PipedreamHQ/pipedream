@@ -1161,6 +1161,15 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/codacy:
+    specifiers: {}
+
+  components/code_climate:
+    specifiers: {}
+
+  components/codemagic:
+    specifiers: {}
+
   components/codeq_natural_language_processing_api:
     specifiers: {}
 
@@ -1173,6 +1182,9 @@ importers:
       xml2json-light: 1.0.6
 
   components/coderpad:
+    specifiers: {}
+
+  components/codescene:
     specifiers: {}
 
   components/cohere_platform:
@@ -1355,6 +1367,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/customgpt:
+    specifiers: {}
+
+  components/cutt_ly:
     specifiers: {}
 
   components/cyfe:
@@ -1568,6 +1583,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/digitalriver:
+    specifiers: {}
+
+  components/dingconnect:
     specifiers: {}
 
   components/discogs:
@@ -2788,6 +2806,9 @@ importers:
   components/herobot_chatbot_marketing:
     specifiers: {}
 
+  components/heygen:
+    specifiers: {}
+
   components/heysummit:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -3003,6 +3024,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/inmobile:
+    specifiers: {}
 
   components/inoreader:
     specifiers:
@@ -3800,6 +3824,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/mezmo:
+    specifiers: {}
 
   components/microsoft_365_people:
     specifiers:
@@ -6084,6 +6111,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/sonarcloud:
+    specifiers: {}
+
   components/sonix:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6742,6 +6772,9 @@ importers:
     specifiers: {}
 
   components/turbohire:
+    specifiers: {}
+
+  components/turbot_pipes:
     specifiers: {}
 
   components/tutor_lms:
