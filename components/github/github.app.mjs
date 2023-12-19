@@ -1,4 +1,4 @@
-import { Octokit } from "@octokit/core@4.2.4";
+import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
 import queries from "./common/queries.mjs";
 import {
