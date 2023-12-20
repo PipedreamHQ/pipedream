@@ -8,7 +8,7 @@ export default {
     Retrieve field values from a record. You can specify the fields you want to retrieve.
     See [docs](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_get_field_values.htm)
   `),
-  version: "0.2.4",
+  version: "0.2.5",
   type: "action",
   props: {
     salesforce,

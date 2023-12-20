@@ -7,7 +7,7 @@ export default {
   name: "New Invoice Created",
   description: "Emit new event for every new invoice created. [See the docs](https://developer.squareup.com/reference/square/invoices-api/search-invoices)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...base.props,

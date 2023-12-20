@@ -6,7 +6,7 @@ export default {
   type: "source",
   key: "dropbox-all-updates",
   name: "New or Modified File or Folder",
-  version: "0.0.14",
+  version: "0.0.15",
   description: "Emit new event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     ...common.props,
