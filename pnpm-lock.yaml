@@ -134,7 +134,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/addevent:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/adobe_pdf_services:
     specifiers:
@@ -3534,6 +3537,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
+
+  components/lnk_bio:
+    specifiers: {}
 
   components/lob:
     specifiers:
