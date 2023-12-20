@@ -3486,7 +3486,10 @@ importers:
     specifiers: {}
 
   components/linkly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/linqs_cc:
     specifiers: {}
