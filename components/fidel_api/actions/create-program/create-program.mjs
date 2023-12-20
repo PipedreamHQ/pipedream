@@ -1,11 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import fidelApi from "../../fidel_api.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "fidel_api-create-program",
-  name: "Create a New Program",
+  name: "Create Program",
   description: "Creates a new card-linked program in the Fidel API. [See the documentation](https://reference.fidel.uk/reference/create-program)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     fidelApi,
@@ -18,11 +18,13 @@ export default {
       type: "string",
       label: "Icon",
       description: "Emoji to associate with the Program. Uses the `:emoji-name:` format. Must be between 4 and 200 characters.",
+      optional: true,
     },
     iconBackground: {
       type: "string",
       label: "Icon Background",
       description: "Background color for the program icon. Accepts a HEX CSS string, like '#333333'.",
+      optional: true,
     },
     metadata: {
       type: "object",
@@ -33,13 +35,15 @@ export default {
   },
   async run({ $ }) {
     const response = await this.fidelApi.createProgram({
-      name: this.name,
-      icon: this.icon,
-      iconBackground: this.iconBackground,
-      metadata: this.metadata,
+      data: {
+        name: this.name,
+        icon: this.icon,
+        iconBackground: this.iconBackground,
+        metadata: parseObject(this.metadata),
+      },
     });
 
-    $.export("$summary", `Successfully created program '${this.name}'`);
+    $.export("$summary", `Successfully created program with ID: ${response.items[0]?.id}`);
     return response;
   },
 };

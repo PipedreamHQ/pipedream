@@ -1,10 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import fidelApi from "../../fidel_api.app.mjs";
 
 export default {
   key: "fidel_api-link-card",
-  name: "Link a New Card",
+  name: "Link Card",
   description: "Links a new card to the Fidel API for monitoring transactions. [See the documentation](https://reference.fidel.uk/reference#create-a-card)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     fidelApi,
@@ -48,24 +49,29 @@ export default {
       propDefinition: [
         fidelApi,
         "metadata",
-        (c) => ({
-          optional: true,
-        }), // Making metadata optional as per the app file
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.fidelApi.createCard({
-      programId: this.programId,
-      countryCode: this.countryCode,
-      expMonth: this.expMonth,
-      expYear: this.expYear,
-      number: this.number,
-      termsOfUse: this.termsOfUse,
-      metadata: this.metadata,
-    });
+    let response;
+    try {
+      response = await this.fidelApi.createCard({
+        programId: this.programId,
+        data: {
+          countryCode: this.countryCode,
+          expMonth: this.expMonth,
+          expYear: this.expYear,
+          number: this.number,
+          termsOfUse: this.termsOfUse,
+          metadata: parseObject(this.metadata),
+        },
+      });
+    } catch ({ response: { data: { error } } }) {
+      throw new Error(error.message || error.code);
+    }
 
-    $.export("$summary", `Successfully linked card with ID ${response.id}`);
+    $.export("$summary", `Successfully linked card with ID ${response.items[0]?.id}`);
     return response;
   },
 };

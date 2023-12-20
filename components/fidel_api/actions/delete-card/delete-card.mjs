@@ -1,79 +1,26 @@
 import fidelApi from "../../fidel_api.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "fidel_api-delete-card",
-  name: "Delete a Card",
+  name: "Delete Card",
   description: "Allows for the removal of a previously linked card from the Fidel API. [See the documentation](https://reference.fidel.uk/reference/delete-card)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     fidelApi,
-    cardId: {
-      propDefinition: [
-        fidelApi,
-        "cardId",
-      ],
-    },
-    // Additional props from app file
     programId: {
       propDefinition: [
         fidelApi,
         "programId",
       ],
     },
-    countryCode: {
+    cardId: {
       propDefinition: [
         fidelApi,
-        "countryCode",
-      ],
-    },
-    expMonth: {
-      propDefinition: [
-        fidelApi,
-        "expMonth",
-      ],
-    },
-    expYear: {
-      propDefinition: [
-        fidelApi,
-        "expYear",
-      ],
-    },
-    number: {
-      propDefinition: [
-        fidelApi,
-        "number",
-      ],
-    },
-    termsOfUse: {
-      propDefinition: [
-        fidelApi,
-        "termsOfUse",
-      ],
-    },
-    metadata: {
-      propDefinition: [
-        fidelApi,
-        "metadata",
-      ],
-    },
-    url: {
-      propDefinition: [
-        fidelApi,
-        "url",
-      ],
-    },
-    eventName: {
-      propDefinition: [
-        fidelApi,
-        "eventName",
-      ],
-    },
-    offerId: {
-      propDefinition: [
-        fidelApi,
-        "offerId",
+        "cardId",
+        ({ programId }) => ({
+          programId,
+        }),
       ],
     },
   },
