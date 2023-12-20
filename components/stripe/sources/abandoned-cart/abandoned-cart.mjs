@@ -5,12 +5,14 @@ export default {
   key: "stripe-abandoned-cart",
   name: "New Abandoned Cart",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a customer abandons their cart.",
   methods: {
     ...common.methods,
     getEvents() {
-      return ["checkout.session.expired"];
+      return [
+        "checkout.session.expired",
+      ];
     },
   },
 };

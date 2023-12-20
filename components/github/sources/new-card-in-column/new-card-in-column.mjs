@@ -6,7 +6,7 @@ export default {
   key: "github-new-card-in-column",
   name: "New Card in Column (Classic Projects)",
   description: "Emit new event when a (classic) project card is created or moved to a specific column. For Projects V2 use `New Issue with Status` trigger. [More information here](https://docs.github.com/en/issues/organizing-your-work-with-project-boards/tracking-work-with-project-boards/adding-issues-and-pull-requests-to-a-project-board)",
-  version: "0.1.14",
+  version: "0.1.15",
   type: "source",
   props: {
     ...common.props,

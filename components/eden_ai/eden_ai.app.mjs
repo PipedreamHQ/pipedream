@@ -77,5 +77,12 @@ export default {
         ...params,
       });
     },
+    async generateAudioFromText(params) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/audio/text_to_speech",
+        ...params,
+      });
+    },
   },
 };

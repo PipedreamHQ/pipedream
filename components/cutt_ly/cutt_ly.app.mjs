@@ -1,11 +1,36 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "cutt_ly",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://cutt.ly/api";
+    },
+    _authParams(params) {
+      return {
+        ...params,
+        key: `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        path,
+        params,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        url: `${this._baseUrl()}${path}`,
+        params: this._authParams(params),
+      });
+    },
+    callApi(opts = {}) {
+      return this._makeRequest({
+        path: "/api.php",
+        ...opts,
+      });
     },
   },
 };
