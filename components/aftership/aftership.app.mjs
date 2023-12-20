@@ -242,9 +242,12 @@ export default {
         ...args,
       });
     },
-    async getTrackingById(trackingId) {
+    async getTrackingById({
+      trackingId, ...args
+    }) {
       return this._makeRequest({
         path: `/tracking/2023-10/trackings/${trackingId}`,
+        ...args,
       });
     },
     async listTrackings(opts = {}) {
