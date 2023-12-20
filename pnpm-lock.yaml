@@ -3535,6 +3535,9 @@ importers:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
 
+  components/lnk_bio:
+    specifiers: {}
+
   components/lob:
     specifiers:
       '@lob/lob-typescript-sdk': ^1.0.0
@@ -3900,7 +3903,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/microsoft_power_bi:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/microsoft_sql_server:
     specifiers:
