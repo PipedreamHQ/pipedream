@@ -7,7 +7,7 @@ export default {
   name: "New Order Created",
   description: "Emit new event for every new order created. [See the docs](https://developer.squareup.com/reference/square/orders-api/search-orders)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...base.props,

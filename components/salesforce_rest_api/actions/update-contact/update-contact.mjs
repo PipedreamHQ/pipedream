@@ -1,11 +1,14 @@
-import salesforce from "../../salesforce_rest_api.app.mjs";
+import common from "../common/base.mjs";
 import contact from "../../common/sobjects/contact.mjs";
 import {
   pickBy, pick,
 } from "lodash-es";
 import { toSingleLineString } from "../../common/utils.mjs";
 
+const { salesforce } = common.props;
+
 export default {
+  ...common,
   key: "salesforce_rest_api-update-contact",
   name: "Update Contact",
   description: toSingleLineString(`
@@ -13,7 +16,7 @@ export default {
     See [Contact SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_contact.htm)
     and [Update Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_update_fields.htm)
   `),
-  version: "0.2.4",
+  version: "0.2.5",
   type: "action",
   props: {
     salesforce,
@@ -38,8 +41,8 @@ export default {
       reloadProps: true,
     },
   },
-  async additionalProps() {
-    return this.salesforce.additionalProps(this.selector, contact);
+  additionalProps() {
+    return this.additionalProps(this.selector, contact);
   },
   async run({ $ }) {
     const data = pickBy(pick(this, [
