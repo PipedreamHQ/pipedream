@@ -1,4 +1,6 @@
-import { parseObject } from "../../common/utils.mjs";
+import {
+  convertTime, parseObject,
+} from "../../common/utils.mjs";
 import resourceGuru from "../../resource_guru.app.mjs";
 
 export default {
@@ -126,7 +128,7 @@ export default {
         resource_ids: resourceIds,
         start_date: startDate,
         end_date: endDate,
-        start_time: startTime,
+        start_time: convertTime(startTime),
         booker_id: bookerId,
         project_id: projectId,
         client_id: clientId,

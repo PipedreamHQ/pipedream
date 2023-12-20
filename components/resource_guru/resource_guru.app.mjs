@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import {
-  CLASH_RESOLUTION_OPTIONS, LIMIT,
+  CLASH_RESOLUTION_OPTIONS, LIMIT, TIMEZONE_OPTIONS,
 } from "./common/constants.mjs";
 
 export default {
@@ -136,9 +136,9 @@ export default {
       },
     },
     rrule: {
-      type: "object",
+      type: "string",
       label: "Recurrence Rule",
-      description: "A recurrence rule defines a rule or repeating pattern for recurring events. [See de documentation](https://resourceguruapp.com/docs/api#tag/booking/paths/~1v1~1%7Baccount%7D~1bookings/post) for further information.",
+      description: "A recurrence rule defines a rule or repeating pattern for recurring events in JSON string. For example, `{\"weekly\": {\"interval\": 1, \"weekday\": 6, \"ends\": {\"type\": \"count\", \"count\": 1}}}`. See [API documentation](https://resourceguruapp.com/docs/api#tag/booking/paths/~1v1~1%7Baccount%7D~1bookings/post) for more information.",
     },
     startDate: {
       type: "string",
@@ -146,11 +146,9 @@ export default {
       description: "First date of the booking.",
     },
     startTime: {
-      type: "integer",
+      type: "string",
       label: "Start Time",
-      description: "A time represented by the number of minutes elapsed since midnight.",
-      min: 1,
-      max: 1440,
+      description: "The time the booking starts. `Format HH:MM`",
     },
     tentative: {
       type: "boolean",
@@ -161,6 +159,7 @@ export default {
       type: "string",
       label: "Timezone",
       description: "Specified timezone for the booking, or null/empty string for the local resource's timezones.",
+      options: TIMEZONE_OPTIONS,
     },
   },
   methods: {

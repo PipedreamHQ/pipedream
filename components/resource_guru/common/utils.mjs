@@ -26,3 +26,10 @@ export const parseObject = (obj) => {
   }
   return obj;
 };
+
+export const convertTime = (time) => {
+  const splitedTime = time.split(":");
+  return (splitedTime.length === 2)
+    ? (parseInt(splitedTime[0]) * 60) + parseInt(splitedTime[1])
+    : false;
+};
