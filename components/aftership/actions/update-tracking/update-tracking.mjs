@@ -20,6 +20,7 @@ export default {
     // Remove undefined keys from data
 
     const response = await this.aftership.updateTracking({
+      $,
       trackingId: this.trackingId,
       data: {
         tracking: this.getData(),
