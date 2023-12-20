@@ -1632,7 +1632,10 @@ importers:
     specifiers: {}
 
   components/dnsfilter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dock_certs:
     specifiers:
@@ -2346,10 +2349,10 @@ importers:
 
   components/github:
     specifiers:
-      '@octokit/core': ^4.0.4
+      '@octokit/core': ^4.2.4
       '@octokit/plugin-paginate-rest': ^2.17.0
       '@octokit/webhooks-definitions': ^3.29.0
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.5.1
     dependencies:
       '@octokit/core': 4.2.4
       '@octokit/plugin-paginate-rest': 2.21.3_@octokit+core@4.2.4
@@ -2555,7 +2558,10 @@ importers:
     specifiers: {}
 
   components/google_merchant_center:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/google_my_business:
     specifiers:
@@ -4204,7 +4210,10 @@ importers:
     specifiers: {}
 
   components/nimble:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ninox:
     specifiers:
@@ -6932,7 +6941,10 @@ importers:
     specifiers: {}
 
   components/urlbae:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/urlbox_io:
     specifiers:
@@ -7647,7 +7659,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/zoho_forms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/zoho_inventory:
     specifiers:
