@@ -4,24 +4,25 @@ export default {
   key: "addevent-create-event",
   name: "Create Event",
   description: "Creates a new instance of an event. [See the documentation](https://docs.addevent.com/reference/create-event)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     addevent,
-    eventName: {
+    title: {
       type: "string",
-      label: "Event Name",
-      description: "The name of the event.",
+      label: "Event Title",
+      description: "The title of the event.",
     },
     startTime: {
       type: "string",
       label: "Start Time",
-      description: "The start date & time of the event.",
+      description: "The start date & time of the event. Accepts datetimes in the following formats: `YYYY-MM-DD hh:mm:ss` e.g. 2023-11-28 10:00:00, `YYYY-MM-DD hh:mm` e.g. 2023-11-28 10:00, `YYYY-MM-DD` e.g. 2023-11-28",
     },
     endTime: {
       type: "string",
       label: "End Time",
-      description: "The end date & time of the event.",
+      description: "The end date & time of the event. Accepts datetimes in the following formats: `YYYY-MM-DD hh:mm:ss` e.g. 2023-11-28 10:00:00, `YYYY-MM-DD hh:mm` e.g. 2023-11-28 10:00, `YYYY-MM-DD` e.g. 2023-11-28. Defaults to `datetime_start + 1 hour` if not set.",
+      optional: true,
     },
     location: {
       type: "string",
@@ -35,30 +36,27 @@ export default {
       description: "The event's description.",
       optional: true,
     },
-    attendees: {
-      type: "string[]",
-      label: "Attendees",
-      description: "The attendees of the event.",
-      optional: true,
-    },
     calendarId: {
       propDefinition: [
         addevent,
         "calendarId",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.addevent.createEvent({
-      calendarId: this.calendarId,
-      eventName: this.eventName,
-      startTime: this.startTime,
-      endTime: this.endTime,
-      location: this.location,
-      description: this.description,
-      attendees: this.attendees,
+      data: {
+        calendar_id: this.calendarId,
+        title: this.title,
+        datetime_start: this.startTime,
+        datetime_end: this.endTime,
+        location: this.location,
+        description: this.description,
+      },
+      $,
     });
-    $.export("$summary", `Created event ${this.eventName}`);
+    $.export("$summary", `Successfully created event with ID ${response.id}.`);
     return response;
   },
 };

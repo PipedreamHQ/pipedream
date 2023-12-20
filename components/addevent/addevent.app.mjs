@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,123 +9,116 @@ export default {
       type: "string",
       label: "Calendar ID",
       description: "The ID of the calendar that this event will be associated with.",
-      async options() {
-        const { data } = await this.listCalendars();
-        return data.map((calendar) => ({
+      async options({ page }) {
+        const { calendars } = await this.listCalendars({
+          params: {
+            page: page + 1,
+          },
+        });
+        return calendars?.map((calendar) => ({
           label: calendar.title,
-          value: calendar._id,
-        }));
+          value: calendar.id,
+        })) || [];
       },
     },
     eventId: {
       type: "string",
       label: "Event ID",
       description: "The ID of the event.",
-      async options() {
-        const { data } = await this.listEvents();
-        return data.map((event) => ({
+      async options({ page }) {
+        const { events } = await this.listEvents({
+          params: {
+            page: page + 1,
+          },
+        });
+        return events?.map((event) => ({
           label: event.title,
-          value: event._id,
-        }));
+          value: event.id,
+        })) || [];
       },
-    },
-    eventName: {
-      type: "string",
-      label: "Event Name",
-      description: "The name of the event.",
-    },
-    startTime: {
-      type: "string",
-      label: "Start Time",
-      description: "The start date & time of the event.",
-    },
-    endTime: {
-      type: "string",
-      label: "End Time",
-      description: "The end date & time of the event.",
-    },
-    location: {
-      type: "string",
-      label: "Location",
-      description: "The event's location. This can be an address or a URL.",
-      optional: true,
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "The event's description.",
-      optional: true,
-    },
-    attendees: {
-      type: "string[]",
-      label: "Attendees",
-      description: "The attendees of the event.",
-      optional: true,
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.addevent.com/calevent/v2";
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_token}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
       });
     },
-    async listCalendars() {
+    listCalendars(args = {}) {
       return this._makeRequest({
         path: "/calendars",
+        ...args,
       });
     },
-    async listEvents() {
+    listEvents(args = {}) {
       return this._makeRequest({
         path: "/events",
+        ...args,
       });
     },
-    async createEvent({
-      calendarId, eventName, startTime, endTime, location, description, attendees,
-    }) {
+    listSubscribers(args = {}) {
+      return this._makeRequest({
+        path: "/subscribers",
+        ...args,
+      });
+    },
+    listRsvps(args = {}) {
+      return this._makeRequest({
+        path: "/rsvps",
+        ...args,
+      });
+    },
+    createEvent(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/events",
-        data: {
-          title: eventName,
-          calendar_id: calendarId,
-          datetime_start: startTime,
-          datetime_end: endTime,
-          location,
-          description,
-          attendees,
-        },
+        ...args,
       });
     },
-    async createRsvp({
-      eventId, attendees,
+    createRsvp({
+      eventId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/events/${eventId}/rsvps`,
-        data: {
-          attendees,
-        },
+        ...args,
       });
     },
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      resourceFn, params, resourceType,
+    }) {
+      params = {
+        ...params,
+        page: 1,
+        page_size: constants.DEFAULT_LIMIT,
+      };
+      let total = 0;
+      do {
+        const response = await resourceFn({
+          params,
+        });
+        const items = response[resourceType];
+        for (const item of items) {
+          yield item;
+        }
+        total = items.length;
+        params.page++;
+      } while (total === params.page_size);
     },
   },
 };

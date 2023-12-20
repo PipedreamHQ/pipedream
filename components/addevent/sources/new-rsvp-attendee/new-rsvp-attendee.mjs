@@ -1,6 +1,8 @@
-import addevent from "../../addevent.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "addevent-new-rsvp-attendee",
   name: "New RSVP Attendee",
   description: "Emit new event when a new attendee RSVPs to your event",
@@ -8,51 +10,39 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    addevent,
+    ...common.props,
     eventId: {
       propDefinition: [
-        addevent,
+        common.props.addevent,
         "eventId",
       ],
     },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
   },
   methods: {
-    _getEventLastUpdatedTime() {
-      return this.db.get("eventLastUpdatedTime");
+    ...common.methods,
+    getTsField() {
+      return "created";
     },
-    _setEventLastUpdatedTime(time) {
-      this.db.set("eventLastUpdatedTime", time);
+    getResourceFn() {
+      return this.addevent.listRsvps;
+    },
+    getParams() {
+      return {
+        event_ids: this.eventId,
+        sort_by: "created",
+        sort_order: "desc",
+      };
+    },
+    getResourceType() {
+      return "rsvps";
+    },
+    generateMeta(rsvp) {
+      return {
+        id: rsvp.id,
+        summary: `New rsvp: ${rsvp.email}`,
+        ts: Date.parse(rsvp.created),
+      };
     },
   },
-  async run() {
-    const lastUpdatedTime = this._getEventLastUpdatedTime();
-    const { data: event } = await this.addevent._makeRequest({
-      method: "GET",
-      path: `/events/${this.eventId}`,
-    });
-
-    if (event.attendees) {
-      const newAttendees = event.attendees.filter(
-        (attendee) =>
-          new Date(attendee.created).getTime() > new Date(lastUpdatedTime),
-      );
-
-      for (const attendee of newAttendees) {
-        this.$emit(attendee, {
-          id: attendee._id,
-          summary: `New RSVP Attendee: ${attendee.name}`,
-          ts: Date.parse(attendee.created),
-        });
-      }
-    }
-
-    this._setEventLastUpdatedTime(new Date().toISOString());
-  },
+  sampleEmit,
 };
