@@ -203,6 +203,25 @@ export default {
         }));
       },
     },
+    columnId: {
+      type: "string",
+      label: "Column ID",
+      description: "The column ID",
+      async options({
+        accountId, projectId,
+      }) {
+        const columns = await this.getColumns({
+          accountId,
+          projectId,
+        });
+        return columns.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
   },
   methods: {
     async getAccounts({ $ = this }) {
@@ -346,6 +365,30 @@ export default {
         method: "delete",
         ...args,
       });
+    },
+    getCardTable({
+      accountId, projectId, cardTableId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/buckets/${projectId}/card_tables/${cardTableId}.json`,
+        accountId,
+        ...args,
+      });
+    },
+    async getColumns({
+      accountId, projectId,
+    }) {
+      const { dock } = await this.getProject({
+        accountId,
+        projectId,
+      });
+      const cardTable = dock.find(({ name }) => name === "kanban_board");
+      const { lists } = await this.getCardTable({
+        accountId,
+        projectId,
+        cardTableId: cardTable.id,
+      });
+      return lists;
     },
   },
 };
