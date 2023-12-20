@@ -27,9 +27,10 @@ export default {
       optional: true,
     },
     metadata: {
-      type: "object",
-      label: "Metadata",
-      description: "Metadata object with custom index and properties. Object size limited to 2kb.",
+      propDefinition: [
+        fidelApi,
+        "metadata",
+      ],
       optional: true,
     },
   },

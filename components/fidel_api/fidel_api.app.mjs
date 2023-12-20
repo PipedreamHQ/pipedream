@@ -100,32 +100,6 @@ export default {
       description: "Metadata related to the card, program, or transaction.",
       optional: true,
     },
-    url: {
-      type: "string",
-      label: "URL",
-      description: "The URL destination for the webhook event.",
-    },
-    eventName: {
-      type: "string",
-      label: "Event Name",
-      description: "The type of event for the webhook.",
-      options: [
-        {
-          label: "Card Linked",
-          value: "card.linked",
-        },
-        {
-          label: "Transaction Authorized",
-          value: "transaction.auth",
-        },
-      ],
-    },
-    offerId: {
-      type: "string",
-      label: "Offer ID",
-      description: "The offer ID to filter qualified auth and clearing transactions by offer.",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {
@@ -144,19 +118,6 @@ export default {
         url: this._baseUrl() + path,
         headers: this._headers(),
         ...opts,
-      });
-    },
-    createWebhook({
-      programId, eventName, url, offerId,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/programs/${programId}/hooks`,
-        data: {
-          event: eventName,
-          url,
-          offerId,
-        },
       });
     },
     createProgram(opts = {}) {
@@ -194,19 +155,6 @@ export default {
       return this._makeRequest({
         method: "DELETE",
         path: `/hooks/${hookId}`,
-      });
-    },
-    listCards({
-      programId, limit, start, order,
-    }) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/programs/${programId}/cards`,
-        params: {
-          limit,
-          start,
-          order,
-        },
       });
     },
     listPrograms(opts = {}) {
