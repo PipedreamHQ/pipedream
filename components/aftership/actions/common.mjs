@@ -39,7 +39,7 @@ export default {
         shipment_tags: this.shipmentTags,
       };
 
-      Object.values(data).forEach(([
+      Object.entries(data).forEach(([
         key,
         value,
       ]) => {
