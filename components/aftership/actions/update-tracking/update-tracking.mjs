@@ -17,29 +17,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      tracking: {
-        tracking_number: this.trackingNumber,
-        slug: this.slug,
-        title: this.title,
-        order_id: this.orderId,
-        order_id_path: this.orderIdPath,
-        order_number: this.orderNumber,
-        custom_fields: this.customFields,
-        language: this.language,
-        smses: this.smses,
-        emails: this.emails,
-        customer_name: this.customerName,
-        destination_country_iso3: this.destinationCountryIso3,
-      },
-    };
     // Remove undefined keys from data
-    Object.keys(data.tracking)
-      .forEach((key) => data.tracking[key] === undefined && delete data.tracking[key]);
 
     const response = await this.aftership.updateTracking({
       trackingId: this.trackingId,
-      data,
+      data: {
+        tracking: this.getData(),
+      },
     });
     $.export("$summary", `Successfully updated tracking with ID ${this.trackingId}`);
     return response;
