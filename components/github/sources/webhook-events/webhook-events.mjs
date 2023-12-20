@@ -7,7 +7,7 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event type",
   type: "source",
-  version: "0.0.15",
+  version: "0.0.16",
   props: {
     ...common.props,
     events: {

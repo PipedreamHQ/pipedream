@@ -18,7 +18,7 @@ export default {
   key: "eden_ai-analyze-sentiment-in-text",
   name: "Analyze Sentiment in Text",
   description: "Analyzes sentiment in the provided text. [See the documentation](https://docs.edenai.co/reference/text_sentiment_analysis_create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
