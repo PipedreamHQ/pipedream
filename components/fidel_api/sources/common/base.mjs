@@ -68,7 +68,7 @@ export default {
     this.$emit(body, {
       id: body.id,
       summary: this.getSummary(body),
-      ts: Date.parse(body.created_at),
+      ts: Date.parse(body.created),
     });
   },
 };
