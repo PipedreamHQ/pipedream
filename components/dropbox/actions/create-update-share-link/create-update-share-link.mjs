@@ -5,7 +5,7 @@ export default {
   name: "Create/Update a Share Link",
   description: "Creates or updates a public share link to the file or folder (It allows to share the file or folder with anyone). [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#sharingCreateSharedLinkWithSettings__anchor)",
   key: "dropbox-create-update-share-link",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     dropbox,

@@ -1,11 +1,14 @@
-import salesforce from "../../salesforce_rest_api.app.mjs";
+import common from "../common/base.mjs";
 import caseComment from "../../common/sobjects/caseComment.mjs";
 import {
   pickBy, pick,
 } from "lodash-es";
 import { toSingleLineString } from "../../common/utils.mjs";
 
+const { salesforce } = common.props;
+
 export default {
+  ...common,
   key: "salesforce_rest_api-create-casecomment",
   name: "Create CaseComment",
   description: toSingleLineString(`
@@ -13,7 +16,7 @@ export default {
     See [CaseComment SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_casecomment.htm)
     and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
   `),
-  version: "0.2.4",
+  version: "0.2.5",
   type: "action",
   props: {
     salesforce,
@@ -32,8 +35,8 @@ export default {
       reloadProps: true,
     },
   },
-  async additionalProps() {
-    return this.salesforce.additionalProps(this.selector, caseComment);
+  additionalProps() {
+    return this.additionalProps(this.selector, caseComment);
   },
   async run({ $ }) {
     const data = pickBy(pick(this, [

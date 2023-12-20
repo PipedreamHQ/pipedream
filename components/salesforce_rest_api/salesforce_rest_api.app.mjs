@@ -183,12 +183,6 @@ export default {
       };
       return new SalesforceClient(clientOpts);
     },
-    async additionalProps(selector, sobject) {
-      return selector.reduce((props, prop) => ({
-        ...props,
-        [prop]: sobject[prop],
-      }), {});
-    },
     isValidSObject(sobject) {
       // Only the activity of those SObject types that have the `replicateable`
       // flag set is published via the `getUpdated` API.
