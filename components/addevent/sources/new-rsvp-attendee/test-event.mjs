@@ -18,9 +18,9 @@ export default {
       "privacy_policy"
     ]
   },
-        "rsvp_form_labels": {
-          "name": "Name",
-          "email": "Email"
+  "rsvp_form_labels": {
+    "name": "Name",
+    "email": "Email"
   },
   "geo_location": {
     "ip": "192.168.55.123",
