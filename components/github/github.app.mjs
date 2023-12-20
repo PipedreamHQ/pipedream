@@ -1,8 +1,9 @@
 import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
 import queries from "./common/queries.mjs";
-import { axios } from "@pipedream/platform";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -580,6 +581,23 @@ export default {
       const response = await this._client().request(`GET /repos/${repoFullname}/releases`, {
         per_page: perPage,
         page: page,
+      });
+
+      return response.data;
+    },
+    async getUserRepoPermissions({
+      repoFullname, username,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/collaborators/${username}/permission`, {});
+
+      return response.data;
+    },
+    async getRepositoryLatestPullRequests({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/pulls`, {
+        direction: "desc",
+        ...args,
       });
 
       return response.data;

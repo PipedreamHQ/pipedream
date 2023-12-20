@@ -93,7 +93,7 @@ export default {
     endDate: {
       type: "string",
       label: "End Date",
-      description: "Last date of the booking.",
+      description: "Last date of the booking in `YYYY-MM-DD` format, for example `2023-12-20`",
     },
     projectId: {
       type: "integer",
@@ -143,7 +143,7 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "First date of the booking.",
+      description: "First date of the booking in `YYYY-MM-DD` format, for example `2023-12-20`",
     },
     startTime: {
       type: "string",

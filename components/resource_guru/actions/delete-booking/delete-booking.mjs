@@ -27,7 +27,7 @@ export default {
     date: {
       type: "string",
       label: "Date",
-      description: "The date to delete.",
+      description: "The date to delete in `YYYY-MM-DD` format, for example `2023-12-20`.",
       optional: true,
     },
     removeForAll: {
