@@ -10,6 +10,7 @@ export default {
   version: "0.1.0",
   type: "action",
   props: {
+    aftership,
     trackingNumber: {
       propDefinition: [
         aftership,

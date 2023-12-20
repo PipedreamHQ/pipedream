@@ -52,7 +52,6 @@ export default {
     },
   },
   props: {
-    aftership,
     slug: {
       propDefinition: [
         aftership,
