@@ -3538,6 +3538,9 @@ importers:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
 
+  components/lnk_bio:
+    specifiers: {}
+
   components/lob:
     specifiers:
       '@lob/lob-typescript-sdk': ^1.0.0
