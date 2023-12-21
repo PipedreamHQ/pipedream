@@ -24,6 +24,13 @@ export default {
       description: "The end date & time of the event. Accepts datetimes in the following formats: `YYYY-MM-DD hh:mm:ss` e.g. 2023-11-28 10:00:00, `YYYY-MM-DD hh:mm` e.g. 2023-11-28 10:00, `YYYY-MM-DD` e.g. 2023-11-28. Defaults to `datetime_start + 1 hour` if not set.",
       optional: true,
     },
+    timezone: {
+      propDefinition: [
+        addevent,
+        "timezone",
+      ],
+      optional: true,
+    },
     location: {
       type: "string",
       label: "Location",
@@ -51,6 +58,7 @@ export default {
         title: this.title,
         datetime_start: this.startTime,
         datetime_end: this.endTime,
+        timezone: this.timezone,
         location: this.location,
         description: this.description,
       },

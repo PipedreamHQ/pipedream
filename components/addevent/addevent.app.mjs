@@ -37,6 +37,15 @@ export default {
         })) || [];
       },
     },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "The event's timezone. This ensures that the event appears at the correct time for users regardless of their timezone. Defaults to the calendar's timezone if not provided.",
+      async options() {
+        const timezones = await this.listTimezones();
+        return timezones.map(({ name }) => name );
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -80,6 +89,12 @@ export default {
     listRsvps(args = {}) {
       return this._makeRequest({
         path: "/rsvps",
+        ...args,
+      });
+    },
+    listTimezones(args = {}) {
+      return this._makeRequest({
+        path: "/timezones",
         ...args,
       });
     },
