@@ -42,6 +42,7 @@ export default {
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       });
     },
