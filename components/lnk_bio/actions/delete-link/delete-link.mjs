@@ -1,0 +1,26 @@
+import lnkBio from "../../lnk_bio.app.mjs";
+
+export default {
+  key: "lnk_bio-delete-link",
+  name: "Delete Link",
+  description: "Deletes an existing link in lnk.bio. [See the documentation](https://app.swaggerhub.com/apis/lnkbio/lnk.bio/0.0.2)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    lnkBio,
+    linkId: {
+      propDefinition: [
+        lnkBio,
+        "linkId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.lnkBio.deleteLink({
+      linkId: this.linkId,
+    });
+
+    $.export("$summary", `Successfully deleted link with ID ${this.linkId}`);
+    return response;
+  },
+};
