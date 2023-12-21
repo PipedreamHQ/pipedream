@@ -40,7 +40,7 @@ As a general best practice, however, it is best to only the scopes that will you
 
 <img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182776/Screenshot_2023-12-21_at_10.02.49_AM_wou8ns.png">
 
-you need to create a space-separated list of scopes: 
+you'll need to create a space-separated list of scopes: 
 `spark-admin:calling_cdr_read spark:calls_read spark:devices_read spark:devices_write`
 
 9. Copy and paste your **Client ID**, **Client Secret**, and **Space Separated Scopes** on the Cisco Webex (Custom App) account connection page on Pipedream. 
