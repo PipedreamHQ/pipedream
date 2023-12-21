@@ -22,7 +22,7 @@ To use your own custom Cisco Webex app, you will need to sign up for a free [Web
 
 4. For the Redirect URI, copy and paste `https://api.pipedream.com/connect/oauth/oa_aWyi6o/callback`.
 
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182776/Screenshot_2023-12-21_at_9.51.45_AM_o20sqj.png" width=500>
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182776/Screenshot_2023-12-21_at_9.51.45_AM_o20sqj.png" width=500 />
 
 5. [Scopes](https://developer.webex.com/docs/integrations#scopes) define the level of access that your integration requires. This part of the setup is **critical** to your integration working correctly. Please note that scopes that begin with `spark-admin` can only be used by users with administrative access to an organization.
 
