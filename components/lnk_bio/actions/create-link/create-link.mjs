@@ -25,14 +25,16 @@ export default {
         lnkBio,
         "image",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.lnkBio.createLink({
-      title: this.title,
-      link: this.link,
-      image: this.image,
+      $,
+      data: {
+        title: this.title,
+        link: this.link,
+        image: this.image,
+      },
     });
     $.export("$summary", `Successfully created a new link: ${this.title}`);
     return response;

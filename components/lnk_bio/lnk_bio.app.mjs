@@ -28,19 +28,16 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.lnk.bio";
+      return "https://lnk.bio/oauth/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -48,31 +45,19 @@ export default {
         },
       });
     },
-    async createLink({
-      title, link, image,
-    }) {
-      const body = {
-        title,
-        link,
-      };
-      if (image) {
-        body.image = image;
-      }
+    async createLink(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/link",
-        data: body,
+        path: "/lnk/add",
+        ...args,
       });
     },
-    async deleteLink({ linkId }) {
+    async deleteLink(args) {
       return this._makeRequest({
-        method: "DELETE",
-        path: `/link/${linkId}`,
+        method: "POST",
+        path: "/lnk/delete",
+        ...args,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
-  version: `0.0.${Date.now()}`,
 };

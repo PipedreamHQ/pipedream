@@ -17,7 +17,10 @@ export default {
   },
   async run({ $ }) {
     const response = await this.lnkBio.deleteLink({
-      linkId: this.linkId,
+      $,
+      data: {
+        link_id: this.linkId,
+      },
     });
 
     $.export("$summary", `Successfully deleted link with ID ${this.linkId}`);
