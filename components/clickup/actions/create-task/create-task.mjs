@@ -6,7 +6,7 @@ export default {
   key: "clickup-create-task",
   name: "Create Task",
   description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks / Create Task** section.",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     ...common.props,
@@ -19,6 +19,12 @@ export default {
       label: "Description",
       type: "string",
       description: "The description of task",
+      optional: true,
+    },
+    markdown_description: {
+      label: "Markdown Description",
+      type: "string",
+      description: "The description of task with markdown formatting",
       optional: true,
     },
     priority: {
@@ -87,6 +93,7 @@ export default {
       listId,
       name,
       description,
+      markdown_description,
       priority,
       assignees,
       tags,
@@ -103,6 +110,7 @@ export default {
       data: {
         name,
         description,
+        markdown_description,
         priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
         assignees,
         tags,
