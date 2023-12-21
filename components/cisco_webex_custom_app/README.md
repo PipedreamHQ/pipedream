@@ -45,4 +45,4 @@ you'll need to create a space-separated list of scopes:
 
 9. Copy and paste your **Client ID**, **Client Secret**, and **Space Separated Scopes** on the Cisco Webex (Custom App) account connection page on Pipedream. 
 
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703183779/Screenshot_2023-12-21_at_10.35.53_AM_qqz0wh.png">
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703183779/Screenshot_2023-12-21_at_10.35.53_AM_qqz0wh.png" />
