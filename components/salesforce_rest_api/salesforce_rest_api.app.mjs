@@ -1,6 +1,4 @@
 import { axios } from "@pipedream/platform";
-import salesforceWebhooks from "salesforce-webhooks";
-const { SalesforceClient } = salesforceWebhooks;
 
 export default {
   type: "app",
@@ -175,14 +173,6 @@ export default {
       // Remove milliseconds from date ISO string
       return dateString.replace(/\.[0-9]{3}/, "");
     },
-    _getSalesforceClient() {
-      const clientOpts = {
-        apiVersion: this._apiVersion(),
-        authToken: this._authToken(),
-        instance: this._subdomain(),
-      };
-      return new SalesforceClient(clientOpts);
-    },
     isValidSObject(sobject) {
       // Only the activity of those SObject types that have the `replicateable`
       // flag set is published via the `getUpdated` API.
@@ -195,21 +185,6 @@ export default {
         sobject.associateEntityType === "History" &&
         sobject.name.includes("History")
       );
-    },
-    async createWebhook(endpointUrl, sObjectType, event, secretToken, opts) {
-      const client = this._getSalesforceClient();
-      const webhookOpts = {
-        endpointUrl,
-        sObjectType,
-        event,
-        secretToken,
-        ...opts,
-      };
-      return client.createWebhook(webhookOpts);
-    },
-    async deleteWebhook(webhookData) {
-      const client = this._getSalesforceClient();
-      return client.deleteWebhook(webhookData);
     },
     async listSObjectTypes() {
       const url = this._sObjectsApiUrl();
