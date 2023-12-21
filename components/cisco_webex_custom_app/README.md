@@ -13,7 +13,7 @@ what you can build:
 ## Creating a custom Webex application
 To use your own custom Cisco Webex app, you will need to sign up for a free [Webex developer account](https://developer.webex.com/signup) if you don't already have one, and [create a new app](https://developer.webex.com/my-apps/new).
 
-1. Create an integration
+1. Navigate to **My Webex Apps**, and select **Create an Integration**
 <img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182776/Screenshot_2023-12-21_at_9.48.58_AM_sqdtmf.png" width=500>
 
 2. Name your integration, e.g. "Pipedream" and choose an icon.
@@ -32,7 +32,7 @@ As a general best practice, however, it is best to only the scopes that will you
 
 6. Select the scopes that you'd like for this integration, scroll down to the bottom and click **Add Integration**.
 
-7. Your application setup is now complete! Copy your **Client ID** and **Client Secret**.
+7. Copy your **Client ID** and **Client Secret**.
 
 <img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182775/Screenshot_2023-12-21_at_10.06.39_AM_luxsjs.png">
 
@@ -44,3 +44,5 @@ you need to create a space-separated list of scopes:
 `spark-admin:calling_cdr_read spark:calls_read spark:devices_read spark:devices_write`
 
 9. Copy and paste your **Client ID**, **Client Secret**, and **Space Separated Scopes** on the Cisco Webex (Custom App) account connection page on Pipedream. 
+
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703183779/Screenshot_2023-12-21_at_10.35.53_AM_qqz0wh.png">
