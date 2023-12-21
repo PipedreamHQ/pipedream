@@ -34,7 +34,7 @@ As a general best practice, however, it is best to only the scopes that will you
 
 7. Copy your **Client ID** and **Client Secret**.
 
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182775/Screenshot_2023-12-21_at_10.06.39_AM_luxsjs.png">
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182775/Screenshot_2023-12-21_at_10.06.39_AM_luxsjs.png" />
 
 8. If you selected the following scopes: 
 
