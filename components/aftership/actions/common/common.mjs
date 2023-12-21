@@ -1,4 +1,4 @@
-import aftership from "../aftership.app.mjs";
+import aftership from "../../aftership.app.mjs";
 
 export default {
   methods: {

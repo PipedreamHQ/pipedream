@@ -1,5 +1,5 @@
 import aftership from "../../aftership.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "aftership-update-tracking",

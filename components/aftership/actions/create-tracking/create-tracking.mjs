@@ -1,6 +1,6 @@
 import aftership from "../../aftership.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -32,10 +32,7 @@ export default {
     const response = await this.aftership.createTracking({
       $,
       data: {
-        tracking: {
-          ...this.getData(),
-          tracking_number: this.trackingNumber,
-        },
+        tracking: this.getData(),
       },
     });
 
