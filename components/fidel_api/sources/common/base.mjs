@@ -1,7 +1,4 @@
-import {
-  clearObj,
-  secureCompare,
-} from "../../common/utils.mjs";
+import { secureCompare } from "../../common/utils.mjs";
 import fidelApi from "../../fidel_api.app.mjs";
 
 export default {
@@ -14,12 +11,6 @@ export default {
         fidelApi,
         "programId",
       ],
-    },
-    offerId: {
-      type: "string",
-      label: "Offer Id",
-      description: "The offerId to filter qualified auth and clearing transactions by offer.",
-      optional: true,
     },
   },
   methods: {
@@ -40,11 +31,10 @@ export default {
     async activate() {
       const { items } = await this.fidelApi.createHook({
         programId: this.programId,
-        data: clearObj({
-          offerId: this.offerId,
+        data: {
           event: this.getEvent(),
           url: this.http.endpoint,
-        }),
+        },
       });
 
       this._setHookSecret(items[0]?.secretKey);
