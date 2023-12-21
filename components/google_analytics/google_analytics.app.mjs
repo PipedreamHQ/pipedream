@@ -10,9 +10,9 @@ export default {
       label: "Account",
       description: "The Google Analytics account ID to list properties from.",
       async options() {
-        const accounts = await this.listAccounts();
-        return accounts.map((account) => ({
-          label: account.displayName,
+        const response = await this.listAccounts();
+        return response?.accounts?.map((account) => ({
+          label: `${account.displayName} (${account.name})`,
           value: account.name,
         }));
       },
@@ -70,18 +70,15 @@ export default {
     },
     async listAccounts() {
       return this.makeRequest({
-        path: "/accounts",
+        path: "/v1beta/accounts",
         method: "GET",
       });
     },
-    async createProperty(accountId, propertyBody) {
+    async createProperty(args) {
       return this.makeRequest({
-        path: `/accounts/${accountId}/properties`,
+        path: "/v1beta/properties",
         method: "POST",
-        data: propertyBody,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        ...args,
       });
     },
     client() {

@@ -1,4 +1,5 @@
 import googleAnalytics from "../../google_analytics.app.mjs";
+import { INDUSTRY_CATEGORY_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "google_analytics-create-ga4-property",
@@ -12,36 +13,30 @@ export default {
       propDefinition: [
         googleAnalytics,
         "account",
-        {
-          options: async () => {
-            const accounts = await this.listAccounts();
-            return accounts.map((account) => ({
-              label: account.displayName,
-              value: account.name,
-            }));
-          },
-        },
       ],
     },
     displayName: {
       type: "string",
       label: "Display Name",
-      description: "The display name for the property.",
+      description: "Human-readable display name for this property. The max allowed display name length is 100 UTF-16 code units.",
     },
     timeZone: {
       type: "string",
       label: "Time Zone",
-      description: "The reporting time zone for the property.",
+      description: "The reporting time zone for the property. Example: `America/Los_Angeles`",
     },
     currencyCode: {
       type: "string",
       label: "Currency Code",
-      description: "The currency type to be used in reports involving monetary values.",
+      description: "The currency type to be used in reports involving monetary values, [in ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217). Examples: `USD`, `EUR`, `JPY`",
+      optional: true,
     },
     industryCategory: {
       type: "string",
       label: "Industry Category",
       description: "The industry category associated with the property.",
+      optional: true,
+      options: INDUSTRY_CATEGORY_OPTIONS,
     },
   },
   async run({ $ }) {
