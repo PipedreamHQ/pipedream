@@ -2972,7 +2972,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/illumidesk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ilovepdf:
     specifiers:
@@ -3489,7 +3492,10 @@ importers:
     specifiers: {}
 
   components/linkly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/linqs_cc:
     specifiers: {}
@@ -3906,7 +3912,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/microsoft_power_bi:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/microsoft_sql_server:
     specifiers:
