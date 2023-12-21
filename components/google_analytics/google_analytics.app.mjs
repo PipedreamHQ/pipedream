@@ -5,6 +5,23 @@ export default {
   type: "app",
   app: "google_analytics",
   propDefinitions: {
+    account: {
+      type: "string",
+      label: "Account",
+      description: "The Google Analytics account ID to list properties from.",
+      async options() {
+        const accounts = await this.listAccounts();
+        return accounts.map((account) => ({
+          label: account.displayName,
+          value: account.name,
+        }));
+      },
+    },
+    property: {
+      type: "object",
+      label: "Property",
+      description: "The GA4 property to create",
+    },
     viewId: {
       type: "string",
       label: "View Id",
@@ -49,6 +66,22 @@ export default {
         path: `/v1beta/properties/${args.property}:runReport`,
         method: "POST",
         ...args,
+      });
+    },
+    async listAccounts() {
+      return this.makeRequest({
+        path: "/accounts",
+        method: "GET",
+      });
+    },
+    async createProperty(accountId, propertyBody) {
+      return this.makeRequest({
+        path: `/accounts/${accountId}/properties`,
+        method: "POST",
+        data: propertyBody,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
     },
     client() {
