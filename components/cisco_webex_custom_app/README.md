@@ -14,7 +14,7 @@ what you can build:
 To use your own custom Cisco Webex app, you will need to sign up for a free [Webex developer account](https://developer.webex.com/signup) if you don't already have one, and [create a new app](https://developer.webex.com/my-apps/new).
 
 1. Navigate to **My Webex Apps**, and select **Create an Integration**
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182776/Screenshot_2023-12-21_at_9.48.58_AM_sqdtmf.png" width=500>
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182776/Screenshot_2023-12-21_at_9.48.58_AM_sqdtmf.png" width=500 />
 
 2. Name your integration, e.g. "Pipedream" and choose an icon.
 
