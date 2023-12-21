@@ -26,10 +26,7 @@ export default {
         : " was"} successfully fetched!`);
       return response;
     } catch (error) {
-      if (error.error) {
-        this.app.throwFormattedError(error.error);
-      }
-      this.app.throwFormattedError(error);
+      this.app.throwFormattedError(error?.error ?? error)
     }
   },
 };
