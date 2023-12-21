@@ -4,7 +4,7 @@ export default {
   name: "Delete a File/Folder",
   description: "Permanently removes a file/folder from the server. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDeleteV2__anchor)",
   key: "dropbox-delete-file-folder",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     dropbox,

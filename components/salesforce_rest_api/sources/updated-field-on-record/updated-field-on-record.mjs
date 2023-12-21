@@ -15,7 +15,7 @@ export default {
   name: "New Updated Field on Record (of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record",
   description: "Emit new event (at regular intervals) when a field of your choosing is updated on any record of a specified Salesforce object. Field history tracking must be enabled for the chosen field. See the docs on [field history tracking](https://sforce.co/3mtj0rF) and [history objects](https://sforce.co/3Fn4lWB) for more information.",
-  version: "0.1.6",
+  version: "0.1.8",
   props: {
     ...common.props,
     objectType: {
@@ -130,8 +130,7 @@ export default {
         salesforce,
         _getHistoryObjectType,
         setLatestDateCovered,
-        batchRequest,
-        getBatchRequests,
+        makeChunkBatchRequestsAndGetResults,
         isRelevant,
         getUniqueParentIds,
         _getParentId,
@@ -154,11 +153,10 @@ export default {
       setLatestDateCovered((new Date(latestDateCovered)).toISOString());
 
       if (ids?.length) {
-        ({ results: historyItemRetrievals } = await batchRequest({
-          data: {
-            batchRequests: getBatchRequests(ids, historyObjectType),
-          },
-        }));
+        historyItemRetrievals = await makeChunkBatchRequestsAndGetResults({
+          ids,
+          objectType: historyObjectType,
+        });
       }
 
       const historyItems = historyItemRetrievals
@@ -170,11 +168,9 @@ export default {
       const parentIds = getUniqueParentIds(historyItems);
 
       if (parentIds.length) {
-        ({ results: itemRetrievals } = await batchRequest({
-          data: {
-            batchRequests: getBatchRequests(parentIds),
-          },
-        }));
+        itemRetrievals = await makeChunkBatchRequestsAndGetResults({
+          ids: parentIds,
+        });
       }
 
       const itemsById = itemRetrievals

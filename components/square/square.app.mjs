@@ -146,8 +146,9 @@ export default {
         url: this._baseUrl() + path,
         headers: {
           ...opts.headers,
-          Authorization: "Bearer " + this._auth(),
-          Accept: "application/json",
+          "Authorization": "Bearer " + this._auth(),
+          "Accept": "application/json",
+          "Square-Version": "2023-12-13",
         },
       });
     },
