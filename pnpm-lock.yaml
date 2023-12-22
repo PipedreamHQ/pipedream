@@ -2821,7 +2821,10 @@ importers:
     specifiers: {}
 
   components/heygen:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/heysummit:
     specifiers:
