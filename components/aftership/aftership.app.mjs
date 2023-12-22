@@ -114,7 +114,7 @@ export default {
     },
     trackingKey: {
       type: "string",
-      label: "Tracking Account Number",
+      label: "Tracking Key",
       description: "A type of tracking credential required by some carriers. Refer to [this article on additional tracking fields](https://www.aftership.com/docs/tracking/enum/additional-tracking-fields) for more details.",
       optional: true,
     },
