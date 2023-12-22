@@ -33,4 +33,8 @@ export default {
     CAMPAIGN_MEMBER: "CampaignMember",
     LEAD: "Lead",
   },
+  FIELD_NAME: {
+    CREATED_DATE: "CreatedDate",
+    LAST_MODIFIED_DATE: "LastModifiedDate",
+  },
 };

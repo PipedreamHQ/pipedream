@@ -4,14 +4,32 @@ import common from "../common.mjs";
 
 export default {
   ...common,
+  dedupe: "greatest",
   type: "source",
   name: "New Record (of Selectable Type)",
   key: "salesforce_rest_api-new-record",
   description: "Emit new event (at regular intervals) when a record of arbitrary object type (selected as an input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for more information.",
   version: "0.0.4",
+  hooks: {
+    ...common.hooks,
+    async activate() {
+      const {
+        objectType,
+        getObjectTypeDescription,
+        setObjectTypeColumns,
+      } = this;
+
+      await common.hooks.activate.call(this);
+
+      const { fields } = await getObjectTypeDescription(objectType);
+      const columns = fields.map(({ name }) => name);
+
+      setObjectTypeColumns(columns);
+    },
+  },
   methods: {
     ...common.methods,
-    isItemRelevant(item, startTimestamp, endTimestamp) {
+    isRelevant(item, startTimestamp, endTimestamp) {
       if (!item) {
         return false;
       }
@@ -20,29 +38,29 @@ export default {
       const createdDate = Date.parse(item.CreatedDate);
       return startDate <= createdDate && endDate >= createdDate;
     },
-    generateMeta(item) {
-      const nameField = this.getNameField();
+    generateMeta(item, fieldName) {
+      const { objectType } = this;
       const {
         CreatedDate: createdDate,
-        Id: id,
-        [nameField]: name,
+        [fieldName]: name,
       } = item;
-      const entityType = startCase(this.objectType);
+      const entityType = startCase(objectType);
       const summary = `New ${entityType} created: ${name}`;
       const ts = Date.parse(createdDate);
       return {
-        id,
+        id: ts,
         summary,
         ts,
       };
     },
     async processEvent(eventData) {
       const {
-        salesforce,
+        paginate,
         objectType,
         setLatestDateCovered,
-        makeChunkBatchRequestsAndGetResults,
-        isItemRelevant,
+        getObjectTypeColumns,
+        isRelevant,
+        getNameField,
         generateMeta,
         $emit: emit,
       } = this;
@@ -51,32 +69,30 @@ export default {
         startTimestamp,
         endTimestamp,
       } = eventData;
-      const {
-        ids,
-        latestDateCovered,
-      } = await salesforce.getUpdatedForObjectType(
+
+      const fieldName = getNameField();
+      const columns = getObjectTypeColumns();
+
+      const events = await paginate({
         objectType,
         startTimestamp,
         endTimestamp,
-      );
-      setLatestDateCovered(latestDateCovered);
-
-      if (!ids?.length) {
-        return console.log("No batch requests to send");
-      }
-
-      const results = await makeChunkBatchRequestsAndGetResults({
-        ids,
+        columns,
       });
 
-      results
-        .filter(({
-          statusCode, result: item,
-        }) =>
-          statusCode === 200
-          && isItemRelevant(item, startTimestamp, endTimestamp))
-        .forEach(({ result: item }) => {
-          const meta = generateMeta(item);
+      const [
+        latestEvent,
+      ] = events;
+
+      if (latestEvent?.CreatedDate) {
+        setLatestDateCovered((new Date(latestEvent.CreatedDate)).toISOString());
+      }
+
+      Array.from(events)
+        .reverse()
+        .filter((event) => isRelevant(event, startTimestamp, endTimestamp))
+        .forEach((item) => {
+          const meta = generateMeta(item, fieldName);
           emit(item, meta);
         });
     },

@@ -21,14 +21,21 @@ export default {
       type: "string",
       label: "SObject Type",
       description: "Standard object type of the record to get field values from",
-      async options() {
+      async options({
+        page,
+        filter = this.isValidSObject,
+        mapper =  ({
+          label, name: value,
+        }) => ({
+          label,
+          value,
+        }),
+      }) {
+        if (page !== 0) {
+          return [];
+        }
         const { sobjects } = await this.listSObjectTypes();
-        return sobjects
-          .filter(this.isValidSObject)
-          .map((sobject) => ({
-            label: sobject.label,
-            value: sobject.name,
-          }));
+        return sobjects.filter(filter).map(mapper);
       },
     },
     field: {
@@ -201,6 +208,7 @@ export default {
     async getNameFieldForObjectType(objectType) {
       const url = this._sObjectTypeDescriptionApiUrl(objectType);
       const data = await this._makeRequest({
+        debug: true,
         url,
       });
       const nameField = data.fields.find((f) => f.nameField);
