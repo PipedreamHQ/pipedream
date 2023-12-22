@@ -1,144 +1,216 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
-  app: "nifty_pm",
-  version: "0.0.{{ts}}",
+  app: "nifty",
   propDefinitions: {
     appId: {
       type: "string",
-      label: "App ID",
-      description: "The unique identifier for the app.",
+      label: "App Id",
+      description: "The unique identifier for the App.",
+      async options({ page }) {
+        const { apps } = await this.listApps({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return apps.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    webhookId: {
+    memberId: {
       type: "string",
-      label: "Webhook ID",
-      description: "The unique identifier for the webhook.",
+      label: "Member Id",
+      description: "The unique identifier for the member that the task will be assigned.",
+      async options() {
+        const members = await this.listMembers();
+
+        return members.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     projectId: {
       type: "string",
-      label: "Project ID",
+      label: "Project Id",
       description: "The unique identifier for the project.",
+      async options({ page }) {
+        const { projects } = await this.listProjects({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return projects.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    taskName: {
+    taskId: {
       type: "string",
-      label: "Task Name",
-      description: "The name of the task.",
+      label: "Task Id",
+      description: "The unique identifier for the task.",
+      async options({ page }) {
+        const { tasks } = await this.listTasks({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return tasks.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    taskDescription: {
+    templateId: {
       type: "string",
-      label: "Task Description",
-      description: "The description of the task.",
-    },
-    messageContent: {
-      type: "string",
-      label: "Message Content",
-      description: "The content of the message.",
-    },
-    teamMemberId: {
-      type: "string",
-      label: "Team Member ID",
-      description: "The unique identifier for the team member.",
-    },
-    portfolioId: {
-      type: "string",
-      label: "Portfolio ID",
-      description: "The unique identifier for the portfolio.",
-    },
-    projectName: {
-      type: "string",
-      label: "Project Name",
-      description: "The name of the project to create.",
-    },
-    projectDescription: {
-      type: "string",
-      label: "Project Description",
-      description: "The description of the project.",
-    },
-    taskAssigneeId: {
-      type: "string",
-      label: "Assignee ID",
-      description: "The ID of the user to assign the task to",
-    },
-    webhookUrl: {
-      type: "string",
-      label: "Webhook URL",
-      description: "The URL to send webhook notifications to",
-    },
-    eventType: {
-      type: "string",
-      label: "Event Type",
-      description: "The type of the event to trigger the webhook",
+      label: "Template Id",
+      description: "The unique identifier for the template.",
+      async options({ page }) {
+        const { items } = await this.listTemplates({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+            type: "project",
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.niftypm.com/api/v1.0";
+      return "https://openapi.niftypm.com/api/v1.0";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async createWebhook({
-      projectId, webhookUrl, eventType,
-    }) {
+    listApps(opts = {}) {
+      return this._makeRequest({
+        path: "/apps",
+        ...opts,
+      });
+    },
+    listChats(opts = {}) {
+      return this._makeRequest({
+        path: "/chats",
+        ...opts,
+      });
+    },
+    listDocs(opts = {}) {
+      return this._makeRequest({
+        path: "/docs",
+        ...opts,
+      });
+    },
+    listFiles(opts = {}) {
+      return this._makeRequest({
+        path: "/files",
+        ...opts,
+      });
+    },
+    listMembers(opts = {}) {
+      return this._makeRequest({
+        path: "/members",
+        ...opts,
+      });
+    },
+    listMessages(opts = {}) {
+      return this._makeRequest({
+        path: "/messages",
+        ...opts,
+      });
+    },
+    listProjects(opts = {}) {
+      return this._makeRequest({
+        path: "/projects",
+        ...opts,
+      });
+    },
+    listTasks(opts = {}) {
+      return this._makeRequest({
+        path: "/tasks",
+        ...opts,
+      });
+    },
+    listTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/templates",
+        ...opts,
+      });
+    },
+    createHook(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/webhooks",
-        data: {
-          project_id: projectId,
-          url: webhookUrl,
-          event: eventType,
-        },
+        ...opts,
       });
     },
-    async createProject({
-      portfolioId, projectName, projectDescription,
+    deleteHook({
+      hookId, ...opts
     }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
+        ...opts,
+      });
+    },
+    createProject(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/projects",
-        data: {
-          portfolio_id: portfolioId,
-          name: projectName,
-          description: projectDescription,
-        },
+        ...opts,
       });
     },
-    async assignTask({
-      taskId, taskAssigneeId,
+    assignTask({
+      taskId, ...opts
     }) {
       return this._makeRequest({
         method: "PUT",
         path: `/tasks/${taskId}/assignees`,
-        data: {
-          assignee_id: taskAssigneeId,
-        },
+        ...opts,
       });
     },
-    async sendMessage({
-      projectId, messageContent,
-    }) {
+    sendMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/projects/${projectId}/messages`,
-        data: {
-          content: messageContent,
-        },
+        path: "/messages",
+        ...opts,
       });
     },
   },

@@ -3,9 +3,9 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "nifty-new-message-posted",
-  name: "New Message Posted",
-  description: "Emit new event when a new message is posted in a team's discussion.",
+  key: "nifty-new-task-created",
+  name: "New Task Created",
+  description: "Emit new event when a task is created in a project.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -13,11 +13,11 @@ export default {
     ...common.methods,
     getEvent() {
       return [
-        "messageCreated",
+        "taskCreated",
       ];
     },
     getSummary({ data }) {
-      return `New message posted in project with ID: ${data.id}`;
+      return `New task created with Id: ${data.id}`;
     },
   },
   sampleEmit,
