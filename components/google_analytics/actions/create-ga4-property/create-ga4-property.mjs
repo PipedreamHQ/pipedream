@@ -17,6 +17,17 @@ export default {
         "account",
       ],
     },
+    displayName: {
+      type: "string",
+      label: "Display Name",
+      description: "Human-readable display name for this property. The max allowed display name length is 100 UTF-16 code units.",
+    },
+    timeZone: {
+      type: "string",
+      label: "Time Zone",
+      description: "The reporting time zone for the property. Must be a valid value from [the IANA timezone database](https://www.iana.org/time-zones).",
+      options: TIMEZONE_OPTIONS,
+    },
     propertyType: {
       type: "string",
       label: "Property Type",
@@ -24,23 +35,12 @@ export default {
       optional: true,
       options: PROPERTY_TYPE_OPTIONS,
     },
-    displayName: {
-      type: "string",
-      label: "Display Name",
-      description: "Human-readable display name for this property. The max allowed display name length is 100 UTF-16 code units.",
-    },
     industryCategory: {
       type: "string",
       label: "Industry Category",
       description: "The industry category associated with the property.",
       optional: true,
       options: INDUSTRY_CATEGORY_OPTIONS,
-    },
-    timeZone: {
-      type: "string",
-      label: "Time Zone",
-      description: "The reporting time zone for the property. Must be a valid value from [the IANA timezone database](https://www.iana.org/time-zones).",
-      options: TIMEZONE_OPTIONS,
     },
     currencyCode: {
       type: "string",
