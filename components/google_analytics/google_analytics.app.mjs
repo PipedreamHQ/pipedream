@@ -11,7 +11,6 @@ export default {
       description: "The Google Analytics account ID to list properties from.",
       async options() {
         const response = await this.listAccounts();
-        console.log(response);
         return response?.accounts?.map((account) => ({
           label: account.displayName,
           value: account.name,
