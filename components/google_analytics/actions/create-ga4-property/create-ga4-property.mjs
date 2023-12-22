@@ -1,13 +1,13 @@
 import googleAnalytics from "../../google_analytics.app.mjs";
 import {
-  INDUSTRY_CATEGORY_OPTIONS, PROPERTY_TYPE_OPTIONS,
+  INDUSTRY_CATEGORY_OPTIONS, PROPERTY_TYPE_OPTIONS, TIMEZONE_OPTIONS,
 } from "../../common/constants.mjs";
 
 export default {
   key: "google_analytics-create-ga4-property",
   name: "Create GA4 Property",
   description: "Creates a new GA4 property. [See the documentation](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1beta/properties/create)",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     googleAnalytics,
@@ -40,6 +40,7 @@ export default {
       type: "string",
       label: "Time Zone",
       description: "The reporting time zone for the property. Must be a valid value from [the IANA timezone database](https://www.iana.org/time-zones).",
+      options: TIMEZONE_OPTIONS,
     },
     currencyCode: {
       type: "string",
@@ -52,7 +53,7 @@ export default {
     const response = await this.googleAnalytics.createProperty({
       $,
       data: {
-        account: this.account,
+        parent: this.account,
         displayName: this.displayName,
         timeZone: this.timeZone,
         currencyCode: this.currencyCode,

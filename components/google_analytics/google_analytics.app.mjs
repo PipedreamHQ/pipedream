@@ -13,7 +13,7 @@ export default {
         const response = await this.listAccounts();
         console.log(response);
         return response?.accounts?.map((account) => ({
-          label: `${account.displayName} (${account.name})`,
+          label: account.displayName,
           value: account.name,
         }));
       },
