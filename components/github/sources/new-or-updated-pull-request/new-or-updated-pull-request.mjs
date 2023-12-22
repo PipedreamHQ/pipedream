@@ -10,9 +10,9 @@ export default {
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request",
   description: `Emit new events when a pull request is opened or updated [See the documentation](${DOCS_LINK})`,
-  version: "1.0.0",
+  version: "1.1.0",
   type: "source",
-  dedupe: "last",
+  dedupe: "unique",
   props: {
     github,
     db: "$.service.db",
@@ -83,7 +83,23 @@ export default {
       const admin = await this.checkAdminPermission();
       if (admin) {
         await this.createWebhook();
-      } else await this.removeWebhook();
+        this.$emit({
+          testWebhook: 123,
+        }, {
+          id: "sample_webhook_event",
+          summary: "Sample Webhook Event",
+          ts: Date.now(),
+        });
+      } else {
+        await this.removeWebhook();
+        this.$emit({
+          testTimer: 456,
+        }, {
+          id: "sample_timer_event",
+          summary: "Sample Timer Event",
+          ts: Date.now(),
+        });
+      }
     },
     checkEventType(type) {
       const { eventTypes } = this;
