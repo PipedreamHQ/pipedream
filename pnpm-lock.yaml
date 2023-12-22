@@ -5340,7 +5340,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/resource_guru:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/respond_io:
     specifiers: {}
