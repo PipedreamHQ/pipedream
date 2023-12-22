@@ -157,6 +157,13 @@ export default {
         path: `/hooks/${hookId}`,
       });
     },
+    listCards(opts = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: "/cards",
+        ...opts,
+      });
+    },
     listPrograms(opts = {}) {
       return this._makeRequest({
         method: "GET",
