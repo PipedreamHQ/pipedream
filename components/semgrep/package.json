@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/semgrep",
+  "version": "0.0.1",
+  "description": "Pipedream  Semgrep Components",
+  "main": "semgrep.app.mjs",
+  "keywords": [
+    "pipedream",
+    "semgrep"
+  ],
+  "homepage": "https://pipedream.com/apps/semgrep",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
