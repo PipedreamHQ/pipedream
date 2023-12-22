@@ -17,11 +17,6 @@ export default {
         }));
       },
     },
-    property: {
-      type: "object",
-      label: "Property",
-      description: "The GA4 property to create",
-    },
     viewId: {
       type: "string",
       label: "View Id",
