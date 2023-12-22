@@ -2,6 +2,7 @@ import aftership from "../../aftership.app.mjs";
 import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "aftership-update-tracking",
   name: "Update Tracking",
   description: "Updates an existing tracking. [See the documentation](https://www.aftership.com/docs/api/4/trackings/put-trackings-slug-tracking_number)",
