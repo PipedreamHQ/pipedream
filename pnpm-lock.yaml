@@ -134,7 +134,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/addevent:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/adobe_pdf_services:
     specifiers:
@@ -5337,7 +5340,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/resource_guru:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/respond_io:
     specifiers: {}
@@ -7557,7 +7563,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/zenrows:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/zerobounce:
     specifiers: {}
