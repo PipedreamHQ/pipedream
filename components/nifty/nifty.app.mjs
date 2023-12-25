@@ -8,7 +8,10 @@ export default {
     appId: {
       type: "string",
       label: "App Id",
-      description: "The unique identifier for the App.",
+      description: `The unique identifier for the App. On Nifty, a new app can be created by following these steps:
+1. Access Profile Settings > App Center > Integrate with API > Create a new App.
+2. In the Create App popup, add the following Pipedream Redirect URL to the Redirect URLs: \`https://api.pipedream.com/connect/oauth/oa_aWyi2m/callback\`.
+3. Make sure to enable the app scopes that are relevant to the source you are creating. For instance, if you are creating a New Task Created source, you will need to enable the Tasks app scope.`,
       async options({ page }) {
         const { apps } = await this.listApps({
           params: {
@@ -17,9 +20,7 @@ export default {
           },
         });
 
-        return apps.map(({
-          id: value, name: label,
-        }) => ({
+        return apps.map(({ id: value, name: label }) => ({
           label,
           value,
         }));
@@ -28,13 +29,12 @@ export default {
     memberId: {
       type: "string",
       label: "Member Id",
-      description: "The unique identifier for the member that the task will be assigned.",
+      description:
+        "The unique identifier for the member that the task will be assigned.",
       async options() {
         const members = await this.listMembers();
 
-        return members.map(({
-          id: value, name: label,
-        }) => ({
+        return members.map(({ id: value, name: label }) => ({
           label,
           value,
         }));
@@ -52,9 +52,7 @@ export default {
           },
         });
 
-        return projects.map(({
-          id: value, name: label,
-        }) => ({
+        return projects.map(({ id: value, name: label }) => ({
           label,
           value,
         }));
@@ -72,9 +70,7 @@ export default {
           },
         });
 
-        return tasks.map(({
-          id: value, name: label,
-        }) => ({
+        return tasks.map(({ id: value, name: label }) => ({
           label,
           value,
         }));
@@ -93,9 +89,7 @@ export default {
           },
         });
 
-        return items.map(({
-          id: value, name: label,
-        }) => ({
+        return items.map(({ id: value, name: label }) => ({
           label,
           value,
         }));
@@ -111,9 +105,7 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    _makeRequest({
-      $ = this, path, ...opts
-    }) {
+    _makeRequest({ $ = this, path, ...opts }) {
       return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(),
@@ -181,9 +173,7 @@ export default {
         ...opts,
       });
     },
-    deleteHook({
-      hookId, ...opts
-    }) {
+    deleteHook({ hookId, ...opts }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/webhooks/${hookId}`,
@@ -197,9 +187,7 @@ export default {
         ...opts,
       });
     },
-    assignTask({
-      taskId, ...opts
-    }) {
+    assignTask({ taskId, ...opts }) {
       return this._makeRequest({
         method: "PUT",
         path: `/tasks/${taskId}/assignees`,
