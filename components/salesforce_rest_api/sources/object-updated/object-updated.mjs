@@ -4,7 +4,6 @@ import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
-  dedupe: "greatest",
   type: "source",
   name: "New Updated Object (of Selectable Type)",
   key: "salesforce_rest_api-object-updated",
@@ -35,13 +34,14 @@ export default {
       const {
         LastModifiedDate: lastModifiedDate,
         [fieldName]: name,
+        Id: id,
       } = item;
 
       const entityType = startCase(objectType);
       const summary = `${entityType} updated: ${name}`;
       const ts = Date.parse(lastModifiedDate);
       return {
-        id: ts,
+        id: `${id}-${ts}`,
         summary,
         ts,
       };

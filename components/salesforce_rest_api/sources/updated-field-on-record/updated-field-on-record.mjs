@@ -105,13 +105,14 @@ export default {
 
       const {
         CreatedDate: createdDate,
-        NewValue: value,
+        Id: id,
+        [`${objectType}Id`]: objectId,
       } = event;
 
       const ts = Date.parse(createdDate);
       return {
-        id: ts,
-        summary: `${field} on ${objectType}: ${value}`,
+        id: `${id}-${ts}`,
+        summary: `${field} on ${objectType}: ${objectId}`,
         ts,
       };
     },

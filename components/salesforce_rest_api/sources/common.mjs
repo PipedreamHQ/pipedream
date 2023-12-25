@@ -65,19 +65,29 @@ export default {
         url: salesforce._sObjectTypeDescriptionApiUrl(objectType),
       });
     },
+    query({
+      query, ...args
+    } = {}) {
+      const { salesforce } = this;
+      const baseUrl = salesforce._baseApiVersionUrl();
+      return salesforce._makeRequest({
+        url: `${baseUrl}/query/?q=${encodeURIComponent(query)}`,
+        ...args,
+      });
+    },
     queryObjects({
       objectType, columns,
       startTimestamp, endTimestamp,
       dateFieldName = constants.FIELD_NAME.CREATED_DATE,
       limit = 100, offset = 0, ...args
     } = {}) {
-      return this.salesforce.query({
+      return this.query({
         debug: true,
         query: `
           SELECT ${columns.join(", ")}
             FROM ${objectType}
               WHERE ${dateFieldName} > ${startTimestamp} AND ${dateFieldName} <= ${endTimestamp}
-              ORDER BY CreatedDate DESC
+              ORDER BY ${dateFieldName} DESC
               LIMIT ${limit} OFFSET ${offset}
         `,
         ...args,
