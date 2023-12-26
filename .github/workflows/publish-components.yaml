@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r --no-frozen-lockfile
       - name: Setup Node Env
-        uses: actions/setup-node@v4.0.0
+        uses: actions/setup-node@v4.0.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -131,7 +131,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v4.0.0
+        uses: actions/setup-node@v4.0.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
