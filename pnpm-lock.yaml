@@ -3548,7 +3548,10 @@ importers:
       form-data: 4.0.0
 
   components/lnk_bio:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/lob:
     specifiers:
@@ -4213,7 +4216,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/nifty:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/niftyimages:
     specifiers:
@@ -5343,7 +5349,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/resource_guru:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/respond_io:
     specifiers: {}
