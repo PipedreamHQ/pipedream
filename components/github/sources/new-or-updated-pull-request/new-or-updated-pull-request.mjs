@@ -59,6 +59,16 @@ export default {
   },
   methods: {
     ...commonWebhook.methods,
+    getSampleTimerEvent() {
+      return {
+        testTimer: 456,
+      };
+    },
+    getSampleWebhookEvent() {
+      return {
+        testWebhook: 123,
+      };
+    },
     getPrCache() {
       return this.db.get("prCache") ?? [];
     },
@@ -83,18 +93,14 @@ export default {
       const admin = await this.checkAdminPermission();
       if (admin) {
         await this.createWebhook();
-        this.$emit({
-          testWebhook: 123,
-        }, {
+        this.$emit(this.getSampleWebhookEvent(), {
           id: "sample_webhook_event",
           summary: "Sample Webhook Event",
           ts: Date.now(),
         });
       } else {
         await this.removeWebhook();
-        this.$emit({
-          testTimer: 456,
-        }, {
+        this.$emit(this.getSampleTimerEvent(), {
           id: "sample_timer_event",
           summary: "Sample Timer Event",
           ts: Date.now(),
