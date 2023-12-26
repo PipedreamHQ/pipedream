@@ -24,6 +24,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.nifty.assignTask({
+      $,
       taskId: this.taskId,
       data: {
         assignees: this.assignees,

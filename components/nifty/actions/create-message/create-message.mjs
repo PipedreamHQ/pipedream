@@ -72,6 +72,7 @@ export default {
       data[`${propName.toLowerCase()}_id`] = this[`${propName}Id`];
     }
     const response = await this.nifty.sendMessage({
+      $,
       data: clearObj(data),
     });
 

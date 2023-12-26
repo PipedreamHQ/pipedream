@@ -58,6 +58,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.nifty.createProject({
+      $,
       data: {
         name: this.name,
         description: this.description,
