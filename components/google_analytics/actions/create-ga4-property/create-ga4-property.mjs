@@ -1,6 +1,6 @@
 import googleAnalytics from "../../google_analytics.app.mjs";
 import {
-  INDUSTRY_CATEGORY_OPTIONS, PROPERTY_TYPE_OPTIONS, TIMEZONE_OPTIONS,
+  INDUSTRY_CATEGORY_OPTIONS, TIMEZONE_OPTIONS,
 } from "../../common/constants.mjs";
 
 export default {
@@ -28,13 +28,6 @@ export default {
       description: "The reporting time zone for the property. Must be a valid value from [the IANA timezone database](https://www.iana.org/time-zones).",
       options: TIMEZONE_OPTIONS,
     },
-    propertyType: {
-      type: "string",
-      label: "Property Type",
-      description: "The property type. If the type is `PROPERTY_TYPE_UNSPECIFIED`, then `ORDINARY_PROPERTY` will be implied.",
-      optional: true,
-      options: PROPERTY_TYPE_OPTIONS,
-    },
     industryCategory: {
       type: "string",
       label: "Industry Category",
@@ -58,7 +51,7 @@ export default {
         timeZone: this.timeZone,
         currencyCode: this.currencyCode,
         industryCategory: this.industryCategory,
-        propertyType: this.propertyType,
+        propertyType: "PROPERTY_TYPE_ORDINARY",
       },
     });
 

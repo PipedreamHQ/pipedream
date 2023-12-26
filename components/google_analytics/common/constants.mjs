@@ -1,22 +1,3 @@
-export const PROPERTY_TYPE_OPTIONS = [
-  {
-    value: "PROPERTY_TYPE_UNSPECIFIED",
-    label: "Unknown or unspecified property type",
-  },
-  {
-    value: "PROPERTY_TYPE_ORDINARY",
-    label: "Ordinary GA4 property",
-  },
-  {
-    value: "PROPERTY_TYPE_SUBPROPERTY",
-    label: "GA4 subproperty",
-  },
-  {
-    value: "PROPERTY_TYPE_ROLLUP",
-    label: "GA4 rollup property",
-  },
-];
-
 export const INDUSTRY_CATEGORY_OPTIONS = [
   {
     value: "INDUSTRY_CATEGORY_UNSPECIFIED",
