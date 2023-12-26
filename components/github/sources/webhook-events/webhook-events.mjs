@@ -12,7 +12,7 @@ export default {
     ...common.props,
     events: {
       label: "Webhook Events",
-      description: "The event types to be emited",
+      description: "The event types to be emitted",
       type: "string[]",
       options: constants.REPOSITORY_WEBHOOK_EVENTS,
     },
@@ -41,5 +41,12 @@ export default {
       summary: `New event ${headers["x-github-hook-installation-target-id"]} of type ${headers["x-github-hook-installation-target-type"]}}`,
       ts: new Date(),
     });
+  },
+  async activate() {
+    const isAdmin = await this.checkAdminPermission();
+    if (!isAdmin) {
+      throw new Error("Webhooks are only supported on repos where you have admin access.");
+    }
+    await this.createWebhook();
   },
 };
