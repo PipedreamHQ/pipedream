@@ -28,6 +28,16 @@ If this returns a permissions error, you may need to run:
 curl https://cli.pipedream.com/install | sudo sh
 ```
 
+::: tip
+
+If you encounter the error `bad CPU type in executable: pd`, you will need to install Rosetta 2 on your Mac by running the following command:
+
+```bash
+softwareupdate --install-rosetta
+```
+
+:::
+
 ## Linux
 
 Download the [CLI build](#cli-builds) for your architecture below. Unzip that archive, and place the `pd` binary somewhere in [your `PATH`](https://opensource.com/article/17/6/set-path-linux).
