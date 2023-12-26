@@ -1,64 +1,42 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import github from "../../github.app.mjs";
-import commonWebhook from "../common/common-webhook.mjs";
+import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 
 const DOCS_LINK =
   "https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request";
 
 export default {
+  ...common,
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request",
   description: `Emit new events when a pull request is opened or updated [See the documentation](${DOCS_LINK})`,
   version: "1.1.0",
   type: "source",
   dedupe: "unique",
-  props: {
-    github,
-    db: "$.service.db",
-    repoFullname: {
-      propDefinition: [
-        github,
-        "repoFullname",
-      ],
-      reloadProps: true,
-    },
-  },
-  async additionalProps() {
-    const props = {};
-
-    if (await this.checkAdminPermission()) {
-      props.http = {
-        type: "$.interface.http",
-      };
-      props.eventTypes = {
-        type: "string[]",
-        label: "Filter Event Types",
-        description: `Specify the types of pull request activity that should emit events. [See the documentation](${DOCS_LINK}) for more information on each type. By default, events will be emitted for all activity.`,
-        options: constants.EVENT_TYPES_PULL_REQUEST,
-        optional: true,
-      };
-    } else {
-      props.timer = {
-        type: "$.interface.timer",
-        default: {
-          intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+  methods: {
+    ...common.methods,
+    getHttpAdditionalProps() {
+      return {
+        eventTypes: {
+          type: "string[]",
+          label: "Filter Event Types",
+          description: `Specify the types of pull request activity that should emit events. [See the documentation](${DOCS_LINK}) for more information on each type. By default, events will be emitted for all activity.`,
+          options: constants.EVENT_TYPES_PULL_REQUEST,
+          optional: true,
         },
       };
-      props.emitUpdates = {
-        type: "boolean",
-        label: "Emit Updates",
-        description:
-          "If `false`, events will only be emitted when a new pull request is created. [See the documentation](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#list-pull-requests) for more information.",
-        default: true,
-        optional: true,
+    },
+    getTimerAdditionalProps() {
+      return {
+        emitUpdates: {
+          type: "boolean",
+          label: "Emit Updates",
+          description:
+            "If `false`, events will only be emitted when a new pull request is created. [See the documentation](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#list-pull-requests) for more information.",
+          default: true,
+          optional: true,
+        },
       };
-    }
-
-    return props;
-  },
-  methods: {
-    ...commonWebhook.methods,
+    },
     getSampleTimerEvent() {
       return {
         testTimer: 456,
@@ -80,33 +58,6 @@ export default {
         "pull_request",
       ];
     },
-    async checkAdminPermission() {
-      const { repoFullname } = this;
-      const { login: username } = await this.github.getAuthenticatedUser();
-      const { user: { permissions: { admin } } } = await this.github.getUserRepoPermissions({
-        repoFullname,
-        username,
-      });
-      return admin;
-    },
-    async checkWebhookCreation() {
-      const admin = await this.checkAdminPermission();
-      if (admin) {
-        await this.createWebhook();
-        this.$emit(this.getSampleWebhookEvent(), {
-          id: "sample_webhook_event",
-          summary: "Sample Webhook Event",
-          ts: Date.now(),
-        });
-      } else {
-        await this.removeWebhook();
-        this.$emit(this.getSampleTimerEvent(), {
-          id: "sample_timer_event",
-          summary: "Sample Timer Event",
-          ts: Date.now(),
-        });
-      }
-    },
     checkEventType(type) {
       const { eventTypes } = this;
       if (eventTypes) {
@@ -117,18 +68,7 @@ export default {
 
       return true;
     },
-  },
-  hooks: {
-    async activate() {
-      await this.checkWebhookCreation();
-    },
-    async deactivate() {
-      await this.removeWebhook();
-    },
-  },
-  async run(event) {
-    // Http (webhook)
-    if (this._getWebhookId()) {
+    async onWebhookTrigger(event) {
       const { body } = event;
       const action = body?.action;
       // Confirm this is a webhook event (discard timer triggers)
@@ -143,10 +83,8 @@ export default {
           ts,
         });
       }
-    }
-
-    // Timer (polling)
-    else {
+    },
+    async onTimerTrigger() {
       const {
         emitUpdates, repoFullname,
       } = this;
@@ -182,6 +120,6 @@ export default {
           ts,
         });
       });
-    }
+    },
   },
 };
