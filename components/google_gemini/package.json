@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_gemini",
+  "version": "0.0.1",
+  "description": "Pipedream Google Gemini Components",
+  "main": "google_gemini.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_gemini"
+  ],
+  "homepage": "https://pipedream.com/apps/google_gemini",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
