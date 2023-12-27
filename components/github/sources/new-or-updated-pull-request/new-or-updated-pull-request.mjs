@@ -69,6 +69,7 @@ export default {
       return true;
     },
     async onWebhookTrigger(event) {
+      console.log("webhook trigger");
       const { body } = event;
       const action = body?.action;
       // Confirm this is a webhook event (discard timer triggers)
@@ -85,6 +86,7 @@ export default {
       }
     },
     async onTimerTrigger() {
+      console.log("timer trigger");
       const {
         emitUpdates, repoFullname,
       } = this;
@@ -102,24 +104,28 @@ export default {
         : "updated_at";
       const getFullId = (item) => `${item.id}_${item[tsProp]}`;
       const idsToStore = items.map(getFullId);
-      const firstCachedIndex = idsToStore.findIndex((id) => cache.includes(id));
-      const filteredItems =
-        firstCachedIndex === -1
-          ? items
-          : items.slice(0, firstCachedIndex);
+
+      if (cache.length) {
+        const firstCachedIndex = idsToStore.findIndex((id) =>
+          cache.includes(id));
+        const filteredItems =
+          firstCachedIndex === -1
+            ? items
+            : items.slice(0, firstCachedIndex);
+
+        filteredItems.reverse().forEach((item) => {
+          const ts = new Date(item[tsProp]).valueOf();
+          const summary = `PR ${sort}: "${item.title}"`;
+
+          this.$emit(item, {
+            id: getFullId(item),
+            summary,
+            ts,
+          });
+        });
+      }
 
       this.setPrCache(idsToStore);
-
-      filteredItems.reverse().forEach((item) => {
-        const ts = new Date(item[tsProp]).valueOf();
-        const summary = `PR ${sort}: "${item.title}"`;
-
-        this.$emit(item, {
-          id: getFullId(item),
-          summary,
-          ts,
-        });
-      });
     },
   },
 };

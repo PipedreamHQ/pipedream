@@ -9,6 +9,7 @@ export default {
         github,
         "repoFullname",
       ],
+      reloadProps: true,
     },
     db: "$.service.db",
   },
@@ -110,13 +111,16 @@ export default {
   },
   hooks: {
     async activate() {
+      console.log("activate");
       await this.checkWebhookCreation();
     },
     async deactivate() {
+      console.log("deactivate");
       await this.removeWebhook();
     },
   },
   async run(event) {
+    console.log("run");
     if (this._getWebhookId()) {
       await this.onWebhookTrigger(event);
     }
