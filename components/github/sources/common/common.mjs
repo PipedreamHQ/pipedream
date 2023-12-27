@@ -40,6 +40,12 @@ export default {
     _setWebhookId(webhookId) {
       this.db.set("webhookId", webhookId);
     },
+    _getSavedItems() {
+      return this.db.get("savedItems") ?? [];
+    },
+    _setSavedItems(value) {
+      this.db.set("savedItems", value);
+    },
     getHttpAdditionalProps() {
       return {};
     },
@@ -111,7 +117,6 @@ export default {
   },
   hooks: {
     async activate() {
-      console.log("activate");
       await this.checkWebhookCreation();
     },
     async deactivate() {
@@ -122,10 +127,12 @@ export default {
   async run(event) {
     console.log("run");
     if (this._getWebhookId()) {
+      console.log("webhook trigger");
       await this.onWebhookTrigger(event);
     }
 
     else {
+      console.log("timer trigger");
       await this.onTimerTrigger();
     }
   },

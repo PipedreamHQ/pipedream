@@ -47,32 +47,17 @@ export default {
         testWebhook: 123,
       };
     },
-    getPrCache() {
-      return this.db.get("prCache") ?? [];
-    },
-    setPrCache(value) {
-      this.db.set("prCache", value);
-    },
     getWebhookEvents() {
       return [
         "pull_request",
       ];
     },
     checkEventType(type) {
-      const { eventTypes } = this;
-      if (eventTypes) {
-        return typeof eventTypes === "string"
-          ? eventTypes === type
-          : eventTypes.includes(type);
-      }
-
-      return true;
+      return !this.eventTypes || this.eventTypes.includes(type);
     },
     async onWebhookTrigger(event) {
-      console.log("webhook trigger");
       const { body } = event;
       const action = body?.action;
-      // Confirm this is a webhook event (discard timer triggers)
       if (action && this.checkEventType(action)) {
         const ts = Date.now();
         const id = `${action}_${ts}`;
@@ -86,7 +71,6 @@ export default {
       }
     },
     async onTimerTrigger() {
-      console.log("timer trigger");
       const {
         emitUpdates, repoFullname,
       } = this;
@@ -98,16 +82,16 @@ export default {
         sort,
       });
 
-      const cache = this.getPrCache();
+      const savedItems = this._getSavedItems();
       const tsProp = emitUpdates === false
         ? "created_at"
         : "updated_at";
       const getFullId = (item) => `${item.id}_${item[tsProp]}`;
       const idsToStore = items.map(getFullId);
 
-      if (cache.length) {
+      if (savedItems.length) {
         const firstCachedIndex = idsToStore.findIndex((id) =>
-          cache.includes(id));
+          savedItems.includes(id));
         const filteredItems =
           firstCachedIndex === -1
             ? items
@@ -125,7 +109,7 @@ export default {
         });
       }
 
-      this.setPrCache(idsToStore);
+      this._setSavedItems(idsToStore);
     },
   },
 };
