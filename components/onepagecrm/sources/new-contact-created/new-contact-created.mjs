@@ -1,84 +1,34 @@
-import onepagecrm from "../../onepagecrm.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "onepagecrm-new-contact-created",
   name: "New Contact Created",
-  description: "Emits an event each time a new contact is created in OnePageCRM. [See the documentation](https://developer.onepagecrm.com/api/)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event each time a new contact is created in OnePageCRM.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    onepagecrm,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  methods: {
+    ...common.methods,
+    getField() {
+      return "contact";
     },
-    newContactTriggerSorting: {
-      propDefinition: [
-        onepagecrm,
-        "newContactTriggerSorting",
-      ],
+    getFilterField() {
+      return "created_at";
     },
-  },
-  hooks: {
-    async deploy() {
-      const contacts = await this.onepagecrm.listContacts({
+    getFunction() {
+      return this.onepagecrm.listContacts;
+    },
+    getParams() {
+      return {
         sort_by: "created_at",
         order: "desc",
-        per_page: 50,
-      });
-
-      contacts.forEach((contact) => {
-        this.$emit(contact, {
-          id: contact.id,
-          summary: `New contact: ${contact.first_name} ${contact.last_name}`,
-          ts: new Date(contact.created_at).getTime(),
-        });
-      });
-
-      const mostRecentContact = contacts[0];
-      if (mostRecentContact) {
-        this.db.set("lastCreatedAt", new Date(mostRecentContact.created_at).getTime());
-      }
+      };
     },
-    async activate() {
-      // Create a webhook subscription here if needed
-    },
-    async deactivate() {
-      // Delete the webhook subscription here if needed
+    getSummary(item) {
+      return `A new contact with ID: ${item.id} was successfully created!`;
     },
   },
-  async run(event) {
-    const { body } = event;
-    if (!body) {
-      this.http.respond({
-        status: 404,
-        body: "No data received",
-      });
-      return;
-    }
-
-    const createdAt = new Date(body.created_at).getTime();
-    const lastCreatedAt = this.db.get("lastCreatedAt");
-
-    if (createdAt <= lastCreatedAt) {
-      console.log("Skipping duplicate or older contact");
-      return;
-    }
-
-    this.db.set("lastCreatedAt", createdAt);
-
-    this.$emit(body, {
-      id: body.id,
-      summary: `New contact: ${body.first_name} ${body.last_name}`,
-      ts: createdAt,
-    });
-
-    this.http.respond({
-      status: 200,
-      body: "Event processed",
-    });
-  },
+  sampleEmit,
 };
