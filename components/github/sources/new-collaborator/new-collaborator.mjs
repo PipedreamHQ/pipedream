@@ -5,7 +5,7 @@ const DOCS_LINK =
 
 export default {
   ...common,
-  key: "github-new-new-collaborator",
+  key: "github-new-collaborator",
   name: "New Collaborator",
   description: `Emit new events when a collaborator is added [See the documentation](${DOCS_LINK})`,
   version: "1.1.0",
