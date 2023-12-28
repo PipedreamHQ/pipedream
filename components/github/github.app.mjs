@@ -602,5 +602,14 @@ export default {
 
       return response.data;
     },
+    async getRepositoryLatestCollaborators({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/collaborators`, {
+        ...args,
+      });
+
+      return response.data;
+    },
   },
 };
