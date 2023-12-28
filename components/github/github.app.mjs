@@ -620,5 +620,16 @@ export default {
 
       return response.data;
     },
+    async getDiscussions({ repoFullname }) {
+      const [
+        repoOwner,
+        repoName,
+      ] = repoFullname.split("/");
+      const response = await this.graphql(queries.discussionsQuery, {
+        repoOwner,
+        repoName,
+      });
+      return response?.repository?.discussions.nodes ?? [];
+    },
   },
 };
