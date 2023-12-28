@@ -611,5 +611,14 @@ export default {
 
       return response.data;
     },
+    async getRepositoryLatestCommitComments({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/comments`, {
+        ...args,
+      });
+
+      return response.data;
+    },
   },
 };

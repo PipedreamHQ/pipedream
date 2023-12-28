@@ -7,7 +7,7 @@ export default {
   ...common,
   key: "github-new-branch",
   name: "New Branch",
-  description: `Emit new events when a branch is created [See the documentation](${DOCS_LINK})`,
+  description: `Emit new event when a branch is created [See the documentation](${DOCS_LINK})`,
   version: "1.1.0",
   type: "source",
   dedupe: "unique",

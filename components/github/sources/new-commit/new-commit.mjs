@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "github-new-commit",
   name: "New Commit (Instant)",
-  description: "Emit new events on new commits to a repo or branch",
+  description: "Emit new event on new commits to a repo or branch",
   version: "0.1.14",
   type: "source",
   dedupe: "unique",

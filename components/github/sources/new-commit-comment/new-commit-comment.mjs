@@ -1,13 +1,13 @@
 import common from "../common/common.mjs";
 
 const DOCS_LINK =
-  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#member";
+  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#commit_comment";
 
 export default {
   ...common,
-  key: "github-new-collaborator",
-  name: "New Collaborator",
-  description: `Emit new event when a collaborator is added [See the documentation](${DOCS_LINK})`,
+  key: "github-new-commit-comment",
+  name: "New Commit Comment",
+  description: `Emit new event when a commit comment is created [See the documentation](${DOCS_LINK})`,
   version: "1.1.0",
   type: "source",
   dedupe: "unique",
@@ -25,18 +25,18 @@ export default {
     },
     getWebhookEvents() {
       return [
-        "member",
+        "commit_comments",
       ];
     },
     async onWebhookTrigger(event) {
       const { body } = event;
-      if (body?.action === "added") {
-        const { member } = body;
-        const { id } = member;
+      if (body?.action === "created") {
+        const { comment } = body;
+        const { id } = comment;
         const ts = Date.now();
-        const summary = `New collaborator: "${member.login}"`;
+        const summary = `New comment (${id})`;
 
-        this.$emit(member, {
+        this.$emit(comment, {
           id,
           summary,
           ts,
@@ -45,7 +45,7 @@ export default {
     },
     async onTimerTrigger() {
       const { repoFullname } = this;
-      const items = await this.github.getRepositoryLatestCollaborators({
+      const items = await this.github.getRepositoryLatestCommitComments({
         repoFullname,
       });
 
@@ -58,7 +58,7 @@ export default {
           const { id } = item;
           if (shouldEmit) {
             const ts = Date.now();
-            const summary = `New collaborator: "${item.login}"`;
+            const summary = `New comment (${id})`;
 
             this.$emit(item, {
               id,
