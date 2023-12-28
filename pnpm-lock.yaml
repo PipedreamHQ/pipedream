@@ -186,6 +186,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash.pickby: 4.6.0
 
+  components/agiled:
+    specifiers: {}
+
   components/ahrefs:
     specifiers: {}
 
@@ -223,6 +226,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/airslate:
+    specifiers: {}
 
   components/airtable:
     specifiers:
@@ -937,6 +943,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       chargebee: 2.28.0
+
+  components/chargeblast:
+    specifiers: {}
 
   components/chartmogul:
     specifiers:
@@ -2242,6 +2251,9 @@ importers:
       '@pipedream/platform': 0.10.0
       form-data: 4.0.0
 
+  components/frontegg:
+    specifiers: {}
+
   components/ftrack:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2576,6 +2588,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/google_gemini:
+    specifiers: {}
+
   components/google_maps_platform:
     specifiers: {}
 
@@ -2696,6 +2711,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/gotowebinar:
+    specifiers: {}
+
+  components/govee:
     specifiers: {}
 
   components/grab_your_reviews:
@@ -6752,6 +6770,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/tomba:
+    specifiers: {}
+
+  components/toneden:
     specifiers: {}
 
   components/tookan:
