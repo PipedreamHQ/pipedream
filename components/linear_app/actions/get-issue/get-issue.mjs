@@ -4,7 +4,7 @@ export default {
   key: "linear_app-get-issue",
   name: "Get Issue",
   description: "Get an issue by ID (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     linearApp,
@@ -17,8 +17,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const issue = await this.linearApp.getIssue(this.issueId);
-    $.export("$summary", `Found issue with ID ${this.issueId}`);
+    const {
+      linearApp,
+      issueId,
+    } = this;
+
+    const issue = await linearApp.getIssue({
+      issueId,
+    });
+    $.export("$summary", `Found issue with ID ${issueId}`);
     return issue;
   },
 };
