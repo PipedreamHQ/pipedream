@@ -34,12 +34,13 @@ export default {
       const {
         CreatedDate: createdDate,
         [fieldName]: name,
+        Id: id,
       } = item;
       const entityType = startCase(objectType);
       const summary = `New ${entityType} created: ${name}`;
       const ts = Date.parse(createdDate);
       return {
-        id: ts,
+        id: `${id}-${ts}`,
         summary,
         ts,
       };
