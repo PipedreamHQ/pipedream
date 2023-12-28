@@ -29,15 +29,6 @@ export default {
   },
   methods: {
     ...common.methods,
-    isRelevant(item, startTimestamp, endTimestamp) {
-      if (!item) {
-        return false;
-      }
-      const startDate = Date.parse(startTimestamp);
-      const endDate = Date.parse(endTimestamp);
-      const createdDate = Date.parse(item.CreatedDate);
-      return startDate <= createdDate && endDate >= createdDate;
-    },
     generateMeta(item, fieldName) {
       const { objectType } = this;
       const {
@@ -59,7 +50,6 @@ export default {
         objectType,
         setLatestDateCovered,
         getObjectTypeColumns,
-        isRelevant,
         getNameField,
         generateMeta,
         $emit: emit,
@@ -90,7 +80,6 @@ export default {
 
       Array.from(events)
         .reverse()
-        .filter((event) => isRelevant(event, startTimestamp, endTimestamp))
         .forEach((item) => {
           const meta = generateMeta(item, fieldName);
           emit(item, meta);
