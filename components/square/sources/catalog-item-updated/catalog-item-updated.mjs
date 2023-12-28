@@ -7,7 +7,7 @@ export default {
   name: "Catalog Item Updated",
   description: "Emit new event every time a catalog item is updated. [See the docs](https://developer.squareup.com/reference/square/catalog-api/list-catalog)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   hooks: {
     ...base.hooks,
