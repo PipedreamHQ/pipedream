@@ -8,7 +8,7 @@ export default {
     Create new records of a given resource.
     See [docs](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)
   `),
-  version: "0.2.5",
+  version: "0.2.6",
   type: "action",
   props: {
     salesforce,
