@@ -1,76 +1,45 @@
-import { axios } from "@pipedream/platform";
-import googleGemini from "../../google_gemini.app.mjs";
+import app from "../../google_gemini.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "google_gemini-generate-content-from-text",
   name: "Generate Content from Text",
-  description: "Generates content from text input using the Google Gemini API. [See the documentation](https://ai.google.dev/tutorials/node_quickstart)",
-  version: "0.0.{{ts}}",
+  description: "Generates content from text input using the Google Gemini API. [See the documentation](https://ai.google.dev/tutorials/rest_quickstart#text-only_input)",
+  version: "0.0.1",
   type: "action",
   props: {
-    googleGemini,
-    promptText: {
+    app,
+    text: {
       propDefinition: [
-        googleGemini,
-        "promptText",
-      ],
-    },
-    imagePaths: {
-      propDefinition: [
-        googleGemini,
-        "imagePaths",
-        (c) => ({
-          mimeType: c.mimeType,
-        }),
-      ],
-    },
-    modelType: {
-      propDefinition: [
-        googleGemini,
-        "modelType",
-      ],
-    },
-    apiKey: {
-      propDefinition: [
-        googleGemini,
-        "apiKey",
-      ],
-    },
-    mimeType: {
-      propDefinition: [
-        googleGemini,
-        "mimeType",
-      ],
-    },
-    useStreaming: {
-      propDefinition: [
-        googleGemini,
-        "useStreaming",
+        app,
+        "text",
       ],
     },
   },
   async run({ $ }) {
     const {
-      promptText, imagePaths, mimeType, modelType, useStreaming,
+      app,
+      text,
     } = this;
-    let result;
 
-    // Set the apiKey for the Gemini app methods
-    this.googleGemini.apiKey = this.apiKey;
+    const response = await app.generateContent({
+      $,
+      modelType: constants.MODEL_TYPE.GEMINI_PRO,
+      data: {
+        contents: [
+          {
+            parts: [
+              {
+                text,
+              },
+            ],
+          },
+        ],
+      },
+    });
 
-    if (modelType === "gemini-pro-vision" && imagePaths.length > 0) {
-      // Use streaming if enabled and model is gemini-pro-vision
-      if (useStreaming) {
-        result = await this.googleGemini.generateContentStream(promptText, imagePaths, mimeType);
-      } else {
-        result = await this.googleGemini.generateContentFromTextAndImage(promptText, imagePaths, mimeType);
-      }
-    } else {
-      // Use the text-only model
-      result = await this.googleGemini.generateContentFromText(promptText);
-    }
+    $.export("$summary", "Successfully generated content from text input.");
 
-    $.export("$summary", "Content generated successfully");
-    return result;
+    return response;
   },
 };

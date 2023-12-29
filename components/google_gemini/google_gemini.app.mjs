@@ -1,41 +1,14 @@
 import { axios } from "@pipedream/platform";
-import fs from "fs";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "google_gemini",
-  version: "0.0.{{ts}}",
   propDefinitions: {
-    promptText: {
+    text: {
       type: "string",
       label: "Prompt Text",
       description: "The text to use as the prompt for content generation",
-    },
-    imagePaths: {
-      type: "string[]",
-      label: "Image File Paths",
-      description: "The local file paths of the images to use in the content generation",
-    },
-    modelType: {
-      type: "string",
-      label: "Model Type",
-      description: "The model type to use for content generation",
-      options: [
-        {
-          label: "Text-Only",
-          value: "gemini-pro",
-        },
-        {
-          label: "Text and Image",
-          value: "gemini-pro-vision",
-        },
-      ],
-    },
-    apiKey: {
-      type: "string",
-      label: "API Key",
-      description: "The API key for the Gemini API",
-      secret: true,
     },
     mimeType: {
       type: "string",
@@ -52,101 +25,48 @@ export default {
         },
       ],
     },
-    useStreaming: {
-      type: "boolean",
-      label: "Use Streaming",
-      description: "Whether to use streaming for faster interactions",
-      default: false,
+    imagePaths: {
+      type: "string[]",
+      label: "Image File Paths",
+      description: "The local file paths of the images to use in the content generation. The path to the image file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://ai.google.dev";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        data,
-        params,
-      } = opts;
-      return axios($, {
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.apiKey}`,
-        },
-        data,
-        params,
-      });
-    },
-    fileToGenerativePart(path, mimeType) {
+    getParams(params) {
       return {
-        inlineData: {
-          data: Buffer.from(fs.readFileSync(path)).toString("base64"),
-          mimeType,
-        },
+        ...params,
+        key: this.$auth.api_key,
       };
     },
-    async generateContentFromText(prompt) {
-      const model = this.modelType === "gemini-pro-vision"
-        ? "gemini-pro-vision"
-        : "gemini-pro";
-      const result = await this._makeRequest({
-        method: "POST",
-        path: "/tutorials/node_quickstart",
-        data: {
-          prompt,
-        },
+    makeRequest({
+      $ = this, path, params, ...args
+    } = {}) {
+      const config = {
+        url: this.getUrl(path),
+        params: this.getParams(params),
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      return result;
+        ...args,
+      };
+      return axios($, config);
     },
-    async generateContentFromTextAndImage(prompt, imagePaths, mimeType) {
-      const imageParts = imagePaths.map((path) => this.fileToGenerativePart(path, mimeType));
-      const result = await this._makeRequest({
+    post(args = {}) {
+      return this.makeRequest({
         method: "POST",
-        path: "/tutorials/node_quickstart",
-        data: {
-          prompt,
-          imageParts,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
+        ...args,
       });
-      return result;
     },
-    async generateContentStream(prompt, imagePaths, mimeType) {
-      if (!this.useStreaming) {
-        return this.generateContentFromTextAndImage(prompt, imagePaths, mimeType);
-      }
-      const imageParts = imagePaths.map((path) => this.fileToGenerativePart(path, mimeType));
-      const result = await this._makeRequest({
-        method: "POST",
-        path: "/tutorials/node_quickstart",
-        data: {
-          prompt,
-          imageParts,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
+    generateContent({
+      modelType, ...args
+    } = {}) {
+      return this.post({
+        path: `/${modelType}:generateContent`,
+        ...args,
       });
-
-      let text = "";
-      for await (const chunk of result.stream()) {
-        text += chunk.text();
-      }
-      return text;
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };

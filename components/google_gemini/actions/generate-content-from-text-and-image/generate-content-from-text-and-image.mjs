@@ -1,70 +1,83 @@
-import googleGemini from "../../google_gemini.app.mjs";
-import { axios } from "@pipedream/platform";
+import fs from "fs";
+import { ConfigurationError } from "@pipedream/platform";
+import app from "../../google_gemini.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "google_gemini-generate-content-from-text-and-image",
   name: "Generate Content from Text and Image",
-  description: "Generates content from both text and image input using the Gemini API. [See the documentation](https://ai.google.dev/tutorials/node_quickstart)",
-  version: "0.0.{{ts}}",
+  description: "Generates content from both text and image input using the Gemini API. [See the documentation](https://ai.google.dev/tutorials/rest_quickstart#text-and-image_input)",
+  version: "0.0.1",
   type: "action",
   props: {
-    googleGemini,
-    promptText: {
+    app,
+    text: {
       propDefinition: [
-        googleGemini,
-        "promptText",
-      ],
-    },
-    imagePaths: {
-      propDefinition: [
-        googleGemini,
-        "imagePaths",
-      ],
-    },
-    modelType: {
-      propDefinition: [
-        googleGemini,
-        "modelType",
-      ],
-    },
-    apiKey: {
-      propDefinition: [
-        googleGemini,
-        "apiKey",
+        app,
+        "text",
       ],
     },
     mimeType: {
       propDefinition: [
-        googleGemini,
+        app,
         "mimeType",
       ],
     },
-    useStreaming: {
+    imagePaths: {
       propDefinition: [
-        googleGemini,
-        "useStreaming",
+        app,
+        "imagePaths",
       ],
     },
   },
+  methods: {
+    fileToGenerativePart(path, mimeType) {
+      if (!path) {
+        return;
+      }
+      return {
+        inline_data: {
+          mime_type: mimeType,
+          data: Buffer.from(fs.readFileSync(path)).toString("base64"),
+        },
+      };
+    },
+  },
   async run({ $ }) {
-    const mimeType = this.mimeType;
-    const imagePaths = this.imagePaths;
-    const prompt = this.promptText;
-    const useStreaming = this.useStreaming;
+    const {
+      app,
+      text,
+      imagePaths,
+      mimeType,
+    } = this;
 
-    this.googleGemini.apiKey = this.apiKey;
-    this.googleGemini.modelType = this.modelType;
-    this.googleGemini.useStreaming = this.useStreaming;
-
-    let response;
-
-    if (useStreaming) {
-      response = await this.googleGemini.generateContentStream(prompt, imagePaths, mimeType);
-    } else {
-      response = await this.googleGemini.generateContentFromTextAndImage(prompt, imagePaths, mimeType);
+    if (!Array.isArray(imagePaths)) {
+      throw new ConfigurationError("Image paths must be an array.");
     }
 
-    $.export("$summary", "Generated content from text and image input using the Gemini API");
+    if (!imagePaths.length) {
+      throw new ConfigurationError("At least one image path must be provided.");
+    }
+
+    const response = await app.generateContent({
+      $,
+      modelType: constants.MODEL_TYPE.GEMINI_PRO_VISION,
+      data: {
+        contents: [
+          {
+            parts: [
+              {
+                text,
+              },
+              ...imagePaths.map((path) => this.fileToGenerativePart(path, mimeType)),
+            ],
+          },
+        ],
+      },
+    });
+
+    $.export("$summary", "Successfully generated content from text and image.");
+
     return response;
   },
 };
