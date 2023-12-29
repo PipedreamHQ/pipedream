@@ -1,10 +1,119 @@
 import { axios } from "@pipedream/platform";
+import { clearObj } from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "digitalriver",
-  version: "0.0.{{ts}}",
   propDefinitions: {
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description: "The unique identifier for the customer",
+      async options({ prevContext }) {
+        const { data } = await this.listCustomers({
+          params: {
+            startingAfer: prevContext.startingAfer,
+          },
+        });
+
+        const lastItem = data.slice(-1);
+
+        return {
+          options: data.map(({
+            id: value, email: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            startingAfer: lastItem.id,
+          },
+        };
+      },
+    },
+    fileId: {
+      type: "string",
+      label: "File Id",
+      description: "The identifier of the file.",
+      async options({ prevContext }) {
+        const { data } = await this.listFiles({
+          params: {
+            startingAfer: prevContext.startingAfer,
+          },
+        });
+
+        const lastItem = data.slice(-1);
+
+        return {
+          options: data.map(({
+            id: value, title, fileName,
+          }) => ({
+            label: title || fileName,
+            value,
+          })),
+          context: {
+            startingAfer: lastItem.id,
+          },
+        };
+      },
+    },
+    metadata: {
+      type: "object",
+      label: "Metadata",
+      description: "Key-value pairs used to store additional data. Value can be string, boolean or integer types.",
+    },
+    orderId: {
+      type: "string",
+      label: "Fulfillment Order ID",
+      description: "The unique identifier of the fulfillment order associated with the fulfillment cancellation.",
+      async options({ prevContext }) {
+        const { data } = await this.listOrders({
+          params: {
+            startingAfer: prevContext.startingAfer,
+          },
+        });
+
+        const lastItem = data.slice(-1);
+
+        return {
+          options: data.map(({
+            id: value, email,
+          }) => ({
+            label: `${email} - ${value}`,
+            value,
+          })),
+          context: {
+            startingAfer: lastItem.id,
+          },
+        };
+      },
+    },
+    skuGroupId: {
+      type: "string",
+      label: "Sku Group Id",
+      description: "The unique identifier of the Sku Group.",
+      async options({ prevContext }) {
+        const { data } = await this.listSkuGroups({
+          params: {
+            startingAfer: prevContext.startingAfer,
+          },
+        });
+
+        const lastItem = data.slice(-1);
+
+        return {
+          options: data.map(({
+            id: value, alias: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            startingAfer: lastItem.id,
+          },
+        };
+      },
+    },
     webhookAddress: {
       type: "string",
       label: "Webhook Address",
@@ -30,108 +139,106 @@ export default {
       label: "Product Data",
       description: "The data for the new product",
     },
-    contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The unique identifier for the customer contact",
-      async options({ prevContext }) {
-        const page = prevContext.page
-          ? prevContext.page
-          : 0;
-        const { customers } = await this.listCustomers({
-          params: {
-            page,
-          },
-        });
-        return {
-          options: customers.map((customer) => ({
-            label: customer.email,
-            value: customer.id,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
-      },
-    },
     customerData: {
       type: "object",
       label: "Customer Data",
       description: "The data to update customer information",
-    },
-    orderId: {
-      type: "string",
-      label: "Order ID",
-      description: "The unique identifier for the order",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.digitalriver.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, clearObj({
+        ...opts,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+      }));
+    },
+    getOrderDetails({
+      orderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/orders/${orderId}`,
+        ...opts,
       });
     },
-    async createWebhook({
-      address, types,
-    }) {
+    listCustomers(opts = {}) {
+      return this._makeRequest({
+        path: "/customers",
+        ...opts,
+      });
+    },
+    listFiles(opts = {}) {
+      return this._makeRequest({
+        path: "/files",
+        ...opts,
+      });
+    },
+    listOrders(opts = {}) {
+      return this._makeRequest({
+        path: "/orders",
+        ...opts,
+      });
+    },
+    listSkuGroups(opts = {}) {
+      return this._makeRequest({
+        path: "/sku-groups",
+        ...opts,
+      });
+    },
+
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/webhooks",
-        data: {
-          address,
-          types,
-        },
+        ...opts,
       });
     },
-    async updateWebhook({
-      webhookId, address, types,
+    deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
+      });
+    },
+
+    updateWebhook({
+      webhookId, ...opts
     }) {
       return this._makeRequest({
         method: "PATCH",
         path: `/webhooks/${webhookId}`,
-        data: {
-          address,
-          types,
-        },
+        ...opts,
       });
     },
-    async createProduct({ productData }) {
+    createProduct(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/products",
-        data: productData,
+        path: "/skus",
+        ...opts,
       });
     },
-    async updateCustomer({
-      contactId, customerData,
+    updateCustomer({
+      customerId, ...opts
     }) {
       return this._makeRequest({
-        method: "PATCH",
-        path: `/customers/${contactId}`,
-        data: customerData,
+        method: "POST",
+        path: `/customers/${customerId}`,
+        ...opts,
       });
     },
-    async cancelOrder({ orderId }) {
+    cancelOrder(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/orders/${orderId}/cancel`,
-      });
-    },
-    async listCustomers(opts = {}) {
-      return this._makeRequest({
-        path: "/customers",
+        path: "/fulfillments",
         ...opts,
       });
     },
