@@ -631,5 +631,14 @@ export default {
       });
       return response?.repository?.discussions.nodes ?? [];
     },
+    async getRepositoryForks({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/forks`, {
+        ...args,
+      });
+
+      return response.data;
+    },
   },
 };

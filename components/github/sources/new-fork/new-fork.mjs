@@ -1,13 +1,13 @@
 import common from "../common/common.mjs";
 
 const DOCS_LINK =
-  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#commit_comment";
+  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#fork";
 
 export default {
   ...common,
-  key: "github-new-commit-comment",
-  name: "New Commit Comment",
-  description: `Emit new event when a commit comment is created [See the documentation](${DOCS_LINK})`,
+  key: "github-new-fork",
+  name: "New Fork",
+  description: `Emit new event when a repository is forked [See the documentation](${DOCS_LINK})`,
   version: "1.1.0",
   type: "source",
   dedupe: "unique",
@@ -25,18 +25,18 @@ export default {
     },
     getWebhookEvents() {
       return [
-        "commit_comment",
+        "fork",
       ];
     },
     async onWebhookTrigger(event) {
       const { body } = event;
-      if (body?.action === "created") {
-        const { comment } = body;
-        const { id } = comment;
+      if (body?.forkee) {
+        const { forkee } = body;
+        const { id } = forkee;
         const ts = Date.now();
-        const summary = `New comment (${id})`;
+        const summary = `New fork: "${forkee.name}"`;
 
-        this.$emit(comment, {
+        this.$emit(forkee, {
           id,
           summary,
           ts,
@@ -45,7 +45,7 @@ export default {
     },
     async onTimerTrigger() {
       const { repoFullname } = this;
-      const items = await this.github.getRepositoryLatestCommitComments({
+      const items = await this.github.getRepositoryForks({
         repoFullname,
       });
 
@@ -58,7 +58,7 @@ export default {
           const { id } = item;
           if (shouldEmit) {
             const ts = Date.now();
-            const summary = `New comment (${id})`;
+            const summary = `New fork: "${item.name}"`;
 
             this.$emit(item, {
               id,
