@@ -16,7 +16,7 @@ export default {
     See [Attachment SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_attachment.htm)
     and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
   `),
-  version: "0.3.5",
+  version: "0.3.6",
   type: "action",
   props: {
     salesforce,
