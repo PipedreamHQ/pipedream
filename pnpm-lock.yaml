@@ -5671,7 +5671,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/scraptio:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/screendesk:
     specifiers:
