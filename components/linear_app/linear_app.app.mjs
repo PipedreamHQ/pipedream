@@ -2,6 +2,7 @@ import { LinearClient } from "@linear/sdk";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
 import { axios } from "@pipedream/platform";
+import queries from "./common/queries.mjs";
 
 export default {
   type: "app",
@@ -57,7 +58,9 @@ export default {
       label: "Project",
       description: "The identifier or key of the project associated with the issue",
       optional: true,
-      async options({ prevContext }) {
+      async options({
+        teamId, prevContext,
+      }) {
         return this.listResourcesOptions({
           prevContext,
           resourcesFn: this.listProjects,
@@ -67,6 +70,17 @@ export default {
             label: name,
             value: id,
           }),
+          resourcesArgs: teamId && {
+            filter: {
+              issues: {
+                team: {
+                  id: {
+                    eq: teamId,
+                  },
+                },
+              },
+            },
+          },
         });
       },
     },
@@ -172,12 +186,18 @@ export default {
         Authorization: `${this.$auth.api_key}`,
       };
     },
-    async makeAxiosRequest({
+    makeAxiosRequest({
       $ = this, ...args
     }) {
       return axios($, {
         url: "https://api.linear.app/graphql",
         headers: this.getAxiosHeaders(),
+        ...args,
+      });
+    },
+    post(args = {}) {
+      return this.makeAxiosRequest({
+        method: "POST",
         ...args,
       });
     },
@@ -205,18 +225,19 @@ export default {
       return this.client().updateIssue(issueId, input);
     },
     async listIssues(variables) {
-      return this.client().issues(variables);
-    },
-    async getIssue(id) {
-      const { data: { issue } } = await this.makeAxiosRequest({
-        method: "POST",
+      const { data: { issues } } = await this.post({
         data: {
-          query: `
-          { 
-            issue(id: "${id}") { 
-              ${constants.ISSUE_NODES}
-            } 
-          }`,
+          query: queries.listIssues,
+          variables,
+        },
+      });
+      return issues;
+    },
+    async getIssue(variables) {
+      const { data: { issue } } = await this.post({
+        data: {
+          query: queries.getIssue,
+          variables,
         },
       });
       return issue;
@@ -236,11 +257,11 @@ export default {
     async listTeams(variables = {}) {
       return this.client().teams(variables);
     },
-    async listProjects() {
-      const { data: { projects } } = await this.makeAxiosRequest({
-        method: "POST",
+    async listProjects(variables) {
+      const { data: { projects } } = await this.post({
         data: {
-          query: "{ projects { nodes { id name } } }",
+          query: queries.listProjects,
+          variables,
         },
       });
       return projects;
@@ -257,16 +278,11 @@ export default {
     async listComments(variables = {}) {
       return this.client().comments(variables);
     },
-    async getComment(id) {
-      const { data: { comment } } = await this.makeAxiosRequest({
-        method: "POST",
+    async getComment(variables) {
+      const { data: { comment } } = await this.post({
         data: {
-          query: `
-          { 
-            comment(id: "${id}") { 
-              ${constants.COMMENT_NODES}
-            } 
-          }`,
+          query: queries.getComment,
+          variables,
         },
       });
       return comment;

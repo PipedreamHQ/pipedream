@@ -211,9 +211,10 @@ First open a new file at a specific path in the File Store, and then call the `t
 export default defineComponent({
   async run({ steps, $ }) {
     // Download a file from the File Store to the local /tmp/ directory
-    const file = await $.files.open('recording.mp3').toFile('/tmp/recording.mp3')
+    const file = await $.files.open('recording.mp3').toFile('/tmp/README.md')
 
-    console.log(file.url)
+    // read the file version of the file stored in /tmp
+    return (await fs.promises.readFile('/tmp/README.md')).toString()
   },
 })
 ```
