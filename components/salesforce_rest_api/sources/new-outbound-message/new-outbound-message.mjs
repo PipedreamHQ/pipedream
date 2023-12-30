@@ -6,7 +6,7 @@ export default {
   name: "New Outbound Message (Instant)",
   key: "salesforce_rest_api-new-outbound-message",
   description: "Emit new event when a new outbound message is received in Salesforce. See Salesforce's guide on setting up [Outbound Messaging](https://sforce.co/3JbZJom). Set the Outbound Message's Endpoint URL to the endpoint of the created source. The \"Send Session ID\" option must be enabled for validating outbound messages from Salesforce.",
-  version: "0.1.4",
+  version: "0.1.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",

@@ -7,7 +7,7 @@ export default {
   name: "New Created Comment (Instant)",
   description: "Emit new event when a new comment is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.1.4",
+  version: "0.1.5",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -26,7 +26,9 @@ export default {
       return false;
     },
     async isFromProject(body) {
-      const comment = await this.linearApp.getComment(body.data.id);
+      const comment = await this.linearApp.getComment({
+        commentId: body.data.id,
+      });
       return !this.projectId || comment?.issue?.project?.id == this.projectId;
     },
     getResourcesFnArgs() {

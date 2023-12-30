@@ -8,7 +8,7 @@ export default {
   name: "New Updated Object (Instant, of Selectable Type)",
   key: "salesforce_rest_api-object-updated-instant",
   description: "Emit new event immediately after an object of arbitrary type (selected as an input parameter by the user) is updated",
-  version: "0.1.4",
+  version: "0.1.5",
   methods: {
     ...common.methods,
     generateMeta(data) {
