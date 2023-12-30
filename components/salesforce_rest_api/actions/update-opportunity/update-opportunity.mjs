@@ -16,7 +16,7 @@ export default {
     See [Opportunity SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_opportunity.htm)
     and [Update Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_update_fields.htm)
   `),
-  version: "0.2.5",
+  version: "0.2.6",
   type: "action",
   props: {
     salesforce,
