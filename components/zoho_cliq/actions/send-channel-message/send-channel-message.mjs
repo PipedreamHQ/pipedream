@@ -28,7 +28,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.sendChannelMessage({
       $,
-      channelName: this.channelName,
+      channelName: this.channel,
       data: {
         text: this.text,
         sync_message: true,
