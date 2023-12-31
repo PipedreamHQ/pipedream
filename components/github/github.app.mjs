@@ -620,6 +620,25 @@ export default {
 
       return response.data;
     },
+    async getRepositoryLatestIssues({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/issues`, {
+        state: "all",
+        ...args,
+      });
+
+      return response.data;
+    },
+    async getRepositoryLatestLabels({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/labels`, {
+        ...args,
+      });
+
+      return response.data;
+    },
     async getDiscussions({ repoFullname }) {
       const [
         repoOwner,

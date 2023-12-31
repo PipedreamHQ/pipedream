@@ -5,9 +5,9 @@ const DOCS_LINK =
 
 export default {
   ...common,
-  key: "github-new-issue",
-  name: "New Issue",
-  description: `Emit new event when a new issue is opened [See the documentation](${DOCS_LINK})`,
+  key: "github-new-label",
+  name: "New Label",
+  description: `Emit new event when a new label is created [See the documentation](${DOCS_LINK})`,
   version: "1.1.0",
   type: "source",
   dedupe: "unique",
@@ -30,13 +30,13 @@ export default {
     },
     async onWebhookTrigger(event) {
       const { body } = event;
-      if (body?.action === "opened") {
-        const { issue } = body;
-        const { id } = issue;
+      if (body?.action === "created") {
+        const { label } = body;
+        const { id } = label;
         const ts = Date.now();
-        const summary = `New issue: "${issue.title}"`;
+        const summary = `New label: "${label.name}"`;
 
-        this.$emit(issue, {
+        this.$emit(label, {
           id,
           summary,
           ts,
@@ -45,7 +45,7 @@ export default {
     },
     async onTimerTrigger() {
       const { repoFullname } = this;
-      const items = await this.github.getRepositoryLatestIssues({
+      const items = await this.github.getRepositoryLatestLabels({
         repoFullname,
       });
 
@@ -58,7 +58,7 @@ export default {
           const { id } = item;
           if (shouldEmit) {
             const ts = Date.now();
-            const summary = `New issue: "${item.title}"`;
+            const summary = `New label: "${item.name}"`;
 
             this.$emit(item, {
               id,
