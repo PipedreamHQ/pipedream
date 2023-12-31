@@ -53,7 +53,7 @@ export default {
       const shouldEmit = savedItems.length > 0;
 
       items
-        .filter(({ name }) => !savedItems.includes(name))
+        .filter(({ id }) => !savedItems.includes(id))
         .forEach((item) => {
           const { id } = item;
           if (shouldEmit) {

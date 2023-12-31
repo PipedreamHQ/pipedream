@@ -659,5 +659,16 @@ export default {
 
       return response.data;
     },
+    async getRepositoryMilestones({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/milestones`, {
+        ...args,
+        per_page: 100,
+        state: "open",
+      });
+
+      return response.data;
+    },
   },
 };

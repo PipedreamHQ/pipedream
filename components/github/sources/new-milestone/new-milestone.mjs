@@ -5,9 +5,9 @@ const DOCS_LINK =
 
 export default {
   ...common,
-  key: "github-new-label",
-  name: "New Label",
-  description: `Emit new event when a new label is created [See the documentation](${DOCS_LINK})`,
+  key: "github-new-milestone",
+  name: "New Milestone",
+  description: `Emit new event when a new milestone is created [See the documentation](${DOCS_LINK})`,
   version: "1.1.0",
   type: "source",
   dedupe: "unique",
@@ -31,12 +31,12 @@ export default {
     async onWebhookTrigger(event) {
       const { body } = event;
       if (body?.action === "created") {
-        const { label } = body;
-        const { id } = label;
+        const { milestone } = body;
+        const { id } = milestone;
         const ts = Date.now();
-        const summary = `New label: "${label.name}"`;
+        const summary = `New milestone: "${milestone.title}"`;
 
-        this.$emit(label, {
+        this.$emit(milestone, {
           id,
           summary,
           ts,
@@ -45,7 +45,7 @@ export default {
     },
     async onTimerTrigger() {
       const { repoFullname } = this;
-      const items = await this.github.getRepositoryLatestLabels({
+      const items = await this.github.getRepositoryMilestones({
         repoFullname,
       });
 
@@ -58,7 +58,7 @@ export default {
           const { id } = item;
           if (shouldEmit) {
             const ts = Date.now();
-            const summary = `New label: "${item.name}"`;
+            const summary = `New milestone: "${item.title}"`;
 
             this.$emit(item, {
               id,
