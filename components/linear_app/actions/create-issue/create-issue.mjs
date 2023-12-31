@@ -5,13 +5,22 @@ export default {
   key: "linear_app-create-issue",
   name: "Create Issue",
   description: "Create an issue (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
-  version: "0.4.4",
+  version: "0.4.5",
   props: {
     linearApp,
     teamId: {
       propDefinition: [
         linearApp,
         "teamId",
+      ],
+    },
+    projectId: {
+      propDefinition: [
+        linearApp,
+        "projectId",
+        ({ teamId }) => ({
+          teamId,
+        }),
       ],
     },
     title: {
@@ -44,6 +53,8 @@ export default {
   },
   async run({ $ }) {
     const {
+      linearApp,
+      projectId,
       title,
       description,
       teamId,
@@ -52,8 +63,9 @@ export default {
     } = this;
 
     const response =
-      await this.linearApp.createIssue({
+      await linearApp.createIssue({
         teamId,
+        projectId,
         title,
         description,
         assigneeId,
