@@ -98,19 +98,21 @@ export default {
     _baseUrl() {
       return "https://api.deepgram.com/v1";
     },
-    _headers() {
+    _headers(headers) {
       return {
+        ...headers,
         "Authorization": `Token ${this.$auth.api_key}`,
       };
     },
     async _makeRequest({
       $ = this,
       path,
+      headers,
       ...args
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: this._headers(headers),
         ...args,
       });
     },

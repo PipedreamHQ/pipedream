@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sonarcloud",
+  "version": "0.0.1",
+  "description": "Pipedream SonarCloud Components",
+  "main": "sonarcloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sonarcloud"
+  ],
+  "homepage": "https://pipedream.com/apps/sonarcloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

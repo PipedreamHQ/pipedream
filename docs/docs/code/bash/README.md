@@ -68,7 +68,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger via a P
 In our Bash script, we can access this data via the `$PIPEDREAM_STEPS` file. Specifically, this data from the POST request into our workflow is available in the `trigger` object.
 
 ```bash
-echo $PIPEDREAM_STEPS | jq .trigger.event
+cat $PIPEDREAM_STEPS | jq .trigger.event
 
 # Results in { id: 1, name: "Bulbasaur", type: "plant" }
 ```

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/algomo",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Algomo Components",
   "main": "algomo.app.mjs",
   "keywords": [

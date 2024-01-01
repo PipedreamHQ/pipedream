@@ -1,13 +1,13 @@
-import common from "../common.js";
-import pickBy from "lodash/pickBy.js";
-import pick from "lodash/pick.js";
+import common from "../common.mjs";
+import pickBy from "lodash.pickby";
+import pick from "lodash.pick";
 
 export default {
   ...common,
   key: "trello-update-card",
   name: "Update Card",
   description: "Updates a card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     ...common.props,

@@ -1,6 +1,4 @@
 import { axios } from "@pipedream/platform";
-import salesforceWebhooks from "salesforce-webhooks";
-const { SalesforceClient } = salesforceWebhooks;
 
 export default {
   type: "app",
@@ -23,31 +21,36 @@ export default {
       type: "string",
       label: "SObject Type",
       description: "Standard object type of the record to get field values from",
-      async options() {
+      async options({
+        page,
+        filter = this.isValidSObject,
+        mapper =  ({
+          label, name: value,
+        }) => ({
+          label,
+          value,
+        }),
+      }) {
+        if (page !== 0) {
+          return [];
+        }
         const { sobjects } = await this.listSObjectTypes();
-        return sobjects
-          .filter(this.isValidSObject)
-          .map((sobject) => ({
-            label: sobject.label,
-            value: sobject.name,
-          }));
+        return sobjects.filter(filter).map(mapper);
       },
     },
     field: {
       type: "string",
       label: "Field",
       description: "The object field to watch for changes",
-      async options(context) {
-        const {
-          page,
-          objectType,
-        } = context;
+      async options({
+        page, objectType, filter = () => true,
+      }) {
         if (page !== 0) {
           return [];
         }
 
         const fields = await this.getFieldsForObjectType(objectType);
-        return fields.map((field) => field.name);
+        return fields.filter(filter).map(({ name }) => name);
       },
     },
     fieldUpdatedTo: {
@@ -177,20 +180,6 @@ export default {
       // Remove milliseconds from date ISO string
       return dateString.replace(/\.[0-9]{3}/, "");
     },
-    _getSalesforceClient() {
-      const clientOpts = {
-        apiVersion: this._apiVersion(),
-        authToken: this._authToken(),
-        instance: this._subdomain(),
-      };
-      return new SalesforceClient(clientOpts);
-    },
-    async additionalProps(selector, sobject) {
-      return selector.reduce((props, prop) => ({
-        ...props,
-        [prop]: sobject[prop],
-      }), {});
-    },
     isValidSObject(sobject) {
       // Only the activity of those SObject types that have the `replicateable`
       // flag set is published via the `getUpdated` API.
@@ -203,21 +192,6 @@ export default {
         sobject.associateEntityType === "History" &&
         sobject.name.includes("History")
       );
-    },
-    async createWebhook(endpointUrl, sObjectType, event, secretToken, opts) {
-      const client = this._getSalesforceClient();
-      const webhookOpts = {
-        endpointUrl,
-        sObjectType,
-        event,
-        secretToken,
-        ...opts,
-      };
-      return client.createWebhook(webhookOpts);
-    },
-    async deleteWebhook(webhookData) {
-      const client = this._getSalesforceClient();
-      return client.deleteWebhook(webhookData);
     },
     async listSObjectTypes() {
       const url = this._sObjectsApiUrl();
@@ -234,6 +208,7 @@ export default {
     async getNameFieldForObjectType(objectType) {
       const url = this._sObjectTypeDescriptionApiUrl(objectType);
       const data = await this._makeRequest({
+        debug: true,
         url,
       });
       const nameField = data.fields.find((f) => f.nameField);

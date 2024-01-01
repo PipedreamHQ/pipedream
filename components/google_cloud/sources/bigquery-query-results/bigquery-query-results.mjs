@@ -8,7 +8,7 @@ export default {
   // eslint-disable-next-line pipedream/source-name
   name: "BigQuery - Query Results",
   description: "Emit new events with the results of an arbitrary query",
-  version: "0.1.4",
+  version: "0.1.5",
   dedupe: "unique",
   type: "source",
   props: {

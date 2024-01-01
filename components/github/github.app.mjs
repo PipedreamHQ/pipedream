@@ -1,8 +1,9 @@
 import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
 import queries from "./common/queries.mjs";
-import { axios } from "@pipedream/platform";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -198,6 +199,23 @@ export default {
         return columns.map((column) => ({
           label: column.name,
           value: column.id,
+        }));
+      },
+    },
+    gistId: {
+      label: "Gist Id",
+      description: "The Gist Id to perform your action",
+      type: "string",
+      async options({ page }) {
+        const PER_PAGE = 100;
+        const gists = await this.getGists({
+          per_page: PER_PAGE,
+          page: page + 1,
+        });
+
+        return gists.map((gist) => ({
+          label: gist.description ?? gist.id,
+          value: gist.id,
         }));
       },
     },
@@ -534,6 +552,55 @@ export default {
         method: "put",
         data: data,
       });
+    },
+    async createGist(data) {
+      return this._makeRequest({
+        path: "/gists",
+        method: "post",
+        data,
+      });
+    },
+    async listGistsFromUser(username, params = {}) {
+      return this._makeRequest({
+        path: `/users/${username}/gists`,
+        params,
+      });
+    },
+    async updateGist(gistId, data) {
+      return this._makeRequest({
+        path: `/gists/${gistId}`,
+        method: "patch",
+        data,
+      });
+    },
+    async listReleases({
+      repoFullname,
+      perPage,
+      page,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/releases`, {
+        per_page: perPage,
+        page: page,
+      });
+
+      return response.data;
+    },
+    async getUserRepoPermissions({
+      repoFullname, username,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/collaborators/${username}/permission`, {});
+
+      return response.data;
+    },
+    async getRepositoryLatestPullRequests({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/pulls`, {
+        direction: "desc",
+        ...args,
+      });
+
+      return response.data;
     },
   },
 };

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chargeblast",
+  "version": "0.0.1",
+  "description": "Pipedream Chargeblast Components",
+  "main": "chargeblast.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chargeblast"
+  ],
+  "homepage": "https://pipedream.com/apps/chargeblast",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

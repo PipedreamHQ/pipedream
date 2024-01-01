@@ -5,13 +5,17 @@ export default {
   key: "google_calendar-new-event",
   name: "New Event Created",
   description: "Emit new event when a Google Calendar event is created",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "source",
   dedupe: "unique",
   props: {
-    ...common.props({
-      useCalendarId: true,
-    }),
+    ...common.props,
+    calendarId: {
+      propDefinition: [
+        common.props.googleCalendar,
+        "calendarId",
+      ],
+    },
   },
   methods: {
     ...common.methods,

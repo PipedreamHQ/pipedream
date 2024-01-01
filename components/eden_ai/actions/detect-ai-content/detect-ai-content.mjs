@@ -10,7 +10,7 @@ export default {
   name: "Detect AI Content",
   description:
     "Detects AI content in the provided text. [See the documentation](https://docs.edenai.co/reference/text_ai_detection_create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,

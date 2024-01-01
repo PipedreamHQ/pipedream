@@ -1,6 +1,6 @@
 import startCase from "lodash/startCase.js";
-
 import common from "../common.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -8,54 +8,84 @@ export default {
   name: "New Updated Object (of Selectable Type)",
   key: "salesforce_rest_api-object-updated",
   description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is updated. [See the docs](https://sforce.co/3yPSJZy) for more information.",
-  version: "0.1.5",
+  version: "0.1.9",
+  hooks: {
+    ...common.hooks,
+    async activate() {
+      const {
+        objectType,
+        getObjectTypeDescription,
+        setObjectTypeColumns,
+      } = this;
+
+      await common.hooks.activate.call(this);
+
+      const { fields } = await getObjectTypeDescription(objectType);
+      const columns = fields.map(({ name }) => name);
+
+      setObjectTypeColumns(columns);
+    },
+  },
   methods: {
     ...common.methods,
-    generateMeta(item) {
-      const nameField = this.getNameField();
+    generateMeta(item, fieldName) {
+      const { objectType } = this;
+
       const {
         LastModifiedDate: lastModifiedDate,
+        [fieldName]: name,
         Id: id,
-        [nameField]: name,
       } = item;
-      const entityType = startCase(this.objectType);
+
+      const entityType = startCase(objectType);
       const summary = `${entityType} updated: ${name}`;
       const ts = Date.parse(lastModifiedDate);
-      const compositeId = `${id}-${ts}`;
       return {
-        id: compositeId,
+        id: `${id}-${ts}`,
         summary,
         ts,
       };
     },
     async processEvent(eventData) {
       const {
+        getNameField,
+        getObjectTypeColumns,
+        paginate,
+        objectType,
+        setLatestDateCovered,
+        generateMeta,
+        $emit: emit,
+      } = this;
+
+      const {
         startTimestamp,
         endTimestamp,
       } = eventData;
-      const {
-        ids,
-        latestDateCovered,
-      } = await this.salesforce.getUpdatedForObjectType(
-        this.objectType,
+
+      const fieldName = getNameField();
+      const columns = getObjectTypeColumns();
+
+      const events = await paginate({
+        objectType,
         startTimestamp,
         endTimestamp,
-      );
-      this.setLatestDateCovered(latestDateCovered);
+        columns,
+        dateFieldName: constants.FIELD_NAME.LAST_MODIFIED_DATE,
+      });
 
-      // By the time we try to retrieve an item, it might've been deleted. This
-      // will cause `getSObject` to throw a 404 exception, which will reject its
-      // promise. Hence, we need to filter those items that are still in Salesforce
-      // and exclude those that are not.
-      const itemRetrievals = await Promise.allSettled(
-        ids.map((id) => this.salesforce.getSObject(this.objectType, id)),
-      );
-      itemRetrievals
-        .filter((result) => result.status === "fulfilled")
-        .map((result) => result.value)
+      const [
+        latestEvent,
+      ] = events;
+
+      if (latestEvent?.LastModifiedDate) {
+        setLatestDateCovered((new Date(latestEvent.LastModifiedDate)).toISOString());
+      }
+
+      Array.from(events)
+        .reverse()
         .forEach((item) => {
-          const meta = this.generateMeta(item);
-          this.$emit(item, meta);
+          const meta = generateMeta(item, fieldName);
+          emit(item, meta);
         });
     },
   },
