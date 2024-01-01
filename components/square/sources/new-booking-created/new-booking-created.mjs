@@ -7,7 +7,7 @@ export default {
   name: "New Booking Created",
   description: "Emit new event for every new booking created. [See the docs](https://developer.squareup.com/reference/square/bookings-api/list-bookings)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   hooks: {
     ...base.hooks,

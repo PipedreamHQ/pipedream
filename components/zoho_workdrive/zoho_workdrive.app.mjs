@@ -1,5 +1,4 @@
 import axios from "axios";
-import qs from "qs";
 import { LIMIT } from "./common/constants.mjs";
 
 export default {
@@ -114,7 +113,7 @@ export default {
       const reponseArray = [];
       const { data: rootFolders } = await this._makeRequest({
         path: `privatespace/${privateSpaceId}/folders`,
-        params: qs.stringify(params),
+        params: new URLSearchParams(params).toString(),
         ...args,
       });
 
@@ -162,7 +161,7 @@ export default {
 
         const { data: subFolders } = await this.listFiles({
           folderId,
-          params: qs.stringify(params),
+          params: new URLSearchParams(params).toString(),
         });
 
         for (const {
@@ -196,7 +195,7 @@ export default {
         page++;
 
         const { data } = await fn({
-          params: qs.stringify(params),
+          params: new URLSearchParams(params).toString(),
           ...args,
         });
 

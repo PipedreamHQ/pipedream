@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/documint",
+  "version": "0.1.0",
+  "description": "Pipedream Documint Components",
+  "main": "documint.app.mjs",
+  "keywords": [
+    "pipedream",
+    "documint"
+  ],
+  "homepage": "https://pipedream.com/apps/documint",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

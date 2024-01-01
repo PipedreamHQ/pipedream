@@ -1,11 +1,11 @@
-import app from "../../you_need_a_budget.app.mjs";
 import constants from "../../common/constants.mjs";
+import app from "../../you_need_a_budget.app.mjs";
 
 export default {
   key: "you_need_a_budget-update-transaction",
   name: "Update Transaction",
   description: "Update an existing transaction. [See the docs](https://api.youneedabudget.com/v1#/Transactions/updateTransaction)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

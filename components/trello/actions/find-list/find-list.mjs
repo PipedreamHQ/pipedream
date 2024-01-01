@@ -1,11 +1,11 @@
-import common from "../common.js";
+import common from "../common.mjs";
 
 export default {
   ...common,
   key: "trello-find-list",
   name: "Find a List",
   description: "Finds a list on a specific board by name. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-lists-get)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     ...common.props,

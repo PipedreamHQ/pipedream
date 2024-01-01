@@ -83,7 +83,8 @@ export default {
       value: "package",
     },
     {
-      label: "Activity on attempted build of a GitHub Pages site, whether successful or not",
+      label:
+        "Activity on attempted build of a GitHub Pages site, whether successful or not",
       value: "page_build",
     },
     {
@@ -111,11 +112,13 @@ export default {
       value: "pull_request_review",
     },
     {
-      label: "Activity related to pull request review comments in the pull request's unified diff",
+      label:
+        "Activity related to pull request review comments in the pull request's unified diff",
       value: "pull_request_review_comment",
     },
     {
-      label: "Activity related to a comment thread on a pull request being marked as resolved or unresolved",
+      label:
+        "Activity related to a comment thread on a pull request being marked as resolved or unresolved",
       value: "pull_request_review_thread",
     },
     {
@@ -135,7 +138,8 @@ export default {
       value: "repository_import",
     },
     {
-      label: "Activity related to security vulnerability alerts in a repository",
+      label:
+        "Activity related to security vulnerability alerts in a repository",
       value: "repository_vulnerability_alert",
     },
     {
@@ -155,12 +159,99 @@ export default {
       value: "watch",
     },
     {
-      label: "A GitHub Actions workflow job has been queued, is in progress, or has been completed on a repository",
+      label:
+        "A GitHub Actions workflow job has been queued, is in progress, or has been completed on a repository",
       value: "workflow_job",
     },
     {
       label: "When a GitHub Actions workflow run is requested or completed",
       value: "workflow_run",
+    },
+  ],
+  EVENT_TYPES_PULL_REQUEST: [
+    {
+      label: "A pull request was created.",
+      value: "opened",
+    },
+    {
+      label: "A pull request was closed.",
+      value: "closed",
+    },
+    {
+      label: "A previously closed pull request was reopened.",
+      value: "reopened",
+    },
+    {
+      label: "A draft pull request was marked as ready for review.",
+      value: "ready_for_review",
+    },
+    {
+      label: "A pull request was assigned to a user.",
+      value: "assigned",
+    },
+    {
+      label: "Auto merge was disabled for a pull request.",
+      value: "auto_merge_disabled",
+    },
+    {
+      label: "Auto merge was enabled for a pull request.",
+      value: "auto_merge_enabled",
+    },
+    {
+      label: "A pull request was converted to a draft.",
+      value: "converted_to_draft",
+    },
+    {
+      label: "A pull request was removed from a milestone.",
+      value: "demilestoned",
+    },
+    {
+      label: "A pull request was removed from the merge queue.",
+      value: "dequeued",
+    },
+    {
+      label: "The title or body of a pull request was edited.",
+      value: "edited",
+    },
+    {
+      label: "A pull request was added to the merge queue.",
+      value: "enqueued",
+    },
+    {
+      label: "A label was added to a pull request.",
+      value: "labeled",
+    },
+    {
+      label: "Conversation on a pull request was locked.",
+      value: "locked",
+    },
+    {
+      label: "A pull request was added to a milestone.",
+      value: "milestoned",
+    },
+    {
+      label: "A request for review by a person or team was removed from a pull request.",
+      value: "review_request_removed",
+    },
+    {
+      label: "Review by a person or team was requested for a pull request.",
+      value: "review_requested",
+    },
+    {
+      label: "A pull request's head branch was updated. For example, the head branch was updated from the base branch or new commits were pushed to the head branch.",
+      value: "synchronize",
+    },
+    {
+      label: "A user was unassigned from a pull request.",
+      value: "unassigned",
+    },
+    {
+      label: "A label was removed from a pull request.",
+      value: "unlabeled",
+    },
+    {
+      label: "Conversation on a pull request was unlocked.",
+      value: "unlocked",
     },
   ],
 };

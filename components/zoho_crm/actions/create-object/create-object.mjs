@@ -1,132 +1,18 @@
-import zohoCrm from "../../zoho_crm.app.mjs";
+import common from "../common/common-objects.mjs";
 
 export default {
+  ...common,
   key: "zoho_crm-create-object",
   name: "Create Object",
   description: "Create a new object/module entry. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v2/insert-records.html)",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "action",
-  props: {
-    zohoCrm,
-    module: {
-      propDefinition: [
-        zohoCrm,
-        "module",
-      ],
-      reloadProps: true,
-    },
-  },
   async additionalProps() {
-    let props = {};
-    if (this.module === "Leads" || this.module === "Contacts") {
-      props = {
-        firstName: {
-          type: "string",
-          label: "First Name",
-          description: `First Name of new ${(this.module === "Leads")
-            ? "lead"
-            : "contact"}`,
-          optional: true,
-        },
-        lastName: {
-          type: "string",
-          label: "Last Name",
-          description: `Last Name of new ${(this.module === "Leads")
-            ? "lead"
-            : "contact"}`,
-        },
-        email: {
-          type: "string",
-          label: "Email Address",
-          description: `Email Address of new ${(this.module === "Leads")
-            ? "lead"
-            : "contact"}`,
-          optional: true,
-        },
-      };
-    }
-    if (this.module === "Accounts") {
-      props = {
-        accountName: {
-          type: "string",
-          label: "Account Name",
-          description: "Name of new account",
-        },
-      };
-    }
-    if (this.module === "Deals") {
-      props = {
-        dealName: {
-          type: "string",
-          label: "Deal Name",
-          description: "Name of the new Deal",
-        },
-        stage: {
-          type: "string",
-          label: "Stage",
-          description: "The stage of the new Deal",
-          options: [
-            "Qualification",
-            "Needs Analysis",
-            "Value Proposition",
-            "Identify Decision Makers",
-            "Proposal/Price Quote",
-            "Negotiation/Review",
-            "Closed Won",
-            "Closed Lost",
-            "Closed-Lost to Competition",
-          ],
-        },
-      };
-    }
-    if (this.module === "Tasks") {
-      props = {
-        subject: {
-          type: "string",
-          label: "Subject",
-          description: "Subject of new task",
-        },
-      };
-    }
-    if (this.module === "Calls") {
-      props = {
-        subject: {
-          type: "string",
-          label: "Subject",
-          description: "Subject of new call",
-        },
-        callType: {
-          type: "string",
-          label: "Call Type",
-          description: "Whether the call is inbound or outbound",
-          options: [
-            "inbound",
-            "outbound",
-          ],
-        },
-        callStartTime: {
-          type: "string",
-          label: "Call Start Time",
-          description: "The date and time (in ISO8601 format) at which the call starts",
-        },
-        callDuration: {
-          type: "string",
-          label: "Call Duration",
-          description: "The duration of the call in mm:ss format",
-        },
-      };
-    }
-    if (this.module === "Campaigns") {
-      props = {
-        campaignName: {
-          type: "string",
-          label: "Campaign Name",
-          description: "Name of the new campaign",
-        },
-      };
-    }
-    props = {
-      ...props,
+    const requiredProps = this.getRequiredProps(this.moduleType);
+    const optionalProps = await this.getOptionalProps(this.moduleType);
+    return {
+      ...requiredProps,
+      ...optionalProps,
       additionalData: {
         type: "object",
         label: "Additional Data",
@@ -134,30 +20,46 @@ export default {
         optional: true,
       },
     };
-    return props;
   },
   async run({ $ }) {
-    const object = this.zohoCrm.omitEmptyStringValues({
-      First_Name: this.firstName,
-      Last_Name: this.lastName,
-      Email: this.email,
-      Account_Name: this.accountName,
-      Deal_Name: this.dealName,
-      Stage: this.stage,
-      Subject: this.subject,
-      Call_Type: this.callType,
-      Call_Start_Time: this.callStartTime,
-      Call_Duration: this.callDuration,
-      Campaign_Name: this.campaignName,
-      ...this.additionalData,
+    const {
+      zohoCrm,
+      moduleType,
+      lastName,
+      accountName,
+      dealName,
+      stage,
+      subject,
+      callType,
+      callStartTime,
+      callDuration,
+      campaignName,
+      additionalData,
+      ...otherProps
+    } = this;
+
+    const object = zohoCrm.omitEmptyStringValues({
+      Last_Name: lastName,
+      Account_Name: accountName,
+      Deal_Name: dealName,
+      Stage: stage,
+      Subject: subject,
+      Call_Type: callType,
+      Call_Start_Time: callStartTime,
+      Call_Duration: callDuration,
+      Campaign_Name: campaignName,
+      ...otherProps,
+      ...additionalData,
     });
     const objectData = {
       data: [
         object,
       ],
     };
-    const res = await this.zohoCrm.createObject(this.module, objectData, $);
-    $.export("$summary", "Successfully created new object");
+    const res = await zohoCrm.createObject(moduleType, objectData, $);
+    if (res.data[0].details.id) {
+      $.export("$summary", `Successfully created new object with ID ${res.data[0].details.id}.`);
+    }
     return res;
   },
 };

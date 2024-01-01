@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import base from "./http-based/base.mjs";
+import zlib from "zlib";
 
 /**
  * This module implements logic common to the "New Updates" sources. To create a
@@ -62,10 +63,20 @@ export default {
       return this.worksheetIDs.map((i) => i.toString());
     },
     _getSheetValues(id) {
-      return this.db.get(id);
+      const stringBuffer = this.db.get(id);
+
+      if (!stringBuffer) {
+        return;
+      }
+
+      const buffer = Buffer.from(stringBuffer, "base64");
+      const decompressed = zlib.gunzipSync(buffer);
+      return JSON.parse(decompressed);
     },
     _setSheetValues(id, sheetValues) {
-      this.db.set(id, sheetValues);
+      const compressed = zlib.gzipSync(JSON.stringify(sheetValues));
+      const stringBuffer = compressed.toString("base64");
+      this.db.set(id, stringBuffer);
     },
     indexToColumnLabel(index) {
       let columnLabel = "";
@@ -204,7 +215,6 @@ export default {
           this.$emit(
             {
               worksheet,
-              currentValues,
               changes,
             },
             this.getMeta(spreadsheet, worksheet, changes),

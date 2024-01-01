@@ -5,7 +5,7 @@ export default {
   key: "clickup-new-task-advanced",
   name: "New Task Advanced (Instant)",
   description: "Emit new event when a new task is created matching the filter",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {

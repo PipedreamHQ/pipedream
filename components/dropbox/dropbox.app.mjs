@@ -29,7 +29,6 @@ export default {
         }
         return this.getPathOptions(
           query,
-          prevContext?.cursor,
           {
             omitFiles: true,
             returnSimpleString,
@@ -55,7 +54,6 @@ export default {
         }
         return this.getPathOptions(
           query,
-          prevContext?.cursor,
           {
             omitFolders: true,
             returnSimpleString,
@@ -81,7 +79,6 @@ export default {
         }
         return this.getPathOptions(
           query,
-          prevContext?.cursor,
           {
             returnSimpleString,
             omitRootFolder,
@@ -192,7 +189,7 @@ export default {
         this.normalizeError(err);
       }
     },
-    async getPathOptions(path, prevCursor, opts = {}) {
+    async getPathOptions(path, opts = {}) {
       try {
         const {
           omitFolders,
@@ -201,7 +198,6 @@ export default {
         } = opts;
 
         let data = [];
-        let res = null;
         path = path === "/" || path === null
           ? ""
           : path;
@@ -210,18 +206,18 @@ export default {
           path = "/" + path;
         }
 
-        const dpx = await this.sdk();
         if (path === "") {
-          res = await dpx.filesListFolder({
+          const entries = await this.listFilesFolders({
             path,
-            limit: config.GET_PATH_OPTIONS.DEFAULT_MAX_RESULTS,
             recursive: true,
+            include_mounted_folders: true,
           });
 
-          data = res.result.entries.map((item) => ({
+          data = entries.map((item) => ({
             path: item.path_display,
             type: item[".tag"],
           }));
+
         } else {
           let subpath = "";
           let query = path;
@@ -230,7 +226,7 @@ export default {
             query = splitPath.pop();
             subpath = splitPath.join("/");
           }
-          res = await this.searchFilesFolders({
+          const res = await this.searchFilesFolders({
             query,
             options: {
               path: subpath,
@@ -244,11 +240,12 @@ export default {
 
           const folders = data.filter((item) => item.type !== "file");
           for (const folder of folders) {
-            res = await dpx.filesListFolder({
+            const entries = await this.listFilesFolders({
               path: folder.path,
               recursive: true,
+              include_mounted_folders: true,
             });
-            const folderData = res.result?.entries?.map((item) => ({
+            const folderData = entries?.map((item) => ({
               path: item.path_display,
               type: item[".tag"],
             }));

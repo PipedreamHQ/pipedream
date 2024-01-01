@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/l3mbda",
+  "version": "0.0.1",
+  "description": "Pipedream l3mbda Components",
+  "main": "l3mbda.app.mjs",
+  "keywords": [
+    "pipedream",
+    "l3mbda"
+  ],
+  "homepage": "https://pipedream.com/apps/l3mbda",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
