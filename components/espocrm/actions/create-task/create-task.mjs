@@ -2,7 +2,7 @@ import espoCrm from "../../espocrm.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
-  key: "espocrm-update-task",
+  key: "espocrm-create-task",
   name: "Create Task",
   description: "This component creates a new task in Espo CRM. [See the documentation](https://docs.espocrm.com/development/api/crud/#create)",
   version: "0.0.1",
