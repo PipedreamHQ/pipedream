@@ -3,7 +3,7 @@ import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "espo-crm-new-changes",
+  key: "espocrm-new-changes",
   name: "New Changes (Instant)",
   description: "Emit new event upon the creation, update, deletion, or changes of any field in an entity type. [See the documentation](https://docs.espocrm.com/administration/webhooks/)",
   version: "0.0.1",

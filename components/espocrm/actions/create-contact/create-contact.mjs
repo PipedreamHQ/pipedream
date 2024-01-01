@@ -1,7 +1,7 @@
 import espoCrm from "../../espocrm.app.mjs";
 
 export default {
-  key: "espo-crm-create-contact",
+  key: "espocrm-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in Espo CRM. [See the documentation](https://docs.espocrm.com/development/api/crud/#create)",
   version: "0.0.1",
