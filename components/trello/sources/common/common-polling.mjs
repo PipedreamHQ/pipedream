@@ -1,4 +1,4 @@
-import common from "./common.js";
+import common from "./common.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {

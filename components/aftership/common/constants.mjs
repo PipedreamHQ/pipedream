@@ -740,3 +740,25 @@ export const LANGUAGE_OPTIONS = [
     label: "Zulu",
   },
 ];
+
+export const DELIVERY_TYPE_OPTIONS = [
+  "pickup_at_store",
+  "pickup_at_courier",
+  "door_to_door",
+];
+
+export const SLUG_GROUP_OPTIONS = [
+  "amazon-group",
+  "fedex-group",
+  "toll-group",
+  "taqbin-group",
+  "tnt-group",
+  "cj-group",
+  "hermes-group",
+  "dpd-group",
+  "gls-group",
+  "dhl-group",
+  "fastway-group",
+  "asendia-group",
+];
+

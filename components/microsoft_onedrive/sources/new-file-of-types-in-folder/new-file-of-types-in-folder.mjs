@@ -7,7 +7,7 @@ export default {
   key: "microsoft_onedrive-new-file-of-types-in-folder",
   name: "New File of Types in Folder (Instant)",
   description: "Emit an event when a new file of a specific type is created under a directory tree in a OneDrive drive",
-  version: "0.0.2",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     ...base.props,
@@ -16,7 +16,7 @@ export default {
         onedrive,
         "folder",
       ],
-      description: "The OneDrive folder to watch for new files (leave empty to watch the entire drive)",
+      description: "The OneDrive folder to watch for new files (leave empty to watch the entire drive). Use the \"Load More\" button to load subfolders.",
       optional: true,
     },
     fileTypes: {

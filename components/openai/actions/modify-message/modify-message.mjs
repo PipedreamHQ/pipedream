@@ -2,9 +2,9 @@ import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-modify-message",
-  name: "Modify Message",
-  description: "Modifies an existing message in a thread. [See the documentation](https://platform.openai.com/docs/api-reference)",
-  version: "0.0.3",
+  name: "Modify Message (Assistants)",
+  description: "Modifies an existing message in a thread. [See the documentation](https://platform.openai.com/docs/api-reference/messages/modifyMessage)",
+  version: "0.0.7",
   type: "action",
   props: {
     openai,

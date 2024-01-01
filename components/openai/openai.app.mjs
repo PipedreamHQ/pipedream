@@ -76,6 +76,15 @@ export default {
       type: "string",
       label: "Run ID",
       description: "The unique identifier for the run.",
+      async options({ threadId }) {
+        if (!threadId) {
+          return [];
+        }
+        const { data: runs } = await this.listRuns({
+          threadId,
+        });
+        return runs.map(({ id }) => id);
+      },
     },
     stepId: {
       type: "string",
@@ -102,11 +111,7 @@ export default {
     tools: {
       type: "string[]",
       label: "Tools",
-      description: "A list of tools enabled on the assistant. There can be a maximum of 128 tools per assistant",
-      options: [
-        "code_interpreter",
-        "retrieval",
-      ],
+      description: "Each tool should be a valid JSON object. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/createAssistant#assistants-createassistant-tools) for more information. Examples of function tools [can be found here](https://cookbook.openai.com/examples/how_to_call_functions_with_chat_models#basic-concepts).",
       optional: true,
     },
     file_ids: {
@@ -226,7 +231,7 @@ export default {
     ttsModel: {
       type: "string",
       label: "Model",
-      description: "One of the available [TTS models](https://platform.openai.com/docs/models/tts).",
+      description: "One of the available [TTS models](https://platform.openai.com/docs/models/tts). `tts-1` is optimized for speed, while `tts-1-hd` is optimized for quality.",
       options: [
         "tts-1",
         "tts-1-hd",
@@ -583,7 +588,7 @@ export default {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}`,
         headers: this._betaHeaders(),
-        method: "PATCH", // Assuming modification is done via PATCH
+        method: "POST",
         data: opts,
       });
     },

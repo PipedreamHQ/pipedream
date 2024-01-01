@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/realgeeks",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream RealGeeks Components",
-  "main": "dist/app/realgeeks.app.mjs",
+  "main": "realgeeks.app.mjs",
   "keywords": [
     "pipedream",
     "realgeeks"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/realgeeks",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "1.5.1"
   }
 }

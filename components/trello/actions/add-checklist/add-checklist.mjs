@@ -5,7 +5,7 @@ export default {
   key: "trello-add-checklist",
   name: "Create a Checklist",
   description: "Adds a new checklist to a card.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     trello: {

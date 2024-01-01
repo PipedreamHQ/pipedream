@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/inmobile",
+  "version": "0.0.1",
+  "description": "Pipedream InMobile Components",
+  "main": "inmobile.app.mjs",
+  "keywords": [
+    "pipedream",
+    "inmobile"
+  ],
+  "homepage": "https://pipedream.com/apps/inmobile",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,7 @@ export default {
   key: "github-update-issue",
   name: "Update Issue",
   description: "Update a new issue in a Gihub repo. [See docs here](https://docs.github.com/en/rest/issues/issues#update-an-issue)",
-  version: "0.1.12",
+  version: "0.1.13",
   type: "action",
   props: {
     github,

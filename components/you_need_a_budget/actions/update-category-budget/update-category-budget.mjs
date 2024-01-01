@@ -4,7 +4,7 @@ export default {
   key: "you_need_a_budget-update-category-budget",
   name: "Update Category Budget",
   description: "Update a category budget for a specific month. [See the docs](https://api.youneedabudget.com/v1#/Categories/updateMonthCategory)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,

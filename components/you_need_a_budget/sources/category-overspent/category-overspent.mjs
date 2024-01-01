@@ -6,7 +6,7 @@ export default {
   // eslint-disable-next-line pipedream/source-name
   name: "Category Overspent",
   description: "Emit new event when a category budget is overspent",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

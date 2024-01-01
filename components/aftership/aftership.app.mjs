@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
-import { LANGUAGE_OPTIONS } from "./common/constants.mjs";
+import {
+  DELIVERY_TYPE_OPTIONS, LANGUAGE_OPTIONS, SLUG_GROUP_OPTIONS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -79,10 +81,139 @@ export default {
       label: "Customer Name",
       description: "Customer name of the tracking.",
     },
+    orderPromisedDeliveryDate: {
+      type: "string",
+      label: "Order Promised Delivery Date",
+      description: "The promised delivery date of the order. It uses the format `YYYY-MM-DD`.",
+      optional: true,
+    },
+    deliveryType: {
+      type: "string",
+      label: "Delivery Type",
+      description: "Shipment delivery type.",
+      optional: true,
+      options: DELIVERY_TYPE_OPTIONS,
+    },
+    pickupLocation: {
+      type: "string",
+      label: "Pickup location",
+      description: "Shipment pickup location for receiver.",
+      optional: true,
+    },
+    pickupNote: {
+      type: "string",
+      label: "Pickup Note",
+      description: "Shipment pickup note for receiver.",
+      optional: true,
+    },
+    trackingAccountNumber: {
+      type: "string",
+      label: "Tracking Account Number",
+      description: "The shipper's carrier account number. Refer to [this article on additional tracking fields](https://www.aftership.com/docs/tracking/enum/additional-tracking-fields) for more details.",
+      optional: true,
+    },
+    trackingKey: {
+      type: "string",
+      label: "Tracking Key",
+      description: "A type of tracking credential required by some carriers. Refer to [this article on additional tracking fields](https://www.aftership.com/docs/tracking/enum/additional-tracking-fields) for more details.",
+      optional: true,
+    },
+    trackingShipDate: {
+      type: "string",
+      label: "Tracking Ship Date",
+      description: "The date the shipment was sent, using the format `YYYYMMDD`. Refer to [this article on additional tracking fields](https://www.aftership.com/docs/tracking/enum/additional-tracking-fields) for more details.",
+      optional: true,
+    },
+    originCountryIso3: {
+      type: "string",
+      label: "Origin Country ISO3",
+      description: "The [ISO Alpha-3 code](https://support.aftership.com/en/article/iso3-country-code-rlpi07/) (3 letters) for the origin country/region. E.g. `USA` for the United States. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc.",
+      optional: true,
+    },
+    originState: {
+      type: "string",
+      label: "Origin State",
+      description: "The state of the sender's address. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc.",
+      optional: true,
+    },
+    originCity: {
+      type: "string",
+      label: "Origin City",
+      description: "The city of the sender's address. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc.",
+      optional: true,
+    },
+    originPostalCode: {
+      type: "string",
+      label: "Origin Postal Code",
+      description: "The postal of the sender's address. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc.",
+      optional: true,
+    },
+    originRawLocation: {
+      type: "string",
+      label: "Origin Raw Location",
+      description: "The sender address that the shipment is shipping from. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc.",
+      optional: true,
+    },
     destinationCountryIso3: {
       type: "string",
       label: "Destination Country ISO3",
-      description: "The [ISO Alpha-3](https://support.aftership.com/en/article/iso3-country-code-rlpi07/) code (3 letters) for the origin country/region. E.g. USA for the United States. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc. Also the additional field required by some carriers to retrieve the tracking info. The origin country/region of the shipment.",
+      description: "The [ISO Alpha-3 code](https://support.aftership.com/en/article/iso3-country-code-rlpi07/) (3 letters) for the destination country/region. E.g. `USA` for the United States. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc.",
+      optional: true,
+    },
+    destinationState: {
+      type: "string",
+      label: "Destination State",
+      description: "The state of the recipient's address. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc.",
+      optional: true,
+    },
+    destinationCity: {
+      type: "string",
+      label: "Destination City",
+      description: "The city of the recipient's address. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc.",
+      optional: true,
+    },
+    destinationPostalCode: {
+      type: "string",
+      label: "Destination Postal Code",
+      description: "The postal of the recipient's address. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc.",
+      optional: true,
+    },
+    destinationRawLocation: {
+      type: "string",
+      label: "Destination Raw Location",
+      description: "The shipping address that the shipment is shipping to. This can help AfterShip with various functions like tracking, carrier auto-detection and auto-correction, calculating an EDD, etc.",
+      optional: true,
+    },
+    note: {
+      type: "string",
+      label: "Note",
+      description: "Text field for the note.",
+      optional: true,
+    },
+    slugGroup: {
+      type: "string",
+      label: "Slug Group",
+      description: "Slug group is a group of slugs which belong to same courier. [See the documentation for more information](https://www.aftership.com/docs/tracking/enum/slug-groups). It cannot be used with `slug` at the same time.",
+      optional: true,
+      options: SLUG_GROUP_OPTIONS,
+    },
+    orderDate: {
+      type: "string",
+      label: "Order Date",
+      description: "Order date in YYYY-MM-DDTHH:mm:ssZ format. e.g. `2021-07-26T11:23:51-05:00`",
+      optional: true,
+    },
+    shipmentType: {
+      type: "string",
+      label: "Shipment Type",
+      description: "The carrier service type for the shipment. If you provide info for this field, AfterShip will not update it with info from the carrier.",
+      optional: true,
+    },
+    shipmentTags: {
+      type: "string[]",
+      label: "Shipment Tags",
+      description: "Used to add tags to your shipments to help categorize and filter them easily. Max 50 items.",
+      optional: true,
     },
   },
   methods: {
@@ -104,16 +235,19 @@ export default {
         ...opts,
       });
     },
-    async createTracking(data) {
+    async createTracking(args) {
       return this._makeRequest({
         method: "POST",
         path: "/v4/trackings",
-        data,
+        ...args,
       });
     },
-    async getTrackingById(trackingId) {
+    async getTrackingById({
+      trackingId, ...args
+    }) {
       return this._makeRequest({
         path: `/tracking/2023-10/trackings/${trackingId}`,
+        ...args,
       });
     },
     async listTrackings(opts = {}) {

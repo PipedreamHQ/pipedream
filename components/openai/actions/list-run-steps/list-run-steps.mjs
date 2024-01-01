@@ -2,9 +2,9 @@ import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-list-run-steps",
-  name: "List Run Steps",
+  name: "List Run Steps (Assistants)",
   description: "Returns a list of run steps belonging to a run. [See the documentation](https://platform.openai.com/docs/api-reference/runs/list-run-steps)",
-  version: "0.0.2",
+  version: "0.0.6",
   type: "action",
   props: {
     openai,
@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         openai,
         "runId",
+        ({ threadId }) => ({
+          threadId,
+        }),
       ],
     },
     limit: {

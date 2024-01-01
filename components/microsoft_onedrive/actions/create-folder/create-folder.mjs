@@ -6,7 +6,7 @@ export default {
   name: "Create Folder",
   description: "Create a new folder in a drive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_post_children?view=odsp-graph-online)",
   key: "microsoft_onedrive-create-folder",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     onedrive,
@@ -16,7 +16,7 @@ export default {
         "folder",
       ],
       label: "Parent Folder ID",
-      description: "The ID of the folder which the the new folder should be created.",
+      description: "The ID of the folder which the the new folder should be created. Use the \"Load More\" button to load subfolders.",
       optional: true,
     },
     sharedFolderReference: {

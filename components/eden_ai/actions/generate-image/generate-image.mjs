@@ -11,7 +11,7 @@ export default {
   key: "eden_ai-generate-image",
   name: "Generate Image",
   description: "Generates an image from the provided description. [See the documentation](https://docs.edenai.co/reference/image_generation_create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,

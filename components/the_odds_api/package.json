@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/the_odds_api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream The Odds API Components",
-  "main": "dist/app/the_odds_api.app.mjs",
+  "main": "the_odds_api.app.mjs",
   "keywords": [
     "pipedream",
     "the_odds_api"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/the_odds_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "dayjs": "^1.11.10"
   }
 }

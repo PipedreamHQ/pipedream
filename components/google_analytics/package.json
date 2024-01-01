@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_analytics",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Pipedream Google_analytics Components",
   "main": "google_analytics.app.mjs",
   "keywords": [

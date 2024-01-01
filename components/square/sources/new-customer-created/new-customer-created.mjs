@@ -7,7 +7,7 @@ export default {
   name: "New Customer Created",
   description: "Emit new event for every new customer created. [See the docs](https://developer.squareup.com/reference/square/customers-api/list-customers)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   hooks: {
     ...base.hooks,
