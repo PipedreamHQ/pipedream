@@ -1919,7 +1919,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/espocrm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/esputnik:
     specifiers:
