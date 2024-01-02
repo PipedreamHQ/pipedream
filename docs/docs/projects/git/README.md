@@ -1,6 +1,6 @@
 # Github Sync
 
-When Github Syncing is enabled on your project, Pipedream will serialize your workflows and synchronize changes to a GitHub repo. 
+When Github Syncing is enabled on your project, Pipedream will serialize your workflows and synchronize changes to a GitHub repo.
 
 Capabilities include:
 
@@ -27,21 +27,21 @@ Projects are a new concept we are introducing to Pipedream. A project may contai
 - Go to `https://pipedream.com/projects`
 - Create a new project
 - Enter a project name and check the box to **Configure GitHub Sync**
-    - To use **OAuth**
-        - Select a connected account, GitHub scope and repo name
-        - Pipedream will automatically create a new, empty repo in GitHub
-        - ![Enabling Github on a Pipedream project](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6b546c6b-2f90-4ec4-9188-320c01576259%2FUntitled.png?id=5db64a5f-e762-431e-bfb7-cdd495ad458c&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=860&userId=&cache=v2)
-    -  To use **Deploy Keys**
-       - Create a new repo in GitHub
-       - Follow the instructions to configure the deploy key
-       - Test your setup and create a new project
-       - ![Enabling Github sync with a Deploy Key](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6be64329-bb8b-43eb-a278-a11ad93113c0%2FUntitled.png?id=37f9afd8-ba14-431b-bd40-1846421440b6&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=860&userId=&cache=v2)
+  - To use **OAuth**
+    - Select a connected account, GitHub scope and repo name
+    - Pipedream will automatically create a new, empty repo in GitHub
+    - ![Enabling Github on a Pipedream project](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6b546c6b-2f90-4ec4-9188-320c01576259%2FUntitled.png?id=5db64a5f-e762-431e-bfb7-cdd495ad458c&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=860&userId=&cache=v2)
+  - To use **Deploy Keys**
+    - Create a new repo in GitHub
+    - Follow the instructions to configure the deploy key
+    - Test your setup and create a new project
+    - ![Enabling Github sync with a Deploy Key](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6be64329-bb8b-43eb-a278-a11ad93113c0%2FUntitled.png?id=37f9afd8-ba14-431b-bd40-1846421440b6&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=860&userId=&cache=v2)
 
 ### Create a branch to edit a project
 
 ::: tip Branches are required to make changes
 
-All changes to resources in a project must be made in a development branch. 
+All changes to resources in a project must be made in a development branch.
 
 Examples of changes include creating, editing, deleting, enabling, disabling and renaming workflows. This also includes changing workflow settings like concurrency, VPC assignment and auto-retries.
 
@@ -50,8 +50,6 @@ Examples of changes include creating, editing, deleting, enabling, disabling and
 To edit a git-backed project you must create a development branch by clicking **Edit > Create Branch**
 
 ![Creating a new git backed development branch in a workflow](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fcf1e386b-7674-4843-8709-f1d5eef8ef00%2FUntitled.png?id=3af32b86-6ca2-4051-98cc-de31940eb609&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2)
-
-
 
 Next, name the branch and click **Create**:
 
@@ -65,13 +63,9 @@ Your changes will be saved to the branch, if you choose to revisit them later.
 
 ### Merge changes to production
 
-Once you have committed your changes, you can deploy your changes by merging them into the `production` branch. There are two ways to merge into production, through the Pipedream UI or through merging on Github.
+Once you've committed your changes, you can deploy your changes by merging them into the `production` branch through the Pipedream UI or GitHub.
 
-::: warning Changes are not singluar
-
-When you deploy a workflow in non-git mode, only the single workflow is affected. However, when you merge a git-backed project to production ALL modified resources in the project will be merged. I.e., multiple workflows may be deployed to, deleted from or modified in production through a single merge action.
-
-:::
+When you merge a Git-backed project to production, all modified resources in the project will be deployed. Multiple workflows may be deployed, modified, or deleted in production through a single merge action.
 
 #### Merge via the Pipedream UI
 
@@ -83,13 +77,11 @@ Pipedream will present a diff between the development branch and the `production
 
 ![In the confirmation modal, click Merge to production to confirm the changes](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fac27c067-f948-424c-9d6e-6360a759730c%2FUntitled.png?id=19f8d51c-82fb-47d6-a183-b84e2173b72d&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2)
 
-### Create a Pull Request in Github
+#### Create a Pull Request in Github
 
 To create a pull request in GitHub, either choose Open GitHub pull request from the git-actions menu in Pipedream or in GitHub:
 
-
   <img src="https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F2fe3a718-2558-47de-aab4-818801c5a344%2FUntitled.png?id=55bb9040-28fa-4af2-833c-854eb5733d99&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2" alt="Opening a PR request in Pipedream" />
-
 
 You can also review and merge changes directly from GitHub using the standard pull request process.
 
@@ -104,7 +96,6 @@ PR reviews cannot be required. That feature is on the roadmap for the Business t
 To commit changes without merging to production, select **Commit Changes** from the Git Actions menu:
 
 ![Select commit changes from the dropdown menu to make a commit](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F2523c3fb-d832-4e99-b5cc-5c3b7275c9fe%2FUntitled.png?id=9f871c2d-12f4-4484-a76f-b0d83c4d8ee9&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2)
-
 
 You can review the diff and enter a commit message:
 
@@ -150,7 +141,7 @@ The changelog tracks all git activity (for projects with GitHub sync enabled). I
 
 ### Local development
 
-Projects that use GitHub sync may be edited outside of Pipedream. You can edit and commit directly via GitHub’s UI or clone the repo locally and use your preferred editor (e.g., VSCode). 
+Projects that use GitHub sync may be edited outside of Pipedream. You can edit and commit directly via GitHub’s UI or clone the repo locally and use your preferred editor (e.g., VSCode).
 
 To test external edits in Pipedream:
 
@@ -162,11 +153,11 @@ To test external edits in Pipedream:
 
 Below are a list of known issues that do not currently have solutions, but are in progress:
 
-- Project branches on Pipedream cannot be deleted at this time. Even if they are deleted on the Github.
+- Project branches on Pipedream cannot be deleted.
 - If a workflow uses an action that has been deprecated, merging to production will fail.
-- Legacy (V1) workflows are not supported in Projects and there is no option to automatically convert them to the new format (V2).
-- Self-hosted Github Server instances are not yet supported in-product. [Please contact us for help](https://pipedream.com/support).
-- Workflow Attachments are not supported in Github Synchronized projects at this time.
+- Legacy (v1) workflows are not supported in projects.
+- Self-hosted GitHub Server instances are not yet supported. [Please contact us for help](https://pipedream.com/support).
+- Workflow attachments are not supported
 
 ## Github Enterprise Cloud
 
@@ -213,3 +204,10 @@ Make sure that all connected accounts in use are accessible to the entire worksp
 No, at this time it’s not possible because of how resources are connected during the bootstrapping process from the workflow YAML specification.
 However, this is on our roadmap, [please subscribe to this issue](https://github.com/PipedreamHQ/pipedream/issues/9255) for the latest details.
 
+### How does the `production` branch work?
+
+Anything merged to the `production` branch will be deployed to your production workflows on Pipedream.
+
+From a design perspective, we want to let you manage any branching strategy on your end, since you may be making commits to the repo outside of Pipedream. Once we support managing Pipedream workflows in a monorepo, where you may have other changes, we wanted to use a branch that didn’t conflict with a conventional main branch (like `main` or `master`).
+
+In the future, we also plan to support you changing the default branch name.
