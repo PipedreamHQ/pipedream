@@ -196,6 +196,7 @@ export default {
     } = this;
 
     const response = await digitalriver.updateCustomer({
+      $,
       customerId,
       data: clearObj({
         ...data,

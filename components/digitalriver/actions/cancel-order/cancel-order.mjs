@@ -21,6 +21,7 @@ export default {
     });
 
     const response = await this.digitalriver.cancelOrder({
+      $,
       data: {
         orderId: this.orderId,
         items: items.map((item) => ({

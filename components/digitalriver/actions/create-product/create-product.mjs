@@ -113,6 +113,7 @@ export default {
     } = this;
 
     const response = await digitalriver.createProduct({
+      $,
       data,
     });
 
