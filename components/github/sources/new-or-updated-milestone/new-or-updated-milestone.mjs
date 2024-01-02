@@ -3,13 +3,13 @@ import app from "../../github.app.mjs";
 import constants from "../common/constants.mjs";
 
 const DOCS_LINK =
-  "https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads#issues";
+  "https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads#milestone";
 
 export default {
   ...common,
-  key: "github-new-or-updated-issue",
-  name: "New or Updated Issue",
-  description: `Emit new events when an issue is created or updated [See the documentation](${DOCS_LINK})`,
+  key: "github-new-or-updated-milestone",
+  name: "New or Updated Milestone",
+  description: `Emit new events when a milestone is created or updated [See the documentation](${DOCS_LINK})`,
   version: "1.1.0",
   type: "source",
   dedupe: "unique",
@@ -22,7 +22,7 @@ export default {
             "eventTypes",
           ],
           description: `Specify the type(s) of activity that should emit events. [See the documentation](${DOCS_LINK}) for more information on each type. By default, events will be emitted for all activity.`,
-          options: constants.EVENT_TYPES_ISSUES,
+          options: constants.EVENT_TYPES_MILESTONES,
         },
       };
     },
@@ -34,7 +34,7 @@ export default {
             "emitUpdates",
           ],
           description:
-            "If `false`, events will only be emitted when a new issue is created.",
+            "If `false`, events will only be emitted when a new milestone is created.",
         },
       };
     },
@@ -50,7 +50,7 @@ export default {
     },
     getWebhookEvents() {
       return [
-        "issues",
+        "milestone",
       ];
     },
     checkEventType(type) {
@@ -62,7 +62,7 @@ export default {
       if (action && this.checkEventType(action)) {
         const ts = Date.now();
         const id = `${action}_${ts}`;
-        const summary = `Issue activity (${action}): "${body.issue.title}"`;
+        const summary = `Milestone activity (${action}): "${body.milestone.title}"`;
 
         this.$emit(body, {
           id,
@@ -78,9 +78,8 @@ export default {
       const sort = emitUpdates === false
         ? "created"
         : "updated";
-      const items = await this.github.getRepositoryLatestIssues({
+      const items = await this.github.getRepositoryMilestones({
         repoFullname,
-        sort,
       });
 
       const savedItems = this._getSavedItems();
@@ -96,7 +95,7 @@ export default {
 
           if (shouldEmit) {
             const ts = new Date(item[tsProp]).valueOf();
-            const summary = `Issue ${sort}: "${item.title}"`;
+            const summary = `Milestone ${sort}: "${item.title}"`;
 
             this.$emit(item, {
               id,

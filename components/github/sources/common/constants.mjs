@@ -323,4 +323,26 @@ export default {
       value: "unpinned",
     },
   ],
+  EVENT_TYPES_MILESTONES: [
+    {
+      label: "A milestone was closed.",
+      value: "closed",
+    },
+    {
+      label: "A milestone was created.",
+      value: "created",
+    },
+    {
+      label: "A milestone was deleted.",
+      value: "deleted",
+    },
+    {
+      label: "A milestone was edited.",
+      value: "edited",
+    },
+    {
+      label: "A milestone was opened.",
+      value: "opened",
+    },
+  ],
 };
