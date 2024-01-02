@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/waiverfile",
+  "version": "0.0.1",
+  "description": "Pipedream WaiverFile Components",
+  "main": "waiverfile.app.mjs",
+  "keywords": [
+    "pipedream",
+    "waiverfile"
+  ],
+  "homepage": "https://pipedream.com/apps/waiverfile",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

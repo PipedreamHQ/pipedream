@@ -1607,7 +1607,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/digitalriver:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dingconnect:
     specifiers: {}
@@ -3401,7 +3404,10 @@ importers:
     specifiers: {}
 
   components/l3mbda:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/labs64_netlicensing:
     specifiers: {}
@@ -5671,7 +5677,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/scraptio:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/screendesk:
     specifiers:
