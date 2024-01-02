@@ -1,4 +1,4 @@
-import common from "../common/common.mjs";
+import common from "../common/common-flex.mjs";
 
 const DOCS_LINK =
   "https://docs.github.com/en/webhooks/webhook-events-and-payloads#commit_comment";

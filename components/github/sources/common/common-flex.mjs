@@ -41,7 +41,10 @@ export default {
       this.db.set("webhookId", webhookId);
     },
     _getSavedItems() {
-      return this.db.get("savedItems") ?? [];
+      const items = this.db.get("savedItems");
+      return items?.length > 1000
+        ? items.slice(500)
+        : (items ?? []);
     },
     _setSavedItems(value) {
       this.db.set("savedItems", value);

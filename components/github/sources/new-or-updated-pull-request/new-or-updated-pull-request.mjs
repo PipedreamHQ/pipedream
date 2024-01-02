@@ -1,4 +1,4 @@
-import common from "../common/common.mjs";
+import common from "../common/common-flex.mjs";
 import constants from "../common/constants.mjs";
 
 const DOCS_LINK =
@@ -83,33 +83,28 @@ export default {
       });
 
       const savedItems = this._getSavedItems();
-      const tsProp = emitUpdates === false
-        ? "created_at"
-        : "updated_at";
+      const shouldEmit = savedItems.length > 0;
+
+      const tsProp = `${sort}_at`;
       const getFullId = (item) => `${item.id}_${item[tsProp]}`;
-      const idsToStore = items.map(getFullId);
 
-      if (savedItems.length) {
-        const firstCachedIndex = idsToStore.findIndex((id) =>
-          savedItems.includes(id));
-        const filteredItems =
-          firstCachedIndex === -1
-            ? items
-            : items.slice(0, firstCachedIndex);
+      items
+        .filter((item) => !savedItems.includes(getFullId(item)))
+        .forEach((item) => {
+          const id = getFullId(item);
 
-        filteredItems.reverse().forEach((item) => {
-          const ts = new Date(item[tsProp]).valueOf();
-          const summary = `PR ${sort}: "${item.title}"`;
+          if (shouldEmit) {
+            const ts = new Date(item[tsProp]).valueOf();
+            const summary = `PR ${sort}: "${item.title}"`;
 
-          this.$emit(item, {
-            id: getFullId(item),
-            summary,
-            ts,
-          });
+            this.$emit(item, {
+              id,
+              summary,
+              ts,
+            });
+          }
+          savedItems.push(id);
         });
-      }
-
-      this._setSavedItems(idsToStore);
     },
   },
 };
