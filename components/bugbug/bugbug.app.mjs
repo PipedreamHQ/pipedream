@@ -7,67 +7,88 @@ export default {
     suite: {
       type: "string",
       label: "Suite",
-      description: "The suite that will be run in the bugbug cloud",
-      required: true,
+      description: "The suite that will be run in the BugBug Cloud",
+      optional: true,
+      async options({ page }) {
+        const { results } = await this.listSuites({
+          params: {
+            page: page + 1,
+          },
+        });
+        return results?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     test: {
       type: "string",
       label: "Test",
-      description: "The test that will be run in the bugbug cloud",
-      required: true,
+      description: "The test that will be run in the BugBug Cloud",
+      optional: true,
+      async options({ page }) {
+        const { results } = await this.listTests({
+          params: {
+            page: page + 1,
+          },
+        });
+        return results?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.bugbug.com";
+      return "https://app.bugbug.io/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        "Authorization": `Token ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "get",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
       });
     },
-    async runSuite(suite) {
+    getSuiteRun({
+      suiteRunId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: `/suites/${suite}/run`,
+        path: `/suiteruns/${suiteRunId}/`,
+        ...opts,
       });
     },
-    async runTest(test) {
+    listSuites(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: `/tests/${test}/run`,
+        path: "/suites/",
+        ...opts,
       });
     },
-    async getFailedCloudRuns() {
+    listTests(opts = {}) {
       return this._makeRequest({
-        path: "/cloudRuns?status=failed",
+        path: "/tests/",
+        ...opts,
       });
     },
-    async getFailedSuite(suite) {
+    listTestRuns(opts = {}) {
       return this._makeRequest({
-        path: `/suites/${suite}/status?status=failed`,
+        path: "/testruns/",
+        ...opts,
       });
-    },
-    async getFailedTest(test) {
-      return this._makeRequest({
-        path: `/tests/${test}/status?status=failed`,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
