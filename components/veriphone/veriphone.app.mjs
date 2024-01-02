@@ -1,4 +1,7 @@
 import { axios } from "@pipedream/platform";
+import {
+  COUNTRY_OPTIONS, PHONE_TYPE_OPTIONS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,76 +10,53 @@ export default {
     phoneNumber: {
       type: "string",
       label: "Phone Number",
-      description: "The phone number you wish to verify",
+      description: "The phone number you wish to verify.",
     },
-    defaultCountry: {
+    countryCode: {
       type: "string",
-      label: "Default Country",
-      description: "The default country code",
-      optional: true,
-    },
-    country: {
-      type: "string",
-      label: "Country",
-      description: "The country for the dummy phone number",
+      label: "Country Code",
+      description: "The country code. The country will be infered from the IP address if this parameter is absent or invalid.",
+      options: COUNTRY_OPTIONS,
     },
     phoneType: {
       type: "string",
       label: "Phone Type",
-      description: "The type of phone number (e.g., mobile, fixed_line, voip)",
+      description: "The type of phone number.",
+      options: PHONE_TYPE_OPTIONS,
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.veriphone.io/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        key: this.$auth.api_key,
+      };
+    },
+    async _makeRequest({
+      $ = this, path, params, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: `${this._baseUrl()}${path}`,
         params: {
           ...params,
-          key: this.$auth.api_key,
+          ...this._auth(),
         },
-        headers: {
-          ...headers,
-        },
+        ...opts,
       });
     },
-    async verifyPhoneNumber({
-      phoneNumber, defaultCountry,
-    }) {
+    async verifyPhoneNumber(opts = {}) {
       return this._makeRequest({
         path: "/verify",
-        params: {
-          phone: phoneNumber,
-          default_country: defaultCountry,
-        },
+        ...opts,
       });
     },
-    async getDummyPhoneNumber({
-      country, phoneType,
-    }) {
+    async getDummyPhoneNumber( opts = {}) {
       return this._makeRequest({
         path: "/example",
-        params: {
-          country_code: country,
-          type: phoneType,
-        },
+        ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
   },
-  version: "0.0.{{ts}}",
 };

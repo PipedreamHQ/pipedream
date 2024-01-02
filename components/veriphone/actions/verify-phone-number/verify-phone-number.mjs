@@ -1,11 +1,10 @@
 import veriphone from "../../veriphone.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "veriphone-verify-phone-number",
   name: "Verify Phone Number",
-  description: "Validates the given phone number using Veriphone. [See the documentation](https://veriphone.io/docs/v2)",
-  version: "0.0.{{ts}}",
+  description: "Validates the given phone number using Veriphone. [See the documentation](https://veriphone.io/docs/v2#:~:text=support%40veriphone.io-,VERIFY,-Veriphone%27s%20/v2/verify)",
+  version: "0.0.1",
   type: "action",
   props: {
     veriphone,
@@ -15,26 +14,23 @@ export default {
         "phoneNumber",
       ],
     },
-    defaultCountry: {
+    countryCode: {
       propDefinition: [
         veriphone,
-        "defaultCountry",
-        (c) => ({
-          optional: true,
-        }),
+        "countryCode",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.veriphone.verifyPhoneNumber({
-      phoneNumber: this.phoneNumber,
-      defaultCountry: this.defaultCountry,
+      params: {
+        phone: this.phoneNumber,
+        country_code: this.countryCode,
+      },
     });
 
-    const summary = `The phone number ${response.phone} validation status is ${response.phone_valid
-      ? "valid"
-      : "invalid"}`;
-    $.export("$summary", summary);
+    $.export("$summary", `The phone number ${this.phoneNumber} has been successfully verified!`);
     return response;
   },
 };

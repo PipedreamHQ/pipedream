@@ -1,19 +1,19 @@
 import veriphone from "../../veriphone.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "veriphone-get-phone-example",
   name: "Get Dummy Phone Number",
-  description: "Returns a dummy phone number for a specific country and phone type. [See the documentation](https://veriphone.io/docs/v2)",
-  version: "0.0.{{ts}}",
+  description: "Returns a dummy phone number for a specific country and phone type. [See the documentation](https://veriphone.io/docs/v2#:~:text=T%2DMobile%22%0A%7D-,EXAMPLE,-Veriphone%27s%20/v2/example)",
+  version: "0.0.1",
   type: "action",
   props: {
     veriphone,
-    country: {
+    countryCode: {
       propDefinition: [
         veriphone,
-        "country",
+        "countryCode",
       ],
+      optional: true,
     },
     phoneType: {
       propDefinition: [
@@ -24,11 +24,13 @@ export default {
   },
   async run({ $ }) {
     const response = await this.veriphone.getDummyPhoneNumber({
-      country: this.country,
-      phoneType: this.phoneType,
+      params: {
+        country_code: this.countryCode,
+        type: this.phoneType,
+      },
     });
 
-    $.export("$summary", `Retrieved dummy phone number for country ${this.country} and type ${this.phoneType}`);
+    $.export("$summary", `Retrieved dummy phone number for country ${response.country_code} and type ${this.phoneType}`);
     return response;
   },
 };
