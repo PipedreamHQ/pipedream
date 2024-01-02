@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/scraptio",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Scraptio Components",
-  "main": "dist/app/scraptio.app.mjs",
+  "main": "scraptio.app.mjs",
   "keywords": [
     "pipedream",
     "scraptio"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/scraptio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
+

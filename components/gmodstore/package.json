@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/gmodstore",
+  "version": "0.0.1",
+  "description": "Pipedream GmodStore Components",
+  "main": "gmodstore.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gmodstore"
+  ],
+  "homepage": "https://pipedream.com/apps/gmodstore",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
