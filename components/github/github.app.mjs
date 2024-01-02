@@ -231,6 +231,20 @@ export default {
         }));
       },
     },
+    emitUpdates: {
+      type: "boolean",
+      label: "Emit Updates",
+      description:
+        "If `false`, events will only be emitted when a new pull request is created. [See the documentation](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#list-pull-requests) for more information.",
+      default: true,
+      optional: true,
+    },
+    eventTypes: {
+      type: "string[]",
+      label: "Filter Event Types",
+      description: "Specify the type(s) of activity that should emit events. See the documentation for more information on each type. By default, events will be emitted for all activity.",
+      optional: true,
+    },
   },
   methods: {
     _baseApiUrl() {

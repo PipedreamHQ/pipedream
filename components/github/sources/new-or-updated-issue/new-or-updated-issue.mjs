@@ -1,20 +1,19 @@
 import common from "../common/common-flex.mjs";
-import constants from "../common/constants.mjs";
 import app from "../../github.app.mjs";
+import constants from "../common/constants.mjs";
 
 const DOCS_LINK =
-  "https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request";
+  "https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads#issues";
 
 export default {
   ...common,
-  key: "github-new-or-updated-pull-request",
-  name: "New or Updated Pull Request",
-  description: `Emit new events when a pull request is opened or updated [See the documentation](${DOCS_LINK})`,
+  key: "github-new-or-updated-issue",
+  name: "New or Updated Issue",
+  description: `Emit new events when an issue is created or updated [See the documentation](${DOCS_LINK})`,
   version: "1.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
-    ...common.methods,
     getHttpAdditionalProps() {
       return {
         eventTypes: {
@@ -23,7 +22,7 @@ export default {
             "eventTypes",
           ],
           description: `Specify the type(s) of activity that should emit events. [See the documentation](${DOCS_LINK}) for more information on each type. By default, events will be emitted for all activity.`,
-          options: constants.EVENT_TYPES_PULL_REQUEST,
+          options: constants.EVENT_TYPES_ISSUES,
         },
       };
     },
@@ -34,6 +33,8 @@ export default {
             app,
             "emitUpdates",
           ],
+          description:
+            "If `false`, events will only be emitted when a new issue is created.",
         },
       };
     },
@@ -49,7 +50,7 @@ export default {
     },
     getWebhookEvents() {
       return [
-        "pull_request",
+        "issues",
       ];
     },
     checkEventType(type) {
@@ -61,7 +62,7 @@ export default {
       if (action && this.checkEventType(action)) {
         const ts = Date.now();
         const id = `${action}_${ts}`;
-        const summary = `PR activity (${action}): "${body.pull_request.title}"`;
+        const summary = `Issue activity (${action}): "${body.pull_request.title}"`;
 
         this.$emit(body, {
           id,
@@ -77,7 +78,7 @@ export default {
       const sort = emitUpdates === false
         ? "created"
         : "updated";
-      const items = await this.github.getRepositoryLatestPullRequests({
+      const items = await this.github.getRepositoryLatestIssues({
         repoFullname,
         sort,
       });
@@ -95,7 +96,7 @@ export default {
 
           if (shouldEmit) {
             const ts = new Date(item[tsProp]).valueOf();
-            const summary = `PR ${sort}: "${item.title}"`;
+            const summary = `Issue ${sort}: "${item.title}"`;
 
             this.$emit(item, {
               id,

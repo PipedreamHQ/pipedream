@@ -230,7 +230,8 @@ export default {
       value: "milestoned",
     },
     {
-      label: "A request for review by a person or team was removed from a pull request.",
+      label:
+        "A request for review by a person or team was removed from a pull request.",
       value: "review_request_removed",
     },
     {
@@ -238,7 +239,8 @@ export default {
       value: "review_requested",
     },
     {
-      label: "A pull request's head branch was updated. For example, the head branch was updated from the base branch or new commits were pushed to the head branch.",
+      label:
+        "A pull request's head branch was updated. For example, the head branch was updated from the base branch or new commits were pushed to the head branch.",
       value: "synchronize",
     },
     {
@@ -252,6 +254,73 @@ export default {
     {
       label: "Conversation on a pull request was unlocked.",
       value: "unlocked",
+    },
+  ],
+  EVENT_TYPES_ISSUES: [
+    {
+      label: "An issue was assigned to a user.",
+      value: "assigned",
+    },
+    {
+      label: "An issue was closed.",
+      value: "closed",
+    },
+    {
+      label: "An issue was deleted.",
+      value: "deleted",
+    },
+    {
+      label: "An issue was removed from a milestone.",
+      value: "demilestoned",
+    },
+    {
+      label: "The title or body on an issue was edited.",
+      value: "edited",
+    },
+    {
+      label: "A label was added to an issue.",
+      value: "labeled",
+    },
+    {
+      label: "Conversation on an issue was locked.",
+      value: "locked",
+    },
+    {
+      label: "An issue was added to a milestone.",
+      value: "milestoned",
+    },
+    {
+      label:
+        "An issue was created. When a closed issue is reopened, the action will be 'reopened' instead.",
+      value: "opened",
+    },
+    {
+      label: "An issue was pinned to a repository.",
+      value: "pinned",
+    },
+    {
+      label: "A closed issue was reopened.",
+      value: "reopened",
+    },
+    {
+      label: "An issue was transferred to another repository.",
+      value: "transferred",
+    },
+    {
+      label: "A user was unassigned from an issue.",
+      value: "unassigned",
+    },
+    {
+      label: "A label was removed from an issue.",
+      value: "unlabeled",
+    },
+    {
+      label: "Conversation on an issue was unlocked.",
+      value: "unlocked",
+    },
+    {
+      label: "An issue was unpinned from a repository.",
+      value: "unpinned",
     },
   ],
 };
