@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/appointedd",
+  "version": "0.0.1",
+  "description": "Pipedream Appointedd Components",
+  "main": "appointedd.app.mjs",
+  "keywords": [
+    "pipedream",
+    "appointedd"
+  ],
+  "homepage": "https://pipedream.com/apps/appointedd",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
