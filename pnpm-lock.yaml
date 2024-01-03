@@ -7156,7 +7156,10 @@ importers:
     specifiers: {}
 
   components/veriphone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/vero:
     specifiers: {}
