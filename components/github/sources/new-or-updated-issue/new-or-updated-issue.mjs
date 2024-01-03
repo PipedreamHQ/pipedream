@@ -1,6 +1,9 @@
 import common from "../common/common-flex.mjs";
 import app from "../../github.app.mjs";
 import constants from "../common/constants.mjs";
+import {
+  getSampleTimerEvent, getSampleWebhookEvent,
+} from "./sample-events.mjs";
 
 const DOCS_LINK =
   "https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads#issues";
@@ -38,16 +41,8 @@ export default {
         },
       };
     },
-    getSampleTimerEvent() {
-      return {
-        testTimer: 456,
-      };
-    },
-    getSampleWebhookEvent() {
-      return {
-        testWebhook: 123,
-      };
-    },
+    getSampleTimerEvent,
+    getSampleWebhookEvent,
     getWebhookEvents() {
       return [
         "issues",

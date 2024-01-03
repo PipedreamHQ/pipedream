@@ -1,4 +1,7 @@
 import common from "../common/common-flex.mjs";
+import {
+  getSampleTimerEvent, getSampleWebhookEvent,
+} from "./sample-events.mjs";
 
 const DOCS_LINK =
   "https://docs.github.com/en/webhooks/webhook-events-and-payloads#create";
@@ -13,16 +16,8 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getSampleTimerEvent() {
-      return {
-        testTimer: 456,
-      };
-    },
-    getSampleWebhookEvent() {
-      return {
-        testWebhook: 123,
-      };
-    },
+    getSampleTimerEvent,
+    getSampleWebhookEvent,
     getWebhookEvents() {
       return [
         "create",
