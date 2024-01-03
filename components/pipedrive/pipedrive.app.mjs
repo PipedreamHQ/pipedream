@@ -25,6 +25,23 @@ export default {
         }));
       },
     },
+    activityFilterId: {
+      type: "integer",
+      label: "Activity Filter ID",
+      description: "ID of the filter for activities to be used for filtering the activities.",
+      optional: true,
+      async options() {
+        const { data: filters } = await this.getFilters({
+          type: constants.FILTER_TYPE.ACTIVITY,
+        });
+        return filters.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
     personId: {
       type: "integer",
       label: "Person ID",
@@ -296,6 +313,21 @@ export default {
         }));
       },
     },
+    dealCustomFieldId: {
+      type: "string",
+      label: "Anility Id Field Id for deals",
+      description: "Id of the custom field for deal in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getDealFields();
+        return stages.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: `${id}`,
+        }));
+      },
+    },
   },
   methods: {
     setupToken() {
@@ -422,6 +454,12 @@ export default {
       ] = constants.API.DEALS;
       return this.api(className).searchDeals(term, otherOpts);
     },
+    getActivities(opts = {}) {
+      const [
+        className,
+      ] = constants.API.ACTIVITIES;
+      return this.api(className).getActivities(opts);
+    },
     getPersons(opts = {}) {
       const [
         className,
@@ -445,6 +483,18 @@ export default {
         className,
       ] = constants.API.USERS;
       return this.api(className).getUsers(opts);
+    },
+    async getFilters(opts) {
+      const [
+        className,
+      ] = constants.API.FILTERS;
+      return this.api(className).getFilters(opts);
+    },
+    async getFilter(filterId) {
+      const [
+        className,
+      ] = constants.API.FILTERS;
+      return this.api(className).getFilter(filterId);
     },
     getActivityTypes(opts) {
       const [
