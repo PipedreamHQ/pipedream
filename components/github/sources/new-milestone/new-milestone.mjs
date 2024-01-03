@@ -1,7 +1,7 @@
 import common from "../common/common-flex.mjs";
 
 const DOCS_LINK =
-  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#fork";
+  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#milestone";
 
 export default {
   ...common,

@@ -684,5 +684,15 @@ export default {
 
       return response.data;
     },
+    async getRepositoryStargazers({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/stargazers`, {
+        ...args,
+        per_page: 100,
+      });
+
+      return response.data;
+    },
   },
 };
