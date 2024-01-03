@@ -1,4 +1,4 @@
-import github from "../../github.app.mjs";
+import dannyGitHubTest from "../../github.app.mjs";
 import utils from "../../actions/common/utils.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -9,10 +9,10 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {
-    github,
+    dannyGitHubTest,
     gistId: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "gistId",
       ],
     },
@@ -34,12 +34,15 @@ export default {
       throw new ConfigurationError("At least one of description or files is required.");
     }
 
-    const res = await this.github.updateGist(this.gistId, {
+    const res = await this.dannyGitHubTest.updateGist(this.gistId, {
       description: this.description,
       files: utils.convertFiles(this.files),
     });
 
-    $.export("$summary", `Successfully updated gist with ID "${res.id}".`);
+    let fileNameKey = Object.keys(res.files)[0];
+    let fileName = res.files[fileNameKey].filename;
+
+    $.export("$summary", `Successfully updated "[${fileName}](${res.html_url})".`);
     return res;
   },
 };

@@ -1,4 +1,4 @@
-import github from "../../github.app.mjs";
+import dannyGitHubTest from "../../github.app.mjs";
 
 export default {
   key: "github-create-issue-comment",
@@ -7,10 +7,10 @@ export default {
   version: "0.0.13",
   type: "action",
   props: {
-    github,
+    dannyGitHubTest,
     repoFullname: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "repoFullname",
       ],
     },
@@ -19,7 +19,7 @@ export default {
       description: "The number that identifies the issue.",
       type: "integer",
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "issueNumber",
         (c) => ({
           repoFullname: c.repoFullname,
@@ -33,7 +33,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.github.createIssueComment({
+    const response = await this.dannyGitHubTest.createIssueComment({
       repoFullname: this.repoFullname,
       issueNumber: this.issueNumber,
       data: {
@@ -41,7 +41,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully commented in the issue.");
+    $.export("$summary", `Successfully [added a comment](${response.html_url}).`);
 
     return response;
   },

@@ -1,4 +1,4 @@
-import github from "../../github.app.mjs";
+import dannyGitHubTest from "../../github.app.mjs";
 
 export default {
   key: "github-get-repository",
@@ -7,16 +7,16 @@ export default {
   version: "0.0.13",
   type: "action",
   props: {
-    github,
+    dannyGitHubTest,
     repoFullname: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "repoFullname",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.github.getRepo({
+    const response = await this.dannyGitHubTest.getRepo({
       repoFullname: this.repoFullname,
     });
 

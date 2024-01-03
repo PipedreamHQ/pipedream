@@ -1,4 +1,4 @@
-import github from "../../github.app.mjs";
+import dannyGitHubTest from "../../github.app.mjs";
 
 export default {
   key: "github-list-gists-for-a-user",
@@ -7,7 +7,7 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {
-    github,
+    dannyGitHubTest,
     username: {
       label: "Username",
       description: "The username of the user whose gists you want to list",
@@ -27,7 +27,7 @@ export default {
     const data = [];
 
     while (true) {
-      const res = await this.github.listGistsFromUser(this.username, {
+      const res = await this.dannyGitHubTest.listGistsFromUser(this.username, {
         since: this.since,
         per_page: PER_PAGE,
         page,

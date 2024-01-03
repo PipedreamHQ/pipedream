@@ -1,6 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { toSingleLineString } from "../../common/utils.mjs";
-import github from "../../github.app.mjs";
+import dannyGitHubTest from "../../github.app.mjs";
 
 export default {
   key: "github-create-pull-request",
@@ -12,16 +12,16 @@ export default {
   version: "0.0.4",
   type: "action",
   props: {
-    github,
+    dannyGitHubTest,
     repoFullname: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "repoFullname",
       ],
     },
     head: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "branch",
         (c) => ({
           repoFullname: c.repoFullname,
@@ -35,7 +35,7 @@ export default {
     },
     base: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "branch",
         (c) => ({
           repoFullname: c.repoFullname,
@@ -50,14 +50,14 @@ export default {
     },
     org: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "orgName",
       ],
       optional: true,
     },
     headRepo: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "repoOrg",
         (c) => ({
           org: c.org,
@@ -99,7 +99,7 @@ export default {
     },
     issue: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "issueNumber",
         (c) => ({
           repoFullname: c.repoFullname,
@@ -138,13 +138,13 @@ export default {
       issue: this.issue,
     };
 
-    const response = await this.github.createPullRequest({
+    const response = await this.dannyGitHubTest.createPullRequest({
       owner: this.owner,
       repoFullname: this.repoFullname,
       data: data,
     });
 
-    $.export("$summary", `Successfully created pull request: ${response.title}.`);
+    $.export("$summary", `Successfully created pull request: [${response.title}](${response.html_url}).`);
 
     return response;
   },

@@ -1,5 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
-import github from "../../github.app.mjs";
+import dannyGitHubTest from "../../github.app.mjs";
 
 export default {
   key: "github-create-branch",
@@ -8,10 +8,10 @@ export default {
   version: "0.0.7",
   type: "action",
   props: {
-    github,
+    dannyGitHubTest,
     repoFullname: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "repoFullname",
       ],
     },
@@ -24,7 +24,7 @@ export default {
       label: "Source Branch",
       description: "The source branch that will be used to create the new branch",
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "branch",
         (c) => ({
           repoFullname: c.repoFullname,
@@ -37,7 +37,7 @@ export default {
     if (this.branchSha) {
       this.branchSha = this.branchSha.split("/")[0];
     } else {
-      const branches = await this.github.getBranches({
+      const branches = await this.dannyGitHubTest.getBranches({
         repoFullname: this.repoFullname,
       });
 
@@ -47,10 +47,10 @@ export default {
     }
 
     if (!this.branchSha) {
-      throw new ConfigurationError("Is required to select one source branch");
+      throw new ConfigurationError("Please make sure to select a source branch");
     }
 
-    const response = await this.github.createBranch({
+    const response = await this.dannyGitHubTest.createBranch({
       repoFullname: this.repoFullname,
       data: {
         ref: `refs/heads/${this.branchName}`,

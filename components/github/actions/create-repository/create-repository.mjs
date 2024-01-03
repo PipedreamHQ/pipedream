@@ -1,4 +1,4 @@
-import github from "../../github.app.mjs";
+import dannyGitHubTest from "../../github.app.mjs";
 
 export default {
   key: "github-create-repository",
@@ -7,7 +7,7 @@ export default {
   version: "0.0.8",
   type: "action",
   props: {
-    github,
+    dannyGitHubTest,
     name: {
       label: "Name",
       description: "The name of the repository.",
@@ -15,7 +15,7 @@ export default {
     },
     teamId: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "teamId",
       ],
       optional: true,
@@ -95,11 +95,11 @@ export default {
       is_template: this.isTemplate,
       team_id: this.teamId,
     };
-    const response = await this.github.createRepository({
+    const response = await this.dannyGitHubTest.createRepository({
       data,
     });
 
-    $.export("$summary", `Successfully created repository ${response.full_name}.`);
+    $.export("$summary", `Successfully created repository: "[${response.full_name}](${response.html_url})".`);
 
     return response;
   },

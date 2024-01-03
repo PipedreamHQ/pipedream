@@ -1,5 +1,5 @@
 import { toSingleLineString } from "../../common/utils.mjs";
-import github from "../../github.app.mjs";
+import dannyGitHubTest from "../../github.app.mjs";
 
 export default {
   key: "github-get-repository-content",
@@ -11,10 +11,10 @@ export default {
   version: "0.0.12",
   type: "action",
   props: {
-    github,
+    dannyGitHubTest,
     repoFullname: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "repoFullname",
       ],
     },
@@ -43,7 +43,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.github.getRepoContent({
+    const response = await this.dannyGitHubTest.getRepoContent({
       repoFullname: this.repoFullname,
       path: this.path,
       mediaType: this.mediaType,

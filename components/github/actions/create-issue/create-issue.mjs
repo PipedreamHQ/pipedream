@@ -1,4 +1,4 @@
-import github from "../../github.app.mjs";
+import dannyGitHubTest from "../../github.app.mjs";
 
 export default {
   key: "github-create-issue",
@@ -7,10 +7,10 @@ export default {
   version: "0.2.12",
   type: "action",
   props: {
-    github,
+    dannyGitHubTest,
     repoFullname: {
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "repoFullname",
       ],
     },
@@ -30,7 +30,7 @@ export default {
       description: "Labels to associate with this issue. NOTE: Only users with push access can set labels for new issues",
       optional: true,
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "labels",
         (c) => ({
           repoFullname: c.repoFullname,
@@ -42,7 +42,7 @@ export default {
       description: "Logins for Users to assign to this issue. NOTE: Only users with push access can set assignees for new issues",
       optional: true,
       propDefinition: [
-        github,
+        dannyGitHubTest,
         "collaborators",
         (c) => ({
           repoFullname: c.repoFullname,
@@ -51,7 +51,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.github.createIssue({
+    const response = await this.dannyGitHubTest.createIssue({
       repoFullname: this.repoFullname,
       data: {
         title: this.title,
@@ -61,7 +61,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully created issue.");
+    $.export("$summary", `Successfully created a new issue: "[${response.title}](${response.html_url})".`);
 
     return response;
   },

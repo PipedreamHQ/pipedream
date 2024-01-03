@@ -8,7 +8,7 @@ const CustomOctokit = Octokit.plugin(paginateRest);
 
 export default {
   type: "app",
-  app: "github",
+  app: "danny_github_test",
   propDefinitions: {
     orgName: {
       label: "Organization",
@@ -22,7 +22,7 @@ export default {
     },
     repoFullname: {
       label: "Repository",
-      description: "The name of the repository. The name is not case sensitive",
+      description: "The name of the repository (not case sensitive). If referencing a repo manually or from a previous step, make sure to include the organization name. For example: `PipedreamHQ/pipedream`.",
       type: "string",
       async options({ org }) {
         const repositories = await this.getRepos({
@@ -202,8 +202,8 @@ export default {
       },
     },
     gistId: {
-      label: "Gist Id",
-      description: "The Gist Id to perform your action",
+      label: "Gist ID",
+      description: "The Gist to update",
       type: "string",
       async options({ page }) {
         const PER_PAGE = 100;
@@ -212,12 +212,20 @@ export default {
           page: page + 1,
         });
 
-        return gists.map((gist) => ({
-          label: gist.description ?? gist.id,
-          value: gist.id,
-        }));
+        let gistData = gists.map((gist) => {
+          let firstFilename =
+            Object.keys(gist.files)[0] && gist.files[Object.keys(gist.files)[0]].filename;
+
+          return {
+            label: gist.description || firstFilename || gist.id,
+            value: gist.id,
+          };
+        });
+
+        return gistData;
       },
     },
+
     teamId: {
       label: "Team Id",
       description: "The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization.",
@@ -302,10 +310,16 @@ export default {
       return response.data;
     },
     async getRepos() {
-      return this._client().paginate("GET /user/repos", {});
+      return this._client().paginate("GET /user/repos", {
+        sort: "updated",
+        direction: "desc",
+      });
     },
     async getOrgRepos({ org }) {
-      return this._client().paginate(`GET /orgs/${org}/repos`, {});
+      return this._client().paginate(`GET /orgs/${org}/repos`, {
+        sort: "updated",
+        direction: "desc",
+      });
     },
     async getRepo({ repoFullname }) {
       const response = await this._client().request(`GET /repos/${repoFullname}`, {});
