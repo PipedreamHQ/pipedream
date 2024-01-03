@@ -5,9 +5,9 @@ const DOCS_LINK =
 
 export default {
   ...common,
-  key: "github-new-milestone",
-  name: "New Milestone",
-  description: `Emit new event when a new milestone is created [See the documentation](${DOCS_LINK})`,
+  key: "github-new-release",
+  name: "New release",
+  description: `Emit new event when a new release is created [See the documentation](${DOCS_LINK})`,
   version: "1.1.0",
   type: "source",
   dedupe: "unique",
@@ -25,18 +25,18 @@ export default {
     },
     getWebhookEvents() {
       return [
-        "milestone",
+        "release",
       ];
     },
     async onWebhookTrigger(event) {
       const { body } = event;
       if (body?.action === "created") {
-        const { milestone } = body;
-        const { id } = milestone;
+        const { release } = body;
+        const { id } = release;
         const ts = Date.now();
-        const summary = `New milestone: "${milestone.title}"`;
+        const summary = `New release: "${release.name}"`;
 
-        this.$emit(milestone, {
+        this.$emit(release, {
           id,
           summary,
           ts,
@@ -45,8 +45,9 @@ export default {
     },
     async onTimerTrigger() {
       const { repoFullname } = this;
-      const items = await this.github.getRepositoryMilestones({
+      const items = await this.github.listReleases({
         repoFullname,
+        per_page: 100,
       });
 
       const savedItems = this._getSavedItems();
@@ -58,7 +59,7 @@ export default {
           const { id } = item;
           if (shouldEmit) {
             const ts = Date.now();
-            const summary = `New milestone: "${item.title}"`;
+            const summary = `New release: "${item.name}"`;
 
             this.$emit(item, {
               id,
