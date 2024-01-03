@@ -34,6 +34,8 @@ export default {
           extensionId: this.extensionId,
           params: {
             page: page + 1,
+            dateFrom: "2016-01-01T00:00:00.000Z",
+            recordingType: "All",
           },
         });
         return records?.map(({ recording }) => recording.id );
@@ -67,12 +69,16 @@ export default {
       $,
     });
 
-    const tmpPath = this.filename.includes("/tmp")
-      ? tmpPath
+    let tmpPath = this.filename.includes("/tmp")
+      ? this.filename
       : `/tmp/${this.filename}`;
+    if (!tmpPath.includes(".mp3")) {
+      tmpPath = `${tmpPath}.mp3`;
+    }
+
     fs.writeFileSync(tmpPath, result);
 
-    $.export("$summary", `Successfully saved file to ${this.filename}.`);
+    $.export("$summary", `Successfully saved file to ${tmpPath}.`);
 
     return tmpPath;
   },
