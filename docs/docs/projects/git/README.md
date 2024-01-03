@@ -195,9 +195,18 @@ Yes, you can use the Github Syncing feature to develop your workflows from YAML 
 
 Then pushing changes to the `production` branch will trigger a deploy for your Pipedream workflows.
 
-### Why am I seeing an error when trying to merge a branch that includes a connected account in a workflow?
+### Why am I seeing an error about "private auth mismatch" when trying to merge a branch to production?
+![Private Auth Mismatch](https://res.cloudinary.com/pipedreamin/image/upload/v1704258143/private_auth_mismatch_kzdd7e.png)
 
-Make sure that all connected accounts in use are accessible to the entire workspace. [Private accounts](/connected-accounts/#access-control) not shared with the workspace will not be able to be merged.
+This error occurs when **both** of the below conditions are met:
+1. The referenced workflow is using a connected account that's not shared with the entire workspace
+2. The change was merged from outside the Pipedream UI (via github.com or locally)
+
+Since Pipedream can't verify the person who merged that change should have access to use the connected account in a workflow in this case, we block these deploys.
+
+To resolve this error:
+1. Make sure all the connected accounts in the project's workflows are [accessible to the entire workspace](/connected-accounts/#access-control)
+2. Re-trigger a sync with Pipedream by making a nominal change to the workflow **from outside the Pipedream UI** (via github.com or locally), then merge that change to production
 
 ### Can I sync an existing GitHub Repository with workflows to a new Pipedream Project?
 
