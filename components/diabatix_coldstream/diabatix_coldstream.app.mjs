@@ -2,28 +2,64 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "coldstream",
-  version: "0.0.{{ts}}",
+  app: "diabatix_coldstream",
   propDefinitions: {
-    projectId: {
-      type: "integer",
-      label: "Project ID",
-      description: "The ID of the project in ColdStream",
-    },
     caseId: {
       type: "integer",
       label: "Case ID",
-      description: "The ID of the case in ColdStream",
+      description: "The ID of the case in ColdStream.",
+      async options({
+        page, projectId,
+      }) {
+        const { items } = await this.listCases({
+          projectId,
+          params: {
+            pageNumber: page,
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     organizationId: {
       type: "integer",
       label: "Organization ID",
-      description: "The ID of the organization in ColdStream",
-      async options({ $ }) {
-        const { data } = await this.getCurrentUserOrganizations($);
-        return data.map((org) => ({
-          label: org.name,
-          value: org.id,
+      description: "The ID of the organization in ColdStream.",
+      async options() {
+        const { organizations } = await this.getMe();
+
+        return organizations.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    projectId: {
+      type: "integer",
+      label: "Project ID",
+      description: "The ID of the project in ColdStream.",
+      async options({
+        page, organizationId,
+      }) {
+        const { items } = await this.listProjects({
+          organizationId,
+          params: {
+            pageNumber: page,
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -60,70 +96,89 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.coldstream.diabatix.com";
+    _baseUrl(baseAPI) {
+      return `https://${baseAPI}.coldstream.diabatix.com`;
     },
-    async _makeRequest({
-      $, method, path, data, params, headers,
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.access_token}`,
+        "accept": "application/json",
+      };
+    },
+    _makeRequest({
+      $, baseAPI, path, ...opts
     }) {
       return axios($, {
-        method,
-        url: `${this._baseUrl()}${path}`,
-        data,
-        params,
-        headers,
+        url: `${this._baseUrl(baseAPI)}${path}`,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async getCurrentUserOrganizations($) {
+    getCurrentUserOrganizations($) {
       return this._makeRequest({
         $,
         method: "GET",
         path: "/users/me/organizations",
       });
     },
-    async getProject({ projectId }) {
+    getMe(opts = {}) {
       return this._makeRequest({
-        method: "GET",
+        baseAPI: "identity",
+        path: "/users/me",
+        ...opts,
+      });
+    },
+    getProject({ projectId }) {
+      return this._makeRequest({
+        baseAPI: "project",
         path: `/projects/${projectId}`,
       });
     },
-    async updateProject({
-      projectId, data,
+    updateProject({
+      projectId, ...opts
     }) {
       return this._makeRequest({
         method: "PUT",
+        baseAPI: "project",
         path: `/projects/${projectId}`,
-        data,
+        ...opts,
       });
     },
-    async createCase({
-      caseType, caseName,
-    }) {
+    createCase(opts = {}) {
       return this._makeRequest({
         method: "POST",
+        baseAPI: "case",
         path: "/cases",
-        data: {
-          type: caseType,
-          name: caseName,
-        },
+        ...opts,
       });
     },
-    async submitCase({
-      caseId, data,
-    }) {
+    submitCase(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/cases/${caseId}/submit`,
-        data,
+        baseAPI: "case",
+        path: "/cases/submit",
+        ...opts,
       });
     },
-    async getCaseResults({ caseId }) {
+    getCaseResults({
+      caseId, ...opts
+    }) {
       return this._makeRequest({
-        method: "GET",
-        path: `/cases/${caseId}/results`,
+        baseAPI: "case",
+        path: `/cases/result/${caseId}`,
+        opts,
       });
     },
-    async listOrganizationCases({
+    listCases({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        baseAPI: "case",
+        path: `/projects/${projectId}/cases`,
+        ...opts,
+      });
+    },
+    listOrganizationCases({
       organizationId, params,
     }) {
       return this._makeRequest({
@@ -132,7 +187,7 @@ export default {
         params,
       });
     },
-    async listProjectCases({
+    listProjectCases({
       projectId, params,
     }) {
       return this._makeRequest({
@@ -140,6 +195,45 @@ export default {
         path: `/projects/${projectId}/cases`,
         params,
       });
+    },
+    listProjects({
+      organizationId, ...opts
+    }) {
+      return this._makeRequest({
+        baseAPI: "project",
+        path: `/organizations/${organizationId}/projects`,
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.PageNumber = page;
+        page++;
+        const {
+          items,
+          totalPages,
+          pageNumber,
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of items) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = !(pageNumber == totalPages);
+
+      } while (hasMore);
     },
   },
 };

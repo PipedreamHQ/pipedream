@@ -1,33 +1,41 @@
 import coldstream from "../../diabatix_coldstream.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "diabatix_coldstream-fetch-simulation-results",
   name: "Fetch Simulation Results",
-  description: "Retrieves the result of a specific thermal simulation from ColdStream. [See the documentation](https://api.coldstream.diabatix.com)",
-  version: "0.0.{{ts}}",
+  description: "Retrieves the result of a specific simulation from ColdStream. [See the documentation](https://coldstream.readme.io/reference/get_cases-result-caseid)",
+  version: "0.0.1",
   type: "action",
   props: {
     coldstream,
+    organizationId: {
+      propDefinition: [
+        coldstream,
+        "organizationId",
+      ],
+    },
     projectId: {
       propDefinition: [
         coldstream,
         "projectId",
+        ({ organizationId }) => ({
+          organizationId,
+        }),
       ],
     },
     caseId: {
       propDefinition: [
         coldstream,
         "caseId",
+        ({ projectId }) => ({
+          projectId,
+        }),
       ],
     },
   },
   async run({ $ }) {
-    if (!this.projectId || !this.caseId) {
-      throw new Error("Project ID and Case ID are required.");
-    }
-
     const response = await this.coldstream.getCaseResults({
+      $,
       caseId: this.caseId,
     });
     $.export("$summary", `Successfully retrieved simulation results for case ID ${this.caseId}`);

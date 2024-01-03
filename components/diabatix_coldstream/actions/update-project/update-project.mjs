@@ -1,18 +1,26 @@
-import coldstream from "../../coldstream.app.mjs";
-import { axios } from "@pipedream/platform";
+import coldstream from "../../diabatix_coldstream.app.mjs";
 
 export default {
   key: "diabatix_coldstream-update-project",
   name: "Update Project in ColdStream",
   description: "Updates an existing project with new parameters or data in ColdStream. [See the documentation](https://coldstream.readme.io/reference/put_projects-projectid)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     coldstream,
+    organizationId: {
+      propDefinition: [
+        coldstream,
+        "organizationId",
+      ],
+    },
     projectId: {
       propDefinition: [
         coldstream,
-        "asyncProjectId",
+        "projectId",
+        ({ organizationId }) => ({
+          organizationId,
+        }),
       ],
     },
     name: {
@@ -27,14 +35,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      name: this.name,
-      description: this.description,
-    };
-
     const response = await this.coldstream.updateProject({
+      $,
       projectId: this.projectId,
-      data,
+      data: {
+        name: this.name,
+        description: this.description,
+      },
     });
 
     $.export("$summary", `Successfully updated project with ID ${this.projectId}`);

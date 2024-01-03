@@ -1,112 +1,85 @@
-import { axios } from "@pipedream/platform";
-import diabatixColdstream from "../../diabatix_coldstream.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import coldstream from "../../diabatix_coldstream.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "diabatix_coldstream-simulation-completed",
-  name: "Simulation Completed (Coldstream)",
-  description: "Emits an event when a thermal simulation has been successfully completed in Coldstream with a status of 2. [See the documentation](https://coldstream.readme.io/reference)",
-  version: "0.0.{{ts}}",
+  name: "New Simulation Completed",
+  description: "Emit new event when a simulation has been successfully completed.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    diabatixColdstream,
+    coldstream,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     organizationId: {
       propDefinition: [
-        diabatixColdstream,
+        coldstream,
         "organizationId",
-        async (opts) => {
-          const { data } = await diabatixColdstream.getCurrentUserOrganizations(opts);
-          return data.map((org) => ({
-            label: org.name,
-            value: org.id,
-          }));
-        },
       ],
     },
-    caseStatus: {
+    projectId: {
       propDefinition: [
-        diabatixColdstream,
-        "caseStatus",
-      ],
-      default: [
-        2,
+        coldstream,
+        "projectId",
+        ({ organizationId }) => ({
+          organizationId,
+        }),
       ],
     },
   },
   methods: {
-    _getLastEmittedTimestamp() {
-      return this.db.get("lastEmittedTimestamp") || 0;
+    _getLastId() {
+      return this.db.get("lastId") || 0;
     },
-    _setLastEmittedTimestamp(timestamp) {
-      this.db.set("lastEmittedTimestamp", timestamp);
+    _setLastId(lastId) {
+      this.db.set("lastId", lastId);
+    },
+    async startEvent(maxResults = 0) {
+      const lastId = this._getLastId();
+
+      const response = this.coldstream.paginate({
+        fn: this.coldstream.listCases,
+        maxResults,
+        projectId: this.projectId,
+        params: {
+          "Status": 2,
+          "SortField.Name": "created",
+          "SortField.Order": 1,
+        },
+      });
+
+      let responseArray = [];
+
+      for await (const item of response) {
+        if (item.id <= lastId) break;
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) this._setLastId(responseArray[0].id);
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, {
+          id: item.id,
+          summary: `New sdimulation completed with Id: ${item.id}`,
+          ts: item.created,
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      const params = {
-        status: [
-          2,
-        ],
-        PageSize: 50,
-      };
-      const { data: cases } = await this.diabatixColdstream.listOrganizationCases({
-        organizationId: this.organizationId,
-        params,
-      });
-
-      // Sort cases by updated date in descending order
-      cases.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-
-      cases.slice(0, 50).forEach((caseItem) => {
-        this.$emit(caseItem, {
-          id: caseItem.id,
-          summary: `Simulation Completed: ${caseItem.name}`,
-          ts: Date.parse(caseItem.updatedAt),
-        });
-      });
-
-      // Store the timestamp of the last emitted event
-      if (cases.length > 0) {
-        const lastEmittedTimestamp = Date.parse(cases[0].updatedAt);
-        this._setLastEmittedTimestamp(lastEmittedTimestamp);
-      }
+      await this.startEvent(25);
     },
   },
   async run() {
-    const lastEmittedTimestamp = this._getLastEmittedTimestamp();
-    const params = {
-      status: [
-        2,
-      ],
-      PageSize: 50,
-    };
-    const { data: cases } = await this.diabatixColdstream.listOrganizationCases({
-      organizationId: this.organizationId,
-      params,
-    });
-
-    cases.forEach((caseItem) => {
-      const caseTimestamp = Date.parse(caseItem.updatedAt);
-      if (caseTimestamp > lastEmittedTimestamp) {
-        this.$emit(caseItem, {
-          id: caseItem.id,
-          summary: `Simulation Completed: ${caseItem.name}`,
-          ts: caseTimestamp,
-        });
-      }
-    });
-
-    // Update the last emitted timestamp
-    if (cases.length > 0) {
-      const latestTimestamp = Date.parse(cases[0].updatedAt);
-      this._setLastEmittedTimestamp(latestTimestamp);
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };

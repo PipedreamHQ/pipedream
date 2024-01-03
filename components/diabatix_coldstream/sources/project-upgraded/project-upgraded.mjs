@@ -1,56 +1,82 @@
-import coldstream from "../../coldstream.app.mjs";
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import _ from "lodash";
+import coldstream from "../../diabatix_coldstream.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "diabatix_coldstream-project-upgraded",
-  name: "Project Upgraded",
-  description: "Emits an event when a specific project has been upgraded or edited in ColdStream.",
-  version: "0.0.{{ts}}",
+  name: "New Project Upgraded",
+  description: "Emit new event when a specific project has been upgraded or edited in ColdStream.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     coldstream,
     db: "$.service.db",
-    asyncProjectId: {
-      propDefinition: [
-        coldstream,
-        "asyncProjectId",
-      ],
-    },
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 5, // 5 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+    organizationId: {
+      propDefinition: [
+        coldstream,
+        "organizationId",
+      ],
+    },
+    projectId: {
+      propDefinition: [
+        coldstream,
+        "projectId",
+        ({ organizationId }) => ({
+          organizationId,
+        }),
+      ],
     },
   },
   methods: {
-    generateMeta(data) {
+    _getLastObject() {
+      return this.db.get("lastObject");
+    },
+    _setLastObject(lastObject = null) {
+      this.db.set("lastObject", this._parsePictureUrl(lastObject));
+    },
+    _parsePictureUrl(obj) {
+      const regex = /(http.+)\?/g;
+      const newPictureUrl = regex.exec(obj.pictureUrl);
       return {
-        id: data.id || `${data.updatedAt}`, // Use id if available, otherwise use updatedAt
-        summary: `Project ${data.name} updated`,
-        ts: Date.parse(data.updatedAt), // Use updatedAt as the timestamp
+        ...obj,
+        pictureUrl: newPictureUrl[0],
+      };
+    },
+    async startEvent() {
+      const lastObject = this._getLastObject();
+      const currentProjectData = await this.coldstream.getProject({
+        projectId: this.projectId,
+      });
+      if ((!lastObject) ||
+      (lastObject && (!_.isEqual(this._parsePictureUrl(currentProjectData), lastObject)))) {
+        this.$emit(currentProjectData, this.generateMeta(currentProjectData));
+        this._setLastObject(currentProjectData);
+      }
+    },
+    generateMeta(data) {
+      const ts = new Date();
+      return {
+        id: `${data.id}-${ts}`,
+        summary: `Project ${data.name} updated.`,
+        ts: Date.parse(ts),
       };
     },
   },
   hooks: {
     async deploy() {
-      // Fetch the current project data to initialize the state
-      const projectData = await this.coldstream.getProject({
-        projectId: this.asyncProjectId,
-      });
-      this.db.set("projectData", projectData);
+      await this.startEvent();
     },
   },
   async run() {
-    const lastProjectData = this.db.get("projectData");
-    const currentProjectData = await this.coldstream.getProject({
-      projectId: this.asyncProjectId,
-    });
-
-    if (JSON.stringify(lastProjectData) !== JSON.stringify(currentProjectData)) {
-      this.$emit(currentProjectData, this.generateMeta(currentProjectData));
-      this.db.set("projectData", currentProjectData);
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };
