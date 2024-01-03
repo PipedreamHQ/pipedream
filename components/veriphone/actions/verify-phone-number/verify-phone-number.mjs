@@ -24,6 +24,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.veriphone.verifyPhoneNumber({
+      $,
       params: {
         phone: this.phoneNumber,
         country_code: this.countryCode,

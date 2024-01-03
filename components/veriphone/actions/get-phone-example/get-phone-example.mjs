@@ -24,6 +24,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.veriphone.getDummyPhoneNumber({
+      $,
       params: {
         country_code: this.countryCode,
         type: this.phoneType,
