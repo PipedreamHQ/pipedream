@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
-
 import salesforce from "../salesforce_rest_api.app.mjs";
+import salesforceWebhooks from "salesforce-webhooks";
+
+const { SalesforceClient } = salesforceWebhooks;
 
 export default {
   dedupe: "unique",
@@ -31,19 +33,17 @@ export default {
       const secretToken = uuidv4();
       let webhookData;
       try {
-        webhookData = await this.salesforce.createWebhook(
-          this.http.endpoint,
-          this.objectType,
-          this.getEventType(),
+        webhookData = await this.createWebhook({
+          endpointUrl: this.http.endpoint,
+          sObjectType: this.objectType,
+          event: this.getEventType(),
           secretToken,
-          {
-            fieldsToCheck: this.getFieldsToCheck(),
-            fieldsToCheckMode: this.getFieldsToCheckMode(),
-            skipValidation: true, // neccessary for custom objects
-          },
-        );
+          fieldsToCheck: this.getFieldsToCheck(),
+          fieldsToCheckMode: this.getFieldsToCheckMode(),
+          skipValidation: true, // neccessary for custom objects
+        });
       } catch (err) {
-        console.log("Create webhook error:", err.response?.data ?? err);
+        console.log("Create webhook error:", err);
         throw err;
       }
       this._setSecretToken(secretToken);
@@ -52,10 +52,26 @@ export default {
     async deactivate() {
       // Create the webhook from the Salesforce platform
       const webhookData = this._getWebhookData();
-      await this.salesforce.deleteWebhook(webhookData);
+      await this.deleteWebhook(webhookData);
     },
   },
   methods: {
+    getClient() {
+      const { salesforce } = this;
+      return new SalesforceClient({
+        apiVersion: salesforce._apiVersion(),
+        authToken: salesforce._authToken(),
+        instance: salesforce._subdomain(),
+      });
+    },
+    createWebhook(args = {}) {
+      const client = this.getClient();
+      return client.createWebhook(args);
+    },
+    deleteWebhook(args = {}) {
+      const client = this.getClient();
+      return client.deleteWebhook(args);
+    },
     _getSecretToken() {
       return this.db.get("secretToken");
     },

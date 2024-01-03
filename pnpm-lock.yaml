@@ -411,6 +411,9 @@ importers:
       axios: 1.6.2
       sqlstring: 2.3.3
 
+  components/appointedd:
+    specifiers: {}
+
   components/asana:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -791,6 +794,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       puppeteer-core: 19.8.0
+
+  components/btcpay_server:
+    specifiers: {}
 
   components/budgets_ai:
     specifiers: {}
@@ -1282,6 +1288,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
 
+  components/content_snare:
+    specifiers: {}
+
   components/convenia:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1607,7 +1616,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/digitalriver:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dingconnect:
     specifiers: {}
@@ -1842,6 +1854,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
+
+  components/edusign:
+    specifiers: {}
 
   components/elastic_email:
     specifiers: {}
@@ -2118,6 +2133,9 @@ importers:
   components/fivetran:
     specifiers: {}
 
+  components/flexmail:
+    specifiers: {}
+
   components/float:
     specifiers: {}
 
@@ -2181,6 +2199,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/formcan:
+    specifiers: {}
 
   components/formdesk:
     specifiers: {}
@@ -2419,6 +2440,9 @@ importers:
       form-data: 4.0.0
       fs: 0.0.1-security
 
+  components/gleap:
+    specifiers: {}
+
   components/gmail:
     specifiers:
       '@google-cloud/local-auth': ^2.1.0
@@ -2452,6 +2476,9 @@ importers:
       googleapis: 109.0.1
       html-to-text: 8.2.1
       nodemailer: 6.9.5
+
+  components/gmodstore:
+    specifiers: {}
 
   components/go_upc:
     specifiers: {}
@@ -3401,7 +3428,10 @@ importers:
     specifiers: {}
 
   components/l3mbda:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/labs64_netlicensing:
     specifiers: {}
@@ -3629,6 +3659,9 @@ importers:
   components/loqate:
     specifiers: {}
 
+  components/loyjoy:
+    specifiers: {}
+
   components/luminous:
     specifiers: {}
 
@@ -3673,6 +3706,9 @@ importers:
       uuid: 8.3.2
 
   components/mailcoach:
+    specifiers: {}
+
+  components/mailercloud:
     specifiers: {}
 
   components/mailerlite:
@@ -4982,6 +5018,9 @@ importers:
   components/pretix:
     specifiers: {}
 
+  components/printautopilot:
+    specifiers: {}
+
   components/printavo:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -5009,6 +5048,9 @@ importers:
       '@pipedream/platform': 1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/proabono:
+    specifiers: {}
 
   components/process_street:
     specifiers:
@@ -5372,6 +5414,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/reputation_lyncs:
+    specifiers: {}
+
   components/rescuetime:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -5671,7 +5716,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/scraptio:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/screendesk:
     specifiers:
@@ -6426,6 +6474,9 @@ importers:
       '@pipedream/platform': 0.9.0
       uuid: 8.3.2
 
+  components/surveycto:
+    specifiers: {}
+
   components/surveymethods:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -7037,6 +7088,9 @@ importers:
   components/userflow:
     specifiers: {}
 
+  components/userlist:
+    specifiers: {}
+
   components/usersketch:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7211,6 +7265,9 @@ importers:
     devDependencies:
       '@pipedream/types': 0.1.6
       '@types/node': 17.0.45
+
+  components/waiverfile:
+    specifiers: {}
 
   components/waiverforever:
     specifiers:
