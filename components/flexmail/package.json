@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/flexmail",
+  "version": "0.0.1",
+  "description": "Pipedream Flexmail Components",
+  "main": "flexmail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "flexmail"
+  ],
+  "homepage": "https://pipedream.com/apps/flexmail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
