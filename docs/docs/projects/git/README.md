@@ -202,7 +202,7 @@ This error occurs when **both** of the below conditions are met:
 1. The referenced workflow is using a connected account that's not shared with the entire workspace
 2. The change was merged from outside the Pipedream UI (via github.com or locally)
 
-Since Pipedream can't verify the person who merged that change should have access to use the connected account in a workflow in this case, we take an overly cautious approach and block these deploys entirely.
+Since Pipedream can't verify the person who merged that change should have access to use the connected account in a workflow in this case, we block these deploys entirely.
 
 To resolve this error:
 1. Make sure all the connected accounts in the project's workflows are [accessible to the entire workspace](/connected-accounts/#access-control)
