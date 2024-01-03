@@ -1,109 +1,114 @@
 import { axios } from "@pipedream/platform";
+import utils from "./common/utils.mjs";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "toneden",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     userId: {
       type: "integer",
       label: "User ID",
       description: "Numeric ID of the user whose ad campaigns will be retrieved.",
-    },
-    attachmentId: {
-      type: "integer",
-      label: "Attachment ID",
-      description: "Numeric ID of the attachment to retrieve.",
-    },
-    status: {
-      type: "string",
-      label: "Status",
-      description: "The status of the ad campaigns to retrieve.",
-      options: [
-        "active",
-        "live",
-        "recent",
-        "paused",
-        "error",
-        "inactive",
-        "scheduled",
-      ],
-      optional: true,
-      default: "active",
-    },
-    offset: {
-      type: "integer",
-      label: "Offset",
-      description: "The number of records to skip for pagination.",
-      optional: true,
-    },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The limit on the number of records to return.",
-      optional: true,
+      async options() {
+        const { user } = await this.getUserInfo();
+        return [
+          {
+            label: user.username,
+            value: user.id,
+          },
+        ];
+      },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://www.toneden.io/api/v1";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
+    getHeaders(withAuth) {
+      if (withAuth) {
+        return {
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        };
+      }
+    },
+    _makeRequest({
+      $ = this, path, withAuth = true, ...args
+    } = {}) {
+      const config = {
+        ...args,
+        debug: true,
+        url: this.getUrl(path),
+        headers: this.getHeaders(withAuth),
+      };
+      return axios($, config);
+    },
+    getUserInfo() {
+      return this._makeRequest({
+        path: "/users/me",
       });
     },
-    async getUserAdCampaigns({
-      userId, status, offset, limit,
+    getUserAdCampaigns({
+      userId, ...args
     }) {
       return this._makeRequest({
         path: `/users/${userId}/advertising/campaigns`,
-        params: {
-          status,
-          offset,
-          limit,
-        },
+        ...args,
       });
     },
-    async getAttachmentById({ attachmentId }) {
+    getUserAttachments({
+      userId, ...args
+    }) {
       return this._makeRequest({
-        path: `/attachments/${attachmentId}`,
+        withAuth: false,
+        path: `/users/${userId}/attachments`,
+        ...args,
       });
     },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let moreData = true;
-      let currentOffset = 0;
+    async *getIterations({
+      resourceFn, resourceFnArgs, resourceName, max = constants.DEFAULT_MAX,
+    }) {
+      let offset = 0;
+      let resourcesCount = 0;
 
-      while (moreData) {
-        const {
-          data, nextOffset,
-        } = await fn(...opts, currentOffset);
-        results = results.concat(data);
-        if (typeof nextOffset !== "undefined") {
-          currentOffset = nextOffset;
-        } else {
-          moreData = false;
+      while (true) {
+        const response =
+          await resourceFn({
+            ...resourceFnArgs,
+            params: {
+              ...resourceFnArgs?.params,
+              offset,
+              limit: constants.DEFAULT_LIMIT,
+            },
+          });
+
+        const nextResources = resourceName && response[resourceName] || response;
+
+        if (!nextResources?.length) {
+          console.log("No more resources found");
+          return;
         }
-      }
 
-      return results;
+        for (const resource of nextResources) {
+          yield resource;
+          resourcesCount += 1;
+
+          if (resourcesCount >= max) {
+            console.log("Max resources count reached");
+            return;
+          }
+        }
+
+        if (nextResources.length < constants.DEFAULT_LIMIT) {
+          console.log("Ther is no more resources for pagination");
+          return;
+        }
+
+        offset += constants.DEFAULT_LIMIT;
+      }
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    paginate(args = {}) {
+      return utils.iterate(this.getIterations(args));
     },
   },
 };
