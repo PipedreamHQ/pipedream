@@ -23,12 +23,16 @@ export default {
       const { body } = event;
       const action = body?.action;
       if (action && this.checkEventType(action)) {
-        const item = this.getBodyItem();
+        const item = this.getBodyItem(body);
         const ts = new Date(item.updated_at).valueOf() || Date.now();
         const id = `${action}_${ts}`;
         const summary = this.getSummary(action, item);
 
-        this.$emit(body, {
+        this.$emit({
+          action,
+          [item]: item,
+          sender: body.sender,
+        }, {
           id,
           summary,
           ts,
