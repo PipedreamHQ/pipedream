@@ -1,33 +1,73 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "gleap",
   propDefinitions: {
-    feedbackId: {
-      type: "string",
-      label: "Feedback ID",
-      description: "The unique identifier for the feedback",
-    },
-    eventName: {
+    name: {
       type: "string",
       label: "Event Name",
-      description: "The name of the event",
+      description: "The name of the event.",
     },
-    eventData: {
+    data: {
       type: "object",
       label: "Event Data",
-      description: "The data associated with the event",
+      description: "The data associated with the event.",
     },
-    eventDate: {
+    date: {
       type: "string",
       label: "Event Date",
-      description: "The date of the event",
+      description: "The date of the event. Format `YYYY-MM-DDTHH:MM:SS.SSSZ`",
+    },
+    feedbackId: {
+      type: "string",
+      label: "feedback ID",
+      description: "The unique identifier for the feedback",
+      async options({ projectId }) {
+        const { tickets } = await this.listFeedbacks({
+          projectId,
+        });
+
+        return tickets.map(({
+          shareToken: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     userId: {
       type: "string",
       label: "User ID",
       description: "The unique identifier for the user",
+      async options({ projectId }) {
+        const data = await this.listUsers({
+          projectId,
+        });
+
+        return data.map(({
+          id: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "The unique identifier for the project",
+      async options() {
+        const data = await this.listProjects();
+
+        return data.map(({
+          _id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     userName: {
       type: "string",
@@ -68,49 +108,52 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.gleap.io/admin";
+      return "https://api.gleap.io";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method,
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
-
+    _headers() {
+      return {
+        "Content-Type": "application/json",
+        "Api-Token": this.$auth.secret_api_token,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        method,
         url: `${this._baseUrl()}${path}`,
-        data,
-        params,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Api-Token": this.$auth.api_token,
-        },
-        ...otherOpts,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async trackEvent(opts = {}) {
+    getFeedback({ feedbackId }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/bugs/${feedbackId}`,
+      });
+    },
+    listProjects(opts = {}) {
+      return this._makeRequest({
+        path: "/projects",
+        ...opts,
+      });
+    },
+    listUsers({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/users`,
+        ...opts,
+      });
+    },
+    trackEvent(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/track",
-        data: {
-          events: [
-            {
-              date: opts.eventDate,
-              name: opts.eventName,
-              data: opts.eventData,
-              userId: opts.userId,
-            },
-          ],
-        },
+        path: "/admin/track",
+        ...opts,
       });
     },
-    async identifyUser(opts = {}) {
+    identifyUser(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/identify",
@@ -125,32 +168,56 @@ export default {
         },
       });
     },
-    async getFeedbacksOrderedByCreatedAt() {
+    listFeedbacks({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/projects/${projectId}/tickets`,
+        ...opts,
+      });
+    },
+    getFeedbacksOrderedByUpdatedAt() {
       return this._makeRequest({
         method: "GET",
         path: "/feedbacks",
         params: {
-          orderBy: "-createdat",
+          orderBy: "-updatedAt",
         },
       });
     },
-    async getFeedbacksOrderedByUpdatedAt() {
-      return this._makeRequest({
-        method: "GET",
-        path: "/feedbacks",
-        params: {
-          orderBy: "-updatedat",
-        },
-      });
-    },
-    async deleteFeedback(opts = {}) {
+    deleteFeedback(opts = {}) {
       return this._makeRequest({
         method: "DELETE",
         path: `/feedbacks/${opts.feedbackId}`,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.skip = LIMIT * page;
+        page++;
+        const { tickets } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of tickets) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = tickets.length;
+
+      } while (hasMore);
     },
   },
 };

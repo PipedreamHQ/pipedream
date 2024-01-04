@@ -1,103 +1,63 @@
 import gleap from "../../gleap.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "gleap-create-track-event",
   name: "Create Track Event",
-  description: "Creates a new track event in Gleap. [See the documentation](https://docs.gleap.io/server/rest-api)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new track event in Gleap. [See the documentation](https://docs.gleap.io/server/rest-api#track-events)",
+  version: "0.0.1",
   type: "action",
   props: {
     gleap,
-    feedbackId: {
+    name: {
       propDefinition: [
         gleap,
-        "feedbackId",
+        "name",
       ],
     },
-    eventName: {
+    data: {
       propDefinition: [
         gleap,
-        "eventName",
+        "data",
       ],
     },
-    eventData: {
+    date: {
       propDefinition: [
         gleap,
-        "eventData",
+        "date",
       ],
     },
-    eventDate: {
+    projectId: {
       propDefinition: [
         gleap,
-        "eventDate",
+        "projectId",
       ],
     },
     userId: {
       propDefinition: [
         gleap,
         "userId",
-      ],
-    },
-    userName: {
-      propDefinition: [
-        gleap,
-        "userName",
-      ],
-    },
-    userEmail: {
-      propDefinition: [
-        gleap,
-        "userEmail",
-      ],
-    },
-    userValue: {
-      propDefinition: [
-        gleap,
-        "userValue",
-      ],
-    },
-    userPhone: {
-      propDefinition: [
-        gleap,
-        "userPhone",
-      ],
-    },
-    userCreatedAt: {
-      propDefinition: [
-        gleap,
-        "userCreatedAt",
-      ],
-    },
-    customProperties: {
-      propDefinition: [
-        gleap,
-        "customProperties",
+        ({ projectId }) => ({
+          projectId,
+        }),
       ],
     },
   },
   async run({ $ }) {
     const response = await this.gleap.trackEvent({
-      eventDate: this.eventDate,
-      eventName: this.eventName,
-      eventData: this.eventData,
-      userId: this.userId,
+      $,
+      data: {
+        events: [
+          {
+            date: this.date,
+            name: this.name,
+            data: this.data,
+            userId: this.userId,
+          },
+        ],
+      },
     });
 
-    // Check if any of the optional identifyUser fields are provided
-    if (this.userName || this.userEmail || this.userValue || this.userPhone || this.userCreatedAt || this.customProperties) {
-      await this.gleap.identifyUser({
-        userId: this.userId,
-        userName: this.userName,
-        userEmail: this.userEmail,
-        userValue: this.userValue,
-        userPhone: this.userPhone,
-        userCreatedAt: this.userCreatedAt,
-        customProperties: this.customProperties,
-      });
-    }
-
-    $.export("$summary", `Successfully created track event '${this.eventName}'`);
+    $.export("$summary", `Successfully created track event ${this.name}.`);
     return response;
   },
 };
