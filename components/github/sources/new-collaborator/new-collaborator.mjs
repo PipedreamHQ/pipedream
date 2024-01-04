@@ -23,48 +23,17 @@ export default {
         "member",
       ];
     },
-    async onWebhookTrigger(event) {
-      const { body } = event;
-      if (body?.action === "added") {
-        const { member } = body;
-        const { id } = member;
-        const ts = Date.now();
-        const summary = `New collaborator: "${member.login}"`;
-
-        this.$emit(member, {
-          id,
-          summary,
-          ts,
-        });
-      }
+    shouldEmitWebhookEvent(body) {
+      return body?.action === "added";
     },
-    async onTimerTrigger() {
-      const { repoFullname } = this;
-      const items = await this.github.getRepositoryLatestCollaborators({
-        repoFullname,
-      });
-
-      const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
-
-      items
-        .filter(({ id }) => !savedItems.includes(id))
-        .forEach((item) => {
-          const { id } = item;
-          if (shouldEmit) {
-            const ts = Date.now();
-            const summary = `New collaborator: "${item.login}"`;
-
-            this.$emit(item, {
-              id,
-              summary,
-              ts,
-            });
-          }
-          savedItems.push(id);
-        });
-
-      this._setSavedItems(savedItems);
+    getWebhookEventItem(body) {
+      return body.member;
+    },
+    getSummary(item) {
+      return `New collaborator: ${item.login}`;
+    },
+    getPollingData(args) {
+      return this.github.getRepositoryLatestCollaborators(args);
     },
   },
 };

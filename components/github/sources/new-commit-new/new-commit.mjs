@@ -41,18 +41,17 @@ export default {
         "push",
       ];
     },
+    getSummary(item) {
+      return `New commit: ${item.commit?.message ?? item.message}`;
+    },
     async onWebhookTrigger(event) {
       const { body } = event;
       if (body?.ref.split("refs/heads/").pop() === this.branch) {
         body.commits.forEach((commit) => {
           const { id } = commit;
-          const ts = Date.now();
-          const summary = `New commit: "${commit.message}"`;
-
-          this.$emit(commit, {
+          this.emitEvent({
             id,
-            summary,
-            ts,
+            item: commit,
           });
         });
       }
@@ -77,12 +76,9 @@ export default {
         .forEach((item) => {
           const id = item.sha;
           if (shouldEmit) {
-            const summary = `New commit: "${item.commit.message}"`;
-
-            this.$emit(item, {
+            this.emitEvent({
               id,
-              summary,
-              ts,
+              item,
             });
           }
           savedItems.push(id);

@@ -143,7 +143,7 @@ export default {
     async onWebhookTrigger(event) {
       const { body } = event;
       if (this.shouldEmitWebhookEvent(body)) {
-        const item = this._getWebhookEventItem(body);
+        const item = this.getWebhookEventItem(body);
         const id = this.getId(item);
         this.emitEvent({
           id,

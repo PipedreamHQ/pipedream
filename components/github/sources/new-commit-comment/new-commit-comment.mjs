@@ -23,48 +23,17 @@ export default {
         "commit_comment",
       ];
     },
-    async onWebhookTrigger(event) {
-      const { body } = event;
-      if (body?.action === "created") {
-        const { comment } = body;
-        const { id } = comment;
-        const ts = Date.now();
-        const summary = `New comment (${id})`;
-
-        this.$emit(comment, {
-          id,
-          summary,
-          ts,
-        });
-      }
+    shouldEmitWebhookEvent(body) {
+      return body?.action === "created";
     },
-    async onTimerTrigger() {
-      const { repoFullname } = this;
-      const items = await this.github.getRepositoryLatestCommitComments({
-        repoFullname,
-      });
-
-      const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
-
-      items
-        .filter(({ id }) => !savedItems.includes(id))
-        .forEach((item) => {
-          const { id } = item;
-          if (shouldEmit) {
-            const ts = Date.now();
-            const summary = `New comment (${id})`;
-
-            this.$emit(item, {
-              id,
-              summary,
-              ts,
-            });
-          }
-          savedItems.push(id);
-        });
-
-      this._setSavedItems(savedItems);
+    getWebhookEventItem(body) {
+      return body.comment;
+    },
+    getSummary(item) {
+      return `New comment (${item.id})`;
+    },
+    getPollingData(args) {
+      return this.github.getRepositoryLatestCommitComments(args);
     },
   },
 };
