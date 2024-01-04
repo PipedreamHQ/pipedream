@@ -22,11 +22,11 @@ You can determine which workflows are connected to the legacy Airtable (API Key)
     - Change any of your code steps to reference `airtable_oauth` instead of `airtable`. 
     - Modify your authorization headers accordingly, from
 
-    `"Authorization": `${this.airtable.$auth.api_key}`,`
+    `"Authorization": ${this.airtable.$auth.api_key}`
 
     to 
 
-    `Authorization: `Bearer ${this.airtable_oauth.$auth.oauth_access_token}`
+    ```Authorization: `Bearer ${this.airtable_oauth.$auth.oauth_access_token}` ```
 
 This is what your code step may have looked like before:
 
