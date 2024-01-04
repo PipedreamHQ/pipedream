@@ -24,12 +24,13 @@ You can determine which workflows are connected to the legacy Airtable (API Key)
 - After reconnecting to Airtable via OAuth, you'll need to update your existing workflows that use the legacy Airtable app.
 - Remove any legacy Airtable sources and re-add the source using the new Airtable app
 - Remove any legacy Airtable actions and re-add them using the new Airtable app
+
 <br>
 3. **If you're using Airtable in code:**
     - Change any of your code steps to reference `airtable_oauth` instead of `airtable`. 
     - Modify your authorization headers accordingly
 
-In Node.js, you would modify your authorization header from:
+In Node.js, you would modify your authorization header like this:
 
     `"Authorization": ${this.airtable.$auth.api_key}`
 
