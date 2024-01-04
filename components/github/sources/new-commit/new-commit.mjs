@@ -10,8 +10,8 @@ export default {
   ...common,
   key: "github-new-commit",
   name: "New Commit",
-  description: `Emit new events when a collaborator is added [See the documentation](${DOCS_LINK})`,
-  version: "1.1.0",
+  description: `Emit new event when commits are pushed to a branch [See the documentation](${DOCS_LINK})`,
+  version: "1.1.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {
@@ -46,7 +46,7 @@ export default {
     },
     async onWebhookTrigger(event) {
       const { body } = event;
-      if (body?.ref.split("refs/heads/").pop() === this.branch) {
+      if (body?.ref?.split?.("refs/heads/").pop() === this.branch.split("/").pop()) {
         body.commits.forEach((commit) => {
           const { id } = commit;
           this.emitEvent({
@@ -62,6 +62,7 @@ export default {
       const timestamp = this._getLastTimestamp();
       const items = await this.github.getCommits({
         repoFullname,
+        sha: this.branch.split("/")[0],
         ...(timestamp && {
           since: new Date(timestamp).toISOString()
             .slice(0, -5) + "Z",

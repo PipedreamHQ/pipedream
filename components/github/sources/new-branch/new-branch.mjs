@@ -30,7 +30,7 @@ export default {
       return item.ref ?? item.name;
     },
     getSummary(item) {
-      return `New branch: ${item.ref ?? item.name}`;
+      return `New branch: ${this.getId(item)}`;
     },
     getPollingData(args) {
       return this.github.getBranches(args);
