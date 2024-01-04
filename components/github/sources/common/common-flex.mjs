@@ -193,12 +193,10 @@ export default {
   },
   async run(event) {
     if (this._getWebhookId()) {
-      console.log("webhook trigger");
       await this.onWebhookTrigger(event);
     }
 
     else {
-      console.log("timer trigger");
       await this.onTimerTrigger();
     }
   },
