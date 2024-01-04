@@ -29,14 +29,14 @@ export default {
       daysAgo.setDate(daysAgo.getDate() - 30);
       const timeString = daysAgo.toISOString();
 
-      const args = this.getFilesOpts({
+      const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files",
       });
 
-      const { data } = await this.googleDrive.drive().files.list(args);
+      const { files } = await this.googleDrive.listFilesInPage(null, args);
 
-      await this.processChanges(data.files);
+      await this.processChanges(files);
     },
     async activate() {
       await common.hooks.activate.bind(this)();

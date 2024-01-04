@@ -46,14 +46,16 @@ export default {
       daysAgo.setDate(daysAgo.getDate() - 30);
       const timeString = daysAgo.toISOString();
 
-      const { data } = await this.googleDrive.drive().files.list({
+      const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and createdTime > "${timeString}" and trashed = false`,
         orderBy: "createdTime desc",
         fields: "*",
         pageSize: 25,
       });
 
-      this.emitFiles(data.files);
+      const { files } = await this.googleDrive.listFilesInPage(null, args);
+
+      this.emitFiles(files);
     },
     ...common.hooks,
     async activate() {
@@ -98,34 +100,21 @@ export default {
       const lastFileCreatedTime = this._getLastFileCreatedTime();
       const timeString = new Date(lastFileCreatedTime).toISOString();
 
-      let params = {
+      const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and createdTime > "${timeString}" and trashed = false`,
         orderBy: "createdTime desc",
         fields: "*",
-      };
+      });
 
-      // As with many of the methods for Google Drive, we must
-      // pass a request of a different shape when we're requesting
-      // changes for a shared drive vs My Drive
-      if (!this.isMyDrive()) {
-        params = {
-          ...params,
-          corpora: "drive",
-          driveId: this.getDriveId(),
-          includeItemsFromAllDrives: true,
-          supportsAllDrives: true,
-        };
-      }
+      const { files } = await this.googleDrive.listFilesInPage(null, args);
 
-      const { data } = await this.googleDrive.drive().files.list(params);
-
-      if (!data.files?.length) {
+      if (!files?.length) {
         return;
       }
 
-      this.emitFiles(data.files);
+      this.emitFiles(files);
 
-      this._setLastFileCreatedTime(Date.parse(data.files[0].createdTime));
+      this._setLastFileCreatedTime(Date.parse(files[0].createdTime));
     },
   },
   sampleEmit,
