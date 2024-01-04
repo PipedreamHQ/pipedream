@@ -117,6 +117,13 @@ export default {
         this._setWebhookId(null);
       }
     },
+    shouldEmit() {
+      const shouldEmit = this.db.get("_shouldEmit");
+      if (!shouldEmit) {
+        this.db.set("_shouldEmit", true);
+      }
+      return shouldEmit;
+    },
     shouldEmitWebhookEvent() {
       return true;
     },
@@ -158,7 +165,7 @@ export default {
       });
 
       const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
+      const shouldEmit = this.shouldEmit();
 
       items
         .filter(({ name }) => !savedItems.includes(name))

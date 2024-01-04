@@ -52,7 +52,7 @@ export default {
       });
 
       const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
+      const shouldEmit = this.shouldEmit();
 
       const tsProp = `${sort}_at`;
       const getFullId = (item) => `${item.id}_${item[tsProp]}`;

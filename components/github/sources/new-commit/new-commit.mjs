@@ -29,7 +29,7 @@ export default {
   methods: {
     ...common.methods,
     _getLastTimestamp() {
-      return this.db.get("lastTimestamp");
+      return this.db.get("lastTimestamp") ?? Date.now();
     },
     _setLastTimestamp(value) {
       this.db.set("lastTimestamp", value);
@@ -58,19 +58,18 @@ export default {
     },
     async onTimerTrigger() {
       const { repoFullname } = this;
-      const ts = Date.now();
       const timestamp = this._getLastTimestamp();
+      const since = new Date(timestamp).toISOString()
+        .slice(0, -5) + "Z";
+      const sha = this.branch.split("/").pop();
       const items = await this.github.getCommits({
         repoFullname,
-        sha: this.branch.split("/")[0],
-        ...(timestamp && {
-          since: new Date(timestamp).toISOString()
-            .slice(0, -5) + "Z",
-        }),
+        sha,
+        since,
       });
 
       const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
+      const shouldEmit = this.shouldEmit();
 
       items
         .filter(({ sha }) => !savedItems.includes(sha))
@@ -86,7 +85,7 @@ export default {
         });
 
       this._setSavedItems(savedItems);
-      this._setLastTimestamp(ts);
+      this._setLastTimestamp(Date.now());
     },
   },
 };
