@@ -5,7 +5,7 @@ export default {
   key: "ringcentral-download-recording",
   name: "Download Recording",
   description: "Gets a recording and downloads it to the /tmp directory. [See the documentation](https://developers.ringcentral.com/api-reference/Call-Recordings/readCallRecordingContent)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ringcentral,
