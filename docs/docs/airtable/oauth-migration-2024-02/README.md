@@ -3,24 +3,33 @@
 Effective February 1st 2024, Airtable's API Key authentication method will be deprecated. To learn more about this change, please visit Airtable’s [dedicated support page](https://support.airtable.com/docs/airtable-api-key-deprecation-notice).
 
 ### How will this impact my workflows?
+
 Starting February 1st 2024, all Pipedream steps using the legacy Airtable (API Key) integration including triggers and actions will no longer be able to authenticate with Airtable. 
 
 ### What do I need to do?
 
-1. **Reconnect your Airtable account**: Visit [https://pipedream.com/accounts](https://pipedream.com/accounts) and search for Airtable and connect your account. This newer Pipedream integration uses OAuth instead of an API Key. 
+1. **Reconnect your Airtable account**: 
 
-![Airtable Account Connection](https://res.cloudinary.com/dpenc2lit/image/upload/v1704326732/Screenshot_2024-01-03_at_4.02.24_PM_kvasnc.png)
+- Visit the [accounts page in Pipedream](https://pipedream.com/accounts)
+- Search for Airtable and connect your account
+- This newer Pipedream integration uses OAuth instead of an API Key
 
-You can determine which workflows are connected to the legacy Airtable (API Key) app by expanding the account row.
+![Airtable Account Connection](https://res.cloudinary.com/dpenc2lit/image/upload/v1704392183/Screenshot_2024-01-04_at_10.16.12_AM_le364k.png)
+
+You can determine which workflows are connected to the legacy Airtable (API Key) app by expanding the account row on your Airtable (API Key) account connection.
 ![Airtable Accounts](https://res.cloudinary.com/dpenc2lit/image/upload/v1704347928/Screenshot_2024-01-03_at_9.58.43_PM_haaqlb.png)
 
-2. **Update Your Workflows**: After reconnecting to Airtable via OAuth, you'll need to update your existing workflows that utilize Airtable:
-    - Remove your old Airtable triggers, and reconfigure them using the new Airtable app.
-    - Remove your old Airtable action, and reconfigure them using the new Airtable app.
+2. **Update Your Workflows**: 
 
-3. **If you are using code steps:**
+- After reconnecting to Airtable via OAuth, you'll need to update your existing workflows that use the legacy Airtable app.
+- Remove any legacy Airtable sources and re-add the source using the new Airtable app
+- Remove any legacy Airtable actions and re-add them using the new Airtable app
+
+3. **If you're using Airtable in code:**
     - Change any of your code steps to reference `airtable_oauth` instead of `airtable`. 
-    - Modify your authorization headers accordingly, from
+    - Modify your authorization headers accordingly
+
+In Node.js, you would modify your authorization header from:
 
     `"Authorization": ${this.airtable.$auth.api_key}`
 
@@ -28,7 +37,7 @@ You can determine which workflows are connected to the legacy Airtable (API Key)
 
     ```Authorization: `Bearer ${this.airtable_oauth.$auth.oauth_access_token}` ```
 
-This is what your code step may have looked like before:
+This is what your Node.js code step may have looked like before:
 
 ``` javascript
 import { axios } from "@pipedream/platform"
@@ -74,5 +83,19 @@ export default defineComponent({
 })
 
 ```
+
+In Python, here's a snippet of what your code step might have looked like before:
+``` python
+def handler(pd: "pipedream"):
+  headers = {"X-Airtable-Api-Key": f'{pd.inputs["airtable"]["$auth"]["api_key"]}'}
+```
+
+And this is the updated Python code step, with **`airtable_oauth`** and the appropriate token and authorization headers:
+``` python
+def handler(pd: "pipedream"):
+  token = f'{pd.inputs["airtable_oauth"]["$auth"]["oauth_access_token"]}'
+  authorization = f'Bearer {token}'
+  headers = {"Authorization": authorization}
+```  
 
 3. **Test and redeploy your workflows.**
