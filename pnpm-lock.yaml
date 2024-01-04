@@ -2544,6 +2544,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/google_chat_developer_app:
+    specifiers: {}
+
   components/google_classroom:
     specifiers:
       '@pipedream/platform': ^1.2.1
