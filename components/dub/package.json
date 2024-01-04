@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dub",
+  "version": "0.0.1",
+  "description": "Pipedream Dub Components",
+  "main": "dub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dub"
+  ],
+  "homepage": "https://pipedream.com/apps/dub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
