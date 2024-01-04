@@ -1,12 +1,17 @@
-import common from "../common/common-webhook.mjs";
-import constants from "../common/constants.mjs";
+import common from "../common/common-flex.mjs";
+import {
+  getSampleTimerEvent, getSampleWebhookEvent,
+} from "./sample-events.mjs";
+
+const DOCS_LINK =
+  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#push";
 
 export default {
   ...common,
   key: "github-new-commit",
-  name: "New Commit (Instant)",
-  description: "Emit new event on new commits to a repo or branch",
-  version: "0.1.14",
+  name: "New Commit",
+  description: `Emit new events when a collaborator is added [See the documentation](${DOCS_LINK})`,
+  version: "1.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,71 +24,68 @@ export default {
           repoFullname: c.repoFullname,
         }),
       ],
-      description: "Branch to monitor for new commits. Defaults to master",
-      optional: true,
-      withLabel: true,
     },
   },
   methods: {
     ...common.methods,
+    _getLastTimestamp() {
+      return this.db.get("lastTimestamp");
+    },
+    _setLastTimestamp(value) {
+      this.db.set("lastTimestamp", value);
+    },
+    getSampleTimerEvent,
+    getSampleWebhookEvent,
     getWebhookEvents() {
       return [
         "push",
       ];
     },
-    isEventForThisBranch(branch) {
-      return !this.branch || branch === this.branch.label;
+    getSummary(item) {
+      return `New commit: ${item.commit?.message ?? item.message}`;
     },
-    generateMeta(data) {
-      return {
-        id: data.id,
-        summary: data.message,
-        ts: Date.parse(data.timestamp),
-      };
-    },
-    async loadHistoricalEvents() {
-      if (this.branch) {
-        this.branch = {
-          label: this.branch.split("/")[1],
-          value: this.branch.split("/")[0],
-        };
+    async onWebhookTrigger(event) {
+      const { body } = event;
+      if (body?.ref.split("refs/heads/").pop() === this.branch) {
+        body.commits.forEach((commit) => {
+          const { id } = commit;
+          this.emitEvent({
+            id,
+            item: commit,
+          });
+        });
       }
-
-      const commitInfo = await this.github.getCommits({
-        repoFullname: this.repoFullname,
-        sha: this.branch
-          ? this.branch.value
-          : undefined,
-        per_page: constants.HISTORICAL_EVENTS,
+    },
+    async onTimerTrigger() {
+      const { repoFullname } = this;
+      const ts = Date.now();
+      const timestamp = this._getLastTimestamp();
+      const items = await this.github.getCommits({
+        repoFullname,
+        ...(timestamp && {
+          since: new Date(timestamp).toISOString()
+            .slice(0, -5) + "Z",
+        }),
       });
-      const commits = commitInfo.map((info) => ({
-        id: info.commit.url.split("/").pop(),
-        timestamp: info.commit.committer.date,
-        ...info.commit,
-      }));
-      this.processCommits(commits);
+
+      const savedItems = this._getSavedItems();
+      const shouldEmit = savedItems.length > 0;
+
+      items
+        .filter(({ sha }) => !savedItems.includes(sha))
+        .forEach((item) => {
+          const id = item.sha;
+          if (shouldEmit) {
+            this.emitEvent({
+              id,
+              item,
+            });
+          }
+          savedItems.push(id);
+        });
+
+      this._setSavedItems(savedItems);
+      this._setLastTimestamp(ts);
     },
-    processCommits(commits) {
-      for (const commit of commits) {
-        const meta = this.generateMeta(commit);
-        this.$emit(commit, meta);
-      }
-    },
-  },
-  async run(event) {
-    const { body } = event;
-
-    // skip initial response from Github
-    if (body?.zen) {
-      console.log(body.zen);
-      return;
-    }
-
-    const branch = body.ref.split("refs/heads/").pop();
-    if (!this.isEventForThisBranch(branch)) {
-      return;
-    }
-
-    this.processCommits(body.commits);
   },
 };

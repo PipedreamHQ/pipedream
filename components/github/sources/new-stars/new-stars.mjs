@@ -22,52 +22,20 @@ export default {
         "star",
       ];
     },
-    async onWebhookTrigger(event) {
-      const { body } = event;
-      if (body?.action === "created") {
-        const {
-          sender: {
-            id, login,
-          },
-        } = body;
-        const ts = Date.now();
-        const summary = `New star by: "${login}"`;
-
-        this.$emit(body, {
-          id,
-          summary,
-          ts,
-        });
-      }
+    shouldEmitWebhookEvent(body) {
+      return body?.action === "created";
     },
-    async onTimerTrigger() {
-      const { repoFullname } = this;
-      const items = await this.github.getRepositoryStargazers({
-        repoFullname,
+    getId(body) {
+      return body.sender.id;
+    },
+    getSummary(body) {
+      return `New star by: ${body.sender.login}`;
+    },
+    getPollingData(args) {
+      return this.github.getRepositoryLatestCollaborators({
+        ...args,
         per_page: 100,
       });
-
-      const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
-
-      items
-        .filter(({ id }) => !savedItems.includes(id))
-        .forEach((item) => {
-          const { id } = item;
-          if (shouldEmit) {
-            const ts = Date.now();
-            const summary = `New star by: "${item.login}"`;
-
-            this.$emit(item, {
-              id,
-              summary,
-              ts,
-            });
-          }
-          savedItems.push(id);
-        });
-
-      this._setSavedItems(savedItems);
     },
   },
 };
