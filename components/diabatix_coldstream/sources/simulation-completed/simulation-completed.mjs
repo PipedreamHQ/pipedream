@@ -67,8 +67,8 @@ export default {
       for (const item of responseArray.reverse()) {
         this.$emit(item, {
           id: item.id,
-          summary: `New sdimulation completed with Id: ${item.id}`,
-          ts: item.created,
+          summary: `New simulation completed with Id: ${item.id}`,
+          ts: Date.parse(item.created),
         });
       }
     },
