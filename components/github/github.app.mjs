@@ -235,7 +235,7 @@ export default {
       type: "boolean",
       label: "Emit Updates",
       description:
-        "If `false`, events will only be emitted when a new pull request is created. [See the documentation](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#list-pull-requests) for more information.",
+        "If `false`, events will only be emitted for new items.",
       default: true,
       optional: true,
     },

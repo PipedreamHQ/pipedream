@@ -1,4 +1,4 @@
-import common from "../common/common-flex.mjs";
+import common from "../common/common-flex-new-or-updated.mjs";
 import app from "../../github.app.mjs";
 import constants from "../common/constants.mjs";
 import {
@@ -17,6 +17,7 @@ export default {
   type: "source",
   dedupe: "unique",
   methods: {
+    ...common.methods,
     getHttpAdditionalProps() {
       return {
         eventTypes: {
@@ -29,18 +30,6 @@ export default {
         },
       };
     },
-    getTimerAdditionalProps() {
-      return {
-        emitUpdates: {
-          propDefinition: [
-            app,
-            "emitUpdates",
-          ],
-          description:
-            "If `false`, events will only be emitted when a new milestone is created.",
-        },
-      };
-    },
     getSampleTimerEvent,
     getSampleWebhookEvent,
     getWebhookEvents() {
@@ -48,58 +37,16 @@ export default {
         "milestone",
       ];
     },
-    checkEventType(type) {
-      return !this.eventTypes || this.eventTypes.includes(type);
+    getBodyItem(body) {
+      return body.milestone;
     },
-    async onWebhookTrigger(event) {
-      const { body } = event;
-      const action = body?.action;
-      if (action && this.checkEventType(action)) {
-        const ts = Date.now();
-        const id = `${action}_${ts}`;
-        const summary = `Milestone activity (${action}): "${body.milestone.title}"`;
-
-        this.$emit(body, {
-          id,
-          summary,
-          ts,
-        });
-      }
+    getSummary(action, item) {
+      return `Issue ${action}: "${item.title}"`;
     },
-    async onTimerTrigger() {
-      const {
-        emitUpdates, repoFullname,
-      } = this;
-      const sort = emitUpdates === false
-        ? "created"
-        : "updated";
-      const items = await this.github.getRepositoryMilestones({
+    getTimerData({ repoFullname }) {
+      return this.github.getRepositoryMilestones({
         repoFullname,
       });
-
-      const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
-
-      const tsProp = `${sort}_at`;
-      const getFullId = (item) => `${item.id}_${item[tsProp]}`;
-
-      items
-        .filter((item) => !savedItems.includes(getFullId(item)))
-        .forEach((item) => {
-          const id = getFullId(item);
-
-          if (shouldEmit) {
-            const ts = new Date(item[tsProp]).valueOf();
-            const summary = `Milestone ${sort}: "${item.title}"`;
-
-            this.$emit(item, {
-              id,
-              summary,
-              ts,
-            });
-          }
-          savedItems.push(id);
-        });
     },
   },
 };
