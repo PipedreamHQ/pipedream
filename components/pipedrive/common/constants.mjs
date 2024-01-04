@@ -188,6 +188,7 @@ const API = {
 const FIELD = {
   ADD_TIME: "add_time",
   UPDATE_TIME: "update_time",
+  MARKED_AS_DONE_TIME: "marked_as_done_time",
 };
 
 export default {

@@ -6,7 +6,7 @@ export default {
   name: "Get Activities (Anility)",
   description:
     "Activities are appointments/tasks/events on a calendar that can be associated with a deal, a lead, a person and an organization. Activities can be of different type (such as call, meeting, lunch or a custom type - see ActivityTypes object) and can be assigned to a particular user. Note that activities can also be created without a specific date/time. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/Activities#getActivities)",
-  version: "0.0.19",
+  version: "0.0.26",
   type: "action",
   props: {
     pipedriveApp,
@@ -51,6 +51,19 @@ export default {
   },
 
   methods: {
+    getFieldsFn() {
+      return this.pipedriveApp.getActivityFields;
+    },
+    getFieldKey() {
+      return constants.FIELD.MARKED_AS_DONE_TIME;
+    },
+    async fetchFieldId() {
+      const getFields = this.getFieldsFn();
+      const { data: fields } = await getFields();
+      const field = fields.find(({ key }) => key === this.getFieldKey());
+
+      return field.id;
+    },
     getConditions({
       fieldId, value, additionalConditions = [],
     } = {}) {
@@ -59,19 +72,15 @@ export default {
         conditions: [
           {
             glue: "or",
-            conditions: [],
-          },
-          {
-            glue: "or",
             conditions: additionalConditions,
           },
           {
             glue: "and",
             conditions: [
               {
-                object: constants.EVENT_OBJECT.DEAL,
+                object: constants.EVENT_OBJECT.ACTIVITY,
                 field_id: fieldId,
-                operator: ">",
+                operator: "=",
                 value,
                 extra_value: null,
               },
@@ -81,34 +90,23 @@ export default {
       };
     },
     getFilterArgs({
-      fieldId, value = "3_months_ago",
+      dealCustomFieldId,
+      anilityIdFieldValue,
+      fieldId,
+      value = "later_or_today",
     } = {}) {
       return {
         type: constants.FILTER_TYPE.ACTIVITY,
-        name: "Pipedream: Activities done during specific period",
+        name: "Pipedream: Activities done during today or later",
         conditions: this.getConditions({
           fieldId,
           value,
           additionalConditions: [
             {
               object: constants.EVENT_OBJECT.DEAL,
-              field_id: "8",
+              field_id: dealCustomFieldId,
               operator: "=",
-              value: "2",
-              extra_value: null,
-            },
-            {
-              object: constants.EVENT_OBJECT.DEAL,
-              field_id: "8",
-              operator: "=",
-              value: "3",
-              extra_value: null,
-            },
-            {
-              object: constants.EVENT_OBJECT.DEAL,
-              field_id: "8",
-              operator: "=",
-              value: "4",
+              value: anilityIdFieldValue,
               extra_value: null,
             },
           ],
@@ -118,20 +116,27 @@ export default {
   },
   async run({ $ }) {
     const {
-      userId, activityFilterId, start, limit,
+      userId,
+      dealCustomFieldId,
+      anilityIdFieldValue,
+      activityFilterId,
+      start,
+      limit,
     } = this;
 
     try {
-      //const filter = await this.pipedriveApp.getFilter(activityFilterId);
+      const fieldId = await this.fetchFieldId();
 
       const args = this.getFilterArgs({
-        filterId: activityFilterId,
+        dealCustomFieldId,
+        anilityIdFieldValue,
+        fieldId,
       });
 
-      // await this.app.updateFilter({
-      //   filterId: activityFilterId,
-      //   ...args,
-      // });
+      await this.pipedriveApp.updateFilter({
+        filterId: activityFilterId,
+        ...args,
+      });
       const resp = await this.pipedriveApp.getActivities({
         userId,
         filterId: activityFilterId,
@@ -144,7 +149,7 @@ export default {
         `Successfully found ${resp.data?.length || 0} activities`,
       );
 
-      return args;
+      return resp.data;
     } catch (error) {
       console.error(error.context?.body || error);
       throw error.context?.body?.error || "Failed to get activities";

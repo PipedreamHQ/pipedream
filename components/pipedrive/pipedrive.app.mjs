@@ -460,6 +460,12 @@ export default {
       ] = constants.API.ACTIVITIES;
       return this.api(className).getActivities(opts);
     },
+    getActivityFields(opts = {}) {
+      const [
+        className,
+      ] = constants.API.ACTIVITY_FIELDS;
+      return this.api(className).getActivityFields(opts);
+    },
     getPersons(opts = {}) {
       const [
         className,
