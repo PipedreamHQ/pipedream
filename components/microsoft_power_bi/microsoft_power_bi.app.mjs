@@ -8,8 +8,11 @@ export default {
       type: "string",
       label: "Dataset ID",
       description: "Select a Dataset or provide a custom Dataset ID.",
-      async options() {
-        const datasets = await this.getDatasets();
+      async options({ addRowsAPIEnabled }) {
+        let datasets = await this.getDatasets();
+        if (addRowsAPIEnabled) {
+          datasets = datasets.filter(({ addRowsAPIEnabled }) => addRowsAPIEnabled);
+        }
         return datasets?.map?.(({
           id, name,
         }) => ({
@@ -134,6 +137,13 @@ export default {
         path: "/datasets/",
       });
       return response.value;
+    },
+    createDataset(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/datasets",
+        ...args,
+      });
     },
     async emitEvent(eventName, data) {
       this.$emit(data, {
