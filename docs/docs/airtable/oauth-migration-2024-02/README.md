@@ -1,6 +1,6 @@
 # Update to the Airtable Integration on Pipedream (January 2024)
 
-Effective February 1st 2024, Airtable's API Key authentication method will be deprecated. To learn more about this change, please visit Airtable’s [dedicated support page](https://support.airtable.com/docs/airtable-api-key-deprecation-notice).
+Effective February 1st 2024, Airtable's API Key authentication method will be deprecated. To learn more about this change, please visit Airtable’s [dedicated support page](https://support.airtable.com/docs/airtable-api-key-deprecation-notice). 
 
 ### How will this impact my workflows?
 
@@ -33,13 +33,13 @@ You can determine which workflows are connected to the legacy Airtable (API Key)
 - Change any of your code steps to reference `airtable_oauth` instead of `airtable`. 
 - Modify your authorization headers accordingly
 
-In Node.js, you would modify your authorization header like this:
+In Node.js, you would modify your authorization header from this:
 
-    `"Authorization": ${this.airtable.$auth.api_key}`
+  `"Authorization": ${this.airtable.$auth.api_key}`
 
-    to 
+  to 
 
-    ```Authorization: `Bearer ${this.airtable_oauth.$auth.oauth_access_token}` ```
+``` Authorization: `Bearer ${this.airtable_oauth.$auth.oauth_access_token}` ```
 
 This is what your Node.js code step may have looked like before:
 
