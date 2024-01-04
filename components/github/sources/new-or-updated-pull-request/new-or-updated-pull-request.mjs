@@ -1,4 +1,4 @@
-import common from "../common/common-flex.mjs";
+import common from "../common/common-flex-new-or-updated.mjs";
 import constants from "../common/constants.mjs";
 import app from "../../github.app.mjs";
 import {
@@ -30,16 +30,6 @@ export default {
         },
       };
     },
-    getTimerAdditionalProps() {
-      return {
-        emitUpdates: {
-          propDefinition: [
-            app,
-            "emitUpdates",
-          ],
-        },
-      };
-    },
     getSampleTimerEvent,
     getSampleWebhookEvent,
     getWebhookEvents() {
@@ -47,59 +37,19 @@ export default {
         "pull_request",
       ];
     },
-    checkEventType(type) {
-      return !this.eventTypes || this.eventTypes.includes(type);
+    getBodyItem(body) {
+      return body.pull_request;
     },
-    async onWebhookTrigger(event) {
-      const { body } = event;
-      const action = body?.action;
-      if (action && this.checkEventType(action)) {
-        const ts = Date.now();
-        const id = `${action}_${ts}`;
-        const summary = `PR activity (${action}): "${body.pull_request.title}"`;
-
-        this.$emit(body, {
-          id,
-          summary,
-          ts,
-        });
-      }
+    getSummary(action, item) {
+      return `PR ${action}: "${item.title}"`;
     },
-    async onTimerTrigger() {
-      const {
-        emitUpdates, repoFullname,
-      } = this;
-      const sort = emitUpdates === false
-        ? "created"
-        : "updated";
-      const items = await this.github.getRepositoryLatestPullRequests({
+    getTimerData({
+      repoFullname, sort,
+    }) {
+      return this.github.getRepositoryLatestPullRequests({
         repoFullname,
         sort,
       });
-
-      const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
-
-      const tsProp = `${sort}_at`;
-      const getFullId = (item) => `${item.id}_${item[tsProp]}`;
-
-      items
-        .filter((item) => !savedItems.includes(getFullId(item)))
-        .forEach((item) => {
-          const id = getFullId(item);
-
-          if (shouldEmit) {
-            const ts = new Date(item[tsProp]).valueOf();
-            const summary = `PR ${sort}: "${item.title}"`;
-
-            this.$emit(item, {
-              id,
-              summary,
-              ts,
-            });
-          }
-          savedItems.push(id);
-        });
     },
   },
 };
