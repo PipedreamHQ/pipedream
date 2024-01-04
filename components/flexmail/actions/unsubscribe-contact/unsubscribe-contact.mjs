@@ -3,23 +3,23 @@ import flexmail from "../../flexmail.app.mjs";
 export default {
   key: "flexmail-unsubscribe-contact",
   name: "Unsubscribe Contact",
-  description: "Performs unsubscribe operation for a contact. This ensures that the selected contact will not receive future communications until they opt-in again.",
-  version: "0.0.{{ts}}",
+  description: "Performs unsubscribe operation for a contact. [See the documentation](https://api.flexmail.eu/documentation/#post-/contacts/-id-/unsubscribe)",
+  version: "0.0.1",
   type: "action",
   props: {
     flexmail,
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email of the contact to unsubscribe",
-      required: true,
+    contactId: {
+      propDefinition: [
+        flexmail,
+        "contactId",
+      ],
     },
   },
   async run({ $ }) {
     const response = await this.flexmail.unsubscribeContact({
-      contactId: this.email,
+      contactId: this.contactId,
     });
-    $.export("$summary", `Successfully unsubscribed contact with email ${this.email}`);
+    $.export("$summary", `Successfully unsubscribed contact with id ${this.contactId}.`);
     return response;
   },
 };

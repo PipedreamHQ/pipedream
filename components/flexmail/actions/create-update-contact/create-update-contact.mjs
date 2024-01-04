@@ -3,67 +3,108 @@ import flexmail from "../../flexmail.app.mjs";
 export default {
   key: "flexmail-create-update-contact",
   name: "Create or Update Contact",
-  description: "Creates or updates a contact within Flexmail using specified properties.",
-  version: "0.0.{{ts}}",
+  description: "Creates or updates a contact based on email address within Flexmail. [See the documentation](https://api.flexmail.eu/documentation/#post-/contacts)",
+  version: "0.0.1",
   type: "action",
   props: {
     flexmail,
-    contactId: {
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the contact",
+      reloadProps: true,
+    },
+    language: {
       propDefinition: [
         flexmail,
-        "contactId",
+        "language",
       ],
+    },
+    source: {
+      propDefinition: [
+        flexmail,
+        "source",
+      ],
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the contact",
       optional: true,
     },
-    email: {
-      propDefinition: [
-        flexmail,
-        "email",
-      ],
-    },
     name: {
-      propDefinition: [
-        flexmail,
-        "name",
-      ],
-    },
-    phoneNumber: {
-      propDefinition: [
-        flexmail,
-        "phoneNumber",
-      ],
-    },
-    additionalInfo: {
-      propDefinition: [
-        flexmail,
-        "additionalInfo",
-      ],
+      type: "string",
+      label: "Name",
+      description: "The name of the contact",
       optional: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    const { _embedded: embedded } = await this.flexmail.listCustomFields();
+    if (!embedded || !embedded.item?.length) {
+      return props;
+    }
+    for (const field of embedded.item) {
+      props[field.placeholder] = {
+        type: field.type === "numeric"
+          ? "integer"
+          : "string",
+        label: field.name,
+        optional: true,
+      };
+      if (field.type === "date") {
+        props[field.placeholder].description = "Enter date in `YYYY-MM-DD` format";
+      }
+    }
+    return props;
+  },
   async run({ $ }) {
+    const {
+      flexmail,
+      email,
+      language,
+      source,
+      firstName,
+      name,
+      ...customFields
+    } = this;
+
     const data = {
-      email: this.email,
-      name: this.name,
-      phoneNumber: this.phoneNumber,
-      additionalInfo: this.additionalInfo,
+      language,
+      first_name: firstName,
+      name,
+      custom_fields: customFields,
     };
 
-    let response;
-    if (this.contactId) {
-      response = await this.flexmail.updateContact({
-        contactId: this.contactId,
-        data,
+    const { _embedded: contact } = await this.flexmail.listContacts({
+      params: {
+        email,
+      },
+      $,
+    });
+
+    if (!contact || !contact.item?.length) {
+      const response = await flexmail.createContact({
+        data: {
+          ...data,
+          email,
+          source,
+        },
+        $,
       });
-    } else {
-      response = await this.flexmail.createContact({
-        data,
-      });
+      $.export("$summary", `Successfully created contact with id ${response.id}.`);
+      return response;
     }
 
-    $.export("$summary", `Successfully ${this.contactId
-      ? "updated"
-      : "created"} contact ${response.id}`);
-    return response;
+    const contactId = contact.item[0].id;
+    await flexmail.updateContact({
+      contactId,
+      data,
+      $,
+    });
+
+    $.export("$summary", `Successfully updated contact with id ${contactId}.`);
+    // nothing to return on update
   },
 };

@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,91 +9,169 @@ export default {
       type: "string",
       label: "Contact ID",
       description: "The ID of the contact",
-      required: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const params = {
+          limit,
+          offset: page * limit,
+        };
+        const { _embedded: embedded } = await this.listContacts({
+          params,
+        });
+        if (!embedded || !embedded.item?.length) {
+          return [];
+        }
+        return embedded.item.map(({
+          id: value, email: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
-    email: {
+    language: {
       type: "string",
-      label: "Email",
-      description: "The email of the contact",
-      required: true,
+      label: "Language",
+      description: "The language the contact wants to receive emails in",
+      async options() {
+        const { languages } = await this.listLanguages();
+        return languages;
+      },
     },
-    name: {
+    source: {
       type: "string",
-      label: "Name",
-      description: "The name of the contact",
-      required: true,
+      label: "Source",
+      description: "Identifier of the source of the contact",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const params = {
+          limit,
+          offset: page * limit,
+        };
+        const { _embedded: embedded } = await this.listSources({
+          params,
+        });
+        if (!embedded || !embedded.item?.length) {
+          return [];
+        }
+        return embedded.item.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
-    phoneNumber: {
+    interest: {
       type: "string",
-      label: "Phone Number",
-      description: "The phone number of the contact",
-      required: true,
-    },
-    additionalInfo: {
-      type: "object",
-      label: "Additional Info",
-      description: "Additional contact information",
-      optional: true,
-    },
-    interestName: {
-      type: "string",
-      label: "Interest Name",
-      description: "The name of the interest",
-      required: true,
+      label: "Interest",
+      description: "Identifier of an interest",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const params = {
+          limit,
+          offset: page * limit,
+        };
+        const { _embedded: embedded } = await this.listInterests({
+          params,
+        });
+        if (!embedded || !embedded.item?.length) {
+          return [];
+        }
+        return embedded.item.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.flexmail.eu/v1";
+      return "https://api.flexmail.eu";
     },
-    async _makeRequest(opts = {}) {
+    _getAuth() {
+      return {
+        username: `${this.$auth.account_id}`,
+        password: `${this.$auth.personal_access_token}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        auth: this._getAuth(),
       });
     },
-    async createContact(opts = {}) {
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    listLanguages(opts = {}) {
+      return this._makeRequest({
+        path: "/account-contact-languages",
+        ...opts,
+      });
+    },
+    listSources(opts = {}) {
+      return this._makeRequest({
+        path: "/sources",
+        ...opts,
+      });
+    },
+    listCustomFields(opts = {}) {
+      return this._makeRequest({
+        path: "/custom-fields",
+        ...opts,
+      });
+    },
+    listInterests(opts = {}) {
+      return this._makeRequest({
+        path: "/interests",
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contacts",
         ...opts,
       });
     },
-    async updateContact(opts = {}) {
+    updateContact({
+      contactId, ...opts
+    }) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/contacts/${opts.contactId}`,
+        method: "PATCH",
+        path: `/contacts/${contactId}`,
         ...opts,
       });
     },
-    async unsubscribeContact(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/contacts/${opts.contactId}/unsubscribe`,
-        ...opts,
-      });
-    },
-    async manageSubscription(opts = {}) {
+    unsubscribeContact({
+      contactId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/contacts/${opts.contactId}/interests`,
+        path: `/contacts/${contactId}/unsubscribe`,
         ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    subscribeContactInterest({
+      contactId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/contacts/${contactId}/interest-subscriptions`,
+        ...opts,
+      });
     },
   },
 };

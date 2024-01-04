@@ -3,47 +3,33 @@ import flexmail from "../../flexmail.app.mjs";
 export default {
   key: "flexmail-subscribe-contact-interest",
   name: "Subscribe Contact to Interest",
-  description: "Manages a user's subscription to an interest area. Requires contact's email and the name of the interest. Automatically updates the contact's associated interests.",
-  version: "0.0.{{ts}}",
+  description: "Adds a contact to an interest area. [See the documentation](https://api.flexmail.eu/documentation/#post-/contacts/-id-/interest-subscriptions)",
+  version: "0.0.1",
   type: "action",
   props: {
     flexmail,
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email of the contact",
-      required: true,
+    contactId: {
+      propDefinition: [
+        flexmail,
+        "contactId",
+      ],
     },
-    interestName: {
-      type: "string",
-      label: "Interest Name",
-      description: "The name of the interest",
-      required: true,
+    interest: {
+      propDefinition: [
+        flexmail,
+        "interest",
+      ],
     },
   },
   async run({ $ }) {
-    const contact = await this.flexmail.createContact({
+    await this.flexmail.subscribeContactInterest({
+      contactId: this.contactId,
       data: {
-        email: this.email,
+        interest_id: this.interest,
       },
     });
 
-    if (!contact) {
-      throw new Error("Contact creation failed");
-    }
-
-    const response = await this.flexmail.manageSubscription({
-      contactId: contact.id,
-      data: {
-        interest: this.interestName,
-      },
-    });
-
-    if (!response) {
-      throw new Error("Subscription failed");
-    }
-
-    $.export("$summary", `Subscribed contact ${this.email} to interest ${this.interestName}`);
-    return response;
+    $.export("$summary", `Subscribed contact ID ${this.contactId} to interest id ${this.interest}.`);
+    // nothing to return
   },
 };
