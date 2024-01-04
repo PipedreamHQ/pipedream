@@ -41,7 +41,7 @@ export default {
       const sort = emitUpdates === false
         ? "created"
         : "updated";
-      const items = await this.getTimerData({
+      const items = await this.getPollingData({
         repoFullname,
         sort,
       });

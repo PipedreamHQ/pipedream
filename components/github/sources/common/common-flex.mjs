@@ -117,18 +117,74 @@ export default {
         this._setWebhookId(null);
       }
     },
+    shouldEmitWebhookEvent() {
+      return true;
+    },
+    getId(item) {
+      return item.id ?? Date.now();
+    },
+    getWebhookEventItem(body) {
+      return body;
+    },
+    getSummary() {
+      return "New event";
+    },
+    emitEvent({
+      id, item,
+    }) {
+      const ts = Date.now();
+      const summary = this.getSummary(item);
+      this.$emit(item, {
+        id,
+        summary,
+        ts,
+      });
+    },
+    async onWebhookTrigger(event) {
+      const { body } = event;
+      if (this.shouldEmitWebhookEvent(body)) {
+        const item = this._getWebhookEventItem(body);
+        const id = this.getId(item);
+        this.emitEvent({
+          id,
+          item,
+        });
+      }
+    },
+    async onTimerTrigger() {
+      const { repoFullname } = this;
+      const items = await this.getPollingData({
+        repoFullname,
+      });
+
+      const savedItems = this._getSavedItems();
+      const shouldEmit = savedItems.length > 0;
+
+      items
+        .filter(({ name }) => !savedItems.includes(name))
+        .forEach((item) => {
+          const id = this.getId(item);
+          if (shouldEmit) {
+            this.emitEvent({
+              id,
+              item,
+            });
+          }
+          savedItems.push(id);
+        });
+
+      this._setSavedItems(savedItems);
+    },
   },
   hooks: {
     async activate() {
       await this.checkWebhookCreation();
     },
     async deactivate() {
-      console.log("deactivate");
       await this.removeWebhook();
     },
   },
   async run(event) {
-    console.log("run");
     if (this._getWebhookId()) {
       console.log("webhook trigger");
       await this.onWebhookTrigger(event);

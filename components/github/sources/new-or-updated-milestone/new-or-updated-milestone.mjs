@@ -43,7 +43,7 @@ export default {
     getSummary(action, item) {
       return `Issue ${action}: "${item.title}"`;
     },
-    getTimerData({ repoFullname }) {
+    getPollingData({ repoFullname }) {
       return this.github.getRepositoryMilestones({
         repoFullname,
       });

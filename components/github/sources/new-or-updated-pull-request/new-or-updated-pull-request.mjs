@@ -43,7 +43,7 @@ export default {
     getSummary(action, item) {
       return `PR ${action}: "${item.title}"`;
     },
-    getTimerData({
+    getPollingData({
       repoFullname, sort,
     }) {
       return this.github.getRepositoryLatestPullRequests({

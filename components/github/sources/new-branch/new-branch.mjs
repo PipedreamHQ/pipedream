@@ -23,47 +23,17 @@ export default {
         "create",
       ];
     },
-    async onWebhookTrigger(event) {
-      const { body } = event;
-      if (body?.ref_type === "branch") {
-        const ts = Date.now();
-        const id = body.ref;
-        const summary = `New branch: ${id}`;
-
-        this.$emit(body, {
-          id,
-          summary,
-          ts,
-        });
-      }
+    shouldEmitWebhookEvent(body) {
+      return body?.ref_type === "branch";
     },
-    async onTimerTrigger() {
-      const { repoFullname } = this;
-      const items = await this.github.getBranches({
-        repoFullname,
-      });
-
-      const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
-
-      items
-        .filter(({ name }) => !savedItems.includes(name))
-        .forEach((item) => {
-          const id = item.name;
-          if (shouldEmit) {
-            const ts = Date.now();
-            const summary = `New branch: "${id}"`;
-
-            this.$emit(item, {
-              id,
-              summary,
-              ts,
-            });
-          }
-          savedItems.push(id);
-        });
-
-      this._setSavedItems(savedItems);
+    getId(item) {
+      return item.ref ?? item.name;
+    },
+    getSummary(item) {
+      return `New branch: ${item.ref ?? item.name}`;
+    },
+    getPollingData(args) {
+      return this.github.getBranches(args);
     },
   },
 };
