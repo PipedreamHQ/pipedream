@@ -6,8 +6,9 @@ Effective February 1st 2024, Airtable's API Key authentication method will be de
 
 Starting February 1st 2024, all Pipedream steps using the legacy Airtable (API Key) integration including triggers and actions will no longer be able to authenticate with Airtable. 
 
-### What do I need to do?
-<br>
+### What do I need to do? 
+<br/> 
+
 1. **Reconnect your Airtable account**: 
 
 - Visit the [accounts page in Pipedream](https://pipedream.com/accounts)
@@ -25,10 +26,12 @@ You can determine which workflows are connected to the legacy Airtable (API Key)
 - Remove any legacy Airtable sources and re-add the source using the new Airtable app
 - Remove any legacy Airtable actions and re-add them using the new Airtable app
 
-<br>
+<br/>
+
 3. **If you're using Airtable in code:**
-    - Change any of your code steps to reference `airtable_oauth` instead of `airtable`. 
-    - Modify your authorization headers accordingly
+
+- Change any of your code steps to reference `airtable_oauth` instead of `airtable`. 
+- Modify your authorization headers accordingly
 
 In Node.js, you would modify your authorization header like this:
 
@@ -91,7 +94,7 @@ def handler(pd: "pipedream"):
   headers = {"X-Airtable-Api-Key": f'{pd.inputs["airtable"]["$auth"]["api_key"]}'}
 ```
 
-And this is the updated Python code step, with **`airtable_oauth`** and the appropriate token and authorization headers:
+And here's the updated Python code step, with **`airtable_oauth`** and the appropriate token and authorization headers:
 ``` python
 def handler(pd: "pipedream"):
   token = f'{pd.inputs["airtable_oauth"]["$auth"]["oauth_access_token"]}'
