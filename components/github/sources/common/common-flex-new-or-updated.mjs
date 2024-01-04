@@ -1,5 +1,4 @@
-import common from "../common/common-flex.mjs";
-import app from "../../github.app.mjs";
+import common from "./common-flex.mjs";
 
 export default {
   ...common,
@@ -8,10 +7,12 @@ export default {
     getTimerAdditionalProps() {
       return {
         emitUpdates: {
-          propDefinition: [
-            app,
-            "emitUpdates",
-          ],
+          type: "boolean",
+          label: "Emit Updates",
+          description:
+              "If `false`, events will only be emitted for new items.",
+          default: true,
+          optional: true,
         },
       };
     },

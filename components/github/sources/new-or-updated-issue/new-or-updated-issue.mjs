@@ -1,5 +1,4 @@
 import common from "../common/common-flex-new-or-updated.mjs";
-import app from "../../github.app.mjs";
 import constants from "../common/constants.mjs";
 import {
   getSampleTimerEvent, getSampleWebhookEvent,
@@ -21,10 +20,9 @@ export default {
     getHttpAdditionalProps() {
       return {
         eventTypes: {
-          propDefinition: [
-            app,
-            "eventTypes",
-          ],
+          type: "string[]",
+          label: "Filter Event Types",
+          optional: true,
           description: `Specify the type(s) of activity that should emit events. [See the documentation](${DOCS_LINK}) for more information on each type. By default, events will be emitted for all activity.`,
           options: constants.EVENT_TYPES_ISSUES,
         },
