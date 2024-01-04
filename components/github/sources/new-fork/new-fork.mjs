@@ -23,48 +23,17 @@ export default {
         "fork",
       ];
     },
-    async onWebhookTrigger(event) {
-      const { body } = event;
-      if (body?.forkee) {
-        const { forkee } = body;
-        const { id } = forkee;
-        const ts = Date.now();
-        const summary = `New fork: "${forkee.name}"`;
-
-        this.$emit(forkee, {
-          id,
-          summary,
-          ts,
-        });
-      }
+    shouldEmitWebhookEvent(body) {
+      return !!body?.forkee;
     },
-    async onTimerTrigger() {
-      const { repoFullname } = this;
-      const items = await this.github.getRepositoryForks({
-        repoFullname,
-      });
-
-      const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
-
-      items
-        .filter(({ id }) => !savedItems.includes(id))
-        .forEach((item) => {
-          const { id } = item;
-          if (shouldEmit) {
-            const ts = Date.now();
-            const summary = `New fork: "${item.name}"`;
-
-            this.$emit(item, {
-              id,
-              summary,
-              ts,
-            });
-          }
-          savedItems.push(id);
-        });
-
-      this._setSavedItems(savedItems);
+    getWebhookEventItem(body) {
+      return body.forkee;
+    },
+    getSummary(item) {
+      return `New fork: "${item.name}"`;
+    },
+    getPollingData(args) {
+      return this.github.getRepositoryForks(args);
     },
   },
 };

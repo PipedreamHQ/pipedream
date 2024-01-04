@@ -23,48 +23,17 @@ export default {
         "label",
       ];
     },
-    async onWebhookTrigger(event) {
-      const { body } = event;
-      if (body?.action === "created") {
-        const { label } = body;
-        const { id } = label;
-        const ts = Date.now();
-        const summary = `New label: "${label.name}"`;
-
-        this.$emit(label, {
-          id,
-          summary,
-          ts,
-        });
-      }
+    shouldEmitWebhookEvent(body) {
+      return body?.action === "created";
     },
-    async onTimerTrigger() {
-      const { repoFullname } = this;
-      const items = await this.github.getRepositoryLatestLabels({
-        repoFullname,
-      });
-
-      const savedItems = this._getSavedItems();
-      const shouldEmit = savedItems.length > 0;
-
-      items
-        .filter(({ id }) => !savedItems.includes(id))
-        .forEach((item) => {
-          const { id } = item;
-          if (shouldEmit) {
-            const ts = Date.now();
-            const summary = `New label: "${item.name}"`;
-
-            this.$emit(item, {
-              id,
-              summary,
-              ts,
-            });
-          }
-          savedItems.push(id);
-        });
-
-      this._setSavedItems(savedItems);
+    getWebhookEventItem(body) {
+      return body.label;
+    },
+    getSummary(item) {
+      return `New label: "${item.name}"`;
+    },
+    getPollingData(args) {
+      return this.github.getRepositoryLatestLabels(args);
     },
   },
 };
