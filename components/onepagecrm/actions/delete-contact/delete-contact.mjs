@@ -16,7 +16,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.onepagecrm.deleteContact(this.contactId);
+    const response = await this.onepagecrm.deleteContact({
+      $,
+      contactId: this.contactId,
+    });
     $.export("$summary", `Successfully deleted contact with ID ${this.contactId}`);
     return response;
   },

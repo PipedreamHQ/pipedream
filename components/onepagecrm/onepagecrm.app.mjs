@@ -189,10 +189,13 @@ export default {
         ...opts,
       });
     },
-    deleteContact(contactId) {
+    deleteContact({
+      contactId, ...opts
+    }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/contacts/${contactId}.json`,
+        ...opts,
       });
     },
     updateDeal({
