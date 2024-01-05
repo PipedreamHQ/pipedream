@@ -3086,8 +3086,10 @@ importers:
   components/imagga:
     specifiers:
       '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/imap:
     specifiers:
