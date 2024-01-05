@@ -30,7 +30,7 @@ export default {
       return body.release;
     },
     getSummary(item) {
-      return `New release: "${item.name}"`;
+      return `New release: "${item.name || item.tag_name}"`;
     },
     getPollingData(args) {
       return this.github.listReleases({
