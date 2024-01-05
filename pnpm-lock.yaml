@@ -2142,7 +2142,12 @@ importers:
     specifiers: {}
 
   components/flexmail:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      md5: ^2.3.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      md5: 2.3.0
 
   components/float:
     specifiers: {}
