@@ -131,6 +131,7 @@ export default {
       return item.id ?? Date.now();
     },
     getWebhookEventItem(body) {
+      delete body.repository;
       return body;
     },
     getSummary() {
