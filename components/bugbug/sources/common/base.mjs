@@ -78,7 +78,7 @@ export default {
       if (!runs.length) {
         return;
       }
-      const lastStartedRun = runs.find((run) => run.started);
+      const lastStartedRun = runs.find((run) => run.started && run.ended);
       if (lastStartedRun) {
         this._setLastStartedTime(lastStartedRun.started);
       }

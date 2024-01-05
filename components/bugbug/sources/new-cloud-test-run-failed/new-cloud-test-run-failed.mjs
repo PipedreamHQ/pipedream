@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     ...common.methods,
-    getParms() {
+    getParams() {
       return {
         test_id: this.test,
       };
