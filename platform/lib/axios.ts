@@ -64,7 +64,7 @@ export function transformConfigForOauth(config: AxiosRequestConfig) {
   for (const k in config.headers || {}) {
     if (/content-type/i.test(k)) {
       hasContentType = true;
-      formEncodedContentType = config.headers[k] === "application/x-www-form-urlencoded";
+      formEncodedContentType = config.headers?.[k] === "application/x-www-form-urlencoded";
       break;
     }
   }
