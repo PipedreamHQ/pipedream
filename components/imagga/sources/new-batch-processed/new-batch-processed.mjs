@@ -1,11 +1,11 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import imagga from "../../imagga.app.mjs";
 
 export default {
   key: "imagga-new-batch-processed",
   name: "New Batch Processed",
-  description: "Emits an event when a batch of images has been processed for categorization, tagging, or color extraction. [See the documentation](https://docs.imagga.com)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a batch of images has been processed for categorization, tagging, or color extraction.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -20,55 +20,21 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
-  methods: {
-    _getTicketId() {
-      return this.db.get("ticketId");
-    },
-    _setTicketId(ticketId) {
-      this.db.set("ticketId", ticketId);
-    },
-    _emitBatchStatus(batchStatus, ticketId) {
-      const ts = batchStatus.updated_at
-        ? Date.parse(batchStatus.updated_at)
-        : Date.now();
-      this.$emit(batchStatus, {
-        id: batchStatus.id,
-        summary: `Batch ${ticketId} processed`,
-        ts,
-      });
-    },
-  },
-  hooks: {
-    async deploy() {
-      const ticketId = this._getTicketId();
-      if (ticketId) {
-        const batchStatus = await this.imagga._makeRequest({
-          method: "GET",
-          path: `/batches/${ticketId}`,
-        });
-
-        if (batchStatus.status === "completed") {
-          this._emitBatchStatus(batchStatus, ticketId);
-        }
-      }
-    },
-  },
   async run() {
-    const ticketId = this._getTicketId();
-    if (!ticketId) throw new Error("No ticket ID found. Please make sure to setup the source with a valid ticket ID.");
-
-    const batchStatus = await this.imagga._makeRequest({
-      method: "GET",
-      path: `/batches/${ticketId}`,
+    const ticket = await this.imagga.getTicket({
+      ticketId: this.ticketId,
     });
 
-    if (batchStatus.status === "completed") {
-      this._emitBatchStatus(batchStatus, ticketId);
-      this._setTicketId(null); // Reset ticket ID after successful emit
+    if (ticket.result.is_final) {
+      this.$emit(ticket, {
+        id: this.ticketId,
+        summary: `Batch of the ticket with Id: ${this.ticketId} was processed!`,
+        ts: Date.now(),
+      });
     }
   },
 };

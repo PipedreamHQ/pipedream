@@ -1,6 +1,5 @@
 import { axios } from "@pipedream/platform";
-import FormData from "form-data";
-import fs from "fs";
+import { LANGUAGE_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -14,7 +13,7 @@ export default {
     imageProcessType: {
       type: "string",
       label: "Image Process Type",
-      description: "The type of image processing to perform",
+      description: "The type of image processing to perform.",
       options: [
         {
           label: "Tags",
@@ -33,129 +32,119 @@ export default {
     imageUrl: {
       type: "string",
       label: "Image URL",
-      description: "The URL of the image to analyze",
+      description: "The URL of the image to analyze.",
     },
     imageFile: {
       type: "string",
       label: "Image File",
-      description: "The file path of the image to analyze",
-    },
-    categorizerId: {
-      type: "string",
-      label: "Categorizer ID",
-      description: "The ID of the categorizer to use",
-      async options() {
-        const response = await this.listCategorizers();
-        return response.map((categorizer) => ({
-          label: categorizer.name,
-          value: categorizer.id,
-        }));
-      },
+      description: "The file path of the image to analyze.",
     },
     callbackUrl: {
       type: "string",
       label: "Callback URL",
       description: "The callback URL to be invoked after batch processing",
     },
-    imageUrls: {
+    language: {
       type: "string[]",
-      label: "Image URLs",
-      description: "The URLs of the images to analyze in a batch",
+      label: "Language",
+      description: "Specify the languages you want to receive your results in.",
+      options: LANGUAGE_OPTIONS,
+      optional: true,
+    },
+    saveIndex: {
+      type: "string",
+      label: "Save Index",
+      description: "The index name in which you wish to save this image for searching later on.",
+      optional: true,
+    },
+    saveId: {
+      type: "string",
+      label: "Save Id",
+      description: "The id with which you wish to associate your image when putting it in a search index. This will be the identificator which will be returned to you when searching for similar images. (If you send an image with an already existing id, it will be overriden as if an update operation took place. Consider this when choosing your ids.)",
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.imagga.com/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        username: `${this.$auth.api_key}`,
+        password: `${this.$auth.api_secret}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path = "/", ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
+        ...opts,
+        auth: this._auth(),
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Basic ${Buffer.from(`${this.$auth.api_key}:`).toString("base64")}`,
-        },
-        data,
-        params,
       });
     },
-    async listCategorizers() {
+    analyzeImage({
+      imageProcessType, ...opts
+    }) {
+      switch (imageProcessType) {
+      case "tags" : return this.imageTagging(opts);
+      case "categories" : return this.categorizeImage(opts);
+      case "colors" : return this.analyzeImageColor(opts);
+      }
+    },
+    getTicket({
+      ticketId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/tickets/${ticketId}`,
+        ...opts,
+      });
+    },
+    imageTagging({
+      taggerId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/tags${taggerId
+          ? `/${taggerId}`
+          : ""}`,
+        ...opts,
+      });
+    },
+    uploadImage(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/uploads",
+        ...opts,
+      });
+    },
+
+    listCategorizers() {
       return this._makeRequest({
         path: "/categorizers",
       });
     },
-    async analyzeImage({
-      imageProcessType, imageUrl, imageFile,
-    }) {
-      const formData = new FormData();
-      if (imageUrl) {
-        formData.append("image_url", imageUrl);
-      } else if (imageFile) {
-        formData.append("image", fs.createReadStream(imageFile));
-      }
+    analyzeImageColor(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: `/${imageProcessType}`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        data: formData,
+        path: "/colors",
+        ...opts,
       });
     },
-    async analyzeBatch({
-      imageUrls, imageProcessType, callbackUrl,
-    }) {
-      const processingRequests = imageUrls.map((imageUrl) => ({
-        params: {
-          image_url: imageUrl,
-        },
-      }));
+    analyzeBatch(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/batches",
-        data: {
-          technology_endpoints: [
-            {
-              endpoint: `/${imageProcessType}`,
-              params: processingRequests,
-            },
-          ],
-          callback_url: callbackUrl,
-        },
+        ...opts,
       });
     },
-    async assignCategory({
-      imageUrl, categorizerId, callbackUrl,
+    categorizeImage({
+      categorizerId, ...opts
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: `/categorizers/${categorizerId}`,
-        params: {
-          image_url: imageUrl,
-          callback_url: callbackUrl,
-        },
+        path: `/categories/${categorizerId}`,
+        ...opts,
       });
     },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let response;
-      do {
-        response = await fn(...opts);
-        results = results.concat(response.result);
-        opts.page = response.next_page;
-      } while (response.next_page);
-      return results;
-    },
   },
-  version: "0.0.{{ts}}",
 };
