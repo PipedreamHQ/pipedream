@@ -6,8 +6,8 @@ import * as querystring from "querystring";
 import { cloneSafe } from "./utils";
 import { ConfigurationError } from "./errors";
 
-function cleanObject(o: { string: any; }) {
-  for (const k in o || {}) {
+function cleanObject(o = {}) {
+  for (const k in o) {
     if (typeof o[k] === "undefined") {
       delete o[k];
     }
