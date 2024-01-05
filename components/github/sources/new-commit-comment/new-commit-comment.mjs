@@ -11,7 +11,7 @@ export default {
   key: "github-new-commit-comment",
   name: "New Commit Comment",
   description: `Emit new event when a commit comment is created [See the documentation](${DOCS_LINK})`,
-  version: "1.1.0",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   methods: {

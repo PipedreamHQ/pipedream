@@ -10,7 +10,7 @@ export default {
   key: "github-new-stars",
   name: "New stars",
   description: `Emit new event when a repository is starred [See the documentation](${DOCS_LINK})`,
-  version: "1.1.0",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   methods: {
