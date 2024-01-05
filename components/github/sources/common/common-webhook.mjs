@@ -10,17 +10,9 @@ export default {
         github,
         "repoFullname",
       ],
-      reloadProps: true,
     },
     db: "$.service.db",
     http: "$.interface.http",
-  },
-  async additionalProps() {
-    if (!await this.checkAdminPermission()) {
-      throw new ConfigurationError("Webhooks are only supported on repos where you have admin access.");
-    }
-
-    return {};
   },
   methods: {
     _getWebhookId() {
@@ -68,6 +60,10 @@ export default {
   },
   hooks: {
     async deploy() {
+      if (!await this.checkAdminPermission()) {
+        throw new ConfigurationError("Webhooks are only supported on repos where you have admin access.");
+      }
+
       await this.loadHistoricalEvents();
     },
     async activate() {
