@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Chat",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "anthropic-chat",
   description: "The Chat API. [See docs here](https://console.anthropic.com/docs/api/reference#-v1-complete)",
   type: "action",
