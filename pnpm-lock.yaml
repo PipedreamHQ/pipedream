@@ -1291,6 +1291,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
 
+  components/content_snare:
+    specifiers: {}
+
   components/convenia:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1556,7 +1559,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/diabatix_coldstream:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash: 4.17.21
 
   components/dialmycalls:
     specifiers: {}
@@ -1810,6 +1818,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/dub:
+    specifiers: {}
 
   components/dynapictures:
     specifiers:
@@ -2134,7 +2145,12 @@ importers:
     specifiers: {}
 
   components/flexmail:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      md5: ^2.3.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      md5: 2.3.0
 
   components/float:
     specifiers: {}
@@ -2541,6 +2557,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/google_chat_developer_app:
+    specifiers: {}
+
   components/google_classroom:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -2598,11 +2617,15 @@ importers:
     specifiers:
       '@googleapis/drive': ^2.3.0
       '@pipedream/platform': ^1.4.0
+      cron-parser: ^4.9.0
+      lodash: ^4.17.21
       mime-db: ^1.51.0
       uuid: ^8.3.2
     dependencies:
       '@googleapis/drive': 2.4.0
       '@pipedream/platform': 1.5.1
+      cron-parser: 4.9.0
+      lodash: 4.17.21
       mime-db: 1.52.0
       uuid: 8.3.2
 
@@ -7156,7 +7179,10 @@ importers:
     specifiers: {}
 
   components/veriphone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/vero:
     specifiers: {}
@@ -16974,6 +17000,13 @@ packages:
       - supports-color
       - ts-node
     dev: true
+
+  /cron-parser/4.9.0:
+    resolution: {integrity: sha512-p0SaNjrHOnQeR8/VnfGbmg9te2kfyYSQ7Sc/j/6DtPL3JQvKxmjO9TSjNFpujqV3vEYYBvNNvXSxzyksBWAx1Q==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      luxon: 3.4.3
+    dev: false
 
   /cross-fetch/3.1.5:
     resolution: {integrity: sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==}

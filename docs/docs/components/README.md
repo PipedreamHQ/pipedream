@@ -55,7 +55,7 @@ Components may be instantiated or added to workflows via Pipedream's UI.
 
 ### Using Private Actions
 
-Private action components published from the [CLI](/cli/reference/#pd-publish) or from a Node.js Code Step are available for use across your workflows.
+Private action components published from the [CLI](/cli/reference/#pd-publish) or from a [Node.js Code Step](/code/nodejs/sharing-code) are available for use across your workflows.
 
 To use a published action, add a new step to your workflow and click **My Actions**. Your privately published action components will appear in this list.
 

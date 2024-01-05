@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/forcemanager",
+  "version": "0.0.1",
+  "description": "Pipedream ForceManager Components",
+  "main": "forcemanager.app.mjs",
+  "keywords": [
+    "pipedream",
+    "forcemanager"
+  ],
+  "homepage": "https://pipedream.com/apps/forcemanager",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
