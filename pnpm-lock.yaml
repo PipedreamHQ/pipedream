@@ -2160,6 +2160,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
 
+  components/florm:
+    specifiers: {}
+
   components/fluent_support:
     specifiers: {}
 
@@ -2180,6 +2183,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/forcemanager:
+    specifiers: {}
 
   components/form_io:
     specifiers: {}
@@ -3078,7 +3084,10 @@ importers:
       fs: 0.0.1-security
 
   components/imagga:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/imap:
     specifiers:
@@ -6402,6 +6411,9 @@ importers:
   components/stormglass_io:
     specifiers: {}
 
+  components/storyscale:
+    specifiers: {}
+
   components/strava:
     specifiers:
       axios: ^0.21.1
@@ -7700,6 +7712,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zenscrape:
+    specifiers: {}
 
   components/zerobounce:
     specifiers: {}
