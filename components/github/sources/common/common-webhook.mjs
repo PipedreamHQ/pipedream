@@ -1,4 +1,6 @@
+import { ConfigurationError } from "@pipedream/platform";
 import github from "../../github.app.mjs";
+import { checkAdminPermission } from "./utils.mjs";
 
 export default {
   props: {
@@ -8,9 +10,17 @@ export default {
         github,
         "repoFullname",
       ],
+      reloadProps: true,
     },
     db: "$.service.db",
     http: "$.interface.http",
+  },
+  async additionalProps() {
+    if (!await this.checkAdminPermission()) {
+      throw new ConfigurationError("Webhooks are only supported on repos where you have admin access.");
+    }
+
+    return {};
   },
   methods: {
     _getWebhookId() {
@@ -28,15 +38,7 @@ export default {
     loadHistoricalEvents() {
       return true;
     },
-    async checkAdminPermission() {
-      const { repoFullname } = this;
-      const { login: username } = await this.github.getAuthenticatedUser();
-      const { user: { permissions: { admin } } } = await this.github.getUserRepoPermissions({
-        repoFullname,
-        username,
-      });
-      return admin;
-    },
+    checkAdminPermission,
     async createWebhook() {
       if (this._getWebhookId()) {
         await this.removeWebhook();

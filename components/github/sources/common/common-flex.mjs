@@ -1,5 +1,6 @@
 import github from "../../github.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import { checkAdminPermission } from "./utils.mjs";
 
 export default {
   props: {
@@ -64,15 +65,7 @@ export default {
     loadHistoricalEvents() {
       return true;
     },
-    async checkAdminPermission() {
-      const { repoFullname } = this;
-      const { login: username } = await this.github.getAuthenticatedUser();
-      const { user: { permissions: { admin } } } = await this.github.getUserRepoPermissions({
-        repoFullname,
-        username,
-      });
-      return admin;
-    },
+    checkAdminPermission,
     async checkWebhookCreation() {
       const admin = await this.checkAdminPermission();
       if (admin) {
