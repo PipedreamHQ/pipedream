@@ -89,21 +89,35 @@ export default {
     if (!this.lastName && !this.companyName) {
       throw new ConfigurationError("You must provide at least the **Last Name** or **Company Name** field.");
     }
+    if ((!this.companyId && !this.companyName) || (this.companyId && this.companyName)) {
+      throw new ConfigurationError("You must provide whether the **Company Id** or **Company Name** field.");
+    }
+
+    let companyName = this.companyName;
+    if (this.companyId && !companyName) {
+      const { data: { company } } = await this.onepagecrm.getCompany({
+        companyId: this.companyId,
+      });
+      companyName = company.name;
+    }
+
+    const data = {
+      title: this.title,
+      first_name: this.firstName,
+      last_name: this.lastName,
+      job_title: this.jobTitle,
+      starred: this.starred,
+      tags: parseString(this.tags),
+      lead_source_id: this.leadSourceId,
+      background: this.background,
+      owner_id: this.ownerId,
+      company_id: this.companyId,
+      company_name: companyName,
+    };
+
     const response = await this.onepagecrm.createContact({
       $,
-      data: {
-        title: this.title,
-        first_name: this.firstName,
-        last_name: this.lastName,
-        job_title: this.jobTitle,
-        starred: this.starred,
-        company_id: this.companyId,
-        company_name: this.companyName,
-        tags: parseString(this.tags),
-        lead_source_id: this.leadSourceId,
-        background: this.background,
-        owner_id: this.ownerId,
-      },
+      data,
     });
     $.export("$summary", `Successfully created contact with ID ${response.data?.contact?.id}`);
     return response;

@@ -138,6 +138,14 @@ export default {
         ...opts,
       });
     },
+    getCompany({
+      companyId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/companies/${companyId}.json`,
+        ...opts,
+      });
+    },
     getDeal({
       dealId, ...opts
     }) {
