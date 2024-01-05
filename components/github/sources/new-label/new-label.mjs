@@ -1,7 +1,7 @@
 import common from "../common/common-flex.mjs";
 import {
   getSampleTimerEvent, getSampleWebhookEvent,
-} from "./sample-events.mjs";
+} from "./common-sample-events.mjs";
 
 const DOCS_LINK =
   "https://docs.github.com/en/webhooks/webhook-events-and-payloads#label";
