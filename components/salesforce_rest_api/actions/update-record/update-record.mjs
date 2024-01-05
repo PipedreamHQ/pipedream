@@ -8,7 +8,7 @@ export default {
     Updates a record of a given resource.
     [See docs here](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_update_fields.htm)
   `),
-  version: "0.2.5",
+  version: "0.2.6",
   type: "action",
   props: {
     salesforce,

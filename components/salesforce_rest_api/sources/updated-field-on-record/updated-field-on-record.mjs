@@ -1,6 +1,6 @@
-import startCase from "lodash/startCase.js";
-
+import words from "lodash/words.js";
 import common from "../common.mjs";
+
 const { salesforce } = common.props;
 
 /**
@@ -11,38 +11,29 @@ const { salesforce } = common.props;
  */
 export default {
   ...common,
+  dedupe: "greatest",
   type: "source",
   name: "New Updated Field on Record (of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record",
   description: "Emit new event (at regular intervals) when a field of your choosing is updated on any record of a specified Salesforce object. Field history tracking must be enabled for the chosen field. See the docs on [field history tracking](https://sforce.co/3mtj0rF) and [history objects](https://sforce.co/3Fn4lWB) for more information.",
-  version: "0.1.8",
+  version: "0.1.9",
   props: {
     ...common.props,
     objectType: {
       type: common.props.objectType.type,
       label: common.props.objectType.label,
       description: common.props.objectType.description,
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          return {
-            options: [],
-          };
-        }
-
-        const { sobjects } = await this.salesforce.listSObjectTypes();
-        // Filter options to include only sObjects with associated
-        // [history](https://sforce.co/3Fn4lWB) objects
-        const options = sobjects
-          .filter(this.isValidSObject)
-          .map((sobject) => ({
-            label: sobjects.find((o) => o.name === sobject.associateParentEntity).label,
-            value: sobject.associateParentEntity,
-          }));
-        return {
-          options,
-        };
-      },
+      propDefinition: [
+        salesforce,
+        "objectType",
+        () => ({
+          filter: ({
+            replicateable,
+            associateEntityType,
+          }) => replicateable && associateEntityType === "History",
+          mapper: ({ associateParentEntity: value }) => words(value).join(" "),
+        }),
+      ],
     },
     field: {
       propDefinition: [
@@ -64,62 +55,64 @@ export default {
   hooks: {
     ...common.hooks,
     async activate() {
+      const {
+        objectType,
+        getObjectTypeDescription,
+        setHistoryObjectType,
+        setObjectTypeColumns,
+      } = this;
+
       await common.hooks.activate.call(this);
-      const historyObject = await this.salesforce.getHistorySObjectForObjectType(this.objectType);
-      if (!historyObject) {
-        throw new Error(`History object not found for "${this.objectType}"`);
-      }
-      this._setHistoryObjectType(historyObject.name);
+
+      const historyObjectType = `${objectType}History`;
+
+      const { fields } = await getObjectTypeDescription(historyObjectType);
+      const columns = fields.map(({ name }) => name);
+
+      setHistoryObjectType(historyObjectType);
+      setObjectTypeColumns(columns);
     },
   },
   methods: {
     ...common.methods,
-    _getHistoryObjectType() {
+    getHistoryObjectType() {
       return this.db.get("historyObjectType");
     },
-    _setHistoryObjectType(historyObjectType) {
+    setHistoryObjectType(historyObjectType) {
       this.db.set("historyObjectType", historyObjectType);
     },
-    _getParentId(item) {
-      const parentIdKey = `${this.objectType}Id`;
-      return item[parentIdKey] ?? item["ParentId"];
-    },
-    getUniqueParentIds(items) {
-      // To fetch associated sObject records only once, create a set of the "parent IDs" of the
-      // history object records
-      const parentIdSet = new Set(items.map(this._getParentId).filter((id) => id));
-      return Array.from(parentIdSet);
-    },
-    isValidSObject(sobject) {
-      // Only the activity of those SObject types that have the `replicateable`
-      // flag set is published via the `getUpdated` API.
-      //
-      // See the API docs here: https://sforce.co/3gDy3uP
-      return sobject.replicateable && this.salesforce.isHistorySObject(sobject);
-    },
     isRelevant(item) {
-      const isFieldRelevant = item.Field === this.field;
-      const isFieldValueRelevant = !this.fieldUpdatedTo || item.NewValue === this.fieldUpdatedTo;
+      const {
+        field,
+        fieldUpdatedTo,
+      } = this;
+
+      const isFieldRelevant =
+        item.Field === field
+        || item.Field === `${item.DataType}${field}`;
+
+      const isFieldValueRelevant =
+        !fieldUpdatedTo
+        || item.NewValue === fieldUpdatedTo;
+
       return isFieldRelevant && isFieldValueRelevant;
     },
     generateMeta(event) {
-      const nameField = this.getNameField();
       const {
-        record: item = {},
-        update,
-      } = event;
-      const { [nameField]: name } = item;
+        objectType,
+        field,
+      } = this;
+
       const {
-        Id: id,
         CreatedDate: createdDate,
-      } = update;
-      const entityType = startCase(this.objectType);
-      const summary = `${this.field} on ${entityType}: ${name}`;
+        Id: id,
+        [`${objectType}Id`]: objectId,
+      } = event;
+
       const ts = Date.parse(createdDate);
-      const compositeId = `${id}-${ts}`;
       return {
-        id: compositeId,
-        summary,
+        id: `${id}-${ts}`,
+        summary: `${field} on ${objectType}: ${objectId}`,
         ts,
       };
     },
@@ -127,68 +120,40 @@ export default {
       startTimestamp, endTimestamp,
     }) {
       const {
-        salesforce,
-        _getHistoryObjectType,
+        getHistoryObjectType,
+        getObjectTypeColumns,
         setLatestDateCovered,
-        makeChunkBatchRequestsAndGetResults,
         isRelevant,
-        getUniqueParentIds,
-        _getParentId,
+        paginate,
         generateMeta,
         $emit: emit,
       } = this;
 
-      let historyItemRetrievals = [];
-      let itemRetrievals = [];
-      const historyObjectType = _getHistoryObjectType();
-      const {
-        ids,
-        latestDateCovered,
-      } = await salesforce.getUpdatedForObjectType(
-        historyObjectType,
+      const objectType = getHistoryObjectType();
+      const columns = getObjectTypeColumns();
+
+      const events = await paginate({
+        objectType,
         startTimestamp,
         endTimestamp,
-      );
-
-      setLatestDateCovered((new Date(latestDateCovered)).toISOString());
-
-      if (ids?.length) {
-        historyItemRetrievals = await makeChunkBatchRequestsAndGetResults({
-          ids,
-          objectType: historyObjectType,
-        });
-      }
-
-      const historyItems = historyItemRetrievals
-        .filter(({
-          statusCode, result: item,
-        }) => statusCode === 200 && isRelevant(item))
-        .map(({ result: item }) => item);
-
-      const parentIds = getUniqueParentIds(historyItems);
-
-      if (parentIds.length) {
-        itemRetrievals = await makeChunkBatchRequestsAndGetResults({
-          ids: parentIds,
-        });
-      }
-
-      const itemsById = itemRetrievals
-        .filter(({ statusCode }) => statusCode === 200)
-        .reduce((acc, { result: item }) => ({
-          ...acc,
-          [item.Id]: item,
-        }), {});
-
-      const events = historyItems.map((item) => ({
-        update: item,
-        record: itemsById[_getParentId(item)],
-      }));
-
-      events.forEach((event) => {
-        const meta = generateMeta(event);
-        emit(event, meta);
+        columns,
       });
+
+      const [
+        latestEvent,
+      ] = events;
+
+      if (latestEvent?.CreatedDate) {
+        setLatestDateCovered((new Date(latestEvent.CreatedDate)).toISOString());
+      }
+
+      Array.from(events)
+        .reverse()
+        .filter(isRelevant)
+        .forEach((event) => {
+          const meta = generateMeta(event);
+          emit(event, meta);
+        });
     },
   },
 };
