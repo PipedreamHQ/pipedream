@@ -10,7 +10,7 @@ export default {
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
   description: "Emit new event any time a new file is added in your linked Google Drive",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -46,14 +46,16 @@ export default {
       daysAgo.setDate(daysAgo.getDate() - 30);
       const timeString = daysAgo.toISOString();
 
-      const { data } = await this.googleDrive.drive().files.list({
+      const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and createdTime > "${timeString}" and trashed = false`,
         orderBy: "createdTime desc",
         fields: "*",
         pageSize: 25,
       });
 
-      this.emitFiles(data.files);
+      const { files } = await this.googleDrive.listFilesInPage(null, args);
+
+      this.emitFiles(files);
     },
     ...common.hooks,
     async activate() {
@@ -98,19 +100,21 @@ export default {
       const lastFileCreatedTime = this._getLastFileCreatedTime();
       const timeString = new Date(lastFileCreatedTime).toISOString();
 
-      const { data } = await this.googleDrive.drive().files.list({
+      const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and createdTime > "${timeString}" and trashed = false`,
         orderBy: "createdTime desc",
         fields: "*",
       });
 
-      if (!data.files?.length) {
+      const { files } = await this.googleDrive.listFilesInPage(null, args);
+
+      if (!files?.length) {
         return;
       }
 
-      this.emitFiles(data.files);
+      this.emitFiles(files);
 
-      this._setLastFileCreatedTime(Date.parse(data.files[0].createdTime));
+      this._setLastFileCreatedTime(Date.parse(files[0].createdTime));
     },
   },
   sampleEmit,

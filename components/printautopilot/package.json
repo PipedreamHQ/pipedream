@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/printautopilot",
+  "version": "0.0.1",
+  "description": "Pipedream PrintAutopilot Components",
+  "main": "printautopilot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "printautopilot"
+  ],
+  "homepage": "https://pipedream.com/apps/printautopilot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
