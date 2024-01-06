@@ -411,6 +411,9 @@ importers:
       axios: 1.6.2
       sqlstring: 2.3.3
 
+  components/appointedd:
+    specifiers: {}
+
   components/asana:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -791,6 +794,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       puppeteer-core: 19.8.0
+
+  components/btcpay_server:
+    specifiers: {}
 
   components/budgets_ai:
     specifiers: {}
@@ -1282,6 +1288,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
 
+  components/content_snare:
+    specifiers: {}
+
   components/convenia:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1547,7 +1556,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/diabatix_coldstream:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      lodash: 4.17.21
 
   components/dialmycalls:
     specifiers: {}
@@ -1802,6 +1816,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/dub:
+    specifiers: {}
+
   components/dynapictures:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1845,6 +1862,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
+
+  components/edusign:
+    specifiers: {}
 
   components/elastic_email:
     specifiers: {}
@@ -2121,6 +2141,14 @@ importers:
   components/fivetran:
     specifiers: {}
 
+  components/flexmail:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      md5: ^2.3.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      md5: 2.3.0
+
   components/float:
     specifiers: {}
 
@@ -2131,6 +2159,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
+
+  components/florm:
+    specifiers: {}
 
   components/fluent_support:
     specifiers: {}
@@ -2152,6 +2183,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/forcemanager:
+    specifiers: {}
 
   components/form_io:
     specifiers: {}
@@ -2184,6 +2218,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/formcan:
+    specifiers: {}
 
   components/formdesk:
     specifiers: {}
@@ -2422,6 +2459,9 @@ importers:
       form-data: 4.0.0
       fs: 0.0.1-security
 
+  components/gleap:
+    specifiers: {}
+
   components/gmail:
     specifiers:
       '@google-cloud/local-auth': ^2.1.0
@@ -2455,6 +2495,9 @@ importers:
       googleapis: 109.0.1
       html-to-text: 8.2.1
       nodemailer: 6.9.5
+
+  components/gmodstore:
+    specifiers: {}
 
   components/go_upc:
     specifiers: {}
@@ -2517,6 +2560,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/google_chat_developer_app:
+    specifiers: {}
+
   components/google_classroom:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -2574,11 +2620,15 @@ importers:
     specifiers:
       '@googleapis/drive': ^2.3.0
       '@pipedream/platform': ^1.4.0
+      cron-parser: ^4.9.0
+      lodash: ^4.17.21
       mime-db: ^1.51.0
       uuid: ^8.3.2
     dependencies:
       '@googleapis/drive': 2.4.0
       '@pipedream/platform': 1.5.1
+      cron-parser: 4.9.0
+      lodash: 4.17.21
       mime-db: 1.52.0
       uuid: 8.3.2
 
@@ -3635,6 +3685,9 @@ importers:
   components/loqate:
     specifiers: {}
 
+  components/loyjoy:
+    specifiers: {}
+
   components/luminous:
     specifiers: {}
 
@@ -3679,6 +3732,9 @@ importers:
       uuid: 8.3.2
 
   components/mailcoach:
+    specifiers: {}
+
+  components/mailercloud:
     specifiers: {}
 
   components/mailerlite:
@@ -4988,6 +5044,9 @@ importers:
   components/pretix:
     specifiers: {}
 
+  components/printautopilot:
+    specifiers: {}
+
   components/printavo:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -5015,6 +5074,9 @@ importers:
       '@pipedream/platform': 1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/proabono:
+    specifiers: {}
 
   components/process_street:
     specifiers:
@@ -5377,6 +5439,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/reputation_lyncs:
+    specifiers: {}
 
   components/rescuetime:
     specifiers:
@@ -6343,6 +6408,9 @@ importers:
   components/stormglass_io:
     specifiers: {}
 
+  components/storyscale:
+    specifiers: {}
+
   components/strava:
     specifiers:
       axios: ^0.21.1
@@ -6434,6 +6502,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       uuid: 8.3.2
+
+  components/surveycto:
+    specifiers: {}
 
   components/surveymethods:
     specifiers:
@@ -7046,6 +7117,9 @@ importers:
   components/userflow:
     specifiers: {}
 
+  components/userlist:
+    specifiers: {}
+
   components/usersketch:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7111,7 +7185,10 @@ importers:
     specifiers: {}
 
   components/veriphone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/vero:
     specifiers: {}
@@ -7220,6 +7297,9 @@ importers:
     devDependencies:
       '@pipedream/types': 0.1.6
       '@types/node': 17.0.45
+
+  components/waiverfile:
+    specifiers: {}
 
   components/waiverforever:
     specifiers:
@@ -7629,6 +7709,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zenscrape:
+    specifiers: {}
 
   components/zerobounce:
     specifiers: {}
@@ -16926,6 +17009,13 @@ packages:
       - supports-color
       - ts-node
     dev: true
+
+  /cron-parser/4.9.0:
+    resolution: {integrity: sha512-p0SaNjrHOnQeR8/VnfGbmg9te2kfyYSQ7Sc/j/6DtPL3JQvKxmjO9TSjNFpujqV3vEYYBvNNvXSxzyksBWAx1Q==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      luxon: 3.4.3
+    dev: false
 
   /cross-fetch/3.1.5:
     resolution: {integrity: sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==}
