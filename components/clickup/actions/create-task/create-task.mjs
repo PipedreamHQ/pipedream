@@ -21,7 +21,7 @@ export default {
       description: "The description of task",
       optional: true,
     },
-    markdown_description: {
+    markdownDescription: {
       label: "Markdown Description",
       type: "string",
       description: "The description of task with markdown formatting",
@@ -93,7 +93,7 @@ export default {
       listId,
       name,
       description,
-      markdown_description,
+      markdownDescription,
       priority,
       assignees,
       tags,
@@ -110,7 +110,7 @@ export default {
       data: {
         name,
         description,
-        markdown_description,
+        markdown_description: markdownDescription,
         priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
         assignees,
         tags,
