@@ -7124,7 +7124,10 @@ importers:
     specifiers: {}
 
   components/userlist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/usersketch:
     specifiers:
