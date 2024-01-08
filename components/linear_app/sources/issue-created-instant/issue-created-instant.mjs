@@ -7,7 +7,7 @@ export default {
   name: "New Created Issue (Instant)",
   description: "Emit new event when a new issue is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.3.4",
+  version: "0.3.5",
   dedupe: "unique",
   methods: {
     ...common.methods,

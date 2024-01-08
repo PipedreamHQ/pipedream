@@ -5,7 +5,7 @@ export default {
   key: "you_need_a_budget-new-or-updated-transaction",
   name: "New or Updated Transaction",
   description: "Emit new event for every new or updated transaction. [See the docs](https://api.youneedabudget.com/v1#/Transactions/getTransactions)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   props: {
     ...common.props,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/linearb",
+  "version": "0.0.1",
+  "description": "Pipedream LinearB Components",
+  "main": "linearb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "linearb"
+  ],
+  "homepage": "https://pipedream.com/apps/linearb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
