@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
 import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { RetweetParams } from "../../common/types/requestParams";
@@ -7,16 +7,17 @@ const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/api-reference/post-users-id-retweets";
 
 export default defineAction({
+  ...common,
   key: "twitter-retweet",
   name: "Retweet a tweet",
   description: `Retweet a tweet specified by ID. [See the documentation](${DOCS_LINK})`,
   version: "2.0.4",
   type: "action",
   props: {
-    app,
+    ...common.props,
     tweetId: {
       propDefinition: [
-        app,
+        common.props.app,
         "tweetId",
       ],
       description: "The ID of the tweet you'd like to retweet",

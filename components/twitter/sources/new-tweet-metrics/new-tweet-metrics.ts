@@ -1,4 +1,3 @@
-import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { GetTweetParams } from "../../common/types/requestParams";
@@ -18,7 +17,7 @@ export default defineSource({
     ...common.props,
     tweetId: {
       propDefinition: [
-        app,
+        common.props.app,
         "tweetId",
       ],
     },

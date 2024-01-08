@@ -1,4 +1,3 @@
-import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
@@ -20,7 +19,7 @@ export default defineSource({
     ...common.props,
     query: {
       propDefinition: [
-        app,
+        common.props.app,
         "query",
       ],
     },

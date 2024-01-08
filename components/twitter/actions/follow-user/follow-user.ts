@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
 import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
@@ -8,21 +8,23 @@ const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/post-users-source_user_id-following";
 
 export default defineAction({
+  ...common,
   key: "twitter-follow-user",
   name: "Follow User",
   description: `Follow a user. [See the documentation](${DOCS_LINK})`,
   version: "2.0.4",
   type: "action",
   props: {
-    app,
+    ...common.props,
     userNameOrId: {
       propDefinition: [
-        app,
+        common.props.app,
         "userNameOrId",
       ],
     },
   },
   methods: {
+    ...common.methods,
     getUserId,
   },
   async run({ $ }): Promise<object> {

@@ -5,7 +5,7 @@ export const ACTION_ERROR_MESSAGE = `${ERROR_MESSAGE} Additional debugging infor
 
 // Taken from https://developer.twitter.com/en/support/x-api/error-troubleshooting#error-information and https://api.twitter.com/2/openapi.json
 const PROBLEM_BASE_URL = "https://api.twitter.com/2/problems";
-export const PROBLEM_TYPE = {
+export const ERROR_BY_TYPE = {
   [`${PROBLEM_BASE_URL}/client-forbidden`]: "This X (Twitter) account appears to be on the Free plan, which only has access to **Create Tweets**. [Refer to Twitter's developer docs](https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api#v2-access-leve) for the latest info on API access.",
   ["about:blank"]: "A generic problem with no additional information beyond that provided by the HTTP status code.",
   [`${PROBLEM_BASE_URL}/invalid-request`]: "A problem that indicates this request is invalid. If your request takes a POST body, ensure the contents is valid JSON and matches the [OpenAPI spec](https://api.twitter.com/2/openapi.json).",

@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
 import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import constants from "../../common/constants";
@@ -9,13 +9,14 @@ import FormData from "form-data";
 const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload";
 
 export default defineAction({
+  ...common,
   key: "twitter-upload-media",
   name: "Upload Media",
   description: `Upload new media. [See the documentation](${DOCS_LINK})`,
   version: "0.0.8",
   type: "action",
   props: {
-    app,
+    ...common.props,
     filePath: {
       type: "string",
       label: "File Path",

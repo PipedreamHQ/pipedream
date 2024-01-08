@@ -40,9 +40,7 @@ import {
   TwitterEntity,
   User,
 } from "../common/types/responseSchemas";
-import {
-  ERROR_MESSAGE, PROBLEM_TYPE,
-} from "../common/errorMessage";
+import { ERROR_BY_TYPE } from "../common/errorMessage";
 
 export default defineApp({
   type: "app",
@@ -61,23 +59,17 @@ export default defineApp({
       description:
         "Select a **List** owned by the authenticated user, or use a custom *List ID*.",
       async options(): Promise<{ label: string; value: string; }[]> {
-        try {
-          const userId = await this.getAuthenticatedUserId();
-          const lists = await this.getUserOwnedLists({
-            userId,
-          });
+        const userId = await this.getAuthenticatedUserId();
+        const lists = await this.getUserOwnedLists({
+          userId,
+        });
 
-          return (
-            lists.data?.map(({
-              id, name,
-            }: List) => ({
-              label: name,
-              value: id,
-            })) ?? []
-          );
-        } catch (error) {
-          throw new Error(ERROR_MESSAGE);
-        }
+        return lists.data?.map(({
+          id, name,
+        }: List) => ({
+          label: name,
+          value: id,
+        })) ?? [];
       },
     },
     userNameOrId: {
@@ -113,7 +105,7 @@ export default defineApp({
   },
   methods: {
     throwError(data) {
-      const errorMessage = PROBLEM_TYPE[data?.type];
+      const errorMessage = ERROR_BY_TYPE[data?.type];
       if (!errorMessage) {
         return;
       }

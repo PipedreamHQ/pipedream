@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
 import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
@@ -17,22 +17,23 @@ const DEFAULT_RESULTS = 10;
 export const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
+  ...common,
   key: "twitter-simple-search",
   name: "Search Tweets",
   description: `Retrieve Tweets from the last seven days that match a query. [See the documentation](${DOCS_LINK})`,
   version: "2.0.4",
   type: "action",
   props: {
-    app,
+    ...common.props,
     query: {
       propDefinition: [
-        app,
+        common.props.app,
         "query",
       ],
     },
     maxResults: {
       propDefinition: [
-        app,
+        common.props.app,
         "maxResults",
       ],
       min: MIN_RESULTS,
@@ -41,6 +42,7 @@ export default defineAction({
     },
   },
   methods: {
+    ...common.methods,
     getMultiItemSummary,
     getTweetFields,
   },

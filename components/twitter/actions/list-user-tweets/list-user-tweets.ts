@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
 import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
@@ -19,22 +19,23 @@ const DEFAULT_RESULTS = 10;
 export const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
+  ...common,
   key: "twitter-list-user-tweets",
   name: "List User Tweets",
   description: `Return a collection of the most recent tweets posted by a user. [See the documentation](${DOCS_LINK})`,
   version: "2.0.4",
   type: "action",
   props: {
-    app,
+    ...common.props,
     userNameOrId: {
       propDefinition: [
-        app,
+        common.props.app,
         "userNameOrId",
       ],
     },
     maxResults: {
       propDefinition: [
-        app,
+        common.props.app,
         "maxResults",
       ],
       min: MIN_RESULTS,
@@ -43,6 +44,7 @@ export default defineAction({
     },
   },
   methods: {
+    ...common.methods,
     getMultiItemSummary,
     getUserId,
     getTweetFields,
