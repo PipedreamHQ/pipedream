@@ -17,7 +17,7 @@ export default {
     generateMeta(item) {
       return {
         id: item.id,
-        summary: `New feedback with Id: ${item.id}`,
+        summary: `New feedback with ID: ${item.id}`,
         ts: item.createdAt,
       };
     },
