@@ -1,31 +1,54 @@
 import userlist from "../../userlist.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "userlist-create-event",
   name: "Create Event",
-  description: "Generates a new event in Userlist",
-  version: "0.0.{{ts}}",
+  description: "Generates a new event in Userlist. [See the documentation](https://userlist.com/docs/getting-started/integration-guide/)",
+  version: "0.0.1",
   type: "action",
   props: {
     userlist,
-    eventType: {
+    name: {
       type: "string",
-      label: "Event Type",
-      description: "Describes the type of event",
+      label: "Name",
+      description: "The name of the event",
     },
-    eventInfo: {
+    user: {
+      propDefinition: [
+        userlist,
+        "user",
+      ],
+      optional: true,
+    },
+    company: {
+      propDefinition: [
+        userlist,
+        "company",
+      ],
+      optional: true,
+    },
+    properties: {
       type: "object",
-      label: "Event Info",
-      description: "Additional event related data",
+      label: "Relationship Properties",
+      description: "Custom relationship properties. Example: `{{ { \"product\": \"Flowers\", \"price\": \"$12.99\" } }}`",
       optional: true,
     },
   },
   async run({ $ }) {
+    if (!this.user && !this.company) {
+      throw new ConfigurationError("At least one of User or Company must be provided.");
+    }
+
     const response = await this.userlist.generateNewEvent({
-      eventType: this.eventType,
-      eventInfo: this.eventInfo,
+      data: {
+        name: this.name,
+        user: this.user,
+        company: this.company,
+        properties: this.properties,
+      },
     });
-    $.export("$summary", `Successfully created event: ${this.eventType}`);
+    $.export("$summary", `Successfully created event: ${this.name}`);
     return response;
   },
 };

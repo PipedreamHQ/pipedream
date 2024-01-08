@@ -4,35 +4,39 @@ export default {
   key: "userlist-create-update-relationship",
   name: "Create or Update Relationship",
   description: "Establishes or modifies a relationship with the given user and company identifiers. [See the documentation](https://userlist.com/docs/getting-started/integration-guide/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     userlist,
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The unique identifier of the user",
+    user: {
+      propDefinition: [
+        userlist,
+        "user",
+      ],
     },
-    companyId: {
-      type: "string",
-      label: "Company ID",
-      description: "Unique identifier for the company",
+    company: {
+      propDefinition: [
+        userlist,
+        "company",
+      ],
     },
-    extraInfo: {
+    properties: {
       type: "object",
-      label: "Extra Info",
-      description: "Other relation attributes",
+      label: "Relationship Properties",
+      description: "Custom relationship properties. Example: `{{ { \"role\": \"admin\" } }}`",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.userlist.establishOrModifyRelationship({
-      userId: this.userId,
-      companyId: this.companyId,
-      extraInfo: this.extraInfo,
+      data: {
+        user: this.user,
+        company: this.company,
+        properties: this.properties,
+      },
     });
 
-    $.export("$summary", `Successfully established or modified relationship between user ${this.userId} and company ${this.companyId}`);
+    $.export("$summary", `Successfully established or modified relationship between user ${this.user} and company ${this.company}.`);
     return response;
   },
 };
