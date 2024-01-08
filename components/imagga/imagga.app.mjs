@@ -37,7 +37,7 @@ export default {
     imageFile: {
       type: "string",
       label: "Image File",
-      description: "The file path of the image to analyze.",
+      description: "The file path from [`/tmp` dir](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory) of the image to analyze.",
     },
     callbackUrl: {
       type: "string",
