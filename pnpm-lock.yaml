@@ -4479,7 +4479,10 @@ importers:
     specifiers: {}
 
   components/onepagecrm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ones2u:
     specifiers: {}
