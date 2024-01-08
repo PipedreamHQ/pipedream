@@ -17,6 +17,8 @@ const EXPRESSIONS = [
   "happy",
 ];
 
+const DELAY = 1000 * 10;
+
 export default {
   BASE_URL,
   VERSION_1_PATH,
@@ -24,4 +26,5 @@ export default {
   TALKING_PHOTO_STYLES,
   TALKING_STYLES,
   EXPRESSIONS,
+  DELAY,
 };

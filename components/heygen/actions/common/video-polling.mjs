@@ -1,15 +1,15 @@
 import heygen from "../../heygen.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   props: {
     heygen,
   },
   async run({ $ }) {
-    const DELAY = 1000 * 10;
     const { run } = $.context;
     if (run.runs === 1) {
       const videoId = await this.processVideo($);
-      $.flow.rerun(DELAY, {
+      $.flow.rerun(constants.DELAY, {
         videoId,
       });
     }
@@ -22,7 +22,7 @@ export default {
         $,
       });
       if (video.status === "processing") {
-        $.flow.rerun(DELAY, {
+        $.flow.rerun(constants.DELAY, {
           videoId,
         });
       }
