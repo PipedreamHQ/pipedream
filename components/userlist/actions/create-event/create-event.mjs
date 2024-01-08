@@ -47,6 +47,7 @@ export default {
         company: this.company,
         properties: this.properties,
       },
+      $,
     });
     $.export("$summary", `Successfully created event: ${this.name}`);
     return response;

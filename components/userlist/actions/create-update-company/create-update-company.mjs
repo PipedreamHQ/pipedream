@@ -34,6 +34,7 @@ export default {
         name: this.name,
         properties: this.properties,
       },
+      $,
     });
     $.export("$summary", `Successfully created or updated company with identifier: ${this.identifier}`);
     return response;

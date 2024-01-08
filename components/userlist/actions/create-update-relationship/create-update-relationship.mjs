@@ -34,6 +34,7 @@ export default {
         company: this.company,
         properties: this.properties,
       },
+      $,
     });
 
     $.export("$summary", `Successfully established or modified relationship between user ${this.user} and company ${this.company}.`);
