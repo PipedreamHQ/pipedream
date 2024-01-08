@@ -32,10 +32,10 @@ export default {
         "disable_notification",
       ],
     },
-    disable_web_page_preview: {
+    link_preview_options: {
       propDefinition: [
         telegramBotApi,
-        "disable_web_page_preview",
+        "link_preview_options",
       ],
     },
     reply_to_message_id: {
@@ -55,7 +55,7 @@ export default {
     const resp = await this.telegramBotApi.sendMessage(this.chatId, this.text, {
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,
-      disable_web_page_preview: this.disable_web_page_preview,
+      link_preview_options: this.link_preview_options,
       reply_to_message_id: this.reply_to_message_id,
       reply_markup: this.reply_markup,
     });
