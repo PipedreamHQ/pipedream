@@ -1,11 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import referrizer from "../../referrizer.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "referrizer-create-visit",
   name: "Create Visit",
-  description: "Send an invitation to an existing contact in Referrizer. [See the documentation](https://api.referrizer.com/static/docs/index.html#operation/inviteContact)",
-  version: "0.0.{{ts}}",
+  description: "Create a visit to an existing contact in Referrizer. [See the documentation](https://api.referrizer.com/static/docs/index.html#operation/inviteContact)",
+  version: "0.0.1",
   type: "action",
   props: {
     referrizer,
@@ -13,38 +13,42 @@ export default {
       propDefinition: [
         referrizer,
         "contactId",
-        async ({ prevContext }) => {
-          const { items } = await referrizer.listContacts({
-            page: prevContext.page || 0,
-          });
-          return {
-            options: items.map((contact) => ({
-              label: contact.name,
-              value: contact.id,
-            })),
-            context: {
-              page: items.length
-                ? prevContext.page + 1
-                : prevContext.page,
-            },
-          };
-        },
       ],
     },
-    invitationMessage: {
-      propDefinition: [
-        referrizer,
-        "invitationMessage",
-      ],
+    points: {
+      type: "integer",
+      label: "Points",
+      description: "Loyalty points to be earned. If not provided, the number of earned points will depend on your Loyalty settings.",
+      optional: true,
+    },
+    amountSpent: {
+      type: "integer",
+      label: "Amount Spent",
+      description: "Dollar amount spent connected to Earning Points value. E.g. if $1 is 1pts and when contact spent $25 they will get 25pts. This is related to loyalty settings value 'pointsPerDollar'.",
+      optional: true,
+    },
+    date: {
+      type: "string",
+      label: "Date",
+      description: "Date and time of the visit in this request with the format 'YYYY-MM-DDTHH:MM:SS.SSSZ'. E.g. 2022-01-19T16:16:24.000Z. Date must be in the past. If the date is set a notification for the visit will not be sent.",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.referrizer.inviteContact({
-      contactId: this.contactId,
-      invitationMessage: this.invitationMessage,
+    if (this.points && this.amountSpent) {
+      throw new ConfigurationError("You must provide either Points or Amount Spent.");
+    }
+    const {
+      referrizer,
+      ...data
+    } = this;
+
+    const response = await referrizer.createVisit({
+      $,
+      data,
     });
 
-    $.export("$summary", `Successfully sent an invitation to contact ID: ${this.contactId}`);
+    $.export("$summary", `Successfully created visit with ID: ${response.id}`);
     return response;
   },
 };

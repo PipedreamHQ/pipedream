@@ -8,110 +8,96 @@ export default {
       type: "string",
       label: "Loyalty Reward ID",
       description: "The ID of the loyalty reward",
-      async options({ prevContext }) {
-        const { items } = await this.listLoyaltyRewards({
-          page: prevContext.page || 0,
+      async options({ page }) {
+        const items = await this.listLoyaltyRewards({
+          page: page + 1,
         });
-        return {
-          options: items.map((reward) => ({
-            label: reward.title,
-            value: reward.id,
-          })),
-          context: {
-            page: items.length
-              ? prevContext.page + 1
-              : prevContext.page,
-          },
-        };
+
+        return items.map(({
+          title: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
       },
     },
     contactId: {
       type: "string",
       label: "Contact ID",
       description: "The ID of the contact",
-      async options({ prevContext }) {
-        const { items } = await this.listContacts({
-          page: prevContext.page || 0,
+      async options({ page }) {
+        const items = await this.listContacts({
+          page: page + 1,
         });
-        return {
-          options: items.map((contact) => ({
-            label: contact.name,
-            value: contact.id,
-          })),
-          context: {
-            page: items.length
-              ? prevContext.page + 1
-              : prevContext.page,
-          },
-        };
+        return items.map(({
+          id: value, firstName, lastName, email,
+        }) => ({
+          label: `${firstName} ${lastName} ${email}`,
+          value,
+        }));
       },
-    },
-    title: {
-      type: "string",
-      label: "Title",
-      description: "The title of the loyalty reward",
-      required: true,
-    },
-    points: {
-      type: "integer",
-      label: "Points",
-      description: "The number of points required for the reward",
-      required: true,
-    },
-    quantityTotal: {
-      type: "integer",
-      label: "Total Quantity",
-      description: "The total quantity of the loyalty reward",
-      required: true,
-    },
-    quantityPerContact: {
-      type: "integer",
-      label: "Quantity Per Contact",
-      description: "The quantity of the loyalty reward per contact",
-      required: true,
-    },
-    startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "The start date of the loyalty reward",
-      required: true,
     },
     expiredDate: {
       type: "string",
       label: "Expired Date",
-      description: "The expiration date of the loyalty reward",
-      required: true,
+      description: "The expiration date of the loyalty reward. `Format YYYY-MM-DDTHH:MM:SS.SSSZ`",
     },
     expires: {
       type: "boolean",
       label: "Expires",
       description: "Whether the loyalty reward expires",
-      required: true,
-    },
-    type: {
-      type: "string",
-      label: "Type",
-      description: "The type of the loyalty reward",
-      required: true,
-    },
-    value: {
-      type: "string",
-      label: "Value",
-      description: "The value of the loyalty reward",
-      required: true,
     },
     itemId: {
       type: "string",
       label: "Item ID",
       description: "The ID of the item associated with the loyalty reward",
-      optional: true,
     },
     itemName: {
       type: "string",
       label: "Item Name",
       description: "The name of the item associated with the loyalty reward",
-      optional: true,
     },
+    points: {
+      type: "integer",
+      label: "Points",
+      description: "The number of points required for the reward",
+    },
+    quantityTotal: {
+      type: "integer",
+      label: "Total Quantity",
+      description: "The total quantity of the loyalty reward",
+    },
+    quantityPerContact: {
+      type: "integer",
+      label: "Quantity Per Contact",
+      description: "The quantity of the loyalty reward per contact",
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "The start date of the loyalty reward. `Format YYYY-MM-DDTHH:MM:SS.SSSZ`",
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the loyalty reward",
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The type of the loyalty reward",
+      options: [
+        "ITEM",
+        "CASH_DISCOUNT",
+        "PERCENT_DISCOUNT",
+      ],
+    },
+    value: {
+      type: "integer",
+      label: "Value",
+      description: "The value of the loyalty reward",
+    },
+
     pin: {
       type: "string",
       label: "PIN",
@@ -133,32 +119,36 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.referrizer.com";
+      return "https://api.referrizer.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_token}`,
+        "Content-Type": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listLoyaltyRewards({ page }) {
+    listLoyaltyRewards(opts = {}) {
       return this._makeRequest({
-        path: "/loyalty_rewards",
-        params: {
-          page,
-        },
+        path: "/loyalty-rewards",
+        ...opts,
       });
     },
-    async listContacts({ page }) {
+    listRedeemedLoyaltyRewards(opts = {}) {
+      return this._makeRequest({
+        path: "/loyalty-rewards/redeems",
+        ...opts,
+      });
+    },
+    listContacts({ page }) {
       return this._makeRequest({
         path: "/contacts",
         params: {
@@ -166,80 +156,28 @@ export default {
         },
       });
     },
-    async createLoyaltyReward({
-      title,
-      points,
-      quantityTotal,
-      quantityPerContact,
-      startDate,
-      expiredDate,
-      expires,
-      type,
-      value,
-      itemId,
-      itemName,
-    }) {
+    createLoyaltyReward(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/loyalty_rewards",
-        data: {
-          title,
-          points,
-          quantity: {
-            total: quantityTotal,
-            perContact: quantityPerContact,
-          },
-          startDate,
-          expiredDate,
-          expires,
-          type,
-          value,
-          item: itemId
-            ? {
-              id: itemId,
-              name: itemName,
-            }
-            : undefined,
-        },
+        path: "/loyalty-rewards",
+        ...opts,
       });
     },
-    async updateLoyaltyReward({
-      loyaltyRewardId,
-      points,
-      quantityTotal,
-      quantityPerContact,
-      startDate,
-      expiredDate,
-      expires,
-      type,
-      value,
-      itemId,
-      itemName,
+    getLoyaltyReward({ loyaltyRewardId }) {
+      return this._makeRequest({
+        path: `/loyalty-rewards/${loyaltyRewardId}`,
+      });
+    },
+    updateLoyaltyReward({
+      loyaltyRewardId, ...opts
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/loyalty_rewards/${loyaltyRewardId}`,
-        data: {
-          points,
-          quantity: {
-            total: quantityTotal,
-            perContact: quantityPerContact,
-          },
-          startDate,
-          expiredDate,
-          expires,
-          type,
-          value,
-          item: itemId
-            ? {
-              id: itemId,
-              name: itemName,
-            }
-            : undefined,
-        },
+        path: `/loyalty-rewards/${loyaltyRewardId}`,
+        ...opts,
       });
     },
-    async redeemLoyaltyReward({
+    redeemLoyaltyReward({
       loyaltyRewardId,
       contactId,
       pin,
@@ -255,20 +193,36 @@ export default {
         },
       });
     },
-    async inviteContact({
-      contactId,
-      invitationMessage,
-    }) {
+    createVisit(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/contacts/${contactId}/invite`,
-        data: invitationMessage
-          ? {
-            message: invitationMessage,
-          }
-          : {},
+        path: "/visits",
+        ...opts,
       });
     },
+    async *paginate({
+      fn, params = {}, maxResults = null,
+    }) {
+      let hasMode = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const data = await fn({
+          params,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMode = data.length;
+
+      } while (hasMode);
+    },
   },
-  version: "0.0.{{ts}}",
 };
