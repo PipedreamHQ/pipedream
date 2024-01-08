@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/storyscale",
+  "version": "0.0.1",
+  "description": "Pipedream StoryScale Components",
+  "main": "storyscale.app.mjs",
+  "keywords": [
+    "pipedream",
+    "storyscale"
+  ],
+  "homepage": "https://pipedream.com/apps/storyscale",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
