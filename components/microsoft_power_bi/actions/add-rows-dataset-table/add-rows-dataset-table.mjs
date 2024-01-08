@@ -42,7 +42,9 @@ export default {
       data: {
         rows: this.rows.map((row, index) => {
           try {
-            return JSON.parse(row);
+            return typeof row === "object"
+              ? row
+              : JSON.parse(row);
           } catch (err) {
             throw new ConfigurationError(`Error parsing entry index ${index} as JSON: \`${row}\``);
           }
