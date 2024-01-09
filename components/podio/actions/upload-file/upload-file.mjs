@@ -5,7 +5,7 @@ import fs from "fs";
 export default {
   key: "podio-upload-file",
   name: "Upload File",
-  description: "Upload a file to Podio. [See the documentation](https://developers.podio.com/doc/files/upload-file-1004361)",
+  description: "Uploads a new file to Podio. [See the documentation](https://developers.podio.com/doc/files/upload-file-1004361)",
   version: "0.0.1",
   type: "action",
   props: {
