@@ -32,7 +32,7 @@ export default {
     },
   },
   methods: {
-    uploadFile({
+    attachFile({
       fileId, ...args
     }) {
       return this.app._makeRequest({
