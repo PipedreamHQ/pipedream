@@ -1860,7 +1860,12 @@ importers:
     specifiers: {}
 
   components/easyly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      uuid: ^9.0.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      uuid: 9.0.1
 
   components/easyship:
     specifiers: {}
