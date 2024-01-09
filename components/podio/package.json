@@ -10,7 +10,8 @@
   "homepage": "https://pipedream.com/apps/podio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.5.1"
+    "@pipedream/platform": "^1.5.1",
+    "form-data": "^4.0.0"
   },
   "publishConfig": {
     "access": "public"
