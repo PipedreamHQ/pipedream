@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/arxiv",
+  "version": "0.0.1",
+  "description": "Pipedream arXiv Components",
+  "main": "arxiv.app.mjs",
+  "keywords": [
+    "pipedream",
+    "arxiv"
+  ],
+  "homepage": "https://pipedream.com/apps/arxiv",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
