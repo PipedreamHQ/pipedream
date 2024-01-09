@@ -130,6 +130,9 @@ export default {
     getSummary() {
       return "New event";
     },
+    sortByTimestamp(items) {
+      return items;
+    },
     emitEvent({
       id, item,
     }) {
@@ -161,8 +164,12 @@ export default {
       const savedItems = this._getSavedItems();
       const shouldEmit = this.shouldEmit();
 
-      items
-        .filter(({ name }) => !savedItems.includes(name))
+      const filteredItems = items
+        .filter(({ name }) => !savedItems.includes(name));
+
+      this.sortByTimestamp?.(filteredItems);
+
+      filteredItems
         .forEach((item) => {
           const id = this.getId(item);
           if (shouldEmit) {

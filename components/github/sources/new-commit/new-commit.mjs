@@ -73,6 +73,11 @@ export default {
 
       items
         .filter(({ sha }) => !savedItems.includes(sha))
+        .sort((a, b) => {
+          const dateA = new Date(a.commit.author.date);
+          const dateB = new Date(b.commit.author.date);
+          return dateA - dateB;
+        })
         .forEach((item) => {
           const id = item.sha;
           if (shouldEmit) {
