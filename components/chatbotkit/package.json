@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/chatbotkit",
   "version": "0.0.1",
-  "description": "Pipedream Chatbotkit Components",
+  "description": "Pipedream ChatBotKit Components",
   "main": "chatbotkit.app.mjs",
   "keywords": [
     "pipedream",
