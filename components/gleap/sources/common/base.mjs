@@ -1,4 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import { DEFAULT_LAST_DATE } from "../../common/constants.mjs";
 import gleap from "../../gleap.app.mjs";
 
 export default {
@@ -20,7 +21,7 @@ export default {
   },
   methods: {
     _getLastDate() {
-      return this.db.get("lastDate") || "1970-01-01";
+      return this.db.get("lastDate") || DEFAULT_LAST_DATE;
     },
     _setLastDate(lastDate = null) {
       this.db.set("lastDate", lastDate);
