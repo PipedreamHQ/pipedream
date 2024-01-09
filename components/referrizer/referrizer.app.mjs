@@ -37,11 +37,6 @@ export default {
         }));
       },
     },
-    expiredDate: {
-      type: "string",
-      label: "Expired Date",
-      description: "The expiration date of the loyalty reward. `Format YYYY-MM-DDTHH:MM:SS.SSSZ`",
-    },
     expires: {
       type: "boolean",
       label: "Expires",
@@ -91,30 +86,6 @@ export default {
         "CASH_DISCOUNT",
         "PERCENT_DISCOUNT",
       ],
-    },
-    value: {
-      type: "integer",
-      label: "Value",
-      description: "The value of the loyalty reward",
-    },
-
-    pin: {
-      type: "string",
-      label: "PIN",
-      description: "The PIN required to redeem the loyalty reward",
-      optional: true,
-    },
-    note: {
-      type: "string",
-      label: "Note",
-      description: "A note about the loyalty reward redemption",
-      optional: true,
-    },
-    invitationMessage: {
-      type: "string",
-      label: "Invitation Message",
-      description: "The message to send with the invitation to the contact",
-      optional: true,
     },
   },
   methods: {
@@ -175,22 +146,6 @@ export default {
         method: "PUT",
         path: `/loyalty-rewards/${loyaltyRewardId}`,
         ...opts,
-      });
-    },
-    redeemLoyaltyReward({
-      loyaltyRewardId,
-      contactId,
-      pin,
-      note,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/loyalty_rewards/${loyaltyRewardId}/redeem`,
-        data: {
-          contactId,
-          pin,
-          note,
-        },
       });
     },
     createVisit(opts = {}) {
