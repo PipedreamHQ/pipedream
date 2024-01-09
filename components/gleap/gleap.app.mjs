@@ -126,12 +126,6 @@ export default {
         ...opts,
       });
     },
-    getFeedback({ feedbackId }) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/bugs/${feedbackId}`,
-      });
-    },
     listProjects(opts = {}) {
       return this._makeRequest({
         path: "/projects",
