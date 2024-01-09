@@ -39,7 +39,7 @@ export default {
       return body.milestone;
     },
     getSummary(action, item) {
-      return `Issue ${action}: "${item.title}"`;
+      return `Milestone ${action}: "${item.title}"`;
     },
     getPollingData({ repoFullname }) {
       return this.github.getRepositoryMilestones({

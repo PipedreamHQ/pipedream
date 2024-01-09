@@ -74,6 +74,8 @@ export default {
           }
           savedItems.push(id);
         });
+
+      this._setSavedItems(savedItems);
     },
   },
 };
