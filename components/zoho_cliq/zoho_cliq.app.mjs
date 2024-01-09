@@ -4,11 +4,13 @@ export default {
   type: "app",
   app: "zoho_cliq",
   propDefinitions: {
-    channelName: {
-      label: "Channel Name",
-      description: "The channel name",
+    channel: {
+      label: "Channel ID",
+      description: "The identifier of a channel",
       type: "string",
-      async options({ prevContext }) {
+      async options({
+        prevContext, useName,
+      }) {
         const params = {
           joined: true,
         };
@@ -26,13 +28,30 @@ export default {
         return {
           options: channels.map((channel) => ({
             label: channel.name,
-            value: channel.unique_name,
+            value: useName
+              ? channel.unique_name
+              : channel.chat_id,
           })),
           context: {
             has_more,
             next_token,
           },
         };
+      },
+    },
+    chat: {
+      label: "Chat ID",
+      description: "The identifier of a chat",
+      type: "string",
+      async options() {
+        const { chats } = await this.getChats();
+
+        return chats?.map(({
+          chat_id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
   },
@@ -43,7 +62,7 @@ export default {
     _apiUrl() {
       return this.$auth.base_api_uri;
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this, path, ...args
     }) {
       return axios($, {
@@ -54,13 +73,27 @@ export default {
         ...args,
       });
     },
-    async getChannels(args = {}) {
+    getChannels(args = {}) {
       return this._makeRequest({
         path: "/channels",
         ...args,
       });
     },
-    async sendDirectMessage({
+    getChats(args = {}) {
+      return this._makeRequest({
+        path: "/chats",
+        ...args,
+      });
+    },
+    getMessages({
+      chatId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/chats/${chatId}/messages`,
+        ...args,
+      });
+    },
+    sendDirectMessage({
       email, ...args
     }) {
       return this._makeRequest({
@@ -69,7 +102,7 @@ export default {
         ...args,
       });
     },
-    async sendChannelMessage({
+    sendChannelMessage({
       channelName, ...args
     }) {
       return this._makeRequest({
@@ -78,7 +111,7 @@ export default {
         ...args,
       });
     },
-    async sendBotMessage({
+    sendBotMessage({
       botName, ...args
     }) {
       return this._makeRequest({
