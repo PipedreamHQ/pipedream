@@ -3,12 +3,14 @@
 A workspace can contain one or more _projects_. Projects are a way to organize your workflows into specific groupings or categories.
 
 <div class="flex justify-center">
-  <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1674143831/docs/New_Project_5_zep4ii.png" alt="How workspaces are organized" />
+  <img width="450px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1674143831/docs/New_Project_5_zep4ii.png" alt="How workspaces are organized" />
 </div>
 
 [[toc]]
 
-### Creating Projects
+## Getting started with projects
+
+### Creating projects
 
 To create a new project, first [open the Projects section in the dashboard](https://pipedream.com/projects).
 
@@ -51,11 +53,11 @@ To move workflows into folders, simply drag and drop the workflow into the folde
 You can move workflows or folders up a level by dragging and dropping the workflow to the folder icon at the top of the list.
 
 
-### Importing workflows into workspaces
+### Importing workflows into projects
 
 ::: tip
 
-This only applies to Pipedream accounts that created workflows before the workspaces feature was released.
+This only applies to Pipedream accounts that created workflows before the projects feature was released.
 
 :::
 
@@ -77,8 +79,41 @@ At this time it's not possible to move workflows out of GitHub Synchronized Proj
 
 :::
 
+## Access permissions for projects
 
-## Frequently Asked Questions
+By default, all projects are accessible to everyone in the workspace. Workspaces on the [Business plan](https://pipedream.com/pricing) can restrict access to specific workspace members.
+
+### Understanding the current state
+We've introduced 2 new columns in the [project list view](https://pipedream.com/projects): **Owner** and **Access**.
+
+**Owner** indicates who within the workspace owns each project. This is typically the person who creates the project.
+
+![Project listing](./images/project-listing-access-2.png)
+
+**Access** indicates who within the workspace has access to each project:
+
+![Project listing](./images/project-listing-access-2.png)
+
+### Managing access
+::: tip Managing access for projects
+If there is an **Owner** of a project, only workspace admins and owners, as well as project owners can manage access for a project
+:::
+
+To restrict access to a project or share it with others, you can manage access one of three ways:
+1. From the [project list view](https://pipedream.com/projects), click on the access badge
+2. From the [project list view](https://pipedream.com/projects), click on the overflow menu (3 dots at the far right, then "Manage Access")
+3. Open the relevant project, then click on the "Access" tab in the left nav
+
+### Project roles
+
+::: warning Projects created before February 2024 don't have any owner
+foo bar
+:::
+
+### Managing access
+To make changes 
+
+## Frequently asked questions
 
 ### Can sources and connected accounts be organized into projects as well?
 
