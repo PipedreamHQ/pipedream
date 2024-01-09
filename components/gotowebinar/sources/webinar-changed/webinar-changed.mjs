@@ -4,23 +4,23 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "gotowebinar-registrant-added",
-  name: "New Registrant Added (Instant)",
-  description: "Emit new event when a registrant is added.",
-  version: "0.0.2",
+  key: "gotowebinar-webinar-changed",
+  name: "Webinar Changed (Instant)",
+  description: "Emit new event when a webinar is changed.",
+  version: "0.0.1",
   dedupe: "unique",
   type: "source",
   methods: {
     ...common.methods,
     getEventName() {
-      return events.REGISTRANT_ADDED;
+      return events.WEBINAR_CHANGED;
     },
     generateMeta({
-      eventKey, registrantKey, registrationDate,
+      eventKey, webinarKey, registrationDate,
     }) {
       return {
         id: eventKey,
-        summary: `A new registrant with key ${registrantKey} has been successfully added!`,
+        summary: `A webinar with key ${webinarKey} has been successfully changed!`,
         ts: registrationDate,
       };
     },
