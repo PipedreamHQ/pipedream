@@ -1,29 +1,92 @@
 import chatbotkit from "../../chatbotkit.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "chatbotkit-create-conversation",
   name: "Create Conversation",
   description: "Creates a new conversation in the bot. [See the documentation](https://chatbotkit.com/docs/api/v1/spec)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     chatbotkit,
-    userId: {
+    messageType: {
+      type: "string",
+      label: "Message Type",
+      description: "The type of the message",
+      options: constants.MESSAGE_TYPE,
+    },
+    message: {
       propDefinition: [
         chatbotkit,
-        "userId",
+        "message",
       ],
     },
-    topicId: {
+    botId: {
       propDefinition: [
         chatbotkit,
-        "topicId",
+        "botId",
       ],
+      optional: true,
+    },
+    backstory: {
+      type: "string",
+      label: "Backstory",
+      description: "The backstory for the conversation",
+      optional: true,
+    },
+    model: {
+      propDefinition: [
+        chatbotkit,
+        "model",
+      ],
+      optional: true,
+    },
+    datasetId: {
+      propDefinition: [
+        chatbotkit,
+        "datasetId",
+      ],
+      optional: true,
+    },
+    skillsetId: {
+      propDefinition: [
+        chatbotkit,
+        "skillsetId",
+      ],
+      optional: true,
+    },
+    privacy: {
+      type: "boolean",
+      label: "Privacy",
+      description: "Turn conversation privacy features on",
+      optional: true,
+    },
+    moderation: {
+      type: "boolean",
+      label: "Moderation",
+      description: "Turn conversation moderation features on",
       optional: true,
     },
   },
   async run({ $ }) {
-    const conversation = await this.chatbotkit.createConversation(this.userId, this.topicId);
+    const conversation = await this.chatbotkit.createConversation({
+      data: {
+        botId: this.botId,
+        backstory: this.backstory,
+        model: this.model,
+        datasetId: this.datasetId,
+        skillsetId: this.skillsetId,
+        privacy: this.privacy,
+        moderation: this.moderation,
+        messages: [
+          {
+            type: this.messageType,
+            text: this.message,
+          },
+        ],
+      },
+      $,
+    });
     $.export("$summary", `Created conversation with ID: ${conversation.id}`);
     return conversation;
   },

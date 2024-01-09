@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/chatbotkit",
+  "version": "0.0.1",
+  "description": "Pipedream Chatbotkit Components",
+  "main": "chatbotkit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatbotkit"
+  ],
+  "homepage": "https://pipedream.com/apps/chatbotkit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "axios": "^1.6.5"
+  }
+}

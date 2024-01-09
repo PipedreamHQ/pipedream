@@ -2,9 +2,9 @@ import chatbotkit from "../../chatbotkit.app.mjs";
 
 export default {
   key: "chatbotkit-conversation-complete",
-  name: "Mark Conversation as Complete",
-  description: "Marks a conversation as completed. [See the documentation](https://chatbotkit.com/docs/api/v1/spec)",
-  version: "0.0.{{ts}}",
+  name: "Send Conversation Message",
+  description: "Send and receive a conversation response. [See the documentation](https://chatbotkit.com/docs/api/v1/spec)",
+  version: "0.0.1",
   type: "action",
   props: {
     chatbotkit,
@@ -14,10 +14,22 @@ export default {
         "conversationId",
       ],
     },
+    message: {
+      propDefinition: [
+        chatbotkit,
+        "message",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.chatbotkit.markConversationComplete(this.conversationId);
-    $.export("$summary", `Marked conversation ${this.conversationId} as complete`);
+    const response = await this.chatbotkit.completeConversation({
+      conversationId: this.conversationId,
+      data: {
+        text: this.message,
+      },
+      $,
+    });
+    $.export("$summary", `Successfully sent message to conversation ${this.conversationId}`);
     return response;
   },
 };
