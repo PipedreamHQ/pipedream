@@ -103,7 +103,7 @@ export default {
                 talking_photo_id: this.talkingPhotoId,
                 scale: this.scale,
                 talking_photo_style: this.talkingPhotoStyle,
-                talking_style: this.talkingPhotoStyle,
+                talking_style: this.talkingStyle,
                 expression: this.expression,
                 super_resolution: this.superResolution,
                 matting: this.matting,
