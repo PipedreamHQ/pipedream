@@ -4,7 +4,6 @@ import gleap from "../../gleap.app.mjs";
 export default {
   props: {
     gleap,
-    http: "$.interface.http",
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
