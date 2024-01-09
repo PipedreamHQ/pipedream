@@ -1849,6 +1849,9 @@ importers:
   components/easy_projects:
     specifiers: {}
 
+  components/easyly:
+    specifiers: {}
+
   components/easyship:
     specifiers: {}
 
@@ -2783,9 +2786,6 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
-
-  components/govee:
-    specifiers: {}
 
   components/govee:
     specifiers: {}
