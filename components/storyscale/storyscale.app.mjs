@@ -3,81 +3,33 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "storyscale",
-  propDefinitions: {
-    tourName: {
-      type: "string",
-      label: "Tour Name",
-      description: "Name of the tour",
-      required: true,
-    },
-    tourDateTime: {
-      type: "string",
-      label: "Tour Date and Time",
-      description: "Date and time of the tour",
-      optional: true,
-    },
-    publishedTimestamp: {
-      type: "string",
-      label: "Published Timestamp",
-      description: "Timestamp when the tour gets published",
-      optional: true,
-    },
-    viewerId: {
-      type: "string",
-      label: "Viewer ID or Username",
-      description: "ID or username of the viewer",
-      required: true,
-    },
-    viewingTimestamp: {
-      type: "string",
-      label: "Viewing Timestamp",
-      description: "Timestamp when the tour is viewed",
-      optional: true,
-    },
-  },
+  propDefinitions: {},
   methods: {
     _baseUrl() {
-      return "https://prodapi.storyscale.com/api";
+      return "https://prodapi.storyscale.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Accept": "application/json",
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
       });
     },
-    async createEvent(opts = {}) {
+    listTours(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/v1/analytics/events/create",
+        path: "/tour/show-all",
         ...opts,
-      });
-    },
-    async publishEvent(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/v1/analytics/tour/global-tour-contact-insights",
-        ...opts,
-      });
-    },
-    async viewEvent(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/v1/tour/share/view/${opts.viewerId}/${opts.tourName}`,
-        params: {
-          viewingTimestamp: opts.viewingTimestamp,
-        },
       });
     },
   },
