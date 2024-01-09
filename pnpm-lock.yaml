@@ -802,7 +802,10 @@ importers:
     specifiers: {}
 
   components/bugbug:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/bugsnag:
     specifiers: {}
@@ -2764,6 +2767,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/gotowebinar:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
+  components/govee:
     specifiers: {}
 
   components/govee:
@@ -5051,7 +5060,10 @@ importers:
     specifiers: {}
 
   components/printautopilot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/printavo:
     specifiers:
@@ -7124,7 +7136,10 @@ importers:
     specifiers: {}
 
   components/userlist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/usersketch:
     specifiers:
