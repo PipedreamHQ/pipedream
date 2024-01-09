@@ -2782,7 +2782,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/gotowebinar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/govee:
     specifiers: {}
@@ -5072,7 +5075,10 @@ importers:
     specifiers: {}
 
   components/printautopilot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/printavo:
     specifiers:
