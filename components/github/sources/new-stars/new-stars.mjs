@@ -25,14 +25,18 @@ export default {
     shouldEmitWebhookEvent(body) {
       return body?.action === "created";
     },
-    getId(body) {
-      return body.sender.id;
+    getId({
+      id, sender,
+    }) {
+      return sender?.id ?? id;
     },
-    getSummary(body) {
-      return `New star by: ${body.sender.login}`;
+    getSummary({
+      login, sender,
+    }) {
+      return `New star by: ${sender?.login ?? login}`;
     },
     getPollingData(args) {
-      return this.github.getRepositoryLatestCollaborators({
+      return this.github.getRepositoryStargazers({
         ...args,
         per_page: 100,
       });

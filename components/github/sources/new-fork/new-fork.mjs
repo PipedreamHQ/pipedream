@@ -11,7 +11,7 @@ export default {
   key: "github-new-fork",
   name: "New Fork",
   description: `Emit new event when a repository is forked [See the documentation](${DOCS_LINK})`,
-  version: "1.100",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   methods: {

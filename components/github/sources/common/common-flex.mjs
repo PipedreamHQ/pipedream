@@ -165,7 +165,7 @@ export default {
       const shouldEmit = this.shouldEmit();
 
       const filteredItems = items
-        .filter(({ name }) => !savedItems.includes(name));
+        .filter((item) => !savedItems.includes(this.getId(item)));
 
       this.sortByTimestamp?.(filteredItems);
 
