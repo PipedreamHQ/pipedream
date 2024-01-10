@@ -4837,6 +4837,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/piloterr:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/pilvio:
     specifiers: {}
 
