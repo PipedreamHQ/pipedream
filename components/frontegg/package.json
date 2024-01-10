@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/frontegg",
+  "version": "0.0.1",
+  "description": "Pipedream Frontegg Components",
+  "main": "frontegg.app.mjs",
+  "keywords": [
+    "pipedream",
+    "frontegg"
+  ],
+  "homepage": "https://pipedream.com/apps/frontegg",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

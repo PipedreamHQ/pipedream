@@ -26,7 +26,7 @@ export default {
   key: "google_drive-changes-to-specific-files-shared-drive",
   name: "Changes to Specific Files (Shared Drive)",
   description: "Watches for changes to specific files in a shared drive, emitting an event any time a change is made to one of those files",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -41,7 +41,7 @@ export default {
       default: [],
       options({ prevContext }) {
         const { nextPageToken } = prevContext;
-        return this.googleDrive.listFilesOptions(nextPageToken, this.getFilesOpts());
+        return this.googleDrive.listFilesOptions(nextPageToken, this.getListFilesOpts());
       },
     },
   },
@@ -51,14 +51,14 @@ export default {
       daysAgo.setDate(daysAgo.getDate() - 30);
       const timeString = daysAgo.toISOString();
 
-      const args = this.getFilesOpts({
+      const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files",
       });
 
-      const { data } = await this.googleDrive.drive().files.list(args);
+      const { files } = await this.googleDrive.listFilesInPage(null, args);
 
-      this.processChanges(data.files);
+      this.processChanges(files);
     },
     ...common.hooks,
   },

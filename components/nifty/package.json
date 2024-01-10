@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/nifty",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Nifty Components",
-  "main": "dist/app/nifty.app.mjs",
+  "main": "nifty.app.mjs",
   "keywords": [
     "pipedream",
     "nifty"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/nifty",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
