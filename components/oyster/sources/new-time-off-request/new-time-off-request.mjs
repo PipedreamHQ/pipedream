@@ -1,79 +1,34 @@
-import oyster from "../../oyster.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "oyster-new-time-off-request",
   name: "New Time Off Request",
-  description: "Emits an event when a new time off request is made",
+  description: "Emit new event when a new time off request is made. [See the documentation](https://docs.oysterhr.com/reference/get_v1-time-off-requests)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    oyster,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    employeeName: {
-      propDefinition: [
-        oyster,
-        "employeeName",
-      ],
-    },
-    requestDetails: {
-      propDefinition: [
-        oyster,
-        "requestDetails",
-      ],
+  hooks: {
+    async deploy() {
+      await this.processEvent(null, 25);
     },
   },
   methods: {
-    _getLastRequestTime() {
-      return this.db.get("lastRequestTime");
+    ...common.methods,
+    getResourceFn() {
+      return this.oyster.listTimeOffRequests;
     },
-    _setLastRequestTime(time) {
-      this.db.set("lastRequestTime", time);
-    },
-  },
-  hooks: {
-    async deploy() {
-      // Get all existing requests on first run
-      const existingRequests = await this.oyster.postNewTimeOffRequest({
-        employeeName: this.employeeName,
-        requestDetails: this.requestDetails,
-      });
-      if (Array.isArray(existingRequests)) {
-        existingRequests.forEach((request) => {
-          this.$emit(request, {
-            id: request.id,
-            summary: `New time off request for ${request.employeeName}`,
-            ts: Date.parse(request.createdAt),
-          });
-        });
-      }
+    generateMeta(request) {
+      return {
+        id: request.timeOffRequestId,
+        summary: `New Time Off Request ${request.timeOffRequestId}`,
+        ts: Date.now(),
+      };
     },
   },
   async run() {
-    const lastRequestTime = this._getLastRequestTime();
-    const timeOffRequests = await this.oyster.getRequests({
-      employeeName: this.employeeName,
-      requestDetails: this.requestDetails,
-    });
-
-    for (const request of timeOffRequests) {
-      const createdTime = new Date(request.created_at).getTime();
-
-      if (!lastRequestTime || createdTime > lastRequestTime) {
-        this.$emit(request, {
-          id: request.id,
-          summary: `New Time Off Request: ${request.id}`,
-          ts: createdTime,
-        });
-      }
-    }
-
-    this._setLastRequestTime(Date.now());
+    await this.processEvent();
   },
+  sampleEmit,
 };

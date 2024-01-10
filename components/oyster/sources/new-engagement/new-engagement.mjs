@@ -1,74 +1,29 @@
-import oyster from "../../oyster.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "oyster-new-engagement",
   name: "New Engagement",
-  description: "Emits a new event when a new engagement is added.",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new engagement is added. [See the documentation](https://docs.oysterhr.com/reference/get_v1-engagements)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    oyster,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    employeeName: {
-      propDefinition: [
-        oyster,
-        "employeeName",
-      ],
-    },
-    engagementDetails: {
-      propDefinition: [
-        oyster,
-        "engagementDetails",
-      ],
-    },
-    engagementStart: {
-      propDefinition: [
-        oyster,
-        "engagementStart",
-      ],
-      optional: true,
-    },
-    engagementEnd: {
-      propDefinition: [
-        oyster,
-        "engagementEnd",
-      ],
-      optional: true,
-    },
-  },
   methods: {
-    _getNewEngagements() {
-      return this.oyster.postNewEngagement({
-        employeeName: this.employeeName,
-        engagementDetails: this.engagementDetails,
-        engagementStart: this.engagementStart,
-        engagementEnd: this.engagementEnd,
-      });
+    ...common.methods,
+    getTsField() {
+      return "modifiedAt";
+    },
+    getResourceFn() {
+      return this.oyster.listEngagements;
+    },
+    generateMeta(engagement) {
+      return {
+        id: engagement.engagementId,
+        summary: `New Engagement ${engagement.engagementId}`,
+        ts: Date.parse(engagement.modifiedAt),
+      };
     },
   },
-  hooks: {
-    async deploy() {
-      const { data: newEngagement } = await this._getNewEngagements();
-      this.$emit(newEngagement, {
-        id: newEngagement.id,
-        summary: `New Engagement: ${newEngagement.name}`,
-        ts: Date.now(),
-      });
-    },
-  },
-  async run() {
-    const { data: newEngagement } = await this._getNewEngagements();
-    this.$emit(newEngagement, {
-      id: newEngagement.id,
-      summary: `New Engagement: ${newEngagement.name}`,
-      ts: Date.now(),
-    });
-  },
+  sampleEmit,
 };
