@@ -28,7 +28,7 @@ export default {
     const user = this.user ?? (await this.github.getAuthenticatedUser()).login;
     const stars = await this.getUserStars(user);
 
-    stars.map((star) => {
+    stars?.forEach((star) => {
       this.$emit(star, {
         id: star.id,
         summary: `New star: ${star.full_name}`,
