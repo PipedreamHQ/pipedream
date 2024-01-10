@@ -7,8 +7,8 @@ const DOCS_LINK = "https://docs.github.com/en/webhooks/webhook-events-and-payloa
 
 export default {
   ...common,
-  key: "github-new-stars",
-  name: "New stars",
+  key: "github-new-star",
+  name: "New Stars",
   description: `Emit new event when a repository is starred [See the documentation](${DOCS_LINK})`,
   version: "1.0.0",
   type: "source",
