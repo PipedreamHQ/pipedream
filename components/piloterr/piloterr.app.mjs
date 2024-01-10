@@ -3,72 +3,45 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "piloterr",
-  propDefinitions: {
-    url: {
-      type: "string",
-      label: "Website URL",
-      description: "The URL of the website to retrieve core technology information from",
-    },
-    domainName: {
-      type: "string",
-      label: "Domain Name",
-      description: "The domain name of the company to fetch data for",
-    },
-    websiteUrl: {
-      type: "string",
-      label: "Website URL",
-      description: "The URL of the website to obtain HTML from",
-    },
-  },
+  propDefinitions: {},
   methods: {
     _baseUrl() {
-      return "https://piloterr.com/api";
+      return "https://piloterr.com/api/v2";
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        "x-api-key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "x-api-key": this.$auth.api_key,
-        },
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
       });
     },
-    async getUsage(opts = {}) {
+    getWebsiteTechnology(opts = {}) {
       return this._makeRequest({
-        path: "/usage",
+        path: "/website/technology",
         ...opts,
       });
     },
-    async getWebsiteTechnology(opts = {}) {
+    getCompanyData(opts = {}) {
       return this._makeRequest({
-        path: `/website/technology?website_url=${this.url}`,
+        path: "/company",
         ...opts,
       });
     },
-    async getCompanyData(opts = {}) {
+    scrapeWebsite(opts = {}) {
       return this._makeRequest({
-        path: `/company?domain_name=${this.domainName}`,
+        path: "/website/crawler",
         ...opts,
       });
-    },
-    async scrapeWebsite(opts = {}) {
-      return this._makeRequest({
-        path: `/website/crawler?website_url=${this.websiteUrl}`,
-        ...opts,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
