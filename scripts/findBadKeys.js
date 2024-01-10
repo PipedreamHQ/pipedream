@@ -19,7 +19,7 @@ const isSourceFile = (subname) =>
   subname.endsWith(".mjs") || subname.endsWith(".js") || subname.endsWith(".mts") || subname.endsWith(".ts");
 
 const isCommonFile = (subname) => {
-  const regex = /\/common.*(\/|\.js|\.mjs|\.ts|\.mts|)/g;
+  const regex = /\/?common.*(\/|\.js|\.mjs|\.ts|\.mts|)/g;
   return regex.test(subname);
 };
 
