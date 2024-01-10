@@ -2,7 +2,7 @@ import app from "../../zoho_cliq.app.mjs";
 
 export default {
   name: "Send Bot Message",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "zoho_cliq-send-bot-message",
   description: "Send message to a bot. [See documentation](https://www.zoho.com/cliq/help/restapi/v2/#Post_Message_Bot)",
   type: "action",

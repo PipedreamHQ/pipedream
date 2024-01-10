@@ -282,6 +282,9 @@ importers:
   components/algomo:
     specifiers: {}
 
+  components/algorand_developer_portal:
+    specifiers: {}
+
   components/alpaca:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -412,6 +415,9 @@ importers:
       sqlstring: 2.3.3
 
   components/appointedd:
+    specifiers: {}
+
+  components/arxiv:
     specifiers: {}
 
   components/asana:
@@ -734,6 +740,9 @@ importers:
       stream: 0.0.2
       util: 0.12.5
 
+  components/boxhero:
+    specifiers: {}
+
   components/braintree:
     specifiers: {}
 
@@ -802,7 +811,10 @@ importers:
     specifiers: {}
 
   components/bugbug:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/bugsnag:
     specifiers: {}
@@ -966,6 +978,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/chatbotic:
+    specifiers: {}
+
+  components/chatbotkit:
     specifiers: {}
 
   components/chatfuel_dashboard_api_:
@@ -1832,6 +1847,9 @@ importers:
     specifiers: {}
 
   components/easy_projects:
+    specifiers: {}
+
+  components/easyly:
     specifiers: {}
 
   components/easyship:
@@ -2764,7 +2782,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/gotowebinar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/govee:
     specifiers: {}
@@ -2906,7 +2927,10 @@ importers:
     specifiers: {}
 
   components/heygen:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/heysummit:
     specifiers:
@@ -4479,7 +4503,10 @@ importers:
     specifiers: {}
 
   components/onepagecrm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/ones2u:
     specifiers: {}
@@ -4630,6 +4657,9 @@ importers:
     specifiers: {}
 
   components/oxylabs:
+    specifiers: {}
+
+  components/oyster:
     specifiers: {}
 
   components/pagerduty:
@@ -4809,6 +4839,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/piloterr:
+    specifiers: {}
 
   components/pilvio:
     specifiers: {}
@@ -5045,7 +5078,10 @@ importers:
     specifiers: {}
 
   components/printautopilot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/printavo:
     specifiers:
@@ -6409,7 +6445,10 @@ importers:
     specifiers: {}
 
   components/storyscale:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/strava:
     specifiers:
@@ -7118,7 +7157,10 @@ importers:
     specifiers: {}
 
   components/userlist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/usersketch:
     specifiers:
