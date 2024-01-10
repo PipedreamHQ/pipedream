@@ -1,11 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import omiseApp from "../../omise.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "omise-update-customer",
   name: "Update Customer",
   description: "Update a customer's information and payment details in the OPN system. [See the documentation](https://docs.opn.ooo/customers-api)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     omiseApp,
@@ -20,55 +20,55 @@ export default {
         omiseApp,
         "email",
       ],
+      optional: true,
     },
     description: {
       propDefinition: [
         omiseApp,
         "description",
-        (c) => ({
-          optional: true,
-        }),
       ],
+      optional: true,
     },
-    cardToken: {
+    card: {
       propDefinition: [
         omiseApp,
-        "cardToken",
-        (c) => ({
-          optional: true,
-        }),
+        "card",
       ],
+      optional: true,
     },
     defaultCard: {
       propDefinition: [
         omiseApp,
         "defaultCard",
-        (c) => ({
-          optional: true,
-        }),
       ],
+      optional: true,
     },
     metadata: {
       propDefinition: [
         omiseApp,
         "metadata",
-        (c) => ({
-          optional: true,
-        }),
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.omiseApp.updateCustomer({
-      customerId: this.customerId,
-      email: this.email,
-      description: this.description,
-      cardToken: this.cardToken,
-      defaultCard: this.defaultCard,
-      metadata: this.metadata,
+    const {
+      omiseApp,
+      customerId,
+      metadata,
+      ...data
+    } = this;
+
+    const response = await omiseApp.updateCustomer({
+      $,
+      customerId,
+      data: {
+        ...data,
+        metadata: parseObject(metadata),
+      },
     });
 
-    $.export("$summary", `Successfully updated customer with ID ${this.customerId}`);
+    $.export("$summary", `Successfully updated customer with ID ${customerId}`);
     return response;
   },
 };

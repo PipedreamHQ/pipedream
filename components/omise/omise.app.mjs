@@ -1,48 +1,83 @@
 import { axios } from "@pipedream/platform";
+import {
+  CURRENCY_OPTIONS, LIMIT,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
-  app: "opn_platform",
-  version: "0.0.{{ts}}",
+  app: "omise",
   propDefinitions: {
+    card: {
+      type: "string",
+      label: "Card",
+      description: "An unused token identifier to add as a new card to the customer",
+      async options({
+        page, customer,
+      }) {
+        if (customer) {
+          const { data } = await this.listCards({
+            customer,
+            params: {
+              limit: LIMIT,
+              offset: LIMIT * page,
+            },
+          });
+
+          return data.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          }));
+        }
+        return [];
+      },
+    },
     customerId: {
       type: "string",
       label: "Customer ID",
       description: "The unique identifier for a customer",
+      async options({ page }) {
+        const { data } = await this.listCustomers({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({
+          id: value, email,
+        }) => ({
+          label: email || value,
+          value,
+        }));
+      },
     },
     amount: {
       type: "integer",
       label: "Amount",
-      description: "The amount for the charge in the smallest currency unit",
+      description: "The amount for the charge in the smallest currency unit.",
     },
     currency: {
       type: "string",
       label: "Currency",
       description: "The currency for the charge",
+      options: CURRENCY_OPTIONS,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "A description for the customer or charge",
-      optional: true,
+      description: "A description for the customer. Supplying any additional details about the customer helps Opn Payments better conduct fraud analysis.",
     },
     email: {
       type: "string",
       label: "Email",
-      description: "Email address for the customer",
-      optional: true,
+      description: "Email address for customer. Supplying the customer's email address helps Opn Payments better conduct fraud analysis.",
     },
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Custom metadata for the customer or charge",
-      optional: true,
-    },
-    cardToken: {
-      type: "string",
-      label: "Card Token",
-      description: "An unused token identifier to add as a new card to the customer",
-      optional: true,
+      description: "Custom metadata (e.g. `{\"answer\": 42}`) for customer.",
     },
     defaultCard: {
       type: "string",
@@ -53,14 +88,13 @@ export default {
     capture: {
       type: "boolean",
       label: "Capture",
-      description: "Whether the charge is set to be automatically captured",
+      description: "Whether the charge is set to be automatically captured (paid). Valid only for credit and debit card charges.",
       optional: true,
-      default: true,
     },
     returnUri: {
       type: "string",
       label: "Return URI",
-      description: "The URI to which the customer is redirected after authorization",
+      description: "The URI to which the customer is redirected after authorization. Required if `card` and `customer` are not present.",
       optional: true,
     },
     sourceId: {
@@ -69,99 +103,114 @@ export default {
       description: "A valid source identifier or source object",
       optional: true,
     },
-    status: {
-      type: "string",
-      label: "Status",
-      description: "The status of the charge to filter by",
-      options: [
-        {
-          label: "Payment Received",
-          value: "successful",
-        },
-        {
-          label: "Refunded Charge",
-          value: "refunded",
-        },
-      ],
-    },
   },
   methods: {
     _baseUrl() {
-      return "https://api.opn.ooo";
+      return "https://api.omise.co";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        username: `${this.$auth.secret_key}`,
+        password: "",
+      };
+    },
+    _makeRequest({
+      $ = this,
+      path,
+      ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.secret_key}`,
-        },
+        auth: this._auth(),
+        ...opts,
       });
     },
-    async createCustomer({
-      email, description, cardToken, metadata,
-    }) {
+    createCustomer(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/customers",
-        data: {
-          email,
-          description,
-          card: cardToken,
-          metadata,
-        },
+        ...opts,
       });
     },
-    async updateCustomer({
-      customerId, email, description, cardToken, defaultCard, metadata,
+    listCards({
+      customer, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/customers/${customer}/cards`,
+        ...opts,
+      });
+    },
+    listCustomers(opts = {}) {
+      return this._makeRequest({
+        path: "/customers",
+        ...opts,
+      });
+    },
+    updateCustomer({
+      customerId, ...opts
     }) {
       return this._makeRequest({
         method: "PATCH",
         path: `/customers/${customerId}`,
-        data: {
-          email,
-          description,
-          card: cardToken,
-          default_card: defaultCard,
-          metadata,
-        },
+        ...opts,
       });
     },
-    async createCharge({
-      amount, currency, customerId, cardToken, description, metadata, capture, returnUri, sourceId,
-    }) {
+    createCharge(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/charges",
-        data: {
-          amount,
-          currency,
-          customer: customerId,
-          card: cardToken,
-          description,
-          metadata,
-          capture,
-          return_uri: returnUri,
-          source: sourceId,
-        },
+        ...opts,
       });
     },
-    async listCharges({ status }) {
+    listCharges(opts = {}) {
       return this._makeRequest({
         path: "/charges",
-        params: {
-          status,
-        },
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, filter = null, maxResults = null,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page;
+        page++;
+        const { data } = await fn({
+          params,
+        });
+        let tempData = [];
+        let filteredData = data;
+        let freezeDate = null;
+
+        if (filter) {
+          for (const item of data) {
+            if (item[filter]) {
+              tempData.push(item);
+            } else {
+              freezeDate = item.created_at;
+            }
+          }
+          filteredData = tempData;
+        }
+
+        for (const item of filteredData) {
+          yield {
+            freezeDate,
+            item,
+          };
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };
