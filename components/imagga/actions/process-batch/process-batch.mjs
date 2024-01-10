@@ -14,18 +14,15 @@ export default {
   props: {
     imagga,
     imageUrl: {
-      propDefinition: [
-        imagga,
-        "imageUrl",
-      ],
+      label: "Image URLs",
+      description: "The array of Image URLs to analyze.",
       type: "string[]",
       optional: true,
     },
     imageFile: {
-      propDefinition: [
-        imagga,
-        "imageFile",
-      ],
+      label: "Image File Paths",
+      description:
+        "The array of Image file path from [`/tmp` dir](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory) to analyze.",
       type: "string[]",
       optional: true,
     },
