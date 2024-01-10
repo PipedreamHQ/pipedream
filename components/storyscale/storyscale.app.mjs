@@ -1,11 +1,36 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "storyscale",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://prodapi.storyscale.com/api/v1";
+    },
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Accept": "application/json",
+      };
+    },
+    _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        path,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
+      });
+    },
+    listTours(opts = {}) {
+      return this._makeRequest({
+        path: "/tour/show-all",
+        ...opts,
+      });
     },
   },
 };
