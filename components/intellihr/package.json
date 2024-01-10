@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/intellihr",
+  "version": "0.0.1",
+  "description": "Pipedream IntelliHR Components",
+  "main": "intellihr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "intellihr"
+  ],
+  "homepage": "https://pipedream.com/apps/intellihr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
