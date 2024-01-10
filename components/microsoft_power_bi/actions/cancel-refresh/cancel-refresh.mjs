@@ -4,7 +4,7 @@ export default {
   key: "microsoft_power_bi-cancel-refresh",
   name: "Cancel Dataset Refresh",
   description: "Cancels a refresh operation for a specified dataset in Power BI. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/cancel-refresh)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     powerBi,
