@@ -90,7 +90,7 @@ function checkKeys(p, nameSlug) {
     }
     if (name.endsWith(".mjs") || name.endsWith(".js") || name.endsWith(".ts") || name.endsWith(".mts")) {
       // ignore test-event files
-      if (isTestEventFile(name)) {
+      if (isCommonFile(name) || isTestEventFile(name)) {
         continue;
       }
       const data = fs.readFileSync(pp, "utf8");
