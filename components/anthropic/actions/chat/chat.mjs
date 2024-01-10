@@ -49,7 +49,6 @@ export default {
       label: "Maximum Tokens To Sample",
       description: "A maximum number of tokens to generate before stopping.",
       type: "integer",
-      optional: true,
     },
   },
   async run({ $ }) {
