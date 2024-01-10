@@ -741,7 +741,10 @@ importers:
       util: 0.12.5
 
   components/boxhero:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/braintree:
     specifiers: {}
@@ -4839,6 +4842,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/piloterr:
+    specifiers: {}
 
   components/pilvio:
     specifiers: {}
