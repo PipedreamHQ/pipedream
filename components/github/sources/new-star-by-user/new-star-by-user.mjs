@@ -26,7 +26,7 @@ export default {
   },
   async run() {
     const user = this.user ?? (await this.github.getAuthenticatedUser()).login;
-    const stars = await this.github.getUserStars(user);
+    const stars = await this.getUserStars(user);
 
     stars.map((star) => {
       this.$emit(star, {
