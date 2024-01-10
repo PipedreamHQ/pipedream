@@ -3,79 +3,68 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "boxhero",
-  propDefinitions: {
-    transactionId: {
-      type: "string",
-      label: "Transaction ID",
-      description: "The auto-generated ID for the transaction",
-    },
-    transactionType: {
-      type: "string",
-      label: "Transaction Type",
-      description: "The type of transaction",
-      optional: true,
-    },
-    itemDetails: {
-      type: "object",
-      label: "Item Details",
-      description: "Details about the item involved in the transaction",
-      optional: true,
-    },
-  },
+  propDefinitions: {},
   methods: {
     _baseUrl() {
-      return "https://rest.boxhero-app.com";
+      return "https://rest.boxhero-app.com/v1";
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
       });
     },
-    async getTransaction(transactionId) {
+    getTeam() {
       return this._makeRequest({
-        path: `/v1/txs/${transactionId}`,
+        path: "/teams/linked",
       });
     },
-    async listTransactions() {
+    listBasicTransactions(opts = {}) {
       return this._makeRequest({
-        path: "/v1/txs",
+        path: "/txs",
+        ...opts,
       });
     },
-    async createTransaction(data) {
+    listLocationTransactions(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/v1/txs",
-        data,
+        path: "/location-txs",
+        ...opts,
       });
     },
-    async updateTransaction(transactionId, data) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/v1/txs/${transactionId}`,
-        data,
-      });
-    },
-    async deleteTransaction(transactionId) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/v1/txs/${transactionId}`,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      resourceFn,
+      params,
+      max,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      do {
+        const {
+          items, cursor, has_more,
+        } = await resourceFn({
+          params,
+        });
+        for (const item of items) {
+          yield item;
+          count++;
+          if (max && count === max) {
+            return;
+          }
+        }
+        hasMore = has_more;
+        params.cursor = cursor;
+      } while (hasMore);
     },
   },
 };
