@@ -1832,7 +1832,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dub:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/dynapictures:
     specifiers:
