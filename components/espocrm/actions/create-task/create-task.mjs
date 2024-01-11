@@ -19,7 +19,6 @@ export default {
         espoCrm,
         "assigneeId",
       ],
-      optional: true,
     },
     dueDate: {
       type: "string",
