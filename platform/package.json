@@ -17,7 +17,7 @@
     "url": "https://github.com/PipedreamHQ/platform.git"
   },
   "dependencies": {
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "fp-ts": "^2.0.2",
     "io-ts": "^2.0.0",
     "querystring": "^0.2.1"
