@@ -21,10 +21,14 @@ export default {
       taskListId: this.taskListId,
     });
 
-    if (response) {
-      $.export("$summary", "Successfully listed tasks");
+    const tasks = response?.value;
+
+    if (tasks) {
+      $.export("$summary", `Successfully listed ${tasks.length} task${tasks.length === 1
+        ? ""
+        : "s"}`);
     }
 
-    return response;
+    return tasks;
   },
 };
