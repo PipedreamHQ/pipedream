@@ -3195,6 +3195,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/intellihr:
+    specifiers: {}
+
   components/intercom:
     specifiers:
       '@pipedream/platform': ^1.2.0
