@@ -3764,7 +3764,10 @@ importers:
     specifiers: {}
 
   components/mailercloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mailerlite:
     specifiers:
