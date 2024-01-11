@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,86 +9,164 @@ export default {
       type: "string",
       label: "List ID",
       description: "The ID of the list to add a new contact to",
-    },
-    contactDetails: {
-      type: "object",
-      label: "Contact Details",
-      description: "The details of the new contact to be added",
-    },
-    contactAttributes: {
-      type: "object",
-      label: "Contact Attributes",
-      description: "Additional attributes for the new contact",
-      optional: true,
+      async options({ page }) {
+        const { data: lists } = await this.listLists({
+          data: {
+            limit: constants.DEFAULT_LIMIT,
+            page: page + 1,
+            list_type: 1,
+          },
+        });
+        return lists?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     contactId: {
       type: "string",
       label: "Contact ID",
       description: "The ID of the contact to be updated",
+      async options({
+        listId, page,
+      }) {
+        const { data: contacts } = await this.listContacts({
+          listId,
+          data: {
+            limit: constants.DEFAULT_LIMIT,
+            page: page + 1,
+          },
+        });
+        return contacts?.map(({
+          id: value, email: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    newContactDetails: {
-      type: "object",
-      label: "New Contact Details",
-      description: "The new details for the contact to be updated",
-    },
-    newListName: {
+    name: {
       type: "string",
-      label: "New List Name",
-      description: "The name of the new list to be created",
+      label: "Name",
+      description: "Name of the contact",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "The city of the contact",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The state of the contact",
+      optional: true,
+    },
+    zip: {
+      type: "string",
+      label: "Zip",
+      description: "The zip code of the contact",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "The country of the contact",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The phone number of the contact",
+      optional: true,
+    },
+    industry: {
+      type: "string",
+      label: "Industry",
+      description: "The industry of the contact",
+      optional: true,
+    },
+    department: {
+      type: "string",
+      label: "Department",
+      description: "The department of the contact",
+      optional: true,
+    },
+    jobTitle: {
+      type: "string",
+      label: "Job Title",
+      description: "The job title of the contact",
+      optional: true,
+    },
+    organization: {
+      type: "string",
+      label: "Organization",
+      description: "The organization of the contact",
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
       return "https://cloudapi.mailercloud.com/v1";
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        "Authorization": `${this.$auth.api_key}`,
+        "Content-Type": "application/json",
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    async addContactToList(listId, contactDetails, contactAttributes) {
+    listLists(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/lists/${listId}/contacts`,
-        data: {
-          contact: contactDetails,
-          attributes: contactAttributes,
-        },
+        path: "/lists/search",
+        ...opts,
       });
     },
-    async updateContact(contactId, newContactDetails, contactAttributes) {
+    listContacts({
+      listId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/contact/search/${listId}`,
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    updateContact({
+      contactId, ...opts
+    }) {
       return this._makeRequest({
         method: "PUT",
         path: `/contacts/${contactId}`,
-        data: {
-          contact: newContactDetails,
-          attributes: contactAttributes,
-        },
+        ...opts,
       });
     },
-    async createNewList(newListName) {
+    createList(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/lists",
-        data: {
-          name: newListName,
-        },
+        path: "/list",
+        ...opts,
       });
     },
   },
