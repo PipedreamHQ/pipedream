@@ -21,7 +21,7 @@ const isSourceFile = (subname) =>
 const isCommonFile = (subname) => {
   const regex = /\/?common.*(\/|\.js|\.mjs|\.ts|\.mts|)/g;
   return regex.test(subname);
-};
+}; //
 
 const isTestEventFile = (subname) => subname.includes("test-event.mjs");
 
