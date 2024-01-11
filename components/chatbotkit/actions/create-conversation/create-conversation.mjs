@@ -1,5 +1,6 @@
 import chatbotkit from "../../chatbotkit.app.mjs";
 import constants from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "chatbotkit-create-conversation",
@@ -69,6 +70,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.botId && (this.datasetId || this.skillsetId)) {
+      throw new ConfigurationError("Dataset ID & Skillset ID not for use with Bot ID.");
+    }
     const conversation = await this.chatbotkit.createConversation({
       data: {
         botId: this.botId,

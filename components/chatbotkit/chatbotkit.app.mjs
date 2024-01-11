@@ -21,7 +21,7 @@ export default {
     datasetId: {
       type: "string",
       label: "Dataset ID",
-      description: "The ID of the dataset to use for the conversation",
+      description: "The ID of the dataset to use for the conversation. Not for use with Bot ID.",
       async options() {
         const { items } = await this.listDatasets();
         return items?.map(({
@@ -35,7 +35,7 @@ export default {
     skillsetId: {
       type: "string",
       label: "Skillset ID",
-      description: "The ID of the skillset to use for the conversation",
+      description: "The ID of the skillset to use for the conversation. Not for use with Bot ID.",
       async options() {
         const { items } = await this.listSkillsets();
         return items?.map(({
@@ -111,7 +111,7 @@ export default {
     },
     listModels(opts = {}) {
       return this._makeRequest({
-        path: "/model/list",
+        path: "/platform/model/list",
         ...opts,
       });
     },
