@@ -35,7 +35,7 @@ export default {
   hooks: {
     async activate() {
       if ((!this.eventType && !this.field) || (this.eventType && this.field)) {
-        throw new ConfigurationError("One of `Entity Type` or `Field` must be entered.");
+        throw new ConfigurationError("One of `Event Type` or `Field` must be entered.");
       }
       const { id } = await this.espoCrm.createWebhook({
         data: {
