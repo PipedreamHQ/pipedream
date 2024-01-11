@@ -2044,7 +2044,10 @@ importers:
     specifiers: {}
 
   components/ezeep_blue:
-    specifiers: {}
+    specifiers:
+      form-data: ^4.0.0
+    dependencies:
+      form-data: 4.0.0
 
   components/f15five:
     specifiers:
@@ -3725,6 +3728,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/maestra:
+    specifiers: {}
 
   components/magnetic:
     specifiers:
