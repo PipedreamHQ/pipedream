@@ -2478,7 +2478,10 @@ importers:
       fs: 0.0.1-security
 
   components/gleap:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/gmail:
     specifiers:
