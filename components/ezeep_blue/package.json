@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/ezeep_blue",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream ezeep Blue Components",
-  "main": "dist/app/ezeep_blue.app.mjs",
+  "main": "ezeep_blue.app.mjs",
   "keywords": [
     "pipedream",
     "ezeep_blue"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/ezeep_blue",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "form-data": "^4.0.0"
   }
 }

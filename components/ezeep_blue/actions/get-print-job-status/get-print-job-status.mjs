@@ -1,11 +1,10 @@
 import ezeepBlue from "../../ezeep_blue.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ezeep_blue-get-print-job-status",
   name: "Get Print Job Status",
-  description: "Check the status of a specific print job. [See the documentation](https://developer.ezeep.com)",
-  version: "0.0.{{ts}}",
+  description: "Check the status of a specific print job. [See the documentation](https://apidocs.ezeep.com/ezeepblue/api/printapi/README.html#get-status)",
+  version: "0.0.1",
   type: "action",
   props: {
     ezeepBlue,
@@ -17,17 +16,12 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const status = await this.ezeepBlue.checkPrintJobStatus({
-        jobid: this.jobid,
-      });
-      $.export("$summary", `Checked status of print job ${this.jobid}`);
-      return {
-        jobid: this.jobid,
-        status,
-      };
-    } catch (error) {
-      throw new Error(`Failed to check print job status: ${error.message}`);
-    }
+    const status = await this.ezeepBlue.getPrintJobStatus({
+      params: {
+        id: this.jobid,
+      },
+    });
+    $.export("$summary", `Checked status of print job ${this.jobid}`);
+    return status;
   },
 };

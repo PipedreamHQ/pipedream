@@ -1,18 +1,24 @@
-import printService from "../../print_service.app.mjs";
-import { axios } from "@pipedream/platform";
+import ezeep from "../../ezeep_blue.app.mjs";
 
 export default {
-  key: "print_service-list-printers",
+  key: "ezeep_blue-list-printers",
   name: "List Printers",
-  description: "Retrieve a list of all available printers in the network. [See the documentation](https://api.printservice.com)",
-  version: "0.0.{{ts}}",
+  description: "Retrieve a list of all available printers in the network. [See the documentation](https://apidocs.ezeep.com/ezeepblue/api/rest_api/printers/README.html#list-printers)",
+  version: "0.0.1",
   type: "action",
   props: {
-    printService,
+    ezeep,
   },
   async run({ $ }) {
-    const response = await this.printService.listPrinters();
-    $.export("$summary", `Retrieved ${response.length} printers`);
-    return response;
+    const responseArray = this.ezeep.paginate({
+      fn: this.ezeep.listPrinters,
+    });
+
+    const printers = [];
+    for await (const printer of responseArray) {
+      printers.push(printer);
+    }
+    $.export("$summary", `Retrieved ${printers.length} printers`);
+    return printers;
   },
 };

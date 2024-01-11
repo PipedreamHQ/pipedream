@@ -1,9 +1,9 @@
 import { axios } from "@pipedream/platform";
-import FormData from "form-data";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
-  app: "print_service",
+  app: "ezeep_blue",
   propDefinitions: {
     jobid: {
       type: "string",
@@ -13,13 +13,75 @@ export default {
     printerId: {
       type: "string",
       label: "Printer ID",
-      description: "The unique identifier for the printer",
-      async options() {
-        const printers = await this.listPrinters();
-        return printers.map((printer) => ({
-          label: printer.name,
-          value: printer.id,
+      description: "The unique identifier for the printer.",
+      async options({ page }) {
+        const { results } = await this.listPrinters({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return results.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
+      },
+    },
+    paperId: {
+      type: "string",
+      label: "Paper ID",
+      description: "Id of of paper size.",
+      async options({ printerId }) {
+        const [
+          { PaperFormats },
+        ] = await this.getPrinterProperties({
+          params: {
+            id: printerId,
+          },
+        });
+        return PaperFormats.map(({
+          Id: value, Name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    orientation: {
+      type: "integer",
+      label: "Orientation",
+      description: "Id of orientation mode.",
+      async options({ printerId }) {
+        const [
+          {
+            OrientationsSupported, OrientationsSupportedId,
+          },
+        ] = await this.getPrinterProperties({
+          params: {
+            id: printerId,
+          },
+        });
+        return OrientationsSupported.map((label, index) => ({
+          label,
+          value: OrientationsSupportedId[index],
+        }));
+      },
+    },
+    resolution: {
+      type: "string",
+      label: "Resolution",
+      description: "DPI / quality.",
+      async options({ printerId }) {
+        const [
+          { Resolutions },
+        ] = await this.getPrinterProperties({
+          params: {
+            id: printerId,
+          },
+        });
+        return Resolutions;
       },
     },
     printType: {
@@ -37,98 +99,97 @@ export default {
         },
       ],
     },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The URL of the file to print",
-      optional: true,
-    },
-    file: {
-      type: "string",
-      label: "File Path",
-      description: "The local path of the file to upload and print",
-      optional: true,
-    },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.printservice.com";
+    _baseUrl(version = "v2") {
+      return version === "v1"
+        ? "https://printapi.ezeep.com/sfapi"
+        : "https://api2.ezeep.com/printing/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
+    _headers(headers) {
+      return headers
+        ? headers
+        : {
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        };
+    },
+    _makeRequest({
+      $ = this, path, version, headers, url = null, ...opts
+    }) {
+      return axios($, {
+        url: url || (this._baseUrl(version) + path),
+        headers: this._headers(headers),
+        ...opts,
       });
     },
-    async sendPrintJob({
-      printerId, fileUrl, file, printType,
-    }) {
-      if (printType === "upload" && file) {
-        // Prepare file upload
-        const prepareResponse = await this._makeRequest({
-          method: "POST",
-          path: "/prepare-upload",
-        });
-
-        // Upload file
-        const formData = new FormData();
-        formData.append("file", fs.createReadStream(`/tmp/${file}`));
-        const uploadResponse = await this._makeRequest({
-          method: "POST",
-          path: prepareResponse.uploadUrl,
-          headers: formData.getHeaders(),
-          data: formData,
-        });
-
-        // Print uploaded file
-        return this._makeRequest({
-          method: "POST",
-          path: "/print",
-          data: {
-            printerId,
-            fileId: uploadResponse.fileId,
-          },
-        });
-      } else if (printType === "url" && fileUrl) {
-        // Print file from URL
-        return this._makeRequest({
-          method: "POST",
-          path: "/print",
-          data: {
-            printerId,
-            fileUrl,
-          },
-        });
-      } else {
-        throw new Error("Invalid print type or missing file information.");
-      }
+    prepareFileUpload() {
+      return this._makeRequest({
+        path: "/PrepareUpload",
+        version: "v1",
+      });
     },
-    async listPrinters() {
+
+    uploadFile(opts = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        ...opts,
+      });
+    },
+    printFile(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/Print",
+        version: "v1",
+        ...opts,
+      });
+    },
+    getPrinterProperties(opts = {}) {
+      return this._makeRequest({
+        path: "/GetPrinterProperties",
+        version: "v1",
+        ...opts,
+      });
+    },
+    listPrinters() {
       return this._makeRequest({
         path: "/printers",
       });
     },
-    async checkPrintJobStatus({ jobid }) {
-      const status = await this._makeRequest({
-        path: `/print-jobs/${jobid}/status`,
+    getPrintJobStatus(opts = {}) {
+      return this._makeRequest({
+        path: "/status",
+        version: "v1",
+        ...opts,
       });
-      if ([
-        0,
-        3011,
-        2,
-      ].includes(status)) {
-        return status;
-      }
-      throw new Error("Print job status is not one of the specified trigger statuses.");
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null,
+    }) {
+      let count = 0;
+      let page = 0;
+      let nextPage = false;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page;
+        page++;
+        const {
+          results,
+          next,
+        } = await fn({
+          params,
+        });
+
+        for (const d of results) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+        nextPage = next;
+
+      } while (nextPage);
     },
   },
-  version: "0.0.{{ts}}",
 };
