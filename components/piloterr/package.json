@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/piloterr",
+  "version": "0.1.0",
+  "description": "Pipedream Piloterr Components",
+  "main": "piloterr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "piloterr"
+  ],
+  "homepage": "https://pipedream.com/apps/piloterr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

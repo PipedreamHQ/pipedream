@@ -1,16 +1,20 @@
 {
   "name": "@pipedream/diabatix_coldstream",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Diabatix ColdStream Components",
-  "main": "dist/app/diabatix_coldstream.app.mjs",
+  "main": "diabatix_coldstream.app.mjs",
   "keywords": [
     "pipedream",
     "diabatix_coldstream"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/diabatix_coldstream",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "@pipedream/platform": "^1.5.1"
   }
 }
+

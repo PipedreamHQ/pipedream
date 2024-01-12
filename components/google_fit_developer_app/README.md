@@ -1,5 +1,5 @@
 # Overview
-By connecting your personal Google Fit account to Pipedream, you'll be able to incorporate your fitness data into whatever you're building with any of the 1,300+ apps that are available on Pipedream.
+By connecting your personal Google Fit account to Pipedream, you'll be able to incorporate your fitness data into whatever you're building with any of the 1,700+ apps that are available on Pipedream.
 
 # Getting Started
 The Google Fit Developer App in Pipedream can integrate with either a personal Gmail account or a Google workspace email account. Either option involves creating a custom Google App in the Google Cloud Console. This process does not involve any code or special approval by Google. The steps are outlined below:
