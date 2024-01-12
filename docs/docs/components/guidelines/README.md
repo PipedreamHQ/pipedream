@@ -548,6 +548,20 @@ As a general heuristic, set the default timer interval to 15 minutes. However,
 you may set a custom interval (greater or less than 15 minutes) if appropriate
 for the specific source. Users may also override the default value at any time.
 
+For polling sources in the Pipedream registry, the default polling interval is set as a global config. Individual sources can access that default within the props definition:
+
+``` javascript
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+
+...
+  timer: {
+    type: "$.interface.timer",
+    default: {
+      intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+    },
+  },
+```
+
 #### Rate Limit Optimization
 
 When building a polling source, cache the most recently processed ID or
