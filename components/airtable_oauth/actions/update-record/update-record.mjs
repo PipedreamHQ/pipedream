@@ -5,8 +5,8 @@ import commonActions from "../../common/actions.mjs";
 export default {
   key: "airtable_oauth-update-record",
   name: "Update Record",
-  description: "Update a single record in a table by Record ID.",
-  version: "0.0.2",
+  description: "Update a single record in a table by Record ID. [See the documentation](https://airtable.com/developers/web/api/update-record)",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -25,6 +25,12 @@ export default {
           baseId: baseId.value,
           tableId: tableId.value,
         }),
+      ],
+    },
+    returnFieldsByFieldId: {
+      propDefinition: [
+        airtable,
+        "returnFieldsByFieldId",
       ],
     },
   },

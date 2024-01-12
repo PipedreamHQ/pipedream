@@ -1,11 +1,12 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
 import { TwitterEntity } from "../../common/types/responseSchemas";
 import { ERROR_MESSAGE } from "../../common/errorMessage";
 
 export default {
+  ...common,
   props: {
-    app,
+    ...common.props,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -16,10 +17,15 @@ export default {
   },
   hooks: {
     async deploy() {
+      const data = await this.getTweets({
+        validateStatus: () => true,
+      });
+      this.app.throwError(data);
       await this.getAndProcessData();
     },
   },
   methods: {
+    ...common.methods,
     getEntityName(): string {
       return "Entity";
     },
