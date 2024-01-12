@@ -251,8 +251,10 @@ importers:
   components/airtable_oauth:
     specifiers:
       '@pipedream/platform': ^1.5.1
+      lodash.chunk: ^4.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      lodash.chunk: 4.2.0
 
   components/aivoov:
     specifiers:
@@ -2481,7 +2483,10 @@ importers:
       fs: 0.0.1-security
 
   components/gleap:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/gmail:
     specifiers:
@@ -2716,12 +2721,14 @@ importers:
   components/google_sheets:
     specifiers:
       '@googleapis/sheets': ^0.3.0
+      '@pipedream/google_drive': ^0.6.12
       '@pipedream/platform': ^1.4.0
       lodash: ^4.17.21
       uuidv4: ^6.2.6
       zlib: ^1.0.5
     dependencies:
       '@googleapis/sheets': 0.3.0
+      '@pipedream/google_drive': 0.6.15
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
       uuidv4: 6.2.13
@@ -3195,6 +3202,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/intellihr:
+    specifiers: {}
 
   components/intercom:
     specifiers:
@@ -3723,6 +3733,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/maestra:
+    specifiers: {}
 
   components/magnetic:
     specifiers:
@@ -4663,7 +4676,10 @@ importers:
     specifiers: {}
 
   components/oyster:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pagerduty:
     specifiers:
@@ -4844,7 +4860,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/piloterr:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pilvio:
     specifiers: {}
@@ -4992,9 +5011,11 @@ importers:
 
   components/podio:
     specifiers:
-      '@pipedream/platform': ^1.2.1
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/pointagram:
     specifiers:
@@ -12389,6 +12410,21 @@ packages:
       '@microsoft/kiota-serialization-text': 1.0.0-preview.23
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@pipedream/google_drive/0.6.15:
+    resolution: {integrity: sha512-r0H0A1HsSEDVTPVSvK4XXcExEeUnkpIqLMNVM2aLh1bwdOblTS1sxLZ9mz/7DwAr8wRNCoW6zlXZBEhexIyyAg==}
+    dependencies:
+      '@googleapis/drive': 2.4.0
+      '@pipedream/platform': 1.5.1
+      cron-parser: 4.9.0
+      lodash: 4.17.21
+      mime-db: 1.52.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
     dev: false
 
   /@pipedream/helper_functions/0.3.12:

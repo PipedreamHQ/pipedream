@@ -15,7 +15,8 @@ function included(dirent) {
   }
   return includedExtensions.includes(path.extname(dirent.name))
     && !excludedExtensions.find((ext) => dirent.name.endsWith(ext))
-    && !dirent.name.includes("test-event.mjs");
+    && !dirent.name.includes("test-event.mjs")
+    && !dirent.name.includes("common-");
 }
 
 async function* getFiles(dir) {
