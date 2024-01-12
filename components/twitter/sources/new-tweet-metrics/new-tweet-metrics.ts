@@ -1,4 +1,3 @@
-import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { GetTweetParams } from "../../common/types/requestParams";
@@ -12,13 +11,13 @@ export default defineSource({
   key: "twitter-new-tweet-metrics",
   name: "New Tweet Metrics",
   description: `Emit new event when a Tweet has new metrics [See the documentation](${DOCS_LINK})`,
-  version: "1.0.1",
+  version: "1.0.2",
   type: "source",
   props: {
     ...common.props,
     tweetId: {
       propDefinition: [
-        app,
+        common.props.app,
         "tweetId",
       ],
     },

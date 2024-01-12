@@ -3,6 +3,7 @@ const {
   rootDir,
   iterateComponentFiles,
 } = require("./findBadKeys.js");
+const tsconfig = require("../tsconfig.json");
 
 function checkComponentHasAppProp(component, appNameSlug) {
   const matching = Object.values(component.props)
@@ -14,12 +15,26 @@ function checkComponentHasAppProp(component, appNameSlug) {
   }
 }
 
+function getComponentPath(filePath) {
+  const { outDir } = tsconfig.compilerOptions;
+  const appNameSlug = filePath.split("/")[1];
+  const isTypeScript = filePath.endsWith(".ts");
+
+  const componentPath = isTypeScript
+    ? filePath
+      .replace(appNameSlug, path.join(appNameSlug, outDir))
+      .replace(/\.ts$/, ".mjs")
+    : filePath;
+
+  return path.join(rootDir, componentPath);
+}
+
 async function main() {
   const iterator = iterateComponentFiles();
   for (const file of iterator) {
-    const p = path.join(rootDir, file);
     const appNameSlug = file.split("/")[1];
-    const { default: component } = await import(p)
+    const componentPath = getComponentPath(file);
+    const { default: component } = await import(componentPath);
     checkComponentHasAppProp(component, appNameSlug);
   }
 
