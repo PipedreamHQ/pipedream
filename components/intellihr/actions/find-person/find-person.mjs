@@ -3,23 +3,15 @@ import intellihr from "../../intellihr.app.mjs";
 export default {
   key: "intellihr-find-person",
   name: "Find Person",
-  description: "Searches for a person in intellihr using their attributes. The action requires at least one identifying prop, like 'first_name', 'last_name', or 'email'. Multiple props can be used to narrow the search.",
-  version: "0.0.{{ts}}",
+  description: "Searches for a person in intellihr using. [See the documentation](https://developers.intellihr.io/docs/v1/#tag/People/paths/~1people/get)",
+  version: "0.0.1",
   type: "action",
   props: {
     intellihr,
-    firstName: {
-      propDefinition: [
-        intellihr,
-        "firstName",
-      ],
-      optional: true,
-    },
-    lastName: {
-      propDefinition: [
-        intellihr,
-        "lastName",
-      ],
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of a Person in the system. This filter checks for an exact string match with any part of a Persons name. This filter is performed case insensitively and regardless of name order",
       optional: true,
     },
     email: {
@@ -29,21 +21,54 @@ export default {
       ],
       optional: true,
     },
+    employeeNumber: {
+      propDefinition: [
+        intellihr,
+        "employeeNumber",
+      ],
+    },
+    jobId: {
+      propDefinition: [
+        intellihr,
+        "jobId",
+      ],
+    },
+    updatedWithin: {
+      type: "integer",
+      label: "Updated Within",
+      description: "Filters people that have been updated within the specified amount of days.",
+      optional: true,
+    },
+    isOnExtendedLeave: {
+      type: "boolean",
+      label: "Is On Extended Leave",
+      description: "Filters people that are on extended leave.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    if (!this.firstName && !this.lastName && !this.email) {
-      throw new Error("At least one of 'first_name', 'last_name', or 'email' is required.");
-    }
-
-    const response = await this.intellihr.searchPerson({
-      data: {
-        first_name: this.firstName,
-        last_name: this.lastName,
-        email: this.email,
+    const results = this.intellihr.paginate({
+      resourceFn: this.intellihr.listPeople,
+      params: {
+        "filters[name][eq]": this.name,
+        "filters[primaryEmailAddress][eq]": this.email,
+        "filters[employeeNumber][eq]": this.employeeNumber,
+        "filters[jobId][eq]": this.jobId,
+        "filters[updatedWithin][eq]": this.updatedWithin,
+        "filters[isOnExtendedLeave][eq]": this.isOnExtendedLeave === true
+          ? "true"
+          : this.isOnExtendedLeave === false
+            ? "false"
+            : undefined,
       },
     });
 
-    $.export("$summary", `Found ${response.length} person(s)`);
-    return response;
+    const people = [];
+    for await (const person of results) {
+      people.push(person);
+    }
+
+    $.export("$summary", `Found ${people.length} person(s)`);
+    return people;
   },
 };

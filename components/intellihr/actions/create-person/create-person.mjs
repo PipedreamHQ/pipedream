@@ -3,51 +3,99 @@ import intellihr from "../../intellihr.app.mjs";
 export default {
   key: "intellihr-create-person",
   name: "Create Person",
-  description: "Creates a new individual record in intellihr. [See the documentation](https://developers.intellihr.io/docs/v1/)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new individual record in intellihr. [See the documentation](https://developers.intellihr.io/docs/v1/#tag/People/paths/~1people/post)",
+  version: "0.0.1",
   type: "action",
   props: {
     intellihr,
-    firstName: intellihr.propDefinitions.firstName,
-    lastName: intellihr.propDefinitions.lastName,
-    email: intellihr.propDefinitions.email,
-    department: {
-      ...intellihr.propDefinitions.department,
-      optional: true,
+    firstName: {
+      propDefinition: [
+        intellihr,
+        "firstName",
+      ],
     },
-    position: {
-      ...intellihr.propDefinitions.position,
-      optional: true,
+    lastName: {
+      propDefinition: [
+        intellihr,
+        "lastName",
+      ],
     },
-    startDate: {
-      ...intellihr.propDefinitions.startDate,
-      optional: true,
+    email: {
+      propDefinition: [
+        intellihr,
+        "email",
+      ],
+    },
+    phone: {
+      propDefinition: [
+        intellihr,
+        "phone",
+      ],
+    },
+    dateOfBirth: {
+      propDefinition: [
+        intellihr,
+        "dateOfBirth",
+      ],
+    },
+    title: {
+      propDefinition: [
+        intellihr,
+        "title",
+      ],
+    },
+    employeeNumber: {
+      propDefinition: [
+        intellihr,
+        "employeeNumber",
+      ],
+    },
+    gender: {
+      propDefinition: [
+        intellihr,
+        "gender",
+      ],
+    },
+    workRightId: {
+      propDefinition: [
+        intellihr,
+        "workRightId",
+      ],
     },
   },
   async run({ $ }) {
-    const personData = {
-      first_name: this.firstName,
-      last_name: this.lastName,
-      email: this.email,
-    };
-
-    if (this.department) {
-      personData.department = this.department;
-    }
-
-    if (this.position) {
-      personData.position = this.position;
-    }
-
-    if (this.startDate) {
-      personData.start_date = this.startDate;
-    }
-
-    const response = await this.intellihr.createPerson({
-      data: personData,
+    const { data } = await this.intellihr.createPerson({
+      data: {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        emailAddresses: [
+          {
+            email: this.email,
+            isPrimary: this.email,
+          },
+        ],
+        phoneNumbers: this.phone
+          ? [
+            {
+              number: this.phone,
+              isPrimary: true,
+            },
+          ]
+          : undefined,
+        dateOfBirth: this.dateOfBirth,
+        title: this.title,
+        employeeNumber: this.employeeNumber,
+        gender: this.gender,
+        workRight: this.workRight
+          ? {
+            id: this.workRightId,
+          }
+          : undefined,
+      },
+      $,
     });
 
-    $.export("$summary", `Successfully created person: ${this.firstName} ${this.lastName}`);
-    return response;
+    $.export("$summary", `Successfully created person: ${data.displayName}`);
+    return data;
   },
 };
