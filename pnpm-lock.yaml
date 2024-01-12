@@ -252,9 +252,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
       lodash.chunk: ^4.2.0
+      moment: ^2.30.1
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash.chunk: 4.2.0
+      moment: 2.30.1
 
   components/aivoov:
     specifiers:
@@ -23309,11 +23311,15 @@ packages:
   /moment-timezone/0.5.43:
     resolution: {integrity: sha512-72j3aNyuIsDxdF1i7CEgV2FfxM1r6aaqJyLB2vwb33mXYyoyLly+F1zbWqhA3/bVIoJ4szlUoMbUnVdid32NUQ==}
     dependencies:
-      moment: 2.29.4
+      moment: 2.30.1
     dev: false
 
   /moment/2.29.4:
     resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
+    dev: false
+
+  /moment/2.30.1:
+    resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
     dev: false
 
   /monday-sdk-js/0.1.6:
@@ -26312,7 +26318,7 @@ packages:
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
       mkdirp: 1.0.4
-      moment: 2.29.4
+      moment: 2.30.1
       moment-timezone: 0.5.43
       open: 7.4.2
       python-struct: 1.1.3
@@ -27258,7 +27264,7 @@ packages:
     resolution: {integrity: sha512-4r6N+KF6Av2nmCmUEUeY+zH7Fh6dXTVMi3C97Rgd8fVoZSXg/c1L96Fqz5Xu21xCo5tMmTHejANMgv0E72rSBA==}
     dependencies:
       custom-error-generator: 7.0.0
-      moment: 2.29.4
+      moment: 2.30.1
       object-assign: 4.1.1
       request: 2.88.2
     dev: false
