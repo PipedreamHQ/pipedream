@@ -69,7 +69,7 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (this.type != "ITEM") {
+    if (this.type && this.type != "ITEM") {
       props.value =  {
         type: "integer",
         label: "Value",
@@ -79,9 +79,9 @@ export default {
     }
     if (this.expires) {
       props.expiredDate = {
-        type: "boolean",
-        label: "Expires",
-        description: "Whether the loyalty reward expires",
+        type: "string",
+        label: "Expire Date",
+        description: "Expiration date of loyalty reward.",
         optional: true,
       };
     }
