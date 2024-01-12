@@ -7574,6 +7574,9 @@ importers:
       lodash.pickby: 4.6.0
       wpapi: 1.2.2
 
+  components/workamajig:
+    specifiers: {}
+
   components/workast:
     specifiers:
       '@pipedream/platform': ^1.2.0
