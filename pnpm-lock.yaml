@@ -3783,7 +3783,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/maestra:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/magnetic:
     specifiers:
