@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-get-record-or-create",
   name: "Get Record Or Create",
   description: "Get a record from a table by record ID or create a new register.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -34,6 +34,12 @@ export default {
         "typecast",
       ],
       optional: true,
+    },
+    returnFieldsByFieldId: {
+      propDefinition: [
+        airtable,
+        "returnFieldsByFieldId",
+      ],
     },
   },
   async additionalProps() {
