@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
 import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
@@ -19,22 +19,23 @@ const DEFAULT_RESULTS = 100;
 const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
+  ...common,
   key: "twitter-list-lists",
   name: "List Lists",
   description: `Get all lists owned by a user. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.4",
   type: "action",
   props: {
-    app,
+    ...common.props,
     userNameOrId: {
       propDefinition: [
-        app,
+        common.props.app,
         "userNameOrId",
       ],
     },
     maxResults: {
       propDefinition: [
-        app,
+        common.props.app,
         "maxResults",
       ],
       min: MIN_RESULTS,
@@ -43,33 +44,30 @@ export default defineAction({
     },
   },
   methods: {
+    ...common.methods,
     getMultiItemSummary,
     getUserId,
     getListFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<List>> {
-    try {
-      const userId = await this.getUserId();
+    const userId = await this.getUserId();
 
-      const params: GetUserOwnedListsParams = {
-        $,
-        maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: this.maxResults,
-        params: this.getListFields(),
-        userId,
-      };
+    const params: GetUserOwnedListsParams = {
+      $,
+      maxPerPage: MAX_RESULTS_PER_PAGE,
+      maxResults: this.maxResults,
+      params: this.getListFields(),
+      userId,
+      fallbackError: ACTION_ERROR_MESSAGE,
+    };
 
-      const response = await this.app.getUserOwnedLists(params);
+    const response = await this.app.getUserOwnedLists(params);
 
-      $.export(
-        "$summary",
-        this.getMultiItemSummary("list", response.data?.length),
-      );
+    $.export(
+      "$summary",
+      this.getMultiItemSummary("list", response.data?.length),
+    );
 
-      return response;
-    } catch (err) {
-      $.export("error", err);
-      throw new Error(ACTION_ERROR_MESSAGE);
-    }
+    return response;
   },
 });
