@@ -5,7 +5,7 @@ export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
   description: "Searches for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
@@ -18,6 +18,12 @@ export default {
         "Search by Formula",
       ],
       reloadProps: true,
+    },
+    returnFieldsByFieldId: {
+      propDefinition: [
+        common.props.airtable,
+        "returnFieldsByFieldId",
+      ],
     },
   },
   async additionalProps() {
@@ -84,6 +90,7 @@ export default {
 
     const params = {
       filterByFormula,
+      returnFieldsByFieldId: this.returnFieldsByFieldId,
     };
     const results = [];
     do {

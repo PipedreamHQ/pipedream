@@ -4,8 +4,8 @@ import common from "../common/common.mjs";
 export default {
   key: "airtable_oauth-delete-record",
   name: "Delete Record",
-  description: "Delete a record from a table by record ID.",
-  version: "0.0.1",
+  description: "Delete a record from a table by record ID. [See the documentation](https://airtable.com/developers/web/api/delete-record)",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
