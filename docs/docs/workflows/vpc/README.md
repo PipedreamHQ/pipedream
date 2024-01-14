@@ -2,12 +2,6 @@
 
 <VideoPlayer url="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Private Clouds" />
 
-:::tip Beta feature
-
-Virtual Private Clouds (VPCs) are now available in beta on the [Business plan](https://pipedream.com/pricing).
-
-:::
-
 Every Pipedream workflow is deployed to its own virtual machine in AWS. This means your workflow's execution environment has its own RAM and disk, isolated from other users’ workflows.
 
 However, outbound traffic shares the same network as other AWS services deployed in the `us-east-1` region. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
