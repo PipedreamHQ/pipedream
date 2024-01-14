@@ -553,13 +553,17 @@ For polling sources in the Pipedream registry, the default polling interval is s
 ``` javascript
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
-...
-  timer: {
-    type: "$.interface.timer",
-    default: {
-      intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+export default {
+  props: {
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
   },
+  // rest of component
+}
 ```
 
 #### Rate Limit Optimization
