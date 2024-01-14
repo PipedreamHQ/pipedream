@@ -5,7 +5,7 @@ export default {
   key: "loops_so-update-contact",
   name: "Update Contact",
   description: "Updates an existing contact by email. If email not found, a new contact will be created. [See the Documentation](https://loops.so/docs/add-users/api-reference#update)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     loops,

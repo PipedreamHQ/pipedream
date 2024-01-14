@@ -4,7 +4,7 @@ export default {
   key: "loops_so-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See the Documentation](https://loops.so/docs/add-users/api-reference#add)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     loops,
