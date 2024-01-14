@@ -33,14 +33,24 @@ export default {
         "userGroup",
       ],
     },
+    customFields: {
+      propDefinition: [
+        loops,
+        "customFields",
+      ],
+    },
   },
   async run({ $ }) {
+    const { // eslint-disable-next-line no-unused-vars
+      loops, email, firstName, lastName, userGroup, customFields, ...data
+    } = this;
     const response = await this.loops.updateContact({
       data: pickBy({
-        email: this.email,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        userGroup: this.userGroup,
+        email,
+        firstName,
+        lastName,
+        userGroup,
+        ...data,
       }),
       $,
     });
