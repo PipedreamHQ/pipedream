@@ -11,7 +11,7 @@ export default {
     const { // eslint-disable-next-line no-unused-vars
       loops, email, firstName, lastName, userGroup, customFields, ...data
     } = this;
-    const response = await this.loops.createContact({
+    const response = await loops.createContact({
       data: {
         email,
         firstName,

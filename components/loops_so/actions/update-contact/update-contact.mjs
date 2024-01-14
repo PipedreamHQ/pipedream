@@ -12,7 +12,7 @@ export default {
     const { // eslint-disable-next-line no-unused-vars
       loops, email, firstName, lastName, userGroup, customFields, ...data
     } = this;
-    const response = await this.loops.updateContact({
+    const response = await loops.updateContact({
       data: pickBy({
         email,
         firstName,

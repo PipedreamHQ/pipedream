@@ -34,7 +34,7 @@ export default {
       optional: true,
       reloadProps: true,
       async options() {
-        const data = await this.loops.listCustomFields();
+        const data = await this.listCustomFields();
         return data.map(({
           key,
           label,
