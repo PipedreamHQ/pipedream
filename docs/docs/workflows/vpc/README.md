@@ -84,4 +84,4 @@ No, IP addresses are assigned to VPCs for you, and they are not changeable.
 
 ### How much will VPCs cost?
 
-VPCs are available on the **Business** plan during the beta. [Upgrade your plan here.](https://pipedream.com/pricing)
+VPCs are available on the **Business** plan. [Upgrade your plan here](https://pipedream.com/pricing).

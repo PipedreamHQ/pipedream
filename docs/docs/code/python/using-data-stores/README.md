@@ -302,12 +302,6 @@ def handler(pd: "pipedream"):
       return new_email
 ```
 
-## Data store limitations
-
-Data stores are in beta. There may be changes to this feature while we prepare it for a full release.
-
-Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
-
 ### Supported data types
 
 Data stores can hold any JSON-serializable data within the storage limits. This includes data types including:
