@@ -3,42 +3,41 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "postmark-send-email-with-template",
-  name: "Send Email With Template",
-  description: "Send a single email with Postmark using a template [See the documentation](https://postmarkapp.com/developer/api/templates-api#send-batch-with-templates)",
+  key: "postmark-send-batch-with-templates",
+  name: "Send Batch With Templates",
+  description: "Send a batch of emails using a template [See the documentation](https://postmarkapp.com/developer/api/templates-api#send-batch-with-templates)",
   version: "0.0.1",
   type: "action",
   props: {
-    ...common.props,
-    templateAlias: {
-      propDefinition: [
-        postmark,
-        "templateAlias",
-      ],
+    postmark,
+    amountOfEmails: {
+      type: "integer",
+      label: "Amount of emails",
+      description: "The amount of emails to send in the batch.",
+      min: 1,
+      max: 20,
+      reloadProps: true,
     },
     templateModel: {
-      type: "object",
+      type: "string",
       label: "Template Model",
       description:
         "The model to be applied to the specified template to generate the email body and subject.",
-    },
-    inlineCss: {
-      type: "boolean",
-      label: "Inline CSS",
-      description:
-        "By default, if the specified template contains an HTMLBody, Postmark will apply the style blocks as inline attributes to the rendered HTML content. You may opt-out of this behavior by passing false for this request field.",
-      optional: true,
+      reloadProps: true,
     },
   },
-  async run({ $ }) {
-    const data = {
-      ...this.getActionRequestCommonData(),
-      TemplateAlias: this.templateAlias,
-      TemplateModel: this.templateModel,
-      InlineCSS: this.inlineCss,
+  async additionalProps() {
+    return {
+      templateAlias: {
+        propDefinition: [
+          postmark,
+          "templateAlias",
+        ],
+      },
     };
-    const response = await this.postmark.sendEmailWithTemplate($, data);
-    $.export("$summary", "Sent email with template successfully");
-    return response;
+  },
+  async run({ $ }) {
+    $;
+    return this.templateAlias;
   },
 };
