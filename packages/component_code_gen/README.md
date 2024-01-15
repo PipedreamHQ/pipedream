@@ -10,11 +10,13 @@ Generate components using OpenAI GPT.
 
 3. Install [pipx](https://github.com/pypa/pipx?tab=readme-ov-file#install-pipx)
 
-4. Run `cd packages/component_code_gen`
+4. Install [poetry](https://python-poetry.org/docs/#installation)
 
-5. Run `asdf install`
+5. Run `cd packages/component_code_gen`
 
-6. Run `poetry install --no-root`
+6. Run `asdf install`
+
+7. Run `poetry install --no-root`
 
 ### Setup
 
