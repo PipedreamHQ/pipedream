@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "klenty-email-bounced",
-  name: "New email Bounced",
+  name: "New Email Bounced",
   description: "Emit new event when an email to a prospect bounces.",
   version: "0.0.1",
   type: "source",
