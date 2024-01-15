@@ -1,4 +1,3 @@
-import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
@@ -14,13 +13,13 @@ export default defineSource({
   key: "twitter-new-tweet-in-list",
   name: "New Tweet Posted in List",
   description: `Emit new event when a Tweet is posted in the specified list [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.4",
   type: "source",
   props: {
     ...common.props,
     listId: {
       propDefinition: [
-        app,
+        common.props.app,
         "listId",
       ],
     },
