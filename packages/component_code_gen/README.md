@@ -6,11 +6,9 @@ Generate components using OpenAI GPT.
 
 1. Install [gh cli](https://github.com/cli/cli#installation)
 
-2. Install [asdf package manager](https://asdf-vm.com/guide/getting-started.html#getting-started).
+2. Install [pipx](https://github.com/pypa/pipx?tab=readme-ov-file#install-pipx)
 
-3. Install [pipx](https://github.com/pypa/pipx?tab=readme-ov-file#install-pipx)
-
-4. Install [poetry](https://python-poetry.org/docs/#installation)
+3. Install [asdf package manager](https://asdf-vm.com/guide/getting-started.html#getting-started).
 
 5. Run `cd packages/component_code_gen`
 
