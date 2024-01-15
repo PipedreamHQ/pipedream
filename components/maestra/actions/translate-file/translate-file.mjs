@@ -1,3 +1,4 @@
+import utils from "../../common/utils.mjs";
 import app from "../../maestra.app.mjs";
 
 export default {
@@ -41,15 +42,19 @@ export default {
       // eslint-disable-next-line no-unused-vars
       app,
       translate,
+      targetLanguages,
       ...data
     } = this;
 
     const response = translate({
       $,
-      data,
+      data: {
+        ...data,
+        targetLanguages: utils.arrayToObj(targetLanguages),
+      },
     });
 
-    $.export("$summary", `Successfully translated file with ID \`${response.fileId}\``);
+    $.export("$summary", `Successfully translated file with message \`${response.message}\``);
 
     return response;
   },

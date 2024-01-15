@@ -1,4 +1,5 @@
 import app from "../../maestra.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "maestra-upload-file",
@@ -44,16 +45,16 @@ export default {
       optional: true,
     },
     channelId: {
-      type: "string",
-      label: "Channel ID",
-      description: "The ID of the channel where the file is stored",
-      optional: true,
+      propDefinition: [
+        app,
+        "channelId",
+      ],
     },
     folderPath: {
-      type: "string",
-      label: "Folder Path",
-      description: "The path of the folder where the file is stored, e.g., `root/-MbixMpLJ05xgjvwNnPm/-McCIYUrFqeXQGrEqQpR`",
-      optional: true,
+      propDefinition: [
+        app,
+        "folderPath",
+      ],
     },
     operationType: {
       optional: true,
@@ -89,12 +90,16 @@ export default {
       // eslint-disable-next-line no-unused-vars
       app,
       uploadFile,
+      targetLanguages,
       ...data
     } = this;
 
     const response = await uploadFile({
       $,
-      data,
+      data: {
+        ...data,
+        targetLanguages: utils.arrayToObj(targetLanguages),
+      },
     });
 
     $.export("$summary", `Successfully uploaded file with ID \`${response.fileId}\``);
