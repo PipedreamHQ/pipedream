@@ -78,12 +78,14 @@ export default {
       data: utils.cleanObject({
         firstName: this.firstName,
         lastName: this.lastName,
-        emailAddresses: [
-          {
-            email: this.email,
-            isPrimary: true,
-          },
-        ],
+        emailAddresses: this.email
+          ? [
+            {
+              email: this.email,
+              isPrimary: true,
+            },
+          ]
+          : undefined,
         phoneNumbers: this.phone
           ? [
             {
@@ -96,7 +98,7 @@ export default {
         title: this.title,
         employeeNumber: this.employeeNumber,
         gender: this.gender,
-        workRight: this.workRight
+        workRight: this.workRightId
           ? {
             id: this.workRightId,
           }

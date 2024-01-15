@@ -86,7 +86,7 @@ export default {
         title: this.title,
         employeeNumber: this.employeeNumber,
         gender: this.gender,
-        workRight: this.workRight
+        workRight: this.workRightId
           ? {
             id: this.workRightId,
           }
