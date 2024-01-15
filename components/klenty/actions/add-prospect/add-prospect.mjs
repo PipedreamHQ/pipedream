@@ -1,54 +1,45 @@
-import klentyApp from "../../klenty.app.mjs";
-import { axios } from "@pipedream/platform";
+import klenty from "../../klenty.app.mjs";
 
 export default {
   key: "klenty-add-prospect",
   name: "Add Prospect to List",
-  description: "Adds a new prospect to a list in Klenty. [See the documentation](https://support.klenty.com/en/articles/8193937-klenty-s-post-apis)",
-  version: "0.0.{{ts}}",
+  description: "Adds a new prospect to a list in Klenty. [See the documentation](https://support.klenty.com/en/articles/8193937-klenty-s-post-apis#h_8848b48485)",
+  version: "0.0.1",
   type: "action",
   props: {
-    klenty: klentyApp,
-    prospectEmail: {
+    klenty,
+    email: {
       propDefinition: [
-        klentyApp,
-        "prospectEmail",
-      ],
-    },
-    prospectListName: {
-      propDefinition: [
-        klentyApp,
-        "prospectListName",
-      ],
-    },
-    prospectData: {
-      propDefinition: [
-        klentyApp,
-        "prospectData",
-      ],
-    },
-    jobid: {
-      propDefinition: [
-        klentyApp,
-        "jobid",
+        klenty,
+        "email",
       ],
       optional: true,
     },
-    event: {
+    firstName: {
       propDefinition: [
-        klentyApp,
-        "event",
+        klenty,
+        "firstName",
+      ],
+    },
+    list: {
+      propDefinition: [
+        klenty,
+        "list",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.klenty.addProspectToList({
-      prospectListName: this.prospectListName,
-      prospectData: this.prospectData,
+      $,
+      data: {
+        Email: this.email,
+        FirstName: this.firstName,
+        List: this.list,
+      },
     });
 
-    $.export("$summary", `Successfully added prospect ${this.prospectEmail} to list ${this.prospectListName}`);
+    $.export("$summary", `Successfully added prospect ${this.prospectEmail} to list ${this.list}`);
     return response;
   },
 };

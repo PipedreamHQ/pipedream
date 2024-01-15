@@ -1,131 +1,141 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "klenty",
   propDefinitions: {
-    prospectEmail: {
+    cadenceName: {
       type: "string",
-      label: "Prospect Email",
-      description: "The prospect's email address.",
-      async options({ prevContext }) {
-        const { page = 0 } = prevContext;
-        const { items } = await this.getProspectsByList({
-          params: {
-            start: page,
-          },
-        });
-        return {
-          options: items.map(({
-            Email, FullName,
-          }) => ({
-            label: FullName,
-            value: Email,
-          })),
-          context: {
-            page: page + 100,
-          },
-        };
+      label: "Cadence",
+      description: "The Cadence you want to add this Prospect to.",
+      async options() {
+        const data = await this.listCadences();
+        return data.map(({ name }) => (name));
       },
     },
-    prospectListName: {
+    email: {
       type: "string",
-      label: "Prospect List Name",
-      description: "The name of the list to add the prospect to.",
+      label: "Email",
+      description: "The prospect's email address.",
     },
-    jobid: {
+    firstName: {
       type: "string",
-      label: "Job ID",
-      description: "The unique identifier for the print job.",
+      label: "First Name",
+      description: "The prospect's first name.",
     },
-    prospectData: {
-      type: "object",
-      label: "Prospect Data",
-      description: "The data for the new or existing prospect.",
-    },
-    event: {
+    prospect: {
       type: "string",
-      label: "Event",
-      description: "The event type for the webhook.",
-      options: [
-        {
-          label: "Send Prospect",
-          value: "sendprospect",
-        },
-        {
-          label: "On Mail Bounce",
-          value: "onmailbounce",
-        },
-      ],
+      label: "Prospect",
+      description: "The prospect to interact.",
+      async options({
+        page, listName,
+      }) {
+        const data = await this.getProspectsByList({
+          params: {
+            start: (LIMIT * page) + 1,
+            limit: LIMIT,
+            listName,
+          },
+        });
+        return data.map(({
+          id: value, Email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    list: {
+      type: "string",
+      label: "List",
+      description: "The list you want to add the Prospect to.",
+      async options() {
+        const data = await this.listLists();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://app.klenty.com/apis/v1";
+      return `https://app.klenty.com/apis/v1/user/${this.$auth.username}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
+    _headers() {
+      return {
+        "x-API-key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      const config = {
         url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
+      };
+
+      return axios($, config);
+    },
+    listCadences(opts = {}) {
+      return this._makeRequest({
+        path: "/cadences",
+        ...opts,
       });
     },
-    async createWebhook({ event }) {
+    listLists(opts = {}) {
+      return this._makeRequest({
+        path: "/lists",
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/webhooks",
-        data: {
-          event,
-        },
+        path: "/zapier/hooks",
+        ...opts,
       });
     },
-    async addProspectToList({
-      prospectListName, prospectData,
-    }) {
+    deleteWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhook/delete",
+        ...opts,
+      });
+    },
+    addProspectToList(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/prospects",
-        data: {
-          ListName: prospectListName,
-          ...prospectData,
-        },
+        ...opts,
       });
     },
-    async updateProspect({
-      prospectEmail, prospectData,
+    updateProspect({
+      prospectEmail, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/prospects/${prospectEmail}`,
-        data: {
-          ...prospectData,
-        },
+        ...opts,
       });
     },
-    async checkPrintJobStatus({ jobid }) {
+    startCadence(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: `/printjobs/${jobid}/status`,
+        method: "POST",
+        path: "/startcadence",
+        ...opts,
       });
     },
-    async getProspectsByList(opts = {}) {
+    getProspectsByList(opts = {}) {
       return this._makeRequest({
         path: "/prospects",
         ...opts,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };
