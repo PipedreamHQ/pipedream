@@ -7,7 +7,7 @@ export default {
   name: "New or Modified Records in View",
   description: "Emit new event for each new or modified record in a view",
   key: "airtable_oauth-new-or-modified-records-in-view",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...base.props,
