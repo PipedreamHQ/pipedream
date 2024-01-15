@@ -15,7 +15,7 @@
       "actions",
       "sources",
       "common"
-    ],
+, "common/app-validation.mjs"    ],
     "exclude": [
       "dist",
     ]

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/renderform",
+  "version": "0.0.1",
+  "description": "Pipedream RenderForm Components",
+  "main": "renderform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "renderform"
+  ],
+  "homepage": "https://pipedream.com/apps/renderform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

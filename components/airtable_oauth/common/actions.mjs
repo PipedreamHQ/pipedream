@@ -39,6 +39,7 @@ export default {
     const data = {
       fields: record,
       typecast: ctx.typecast,
+      returnFieldsByFieldId: ctx.returnFieldsByFieldId,
     };
 
     let response;
@@ -73,6 +74,7 @@ export default {
         data: {
           fields: record,
           typecast: ctx.typecast,
+          returnFieldsByFieldId: ctx.returnFieldsByFieldId,
         },
         $,
       });
@@ -94,6 +96,9 @@ export default {
         baseId,
         tableId,
         recordId,
+        params: {
+          returnFieldsByFieldId: ctx.returnFieldsByFieldId,
+        },
         $,
       });
     } catch (err) {

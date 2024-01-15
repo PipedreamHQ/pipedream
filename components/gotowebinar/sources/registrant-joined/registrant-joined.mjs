@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import events from "../common/events.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -6,13 +7,13 @@ export default {
   key: "gotowebinar-registrant-joined",
   name: "New Registrant Joined (Instant)",
   description: "Emit new event when a registrant joins a weginar.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {
     ...common.methods,
     getEventName() {
-      return "registrant.joined";
+      return events.REGISTRANT_JOINED;
     },
     generateMeta({
       eventKey, registrantKey, registrationDate,

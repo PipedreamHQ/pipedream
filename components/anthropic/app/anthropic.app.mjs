@@ -18,6 +18,7 @@ export default {
         url: `${this._apiUrl()}${path}`,
         headers: {
           "x-api-key": this._apiKey(),
+          "anthropic-version": "2023-06-01",
         },
         ...args,
       });

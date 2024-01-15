@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/maestra",
+  "version": "0.0.1",
+  "description": "Pipedream Maestra Components",
+  "main": "maestra.app.mjs",
+  "keywords": [
+    "pipedream",
+    "maestra"
+  ],
+  "homepage": "https://pipedream.com/apps/maestra",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -22,7 +22,7 @@ Follow our [quickstart guide](/quickstart/github-sync/) to start building projec
 
 ### Create a new project and enable GitHub Sync
 
-Projects are a new concept we are introducing to Pipedream. A project may contain one or more workflows and may be further organized using nested folders. Each project may be synchronized to a single GitHub repo.
+A project may contain one or more workflows and may be further organized using nested folders. Each project may be synchronized to a single GitHub repo.
 
 - Go to `https://pipedream.com/projects`
 - Create a new project

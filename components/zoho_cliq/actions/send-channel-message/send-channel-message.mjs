@@ -2,17 +2,22 @@ import app from "../../zoho_cliq.app.mjs";
 
 export default {
   name: "Send Channel Message",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "zoho_cliq-send-channel-message",
   description: "Send message to a channel. [See documentation](https://www.zoho.com/cliq/help/restapi/v2/#Post_Message_Channel)",
   type: "action",
   props: {
     app,
-    channelName: {
+    channel: {
       propDefinition: [
         app,
-        "channelName",
+        "channel",
+        () => ({
+          useName: true,
+        }),
       ],
+      label: "Channel Name",
+      description: "The channel name",
     },
     text: {
       label: "Text",
@@ -23,7 +28,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.sendChannelMessage({
       $,
-      channelName: this.channelName,
+      channelName: this.channel,
       data: {
         text: this.text,
         sync_message: true,
