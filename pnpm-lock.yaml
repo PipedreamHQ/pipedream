@@ -311,6 +311,9 @@ importers:
   components/amazing_marvin:
     specifiers: {}
 
+  components/amazon_alexa:
+    specifiers: {}
+
   components/amazon_ses:
     specifiers:
       '@aws-sdk/client-ec2': ^3.89.0
@@ -3318,6 +3321,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/join:
+    specifiers: {}
+
   components/joomla:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -3461,7 +3467,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/klenty:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/klipfolio:
     specifiers: {}
@@ -3793,7 +3802,10 @@ importers:
     specifiers: {}
 
   components/mailercloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mailerlite:
     specifiers:
@@ -5491,6 +5503,9 @@ importers:
     specifiers: {}
 
   components/render:
+    specifiers: {}
+
+  components/renderform:
     specifiers: {}
 
   components/repairshopr:
