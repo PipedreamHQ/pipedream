@@ -3,31 +3,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "postmark",
-  propDefinitions: {
-    templateAlias: {
-      type: "string",
-      label: "Template",
-      description: "The template to use for this email.",
-      async options(context) {
-        let { page } = context;
-        const data = await this.listTemplates(page++);
-        const options =
-          data.Templates?.map((obj) => {
-            return {
-              label: obj.Name,
-              value: obj.Alias,
-            };
-          }) ?? [];
-
-        return {
-          options,
-          context: {
-            page,
-          },
-        };
-      },
-    },
-  },
+  propDefinitions: {},
   methods: {
     _apikey() {
       return this.$auth.api_key;

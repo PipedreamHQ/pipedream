@@ -1,5 +1,5 @@
-import postmark from "../../postmark.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
+import templateProps from "../common/templateProps.mjs";
 
 export default {
   ...common,
@@ -10,18 +10,7 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    templateAlias: {
-      propDefinition: [
-        postmark,
-        "templateAlias",
-      ],
-    },
-    templateModel: {
-      type: "object",
-      label: "Template Model",
-      description:
-        "The model to be applied to the specified template to generate the email body and subject.",
-    },
+    ...templateProps,
     inlineCss: {
       type: "boolean",
       label: "Inline CSS",

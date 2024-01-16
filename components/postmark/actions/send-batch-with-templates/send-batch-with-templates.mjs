@@ -1,5 +1,5 @@
 import postmark from "../../postmark.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -16,13 +16,6 @@ export default {
       description: "The amount of emails to send in the batch.",
       min: 1,
       max: 20,
-      reloadProps: true,
-    },
-    templateModel: {
-      type: "string",
-      label: "Template Model",
-      description:
-        "The model to be applied to the specified template to generate the email body and subject.",
       reloadProps: true,
     },
   },
