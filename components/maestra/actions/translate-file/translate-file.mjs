@@ -46,7 +46,7 @@ export default {
       ...data
     } = this;
 
-    const response = translate({
+    const response = await translate({
       $,
       data: {
         ...data,
