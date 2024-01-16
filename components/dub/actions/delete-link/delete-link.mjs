@@ -11,7 +11,7 @@ export default {
     projectSlug: {
       type: "string",
       label: "Project slug",
-      description: "The slug for the project to create links for",
+      description: "The slug for the project",
       propDefinition: [
         app,
         "projectSlug",
@@ -19,8 +19,8 @@ export default {
     },
     linkId: {
       type: "string",
-      label: "Project slug",
-      description: "The slug for the project to create links for",
+      label: "Link ID",
+      description: "The ID for the link to be deleted",
       propDefinition: [
         app,
         "linkId",
