@@ -1,5 +1,7 @@
 import postmark from "../../postmark.app.mjs";
 import common from "../common/common.mjs";
+import props from "../common/props.mjs";
+import templateProps from "../common/templateProps.mjs";
 
 export default {
   ...common,
@@ -20,17 +22,31 @@ export default {
     },
   },
   async additionalProps() {
-    return {
-      templateAlias: {
-        propDefinition: [
-          postmark,
-          "templateAlias",
-        ],
-      },
+    const allProps = {
+      ...templateProps,
+      ...props,
     };
+    const amount = this.amountOfEmails ?? 0;
+    const arr = [];
+    for (let i = 1; i <= amount; i++) {
+      arr.push(i);
+    }
+    return Object.fromEntries(arr.flatMap((i) => Object.entries(allProps).map(([
+      key,
+      value,
+    ]) => [
+      `${i}_${key}`,
+      {
+        ...value,
+        label: `Email #${i} - ${value.label}`,
+      },
+    ])));
   },
   async run({ $ }) {
-    $;
-    return this.templateAlias;
+    const {
+      postmark, amountOfEmails, ...data
+    } = this;
+    console.log(postmark, amountOfEmails, $);
+    return data;
   },
 };

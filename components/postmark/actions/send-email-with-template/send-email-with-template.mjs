@@ -9,8 +9,8 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {
-    ...common.props,
     ...templateProps,
+    ...common.props,
     inlineCss: {
       type: "boolean",
       label: "Inline CSS",
