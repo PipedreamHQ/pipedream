@@ -7,8 +7,8 @@ const BATCH_SIZE = 10; // The Airtable API allows us to update up to 10 rows per
 export default {
   key: "airtable_oauth-create-multiple-records",
   name: "Create Multiple Records",
-  description: "Create one or more records in a table by passing an array of objects containing field names and values as key/value pairs.",
-  version: "0.0.1",
+  description: "Create one or more records in a table by passing an array of objects containing field names and values as key/value pairs. [See the documentation](https://airtable.com/developers/web/api/create-records)",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -22,6 +22,12 @@ export default {
       propDefinition: [
         airtable,
         "typecast",
+      ],
+    },
+    returnFieldsByFieldId: {
+      propDefinition: [
+        airtable,
+        "returnFieldsByFieldId",
       ],
     },
   },
@@ -48,6 +54,7 @@ export default {
           tableId,
           data: {
             typecast: this.typecast,
+            returnFieldsByFieldId: this.returnFieldsByFieldId,
             records: c,
           },
           $,
