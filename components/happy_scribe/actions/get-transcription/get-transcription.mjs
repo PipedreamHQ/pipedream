@@ -13,7 +13,6 @@ export default {
         app,
         "organizationId",
       ],
-      optional: true,
     },
     transcriptionId: {
       propDefinition: [
