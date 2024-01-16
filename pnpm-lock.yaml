@@ -251,8 +251,10 @@ importers:
   components/airtable_oauth:
     specifiers:
       '@pipedream/platform': ^1.5.1
+      lodash.chunk: ^4.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      lodash.chunk: 4.2.0
 
   components/aivoov:
     specifiers:
@@ -741,7 +743,10 @@ importers:
       util: 0.12.5
 
   components/boxhero:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/braintree:
     specifiers: {}
@@ -981,7 +986,12 @@ importers:
     specifiers: {}
 
   components/chatbotkit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      axios: ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      axios: 1.6.5
 
   components/chatfuel_dashboard_api_:
     specifiers: {}
@@ -1960,7 +1970,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/espocrm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/esputnik:
     specifiers:
@@ -2044,7 +2057,12 @@ importers:
     specifiers: {}
 
   components/ezeep_blue:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/f15five:
     specifiers:
@@ -2478,7 +2496,10 @@ importers:
       fs: 0.0.1-security
 
   components/gleap:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/gmail:
     specifiers:
@@ -2713,12 +2734,14 @@ importers:
   components/google_sheets:
     specifiers:
       '@googleapis/sheets': ^0.3.0
+      '@pipedream/google_drive': ^0.6.12
       '@pipedream/platform': ^1.4.0
       lodash: ^4.17.21
       uuidv4: ^6.2.6
       zlib: ^1.0.5
     dependencies:
       '@googleapis/sheets': 0.3.0
+      '@pipedream/google_drive': 0.6.15
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
       uuidv4: 6.2.13
@@ -2930,7 +2953,10 @@ importers:
     specifiers: {}
 
   components/heygen:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/heysummit:
     specifiers:
@@ -3108,7 +3134,12 @@ importers:
       fs: 0.0.1-security
 
   components/imagga:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/imap:
     specifiers:
@@ -3192,6 +3223,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/intellihr:
+    specifiers: {}
 
   components/intercom:
     specifiers:
@@ -3286,6 +3320,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/join:
+    specifiers: {}
 
   components/joomla:
     specifiers:
@@ -3720,6 +3757,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/maestra:
+    specifiers: {}
 
   components/magnetic:
     specifiers:
@@ -4463,7 +4503,10 @@ importers:
     specifiers: {}
 
   components/omise:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/omnisend:
     specifiers: {}
@@ -4660,7 +4703,10 @@ importers:
     specifiers: {}
 
   components/oyster:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/pagerduty:
     specifiers:
@@ -4840,6 +4886,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/piloterr:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/pilvio:
     specifiers: {}
 
@@ -4986,9 +5038,11 @@ importers:
 
   components/podio:
     specifiers:
-      '@pipedream/platform': ^1.2.1
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/pointagram:
     specifiers:
@@ -6442,7 +6496,10 @@ importers:
     specifiers: {}
 
   components/storyscale:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/strava:
     specifiers:
@@ -7151,7 +7208,10 @@ importers:
     specifiers: {}
 
   components/userlist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/usersketch:
     specifiers:
@@ -7529,6 +7589,9 @@ importers:
     dependencies:
       lodash.pickby: 4.6.0
       wpapi: 1.2.2
+
+  components/workamajig:
+    specifiers: {}
 
   components/workast:
     specifiers:
@@ -11974,7 +12037,7 @@ packages:
     dependencies:
       '@types/body-parser': 1.19.3
       '@types/node': 18.18.3
-      axios: 1.6.2
+      axios: 1.6.5
       body-parser: 1.20.2
       file-type: 16.5.4
       form-data: 4.0.0
@@ -12377,6 +12440,21 @@ packages:
       '@microsoft/kiota-serialization-text': 1.0.0-preview.23
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@pipedream/google_drive/0.6.15:
+    resolution: {integrity: sha512-r0H0A1HsSEDVTPVSvK4XXcExEeUnkpIqLMNVM2aLh1bwdOblTS1sxLZ9mz/7DwAr8wRNCoW6zlXZBEhexIyyAg==}
+    dependencies:
+      '@googleapis/drive': 2.4.0
+      '@pipedream/platform': 1.5.1
+      cron-parser: 4.9.0
+      lodash: 4.17.21
+      mime-db: 1.52.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
     dev: false
 
   /@pipedream/helper_functions/0.3.12:
@@ -14577,7 +14655,7 @@ packages:
     resolution: {integrity: sha512-KqQnQbdYE54D7oa/UmYVMZKq7CO4l8DEENzOKc4aBRwxCXSlJXGz83flFx5L7AWrOQnmuN3kVsRdt+GZPPjiVQ==}
     deprecated: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
     dependencies:
-      axios: 1.6.2
+      axios: 1.6.5
     transitivePeerDependencies:
       - debug
     dev: true
@@ -15844,11 +15922,21 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
 
-  /axios/1.6.2_debug@3.2.7:
-    resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
+  /axios/1.6.5:
+    resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
     dependencies:
-      follow-redirects: 1.15.3_debug@3.2.7
+      follow-redirects: 1.15.4
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  /axios/1.6.5_debug@3.2.7:
+    resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
+    dependencies:
+      follow-redirects: 1.15.4_debug@3.2.7
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -18832,9 +18920,19 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
 
-  /follow-redirects/1.15.3_debug@3.2.7:
-    resolution: {integrity: sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==}
+  /follow-redirects/1.15.4:
+    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
+  /follow-redirects/1.15.4_debug@3.2.7:
+    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -26214,7 +26312,7 @@ packages:
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1_asn1.js@5.4.1
       asn1.js-rfc5280: 3.0.0
-      axios: 1.6.2_debug@3.2.7
+      axios: 1.6.5_debug@3.2.7
       big-integer: 1.6.51
       bignumber.js: 2.4.0
       binascii: 0.0.2

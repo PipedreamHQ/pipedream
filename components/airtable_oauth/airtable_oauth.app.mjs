@@ -184,6 +184,12 @@ export default {
         };
       },
     },
+    returnFieldsByFieldId: {
+      type: "boolean",
+      label: "Return Fields By Field ID",
+      description: "An optional boolean value that lets you return field objects where the key is the field id. This defaults to `false`, which returns field objects where the key is the field name.",
+      optional: true,
+    },
   },
   methods: {
     ...commonApp.methods,
