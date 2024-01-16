@@ -1,74 +1,65 @@
-import renderform from "../../renderform.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../renderform.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "renderform-new-render-result",
   name: "New Render Result",
-  description: "Emits an event when a new render result is ready in RenderForm. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new render result is ready in RenderForm.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    renderform,
-    renderId: {
-      propDefinition: [
-        renderform,
-        "renderId",
-      ],
-    },
+    app,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
-  hooks: {
-    async deploy() {
-      // Emit the last 50 render results during deploy
-      const lastResults = await this.renderform.getRenderResult({
-        renderId: this.renderId,
+  methods: {
+    emitEvent(data) {
+      this._setLastResourceId(data.identifier);
+
+      this.$emit(data, {
+        id: data.identifier,
+        summary: `New render result with identifier ${data.identifier}`,
+        ts: Date.parse(data.createdAt),
       });
-      lastResults.slice(-50).forEach((result) => {
-        this.$emit(result, {
-          id: result.id,
-          summary: `New Render Result: ${result.id}`,
-          ts: result.createdAt
-            ? Date.parse(result.createdAt)
-            : Date.now(),
-        });
-      });
+    },
+    _setLastResourceId(id) {
+      this.db.set("lastResourceId", id);
+    },
+    _getLastResourceId() {
+      return this.db.get("lastResourceId");
     },
   },
   async run() {
-    // Check for new render results since the last time this method was run
-    const lastResultId = this.db.get("lastResultId") || null;
-    let newLastResultId = lastResultId;
-    let foundNew = false;
+    const lastResourceId = this._getLastResourceId();
 
-    const results = await this.renderform.getRenderResult({
-      renderId: this.renderId,
-    });
-    results.forEach((result) => {
-      if (result.id === lastResultId) {
-        foundNew = true;
-        return;
-      }
-      if (!foundNew) {
-        return;
-      }
-      this.$emit(result, {
-        id: result.id,
-        summary: `New Render Result: ${result.id}`,
-        ts: result.createdAt
-          ? Date.parse(result.createdAt)
-          : Date.now(),
+    let page = 0;
+
+    while (page >= 0) {
+      const { content: resources } = await this.app.getRenderResults({
+        params: {
+          page,
+          size: 50,
+        },
       });
-      newLastResultId = result.id;
-    });
 
-    // Update the lastResultId in the db
-    this.db.set("lastResultId", newLastResultId);
+      console.log(resources);
+
+      resources.reverse().forEach(this.emitEvent);
+
+      if (
+        resources.length < 50 ||
+        resources.filter((resource) => resource.id === lastResourceId)
+      ) {
+        return page = -1;
+      }
+
+      page++;
+    }
   },
 };

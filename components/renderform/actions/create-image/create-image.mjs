@@ -1,11 +1,10 @@
 import renderform from "../../renderform.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "renderform-create-image",
   name: "Create Image with Template",
-  description: "Generates an image using a supplied template. [See the documentation](https://renderform.io/docs/api/get-started/)",
-  version: "0.0.{{ts}}",
+  description: "Generates an image using a supplied template. [See the documentation](https://renderform.io/docs/api/render-image-v1/)",
+  version: "0.0.1",
   type: "action",
   props: {
     renderform,

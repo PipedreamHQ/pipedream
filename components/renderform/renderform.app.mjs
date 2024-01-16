@@ -9,30 +9,6 @@ export default {
       label: "Render ID",
       description: "Unique identifier for each render",
     },
-    screenCoordinates: {
-      type: "object",
-      label: "Screen Coordinates",
-      description: "The coordinates on the screen to capture an image",
-    },
-    imageFormat: {
-      type: "string",
-      label: "Image Format",
-      description: "The format of the captured image",
-      options: [
-        "png",
-        "jpg",
-        "webp",
-      ],
-      optional: true,
-    },
-    imageQuality: {
-      type: "integer",
-      label: "Image Quality",
-      description: "The quality of the captured image",
-      min: 1,
-      max: 100,
-      optional: true,
-    },
     filterName: {
       type: "string",
       label: "Filter Name",
@@ -43,6 +19,19 @@ export default {
       type: "string",
       label: "Template",
       description: "The name or identifier of the template to use for image generation",
+      async options({ page }) {
+        const resources = await this.listTemplates({
+          limit: 100,
+          offset: page * 100,
+        });
+
+        return resources.map(({
+          identifier, name,
+        }) => ({
+          value: identifier,
+          label: name,
+        }));
+      },
     },
     templateVariables: {
       type: "object",
@@ -53,15 +42,14 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.renderform.io";
+      return "https://get.renderform.io/api";
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this, path, headers, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -71,27 +59,34 @@ export default {
     },
     async captureImage(opts = {}) {
       const {
-        screenCoordinates, imageFormat, imageQuality,
+        url, width, height,
       } = opts;
+
       return this._makeRequest({
         method: "POST",
-        path: "/v1/take-screenshot",
+        path: "/v1/screenshots",
         data: {
-          screenCoordinates,
-          imageFormat,
-          imageQuality,
+          url,
+          width,
+          height,
         },
       });
     },
     async listTemplates(opts = {}) {
-      const { filterName } = opts;
+      const {
+        filterName, offset, limit,
+      } = opts;
       const queryParams = filterName
         ? {
           name: filterName,
         }
         : {};
+
+      if (offset) queryParams.offset = offset;
+      if (limit) queryParams.limit = limit;
+
       return this._makeRequest({
-        path: "/v1/templates",
+        path: "/v1/my-templates",
         params: queryParams,
       });
     },
@@ -101,22 +96,18 @@ export default {
       } = opts;
       return this._makeRequest({
         method: "POST",
-        path: "/v1/render-image",
+        path: "/v1/render",
         data: {
           template,
           ...templateVariables,
         },
       });
     },
-    async getRenderResult(opts = {}) {
-      const { renderId } = opts;
+    async getRenderResults(args = {}) {
       return this._makeRequest({
-        path: `/v1/render-result/${renderId}`,
+        path: "/v2/results",
+        ...args,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
   },
-  version: "0.0.{{ts}}",
 };

@@ -1,14 +1,13 @@
-import renderform from "../../renderform.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../renderform.app.mjs";
 
 export default {
   key: "renderform-list-templates",
   name: "List Templates",
   description: "Retrieve a list of your personal templates, optionally filtered by name. [See the documentation](https://renderform.io/docs/api/get-started/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    renderform,
+    app,
     filterName: {
       type: "string",
       label: "Filter Name",
@@ -17,12 +16,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const templates = await this.renderform.listTemplates({
+    const templates = await this.app.listTemplates({
       filterName: this.filterName,
     });
 
-    const summary = `Retrieved ${templates.length} templates`;
-    $.export("$summary", summary);
+    $.export("$summary", `Retrieved ${templates.length} templates`);
+
     return templates;
   },
 };

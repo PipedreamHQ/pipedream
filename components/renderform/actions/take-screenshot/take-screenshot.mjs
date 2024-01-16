@@ -1,50 +1,34 @@
 import renderform from "../../renderform.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "renderform-take-screenshot",
   name: "Take Screenshot",
   description: "Capture an image of the current screen. [See the documentation](https://renderform.io/docs/api/take-screenshots)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     renderform,
-    screenCoordinates: {
-      propDefinition: [
-        renderform,
-        "screenCoordinates",
-      ],
+    url: {
+      type: "string",
+      label: "URL",
+      description: "The website URL of which RenderForm should take a screenshot",
     },
-    imageFormat: {
-      propDefinition: [
-        renderform,
-        "imageFormat",
-        (c) => ({
-          default: c.imageFormat
-            ? c.imageFormat
-            : "png",
-        }),
-      ],
-      optional: true,
+    height: {
+      type: "integer",
+      label: "Height",
+      description: "The height of the screenshot in pixels",
     },
-    imageQuality: {
-      propDefinition: [
-        renderform,
-        "imageQuality",
-        (c) => ({
-          default: c.imageQuality
-            ? c.imageQuality
-            : 100,
-        }),
-      ],
-      optional: true,
+    width: {
+      type: "integer",
+      label: "Width",
+      description: "The width of the screenshot in pixels",
     },
   },
   async run({ $ }) {
     const response = await this.renderform.captureImage({
-      screenCoordinates: this.screenCoordinates,
-      imageFormat: this.imageFormat,
-      imageQuality: this.imageQuality,
+      url: this.url,
+      height: this.height,
+      width: this.width,
     });
 
     $.export("$summary", `Captured a screenshot in format ${this.imageFormat}`);
