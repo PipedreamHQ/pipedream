@@ -33,6 +33,9 @@ export default {
       propDefinition: [
         app,
         "domain",
+        (c) => ({
+          projectSlug: c.projectSlug,
+        }),
       ],
     },
     url: {

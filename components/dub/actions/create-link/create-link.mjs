@@ -2,7 +2,7 @@ import app from "../../dub.app.mjs";
 
 export default {
   name: "Create Link",
-  version: "0.0.1",
+  version: "0.0.7",
   key: "dub-create-link",
   description: "Creates a link. [See the documentation](https://dub.co/docs/api-reference/endpoint/create-a-new-link)",
   type: "action",
@@ -21,6 +21,9 @@ export default {
       propDefinition: [
         app,
         "domain",
+        (c) => ({
+          projectSlug: c.projectSlug,
+        }),
       ],
     },
     url: {

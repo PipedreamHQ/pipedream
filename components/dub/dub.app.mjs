@@ -42,6 +42,13 @@ export default {
       type: "string",
       label: "Domain",
       description: "The domain of the short link",
+      async options({ projectSlug }) {
+        const { domains: resources } = await this.getProject({
+          projectSlug,
+        });
+
+        return resources.map(({ slug }) => slug);
+      },
     },
     url: {
       type: "string",
@@ -85,39 +92,41 @@ export default {
       });
     },
     async createLink(args = {}) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
         path: "/links",
         method: "post",
         ...args,
       });
-
-      return response.subscriptions;
     },
     async updateLink({
       linkId, ...args
     }) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
         path: `/links/${linkId}`,
         method: "put",
         ...args,
       });
-
-      return response.subscriptions;
     },
     async deleteLink({
       linkId, ...args
     }) {
-      const response = await this._makeRequest({
+      return await this._makeRequest({
         path: `/links/${linkId}`,
         method: "delete",
         ...args,
       });
-
-      return response.subscriptions;
     },
     async getProjects(args = {}) {
       return this._makeRequest({
         path: "/projects",
+        ...args,
+      });
+    },
+    async getProject({
+      projectSlug, ...args
+    }) {
+      return this._makeRequest({
+        path: `/projects/${projectSlug}`,
         ...args,
       });
     },
