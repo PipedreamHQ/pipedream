@@ -17,7 +17,6 @@ export default {
       $ = this, path, headers, ...args
     } = {}) {
       const config = {
-        debug: true,
         url: this._baseUrl() + path,
         headers: this.getHeaders(headers),
         ...args,
