@@ -1,44 +1,69 @@
-import easyly from "../../easyly.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../easyly.app.mjs";
 
 export default {
   key: "easyly-post-lead",
   name: "Post New Lead",
-  description: "Allows a user to post a new lead to their Easyly account. [See the Easyly API documentation](https://api.easyly.com/posting)",
-  version: "0.0.{{ts}}",
+  description: "Allows a user to post a new lead to their Easyly account. [See the documentation](https://api.easyly.com/posting)",
+  version: "0.0.1",
   type: "action",
   props: {
-    easyly,
-    leadDetails: {
-      propDefinition: [
-        easyly,
-        "leadDetails",
-      ],
-    },
+    app,
     source: {
-      propDefinition: [
-        easyly,
-        "source",
-      ],
+      type: "string",
+      label: "Source",
+      description: "The source unique key. You can get your Source Unique Key by accessing [Settings > Leads > Sources](https://app.easyly.com/settings/leads/sources)",
+    },
+    fullname: {
+      type: "string",
+      label: "Full Name",
+      description: "The lead contact's full name",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The lead contact's email address",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The lead contact's phone number",
       optional: true,
     },
   },
+  methods: {
+    postLead(args = {}) {
+      return this.app.post({
+        path: "/post",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const leadData = {
-      fullname: this.leadDetails.name,
-      email: this.leadDetails.email,
-      phone: this.leadDetails.contactNumber,
-      ...(this.source && {
-        source: this.source,
-      }),
-    };
+    const {
+      postLead,
+      source,
+      fullname,
+      email,
+      phone,
+    } = this;
 
-    const response = await this.easyly.postNewLead({
-      leadDetails: leadData,
-      source: this.source,
+    const response = await postLead({
+      $,
+      data: {
+        source,
+        fullname,
+        email,
+        phone,
+      },
     });
 
-    $.export("$summary", `Successfully posted new lead with details: ${JSON.stringify(leadData)}`);
+    if (!response?.leadid) {
+      throw new Error("Failed to post lead. Maybe the source doesn't exist");
+    }
+
+    $.export("$summary", `Successfully posted a new lead with ID: \`${response.leadid}\``);
+
     return response;
   },
 };
