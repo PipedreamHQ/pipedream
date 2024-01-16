@@ -3,66 +3,41 @@ import workamajig from "../../workamajig.app.mjs";
 export default {
   key: "workamajig-create-activity",
   name: "Create Activity",
-  description: "Initiates the creation of a fresh activity in Workamajig",
-  version: "0.0.{{ts}}",
+  description: "Initiates the creation of a fresh activity in Workamajig. [See the documentation](https://app6.workamajig.com/platinum/?aid=common.apidocs)",
+  version: "0.0.1",
   type: "action",
   props: {
     workamajig,
-    leadType: {
-      propDefinition: [
-        workamajig,
-        "leadType",
-      ],
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "Subject of the new activity",
+    },
+    notes: {
+      type: "string",
+      label: "Notes",
+      description: "Notes for the activity",
       optional: true,
     },
-    opportunityId: {
+    companyKey: {
       propDefinition: [
         workamajig,
-        "opportunityId",
+        "companyKey",
       ],
-    },
-    activityDetails: {
-      propDefinition: [
-        workamajig,
-        "activityDetails",
-      ],
-    },
-    companyDetails: {
-      propDefinition: [
-        workamajig,
-        "companyDetails",
-      ],
-    },
-    contactId: {
-      propDefinition: [
-        workamajig,
-        "contactId",
-      ],
-    },
-    newContactDetails: {
-      propDefinition: [
-        workamajig,
-        "newContactDetails",
-      ],
+      optional: true,
     },
   },
   async run({ $ }) {
     const activity = await this.workamajig.createActivity({
-      activityDetails: this.activityDetails,
-    });
-    const company = await this.workamajig.createCompany({
-      companyDetails: this.companyDetails,
-    });
-    const contact = await this.workamajig.updateContact({
-      contactId: this.contactId,
-      newContactDetails: this.newContactDetails,
+      data: {
+        subject: this.subject,
+        notes: this.notes,
+        contactCompanyKey: this.companyKey,
+      },
+      $,
     });
 
-    $.export("$summary", `Successfully created activity with ID ${activity.id}, company with ID ${company.id}, and updated contact with ID ${contact.id}`);
-    return {
-      activity,
-      company,
-      contact,
-    };
+    $.export("$summary", `Successfully created activity "${this.subject}".`);
+    return activity;
   },
 };

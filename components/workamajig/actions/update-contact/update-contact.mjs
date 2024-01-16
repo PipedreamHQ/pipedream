@@ -1,33 +1,96 @@
 import workamajig from "../../workamajig.app.mjs";
-import { axios } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "workamajig-update-contact",
   name: "Update Contact",
-  description: "This component updates a specific contact in Workamajig. [See the documentation](https://app6.workamajig.com/platinum?qs=55df78cc97fb074667db8615c0d25643f39bb9793d1b3d8e875cc9829c30be1b&a=47138aae4fd80818df9275116ee90434407e7153d645c1e99cd7f9784169eb9c7697e47f3a9d70f36f85a6257710ffce)",
-  version: "0.0.{{ts}}",
+  description: "This component updates a specific contact in Workamajig. [See the documentation](https://app6.workamajig.com/platinum/?aid=common.apidocs)",
+  version: "0.0.1",
   type: "action",
   props: {
     workamajig,
-    contactId: {
+    companyKey: {
       propDefinition: [
         workamajig,
-        "contactId",
+        "companyKey",
+      ],
+      description: "Company the contact belongs to",
+    },
+    contactKey: {
+      propDefinition: [
+        workamajig,
+        "contactKey",
+        ({ companyKey }) => ({
+          companyKey,
+        }),
       ],
     },
-    newContactDetails: {
-      propDefinition: [
-        workamajig,
-        "newContactDetails",
-      ],
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of the contact",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the contact",
+      optional: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Title of the contact",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email address of the contact",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Phone number of the contact",
+      optional: true,
+    },
+    comments: {
+      type: "string",
+      label: "Comments",
+      description: "Comments for the contact",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.workamajig.updateContact({
-      contactId: this.contactId,
-      newContactDetails: this.newContactDetails,
+    const { data: { contact } } = await this.workamajig.getContact({
+      params: {
+        contactKey: this.contactKey,
+      },
+      $,
     });
-    $.export("$summary", `Successfully updated contact with ID: ${this.contactId}`);
+
+    if (!this.firstName && !contact.firstName) {
+      throw new ConfigurationError("Must enter First Name");
+    }
+    if (!this.lastName && !contact.lastName) {
+      throw new ConfigurationError("Must enter Last Name");
+    }
+
+    const response = await this.workamajig.updateContact({
+      data: utils.cleanObject({
+        contactKey: this.contactKey,
+        firstName: this.firstName || contact.firstName,
+        lastName: this.lastName || contact.lastName,
+        title: this.title,
+        email: this.email,
+        phone1: this.phone,
+        comments: this.comments,
+      }),
+      $,
+    });
+    $.export("$summary", `Successfully updated contact with key: ${this.contactKey}`);
     return response;
   },
 };

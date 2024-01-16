@@ -4,84 +4,120 @@ export default {
   type: "app",
   app: "workamajig",
   propDefinitions: {
-    leadType: {
+    companyKey: {
       type: "string",
-      label: "Lead Type",
-      description: "Type of the lead if lead types are in use in Workamajig",
-      optional: true,
+      label: "Company Key",
+      description: "Identifier of a company",
+      async options() {
+        const { data: { company } } = await this.searchCompanies({
+          params: {
+            text: "",
+          },
+        });
+        if (!company?.length) {
+          return [];
+        }
+        return company.map(({
+          companyKey: value, companyName: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
-    opportunityId: {
+    contactKey: {
       type: "string",
-      label: "Opportunity ID",
-      description: "ID of the specific opportunity to monitor",
-    },
-    activityDetails: {
-      type: "object",
-      label: "Activity Details",
-      description: "Details and parameters of the activity to be created",
-    },
-    companyDetails: {
-      type: "object",
-      label: "Company Details",
-      description: "Details and information of the company to be created",
-    },
-    contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "ID of the existing contact to be updated",
-    },
-    newContactDetails: {
-      type: "object",
-      label: "New Contact Details",
-      description: "New details of the contact to be updated",
+      label: "Contact Key",
+      description: "Identifier of the contact to update",
+      async options({ companyKey }) {
+        const { data: { contact } } = await this.searchContacts({
+          params: {
+            companyKey,
+          },
+        });
+        if (!contact?.length) {
+          return [];
+        }
+        return contact.map(({
+          contactKey: value, email: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://app6.workamajig.com/platinum";
+      return `https://${this.$auth.subdomain}.workamajig.com/api/beta1`;
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        "APIAccessToken": `${this.$auth.api_access_token}`,
+        "UserToken": `${this.$auth.user_token}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getContact(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
     },
-    async createActivity({ activityDetails }) {
+    searchCompanies(opts = {}) {
+      return this._makeRequest({
+        path: "/companies/search",
+        ...opts,
+      });
+    },
+    searchContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts/search",
+        ...opts,
+      });
+    },
+    searchActivities(opts = {}) {
+      return this._makeRequest({
+        path: "/activities/search",
+        ...opts,
+      });
+    },
+    listOpportunities(opts = {}) {
+      return this._makeRequest({
+        path: "/opportunities/list",
+        ...opts,
+      });
+    },
+    createActivity(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/activity",
-        data: activityDetails,
+        path: "/activities",
+        ...opts,
       });
     },
-    async createCompany({ companyDetails }) {
+    createCompany(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/company",
-        data: companyDetails,
+        path: "/companies",
+        ...opts,
       });
     },
-    async updateContact({
-      contactId, newContactDetails,
-    }) {
+    updateContact(opts = {}) {
       return this._makeRequest({
         method: "PUT",
-        path: `/contact/${contactId}`,
-        data: newContactDetails,
+        path: "/contacts",
+        ...opts,
       });
     },
   },
