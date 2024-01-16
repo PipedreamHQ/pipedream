@@ -21,7 +21,7 @@ export default {
       ],
       description: "The table ID to watch for changes.",
     },
-    fieldId: {
+    fieldIds: {
       propDefinition: [
         base.props.airtable,
         "sortFieldId",
@@ -32,8 +32,9 @@ export default {
           tableId,
         }),
       ],
-      label: "Field ID",
-      description: "Identifier of a spedific field/column to watch for updates",
+      type: "string[]",
+      label: "Field IDs",
+      description: "Identifiers of spedific fields/columns to watch for updates",
       withLabel: true,
     },
   },
@@ -45,6 +46,29 @@ export default {
     _setFieldValues(fieldValues) {
       this.db.set("fieldValues", fieldValues);
     },
+    updateFieldValues(newFieldValues, record) {
+      for (const fieldId of this.fieldIds) {
+        newFieldValues[record.id] = {
+          ...newFieldValues[record.id],
+          [fieldId.value]: record.fields[fieldId.label] || null,
+        };
+      }
+      return newFieldValues;
+    },
+    isUpdated(fieldValues, fieldIds, record) {
+      for (const fieldId of fieldIds) {
+        if (!record.fields[fieldId.label]) {
+          record.fields[fieldId.label] = null;
+        }
+        if (fieldValues[record.id]
+          && fieldValues[record.id][fieldId.value] !== undefined
+          && record.fields[fieldId.label] !== fieldValues[record.id][fieldId.value]
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
   },
   async run(event) {
     const {
@@ -55,8 +79,8 @@ export default {
 
     const lastTimestamp = this._getLastTimestamp();
     const fieldValues = this._getFieldValues();
-    const isFirstRunWithField = this.fieldId && Object.keys(fieldValues).length === 0;
-    const params = isFirstRunWithField
+    const isFirstRunWithFields = this.fieldIds && Object.keys(fieldValues).length === 0;
+    const params = isFirstRunWithFields
       ? {}
       : {
         filterByFormula: `LAST_MODIFIED_TIME() > "${lastTimestamp}"`,
@@ -80,25 +104,21 @@ export default {
     };
 
     let newRecords = 0, modifiedRecords = 0;
-    const newFieldValues = {
+    let newFieldValues = {
       ...fieldValues,
     };
     for (const record of data.records) {
+      if (this.fieldIds) {
+        newFieldValues = this.updateFieldValues(newFieldValues, record);
+      }
       if (!lastTimestamp || moment(record.createdTime) > moment(lastTimestamp)) {
-        if (this.fieldId) {
-          newFieldValues[record.id] = record.fields[this.fieldId.label];
-        }
         record.type = "new_record";
         newRecords++;
       } else {
-        if (this.fieldId) {
-          newFieldValues[record.id] = record.fields[this.fieldId.label];
-          if (
-            (record.fields[this.fieldId.label] == fieldValues[record.id])
-            || isFirstRunWithField
-          ) {
-            continue;
-          }
+        if (this.fieldIds
+          && (!this.isUpdated(fieldValues, this.fieldIds, record) || isFirstRunWithFields)
+        ) {
+          continue;
         }
         record.type = "record_modified";
         modifiedRecords++;
