@@ -3230,7 +3230,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/intellihr:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/intercom:
     specifiers:
