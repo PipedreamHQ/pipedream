@@ -10,6 +10,14 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    sortFn(a, b) {
+      const dateA = new Date(a.create_time);
+      const dateB = new Date(b.create_time);
+      return dateA - dateB;
+    },
+    getResourcesName() {
+      return "forms";
+    },
     getResourcesFn() {
       return this.app.listForms;
     },
@@ -17,13 +25,10 @@ export default {
       return;
     },
     generateMeta(resource) {
-      const { app } = this;
-      const id = app.getValueFromForm(resource);
-      const name = app.getValueFromForm(resource, "name");
       return {
-        id,
-        summary: `New Form: ${name}`,
-        ts: Date.now(),
+        id: resource.id,
+        summary: `New Form: ${resource.name}`,
+        ts: Date.parse(resource.create_time),
       };
     },
   },

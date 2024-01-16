@@ -20,6 +20,12 @@ export default {
     generateMeta() {
       throw new ConfigurationError("generateMeta is not implemented");
     },
+    sortFn() {
+      return;
+    },
+    getResourcesName() {
+      throw new ConfigurationError("getResourcesName is not implemented");
+    },
     getResourcesFn() {
       throw new ConfigurationError("getResourcesFn is not implemented");
     },
@@ -31,20 +37,22 @@ export default {
       this.$emit(resource, meta);
     },
     processResources(resources) {
-      Array.from(resources)
-        .reverse()
+      return Array.from(resources)
+        .sort(this.sortFn)
         .forEach(this.processEvent);
     },
   },
   async run() {
     const {
+      getResourcesName,
       getResourcesFn,
       getResourcesFnArgs,
       processResources,
     } = this;
 
     const resourcesFn = getResourcesFn();
-    const resources = await resourcesFn(getResourcesFnArgs());
+    const { [getResourcesName()]: resources } =
+      await resourcesFn(getResourcesFnArgs());
 
     await processResources(resources);
   },

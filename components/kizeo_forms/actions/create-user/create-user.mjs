@@ -113,7 +113,7 @@ export default {
       data: utils.keysToSnakeCase(data),
     });
 
-    $.export("$summary", `Created user with ID \`${response.data.id}\``);
+    $.export("$summary", `Created user with message \`${response.message}\``);
 
     return response;
   },

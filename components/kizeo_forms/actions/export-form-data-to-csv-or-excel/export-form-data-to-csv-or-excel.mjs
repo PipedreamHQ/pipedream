@@ -69,7 +69,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully exported form data to ${format} format`);
+    $.export("$summary", `Successfully exported form data to \`${format}\` format`);
 
     return response;
   },

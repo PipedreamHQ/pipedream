@@ -44,20 +44,7 @@ export default {
       },
     });
 
-    const dataIds = response.map(({ _id }) => _id);
-
-    if (dataIds.length) {
-      await app.markAsReadByAction({
-        $,
-        formId,
-        action,
-        data: {
-          data_ids: dataIds,
-        },
-      });
-    }
-
-    $.export("$summary", `Successfully listed ${response.length} unread form data entries`);
+    $.export("$summary", `Successfully listed ${response?.data.length} unread form data entries`);
 
     return response;
   },

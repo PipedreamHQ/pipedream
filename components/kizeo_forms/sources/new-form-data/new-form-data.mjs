@@ -25,6 +25,14 @@ export default {
   },
   methods: {
     ...common.methods,
+    sortFn(a, b) {
+      const dateA = new Date(a._create_time);
+      const dateB = new Date(b._create_time);
+      return dateA - dateB;
+    },
+    getResourcesName() {
+      return "data";
+    },
     getResourcesFn() {
       return this.app.listUnreadFormData;
     },

@@ -10,10 +10,12 @@ export default {
       label: "Form ID",
       description: "The ID of the form",
       async options() {
-        const forms = await this.listForms();
-        return forms.map((form) => ({
-          label: this.getValueFromForm(form, "name"),
-          value: this.getValueFromForm(form),
+        const { forms } = await this.listForms();
+        return forms.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -21,6 +23,10 @@ export default {
       type: "string",
       label: "Action",
       description: "Name of the action",
+      options: [
+        "get",
+        "post",
+      ],
     },
     format: {
       type: "string",
@@ -47,7 +53,7 @@ export default {
       async options({
         formId, action,
       }) {
-        const data = await this.listUnreadFormData({
+        const { data } = await this.listUnreadFormData({
           formId,
           action,
         });
@@ -59,30 +65,26 @@ export default {
       label: "Export ID",
       description: "The ID of the export",
       async options({ formId }) {
-        const exports = await this.listExports({
+        const { exports } = await this.listExports({
           formId,
         });
-        return exports.map(({ _id: value }) => value);
+        return exports.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
       },
     },
   },
   methods: {
-    getValueFromForm(resource, pattern = "id") {
-      const [
-        , value,
-      ] = Object.entries(resource)
-        .find(([
-          key,
-        ]) => key.includes(pattern));
-      return value;
-    },
     getUrl(path) {
       return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
     getHeaders(headers) {
       return {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.$auth.api_token}`,
+        "Authorization": this.$auth.api_token,
         ...headers,
       };
     },
@@ -91,6 +93,7 @@ export default {
     } = {}) {
       const config = {
         ...args,
+        debug: true,
         url: this.getUrl(path),
         headers: this.getHeaders(headers),
       };
@@ -111,7 +114,7 @@ export default {
     listUnreadFormData({
       formId, action, limit = 100, ...args
     } = {}) {
-      return this.post({
+      return this._makeRequest({
         path: `/forms/${formId}/data/unread/${action}/${limit}`,
         ...args,
       });

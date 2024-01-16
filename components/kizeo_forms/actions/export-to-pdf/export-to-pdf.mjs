@@ -24,6 +24,9 @@ export default {
       propDefinition: [
         app,
         "exportId",
+        ({ formId }) => ({
+          formId,
+        }),
       ],
     },
     dataIds: {
@@ -68,7 +71,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Exported data to PDF with ID ${response.id}`);
+    $.export("$summary", "Successfully exported data to PDF");
 
     return response;
   },
