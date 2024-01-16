@@ -11,7 +11,7 @@ export default {
     source: {
       type: "string",
       label: "Source",
-      description: "The provider unique key",
+      description: "The source unique key. You can get your Source Unique Key by accessing [Settings > Leads > Sources](https://app.easyly.com/settings/leads/sources)",
     },
     fullname: {
       type: "string",
