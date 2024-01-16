@@ -23,6 +23,13 @@ export default {
         MessageStream: this.messageStream,
       };
     },
+    getTemplateRequestData() {
+      return {
+        ...this.getActionRequestCommonData(),
+        TemplateAlias: this.templateAlias,
+        TemplateModel: this.templateModel,
+      };
+    },
     getAttachmentData(attachments) {
       return attachments?.map((str) => {
         let params = str.split("|");

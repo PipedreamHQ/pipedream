@@ -21,9 +21,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      ...this.getActionRequestCommonData(),
-      TemplateAlias: this.templateAlias,
-      TemplateModel: this.templateModel,
+      ...this.getTemplateRequestData(),
       InlineCSS: this.inlineCss,
     };
     const response = await this.postmark.sendEmailWithTemplate($, data);
