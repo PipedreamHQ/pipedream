@@ -21,11 +21,37 @@ export default {
   key: "google_drive-new-or-modified-files",
   name: "New or Modified Files",
   description: "Emit new event any time any file in your linked Google Drive is added, modified, or deleted",
-  version: "0.1.3",
+  version: "0.2.1",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
+  props: {
+    ...common.props,
+    folders: {
+      type: "string[]",
+      label: "Folders",
+      description: "The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.",
+      optional: true,
+      default: [],
+      options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const baseOpts = {
+          q: "mimeType = 'application/vnd.google-apps.folder' and trashed = false",
+        };
+        const opts = this.isMyDrive()
+          ? baseOpts
+          : {
+            ...baseOpts,
+            corpora: "drive",
+            driveId: this.getDriveId(),
+            includeItemsFromAllDrives: true,
+            supportsAllDrives: true,
+          };
+        return this.googleDrive.listFilesOptions(nextPageToken, opts);
+      },
+    },
+  },
   hooks: {
     async deploy() {
       const daysAgo = new Date();
@@ -82,10 +108,27 @@ export default {
         },
       };
     },
+    async shouldProcess(file) {
+      const watchedFolders = new Set(this.folders);
+      return (
+        watchedFolders.size == 0 ||
+        (file.parents && file.parents.some((p) => watchedFolders.has(p)))
+      );
+    },
     async processChanges(changedFiles, headers) {
       const changes = await this.getChanges(headers);
 
-      for (const file of changedFiles) {
+      for (const changedFile of changedFiles) {
+        const filedata = await this.googleDrive.getFile(changedFile.id, {
+          fields: "parents",
+        });
+        const file = {
+          ...changedFile,
+          ...filedata,
+        };
+        if (!(await this.shouldProcess(file))) {
+          continue;
+        }
         const eventToEmit = {
           file,
           ...changes,
