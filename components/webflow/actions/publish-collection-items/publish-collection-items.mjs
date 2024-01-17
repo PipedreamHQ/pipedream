@@ -23,7 +23,7 @@ export default {
         }),
       ],
     },
-    itemId: {
+    itemIds: {
       propDefinition: [
         webflow,
         "items",
