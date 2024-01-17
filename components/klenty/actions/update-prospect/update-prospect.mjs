@@ -179,7 +179,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Updated prospect successfully!`);
+    $.export("$summary", "Updated prospect successfully!");
     return response;
   },
 };
