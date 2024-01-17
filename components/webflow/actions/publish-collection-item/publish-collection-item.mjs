@@ -47,9 +47,8 @@ export default {
       collectionId, itemIds, live,
     } = this;
 
-    const webflow = this.webflow._createApiClient();
-
-    const response = await webflow.publishItems({
+    const client = this.webflow._createApiClient();
+    const response = await client.publishItems({
       collectionId,
       itemIds,
       live,
