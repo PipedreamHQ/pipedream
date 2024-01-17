@@ -36,7 +36,9 @@ export default {
       };
     },
     getTsField() {
-      return "activityDate";
+      return !this.mode
+        ? "activityDate"
+        : false;
     },
     generateMeta(activity) {
       return {

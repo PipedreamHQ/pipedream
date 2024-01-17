@@ -25,10 +25,6 @@ export default {
     props.range = {
       label: "Range",
     };
-    if (this.type === "byStage") {
-      props.range.type = "string";
-      props.range.description = "Stage lead stage key";
-    }
     if (this.type === "byLevel") {
       props.range.type = "integer";
       props.range.description = "Range for `byLevel` type";

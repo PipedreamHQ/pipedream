@@ -45,13 +45,18 @@ export default {
 
     const resourceFn = this.getResourceFn();
     const params = this.getParams();
+    const tsField = this.getTsField();
     const { data } = await resourceFn({
       params,
     });
     const items = data[this.getResourceType()];
     for (const item of items) {
-      const ts = Date.parse(item[this.getTsField()]);
-      if (ts > lastTs) {
+      if (!tsField) {
+        this.emitEvent(item);
+        continue;
+      }
+      const ts = Date.parse(item[tsField]);
+      if (ts >= lastTs) {
         this.emitEvent(item);
         if (ts > maxTs) {
           maxTs = ts;

@@ -7,7 +7,6 @@ const ACTIVITY_MODE = [
 ];
 
 const OPPORTUNITY_TYPE = [
-  "byStage",
   "byLevel",
   "byNeglected",
 ];
