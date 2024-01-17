@@ -51,6 +51,9 @@ export default {
     async sendEmailWithTemplate($, data) {
       return this.sharedActionRequest($, "email/withTemplate", data);
     },
+    async sendBatchWithTemplate($, data) {
+      return this.sharedActionRequest($, "email/batchWithTemplates", data);
+    },
     async setServerInfo(data) {
       return this.sharedRequest(this, {
         endpoint: "server",

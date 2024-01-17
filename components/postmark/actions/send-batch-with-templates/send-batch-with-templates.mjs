@@ -43,10 +43,34 @@ export default {
     ])));
   },
   async run({ $ }) {
-    const {
-      postmark, amountOfEmails, ...data
-    } = this;
-    console.log(postmark, amountOfEmails, $);
-    return data;
+    const { amountOfEmails } = this;
+    const data = {
+      Messages: [],
+    };
+
+    for (let i = 1; i <= amountOfEmails; i++) {
+      data.Messages.push(Object.fromEntries(Object.entries({
+        From: this[`${i}_fromEmail`],
+        To: this[`${i}_toEmail`],
+        Cc: this[`${i}_ccEmail`],
+        Bcc: this[`${i}_bccEmail`],
+        Tag: this[`${i}_tag`],
+        ReplyTo: this[`${i}_replyTo`],
+        Headers: this[`${i}_customHeaders`],
+        TrackOpens: this[`${i}_trackOpens`],
+        TrackLinks: this[`${i}_trackLinks`],
+        Attachments: this.getAttachmentData(this[`${i}_attachments`]),
+        Metadata: this[`${i}_metadata`],
+        MessageStream: this[`${i}_messageStream`],
+        TemplateAlias: this[`${i}_templateAlias`],
+        TemplateModel: this[`${i}_templateModel`],
+      }).filter(([
+        , value,
+      ]) => value !== undefined)));
+    }
+
+    const response = await this.postmark.sendBatchWithTemplate($, data);
+    $.export("$summary", `Sent batch of ${amountOfEmails} emails successfully`);
+    return response;
   },
 };
