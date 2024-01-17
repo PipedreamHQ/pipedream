@@ -4,7 +4,7 @@ export default {
   key: "loops_so-find-contact",
   name: "Find Contact",
   description: "Search for a contact by email address. [See the Documentation](https://loops.so/docs/add-users/api-reference#find)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     loops,
