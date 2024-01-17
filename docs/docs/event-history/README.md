@@ -4,12 +4,6 @@ Monitor all workflow events and their stack traces in one centralized view under
 
 Within the **Event History**, you'll be able to filter your events by workflow, execution status, within a specific time range.
 
-::: tip This feature is in beta
-
-Event histories are currently in **beta** with a limited number of events to start.
-
-:::
-
 [[toc]]
 
 ## Filtering Events
@@ -18,7 +12,7 @@ The filters at the top of the screen allow you to search all events processed by
 
 You can filter by the event's **Status**, **time of initiation** or by the **Workflow name**.
 
-::: tip 
+::: tip
 
 The filters are scoped to the current [workspace](/workspaces/).
 
@@ -62,7 +56,6 @@ Using this dropdown, you can select between convenient time ranges, or specify a
 
 ![How to filter events by a timerange](https://res.cloudinary.com/pipedreamin/image/upload/v1683747452/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.37.01_2x_oxb07m.png)
 
-
 ::: tip Long running workflows
 
 The time range filter depends on when the execution event first started. If a long running workflow starts within the specified time range but it's execution continues _past_ the filtered timeframe, it will still be included in the results.
@@ -98,7 +91,6 @@ Changing a workflow _after_ a particular event's execution will not update it's 
 You'll need to replay an event to execute the workflow with the latest changes.
 
 :::
-
 
 ## Limits
 

@@ -4,12 +4,11 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  dedupe: "greatest",
   type: "source",
   name: "New Record (of Selectable Type)",
   key: "salesforce_rest_api-new-record",
   description: "Emit new event (at regular intervals) when a record of arbitrary object type (selected as an input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for more information.",
-  version: "0.0.4",
+  version: "0.0.5",
   hooks: {
     ...common.hooks,
     async activate() {
@@ -40,7 +39,7 @@ export default {
       const summary = `New ${entityType} created: ${name}`;
       const ts = Date.parse(createdDate);
       return {
-        id: `${id}-${ts}`,
+        id,
         summary,
         ts,
       };
@@ -76,7 +75,9 @@ export default {
       ] = events;
 
       if (latestEvent?.CreatedDate) {
-        setLatestDateCovered((new Date(latestEvent.CreatedDate)).toISOString());
+        const latestDateCovered = new Date(latestEvent.CreatedDate);
+        latestDateCovered.setSeconds(0);
+        setLatestDateCovered(latestDateCovered.toISOString());
       }
 
       Array.from(events)
