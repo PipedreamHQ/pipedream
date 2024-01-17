@@ -31,9 +31,9 @@ export default {
         });
 
         return resources.map(({
-          id, domain,
+          id, domain, url,
         }) => ({
-          label: domain,
+          label: `${domain} - ${url}`,
           value: id,
         }));
       },
