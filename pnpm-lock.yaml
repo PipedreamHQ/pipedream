@@ -311,6 +311,9 @@ importers:
   components/amazing_marvin:
     specifiers: {}
 
+  components/amazon_alexa:
+    specifiers: {}
+
   components/amazon_ses:
     specifiers:
       '@aws-sdk/client-ec2': ^3.89.0
@@ -1860,7 +1863,12 @@ importers:
     specifiers: {}
 
   components/easyly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      uuid: ^9.0.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+      uuid: 9.0.1
 
   components/easyship:
     specifiers: {}
@@ -2614,6 +2622,7 @@ importers:
     specifiers:
       '@google-cloud/bigquery': ^6.0.0
       '@google-cloud/bigquery-data-transfer': ^4.0.1
+      '@google-cloud/compute': ^4.1.0
       '@google-cloud/logging': ^10.0.3
       '@google-cloud/pubsub': ^3.0.1
       '@google-cloud/storage': ^6.0.1
@@ -2624,6 +2633,7 @@ importers:
     dependencies:
       '@google-cloud/bigquery': 6.2.1
       '@google-cloud/bigquery-data-transfer': 4.0.1
+      '@google-cloud/compute': 4.1.0
       '@google-cloud/logging': 10.5.0
       '@google-cloud/pubsub': 3.7.5
       '@google-cloud/storage': 6.12.0
@@ -3222,7 +3232,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/intellihr:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/intercom:
     specifiers:
@@ -3317,6 +3330,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/join:
+    specifiers: {}
 
   components/joomla:
     specifiers:
@@ -3461,7 +3477,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/klenty:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/klipfolio:
     specifiers: {}
@@ -3793,7 +3812,10 @@ importers:
     specifiers: {}
 
   components/mailercloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/mailerlite:
     specifiers:
@@ -5491,6 +5513,9 @@ importers:
     specifiers: {}
 
   components/render:
+    specifiers: {}
+
+  components/renderform:
     specifiers: {}
 
   components/repairshopr:
@@ -8046,7 +8071,7 @@ importers:
   platform:
     specifiers:
       '@octokit/core': ^3.6.0
-      axios: ^0.21.2
+      axios: ^1.6.5
       fp-ts: ^2.0.2
       husky: ^3.0.0
       io-ts: ^2.0.0
@@ -8054,7 +8079,7 @@ importers:
       querystring: ^0.2.1
       typescript: ^3.5.3
     dependencies:
-      axios: 0.21.4
+      axios: 1.6.5
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
@@ -11334,6 +11359,16 @@ packages:
       google-auth-library: 8.9.0
       retry-request: 5.0.2
       teeny-request: 8.0.3
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@google-cloud/compute/4.1.0:
+    resolution: {integrity: sha512-9vzsfRK2t5wLJMg3+r+LbgFqrowpqB05wBkWDtmBRnwOEvdAK8tB2nLm8U4Wojh9VzR8T2p6QaAaXVYfs6dOfA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      google-gax: 4.0.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -15830,7 +15865,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.3
+      follow-redirects: 1.15.4
     transitivePeerDependencies:
       - debug
     dev: false
@@ -15838,7 +15873,7 @@ packages:
   /axios/0.24.0:
     resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
-      follow-redirects: 1.15.3
+      follow-redirects: 1.15.4
     transitivePeerDependencies:
       - debug
     dev: false
@@ -15854,7 +15889,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.3
+      follow-redirects: 1.15.4
     transitivePeerDependencies:
       - debug
     dev: false
@@ -15871,7 +15906,7 @@ packages:
   /axios/1.4.0:
     resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
     dependencies:
-      follow-redirects: 1.15.3
+      follow-redirects: 1.15.4
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -15881,7 +15916,7 @@ packages:
   /axios/1.5.0:
     resolution: {integrity: sha512-D4DdjDo5CY50Qms0qGQTTw6Q44jl7zRwY7bthds06pUGfChBCTcQs+N743eFWGEd6pRTMd6A+I87aWyFV5wiZQ==}
     dependencies:
-      follow-redirects: 1.15.3
+      follow-redirects: 1.15.4
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
