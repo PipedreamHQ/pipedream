@@ -12,7 +12,7 @@ A workflow that meet the following criteria will be impacted:
 
 - Is re-deployed or deployed after 2024-02-18
 - Connects to an [AWS RDS](https://aws.amazon.com/rds/)-managed database (e.g., PostgreSQL, MySQL, or Microsoft SQL Server)
-- Has server identity verification is enabled (e.g., the `rejectUnauthorized` connection option is set to `true`)
+- Has server identity verification enabled (e.g., the `rejectUnauthorized` connection option is set to `true`)
 
 ### Why are Amazon-specific CA certificates no longer loaded by default?
 
