@@ -1,5 +1,6 @@
 import surveycto from "../../surveycto.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "surveycto-new-submission",
@@ -60,4 +61,5 @@ export default {
     }
     this._setLastTs(maxTs);
   },
+  sampleEmit,
 };
