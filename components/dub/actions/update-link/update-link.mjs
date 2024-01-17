@@ -19,7 +19,7 @@ export default {
     },
     linkId: {
       type: "string",
-      label: "Project slug",
+      label: "Link ID",
       description: "The slug for the project to create links for",
       propDefinition: [
         app,
