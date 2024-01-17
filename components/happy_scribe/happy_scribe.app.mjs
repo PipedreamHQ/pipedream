@@ -11,12 +11,10 @@ export default {
       async options({
         page, organizationId,
       }) {
-        if (!organizationId) return [];
-
         const { results: resources } = await this.getTranscriptions({
           params: {
             page,
-            organization_id: organizationId,
+            organization_id: organizationId ?? this._organizationId(),
           },
         });
 
@@ -28,15 +26,13 @@ export default {
         }));
       },
     },
-    organizationId: {
-      type: "string",
-      label: "Organization ID",
-      description: "The ID of the organization",
-    },
   },
   methods: {
     _apiKey() {
       return this.$auth.api_key;
+    },
+    _organizationId() {
+      return this.$auth.organization_id;
     },
     _apiUrl() {
       return "https://www.happyscribe.com/api/v1";

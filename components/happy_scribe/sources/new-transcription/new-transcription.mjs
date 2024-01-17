@@ -17,12 +17,6 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    organizationId: {
-      propDefinition: [
-        app,
-        "organizationId",
-      ],
-    },
   },
   methods: {
     emitEvent(data) {
@@ -50,7 +44,7 @@ export default {
       const { results: resources } = await this.app.getTranscriptions({
         params: {
           page,
-          organization_id: this.organizationId,
+          organization_id: this.app._organizationId(),
         },
       });
 

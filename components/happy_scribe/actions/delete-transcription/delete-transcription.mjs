@@ -8,19 +8,10 @@ export default {
   type: "action",
   props: {
     app,
-    organizationId: {
-      propDefinition: [
-        app,
-        "organizationId",
-      ],
-    },
     transcriptionId: {
       propDefinition: [
         app,
         "transcriptionId",
-        (c) => ({
-          organizationId: c.organizationId,
-        }),
       ],
     },
   },
