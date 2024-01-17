@@ -7,7 +7,7 @@ export default {
   key: "notion-create-page",
   name: "Create Page",
   description: "Creates a page from a parent page. The only valid property is *title*. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.2.8",
+  version: "0.2.9",
   type: "action",
   props: {
     notion,
