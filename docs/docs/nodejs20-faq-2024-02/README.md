@@ -34,7 +34,7 @@ Otherwise, to successfully connect to your database, you can disable server iden
 
 For more information on secure connections and CAs, see the AWS docs: [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
 
-Below are instructions for updating a workflow that connects to a **MySQL**, **PostgreSQL**, or **Microsoft SQL Server** DB instance.
+Below are instructions for updating a workflow that connects to a [**MySQL**](#mysql), [**PostgreSQL**](#postgresql), or [**Microsoft SQL Server**](#microsoft-sql-server) DB instance.
 
 #### MySQL
 
