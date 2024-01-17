@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-publish-collection-item",
   name: "Publish Collection Item",
-  description: "Publish one or more items. [See the docs here](https://docs.developers.webflow.com/reference/publish-item)",
+  description: "Publish one or more items. [See the documentation](https://docs.developers.webflow.com/reference/publish-item)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -31,17 +31,33 @@ export default {
           collectionId: c.collectionId,
         }),
       ],
+      label: "Item ID(s)",
+      type: "string[]",
+      description: "The item(s) to publish",
+    },
+    live: {
+      type: "boolean",
+      label: "Live",
+      description: "Whether to update the live version",
+      optional: true,
     },
   },
   async run({ $ }) {
+    const {
+      collectionId, itemIds, live,
+    } = this;
+
     const webflow = this.webflow._createApiClient();
 
-    const response = await webflow.removeItem({
-      collectionId: this.collectionId,
-      itemId: this.itemId,
+    const response = await webflow.publishItems({
+      collectionId,
+      itemIds,
+      live,
     });
 
-    $.export("$summary", "Successfully deleted item");
+    $.export("$summary", `Successfully published ${itemIds.length} item${itemIds.length === 1
+      ? ""
+      : "s"}`);
 
     return response;
   },
