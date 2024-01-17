@@ -4,12 +4,6 @@
 
 Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.python.org) in workflows.
 
-::: warning
-Python steps are in **beta**. There might be changes while we prepare it for a full release.
-
-If you have any feedback on the Python runtime, please let us know in [our community](https://pipedream.com/support).
-:::
-
 ## Adding a Python code step
 
 1. Click the + icon to add a new step

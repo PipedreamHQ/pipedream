@@ -1,11 +1,5 @@
 # Custom Domains
 
-:::tip Beta feature
-
-Custom domains are now available in beta on the [Business plan](https://pipedream.com/pricing).
-
-:::
-
 By default, all new [Pipedream HTTP endpoints](/workflows/steps/triggers/#http) are hosted on the `{{$site.themeConfig.ENDPOINT_BASE_URL}}` domain. But you can configure any domain you want: instead of `https://endpoint.m.pipedream.net`, the endpoint would be available on `https://endpoint.example.com`.
 
 ## Configuring a new custom domain

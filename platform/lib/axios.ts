@@ -1,13 +1,11 @@
 import axios from "axios";
 import { AxiosRequestConfig } from "./index";
-import { AxiosRequestConfig as AxiosConfig } from "axios";
-import * as buildURL from "axios/lib/helpers/buildURL";
 import * as querystring from "querystring";
 import { cloneSafe } from "./utils";
 import { ConfigurationError } from "./errors";
 
-function cleanObject(o: { string: any; }) {
-  for (const k in o || {}) {
+function cleanObject(o = {}) {
+  for (const k in o) {
     if (typeof o[k] === "undefined") {
       delete o[k];
     }
@@ -50,10 +48,10 @@ function oauth1ParamsSerializer(p: any) {
 }
 
 export function transformConfigForOauth(config: AxiosRequestConfig) {
-  const {
-    baseURL, url,
-  } = config;
-  const newUrl: string = buildURL((baseURL ?? "") + url, config.params, oauth1ParamsSerializer); // build url as axios will
+  const newUrl = axios.getUri({
+    ...config,
+    paramsSerializer: oauth1ParamsSerializer,
+  });
   const requestData = {
     method: config.method || "get",
     url: newUrl,
@@ -64,7 +62,7 @@ export function transformConfigForOauth(config: AxiosRequestConfig) {
   for (const k in config.headers || {}) {
     if (/content-type/i.test(k)) {
       hasContentType = true;
-      formEncodedContentType = config.headers[k] === "application/x-www-form-urlencoded";
+      formEncodedContentType = config.headers?.[k] === "application/x-www-form-urlencoded";
       break;
     }
   }
@@ -83,7 +81,6 @@ async function getOauthSignature(config: AxiosRequestConfig, signConfig: any) {
   } = signConfig;
 
   const requestData = transformConfigForOauth(config);
-  
   const payload = {
     requestData,
     token,
