@@ -1,4 +1,7 @@
 import FormData from "form-data";
+import {
+  TYPE_OPTIONS, WHAT_RECIPIENTS_OPTIONS,
+} from "../../common/constants.mjs";
 import { checkFile } from "../../common/utils.mjs";
 import stannp from "../../stannp.app.mjs";
 
@@ -19,11 +22,7 @@ export default {
       type: "string",
       label: "Campaign Type",
       description: "The type of campaign this will be. Make sure the image is in the correct format.",
-      options: [
-        "4x6-postcard",
-        "6x9-postcard",
-        "us-letter",
-      ],
+      options: TYPE_OPTIONS,
     },
     templateId: {
       type: "string",
@@ -42,12 +41,7 @@ export default {
       type: "string",
       label: "What Recipients",
       description: "What recipients do you want this campaign to go to?",
-      options: [
-        "all",
-        "valid",
-        "not_valid",
-        "int",
-      ],
+      options: WHAT_RECIPIENTS_OPTIONS,
       optional: true,
     },
     addons: {

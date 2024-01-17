@@ -1,3 +1,4 @@
+import { ON_DUPLICATE_OPTIONS } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import stannp from "../../stannp.app.mjs";
 
@@ -86,11 +87,7 @@ export default {
       type: "string",
       label: "On Duplicate",
       description: "What to do if a duplicate recipient is found (update/ignore/duplicate).",
-      options: [
-        "update",
-        "ignore",
-        "duplicate",
-      ],
+      options: ON_DUPLICATE_OPTIONS,
       optional: true,
     },
     customFields: {
