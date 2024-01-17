@@ -1,5 +1,7 @@
 import common from "../common.mjs";
 
+const MAX_SAMPLE_EVENTS = 5;
+
 export default {
   ...common,
   hooks: {
@@ -15,10 +17,16 @@ export default {
         ts: Date.parse(comment.snippet.publishedAt),
       };
     },
+    _getHasRun() {
+      return this.db.get("hasRun");
+    },
+    _setHasRun() {
+      this.db.set("hasRun", true);
+    },
   },
   async run() {
-    const publishedAfter = this._getPublishedAfter();
-    let maxPublishedAfter = publishedAfter || 0;
+    const afterTs = this._getPublishedAfter();
+    let maxPublishedAfter = afterTs || 0;
 
     const params = {
       part: "id,replies,snippet",
@@ -44,16 +52,19 @@ export default {
       }
     }
 
-    for (const comment of comments) {
+    const hasRun = this._getHasRun();
+    if (!hasRun) this._setHasRun();
+
+    comments.forEach((comment, index) => {
       const publishedAt = Date.parse(comment.snippet.publishedAt);
-      if (!publishedAfter || publishedAt > publishedAfter) {
+      if ((hasRun || index < MAX_SAMPLE_EVENTS) && (!afterTs || publishedAt > afterTs)) {
         const meta = this.generateMeta(comment);
         this.$emit(comment, meta);
       }
       if (publishedAt > maxPublishedAfter) {
         maxPublishedAfter = publishedAt;
       }
-    }
+    });
 
     this._setPublishedAfter(maxPublishedAfter);
   },
