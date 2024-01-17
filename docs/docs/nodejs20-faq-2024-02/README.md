@@ -70,7 +70,7 @@ Below are instructions for updating a workflow that connects to a [**MySQL**](#m
   1. Replace the `mysql` app prop with a `mysql_ssl` app prop.
   2. Use the SSL connection options contained in the `$auth` object.
 
-      Here's an example of an updated code step that uses the **`mysql_ssl`** app and the `mysql2` npm package:
+      Here's an example of an updated code step that uses the **`mysql_ssl`** app and the [`mysql2` npm package](https://www.npmjs.com/package/mysql2):
 
       ```javascript
       import mysql from 'mysql2/promise';
