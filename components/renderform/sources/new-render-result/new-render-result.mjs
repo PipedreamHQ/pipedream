@@ -48,7 +48,6 @@ export default {
         },
       });
 
-      console.log(resources);
 
       resources.reverse().forEach(this.emitEvent);
 
