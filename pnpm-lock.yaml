@@ -6618,7 +6618,12 @@ importers:
       uuid: 8.3.2
 
   components/surveycto:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      xml-js: ^1.6.11
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      xml-js: 1.6.11
 
   components/surveymethods:
     specifiers:
@@ -11051,12 +11056,12 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.1.1:
-    resolution: {integrity: sha512-2VLz+MPysuV0BuI2HMYwHUapAIJQA43bsFiJrPgFwPu8nNDZZY4DI5EevgaTk8UA1jNBUtcZIzXMUi6kzHjBmA==}
+  /@definitelytyped/header-parser/0.1.2:
+    resolution: {integrity: sha512-LhwoEICZgBeO5bV/7iUbv9439bBjAKXyjzjDWG3RCCBUCa6K0/y5kwtr8cwtdpuEykwYC/2P7450G3X5kooR9Q==}
     engines: {node: '>=16.17.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.0.184
-      '@definitelytyped/utils': 0.0.191
+      '@definitelytyped/utils': 0.0.192
       semver: 7.5.4
     dev: true
 
@@ -11081,14 +11086,14 @@ packages:
     engines: {node: '>=16.17.0'}
     dev: true
 
-  /@definitelytyped/utils/0.0.191:
-    resolution: {integrity: sha512-WtoU24Y3khQCxLJd54smd8VLpIdd0UZuzlTcxCh7wdcp33lgEUo8EWNclXgAjBbXNng8l4pqjbSuUWikqbbfhg==}
+  /@definitelytyped/utils/0.0.192:
+    resolution: {integrity: sha512-2lHbCkKmoOcQd5QKo108YBH5hXFVmfIchvDfx+qapWeWYJLrNByuSj7LJgVpDKg0gPATgYexWIlhwCkVlE+b/g==}
     engines: {node: '>=16.17.0'}
     dependencies:
       '@definitelytyped/typescript-packages': 0.0.4
       '@definitelytyped/typescript-versions': 0.0.184
       '@qiwi/npm-registry-client': 8.9.1
-      '@types/node': 16.18.61
+      '@types/node': 16.18.71
       charm: 1.0.2
       minimatch: 9.0.3
       tar: 6.2.0
@@ -12532,6 +12537,17 @@ packages:
     resolution: {integrity: sha512-wTDEaO0nWMJcEOebAQCEq8EkPgRrtnK/rIxbTL3ox7O92GK6mLXjEfcVw8XSh9Odlgmw+nU71nZt5zx7la7E4g==}
     dependencies:
       axios: 0.21.4
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.6.0:
+    resolution: {integrity: sha512-/qP5qEdY+FD0ylBDwfqC+Uz0J9zNWQRKhvQ30M+hAB1VWTcZZkUng+Df+ZMooUqZBT7jnC8t6fk5eHkSSeHukw==}
+    dependencies:
+      axios: 1.6.5
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
@@ -14945,8 +14961,8 @@ packages:
     resolution: {integrity: sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==}
     dev: false
 
-  /@types/node/16.18.61:
-    resolution: {integrity: sha512-k0N7BqGhJoJzdh6MuQg1V1ragJiXTh8VUBAZTWjJ9cUq23SG0F0xavOwZbhiP4J3y20xd6jxKx+xNUhkMAi76Q==}
+  /@types/node/16.18.71:
+    resolution: {integrity: sha512-ARO+458bNJQeNEFuPyT6W+q9ULotmsQzhV3XABsFSxEvRMUYENcBsNAHWYPlahU+UHa5gCVwyKT1Z3f1Wwr26Q==}
     dev: true
 
   /@types/node/17.0.45:
@@ -17832,7 +17848,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.1.1
+      '@definitelytyped/header-parser': 0.1.2
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17847,7 +17863,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.1.1
+      '@definitelytyped/header-parser': 0.1.2
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17863,9 +17879,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.1.1
+      '@definitelytyped/header-parser': 0.1.2
       '@definitelytyped/typescript-versions': 0.0.184
-      '@definitelytyped/utils': 0.0.191
+      '@definitelytyped/utils': 0.0.192
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -17883,9 +17899,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.1.1
+      '@definitelytyped/header-parser': 0.1.2
       '@definitelytyped/typescript-versions': 0.0.184
-      '@definitelytyped/utils': 0.0.191
+      '@definitelytyped/utils': 0.0.192
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
