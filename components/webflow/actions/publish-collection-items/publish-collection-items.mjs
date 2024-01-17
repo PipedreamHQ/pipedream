@@ -1,8 +1,8 @@
 import webflow from "../../webflow.app.mjs";
 
 export default {
-  key: "webflow-publish-collection-item",
-  name: "Publish Collection Item",
+  key: "webflow-publish-collection-items",
+  name: "Publish Collection Items",
   description: "Publish one or more items. [See the documentation](https://docs.developers.webflow.com/reference/publish-item)",
   version: "0.0.1",
   type: "action",
