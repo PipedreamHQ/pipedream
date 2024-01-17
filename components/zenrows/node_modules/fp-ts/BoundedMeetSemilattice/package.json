@@ -1,0 +1,6 @@
+{
+  "main": "../lib/BoundedMeetSemilattice.js",
+  "module": "../es6/BoundedMeetSemilattice.js",
+  "typings": "../lib/BoundedMeetSemilattice.d.ts",
+  "sideEffects": false
+}

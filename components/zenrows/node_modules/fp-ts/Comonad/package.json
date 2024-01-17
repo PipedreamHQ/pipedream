@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Comonad.js",
+  "module": "../es6/Comonad.js",
+  "typings": "../lib/Comonad.d.ts",
+  "sideEffects": false
+}

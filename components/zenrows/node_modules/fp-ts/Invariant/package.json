@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Invariant.js",
+  "module": "../es6/Invariant.js",
+  "typings": "../lib/Invariant.d.ts",
+  "sideEffects": false
+}

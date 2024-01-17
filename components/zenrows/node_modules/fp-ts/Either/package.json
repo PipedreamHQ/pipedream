@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Either.js",
+  "module": "../es6/Either.js",
+  "typings": "../lib/Either.d.ts",
+  "sideEffects": false
+}

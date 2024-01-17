@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Endomorphism.js",
+  "module": "../es6/Endomorphism.js",
+  "typings": "../lib/Endomorphism.d.ts",
+  "sideEffects": false
+}

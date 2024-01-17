@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Group.js",
+  "module": "../es6/Group.js",
+  "typings": "../lib/Group.d.ts",
+  "sideEffects": false
+}

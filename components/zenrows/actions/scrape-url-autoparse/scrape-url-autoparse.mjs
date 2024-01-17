@@ -1,33 +1,34 @@
-import app from "../../zenrows.app.mjs";
+import zenrows from "../../zenrows.app.mjs";
+import { axios } from "@pipedream/platform";
 
 export default {
-  name: "Scrape URL Autoparse",
-  version: "0.0.1",
   key: "zenrows-scrape-url-autoparse",
-  description: "Scrape HTML of the URL. [See the documentation](https://www.zenrows.com/docs#autoparse-curl)",
+  name: "Scrape URL with Autoparse",
+  description: "Extracts data from a given webpage and returns it in JSON format. Suitable for the most popular websites. [See the documentation](https://docs.zenrows.com/reference/getting-started)",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
-    app,
+    zenrows,
     url: {
       propDefinition: [
-        app,
+        zenrows,
         "url",
       ],
     },
+    cssSelectors: {
+      propDefinition: [
+        zenrows,
+        "cssSelectors",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const response = await this.app.scrapeUrl({
-      $,
-      params: {
-        url: this.url,
-        autoparse: true,
-      },
+    const response = await this.zenrows.scrapeUrl({
+      url: this.url,
+      cssSelectors: this.cssSelectors,
     });
-
-    if (response) {
-      $.export("$summary", `Successfully retrieved HTML from URL \`${this.url}\``);
-    }
-
+    $.export("$summary", `Successfully scraped data from URL: ${this.url}`);
     return response;
   },
 };

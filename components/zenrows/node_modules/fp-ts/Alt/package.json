@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Alt.js",
+  "module": "../es6/Alt.js",
+  "typings": "../lib/Alt.d.ts",
+  "sideEffects": false
+}

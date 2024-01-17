@@ -1,0 +1,6 @@
+{
+  "main": "../lib/PathReporter.js",
+  "module": "../es6/PathReporter.js",
+  "typings": "../lib/PathReporter.d.ts",
+  "sideEffects": false
+}

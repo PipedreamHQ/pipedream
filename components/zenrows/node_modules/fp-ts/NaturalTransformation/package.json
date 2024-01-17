@@ -1,0 +1,6 @@
+{
+  "main": "../lib/NaturalTransformation.js",
+  "module": "../es6/NaturalTransformation.js",
+  "typings": "../lib/NaturalTransformation.d.ts",
+  "sideEffects": false
+}

@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Semigroupoid.js",
+  "module": "../es6/Semigroupoid.js",
+  "typings": "../lib/Semigroupoid.d.ts",
+  "sideEffects": false
+}

@@ -3,11 +3,24 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "zenrows",
+  version: "0.0.{{ts}}",
   propDefinitions: {
     url: {
       type: "string",
       label: "URL",
       description: "Encoded URL to scrape",
+    },
+    cssSelectors: {
+      type: "string[]",
+      label: "CSS Selectors",
+      description: "List of CSS selectors to extract specific data from the webpage",
+      optional: true,
+      async options({ prevContext }) {
+        // This is a placeholder for an async options method.
+        // Replace this with actual logic for fetching CSS selectors if an API endpoint is available.
+        // Otherwise, this method can be omitted if the endpoint does not exist.
+        return []; // Return an empty array if dynamic options are not applicable.
+      },
     },
   },
   methods: {
@@ -17,28 +30,42 @@ export default {
     _apiUrl() {
       return "https://api.zenrows.com/v1";
     },
-    _makeRequest({
-      $ = this, path, ...args
+    async _makeRequest({
+      $ = this, path, method = "GET", headers, params = {}, data, ...otherOpts
     }) {
       return axios($, {
+        method,
         url: `${this._apiUrl()}${path}`,
-        ...args,
-        params: {
-          ...args.params,
-          apikey: this._apiKey(),
+        headers: {
+          ...headers,
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this._apiKey()}`,
         },
+        params,
+        data,
+        ...otherOpts,
       });
     },
-    scrapeUrl(args = {}) {
+    async scrapeUrl({
+      url, cssSelectors, ...otherOpts
+    }) {
+      const params = {
+        url,
+        ...(cssSelectors && {
+          css_selectors: cssSelectors.join(","),
+        }),
+        ...otherOpts.params,
+      };
       return this._makeRequest({
         path: "/",
-        ...args,
+        params,
+        ...otherOpts,
       });
     },
-    getAPIUsage(args = {}) {
+    async getAPIUsage({ ...otherOpts } = {}) {
       return this._makeRequest({
         path: "/usage",
-        ...args,
+        ...otherOpts,
       });
     },
   },

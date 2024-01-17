@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Category.js",
+  "module": "../es6/Category.js",
+  "typings": "../lib/Category.d.ts",
+  "sideEffects": false
+}

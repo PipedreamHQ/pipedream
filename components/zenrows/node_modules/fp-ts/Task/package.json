@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Task.js",
+  "module": "../es6/Task.js",
+  "typings": "../lib/Task.d.ts",
+  "sideEffects": false
+}

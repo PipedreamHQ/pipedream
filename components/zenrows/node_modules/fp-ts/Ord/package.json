@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Ord.js",
+  "module": "../es6/Ord.js",
+  "typings": "../lib/Ord.d.ts",
+  "sideEffects": false
+}

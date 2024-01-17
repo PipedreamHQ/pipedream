@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Const.js",
+  "module": "../es6/Const.js",
+  "typings": "../lib/Const.d.ts",
+  "sideEffects": false
+}

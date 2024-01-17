@@ -1,0 +1,36 @@
+{
+  "name": "io-ts",
+  "version": "2.2.21",
+  "description": "TypeScript runtime type system for IO decoding/encoding",
+  "main": "lib/index.js",
+  "module": "es6/index.js",
+  "typings": "lib/index.d.ts",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gcanti/io-ts.git"
+  },
+  "author": "Giulio Canti <giulio.canti@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gcanti/io-ts/issues"
+  },
+  "homepage": "https://github.com/gcanti/io-ts",
+  "peerDependencies": {
+    "fp-ts": "^2.5.0"
+  },
+  "tags": [
+    "typescript",
+    "runtime",
+    "decoder",
+    "encoder",
+    "schema"
+  ],
+  "keywords": [
+    "typescript",
+    "runtime",
+    "decoder",
+    "encoder",
+    "schema"
+  ]
+}

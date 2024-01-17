@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Semiring.js",
+  "module": "../es6/Semiring.js",
+  "typings": "../lib/Semiring.d.ts",
+  "sideEffects": false
+}

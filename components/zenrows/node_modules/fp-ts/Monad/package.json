@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Monad.js",
+  "module": "../es6/Monad.js",
+  "typings": "../lib/Monad.d.ts",
+  "sideEffects": false
+}

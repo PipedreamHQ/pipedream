@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Schemable.js",
+  "module": "../es6/Schemable.js",
+  "typings": "../lib/Schemable.d.ts",
+  "sideEffects": false
+}

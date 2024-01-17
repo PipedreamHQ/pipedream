@@ -1,0 +1,6 @@
+{
+  "main": "../lib/string.js",
+  "module": "../es6/string.js",
+  "typings": "../lib/string.d.ts",
+  "sideEffects": false
+}

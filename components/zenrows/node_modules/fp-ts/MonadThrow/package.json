@@ -1,0 +1,6 @@
+{
+  "main": "../lib/MonadThrow.js",
+  "module": "../es6/MonadThrow.js",
+  "typings": "../lib/MonadThrow.d.ts",
+  "sideEffects": false
+}

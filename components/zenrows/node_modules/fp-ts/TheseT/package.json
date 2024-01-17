@@ -1,0 +1,6 @@
+{
+  "main": "../lib/TheseT.js",
+  "module": "../es6/TheseT.js",
+  "typings": "../lib/TheseT.d.ts",
+  "sideEffects": false
+}

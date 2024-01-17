@@ -1,0 +1,6 @@
+{
+  "main": "../lib/TaskDecoder.js",
+  "module": "../es6/TaskDecoder.js",
+  "typings": "../lib/TaskDecoder.d.ts",
+  "sideEffects": false
+}

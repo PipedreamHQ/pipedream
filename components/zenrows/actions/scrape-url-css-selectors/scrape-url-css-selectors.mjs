@@ -1,38 +1,34 @@
-import app from "../../zenrows.app.mjs";
+import zenrows from "../../zenrows.app.mjs";
+import { axios } from "@pipedream/platform";
 
 export default {
-  name: "Scrape URL CSS Selectors",
-  version: "0.0.1",
   key: "zenrows-scrape-url-css-selectors",
-  description: "Scrape HTML of the URL with CSS Selectors. [See the documentation](https://www.zenrows.com/docs#css-selectors-curl)",
+  name: "Scrape URL with CSS Selectors",
+  description: "Extracts specific data from a given webpage using CSS selectors. [See the documentation](https://docs.zenrows.com/)",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
-    app,
+    zenrows,
     url: {
       propDefinition: [
-        app,
+        zenrows,
         "url",
       ],
     },
-    cssExtractor: {
-      type: "string",
-      label: "CSS Selectors",
-      description: "CSS Selectors for data extraction. E.g. `{\"links\":\"a @href\", \"images\":\"img @src\"}`",
+    cssSelectors: {
+      propDefinition: [
+        zenrows,
+        "cssSelectors",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.scrapeUrl({
-      $,
-      params: {
-        url: this.url,
-        css_extractor: this.cssExtractor,
-      },
+    const response = await this.zenrows.scrapeUrl({
+      url: this.url,
+      cssSelectors: this.cssSelectors,
     });
 
-    if (response) {
-      $.export("$summary", `Successfully retrieved HTML from URL \`${this.url}\``);
-    }
-
+    $.export("$summary", `Successfully scraped the URL ${this.url} with the specified CSS selectors`);
     return response;
   },
 };

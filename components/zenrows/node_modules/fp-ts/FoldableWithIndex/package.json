@@ -1,0 +1,6 @@
+{
+  "main": "../lib/FoldableWithIndex.js",
+  "module": "../es6/FoldableWithIndex.js",
+  "typings": "../lib/FoldableWithIndex.d.ts",
+  "sideEffects": false
+}

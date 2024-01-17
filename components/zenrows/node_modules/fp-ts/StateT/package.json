@@ -1,0 +1,6 @@
+{
+  "main": "../lib/StateT.js",
+  "module": "../es6/StateT.js",
+  "typings": "../lib/StateT.d.ts",
+  "sideEffects": false
+}

@@ -1,0 +1,6 @@
+{
+  "main": "../lib/internal.js",
+  "module": "../es6/internal.js",
+  "typings": "../lib/internal.d.ts",
+  "sideEffects": false
+}

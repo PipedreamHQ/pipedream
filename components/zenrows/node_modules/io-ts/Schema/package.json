@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Schema.js",
+  "module": "../es6/Schema.js",
+  "typings": "../lib/Schema.d.ts",
+  "sideEffects": false
+}

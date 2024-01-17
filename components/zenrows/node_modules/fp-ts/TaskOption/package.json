@@ -1,0 +1,6 @@
+{
+  "main": "../lib/TaskOption.js",
+  "module": "../es6/TaskOption.js",
+  "typings": "../lib/TaskOption.d.ts",
+  "sideEffects": false
+}

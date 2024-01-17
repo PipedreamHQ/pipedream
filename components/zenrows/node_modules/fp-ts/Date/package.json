@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Date.js",
+  "module": "../es6/Date.js",
+  "typings": "../lib/Date.d.ts",
+  "sideEffects": false
+}

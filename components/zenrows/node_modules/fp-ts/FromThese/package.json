@@ -1,0 +1,6 @@
+{
+  "main": "../lib/FromThese.js",
+  "module": "../es6/FromThese.js",
+  "typings": "../lib/FromThese.d.ts",
+  "sideEffects": false
+}
