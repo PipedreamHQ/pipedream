@@ -1,64 +1,62 @@
 import { axios } from "@pipedream/platform";
+import convert from "xml-js";
 
 export default {
   type: "app",
   app: "surveycto",
   propDefinitions: {
-    formName: {
+    formId: {
       type: "string",
-      label: "Form Name",
-      description: "The name of the form",
-      required: true,
-    },
-    submissionId: {
-      type: "string",
-      label: "Submission ID",
-      description: "The ID of the form submission",
-      optional: true,
+      label: "Form ID",
+      description: "The ID of the form to watch",
+      async options() {
+        const forms = await this.listForms();
+        return forms.map(({
+          formID, name,
+        }) => ({
+          value: formID._text,
+          label: name._text,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.surveycto.com";
+      return `https://${this.$auth.servername}.surveycto.com`;
     },
-    async _makeRequest(opts = {}) {
+    _auth() {
+      return {
+        username: `${this.$auth.email}`,
+        password: `${this.$auth.password}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        auth: this._auth(),
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async listForms() {
+      const xml = await this._makeRequest({
+        path: "/formList",
+      });
+      const { xforms } = JSON.parse(convert.xml2json(xml, {
+        compact: true,
+      }));
+      return xforms?.xform;
     },
-    async getFormData(formName, opts = {}) {
+    listSubmissions({
+      formId, ...opts
+    }) {
       return this._makeRequest({
-        path: `/v2/forms/data/${formName}`,
+        path: `/api/v2/forms/data/wide/json/${formId}`,
         ...opts,
-      });
-    },
-    async getSubmissionData(formName, submissionId, opts = {}) {
-      return this._makeRequest({
-        path: `/v2/forms/data/${formName}/${submissionId}`,
-        ...opts,
-      });
-    },
-    async submitForm(formData) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/forms/submit",
-        data: formData,
       });
     },
   },
