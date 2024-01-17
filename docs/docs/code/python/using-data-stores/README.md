@@ -5,14 +5,6 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/
 
 # Using Data Stores
 
-:::warning
-
-This feature is in **beta**. There might be changes while we prepare it for a full release.
-
-If you have any feedback on the Python runtime, please let us know in [our community](https://pipedream.com/support).
-
-:::
-
 You can store and retrieve data from [Data Stores](/data-stores/) in Python without connecting to a 3rd party database.
 
 Add a data store as a input to a Python step, then access it in your Python `handler` with `pd.inputs["data_store"]`.
@@ -309,12 +301,6 @@ def handler(pd: "pipedream"):
       data_store["emails"] = emails
       return new_email
 ```
-
-## Data store limitations
-
-Data stores are in beta. There may be changes to this feature while we prepare it for a full release.
-
-Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
 
 ### Supported data types
 
