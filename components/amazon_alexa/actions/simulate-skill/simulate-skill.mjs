@@ -1,41 +1,76 @@
-import amazonAlexa from "../../amazon_alexa.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../amazon_alexa.app.mjs";
 
 export default {
   key: "amazon_alexa-simulate-skill",
   name: "Simulate Alexa Skill",
   description: "Simulate a dialog from an Alexa-enabled device and receive the skill response for the specified example utterance. [See the documentation](https://developer.amazon.com/en-us/docs/alexa/smapi/skill-simulation-api.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    amazonAlexa,
+    app,
     skillId: {
       propDefinition: [
-        amazonAlexa,
+        app,
         "skillId",
       ],
     },
     stage: {
       propDefinition: [
-        amazonAlexa,
+        app,
         "stage",
       ],
     },
-    intent: {
+    content: {
       propDefinition: [
-        amazonAlexa,
-        "intent",
+        app,
+        "inputContent",
+      ],
+    },
+    locale: {
+      propDefinition: [
+        app,
+        "deviceLocale",
       ],
     },
   },
+  methods: {
+    simulateSkill({
+      skillId, stage, ...args
+    }) {
+      return this.app.post({
+        path: `/skills/${skillId}/stages/${stage}/simulations`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.amazonAlexa.simulateSkill({
-      skillId: this.skillId,
-      stage: this.stage,
-      intent: this.intent,
+    const {
+      simulateSkill,
+      skillId,
+      stage,
+      content,
+      locale,
+    } = this;
+
+    const response = await simulateSkill({
+      $,
+      skillId,
+      stage,
+      data: {
+        session: {
+          mode: "DEFAULT",
+        },
+        input: {
+          content,
+        },
+        device: {
+          locale,
+        },
+      },
     });
 
-    $.export("$summary", `Simulated ${this.intent} intent for skill ${this.skillId} on ${this.stage} stage`);
+    $.export("$summary", `Successfully simulated skill with ID: ${response.id}`);
+
     return response;
   },
 };

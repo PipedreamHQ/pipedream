@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -12,22 +13,32 @@ export default {
     stage: {
       type: "string",
       label: "Stage",
-      description: "The stage of the skill, such as development or live",
+      description: "The stage of the skill, such as `development` or `live`",
       options: [
-        {
-          label: "Development",
-          value: "development",
-        },
-        {
-          label: "Live",
-          value: "live",
-        },
+        "development",
+        "live",
       ],
     },
-    intent: {
+    inputContent: {
       type: "string",
-      label: "Intent",
-      description: "The intent to invoke for testing the skill",
+      label: "Input Content",
+      description: "Utterance text from a user to Alexa.",
+    },
+    deviceLocale: {
+      type: "string",
+      label: "Device Locale",
+      description: "Locale for the virtual device used in the simulation.",
+      default: "en-US",
+      options: [
+        "en-US",
+        "en-GB",
+        "en-CA",
+        "en-AU",
+        "de-DE",
+        "fr-FR",
+        "en-IN",
+        "ja-JP",
+      ],
     },
     simulationId: {
       type: "string",
@@ -36,70 +47,33 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.amazonalexa.com";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+    async _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      const response = await axios($, {
+        ...args,
+        url: this.getUrl(path),
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
           "Content-Type": "application/json",
         },
       });
+
+      if (response?.status === "FAILED") {
+        throw new Error(`Amazon Alexa Error: ${JSON.stringify(response, null, 2)}`);
+      }
+
+      return response;
     },
-    async invokeSkill({
-      skillId, stage, intent,
-    }) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/v1/skills/${skillId}/stages/${stage}/invocations`,
-        data: {
-          intentRequest: {
-            intent,
-          },
-        },
+        ...args,
       });
-    },
-    async simulateSkill({
-      skillId, stage, intent,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/v1/skills/${skillId}/stages/${stage}/simulations`,
-        data: {
-          input: {
-            content: intent,
-          },
-          device: {
-            locale: "en-US",
-          },
-          session: {
-            mode: "FORCE_NEW_SESSION",
-          },
-        },
-      });
-    },
-    async getSimulation({
-      skillId, stage, simulationId,
-    }) {
-      return this._makeRequest({
-        path: `/v1/skills/${skillId}/stages/${stage}/simulations/${simulationId}`,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
-  version: `0.0.${new Date().getTime()}`,
 };
