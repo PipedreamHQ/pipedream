@@ -14,8 +14,9 @@ export default {
     channelId: {
       propDefinition: [
         youtubeDataApi,
-        "channelId",
+        "userOwnedChannel",
       ],
+      description: "Select a Channel or provide a custom Channel ID.",
     },
     ...common.props,
   },
