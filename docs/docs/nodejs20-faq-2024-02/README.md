@@ -28,7 +28,7 @@ Starting 2024-02-18, relevant database connection attempts will return a message
 
 ### What do I need to do?
 
-If you are not planning to re-deploy a workflow, you do not need to do anything.
+If you are not planning to update and re-deploy a workflow [impacted by this update](#will-this-impact-my-workflows), you do not need to do anything.
 
 Otherwise, to successfully connect to your database, you can disable server identity verification or include CA certificates for your database.
 
@@ -41,13 +41,13 @@ Below are instructions for updating a workflow that connects to a **MySQL**, **P
 **Using a Pipedream action**:
 
 - Option A: Disable server identity verification
-  1. If given the option, update the action to the latest version by clicking the "Update" button on the workflow step. The lastest version of MySQL actions disable server identity verification by default.
+  1. If given the option, update the action to the latest version by clicking the "Update" button in the workflow step. The lastest version of MySQL actions disable server identity verification by default.
 
       ![Update Action Button](https://res.cloudinary.com/pipedreamin/image/upload/v1705519878/update-action-button-mysql_fr549p.png)
 
 - Option B: Use the [MySQL (SSL)](https://pipedream.com/apps/mysql-ssl) app
   1. Replace your MySQL action with the corresponding MySQL (SSL) action.
-  2. Connect your MySQL (SSL) account, specifying the `key`, `cert`, `ca`, and `rejectUnauthorized` connection options.
+  2. [Connect](/connected-accounts/#connecting-accounts) your MySQL (SSL) account, specifying the `key`, `cert`, `ca`, and `rejectUnauthorized` connection options.
 
 **Using a custom code step**:
 
@@ -66,7 +66,7 @@ Below are instructions for updating a workflow that connects to a **MySQL**, **P
       });
       ```
 
-- Option B: Use the MySQL (SSL) app
+- Option B: Use the [MySQL (SSL)](https://pipedream.com/apps/mysql-ssl) app
   1. Replace the `mysql` app prop with a `mysql_ssl` app prop.
   2. Use the SSL connection options contained in the `$auth` object.
 
@@ -106,7 +106,7 @@ Below are instructions for updating a workflow that connects to a **MySQL**, **P
 
 **Using a Pipedream action**:
 
-1. If given the option, update the action to the latest version by clicking the "Update" button on the workflow step.
+1. If given the option, update the action to the latest version by clicking the "Update" button in the workflow step.
 
     ![Update Action Button](https://res.cloudinary.com/pipedreamin/image/upload/v1705519996/update-action-button-postgresql_aadmqm.png)
 
@@ -170,7 +170,7 @@ Below are instructions for updating a workflow that connects to a **MySQL**, **P
 
 - Option C: Include your region's certificate bundle
   1. Download the [certificate bundle for your AWS region](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.RegionCertificates).
-  2. Import the certificate bundle into your workflow as an [attachment](https://pipedream.com/docs/workflows/settings/#attachments).
+  2. Import the certificate bundle into your workflow as an [attachment](/workflows/settings/#attachments).
   3. Include the CA certificates in the database connection options.
 
       Here's an example code step that uses the `pg` npm package:
@@ -208,11 +208,11 @@ Below are instructions for updating a workflow that connects to a **MySQL**, **P
   
 #### Microsoft SQL Server
 
-Using a Pipedream action:
+**Using a Pipedream action**:
 
-1. Reconnect your Microsoft SQL Server account, setting the **trustServerCertificate** field to `true`.
+1. [Reconnect](/connected-accounts/#reconnecting-an-account) your Microsoft SQL Server account, setting the **trustServerCertificate** field to `true`.
 
-Using a custom code step:
+**Using a custom code step**:
 
 - Option A: Disable server identity verification
   1. Set the `trustServerCertificate` connection option to `true`. For example:
@@ -269,7 +269,7 @@ Using a custom code step:
 
 - Option C: Include your region's certificate bundle
   1. Download the [certificate bundle for your AWS region](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.RegionCertificates).
-  2. Import the certificate bundle into your workflow as an [attachment](https://pipedream.com/docs/workflows/settings/#attachments).
+  2. Import the certificate bundle into your workflow as an [attachment](/workflows/settings/#attachments).
   3. Include the certificates in the database connection options.
 
   Here's an example code step that uses the `mssql` npm package:
