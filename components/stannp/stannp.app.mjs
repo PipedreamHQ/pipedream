@@ -1,9 +1,9 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "stannp",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     groupId: {
       type: "string",
@@ -11,9 +11,11 @@ export default {
       description: "Select the group ID",
       async options() {
         const { data } = await this.listGroups();
-        return data.map((group) => ({
-          label: group.name,
-          value: group.id.toString(),
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -23,137 +25,101 @@ export default {
       description: "Select the campaign ID",
       async options() {
         const { data } = await this.listCampaigns();
-        return data.map((campaign) => ({
-          label: campaign.name,
-          value: campaign.id.toString(),
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
-    },
-    templateId: {
-      type: "string",
-      label: "Template ID",
-      description: "Select the template ID",
-      async options() {
-        const { data } = await this.listTemplates();
-        return data.map((template) => ({
-          label: template.name,
-          value: template.id.toString(),
-        }));
-      },
-    },
-    campaignName: {
-      type: "string",
-      label: "Campaign Name",
-      description: "Name your campaign for reference.",
-    },
-    campaignType: {
-      type: "string",
-      label: "Campaign Type",
-      description: "The type of campaign this will be.",
-      options: [
-        "4x6-postcard",
-        "6x9-postcard",
-        "us-letter",
-      ],
-    },
-    whatRecipients: {
-      type: "string",
-      label: "What Recipients",
-      description: "What recipients do you want this campaign to go to?",
-      options: [
-        "all",
-        "valid",
-        "not_valid",
-        "int",
-      ],
-    },
-    addons: {
-      type: "string",
-      label: "Addons",
-      description: "If you have an addon code.",
-      optional: true,
-    },
-    admail: {
-      type: "boolean",
-      label: "Admail",
-      description: "Set to true to benefit from admail discounts. Must comply with advertising mail restrictions.",
-      optional: true,
-    },
-    recipientId: {
-      type: "string",
-      label: "Recipient ID",
-      description: "Comma-separated recipient IDs",
-      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://us.stannp.com/api/v1";
+      return `https://${this.$auth.region}.stannp.com/api/v1`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        "username": `${this.$auth.api_key}`,
+        "password": "",
+      };
+    },
+    _makeRequest({
+      $ = this,
+      path,
+      ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: `${this._baseUrl()}${path}?api_key=${this.$auth.api_key}`,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-        },
+        url: `${this._baseUrl()}${path}`,
+        auth: this._auth(),
+        ...opts,
       });
     },
-    async listGroups(opts = {}) {
+    listGroups(opts = {}) {
       return this._makeRequest({
         path: "/groups/list",
         ...opts,
       });
     },
-    async listCampaigns(opts = {}) {
+    listCampaigns(opts = {}) {
       return this._makeRequest({
         path: "/campaigns/list",
         ...opts,
       });
     },
-    async listTemplates(opts = {}) {
+    listRecipients(opts = {}) {
       return this._makeRequest({
-        path: "/templates/list",
+        path: "/recipients/list",
         ...opts,
       });
     },
-    async createCampaign(opts = {}) {
+    createCampaign(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/campaigns/create",
-        data: {
-          name: opts.campaignName,
-          type: opts.campaignType,
-          template_id: opts.templateId,
-          group_id: opts.groupId,
-          what_recipients: opts.whatRecipients,
-          addons: opts.addons,
-          admail: opts.admail,
-        },
+        ...opts,
       });
     },
-    async getCampaign(opts = {}) {
+    getCampaign({
+      campaignId, ...opts
+    }) {
       return this._makeRequest({
-        path: `/campaigns/get/${opts.campaignId}`,
+        path: `/campaigns/get/${campaignId}`,
+        ...opts,
       });
     },
-    async createRecipient(opts = {}) {
+    createRecipient(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/groups/add/${opts.groupId}`,
-        data: {
-          recipients: opts.recipientId,
-        },
+        path: "/recipients/new",
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page;
+        page++;
+        const { data } = await fn({
+          params,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

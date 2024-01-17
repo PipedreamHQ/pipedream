@@ -1,70 +1,38 @@
-import { axios } from "@pipedream/platform";
-import stannp from "../../stannp.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "stannp-new-campaign-created",
   name: "New Campaign Created",
-  description: "Emits an event when a new campaign is created in Stannp. [See the documentation](https://www.stannp.com/us/direct-mail-api/campaigns)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new campaign is created in Stannp.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    stannp,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-  },
   methods: {
-    generateMeta(campaign) {
-      return {
-        id: campaign.id.toString(),
-        summary: `New Campaign: ${campaign.name}`,
-        ts: Date.parse(campaign.created),
-      };
+    ...common.methods,
+    getSummary(campaign) {
+      return `New Campaign: ${campaign.name}`;
     },
-  },
-  hooks: {
-    async deploy() {
-      const { data: campaigns } = await this.stannp.listCampaigns();
-      const mostRecentCampaigns = campaigns.sort((a, b) => new Date(b.created) - new Date(a.created)).slice(0, 50);
-      for (const campaign of mostRecentCampaigns) {
-        const meta = this.generateMeta(campaign);
-        this.$emit(campaign, meta);
-      }
-      this.db.set("lastCampaignId", mostRecentCampaigns.length > 0
-        ? mostRecentCampaigns[0].id
-        : null);
-    },
-  },
-  async run() {
-    const lastCampaignId = this.db.get("lastCampaignId") || 0;
-    let maxCampaignId = lastCampaignId;
-    let hasMore = true;
-    let page = 1;
+    async startEvent(maxResults = 0) {
+      const lastId = this._getLastId();
 
-    while (hasMore) {
-      const { data: campaigns } = await this.stannp.listCampaigns({
-        page,
+      const response = this.stannp.paginate({
+        fn: this.stannp.listCampaigns,
+        maxResults,
       });
-      const newCampaigns = campaigns.filter((campaign) => campaign.id > lastCampaignId);
 
-      if (newCampaigns.length === 0) {
-        hasMore = false;
-      } else {
-        for (const campaign of newCampaigns) {
-          const meta = this.generateMeta(campaign);
-          this.$emit(campaign, meta);
-          maxCampaignId = campaign.id > maxCampaignId
-            ? campaign.id
-            : maxCampaignId;
-        }
-        this.db.set("lastCampaignId", maxCampaignId);
-        page++;
+      let responseArray = [];
+
+      for await (const item of response) {
+        if (item.id <= lastId) break;
+        responseArray.push(item);
       }
-    }
+
+      if (responseArray.length) this._setLastId(responseArray[0].id);
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, this.generateMeta(item));
+      }
+    },
   },
 };
