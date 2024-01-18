@@ -71,5 +71,27 @@ export default {
         ...args,
       });
     },
+    async getSignedUrl(args = {}) {
+      return this._makeRequest({
+        path: "/uploads/new",
+        ...args,
+      });
+    },
+    async uploadFile({
+      filename, ...args
+    }) {
+      const { signedUrl } = await this.getSignedUrl({
+        $: args?.$ ?? this,
+        params: {
+          filename,
+        },
+      });
+
+      return axios(args?.$ ?? this, {
+        url: signedUrl,
+        method: "PUT",
+        ...args,
+      });
+    },
   },
 };
