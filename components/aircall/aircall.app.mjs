@@ -72,5 +72,21 @@ export default {
         $,
       });
     },
+    async createContact(args) {
+      return this._makeRequest({
+        path: "contacts",
+        method: "POST",
+        ...args,
+      });
+    },
+    async updateContact({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        path: `contacts/${contactId}`,
+        method: "POST",
+        ...args,
+      });
+    },
   },
 };
