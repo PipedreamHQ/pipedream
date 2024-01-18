@@ -5,7 +5,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "surveycto-new-submission",
   name: "New Submission",
-  description: "Emit new event each time a new form submission is received in SurveyCTO. [See the documentation](https://support.surveycto.com/hc/en-us/articles/360033156894-REST-API-documentation)",
+  description: "Emit new event each time a new form submission is received in SurveyCTO. [See the documentation](https://support.surveycto.com/hc/en-us/articles/360033156894-REST-API-documentation). Note: The [role](https://docs.surveycto.com/04-monitoring-and-management/01-the-basics/00b.managing-user-roles.html) of the authenticated user must \"Allow server API access\".",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
