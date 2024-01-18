@@ -4,208 +4,133 @@ export default {
   type: "app",
   app: "waiverfile",
   propDefinitions: {
-    apiKey: {
-      type: "string",
-      label: "API Key",
-      description: "Your WaiverFile API key",
-      secret: true,
-    },
-    siteID: {
-      type: "string",
-      label: "Site ID",
-      description: "The ID of your WaiverFile site",
-    },
-    targetUrl: {
-      type: "string",
-      label: "Target URL",
-      description: "The URL to receive the webhook",
-    },
-    eventID: {
+    eventId: {
       type: "string",
       label: "Event ID",
-      description: "The ID of the event to update",
+      description: "The ID of the upcoming event to update",
+      async options() {
+        const response = await this.listUpcomingEvents({
+          params: {
+            startDateUTC: new Date(),
+            endDateUTC: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+          },
+        });
+        const events = JSON.parse(response);
+        return events?.map(({
+          WaiverEventID: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    categoryname: {
+    categoryId: {
       type: "string",
-      label: "Category Name",
-      description: "The name of the event category",
+      label: "Event Category ID",
+      description: "The ID of the new event category",
+      async options() {
+        const categories = await this.listEventCategories({
+          params: {
+            includeDisabledCategories: false,
+          },
+        });
+        return categories?.map((category) => ({
+          value: category.me.iD,
+          label: category.me.name,
+        })) || [];
+      },
     },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "A brief description of the category",
-    },
-    parentid: {
-      type: "string",
-      label: "Parent ID",
-      description: "The ID of the parent category (for sub-category creation)",
-      optional: true,
-    },
-    startdate: {
-      type: "string",
-      label: "Start Date",
-      description: "The start date of the event (for searching waivers)",
-    },
-    enddate: {
-      type: "string",
-      label: "End Date",
-      description: "The end date of the event (for searching waivers)",
-    },
-    fullname: {
-      type: "string",
-      label: "Full Name",
-      description: "The full name of the person (for searching waivers)",
-      optional: true,
-    },
-    eventtitle: {
-      type: "string",
-      label: "Event Title",
-      description: "The title of the event (for searching waivers)",
-      optional: true,
-    },
-    eventname: {
-      type: "string",
-      label: "Event Name",
-      description: "The name of the event to update",
-    },
-    eventdescription: {
-      type: "string",
-      label: "Event Description",
-      description: "The description of the event to update",
-    },
-    date: {
-      type: "string",
-      label: "Date",
-      description: "The date of the event to update",
+    waiverFormIds: {
+      type: "string[]",
+      label: "Waiver Form IDs",
+      description: "List of Waiver Form ID's for this event. Leave empty to attach all active forms.",
+      async options() {
+        const waiverForms = await this.listWaiverForms();
+        return waiverForms?.map((form) => ({
+          value: form.me.iD,
+          label: form.me.name,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.waiverfile.com";
+      return "https://api.waiverfile.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _params(params) {
+      return {
+        ...params,
+        apiKey: `${this.$auth.site_key}`,
+        siteID: `${this.$auth.site_id}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
+        params,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.apiKey}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        params: this._params(params),
       });
     },
-    async subscribeNewWaiver() {
+    createWebhook({
+      eventType, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/v1/subscribe/newwaiver",
-        params: {
-          targetUrl: this.targetUrl,
-          apiKey: this.apiKey,
-          siteID: this.siteID,
-        },
+        path: `/subscribe/${eventType}`,
+        ...opts,
       });
     },
-    async subscribeNewEvent() {
+    deleteWebhook({
+      eventType, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/deletesubscribe/${eventType}`,
+        ...opts,
+      });
+    },
+    listWaiverForms(opts = {}) {
+      return this._makeRequest({
+        path: "/GetAllWaiverForms",
+        ...opts,
+      });
+    },
+    listUpcomingEvents(opts = {}) {
+      return this._makeRequest({
+        path: "/GetUpcomingEvents",
+        ...opts,
+      });
+    },
+    listEventCategories(opts = {}) {
+      return this._makeRequest({
+        path: "/GetEventCategories",
+        ...opts,
+      });
+    },
+    createEventCategory(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/v1/subscribe/newevent",
-        params: {
-          targetUrl: this.targetUrl,
-          apiKey: this.apiKey,
-          siteID: this.siteID,
-        },
+        path: "/InsertEventCategory",
+        ...opts,
       });
     },
-    async subscribeNewCheckin() {
+    searchWaivers(opts = {}) {
+      return this._makeRequest({
+        path: "/SearchWaivers",
+        ...opts,
+      });
+    },
+    updateEvent(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/v1/subscribe/newcheckin",
-        params: {
-          targetUrl: this.targetUrl,
-          apiKey: this.apiKey,
-          siteID: this.siteID,
-        },
-      });
-    },
-    async subscribeEditWaiver() {
-      return this._makeRequest({
-        method: "POST",
-        path: "/api/v1/subscribe/editwaiver",
-        params: {
-          targetUrl: this.targetUrl,
-          apiKey: this.apiKey,
-          siteID: this.siteID,
-        },
-      });
-    },
-    async subscribeEditEvent() {
-      return this._makeRequest({
-        method: "POST",
-        path: "/api/v1/subscribe/editevent",
-        params: {
-          targetUrl: this.targetUrl,
-          apiKey: this.apiKey,
-          siteID: this.siteID,
-        },
-      });
-    },
-    async subscribeEditCheckin() {
-      return this._makeRequest({
-        method: "POST",
-        path: "/api/v1/subscribe/editcheckin",
-        params: {
-          targetUrl: this.targetUrl,
-          apiKey: this.apiKey,
-          siteID: this.siteID,
-        },
-      });
-    },
-    async createEventCategory() {
-      return this._makeRequest({
-        method: "POST",
-        path: "/api/v1/InsertEventCategory",
-        params: {
-          name: this.categoryname,
-          active: true,
-          apiKey: this.apiKey,
-          siteID: this.siteID,
-        },
-      });
-    },
-    async searchWaivers() {
-      return this._makeRequest({
-        method: "GET",
-        path: "/api/v1/sampledata/newwaiver",
-        params: {
-          startdate: this.startdate,
-          enddate: this.enddate,
-          fullname: this.fullname,
-          eventtitle: this.eventtitle,
-          categoryname: this.categoryname,
-          apiKey: this.apiKey,
-          siteID: this.siteID,
-        },
-      });
-    },
-    async updateEvent() {
-      return this._makeRequest({
-        method: "POST",
-        path: "/api/v1/UpdateEvent",
-        params: {
-          eventID: this.eventID,
-          eventName: this.eventname,
-          eventdescription: this.eventdescription,
-          date: this.date,
-          apiKey: this.apiKey,
-          siteID: this.siteID,
-        },
+        path: "/UpdateEvent",
+        ...opts,
       });
     },
   },

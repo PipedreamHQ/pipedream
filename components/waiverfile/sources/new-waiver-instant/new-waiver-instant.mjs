@@ -1,39 +1,24 @@
-import waiverfile from "../../waiverfile.app.mjs";
+import common from "../common/base-webhook.mjs";
 
 export default {
+  ...common,
   key: "waiverfile-new-waiver-instant",
-  name: "New Waiver Instant",
-  description: "Emits a new event each time a new waiver is collected in WaiverFile",
-  version: "0.0.{{ts}}",
+  name: "New Waiver (Instant)",
+  description: "Emit new event each time a new waiver is collected in WaiverFile. [See the documentation](https://api.waiverfile.com/swagger/ui/index#!/Subscription/Subscription_newwaiver)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    waiverfile: {
-      type: "app",
-      app: "waiverfile",
+  methods: {
+    ...common.methods,
+    getEventType() {
+      return "newwaiver";
     },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+    generateMeta(body) {
+      return {
+        id: body.WaiverID,
+        summary: `New Waiver ${body.WaiverID}`,
+        ts: Date.now(),
+      };
     },
-    db: "$.service.db",
-  },
-  hooks: {
-    async activate() {
-      const { data } = await this.waiverfile.subscribeNewWaiver();
-      this.db.set("subscriptionId", data.id);
-    },
-    async deactivate() {
-      const subscriptionId = this.db.get("subscriptionId");
-      await this.waiverfile.deleteWebhook(subscriptionId);
-    },
-  },
-  async run(event) {
-    const { body } = event;
-    this.$emit(body, {
-      id: body.id,
-      summary: `New waiver collected: ${body.name}`,
-      ts: Date.now(),
-    });
   },
 };

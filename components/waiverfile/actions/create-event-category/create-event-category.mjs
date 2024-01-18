@@ -3,41 +3,34 @@ import waiverfile from "../../waiverfile.app.mjs";
 export default {
   key: "waiverfile-create-event-category",
   name: "Create Event Category",
-  description: "Creates a new event category in WaiverFile.",
-  version: "0.0.{{ts}}",
+  description: "Creates a new event category in WaiverFile. [See the documentation](https://api.waiverfile.com/swagger/ui/index#!/WaiverEvent/WaiverEvent_InsertEventCategory)",
+  version: "0.0.1",
   type: "action",
   props: {
     waiverfile,
-    categoryname: {
+    name: {
       type: "string",
       label: "Category Name",
       description: "The name of the category",
     },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "A brief description of the category",
-    },
-    parentid: {
-      type: "string",
-      label: "Parent ID",
-      description: "The ID of the parent category (for creating a sub-category)",
+    active: {
+      type: "boolean",
+      label: "Active",
+      description: "When `true`, creates the category with an active status. If `false`, status wil be set to disabled.",
       optional: true,
+      default: true,
     },
   },
   async run({ $ }) {
-    const response = await this.waiverfile._makeRequest({
-      method: "POST",
-      path: "/api/v1/InsertEventCategory",
+    const response = await this.waiverfile.createEventCategory({
+      $,
       params: {
-        name: this.categoryname,
-        active: true,
-        description: this.description,
-        parentid: this.parentid,
+        name: this.name,
+        active: this.active,
       },
     });
 
-    $.export("$summary", `Successfully created event category with name ${this.categoryname}`);
+    $.export("$summary", `Successfully created Event Category with name ${this.name}`);
     return response;
   },
 };
