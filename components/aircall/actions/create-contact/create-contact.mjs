@@ -1,37 +1,14 @@
-import aircall from "../../aircall.app.mjs";
+import common from "../common/common-create-update.mjs";
 
 export default {
+  ...common,
   name: "Create Contact",
   description: "Create a contact in Aircall. [See the documentation](https://developer.aircall.io/api-references/#create-a-contact)",
   key: "aircall-create-contact",
   version: "0.0.1",
   type: "action",
   props: {
-    aircall,
-    firstName: {
-      propDefinition: [
-        aircall,
-        "firstName",
-      ],
-    },
-    lastName: {
-      propDefinition: [
-        aircall,
-        "lastName",
-      ],
-    },
-    companyName: {
-      propDefinition: [
-        aircall,
-        "companyName",
-      ],
-    },
-    information: {
-      propDefinition: [
-        aircall,
-        "information",
-      ],
-    },
+    ...common.props,
     emails: {
       type: "string[]",
       label: "Emails",
@@ -46,10 +23,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      first_name: this.firstName,
-      last_name: this.lastName,
-      company_name: this.companyName,
-      information: this.information,
+      ...this.getCommonData(),
       emails: this.emails,
       phone_numbers: this.phoneNumbers,
     };
