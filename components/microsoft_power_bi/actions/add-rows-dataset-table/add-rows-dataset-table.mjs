@@ -5,7 +5,7 @@ export default {
   key: "microsoft_power_bi-add-rows-dataset-table",
   name: "Add Rows to Dataset Table",
   description: "Adds new data rows to the specified table within the specified dataset from My workspace. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/push-datasets/datasets-post-rows)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     powerBi,
@@ -17,6 +17,7 @@ export default {
           addRowsAPIEnabled: true,
         }),
       ],
+      description: "Select a Dataset or provide a custom Dataset ID. Note: Only Datasets created via API (Push Datasets) can be added to.",
     },
     tableName: {
       propDefinition: [
