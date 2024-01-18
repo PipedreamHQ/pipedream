@@ -18,6 +18,29 @@ export default {
         }));
       },
     },
+    contactId: {
+      type: "integer",
+      label: "Contact ID",
+      description: "Search for a Contact by email. You can also select a listed Contact or provide a custom Contact ID",
+      useQuery: true,
+      async options({ query }) {
+        const { contacts } = query
+          ? await this.searchContacts(query)
+          : await this.listContacts();
+
+        return contacts.map((contact) => {
+          const value = contact.id;
+          const label =
+            `${contact.first_name || ""} ${contact.last_name || ""} ${
+              contact.emails[0]?.value || ""
+            }`.trim() || value;
+          return {
+            label,
+            value,
+          };
+        });
+      },
+    },
     firstName: {
       type: "string",
       label: "First Name",
@@ -57,10 +80,7 @@ export default {
     },
     async _makeRequest(args = {}) {
       const {
-        method = "GET",
-        path,
-        $ = this,
-        ...otherArgs
+        method = "GET", path, $ = this, ...otherArgs
       } = args;
       const config = {
         method,
@@ -110,6 +130,23 @@ export default {
         path: `contacts/${contactId}`,
         method: "POST",
         ...args,
+      });
+    },
+    async listContacts() {
+      return this._makeRequest({
+        path: "contacts",
+        params: {
+          order: "desc",
+        },
+      });
+    },
+    async searchContacts(email) {
+      return this._makeRequest({
+        path: "contacts",
+        params: {
+          email,
+          order: "desc",
+        },
       });
     },
   },
