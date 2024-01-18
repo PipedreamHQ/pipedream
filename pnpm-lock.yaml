@@ -1447,6 +1447,9 @@ importers:
   components/daffy:
     specifiers: {}
 
+  components/dailybot:
+    specifiers: {}
+
   components/danny_test_app:
     specifiers: {}
 
