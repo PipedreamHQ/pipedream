@@ -18,6 +18,30 @@ export default {
         }));
       },
     },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of the contact",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the contact",
+      optional: true,
+    },
+    companyName: {
+      type: "string",
+      label: "Company Name",
+      description: "Company name of the contact",
+      optional: true,
+    },
+    information: {
+      type: "string",
+      label: "Information",
+      description: "Information on the contact",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

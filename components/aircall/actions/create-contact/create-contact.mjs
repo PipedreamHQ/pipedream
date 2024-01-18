@@ -9,28 +9,28 @@ export default {
   props: {
     aircall,
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "First name of the contact",
-      optional: true,
+      propDefinition: [
+        aircall,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Last name of the contact",
-      optional: true,
+      propDefinition: [
+        aircall,
+        "lastName",
+      ],
     },
     companyName: {
-      type: "string",
-      label: "Company Name",
-      description: "Company name of the contact",
-      optional: true,
+      propDefinition: [
+        aircall,
+        "companyName",
+      ],
     },
     information: {
-      type: "string",
-      label: "Information",
-      description: "Information on the contact",
-      optional: true,
+      propDefinition: [
+        aircall,
+        "information",
+      ],
     },
     emails: {
       type: "string[]",
