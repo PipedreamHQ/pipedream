@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "workamajig-new-activity",
   name: "New Activity",
-  description: "Emit new event when a new activity is created in Workamajig",
+  description: "Emit new event when a new open activity is created in Workamajig. Note: Completed activities/conversations are not retrieved by the Workamajig API.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
