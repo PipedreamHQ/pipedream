@@ -9,7 +9,7 @@ export default {
     Accepts a base64-encoded string and a filename, then uploads as a file to S3.
     [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
   `),
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     aws: common.props.aws,
