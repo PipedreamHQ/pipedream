@@ -1,10 +1,8 @@
 import { axios } from "@pipedream/platform";
-import crypto from "crypto";
 
 export default {
   type: "app",
   app: "google_ads",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     contactEmail: {
       type: "string",
@@ -15,62 +13,71 @@ export default {
       type: "string",
       label: "User List ID",
       description: "The ID of the user list to add the contact to.",
+      async options() {
+        const { results = [] } = await this.listLists();
+
+        return results.map(({
+          userList: {
+            id: value, name: label,
+          },
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://googleads.googleapis.com";
     },
-    _hashSha256(value) {
-      return crypto.createHash("sha256").update(value)
-        .digest("hex");
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "developer-token": `${this.$auth.developer_token}`,
+      };
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "developer-token": `${this.$auth.developer_token}`,
-          "login-customer-id": `${this.$auth.client_customer_id}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async addContactToCustomerList({
-      contactEmail, userListId,
+    addContactToCustomerList({
+      path, ...opts
     }) {
-      const hashedEmail = this._hashSha256(contactEmail.trim().toLowerCase());
-      const operations = {
-        operations: [
-          {
-            create: {
-              resource_name: `customers/${this.$auth.client_customer_id}/userLists/${userListId}`,
-              crm_based_user_list: {
-                upload_key_type: "CONTACT_INFO",
-              },
-              membership_life_span: 30,
-              members: [
-                {
-                  hashed_email: hashedEmail,
-                },
-              ],
-            },
-          },
-        ],
-      };
-
       return this._makeRequest({
         method: "POST",
-        path: `/v8/customers/${this.$auth.client_customer_id}/userLists:mutate`,
-        headers: {
-          "Content-Type": "application/json",
+        path: `/v15/${path}:addOperations`,
+        ...opts,
+      });
+    },
+    createOfflineUserDataJob(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/v15/customers/${this.$auth.login_customer_id}/offlineUserDataJobs:create`,
+        ...opts,
+      });
+    },
+    runOfflineUserDataJob({ path }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/v15/${path}:run`,
+      });
+    },
+    listLists() {
+      return this._makeRequest({
+        method: "POST",
+        path: `/v15/customers/${this.$auth.login_customer_id}/googleAds:search`,
+        data: {
+          query: `SELECT
+            user_list.id,
+            user_list.name
+            FROM user_list`,
         },
-        data: operations,
       });
     },
   },
