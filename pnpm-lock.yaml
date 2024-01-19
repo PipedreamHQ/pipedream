@@ -314,7 +314,10 @@ importers:
     specifiers: {}
 
   components/amazon_alexa:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/amazon_ses:
     specifiers:
@@ -6484,7 +6487,14 @@ importers:
       lodash: 4.17.21
 
   components/stannp:
-    specifiers: {}
+    specifiers:
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+      url-exist: ^3.0.1
+    dependencies:
+      form-data: 4.0.0
+      fs: 0.0.1-security
+      url-exist: 3.0.1
 
   components/starloop:
     specifiers: {}
@@ -7621,7 +7631,10 @@ importers:
       wpapi: 1.2.2
 
   components/workamajig:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/workast:
     specifiers:
@@ -12486,7 +12499,7 @@ packages:
     resolution: {integrity: sha512-r0H0A1HsSEDVTPVSvK4XXcExEeUnkpIqLMNVM2aLh1bwdOblTS1sxLZ9mz/7DwAr8wRNCoW6zlXZBEhexIyyAg==}
     dependencies:
       '@googleapis/drive': 2.4.0
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       cron-parser: 4.9.0
       lodash: 4.17.21
       mime-db: 1.52.0
@@ -12500,7 +12513,7 @@ packages:
   /@pipedream/helper_functions/0.3.12:
     resolution: {integrity: sha512-0n0kKCdrQQWOW275gDHBu0EUAdNssEzT3LLHcOTlzoTXP/V9Ue0VVTmtLDiDdaF9W3a4e2++tICFoVSGSyoMew==}
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
@@ -14961,6 +14974,10 @@ packages:
   /@types/node/14.18.63:
     resolution: {integrity: sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==}
     dev: false
+
+  /@types/node/16.18.71:
+    resolution: {integrity: sha512-ARO+458bNJQeNEFuPyT6W+q9ULotmsQzhV3XABsFSxEvRMUYENcBsNAHWYPlahU+UHa5gCVwyKT1Z3f1Wwr26Q==}
+    dev: true
 
   /@types/node/17.0.45:
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
