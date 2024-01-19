@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import postmark from "../../postmark.app.mjs";
 import common from "../common/common.mjs";
 import props from "../common/props.mjs";
@@ -12,12 +13,29 @@ export default {
   type: "action",
   props: {
     postmark,
+    messages: {
+      type: "string[]",
+      label: "Messages",
+      description: `You can specify the JSON-stringified email objects here directly. Example value:
+\`\`\`
+{
+  "From": "sender@example.com",
+  "To": "receiver2@example.com",
+  "TemplateAlias": "welcome-notification",
+  "TemplateModel": {
+      "fizz": "buzz"
+  }
+}
+\`\`\``,
+      optional: true,
+    },
     amountOfEmails: {
       type: "integer",
       label: "Amount of emails",
-      description: "The amount of emails to send in the batch.",
+      description: "The amount of emails to send in the batch. Use this to build the email objects instead of using the `Messages` prop.",
       min: 1,
       max: 20,
+      optional: true,
       reloadProps: true,
     },
   },
@@ -43,34 +61,46 @@ export default {
     ])));
   },
   async run({ $ }) {
-    const { amountOfEmails } = this;
+    let {
+      amountOfEmails, messages,
+    } = this;
+    const useMessages = messages?.length;
     const data = {
-      Messages: [],
+      Messages: useMessages || [],
     };
+    if (useMessages) {
+      try {
+        messages = messages.map(JSON.parse);
+      } catch (err) {
+        throw new ConfigurationError("Error when parsing `Messages` as JSON. Make sure all items are a valid JSON-stringified object.");
+      }
+    }
 
-    for (let i = 1; i <= amountOfEmails; i++) {
-      data.Messages.push(Object.fromEntries(Object.entries({
-        From: this[`${i}_fromEmail`],
-        To: this[`${i}_toEmail`],
-        Cc: this[`${i}_ccEmail`],
-        Bcc: this[`${i}_bccEmail`],
-        Tag: this[`${i}_tag`],
-        ReplyTo: this[`${i}_replyTo`],
-        Headers: this[`${i}_customHeaders`],
-        TrackOpens: this[`${i}_trackOpens`],
-        TrackLinks: this[`${i}_trackLinks`],
-        Attachments: this.getAttachmentData(this[`${i}_attachments`]),
-        Metadata: this[`${i}_metadata`],
-        MessageStream: this[`${i}_messageStream`],
-        TemplateAlias: this[`${i}_templateAlias`],
-        TemplateModel: this[`${i}_templateModel`],
-      }).filter(([
-        , value,
-      ]) => value !== undefined)));
+    else {
+      for (let i = 1; i <= amountOfEmails; i++) {
+        data.Messages.push(Object.fromEntries(Object.entries({
+          From: this[`${i}_fromEmail`],
+          To: this[`${i}_toEmail`],
+          Cc: this[`${i}_ccEmail`],
+          Bcc: this[`${i}_bccEmail`],
+          Tag: this[`${i}_tag`],
+          ReplyTo: this[`${i}_replyTo`],
+          Headers: this[`${i}_customHeaders`],
+          TrackOpens: this[`${i}_trackOpens`],
+          TrackLinks: this[`${i}_trackLinks`],
+          Attachments: this.getAttachmentData(this[`${i}_attachments`]),
+          Metadata: this[`${i}_metadata`],
+          MessageStream: this[`${i}_messageStream`],
+          TemplateAlias: this[`${i}_templateAlias`],
+          TemplateModel: this[`${i}_templateModel`],
+        }).filter(([
+          , value,
+        ]) => value !== undefined)));
+      }
     }
 
     const response = await this.postmark.sendBatchWithTemplate($, data);
-    $.export("$summary", `Sent batch of ${amountOfEmails} emails successfully`);
+    $.export("$summary", `Sent batch of ${useMessages || amountOfEmails} emails successfully`);
     return response;
   },
 };
