@@ -1,31 +1,43 @@
-import airslate from "../../airslate.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../airslate.app.mjs";
 
 export default {
   key: "airslate-update-template",
   name: "Update Template",
-  description: "Update a specified template in airSlate. [See the documentation](https://docs.airslate.io/docs/airslate-api/templates-api%2foperations%2fmodify-a-organization-template)",
-  version: "0.0.{{ts}}",
+  description: "Update a specified template in airSlate. [See the documentation](https://docs.airslate.io/docs/airslate-api/templates-api%2Foperations%2Fmodify-a-organization-template)",
+  version: "0.0.4",
   type: "action",
   props: {
-    airslate,
-    templateId: {
+    app,
+    organizationId: {
       propDefinition: [
-        airslate,
-        "templateId",
+        app,
+        "organizationId",
       ],
     },
-    templateRequestBody: {
+    templateId: {
       propDefinition: [
-        airslate,
-        "templateRequestBody",
+        app,
+        "templateId",
+        (c) => ({
+          organizationId: c.organizationId,
+        }),
+      ],
+    },
+    redirectUrl: {
+      propDefinition: [
+        app,
+        "redirectUrl",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.airslate.modifyTemplate({
+    const response = await this.app.modifyTemplate({
+      $,
+      organizationId: this.organizationId,
       templateId: this.templateId,
-      body: this.templateRequestBody,
+      data: {
+        redirect_url: this.redirectUrl,
+      },
     });
 
     $.export("$summary", `Successfully updated template with ID: ${this.templateId}`);

@@ -1,34 +1,55 @@
-import airslate from "../../airslate.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../airslate.app.mjs";
 
 export default {
   key: "airslate-create-new-template",
   name: "Create a New Template",
-  description: "Create a new reusable document package that contains fillable documents and forms in the specified organization. [See the documentation](https://docs.airslate.io/docs/airslate-api/templates-api/operations/create-a-organization-template)",
-  version: "0.0.{{ts}}",
+  description: "Create a new reusable document package that contains fillable documents and forms in the specified organization. [See the documentation](https://docs.airslate.io/docs/airslate-api/templates-api%2Foperations%2Fcreate-a-organization-template)",
+  version: "0.0.1",
   type: "action",
   props: {
-    airslate,
+    app,
     organizationId: {
       propDefinition: [
-        airslate,
+        app,
         "organizationId",
       ],
     },
-    templateRequestBody: {
+    name: {
       propDefinition: [
-        airslate,
-        "templateRequestBody",
+        app,
+        "name",
       ],
+    },
+    description: {
+      propDefinition: [
+        app,
+        "description",
+      ],
+      optional: true,
+    },
+    redirectUrl: {
+      propDefinition: [
+        app,
+        "redirectUrl",
+      ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.airslate.createTemplate({
+    const response = await this.app.createTemplate({
+      $,
       organizationId: this.organizationId,
-      body: this.templateRequestBody,
+      data: {
+        name: this.name,
+        description: this.description,
+        redirect_url: this.redirectUrl,
+      },
     });
 
-    $.export("$summary", `Created new template in organization ${this.organizationId}`);
+    if (response?.id) {
+      $.export("$summary", `Created new template in organization ${this.organizationId}`);
+    }
+
     return response;
   },
 };

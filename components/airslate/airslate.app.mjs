@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,27 +9,74 @@ export default {
       type: "string",
       label: "Organization ID",
       description: "The ID of the organization",
+      async options() {
+        const { data: resources } = await this.getOrganizations();
+
+        return resources.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
     },
     templateId: {
       type: "string",
       label: "Template ID",
       description: "The ID of the template to modify",
+      async options({ organizationId }) {
+        const { data: resources } = await this.getTemplates({
+          organizationId,
+        });
+
+        return resources.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
     },
-    organizationRequestBody: {
-      type: "object",
-      label: "Organization Request Body",
-      description: "The request body to create a new organization with specific settings. Leave empty for default settings.",
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Template description",
       optional: true,
     },
-    templateRequestBody: {
-      type: "object",
-      label: "Template Request Body",
-      description: "The request body to create or modify a template.",
+    redirectUrl: {
+      type: "string",
+      label: "Redirect URL",
+      description: "The URL where recipients will be redirected after completing documents",
+      optional: true,
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Organization name",
+    },
+    subdomain: {
+      type: "string",
+      label: "Subdomain",
+      description: "Organization subdomain. The subdomain must be unique. Use English letters, numbers, and dashes only.",
+    },
+    category: {
+      type: "string",
+      label: "Category",
+      description: "Organization category",
+      options: constants.ORGANIZATION_CATEGORIES,
+      optional: true,
+    },
+    size: {
+      type: "string",
+      label: "Size",
+      description: "Organization size",
+      options: constants.COMPANY_SIZE,
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.airslate.com";
+      return "https://api.airslate.io/v1";
     },
     async _makeRequest(opts = {}) {
       const {
@@ -44,34 +92,44 @@ export default {
         },
       });
     },
-    async createOrganization({ body = {} }) {
+    async createOrganization(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/organizations",
-        data: body,
+        ...args,
+      });
+    },
+    async getOrganizations(args = {}) {
+      return this._makeRequest({
+        path: "/organizations",
+        ...args,
       });
     },
     async createTemplate({
-      organizationId, body,
+      organizationId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/organizations/${organizationId}/templates`,
-        data: body,
+        ...args,
       });
     },
     async modifyTemplate({
-      templateId, body,
+      organizationId, templateId, ...args
     }) {
       return this._makeRequest({
         method: "PATCH",
-        path: `/templates/${templateId}`,
-        data: body,
+        path: `/organizations/${organizationId}/templates/${templateId}`,
+        ...args,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async getTemplates({
+      organizationId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/organizations/${organizationId}/templates`,
+        ...args,
+      });
     },
   },
-  version: "0.0.{{ts}}",
 };

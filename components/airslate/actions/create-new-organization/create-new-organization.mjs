@@ -1,27 +1,55 @@
-import airslate from "../../airslate.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../airslate.app.mjs";
 
 export default {
   key: "airslate-create-new-organization",
   name: "Create New Organization",
-  description: "Creates a new organization in airSlate with optional settings. [See the documentation](https://docs.airslate.io/docs/airslate-api/organizations-api/operations/create-a-organization)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new organization in airslate with optional settings. [See the documentation](https://docs.airslate.io/docs/airslate-api/organizations-api%2Foperations%2Fcreate-a-organization)",
+  version: "0.0.1",
   type: "action",
   props: {
-    airslate,
-    organizationRequestBody: {
+    app,
+    name: {
       propDefinition: [
-        airslate,
-        "organizationRequestBody",
+        app,
+        "name",
       ],
+    },
+    subdomain: {
+      propDefinition: [
+        app,
+        "subdomain",
+      ],
+    },
+    category: {
+      propDefinition: [
+        app,
+        "category",
+      ],
+      optional: true,
+    },
+    size: {
+      propDefinition: [
+        app,
+        "size",
+      ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.airslate.createOrganization({
-      body: this.organizationRequestBody || {},
+    const response = await this.app.createOrganization({
+      $,
+      data: {
+        name: this.name,
+        subdomain: this.subdomain,
+        category: this.category,
+        size: this.size,
+      },
     });
 
-    $.export("$summary", "Successfully created a new organization");
+    if (response?.id) {
+      $.export("$summary", `Successfully created a new organization with ID ${response.id}`);
+    }
+
     return response;
   },
 };
