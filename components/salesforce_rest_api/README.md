@@ -68,6 +68,22 @@ If you'd like to utilize Pipedream's webhook triggers, you will need to add the 
 
 # Troubleshooting
 
+## Unable to connect your account
+If you're having issues connecting your Salesforce account on Pipedream, please ensure that IP Restrictions are not enabled for Pipedream. To learn more about what this means, please see the Salesforce documentation [here](https://help.salesforce.com/s/articleView?language=en_US&id=sf.connected_app_continuous_ip.htm&type=5).
+
+To modify these settings: 
+1. Navigate to Salesforce Setup.
+2. Under **Apps**, click **Connected Apps**, then **Connected Apps OAuth Usage**.
+
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1705623649/Screenshot_2024-01-18_at_4.17.23_PM_mnwcdu.png" width=300>
+
+3. If Pipedream is not yet installed, click **Install**, otherwise click **Manage App Policies**.
+4. Click **Edit Policies**.
+5. Under OAuth Policies, you should see the setting **IP Relaxation**. Set this to **Relax IP Restrictions**.
+
+<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1705623651/Screenshot_2024-01-18_at_4.18.15_PM_kfzxnz.png">
+
+## Instant trigger is not working
 If you happen to stumble on the error: `UNKNOWN_EXCEPTION: admin operation already in progress` when creating an **Instant** trigger, you can follow the steps below to use the Salesforce Flow Builder to be able to use webhooks with Pipedream. This is a known error in Salesforce.
 
 1. Create a New Workflow on [Pipedream](https://pipedream.com) and [add a HTTP trigger](https://pipedream.com/docs/workflows/steps/triggers/#http).
