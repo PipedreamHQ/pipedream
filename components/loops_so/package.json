@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/loops_so",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Loops.so Components",
   "main": "loops_so.app.mjs",
   "keywords": [

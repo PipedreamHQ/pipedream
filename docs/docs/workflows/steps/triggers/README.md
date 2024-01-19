@@ -513,36 +513,46 @@ Emails delivered to this address are uploaded to a private URL you have access t
 
 _Note: you can only download emails at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
-You can download the email using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-large-email-content-p_A2CQedw/edit).
+You can download the email using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/new?h=tch_1AfMyl).
 
 This workflow also parses the contents of the email and exposes it as a JavaScript object using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
 
 ```javascript
 import { simpleParser } from "mailparser";
-this.parsed = await simpleParser(steps.send_http_request.$return_value);
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    return await simpleParser(steps.get_large_email_content.$return_value)
+  },
+})
 ```
 
 #### Example: Download the email to the `/tmp` directory, read it and parse it
 
-[This workflow](https://pipedream.com/@dylburger/example-download-large-email-content-to-tmp-p_KwC1YOn/edit) downloads the email, saving it as a file to the [`/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory). Then it reads the same file (as an example), and parses it using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
+[This workflow](https://pipedream.com/new?h=tch_jPfaEJ) downloads the email, saving it as a file to the [`/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory). Then it reads the same file (as an example), and parses it using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
 
 ```javascript
 import stream from "stream";
 import { promisify } from "util";
 import fs from "fs";
-import got from "got";
-import { simpleParser } from "mailparser";
+import got from "got"; 
+import { simpleParser } from 'mailparser';
 
-const pipeline = promisify(stream.pipeline);
-await pipeline(
-  got.stream(steps.trigger.event.mail.content_url),
-  fs.createWriteStream(`/tmp/raw_email`)
-);
+// To use previous step data, pass the `steps` object to the run() function
+export default defineComponent({
+  async run({ steps, $ }) {
+    const pipeline = promisify(stream.pipeline);
+    await pipeline(
+      got.stream(steps.trigger.event.mail.content_url),
+      fs.createWriteStream(`/tmp/raw_email`)
+    );
 
-// Now read the file and parse its contents into the `parsed` variable
-// See https://nodemailer.com/extras/mailparser/ for parsing options
-const f = fs.readFileSync(`/tmp/raw_email`);
-this.parsed = await simpleParser(f);
+    // Now read the file and parse its contents into the `parsed` variable
+    // See https://nodemailer.com/extras/mailparser/ for parsing options
+    const f = fs.readFileSync(`/tmp/raw_email`)
+    return await simpleParser(f)
+  },
+})
 ```
 
 #### How the email is saved
@@ -589,5 +599,18 @@ This will create an RSS [event source](/sources/) that polls the feed for new it
 ## Don't see a trigger you need?
 
 If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/support/).
+
+
+## Troubleshooting
+
+### I'm receiving an `Expired Token` error when trying to read an email attachment
+
+Email attachments are saved to S3, and are accessible in your workflows over [pre-signed URLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html).
+
+If the presigned URL for the attachment has expired, then you'll need to send another email to create a brand new pre-signed URL.
+
+If you're using email attachments in combination with [`$.flow.delay`](/code/nodejs/delay/) or [`$.flow.rerun`](/code/nodejs/rerun/) which introduces a gap of time between steps in your workflow, then there's a chance the email attachment's URL will expire.
+
+To overcome this, we suggest uploading your email attachments to your Project's [File Store](/projects/file-stores/) for persistent storage.
 
 <Footer />

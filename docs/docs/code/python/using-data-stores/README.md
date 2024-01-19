@@ -100,7 +100,7 @@ def handler(pd: "pipedream"):
     last_ran_at = data_store["last_ran_at"]
 
     # Print the timestamp
-    print(f"Last ran at {last_ran_at")
+    print(f"Last ran at {last_ran_at}")
 ```
 
 Alternatively, use the `data_store.get()` method to retrieve a specific key's contents:
@@ -114,7 +114,7 @@ def handler(pd: "pipedream"):
     last_ran_at = data_store.get("last_ran_at")
 
     # Print the timestamp
-    print(f"Last ran at {last_ran_at")
+    print(f"Last ran at {last_ran_at}")
 ```
 
 ::: tip

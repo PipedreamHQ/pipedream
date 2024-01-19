@@ -1,45 +1,23 @@
-import loops from "../../loops_so.app.mjs";
+import common from "../common/common-create-update.mjs";
 
 export default {
+  ...common,
   key: "loops_so-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See the Documentation](https://loops.so/docs/add-users/api-reference#add)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
-  props: {
-    loops,
-    email: {
-      propDefinition: [
-        loops,
-        "email",
-      ],
-    },
-    firstName: {
-      propDefinition: [
-        loops,
-        "firstName",
-      ],
-    },
-    lastName: {
-      propDefinition: [
-        loops,
-        "lastName",
-      ],
-    },
-    userGroup: {
-      propDefinition: [
-        loops,
-        "userGroup",
-      ],
-    },
-  },
   async run({ $ }) {
-    const response = await this.loops.createContact({
+    const { // eslint-disable-next-line no-unused-vars
+      loops, email, firstName, lastName, userGroup, customFields, ...data
+    } = this;
+    const response = await loops.createContact({
       data: {
-        email: this.email,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        userGroup: this.userGroup,
+        email,
+        firstName,
+        lastName,
+        userGroup,
+        ...data,
       },
       $,
     });
