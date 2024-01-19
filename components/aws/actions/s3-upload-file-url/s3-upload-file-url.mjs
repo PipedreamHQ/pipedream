@@ -15,7 +15,7 @@ export default {
     Accepts a download link and a filename, downloads it, then uploads to S3.
     [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
   `),
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     aws: common.props.aws,
