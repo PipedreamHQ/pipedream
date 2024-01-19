@@ -7420,9 +7420,9 @@ importers:
 
   components/waiverfile:
     specifiers:
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.6.0
 
   components/waiverforever:
     specifiers:
@@ -12538,6 +12538,17 @@ packages:
     resolution: {integrity: sha512-wTDEaO0nWMJcEOebAQCEq8EkPgRrtnK/rIxbTL3ox7O92GK6mLXjEfcVw8XSh9Odlgmw+nU71nZt5zx7la7E4g==}
     dependencies:
       axios: 0.21.4
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.6.0:
+    resolution: {integrity: sha512-/qP5qEdY+FD0ylBDwfqC+Uz0J9zNWQRKhvQ30M+hAB1VWTcZZkUng+Df+ZMooUqZBT7jnC8t6fk5eHkSSeHukw==}
+    dependencies:
+      axios: 1.6.5
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
