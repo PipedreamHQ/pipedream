@@ -23,7 +23,7 @@ export default {
     dateStart: {
       type: "string",
       label: "Start Date",
-      description: "The new start date for the event in UTC format",
+      description: "The new start date for the event in ISO-8601 format. For example, `2024-01-19T01:00:00Z`",
       optional: true,
     },
     dateEnd: {
