@@ -317,7 +317,10 @@ importers:
     specifiers: {}
 
   components/amazon_alexa:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/amazon_ses:
     specifiers:
@@ -509,7 +512,12 @@ importers:
       '@aws-sdk/client-sts': ^3.58.0
       '@pipedream/helper_functions': ^0.3.6
       '@pipedream/platform': ^1.4.1
+      adm-zip: ^0.5.10
+      dedent: ^1.5.1
+      mailparser: ^3.6.6
       mailparser-mit: ^1.0.0
+      nanoid: ^5.0.4
+      uuid: ^9.0.1
     dependencies:
       '@aws-sdk/client-cloudwatch-logs': 3.423.0
       '@aws-sdk/client-dynamodb': 3.423.0
@@ -527,7 +535,12 @@ importers:
       '@aws-sdk/client-sts': 3.423.0
       '@pipedream/helper_functions': 0.3.12
       '@pipedream/platform': 1.5.1
+      adm-zip: 0.5.10
+      dedent: 1.5.1
+      mailparser: 3.6.6
       mailparser-mit: 1.0.0
+      nanoid: 5.0.4
+      uuid: 9.0.1
 
   components/axis_lms:
     specifiers: {}
@@ -6631,7 +6644,12 @@ importers:
       uuid: 8.3.2
 
   components/surveycto:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      xml-js: ^1.6.11
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      xml-js: 1.6.11
 
   components/surveymethods:
     specifiers:
@@ -7628,7 +7646,10 @@ importers:
       wpapi: 1.2.2
 
   components/workamajig:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/workast:
     specifiers:
@@ -15465,6 +15486,11 @@ packages:
     resolution: {integrity: sha512-aQX7AISOMM7HFE0iZ3+YnD07oIeJqWGVnJ+ZIKaBZAk03ftmVYVqsGas/rbXKR21n4D/hKCSHypvcyOkds/xzg==}
     dev: false
 
+  /adm-zip/0.5.10:
+    resolution: {integrity: sha512-x0HvcHqVJNTPk/Bw8JbLWlWoo6Wwnsug0fnYYro1HBrjxZ3G7/AZk7Ahv8JwDe1uIcz8eBqvu86FuF1POiG7vQ==}
+    engines: {node: '>=6.0'}
+    dev: false
+
   /adm-zip/0.5.2:
     resolution: {integrity: sha512-lUI3ZSNsfQXNYNzGjt68MdxzCs0eW29lgL74y/Y2h4nARgHmH3poFWuK3LonvFbNHFt4dTb2X/QQ4c1ZUWWsJw==}
     engines: {node: '>=6.0'}
@@ -17481,7 +17507,6 @@ packages:
     peerDependenciesMeta:
       babel-plugin-macros:
         optional: true
-    dev: true
 
   /deeks/2.6.1:
     resolution: {integrity: sha512-PZrpz5xLo2JPZa3L+kqMMMdZU5pRwMysTM1xd6pLhNtgQw4Iq3wbF2QWaQTVh+HRq9Yg4rcjDIJ+scfGLxmsjQ==}
@@ -22019,6 +22044,12 @@ packages:
       uc.micro: 1.0.6
     dev: false
 
+  /linkify-it/5.0.0:
+    resolution: {integrity: sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==}
+    dependencies:
+      uc.micro: 2.0.0
+    dev: false
+
   /lint-staged/12.5.0:
     resolution: {integrity: sha512-BKLUjWDsKquV/JuIcoQW4MSAI3ggwEImF1+sB4zaKvyVx1wBk3FsG7UK9bpnmBTN1pm7EH2BBcMwINJzCRv12g==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -22423,6 +22454,20 @@ packages:
       mailsplit: 5.4.0
       nodemailer: 6.9.3
       tlds: 1.240.0
+    dev: false
+
+  /mailparser/3.6.6:
+    resolution: {integrity: sha512-noCjBl3FToxmqTP2fp7z17hQsiCroWNntfTd8O+UejOAF59xeN5WGZK27ilexXV2e2X/cbUhG3L8sfEKaz0/sw==}
+    dependencies:
+      encoding-japanese: 2.0.0
+      he: 1.2.0
+      html-to-text: 9.0.5
+      iconv-lite: 0.6.3
+      libmime: 5.2.1
+      linkify-it: 5.0.0
+      mailsplit: 5.4.0
+      nodemailer: 6.9.8
+      tlds: 1.248.0
     dev: false
 
   /mailsplit/5.4.0:
@@ -23535,6 +23580,12 @@ packages:
     hasBin: true
     dev: false
 
+  /nanoid/5.0.4:
+    resolution: {integrity: sha512-vAjmBf13gsmhXSgBrtIclinISzFFy22WwCYoyilZlsrRXNIHSwgFQ1bEdjRwMT3aoadeIF6HMuDRlOxzfXV8ig==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+    dev: false
+
   /native-duplexpair/1.0.0:
     resolution: {integrity: sha512-E7QQoM+3jvNtlmyfqRZ0/U75VFgCls+fSkbml2MpgWkWyz3ox8Y58gNhfuziuQYGNNQAbFZJQck55LHCnCK6CA==}
     dev: false
@@ -23778,6 +23829,11 @@ packages:
 
   /nodemailer/6.9.5:
     resolution: {integrity: sha512-/dmdWo62XjumuLc5+AYQZeiRj+PRR8y8qKtFCOyuOl1k/hckZd8durUUHs/ucKx6/8kN+wFxqKJlQ/LK/qR5FA==}
+    engines: {node: '>=6.0.0'}
+    dev: false
+
+  /nodemailer/6.9.8:
+    resolution: {integrity: sha512-cfrYUk16e67Ks051i4CntM9kshRYei1/o/Gi8K1d+R34OIs21xdFnW7Pt7EucmVKA0LKtqUGNcjMZ7ehjl49mQ==}
     engines: {node: '>=6.0.0'}
     dev: false
 
@@ -27301,6 +27357,11 @@ packages:
     hasBin: true
     dev: false
 
+  /tlds/1.248.0:
+    resolution: {integrity: sha512-noj0KdpWTBhwsKxMOXk0rN9otg4kTgLm4WohERRHbJ9IY+kSDKr3RmjitaQ3JFzny+DyvBOQKlFZhp0G0qNSfg==}
+    hasBin: true
+    dev: false
+
   /tmp-promise/3.0.3:
     resolution: {integrity: sha512-RwM7MoPojPxsOBYnyd2hy0bxtIlVrihNs9pj5SUvY8Zz1sQcQG2tG1hSr8PDxfgEB8RNKDhqbIlroIarSNDNsQ==}
     dependencies:
@@ -27809,6 +27870,10 @@ packages:
 
   /uc.micro/1.0.6:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
+    dev: false
+
+  /uc.micro/2.0.0:
+    resolution: {integrity: sha512-DffL94LsNOccVn4hyfRe5rdKa273swqeA5DJpMOeFmEn1wCDc7nAbbB0gXlgBCL7TNzeTv6G7XVWzan7iJtfig==}
     dev: false
 
   /uglify-js/3.17.4:
