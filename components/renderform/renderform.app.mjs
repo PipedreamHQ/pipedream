@@ -91,16 +91,10 @@ export default {
       });
     },
     async generateImage(opts = {}) {
-      const {
-        template, templateVariables,
-      } = opts;
       return this._makeRequest({
         method: "POST",
-        path: "/v1/render",
-        data: {
-          template,
-          ...templateVariables,
-        },
+        path: "/v2/render",
+        ...opts,
       });
     },
     async getRenderResults(args = {}) {
