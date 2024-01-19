@@ -7628,7 +7628,10 @@ importers:
       wpapi: 1.2.2
 
   components/workamajig:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/workast:
     specifiers:
