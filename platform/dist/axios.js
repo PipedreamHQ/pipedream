@@ -2,12 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.transformConfigForOauth = void 0;
 const axios_1 = require("axios");
-const buildURL = require("axios/lib/helpers/buildURL");
 const querystring = require("querystring");
 const utils_1 = require("./utils");
 const errors_1 = require("./errors");
-function cleanObject(o) {
-    for (const k in o || {}) {
+function cleanObject(o = {}) {
+    for (const k in o) {
         if (typeof o[k] === "undefined") {
             delete o[k];
         }
@@ -48,8 +47,11 @@ function oauth1ParamsSerializer(p) {
         .replace(/\*/g, "%2A");
 }
 function transformConfigForOauth(config) {
-    const { baseURL, url, } = config;
-    const newUrl = buildURL((baseURL !== null && baseURL !== void 0 ? baseURL : "") + url, config.params, oauth1ParamsSerializer); // build url as axios will
+    var _a;
+    const newUrl = axios_1.default.getUri({
+        ...config,
+        paramsSerializer: oauth1ParamsSerializer,
+    });
     const requestData = {
         method: config.method || "get",
         url: newUrl,
@@ -60,7 +62,7 @@ function transformConfigForOauth(config) {
     for (const k in config.headers || {}) {
         if (/content-type/i.test(k)) {
             hasContentType = true;
-            formEncodedContentType = config.headers[k] === "application/x-www-form-urlencoded";
+            formEncodedContentType = ((_a = config.headers) === null || _a === void 0 ? void 0 : _a[k]) === "application/x-www-form-urlencoded";
             break;
         }
     }
