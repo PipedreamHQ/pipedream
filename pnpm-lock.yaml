@@ -6641,7 +6641,12 @@ importers:
       uuid: 8.3.2
 
   components/surveycto:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      xml-js: ^1.6.11
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      xml-js: 1.6.11
 
   components/surveymethods:
     specifiers:
