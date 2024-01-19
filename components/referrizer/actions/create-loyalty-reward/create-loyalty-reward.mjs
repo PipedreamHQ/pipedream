@@ -7,6 +7,15 @@ export default {
   description: "Adds a new loyalty reward to the Referrizer system. [See the documentation](https://api.referrizer.com/static/docs/index.html#loyalty-rewards-create-a-loyalty-reward)",
   version: "0.0.1",
   type: "action",
+  props: {
+    ...common.props,
+    title: {
+      propDefinition: [
+        common.props.referrizer,
+        "title",
+      ],
+    },
+  },
   async run({ $ }) {
     const {
       referrizer,

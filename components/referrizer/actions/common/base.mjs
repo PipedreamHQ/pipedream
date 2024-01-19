@@ -3,12 +3,6 @@ import referrizer from "../../referrizer.app.mjs";
 export default {
   props: {
     referrizer,
-    title: {
-      propDefinition: [
-        referrizer,
-        "title",
-      ],
-    },
     points: {
       propDefinition: [
         referrizer,

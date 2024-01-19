@@ -1,4 +1,3 @@
-import referrizer from "../../referrizer.app.mjs";
 import common from "../common/base.mjs";
 
 export default {
@@ -12,7 +11,7 @@ export default {
     ...common.props,
     loyaltyRewardId: {
       propDefinition: [
-        referrizer,
+        common.props.referrizer,
         "loyaltyRewardId",
       ],
     },
