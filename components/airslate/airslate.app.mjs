@@ -123,7 +123,7 @@ export default {
         ...args,
       });
     },
-    async getTemplates({
+    getTemplates({
       organizationId, ...args
     }) {
       return this._makeRequest({
