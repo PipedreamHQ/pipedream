@@ -114,7 +114,7 @@ export default {
         ...args,
       });
     },
-    async modifyTemplate({
+    modifyTemplate({
       organizationId, templateId, ...args
     }) {
       return this._makeRequest({
