@@ -105,7 +105,7 @@ export default {
         ...args,
       });
     },
-    async createTemplate({
+    createTemplate({
       organizationId, ...args
     }) {
       return this._makeRequest({
