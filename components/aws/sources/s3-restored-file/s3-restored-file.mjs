@@ -6,7 +6,7 @@ export default {
   key: "aws-s3-restored-file",
   name: "New Restored S3 File",
   description: "Emit new event when an file is restored into a S3 bucket",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     ...base.props,
