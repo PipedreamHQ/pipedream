@@ -92,7 +92,7 @@ export default {
         },
       });
     },
-    async createOrganization(args = {}) {
+    createOrganization(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/organizations",
