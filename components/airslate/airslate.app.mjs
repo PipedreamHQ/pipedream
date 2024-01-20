@@ -99,7 +99,7 @@ export default {
         ...args,
       });
     },
-    async getOrganizations(args = {}) {
+    getOrganizations(args = {}) {
       return this._makeRequest({
         path: "/organizations",
         ...args,
