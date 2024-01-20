@@ -64,6 +64,9 @@ export default {
     let {
       amountOfEmails, messages,
     } = this;
+    if (!amountOfEmails && !messages?.length) {
+      throw new ConfigurationError("You must either specify the `Messages` object or use `Amount of Emails` to build the objects.");
+    }
     const useMessages = messages?.length;
     const data = {
       Messages: useMessages || [],
