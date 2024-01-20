@@ -70,7 +70,7 @@ export default {
     };
     if (useMessages) {
       try {
-        messages = messages.map(JSON.parse);
+        data.Messages = messages.map(JSON.parse);
       } catch (err) {
         throw new ConfigurationError("Error when parsing `Messages` as JSON. Make sure all items are a valid JSON-stringified object.");
       }
