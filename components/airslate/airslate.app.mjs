@@ -78,7 +78,7 @@ export default {
     _baseUrl() {
       return "https://api.airslate.io/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this, method = "GET", path, headers, ...otherOpts
       } = opts;
