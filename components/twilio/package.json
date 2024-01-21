@@ -12,7 +12,7 @@
   "dependencies": {
     "@pipedream/platform": "^1.2.0",
     "phone": "^3.1.29",
-    "twilio": "^3.54.2"
+    "twilio": "^4.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
