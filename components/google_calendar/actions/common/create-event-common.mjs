@@ -42,7 +42,7 @@ export default {
       recurrence: {
         label: "Recurrence",
         type: "string[]",
-        description: "Recurrence rule(s) for the event. For example, `FREQ=DAILY;INTERVAL=2` means once every two days, `RRULE:FREQ=YEARLY` means annually. [See the documentation](https://developers.google.com/calendar/api/concepts/events-calendars#recurrence_rule)",
+        description: "Recurrence rule(s) for the event. For example, `FREQ=DAILY;INTERVAL=2` means once every two days, `RRULE:FREQ=YEARLY` means annually.\nYou can combine multiple recurrence rules. [See the documentation](https://developers.google.com/calendar/api/concepts/events-calendars#recurrence_rule)",
         optional: true,
       },
       timeZone: {
