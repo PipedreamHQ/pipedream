@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/expedy",
+  "version": "0.0.1",
+  "description": "Pipedream Expedy Components",
+  "main": "expedy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "expedy"
+  ],
+  "homepage": "https://pipedream.com/apps/expedy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
