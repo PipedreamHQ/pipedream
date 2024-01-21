@@ -57,6 +57,7 @@ export default {
           date: this.eventEndDate || currentEvent.end.dateTime,
           timeZone: timeZone || currentEvent.end.timeZone,
         }),
+        recurrence: this.recurrence,
         attendees,
       },
     });
