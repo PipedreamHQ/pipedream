@@ -27,6 +27,23 @@ export default {
       description: "User group of the contact",
       optional: true,
     },
+    customFields: {
+      type: "string[]",
+      label: "Custom Fields",
+      description: "Custom fields to include in the contact",
+      optional: true,
+      reloadProps: true,
+      async options() {
+        const data = await this.listCustomFields();
+        return data.map(({
+          key,
+          label,
+        }) => ({
+          label,
+          value: key,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -79,6 +96,12 @@ export default {
       return this._makeRequest({
         path: "/transactional",
         method: "POST",
+        ...args,
+      });
+    },
+    listCustomFields(args = {}) {
+      return this._makeRequest({
+        path: "/contacts/customFields",
         ...args,
       });
     },
