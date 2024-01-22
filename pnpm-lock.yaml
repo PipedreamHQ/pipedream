@@ -228,7 +228,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/airslate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/airtable:
     specifiers:
@@ -2633,11 +2636,11 @@ importers:
 
   components/google_classroom:
     specifiers:
-      '@pipedream/platform': ^1.2.1
-      googleapis: ^109.0.1
+      '@pipedream/platform': ^1.6.0
+      googleapis: ^131.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-      googleapis: 109.0.1
+      '@pipedream/platform': 1.6.0
+      googleapis: 131.0.0
 
   components/google_cloud:
     specifiers:
@@ -3475,7 +3478,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/kizeo_forms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/klaviyo:
     specifiers:
@@ -19767,6 +19773,17 @@ packages:
     dependencies:
       google-auth-library: 8.9.0
       googleapis-common: 6.0.4
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/131.0.0:
+    resolution: {integrity: sha512-fa4kdkY0VwHDw/04ItpQv2tlvlPIwbh6NjHDoWAVrV52GuaZbYCMOC5Y+hRmprp5HHIMRODmyb2YujlbZSRUbQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      google-auth-library: 9.1.0
+      googleapis-common: 7.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color
