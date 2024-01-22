@@ -1,12 +1,14 @@
 # Troubleshooting Workflows
 
+Pipedream's unique build, test and deploy streamline your development process, but there might be times you run into issues with serverless infrastructure. Below are some common reasons why a workflow might not be behaving as you'd expect compared to locally run code or code hosted on traditional hosting.
+
 ## `Pipedream Internal Error`
 
 A `Pipedream Internal Error` is thrown whenever there's an exception during the building or executing of a workflow that's outside the scope of the code for the individual components (steps or actions).
 
 There are a few known ways this can be caused and how to solve them.
 
-## Out of date actions or sources
+### Out of date actions or sources
 
 Pipedream components are updated continously.  But when new versions of actions and sources are published to the Pipedream Component Registry, your workflows are not updated by default.
 
@@ -50,3 +52,9 @@ Instead, use the specific package that exports the `pick` module alone:
 # This style imports only the pick module, since the lodash.pick package only contains this module
 import pick from "lodash.pick"
 ```
+
+## Code was still running when the step ended
+
+This error occurs when Promises or asynchronous code is not properly finished before the next step begins execution.
+
+See the [Asynchronous section of the Node.js documentation](/code/nodejs/async/#the-problem) for more details.
