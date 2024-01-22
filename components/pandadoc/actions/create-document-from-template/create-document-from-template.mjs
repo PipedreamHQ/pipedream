@@ -5,7 +5,7 @@ export default {
   name: "Create Document From Template",
   description: "Create Document from PandaDoc Template. [See the docs here](https://developers.pandadoc.com/reference/create-document-from-pandadoc-template)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     app,
     name: {
@@ -19,6 +19,7 @@ export default {
         app,
         "templateId",
       ],
+      reloadProps: true,
     },
     documentFolderId: {
       propDefinition: [
@@ -48,6 +49,23 @@ export default {
       optional: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    const { fields } = await this.app.getTemplate({
+      templateId: this.templateId,
+    });
+    for (const field of fields) {
+      if (!field.merge_field) {
+        continue;
+      }
+      props[field.merge_field] = {
+        type: "string",
+        label: `Field ${field.merge_field}`,
+        optional: true,
+      };
+    }
+    return props;
+  },
   methods: {
     parseToAnyArray(arr) {
       if (!arr) {
@@ -71,6 +89,19 @@ export default {
       tokens,
     } = this;
 
+    const fields = {};
+    const { fields: items } = await this.app.getTemplate({
+      templateId: this.templateId,
+    });
+    for (const field of items) {
+      if (!field.merge_field) {
+        continue;
+      }
+      fields[field.merge_field] = {
+        value: this[field.merge_field],
+      };
+    }
+
     const response = await this.app.createDocument({
       $,
       data: {
@@ -80,6 +111,7 @@ export default {
         tags,
         recipients: this.parseToAnyArray(recipients),
         tokens: this.parseToAnyArray(tokens),
+        fields,
       },
     });
 
