@@ -228,7 +228,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/airslate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/airtable:
     specifiers:
