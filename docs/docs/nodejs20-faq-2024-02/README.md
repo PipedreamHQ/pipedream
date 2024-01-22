@@ -1,6 +1,6 @@
 # Update to the Node.js runtime on Pipedream (February 2024)
 
-Effective 2024-02-18, the Node.js runtime will no longer load Amazon-specific certificate authority (CA) certificates by default.
+Effective 2024-02-01, the Node.js runtime will no longer load Amazon-specific certificate authority (CA) certificates by default.
 
 [[toc]]
 
@@ -10,7 +10,7 @@ Effective 2024-02-18, the Node.js runtime will no longer load Amazon-specific ce
 
 A workflow that meet the following criteria will be impacted:
 
-- Is re-deployed or deployed after 2024-02-18
+- Is re-deployed or deployed after 2024-02-01
 - Connects to an [AWS RDS](https://aws.amazon.com/rds/)-managed database (e.g., PostgreSQL, MySQL, or Microsoft SQL Server)
 - Has server identity verification enabled (e.g., the `rejectUnauthorized` connection option is set to `true`)
 
@@ -22,7 +22,7 @@ For more information, see [Amazon's blog post](https://aws.amazon.com/blogs/comp
 
 ### How will this impact my workflows?
 
-Starting 2024-02-18, relevant database connection attempts will return a message like this:
+Starting 2024-02-01, relevant database connection attempts will return a message like this:
 
 ![Missing CA Certificate](https://res.cloudinary.com/pipedreamin/image/upload/v1705428110/self-signed-cert-in-cert-chain-error_fkvph0.png)
 
