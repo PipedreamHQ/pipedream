@@ -1,33 +1,50 @@
-import northflank from "../../northflank.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../northflank.app.mjs";
 
 export default {
   key: "northflank-create-project",
   name: "Create Project",
   description: "Creates a new project on Northflank. [See the documentation](https://northflank.com/docs/v1/api/projects/create-project)",
-  version: "0.0.{{ts}}",
+  version: "0.0.5",
   type: "action",
   props: {
-    northflank,
-    projectName: northflank.propDefinitions.projectName,
-    projectDescription: northflank.propDefinitions.projectDescription,
-    projectColor: northflank.propDefinitions.projectColor,
-    projectRegion: northflank.propDefinitions.projectRegion,
-    clusterId: {
-      ...northflank.propDefinitions.clusterId,
-      optional: true,
+    app,
+    name: {
+      propDefinition: [
+        app,
+        "name",
+      ],
+    },
+    description: {
+      propDefinition: [
+        app,
+        "description",
+      ],
+    },
+    color: {
+      propDefinition: [
+        app,
+        "color",
+      ],
+    },
+    region: {
+      propDefinition: [
+        app,
+        "region",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.northflank.createProject({
-      projectName: this.projectName,
-      projectDescription: this.projectDescription,
-      projectColor: this.projectColor,
-      projectRegion: this.projectRegion,
-      clusterId: this.clusterId,
+    const response = await this.app.createProject({
+      $,
+      data: {
+        name: this.name,
+        description: this.description,
+        color: this.color,
+        region: this.region,
+      },
     });
 
-    $.export("$summary", `Successfully created project ${this.projectName}`);
+    $.export("$summary", `Successfully created project ${this.name}`);
     return response;
   },
 };

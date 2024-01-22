@@ -1,27 +1,33 @@
-import northflank from "../../northflank.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../northflank.app.mjs";
 
 export default {
   key: "northflank-get-domains",
   name: "Get Domains",
   description: "List all domains with pagination. [See the documentation](https://northflank.com/docs/v1/api/domains/list-domains)",
-  version: "0.0.{{ts}}",
+  version: "0.0.16",
   type: "action",
   props: {
-    northflank,
-    paginationPage: {
+    app,
+    perPage: {
       propDefinition: [
-        northflank,
-        "paginationPage",
+        app,
+        "perPage",
+      ],
+    },
+    page: {
+      propDefinition: [
+        app,
+        "page",
       ],
     },
   },
   async run({ $ }) {
-    const domains = await this.northflank.listDomains({
-      paginationPage: this.paginationPage,
+    const response = await this.app.listDomains({
+      per_page: this.perPage,
+      page: this.page,
     });
 
-    $.export("$summary", `Retrieved ${domains.length} domains`);
-    return domains;
+    $.export("$summary", `Retrieved ${response.data.domains.length} domain(s)`);
+    return response;
   },
 };

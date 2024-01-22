@@ -1,46 +1,49 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "northflank",
   propDefinitions: {
-    projectName: {
+    name: {
       type: "string",
-      label: "Project Name",
-      description: "The name of the project.",
+      label: "Project name",
+      description: "Name of the project",
     },
-    projectDescription: {
+    description: {
       type: "string",
-      label: "Project Description",
-      description: "A description of the project.",
-    },
-    projectColor: {
-      type: "string",
-      label: "Project Color",
-      description: "The color associated with the project, in hex format (e.g., #EF233C).",
-    },
-    projectRegion: {
-      type: "string",
-      label: "Project Region",
-      description: "The region where the project will be hosted.",
-    },
-    clusterId: {
-      type: "string",
-      label: "Cluster ID",
-      description: "The ID of your own cluster, if deploying to your own cluster.",
+      label: "Project description",
+      description: "Description of the project",
       optional: true,
     },
-    domainName: {
+    color: {
       type: "string",
-      label: "Domain Name",
-      description: "The name of the domain to be created.",
+      label: "Color",
+      description: "The color code of the project in the Northflank App, i.e. `#EF233C`",
+      optional: true,
     },
-    paginationPage: {
+    region: {
+      type: "string",
+      label: "Region",
+      description: "The region the project will be hosted in",
+      options: constants.REGIONS,
+    },
+    perPage: {
+      type: "integer",
+      label: "Results per page",
+      description: "The number of results to display per request. Maximum of 100 results per page",
+      optional: true,
+    },
+    page: {
       type: "integer",
       label: "Page",
-      description: "The page number for pagination.",
-      default: 1,
+      description: "The page number to access",
       optional: true,
+    },
+    domain: {
+      type: "string",
+      label: "Domain name",
+      description: "The domain name to register",
     },
   },
   methods: {
@@ -62,78 +65,35 @@ export default {
         headers: {
           ...headers,
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
+          "Authorization": `Bearer ${this.$auth.api_token}`,
         },
       });
     },
-    async createProject({
-      projectName, projectDescription, projectColor, projectRegion, clusterId,
-    }) {
-      const payload = {
-        name: projectName,
-        description: projectDescription,
-        color: projectColor,
-        ...(clusterId
-          ? {
-            clusterId,
-          }
-          : {
-            region: projectRegion,
-          }),
-      };
+    async createProject(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/projects",
-        data: payload,
+        ...args,
       });
     },
-    async listProjects({ paginationPage }) {
-      return this.paginate(this._makeRequest, {
-        path: "/projects",
-        params: {
-          page: paginationPage,
-        },
-      });
-    },
-    async createDomain({ domainName }) {
-      const payload = {
-        name: domainName,
-      };
+    async createDomain(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/domains",
-        data: payload,
+        ...args,
       });
     },
-    async listDomains({ paginationPage }) {
-      return this.paginate(this._makeRequest, {
+    async listProjects(args = {}) {
+      return this._makeRequest({
+        path: "/projects",
+        ...args,
+      });
+    },
+    async listDomains(args = {}) {
+      return this._makeRequest({
         path: "/domains",
-        params: {
-          page: paginationPage,
-        },
+        ...args,
       });
-    },
-    async paginate(fn, opts) {
-      let page = opts.params.page || 1;
-      let hasMore = true;
-      const results = [];
-      while (hasMore) {
-        const response = await fn.call(this, {
-          ...opts,
-          params: {
-            ...opts.params,
-            page,
-          },
-        });
-        results.push(...response);
-        hasMore = response.length > 0;
-        page++;
-      }
-      return results;
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
-  version: "0.0.{{ts}}",
 };

@@ -1,26 +1,28 @@
-import northflank from "../../northflank.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../northflank.app.mjs";
 
 export default {
   key: "northflank-create-domain",
   name: "Create Domain",
   description: "Creates a new domain on Northflank. [See the documentation](https://northflank.com/docs/v1/api/domains/create-new-domain)",
-  version: "0.0.{{ts}}",
+  version: "0.0.2",
   type: "action",
   props: {
-    northflank,
-    domainName: {
+    app,
+    domain: {
       propDefinition: [
-        northflank,
-        "domainName",
+        app,
+        "domain",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.northflank.createDomain({
-      domainName: this.domainName,
+    const response = await this.app.createDomain({
+      $,
+      data: {
+        domain: this.domain,
+      },
     });
-    $.export("$summary", `Successfully created domain: ${this.domainName}`);
+    $.export("$summary", `Successfully created domain: ${this.domain}`);
     return response;
   },
 };
