@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/apollo_io",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Apollo.io Components",
   "main": "apollo_io.app.mjs",
   "keywords": [
@@ -9,10 +9,10 @@
   ],
   "homepage": "https://pipedream.com/apps/apollo_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "dependencies": {
-    "@pipedream/platform": "^1.5.1"
-  },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
   }
 }
