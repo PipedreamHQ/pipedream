@@ -68,15 +68,13 @@ export default {
         type: "integer",
         label: "Value",
         description: "The value of the loyalty reward",
-        optional: true,
       };
     }
     if (this.expires) {
       props.expiredDate = {
         type: "string",
         label: "Expire Date",
-        description: "Expiration date of loyalty reward.",
-        optional: true,
+        description: "Expiration date of loyalty reward. `Format YYYY-MM-DDTHH:MM:SS.SSSZ`",
       };
     }
     return props;
