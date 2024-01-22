@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/timebuzzer",
+  "version": "0.0.1",
+  "description": "Pipedream timeBuzzer Components",
+  "main": "timebuzzer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "timebuzzer"
+  ],
+  "homepage": "https://pipedream.com/apps/timebuzzer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -6,7 +6,7 @@ export default {
   key: "aws-s3-deleted-file",
   name: "New Deleted S3 File",
   description: "Emit new event when a file is deleted from a S3 bucket",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     ...base.props,

@@ -1,11 +1,5 @@
 # Sharing Workflows
 
-::: warning Beta Feature
-
-Sharing individual workflows across Pipedream accounts is in beta and is subject to change.
-
-:::
-
 You can share your workflows as templates with other Pipedream accounts with a unique shareable link.
 
 Creating a share link for your workflow will allow anyone with the link to create a template version of your workflow in their own Pipedream account. This will allow others to use your workflow with their own Pipedream account and also their own connected accounts.
@@ -30,7 +24,6 @@ Click the button below or copy and paste the link into your browser to instantly
 
   <input type="text" class="rounded font-semibold text-center w-3/5 border-2 focus:border-emerald-600  rounded-sm py-2 underline" value="https://pipedream.com/new?h=tch_OYWfjz" />
 </div>
-
 
 The copied workflow includes the same trigger, steps, and connected account configuration, but it has a separate event history and versioning from the original.
 
