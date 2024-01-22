@@ -150,7 +150,7 @@ If you're receiving this warning on a source or workflow, this means your alloca
 
 You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).
 
-## `Pipedream Internal Error`
+## Pipedream Internal Error
 
 A `Pipedream Internal Error` is thrown whenever there's an exception during the building or executing of a workflow that's outside the scope of the code for the individual components (steps or actions).
 
