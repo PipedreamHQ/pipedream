@@ -2935,7 +2935,10 @@ importers:
     specifiers: {}
 
   components/happy_scribe:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/harvest:
     specifiers:
