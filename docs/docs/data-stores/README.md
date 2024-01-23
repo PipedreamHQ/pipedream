@@ -163,10 +163,10 @@ If you're using a pre-built action or code to retrieve all records or keys, and 
 
 In order to stay within the [data store limits](#data-store-limits), you may need to export the data in your data store to an external service.
 
-The following Node.js example action will export one batch of data via an HTTP POST request. You may need to adapt the code to your needs.
+The following Node.js example action will export the data in chunks via an HTTP POST request. You may need to adapt the code to your needs. Click on [this link](https://pipedream.com/new?h=tch_egfAMv) to create a copy of the workflow in your workspace.
 
 :::tip
-If the data contained in each key is large, consider lowering the number of `batch_size`.
+If the data contained in each key is large, consider lowering the number of `chunkSize`.
 :::
 
 - Adjust your [workflow memory and timeout settings](/workflows/settings/) according to the size of the data in your data store. Set the memory at 512 MB and timeout to 60 seconds and adjust higher if needed.
@@ -182,56 +182,63 @@ import { axios } from "@pipedream/platform"
 
 export default defineComponent({
   props: {
-    data_store: {
+    dataStore: {
       type: "data_store",
     },
-    batch_size: {
+    chunkSize: {
       type: "integer",
-      label: "Batch Size",
-      description: "The number of key/values to export in each batch",
-      default: 500,
+      label: "Chunk Size",
+      description: "The number of items to export in one request",
+      default: 100,
     },
-    delete_keys: {
+    shouldDeleteKeys: {
       type: "boolean",
       label: "Delete keys after export",
       description: "Whether the data store keys will be deleted after export",
       default: true,
     }
   },
-  async run({ steps, $ }) {
-    // retrieve keys from data store
-    const batch_keys = (await this.data_store.keys()).splice(this.batch_size)
-    const batch_data = {}
+  methods: {
+    async *chunkAsyncIterator(asyncIterator, chunkSize) {
+      let chunk = []
 
-    // retrieve data serially for each key
-    for (const key of batch_keys) {
-      const value = await this.data_store.get(key)
-      batch_data[key] = value
-    }
+      for await (const item of asyncIterator) {
+        chunk.push(item)
 
-    try {
-      // export data to external service
-      await axios($, {
-        url: "https://external_service.com",
-        method: "POST",
-        data: batch_data,
-        // may need to add authentication
-      })
-
-      // delete exported keys and values
-      if (this.delete_keys) {
-        for (const key of batch_keys) {
-          await this.data_store.delete(key)
+        if (chunk.length === chunkSize) {
+          yield chunk
+          chunk = []
         }
       }
 
-      console.log(`number of remaining keys: ${(await this.data_store.keys()).length}`)
-    } catch (e) {
-      // an error occurred, don't delete keys
-      console.log(`error exporting data: ${e}`)
-    }
+      if (chunk.length > 0) {
+        yield chunk
+      }
+    },
+  },
+  async run({ steps, $ }) {
+    const iterator = this.chunkAsyncIterator(this.dataStore, this.chunkSize)
+    for await (const chunk of iterator) {
+      try {
+        // export data to external service
+        await axios($, {
+          url: "https://external_service.com",
+          method: "POST",
+          data: chunk,
+          // may need to add authentication
+        })
 
-    return batch_keys
+        // delete exported keys and values
+        if (this.shouldDeleteKeys) {
+          await Promise.all(chunk.map(([key]) => this.dataStore.delete(key)))
+        }
+
+        console.log(`number of remaining keys: ${(await this.dataStore.keys()).length}`)
+      } catch (e) {
+        // an error occurred, don't delete keys
+        console.log(`error exporting data: ${e}`)
+      }
+    }
   },
 })
 ```
