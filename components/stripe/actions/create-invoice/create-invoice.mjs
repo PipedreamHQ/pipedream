@@ -1,55 +1,46 @@
 import pick from "lodash.pick";
-import stripe from "../../stripe.app.mjs";
+import app from "../../stripe.app.mjs";
 
 export default {
-  key: "stripe-create-subscription",
-  name: "Create Subscription",
+  key: "stripe-create-invoice",
+  name: "Create Invoice",
   type: "action",
   version: "0.1.0",
-  description: "Create a subscription. [See docs here](https://stripe.com/docs/api/subscriptions/create)",
+  description: "Create an invoice. [See the docs](https://stripe.com/docs/api/invoices/create) " +
+    "for more information",
   props: {
-    stripe,
+    app,
     customer: {
       propDefinition: [
-        stripe,
+        app,
         "customer",
       ],
       optional: false,
     },
-    items: {
+    subscription: {
       propDefinition: [
-        stripe,
-        "price",
-      ],
-      optional: false,
-      type: "string[]",
-    },
-    country: {
-      propDefinition: [
-        stripe,
-        "country",
-      ],
-      optional: true,
-    },
-    currency: {
-      propDefinition: [
-        stripe,
-        "currency",
-        ({ country }) => ({
-          country,
+        app,
+        "subscription",
+        ({ customer }) => ({
+          customer,
         }),
       ],
-      optional: true,
     },
     description: {
       propDefinition: [
-        stripe,
+        app,
         "description",
+      ],
+    },
+    auto_advance: {
+      propDefinition: [
+        app,
+        "invoice_auto_advance",
       ],
     },
     collection_method: {
       propDefinition: [
-        stripe,
+        app,
         "invoice_collection_method",
       ],
       default: "charge_automatically",
@@ -57,25 +48,16 @@ export default {
     },
     days_until_due: {
       propDefinition: [
-        stripe,
+        app,
         "invoice_days_until_due",
       ],
     },
-    paymentType: {
-      type: "string",
-      propDefinition: [
-        stripe,
-        "payment_method_types",
-      ],
-      optional: true,
-    },
     default_payment_method: {
       propDefinition: [
-        stripe,
+        app,
         "payment_method",
-        (c) => ({
-          customer: c.customer,
-          type: c.paymentType,
+        ({ customer }) => ({
+          customer,
         }),
       ],
       label: "Default Payment Method",
@@ -85,32 +67,35 @@ export default {
     },
     metadata: {
       propDefinition: [
-        stripe,
+        app,
         "metadata",
       ],
     },
+    advanced: {
+      propDefinition: [
+        app,
+        "metadata",
+      ],
+      label: "Advanced Options",
+      description: "Add any additional parameters that you require here",
+    },
   },
   async run({ $ }) {
-    const items = typeof this.items === "string"
-      ? JSON.parse(this.items)
-      : this.items;
-
-    const resp = await this.stripe.sdk().subscriptions.create({
+    const resp = await this.app.sdk().invoices.create({
       ...pick(this, [
         "customer",
-        "currency",
+        "subscription",
+        "auto_advance",
         "description",
         "collection_method",
         "days_until_due",
         "default_payment_method",
         "metadata",
       ]),
-      items: items.map((item) => ({
-        price: item,
-      })),
+      ...this.advanced,
     });
 
-    $.export("$summary", `Successfully created a new subscription with id ${resp.id}`);
+    $.export("$summary", "Successfully created a new invoice");
 
     return resp;
   },
