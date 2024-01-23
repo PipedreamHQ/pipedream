@@ -9,20 +9,21 @@ You can also store and read files with Python steps. This means you can upload p
 
 The `/tmp` directory is accessible from your workflow steps for saving and retrieving files.
 
-You have full access to read and write both files in `/tmp`. 
+You have full access to read and write both files in `/tmp`.
 
 ## Writing a file to /tmp
 
 ```python
 import requests
 
-# Download the Python logo
-r = requests.get('https://www.python.org/static/img/python-logo@2x.png')
+def handler(pd: "pipedream"):
+  # Download the Python logo
+  r = requests.get('https://www.python.org/static/img/python-logo@2x.png')
 
-# Create a new file python-logo.png in the /tmp/data directory
-with open('/tmp/python-logo.png', 'wb') as f:
-  # Save the content of the HTTP response into the file
-  f.write(r.content)
+  # Create a new file python-logo.png in the /tmp/data directory
+  with open('/tmp/python-logo.png', 'wb') as f:
+    # Save the content of the HTTP response into the file
+    f.write(r.content)
 ```
 
 Now `/tmp/python-logo.png` holds the official Python logo.
@@ -34,9 +35,10 @@ You can also open files you have previously stored in the `/tmp` directory. Let'
 ```python
 import os
 
-with open('/tmp/python-logo.png') as f:
-  # Store the contents of the file into a variable
-  file_data = f.read()
+def handler(pd: "pipedream"):
+  with open('/tmp/python-logo.png') as f:
+    # Store the contents of the file into a variable
+    file_data = f.read()
 ```
 
 ## Listing files in /tmp
@@ -46,8 +48,9 @@ If you need to check what files are currently in `/tmp` you can list them and pr
 ```python
 import os
 
-# Prints the files in the tmp directory
-print(os.listdir('/tmp'))
+def handler(pd: "pipedream"):
+  # Prints the files in the tmp directory
+  print(os.listdir('/tmp'))
 ```
 
 ## `/tmp` limitations

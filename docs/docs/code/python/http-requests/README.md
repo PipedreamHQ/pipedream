@@ -16,15 +16,16 @@ GET requests typically are for retrieving data from an API. Below is an example.
 ```python
 import requests
 
-url = 'https://swapi.dev/api/people/1'
+def handler(pd: "pipedream"):
+  url = 'https://swapi.dev/api/people/1'
 
-r = requests.get(url)
+  r = requests.get(url)
 
-# The response is logged in your Pipedream step results:
-print(r.text)
+  # The response is logged in your Pipedream step results:
+  print(r.text)
 
-# The response status code is logged in your Pipedream step results:
-print(r.status)
+  # The response status code is logged in your Pipedream step results:
+  print(r.status)
 ```
 
 ## Making a POST request
@@ -32,25 +33,26 @@ print(r.status)
 ```python
 import requests
 
-# This a POST request to this URL will echo back whatever data we send to it
-url = 'https://postman-echo.com/post'
+def handler(pd: "pipedream"):
+  # This a POST request to this URL will echo back whatever data we send to it
+  url = 'https://postman-echo.com/post'
 
-data = {"name": "Bulbasaur"}
+  data = {"name": "Bulbasaur"}
 
-r = requests.post(url, data)
+  r = requests.post(url, data)
 
-# The response is logged in your Pipedream step results:
-print(r.text)
+  # The response is logged in your Pipedream step results:
+  print(r.text)
 
-# The response status code is logged in your Pipedream step results:
-print(r.status)
+  # The response status code is logged in your Pipedream step results:
+  print(r.status)
 ```
 
 ## Sending files
 
 You can also send files within a step.
 
-An example of sending a previously stored file in the workflow's `/tmp` directory: 
+An example of sending a previously stored file in the workflow's `/tmp` directory:
 
 ```python
 # Retrieving a previously saved file from workflow storage
