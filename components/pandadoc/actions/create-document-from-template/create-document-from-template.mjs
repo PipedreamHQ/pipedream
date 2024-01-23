@@ -20,6 +20,7 @@ export default {
         "templateId",
       ],
       reloadProps: true,
+      description: "The ID of a template you want to use. Note: if you want to **prefill fields in your template**, you need to map your template fields to the API fields following [the instruction here](https://developers.pandadoc.com/reference/create-document-from-pandadoc-template#prefilled-fields)",
     },
     documentFolderId: {
       propDefinition: [
