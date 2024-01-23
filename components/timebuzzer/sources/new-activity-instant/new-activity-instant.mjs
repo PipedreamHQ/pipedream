@@ -1,56 +1,48 @@
 import timebuzzer from "../../timebuzzer.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "timebuzzer-new-activity-instant",
-  name: "New Activity Instant",
-  description: "Emits new event whenever a new activity is logged in timebuzzer.",
-  version: "0.0.{{ts}}",
+  name: "New Activity (Instant)",
+  description: "Emit new event whenever a new activity is logged in Timebuzzer. [See the documentation](https://my.timebuzzer.com/doc/#api-Webhook-SaveNewWebhooks)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    timebuzzer: {
-      type: "app",
-      app: "timebuzzer",
-    },
+    timebuzzer,
     http: {
       type: "$.interface.http",
       customResponse: true,
     },
-    db: "$.service.db",
   },
   hooks: {
     async activate() {
-      const webhookId = await this.timebuzzer.createActivity({
-        name: "Webhook",
-        type: "webhook",
-        config: {
+      await this.timebuzzer.createWebhook({
+        data: {
+          url: this.http.endpoint,
+          event: "NewActivity",
+          active: true,
+        },
+      });
+    },
+    async deactivate() {
+      await this.timebuzzer.deleteWebhook({
+        params: {
           url: this.http.endpoint,
         },
       });
-      this.db.set("webhookId", webhookId);
-    },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      await this.timebuzzer.deleteActivity(webhookId);
     },
   },
-  async run(event) {
-    if (event.method !== "POST") {
-      return;
-    }
-
-    const {
-      body, headers,
-    } = event;
-
-    if (!body || !headers) {
-      return;
-    }
+  async run({ body }) {
+    this.http.respond({
+      status: 202,
+    });
 
     this.$emit(body, {
-      id: body.id,
-      summary: body.name,
+      id: Date.now(),
+      summary: `New Activity ${body.note}`,
       ts: Date.now(),
     });
   },
+  sampleEmit,
 };
