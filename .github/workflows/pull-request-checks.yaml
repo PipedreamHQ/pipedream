@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4
         name: Checkout repo
         with:
           # See https://github.com/actions/checkout#checkout-v2
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4.1.1
+    - uses: actions/checkout@v4
       name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
@@ -77,7 +77,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
@@ -89,7 +89,7 @@ jobs:
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -99,7 +99,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r
       - name: Setup Node Env
-        uses: actions/setup-node@v3.8.1
+        uses: actions/setup-node@v4.0.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -133,7 +133,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 7.33.6
@@ -141,14 +141,14 @@ jobs:
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - uses: actions/setup-node@v3.8.1
+      - uses: actions/setup-node@v4.0.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -167,7 +167,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 7.33.6
@@ -175,7 +175,7 @@ jobs:
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -183,7 +183,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v3.8.1
+        uses: actions/setup-node@v4.0.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -256,7 +256,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 7.33.6
@@ -264,7 +264,7 @@ jobs:
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -272,7 +272,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v3.8.1
+        uses: actions/setup-node@v4.0.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
