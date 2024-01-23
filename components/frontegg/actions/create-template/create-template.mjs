@@ -1,11 +1,10 @@
 import frontegg from "../../frontegg.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
-  key: "frontegg-create-or-update-configuration",
-  name: "Create or Update Configuration",
-  description: "Create or update a configuration in Frontegg. [See the documentation](https://docs.frontegg.com/reference/mailconfigcontroller_createorupdatemailconfig)",
-  version: "0.0.{{ts}}",
+  key: "frontegg-create-template",
+  name: "Create Template",
+  description: "Create an email template in Frontegg. [See the documentation](https://docs.frontegg.com/reference/mailv1controller_addorupdatetemplate-2)",
+  version: "0.0.2",
   type: "action",
   props: {
     frontegg,
@@ -26,6 +25,7 @@ export default {
         frontegg,
         "redirectURL",
       ],
+      optional: false,
     },
     htmlTemplate: {
       propDefinition: [
@@ -57,27 +57,23 @@ export default {
         "active",
       ],
     },
-    sendGridSecretKey: {
-      propDefinition: [
-        frontegg,
-        "sendGridSecretKey",
-      ],
-    },
   },
   async run({ $ }) {
     const response = await this.frontegg.createOrUpdateTemplate({
-      type: this.type,
-      senderEmail: this.senderEmail,
-      redirectURL: this.redirectURL,
-      htmlTemplate: this.htmlTemplate,
-      subject: this.subject,
-      fromName: this.fromName,
-      successRedirectUrl: this.successRedirectUrl,
-      active: this.active,
-      sendGridSecretKey: this.sendGridSecretKey,
+      $,
+      data: {
+        type: this.type,
+        senderEmail: this.senderEmail,
+        redirectURL: this.redirectURL,
+        htmlTemplate: this.htmlTemplate,
+        subject: this.subject,
+        fromName: this.fromName,
+        successRedirectUrl: this.successRedirectUrl,
+        active: this.active,
+      },
     });
 
-    $.export("$summary", "Successfully created or updated the configuration");
+    $.export("$summary", `Successfully created template with ID ${response.id}`);
     return response;
   },
 };

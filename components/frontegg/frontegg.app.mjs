@@ -1,39 +1,15 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "frontegg",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     type: {
       type: "string",
       label: "Template Type",
       description: "Select the type of email template you want to create or update.",
-      options: [
-        "ResetPassword",
-        "ActivateUser",
-        "InviteToTenant",
-        "PwnedPassword",
-        "MagicLink",
-        "OTC",
-        "ConnectNewDevice",
-        "UserUsedInvitation",
-        "ResetPhoneNumber",
-        "BulkInvitesToTenant",
-        "MFAEnroll",
-        "MFAUnenroll",
-        "NewMFAMethod",
-        "MFARecoveryCode",
-        "RemoveMFAMethod",
-        "EmailVerification",
-        "BruteForceProtection",
-        "SuspiciousIP",
-        "MFAOTC",
-        "ImpossibleTravel",
-        "BotDetection",
-        "SmsAuthenticationEnabled",
-      ],
-      required: true,
+      options: constants.TYPES,
     },
     senderEmail: {
       type: "string",
@@ -86,11 +62,8 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.frontegg.com";
+      return `https://${this.$auth.geo_location}.frontegg.com`;
     },
     async _makeRequest(opts = {}) {
       const {
@@ -106,31 +79,18 @@ export default {
         },
       });
     },
-    async createOrUpdateTemplate({
-      type, senderEmail, htmlTemplate, subject, fromName, successRedirectUrl, active, ...otherOpts
-    }) {
+    async createOrUpdateTemplate(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/identity/resources/mail/v1/configs/templates",
-        data: {
-          type,
-          senderEmail,
-          htmlTemplate,
-          subject,
-          fromName,
-          successRedirectUrl,
-          active,
-          ...otherOpts,
-        },
+        ...args,
       });
     },
-    async createOrUpdateConfiguration({ sendGridSecretKey }) {
+    async createOrUpdateConfiguration(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/identity/resources/mail/v1/configurations",
-        data: {
-          sendGridSecretKey,
-        },
+        ...args,
       });
     },
   },
