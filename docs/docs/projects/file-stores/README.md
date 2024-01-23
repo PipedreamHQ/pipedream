@@ -192,7 +192,7 @@ export default defineComponent({
 })
 ```
 
-:::tip **Recommended** Pass the `contentLength`
+:::tip (Recommended) Pass the contentLength if possible
 
 If possible, pass a `contentLength` argument, then File Store will be able to efficiently stream to use less memory. Without a `contentLength` argument, the entire file will need to be downloaded to `/tmp/` until it can be uploaded to the File store.
 
@@ -208,6 +208,8 @@ File Stores live in cloud storage by default, but files can be downloaded to you
 First open a new file at a specific path in the File Store, and then call the `toFile()` method to download the file to the given path:
 
 ```javascript
+import fs from 'fs';
+
 export default defineComponent({
   async run({ steps, $ }) {
     // Download a file from the File Store to the local /tmp/ directory

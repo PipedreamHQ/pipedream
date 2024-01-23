@@ -8,7 +8,7 @@ export default {
   description:
     `Emit new event when a recipient completes a document [See docs here](${DOCS_LINK})`,
   key: "pandadoc-recipient-completed",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   methods: {
     ...common.methods,
