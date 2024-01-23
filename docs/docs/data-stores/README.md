@@ -171,7 +171,7 @@ If the data contained in each key is large, consider lowering the number of `bat
 
 - Adjust your [workflow memory and timeout settings](/workflows/settings/) according to the size of the data in your data store. Set the memory at 512 MB and timeout to 60 seconds and adjust higher if needed.
 
-- Monitor the exporting logs after each execution to make sure there weren't errors. Run the step as many times as needed until all your data is exported.
+- Monitor the exports of this step after each execution for any potential errors preventing a full export. Run the step as many times as needed until all your data is exported.
 
 :::warning
 This action deletes the keys that were successfully exported. It is advisable to first run a test without deleting the keys. In case of any unforeseen errors, your data will still be safe.
