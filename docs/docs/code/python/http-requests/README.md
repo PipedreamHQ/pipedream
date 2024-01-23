@@ -17,7 +17,7 @@ GET requests typically are for retrieving data from an API. Below is an example.
 import requests
 
 def handler(pd: "pipedream"):
-  url = 'https://swapi.dev/api/people/1'
+  url = "https://swapi.dev/api/people/1"
 
   r = requests.get(url)
 
@@ -35,7 +35,7 @@ import requests
 
 def handler(pd: "pipedream"):
   # This a POST request to this URL will echo back whatever data we send to it
-  url = 'https://postman-echo.com/post'
+  url = "https://postman-echo.com/post"
 
   data = {"name": "Bulbasaur"}
 
@@ -56,7 +56,7 @@ An example of sending a previously stored file in the workflow's `/tmp` director
 
 ```python
 # Retrieving a previously saved file from workflow storage
-files = {'image': open('/tmp/python-logo.png', 'rb')}
+files = {"image": open("/tmp/python-logo.png", "rb")}
 
-r = requests.post(url='https://api.imgur.com/3/image', files=files)
+r = requests.post(url="https://api.imgur.com/3/image", files=files)
 ```

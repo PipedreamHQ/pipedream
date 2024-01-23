@@ -111,7 +111,7 @@ GET requests typically are for retrieving data from an API. Below is an example.
 import requests
 
 def handler(pd: "pipedream"):
-  url = 'https://swapi.dev/api/people/1'
+  url = "https://swapi.dev/api/people/1"
 
   r = requests.get(url)
 
@@ -129,7 +129,7 @@ import requests
 
 def handler(pd: "pipedream"):
   # This a POST request to this URL will echo back whatever data we send to it
-  url = 'https://postman-echo.com/post'
+  url = "https://postman-echo.com/post"
 
   data = {"name": "Bulbasaur"}
 
@@ -153,9 +153,9 @@ import requests
 
 def handler(pd: "pipedream"):
   # Retrieving a previously saved file from workflow storage
-  files = {'image': open('/tmp/python-logo.png', 'rb')}
+  files = {"image": open("/tmp/python-logo.png", "rb")}
 
-  r = requests.post(url='https://api.imgur.com/3/image', files=files)
+  r = requests.post(url="https://api.imgur.com/3/image", files=files)
 ```
 
 ## Returning HTTP responses
@@ -163,11 +163,11 @@ def handler(pd: "pipedream"):
 You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the `pd.respond()` method:
 
 ```python
-def handler(pd: 'pipedream'):
+def handler(pd: "pipedream"):
   pd.respond({
-    'status': 200,
-    'body': {
-      'message': 'Everything is ok'
+    "status": 200,
+    "body": {
+      "message": "Everything is ok"
     }
   })
 ```
@@ -229,7 +229,7 @@ def handler(pd: "pipedream"):
 
   # Expose the data to other steps in the "pokemon" key from this step
   return {
-    'pokemon': pokemon
+    "pokemon": pokemon
   }
 ```
 
@@ -254,7 +254,7 @@ To access them, use the `os` module.
 import os
 
 def handler(pd: "pipedream"):
-  token = os.environ['AIRTABLE_API_KEY']
+  token = os.environ["AIRTABLE_API_KEY"]
 
   print(token)
 ```
@@ -272,11 +272,11 @@ import requests
 import os
 
 def handler(pd: "pipedream"):
-  token = os.environ['AIRTABLE_API_KEY']
+  token = os.environ["AIRTABLE_API_KEY"]
 
-  url = 'https://api.airtable.com/v0/your-airtable-base/your-table'
+  url = "https://api.airtable.com/v0/your-airtable-base/your-table"
 
-  headers = { 'Authorization': f"Bearer {token}"}
+  headers = { "Authorization": f"Bearer {token}"}
   r = requests.get(url, headers=headers)
 
   print(r.text)
@@ -285,11 +285,11 @@ def handler(pd: "pipedream"):
 :::tip
 There are 2 different ways of using the `os` module to access your environment variables.
 
-`os.environ['ENV_NAME_HERE']` will raise an error that stops your workflow if that key doesn't exist in your Pipedream account.
+`os.environ["ENV_NAME_HERE"]` will raise an error that stops your workflow if that key doesn't exist in your Pipedream account.
 
-Whereas `os.environ.get('ENV_NAME_HERE')` will _not_ throw an error and instead returns an empty string.
+Whereas `os.environ.get("ENV_NAME_HERE")` will _not_ throw an error and instead returns an empty string.
 
-If your code relies on the presence of a environment variable, consider using `os.environ['ENV_NAME_HERE']` instead.
+If your code relies on the presence of a environment variable, consider using `os.environ["ENV_NAME_HERE"]` instead.
 :::
 
 ## Handling errors
@@ -297,7 +297,7 @@ If your code relies on the presence of a environment variable, consider using `o
 You may need to exit a workflow early. In a Python step, just a `raise` an error to halt a step's execution.
 
 ```python
-raise NameError('Something happened that should not. Exiting early.')
+raise NameError("Something happened that should not. Exiting early.")
 ```
 
 All exceptions from your Python code will appear in the **logs** area of the results.
@@ -319,7 +319,7 @@ In contrast, `pd.flow.exit()` on its own will end the workflow only after execut
 :::
 
 ```python
-def handler(pd: 'pipedream'):
+def handler(pd: "pipedream"):
   return pd.flow.exit("reason")
   print("This code will not run, since pd.flow.exit() was called above it")
 ```
@@ -327,8 +327,8 @@ def handler(pd: 'pipedream'):
 You can pass any string as an argument to `pd.flow.exit()`:
 
 ```python
-def handler(pd: 'pipedream'):
-  return pd.flow.exit('Exiting early. Goodbye.')
+def handler(pd: "pipedream"):
+  return pd.flow.exit("Exiting early. Goodbye.")
   print("This code will not run, since pd.flow.exit() was called above it")
 ```
 
@@ -337,7 +337,7 @@ Or exit the workflow early within a conditional:
 ```python
 import random
 
-def handler(pd: 'pipedream'):
+def handler(pd: "pipedream"):
   # Flip a coin, running pd.flow.exit() for 50% of events
   if random.randint(0, 100) <= 50:
     return pd.flow.exit("reason")
@@ -358,12 +358,12 @@ You have full access to read and write both files in `/tmp`.
 ```python
 import requests
 
-def handler(pd: 'pipedream'):
+def handler(pd: "pipedream"):
   # Download the Python logo
-  r = requests.get('https://www.python.org/static/img/python-logo@2x.png')
+  r = requests.get("https://www.python.org/static/img/python-logo@2x.png")
 
   # Create a new file python-logo.png in the /tmp/data directory
-  with open('/tmp/python-logo.png', 'wb') as f:
+  with open("/tmp/python-logo.png", "wb") as f:
     # Save the content of the HTTP response into the file
     f.write(r.content)
 ```
@@ -375,8 +375,8 @@ Now `/tmp/python-logo.png` holds the official Python logo.
 You can also open files you have previously stored in the `/tmp` directory. Let's open the `python-logo.png` file.
 
 ```python
-def handler(pd: 'pipedream'):
-  with open('/tmp/python-logo.png', 'rb') as f:
+def handler(pd: "pipedream"):
+  with open("/tmp/python-logo.png", "rb") as f:
     # Store the contents of the file into a variable
     file_data = f.read()
 ```
@@ -388,9 +388,9 @@ If you need to check what files are currently in `/tmp` you can list them and pr
 ```python
 import os
 
-def handler(pd: 'pipedream'):
+def handler(pd: "pipedream"):
   # Prints the files in the tmp directory
-  print(os.listdir('/tmp'))
+  print(os.listdir("/tmp"))
 ```
 
 :::warning

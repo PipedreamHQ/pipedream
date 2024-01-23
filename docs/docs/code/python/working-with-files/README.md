@@ -18,10 +18,10 @@ import requests
 
 def handler(pd: "pipedream"):
   # Download the Python logo
-  r = requests.get('https://www.python.org/static/img/python-logo@2x.png')
+  r = requests.get("https://www.python.org/static/img/python-logo@2x.png")
 
   # Create a new file python-logo.png in the /tmp/data directory
-  with open('/tmp/python-logo.png', 'wb') as f:
+  with open("/tmp/python-logo.png", "wb") as f:
     # Save the content of the HTTP response into the file
     f.write(r.content)
 ```
@@ -36,7 +36,7 @@ You can also open files you have previously stored in the `/tmp` directory. Let'
 import os
 
 def handler(pd: "pipedream"):
-  with open('/tmp/python-logo.png') as f:
+  with open("/tmp/python-logo.png") as f:
     # Store the contents of the file into a variable
     file_data = f.read()
 ```
@@ -50,7 +50,7 @@ import os
 
 def handler(pd: "pipedream"):
   # Prints the files in the tmp directory
-  print(os.listdir('/tmp'))
+  print(os.listdir("/tmp"))
 ```
 
 ## `/tmp` limitations
