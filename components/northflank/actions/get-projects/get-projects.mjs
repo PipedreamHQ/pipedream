@@ -4,33 +4,35 @@ export default {
   key: "northflank-get-projects",
   name: "Get Projects",
   description: "Lists all projects with pagination. [See the documentation](https://northflank.com/docs/v1/api/projects/list-projects)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
-    perPage: {
-      propDefinition: [
-        app,
-        "perPage",
-      ],
-    },
-    page: {
-      propDefinition: [
-        app,
-        "page",
-      ],
-    },
   },
   async run({ $ }) {
-    const response = await this.app.listProjects({
-      $,
-      data: {
-        per_page: this.perPage,
-        page: this.page,
-      },
-    });
+    let hasNextPage = true;
+    let page = 0;
+    let allResources = [];
 
-    $.export("$summary", "Successfully retrieved the list of projects");
-    return response;
+    while (hasNextPage) {
+      const {
+        data: { projects: resources }, pagination,
+      } = await this.app.listProjects({
+        $,
+        data: {
+          page,
+        },
+      });
+
+      allResources = allResources.concat(resources);
+
+      hasNextPage = pagination.hasNextPage;
+
+      page++;
+    }
+
+    $.export("$summary", `Successfully retrieved the list of ${allResources.length} projects`);
+
+    return allResources;
   },
 };

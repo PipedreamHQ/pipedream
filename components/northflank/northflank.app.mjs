@@ -28,18 +28,6 @@ export default {
       description: "The region the project will be hosted in",
       options: constants.REGIONS,
     },
-    perPage: {
-      type: "integer",
-      label: "Results per page",
-      description: "The number of results to display per request. Maximum of 100 results per page",
-      optional: true,
-    },
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "The page number to access",
-      optional: true,
-    },
     domain: {
       type: "string",
       label: "Domain name",

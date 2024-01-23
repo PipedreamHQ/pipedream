@@ -8,26 +8,31 @@ export default {
   type: "action",
   props: {
     app,
-    perPage: {
-      propDefinition: [
-        app,
-        "perPage",
-      ],
-    },
-    page: {
-      propDefinition: [
-        app,
-        "page",
-      ],
-    },
   },
   async run({ $ }) {
-    const response = await this.app.listDomains({
-      per_page: this.perPage,
-      page: this.page,
-    });
+    let hasNextPage = true;
+    let page = 0;
+    let allResources = [];
 
-    $.export("$summary", `Retrieved ${response.data.domains.length} domain(s)`);
-    return response;
+    while (hasNextPage) {
+      const {
+        data: { domains: resources }, pagination,
+      } = await this.app.listProjects({
+        $,
+        data: {
+          page,
+        },
+      });
+
+      allResources = allResources.concat(resources);
+
+      hasNextPage = pagination.hasNextPage;
+
+      page++;
+    }
+
+    $.export("$summary", `Successfully retrieved the list of ${allResources.length} domains`);
+
+    return allResources;
   },
 };
