@@ -158,3 +158,68 @@ But you cannot serialize functions, classes, sets, maps, or other complex object
 You can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys from a data store in a single query.
 
 If you're using a pre-built action or code to retrieve all records or keys, and your data store contains more than {{$site.themeConfig.DATA_STORES_MAX_KEYS}} records, you'll receive a 426 error.
+
+## Exporting data to an external service
+
+In order to stay within the [data store limits](#data-store-limits), you may need to export the data in your data store to an external service.
+
+The following Node.js example action will export the data in batches via an HTTP POST request. You may need to adapt the code below to your needs.
+
+:::tip
+If the data contained in each key is large, consider lowering the number of `batch_quantity`.
+:::
+
+Adjust your workflow memory and timeout settings according to the size of the data. A starting recommendation is to set memory to 512 MB and timeout to 60 seconds.
+
+The action deletes the keys that were successfully exported. It's advisable to run a test first without deleting the keys. In case of any unforeseen errors, your data will still be safe.
+
+Monitor the result of the export after each run in the logs section of the action step to see if there were any errors. Run the step as many times as needed until all your data is exported.
+
+```javascript
+import { axios } from "@pipedream/platform"
+
+export default defineComponent({
+  props: {
+    data_store: {
+      type: "data_store",
+    },
+    batch_quantity: {
+      type: "integer",
+      label: "Batch Quantity",
+      description: "The number of key/values to export in each batch",
+      default: 500,
+    },
+  },
+  async run({ steps, $ }) {
+    // retrieve keys from data store
+    const batch_keys = (await this.data_store.keys()).splice(this.batch_quantity)
+    const batch_data = {}
+
+    // retrieve data serially for each key
+    for (const key of batch_keys) {
+      const value = await this.data_store.get(key)
+      batch_data[key] = value
+    }
+
+    try {
+      // export data to external service
+      await axios($, {
+        url: "https://external_service.com",
+        method: "POST",
+        data: batch_data,
+        // may need to add authentication
+      })
+
+      // delete exported keys and values
+      for (const key of batch_keys) {
+        await this.data_store.delete(key)
+      }
+
+      console.log(`number of remaining keys: ${(await this.data_store.keys()).length}`)
+    } catch (e) {
+      // an error occurred, don't delete keys
+      console.log(`error exporting data: ${e}`)
+    }
+  },
+})
+```
