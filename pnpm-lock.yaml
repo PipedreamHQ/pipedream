@@ -17978,9 +17978,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.0
+      '@definitelytyped/header-parser': 0.2.1
       '@definitelytyped/typescript-versions': 0.1.0
-      '@definitelytyped/utils': 0.1.0
+      '@definitelytyped/utils': 0.1.1
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
