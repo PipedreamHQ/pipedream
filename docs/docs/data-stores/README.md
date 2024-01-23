@@ -165,14 +165,16 @@ In order to stay within the [data store limits](#data-store-limits), you may nee
 
 The following Node.js example action will export one batch of data via an HTTP POST request. You may need to adapt the code to your needs.
 
-- Adjust your workflow memory and timeout settings according to the size of the data. A starting recommendation is to set memory at 512 MB and timeout to 60 seconds.
+:::tip
+If the data contained in each key is large, consider lowering the number of `batch_quantity`.
+:::
 
-- This action deletes the keys that were successfully exported. It is advisable to first run a test without deleting the keys. In case of any unforeseen errors, your data will still be safe.
+- Adjust your workflow memory and timeout settings according to the size of the data. A starting recommendation is to set memory at 512 MB and timeout to 60 seconds.
 
 - Monitor the exporting logs after each execution to make sure there weren't errors. Run the step as many times as needed until all your data is exported.
 
-:::tip
-If the data contained in each key is large, consider lowering the number of `batch_quantity`.
+:::warning
+This action deletes the keys that were successfully exported. It is advisable to first run a test without deleting the keys. In case of any unforeseen errors, your data will still be safe.
 :::
 
 ```javascript
