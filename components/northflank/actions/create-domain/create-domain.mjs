@@ -4,7 +4,7 @@ export default {
   key: "northflank-create-domain",
   name: "Create Domain",
   description: "Creates a new domain on Northflank. [See the documentation](https://northflank.com/docs/v1/api/domains/create-new-domain)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
