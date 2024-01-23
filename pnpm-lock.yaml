@@ -2613,7 +2613,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_ads:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      crypto: ^1.0.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      crypto: 1.0.1
 
   components/google_analytics:
     specifiers:
