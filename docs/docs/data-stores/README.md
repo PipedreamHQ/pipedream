@@ -166,7 +166,7 @@ In order to stay within the [data store limits](#data-store-limits), you may nee
 The following Node.js example action will export one batch of data via an HTTP POST request. You may need to adapt the code to your needs.
 
 :::tip
-If the data contained in each key is large, consider lowering the number of `batch_quantity`.
+If the data contained in each key is large, consider lowering the number of `batch_size`.
 :::
 
 - Adjust your [workflow memory and timeout settings](/workflows/settings/) according to the size of the data in your data store. Set the memory at 512 MB and timeout to 60 seconds and adjust higher if needed.
@@ -185,16 +185,22 @@ export default defineComponent({
     data_store: {
       type: "data_store",
     },
-    batch_quantity: {
+    batch_size: {
       type: "integer",
-      label: "Batch Quantity",
+      label: "Batch Size",
       description: "The number of key/values to export in each batch",
       default: 500,
     },
+    delete_keys: {
+      type: "boolean",
+      label: "Delete keys after export",
+      description: "Whether the data store keys will be deleted after export",
+      default: true,
+    }
   },
   async run({ steps, $ }) {
     // retrieve keys from data store
-    const batch_keys = (await this.data_store.keys()).splice(this.batch_quantity)
+    const batch_keys = (await this.data_store.keys()).splice(this.batch_size)
     const batch_data = {}
 
     // retrieve data serially for each key
@@ -213,8 +219,10 @@ export default defineComponent({
       })
 
       // delete exported keys and values
-      for (const key of batch_keys) {
-        await this.data_store.delete(key)
+      if (this.delete_keys) {
+        for (const key of batch_keys) {
+          await this.data_store.delete(key)
+        }
       }
 
       console.log(`number of remaining keys: ${(await this.data_store.keys()).length}`)
@@ -222,6 +230,8 @@ export default defineComponent({
       // an error occurred, don't delete keys
       console.log(`error exporting data: ${e}`)
     }
+
+    return batch_keys
   },
 })
 ```
