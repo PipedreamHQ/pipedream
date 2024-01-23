@@ -1263,6 +1263,9 @@ importers:
   components/codescene:
     specifiers: {}
 
+  components/cody:
+    specifiers: {}
+
   components/cohere_platform:
     specifiers:
       cohere-ai: ^6.1.0
