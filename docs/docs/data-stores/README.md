@@ -163,17 +163,17 @@ If you're using a pre-built action or code to retrieve all records or keys, and 
 
 In order to stay within the [data store limits](#data-store-limits), you may need to export the data in your data store to an external service.
 
-The following Node.js example action will export the data in batches via an HTTP POST request. You may need to adapt the code below to your needs.
+The following Node.js example action will export one batch of the data via an HTTP POST request. You may need to adapt the code to your needs.
 
 :::tip
 If the data contained in each key is large, consider lowering the number of `batch_quantity`.
 :::
 
-Adjust your workflow memory and timeout settings according to the size of the data. A starting recommendation is to set memory to 512 MB and timeout to 60 seconds.
+- Adjust your workflow memory and timeout settings according to the size of the data. A starting recommendation is to set memory at 512 MB and timeout to 60 seconds.
 
-The action deletes the keys that were successfully exported. It's advisable to run a test first without deleting the keys. In case of any unforeseen errors, your data will still be safe.
+- This action deletes the keys that were successfully exported. It is advisable to first run a test without deleting the keys. In case of any unforeseen errors, your data will still be safe.
 
-Monitor the result of the export after each run in the logs section of the action step to see if there were any errors. Run the step as many times as needed until all your data is exported.
+- Monitor the exporting logs after each execution to make sure there weren't errors. Run the step as many times as needed until all your data is exported.
 
 ```javascript
 import { axios } from "@pipedream/platform"
