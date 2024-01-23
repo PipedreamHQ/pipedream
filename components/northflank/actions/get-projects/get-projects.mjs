@@ -4,7 +4,7 @@ export default {
   key: "northflank-get-projects",
   name: "Get Projects",
   description: "Lists all projects with pagination. [See the documentation](https://northflank.com/docs/v1/api/projects/list-projects)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
