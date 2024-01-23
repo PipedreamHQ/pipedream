@@ -169,7 +169,7 @@ The following Node.js example action will export one batch of data via an HTTP P
 If the data contained in each key is large, consider lowering the number of `batch_quantity`.
 :::
 
-- Adjust your workflow memory and timeout settings according to the size of the data. A starting recommendation is to set memory at 512 MB and timeout to 60 seconds.
+- Adjust your [workflow memory and timeout settings](/workflows/settings/) according to the size of the data in your data store. Set the memory at 512 MB and timeout to 60 seconds and adjust higher if needed.
 
 - Monitor the exporting logs after each execution to make sure there weren't errors. Run the step as many times as needed until all your data is exported.
 
