@@ -109,6 +109,7 @@ Props are custom attributes you can register on a component. When a value is pas
 | [App](#app-props)               | Enables managed auth for a component                                                          |
 | [Data Store](/data-stores/#using-data-stores-in-code-steps) | Provides access to a Pipedream [data store](/data-stores/)        |
 | [HTTP Request](#http-request-prop)| Enables components to execute HTTP requests based on user input                             |
+| [Alert](#alert-prop)| Renders an informational alert in the prop form to help users configure the source or action                             |
 
 #### User Input Props
 
@@ -153,9 +154,9 @@ props: {
 | `disabled`       | `boolean`                            | optional  | Set to `true` to disable usage of this prop. Defaults to `false`.   |
 | `hidden`         | `boolean`                            | optional  | Set to `true` to hide this field. Defaults to `false`.              |
 
-**`PropType`s**
+**Prop Types**
 
-| `PropType`          | Array Supported | Supported in Sources? | Supported in Actions? | Custom properties                                                                                           |
+| Prop Type          | Array Supported | Supported in Sources? | Supported in Actions? | Custom properties                                                                                           |
 | ------------------- | --------------- | --------------------- | --------------------- | :---------------------------------------------------------------------------------------------------------- |
 | `app`               |                 | ✓                     | ✓                     | See [App Props](#app-props) below                                                                           |
 | `boolean`           | ✓               | ✓                     | ✓                     |
@@ -168,6 +169,7 @@ props: {
 | `$.service.db`      |                 | ✓                     |                       |
 | `data_store`        |                 |                       | ✓                     |
 | `http_request`      |                 |                       | ✓                     |
+| `alert`      |                 | ✓                     | ✓                     | See [Alert Prop](#alert-prop) below
 
 **Usage**
 
@@ -695,6 +697,33 @@ export default {
 ```
 
 For more examples, see the [docs on making HTTP requests with Node.js](/code/nodejs/http-requests/#send-a-get-request-to-fetch-data).
+
+
+#### Alert Prop
+
+Sometimes you may need to surface informational alerts to users within the prop form. This might be information that's not directly related to a specific prop, so it doesn't make sense to include in a prop description, but rather, it may be related to the overall configuration of the prop form.
+
+**Usage**
+
+| Property | Type | Required? | Description |
+| - | - | - | - |
+| `type` | `string` | required | Set to `alert` |
+| `alertType` | `string` | required | Determines the color and UI presentation of the alert prop. Can be one of `info`, `neutral`, `warning`, `error`. |
+| `content` | `string` | required | Determines the text that is rendered in the alert. Both plain text and markdown are supported. |
+
+```javascript
+export default defineComponent({
+  props: {
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content:
+        `## FYI
+        \nMake sure to configure x, y, and z. [Links work](https://pipedream.com), as does **bold text** etc`
+    }
+  },
+})
+```
 
 #### Limits on props
 
