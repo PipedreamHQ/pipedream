@@ -5177,6 +5177,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/postmark:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/practitest:
     specifiers:
       '@pipedream/platform': ^1.1.1
