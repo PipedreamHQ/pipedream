@@ -5,7 +5,7 @@ export default {
   name: "Document Details",
   description: "Return detailed data about a document. [See the docs here](https://developers.pandadoc.com/reference/document-details)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     app,
     id: {

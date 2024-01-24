@@ -228,7 +228,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/airslate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/airtable:
     specifiers:
@@ -404,9 +407,9 @@ importers:
 
   components/apollo_io:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
 
   components/appcircle:
     specifiers: {}
@@ -466,6 +469,9 @@ importers:
     specifiers: {}
 
   components/autoklose:
+    specifiers: {}
+
+  components/autom:
     specifiers: {}
 
   components/automatic_data_extraction:
@@ -1257,6 +1263,9 @@ importers:
   components/codescene:
     specifiers: {}
 
+  components/cody:
+    specifiers: {}
+
   components/cohere_platform:
     specifiers:
       cohere-ai: ^6.1.0
@@ -1405,6 +1414,12 @@ importers:
     specifiers: {}
 
   components/crowdpower:
+    specifiers: {}
+
+  components/cufinder:
+    specifiers: {}
+
+  components/cults:
     specifiers: {}
 
   components/curated:
@@ -2063,6 +2078,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/expedy:
+    specifiers: {}
+
   components/expensify:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2595,7 +2613,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_ads:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      crypto: ^1.0.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      crypto: 1.0.1
 
   components/google_analytics:
     specifiers:
@@ -2633,11 +2656,11 @@ importers:
 
   components/google_classroom:
     specifiers:
-      '@pipedream/platform': ^1.2.1
-      googleapis: ^109.0.1
+      '@pipedream/platform': ^1.6.0
+      googleapis: ^131.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-      googleapis: 109.0.1
+      '@pipedream/platform': 1.6.0
+      googleapis: 131.0.0
 
   components/google_cloud:
     specifiers:
@@ -2920,7 +2943,10 @@ importers:
     specifiers: {}
 
   components/happy_scribe:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/harvest:
     specifiers:
@@ -3475,7 +3501,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/kizeo_forms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/klaviyo:
     specifiers:
@@ -4753,10 +4782,10 @@ importers:
 
   components/pandadoc:
     specifiers:
-      '@pipedream/platform': ^1.4.1
+      '@pipedream/platform': ^1.6.0
       form-data: ^4.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       form-data: 4.0.0
 
   components/paperform:
@@ -5510,7 +5539,10 @@ importers:
     specifiers: {}
 
   components/referrizer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/refersion:
     specifiers:
@@ -5604,6 +5636,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/retailed:
+    specifiers: {}
 
   components/retently:
     specifiers:
@@ -6934,6 +6969,9 @@ importers:
   components/time_tracker_by_ebillity:
     specifiers: {}
 
+  components/timebuzzer:
+    specifiers: {}
+
   components/timecamp:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -7161,6 +7199,9 @@ importers:
       uuidv4: 6.2.13
 
   components/typless:
+    specifiers: {}
+
+  components/uberduck:
     specifiers: {}
 
   components/uchat:
@@ -11082,12 +11123,12 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.2.0:
-    resolution: {integrity: sha512-TD10p6rkc0HzP/G4mBM+UCrgVp8l/BVYwRlTUaCpsyD4Bx5Wg7fwYEWQfmFYyZ22kVlGnbo3H6M7ZtMfvAU1pA==}
+  /@definitelytyped/header-parser/0.2.1:
+    resolution: {integrity: sha512-EupvDd023Ro0ulkI8BMQF6VXHUvReiCyycuMwBgnriMxudp2/CcDHm0Ee4KYYp39wgxJMswnbW8H9BdwUtryeA==}
     engines: {node: '>=18.18.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.0
-      '@definitelytyped/utils': 0.1.0
+      '@definitelytyped/utils': 0.1.1
       semver: 7.5.4
     dev: true
 
@@ -11112,14 +11153,15 @@ packages:
     engines: {node: '>=18.18.0'}
     dev: true
 
-  /@definitelytyped/utils/0.1.0:
-    resolution: {integrity: sha512-lmQX0/FZwP8qc1kf4DPDixBDsXtbkGRPAxtwt/7ED3BibtNRL/Vvi8gDDWX6BN03heH+pbXKEhCN5NQ0g7x7sQ==}
+  /@definitelytyped/utils/0.1.1:
+    resolution: {integrity: sha512-VCamUy7vNS4x4ZkSTMs/YpyvwDOoPSfJ6OzoHM2PrArGRpvP34z7Au5yauiGGlAOpW3S6JjLQKZaF91sHVUTEg==}
     engines: {node: '>=18.18.0'}
     dependencies:
       '@definitelytyped/typescript-packages': 0.1.0
       '@definitelytyped/typescript-versions': 0.1.0
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 18.19.8
+      cachedir: 2.4.0
       charm: 1.0.2
       minimatch: 9.0.3
       tar: 6.2.0
@@ -16470,6 +16512,11 @@ packages:
       responselike: 2.0.1
     dev: false
 
+  /cachedir/2.4.0:
+    resolution: {integrity: sha512-9EtFOZR8g22CL7BWjJ9BUx1+A/djkofnyW3aOXZORNW2kxoUpx2h+uN2cOqwPmFhnpVmxg+KW2OjOSgChTEvsQ==}
+    engines: {node: '>=6'}
+    dev: true
+
   /call-bind/1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
     dependencies:
@@ -17880,7 +17927,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.0
+      '@definitelytyped/header-parser': 0.2.1
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17895,7 +17942,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.0
+      '@definitelytyped/header-parser': 0.2.1
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -17911,9 +17958,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.0
+      '@definitelytyped/header-parser': 0.2.1
       '@definitelytyped/typescript-versions': 0.1.0
-      '@definitelytyped/utils': 0.1.0
+      '@definitelytyped/utils': 0.1.1
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -17931,9 +17978,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.0
+      '@definitelytyped/header-parser': 0.2.1
       '@definitelytyped/typescript-versions': 0.1.0
-      '@definitelytyped/utils': 0.1.0
+      '@definitelytyped/utils': 0.1.1
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -19767,6 +19814,17 @@ packages:
     dependencies:
       google-auth-library: 8.9.0
       googleapis-common: 6.0.4
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/131.0.0:
+    resolution: {integrity: sha512-fa4kdkY0VwHDw/04ItpQv2tlvlPIwbh6NjHDoWAVrV52GuaZbYCMOC5Y+hRmprp5HHIMRODmyb2YujlbZSRUbQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      google-auth-library: 9.1.0
+      googleapis-common: 7.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color
