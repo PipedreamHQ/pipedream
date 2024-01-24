@@ -1,73 +1,47 @@
-import fireberry from "../../fireberry.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../fireberry.app.mjs";
 
 export default {
   key: "fireberry-create-article",
   name: "Create an Article",
   description: "Creates a new article in Fireberry. [See the documentation](https://developers.fireberry.com/reference/create-an-article)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    fireberry,
+    app,
     articleName: {
       propDefinition: [
-        fireberry,
+        app,
         "articleName",
       ],
     },
     articleSubject: {
       propDefinition: [
-        fireberry,
+        app,
         "articleSubject",
       ],
     },
     articleBody: {
       propDefinition: [
-        fireberry,
+        app,
         "articleBody",
       ],
     },
     description: {
       propDefinition: [
-        fireberry,
+        app,
         "description",
-      ],
-    },
-    ownerId: {
-      propDefinition: [
-        fireberry,
-        "ownerId",
-      ],
-    },
-    stateCode: {
-      propDefinition: [
-        fireberry,
-        "stateCode",
-      ],
-    },
-    statusCode: {
-      propDefinition: [
-        fireberry,
-        "statusCode",
-      ],
-    },
-    viewCount: {
-      propDefinition: [
-        fireberry,
-        "viewCount",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.fireberry.createArticle({
-      articleName: this.articleName,
-      articleSubject: this.articleSubject,
-      articleBody: this.articleBody,
-      description: this.description,
-      ownerId: this.ownerId,
-      stateCode: this.stateCode,
-      statusCode: this.statusCode,
-      viewCount: this.viewCount,
+    const response = await this.app.createArticle({
+      $,
+      data: {
+        articlename: this.articleName,
+        articlesubject: this.articleSubject,
+        articlebody: this.articleBody,
+        description: this.description,
+      },
     });
 
     $.export("$summary", `Successfully created the article '${this.articleName}'`);

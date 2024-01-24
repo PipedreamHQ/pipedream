@@ -1,34 +1,36 @@
-import fireberry from "../../fireberry.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../fireberry.app.mjs";
 
 export default {
   key: "fireberry-list-articles",
   name: "List Articles",
   description: "List all articles from Fireberry. [See the documentation](https://developers.fireberry.com/reference/get-all-articles)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    fireberry,
-    pageSize: {
-      propDefinition: [
-        fireberry,
-        "pageSize",
-      ],
-    },
-    pageNumber: {
-      propDefinition: [
-        fireberry,
-        "pageNumber",
-      ],
-    },
+    app,
   },
   async run({ $ }) {
-    const response = await this.fireberry.getAllArticles({
-      pageSize: this.pageSize,
-      pageNumber: this.pageNumber,
-    });
+    let hasNextPage = true;
+    let page = 0;
+    let allResources = [];
 
-    $.export("$summary", `Successfully listed ${response.length} articles`);
-    return response;
+    while (hasNextPage) {
+      const { data: { Records: resources } } = await this.app.getAllArticles({
+        $,
+        data: {
+          page,
+        },
+      });
+
+      hasNextPage = resources.length > 0;
+
+      allResources = allResources.concat(resources);
+
+      page++;
+    }
+
+    $.export("$summary", `Successfully retrieved the list of ${allResources.length} projects`);
+
+    return allResources;
   },
 };

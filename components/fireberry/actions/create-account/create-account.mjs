@@ -1,36 +1,54 @@
-import fireberry from "../../fireberry.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../fireberry.app.mjs";
 
 export default {
   key: "fireberry-create-account",
   name: "Create Account",
   description: "Creates a new account in Fireberry. [See the documentation](https://developers.fireberry.com/reference/create-an-account)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    fireberry,
+    app,
     accountName: {
       propDefinition: [
-        fireberry,
+        app,
         "accountName",
       ],
     },
-    accountNumber: {
+    emailAddress1: {
       propDefinition: [
-        fireberry,
-        "accountNumber",
-        (c) => ({
-          optional: true,
-        }),
+        app,
+        "emailAddress1",
       ],
     },
-    // Include other required and optional props for creating an account
+    firstName: {
+      propDefinition: [
+        app,
+        "firstName",
+      ],
+    },
+    lastName: {
+      propDefinition: [
+        app,
+        "lastName",
+      ],
+    },
+    websiteUrl: {
+      propDefinition: [
+        app,
+        "websiteUrl",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.fireberry.createAccount({
-      accountName: this.accountName,
-      accountNumber: this.accountNumber,
-      // Pass other props here
+    const response = await this.app.createAccount({
+      $,
+      data: {
+        accountname: this.accountName,
+        emailaddress1: this.emailAddress1,
+        firstname: this.firstName,
+        lastname: this.lastName,
+        websiteurl: this.websiteUrl,
+      },
     });
 
     $.export("$summary", `Created account with name: ${this.accountName}`);

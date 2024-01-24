@@ -2213,7 +2213,10 @@ importers:
       google-auth-library: 7.14.1
 
   components/fireberry:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/firmalyzer_iotvas:
     specifiers: {}
