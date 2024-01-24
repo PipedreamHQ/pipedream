@@ -1,4 +1,4 @@
-main_example = """## Example all file for Raindrop
+main_example = """## Example app file for Raindrop
 
 Here's an example Pipedream app for Raindrop:
 

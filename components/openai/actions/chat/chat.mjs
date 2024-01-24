@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "Chat",
-  version: "0.1.3",
+  version: "0.1.9",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See docs here](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
@@ -38,6 +38,17 @@ export default {
       type: "string[]",
       description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview model`",
       optional: true,
+    },
+    responseFormat: {
+      type: "string",
+      label: "Response Format",
+      description: "Specify the format that the model must output. [Setting to `json_object` guarantees the message the model generates is valid JSON](https://platform.openai.com/docs/api-reference/chat/create#chat-create-response_format). Defaults to `text`",
+      options: [
+        "text",
+        "json_object",
+      ],
+      optional: true,
+      default: "text",
     },
     ...common.props,
   },

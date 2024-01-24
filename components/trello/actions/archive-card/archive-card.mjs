@@ -1,11 +1,11 @@
-import common from "../common.js";
+import common from "../common.mjs";
 
 export default {
   ...common,
   key: "trello-archive-card",
   name: "Archive Card",
   description: "Archives a card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     ...common.props,

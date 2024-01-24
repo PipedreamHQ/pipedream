@@ -146,8 +146,17 @@ export default {
         "content": this._getUserMessageContent(),
       });
 
+      const responseFormat = {};
+
+      if (this.modelId != "gpt-4-vision-preview") {
+        responseFormat["response_format"] = {
+          type: this.responseFormat,
+        };
+      }
+
       return {
         ...this._getCommonArgs(),
+        ...responseFormat,
         messages,
       };
     },

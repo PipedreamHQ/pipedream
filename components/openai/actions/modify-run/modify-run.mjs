@@ -2,9 +2,9 @@ import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-modify-run",
-  name: "Modify Run",
-  description: "Modifies an existing run. [See the documentation](https://platform.openai.com/docs/api-reference)",
-  version: "0.0.1",
+  name: "Modify Run (Assistants)",
+  description: "Modifies an existing run. [See the documentation](https://platform.openai.com/docs/api-reference/runs/modifyRun)",
+  version: "0.0.6",
   type: "action",
   props: {
     openai,
@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         openai,
         "runId",
+        ({ threadId }) => ({
+          threadId,
+        }),
       ],
     },
     metadata: {

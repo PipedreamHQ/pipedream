@@ -21,28 +21,66 @@ export default {
   key: "google_drive-new-or-modified-files",
   name: "New or Modified Files",
   description: "Emit new event any time any file in your linked Google Drive is added, modified, or deleted",
-  version: "0.1.2",
+  version: "0.2.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
+  props: {
+    ...common.props,
+    folders: {
+      type: "string[]",
+      label: "Folders",
+      description:
+        "(Optional) The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.",
+      optional: true,
+      default: [],
+      options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const baseOpts = {
+          q: "mimeType = 'application/vnd.google-apps.folder' and trashed = false",
+        };
+        const opts = this.isMyDrive()
+          ? baseOpts
+          : {
+            ...baseOpts,
+            corpora: "drive",
+            driveId: this.getDriveId(),
+            includeItemsFromAllDrives: true,
+            supportsAllDrives: true,
+          };
+        return this.googleDrive.listFilesOptions(nextPageToken, opts);
+      },
+    },
+  },
   hooks: {
     async deploy() {
       const daysAgo = new Date();
       daysAgo.setDate(daysAgo.getDate() - 30);
       const timeString = daysAgo.toISOString();
 
-      const { data } = await this.googleDrive.drive().files.list({
+      const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files",
       });
 
-      await this.processChanges(data.files);
+      const { files } = await this.googleDrive.listFilesInPage(null, args);
+
+      await this.processChanges(files);
     },
     ...common.hooks,
   },
   methods: {
     ...common.methods,
+    shouldProcess(file) {
+      if (file.mimeType !== "application/vnd.google-apps.folder") {
+        const watchedFolders = new Set(this.folders);
+        return (
+          watchedFolders.size == 0 ||
+          (file.parents && file.parents.some((p) => watchedFolders.has(p)))
+        );
+      }
+    },
     getUpdateTypes() {
       return [
         GOOGLE_DRIVE_NOTIFICATION_ADD,
@@ -84,6 +122,17 @@ export default {
       const changes = await this.getChanges(headers);
 
       for (const file of changedFiles) {
+        file.parents = (await this.googleDrive.getFile(file.id, {
+          fields: "parents",
+        })).parents;
+
+        console.log(file); // see what file was processed
+
+        if (!this.shouldProcess(file)) {
+          console.log(`Skipping file ${file.name}`);
+          continue;
+        }
+
         const eventToEmit = {
           file,
           ...changes,

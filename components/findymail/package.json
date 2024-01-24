@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/findymail",
+  "version": "0.0.1",
+  "description": "Pipedream Findymail Components",
+  "main": "findymail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "findymail"
+  ],
+  "homepage": "https://pipedream.com/apps/findymail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

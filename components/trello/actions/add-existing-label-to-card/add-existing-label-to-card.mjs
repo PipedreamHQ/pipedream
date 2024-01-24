@@ -1,11 +1,11 @@
-import common from "../common.js";
+import common from "../common.mjs";
 
 export default {
   ...common,
   key: "trello-add-existing-label-to-card",
   name: "Add Existing Label to Card",
   description: "Adds an existing label to the specified card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

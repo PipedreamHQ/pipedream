@@ -33,6 +33,12 @@ export default {
         "filterByFormula",
       ],
     },
+    returnFieldsByFieldId: {
+      propDefinition: [
+        airtable,
+        "returnFieldsByFieldId",
+      ],
+    },
   },
   async run({ $ }) {
     const baseId = this.baseId?.value ?? this.baseId;
@@ -40,7 +46,9 @@ export default {
     const viewId = this.viewId?.value ?? this.viewId;
 
     const data = [];
-    const params = {};
+    const params = {
+      returnFieldsByFieldId: this.returnFieldsByFieldId,
+    };
 
     if (viewId) { params.view = viewId; }
     if (this.filterByFormula) { params.filterByFormula = this.filterByFormula; }

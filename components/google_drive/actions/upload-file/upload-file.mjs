@@ -10,7 +10,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Copy an existing file to Google Drive. [See the docs](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     googleDrive,
@@ -69,26 +69,14 @@ export default {
       default: GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART,
       optional: true,
     },
-    replaceFile: {
-      type: "boolean",
-      label: "Replace File",
-      description: "Whether should replace file case it exists, default: `false`",
+    fileId: {
+      propDefinition: [
+        googleDrive,
+        "fileId",
+      ],
+      label: "File to replace",
+      description: "Id of the file to replace. Leave it empty to upload a new file.",
       optional: true,
-      default: false,
-    },
-  },
-  methods: {
-    async getFileIdForReplace(filename, parentId) {
-      if (this.replaceFile) {
-        const { files } = await this.googleDrive.listFilesInPage(null, {
-          q: `name = '${filename}' and '${parentId || "root"}' in parents and trashed = false`,
-          fields: "files/id,files/name,files/parents",
-        });
-        if (files.length) {
-          return files[0].id;
-        }
-      }
-      return null;
     },
   },
   async run({ $ }) {
@@ -106,7 +94,6 @@ export default {
     const driveId = this.googleDrive.getDriveId(this.drive);
 
     const filename = name || path.basename(fileUrl || filePath);
-    const fileId = await this.getFileIdForReplace(filename, parentId);
 
     const file = await getFileStream({
       $,
@@ -116,12 +103,12 @@ export default {
     console.log(`Upload type: ${uploadType}.`);
 
     let result = null;
-    if (fileId) {
-      await this.googleDrive.updateFileMedia(fileId, file, omitEmptyStringValues({
+    if (this.fileId) {
+      await this.googleDrive.updateFileMedia(this.fileId, file, omitEmptyStringValues({
         mimeType,
         uploadType,
       }));
-      result = await this.googleDrive.updateFile(fileId, omitEmptyStringValues({
+      result = await this.googleDrive.updateFile(this.fileId, omitEmptyStringValues({
         name: filename,
         mimeType,
         uploadType,

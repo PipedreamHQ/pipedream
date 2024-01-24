@@ -7,7 +7,7 @@ export default {
   name: "Send Reaction",
   description: "Action to submit your request to the sending queue. When a request in the queue will be ready to send a reaction in iMessage, an attempt will be made to deliver it to the recipient. [See the documentation](https://docs.loopmessage.com/imessage-conversation-api/messaging/send-message#send-reaction)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     messageId: {

@@ -8,7 +8,7 @@ export default {
   description:
     `Emit new event when a document is deleted [See docs here](${DOCS_LINK})`,
   key: "pandadoc-document-deleted",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   methods: {
     ...common.methods,

@@ -2,9 +2,9 @@ import openai from "../../openai.app.mjs";
 
 export default {
   key: "openai-retrieve-run",
-  name: "Retrieve Run",
-  description: "Retrieves a specific run within a thread. [See the documentation](https://platform.openai.com/docs/api-reference)",
-  version: "0.0.1",
+  name: "Retrieve Run (Assistants)",
+  description: "Retrieves a specific run within a thread. [See the documentation](https://platform.openai.com/docs/api-reference/runs/getRun)",
+  version: "0.0.6",
   type: "action",
   props: {
     openai,
@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         openai,
         "runId",
+        ({ threadId }) => ({
+          threadId,
+        }),
       ],
     },
   },

@@ -4,15 +4,9 @@
 
 Pipedream supports [Go v{{$site.themeConfig.GO_LANG_VERSION}}](https://go.dev) in workflows.
 
-::: warning
-Go steps are in **beta**. There might be changes while we prepare it for a full release.
-
-You can still run Go scripts, [share data between steps](/code/bash/#sharing-data-between-steps), and [access environment variables](/code/bash/#using-environment-variables).
-
-However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time.
+When you write Go code on Pipedream, you can [share data between steps](/code/bash/#sharing-data-between-steps) and [access environment variables](/code/bash/#using-environment-variables). However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time.
 
 If you have any feedback on the Go runtime, please let us know in [our community](https://pipedream.com/support).
-:::
 
 ## Adding a Go code step
 

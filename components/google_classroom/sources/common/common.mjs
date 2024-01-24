@@ -105,8 +105,9 @@ export default {
       if (this.isRelevant(item, after)) {
         this.emitEvent(item);
       }
-      if (item.updateTime > maxUpdateTime) {
-        maxUpdateTime = item.updateTime;
+      const ts = Date.parse(item.updateTime);
+      if (ts > maxUpdateTime) {
+        maxUpdateTime = ts;
       }
     }
 

@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/trello",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "Pipedream Trello Components",
-  "main": "trello.app.js",
+  "main": "trello.app.mjs",
   "keywords": [
     "pipedream",
     "trello"
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/trello",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^0.10.0",
+    "@pipedream/platform": "^1.5.1",
     "crypto": "^1.0.1",
     "lodash.pick": "^4.4.0",
     "lodash.pickby": "^4.6.0",

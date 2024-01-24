@@ -3,31 +3,31 @@ short_description: Store and read data with data stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
 ---
 
-# Using Data Stores 
+# Using Data Stores
 
 In Node.js (Javascript) code steps, you can also store and retrieve data within code steps without connecting a 3rd party database.
 
-Add data stores to steps as props. By adding the store as a prop, it's available under `this`. 
+Add data stores to steps as props. By adding the store as a prop, it's available under `this`.
 
 For example, you can define a data store as a data prop, and reference it at `this.data`:
 
 ```javascript
 export default defineComponent({
   props: {
-    // Define that the "db" variable in our component is a data store
-    data: { type: "data_store" }
+    // Define that the "data" variable in our component is a data store
+    data: { type: "data_store" },
   },
   async run({ steps, $ }) {
-    // Now we can access the data store at "this.store"
+    // Now we can access the data store at "this.data"
     await this.data.get("email");
-  }
+  },
 });
 ```
 
 :::tip
 `props` injects variables under `this` scope in components.
 
-In the above example we essentially instructed that this step needs the data store injected into the `this.store` prop. 
+In the above example we essentially instructed that this step needs the data store injected into the `this.store` prop.
 :::
 
 :::warning
@@ -51,14 +51,15 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     // Store a timestamp each time this step is executed in the workflow
-    await this.data.set('lastRanAt', new Date());
+    await this.data.set("lastRanAt", new Date());
   },
-})
+});
 ```
 
 ## Retrieving keys
 
 Fetch all the keys in a given Data Store using the `keys` method:
+
 ```javascript
 export default defineComponent({
   props: {
@@ -68,12 +69,13 @@ export default defineComponent({
     // Return a list of all the keys in a given Data Store
     return await this.data.keys();
   },
-})
+});
 ```
 
 ## Checking for the existence of specific keys
 
 If you need to check whether a specific `key` exists in a Data Store, you can pass the `key` to the `has` method to get back a `true` or `false`:
+
 ```javascript
 export default defineComponent({
   props: {
@@ -81,9 +83,9 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     // Check if a specific key exists in your Data Store
-    return await this.data.has('lastRanAt');
+    return await this.data.has("lastRanAt");
   },
-})
+});
 ```
 
 ## Retrieving data
@@ -97,14 +99,15 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     // Check if the lastRanAt key exists
-    const lastRanAt = await this.data.get('lastRanAt'); 
+    const lastRanAt = await this.data.get("lastRanAt");
   },
-})
+});
 ```
 
 ## Deleting or updating values within a record
 
 To delete or update the _value_ of an individual record, use the `set` method for an existing `key` and pass either the new value or `''` as the second argument to remove the value but retain the key.
+
 ```javascript
 export default defineComponent({
   props: {
@@ -112,17 +115,18 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     // Update the value associated with the key, myKey
-    await this.data.set('myKey','newValue')
+    await this.data.set("myKey", "newValue");
 
     // Remove the value but retain the key
-    await this.data.set('myKey','')
+    await this.data.set("myKey", "");
   },
-})
+});
 ```
 
 ## Deleting specific records
 
 To delete individual records in a Data Store, use the `delete` method for a specific `key`:
+
 ```javascript
 export default defineComponent({
   props: {
@@ -130,14 +134,15 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     // Delete the lastRanAt record
-    const lastRanAt = await this.data.delete('lastRanAt'); 
+    const lastRanAt = await this.data.delete("lastRanAt");
   },
-})
+});
 ```
 
 ## Deleting all records from a specific Data Store
 
 If you need to delete all records in a given Data Store, you can use the `clear` method. **Note that this is an irreversible change, even when testing code in the workflow builder.**
+
 ```javascript
 export default defineComponent({
   props: {
@@ -147,7 +152,7 @@ export default defineComponent({
     // Delete all records from a specific Data Store
     return await this.data.clear();
   },
-})
+});
 ```
 
 ## Viewing store data
@@ -164,15 +169,15 @@ It is possible to use multiple data stores in a single code step, just make a un
 export default defineComponent({
   props: {
     customers: { type: "data_store" },
-    orders: { type: "data_store" }
+    orders: { type: "data_store" },
   },
   async run({ steps, $ }) {
-    // Retrieve the customer from our customer store 
+    // Retrieve the customer from our customer store
     const customer = await this.customer.get(steps.trigger.event.customer_id);
     // Retrieve the order from our order data store
     const order = await this.orders.get(steps.trigger.event.order_id);
   },
-})
+});
 ```
 
 ## Workflow counter example
@@ -187,13 +192,13 @@ export default defineComponent({
   async run({ steps, $ }) {
     // By default, all database entries are undefined.
     // It's wise to set a default value so our code as an initial value to work with
-    const counter = await this.data.get('counter') ?? 0;
-    
+    const counter = (await this.data.get("counter")) ?? 0;
+
     // On the first run "counter" will be 0 and we'll increment it to 1
     // The next run will increment the counter to 2, and so forth
-    await this.data.set('counter', counter + 1);
+    await this.data.set("counter", counter + 1);
   },
-})
+});
 ```
 
 ## Dedupe data example
@@ -210,35 +215,33 @@ export default defineComponent({
   async run({ steps, $ }) {
     const email = steps.trigger.event.body.new_customer_email;
     // Retrieve the past recorded emails from other runs
-    const emails = await this.data.get('emails') ?? [];
+    const emails = (await this.data.get("emails")) ?? [];
 
     // If the current email being passed from our webhook is already in our list, exit early
-    if(emails.includes(email)) {
-      return $.flow.exit('Already welcomed this user');
+    if (emails.includes(email)) {
+      return $.flow.exit("Already welcomed this user");
     }
 
     // Add the current email to the list of past emails so we can detect it in the future runs
-    await this.data.set('emails', [...emails, email]);
+    await this.data.set("emails", [...emails, email]);
   },
-})
+});
 ```
 
 ## Data store limitations
 
-Data stores are in beta. There may be changes to this feature while we prepare it for a full release.
-
-Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
+Data Stores are only currently available in Node.js and Python steps. They are not yet available [Bash](/code/bash/) or [Go](/code/go/).
 
 ### Supported data types
 
 Data stores can hold any JSON-serializable data within the storage limits. This includes data types including:
 
-* Strings
-* Objects
-* Arrays
-* Dates
-* Integers
-* Floats
+- Strings
+- Objects
+- Arrays
+- Dates
+- Integers
+- Floats
 
 But you cannot serialize Functions, Classes, or other more complex objects.
 

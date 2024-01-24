@@ -1,4 +1,6 @@
+import { ConfigurationError } from "@pipedream/platform";
 import github from "../../github.app.mjs";
+import { checkAdminPermission } from "./utils.mjs";
 
 export default {
   props: {
@@ -8,9 +10,14 @@ export default {
         github,
         "repoFullname",
       ],
+      reloadProps: true,
     },
     db: "$.service.db",
     http: "$.interface.http",
+  },
+  async additionalProps() {
+    await this.requireAdminPermission();
+    return {};
   },
   methods: {
     _getWebhookId() {
@@ -28,12 +35,11 @@ export default {
     loadHistoricalEvents() {
       return true;
     },
-  },
-  hooks: {
-    async deploy() {
-      await this.loadHistoricalEvents();
-    },
-    async activate() {
+    checkAdminPermission,
+    async createWebhook() {
+      if (this._getWebhookId()) {
+        await this.removeWebhook();
+      }
       const response = await this.github.createWebhook({
         repoFullname: this.repoFullname,
         data: {
@@ -47,12 +53,31 @@ export default {
       });
       this._setWebhookId(response.id);
     },
+    async removeWebhook(webhookId = this._getWebhookId()) {
+      if (webhookId) {
+        await this.github.removeWebhook({
+          repoFullname: this.repoFullname,
+          webhookId,
+        });
+        this._setWebhookId(null);
+      }
+    },
+    async requireAdminPermission() {
+      if (!await this.checkAdminPermission()) {
+        throw new ConfigurationError("Webhooks are only supported on repos where you have admin access.");
+      }
+    },
+  },
+  hooks: {
+    async deploy() {
+      await this.requireAdminPermission();
+      await this.loadHistoricalEvents();
+    },
+    async activate() {
+      await this.createWebhook();
+    },
     async deactivate() {
-      const webhookId = this._getWebhookId();
-      await this.github.removeWebhook({
-        repoFullname: this.repoFullname,
-        webhookId,
-      });
+      await this.removeWebhook();
     },
   },
 };

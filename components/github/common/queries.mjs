@@ -32,6 +32,27 @@ const projectsQuery = `
   }
 `;
 
+const discussionsQuery = `
+  query ($repoOwner: String!, $repoName: String!) {
+    repository(owner: $repoOwner, name: $repoName) {
+      discussions(first: 100) {
+        nodes {
+          author {
+            login
+            url
+          }
+          bodyHTML
+          bodyText
+          createdAt
+          id
+          title
+          url
+        }
+      }
+    }
+  }
+`;
+
 const organizationStatusFieldsQuery = `
   query ($repoOwner: String!, $project: Int!) {
     organization(login: $repoOwner) {
@@ -122,6 +143,7 @@ const projectItemQuery = `
 `;
 
 export default {
+  discussionsQuery,
   projectsQuery,
   organizationProjectsQuery,
   statusFieldsQuery,

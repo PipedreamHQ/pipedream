@@ -1,9 +1,7 @@
 from collections import OrderedDict
 import os
 import git
-import requests
 import subprocess
-import markdown_to_json
 import config.logging_config as logging_config
 from code_gen.generate import main
 
@@ -57,7 +55,7 @@ def generate_app_file_prompt(requirements, app_file_content):
 {requirements}"""
 
 
-def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=False, tries=3, remote_name="origin"):
+def generate_from_issue(markdown, issue_number, output_dir, generate_pr=True, clean=False, verbose=False, tries=3, remote_name="origin"):
     repo_path = os.path.abspath(os.path.join("..", ".."))
     output_dir = os.path.abspath(output_dir)
 
@@ -82,10 +80,26 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
 
         run_command(f"git reset --hard {remote_name}/master")
 
-    # parse github issue description
-    md = requests.get(
-        f"https://api.github.com/repos/PipedreamHQ/pipedream/issues/{issue_number}").json()["body"].lower()
-    markdown = markdown_to_json.dictify(md)
+    generate_from_markdown(markdown, output_dir=output_dir, verbose=verbose, tries=tries)
+
+    if generate_pr:
+        app = list(markdown.keys())[0]
+        app_base_path = os.path.join(output_dir, app)
+
+        # XXX: add deps to package.json
+        # XXX: remove ts stuff and .gitignore
+        # GitPython requires to manually check .gitignore paths when adding files to index
+        # so this is easier
+        run_command(f"npx eslint {app_base_path} --fix")
+        run_command(f"git add -f {app_base_path}")
+        run_command(f"git commit --no-verify -m '{app} init'")
+        run_command(
+            f"git push -f --no-verify --set-upstream {remote_name} {branch_name}")
+        run_command(
+            f"gh pr create -d -l ai-assisted -t 'New Components - {app}' -b 'Resolves #{issue_number}.'")
+
+
+def generate_from_markdown(markdown, output_dir, verbose=False, tries=3):
     app = list(markdown.keys())[0]
     global_urls = []
     requirements = []
@@ -107,13 +121,14 @@ def generate(issue_number, output_dir, generate_pr=True, clean=False, verbose=Fa
     else:
         logger.debug("No existing app file found, creating new one")
 
-    app_file_instructions = generate_app_file_prompt(
-        "\n\n".join(extract_prompts(markdown)), app_file_content)
+    prompt = "\n\n".join(extract_prompts(markdown))
+    app_file_instructions = generate_app_file_prompt(prompt, app_file_content)
     all_docs_urls = get_all_docs_urls(markdown)
     logger.debug("Generating app file")
     app_file_content = main("app",
                             app,
                             instructions=app_file_instructions,
+                            prompt=prompt,
                             tries=tries,
                             urls=all_docs_urls,
                             verbose=verbose)
@@ -164,7 +179,7 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
 
     for component in requirements:
         logger.info(f"generating {component['key']}...")
-        result = main(component["type"], app, component["instructions"], tries=tries,
+        result = main(component["type"], app, component["instructions"], prompt, tries=tries,
                       urls=component["urls"], verbose=verbose)
 
         component_type = "sources" if "source" in component['type'] else "actions"
@@ -175,15 +190,3 @@ You can call methods from the app file using `this.{app}.<method name>`. Think a
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'w') as f:
             f.write(result)
-
-    if generate_pr:
-        # XXX: add deps to package.json
-        # XXX: remove ts stuff and .gitignore
-        # GitPython requires to manually check .gitignore paths when adding files to index
-        # so this is easier
-        run_command(f"npx eslint {app_base_path} --fix")
-        run_command(f"git add -f {app_base_path}")
-        run_command(f"git commit --no-verify -m '{app} init'")
-        run_command(f"git push -f --no-verify --set-upstream {remote_name} {branch_name}")
-        run_command(
-            f"gh pr create -d -l ai-assisted -t 'New Components - {app}' -b 'Resolves #{issue_number}.'")

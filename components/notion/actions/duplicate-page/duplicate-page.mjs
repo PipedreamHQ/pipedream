@@ -7,7 +7,7 @@ export default {
   key: "notion-duplicate-page",
   name: "Duplicate Page",
   description: "Creates a new page copied from an existing page block. [See the docs](https://developers.notion.com/reference/post-page)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "action",
   props: {
     notion,

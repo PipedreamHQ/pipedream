@@ -19,7 +19,12 @@ const docsNav = [
     title: "Projects",
     children: [
       "/projects/",
-      "/projects/git/"
+      "/projects/git/",
+      {
+        title: "File Stores",
+        type: "group",
+        children: [{ title: "File Stores", path: "/projects/file-stores/" }, { title: "Node.js Reference", path: "/projects/file-stores/reference/" }],
+      },
     ]
   },
   {
@@ -125,6 +130,7 @@ const docsNav = [
   {
     title: "Single-Sign On (SSO)",
     children: [
+      "/workspaces/sso/",
       "/workspaces/sso/okta/",
       "/workspaces/sso/google/",
       "/workspaces/sso/saml/",

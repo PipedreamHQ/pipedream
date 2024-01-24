@@ -227,15 +227,17 @@ While you can save a workflow with syntax errors, it's unlikely to run correctly
 
 <VideoPlayer src="https://www.youtube.com/embed/lvTWnSAwEa8" title="Use NPM packages in code steps" />
 
-[npm](https://www.npmjs.com/) hosts JavaScript packages: bits of code someone else has written and packaged for others to use. npm has over 400,000 packages and counting. You can use most of those on Pipedream.
+[npm](https://www.npmjs.com/) hosts JavaScript packages: libraries of code someone else wrote and packaged for others to use. npm has over 400,000 packages and counting.
 
 ### Just `import` it
 
-To use an npm package in a code step, simply `import` it:
+To use an npm package on Pipedream, simply `import` it:
 
 ```javascript
 import axios from "axios";
 ```
+
+By default, workflows don't have any packages installed. Just import any package in this manner to make it available in the step.
 
 If a package only supports the [CommonJS module format](https://nodejs.org/api/modules.html), you may have to `require` it:
 
@@ -249,9 +251,13 @@ When Pipedream runs your workflow, we download the associated npm package for yo
 
 If you've used Node before, you'll notice there's no `package.json` file to upload or edit. We want to make package management simple, so just `import` or `require` the module like you would in your code, after package installation, and get to work.
 
-The core limitation of packages is one we described above: some packages require access to a web browser to run, and don't work with Node. Often this limitation is documented on the package `README`, but often it's not. If you're not sure and need to use it, we recommend just trying to `import` or `require` it.
+### Third-party package limitations
 
-Moreover, packages that require access to large binaries — for example, how [Puppeteer](https://pptr.dev) requires Chromium — may not work on Pipedream. If you're seeing any issues with a specific package, please [let us know](https://pipedream.com/support/).
+Some packages require access to a web browser to run, and don't work with Node.js. Often this limitation is documented on the package `README`, but often it's not. If you're not sure and need to use it, we recommend just trying to `import` or `require` it.
+
+Other packages require access to binaries or system libraries that aren't installed in the Pipedream execution environment.
+
+If you're seeing any issues with a specific package, please [let us know](https://pipedream.com/support/) and we'll try to help you make it work.
 
 ### Pinning package versions
 
@@ -361,6 +367,13 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 - You may use the `user_id` contained in the event to look up information in an external API. If you can't find data in the API tied to that user, you don't want to proceed.
 
 **In any code step, calling `return $.flow.exit()` will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
+
+::: tip
+
+It's a good practice to use `return $.flow.exit()` to immediately exit the workflow.
+In contrast, `$.flow.exit()` on its own will end the workflow only after executing all remaining code in the step.
+
+:::
 
 ```javascript
 export default defineComponent({
