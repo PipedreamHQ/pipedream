@@ -6,7 +6,7 @@ export default {
   name: "Create Board",
   description: "Creates a new board. [See the documentation](https://api.developer.monday.com/docs/boards#create-a-board)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     monday,
     boardName: {

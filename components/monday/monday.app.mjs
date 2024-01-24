@@ -95,9 +95,12 @@ export default {
       label: "Item ID",
       description: "The item's unique identifier",
       optional: true,
-      async options({ boardId }) {
+      async options({
+        boardId, prevContext,
+      }) {
         return this.listItemsOptions({
           boardId,
+          cursor: prevContext.cursor,
         });
       },
     },
@@ -239,12 +242,22 @@ export default {
         },
       });
     },
-    async listItemsBoard(variables) {
-      return this.makeRequest({
-        query: queries.listItemsBoard,
-        options: {
+    async listItemsBoard({
+      cursor, ...variables
+    }) {
+      const query = cursor
+        ? queries.listItemsNextPage
+        : queries.listItemsBoard;
+      const options = cursor
+        ? {
+          variables: cursor,
+        }
+        : {
           variables,
-        },
+        };
+      return this.makeRequest({
+        query,
+        options,
       });
     },
     async listUpdatesBoard(variables) {
@@ -294,12 +307,22 @@ export default {
         },
       });
     },
-    async getItemsByColumnValue(variables) {
-      return this.makeRequest({
-        query: queries.getItemsByColumnValue,
-        options: {
+    async getItemsByColumnValue({
+      cursor, ...variables
+    }) {
+      const query = cursor
+        ? queries.listItemsNextPage
+        : queries.getItemsByColumnValue;
+      const options = cursor
+        ? {
+          variables: cursor,
+        }
+        : {
           variables,
-        },
+        };
+      return this.makeRequest({
+        query,
+        options,
       });
     },
     async updateColumnValues(variables) {
@@ -403,16 +426,20 @@ export default {
       }
 
       const { boards } = data;
-      const options =
-        flatMap(boards, ({ items }) =>
-          map(items, ({
-            id, name,
-          }) =>
-            ({
-              value: id,
-              label: name,
-            })));
-      return options;
+      const items = boards[0].items_page.items;
+      const cursor = boards[0].items_page.cursor;
+      const options = items.map(({
+        id, name,
+      }) => ({
+        value: id,
+        label: name,
+      }));
+      return {
+        options,
+        context: {
+          cursor,
+        },
+      };
     },
     async listUpdatesOptions(variables) {
       const {
