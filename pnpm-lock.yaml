@@ -8163,7 +8163,7 @@ importers:
   platform:
     specifiers:
       '@octokit/core': ^3.6.0
-      axios: ^1.6.5
+      axios: ^1.6.0
       fp-ts: ^2.0.2
       husky: ^3.0.0
       io-ts: ^2.0.0
