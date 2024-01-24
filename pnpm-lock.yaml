@@ -228,7 +228,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/airslate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/airtable:
     specifiers:
@@ -404,9 +407,9 @@ importers:
 
   components/apollo_io:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
 
   components/appcircle:
     specifiers: {}
@@ -1258,6 +1261,9 @@ importers:
     specifiers: {}
 
   components/codescene:
+    specifiers: {}
+
+  components/cody:
     specifiers: {}
 
   components/cohere_platform:
@@ -2607,7 +2613,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_ads:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      crypto: ^1.0.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      crypto: 1.0.1
 
   components/google_analytics:
     specifiers:
@@ -2645,11 +2656,11 @@ importers:
 
   components/google_classroom:
     specifiers:
-      '@pipedream/platform': ^1.2.1
-      googleapis: ^109.0.1
+      '@pipedream/platform': ^1.6.0
+      googleapis: ^131.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-      googleapis: 109.0.1
+      '@pipedream/platform': 1.6.0
+      googleapis: 131.0.0
 
   components/google_cloud:
     specifiers:
@@ -2932,7 +2943,10 @@ importers:
     specifiers: {}
 
   components/happy_scribe:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/harvest:
     specifiers:
@@ -3487,7 +3501,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/kizeo_forms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/klaviyo:
     specifiers:
@@ -4768,10 +4785,10 @@ importers:
 
   components/pandadoc:
     specifiers:
-      '@pipedream/platform': ^1.4.1
+      '@pipedream/platform': ^1.6.0
       form-data: ^4.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       form-data: 4.0.0
 
   components/paperform:
@@ -5525,7 +5542,10 @@ importers:
     specifiers: {}
 
   components/referrizer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/refersion:
     specifiers:
@@ -19797,6 +19817,17 @@ packages:
     dependencies:
       google-auth-library: 8.9.0
       googleapis-common: 6.0.4
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/131.0.0:
+    resolution: {integrity: sha512-fa4kdkY0VwHDw/04ItpQv2tlvlPIwbh6NjHDoWAVrV52GuaZbYCMOC5Y+hRmprp5HHIMRODmyb2YujlbZSRUbQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      google-auth-library: 9.1.0
+      googleapis-common: 7.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cody",
+  "version": "0.0.1",
+  "description": "Pipedream Cody Components",
+  "main": "cody.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cody"
+  ],
+  "homepage": "https://pipedream.com/apps/cody",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

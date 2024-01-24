@@ -5,7 +5,7 @@ export default {
   name: "Create or Update Contact",
   description: "This method adds or updates a contact using the email as index. [See the docs here](https://developers.pandadoc.com/reference/create-contact)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     app,
     email: {
