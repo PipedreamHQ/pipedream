@@ -7,7 +7,7 @@ export default {
   key: "notion-update-page",
   name: "Update Page",
   description: "Updates page property values for the specified page. Properties that are not set will remain unchanged. To append page content, use the *append block* action. [See the docs](https://developers.notion.com/reference/patch-page)",
-  version: "1.1.0",
+  version: "1.1.1",
   type: "action",
   props: {
     notion,
@@ -50,6 +50,7 @@ export default {
           parentType: "database",
         }),
       ],
+      reloadProps: true,
     },
   },
   async additionalProps() {
