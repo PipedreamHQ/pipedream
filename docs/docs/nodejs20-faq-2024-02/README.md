@@ -8,11 +8,15 @@ Effective 2024-02-01, the Node.js runtime will no longer load Amazon-specific ce
 
 **Existing workflows that are not re-deployed will NOT be impacted.**
 
-A workflow that meet the following criteria will be impacted:
+Only workflow that meet all of following criteria will be impacted:
 
 - Is re-deployed or deployed after 2024-02-01
 - Connects to an [AWS RDS](https://aws.amazon.com/rds/)-managed database (e.g., PostgreSQL, MySQL, or Microsoft SQL Server)
 - Has server identity verification enabled (e.g., the `rejectUnauthorized` connection option is set to `true`)
+
+::: tip
+Workflows deployed on or after 2024-02-01 that do *not* integrate with AWS RDS will not be impacted.
+:::
 
 ### Why are Amazon-specific CA certificates no longer loaded by default?
 
