@@ -6,7 +6,7 @@ export default {
   key: "postmark-send-email-with-template",
   name: "Send Email With Template",
   description: "Send a single email with Postmark using a template [(See docs here)](https://postmarkapp.com/developer/api/templates-api#email-with-template)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -31,13 +31,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      ...this.getActionRequestCommonData(),
-      TemplateAlias: this.templateAlias,
-      TemplateModel: this.templateModel,
-      InlineCSS: this.inlineCss,
-    };
-    const response = await this.postmark.sendEmailWithTemplate($, data);
+    const response = await this.postmark.sendEmailWithTemplate({
+      $,
+      data: {
+        ...this.getActionRequestCommonData(),
+        TemplateAlias: this.templateAlias,
+        TemplateModel: this.templateModel,
+        InlineCSS: this.inlineCss,
+      },
+    });
     $.export("$summary", "Sent email with template successfully");
     return response;
   },

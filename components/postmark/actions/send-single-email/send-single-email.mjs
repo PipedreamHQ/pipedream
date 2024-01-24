@@ -5,7 +5,7 @@ export default {
   key: "postmark-send-single-email",
   name: "Send Single Email",
   description: "Send a single email with Postmark [(See docs here)](https://postmarkapp.com/developer/api/email-api#send-a-single-email)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     subject: {
@@ -37,13 +37,15 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
-    const data = {
-      ...this.getActionRequestCommonData(),
-      Subject: this.subject,
-      HtmlBody: this.htmlBody,
-      TextBody: this.textBody,
-    };
-    const response = await this.postmark.sendSingleEmail($, data);
+    const response = await this.postmark.sendSingleEmail({
+      $,
+      data: {
+        ...this.getActionRequestCommonData(),
+        Subject: this.subject,
+        HtmlBody: this.htmlBody,
+        TextBody: this.textBody,
+      },
+    });
     $.export("$summary", "Sent email successfully");
     return response;
   },
