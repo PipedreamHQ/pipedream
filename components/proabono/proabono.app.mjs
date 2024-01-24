@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,75 +9,133 @@ export default {
       type: "string",
       label: "Customer ID",
       description: "The unique identifier of the customer",
+      async options({ page }) {
+        const { Items: customers } = await this.listCustomers({
+          params: {
+            Page: page + 1,
+          },
+        });
+        return customers?.map(({
+          ReferenceCustomer: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    customerDetails: {
-      type: "object",
-      label: "Customer Details",
-      description: "The information about the customer",
-      optional: true,
+    offerId: {
+      type: "string",
+      label: "Offer ID",
+      description: "The unique identifier of the offer",
+      async options({ page }) {
+        const { Items: offers } = await this.listOffers({
+          params: {
+            Page: page + 1,
+          },
+        });
+        return offers?.map(({
+          ReferenceOffer: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    subscriptionDetails: {
+    metadata: {
       type: "object",
-      label: "Subscription Details",
-      description: "The information about the subscription",
+      label: "Metadata",
+      description: "A set of key/value pairs that you can add to a customer. Useful for storing additional information about the customer in a structured format.",
       optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api-2.proabono.com";
+      return `${this.$auth.api_endpoint}/v1`;
     },
-    async _makeRequest(opts = {}) {
+    _auth() {
+      return {
+        username: `${this.$auth.agent_key}`,
+        password: `${this.$auth.api_key}`,
+      };
+    },
+    _headers() {
+      return {
+        Accept: "application/json",
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_token}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        auth: this._auth(),
+        headers: this._headers(),
       });
     },
-    async createOrUpdateCustomer({
-      customerId, customerDetails,
-    }) {
+    getCustomer(opts = {}) {
+      return this._makeRequest({
+        path: "/Customer",
+        ...opts,
+      });
+    },
+    listCustomers(opts = {}) {
+      return this._makeRequest({
+        path: "/Customers",
+        ...opts,
+      });
+    },
+    listOffers(opts = {}) {
+      return this._makeRequest({
+        path: "/Offers",
+        ...opts,
+      });
+    },
+    listSubscriptions(opts = {}) {
+      return this._makeRequest({
+        path: "/Subscriptions",
+        ...opts,
+      });
+    },
+    createOrUpdateCustomer(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/Customer",
-        data: {
-          ReferenceCustomer: customerId,
-          ...customerDetails,
-        },
+        path: "/Customer",
+        ...opts,
       });
     },
-    async getCustomer({ customerId }) {
-      return this._makeRequest({
-        path: `/v1/Customer?ReferenceCustomer=${customerId}`,
-      });
-    },
-    async initializeSubscription({
-      customerId, subscriptionDetails,
-    }) {
+    createSubscription(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/Subscription",
-        data: {
-          ReferenceCustomer: customerId,
-          ...subscriptionDetails,
-        },
+        path: "/Subscription",
+        ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      resourceFn,
+      max,
+    }) {
+      const params = {
+        SizePage: constants.DEFAULT_LIMIT,
+        Page: 1,
+      };
+      let total, count = 0;
+      do {
+        const { Items: items } = await resourceFn({
+          params,
+        });
+        for (const item of items) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+          params.Page++;
+        }
+      } while (total === params.SizePage);
     },
   },
 };

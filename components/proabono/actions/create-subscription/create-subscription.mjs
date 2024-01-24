@@ -1,49 +1,54 @@
 import proabono from "../../proabono.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "proabono-create-subscription",
   name: "Create Subscription",
-  description: "Initializes a new subscription for a customer in the ProAbono system.",
-  version: "0.0.{{ts}}",
+  description: "Initializes a new subscription for a customer in the ProAbono system. [See the documentation](https://docs.proabono.com/api/#create-a-subscription)",
+  version: "0.0.1",
   type: "action",
   props: {
     proabono,
+    offerId: {
+      propDefinition: [
+        proabono,
+        "offerId",
+      ],
+    },
     customerId: {
       propDefinition: [
         proabono,
         "customerId",
       ],
     },
-    subscriptionDetails: {
+    buyerId: {
       propDefinition: [
         proabono,
-        "subscriptionDetails",
-        (c) => ({
-          optional: true,
-        }),
+        "customerId",
+      ],
+      label: "Buyer ID",
+      description: "ID Reference of the Customer who buys",
+      optional: true,
+    },
+    metadata: {
+      propDefinition: [
+        proabono,
+        "metadata",
       ],
     },
   },
   async run({ $ }) {
-    // Check if customer exists
-    const customer = await this.proabono.getCustomer({
-      customerId: this.customerId,
-    });
-    if (!customer) {
-      throw new Error(`Customer with ID ${this.customerId} not found.`);
-    }
-
-    // Initialize subscription
-    const response = await this.proabono.initializeSubscription({
-      customerId: this.customerId,
-      subscriptionDetails: this.subscriptionDetails,
+    const response = await this.proabono.createSubscription({
+      $,
+      data: {
+        ReferenceOffer: this.offerId,
+        ReferenceCustomer: this.customerId,
+        ReferenceCustomerBuyer: this.buyerId,
+        Metadata: this.metadata,
+      },
     });
 
-    // Export summary
     $.export("$summary", `Created subscription for customer ID ${this.customerId}`);
 
-    // Return response
     return response;
   },
 };
