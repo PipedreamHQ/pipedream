@@ -1,6 +1,10 @@
 import common from "../common/common.mjs";
 import templateProps from "../common/templateProps.mjs";
 
+const {
+  postmark, ...props
+} = common.props;
+
 export default {
   ...common,
   key: "postmark-send-email-with-template",
@@ -9,8 +13,9 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {
+    postmark,
     ...templateProps,
-    ...common.props,
+    ...props,
     inlineCss: {
       type: "boolean",
       label: "Inline CSS",

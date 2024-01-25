@@ -1,5 +1,9 @@
 import common from "../common/common.mjs";
 
+const {
+  postmark, ...props
+} = common.props;
+
 export default {
   ...common,
   key: "postmark-send-single-email",
@@ -8,6 +12,7 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
+    postmark,
     subject: {
       type: "string",
       label: "Subject",
@@ -34,7 +39,7 @@ export default {
       optional: true,
     },
     // The above props are intentionally placed first
-    ...common.props,
+    ...props,
   },
   async run({ $ }) {
     const data = {
