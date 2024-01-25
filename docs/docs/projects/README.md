@@ -79,7 +79,7 @@ At this time it's not possible to move workflows out of GitHub Synchronized Proj
 
 :::
 
-## Access permissions for projects
+## Access permissions
 
 ### Understanding who has access to which project
 We've introduced 2 new columns in the [project list view](https://pipedream.com/projects): **Owner** and **Access**.
@@ -96,6 +96,18 @@ Projects created before February 2024 don't automatically have an owner.
 
 ![Project Listing (Access)](./images/project-listing-access.png)
 
+### Permissions
+
+| Operations | Project creator | Workspace members |
+| --  | :--: | :--: | :--: |
+| View in [projects listing](https://pipedream.com/projects) | :white_check_mark: | :white_check_mark: |
+| Manage workflows (CRUD) | :white_check_mark: | :white_check_mark: |
+| Manage files in the file store (CRUD) | :white_check_mark: | :white_check_mark: |
+| Manage project variables (CRUD) | :white_check_mark: | :white_check_mark: |
+| Delete project | :white_check_mark: | :x: |
+| Manage GitHub Sync settings | :white_check_mark: | :x: |
+
+_Access and permissions for workspace admins and owners mirror the project creator_
 ### Managing access
 :::tip By default, all projects are accessible to everyone in the workspace.
 Workspaces on the [Business plan](https://pipedream.com/pricing) can restrict access to specific workspace members.
@@ -117,20 +129,6 @@ To restrict access to a project or share it with others, you can manage access o
 3. Open the relevant project, then click on the "Access" tab in the left nav
 
 [insert gif here]
-
-### Access permissions
-
-| Operations | Project creator | Workspace members |
-| --  | :--: | :--: | :--: |
-| View in [projects listing](https://pipedream.com/projects) | :white_check_mark: | :white_check_mark: |
-| Add to a new trigger or step | :white_check_mark: | :white_check_mark: |
-| Modify existing steps | :white_check_mark: | :white_check_mark: |
-| Test exising steps | :white_check_mark: | :white_check_mark: |
-| Manage access | :x: | :x: |
-| Reconnect | :x: | :x: |
-|  Delete  |  :white_check_mark: |  :x: |
-
-_Access and permissions for workspace admins and owners mirror the project creator_
 
 ## Frequently asked questions
 
