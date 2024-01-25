@@ -88,8 +88,8 @@ We've introduced 2 new columns in the [project list view](https://pipedream.com/
 
 ![Project Listing (Owner)](./images/project-listing-owner.png)
 
-::: warning Some projects may not have an owner
-Projects created before February 2024 don't automatically have an owner.
+::: warning Some projects may not have owners
+Projects created before February 2024 don't automatically have owners.
 :::
 
 **Access** indicates who within the workspace has access to each project, and this can be displayed as "me", "Workspace", or "N members".
@@ -97,30 +97,30 @@ Projects created before February 2024 don't automatically have an owner.
 ![Project Listing (Access)](./images/project-listing-access.png)
 
 ### Permissions
+For workspace members who have access to the project (either because it's shared with the entire workspace or with that member specifically), below are the permissions for the project.
 
 | Operations | Project creator | Workspace members |
 | --  | :--: | :--: | :--: |
 | View in [projects listing](https://pipedream.com/projects) | :white_check_mark: | :white_check_mark: |
-| Manage workflows (CRUD) | :white_check_mark: | :white_check_mark: |
-| Manage files in the file store (CRUD) | :white_check_mark: | :white_check_mark: |
-| Manage project variables (CRUD) | :white_check_mark: | :white_check_mark: |
-| Delete project | :white_check_mark: | :x: |
+| View in [Event History](https://pipedream.com/event-history) | :white_check_mark: | :white_check_mark: |
+| View in global search | :white_check_mark: | :white_check_mark: |
+| Manage project workflows | :white_check_mark: | :white_check_mark: |
+| Manage project files | :white_check_mark: | :white_check_mark: |
+| Manage project variables | :white_check_mark: | :white_check_mark: |
+| Manage project access | :white_check_mark: | :x: |
 | Manage GitHub Sync settings | :white_check_mark: | :x: |
+| Delete project | :white_check_mark: | :x: |
 
-_Access and permissions for workspace admins and owners mirror the project creator_
+_Access and permissions for workspace admins and owners mirror the project creator for all projects in the workspace._
+
 ### Managing access
 :::tip By default, all projects are accessible to everyone in the workspace.
 Workspaces on the [Business plan](https://pipedream.com/pricing) can restrict access to specific workspace members.
 :::
 
-::: tip Managing access for projects
-Workspace admins and owners, as well as project owners are able to manage access for a project.
-:::
-
 To restrict access to a project or share it with others, you can manage access one of three ways:
 1. From the [project list view](https://pipedream.com/projects), click on the access badge
-
-[insert gif here]
+![Click the access badge to manage access](./images/access-badge-click.png)
 
 2. From the [project list view](https://pipedream.com/projects), click on the overflow menu (3 dots at the far right, then "Manage Access")
 
@@ -129,6 +129,9 @@ To restrict access to a project or share it with others, you can manage access o
 3. Open the relevant project, then click on the "Access" tab in the left nav
 
 [insert gif here]
+
+4. Then the slideout appears
+![Manage access slideout](./images/manage-access-slideout-magnified.png)
 
 ## Frequently asked questions
 
