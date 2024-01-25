@@ -1,5 +1,8 @@
-import aircall from "../../aircall.app.mjs";
 import common from "../common/common-create-update.mjs";
+
+const {
+  aircall, ...props
+} = common.props;
 
 export default {
   ...common,
@@ -9,13 +12,14 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
+    aircall,
     contactId: {
       propDefinition: [
         aircall,
         "contactId",
       ],
     },
-    ...common.props,
+    ...props,
   },
   async run({ $ }) {
     const data = this.getCommonData();
