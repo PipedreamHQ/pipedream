@@ -4,7 +4,7 @@ export default {
   key: "frontegg-create-template",
   name: "Create Template",
   description: "Create an email template in Frontegg. [See the documentation](https://docs.frontegg.com/reference/mailv1controller_addorupdatetemplate-2)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     frontegg,
