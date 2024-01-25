@@ -73,6 +73,11 @@ export default {
       description: "Due date of the task (as a [RFC 3339](https://en.wikipedia.org/wiki/ISO_8601) timestamp). Optional. The due date only records date information; the time portion of the timestamp is discarded when setting the due date. It isn't possible to read or write the time that a task is due via the API.",
       optional: true,
     },
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Please note that this component is not able to use tasks created from Google Docs, as this is a limitation with the Google Task APIs. For more information, please visit [Google's Issue Tracker](https://issuetracker.google.com/issues/244387279).",
+    },
   },
   methods: {
     _getBaseUrl() {
