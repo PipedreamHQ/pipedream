@@ -17,7 +17,7 @@ export default {
     while (hasNextPage) {
       const {
         data: { domains: resources }, pagination,
-      } = await this.app.listProjects({
+      } = await this.app.listDomains({
         $,
         data: {
           page,
