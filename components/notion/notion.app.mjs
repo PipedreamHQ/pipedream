@@ -87,7 +87,6 @@ export default {
       label: "Property Types",
       description: "Select the page properties",
       optional: true,
-      reloadProps: true,
       async options({
         parentId, parentType,
       }) {
