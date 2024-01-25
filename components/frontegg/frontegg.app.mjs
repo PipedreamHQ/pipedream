@@ -67,7 +67,7 @@ export default {
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this, path, headers, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
