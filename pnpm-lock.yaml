@@ -1564,6 +1564,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/deel:
+    specifiers: {}
+
   components/deepgram:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2199,7 +2202,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/findymail:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/finmo:
     specifiers: {}

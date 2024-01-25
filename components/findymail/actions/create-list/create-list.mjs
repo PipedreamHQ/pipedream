@@ -1,11 +1,10 @@
 import findymail from "../../findymail.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "findymail-create-list",
   name: "Create List",
   description: "Creates a new list of contacts in Findymail. [See the documentation](https://app.findymail.com/docs/#contacts-postapi-lists)",
-  version: "0.0.{{ts}}",
+  version: "0.0.2",
   type: "action",
   props: {
     findymail,
@@ -20,7 +19,9 @@ export default {
     const response = await this.findymail.createNewList({
       listName: this.listName,
     });
+
     $.export("$summary", `Successfully created a new list with name '${this.listName}'`);
+
     return response;
   },
 };

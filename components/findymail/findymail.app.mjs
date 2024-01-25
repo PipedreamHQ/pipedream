@@ -14,10 +14,11 @@ export default {
       label: "List ID",
       description: "The ID of the list to manage",
       async options() {
-        const lists = await this.getListOfContactLists();
+        const { lists } = await this.getLists();
+
         return lists.map((list) => ({
           label: list.name,
-          value: list.id.toString(),
+          value: list.id,
         }));
       },
     },
@@ -41,9 +42,7 @@ export default {
         method,
         url: `${this._baseUrl()}${path}`,
         headers: {
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-          "Accept": "application/json",
+          "Authorization": `Bearer ${this.$auth.api_key}`,
           ...headers,
         },
         data,
@@ -66,7 +65,7 @@ export default {
         path: `/lists/${listId}`,
       });
     },
-    async getListOfContactLists() {
+    async getLists() {
       return this._makeRequest({
         path: "/lists",
       });
@@ -75,5 +74,4 @@ export default {
       console.log(Object.keys(this.$auth));
     },
   },
-  version: "0.0.{{ts}}",
 };
