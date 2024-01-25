@@ -158,3 +158,87 @@ But you cannot serialize functions, classes, sets, maps, or other complex object
 You can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys from a data store in a single query.
 
 If you're using a pre-built action or code to retrieve all records or keys, and your data store contains more than {{$site.themeConfig.DATA_STORES_MAX_KEYS}} records, you'll receive a 426 error.
+
+## Exporting data to an external service
+
+In order to stay within the [data store limits](#data-store-limits), you may need to export the data in your data store to an external service.
+
+The following Node.js example action will export the data in chunks via an HTTP POST request. You may need to adapt the code to your needs. Click on [this link](https://pipedream.com/new?h=tch_egfAMv) to create a copy of the workflow in your workspace.
+
+:::tip
+If the data contained in each key is large, consider lowering the number of `chunkSize`.
+:::
+
+- Adjust your [workflow memory and timeout settings](/workflows/settings/) according to the size of the data in your data store. Set the memory at 512 MB and timeout to 60 seconds and adjust higher if needed.
+
+- Monitor the exports of this step after each execution for any potential errors preventing a full export. Run the step as many times as needed until all your data is exported.
+
+:::warning
+This action deletes the keys that were successfully exported. It is advisable to first run a test without deleting the keys. In case of any unforeseen errors, your data will still be safe.
+:::
+
+```javascript
+import { axios } from "@pipedream/platform"
+
+export default defineComponent({
+  props: {
+    dataStore: {
+      type: "data_store",
+    },
+    chunkSize: {
+      type: "integer",
+      label: "Chunk Size",
+      description: "The number of items to export in one request",
+      default: 100,
+    },
+    shouldDeleteKeys: {
+      type: "boolean",
+      label: "Delete keys after export",
+      description: "Whether the data store keys will be deleted after export",
+      default: true,
+    }
+  },
+  methods: {
+    async *chunkAsyncIterator(asyncIterator, chunkSize) {
+      let chunk = []
+
+      for await (const item of asyncIterator) {
+        chunk.push(item)
+
+        if (chunk.length === chunkSize) {
+          yield chunk
+          chunk = []
+        }
+      }
+
+      if (chunk.length > 0) {
+        yield chunk
+      }
+    },
+  },
+  async run({ steps, $ }) {
+    const iterator = this.chunkAsyncIterator(this.dataStore, this.chunkSize)
+    for await (const chunk of iterator) {
+      try {
+        // export data to external service
+        await axios($, {
+          url: "https://external_service.com",
+          method: "POST",
+          data: chunk,
+          // may need to add authentication
+        })
+
+        // delete exported keys and values
+        if (this.shouldDeleteKeys) {
+          await Promise.all(chunk.map(([key]) => this.dataStore.delete(key)))
+        }
+
+        console.log(`number of remaining keys: ${(await this.dataStore.keys()).length}`)
+      } catch (e) {
+        // an error occurred, don't delete keys
+        console.log(`error exporting data: ${e}`)
+      }
+    }
+  },
+})
+```

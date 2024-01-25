@@ -221,6 +221,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/airparser:
+    specifiers: {}
+
   components/airplane:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2194,6 +2197,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/findymail:
+    specifiers: {}
 
   components/finmo:
     specifiers: {}
@@ -5312,6 +5318,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/publisherkit:
+    specifiers: {}
+
   components/puppeteer:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5539,7 +5548,10 @@ importers:
     specifiers: {}
 
   components/referrizer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/refersion:
     specifiers:
@@ -6967,7 +6979,10 @@ importers:
     specifiers: {}
 
   components/timebuzzer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/timecamp:
     specifiers:
@@ -7584,6 +7599,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/white_swan:
+    specifiers: {}
 
   components/whop:
     specifiers:
