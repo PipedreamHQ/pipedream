@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dailybot",
+  "version": "0.0.1",
+  "description": "Pipedream DailyBot Components",
+  "main": "dailybot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dailybot"
+  ],
+  "homepage": "https://pipedream.com/apps/dailybot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

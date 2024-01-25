@@ -21,7 +21,7 @@ export default {
   key: "google_sheets-upsert-row",
   name: "Upsert Row",
   description: "Upsert a row of data in a Google Sheet",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     googleSheets,
@@ -117,72 +117,63 @@ export default {
     });
     const hiddenSheetId = addSheetResult.properties.sheetId;
 
-    const matchResult = await this.googleSheets.addRowsToSheet({
-      spreadsheetId: sheetId,
-      range: hiddenWorksheetTitle,
-      rows: [
-        [
-          keyValue, // A1
+    try {
+      const matchResult = await this.googleSheets.addRowsToSheet({
+        spreadsheetId: sheetId,
+        range: hiddenWorksheetTitle,
+        rows: [
+          [
+            keyValue, // A1
+          ],
+          [
+            this.googleSheets.buildMatchFormula("A1", sheetName, {
+              column,
+              searchType: 0,
+            }), // A2
+          ],
         ],
-        [
-          this.googleSheets.buildMatchFormula("A1", sheetName, {
-            column,
-            searchType: 0,
-          }), // A2
-        ],
-      ],
-      params: {
-        includeValuesInResponse: true,
-        responseValueRenderOption: VALUE_RENDER_OPTION.FORMATTED_VALUE,
-      },
-    });
+        params: {
+          includeValuesInResponse: true,
+          responseValueRenderOption: VALUE_RENDER_OPTION.FORMATTED_VALUE,
+        },
+      });
 
-    const matchedRow = matchResult.updatedData?.values?.[1]?.[0]; // A2
+      const matchedRow = matchResult.updatedData?.values?.[1]?.[0]; // A2
 
-    const deleteSheetPromise = this.googleSheets.deleteWorksheet(sheetId, hiddenSheetId);
+      const shouldUpdate = matchedRow && matchedRow !== "#N/A";
 
-    let result; // Return value of this action
-
-    const shouldUpdate = matchedRow && matchedRow !== "#N/A";
-
-    if (!shouldUpdate) {
-      // INSERT ROW
-      ([
-        result,
-      ] = await Promise.all([
-        this.googleSheets.addRowsToSheet({
+      if (!shouldUpdate) {
+        // INSERT ROW
+        const result = await this.googleSheets.addRowsToSheet({
           spreadsheetId: sheetId,
           range: sheetName,
           rows: [
             insert,
           ],
-        }),
-        deleteSheetPromise,
-      ]));
-      $.export("$summary", `Couldn't find the key, "${keyValue}", so inserted new row: "${insert}"`);
-      return result;
-    }
+        });
+        $.export("$summary", `Couldn't find the key, "${keyValue}", so inserted new row: "${insert}"`);
+        return result;
+      }
 
-    // UPDATE ROW
-    const updateParams = [
-      sheetId,
-      sheetName,
-      matchedRow,
-    ];
-    const sanitizedUpdates = omitEmptyKey(updates);
-    const updateRowCells = sanitizedUpdates && Object.keys(sanitizedUpdates).length;
-    const updatePromise =
+      // UPDATE ROW
+      const updateParams = [
+        sheetId,
+        sheetName,
+        matchedRow,
+      ];
+      const sanitizedUpdates = omitEmptyKey(updates);
+      const updateRowCells = sanitizedUpdates && Object.keys(sanitizedUpdates).length;
+      const updatePromise =
       updateRowCells
         ? this.googleSheets.updateRowCells(...updateParams, sanitizedUpdates)
         : this.googleSheets.updateRow(...updateParams, insert);
 
-    ([
-      result,
-    ] = await Promise.all([
-      updatePromise,
-      deleteSheetPromise,
-    ]));
-    $.export("$summary", `Successfully updated row ${matchedRow}`);
-    return result;
+      const result = await updatePromise;
+      $.export("$summary", `Successfully updated row ${matchedRow}`);
+      return result;
+    } finally {
+      // Cleanup hidden worksheet
+      await this.googleSheets.deleteWorksheet(sheetId, hiddenSheetId);
+    }
   },
 };
