@@ -118,20 +118,31 @@ _Access and permissions for workspace admins and owners mirror the project creat
 Workspaces on the [Business plan](https://pipedream.com/pricing) can restrict access to specific workspace members.
 :::
 
-To restrict access to a project or share it with others, you can manage access one of three ways:
-1. From the [project list view](https://pipedream.com/projects), click on the access badge
+You can easily modify the access rules for a project directly from the [project list view](https://pipedream.com/projects), either by clicking the access badge in the project row (fig 1) or clicking the 3 dots to open the action menu, then selecting **Manage Access** (fig 2).
+
+Access badge (fig 1):
+
 ![Click the access badge to manage access](./images/access-badge-click.png)
 
-2. From the [project list view](https://pipedream.com/projects), click on the overflow menu (3 dots at the far right, then "Manage Access")
+Via the action menu (fig 2):
 
-[insert gif here]
+![Click manage access from the action menu](./images/manage-access-overflow-menu.png)
 
-3. Open the relevant project, then click on the "Access" tab in the left nav
+From here, a slideout drawer reveals the access management configuration:
 
-[insert gif here]
+![Manage access slideout workspace access](./images/slideout-workspace-share.png)
 
-4. Then the slideout appears
-![Manage access slideout](./images/manage-access-slideout-magnified.png)
+Toggle the **Restrict access to this project** switch to manage access:
+
+![Manage access slideout restricted](./images/slideout-restricted.png)
+
+Select specific members of the workspace to grant access:
+
+![Manage access slideout showing member dropdown](./images/slideout-member-dropdown.png)
+
+You can always see who has access and remove access if necessary:
+
+![Manage access showing members with access](./images/slideout-member-list.png)
 
 ## Frequently asked questions
 
