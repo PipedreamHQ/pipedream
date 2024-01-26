@@ -1677,13 +1677,13 @@ test = ["click", "pre-commit", "pytest (>=7.0)", "pytest-asyncio (>=0.19.0)", "p
 
 [[package]]
 name = "jupyter-lsp"
-version = "2.2.0"
+version = "2.2.2"
 description = "Multi-Language Server WebSocket proxy for Jupyter Notebook/Lab server"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "jupyter-lsp-2.2.0.tar.gz", hash = "sha256:8ebbcb533adb41e5d635eb8fe82956b0aafbf0fd443b6c4bfa906edeeb8635a1"},
-    {file = "jupyter_lsp-2.2.0-py3-none-any.whl", hash = "sha256:9e06b8b4f7dd50300b70dd1a78c0c3b0c3d8fa68e0f2d8a5d1fbab62072aca3f"},
+    {file = "jupyter-lsp-2.2.2.tar.gz", hash = "sha256:256d24620542ae4bba04a50fc1f6ffe208093a07d8e697fea0a8d1b8ca1b7e5b"},
+    {file = "jupyter_lsp-2.2.2-py3-none-any.whl", hash = "sha256:3b95229e4168355a8c91928057c1621ac3510ba98b2a925e82ebd77f078b1aa5"},
 ]
 
 [package.dependencies]
