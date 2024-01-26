@@ -30,23 +30,17 @@ export default {
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
-        data,
-        params,
         ...otherOpts
       } = opts;
 
       return axios($, {
-        method,
         url: `${this._baseUrl()}${path}`,
         headers: {
           "Authorization": `Bearer ${this.$auth.api_key}`,
           ...headers,
         },
-        data,
-        params,
         ...otherOpts,
       });
     },
