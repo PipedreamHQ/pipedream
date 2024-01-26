@@ -14,6 +14,22 @@ export default {
       }
     }
   `,
+  listWorkspaces: `
+    query { 
+      workspaces {
+        id
+        name
+      }
+    }
+  `,
+  listFolders: `
+    query ($workspaceId: [ID]) { 
+      folders (workspace_ids: $workspaceId) {
+        id
+        name
+      }
+    }
+  `,
   listWorkspacesBoards: `
     query {
       boards (

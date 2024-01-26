@@ -36,6 +36,11 @@ export default {
       label: "Folder ID",
       description: "Board folder ID",
       optional: true,
+      async options({ workspaceId }) {
+        return this.listFolderOptions({
+          workspaceId,
+        });
+      },
     },
     workspaceId: {
       type: "integer",
@@ -268,6 +273,19 @@ export default {
         },
       });
     },
+    async listWorkspaces() {
+      return this.makeRequest({
+        query: queries.listWorkspaces,
+      });
+    },
+    async listFolders(variables) {
+      return this.makeRequest({
+        query: queries.listFolders,
+        options: {
+          variables,
+        },
+      });
+    },
     async listWorkspacesBoards() {
       return this.makeRequest({
         query: queries.listWorkspacesBoards,
@@ -358,12 +376,34 @@ export default {
           value: id,
         }));
     },
+    async listFolderOptions(variables) {
+      const {
+        data, errors, error_message: errorMessage,
+      } = await this.listFolders(variables);
+
+      if (errors) {
+        throw new Error(`Error listing folders: ${errors[0].message}`);
+      }
+
+      if (errorMessage) {
+        throw new Error(`Failed to list folders: ${errorMessage}`);
+      }
+
+      const { folders } = data;
+      return folders
+        .map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: +id,
+        }));
+    },
     async listWorkspacesOptions() {
       const {
         data,
         errors,
         error_message: errorMessage,
-      } = await this.listWorkspacesBoards();
+      } = await this.listWorkspaces();
 
       if (errors) {
         throw new Error(`Error listing workspaces: ${errors[0].message}`);
@@ -373,13 +413,12 @@ export default {
         throw new Error(`Failed to list workspaces: ${errorMessage}`);
       }
 
-      const { boards } = data;
+      const { workspaces } = data;
       const options =
-        boards
-          .filter(({ workspace }) => workspace)
-          .map(({ workspace }) => ({
+        workspaces
+          .map((workspace) => ({
             label: workspace.name,
-            value: workspace.id,
+            value: +workspace.id,
           }));
       return uniqBy(options, "value");
     },

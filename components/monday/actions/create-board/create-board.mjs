@@ -21,16 +21,19 @@ export default {
         "boardKind",
       ],
     },
-    folderId: {
-      propDefinition: [
-        monday,
-        "folderId",
-      ],
-    },
     workspaceId: {
       propDefinition: [
         monday,
         "workspaceId",
+      ],
+    },
+    folderId: {
+      propDefinition: [
+        monday,
+        "folderId",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
     },
     templateId: {

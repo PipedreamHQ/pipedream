@@ -11,6 +11,7 @@ export default {
     ...common.props,
     boardId: {
       ...common.props.boardId,
+      description: "The board's unique identifier. See the [Column types reference](https://developer.monday.com/api-reference/docs/column-types-reference) to find the proper data structures for supported column types.",
       reloadProps: true,
     },
     itemId: {
@@ -54,8 +55,8 @@ export default {
       columnValues: JSON.stringify(columnValues),
     });
 
-    if (response.errors) {
-      throw new Error(response.errors[0].message);
+    if (response.error_message) {
+      throw new Error(`${response.error_message} ${JSON.stringify(response.error_data)}`);
     }
 
     const { data: { change_multiple_column_values: item } } = response;
