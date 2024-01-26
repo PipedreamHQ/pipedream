@@ -5,7 +5,7 @@ export default {
   key: "notion-search",
   name: "Search",
   description: "Searches for a page or database. [See the docs](https://developers.notion.com/reference/post-search)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
