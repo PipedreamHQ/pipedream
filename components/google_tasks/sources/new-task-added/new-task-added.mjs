@@ -5,7 +5,7 @@ export default {
   key: "google_tasks-new-task-added",
   name: "New Task Added",
   description: "Emit new event for each task added to Google Tasks. [See the documentation](https://developers.google.com/tasks/reference/rest/v1/tasks/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   props: {
@@ -16,11 +16,17 @@ export default {
         "taskListId",
       ],
     },
+    alert: {
+      propDefinition: [
+        common.props.googleTasks,
+        "alert",
+      ],
+    },
   },
   methods: {
     ...common.methods,
     emitEvents(tasks) {
-      const sortedTasks = tasks.sort((t1, t2) => ((new Date(t1.updated)) - (new Date(t2.updated))));
+      const sortedTasks = tasks.sort((t1, t2) => (new Date(t1.updated) - new Date(t2.updated)));
       for (const task of sortedTasks) {
         this.$emit(task, this.generateMeta(task));
       }

@@ -6,6 +6,16 @@ async function streamIterator(stream) {
   return resources;
 }
 
+function cleanObject(o) {
+  for (var k in o || {}) {
+    if (typeof o[k] === "undefined") {
+      delete o[k];
+    }
+  }
+  return o;
+}
+
 export default {
   streamIterator,
+  cleanObject,
 };
