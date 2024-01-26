@@ -23,7 +23,7 @@ export default {
   },
   async run({ $ }) {
     const data = this.getCommonData();
-    const response = await this.aircall.createContact({
+    const response = await this.aircall.updateContact({
       $,
       contactId: this.contactId,
       data,
