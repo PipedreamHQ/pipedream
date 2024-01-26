@@ -4,7 +4,7 @@ export default {
   key: "findymail-delete-list",
   name: "Delete a List",
   description: "Deletes a specified list in Findymail. [See the documentation](https://app.findymail.com/docs/#contacts-deleteapi-lists--id-)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     findymail,
