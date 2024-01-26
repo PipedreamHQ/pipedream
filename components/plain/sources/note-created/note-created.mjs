@@ -15,7 +15,7 @@ export default {
       return "thread.note_created";
     },
     getSummary({ payload }) {
-      return `Note Creaed ID ${payload.note.id}`;
+      return `Note Created ID ${payload.note.id}`;
     },
   },
   sampleEmit,
