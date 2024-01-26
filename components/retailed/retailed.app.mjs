@@ -17,11 +17,10 @@ export default {
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this, path, headers, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -35,9 +34,5 @@ export default {
         path: "/usage",
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
   },
-  version: "0.0.{{ts}}",
 };
