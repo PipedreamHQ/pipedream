@@ -18,7 +18,6 @@ export default {
     },
     defaultPriceDataUnitAmount: {
       description: "A positive integer in cents (or `0` for a free price) representing how much to charge. One of **Unit Amount** or **Unit Amount Decimal** is required.",
-      default: 0,
       propDefinition: [
         app,
         "unitAmount",
