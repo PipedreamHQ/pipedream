@@ -8,15 +8,11 @@ export default {
   type: "action",
   props: {
     retailed,
-    apiKey: {
-      propDefinition: [
-        retailed,
-        "apiKey",
-      ],
-    },
   },
   async run({ $ }) {
-    const response = await this.retailed.getApiUsage();
+    const response = await this.retailed.getApiUsage({
+      $,
+    });
 
     $.export("$summary", `Retrieved API usage information: ${response.remaining} requests remaining under the ${response.plan} plan`);
 

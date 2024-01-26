@@ -29,9 +29,10 @@ export default {
         },
       });
     },
-    async getApiUsage() {
+    async getApiUsage(args = {}) {
       return this._makeRequest({
         path: "/usage",
+        ...args,
       });
     },
   },
