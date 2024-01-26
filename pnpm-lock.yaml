@@ -2387,7 +2387,10 @@ importers:
       form-data: 4.0.0
 
   components/frontegg:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/ftrack:
     specifiers:
