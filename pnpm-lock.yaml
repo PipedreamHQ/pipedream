@@ -115,11 +115,11 @@ importers:
 
   components/activecampaign:
     specifiers:
-      '@pipedream/platform': ^1.2.0
-      inflection: ^1.13.2
+      '@pipedream/platform': ^1.6.0
+      inflection: ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-      inflection: 1.13.4
+      '@pipedream/platform': 1.6.0
+      inflection: 3.0.0
 
   components/acumbamail:
     specifiers: {}
@@ -699,6 +699,9 @@ importers:
       package-lock-only: 0.0.4
 
   components/bitrix24:
+    specifiers: {}
+
+  components/bland_ai:
     specifiers: {}
 
   components/blink:
@@ -1616,6 +1619,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/dexatel:
+    specifiers: {}
+
   components/dext:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2222,7 +2228,10 @@ importers:
       google-auth-library: 7.14.1
 
   components/fireberry:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/firmalyzer_iotvas:
     specifiers: {}
@@ -2384,7 +2393,10 @@ importers:
       form-data: 4.0.0
 
   components/frontegg:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/ftrack:
     specifiers:
@@ -5052,7 +5064,10 @@ importers:
     specifiers: {}
 
   components/plain:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/planning_center:
     specifiers: {}
@@ -6543,6 +6558,9 @@ importers:
       he: 1.2.0
       lodash: 4.17.21
 
+  components/stammer_ai:
+    specifiers: {}
+
   components/stannp:
     specifiers:
       form-data: ^4.0.0
@@ -7356,6 +7374,9 @@ importers:
   components/vendasta:
     specifiers: {}
 
+  components/venly:
+    specifiers: {}
+
   components/vercel:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -7500,7 +7521,10 @@ importers:
       '@types/node': 17.0.45
 
   components/waiverfile:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/waiverforever:
     specifiers:
@@ -20458,9 +20482,9 @@ packages:
     resolution: {integrity: sha512-bup+4tap3Hympa+JBJUG7XuOsdNQ6fxt0MHyXMKuLBKn0OqsTfvUxkUrroEX1+B2VsSHvCjiIcZVxRtYa4nllA==}
     dev: false
 
-  /inflection/1.13.4:
-    resolution: {integrity: sha512-6I/HUDeYFfuNCVS3td055BaXBwKYuzw7K3ExVMStBowKo9oOAMJIXIHvdyR3iboTCp1b+1i5DSkIZTcwIktuDw==}
-    engines: {'0': node >= 0.4.0}
+  /inflection/3.0.0:
+    resolution: {integrity: sha512-1zEJU1l19SgJlmwqsEyFTbScw/tkMHFenUo//Y0i+XEP83gDFdMvPizAD/WGcE+l1ku12PcTVHQhO6g5E0UCMw==}
+    engines: {node: '>=18.0.0'}
     dev: false
 
   /inflight/1.0.6:
