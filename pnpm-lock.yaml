@@ -5055,7 +5055,10 @@ importers:
     specifiers: {}
 
   components/plain:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/planning_center:
     specifiers: {}
