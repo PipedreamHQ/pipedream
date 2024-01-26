@@ -64,8 +64,5 @@ export default {
         path: "/lists",
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
   },
 };
