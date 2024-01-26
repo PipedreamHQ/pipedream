@@ -1,63 +1,43 @@
-import autom from "../../autom.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../autom.app.mjs";
 
 export default {
   key: "autom-google-search",
   name: "Google Search",
   description: "Scrape the results from the Google search engine using the Autom.dev API. [See the documentation](https://docs.autom.dev/api-reference/google/search)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    autom,
+    app,
     query: {
       propDefinition: [
-        autom,
+        app,
         "query",
       ],
     },
     page: {
       propDefinition: [
-        autom,
+        app,
         "page",
       ],
     },
-    async: {
+    googleDomain: {
       propDefinition: [
-        autom,
-        "async",
-      ],
-    },
-    apiKey: {
-      propDefinition: [
-        autom,
-        "apiKey",
-      ],
-    },
-    engine: {
-      propDefinition: [
-        autom,
-        "engine",
-        (c) => ({
-          options: [
-            {
-              label: "Google",
-              value: "google",
-            },
-          ],
-        }),
+        app,
+        "googleDomain",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.autom.search({
-      engine: this.engine,
-      apiKey: this.apiKey,
-      query: this.query,
-      page: this.page,
-      async: this.async,
+    const response = await this.app.searchGoogle({
+      $,
+      data: {
+        query: this.query,
+        page: this.page,
+        google_domain: this.googleDomain,
+      },
     });
 
-    $.export("$summary", `Successfully retrieved search results for query "${this.query}"`);
+    $.export("$summary", `Successfully retrieved Google search results for query "${this.query}"`);
     return response;
   },
 };

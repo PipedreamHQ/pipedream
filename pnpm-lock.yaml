@@ -475,7 +475,10 @@ importers:
     specifiers: {}
 
   components/autom:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/automatic_data_extraction:
     specifiers:
@@ -1563,6 +1566,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/deel:
+    specifiers: {}
 
   components/deepgram:
     specifiers:

@@ -7,88 +7,65 @@ export default {
     query: {
       type: "string",
       label: "Search Query",
-      description: "The query you want to search for.",
+      description: "The query you want to search.",
     },
     page: {
       type: "integer",
       label: "Page Number",
-      description: "The page number of the search results.",
-      optional: true,
+      description: "Defines the result offset for pagination.",
       default: 1,
+      min: 1,
     },
-    async: {
-      type: "boolean",
-      label: "Async",
-      description: "Whether the request should be processed asynchronously.",
+    googleDomain: {
+      type: "string",
+      label: "Google Domain",
+      description: "The Google domain to use for the search.",
+      default: "google.com",
       optional: true,
-      default: false,
-    },
-    apiKey: {
-      type: "string",
-      label: "API Key",
-      description: "The private key for Autom.dev access.",
-      secret: true,
-    },
-    engine: {
-      type: "string",
-      label: "Search Engine",
-      description: "The search engine to use for the query.",
-      options: [
-        {
-          label: "Google",
-          value: "google",
-        },
-        {
-          label: "Bing",
-          value: "bing",
-        },
-        {
-          label: "Brave",
-          value: "brave",
-        },
-      ],
     },
   },
   methods: {
-    _baseUrl(engine) {
-      const baseUrls = {
-        google: "https://autom.dev/api/v1/google/search",
-        bing: "https://autom.dev/api/v1/bing/search",
-        brave: "https://autom.dev/api/v1/brave/search",
-      };
-      return baseUrls[engine];
+    _baseUrl() {
+      return "https://autom.dev/api/v1";
     },
-    async _makeRequest({
-      engine, apiKey, query, page, async,
-    }) {
-      return axios(this, {
-        method: "POST",
-        url: this._baseUrl(engine),
+    async _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        method = "GET",
+        path,
+        headers,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        method,
+        url: this._baseUrl() + path,
         headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey,
-        },
-        data: {
-          query,
-          page,
-          async,
+          ...headers,
+          "x-api-key": `${this.$auth.api_key}`,
         },
       });
     },
-    async search({
-      engine, apiKey, query, page, async,
-    }) {
+    async searchGoogle(args = {}) {
       return this._makeRequest({
-        engine,
-        apiKey,
-        query,
-        page,
-        async,
+        method: "POST",
+        path: "/google/search",
+        ...args,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async searchBing(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/bing/search",
+        ...args,
+      });
+    },
+    async searchBrave(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/brave/search",
+        ...args,
+      });
     },
   },
-  version: "0.0.{{ts}}",
 };
