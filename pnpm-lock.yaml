@@ -701,6 +701,9 @@ importers:
   components/bitrix24:
     specifiers: {}
 
+  components/bland_ai:
+    specifiers: {}
+
   components/blink:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1615,6 +1618,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/dexatel:
+    specifiers: {}
 
   components/dext:
     specifiers:
@@ -6549,6 +6555,9 @@ importers:
       he: 1.2.0
       lodash: 4.17.21
 
+  components/stammer_ai:
+    specifiers: {}
+
   components/stannp:
     specifiers:
       form-data: ^4.0.0
@@ -7360,6 +7369,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/vendasta:
+    specifiers: {}
+
+  components/venly:
     specifiers: {}
 
   components/vercel:
