@@ -1,11 +1,10 @@
 import cufinder from "../../cufinder.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "cufinder-find-company-email",
   name: "Find Company Email",
   description: "Finds a company's email using the domain. [See the documentation](https://apidoc.cufinder.io/apis/#company-email-finder-api)",
-  version: "0.0.{{ts}}",
+  version: "0.0.3",
   type: "action",
   props: {
     cufinder,
@@ -18,9 +17,14 @@ export default {
   },
   async run({ $ }) {
     const response = await this.cufinder.findCompanyEmail({
-      domain: this.domain,
+      $,
+      data: {
+        companyDomain: this.domain,
+      },
     });
+
     $.export("$summary", `Found company email(s) for domain ${this.domain}`);
+
     return response;
   },
 };

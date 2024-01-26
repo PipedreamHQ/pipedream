@@ -14,12 +14,6 @@ export default {
       label: "Domain",
       description: "The domain of the company to find the email and phone for",
     },
-    apiKey: {
-      type: "string",
-      label: "API Key",
-      description: "The API key for authenticating requests",
-      secret: true,
-    },
   },
   methods: {
     _baseUrl() {
@@ -28,52 +22,39 @@ export default {
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path = "/",
-        headers,
-        ...otherOpts
+        ...args
       } = opts;
       return axios($, {
-        ...otherOpts,
-        method,
+        ...args,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "apiKey": this.apiKey,
+        data: {
+          ...args.data,
+          "apiKey": this.$auth.api_key,
         },
       });
     },
-    async findCompanyWebsite({ companyName }) {
+    async findCompanyWebsite(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/company-website",
-        data: {
-          companyName,
-        },
+        path: "/cuf",
+        ...args,
       });
     },
-    async findCompanyEmail({ domain }) {
+    async findCompanyEmail(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/company-email",
-        data: {
-          domain,
-        },
+        path: "/dte",
+        ...args,
+
       });
     },
-    async findCompanyPhone({ domain }) {
+    async findCompanyPhone(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/company-phone",
-        data: {
-          domain,
-        },
+        path: "/dtpp",
+        ...args,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
-  version: "0.0.{{ts}}",
 };

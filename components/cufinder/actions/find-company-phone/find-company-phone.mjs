@@ -1,11 +1,10 @@
 import cufinder from "../../cufinder.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "cufinder-find-company-phone",
   name: "Find Company Phone",
   description: "Find a company phone using the domain. [See the documentation](https://apidoc.cufinder.io/apis/#company-phone-finder-api)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     cufinder,
@@ -18,9 +17,13 @@ export default {
   },
   async run({ $ }) {
     const response = await this.cufinder.findCompanyPhone({
-      domain: this.domain,
+      data: {
+        companyDomain: this.domain,
+      },
     });
+
     $.export("$summary", `Successfully found phone numbers for the domain: ${this.domain}`);
+
     return response;
   },
 };
