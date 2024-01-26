@@ -4,7 +4,7 @@ export default {
   key: "google_tasks-update-task",
   name: "Update Task",
   description: "Updates the authenticated user's specified task. [See the docs here](https://developers.google.com/tasks/reference/rest/v1/tasks/update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
