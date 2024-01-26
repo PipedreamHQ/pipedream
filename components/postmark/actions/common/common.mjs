@@ -32,8 +32,8 @@ export default {
     },
     getAttachmentData(attachments) {
       return attachments?.map((str) => {
-        let params = str.split("|");
-        return params.length === 3
+        let params = str.split?.("|");
+        return params?.length === 3
           ? {
             Name: params[0],
             Content: params[1],
