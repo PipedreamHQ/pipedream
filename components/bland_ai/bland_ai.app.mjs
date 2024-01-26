@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "retailed",
+  app: "bland_ai",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

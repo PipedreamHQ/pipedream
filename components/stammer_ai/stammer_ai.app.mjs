@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "retailed",
+  app: "stammer_ai",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

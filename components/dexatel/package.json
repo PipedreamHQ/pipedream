@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dexatel",
+  "version": "0.0.1",
+  "description": "Pipedream Dexatel Components",
+  "main": "dexatel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dexatel"
+  ],
+  "homepage": "https://pipedream.com/apps/dexatel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
