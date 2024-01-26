@@ -131,7 +131,6 @@ export default {
       const offset = page * amountPerPage;
 
       return this._makeRequest({
-        $: this,
         path: `templates?Count=${amountPerPage}&Offset=${offset}&TemplateType=Standard`,
       });
     },
