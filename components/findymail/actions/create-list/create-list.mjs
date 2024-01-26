@@ -4,7 +4,7 @@ export default {
   key: "findymail-create-list",
   name: "Create List",
   description: "Creates a new list of contacts in Findymail. [See the documentation](https://app.findymail.com/docs/#contacts-postapi-lists)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     findymail,
