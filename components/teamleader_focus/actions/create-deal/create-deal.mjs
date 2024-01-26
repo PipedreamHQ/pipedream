@@ -27,6 +27,13 @@ export default {
       ],
       optional: true,
     },
+    source: {
+      propDefinition: [
+        teamleaderFocus,
+        "dealSource",
+      ],
+      optional: true,
+    },
     user: {
       propDefinition: [
         teamleaderFocus,
@@ -77,6 +84,7 @@ export default {
         },
       },
       phase_id: this.phase,
+      source_id: this.source,
       responsible_user_id: this.user,
       estimated_probability: this.probability,
       estimated_closing_date: this.closeDate,
