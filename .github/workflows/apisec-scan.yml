@@ -55,7 +55,7 @@ jobs:
 
     steps:
        - name: APIsec scan
-         uses: apisec-inc/apisec-run-scan@025432089674a28ba8fb55f8ab06c10215e772ea
+         uses: apisec-inc/apisec-run-scan@eadaedebb5b8516971299b64cea226dc9d9edb6c
          with:
           # The APIsec username with which the scans will be executed
           apisec-username: ${{ secrets.apisec_username }}
