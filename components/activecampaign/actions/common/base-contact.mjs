@@ -42,11 +42,21 @@ export default {
       return {};
     }
 
-    const { fields } = await this.activecampaign.listContactCustomFields({
-      params: {
-        limit: constants.DEFAULT_LIMIT,
-      },
-    });
+    const fields = [];
+    const limit = constants.DEFAULT_LIMIT;
+    let total = 0;
+    const params = {
+      limit,
+      offset: 0,
+    };
+    do {
+      const { fields: items } = await this.activecampaign.listContactCustomFields({
+        params,
+      });
+      fields.push(...items);
+      total = items?.length;
+      params.offset += limit;
+    } while (total === limit);
 
     return fields
       .filter(({ type }) => constants.ALLOW_CUSTOM_FIELD_TYPES.includes(type))
