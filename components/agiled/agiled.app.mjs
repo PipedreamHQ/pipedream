@@ -1,160 +1,157 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "agiled",
   propDefinitions: {
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The full name of the person.",
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email address of the person.",
-    },
-    designation: {
-      type: "string",
-      label: "Designation",
+    designationId: {
+      type: "integer",
+      label: "Designation ID",
       description: "The designation or title of the employee.",
+      async options() {
+        const { data } = await this.listDesignations();
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    address: {
-      type: "string",
-      label: "Address",
-      description: "The address of the person.",
-      optional: true,
-    },
-    phoneNumber: {
-      type: "string",
-      label: "Phone Number",
-      description: "The phone number of the person.",
-      optional: true,
-    },
-    department: {
-      type: "string",
-      label: "Department",
+    departmentId: {
+      type: "integer",
+      label: "Department ID",
       description: "The department the employee is part of.",
       optional: true,
+      async options() {
+        const { data } = await this.listDepartments();
+        return data.map(({
+          id: value, team_name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    projectTitle: {
-      type: "string",
-      label: "Project Title",
-      description: "The title of the project.",
+    currencyId: {
+      type: "integer",
+      label: "Currency ID",
+      description: "The currency to use for the invoice.",
+      async options() {
+        const { data } = await this.listCurrencies();
+        return data.map(({
+          id: value, currency_code: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    projectDescription: {
-      type: "string",
-      label: "Project Description",
-      description: "A brief description of the project.",
-    },
-    dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "The due date for the project or invoice.",
-      optional: true,
-    },
-    client: {
-      type: "string",
-      label: "Client",
-      description: "The client associated with the project or invoice.",
-    },
-    assignedEmployees: {
-      type: "string[]",
-      label: "Assigned Employees",
-      description: "The employees assigned to the project.",
-      optional: true,
-    },
-    invoiceNumber: {
-      type: "string",
-      label: "Invoice Number",
-      description: "The unique identifier for the invoice.",
-    },
-    amount: {
-      type: "number",
-      label: "Amount",
-      description: "The total amount of the invoice.",
-    },
-    items: {
-      type: "string[]",
-      label: "Items",
-      description: "The items to include in the invoice.",
-      optional: true,
-    },
-    notes: {
-      type: "string",
-      label: "Notes",
-      description: "Any additional notes for the invoice.",
-      optional: true,
+    userId: {
+      type: "integer",
+      label: "User ID",
+      description: "The ID of the user.",
+      async options() {
+        const { data } = await this.listUsers();
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://my.agiled.app/api/v1";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
+    getHeaders(headers) {
+      return {
+        "accept": "application/json",
+        "Content-Type": "application/json",
+        "Brand": this.$auth.brand,
+        "X-CSRF-TOKEN": " ",
+        ...headers,
+      };
+    },
+    getParams(params) {
+      return {
+        ...params,
+        api_token: this.$auth.api_key,
+      };
+    },
+    async _makeRequest({
+      $ = this, path, headers, params, ...args
+    } = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_token}`,
-        },
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    async createEmployee(opts = {}) {
-      const requestBody = {
-        name: opts.name,
-        email: opts.email,
-        designation: opts.designation,
-        address: opts.address,
-        phone_number: opts.phoneNumber,
-        department: opts.department,
+        getUrl,
+        getHeaders,
+        getParams,
+      } = this;
+
+      const config = {
+        ...args,
+        url: getUrl(path),
+        params: getParams(params),
+        headers: getHeaders(headers),
       };
+
+      const response = await axios($, config);
+
+      if (response?.status === "fail") {
+        throw new Error(JSON.stringify(response, null, 2));
+      }
+
+      return response;
+    },
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/employees",
-        data: requestBody,
+        ...args,
       });
     },
-    async createProject(opts = {}) {
-      const requestBody = {
-        project_title: opts.projectTitle,
-        project_description: opts.projectDescription,
-        due_date: opts.dueDate,
-        client: opts.client,
-        assigned_employees: opts.assignedEmployees
-          ? opts.assignedEmployees.map(JSON.parse)
-          : [],
-      };
+    listDocuments(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/projects",
-        data: requestBody,
+        path: "/docs",
+        ...args,
       });
     },
-    async createInvoice(opts = {}) {
-      const requestBody = {
-        client: opts.client,
-        invoice_number: opts.invoiceNumber,
-        total: opts.amount,
-        due_date: opts.dueDate,
-        items: opts.items
-          ? opts.items.map(JSON.parse)
-          : [],
-        notes: opts.notes,
-      };
+    listEstimates(args = {}) {
       return this._makeRequest({
-        method: "POST",
+        path: "/estimates",
+        ...args,
+      });
+    },
+    listInvoices(args = {}) {
+      return this._makeRequest({
         path: "/invoices",
-        data: requestBody,
+        ...args,
+      });
+    },
+    listCurrencies(args = {}) {
+      return this._makeRequest({
+        path: "/currencies",
+        ...args,
+      });
+    },
+    listDesignations(args = {}) {
+      return this._makeRequest({
+        path: "/designations",
+        ...args,
+      });
+    },
+    listDepartments(args = {}) {
+      return this._makeRequest({
+        path: "/departments",
+        ...args,
+      });
+    },
+    listUsers(args = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...args,
       });
     },
   },
