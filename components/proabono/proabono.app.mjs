@@ -127,6 +127,9 @@ export default {
         const { Items: items } = await resourceFn({
           params,
         });
+        if (!items?.length) {
+          return;
+        }
         for (const item of items) {
           yield item;
           count++;

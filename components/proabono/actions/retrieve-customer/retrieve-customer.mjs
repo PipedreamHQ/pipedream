@@ -17,7 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.proabono.getCustomer({
-      data: {
+      params: {
         ReferenceCustomer: this.customerId,
       },
     });
