@@ -5,7 +5,7 @@ export default {
   key: "google_tasks-new-task-updated",
   name: "New Task Updated",
   description: "Emit new event for each task added or updated to Google Tasks. [See the documentation](https://developers.google.com/tasks/reference/rest/v1/tasks/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   props: {

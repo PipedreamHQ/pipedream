@@ -5,7 +5,7 @@ export default {
   name: "Update Item Name",
   description: "Update an item's name. [See the documentation](https://api.developer.monday.com/docs/item-name)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   props: {
     monday,
     boardId: {
