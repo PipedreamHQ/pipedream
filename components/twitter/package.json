@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twitter",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Pipedream Twitter Components",
   "main": "dist/app/twitter.app.mjs",
   "keywords": [

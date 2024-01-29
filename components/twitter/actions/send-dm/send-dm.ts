@@ -12,7 +12,7 @@ export default defineAction({
   key: "twitter-send-dm",
   name: "Send Direct Message (DM)",
   description: `Send a message to a user. [See the documentation](${DOCS_LINK})`,
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     ...common.props,
