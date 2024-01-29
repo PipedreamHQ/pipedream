@@ -39,7 +39,9 @@ export default {
             Content: params[1],
             ContentType: params[2],
           }
-          : JSON.parse(str);
+          : (typeof str === "string"
+            ? JSON.parse(str)
+            : str);
       });
     },
   },
