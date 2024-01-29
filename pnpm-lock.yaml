@@ -1223,7 +1223,10 @@ importers:
       form-data: 4.0.0
 
   components/cloudpress:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/cloudtalk:
     specifiers: {}
