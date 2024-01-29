@@ -5,7 +5,7 @@ export default {
     description: "The template to use for this email.",
     options: async (context) => {
       let { page } = context;
-      const data = await this.postmark.listTemplates(page++);
+      const data = await this.postmark.listTemplates(page);
       const options =
         data.Templates?.map((obj) => {
           return {
