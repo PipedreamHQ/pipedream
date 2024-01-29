@@ -1,22 +1,45 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "omnisend",
-  version: "0.0.1",
   propDefinitions: {
     campaignId: {
       type: "string",
       label: "Campaign ID",
       description: "Select the campaign you'd like to send",
-      async options({ page = 0 }) {
-        const { campaigns } = await this.listCampaigns({
-          offset: page * 100,
-          limit: 100,
+      async options({ page }) {
+        const { campaign } = await this.listCampaigns({
+          params: {
+            offset: page * LIMIT,
+            limit: LIMIT,
+          },
         });
-        return campaigns.map((campaign) => ({
-          label: campaign.name,
-          value: campaign.campaignID,
+        return campaign.map(({
+          campaignID: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    contactId: {
+      type: "string",
+      label: "Contact ID",
+      description: "The unique identifier of the contact to update.",
+      async options({ page }) {
+        const { contacts } = await this.listContacts({
+          params: {
+            offset: page * LIMIT,
+            limit: LIMIT,
+          },
+        });
+        return contacts.map(({
+          contactID: value, identifiers, firstName, lastName,
+        }) => ({
+          label: `${identifiers[0].id || identifiers[1].id || `${firstName} ${lastName}`}`,
+          value,
         }));
       },
     },
@@ -25,55 +48,96 @@ export default {
     _baseUrl() {
       return "https://api.omnisend.com/v3";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Content-Type": "application/json",
+        "X-API-KEY": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        method,
         url: `${this._baseUrl()}${path}`,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          ...headers,
-        },
-        ...otherOpts,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listCampaigns({
-      offset = 0, limit = 100,
-    } = {}) {
+    listCampaigns(opts = {}) {
       return this._makeRequest({
-        path: `/campaigns?offset=${offset}&limit=${limit}`,
+        path: "/campaigns",
+        ...opts,
       });
     },
-    async startCampaign({ campaignId }) {
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    listOrders(opts = {}) {
+      return this._makeRequest({
+        path: "/orders",
+        ...opts,
+      });
+    },
+    startCampaign({
+      campaignId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/campaigns/${campaignId}/actions/start`,
+        ...opts,
       });
     },
-    async updateContact({
-      contactId, data,
+    updateContact({
+      contactId, ...opts
     }) {
       return this._makeRequest({
         method: "PATCH",
         path: `/contacts/${contactId}`,
-        data,
+        ...opts,
       });
     },
-    async logCustomEvent({
-      eventId, data,
-    }) {
+    logCustomEvent(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: `/events/${eventId}`,
-        data,
+        path: "/events",
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, dataField, maxResults = null,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+      let data = [];
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page;
+        page++;
+
+        try {
+          const response = await fn({
+            params,
+          });
+          data = response[dataField];
+
+          for (const d of data) {
+            yield d;
+
+            if (maxResults && ++count === maxResults) {
+              return count;
+            }
+          }
+        } catch (e) {
+          return [];
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

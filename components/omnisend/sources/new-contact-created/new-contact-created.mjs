@@ -1,77 +1,26 @@
-import { axios } from "@pipedream/platform";
-import omnisend from "../../omnisend.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "omnisend-new-contact-created",
   name: "New Contact Created",
-  description: "Emits an event each time a new contact is created in Omnisend.",
-  version: "0.0.{{ts}}",
+  description: "Emit new event each time a new contact is created in Omnisend.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    omnisend,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60, // 1 minute
-      },
-    },
-  },
   methods: {
-    _getCreatedAfter() {
-      return this.db.get("createdAfter") || null;
+    ...common.methods,
+    getSummary(contact) {
+      return `New Contact with ID: ${contact.contactID}`;
     },
-    _setCreatedAfter(createdAfter) {
-      this.db.set("createdAfter", createdAfter);
+    getFunction() {
+      return this.omnisend.listContacts;
     },
-    async _getContacts(createdAfter) {
-      const params = createdAfter
-        ? {
-          createdAtMin: createdAfter,
-        }
-        : {};
-      return this.omnisend._makeRequest({
-        path: "/contacts",
-        params,
-      });
+    getDataField() {
+      return "contacts";
     },
-  },
-  hooks: {
-    async deploy() {
-      // Fetch all contacts during the first run
-      const contacts = await this._getContacts();
-      contacts.slice(-50).forEach((contact) => {
-        this.$emit(contact, {
-          id: contact.contactID || `${contact.createdAt}`,
-          summary: `New Contact: ${contact.contactID}`,
-          ts: Date.parse(contact.createdAt),
-        });
-      });
-
-      // Set the createdAfter to the creation date of the most recent contact
-      const mostRecentContact = contacts[contacts.length - 1];
-      if (mostRecentContact) {
-        this._setCreatedAfter(mostRecentContact.createdAt);
-      }
+    getIdField() {
+      return "contactID";
     },
-  },
-  async run() {
-    const createdAfter = this._getCreatedAfter();
-    const contacts = await this._getContacts(createdAfter);
-
-    contacts.forEach((contact) => {
-      this.$emit(contact, {
-        id: contact.contactID || `${contact.createdAt}`,
-        summary: `New Contact: ${contact.contactID}`,
-        ts: Date.parse(contact.createdAt),
-      });
-    });
-
-    // Update the createdAfter to the creation date of the most recent contact
-    const mostRecentContact = contacts[0];
-    if (mostRecentContact) {
-      this._setCreatedAfter(mostRecentContact.createdAt);
-    }
   },
 };

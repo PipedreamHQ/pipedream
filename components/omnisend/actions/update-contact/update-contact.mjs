@@ -1,24 +1,18 @@
 import omnisend from "../../omnisend.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "omnisend-update-contact",
   name: "Update Contact",
   description: "Modify subscriber information or update their subscription status. [See the documentation](https://api-docs.omnisend.com/reference/patch_contacts-contactid)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     omnisend,
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The unique identifier of the contact to update.",
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email address of the contact.",
-      optional: true,
+      propDefinition: [
+        omnisend,
+        "contactId",
+      ],
     },
     firstName: {
       type: "string",
@@ -36,17 +30,6 @@ export default {
       type: "string[]",
       label: "Tags",
       description: "Tags are labels you create to organize and manage your audience.",
-      optional: true,
-    },
-    status: {
-      type: "string",
-      label: "Subscription Status",
-      description: "Email channel status. Available statuses: subscribed, unsubscribed, nonSubscribed.",
-      options: [
-        "subscribed",
-        "unsubscribed",
-        "nonSubscribed",
-      ],
       optional: true,
     },
     country: {
@@ -109,62 +92,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      ...(this.email && {
-        identifiers: [
-          {
-            id: this.email,
-            type: "email",
-          },
-        ],
-      }),
-      ...(this.firstName && {
-        firstName: this.firstName,
-      }),
-      ...(this.lastName && {
-        lastName: this.lastName,
-      }),
-      ...(this.tags && {
-        tags: this.tags,
-      }),
-      ...(this.status && {
-        status: this.status,
-      }),
-      ...(this.country && {
-        country: this.country,
-      }),
-      ...(this.countryCode && {
-        countryCode: this.countryCode,
-      }),
-      ...(this.state && {
-        state: this.state,
-      }),
-      ...(this.city && {
-        city: this.city,
-      }),
-      ...(this.address && {
-        address: this.address,
-      }),
-      ...(this.postalCode && {
-        postalCode: this.postalCode,
-      }),
-      ...(this.gender && {
-        gender: this.gender,
-      }),
-      ...(this.birthdate && {
-        birthdate: this.birthdate,
-      }),
-      ...(this.customProperties && {
-        customProperties: this.customProperties,
-      }),
-    };
+    const {
+      omnisend,
+      contactId,
+      ...data
+    } = this;
 
-    const response = await this.omnisend.updateContact({
-      contactId: this.contactId,
+    const response = await omnisend.updateContact({
+      $,
+      contactId,
       data,
     });
 
-    $.export("$summary", `Successfully updated contact with ID ${this.contactId}`);
+    $.export("$summary", `Successfully updated contact with ID ${contactId}`);
     return response;
   },
 };
