@@ -105,7 +105,7 @@ export default {
     }
 
     const response = await this.postmark.sendBatchWithTemplate($, data);
-    $.export("$summary", `Sent batch of ${useMessages || amountOfEmails} emails successfully`);
+    $.export("$summary", `Sent batch of ${data.Messages.length} emails successfully`);
     return response;
   },
 };
