@@ -13,7 +13,7 @@ export default defineSource({
   key: "twitter-new-message",
   name: "New Message Received",
   description: `Emit new event when a new Direct Message (DM) is received [See the documentation](${DOCS_LINK})`,
-  version: "1.0.3",
+  version: "1.0.4",
   type: "source",
   methods: {
     ...common.methods,
