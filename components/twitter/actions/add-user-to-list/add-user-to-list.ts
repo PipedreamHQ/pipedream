@@ -12,7 +12,7 @@ export default defineAction({
   key: "twitter-add-user-to-list",
   name: "Add User To List",
   description: `Add a member to a list owned by the user. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.5",
+  version: "2.0.4",
   type: "action",
   props: {
     ...common.props,
