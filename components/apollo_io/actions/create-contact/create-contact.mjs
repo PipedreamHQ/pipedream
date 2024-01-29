@@ -5,7 +5,7 @@ export default {
   name: "Create Contact",
   description: "Creates a new contact in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#create-a-contact)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     email: {
@@ -37,6 +37,7 @@ export default {
         app,
         "accountId",
       ],
+      optional: true,
     },
     websiteUrl: {
       propDefinition: [
