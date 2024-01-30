@@ -34,8 +34,8 @@ export default {
       data: {
         goal: this.goal,
         questions: this.questions?.map?.((str) => typeof str === "string"
-          ? str
-          : JSON.parse(str)),
+          ? JSON.parse(str)
+          : str),
       },
     });
     $.export("$summary", "Call analyzed successfully");
