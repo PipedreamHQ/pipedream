@@ -2,15 +2,11 @@
 
 The Pipedream Slack app enables you to build event-driven workflows that interact with the Slack API. When you authorize the Pipedream app's access to your workspace, you can use [Pipedream workflows](/workflows/) to perform common Slack [actions](#workflow-actions), or [write your own code](/code/) against the Slack API.
 
-The Pipedream Slack app is not a typical app. You don't interact with it directly as a bot, and it doesn't add custom functionality to your workspace out of the box. It just makes it easier to automate anything you'd typically use the Slack API for, using Pipedream workflows. 
+The Pipedream Slack app is not a typical app. You don't interact with it directly as a bot, and it doesn't add custom functionality to your workspace out of the box. It makes it easier to automate anything you'd typically use the Slack API for, using Pipedream workflows. 
 
-Here are some examples of automations you can build with Pipedream on Slack:
-
-- Automate posting updates to your team channel
+- Automate posting updates to your team channels
 - Create a bot to answer common questions
 - Integrate with your existing tools and services
-- Build a custom dashboard to track your team's progress
-- Create a bot to handle scheduling and meeting requests
 - And much more!
 
 # Getting Started
