@@ -3,7 +3,7 @@ import blandAi from "../../bland_ai.app.mjs";
 export default {
   key: "bland-ai-analyze-call",
   name: "Analyze Call",
-  description: "Analyzes an input call, extracting structured data and providing insights.",
+  description: "Analyzes an input call, extracting structured data and providing insights. [See the documentation](https://docs.bland.ai/api-v1/post/calls-id-analyze)",
   version: "0.0.1",
   type: "action",
   props: {
