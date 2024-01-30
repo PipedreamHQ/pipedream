@@ -8,22 +8,33 @@ export default {
   type: "action",
   props: {
     stammerAi,
-    message: {
+    chatbotUuid: {
       propDefinition: [
         stammerAi,
-        "message",
+        "chatbotUuid",
       ],
     },
-    apiToken: {
+    query: {
       propDefinition: [
         stammerAi,
-        "apiToken",
+        "query",
+      ],
+    },
+    userKey: {
+      propDefinition: [
+        stammerAi,
+        "userKey",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.stammerAi.sendMessage({
       $,
+      data: {
+        chatbot_uuid: this.chatbotUuid,
+        query: this.query,
+        user_key: this.userKey,
+      },
     });
     $.export("$summary", "Message sent to chatbot successfully");
     return response;

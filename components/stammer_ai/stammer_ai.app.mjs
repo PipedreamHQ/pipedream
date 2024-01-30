@@ -4,21 +4,25 @@ export default {
   type: "app",
   app: "stammer_ai",
   propDefinitions: {
-    message: {
+    chatbotUuid: {
       type: "string",
-      label: "Message",
-      description: "The text message you want to send to the chatbot.",
+      label: "Chatbot UUID",
+      description: "Unique identifier (UUID) of the chatbot. You can find this UUID on the chatbot's detail page.",
     },
-    apiToken: {
+    query: {
       type: "string",
-      label: "API Token",
-      description: "Your Stammer.ai API token for authentication.",
-      secret: true,
+      label: "Query",
+      description: "Message or query the user intends to send to the chatbot. Must be under 2000 characters.",
+    },
+    userKey: {
+      type: "string",
+      label: "User Key",
+      description: "A unique identifier/string, used to distinguish users interacting with the chatbot.",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://app.stammer.ai";
+      return "https://app.stammer.ai/en/chatbot/api/v1";
     },
     async _makeRequest({
       $ = this,
@@ -36,18 +40,11 @@ export default {
         },
       });
     },
-    async sendMessage({ message }) {
+    async sendMessage(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/en/api/v1/chatbot/message/",
-        data: {
-          message,
-        },
-      });
-    },
-    async getUserData() {
-      return this._makeRequest({
-        path: "/en/user/api/v1/me/",
+        path: "/message/",
+        ...args,
       });
     },
   },
