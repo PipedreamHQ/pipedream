@@ -23,7 +23,7 @@ export default defineAction({
   key: "twitter-list-lists",
   name: "List Lists",
   description: `Get all lists owned by a user. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.6",
+  version: "2.0.7",
   type: "action",
   props: {
     ...common.props,
