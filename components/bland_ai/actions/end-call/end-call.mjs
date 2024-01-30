@@ -1,4 +1,4 @@
-import blandAi from "../../bland-ai.app.mjs";
+import blandAi from "../../bland_ai.app.mjs";
 
 export default {
   key: "bland-ai-end-call",
