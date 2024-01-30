@@ -8,10 +8,10 @@ export default {
     },
   },
   async additionalProps(): Promise<any> {
-    const tweetId = '1228393702244134912';
+    const tweetId = "1228393702244134912";
     const data = await this.getTweets({
       params: {
-        ids: tweetId, 
+        ids: tweetId,
       },
       validateStatus: () => true,
     });
@@ -23,7 +23,7 @@ export default {
     getTweets(args = {}) {
       return this.app._httpRequest({
         url: "/tweets",
-        ...args, 
+        ...args,
       });
     },
   },

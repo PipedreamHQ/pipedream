@@ -13,7 +13,7 @@ export default defineAction({
   key: "twitter-upload-media",
   name: "Upload Media",
   description: `Upload new media. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
