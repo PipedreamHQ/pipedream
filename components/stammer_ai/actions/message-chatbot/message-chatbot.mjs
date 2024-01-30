@@ -1,4 +1,4 @@
-import stammerAi from "../../stammerai.app.mjs";
+import stammerAi from "../../stammer_ai.app.mjs";
 
 export default {
   key: "stammer_ai-message-chatbot",
