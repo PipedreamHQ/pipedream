@@ -3,12 +3,18 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "bland_ai",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     callId: {
       type: "string",
       label: "Call ID",
       description: "The unique identifier of the call",
+      async options() {
+        const calls = await this.listCalls();
+        return calls?.map((call) => ({
+          label: `From ${call.from} to ${call.to} (${call.call_length} minutes)`,
+          value: call.c_id,
+        }));
+      },
     },
     callRecordOrStream: {
       type: "any",
@@ -25,58 +31,57 @@ export default {
       label: "Questions",
       description: "An array of questions to be analyzed for the call",
     },
-    uniqueCallIdentity: {
-      type: "string",
-      label: "Unique Call Identity",
-      description: "The unique identity of the ongoing call to be terminated",
-    },
   },
   methods: {
     _baseUrl() {
       return "https://api.bland.ai/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `${this.$auth.api_key}`,
         },
       });
     },
-    async analyzeCall(callRecordOrStream, goal, questions) {
+    async analyzeCall({
+      callId, ...args
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/analyze",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          callRecordOrStream,
-          goal,
-          questions,
-        },
+        path: `/calls/${callId}/analyze`,
+        ...args,
       });
     },
-    async terminateCall(uniqueCallIdentity) {
+    async terminateCall({
+      callId, ...args
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/calls/${uniqueCallIdentity}/stop`,
+        path: `/calls/${callId}/stop`,
+        ...args,
       });
     },
-    async getTranscript(callId) {
+    async getTranscript({
+      callId, ...args
+    }) {
       return this._makeRequest({
-        path: `/calls/${callId}/transcript`,
+        path: `/calls/${callId}/`,
+        ...args,
       });
+    },
+    async listCalls() {
+      const response = await this._makeRequest({
+        path: "/calls",
+      });
+      return response?.calls;
     },
   },
 };

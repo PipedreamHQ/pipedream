@@ -4,20 +4,23 @@ export default {
   key: "bland-ai-end-call",
   name: "End Call",
   description: "Terminates a currently ongoing call using Bland AI. [See the documentation](https://docs.bland.ai/api-v1/post/calls-id-stop)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     blandAi,
-    uniqueCallIdentity: {
+    callId: {
       propDefinition: [
         blandAi,
-        "uniqueCallIdentity",
+        "callId",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.blandAi.terminateCall(this.uniqueCallIdentity);
-    $.export("$summary", `Successfully ended call with ID: ${this.uniqueCallIdentity}`);
+    const response = await this.blandAi.terminateCall({
+      $,
+      callId: this.callId,
+    });
+    $.export("$summary", `Successfully ended call with ID: ${this.callId}`);
     return response;
   },
 };
