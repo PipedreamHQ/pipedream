@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_cloud_vision_api",
+  "version": "0.0.1",
+  "description": "Pipedream Google Cloud Vision API Components",
+  "main": "google_cloud_vision_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_cloud_vision_api"
+  ],
+  "homepage": "https://pipedream.com/apps/google_cloud_vision_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

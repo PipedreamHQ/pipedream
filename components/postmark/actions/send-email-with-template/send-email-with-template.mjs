@@ -1,27 +1,21 @@
-import postmark from "../../postmark.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
+import templateProps from "../common/templateProps.mjs";
+
+const {
+  postmark, ...props
+} = common.props;
 
 export default {
   ...common,
   key: "postmark-send-email-with-template",
   name: "Send Email With Template",
-  description: "Send a single email with Postmark using a template [(See docs here)](https://postmarkapp.com/developer/api/templates-api#email-with-template)",
-  version: "0.0.1",
+  description: "Send a single email with Postmark using a template [See the documentation](https://postmarkapp.com/developer/api/templates-api#email-with-template)",
+  version: "0.0.2",
   type: "action",
   props: {
-    ...common.props,
-    templateAlias: {
-      propDefinition: [
-        postmark,
-        "templateAlias",
-      ],
-    },
-    templateModel: {
-      type: "object",
-      label: "Template Model",
-      description:
-        "The model to be applied to the specified template to generate the email body and subject.",
-    },
+    postmark,
+    ...templateProps,
+    ...props,
     inlineCss: {
       type: "boolean",
       label: "Inline CSS",
@@ -32,9 +26,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      ...this.getActionRequestCommonData(),
-      TemplateAlias: this.templateAlias,
-      TemplateModel: this.templateModel,
+      ...this.getTemplateRequestData(),
       InlineCSS: this.inlineCss,
     };
     const response = await this.postmark.sendEmailWithTemplate($, data);
