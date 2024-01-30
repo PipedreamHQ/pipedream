@@ -109,8 +109,7 @@ export default defineApp({
       if (!errorMessage) {
         return;
       }
-      const stringifiedData = JSON.stringify(data);
-      throw new ConfigurationError(`${errorMessage} \`${stringifiedData}\``);
+      throw new ConfigurationError(errorMessage);
     },
     _getAuthHeader(config: HttpRequestParams) {
       const {

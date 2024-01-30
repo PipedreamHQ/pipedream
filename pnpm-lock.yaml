@@ -2716,6 +2716,9 @@ importers:
       lodash-es: 4.17.21
       uuid: 8.3.2
 
+  components/google_cloud_vision_api:
+    specifiers: {}
+
   components/google_contacts:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -3852,7 +3855,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/maestra:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/magnetic:
     specifiers:
@@ -5271,7 +5277,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/proabono:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/process_street:
     specifiers:
@@ -5683,7 +5692,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/retailed:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/retently:
     specifiers:
