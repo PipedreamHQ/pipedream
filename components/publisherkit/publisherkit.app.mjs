@@ -8,59 +8,50 @@ export default {
       type: "string",
       label: "Template ID",
       description: "The ID of the template to use for image creation",
-    },
-    imageData: {
-      type: "string",
-      label: "Image Data",
-      description: "Data of the image to be generated",
-    },
-    imageFormat: {
-      type: "string",
-      label: "Image Format",
-      description: "Format of the image to be generated",
-    },
-    imageMetadata: {
-      type: "object",
-      label: "Image Metadata",
-      description: "Metadata to attach to the image",
-      optional: true,
+      async options() {
+        const templates = await this.listTemplates();
+        return templates?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.publisherkit.com";
+      return "https://api.publisherkit.com/v1";
     },
-    async _makeRequest(opts = {}) {
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "Content-Type": "application/json",
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_token}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
       });
     },
-    async createImage({
-      templateId, imageData, imageFormat, imageMetadata,
-    }) {
+    listTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/api/templates",
+        ...opts,
+      });
+    },
+    createImage(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/create/images",
-        data: {
-          templateId,
-          imageData,
-          imageFormat,
-          imageMetadata,
-        },
+        path: "/create/images",
+        ...opts,
       });
     },
   },
