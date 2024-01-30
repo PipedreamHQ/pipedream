@@ -8,10 +8,10 @@ export default {
     },
   },
   async additionalProps(): Promise<any> {
-    const tweetId = "1228393702244134912";
-    const data = await this.getTweets({
+    const q = "Pipedream";
+    const data = await this.getRecentTweets({
       params: {
-        ids: tweetId,
+        query: q,
       },
       validateStatus: () => true,
     });
@@ -20,9 +20,9 @@ export default {
     return {};
   },
   methods: {
-    getTweets(args = {}) {
+    getRecentTweets(args = {}) {
       return this.app._httpRequest({
-        url: "/tweets",
+        url: "/tweets/search/recent",
         ...args,
       });
     },
