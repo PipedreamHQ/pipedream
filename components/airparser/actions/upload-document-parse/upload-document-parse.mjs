@@ -1,29 +1,49 @@
 import airparser from "../../airparser.app.mjs";
-import { axios } from "@pipedream/platform";
+import fs from "fs";
+import FormData from "form-data";
 
 export default {
   key: "airparser-upload-document-parse",
   name: "Upload Document and Parse",
-  description: "Uploads a document into the inbox for data extraction. The parsed results depend on a predefined extraction schema. The document source is required as a prop. Additionally, users may define the extraction schema as an optional prop.",
-  version: "0.0.{{ts}}",
+  description: "Uploads a document into the inbox for data extraction. [See the documentation](https://help.airparser.com/public-api/public-api)",
+  version: "0.0.1",
   type: "action",
   props: {
     airparser,
-    documentSource: {
-      type: "string",
-      label: "Document Source",
-      description: "The source of the document for data extraction (file, text, or external URL)",
+    inboxId: {
+      propDefinition: [
+        airparser,
+        "inboxId",
+      ],
     },
-    extractionSchema: {
+    filePath: {
       type: "string",
-      label: "Extraction Schema",
+      label: "File Path",
+      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+    },
+    metadata: {
+      type: "object",
+      label: "Metadata",
       description: "The user-defined extraction schema for data extraction",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.airparser.uploadDocument(this.documentSource, this.extractionSchema);
-    $.export("$summary", `Uploaded document with ID: ${response.id}`);
+    const fileStream = fs.createReadStream(this.filePath.includes("tmp/")
+      ? this.filePath
+      : `/tmp/${this.filePath}`);
+    const data = new FormData();
+    data.append("file", fileStream);
+    if (this.metadata) {
+      data.append("meta", JSON.stringify(this.metadata));
+    }
+
+    const response = await this.airparser.uploadDocument({
+      $,
+      inboxId: this.inboxId,
+      data,
+    });
+    $.export("$summary", `Successfully uploaded document with ID ${response.id}`);
     return response;
   },
 };
