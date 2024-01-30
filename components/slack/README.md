@@ -13,17 +13,15 @@ Here are some examples of automations you can build with Pipedream on Slack:
 - Create a bot to handle scheduling and meeting requests
 - And much more!
 
-### Should I use the Slack or Slack Bot app on Pipedream?
+# Getting Started
+
+## Should I use the Slack or Slack Bot app on Pipedream?
 
 The Slack app is the easiest and most convienent option to get started. It installs the official Pipedream bot into your Slack workspace with just a few clicks.
 
 However, if you'd like to use your own bot registered with the [Slack API](https://api.slack.com), you can use the [Slack Bot app](https://pipedream.com/apps/slack-bot) instead.
 
 The Slack Bot requires a bot token to allow your Pipedream workflows to authenticate as your bot. The extra set up steps allow you to list your custom bot on the Slack Marketplace, or install the bot on other workspaces as your bot's name instead of as Pipedream.
-
-# Getting Started
-
-You can install the Pipedream Slack app in the [Accounts](https://pipedream.com/accounts) section of your account, or directly in a workflow
 
 ## Accounts
 
