@@ -4,7 +4,7 @@ export default {
   key: "bland-ai-get-transcript",
   name: "Get Transcript",
   description: "Retrieves the transcript of a specified call post-completion. [See the documentation](https://docs.bland.ai/api-v1/get/calls-id)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     blandAi,
@@ -16,7 +16,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.blandAi.getTranscript(this.callId);
+    const response = await this.blandAi.getTranscript({
+      $,
+      callId: this.callId,
+    });
     $.export("$summary", `Successfully retrieved transcript for call ID: ${this.callId}`);
     return response;
   },
