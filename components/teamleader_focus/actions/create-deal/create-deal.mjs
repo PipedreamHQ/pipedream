@@ -5,7 +5,7 @@ export default {
   key: "teamleader_focus-create-deal",
   name: "Create Deal",
   description: "Add a new deal. [See the documentation](https://developer.teamleader.eu/#/reference/deals/deals/deals.create)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     teamleaderFocus,
@@ -24,6 +24,13 @@ export default {
       propDefinition: [
         teamleaderFocus,
         "dealPhase",
+      ],
+      optional: true,
+    },
+    source: {
+      propDefinition: [
+        teamleaderFocus,
+        "dealSource",
       ],
       optional: true,
     },
@@ -77,6 +84,7 @@ export default {
         },
       },
       phase_id: this.phase,
+      source_id: this.source,
       responsible_user_id: this.user,
       estimated_probability: this.probability,
       estimated_closing_date: this.closeDate,

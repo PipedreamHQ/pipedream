@@ -13,7 +13,7 @@ export default defineSource({
   key: "twitter-new-tweet-in-list",
   name: "New Tweet Posted in List",
   description: `Emit new event when a Tweet is posted in the specified list [See the documentation](${DOCS_LINK})`,
-  version: "2.0.4",
+  version: "2.0.6",
   type: "source",
   props: {
     ...common.props,

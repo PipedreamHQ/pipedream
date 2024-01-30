@@ -1223,7 +1223,10 @@ importers:
       form-data: 4.0.0
 
   components/cloudpress:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/cloudtalk:
     specifiers: {}
@@ -3849,7 +3852,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/maestra:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
 
   components/magnetic:
     specifiers:
@@ -5210,6 +5216,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/postmark:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.5.1
+
   components/practitest:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -5262,7 +5274,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/proabono:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/process_street:
     specifiers:
@@ -5674,7 +5689,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/retailed:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/retently:
     specifiers:
