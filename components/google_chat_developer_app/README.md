@@ -1,11 +1,13 @@
 # Overview
-By connecting your personal Google Chat account to Pipedream, you'll be able to incorporate your Google Chat data into whatever you're building with any of the 1,700+ apps that are available on Pipedream.
+By connecting your Google Chat account to Pipedream, you'll be able to incorporate your Google Chat data into whatever you're building with any of the 1,700+ apps that are available on Pipedream. 
 
 # Getting Started
-The Google Chat Developer App in Pipedream can integrate with either a personal Gmail account or a Google workspace email account. Either option involves creating a custom Google App in the Google Cloud Console. This process does not involve any code or special approval by Google. The steps are outlined below:
+The Google Chat (Developer App) setup is only available for Google Workspace users. See [here](https://developers.google.com/chat/troubleshoot/apps#workspace-users) for more details. If you are not a Google Workspace user, you can use Pipedream's [Google Chat](https://pipedream.com/apps/google-chat) application alternatively. 
+
+The steps are outlined below:
 
 ## Creating a Google Chat app
-In order to connect your personal or workspace Google Chat account to Pipedream, you'll need to create a custom OAuth app in Google Cloud.
+In order to connect your workspace Google Chat account to Pipedream, you'll need to create a custom OAuth app in Google Cloud. This requires a Google workspace account.
 
 1. Sign in to the [Google Cloud Console](https://cloud.google.com/)
 2. Select an existing project or create a new one
@@ -24,26 +26,21 @@ In order to connect your personal or workspace Google Chat account to Pipedream,
 
 7. Click **OAuth consent screen** on the left side
    
-  ![Click "OAuth consent screen" in the left navigation menu](https://res.cloudinary.com/pipedreamin/image/upload/v1663268506/docs/components/CleanShot_2022-09-15_at_15.01.24_wravfb.png)
+  ![Click "OAuth consent screen" in the left navigation menu](https://res.cloudinary.com/dpenc2lit/image/upload/v1704750653/Screenshot_2024-01-08_at_1.50.38_PM_ihkhn7.png)
 
-8. If you're a Google Workspace user and only intend to use this application within your organization, select **Internal**. 
+8. If you only intend to use this application within your organization, select **Internal** (recommended) and click "Create." In this mode, your app is limited to Google Workspace users within your organization. If you select **External**, you will need to go through the process of app verification in order use any sensitive or restricted scopes.
 
-Otherwise, select **External** User Type and click “Create”
-
-  ![Select "External" in the OAuth Consent Screen](https://res.cloudinary.com/pipedreamin/image/upload/v1663268545/docs/components/CleanShot_2022-09-15_at_15.02.22_fiekq1.png)
+  ![Select "Internal" in the OAuth Consent Screen](https://res.cloudinary.com/dpenc2lit/image/upload/v1704750730/Screenshot_2024-01-08_at_1.52.05_PM_pgxebn.png)
 
 9. Fill in the required fields and click **Save and Continue**
 10. Under **Authorized Domains**, add `pipedream.com`
 11. Click **Add or remove scopes** and Filter by `Chat API` select whichever scopes you intend to use and then click "Update". For more information about available Google Chat scopes, please see this [overview](https://developers.google.com/chat/api/guides/auth#chat-api-scopes).
 12. Click **Save and Continue** to finish the **Scopes** step
-13. Add your own email as a **Test User** by clicking **Add Users** then typing in your email in the prompt then clicking **Add** again. Then finally click **Save and Continue** to finish the Test Users portion.
-14. You should be prompted with a **Summary** page.
-
-Now you've created an unlisted Google Chat app that you can integrate with Pipedream.
+13. You should be prompted with a **Summary** page.
 
 ## Create OAuth Credentials
 
-You will need to generate a set of OAuth credentials to connect your new Google Chat app to Pipedream properly.
+You will need to generate a set of OAuth credentials to connect your new Google Chat app to Pipedream.
 
 1. Navigate to the **Credentials** section on the left side.
     
@@ -60,7 +57,7 @@ You will need to generate a set of OAuth credentials to connect your new Google 
   ![Web application is the type of OAuth credential we're generating](https://res.cloudinary.com/pipedreamin/image/upload/v1663270117/docs/components/CleanShot_2022-09-15_at_15.14.56_hlseq6.png)
 
 4. Name the app “Pipedream”
-5. Click **Add URI** and enter `https://api.pipedream.com/connect/oauth/oa_gBBi5O/callback`
+5. Under **Authorized redirect URIs**, click **Add URI** and enter `https://api.pipedream.com/connect/oauth/oa_gBBi5O/callback`
 
   ![Add the Pipedream URL to the Callback Redirect URL option](https://res.cloudinary.com/dpenc2lit/image/upload/v1704486173/Screenshot_2024-01-05_at_12.22.39_PM_oyvppi.png)
 
@@ -69,25 +66,45 @@ You will need to generate a set of OAuth credentials to connect your new Google 
 
   ![Store the Client ID and Client Secret keys](https://res.cloudinary.com/pipedreamin/image/upload/v1663270250/docs/components/CleanShot_2022-09-15_at_15.16.29_hvxnkx.png)
 
+## Configure your Google Chat application
+
+1. Click **Enable APIs & Services** on the top-left navigation bar, then **Google Chat API**.
+
+2. Click **Configuration**
+
+3. Fill in the required details - please note that the values you provide here will be the name of the app that you add to your Google Chat workspace.
+
+4. You can name the application whatever you'd like for the app to be called within the Google Chat workspace, e.g. **Pipedream**
+
+5. If you'd like to use the Pipedream logo for the avatar, use the URL [https://pipedream.com/s.v0/app_13GhYE/logo/orig](https://pipedream.com/s.v0/app_13GhYE/logo/orig) for the **Avatar URL**
+
+6. Add a **Description**.
+
+7. Select any **Interactive features** you require for your app.
+
+8. Add an **App URL**, ideally, an HTTPS URL that you control, or you can provide the following app url [https://pipedream.com/apps/google-chat-developer-app](https://pipedream.com/apps/google-chat-developer-app).
+
+9. Under **Visibility**, add the email addresses of the individuals or groups within your Google Workspace organization.
+
+10. Click **Save**. 
+
+![App Configuration Settings](https://res.cloudinary.com/dpenc2lit/image/upload/v1704751866/Screenshot_2024-01-08_at_2.10.44_PM_z3eoa0.png)
+
 ## Connect your Google Chat app Pipedream with your Google Chat app OAuth credentials
 
-At this point, you should have a Google Chat App under your Google Project, and a set of OAuth keys.
+At this point, you should have a Google Chat App under your Google Project, and a set of OAuth credentials.
 
-1. Now when prompted in Pipedream after trying to connect a Google Chat Developer App, copy and paste your OAuth credentials.
+1. When prompted in Pipedream after trying to connect the Google Chat (Developer App), copy and paste your OAuth credentials.
 2. Add the scopes that you chose when setting up the app in a space-separate list.
 3. Click **Connect**
-4. If you did not publish your Google Chat App in the Google Cloud Console, just click **Continue** to ignore the warning.
+4. You will be presented with an OAuth consent screen and should see the scopes that you specified at this step. Click **Allow**.
 
-    ![Click continue if presented with a warning about an unpublished app](https://res.cloudinary.com/pipedreamin/image/upload/v1663269902/docs/components/CleanShot_2022-09-15_at_15.19.58_jnzlwc.png)
+    ![Click Allow to Continue](https://res.cloudinary.com/dpenc2lit/image/upload/v1704752139/Screenshot_2024-01-08_at_2.15.12_PM_pzk47x.png)
 
-5. If you've selected Sensitive or Restricted scopes for your application, you will see a warning and you will need to click *Advanced* --> Continue
+5. You should now be able to use your Google Chat application that you created on Pipedream!
 
-    ![Unverified App Warning](https://res.cloudinary.com/dpenc2lit/image/upload/v1704487450/Screenshot_2024-01-05_at_12.42.50_PM_iiuvro.png)
-
-6. Click the final **Connect** and your custom Google Chat app should be integrated into Pipedream!
-
-## Publish your Google Chat app
-Google has a [7 day expiration window](https://developers.google.com/identity/protocols/oauth2#:~:text=A%20Google%20Cloud,Connect%20equivalents) on refresh tokens for applications with a publishing status of "Testing", so you will need to **Publish** your application in order to maintain your account connection.
+## Publish your Google Chat app (EXTERNAL ONLY)
+Google has a [7 day expiration window](https://developers.google.com/identity/protocols/oauth2#:~:text=A%20Google%20Cloud,Connect%20equivalents) on refresh tokens for applications that are set to **External** users with a publishing status of "Testing", so you will need to **Publish** your application in order to maintain your account connection.
 
 1. Navigate to your application, and click **OAuth Consent Screen** on the lefthand sidebar.
 2. Under **Publishing status**, click **Publish App**. If you included any sensitive or restricted scopes in your app, there will be a disclosure stating that you will need to go through the process of verification. Click **Confirm**.

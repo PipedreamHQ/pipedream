@@ -3,9 +3,9 @@ export default {
     mutation createBoard (
       $boardName: String!
       $boardKind: BoardKind!
-      $folderId: Int
-      $workspaceId: Int
-      $templateId: Int
+      $folderId: ID
+      $workspaceId: ID
+      $templateId: ID
     ) {
       create_board (
         board_name: $boardName
@@ -20,7 +20,7 @@ export default {
   `,
   createGroup: `
     mutation createGroup (
-      $boardId: Int!
+      $boardId: ID!
       $groupName: String!
     ) {
       create_group (
@@ -33,8 +33,8 @@ export default {
   `,
   createItem: `
     mutation createItem (
-      $itemName: String
-      $boardId: Int!
+      $itemName: String!
+      $boardId: ID!
       $groupId: String
       $columnValues: JSON
       $createLabels: Boolean
@@ -53,8 +53,8 @@ export default {
   createUpdate: `
     mutation createUpdate (
       $updateBody: String!
-      $itemId: Int
-      $parentId: Int
+      $itemId: ID
+      $parentId: ID
     ) {
       create_update (
         body: $updateBody
@@ -67,8 +67,8 @@ export default {
   `,
   updateItemName: `
     mutation updateItemName (
-      $boardId: Int!
-      $itemId: Int!
+      $boardId: ID!
+      $itemId: ID!
       $columnValues: JSON!
     ) {
       change_multiple_column_values (
@@ -82,7 +82,7 @@ export default {
   `,
   createWebhook: `
     mutation createWebhook (
-      $boardId: Int!
+      $boardId: ID!
       $url: String!
       $event: WebhookEventType!
       $config: JSON
@@ -100,7 +100,7 @@ export default {
   `,
   deleteWebhook: `
     mutation deleteWebhook (
-      $id: Int!
+      $id: ID!
     ) {
       delete_webhook(
         id: $id
@@ -112,7 +112,7 @@ export default {
   `,
   createColumn: `
     mutation createColumn (
-      $boardId: Int!
+      $boardId: ID!
       $title: String!
       $columnType: ColumnType!
       $defaults: JSON
@@ -131,8 +131,8 @@ export default {
   `,
   updateColumnValues: `
     mutation updateItem (
-      $boardId: Int!
-      $itemId: Int!
+      $boardId: ID!
+      $itemId: ID!
       $columnValues: JSON!
     ) {
       change_multiple_column_values (

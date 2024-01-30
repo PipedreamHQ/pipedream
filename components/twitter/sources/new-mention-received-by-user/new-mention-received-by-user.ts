@@ -1,4 +1,3 @@
-import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
@@ -15,13 +14,13 @@ export default defineSource({
   key: "twitter-new-mention-received-by-user",
   name: "New Mention Received by User",
   description: `Emit new event when the specified User is mentioned in a Tweet [See the documentation](${DOCS_LINK})`,
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   props: {
     ...common.props,
     userNameOrId: {
       propDefinition: [
-        app,
+        common.props.app,
         "userNameOrId",
       ],
     },

@@ -1,4 +1,3 @@
-import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getUserSummary as getItemSummary } from "../common/getItemSummary";
@@ -15,13 +14,13 @@ export default defineSource({
   key: "twitter-new-follower-of-user",
   name: "New Follower Received by User",
   description: `Emit new event when the specified User receives a Follower [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.5",
   type: "source",
   props: {
     ...common.props,
     userNameOrId: {
       propDefinition: [
-        app,
+        common.props.app,
         "userNameOrId",
       ],
     },

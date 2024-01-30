@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
 import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import constants from "../../common/constants";
@@ -9,13 +9,14 @@ import FormData from "form-data";
 const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload";
 
 export default defineAction({
+  ...common,
   key: "twitter-upload-media",
   name: "Upload Media",
   description: `Upload new media. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.7",
+  version: "0.0.9",
   type: "action",
   props: {
-    app,
+    ...common.props,
     filePath: {
       type: "string",
       label: "File Path",
@@ -31,10 +32,11 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    try {
-      const isLocalFile = this.filePath?.startsWith("/tmp");
+    const isLocalFile = this.filePath?.startsWith("/tmp");
+    let content;
 
-      const content = isLocalFile
+    try {
+      content = isLocalFile
         ? fs.createReadStream(this.filePath, {
           encoding: "base64",
         })
@@ -43,28 +45,30 @@ export default defineAction({
           responseType: "arraybuffer",
         });
 
-      const data = new FormData();
-
-      if (isLocalFile) {
-        data.append("media_data", content);
-      } else {
-        data.append("media", content);
-      }
-
-      const response = await this.app.uploadMedia({
-        $,
-        data,
-        params: {
-          media_category: this.media_category,
-        },
-      });
-
-      $.export("$summary", `Successfully uploaded media with ID ${response.media_id}`);
-
-      return response;
     } catch (err) {
       $.export("error", err);
       throw new Error(ACTION_ERROR_MESSAGE);
     }
+
+    const data = new FormData();
+
+    if (isLocalFile) {
+      data.append("media_data", content);
+    } else {
+      data.append("media", content);
+    }
+
+    const response = await this.app.uploadMedia({
+      $,
+      data,
+      params: {
+        media_category: this.media_category,
+      },
+      fallbackError: ACTION_ERROR_MESSAGE,
+    });
+
+    $.export("$summary", `Successfully uploaded media with ID ${response.media_id}`);
+
+    return response;
   },
 });

@@ -10,7 +10,7 @@ export default defineAction({
   key: "twitter-create-tweet",
   name: "Create Tweet",
   description: `Create a new tweet. [See the documentation](${DOCS_LINK})`,
-  version: "2.1.1",
+  version: "2.1.3",
   type: "action",
   props: {
     app,
@@ -57,51 +57,47 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    try {
-      const {
+    const {
+      text,
+      inReplyToTweetId,
+      excludeReplyUserIds,
+      mediaIds,
+      placeId,
+      taggedUserIds,
+    } = this;
+
+    const params: CreateTweetParams = {
+      $,
+      data: {
         text,
-        inReplyToTweetId,
-        excludeReplyUserIds,
-        mediaIds,
-        placeId,
-        taggedUserIds,
-      } = this;
+        ...((inReplyToTweetId || excludeReplyUserIds) && {
+          reply: {
+            exclude_reply_user_ids: excludeReplyUserIds,
+            in_reply_to_tweet_id: inReplyToTweetId,
+          },
+        }),
+        ...((mediaIds || taggedUserIds) && {
+          media: {
+            media_ids: mediaIds,
+            tagged_user_ids: taggedUserIds,
+          },
+        }),
+        ...(placeId && {
+          geo: {
+            place_id: placeId,
+          },
+        }),
+      },
+      fallbackError: ACTION_ERROR_MESSAGE,
+    };
 
-      const params: CreateTweetParams = {
-        $,
-        data: {
-          text,
-          ...((inReplyToTweetId || excludeReplyUserIds) && {
-            reply: {
-              exclude_reply_user_ids: excludeReplyUserIds,
-              in_reply_to_tweet_id: inReplyToTweetId,
-            },
-          }),
-          ...((mediaIds || taggedUserIds) && {
-            media: {
-              media_ids: mediaIds,
-              tagged_user_ids: taggedUserIds,
-            },
-          }),
-          ...(placeId && {
-            geo: {
-              place_id: placeId,
-            },
-          }),
-        },
-      };
+    const response = await this.app.createTweet(params);
 
-      const response = await this.app.createTweet(params);
+    $.export(
+      "$summary",
+      `Successfully posted tweet (ID ${response.data?.id})`,
+    );
 
-      $.export(
-        "$summary",
-        `Successfully posted tweet (ID ${response.data?.id})`,
-      );
-
-      return response;
-    } catch (err) {
-      $.export("error", err);
-      throw new Error(ACTION_ERROR_MESSAGE);
-    }
+    return response;
   },
 });

@@ -6,7 +6,7 @@ export default {
   name: "List Documents",
   description: "List documents optionally filter by a search query or tags. [See the docs here](https://developers.pandadoc.com/reference/list-documents)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     app,
     query: {

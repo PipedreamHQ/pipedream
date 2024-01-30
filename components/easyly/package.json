@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/easyly",
+  "version": "0.1.0",
+  "description": "Pipedream Easyly Components",
+  "main": "easyly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easyly"
+  ],
+  "homepage": "https://pipedream.com/apps/easyly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "uuid": "^9.0.1"
+  }
+}

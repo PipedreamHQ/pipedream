@@ -3,8 +3,8 @@ import wordpress from "../../wordpress_org.app.mjs";
 export default {
   key: "wordpress_org-get-user",
   name: "Get User",
-  description: "Retrieves information for a user. [See the docs here](https://developer.wordpress.org/rest-api/reference/users/#retrieve-a-user-2)",
-  version: "0.0.1",
+  description: "Retrieves information for a user. [See the documentation](https://developer.wordpress.org/rest-api/reference/users/#retrieve-a-user-2)",
+  version: "0.0.2",
   type: "action",
   props: {
     wordpress,

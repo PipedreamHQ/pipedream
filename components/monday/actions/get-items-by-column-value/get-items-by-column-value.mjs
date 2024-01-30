@@ -5,7 +5,7 @@ export default {
   key: "monday-get-items-by-column-value",
   name: "Get Items By Column Value",
   description: "Searches a column for items matching a value. [See the documentation](https://developer.monday.com/api-reference/docs/items-page-by-column-values)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -36,7 +36,20 @@ export default {
       throw new Error(response.errors[0].message);
     }
 
-    const { data: { items_by_column_values: items } } = response;
+    const { data: { items_page_by_column_values: pageItems } } = response;
+    const { items } = pageItems;
+    let cursor = pageItems?.cursor;
+    while (cursor) {
+      const {
+        data: {
+          cursor: nextCursor, items_page_by_column_values: { items: nextItems },
+        },
+      } = await this.monday.getItemsByColumnValue({
+        cursor,
+      });
+      items.push(...nextItems);
+      cursor = nextCursor;
+    }
 
     $.export("$summary", `Successfully retrieved ${items.length} item${items.length === 1
       ? ""

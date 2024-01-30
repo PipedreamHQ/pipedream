@@ -4,7 +4,7 @@ export default {
   key: "loops_so-send-transactional-email",
   name: "Send Transactional Email",
   description: "Send a transactional email. [See the Documentation](https://loops.so/docs/transactional/guide#send-your-email)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     loops,

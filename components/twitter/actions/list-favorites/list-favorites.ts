@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
 import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
@@ -19,22 +19,23 @@ const DEFAULT_RESULTS = 100;
 export const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
+  ...common,
   key: "twitter-list-favorites",
   name: "List Liked Tweets",
   description: `Return the most recent tweets liked by you or the specified user. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.3",
+  version: "2.0.5",
   type: "action",
   props: {
-    app,
+    ...common.props,
     userNameOrId: {
       propDefinition: [
-        app,
+        common.props.app,
         "userNameOrId",
       ],
     },
     maxResults: {
       propDefinition: [
-        app,
+        common.props.app,
         "maxResults",
       ],
       min: MIN_RESULTS,
@@ -43,33 +44,30 @@ export default defineAction({
     },
   },
   methods: {
+    ...common.methods,
     getMultiItemSummary,
     getUserId,
     getTweetFields,
   },
   async run({ $ }): Promise<PaginatedResponseObject<Tweet>> {
-    try {
-      const userId = await this.getUserId();
+    const userId = await this.getUserId();
 
-      const params: GetUserLikedTweetParams = {
-        $,
-        maxPerPage: MAX_RESULTS_PER_PAGE,
-        maxResults: this.maxResults,
-        params: this.getTweetFields(),
-        userId,
-      };
+    const params: GetUserLikedTweetParams = {
+      $,
+      maxPerPage: MAX_RESULTS_PER_PAGE,
+      maxResults: this.maxResults,
+      params: this.getTweetFields(),
+      userId,
+      fallbackError: ACTION_ERROR_MESSAGE,
+    };
 
-      const response = await this.app.getUserLikedTweets(params);
+    const response = await this.app.getUserLikedTweets(params);
 
-      $.export(
-        "$summary",
-        this.getMultiItemSummary("liked tweet", response.data?.length),
-      );
+    $.export(
+      "$summary",
+      this.getMultiItemSummary("liked tweet", response.data?.length),
+    );
 
-      return response;
-    } catch (err) {
-      $.export("error", err);
-      throw new Error(ACTION_ERROR_MESSAGE);
-    }
+    return response;
   },
 });

@@ -104,5 +104,10 @@ export default {
       const { data } = await classroom.courses.courseWork.studentSubmissions.list(params);
       return data;
     },
+    async listAnnouncements(params = {}) {
+      const classroom = this._client();
+      const { data } = await classroom.courses.announcements.list(params);
+      return data;
+    },
   },
 };
