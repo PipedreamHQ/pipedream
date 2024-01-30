@@ -16,20 +16,15 @@ export default {
         }));
       },
     },
-    callRecordOrStream: {
-      type: "any",
-      label: "Call Record or Stream",
-      description: "The call record or stream data for analysis",
-    },
     goal: {
       type: "string",
       label: "Goal",
-      description: "The overall purpose of the call for analysis",
+      description: "This is the overall purpose of the call. Provides context for the analysis to guide how the questions/transcripts are interpreted.",
     },
     questions: {
       type: "string[]",
       label: "Questions",
-      description: "An array of questions to be analyzed for the call",
+      description: "An array of questions to be analyzed for the call. Each question should be an array with two elements: the question text and the expected answer type. Examples: `[\"Who answered the call?\", \"human or voicemail\"]`, `[\"Positive feedback about the product: \", \"string\"]`",
     },
   },
   methods: {

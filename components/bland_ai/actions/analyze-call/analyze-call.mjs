@@ -4,14 +4,14 @@ export default {
   key: "bland-ai-analyze-call",
   name: "Analyze Call",
   description: "Analyzes an input call, extracting structured data and providing insights.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     blandAi,
-    callRecordOrStream: {
+    callId: {
       propDefinition: [
         blandAi,
-        "callRecordOrStream",
+        "callId",
       ],
     },
     goal: {
@@ -30,10 +30,12 @@ export default {
   async run({ $ }) {
     const response = await this.blandAi.analyzeCall({
       $,
+      callId: this.callId,
       data: {
-        callRecordOrStream: this.callRecordOrStream,
         goal: this.goal,
-        questions: this.questions,
+        questions: this.questions?.map?.((str) => typeof str === "string"
+          ? str
+          : JSON.parse(str)),
       },
     });
     $.export("$summary", "Call analyzed successfully");
