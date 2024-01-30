@@ -20,27 +20,20 @@ export default {
     _baseUrl() {
       return "https://app.stammer.ai";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
           "Content-Type": "application/json",
-          "Authorization": `Token ${this.apiToken}`,
+          "Authorization": `Token ${this.$auth.api_token}`,
         },
-        data,
-        params,
       });
     },
     async sendMessage({ message }) {
@@ -58,5 +51,4 @@ export default {
       });
     },
   },
-  version: "0.0.1",
 };
