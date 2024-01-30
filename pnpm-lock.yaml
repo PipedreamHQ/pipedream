@@ -222,7 +222,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/airparser:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      form-data: 4.0.0
 
   components/airplane:
     specifiers:
@@ -2715,6 +2720,9 @@ importers:
       crypto: 1.0.1
       lodash-es: 4.17.21
       uuid: 8.3.2
+
+  components/google_cloud_vision_api:
+    specifiers: {}
 
   components/google_contacts:
     specifiers:
