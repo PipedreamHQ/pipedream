@@ -2713,6 +2713,9 @@ importers:
       lodash-es: 4.17.21
       uuid: 8.3.2
 
+  components/google_cloud_vision_api:
+    specifiers: {}
+
   components/google_contacts:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -6000,7 +6003,10 @@ importers:
     specifiers: {}
 
   components/semgrep:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/sendbird:
     specifiers:

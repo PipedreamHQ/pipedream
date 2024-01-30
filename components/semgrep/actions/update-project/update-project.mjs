@@ -1,11 +1,10 @@
 import semgrep from "../../semgrep.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "semgrep-update-project",
   name: "Update Project",
   description: "Update a project on Semgrep. [See the documentation](https://semgrep.dev/api/v1/docs/#tag/project/operation/semgrep_app.saas.handlers.repository.openapi_patch_project)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     semgrep,
@@ -29,17 +28,23 @@ export default {
         semgrep,
         "tags",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
+    const tags = typeof this.tags === "string"
+      ? JSON.parse(this.tags)
+      : this.tags;
+
     const response = await this.semgrep.updateProject({
       deploymentSlug: this.deploymentSlug,
       projectName: this.projectName,
-      tags: this.tags,
+      data: {
+        tags,
+      },
     });
 
     $.export("$summary", `Successfully updated the project '${this.projectName}'`);
+
     return response;
   },
 };

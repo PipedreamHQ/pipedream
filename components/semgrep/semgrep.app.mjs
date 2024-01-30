@@ -8,24 +8,19 @@ export default {
       type: "string",
       label: "Deployment Slug",
       description: "The slug identifier for the deployment",
-      async options({ prevContext }) {
-        const page = prevContext.page
-          ? prevContext.page
-          : 0;
+      async options({ page }) {
         const { deployments } = await this.listDeployments({
           params: {
             page,
           },
         });
-        return {
-          options: deployments.map((deployment) => ({
-            label: deployment.name,
-            value: deployment.slug,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
+
+        return deployments.map(({
+          name, slug,
+        }) => ({
+          label: name,
+          value: slug,
+        }));
       },
     },
     projectName: {
@@ -36,17 +31,13 @@ export default {
         const { projects } = await this.listProjects({
           deploymentSlug,
         });
-        return projects.map((project) => ({
-          label: project.name,
-          value: project.name,
-        }));
+        return projects.map((project) => project.name);
       },
     },
     tags: {
       type: "string[]",
       label: "Tags",
       description: "Optional tags for the project",
-      optional: true,
     },
   },
   methods: {
@@ -55,15 +46,14 @@ export default {
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this, path, headers, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this.$auth.api_token}`,
         },
       });
     },
@@ -90,22 +80,13 @@ export default {
       });
     },
     async updateProject({
-      deploymentSlug, projectName, tags, ...opts
+      deploymentSlug, projectName, ...opts
     }) {
       return this._makeRequest({
         method: "PATCH",
         path: `/deployments/${deploymentSlug}/projects/${projectName}`,
-        data: tags
-          ? {
-            tags,
-          }
-          : {},
         ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
   },
-  version: "0.0.{{ts}}",
 };
