@@ -2716,6 +2716,9 @@ importers:
       lodash-es: 4.17.21
       uuid: 8.3.2
 
+  components/google_cloud_vision_api:
+    specifiers: {}
+
   components/google_contacts:
     specifiers:
       '@pipedream/platform': ^0.10.0
