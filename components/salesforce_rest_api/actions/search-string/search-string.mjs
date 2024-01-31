@@ -36,7 +36,7 @@ export default {
     try {
       const response = await this.salesForceRestApi.parameterizedSearch(
         sobjectType, searchTerm, {
-          fields: Array.isArray(fields) && fields.join(",") || fields,
+          fields: fields.join(","),
         },
       );
         const resultsFound = response.searchRecords.length;
