@@ -1,11 +1,10 @@
 import codescene from "../../codescene.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "codescene-get-project-analysis",
   name: "Get Project Analysis",
   description: "Returns a single project analysis. [See the documentation](https://codescene.io/docs/integrations/public-api.html#single-analysis-details)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     codescene,
@@ -27,6 +26,7 @@ export default {
   },
   async run({ $ }) {
     const projectAnalysis = await this.codescene.getProjectAnalysis({
+      $,
       projectId: this.projectId,
       analysisId: this.analysisId,
     });

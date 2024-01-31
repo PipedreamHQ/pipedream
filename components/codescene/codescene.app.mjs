@@ -9,10 +9,12 @@ export default {
       label: "Developer Configuration",
       description: "The ID of the developer configuration from the developer settings list.",
       async options() {
-        const response = await this.listDeveloperConfigurations();
-        return response.map((config) => ({
-          label: config.name,
-          value: config.id,
+        const { developer_settings: resources } = await this.listDeveloperConfigurations();
+        return resources.map(({
+          name, id,
+        }) => ({
+          label: name,
+          value: id,
         }));
       },
     },
@@ -49,26 +51,26 @@ export default {
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this, path, headers, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this.$auth.api_token}`,
         },
       });
     },
     async listDeveloperConfigurations() {
       return this._makeRequest({
-        path: "/developer-configurations",
+        path: "/developer-settings",
       });
     },
-    async listProjects() {
+    async listProjects(args = {}) {
       return this._makeRequest({
         path: "/projects",
+        ...args,
       });
     },
     async listAnalyses({ projectId }) {
@@ -77,24 +79,19 @@ export default {
       });
     },
     async getProjectAnalysis({
-      projectId, analysisId,
+      projectId, analysisId, ...args
     }) {
       return this._makeRequest({
         path: `/projects/${projectId}/analyses/${analysisId}`,
+        ...args,
       });
     },
-    async createNewProject({ developerConfiguration }) {
+    async createNewProject(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/projects/new",
-        data: {
-          "developer-configuration": developerConfiguration,
-        },
+        ...args,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
   },
-  version: "0.0.{{ts}}",
 };
