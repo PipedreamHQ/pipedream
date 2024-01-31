@@ -8,16 +8,26 @@ export default {
   type: "action",
   props: {
     venly,
-    blockchainType: venly.propDefinitions.blockchainType,
+    blockchainType: {
+      propDefinition: [
+        venly,
+        "blockchainType",
+      ],
+    },
     contractMetadata: {
-      ...venly.propDefinitions.contractMetadata,
-      optional: true,
+      propDefinition: [
+        venly,
+        "contractMetadata",
+      ],
     },
   },
   async run({ $ }) {
     const response = await this.venly.deployContract({
-      blockchainType: this.blockchainType,
-      contractMetadata: this.contractMetadata,
+      $,
+      data: {
+        blockchainType: this.blockchainType,
+        contractMetadata: this.contractMetadata,
+      },
     });
 
     $.export("$summary", `Successfully deployed contract with ID ${response.id} on ${this.blockchainType}`);

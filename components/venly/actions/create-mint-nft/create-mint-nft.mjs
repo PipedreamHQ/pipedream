@@ -53,9 +53,12 @@ export default {
 
     // Create token type
     const createTokenResponse = await this.venly.createTokenType({
+      $,
       contractId,
-      nftMetadata: this.nftMetadata,
-      mintingRestrictions: this.mintingRestrictions,
+      data: {
+        nftMetadata: this.nftMetadata,
+        mintingRestrictions: this.mintingRestrictions,
+      },
     });
 
     if (!createTokenResponse || !createTokenResponse.id) {

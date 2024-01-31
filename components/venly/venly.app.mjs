@@ -3,7 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "venly",
-  version: "0.0.1",
   propDefinitions: {
     blockchainType: {
       type: "string",
