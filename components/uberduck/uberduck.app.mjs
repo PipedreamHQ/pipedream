@@ -73,21 +73,20 @@ export default {
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this, path, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Basic ${Buffer.from(`${this.$auth.username}:${this.$auth.password}`).toString("base64")}`,
+        auth: {
+          username: `${this.$auth.api_key}`,
+          password: `${this.$auth.secret_key}`,
         },
       });
     },
     async listVoices(opts = {}) {
       const {
-        mode, language, isPrivate, owner, name, page,
+        mode, language, isPrivate, owner, name, page, ...args
       } = opts;
       return this._makeRequest({
         path: "/voices",
@@ -99,28 +98,23 @@ export default {
           name,
           page,
         },
+        ...args,
       });
     },
-    async listVoiceSamples({ voicemodelUuid }) {
-      return this._makeRequest({
-        path: `/voices/${voicemodelUuid}/samples`,
-      });
-    },
-    async generateLyrics({
-      voicemodelUuid, text,
+    async listVoiceSamples({
+      voicemodelUuid, ...args
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/generate-lyrics",
-        data: {
-          voicemodel_uuid: voicemodelUuid,
-          text,
-        },
+        path: `/voices/${voicemodelUuid}/samples`,
+        ...args,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async generateLyrics(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/tts/lyrics",
+        ...args,
+      });
     },
   },
-  version: "0.0.{{ts}}",
 };

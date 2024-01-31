@@ -1,11 +1,10 @@
 import uberduck from "../../uberduck.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "uberduck-get-voices",
   name: "Get Voices",
   description: "List voices available in Uberduck. [See the documentation](https://docs.uberduck.ai/reference/list-voices)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     uberduck,
@@ -42,6 +41,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.uberduck.listVoices({
+      $,
       mode: this.mode,
       language: this.language,
       isPrivate: this.isPrivate,
@@ -49,7 +49,8 @@ export default {
       name: this.name,
     });
 
-    $.export("$summary", "Retrieved a list of voices successfully");
+    $.export("$summary", `Retrieved a list of ${response.length} voices successfully`);
+
     return response;
   },
 };

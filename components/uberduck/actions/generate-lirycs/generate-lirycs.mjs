@@ -1,5 +1,4 @@
 import uberduck from "../../uberduck.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "uberduck-generate-lyrics",
@@ -9,24 +8,34 @@ export default {
   type: "action",
   props: {
     uberduck,
-    voicemodelUuid: {
-      propDefinition: [
-        uberduck,
-        "voicemodelUuid",
-      ],
+    lines: {
+      type: "integer",
+      label: "Lines",
+      description: "Number of lines of lyrics to generate",
     },
-    text: {
+    subject: {
       type: "string",
-      label: "Text",
-      description: "The text to generate lyrics from",
+      label: "Subject",
+      description: "The lyrics subject",
+    },
+    generateTitle: {
+      type: "boolean",
+      label: "Generate Title",
+      description: "Generate a title to the lyrics",
     },
   },
   async run({ $ }) {
     const response = await this.uberduck.generateLyrics({
-      voicemodelUuid: this.voicemodelUuid,
-      text: this.text,
+      $,
+      data: {
+        lines: this.lines,
+        subject: this.subject,
+        generate_title: this.generateTitle,
+      },
     });
-    $.export("$summary", `Successfully generated lyrics for voice model UUID: ${this.voicemodelUuid}`);
+
+    $.export("$summary", "Successfully generated lyrics");
+
     return response;
   },
 };
