@@ -5,7 +5,7 @@ export default {
   name: "Search Object Records",
   description:
     "Searches for records in an object using a parameterized search. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_parameterized.htm)",
-  version: "0.1.19",
+  version: "0.0.1",
   type: "action",
   props: {
     salesForceRestApi,
