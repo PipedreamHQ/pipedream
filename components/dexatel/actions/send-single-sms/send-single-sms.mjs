@@ -1,5 +1,4 @@
 import dexatel from "../../dexatel.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "dexatel-send-single-sms",
@@ -9,13 +8,53 @@ export default {
   type: "action",
   props: {
     dexatel,
-    recipientNumber: dexatel.propDefinitions.recipientNumber,
-    messageContent: dexatel.propDefinitions.messageContent,
+    senderId: {
+      propDefinition: [
+        dexatel,
+        "senderId",
+      ],
+    },
+    recipientNumber: {
+      propDefinition: [
+        dexatel,
+        "recipientNumber",
+      ],
+    },
+    messageContent: {
+      propDefinition: [
+        dexatel,
+        "messageContent",
+      ],
+    },
+    templateId: {
+      propDefinition: [
+        dexatel,
+        "templateId",
+      ],
+      optional: true,
+    },
+    variables: {
+      type: "string[]",
+      label: "Variables",
+      description: "List of the template values",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.dexatel.sendMessage({
-      recipientNumber: this.recipientNumber,
-      messageContent: this.messageContent,
+      $,
+      data: {
+        data: {
+          from: this.senderId,
+          to: [
+            this.recipientNumber,
+          ],
+          text: this.messageContent,
+          channel: "SMS",
+          template: this.templateId,
+          variables: this.variables,
+        },
+      },
     });
     $.export("$summary", `Successfully sent message to ${this.recipientNumber}`);
     return response;

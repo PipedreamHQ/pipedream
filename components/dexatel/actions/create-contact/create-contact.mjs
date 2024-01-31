@@ -1,5 +1,4 @@
 import dexatel from "../../dexatel.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "dexatel-create-contact",
@@ -9,25 +8,44 @@ export default {
   type: "action",
   props: {
     dexatel,
-    contactName: {
+    audienceId: {
       propDefinition: [
         dexatel,
-        "contactName",
+        "audienceId",
       ],
     },
-    contactNumber: {
+    firstName: {
       propDefinition: [
         dexatel,
-        "contactNumber",
+        "firstName",
+      ],
+    },
+    lastName: {
+      propDefinition: [
+        dexatel,
+        "lastName",
+      ],
+    },
+    number: {
+      propDefinition: [
+        dexatel,
+        "number",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.dexatel.createContact({
-      contactName: this.contactName,
-      contactNumber: this.contactNumber,
+      $,
+      audienceId: this.audienceId,
+      data: {
+        data: {
+          first_name: this.firstName,
+          last_name: this.lastName,
+          number: this.number,
+        },
+      },
     });
-    $.export("$summary", `Successfully created contact ${this.contactName} with number ${this.contactNumber}`);
+    $.export("$summary", `Successfully created contact ${this.firstName} with number ${this.number}`);
     return response;
   },
 };

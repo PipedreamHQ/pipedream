@@ -4,15 +4,97 @@ export default {
   type: "app",
   app: "dexatel",
   propDefinitions: {
-    contactName: {
+    audienceId: {
       type: "string",
-      label: "Contact Name",
-      description: "The name of the contact to create or update.",
+      label: "Audience Id",
+      description: "The identifier of the audience.",
+      async options({
+        page, prevContext,
+      }) {
+        const {
+          data, pagination,
+        } = await this.listAudences({
+          params: {
+            page,
+            page_token: prevContext.page_token,
+          },
+        });
+
+        return {
+          options: data.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            page_token: new URLSearchParams(pagination.links.next).get("page_token"),
+          },
+        };
+      },
     },
-    contactNumber: {
+    senderId: {
+      type: "string",
+      label: "Sender Id",
+      description: "The identifier of the sender.",
+      async options({
+        page, prevContext,
+      }) {
+        const {
+          data, pagination,
+        } = await this.listSenders({
+          params: {
+            page,
+            page_token: prevContext.page_token,
+          },
+        });
+
+        return {
+          options: data.map(({ name }) => name),
+          context: {
+            page_token: new URLSearchParams(pagination.links.next).get("page_token"),
+          },
+        };
+      },
+    },
+    templateId: {
+      type: "string",
+      label: "Template Id",
+      description: "The identifier of the template.",
+      async options({
+        page, prevContext,
+      }) {
+        const {
+          data, pagination,
+        } = await this.listTemplates({
+          params: {
+            page,
+            page_token: prevContext.page_token,
+          },
+        });
+
+        return {
+          options: data.map(({ name }) => name),
+          context: {
+            page_token: new URLSearchParams(pagination.links.next).get("page_token"),
+          },
+        };
+      },
+    },
+    firstName: {
+      type: "string",
+      label: "Contact First Name",
+      description: "The first name of the contact.",
+    },
+    lastName: {
+      type: "string",
+      label: "Contact Last Name",
+      description: "The last name of the contact.",
+    },
+    number: {
       type: "string",
       label: "Contact Number",
-      description: "The phone number of the contact to create or update.",
+      description: "The phone number of the contact.",
     },
     recipientNumber: {
       type: "string",
@@ -34,77 +116,54 @@ export default {
     _baseUrl() {
       return "https://api.dexatel.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Content-Type": "application/json",
+        "X-Dexatel-Key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "X-Dexatel-Key": `${this.$auth.api_key}`,
-        },
-        data,
-        params,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async createContact({
-      contactName, contactNumber,
+    createContact({
+      audienceId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/audiences/contacts",
-        data: {
-          data: {
-            number: contactNumber,
-            first_name: contactName,
-          },
-        },
+        path: `/audiences/${audienceId}/contacts`,
+        ...opts,
       });
     },
-    async sendMessage({
-      recipientNumber, messageContent,
-    }) {
+    listAudences( opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/messages",
-        data: {
-          data: {
-            to: [
-              recipientNumber,
-            ],
-            text: messageContent,
-            channel: "SMS",
-          },
-        },
+        path: "/audiences",
+        ...opts,
       });
     },
-    async sendBulkMessages({
-      recipientNumbers, messageContent,
-    }) {
+    listSenders( opts = {}) {
+      return this._makeRequest({
+        path: "/senders",
+        ...opts,
+      });
+    },
+    listTemplates( opts = {}) {
+      return this._makeRequest({
+        path: "/templates",
+        ...opts,
+      });
+    },
+    sendMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/messages",
-        data: {
-          data: {
-            to: recipientNumbers,
-            text: messageContent,
-            channel: "SMS",
-          },
-        },
+        ...opts,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
