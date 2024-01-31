@@ -8,22 +8,15 @@ export default {
       type: "string",
       label: "Voice Model UUID",
       description: "The UUID of the voice model",
-      async options({ prevContext }) {
-        const page = prevContext.page
-          ? prevContext.page
-          : 0;
+      async options({ page }) {
         const response = await this.listVoices({
           page,
         });
-        return {
-          options: response.map((voice) => ({
-            label: voice.display_name,
-            value: voice.voicemodel_uuid,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
+
+        return response.map((voice) => ({
+          label: voice.display_name,
+          value: voice.voicemodel_uuid,
+        }));
       },
     },
     mode: {
