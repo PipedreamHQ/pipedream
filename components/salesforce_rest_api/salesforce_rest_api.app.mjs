@@ -509,14 +509,10 @@ export default {
         url,
       });
     },
-    async parameterizedSearch(sobjectType, searchTerm, options) {
+    async parameterizedSearch(params) {
       const baseUrl = this._baseApiVersionUrl();
       const url = `${baseUrl}/parameterizedSearch/`;
-      const params = {
-        q: searchTerm,
-        sobject: sobjectType,
-        fields: options.fields,
-      };
+      
         return this._makeRequest({
           url,
           method: 'GET',
