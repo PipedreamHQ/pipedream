@@ -61,6 +61,13 @@ export default {
       }
 
       try {
+        JSON.parse(value);
+      } catch (err) {
+        // if unable to parse JSON, return value as is
+        return value;
+      }
+
+      try {
         return this.parseJSON(value);
       } catch (err) {
         return value;
