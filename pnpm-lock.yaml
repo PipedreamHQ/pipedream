@@ -2147,6 +2147,9 @@ importers:
   components/facebook_lead_ads:
     specifiers: {}
 
+  components/facebook_marketing:
+    specifiers: {}
+
   components/facebook_pages:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7241,6 +7244,9 @@ importers:
       '@pipedream/types': 0.1.6
       form-data: 4.0.0
       oauth-1.0a: 2.2.6
+
+  components/twitter_ads:
+    specifiers: {}
 
   components/typebot:
     specifiers: {}
