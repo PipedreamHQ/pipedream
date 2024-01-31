@@ -4,7 +4,7 @@ export default {
   key: "data_stores-get-record-or-create",
   name: "Get record (or create one if not found)",
   description: "Get a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/) or create one if it doesn't exist.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     app,

@@ -5,7 +5,7 @@ export default {
   key: "data_stores-append-to-record",
   name: "Append to record",
   description: "Append to a record in your data store [Pipedream Data Store](https://pipedream.com/data-stores/). If the record does not exist, a new record will be created in an array format.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
