@@ -47,7 +47,7 @@ export default {
       responseArray = responseArray.filter(
         (item) => this.filterArray(item, lastId),
       ).reverse();
-      if (responseArray.length > maxResults) responseArray.length = maxResults;
+      if (maxResults && (responseArray.length > maxResults)) responseArray.length = maxResults;
       if (responseArray.length) this._setLastId(responseArray[0], this.getIdField());
 
       for (const item of responseArray.reverse()) {
