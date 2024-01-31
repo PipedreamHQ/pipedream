@@ -9,14 +9,14 @@ export default {
       label: "Email",
       description: "The email address to verify or find",
     },
-    fullName: {
+    name: {
       type: "string",
-      label: "Full Name",
+      label: "Name",
       description: "The full name of the person",
     },
-    websiteDomain: {
+    domain: {
       type: "string",
-      label: "Website Domain",
+      label: "Domain",
       description: "The domain of the website",
     },
     companyWebsiteOrName: {
@@ -47,29 +47,21 @@ export default {
     _baseUrl() {
       return "https://app.findymail.com/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        method,
         url: `${this._baseUrl()}${path}`,
-        headers: {
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-          ...headers,
-        },
-        data,
-        params,
-        ...otherOpts,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async createNewList({ listName }) {
+    createNewList({ listName }) {
       return this._makeRequest({
         method: "POST",
         path: "/lists",
@@ -78,48 +70,42 @@ export default {
         },
       });
     },
-    async deleteList({ listId }) {
+    deleteList({ listId }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/lists/${listId}`,
       });
     },
-    async getLists() {
+    getLists() {
       return this._makeRequest({
         path: "/lists",
       });
     },
-    async verifyEmail({ email }) {
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts/get/0",
+        ...opts,
+      });
+    },
+    verifyEmail(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/verify",
-        data: {
-          email,
-        },
+        ...opts,
       });
     },
-    async findEmailByNameAndDomain({
-      fullName, websiteDomain,
-    }) {
+    findEmailByNameAndDomain(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/search/name",
-        data: {
-          name: fullName,
-          domain: websiteDomain,
-        },
+        ...opts,
       });
     },
-    async findEmailByNameAndCompany({
-      fullName, companyWebsiteOrName,
-    }) {
+    findEmailByCompanyDomain(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/search/name",
-        data: {
-          name: fullName,
-          domain: companyWebsiteOrName,
-        },
+        path: "/search/domain",
+        ...opts,
       });
     },
   },

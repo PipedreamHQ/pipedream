@@ -1,23 +1,34 @@
 import findymail from "../../findymail.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "findymail-find-email-name-domain",
-  name: "Find Email by Name and Company",
-  description: "Locates an email using a full name and a company's website or name. [See the documentation](https://app.findymail.com/docs/)",
+  name: "Find Email by company domain",
+  description: "Locates an email using a company's website. [See the documentation](https://app.findymail.com/docs/)",
   version: "0.0.1",
   type: "action",
   props: {
     findymail,
-    fullName: findymail.propDefinitions.fullName,
-    companyWebsiteOrName: findymail.propDefinitions.companyWebsiteOrName,
+    domain: {
+      propDefinition: [
+        findymail,
+        "domain",
+      ],
+    },
+    roles: {
+      type: "string[]",
+      label: "Roles",
+      description: "Target roles related to the given domain (max 3 roles)",
+    },
   },
   async run({ $ }) {
-    const response = await this.findymail.findEmailByNameAndCompany({
-      fullName: this.fullName,
-      companyWebsiteOrName: this.companyWebsiteOrName,
+    const response = await this.findymail.findEmailByCompanyDomain({
+      $,
+      data: {
+        domain: this.domain,
+        roles: this.roles,
+      },
     });
-    $.export("$summary", `Successfully found email for ${this.fullName}`);
+    $.export("$summary", `Successfully found ${response.contacts?.length || 0} email for ${this.domain}`);
     return response;
   },
 };
