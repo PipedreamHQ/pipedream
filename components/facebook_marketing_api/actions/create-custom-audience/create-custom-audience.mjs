@@ -1,0 +1,32 @@
+import facebookMarketingApi from "../../facebook_marketing_api.app.mjs";
+
+export default {
+  key: "facebook_marketing_api-create-custom-audience",
+  name: "Create Custom Audience",
+  description: "Creates a new custom audience in Facebook. [See the documentation](https://developers.facebook.com/docs/marketing-api/audiences/guides/custom-audiences/)",
+  version: "0.0.{{ts}}",
+  type: "action",
+  props: {
+    facebookMarketingApi,
+    name: {
+      propDefinition: [
+        facebookMarketingApi,
+        "name",
+      ],
+    },
+    description: {
+      propDefinition: [
+        facebookMarketingApi,
+        "description",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.facebookMarketingApi.createCustomAudience({
+      name: this.name,
+      description: this.description,
+    });
+    $.export("$summary", `Successfully created custom audience ${this.name}`);
+    return response;
+  },
+};
