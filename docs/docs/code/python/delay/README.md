@@ -29,7 +29,9 @@ def handler(pd: 'pipedream'):
 
     # Delay a workflow based on the value of incoming event data,
     # or default to 60 seconds if that variable is undefined
-    pd.flow.delay(pd.steps["trigger"].get("event", {}).get("body", {}).get("delayMs", 60 * 1000))
+    default = 60 * 1000
+    delayMs = pd.steps["trigger"].get("event", {}).get("body", {}).get("delayMs", default)
+    pd.flow.delay(delayMs)
 
     # Delay a workflow a random amount of time
     pd.flow.delay(random.randint(0, 999))
