@@ -3792,6 +3792,9 @@ importers:
   components/livechat:
     specifiers: {}
 
+  components/livesession:
+    specifiers: {}
+
   components/livestorm:
     specifiers:
       '@pipedream/platform': ^1.4.1

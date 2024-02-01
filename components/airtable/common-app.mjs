@@ -64,7 +64,7 @@ export default {
     async _makeRequest({
       $ = this,
       path,
-      rateLimited = false,
+      rateLimited = true,
       ...args
     }) {
       const config = {
