@@ -112,3 +112,9 @@ def handler(pd: "pipedream"):
 The `/tmp` directory can store up to {{$site.themeConfig.TMP_SIZE_LIMIT}} of storage. Also the storage may be wiped or may not exist between workflow executions.
 
 To avoid errors, assume that the `/tmp` directory is empty between workflow runs. Please refer to the [disk limits](/limits/#disk) for details.
+
+::: warning Are File Stores helpers available for Python to download, upload and manage files?
+
+At this time no, only Node.js includes a helper to interact with the [File Store](/projects/file-stores/) programmatically within workflows.
+
+:::
