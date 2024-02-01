@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/facebook_marketing",
+  "version": "0.0.1",
+  "description": "Pipedream Facebook Custom Audiences Components",
+  "main": "facebook_marketing.app.mjs",
+  "keywords": [
+    "pipedream",
+    "facebook_marketing"
+  ],
+  "homepage": "https://pipedream.com/apps/facebook_marketing",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
