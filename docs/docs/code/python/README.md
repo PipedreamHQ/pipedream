@@ -103,7 +103,7 @@ We recommend using the popular `requests` HTTP client package available in Pytho
 
 No need to run `pip install`, just `import requests` at the top of your step's code and it's available for your code to use.
 
-See the [Making an HTTP Request](/code/python/http-requests/) docs for more information.
+See the [Making HTTP Requests with Python](/code/python/http-requests/) docs for more information.
 
 ## Returning HTTP responses
 
