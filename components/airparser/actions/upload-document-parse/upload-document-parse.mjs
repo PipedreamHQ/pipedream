@@ -43,7 +43,7 @@ export default {
       inboxId: this.inboxId,
       data,
     });
-    $.export("$summary", `Successfully uploaded document with ID ${response.id}`);
+    $.export("$summary", `Successfully uploaded document with ID ${response}`);
     return response;
   },
 };
