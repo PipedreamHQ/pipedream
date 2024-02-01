@@ -19,7 +19,7 @@ export default {
     googleDomain: {
       type: "string",
       label: "Google Domain",
-      description: "The Google domain to use for the search.",
+      description: "The Google domain to use for the search. See the [Google domains page](https://docs.autom.dev/api-reference/google/google-domains) for a full list of supported Google domains.",
       default: "google.com",
       optional: true,
     },
