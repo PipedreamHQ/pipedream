@@ -81,8 +81,7 @@ At this time it's not possible to move workflows out of GitHub Synchronized Proj
 
 ## Access permissions
 
-### Understanding who has access to which project
-We've introduced 2 new columns in the [project list view](https://pipedream.com/projects): **Owner** and **Access**.
+The [project list view](https://pipedream.com/projects) contains **Owner** and **Access** columns.
 
 **Owner** indicates who within the workspace owns each project. This is typically the person who created the project.
 
@@ -92,12 +91,12 @@ We've introduced 2 new columns in the [project list view](https://pipedream.com/
 Projects created before February 2024 don't automatically have owners.
 :::
 
-**Access** indicates who within the workspace has access to each project, and this can be displayed as "me", "Workspace", or "N members".
+**Access** indicates which workspace members have access to each project, and this can be displayed as "me", "Workspace", or "N members".
 
 ![Project Listing (Access)](./images/project-listing-access.png)
 
 ### Permissions
-For workspace members who have access to the project (either because it's shared with the entire workspace or with that member specifically), below are the permissions for the project.
+Workspace owners and admins are able to perform all actions in projects, whereas members are restricted from performing certain actions.
 
 | Operations | Project creator | Workspace members |
 | --  | :--: | :--: | :--: |
@@ -115,7 +114,7 @@ _Access and permissions for workspace admins and owners mirror the project creat
 
 ### Managing access
 :::tip By default, all projects are accessible to everyone in the workspace.
-Workspaces on the [Business plan](https://pipedream.com/pricing) can restrict access to specific workspace members.
+Workspaces on the [Business plan](https://pipedream.com/pricing) can restrict members' access to specific projects.
 :::
 
 You can easily modify the access rules for a project directly from the [project list view](https://pipedream.com/projects), either by clicking the access badge in the project row (fig 1) or clicking the 3 dots to open the action menu, then selecting **Manage Access** (fig 2).
