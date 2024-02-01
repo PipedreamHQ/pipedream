@@ -9,7 +9,7 @@ export default {
   key: "postmark-send-batch-with-templates",
   name: "Send Batch With Templates",
   description: "Send a batch of emails using a template [See the documentation](https://postmarkapp.com/developer/api/templates-api#send-batch-with-templates)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     postmark,

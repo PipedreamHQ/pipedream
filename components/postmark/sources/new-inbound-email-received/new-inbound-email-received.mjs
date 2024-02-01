@@ -6,7 +6,7 @@ export default {
   name: "New Inbound Email Received",
   description:
     "Emit new event when an email is received by the Postmark server [(See docs here)](https://postmarkapp.com/developer/webhooks/inbound-webhook)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   methods: {
     ...common.methods,

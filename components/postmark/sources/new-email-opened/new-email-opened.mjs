@@ -6,7 +6,7 @@ export default {
   name: "New Email Opened",
   description:
     "Emit new event when an email is opened by a recipient [(See docs here)](https://postmarkapp.com/developer/webhooks/open-tracking-webhook)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     ...common.props,
