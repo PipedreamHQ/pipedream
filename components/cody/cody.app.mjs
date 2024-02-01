@@ -3,116 +3,127 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "cody",
-  version: "0.0.1",
   propDefinitions: {
     contentMessage: {
       type: "string",
       label: "Content Message",
       description: "The content of the message to send.",
     },
+    botId: {
+      type: "string",
+      label: "Bot ID",
+      description: "The ID of the bot.",
+      async options({ page }) {
+        const { data } = await this.listBots({
+          params: {
+            page,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     conversationId: {
       type: "string",
       label: "Conversation ID",
       description: "The ID of the conversation where the message will be sent.",
+      async options({
+        page, botId,
+      }) {
+        const { data } = await this.listConversations({
+          params: {
+            page,
+            bot_id: botId,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     documentText: {
       type: "string",
       label: "Document Text",
       description: "The text content of the document to be added to your knowledge base.",
     },
-    documentTitle: {
+    folderId: {
       type: "string",
-      label: "Document Title",
-      description: "The title of the document (optional).",
-      optional: true,
-    },
-    documentCategory: {
-      type: "string",
-      label: "Document Category",
-      description: "The category of the document (optional).",
-      optional: true,
-    },
-    documentAuthor: {
-      type: "string",
-      label: "Document Author",
-      description: "The author of the document (optional).",
-      optional: true,
-    },
-    filePath: {
-      type: "string",
-      label: "File Path",
-      description: "The file path of the document to be uploaded.",
+      label: "Folder Id",
+      description: "The Identifier of the folder.",
+      async options({ page }) {
+        const { data } = await this.listFolders({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://getcody.ai/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    listBots(opts = {}) {
+      return this._makeRequest({
+        path: "/bots",
+        ...opts,
+      });
     },
-    async sendMessage({
-      contentMessage, conversationId,
-    }) {
+    listConversations(opts = {}) {
+      return this._makeRequest({
+        path: "/conversations",
+        ...opts,
+      });
+    },
+    listFolders(opts = {}) {
+      return this._makeRequest({
+        path: "/folders",
+        ...opts,
+      });
+    },
+    sendMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/messages",
-        data: {
-          content: contentMessage,
-          conversation_id: conversationId,
-        },
+        ...opts,
       });
     },
-    async createDocument({
-      documentText, documentTitle, documentCategory, documentAuthor,
-    }) {
+    createDocument(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/documents",
-        data: {
-          content: documentText,
-          name: documentTitle,
-          category: documentCategory,
-          author: documentAuthor,
-        },
+        ...opts,
       });
-    },
-    async uploadFile({ filePath }) {
-      const {
-        url, key,
-      } = await this._makeRequest({
-        method: "POST",
-        path: "/uploads/signed-url",
-        data: {
-          file_name: filePath.split("/").pop(),
-          content_type: "application/octet-stream",
-        },
-      });
-      await axios({
-        method: "PUT",
-        url: url,
-        headers: {
-          "Content-Type": "application/octet-stream",
-        },
-        data: require("fs").createReadStream(filePath),
-      });
-      return {
-        key,
-      };
     },
   },
 };

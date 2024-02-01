@@ -1,5 +1,4 @@
 import cody from "../../cody.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "cody-create-document",
@@ -9,30 +8,33 @@ export default {
   type: "action",
   props: {
     cody,
-    documentText: cody.propDefinitions.documentText,
-    documentTitle: {
-      ...cody.propDefinitions.documentTitle,
-      optional: true,
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the document.",
     },
-    documentCategory: {
-      ...cody.propDefinitions.documentCategory,
-      optional: true,
+    folderId: {
+      propDefinition: [
+        cody,
+        "folderId",
+      ],
     },
-    documentAuthor: {
-      ...cody.propDefinitions.documentAuthor,
-      optional: true,
+    content: {
+      type: "string",
+      label: "Content",
+      description: "The content of the document. It can be text or html.",
     },
   },
   async run({ $ }) {
     const response = await this.cody.createDocument({
-      documentText: this.documentText,
-      documentTitle: this.documentTitle,
-      documentCategory: this.documentCategory,
-      documentAuthor: this.documentAuthor,
+      $,
+      data: {
+        name: this.name,
+        folder_id: this.folderId,
+        content: this.content,
+      },
     });
-    $.export("$summary", `Successfully created document with title "${this.documentTitle
-      ? this.documentTitle
-      : "Untitled"}"`);
+    $.export("$summary", `Successfully created document with ID: ${response.data?.id}`);
     return response;
   },
 };

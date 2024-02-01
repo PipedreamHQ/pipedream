@@ -1,5 +1,4 @@
 import cody from "../../cody.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "cody-send-message",
@@ -9,26 +8,38 @@ export default {
   type: "action",
   props: {
     cody,
-    contentMessage: {
+    botId: {
       propDefinition: [
         cody,
-        "contentMessage",
+        "botId",
       ],
     },
     conversationId: {
       propDefinition: [
         cody,
         "conversationId",
+        ({ botId }) => ({
+          botId,
+        }),
+      ],
+    },
+    content: {
+      propDefinition: [
+        cody,
+        "contentMessage",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.cody.sendMessage({
-      contentMessage: this.contentMessage,
-      conversationId: this.conversationId,
+      $,
+      data: {
+        conversation_id: this.conversationId,
+        content: this.content,
+      },
     });
 
-    $.export("$summary", `Sent message successfully with ID ${response.id}`);
+    $.export("$summary", `Sent message successfully with ID ${response.data?.id}`);
     return response;
   },
 };
