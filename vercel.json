@@ -205,6 +205,18 @@
     {
       "source": "/docs/workflows/networking/",
       "destination": "/docs/workflows/vpc/"
+    },
+    {
+      "source": "/docs/code/python/#making-a-get-request",
+      "destination": "/docs/code/python/http-requests/#making-a-get-request"
+    },
+    {
+      "source": "/docs/code/python/#making-a-post-request",
+      "destination": "/docs/code/python/http-requests/#making-a-post-request"
+    },
+    {
+      "source": "/docs/code/python/#sending-files",
+      "destination": "/docs/code/python/http-requests/#sending-files"
     }
   ]
 }

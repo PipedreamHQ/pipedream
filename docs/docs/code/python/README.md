@@ -105,61 +105,6 @@ No need to run `pip install`, just `import requests` at the top of your step's c
 
 See the [Making an HTTP Request](/code/python/http-requests/) docs for more information.
 
-### Making a `GET` request
-
-GET requests typically are for retrieving data from an API. Below is an example.
-
-```python
-import requests
-
-def handler(pd: "pipedream"):
-  url = "https://swapi.dev/api/people/1"
-
-  r = requests.get(url)
-
-  # The response is logged in your Pipedream step results:
-  print(r.text)
-
-  # The response status code is logged in your Pipedream step results:
-  print(r.status_code)
-```
-
-### Making a `POST` request
-
-```python
-import requests
-
-def handler(pd: "pipedream"):
-  # This a POST request to this URL will echo back whatever data we send to it
-  url = "https://postman-echo.com/post"
-
-  data = {"name": "Bulbasaur"}
-
-  r = requests.post(url, data)
-
-  # The response is logged in your Pipedream step results:
-  print(r.text)
-
-  # The response status code is logged in your Pipedream step results:
-  print(r.status_code)
-```
-
-### Sending files
-
-You can also send files within a step.
-
-An example of sending a previously stored file in the workflow's `/tmp` directory:
-
-```python
-import requests
-
-def handler(pd: "pipedream"):
-  # Retrieving a previously saved file from workflow storage
-  files = {"image": open("/tmp/python-logo.png", "rb")}
-
-  r = requests.post(url="https://api.imgur.com/3/image", files=files)
-```
-
 ## Returning HTTP responses
 
 You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the `pd.respond()` method:
