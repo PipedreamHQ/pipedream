@@ -148,6 +148,20 @@ export default {
         ...opts,
       });
     },
+    async sendBatchWithTemplate(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "email/batchWithTemplates",
+        ...opts,
+      });
+    },
+    async setServerInfo(data) {
+      return this.sharedRequest(this, {
+        endpoint: "server",
+        method: "put",
+        data,
+      });
+    },
     createDataRemoval(opts = {}) {
       return this._makeRequest({
         method: "POST",

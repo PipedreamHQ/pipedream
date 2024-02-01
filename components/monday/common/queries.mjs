@@ -14,6 +14,22 @@ export default {
       }
     }
   `,
+  listWorkspaces: `
+    query { 
+      workspaces {
+        id
+        name
+      }
+    }
+  `,
+  listFolders: `
+    query ($workspaceId: [ID]) { 
+      folders (workspace_ids: $workspaceId) {
+        id
+        name
+      }
+    }
+  `,
   listWorkspacesBoards: `
     query {
       boards (
@@ -29,7 +45,7 @@ export default {
     }
   `,
   listGroupsBoards: `
-    query listGroups ($boardId: Int!) {
+    query listGroups ($boardId: ID!) {
       boards (ids: [$boardId]) {
         groups {
           id
@@ -39,11 +55,23 @@ export default {
     }
   `,
   listItemsBoard: `
-    query listItems ($boardId: Int!) {
+    query listItems ($boardId: ID!) {
       boards (ids: [$boardId]) {
-        items (
-          newest_first: true
-        ) {
+        items_page (query_params: {order_by:[{ column_id: "__creation_log__", direction: desc }]}) {
+          cursor
+          items {
+            id
+            name
+          }
+        }
+      }
+    }
+  `,
+  listItemsNextPage: `
+    query listItems ($cursor: String!) {
+      next_items_page (cursor: $cursor) {
+        cursor
+        items {
           id
           name
         }
@@ -52,7 +80,7 @@ export default {
   `,
   listUpdatesBoard: `
     query listUpdates (
-      $boardId: Int!,
+      $boardId: ID!,
       $page: Int = 1
     ) {
       boards (ids: [$boardId]) {
@@ -66,7 +94,7 @@ export default {
     }
   `,
   listColumns: `
-    query listColumns ($boardId: Int!) {
+    query listColumns ($boardId: ID!) {
       boards (ids: [$boardId]) {
         columns {
           id
@@ -87,7 +115,7 @@ export default {
     }
   `,
   getItem: `
-    query getItem ($id: Int!) {
+    query getItem ($id: ID!) {
       items (ids: [$id]) {
         id
         name
@@ -112,7 +140,7 @@ export default {
     }
   `,
   getBoard: `
-    query getBoard($id: Int!) {
+    query getBoard($id: ID!) {
       boards (ids: [$id]) {
         id
         name
@@ -124,8 +152,10 @@ export default {
         groups {
           id
         }
-        items {
-          id
+        items_page {
+          items {
+            id
+          }
         }
         owner {
           id
@@ -141,7 +171,7 @@ export default {
     }
   `,
   getUser: `
-    query getUser($id: Int!) {
+    query getUser($id: ID!) {
       users (ids: [$id]) {
         id
         name
@@ -178,7 +208,7 @@ export default {
     }
   `,
   getColumnValues: `
-    query getItem ($itemId: Int!, $columnIds: [String!]) {
+    query getItem ($itemId: ID!, $columnIds: [String!]) {
       items (ids: [$itemId]){
         id
         name
@@ -191,14 +221,17 @@ export default {
     }
   `,
   getItemsByColumnValue: `
-    query ($boardId: Int!, $columnId: String!, $columnValue: String!){
-      items_by_column_values (board_id: $boardId, column_id: $columnId, column_value: $columnValue) {
-        id
-        name
-        column_values {
+    query ($boardId: ID!, $columnId: String!, $columnValue: String!){
+      items_page_by_column_values (board_id: $boardId, columns: [{column_id: $columnId, column_values: [$columnValue]}]) {
+        cursor
+        items {
           id
-          value
-          text
+          name
+          column_values {
+            id
+            value
+            text
+          }
         }
       }
     }

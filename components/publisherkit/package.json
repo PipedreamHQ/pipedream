@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/publisherkit",
+  "version": "0.1.0",
+  "description": "Pipedream PublisherKit Components",
+  "main": "publisherkit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "publisherkit"
+  ],
+  "homepage": "https://pipedream.com/apps/publisherkit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

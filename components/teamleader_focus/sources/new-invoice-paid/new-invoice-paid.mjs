@@ -5,7 +5,7 @@ export default {
   key: "teamleader_focus-new-invoice-paid",
   name: "New Invoice Paid (Instant)",
   description: "Emit new event for each invoice paid.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

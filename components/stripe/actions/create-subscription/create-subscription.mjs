@@ -5,7 +5,7 @@ export default {
   key: "stripe-create-subscription",
   name: "Create Subscription",
   type: "action",
-  version: "0.0.1",
+  version: "0.1.0",
   description: "Create a subscription. [See docs here](https://stripe.com/docs/api/subscriptions/create)",
   props: {
     stripe,
@@ -108,7 +108,6 @@ export default {
       items: items.map((item) => ({
         price: item,
       })),
-      ...this.advanced,
     });
 
     $.export("$summary", `Successfully created a new subscription with id ${resp.id}`);

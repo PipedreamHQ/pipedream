@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/airparser",
+  "version": "0.1.0",
+  "description": "Pipedream Airparser Components",
+  "main": "airparser.app.mjs",
+  "keywords": [
+    "pipedream",
+    "airparser"
+  ],
+  "homepage": "https://pipedream.com/apps/airparser",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0",
+    "form-data": "^4.0.0"
+  }
+}

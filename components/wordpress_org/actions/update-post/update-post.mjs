@@ -3,8 +3,8 @@ import wordpress from "../../wordpress_org.app.mjs";
 export default {
   key: "wordpress_org-update-post",
   name: "Update Post",
-  description: "Updates a post specified by its ID. [See the docs here](https://developer.wordpress.org/rest-api/reference/posts/#update-a-post)",
-  version: "0.0.2",
+  description: "Updates a post specified by its ID. [See the documentation](https://developer.wordpress.org/rest-api/reference/posts/#update-a-post)",
+  version: "0.0.3",
   type: "action",
   props: {
     wordpress,

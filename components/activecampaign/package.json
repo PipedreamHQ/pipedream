@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/activecampaign",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Pipedream Activecampaing Components",
   "main": "activecampaign.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
-    "inflection": "^1.13.2"
+    "@pipedream/platform": "^1.6.0",
+    "inflection": "^3.0.0"
   }
 }
