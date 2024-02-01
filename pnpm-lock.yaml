@@ -5234,11 +5234,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-<<<<<<< HEAD
       '@pipedream/platform': 1.6.0
-=======
-      '@pipedream/platform': 1.5.1
->>>>>>> master
 
   components/practitest:
     specifiers:
