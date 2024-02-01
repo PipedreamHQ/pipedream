@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { CUSTOMER_FILE_SOURCE_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -13,6 +14,12 @@ export default {
       type: "string",
       label: "Description",
       description: "A description for the custom audience.",
+    },
+    customerFileSource: {
+      type: "string",
+      label: "Customer File Source",
+      description: "Describes how the customer information in your Custom Audience was originally collected.",
+      options: CUSTOMER_FILE_SOURCE_OPTIONS,
     },
     email: {
       type: "string",
@@ -67,11 +74,6 @@ export default {
         method: "POST",
         path: `/act_${adAccountId}/customaudiences`,
         ...args,
-        data: {
-          ...args.data,
-          subtype: "CUSTOM",
-          customer_file_source: "USER_PROVIDED_ONLY",
-        },
       });
     },
     async addEmailToCustomAudience({

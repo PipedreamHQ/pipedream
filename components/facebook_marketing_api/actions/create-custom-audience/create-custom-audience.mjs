@@ -26,11 +26,23 @@ export default {
         "description",
       ],
     },
+    customerFileSource: {
+      propDefinition: [
+        facebookMarketingApi,
+        "customerFileSource",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.facebookMarketingApi.createCustomAudience({
-      name: this.name,
-      description: this.description,
+      $,
+      adAccountId: this.adAccountId,
+      data: {
+        name: this.name,
+        description: this.description,
+        customer_file_source: this.customerFileSource,
+        subtype: "CUSTOM",
+      },
     });
     $.export("$summary", `Successfully created custom audience ${this.name}`);
     return response;
