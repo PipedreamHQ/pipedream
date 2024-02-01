@@ -20,9 +20,6 @@ export default {
     getDataField() {
       return "orders";
     },
-    getIdField() {
-      return "orderID";
-    },
     filterArray(item, lastId) {
       return (Date.parse(item.createdAt) > Date.parse(lastId) && (item.fulfillmentStatus === "fulfilled"));
     },

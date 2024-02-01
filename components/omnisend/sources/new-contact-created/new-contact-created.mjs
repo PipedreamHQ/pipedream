@@ -20,9 +20,6 @@ export default {
     getDataField() {
       return "contacts";
     },
-    getIdField() {
-      return "contactID";
-    },
   },
   sampleEmit,
 };

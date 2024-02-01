@@ -13,24 +13,24 @@ export default {
     },
   },
   methods: {
-    _getLastId() {
-      return this.db.get("lastId") || 0;
+    _getLastCreatedAt() {
+      return this.db.get("lastCreatedAt") || "01-01-1970";
     },
-    _setLastId(item, fieldId) {
-      this.db.set("lastId", item[fieldId]);
+    _setLastCreatedAt(item) {
+      this.db.set("lastCreatedAt", item.createdAt);
     },
-    generateMeta(event, fieldId) {
+    generateMeta(event) {
       return {
-        id: event[fieldId],
+        id: event.createdAt,
         summary: this.getSummary(event),
         ts: Date.parse(event.createdAt),
       };
     },
-    filterArray(item, lastId) {
-      return Date.parse(item.createdAt) > Date.parse(lastId);
+    filterArray(item, lastCreatedAt) {
+      return Date.parse(item.createdAt) > Date.parse(lastCreatedAt);
     },
     async startEvent(maxResults = 0) {
-      const lastId = this._getLastId();
+      const lastCreatedAt = this._getLastCreatedAt();
 
       const response = this.omnisend.paginate({
         dataField: this.getDataField(),
@@ -45,13 +45,13 @@ export default {
       }
 
       responseArray = responseArray.filter(
-        (item) => this.filterArray(item, lastId),
+        (item) => this.filterArray(item, lastCreatedAt),
       ).reverse();
       if (maxResults && (responseArray.length > maxResults)) responseArray.length = maxResults;
-      if (responseArray.length) this._setLastId(responseArray[0], this.getIdField());
+      if (responseArray.length) this._setLastCreatedAt(responseArray[0]);
 
       for (const item of responseArray.reverse()) {
-        this.$emit(item, this.generateMeta(item, this.getIdField()));
+        this.$emit(item, this.generateMeta(item));
       }
     },
   },
