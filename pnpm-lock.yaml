@@ -6603,7 +6603,10 @@ importers:
       lodash: 4.17.21
 
   components/stammer_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/stannp:
     specifiers:
