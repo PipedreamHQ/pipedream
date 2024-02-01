@@ -5,7 +5,7 @@ export default {
   key: "aircall-new-number-created",
   name: "New Number Created",
   description: "Emit new event when a number is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

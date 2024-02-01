@@ -5,7 +5,7 @@ export default {
   key: "stripe-new-dispute",
   name: "New Dispute",
   type: "source",
-  version: "0.0.1",
+  version: "0.1.0",
   description: "Emit new event for each new dispute",
   methods: {
     ...common.methods,

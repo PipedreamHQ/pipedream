@@ -8,16 +8,21 @@ export default {
     },
   },
   async additionalProps(): Promise<any> {
-    const data = await this.getTweets({
+    const q = "Pipedream";
+    const data = await this.getRecentTweets({
+      params: {
+        query: q,
+      },
       validateStatus: () => true,
     });
+
     this.app.throwError(data);
     return {};
   },
   methods: {
-    getTweets(args = {}) {
+    getRecentTweets(args = {}) {
       return this.app._httpRequest({
-        url: "/tweets",
+        url: "/tweets/search/recent",
         ...args,
       });
     },

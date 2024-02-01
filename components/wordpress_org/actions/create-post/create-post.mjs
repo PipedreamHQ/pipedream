@@ -3,8 +3,8 @@ import wordpress from "../../wordpress_org.app.mjs";
 export default {
   key: "wordpress_org-create-post",
   name: "Create Post",
-  description: "Creates a post. [See the docs here](https://developer.wordpress.org/rest-api/reference/posts/#create-a-post)",
-  version: "0.0.2",
+  description: "Creates a post. [See the documentation](https://developer.wordpress.org/rest-api/reference/posts/#create-a-post)",
+  version: "0.0.3",
   type: "action",
   props: {
     wordpress,
