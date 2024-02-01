@@ -13,30 +13,35 @@ export default {
         uberduck,
         "mode",
       ],
+      optional: true,
     },
     language: {
       propDefinition: [
         uberduck,
         "language",
       ],
+      optional: true,
     },
     isPrivate: {
       propDefinition: [
         uberduck,
         "isPrivate",
       ],
+      optional: true,
     },
     owner: {
       propDefinition: [
         uberduck,
         "owner",
       ],
+      optional: true,
     },
     name: {
       propDefinition: [
         uberduck,
         "name",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
