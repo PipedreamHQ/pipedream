@@ -1,4 +1,5 @@
 import app from "../../facebook_marketing.app.mjs";
+import crypto from "crypto";
 
 export default {
   key: "facebook_marketing-add-email-to-custom-audience",
@@ -31,7 +32,10 @@ export default {
   },
   methods: {
     hashEmail(email) {
-      return email.trim().toLowerCase();
+      return crypto
+        .createHash("sha3-256")
+        .update(email.trim().toLowerCase())
+        .digest("hex");
     },
   },
   async run({ $ }) {
@@ -45,7 +49,10 @@ export default {
         },
       },
     });
-    $.export("$summary", `Successfully added email to custom audience ${this.customAudienceId}`);
+    const { length } = this.emails;
+    $.export("$summary", `Successfully added ${length} email${length === 1
+      ? ""
+      : "s"} to custom audience ${this.customAudienceId}`);
     return response;
   },
 };
