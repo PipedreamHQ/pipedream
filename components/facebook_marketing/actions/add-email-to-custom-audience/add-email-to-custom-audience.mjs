@@ -1,4 +1,4 @@
-import facebookMarketingApi from "../../facebook_marketing_api.app.mjs";
+import app from "../../facebook_marketing.app.mjs";
 
 export default {
   key: "facebook_marketing-add-email-to-custom-audience",
@@ -7,7 +7,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    facebookMarketingApi,
+    app,
     email: {
       type: "string",
       label: "Email Address",
@@ -15,13 +15,13 @@ export default {
     },
     customAudienceId: {
       propDefinition: [
-        facebookMarketingApi,
+        app,
         "customAudienceId",
         async ({ prevContext }) => {
           const page = prevContext.page
             ? prevContext.page
             : 0;
-          const response = await facebookMarketingApi.listCustomAudiences({
+          const response = await app.listCustomAudiences({
             params: {
               page,
             },
@@ -40,7 +40,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.facebookMarketingApi.addEmailToCustomAudience({
+    const response = await this.app.addEmailToCustomAudience({
       customAudienceId: this.customAudienceId,
       email: this.email,
     });

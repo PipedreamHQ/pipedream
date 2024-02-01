@@ -1,4 +1,4 @@
-import facebookMarketingApi from "../../facebook_marketing.app.mjs";
+import app from "../../facebook_marketing.app.mjs";
 
 export default {
   key: "facebook_marketing-create-custom-audience",
@@ -7,34 +7,34 @@ export default {
   version: "0.0.{{ts}}",
   type: "action",
   props: {
-    facebookMarketingApi,
+    app,
     adAccountId: {
       propDefinition: [
-        facebookMarketingApi,
+        app,
         "adAccountId",
       ],
     },
     name: {
       propDefinition: [
-        facebookMarketingApi,
+        app,
         "name",
       ],
     },
     description: {
       propDefinition: [
-        facebookMarketingApi,
+        app,
         "description",
       ],
     },
     customerFileSource: {
       propDefinition: [
-        facebookMarketingApi,
+        app,
         "customerFileSource",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.facebookMarketingApi.createCustomAudience({
+    const response = await this.app.createCustomAudience({
       $,
       adAccountId: this.adAccountId,
       data: {
