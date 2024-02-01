@@ -3,7 +3,7 @@ import md5 from "md5";
 
 export default {
   ...common,
-  key: "white-swan-new-earnings-event",
+  key: "white_swan-new-earnings-event",
   name: "New Earnings Event",
   description: "Emit new event when a new earnings event is created for your account, such as credits from client referrals or partner payouts.",
   version: "0.0.1",

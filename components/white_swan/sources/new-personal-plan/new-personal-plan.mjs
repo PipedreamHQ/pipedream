@@ -2,7 +2,7 @@ import common from "../common/base-polling.mjs";
 
 export default {
   ...common,
-  key: "white-swan-new-personal-plan",
+  key: "white_swan-new-personal-plan",
   name: "New Personal Plan",
   description: "Emit new event when a customer creates a personal plan.",
   version: "0.0.1",
