@@ -222,7 +222,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/airparser:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      form-data: 4.0.0
 
   components/airplane:
     specifiers:
