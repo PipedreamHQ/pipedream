@@ -94,23 +94,11 @@ export default {
       });
     },
     async addEmailToCustomAudience({
-      customAudienceId, email, ...args
+      customAudienceId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/${customAudienceId}/users`,
-        data: {
-          payload: {
-            schema: [
-              "EMAIL",
-            ],
-            data: [
-              [
-                email,
-              ],
-            ],
-          },
-        },
         ...args,
       });
     },
