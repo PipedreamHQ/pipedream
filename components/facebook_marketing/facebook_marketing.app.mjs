@@ -30,6 +30,13 @@ export default {
       type: "string",
       label: "Ad Account ID",
       description: "The ID of the Ad Account.",
+      async options() {
+        const { id } = await this.getAuthenticatedUserInfo();
+        const { data } = await this.getUserAdAccounts({
+          id,
+        });
+        return data?.map?.((account) => account.account_id);
+      },
     },
     customAudienceId: {
       type: "string",
@@ -65,6 +72,16 @@ export default {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
+      });
+    },
+    async getAuthenticatedUserInfo() {
+      return this._makeRequest({
+        path: "/me",
+      });
+    },
+    async getUserAdAccounts({ id }) {
+      return this._makeRequest({
+        path: `/${id}/adaccounts`,
       });
     },
     async createCustomAudience({
