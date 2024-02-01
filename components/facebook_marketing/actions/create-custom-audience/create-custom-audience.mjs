@@ -1,7 +1,7 @@
-import facebookMarketingApi from "../../facebook_marketing_api.app.mjs";
+import facebookMarketingApi from "../../facebook_marketing.app.mjs";
 
 export default {
-  key: "facebook_marketing_api-create-custom-audience",
+  key: "facebook_marketing-create-custom-audience",
   name: "Create Custom Audience",
   description: "Creates a new custom audience in Facebook. [See the documentation](https://developers.facebook.com/docs/marketing-api/audiences/guides/custom-audiences/)",
   version: "0.0.{{ts}}",

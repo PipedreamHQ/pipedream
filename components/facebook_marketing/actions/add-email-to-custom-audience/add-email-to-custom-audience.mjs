@@ -1,7 +1,7 @@
 import facebookMarketingApi from "../../facebook_marketing_api.app.mjs";
 
 export default {
-  key: "facebook_marketing_api-add-email-to-custom-audience",
+  key: "facebook_marketing-add-email-to-custom-audience",
   name: "Add Email to Custom Audience",
   description: "Adds an email address to a custom audience segment within Facebook. [See the documentation](https://developers.facebook.com/docs/marketing-api/audiences/overview)",
   version: "0.0.1",
