@@ -49,9 +49,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      if (this.sourceId && this.source && JSON.stringify(this.source) != JSON.stringify({
-        name: "My New Source",
-      })) {
+      if (this.sourceId && this.source) {
         throw new ConfigurationError("Only one of `Source Id` or `Source` may be provided.");
       }
       if (!this.source && !this.sourceId) {
@@ -63,9 +61,7 @@ export default {
         name: this.name || `Pipedream_Connection_${this.getCurrentDateTime()}`,
         description: this.description,
         source_id: this.sourceId,
-        source: this.sourceId
-          ? undefined
-          : this.source,
+        source: this.source,
         destination: {
           name: this.destinationName || `Pipedream_Source_${this.getCurrentDateTime()}`,
           url: this.http.endpoint,
