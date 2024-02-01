@@ -87,6 +87,7 @@ const docsNav = [
         children: [
           "/code/python/",
           "/code/python/auth/",
+          "/code/python/http-requests/",
           "/code/python/using-data-stores/",
           "/code/python/rerun/",
           "/code/python/import-mappings/",

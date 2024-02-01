@@ -25,7 +25,7 @@ def handler(pd: "pipedream"):
   print(r.text)
 
   # The response status code is logged in your Pipedream step results:
-  print(r.status)
+  print(r.status_code)
 ```
 
 ## Making a `POST` request
@@ -45,7 +45,7 @@ def handler(pd: "pipedream"):
   print(r.text)
 
   # The response status code is logged in your Pipedream step results:
-  print(r.status)
+  print(r.status_code)
 ```
 
 ## Sending files
@@ -55,8 +55,11 @@ You can also send files within a step.
 An example of sending a previously stored file in the workflow's `/tmp` directory:
 
 ```python
-# Retrieving a previously saved file from workflow storage
-files = {"image": open("/tmp/python-logo.png", "rb")}
+import requests
 
-r = requests.post(url="https://api.imgur.com/3/image", files=files)
+def handler(pd: "pipedream"):
+  # Retrieving a previously saved file from workflow storage
+  files = {"image": open("/tmp/python-logo.png", "rb")}
+
+  r = requests.post(url="https://api.imgur.com/3/image", files=files)
 ```
