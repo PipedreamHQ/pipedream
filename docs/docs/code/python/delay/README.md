@@ -84,6 +84,12 @@ def handler(pd: 'pipedream'):
   # Delay happens at the end of this step
 ```
 
+::: warning
+
+In `pd.send.email`, the `html` argument defaults to `""`, so it overrides the email `text` unless explicitly set to `None`.
+
+:::
+
 ## When delays happen
 
 **Pipedream pauses your workflow at the _end_ of the step where you call `pd.flow.delay`**. This lets you [send the `cancel_url` and `resume_url` to third-party systems](#cancel-url-and-resume-url).
