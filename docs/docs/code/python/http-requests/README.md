@@ -17,7 +17,7 @@ We recommend using the popular `requests` HTTP client package available in Pytho
 
 No need to run `pip install`, just `import requests` at the top of your step's code and it's available for your code to use.
 
-To use `requests` on Pipedream, you'll just need to import the `axios` PyPi package:
+To use `requests` on Pipedream, you'll just need to import the `requests` PyPi package:
 
 ```python
 import requests
@@ -31,7 +31,7 @@ You make HTTP requests by passing a URL and optional request parameters to one o
 r = requests.get('https://swapi.dev/api/films/')
 ```
 
-The [Response](https://requests.readthedocs.io/en/latest/api/#requests.Response) object, `r` contains a lot of information about the response: its context, headers, and more. Typically, you just care about the content, which you can access in the `text` property of the response:
+The [Response](https://requests.readthedocs.io/en/latest/api/#requests.Response) object `r` contains a lot of information about the response: its content, headers, and more. Typically, you just care about the content, which you can access in the `text` property of the response:
 
 ```python
 r = requests.get('https://swapi.dev/api/films/')
@@ -177,7 +177,7 @@ def handler(pd: "pipedream"):
   r = requests.post(url="https://api.imgur.com/3/image", files=files)
 ```
 
-## Downloading a file to the /tmp directory
+## Downloading a file to the `/tmp` directory
 
 This example shows you how to download a file to a file in [the `/tmp` directory](/code/python/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
 
@@ -197,26 +197,28 @@ def handler(pd: "pipedream"):
               file.write(chunk)
 ```
 
-## Uploading a file from the /tmp directory
+## Uploading a file from the `/tmp` directory
 
 This example shows you how to make a `multipart/form-data` request with a file as a form part. You can store and read any files from [the `/tmp` directory](/code/python/working-with-files/#the-tmp-directory).
 
+This can be especially helpful for uploading large files: it streams the file from disk, minimizing the memory the workflow uses when uploading the file.
+
 ```python
 import requests
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 def handler(pd: "pipedream"):
-  # Retrieving a previously saved file from workflow storage
-  files = {"file": open("/tmp/file.pdf", "rb")}
+  m = MultipartEncoder(fields={
+    'file': ('filename', open('/tmp/file.pdf', 'rb'), 'application/pdf')
+    })
 
-  r = requests.post("https://example.com", files=files)
+  r = requests.post("https://example.com", data=m,
+                  headers={'Content-Type': m.content_type})
 ```
 
 ## IP addresses for HTTP requests made from Pipedream workflows
 
-By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/privacy-and-security/#hosting-details). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
-
-- [Use a Pipedream VPC](/workflows/vpc/) to route all outbound HTTP requests through a single IP address
-- If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
+By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/privacy-and-security/#hosting-details). **If you need to restrict the IP addresses HTTP requests come from, you can [Use a Pipedream VPC](/workflows/vpc/) to route all outbound HTTP requests through a single IP address.**
 
 ## Using an HTTP proxy to proxy requests through another host
 
@@ -234,10 +236,7 @@ def handler(pd: "pipedream"):
     "https": f"http://{user}:{password}@{host}:{port}",
   }
 
-  method = "GET"
-  url = "https://example.com"
-
-  r = requests.request(method, url, proxies=proxies)
+  r = requests.request("GET", "https://example.com", proxies=proxies)
 ```
 
 ## Paginating API requests

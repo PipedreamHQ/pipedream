@@ -217,6 +217,18 @@
     {
       "source": "/docs/code/python/#sending-files",
       "destination": "/docs/code/python/http-requests/#sending-files"
+    },
+    {
+      "source": "/docs/code/python/#writing-a-file-to-tmp",
+      "destination": "/docs/code/python/working-with-files/#writing-a-file-to-tmp"
+    },
+    {
+      "source": "/docs/code/python/#reading-a-file-from-tmp",
+      "destination": "/docs/code/python/working-with-files/#reading-a-file-from-tmp"
+    },
+    {
+      "source": "/docs/code/python/#listing-files-in-tmp",
+      "destination": "/docs/code/python/working-with-files/#listing-files-in-tmp"
     }
   ]
 }

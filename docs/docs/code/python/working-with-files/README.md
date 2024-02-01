@@ -3,15 +3,21 @@ short_description: Store and read files with Python in workflows.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763737/docs/icons/icons8-opened-folder_y60u9l.svg
 ---
 
-# File storage
+# Working with the filesystem in Python
 
-You can also store and read files with Python steps. This means you can upload photos, retrieve datasets, accept files from an HTTP request and more.
+You'll commonly need to work with files in a workflow, for example: downloading content from some service to upload to another. This doc explains how to work with files in Pipedream workflows and provides some sample code for common operations.
 
-The `/tmp` directory is accessible from your workflow steps for saving and retrieving files.
+[[toc]]
 
-You have full access to read and write both files in `/tmp`.
+## The `/tmp` directory
 
-## Writing a file to /tmp
+Within a workflow, you have full read-write access to the `/tmp` directory. You have {{$site.themeConfig.TMP_SIZE_LIMIT}} of available space in `/tmp` to save any file.
+
+### Managing `/tmp` across workflow runs
+
+The `/tmp` directory is stored on the virtual machine that runs your workflow. We call this the execution environment ("EE"). More than one EE may be created to handle high-volume workflows. And EEs can be destroyed at any time (for example, after about 10 minutes of receiving no events). This means that you should not expect to have access to files across executions. At the same time, files _may_ remain, so you should clean them up to make sure that doesn't affect your workflow. **Use [the `tempfile` module](https://docs.python.org/3/library/tempfile.html) to cleanup files after use, or [delete the files manually](#deleting-a-file).**
+
+## Writing a file to `/tmp`
 
 ```python
 import requests
@@ -28,7 +34,7 @@ def handler(pd: "pipedream"):
 
 Now `/tmp/python-logo.png` holds the official Python logo.
 
-## Reading a file from /tmp
+## Reading a file from `/tmp`
 
 You can also open files you have previously stored in the `/tmp` directory. Let's open the `python-logo.png` file.
 
@@ -41,7 +47,7 @@ def handler(pd: "pipedream"):
     file_data = f.read()
 ```
 
-## Listing files in /tmp
+## Listing files in `/tmp`
 
 If you need to check what files are currently in `/tmp` you can list them and print the results to the **Logs** section of **Results**:
 
@@ -51,6 +57,54 @@ import os
 def handler(pd: "pipedream"):
   # Prints the files in the tmp directory
   print(os.listdir("/tmp"))
+```
+
+## Deleting a file
+
+```python
+import os
+
+def handler(pd: "pipedream"):
+  print(os.unlink("/tmp/your-file"))
+```
+
+## Downloading a file to `/tmp`
+
+[See this example](/code/python/http-requests/#downloading-a-file-to-the-tmp-directory) to learn how to download a file to `/tmp`.
+
+## Uploading a file from `/tmp`
+
+[See this example](/code/python/http-requests/#uploading-a-file-from-the-tmp-directory) to learn how to upload a file from `/tmp` in an HTTP request.
+
+## Downloading a file, uploading it in another `multipart/form-data` request
+
+```python
+import requests
+from requests_toolbelt.multipart.encoder import MultipartEncoder
+import os
+
+def handler(pd: "pipedream"):
+  download_url = "https://example.com"
+  upload_url = "http://httpbin.org/post"
+  file_path = "/tmp/index.html"
+  content_type = "text/html"
+
+  # DOWNLOAD
+  with requests.get(download_url, stream=True) as response:
+      response.raise_for_status()
+      with open(file_path, "wb") as file:
+          for chunk in response.iter_content(chunk_size=8192):
+              file.write(chunk)
+
+  # UPLOAD
+  multipart_data = MultipartEncoder(fields={
+    'file': (os.path.basename(file_path), open(file_path, 'rb'), content_type)
+  })
+  response = requests.post(
+    upload_url,
+    data=multipart_data,
+    headers={'Content-Type': multipart_data.content_type}
+  )
 ```
 
 ## `/tmp` limitations

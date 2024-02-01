@@ -300,46 +300,4 @@ The `/tmp` directory is accessible from your workflow steps for saving and retri
 
 You have full access to read and write both files in `/tmp`.
 
-### Writing a file to /tmp
-
-```python
-import requests
-
-def handler(pd: "pipedream"):
-  # Download the Python logo
-  r = requests.get("https://www.python.org/static/img/python-logo@2x.png")
-
-  # Create a new file python-logo.png in the /tmp/data directory
-  with open("/tmp/python-logo.png", "wb") as f:
-    # Save the content of the HTTP response into the file
-    f.write(r.content)
-```
-
-Now `/tmp/python-logo.png` holds the official Python logo.
-
-### Reading a file from /tmp
-
-You can also open files you have previously stored in the `/tmp` directory. Let's open the `python-logo.png` file.
-
-```python
-def handler(pd: "pipedream"):
-  with open("/tmp/python-logo.png", "rb") as f:
-    # Store the contents of the file into a variable
-    file_data = f.read()
-```
-
-### Listing files in /tmp
-
-If you need to check what files are currently in `/tmp` you can list them and print the results to the **Logs** section of **Results**:
-
-```python
-import os
-
-def handler(pd: "pipedream"):
-  # Prints the files in the tmp directory
-  print(os.listdir("/tmp"))
-```
-
-:::warning
-The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/limits/#disk) for details.
-:::
+See the [Working with the filesystem in Python](/code/python/working-with-files/) docs for more information.
