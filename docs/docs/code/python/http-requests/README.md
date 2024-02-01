@@ -28,7 +28,7 @@ def handler(pd: "pipedream"):
   print(r.status)
 ```
 
-## Making a POST request
+## Making a `POST` request
 
 ```python
 import requests

@@ -122,7 +122,7 @@ def handler(pd: "pipedream"):
   print(r.status_code)
 ```
 
-### Making a POST request
+### Making a `POST` request
 
 ```python
 import requests
