@@ -113,7 +113,7 @@ Workspace owners and admins are able to perform all actions in projects, whereas
 _Access and permissions for workspace admins and owners mirror the project creator for all projects in the workspace._
 
 ### Managing access
-:::tip By default, all projects are accessible to everyone in the workspace.
+:::tip By default, all projects are accessible to all workspace members.
 Workspaces on the [Business plan](https://pipedream.com/pricing) can restrict members' access to specific projects.
 :::
 
