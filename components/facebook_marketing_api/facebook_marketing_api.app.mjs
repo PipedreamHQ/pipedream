@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "facebook",
+  app: "facebook_marketing_api",
   propDefinitions: {
     name: {
       type: "string",
@@ -45,16 +45,17 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://graph.facebook.com/v14.0";
+    _apiVersion() {
+      return "v19.0";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _baseUrl() {
+      return `https://graph.facebook.com/${this._apiVersion()}`;
+    },
+    async _makeRequest({
+      $ = this, path, headers, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -63,14 +64,14 @@ export default {
       });
     },
     async createCustomAudience({
-      name, description,
+      adAccountId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/act_<AD_ACCOUNT_ID>/customaudiences",
+        path: `/act_${adAccountId}/customaudiences`,
+        ...args,
         data: {
-          name,
-          description,
+          ...args.data,
           subtype: "CUSTOM",
           customer_file_source: "USER_PROVIDED_ONLY",
         },
