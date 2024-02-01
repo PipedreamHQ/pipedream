@@ -12,6 +12,7 @@ export default {
       type: "string",
       label: "Name",
       description: "The name of the project",
+      optional: true,
     },
     repoPaths: {
       type: "string[]",
@@ -23,6 +24,7 @@ export default {
         codescene,
         "developerConfiguration",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
