@@ -8,6 +8,12 @@ export default {
   type: "action",
   props: {
     facebookMarketingApi,
+    adAccountId: {
+      propDefinition: [
+        facebookMarketingApi,
+        "adAccountId",
+      ],
+    },
     name: {
       propDefinition: [
         facebookMarketingApi,

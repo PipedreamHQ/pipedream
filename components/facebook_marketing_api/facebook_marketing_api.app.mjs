@@ -19,27 +19,24 @@ export default {
       label: "Email Address",
       description: "The email address to add to the custom audience segment.",
     },
+    adAccountId: {
+      type: "string",
+      label: "Ad Account ID",
+      description: "The ID of the Ad Account.",
+    },
     customAudienceId: {
       type: "string",
       label: "Custom Audience",
       description: "Select the custom audience to add an email to.",
-      async options({ prevContext }) {
-        const page = prevContext.page
-          ? prevContext.page
-          : 0;
+      async options({ adAccountId }) {
         const response = await this.listCustomAudiences({
-          params: {
-            page,
-          },
+          adAccountId,
         });
         return {
           options: response.data.map((audience) => ({
             label: audience.name,
             value: audience.id,
           })),
-          context: {
-            page: page + 1,
-          },
         };
       },
     },
@@ -78,7 +75,7 @@ export default {
       });
     },
     async addEmailToCustomAudience({
-      customAudienceId, email,
+      customAudienceId, email, ...args
     }) {
       return this._makeRequest({
         method: "POST",
@@ -95,12 +92,15 @@ export default {
             ],
           },
         },
+        ...args,
       });
     },
-    async listCustomAudiences({ params }) {
+    async listCustomAudiences({
+      adAccountId, ...args
+    }) {
       return this._makeRequest({
-        path: "/act_<AD_ACCOUNT_ID>/customaudiences",
-        params,
+        path: `/act_${adAccountId}/customaudiences`,
+        ...args,
       });
     },
   },
