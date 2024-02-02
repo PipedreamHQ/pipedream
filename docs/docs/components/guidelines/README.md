@@ -450,7 +450,7 @@ for an example of offset-based pagination. See
 [Twitter](https://github.com/PipedreamHQ/pipedream/blob/d240752028e2a17f7cca1a512b40725566ea97bd/components/twitter/twitter.app.mjs#L200)
 for an example of cursor-based pagination.
 
-### Dynamic props
+### Dynamic Props
 
 [Dynamic props](/components/api/#dynamic-props) can improve the user experience for components. They let you render props in the Pipedream dynamically, based on the value of other props, and can be used to collect more specific information that can make it easier to use the component. See the Google Sheets example in the linked component API docs.
 

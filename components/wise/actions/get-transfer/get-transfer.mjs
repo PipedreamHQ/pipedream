@@ -2,7 +2,7 @@ import wise from "../../wise.app.mjs";
 
 export default {
   name: "Get Transfer",
-  version: "0.0.4",
+  version: "0.0.5",
   key: "wise-get-transfer",
   description: "Get a transfer. [See docs here](https://api-docs.wise.com/api-reference/transfer#get-by-id)",
   type: "action",
