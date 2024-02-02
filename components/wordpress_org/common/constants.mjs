@@ -6,4 +6,8 @@ export default {
     "editor",
     "administrator",
   ],
+  COMMENT_STATUS: [
+    "open",
+    "closed",
+  ],
 };

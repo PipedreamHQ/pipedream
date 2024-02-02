@@ -129,6 +129,14 @@ export default {
         ...args,
       });
     },
+    async getAccount({
+      accountId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/v1/accounts/${accountId}`,
+        ...args,
+      });
+    },
     async getBalances({
       profileId, ...args
     }) {
@@ -168,6 +176,13 @@ export default {
     async getTransfers(args = {}) {
       return this._makeRequest({
         path: "/v1/transfers",
+        ...args,
+      });
+    },
+    async createAccount(args = {}) {
+      return this._makeRequest({
+        path: "/v1/accounts",
+        method: "post",
         ...args,
       });
     },

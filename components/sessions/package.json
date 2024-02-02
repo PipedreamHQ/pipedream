@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sessions",
+  "version": "0.0.1",
+  "description": "Pipedream Sessions Components",
+  "main": "sessions.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sessions"
+  ],
+  "homepage": "https://pipedream.com/apps/sessions",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

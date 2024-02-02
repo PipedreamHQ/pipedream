@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/plain",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Plain Components",
-  "main": "dist/app/plain.app.mjs",
+  "main": "plain.app.mjs",
   "keywords": [
     "pipedream",
     "plain"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/plain",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
   }
 }
