@@ -53,6 +53,12 @@ However, using `pd.flow.delay` in a workflow will incur two credits.
 
 One credit is used to initially start the workflow, then the second credit is used when the workflow resumes after its pause period has ended.
 
+::: tip Exact credit usage depends on duration and memory configuration
+
+If your workflow's [execution timeout limit](/workflows/settings/#execution-timeout-limit) is set to longer than [default limit](/limits/#time-per-execution), it may incur more than two [credits](/pricing/#credits) when using `pd.flow.delay`.
+
+:::
+
 ## `cancel_url` and `resume_url`
 
 Both the built-in **Delay** actions and `pd.flow.delay` return a `cancel_url` and `resume_url` that lets you cancel or resume paused executions.
