@@ -3792,6 +3792,9 @@ importers:
   components/livechat:
     specifiers: {}
 
+  components/livesession:
+    specifiers: {}
+
   components/livestorm:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -6129,6 +6132,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/serwersms_pl:
+    specifiers: {}
+
+  components/sessions:
     specifiers: {}
 
   components/setmoreappointments:
