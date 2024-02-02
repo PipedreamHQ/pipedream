@@ -701,7 +701,7 @@ For more examples, see the [docs on making HTTP requests with Node.js](/code/nod
 
 #### Alert Prop
 
-Sometimes you may need to surface informational alerts to users within the prop form. This might be information that's not directly related to a specific prop, so it doesn't make sense to include in a prop description, but rather, it may be related to the overall configuration of the prop form.
+Sometimes you may need to surface contextual information to users within the prop form. This might be information that's not directly related to a specific prop, so it doesn't make sense to include in a prop description, but rather, it may be related to the overall configuration of the prop form.
 
 **Usage**
 
@@ -717,13 +717,13 @@ export default defineComponent({
     alert: {
       type: "alert",
       alertType: "info",
-      content:
-        `## FYI
-        \nMake sure to configure x, y, and z. [Links work](https://pipedream.com), as does **bold text** etc`
+      content: "Admin rights on the repo are required in order to register webhooks. In order to continue setting up your source, configure a polling interval below to check for new events.",
     }
   },
 })
 ```
+
+![Info alert prop in GitHub source](./images/info-alert-prop-github.png)
 
 #### Limits on props
 

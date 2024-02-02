@@ -26,7 +26,7 @@ export default {
       return {
         info: {
           type: "alert",
-          alertType: "neutral",
+          alertType: "info",
           content: "Admin rights on the repo are required in order to register webhooks. In order to continue setting up your source, configure a polling interval below to check for new events.",
         },
         timer: {
