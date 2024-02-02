@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kadoa",
+  "version": "0.0.1",
+  "description": "Pipedream Kadoa Components",
+  "main": "kadoa.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kadoa"
+  ],
+  "homepage": "https://pipedream.com/apps/kadoa",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

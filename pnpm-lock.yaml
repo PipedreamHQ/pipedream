@@ -480,7 +480,10 @@ importers:
     specifiers: {}
 
   components/autom:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/automatic_data_extraction:
     specifiers:
@@ -1961,6 +1964,9 @@ importers:
   components/edusign:
     specifiers: {}
 
+  components/efinder:
+    specifiers: {}
+
   components/elastic_email:
     specifiers: {}
 
@@ -3328,6 +3334,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/intelliprint:
+    specifiers: {}
+
   components/intercom:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -3475,6 +3484,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/kadoa:
+    specifiers: {}
 
   components/kajabi:
     specifiers: {}
@@ -3790,6 +3802,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/livechat:
+    specifiers: {}
+
+  components/livesession:
     specifiers: {}
 
   components/livestorm:
@@ -6029,7 +6044,10 @@ importers:
     specifiers: {}
 
   components/semgrep:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/sendbird:
     specifiers:
@@ -6129,6 +6147,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/serwersms_pl:
+    specifiers: {}
+
+  components/sessions:
     specifiers: {}
 
   components/setmoreappointments:
@@ -7285,7 +7306,10 @@ importers:
     specifiers: {}
 
   components/uberduck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/uchat:
     specifiers: {}
