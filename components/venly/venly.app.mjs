@@ -14,7 +14,6 @@ export default {
       type: "string",
       label: "Symbol",
       description: "The symbol for the contract such as VENS",
-      optional: true,
     },
     description: {
       type: "string",
@@ -115,7 +114,7 @@ export default {
     async deployContract(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/minter/contracts",
+        url: "/minter/contracts",
         ...args,
       });
     },
@@ -126,7 +125,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/minter/contracts/${contractId}/token-types`,
+        url: `/minter/contracts/${contractId}/token-types`,
         data: {
           ...nftMetadata,
           ...mintingRestrictions,
