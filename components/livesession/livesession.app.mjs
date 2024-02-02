@@ -57,6 +57,7 @@ export default {
             return;
           }
         }
+        params.page++;
         total = items?.length;
       } while (total === params.size);
     },
