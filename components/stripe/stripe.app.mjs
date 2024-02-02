@@ -13,6 +13,7 @@ const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({
   } else {
     result = await this.sdk()[collectionOrFn].list({
       starting_after: startingAfter,
+      limit: 50,
     });
   }
 
@@ -588,6 +589,68 @@ export default {
       description: "The number of days until the invoice is due (valid when collection method is `send_invoice`)",
       optional: true,
     },
+    active: {
+      type: "boolean",
+      label: "Active",
+      description: "Whether the product is currently available for purchase. Defaults to `true`",
+      optional: true,
+    },
+    recurringInterval: {
+      type: "string",
+      label: "Price Recurring Interval",
+      description: "Specifies the billing cycle for the price",
+      options: [
+        "day",
+        "week",
+        "month",
+        "year",
+      ],
+    },
+    productId: {
+      type: "string",
+      label: "Product ID",
+      description: "The ID of the product",
+      async options({ prevContext: { startingAfter } }) {
+        if (startingAfter === false) {
+          return [];
+        }
+        const { data: products } = await this.getProducts({
+          starting_after: startingAfter,
+        });
+
+        const [
+          lastProduct,
+        ] = products;
+        const lastProductId = lastProduct?.id;
+
+        const options =
+          products.map(({
+            id, name,
+          }) => ({
+            value: id,
+            label: name,
+          }));
+
+        return {
+          options,
+          context: {
+            startingAfter: lastProductId || false,
+          },
+        };
+      },
+    },
+    unitAmount: {
+      type: "integer",
+      label: "Unit Amount",
+      description: "A positive integer in cents (or `0` for a free price) representing how much to charge. One of **Unit Amount** or **Custom Unit Amount** is required, unless **Billing Scheme** is `tiered`.",
+      optional: true,
+    },
+    unitAmountDecimal: {
+      type: "string",
+      label: "Unit Amount Decimal",
+      description: "Same as **Unit Amount**, but accepts a decimal value in cents with at most 12 decimal places. Only one of **Unit Amount** and **Unit Amount Decimal** can be set.",
+      optional: true,
+    },
   },
   methods: {
     _apiKey() {
@@ -606,6 +669,9 @@ export default {
       });
 
       return response.data;
+    },
+    getProducts(args = {}) {
+      return this.sdk().products.list(args);
     },
   },
 };

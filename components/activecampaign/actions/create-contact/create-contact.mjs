@@ -4,9 +4,9 @@ export default {
   ...common,
   key: "activecampaign-create-contact",
   name: "Create Contact",
-  description: "Create a new contact. See the docs [here](https://developers.activecampaign.com/reference#create-a-contact-new).",
+  description: "Create a new contact. [See the documentation](https://developers.activecampaign.com/reference#create-a-contact-new).",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   async run({ $ }) {
     const response =
       await this.activecampaign.createContact({

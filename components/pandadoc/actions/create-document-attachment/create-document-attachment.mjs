@@ -9,7 +9,7 @@ export default {
   name: "Create Document Attachment",
   description: "Adds an attachment to a document. [See the docs here](https://developers.pandadoc.com/reference/create-document-attachment)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     app,
     documentId: {

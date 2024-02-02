@@ -29,9 +29,10 @@ export default {
       optional: true,
     },
     commentStatus: {
-      type: "boolean",
+      type: "string",
       label: "Comment Status",
       description: "Whether or not comments are allowed on the post",
+      options: constants.COMMENT_STATUS,
       optional: true,
     },
     username: {

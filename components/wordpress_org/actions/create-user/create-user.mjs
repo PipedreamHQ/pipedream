@@ -3,8 +3,8 @@ import wordpress from "../../wordpress_org.app.mjs";
 export default {
   key: "wordpress_org-create-user",
   name: "Create User",
-  description: "Creates a user. [See the docs here](https://developer.wordpress.org/rest-api/reference/users/#create-a-user)",
-  version: "0.0.3",
+  description: "Creates a user. [See the documentation](https://developer.wordpress.org/rest-api/reference/users/#create-a-user)",
+  version: "0.0.4",
   type: "action",
   props: {
     wordpress,

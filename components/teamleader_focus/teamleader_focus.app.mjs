@@ -64,6 +64,26 @@ export default {
         })) || [];
       },
     },
+    dealSource: {
+      type: "string",
+      label: "Source",
+      description: "Source of the new deal",
+      async options({ page }) {
+        const { data } = await this.listDealSources({
+          data: {
+            page: {
+              number: page + 1,
+            },
+          },
+        });
+        return data?.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
+        })) || [];
+      },
+    },
     invoice: {
       type: "string",
       label: "Invoice",
@@ -177,6 +197,12 @@ export default {
     updateInvoice(args = {}) {
       return this._makeRequest({
         path: "/invoices.update",
+        ...args,
+      });
+    },
+    listDealSources(args = {}) {
+      return this._makeRequest({
+        path: "/dealSources.list",
         ...args,
       });
     },

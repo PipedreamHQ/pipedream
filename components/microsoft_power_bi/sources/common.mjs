@@ -1,4 +1,6 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL, ConfigurationError,
+} from "@pipedream/platform";
 import powerBiApp from "../microsoft_power_bi.app.mjs";
 
 export default {
@@ -10,6 +12,13 @@ export default {
         powerBiApp,
         "datasetId",
       ],
+      optional: true,
+    },
+    customDatasetId: {
+      type: "string",
+      label: "Custom Dataset ID",
+      description: "You may enter a Dataset ID directly. Either Dataset ID or Custom Dataset ID must be entered.",
+      optional: true,
     },
     timer: {
       type: "$.interface.timer",
@@ -31,7 +40,7 @@ export default {
     async getAndProcessItems() {
       const savedItems = this._getSavedItems();
       const items = await this.powerBiApp.getRefreshHistory({
-        datasetId: this.datasetId,
+        datasetId: this.datasetId || this.customDatasetId,
       });
 
       items?.filter?.(({
@@ -52,6 +61,12 @@ export default {
   },
   hooks: {
     async deploy() {
+      if (!this.datasetId && !this.customDatasetId) {
+        throw new ConfigurationError("Must enter one of Dataset ID or custom Dataset ID");
+      }
+      if (this.datasetId && this.customDatasetId) {
+        throw new ConfigurationError("Please enter only one of Dataset ID or Custom Dataset ID");
+      }
       await this.getAndProcessItems();
     },
   },
