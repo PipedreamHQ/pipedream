@@ -723,7 +723,7 @@ export default defineComponent({
 })
 ```
 
-Refer to GitHub's component sources in the `pipedream` repo for an [example implementation](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/common/common-flex.mjs#L27).
+Refer to GitHub's component sources in the `pipedream` repo for an [example implementation](https://github.com/PipedreamHQ/pipedream/blob/b447d71f658d10d6a7432e8f5153bbda56ba9810/components/github/sources/common/common-flex.mjs#L27).
 
 ![Info alert prop in GitHub source](./images/info-alert-prop-github.png)
 
