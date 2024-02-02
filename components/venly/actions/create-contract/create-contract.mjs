@@ -3,34 +3,102 @@ import venly from "../../venly.app.mjs";
 export default {
   key: "venly-create-contract",
   name: "Create Contract",
-  description: "Deploys a new NFT contract, or collection, on a specific blockchain. [See the documentation](https://docs.venly.io/reference/deploycontract)",
+  description:
+    "Deploys a new NFT contract, or collection, on a specific blockchain. [See the documentation](https://docs.venly.io/reference/deploycontract)",
   version: "0.0.1",
   type: "action",
   props: {
     venly,
-    blockchainType: {
+    name: {
       propDefinition: [
         venly,
-        "blockchainType",
+        "name",
       ],
     },
-    contractMetadata: {
+    symbol: {
       propDefinition: [
         venly,
-        "contractMetadata",
+        "symbol",
+      ],
+    },
+    description: {
+      propDefinition: [
+        venly,
+        "description",
+      ],
+    },
+    image: {
+      propDefinition: [
+        venly,
+        "image",
+      ],
+    },
+    externalUrl: {
+      propDefinition: [
+        venly,
+        "externalUrl",
+      ],
+    },
+    media: {
+      propDefinition: [
+        venly,
+        "media",
+      ],
+    },
+    owner: {
+      propDefinition: [
+        venly,
+        "owner",
+      ],
+    },
+    autoApprovedAddressesLocked: {
+      propDefinition: [
+        venly,
+        "autoApprovedAddressesLocked",
+      ],
+    },
+    storageType: {
+      propDefinition: [
+        venly,
+        "storageType",
+      ],
+    },
+    storageLocation: {
+      propDefinition: [
+        venly,
+        "storageLocation",
+      ],
+    },
+    chain: {
+      propDefinition: [
+        venly,
+        "chain",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.venly.deployContract({
+    const {
+      venly, storageType, storageLocation, ...data
+    } = this;
+    const response = await venly.deployContract({
       $,
       data: {
-        blockchainType: this.blockchainType,
-        contractMetadata: this.contractMetadata,
+        ...data,
+        ...(storageType && {
+          storage: {
+            type: storageType,
+            ...(storageLocation && {
+              location: storageLocation,
+            }),
+          },
+        }),
       },
     });
 
-    $.export("$summary", `Successfully deployed contract with ID ${response.id} on ${this.blockchainType}`);
+    $.export(
+      "$summary",
+      `Successfully deployed contract with ID ${response.id} on ${this.blockchainType}`,
+    );
     return response;
   },
 };
