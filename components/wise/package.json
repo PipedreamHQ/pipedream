@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wise",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Pipedream Wise Components",
   "main": "wise.app.mjs",
   "keywords": [

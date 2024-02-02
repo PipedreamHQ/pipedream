@@ -5,7 +5,7 @@ export default {
   key: "teamleader_focus-new-deal-won",
   name: "New Deal Won (Instant)",
   description: "Emit new event for each deal won.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,
