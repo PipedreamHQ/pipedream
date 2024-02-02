@@ -88,7 +88,7 @@ The [project list view](https://pipedream.com/projects) contains **Owner** and *
 ![Project Listing (Owner)](./images/project-listing-owner.png)
 
 ::: warning Some projects may not have owners
-Projects created before February 2024 don't automatically have owners.
+Projects created before February 2024 don't automatically have owners, which has no functional impact.
 :::
 
 **Access** indicates which workspace members have access to each project, and this can be displayed as "me", "Workspace", or "N members".
@@ -98,7 +98,7 @@ Projects created before February 2024 don't automatically have owners.
 ### Permissions
 Workspace owners and admins are able to perform all actions in projects, whereas members are restricted from performing certain actions.
 
-| Operations | Project creator | Workspace members |
+| Operation | Project creator | Workspace members |
 | --  | :--: | :--: | :--: |
 | View in [projects listing](https://pipedream.com/projects) | :white_check_mark: | :white_check_mark: |
 | View in [Event History](https://pipedream.com/event-history) | :white_check_mark: | :white_check_mark: |
@@ -106,11 +106,11 @@ Workspace owners and admins are able to perform all actions in projects, whereas
 | Manage project workflows | :white_check_mark: | :white_check_mark: |
 | Manage project files | :white_check_mark: | :white_check_mark: |
 | Manage project variables | :white_check_mark: | :white_check_mark: |
-| Manage project access | :white_check_mark: | :x: |
+| Manage member access | :white_check_mark: | :x: |
 | Manage GitHub Sync settings | :white_check_mark: | :x: |
 | Delete project | :white_check_mark: | :x: |
 
-_Access and permissions for workspace admins and owners mirror the project creator for all projects in the workspace._
+_Workspace admins and owners have the same permissions as project creators for all projects in the workspace._
 
 ### Managing access
 :::tip By default, all projects are accessible to everyone in the workspace.
