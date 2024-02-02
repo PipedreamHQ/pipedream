@@ -480,7 +480,10 @@ importers:
     specifiers: {}
 
   components/autom:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/automatic_data_extraction:
     specifiers:
@@ -6041,7 +6044,10 @@ importers:
     specifiers: {}
 
   components/semgrep:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/sendbird:
     specifiers:
@@ -7300,7 +7306,10 @@ importers:
     specifiers: {}
 
   components/uberduck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/uchat:
     specifiers: {}
