@@ -34,11 +34,11 @@ export default {
       fields,
     } = this;
     try {
-      const response = await this.salesForceRestApi.parameterizedSearch(
-        sobjectType, searchTerm, {
-          fields: fields.join(","),
-        },
-      );
+      const response = await this.salesForceRestApi.parameterizedSearch({
+        q: searchTerm,
+        sobject: sobjectType,
+        fields: fields.join(","),
+      });
         const resultsFound = response.searchRecords.length;
       $.export("$summary", "Search completed successfully");
       $.export("results_found", resultsFound);
