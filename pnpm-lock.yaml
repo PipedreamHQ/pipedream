@@ -5142,8 +5142,10 @@ importers:
   components/playwright:
     specifiers:
       '@sparticuz/chromium': 121.0.0
+      playwright-core: 1.41.2
     dependencies:
       '@sparticuz/chromium': 121.0.0
+      playwright-core: 1.41.2
 
   components/plecto:
     specifiers: {}
@@ -24933,6 +24935,12 @@ packages:
     dependencies:
       find-up: 6.3.0
     dev: true
+
+  /playwright-core/1.41.2:
+    resolution: {integrity: sha512-VaTvwCA4Y8kxEe+kfm2+uUUw5Lubf38RxF7FpBxLPmGe5sdNkSg5e3ChEigaGrX7qdqT3pt2m/98LiyvU2x6CA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dev: false
 
   /please-upgrade-node/3.2.0:
     resolution: {integrity: sha512-gQR3WpIgNIKwBMVLkpMUeR3e1/E1y42bqDQZfql+kDeXd8COYfM8PQA4X6y7a8u9Ua9FHmsrrmirW2vHs45hWg==}

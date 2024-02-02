@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@sparticuz/chromium": "121.0.0"
+    "@sparticuz/chromium": "121.0.0",
+    "playwright-core": "1.41.2"
   }
 }
