@@ -1,84 +1,64 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "livesession",
-  propDefinitions: {
-    sessionId: {
-      type: "string",
-      label: "Session ID",
-      description: "The ID of the session",
-    },
-    userData: {
-      type: "string",
-      label: "User Data",
-      description: "Data related to the user",
-      optional: true,
-    },
-    sessionDuration: {
-      type: "integer",
-      label: "Session Duration",
-      description: "The duration of the session in seconds",
-      optional: true,
-    },
-    sessionSource: {
-      type: "string",
-      label: "Session Source",
-      description: "The source of the session",
-      optional: true,
-    },
-  },
   methods: {
     _baseUrl() {
-      return "https://api.livesession.com";
+      return "https://api.livesession.io/v1";
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `Bearer ${this.$auth.api_token}`,
+          "Content-Type": "application/json",
         },
       });
     },
-    async getSession(opts = {}) {
+    listSessions(opts = {}) {
       return this._makeRequest({
         ...opts,
-        path: `/sessions/${opts.sessionId}`,
+        path: "/sessions",
       });
     },
-    async createSessionEvent(opts = {}) {
-      const {
-        sessionId,
-        userData,
-        sessionDuration,
-        sessionSource,
-      } = opts;
-
-      const data = {
-        session_id: sessionId,
-        user_data: userData,
-        session_duration: sessionDuration,
-        session_source: sessionSource,
+    async *paginate({
+      resourceFn,
+      params,
+      resourceType,
+      max,
+    }) {
+      params = {
+        ...params,
+        page: 0,
+        size: constants.DEFAULT_LIMIT,
       };
-
-      return this._makeRequest({
-        method: "POST",
-        path: "/session-events",
-        data,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+      let count = 0;
+      let total = 0;
+      do {
+        const response = await resourceFn({
+          params,
+        });
+        const items = response[resourceType];
+        if (!items?.length) {
+          return;
+        }
+        for (const item of items) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        total = items?.length;
+      } while (total === params.size);
     },
   },
 };
