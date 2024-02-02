@@ -97,7 +97,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully deployed contract with ID ${response.id} on ${this.blockchainType}`,
+      "Successfully deployed contract",
     );
     return response;
   },

@@ -66,6 +66,9 @@ export default {
       label: "Blockchain",
       description: "The blockchain on which your contract/collection will be created",
       optional: true,
+      async options() {
+        return this.listChains();
+      },
     },
     blockchainType: {
       type: "string",
@@ -91,38 +94,29 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://nft-api-sandbox.venly.io/api";
-    },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, data, params, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, headers, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: `${this.$auth.service_environment}/api`,
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
-        data,
-        params,
       });
     },
-    async authKeys() {
-      console.log(Object.keys(this.$auth));
+    async listChains() {
+      const response = await this._makeRequest({
+        url: "/env",
+      });
+      return response.supportedChainsForItemCreation;
     },
-    async deployContract({
-      blockchainType, contractMetadata,
-    }) {
+    async deployContract(args) {
       return this._makeRequest({
         method: "POST",
         path: "/minter/contracts",
-        data: {
-          chain: blockchainType,
-          ...contractMetadata,
-        },
+        ...args,
       });
     },
     async createTokenType({
