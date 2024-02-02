@@ -34,14 +34,12 @@ export default {
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
