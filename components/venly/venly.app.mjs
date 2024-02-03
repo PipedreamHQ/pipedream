@@ -97,7 +97,7 @@ export default {
       default: false,
     },
     backgroundColor: {
-      type: "object",
+      type: "string",
       label: "Background Color",
       description: "Background color of the NFTs that will be created from this template",
       optional: true,
