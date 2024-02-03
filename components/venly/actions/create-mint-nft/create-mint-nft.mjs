@@ -47,7 +47,7 @@ export default {
         venly,
         "image",
       ],
-      label: "image",
+      label: "Image",
       description: "Image of the NFTs that will be created from this template",
       optional: true,
     },
