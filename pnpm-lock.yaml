@@ -309,6 +309,9 @@ importers:
   components/alphamoon:
     specifiers: {}
 
+  components/altoviz:
+    specifiers: {}
+
   components/alttext_ai:
     specifiers:
       '@pipedream/platform': ^1.5.1
