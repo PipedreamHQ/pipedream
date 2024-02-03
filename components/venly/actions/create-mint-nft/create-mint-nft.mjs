@@ -1,4 +1,5 @@
 import venly from "../../venly.app.mjs";
+import { parseJsonString } from "../../common/utils.mjs";
 
 export default {
   key: "venly-create-mint-nft",
@@ -8,65 +9,127 @@ export default {
   type: "action",
   props: {
     venly,
-    blockchainType: {
+    contractId: {
       propDefinition: [
         venly,
-        "blockchainType",
+        "contractId",
       ],
     },
-    contractMetadata: {
+    fungible: {
       propDefinition: [
         venly,
-        "contractMetadata",
+        "fungible",
       ],
+    },
+    burnable: {
+      propDefinition: [
+        venly,
+        "burnable",
+      ],
+    },
+    name: {
+      propDefinition: [
+        venly,
+        "name",
+      ],
+      description: "Name of the NFTs that will be created from this template",
+    },
+    description: {
+      propDefinition: [
+        venly,
+        "description",
+      ],
+      description: "Description of the NFTs that will be created from this template",
       optional: true,
     },
-    nftMetadata: {
+    image: {
       propDefinition: [
         venly,
-        "nftMetadata",
+        "image",
+      ],
+      label: "image",
+      description: "Image of the NFTs that will be created from this template",
+      optional: true,
+    },
+    externalUrl: {
+      propDefinition: [
+        venly,
+        "externalUrl",
+      ],
+      description: "External URL of the NFTs that will be created from this template",
+      optional: true,
+    },
+    backgroundColor: {
+      propDefinition: [
+        venly,
+        "backgroundColor",
       ],
     },
-    mintingRestrictions: {
+    animationUrls: {
       propDefinition: [
         venly,
-        "mintingRestrictions",
+        "animationUrls",
       ],
-      optional: true,
+    },
+    maxSupply: {
+      propDefinition: [
+        venly,
+        "maxSupply",
+      ],
+    },
+    attributes: {
+      propDefinition: [
+        venly,
+        "attributes",
+      ],
+    },
+    destinations: {
+      propDefinition: [
+        venly,
+        "destinations",
+      ],
+    },
+    storageType: {
+      propDefinition: [
+        venly,
+        "storageType",
+      ],
+    },
+    storageLocation: {
+      propDefinition: [
+        venly,
+        "storageLocation",
+      ],
     },
   },
   async run({ $ }) {
-    let contractId;
-    // Deploy contract if contractMetadata is provided
-    if (this.contractMetadata) {
-      const deployResponse = await this.venly.deployContract({
-        blockchainType: this.blockchainType,
-        contractMetadata: this.contractMetadata,
-      });
+    const { // eslint-disable-next-line max-len
+      venly, contractId, animationUrls, attributes, destinations, storageType, storageLocation, ...otherData
+    } = this;
 
-      if (!deployResponse || !deployResponse.contractId) {
-        throw new Error("Failed to deploy contract");
-      }
+    const data = {
+      ...otherData,
+      ...(storageType && {
+        storage: {
+          type: storageType,
+          ...(storageLocation && {
+            location: storageLocation,
+          }),
+        },
+      }),
+      animationUrls: animationUrls?.map?.(parseJsonString),
+      attributes: attributes?.map?.(parseJsonString),
+      destinations: destinations?.map?.(parseJsonString),
+    };
 
-      contractId = deployResponse.contractId;
-    }
-
-    // Create token type
-    const createTokenResponse = await this.venly.createTokenType({
+    const response = await venly.createTokenType({
       $,
       contractId,
-      data: {
-        nftMetadata: this.nftMetadata,
-        mintingRestrictions: this.mintingRestrictions,
-      },
+      data,
     });
 
-    if (!createTokenResponse || !createTokenResponse.id) {
-      throw new Error("Failed to create token type");
-    }
+    $.export("$summary", `Successfully created token type (id: ${response.id})`);
 
-    $.export("$summary", `Successfully created and prepared for minting NFT with Token Type ID: ${createTokenResponse.id}`);
-
-    return createTokenResponse;
+    return response;
   },
 };

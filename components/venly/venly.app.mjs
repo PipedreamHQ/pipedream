@@ -51,7 +51,7 @@ export default {
       type: "string",
       label: "Storage Type",
       options: STORAGE_TYPE_OPTIONS,
-      description: "This object holds the storage details for the metadata of the contract",
+      description: "This object holds the storage details for the metadata of the item being created",
       optional: true,
     },
     storageLocation: {
@@ -64,31 +64,66 @@ export default {
       type: "string",
       label: "Blockchain",
       description: "The blockchain on which your contract/collection will be created",
-      optional: true,
       async options() {
         return this.listChains();
       },
     },
-    blockchainType: {
-      type: "string",
-      label: "Blockchain Type",
-      description: "The type of blockchain.",
+    contractId: {
+      type: "integer",
+      label: "Contract ID",
+      description: "Select a Contract or provide a custom Contract ID.",
+      async options() {
+        const response = await this.listContracts();
+        return response?.map?.(({
+          name, id,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
     },
-    contractMetadata: {
+    fungible: {
+      type: "boolean",
+      label: "Fungible",
+      description: "Determines if the NFTs from this template will be minted as fungible/non fungible. Defaults to false.",
+      optional: true,
+      default: false,
+    },
+    burnable: {
+      type: "boolean",
+      label: "Burnable",
+      description: "Determines if the NFTs from this template will be burnable. Defaults to false.",
+      optional: true,
+      default: false,
+    },
+    backgroundColor: {
       type: "object",
-      label: "Contract Metadata",
-      description: "The metadata for the contract.",
+      label: "Background Color",
+      description: "Background color of the NFTs that will be created from this template",
       optional: true,
     },
-    nftMetadata: {
-      type: "object",
-      label: "NFT Metadata",
-      description: "The metadata for the NFT.",
+    maxSupply: {
+      type: "integer",
+      label: "Max Supply",
+      description: "Max Supply for NFTs created by this template",
+      optional: true,
     },
-    mintingRestrictions: {
-      type: "object",
-      label: "Minting Restrictions",
-      description: "Restrictions for minting the NFT.",
+    animationUrls: {
+      type: "string[]",
+      label: "Animation URLs",
+      description: "Each item should be a JSON string or object. Example: `{ \"type\": \"type of the animation media\", \"value\": \"URL of the animation media\" }`",
+      optional: true,
+    },
+    attributes: {
+      type: "string[]",
+      label: "Attributes",
+      description: "Each item should be a JSON string or object. Example: `{ \"type\": \"property|stat|boost|system\", \"name\": \"Name of the attribute\", \"value\": \"Value of the attribute\", \"maxValue\": \"Max value of the attribute\" }`",
+      optional: true,
+    },
+    destinations: {
+      type: "string[]",
+      label: "Destinations",
+      description: "Each item should be a JSON string or object. Example: `{ \"address\": \"Address of the destination wallet where minted tokens will be sent\", \"amount\": \"[int] Amount of tokens to be minted and sent to specified wallet address\" }`",
       optional: true,
     },
   },
@@ -111,6 +146,11 @@ export default {
       });
       return response.supportedChainsForItemCreation;
     },
+    async listContracts() {
+      return this._makeRequest({
+        url: "/minter/contracts",
+      });
+    },
     async deployContract(args) {
       return this._makeRequest({
         method: "POST",
@@ -120,16 +160,12 @@ export default {
     },
     async createTokenType({
       contractId,
-      nftMetadata,
-      mintingRestrictions,
+      ...args
     }) {
       return this._makeRequest({
         method: "POST",
         url: `/minter/contracts/${contractId}/token-types`,
-        data: {
-          ...nftMetadata,
-          ...mintingRestrictions,
-        },
+        ...args,
       });
     },
   },
