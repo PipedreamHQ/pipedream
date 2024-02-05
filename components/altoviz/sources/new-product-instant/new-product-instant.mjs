@@ -1,40 +1,26 @@
-js;
-import altoviz from "../../altoviz.app.mjs";
+import common from "../common/base-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "altoviz-new-product-instant",
-  name: "New Product Instant",
-  description: "Emits an event when a product is created, updated or deleted in Altoviz.",
-  version: "0.0.{{ts}}",
+  name: "New Product (Instant)",
+  description: "Emit new event when a product is created, updated or deleted in Altoviz.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    altoviz,
-    db: "$.service.db",
-    product: {
-      propDefinition: [
-        altoviz,
-        "product",
+    ...common.props,
+    eventTypes: {
+      type: "string[]",
+      label: "Event Types",
+      description: "Select the product event types to watch for",
+      options: [
+        "ProductCreated",
+        "ProductUpdated",
+        "ProductDeleted",
       ],
     },
   },
-  methods: {
-    generateMeta(product) {
-      const {
-        id, name, updatedAt,
-      } = product;
-      const summary = `Product ${name} was updated`;
-      const ts = new Date(updatedAt).getTime();
-      return {
-        id,
-        summary,
-        ts,
-      };
-    },
-  },
-  async run() {
-    const product = this.product;
-    const meta = this.generateMeta(product);
-    this.$emit(product, meta);
-  },
+  sampleEmit,
 };
