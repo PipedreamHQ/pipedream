@@ -9,6 +9,13 @@ on:
   pull_request:
     branches:
       - master
+      - increase-versions-test-1
+      - increase-versions-test-2
+      - increase-versions-test-3
+      - increase-versions-test-4
+      - increase-versions-test-5
+      - increase-versions-test-6
+      - increase-versions-test-7
 
 jobs:
   check_version:
