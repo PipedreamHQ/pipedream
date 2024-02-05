@@ -103,6 +103,8 @@ export default {
           page_size: 20,
         });
 
+        console.log("Just a test...")
+
         if (res.results?.length == 0) {
           break;
         }
