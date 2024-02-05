@@ -347,9 +347,9 @@ Within a step, the [normal rules of JavaScript variable scope](https://developer
 There are two ways to make HTTP requests in code steps:
 
 - Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/code/nodejs/http-requests/).
-- [Use `$send.http()`](/destinations/http/#using-send-http-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
+- [Use `$.send.http()`](/destinations/http/#using-send-http-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
 
-In general, if you just need to make an HTTP request but don't care about the response, [use `$send.http()`](/destinations/http/#using-send-http-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/code/nodejs/http-requests/).
+In general, if you just need to make an HTTP request but don't care about the response, [use `$.send.http()`](/destinations/http/#using-send-http-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/code/nodejs/http-requests/).
 
 ## Returning HTTP responses
 

@@ -5,7 +5,7 @@ export default {
   key: "hookdeck-new-event-received",
   name: "New Event Received (Instant)",
   description: "Emit new event when a new event is received from a HookDeck source.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -29,11 +29,15 @@ export default {
         app,
         "sourceId",
       ],
+      label: "Pre-exisiting Source",
     },
     source: {
       type: "object",
-      label: "Source",
+      label: "New Source",
       description: "An object representing the source of the connection. Object must contain at least `name`. Please check the [documentation](https://hookdeck.com/api-ref#create-a-connection) for more information.",
+      default: {
+        name: "My New Source",
+      },
       optional: true,
     },
     destinationName: {

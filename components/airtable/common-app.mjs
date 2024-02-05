@@ -4,7 +4,8 @@ import { axios } from "@pipedream/platform";
 import { SORT_DIRECTION_OPTIONS } from "./common/constants.mjs";
 import Bottleneck from "bottleneck";
 const limiter = new Bottleneck({
-  minTime: 200, // 5 requests per second
+  minTime: 250, // 4 requests per second
+  maxConcurrent: 1,
 });
 const axiosRateLimiter = limiter.wrap(axios);
 
@@ -64,7 +65,7 @@ export default {
     async _makeRequest({
       $ = this,
       path,
-      rateLimited = false,
+      rateLimited = true,
       ...args
     }) {
       const config = {
