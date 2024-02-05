@@ -74,7 +74,12 @@ export default {
         });
 
         return {
-          options: data.map(({ name }) => name),
+          options: data.map(({
+            name: label, id: value,
+          }) => ({
+            label,
+            value,
+          })),
           context: {
             page_token: new URLSearchParams(pagination.links.next).get("page_token"),
           },

@@ -42,7 +42,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.dexatel.sendBulkMessages({
+    const response = await this.dexatel.sendMessage({
       $,
       data: {
         data: {
