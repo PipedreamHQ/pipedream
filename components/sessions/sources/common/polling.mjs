@@ -27,7 +27,7 @@ export default {
       throw new Error("getResources is not implemented", args);
     },
     filterResources(resources) {
-      throw new Error("filterResources is not implemented", resources);
+      return resources;
     },
   },
   async run() {

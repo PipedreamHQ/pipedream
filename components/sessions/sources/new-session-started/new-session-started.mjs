@@ -21,8 +21,5 @@ export default {
     async getResources(args = {}) {
       return this.sessions.getSessions(args);
     },
-    filterResources(resources) {
-      return resources.filter((resource) => !resource.endedAt);
-    },
   },
 };
