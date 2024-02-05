@@ -97,6 +97,8 @@ export default {
       let page = 1;
       let items = [];
       while (true) {
+        console.log('....')
+
         const res = await apiRequestFunction(ctx, {
           ...params,
           page,
