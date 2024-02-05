@@ -4,7 +4,7 @@ export default {
   name: "Get Verification Result",
   description: "Verify that an OTP sent by the Send SMS Verification API is valid. Please refer to the [documentation](https://www.fraudlabspro.com/developer/api/get-result) for the explanation of the result returned.",
   key: "fraudlabs_pro-verify-otp",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     fraudlabsProApp,
@@ -38,7 +38,11 @@ export default {
       format: format ?? "json",
       otp,
     });
-    $.export("$summary", "Successfully verified the OTP");
+    if ('error' in response) {
+      throw new Error(`Fraudlabs Pro response: error code ${response.error.error_code} - ${response.error.error_message}`);
+    } else {
+      $.export("$summary", "Successfully verified the OTP");
+    }
     return response;
   },
 };
