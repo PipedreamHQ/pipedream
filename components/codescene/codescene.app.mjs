@@ -23,8 +23,9 @@ export default {
       label: "Project ID",
       description: "The ID of the project.",
       async options() {
-        const response = await this.listProjects();
-        return response.map((project) => ({
+        const { projects } = await this.listProjects();
+
+        return projects.map((project) => ({
           label: project.name,
           value: project.id,
         }));
