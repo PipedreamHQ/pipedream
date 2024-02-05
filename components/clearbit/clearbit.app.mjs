@@ -107,6 +107,8 @@ export default {
           break;
         }
 
+        console.log('....')
+
         items.push(...res.results);
         if (items.length >= maxResults) {
           items = items.slice(0, maxResults);
