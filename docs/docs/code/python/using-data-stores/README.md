@@ -124,7 +124,8 @@ What's the difference between `data_store["key"]` and `data_store.get("key")`?
 - `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the Data Store.
 - `data_store.get("key")` will instead return `None` if the key doesn't exist in the Data Store.
 - `data_store.get("key", "default_value")` will return `"default_value"` if the key doesn't exist on the Data Store.
-- :::
+
+:::
 
 ### Retrieving all records
 

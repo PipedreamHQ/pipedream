@@ -1,8 +1,8 @@
 # File Stores
 
-:::warning Beta Feature
+:::tip In Preview
 
-File Stores are in beta. There might be changes while we prepare it for a full release.
+File Stores are available in Preview. There may be changes to allowed limits in the future.
 
 If you have any feedback on File Stores, please let us know in our [community](https://pipedream.com/support).
 
