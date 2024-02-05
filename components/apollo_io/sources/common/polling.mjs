@@ -33,9 +33,13 @@ export default {
       const meta = this.generateMeta(resource);
       this.$emit(resource, meta);
     },
+    filterResources(resources) {
+      return resources;
+    },
     async processStreamEvents(resourcesStream) {
       const resources = await utils.streamIterator(resourcesStream);
-      resources.reverse().forEach(this.processEvent);
+      const relevantResources = this.filterResources(resources);
+      relevantResources.reverse().forEach(this.processEvent);
     },
   },
   async run() {
