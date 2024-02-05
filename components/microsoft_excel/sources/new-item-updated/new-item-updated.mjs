@@ -7,7 +7,7 @@ export default {
   key: "microsoft_excel-new-item-updated",
   name: "New Item Updated (Instant)",
   description: "Emit new event when an item is updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     microsoftExcel,

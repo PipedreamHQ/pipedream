@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/browsers",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "For using puppeeter or playwright in Pipedream Node.js Code Steps. Includes the prebuilt binaries and specific versions for compatiblity with Pipedream.",
   "main": "index.mjs",
   "scripts": {
@@ -16,8 +16,8 @@
   "author": "Dylan Pierce <pierce@pipedream.com> (https://dylanjpierce.com)",
   "license": "ISC",
   "dependencies": {
-    "@sparticuz/chromium": "112.0.2",
-    "puppeteer-core": "19.8.0",
-    "playwright-core": "1.32.3"
+    "@sparticuz/chromium": "121.0.0",
+    "puppeteer-core": "21.11.0",
+    "playwright-core": "1.41.2"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/filter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Filter Components",
   "main": "filter.app.mjs",
   "keywords": [

@@ -6,7 +6,7 @@ export default {
   key: "airtable-create-single-record",
   name: "Create Single Record",
   description: "Adds a record to a table.",
-  version: "1.0.6",
+  version: "1.0.7",
   type: "action",
   props: {
     ...common.props,
