@@ -43,6 +43,25 @@ export default {
         }));
       },
     },
+    eventId: {
+      type: "string",
+      label: "Event ID",
+      description: "The unique identifier of the event to track.",
+      async options({ page }) {
+        const events = await this.listEvents({
+          params: {
+            offset: page * LIMIT,
+            limit: LIMIT,
+          },
+        });
+        return events.map(({
+          eventID: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -75,6 +94,12 @@ export default {
         ...opts,
       });
     },
+    listEvents(opts = {}) {
+      return this._makeRequest({
+        path: "/events",
+        ...opts,
+      });
+    },
     listOrders(opts = {}) {
       return this._makeRequest({
         path: "/orders",
@@ -99,9 +124,12 @@ export default {
         ...opts,
       });
     },
-    logCustomEvent(opts = {}) {
+    trackEvent({
+      eventId, ...opts
+    }) {
       return this._makeRequest({
-        path: "/events",
+        method: "POST",
+        path: `/events/${eventId}`,
         ...opts,
       });
     },
