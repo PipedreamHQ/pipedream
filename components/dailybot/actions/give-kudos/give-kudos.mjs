@@ -1,11 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import dailybot from "../../dailybot.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "dailybot-give-kudos",
   name: "Give Kudos",
   description: "Sends kudos to selected user(s) using DailyBot. [See the documentation](https://www.dailybot.com/docs/api-methods)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     dailybot,
@@ -20,6 +20,7 @@ export default {
         dailybot,
         "messageContent",
       ],
+      optional: true,
     },
     isAnonymous: {
       propDefinition: [
@@ -36,10 +37,13 @@ export default {
   },
   async run({ $ }) {
     const response = await this.dailybot.sendKudos({
-      receivers: this.targetUsers,
-      content: this.messageContent,
-      isAnonymous: this.isAnonymous,
-      byDailyBot: this.byDailyBot,
+      $,
+      data: {
+        receivers: parseObject(this.targetUsers),
+        content: this.messageContent,
+        is_anonymous: this.isAnonymous,
+        by_dailybot: this.byDailyBot,
+      },
     });
 
     $.export("$summary", `Successfully sent kudos to ${this.targetUsers.length} user(s)`);

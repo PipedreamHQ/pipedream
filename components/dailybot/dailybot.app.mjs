@@ -1,50 +1,54 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "dailybot",
   propDefinitions: {
-    organizationId: {
-      type: "string",
-      label: "Organization ID",
-      description: "The ID of the organization.",
-    },
-    formId: {
-      type: "string",
-      label: "Form ID",
-      description: "The ID of the form.",
-    },
-    senderId: {
-      type: "string",
-      label: "Sender ID",
-      description: "The ID of the kudos sender.",
-    },
-    receiverId: {
-      type: "string",
-      label: "Receiver ID",
-      description: "The ID of the kudos receiver.",
-    },
     targetUsers: {
       type: "string[]",
       label: "Target User IDs",
       description: "The IDs of the target users.",
+      async options({ page }) {
+        const { results } = await this.listUsers({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return results.map(({
+          uuid: value, full_name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    targetTeams: {
+      type: "string[]",
+      label: "Target Teams IDs",
+      description: "The IDs of the target teams. All members involved in those teams will receive the message.",
+      async options({ page }) {
+        const { results } = await this.listTeams({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return results.map(({
+          uuid: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     messageContent: {
       type: "string",
       label: "Message Content",
       description: "The content of the message.",
-      optional: true,
-    },
-    recipientsIds: {
-      type: "string[]",
-      label: "Recipients' IDs",
-      description: "The IDs of the message recipients.",
-    },
-    channelsOrRooms: {
-      type: "string[]",
-      optional: true,
-      label: "Channels or Rooms",
-      description: "The IDs of the channels or rooms to target, if any.",
     },
     isAnonymous: {
       type: "boolean",
@@ -61,60 +65,60 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.dailybot.com";
+      return "https://api.dailybot.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "X-API-KEY": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data,
-        params,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async sendKudos({
-      receivers, content, isAnonymous = false, byDailyBot = false,
-    }) {
+    sendKudos(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/kudos/",
-        data: {
-          receivers,
-          content,
-          is_anonymous: isAnonymous,
-          by_dailybot: byDailyBot,
-        },
+        ...opts,
       });
     },
-    async dispatchMessage({
-      messageContent, recipientsIds, channelsOrRooms,
-    }) {
+    listTeams(opts = {}) {
+      return this._makeRequest({
+        path: "/teams/",
+        ...opts,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users/",
+        ...opts,
+      });
+    },
+    dispatchMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/send-message/",
-        data: {
-          message: messageContent,
-          target_users: recipientsIds,
-          target_channels: channelsOrRooms
-            ? channelsOrRooms.map((id) => ({
-              id,
-              is_channel_message: true,
-            }))
-            : [],
-        },
+        ...opts,
+      });
+    },
+    createHook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhook-subscription/",
+        ...opts,
+      });
+    },
+    deleteHook(opts = {}) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: "/webhook-subscription/",
+        ...opts,
       });
     },
   },

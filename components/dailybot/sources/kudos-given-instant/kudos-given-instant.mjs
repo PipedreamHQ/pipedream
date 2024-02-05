@@ -1,73 +1,31 @@
-import dailybot from "../../dailybot.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "dailybot-kudos-given-instant",
-  name: "Kudos Given Instant",
+  name: "New Kudos Given (Instant)",
   description: "Emit new event every time any kudos are given to someone in your DailyBot organization.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    dailybot,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  methods: {
+    ...common.methods,
+    getEvent() {
+      return [
+        "kudos.posted",
+      ];
     },
-    db: "$.service.db",
-    senderId: {
-      propDefinition: [
-        dailybot,
-        "senderId",
-      ],
-    },
-    receiverId: {
-      propDefinition: [
-        dailybot,
-        "receiverId",
-      ],
-    },
-  },
-  hooks: {
-    async activate() {
-      // Activation logic, if necessary, to subscribe to webhook events
-    },
-    async deactivate() {
-      // Deactivation logic, if necessary, to unsubscribe from webhook events
-    },
-  },
-  async run(event) {
-    // Assuming the incoming webhook payload has the structure for kudos given event
-    const { body } = event;
-    if (!body) {
-      throw new Error("No body found in the event.");
-    }
+    emitEvent(body) {
+      const data = body.body;
+      const receivers = data.receivers.map((receiver) => receiver.full_name);
 
-    // Validate the incoming webhook for security
-    // This is a placeholder, replace <YOUR_SECRET> with your actual secret and adjust the validation logic as per your security requirements
-    const signature = event.headers["x-dailybot-signature"];
-    const expectedSignature = "ExpectedSignatureBasedOnYourSecret"; // Replace with actual logic to compute the expected signature
-    if (signature !== expectedSignature) {
-      this.http.respond({
-        status: 403,
-        body: "Forbidden: Incorrect signature",
+      this.$emit(body, {
+        id: data.uuid,
+        summary: `New kudos from ${data.giver.full_name} to ${receivers.join(",")}`,
+        ts: Date.parse(data.event_timestamp),
       });
-      console.log("Forbidden: Incorrect signature");
-      return;
-    }
-
-    const kudosEvent = body;
-    // Emitting the whole kudos event. In a real scenario, you might want to pick specific fields to emit.
-    this.$emit(kudosEvent, {
-      id: kudosEvent.id, // Assuming there's a unique ID for each kudos event
-      summary: `Kudos from ${kudosEvent.senderId} to ${kudosEvent.receiverId}`,
-      ts: Date.parse(kudosEvent.createdAt), // Assuming there's a timestamp field in the kudos event
-    });
-
-    // Respond to the webhook
-    this.http.respond({
-      status: 200,
-      body: "Event processed",
-    });
+    },
   },
+  sampleEmit,
 };
