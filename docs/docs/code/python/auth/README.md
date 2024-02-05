@@ -15,7 +15,7 @@ Add Slack as an app on the Python step, then connect your Slack account.
 
 ![Add your Slack account to a Python code step by adding it](https://res.cloudinary.com/pipedreamin/image/upload/v1658954165/docs/components/CleanShot_2022-07-27_at_16.35.37_ytofp2.gif)
 
-Then within the Python code step, `pd.steps["slack"]["$auth"]["oauth_access_token"]` will contain your Slack account OAuth token.
+Then within the Python code step, `pd.inputs["slack"]["$auth"]["oauth_access_token"]` will contain your Slack account OAuth token.
 
 With that token, you can make authenticated API calls to Slack:
 
