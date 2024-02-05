@@ -355,6 +355,8 @@ async function run() {
 
       await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
 
+      console.log(fs.readFileSync(getComponentFilePath(componentFilePath), "utf-8"));
+
       console.log(`✅ Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     };
   }
