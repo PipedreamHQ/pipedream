@@ -54,12 +54,14 @@ export default {
             limit: LIMIT,
           },
         });
-        return events.map(({
-          eventID: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return events
+          ? events.map(({
+            eventID: value, name: label,
+          }) => ({
+            label,
+            value,
+          }))
+          : [];
       },
     },
   },
