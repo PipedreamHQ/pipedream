@@ -401,6 +401,9 @@ importers:
   components/api2pdf:
     specifiers: {}
 
+  components/api_bible:
+    specifiers: {}
+
   components/api_sports:
     specifiers: {}
 
@@ -584,6 +587,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/azure_speech_service:
+    specifiers: {}
 
   components/azure_sql:
     specifiers:
@@ -1645,7 +1651,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dexatel:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/dext:
     specifiers:
@@ -2170,7 +2179,10 @@ importers:
     specifiers: {}
 
   components/facebook_marketing:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/facebook_pages:
     specifiers:
@@ -7470,7 +7482,10 @@ importers:
     specifiers: {}
 
   components/venly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/vercel:
     specifiers:
