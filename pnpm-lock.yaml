@@ -241,32 +241,20 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
-  components/airtable:
+  components/airtable_oauth:
     specifiers:
-      '@pipedream/platform': ^1.4.0
-      airtable: ^0.11.1
+      '@pipedream/platform': ^1.6.0
       bottleneck: ^2.19.5
       lodash: ^4.17.21
       lodash.chunk: ^4.2.0
       lodash.isempty: ^4.4.0
-      moment: ^2.29.4
+      moment: ^2.30.1
     dependencies:
-      '@pipedream/platform': 1.5.1
-      airtable: 0.11.6
+      '@pipedream/platform': 1.6.0
       bottleneck: 2.19.5
       lodash: 4.17.21
       lodash.chunk: 4.2.0
       lodash.isempty: 4.4.0
-      moment: 2.29.4
-
-  components/airtable_oauth:
-    specifiers:
-      '@pipedream/platform': ^1.5.1
-      lodash.chunk: ^4.2.0
-      moment: ^2.30.1
-    dependencies:
-      '@pipedream/platform': 1.5.1
-      lodash.chunk: 4.2.0
       moment: 2.30.1
 
   components/aivoov:
@@ -15660,10 +15648,6 @@ packages:
       event-target-shim: 5.0.1
     dev: false
 
-  /abortcontroller-polyfill/1.7.5:
-    resolution: {integrity: sha512-JMJ5soJWP18htbbxJjG7bG6yuI6pRhgJ0scHHTfkUjf6wjP912xZWvM+A4sJK3gqd9E8fcPbDnOefbA9Th/FIQ==}
-    dev: false
-
   /acorn-jsx/5.3.2_acorn@7.4.1:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -15733,19 +15717,6 @@ packages:
     dependencies:
       clean-stack: 2.2.0
       indent-string: 4.0.0
-
-  /airtable/0.11.6:
-    resolution: {integrity: sha512-Na67L2TO1DflIJ1yOGhQG5ilMfL2beHpsR+NW/jhaYOa4QcoxZOtDFs08cpSd1tBMsLpz5/rrz/VMX/pGL/now==}
-    engines: {node: '>=8.0.0'}
-    dependencies:
-      '@types/node': 14.18.63
-      abort-controller: 3.0.0
-      abortcontroller-polyfill: 1.7.5
-      lodash: 4.17.21
-      node-fetch: 2.7.0
-    transitivePeerDependencies:
-      - encoding
-    dev: false
 
   /ajv-draft-04/1.0.0_ajv@8.12.0:
     resolution: {integrity: sha512-mv00Te6nmYbRp5DCwclxtt7yV/joXJPGS7nM+97GdxvuttCOfgI3K4U25zboyeX0O+myI8ERluxQe5wljMmVIw==}
