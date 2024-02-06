@@ -347,17 +347,6 @@ async function run() {
     componentsDiffContents = await checkVersionModification(componentsPendingForGitDiff, componentsThatDidNotModifyVersion);
   }
 
-  const totalErrors = componentsThatDidNotModifyVersion.length;
-  let counter = 1;
-
-  componentsThatDidNotModifyVersion.forEach((filePath) => {
-    console.log(`${counter++}) You need to change the version of ${filePath}.`);
-  });
-
-  if (totalErrors) {
-    core.setFailed(`You need to increment the version of ${totalErrors} component(s). Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information.`);
-  }
-
   if (componentsDiffContents.length) {
     for ({ dependencyFilePath, componentFilePath } of componentsDiffContents) {
       const content = await readFile(componentFilePath, "utf-8")
@@ -369,6 +358,18 @@ async function run() {
       console.log(`✅ Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
     };
   }
+  
+  const totalErrors = componentsThatDidNotModifyVersion.length;
+  let counter = 1;
+
+  componentsThatDidNotModifyVersion.forEach((filePath) => {
+    console.log(`${counter++}) You need to change the version of ${filePath}.`);
+  });
+
+  if (totalErrors) {
+    core.setFailed(`You need to increment the version of ${totalErrors} component(s). Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information.`);
+  }
+
 }
 
 run().catch(error => core.setFailed(error ?? error?.message));
