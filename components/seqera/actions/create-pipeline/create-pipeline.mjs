@@ -1,71 +1,82 @@
-import seqera from "../../seqera.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../seqera.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "seqera-create-pipeline",
   name: "Create Pipeline",
   description: "Creates a new pipeline in a user context. [See the documentation](https://docs.seqera.io/platform/23.3.0/api/overview)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    seqera,
-    pipelineName: {
+    app,
+    name: {
+      description: "The name of the pipeline to create. Use only alphanumeric, dash, and underscore characters. Eg. `My-Pipeline_1`",
       propDefinition: [
-        seqera,
-        "pipelineName",
-      ],
-    },
-    computeEnvName: {
-      propDefinition: [
-        seqera,
-        "computeEnvName",
-      ],
-    },
-    actionName: {
-      propDefinition: [
-        seqera,
-        "actionName",
+        app,
+        "name",
       ],
     },
     computeEnvId: {
       propDefinition: [
-        seqera,
+        app,
         "computeEnvId",
-        (c) => ({
-          pipelineId: c.pipelineId,
-        }),
       ],
     },
-    eventId: {
+    pipeline: {
       propDefinition: [
-        seqera,
-        "eventId",
+        app,
+        "pipeline",
+      ],
+    },
+    description: {
+      description: "The description of the pipeline to create",
+      optional: true,
+      propDefinition: [
+        app,
+        "description",
+      ],
+    },
+    launch: {
+      description: "The launch configuration of the pipeline to create",
+      propDefinition: [
+        app,
+        "launch",
       ],
     },
   },
+  methods: {
+    createPipeline(args = {}) {
+      return this.app.post({
+        path: "/pipelines",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const pipelineResponse = await this.seqera.createPipeline({
-      pipelineName: this.pipelineName,
-    });
-    const computeEnvResponse = await this.seqera.createComputeEnv({
-      computeEnvName: this.computeEnvName,
-    });
-    const pipelineActionResponse = await this.seqera.createPipelineAction({
-      pipelineId: pipelineResponse.id,
-      computeEnvId: computeEnvResponse.id,
-      actionName: this.actionName,
-    });
-    const emitEventResponse = await this.seqera.emitEvent({
-      eventId: this.eventId,
+    const {
+      createPipeline,
+      name,
+      computeEnvId,
+      pipeline,
+      description,
+      launch,
+    } = this;
+
+    const response = await createPipeline({
+      $,
+      data: {
+        name,
+        description,
+        launch: {
+          computeEnvId,
+          pipeline,
+          ...utils.parseProp(launch),
+        },
+      },
     });
 
-    $.export("$summary", `Created pipeline '${this.pipelineName}' with action '${this.actionName}'`);
+    $.export("$summary", `Successfully created pipeline with ID \`${response?.pipeline?.pipelineId}\``);
 
-    return {
-      pipeline: pipelineResponse,
-      computeEnv: computeEnvResponse,
-      pipelineAction: pipelineActionResponse,
-      eventEmit: emitEventResponse,
-    };
+    return response;
   },
 };

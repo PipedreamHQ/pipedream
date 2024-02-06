@@ -1,131 +1,222 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "seqera",
   propDefinitions: {
-    pipelineId: {
+    workspaceId: {
       type: "string",
-      label: "Pipeline ID",
-      description: "The ID of the pipeline",
+      label: "Workspace ID",
+      description: "The ID of the workspace to use.",
+      optional: true,
+      async options() {
+        const { user } = await this.getUserInfo();
+        const { orgsAndWorkspaces } = await this.listWorkspaces({
+          userId: user.id,
+        });
+        return orgsAndWorkspaces
+          .filter(({ workspaceId }) => workspaceId)
+          .map(({
+            workspaceId: value, workspaceName: label,
+          }) => ({
+            label,
+            value,
+          }));
+      },
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the compute environment.",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "The description of the compute environment.",
+    },
+    launch: {
+      type: "object",
+      label: "Launch",
+      description: "The launch configuration of the pipeline to create",
+    },
+    platformId: {
+      type: "string",
+      label: "Platform ID",
+      description: "The ID of the platform to use for the compute environment.",
+      async options() {
+        const { platforms = [] } = await this.listPlatforms();
+        return platforms.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    credentialsId: {
+      type: "string",
+      label: "Credentials ID",
+      description: "The ID of the credentials to use for the compute environment.",
+      async options({
+        platformId, workspaceId,
+      }) {
+        const { credentials = [] } = await this.listCredentials({
+          params: {
+            platformId,
+            workspaceId,
+          },
+        });
+        return credentials.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     computeEnvId: {
       type: "string",
       label: "Compute Environment ID",
-      description: "The ID of the compute environment",
-    },
-    actionId: {
-      type: "string",
-      label: "Action ID",
-      description: "The ID of the pipeline action",
-    },
-    pipelineName: {
-      type: "string",
-      label: "Pipeline Name",
-      description: "The name of the pipeline to create",
-    },
-    computeEnvName: {
-      type: "string",
-      label: "Compute Environment Name",
-      description: "The name of the compute environment to create",
-    },
-    actionName: {
-      type: "string",
-      label: "Action Name",
-      description: "The name of the pipeline action to create",
-    },
-    eventId: {
-      type: "string",
-      label: "Event ID",
-      description: "The ID of the event to emit when a new run is created",
-      async options({ prevContext }) {
-        const page = prevContext.page
-          ? prevContext.page
-          : 0;
-        const { items } = await this.listEvents({
+      description: "The ID of the compute environment to use.",
+      async options({ workspaceId }) {
+        const { computeEnvs = [] } = await this.listComputeEnvironments({
           params: {
-            page,
+            workspaceId,
           },
         });
-        return {
-          options: items.map((e) => ({
-            label: e.name,
-            value: e.id,
-          })),
-          context: {
-            page: page + 1,
+        return computeEnvs.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    pipeline: {
+      type: "string",
+      label: "Pipeline Respository",
+      description: "The name of the pipeline repository to use.",
+      async options({ workspaceId }) {
+        const { pipelines = [] } = await this.listPipelinesRepositories({
+          params: {
+            workspaceId,
           },
-        };
+        });
+        return pipelines.map((value) => value);
       },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.tower.nf";
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        ...args,
+        url: constants.BASE_URL + path,
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `Bearer ${this.$auth.api_token}`,
         },
       });
     },
-    async createPipeline({ pipelineName }) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/workflow",
-        data: {
-          name: pipelineName,
-        },
+        ...args,
       });
     },
-    async createComputeEnv({ computeEnvName }) {
+    getUserInfo(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/api/compute-env",
-        data: {
-          name: computeEnvName,
-        },
+        path: "/user-info",
+        ...args,
       });
     },
-    async createPipelineAction({
-      pipelineId, computeEnvId, actionName,
+    listWorkspaces({
+      userId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/user/${userId}/workspaces`,
+        ...args,
+      });
+    },
+    listPlatforms(args = {}) {
+      return this._makeRequest({
+        path: "/platforms",
+        ...args,
+      });
+    },
+    listCredentials(args = {}) {
+      return this._makeRequest({
+        path: "/credentials",
+        ...args,
+      });
+    },
+    listComputeEnvironments(args = {}) {
+      return this._makeRequest({
+        path: "/compute-envs",
+        ...args,
+      });
+    },
+    listPipelinesRepositories(args = {}) {
+      return this._makeRequest({
+        path: "/pipelines/repositories",
+        ...args,
+      });
+    },
+    listRuns(args = {}) {
+      return this._makeRequest({
+        path: "/ga4gh/wes/v1/runs",
+        ...args,
+      });
+    },
+    async *getIterations({
+      resourcesFn,
+      resourcesFnArgs,
+      resourceName,
+      max = constants.DEFAULT_MAX,
     }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/api/workflow/${pipelineId}/action`,
-        data: {
-          computeEnvId,
-          name: actionName,
-        },
-      });
+      let nextPageToken;
+      let resourcesCount = 0;
+
+      while (true) {
+        const response =
+          await resourcesFn({
+            ...resourcesFnArgs,
+            params: {
+              ...resourcesFnArgs?.params,
+              page_size: constants.DEFAULT_LIMIT,
+              page_token: nextPageToken,
+            },
+          });
+
+        const nextResources = resourceName && response[resourceName] || response;
+
+        if (!nextResources?.length) {
+          console.log("No more resources found");
+          return;
+        }
+
+        for (const resource of nextResources) {
+          yield resource;
+          resourcesCount += 1;
+
+          if (resourcesCount >= max) {
+            return;
+          }
+        }
+
+        if (Number(response.next_page_token) === 0) {
+          console.log("No more pages found");
+          return;
+        }
+
+        nextPageToken = response.next_page_token;
+      }
     },
-    async listEvents({ params }) {
-      return this._makeRequest({
-        path: "/api/events",
-        params,
-      });
-    },
-    async emitEvent({ eventId }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/api/events/${eventId}/emit`,
-      });
+    paginate(args = {}) {
+      return utils.iterate(this.getIterations(args));
     },
   },
-  version: "0.0.{{ts}}",
 };
