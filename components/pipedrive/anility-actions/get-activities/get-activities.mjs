@@ -6,7 +6,7 @@ export default {
   name: "Get Activities (Anility)",
   description:
     "Activities are appointments/tasks/events on a calendar that can be associated with a deal, a lead, a person and an organization. Activities can be of different type (such as call, meeting, lunch or a custom type - see ActivityTypes object) and can be assigned to a particular user. Note that activities can also be created without a specific date/time. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/Activities#getActivities)",
-  version: "0.0.26",
+  version: "0.0.28",
   type: "action",
   props: {
     pipedriveApp,
@@ -64,9 +64,7 @@ export default {
 
       return field.id;
     },
-    getConditions({
-      fieldId, value, additionalConditions = [],
-    } = {}) {
+    getConditions({ additionalConditions = [] } = {}) {
       return {
         glue: "and",
         conditions: [
@@ -74,33 +72,17 @@ export default {
             glue: "or",
             conditions: additionalConditions,
           },
-          {
-            glue: "and",
-            conditions: [
-              {
-                object: constants.EVENT_OBJECT.ACTIVITY,
-                field_id: fieldId,
-                operator: "=",
-                value,
-                extra_value: null,
-              },
-            ],
-          },
         ],
       };
     },
     getFilterArgs({
       dealCustomFieldId,
       anilityIdFieldValue,
-      fieldId,
-      value = "later_or_today",
     } = {}) {
       return {
         type: constants.FILTER_TYPE.ACTIVITY,
         name: "Pipedream: Activities done during today or later",
         conditions: this.getConditions({
-          fieldId,
-          value,
           additionalConditions: [
             {
               object: constants.EVENT_OBJECT.DEAL,
@@ -125,12 +107,12 @@ export default {
     } = this;
 
     try {
-      const fieldId = await this.fetchFieldId();
+      //const fieldId = await this.fetchFieldId();
 
       const args = this.getFilterArgs({
         dealCustomFieldId,
         anilityIdFieldValue,
-        fieldId,
+        //fieldId,
       });
 
       await this.pipedriveApp.updateFilter({
@@ -149,7 +131,7 @@ export default {
         `Successfully found ${resp.data?.length || 0} activities`,
       );
 
-      return resp.data;
+      return resp;
     } catch (error) {
       console.error(error.context?.body || error);
       throw error.context?.body?.error || "Failed to get activities";

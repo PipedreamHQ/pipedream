@@ -472,6 +472,18 @@ export default {
       ] = constants.API.PERSONS;
       return this.api(className).getPersons(opts);
     },
+    getPerson(id) {
+      const [
+        className,
+      ] = constants.API.PERSONS;
+      return this.api(className).getPerson(id);
+    },
+    getMailThreads(folder, opt = {}) {
+      const [
+        className,
+      ] = constants.API.MAILBOX;
+      return this.api(className).getMailThreads(folder, opt);
+    },
     getPersonFields(opts = {}) {
       const [
         className,
@@ -483,6 +495,12 @@ export default {
         className,
       ] = constants.API.LEADS;
       return this.api(className).getLeads(opts);
+    },
+    async getUser(id) {
+      const [
+        className,
+      ] = constants.API.USERS;
+      return this.api(className).getUser(id);
     },
     async getUsers(opts) {
       const [
