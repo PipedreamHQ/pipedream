@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/azure_speech_service",
+  "version": "0.0.1",
+  "description": "Pipedream Azure Speech Service Components",
+  "main": "azure_speech_service.app.mjs",
+  "keywords": [
+    "pipedream",
+    "azure_speech_service"
+  ],
+  "homepage": "https://pipedream.com/apps/azure_speech_service",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
