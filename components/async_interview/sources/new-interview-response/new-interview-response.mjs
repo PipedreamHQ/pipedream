@@ -1,7 +1,6 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import asyncInterview from "../../async_interview.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "async_interview-new-interview-response",
@@ -11,10 +10,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    asyncInterview: {
-      type: "app",
-      app: "async_interview",
-    },
+    asyncInterview,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -22,42 +18,43 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    interviewId: asyncInterview.propDefinitions.interviewId,
-    candidateEmail: {
-      ...asyncInterview.propDefinitions.candidateEmail,
-      optional: true,
+  },
+  methods: {
+    _getLastId() {
+      return this.db.get("lastId") || 0;
+    },
+    _setLastId(createdAt) {
+      this.db.set("lastId", createdAt);
+    },
+    generateMeta(event) {
+      return {
+        id: event.id,
+        summary: `New interview response with ID ${event.id}`,
+        ts: Date.parse(event.datetime),
+      };
+    },
+    async startEvent(maxResults = 0) {
+      const lastId = this._getLastId();
+
+      let data = await this.asyncInterview.listInterviewResponses();
+
+      data = data.filter((item) => item.id > lastId).reverse();
+
+      if (maxResults && (data.length > maxResults)) data.length = maxResults;
+      if (data.length) this._setLastId(data[0].id);
+
+      for (const item of data.reverse()) {
+        this.$emit(item, this.generateMeta(item));
+      }
     },
   },
   hooks: {
     async deploy() {
-      // Emit events for existing interview responses during the first run
-      const interviewResponses = await this.asyncInterview.emitNewInterviewResponse(this.interviewId, this.candidateEmail);
-      for (const response of interviewResponses) {
-        this.$emit(response, {
-          id: response.id,
-          summary: `New Interview Response: ${response.id}`,
-          ts: Date.parse(response.created_at),
-        });
-      }
+      await this.startEvent(25);
     },
   },
   async run() {
-    // Emit new interview responses
-    const lastEmittedTimestamp = this.db.get("lastEmittedTimestamp") || 0;
-    const newResponses = await this.asyncInterview.emitNewInterviewResponse(this.interviewId, this.candidateEmail);
-    const filteredResponses = newResponses.filter((response) => Date.parse(response.created_at) > lastEmittedTimestamp);
-
-    for (const response of filteredResponses) {
-      this.$emit(response, {
-        id: response.id,
-        summary: `New Interview Response: ${response.id}`,
-        ts: Date.parse(response.created_at),
-      });
-    }
-
-    if (filteredResponses.length > 0) {
-      const latestTimestamp = Math.max(...filteredResponses.map((response) => Date.parse(response.created_at)));
-      this.db.set("lastEmittedTimestamp", latestTimestamp);
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };
