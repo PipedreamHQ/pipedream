@@ -1,10 +1,12 @@
 import shopify from "../../shopify.app.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "shopify-create-product",
   name: "Create Product",
-  description: "Create a new product. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product#[post]/admin/api/2022-01/products.json)",
-  version: "0.0.8",
+  description: "Create a new product. [See the documentation](https://shopify.dev/api/admin-rest/2022-01/resources/product#[post]/admin/api/2022-01/products.json)",
+  version: "0.0.11",
   type: "action",
   props: {
     shopify,
@@ -62,22 +64,6 @@ export default {
         "tags",
       ],
     },
-  },
-  async run({ $ }) {
-    let data = {
-      title: this.title,
-      body_html: this.productDescription,
-      vendor: this.vendor,
-      product_type: this.productType,
-      status: this.status,
-      images: this.shopify.parseImages(this.images),
-      variants: this.shopify.parseArrayOfJSONStrings(this.variants),
-      options: this.shopify.parseArrayOfJSONStrings(this.options),
-      tags: this.shopify.parseCommaSeparatedStrings(this.tags),
-    };
-
-    let response = (await this.shopify.createProduct(data)).result;
-    $.export("$summary", `Created new product \`${response.title}\` with id \`${response.id}\``);
-    return response;
+    ...common.props,
   },
 };

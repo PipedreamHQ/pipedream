@@ -39,70 +39,48 @@ export default {
       type: "string",
       label: "Workspace",
       description: "Workspace to use for this destination",
-      async options({ prevContext }) {
-        const { pageToken } = prevContext;
-
-        if (pageToken === false) {
-          return [];
-        }
-
-        const {
-          workspaces,
-          next_page_token: nextPageToken,
-        } = await this.listWorkspaces({
-          page_token: pageToken,
-          page_size: 10,
-        });
-
-        const options = workspaces.map(({
-          display_name: label,
-          name,
-        }) => ({
-          label,
-          value: name.split("/").pop(),
-        }));
-
-        return {
-          options,
-          context: {
-            pageToken: nextPageToken || false,
+      async options() {
+        const { data } = await this.listWorkspaces();
+        return [
+          {
+            value: data.workspace.id,
+            label: data.workspace.name,
           },
-        };
+        ];
       },
     },
     source: {
       type: "string",
       label: "Source",
       description: "The source to send events to",
-      async options({
-        workspace, prevContext,
-      }) {
-        const { pageToken } = prevContext;
-
-        if (pageToken === false) {
-          return [];
+      async options({ prevContext }) {
+        const { cursor } = prevContext;
+        const params = {
+          pagination: {
+            count: 10,
+          },
+        };
+        if (cursor) {
+          params.pagination.cursor = cursor;
         }
 
-        const {
-          sources,
-          next_page_token: nextPageToken,
-        } = await this.listSources({
-          workspace,
-          params: {
-            page_token: pageToken,
-            page_size: 10,
-          },
+        const { data } = await this.listSources({
+          params,
         });
 
-        const options = sources.map(({ name }) => ({
-          value: name,
-          label: name.split("/sources/").pop(),
+        const options = data.sources.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
         }));
+
+        const nextCursor = data.pagination?.next;
 
         return {
           options,
           context: {
-            pageToken: nextPageToken || false,
+            cursor: nextCursor,
           },
         };
       },
@@ -110,7 +88,7 @@ export default {
   },
   methods: {
     getConfigApiBaseUrl() {
-      return "https://platform.segmentapis.com/v1beta";
+      return "https://api.segmentapis.com";
     },
     getTrackingApiBaseUrl() {
       return "https://api.segment.io/v1";
@@ -125,12 +103,13 @@ export default {
     },
     getConfigApiHeaders() {
       return {
-        Authorization: `Bearer ${this.$auth.write_key}`,
+        Authorization: `Bearer ${this.$auth.access_token}`,
       };
     },
-    getTrackingApiHeaders() {
+    getTrackingAuth() {
       return {
-        Authorization: `Basic ${this.$auth.write_key}`,
+        username: `${this.$auth.write_key}`,
+        password: "",
       };
     },
     async makeRequest(customConfig) {
@@ -146,20 +125,21 @@ export default {
         ? this.getConfigApiUrl(path)
         : this.getTrackingApiUrl(path);
 
-      const headers = api === constants.API.CONFIG
-        ? this.getConfigApiHeaders()
-        : this.getTrackingApiHeaders();
-
       const config = {
         method,
         url,
-        headers,
         ...otherConfig,
       };
 
+      if (api === constants.API.CONFIG) {
+        config.headers = this.getConfigApiHeaders();
+      } else {
+        config.auth = this.getTrackingAuth();
+      }
+
       return axios($ || this, config);
     },
-    async alias(args = {}) {
+    alias(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -167,7 +147,7 @@ export default {
         ...args,
       });
     },
-    async group(args = {}) {
+    group(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -175,7 +155,7 @@ export default {
         ...args,
       });
     },
-    async identify(args = {}) {
+    identify(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -183,7 +163,7 @@ export default {
         ...args,
       });
     },
-    async page(args = {}) {
+    page(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -191,7 +171,7 @@ export default {
         ...args,
       });
     },
-    async screen(args = {}) {
+    screen(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -199,7 +179,7 @@ export default {
         ...args,
       });
     },
-    async track(args = {}) {
+    track(args = {}) {
       return this.makeRequest({
         api: constants.API.TRACKING,
         method: "post",
@@ -207,35 +187,71 @@ export default {
         ...args,
       });
     },
-    async listWorkspaces(args = {}) {
+    listWorkspaces(args = {}) {
       return this.makeRequest({
-        path: "/workspaces",
+        path: "/",
         ...args,
       });
     },
-    async createDestination({
-      source, ...args
+    createDestination(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/destinations",
+        ...args,
+      });
+    },
+    createDestinationSubscription({
+      destination, ...args
     }) {
       return this.makeRequest({
         method: "post",
-        path: `${source}/destinations`,
+        path: `/destinations/${destination}/subscriptions/`,
         ...args,
       });
     },
-    async deleteDestination({
-      source, destination, ...args
+    deleteDestination({
+      destination, ...args
     }) {
       return this.makeRequest({
         method: "delete",
-        path: `${source}/destinations/${destination}`,
+        path: `/destinations/${destination}`,
         ...args,
       });
     },
-    async listSources({
-      workspace, ...args
+    deleteDestinationSubscription({
+      destination, subscription, ...args
     }) {
       return this.makeRequest({
-        path: `/workspaces/${workspace}/sources`,
+        method: "delete",
+        path: `/destinations/${destination}/subscriptions/${subscription}`,
+        ...args,
+      });
+    },
+    getDestination({
+      destination, ...args
+    }) {
+      return this.makeRequest({
+        path: `/destinations/${destination}`,
+        ...args,
+      });
+    },
+    getDestinationsCatalog(args = {}) {
+      return this.makeRequest({
+        path: "/catalog/destinations/",
+        ...args,
+      });
+    },
+    getDestinationMetadata({
+      destinationMetadataId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/catalog/destinations/${destinationMetadataId}`,
+        ...args,
+      });
+    },
+    listSources(args = {}) {
+      return this.makeRequest({
+        path: "/sources",
         ...args,
       });
     },

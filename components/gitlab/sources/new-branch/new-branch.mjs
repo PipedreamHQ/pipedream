@@ -6,7 +6,7 @@ export default {
   key: "gitlab-new-branch",
   name: "New Branch (Instant)",
   description: "Emit new event when a new branch is created",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   type: "source",
   hooks: {

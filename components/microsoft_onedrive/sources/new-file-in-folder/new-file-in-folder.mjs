@@ -1,4 +1,5 @@
 import onedrive from "../../microsoft_onedrive.app.mjs";
+import sampleEmit from "./test-event.mjs";
 import base from "../common/base.mjs";
 
 export default {
@@ -7,7 +8,7 @@ export default {
   key: "microsoft_onedrive-new-file-in-folder",
   name: "New File in Folder (Instant)",
   description: "Emit an event when a new file is added to a specific directory tree in a OneDrive drive",
-  version: "0.0.2",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     ...base.props,
@@ -29,4 +30,5 @@ export default {
       return !!(driveItem.file);
     },
   },
+  sampleEmit,
 };

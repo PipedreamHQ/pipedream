@@ -1,0 +1,36 @@
+# printify
+
+## URLs
+- https://developers.printify.com/#overview
+
+## Polling Sources
+
+### watch-events-instant
+#### Prompt
+Emits new event when you specify a specific event in the props. Use this to get instant alerts on specific events.
+#### URLs
+- https://developers.printify.com/#create-a-new-webhook
+- https://developers.printify.com/#events
+
+## Actions
+
+### create-product
+#### Prompt
+Creates a new product on Printify. Required props are product blueprint and details. Optional props are images.
+#### URLs
+- https://developers.printify.com/#create-a-new-product
+- https://developers.printify.com/#product-properties
+
+### update-product
+#### Prompt
+Updates an existing product on Printify. Required prop is product ID. Optional props are blueprint and details that you want to update.
+#### URLs
+- https://developers.printify.com/#update-a-product
+- https://developers.printify.com/#product-properties
+
+### submit-order
+#### Prompt
+Places an order of an existing product on Printify. Required prop is product ID. Optional props include quantity and shipping details.
+#### URLs
+- https://developers.printify.com/#submit-an-order
+- https://developers.printify.com/#order-properties

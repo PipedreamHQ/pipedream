@@ -50,7 +50,7 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    async _makeRequest(method, endpoint, params = {}) {
+    async _makeRequest(method, endpoint, params = {}, $ = this) {
       const config = {
         method,
         url: `${this._getBaseUrl()}/${endpoint}`,
@@ -63,7 +63,7 @@ export default {
         },
         returnFullResponse: true,
       };
-      return axios(this, config);
+      return axios($, config);
     },
     // Uses Twitch API to create or delete webhook subscriptions.
     // Set mode to "subscribe" to create a webhook and "unsubscribe" to delete it.
@@ -140,7 +140,10 @@ export default {
       return (await this._makeRequest("GET", encodeURI(endpoint), params)).data;
     },
     async getUserFollows(params) {
-      return await this._makeRequest("GET", "users/follows", params);
+      return await this._makeRequest("GET", "channels/followers", params);
+    },
+    async getFollowedChannels(params) {
+      return await this._makeRequest("GET", "channels/followed", params);
     },
     async getVideos(params) {
       return await this._makeRequest("GET", "videos", params);

@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New Presentation (Instant)",
   description: "Emit new event each time a new presentation is created in a drive.",
-  version: "0.0.1",
+  version: "0.0.2",
   hooks: {
     ...newFilesInstant.hooks,
     async deploy() {

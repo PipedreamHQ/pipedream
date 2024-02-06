@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-line-item",
   name: "New Line Item",
   description: "Emit new event for each new line item added.",
-  version: "0.0.10",
+  version: "0.0.12",
   dedupe: "unique",
   type: "source",
   hooks: {},

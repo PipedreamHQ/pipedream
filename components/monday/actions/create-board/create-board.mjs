@@ -4,9 +4,9 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-create-board",
   name: "Create Board",
-  description: "Creates a new board. [See the docs here](https://api.developer.monday.com/docs/boards#create-a-board)",
+  description: "Creates a new board. [See the documentation](https://api.developer.monday.com/docs/boards#create-a-board)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.5",
   props: {
     monday,
     boardName: {
@@ -21,16 +21,19 @@ export default {
         "boardKind",
       ],
     },
-    folderId: {
-      propDefinition: [
-        monday,
-        "folderId",
-      ],
-    },
     workspaceId: {
       propDefinition: [
         monday,
         "workspaceId",
+      ],
+    },
+    folderId: {
+      propDefinition: [
+        monday,
+        "folderId",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
     },
     templateId: {

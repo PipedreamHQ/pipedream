@@ -71,11 +71,7 @@ Your source's ID is the value that starts with `dc_`. In this example: `dc_abc12
 
 Pipedream displays warnings below steps in certain conditions. These warnings do not stop the execution of your workflow, but can signal an issue you should be aware of.
 
-### This step was still trying to run code when the step ended. Make sure you await all Promises, or promisify callback functions.
-
-See the reference on [running asynchronous code on Pipedream](/code/nodejs/async/).
-
-## Pipedream Internal Errors
+## Limit Exceeded Errors
 
 Pipedream sets [limits](/limits/) on runtime, memory, and other execution-related properties. If you exceed these limits, you'll receive one of the errors below. [See the limits doc](/limits/) for details on specific limits.
 
@@ -84,6 +80,10 @@ Pipedream sets [limits](/limits/) on runtime, memory, and other execution-relate
 On the Free tier, Pipedream imposes a limit on the [daily credits](/limits/#daily-credits-limit) across all workflows and sources. If you hit this limit, you'll see a **Quota Exceeded** error.
 
 Paid plans have no credit limit. [Upgrade here](https://pipedream.com/pricing).
+
+### Runtime Quota Exceeded
+
+You **do not** use credits testing workflows, but workspaces on the **Free** plan are limited to {{$site.themeConfig.DAILY_TESTING_LIMIT}} of test runtime per day. If you exceed this limit when testing in the builder, you'll see a **Runtime Quota Exceeded** error.
 
 ### Timeout
 
@@ -145,3 +145,115 @@ Credit Budgets are configurable limits on your credit usage at the account or wo
 If you're receiving this warning on a source or workflow, this means your allocated Credit Budget has been reached for the defined period.
 
 You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).
+
+## Pipedream Internal Error
+
+A `Pipedream Internal Error` is thrown whenever there's an exception during the building or executing of a workflow that's outside the scope of the code for the individual components (steps or actions).
+
+There are a few known ways this can be caused and how to solve them.
+
+### Out of date actions or sources
+
+Pipedream components are updated continously. But when new versions of actions and sources are published to the Pipedream Component Registry, your workflows are not updated by default.
+
+[An **Update** prompt](/workflows/steps/actions/#updating-actions-to-the-latest-version) is shown in the in the top right of the action if the component has a new version available.
+
+Sources do not feature an update button at this time, to receive the latest version, you'll need to create a new source, then attach it to your workflow.
+
+### New package versions issues
+
+If an NPM or PyPI package throws an error during either the building of the workflow or during it's execution, it may cause a `Pipedream Internal Error`.
+
+By default, Pipedream automatically updates NPM and PyPI packages to the latest version available. This is designed to make sure your workflows receive the latest package updates automatically.
+
+However, if a new package version includes bugs, or changes it's export signature, then this may cause a `Pipedream Internal Error`.
+
+You can potentially fix this issue by downgrading packages by pinning in [your Node.js](/code/nodejs/#pinning-package-versions) or [Python code steps](/code/python/#pinning-package-versions) to the last known working version.
+
+Alternatively, if the error is due to a major release that changes the import signature of a package, then modifying your code to match the signature may help.
+
+:::warning Some Pipedream components use NPM packages
+
+Some Pipedream components like pre-built [actions and triggers for Slack use NPM packages](https://github.com/PipedreamHQ/pipedream/blob/9aea8653dc65d438d968971df72e95b17f52d51c/components/slack/slack.app.mjs#L1).
+
+In order to downgrade these packages, you'll need to fork the Pipedream Github Repository and deploy your own changes to test them privately. Then you can [contribute the fix back into the main Pipedream Repository](https://pipedream.com/docs/apps/contributing/#contribution-process).
+:::
+
+### Packages consuming all available storage
+
+A `Pipedream Internal Error` could be the result of NPM or PyPI packages using the entireity of the workflow's storage capacity.
+
+The `lodash` library for example will import the entire package if individual modules are imported with this type of signature:
+
+```javascript
+// This style of import will cause the entire lodash package to be installed, not just the pick module
+import { pick } from "lodash"
+```
+
+Instead, use the specific package that exports the `pick` module alone:
+
+```javascript
+// This style imports only the pick module, since the lodash.pick package only contains this module
+import pick from "lodash.pick"
+```
+
+## Code was still running when the step ended
+
+This error occurs when Promises or asynchronous code is not properly finished before the next step begins execution.
+
+See the [Asynchronous section of the Node.js documentation](/code/nodejs/async/#the-problem) for more details.
+
+
+## How do I contact Pipedream Support?
+
+Start by filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), providing detailed information about your issue.
+
+### How do I share my workflow with Support?
+
+First, navigate to your **Project Settings** and share your project with Pipedream Support.
+
+If your workflow is _not_ part of a Project, go to the **Workflow Settings** to grant access to us.
+
+When filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), please provide detailed information along with the URL from your browser's address bar, which should look something like:
+
+```
+https://pipedream.com/@yourworkspace/projects/yourproject/test-workflow-pabc123
+```
+
+## Frequently-asked questions
+
+### How do I resolve the error "Undeployed changes — You have made changes to this workflow. Deploy the latest version from the editor"
+
+On workflows that are not [synced with GitHub](/projects/git/), you may notice the following warning at the top of your workflow:
+
+> **Undeployed changes** — You have made changes to this workflow. Deploy the latest version from the editor
+
+This means that you've made some changes to your workflow that you haven't yet deployed. To see a diff of what's changed, we recommend [enabling GitHub sync](/projects/git/), where you'll get a full commit history of changes made to your workflows, synced to your own GitHub repo.
+
+### Is there a way to replay workflow events programmatically?
+
+Not today. Please upvote and add your feedback to [this GitHub issue](https://github.com/PipedreamHQ/pipedream/issues/2784).
+
+### How do I store and retrieve data across workflow executions?
+
+If you operate your own database or data store, you can connect to it directly in Pipedream.
+
+Pipedream also operates a [built-in key-value store](/data-stores/) that you can use to get and set data across workflow executions and different workflows.
+
+### How do I delay the execution of a workflow?
+
+Use Pipedream's [built-in Delay actions](/workflows/flow-control/#delay) to delay a workflow at any step.
+
+### How can I save common functions as steps?
+
+You can create your own custom triggers and actions ("components") on Pipedream using [the Component API](/components/api/). These components are private to your account and can be used in any workflow.
+
+You can also publish common functions in your own package on a public registry like [npm](https://www.npmjs.com/) or [PyPI](https://pypi.org/).
+
+### Is Puppeteer supported in Pipedream?
+
+Yes, see [our Puppeteer docs](/code/nodejs/browser-automation/#puppeteer) for more detail.
+
+### Is Playwright supported in Pipedream?
+
+Yes, see [our Puppeteer docs](/code/nodejs/browser-automation/#playwright) for more detail.

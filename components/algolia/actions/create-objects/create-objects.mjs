@@ -4,7 +4,7 @@ export default {
   key: "algolia-create-objects",
   name: "Create Objects",
   description: "Adds an array of JavaScript objects to the given index. [See docs here](https://www.algolia.com/doc/api-reference/api-methods/save-objects/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     algolia,
@@ -27,10 +27,17 @@ export default {
       default: true,
     },
   },
+  methods: {
+    parseObject(object) {
+      return (typeof object === "object")
+        ? object
+        : JSON.parse(object);
+    },
+  },
   async run({ $ }) {
     const parsedObjects = this.objects.length
-      ? this.objects.map((object) => JSON.parse(object))
-      : JSON.parse(this.objects);
+      ? this.objects.map((object) => this.parseObject(object))
+      : this.parseObject(this.objects);
 
     const response = await this.algolia.createObjects({
       indexName: this.indexName,

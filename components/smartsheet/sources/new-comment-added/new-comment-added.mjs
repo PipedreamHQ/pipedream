@@ -5,7 +5,7 @@ export default {
   key: "smartsheet-new-comment-added",
   name: "New Comment Added (Instant)",
   description: "Emit new event when a comment is added in a sheet.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -24,6 +24,9 @@ export default {
         summary: `Comment ${event.id} added`,
         ts: Date.parse(event.timestamp),
       };
+    },
+    async getResource(event) {
+      return this.smartsheet.getComment(this.sheetId, event.id);
     },
   },
 };

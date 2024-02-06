@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-contact-in-list",
   name: "New Contact in List",
   description: "Emit new event for each new contact in a list.",
-  version: "0.0.13",
+  version: "0.1.0",
   dedupe: "unique",
   type: "source",
   props: {
@@ -14,6 +14,12 @@ export default {
       propDefinition: [
         common.props.hubspot,
         "lists",
+      ],
+    },
+    properties: {
+      propDefinition: [
+        common.props.hubspot,
+        "contactProperties",
       ],
     },
   },
@@ -51,7 +57,7 @@ export default {
       };
     },
     async processResults() {
-      const properties = this._getProperties();
+      const properties = this.properties;
       for (let list of this.lists) {
         const params = this.getParams();
         let hasMore = true;

@@ -3,8 +3,8 @@ import googleCalendar from "../../google_calendar.app.mjs";
 export default {
   key: "google_calendar-list-events",
   name: "List Events",
-  description: "Retrieve a list of event from the Google Calendar. [See the docs here](https://developers.google.com/calendar/api/v3/reference/events/list)",
-  version: "0.0.1",
+  description: "Retrieve a list of event from the Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/list)",
+  version: "0.0.3",
   type: "action",
   props: {
     googleCalendar,

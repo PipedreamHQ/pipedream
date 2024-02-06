@@ -9,7 +9,7 @@ export default {
   name: "Create a meeting",
   description: "Create a new room in zoom. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate)",
   key: "zoom_admin-create-meeting",
-  version: "0.1.1",
+  version: "0.1.3",
   type: "action",
   props: {
     zoomAdmin,

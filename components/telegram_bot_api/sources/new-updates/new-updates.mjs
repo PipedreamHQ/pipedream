@@ -1,11 +1,12 @@
 import base from "../common/webhooks.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
   key: "telegram_bot_api-new-updates",
   name: "New Updates (Instant)",
   description: "Emit new event for each new Telegram event.",
-  version: "0.1.3",
+  version: "0.1.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -41,4 +42,5 @@ export default {
       this.$emit(event, this.getMeta(event));
     },
   },
+  sampleEmit,
 };

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/zoho_meeting",
+  "version": "0.1.0",
+  "description": "Pipedream Zoho Meeting Components",
+  "main": "zoho_meeting.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_meeting"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_meeting",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

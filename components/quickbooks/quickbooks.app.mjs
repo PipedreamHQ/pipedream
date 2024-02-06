@@ -14,7 +14,7 @@ export default {
           params: {
             query: `select * from invoice maxresults 10${page
               ? `startposition ${position}`
-              : "" } `,
+              : ""} `,
           },
         });
 
@@ -35,7 +35,7 @@ export default {
     lineItems: {
       label: "Line Items",
       type: "string[]",
-      description: "Individual line items of a transaction. Valid Line types include: `ItemBasedExpenseLine` and `AccountBasedExpenseLine`. One minimum line item required for the request to succeed. E.g `[ { \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } } ]`",
+      description: "Individual line items of a transaction. Valid Line types include: `ItemBasedExpenseLine` and `AccountBasedExpenseLine`. One minimum line item required for the request to succeed. E.g `[ { \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Meals and Entertainment\", \"value\": \"10\" } } } ]`",
     },
     customer: {
       label: "Customer Reference",
@@ -47,7 +47,7 @@ export default {
           params: {
             query: `select * from Customer maxresults 10${page
               ? `startposition ${position}`
-              : "" } `,
+              : ""} `,
           },
         });
 
@@ -79,7 +79,7 @@ export default {
           params: {
             query: `select * from companycurrency maxresults 10${page
               ? `startposition ${position}`
-              : "" } `,
+              : ""} `,
           },
         });
 
@@ -164,6 +164,29 @@ export default {
       description: "Family name or the last name of the person. The `DisplayName` attribute or at least one of `Title`, `GivenName`, `MiddleName`, `FamilyName`, or `Suffix` attributes is required for object create.",
       optional: true,
     },
+    purchaseId: {
+      label: "purchase Id",
+      type: "string",
+      description: "Id of the purchase.",
+      withLabel: true,
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Purchase: records } } = await this.query({
+          params: {
+            query: `select * from Purchase maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+
+        return records?.map(({
+          Id, PaymentType, SyncToken,
+        }) => ({
+          label: `${Id} - ${PaymentType}`,
+          value: `${Id}|${SyncToken}`,
+        })) || [];
+      },
+    },
     suffix: {
       label: "Suffix",
       type: "string",
@@ -181,8 +204,8 @@ export default {
     _apiUrl() {
       return "https://quickbooks.api.intuit.com/v3";
     },
-    async _makeRequest(path, options = {}, $ = undefined) {
-      return axios($ ?? this, {
+    async _makeRequest(path, options = {}, $ = this) {
+      return axios($, {
         url: `${this._apiUrl()}/${path}`,
         headers: {
           Authorization: `Bearer ${this._accessToken()}`,
@@ -217,6 +240,14 @@ export default {
         params,
       }, $);
     },
+    createPurchase({
+      $, ...args
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/purchase`, {
+        method: "POST",
+        ...args,
+      }, $);
+    },
     async createInvoice({
       $, data, params,
     }) {
@@ -224,6 +255,14 @@ export default {
         method: "post",
         data,
         params,
+      }, $);
+    },
+    async deletePurchase({
+      $, ...args
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/purchase`, {
+        method: "POST",
+        ...args,
       }, $);
     },
     async sparseUpdateInvoice({

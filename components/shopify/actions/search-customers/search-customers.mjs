@@ -1,10 +1,12 @@
 import shopify from "../../shopify.app.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "shopify-search-customers",
   name: "Search for Customers",
-  description: "Search for a customer or a list of customers. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[get]/admin/api/2022-01/customers.json)",
-  version: "0.0.8",
+  description: "Search for a customer or a list of customers. [See the documentation](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[get]/admin/api/2022-01/customers.json)",
+  version: "0.0.11",
   type: "action",
   props: {
     shopify,
@@ -20,18 +22,6 @@ export default {
         "max",
       ],
     },
-  },
-  async run({ $ }) {
-    let params = {
-      query: this.query,
-    };
-
-    let response = await this.shopify.getPaginatedResults(
-      this.shopify.searchCustomers,
-      params,
-      this.max,
-    );
-    $.export("$summary", `Found ${response.length} customer(s)`);
-    return response;
+    ...common.props,
   },
 };

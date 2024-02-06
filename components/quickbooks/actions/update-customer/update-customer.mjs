@@ -1,11 +1,11 @@
-import quickbooks from "../../quickbooks.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
   key: "quickbooks-update-customer",
   name: "Update Customer",
   description: "Updates a customer. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#full-update-a-customer)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     quickbooks,

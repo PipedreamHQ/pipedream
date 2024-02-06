@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  ConfigurationError, axios,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -179,26 +181,30 @@ export default {
         }
         let { startAt } = prevContext || {};
         const pageSize = 50;
-        const resp = await this.getTransitions({
-          cloudId,
-          issueIdOrKey,
-          params: {
-            startAt,
-            maxResults: pageSize,
-          },
-        });
-        startAt = startAt > 0
-          ? startAt + pageSize
-          : pageSize;
-        return {
-          options: resp?.transitions?.map((issue) => ({
-            value: issue.id,
-            label: issue.name,
-          })),
-          context: {
-            startAt,
-          },
-        };
+        try {
+          const resp = await this.getTransitions({
+            cloudId,
+            issueIdOrKey,
+            params: {
+              startAt,
+              maxResults: pageSize,
+            },
+          });
+          startAt = startAt > 0
+            ? startAt + pageSize
+            : pageSize;
+          return {
+            options: resp?.transitions?.map((issue) => ({
+              value: issue.id,
+              label: issue.name,
+            })),
+            context: {
+              startAt,
+            },
+          };
+        } catch {
+          return [];
+        }
       },
     },
     fields: {
@@ -250,7 +256,10 @@ export default {
         },
       });
       if (response?.webhookRegistrationResult[0]?.errors) {
-        throw new Error(`Could not create trigger(s). ${response.webhookRegistrationResult[0].errors}`);
+        throw new ConfigurationError(`Cannot create the webhook trigger because Jira only allows one active webhook at a time. This is most likely because you have an existing Jira webhook running in another workflow. You can reuse your existing source in your workflow or deactivate the existing source and try again.
+        
+        Error detail:
+        Could not create trigger(s). ${response.webhookRegistrationResult[0].errors}`);
       }
       return {
         hookId: response?.webhookRegistrationResult[0]?.createdWebhookId,

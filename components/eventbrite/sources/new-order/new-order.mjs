@@ -5,7 +5,7 @@ export default {
   key: "eventbrite-new-order",
   name: "New Order (Instant)",
   description: "Emit new event when an order has been placed",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   type: "source",
   methods: {

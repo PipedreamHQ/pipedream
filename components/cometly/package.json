@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/cometly",
+  "version": "0.1.0",
+  "description": "Pipedream Cometly Components",
+  "main": "cometly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cometly"
+  ],
+  "homepage": "https://pipedream.com/apps/cometly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

@@ -1,4 +1,5 @@
 import { defineAction } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 import {
   CASE_OPTIONS, CASE_OPTIONS_PROP,
 } from "../../common/text/caseOptions";
@@ -8,7 +9,7 @@ export default defineAction({
   name: "[Text] Transform Case",
   description: "Transform case for a text input",
   key: "formatting-transform-case",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
@@ -29,11 +30,15 @@ export default defineAction({
       input, operation,
     } = this;
 
-    const { outputFn } = CASE_OPTIONS.find(({ value }) => value === operation);
+    try {
+      const { outputFn } = CASE_OPTIONS.find(({ value }) => value === operation);
 
-    const result = outputFn(input);
+      const result = outputFn(input);
 
-    $.export("$summary", "Successfully transformed text case");
-    return result;
+      $.export("$summary", "Successfully transformed text case");
+      return result;
+    } catch (err) {
+      throw new ConfigurationError("**Parse error** - check your input and if the selected operation is correct.");
+    }
   },
 });

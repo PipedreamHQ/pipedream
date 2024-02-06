@@ -1,10 +1,12 @@
 import app from "../../common/rest-admin.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "shopify-create-blog",
   name: "Create Blog",
   description: "Create a new blog. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/blog#post-blogs)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
@@ -15,29 +17,5 @@ export default {
         "title",
       ],
     },
-  },
-  methods: {
-    createBlog(args = {}) {
-      return this.app.post({
-        path: "/blogs",
-        ...args,
-      });
-    },
-  },
-  async run({ $: step }) {
-    const { title } = this;
-
-    const response = await this.createBlog({
-      step,
-      data: {
-        blog: {
-          title,
-        },
-      },
-    });
-
-    step.export("$summary", `Created new page with ID ${response.blog.id}`);
-
-    return response;
   },
 };

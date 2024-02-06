@@ -27,7 +27,7 @@ export default {
       }
       return Date.parse(resource.createdDateTime) > lastCreated;
     },
-    async getNewPaginatedResources(fn, params, max, lastCreated) {
+    async getNewPaginatedResources(fn, params, lastCreated) {
       const resources = [];
       const paginator = this.paginate(fn, params);
 
@@ -35,9 +35,6 @@ export default {
         const isNewResource = this.isNew(resource, lastCreated);
         if (isNewResource) {
           resources.push(resource);
-        }
-        if (!isNewResource || resources.length >= max) {
-          break;
         }
       }
       return resources;

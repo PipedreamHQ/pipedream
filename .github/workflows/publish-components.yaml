@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.2
-      - uses: pnpm/action-setup@v2.2.4
+        uses: actions/checkout@v4.1.1
+      - uses: pnpm/action-setup@v2.4.0
         with:
-          version: 7.22.0
+          version: 7.33.6
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r --no-frozen-lockfile
       - name: Setup Node Env
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v4.0.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -37,11 +37,13 @@ jobs:
       - name: Install pd cli
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
+          PD_ORG_ID: ${{ secrets.PD_ORG_ID }}
         run: |
           curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
           unzip pd.zip
           mkdir -p $HOME/.config/pipedream
           echo "api_key = $PD_API_KEY" > $HOME/.config/pipedream/config
+          echo "org_id = $PD_ORG_ID" >> $HOME/.config/pipedream/config
       - name: Get Changed Files
         id: files
         uses: jitterbit/get-changed-files@v1
@@ -51,6 +53,7 @@ jobs:
         id: publish
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
+          PD_ORG_ID: ${{ secrets.PD_ORG_ID }}
           ENDPOINT: ${{ secrets.ENDPOINT }}
         shell: bash {0} # don't fast fail
         run: |
@@ -64,7 +67,7 @@ jobs:
           # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
           # doesn't end with /common*.*js, and doesn't follow */common/
           if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]] \
-              && [[ $added_modified_file != */common*.*js ]] && [[ $added_modified_file != */common/* ]]
+              && [[ $added_modified_file != */common*.*js ]] && [[ $added_modified_file != */common/* ]] && [[ $added_modified_file != components/*/test-event.mjs ]]
             then
               echo "retrieving previous version for ${added_modified_file}"
               KEY=`echo $added_modified_file | tr '/' ' ' | awk '{ print $2 "-" $4 }'`
@@ -77,7 +80,7 @@ jobs:
                 KEY=`echo $PD_OUTPUT | jq -r ".key"`
                 echo "published ${KEY}"
                 echo "${KEY} will be added to the registry"
-                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'"}}'
+                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String, $orgId: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath, orgId: $orgId){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'","orgId":"'${PD_ORG_ID}'"}}'
                 [[ "$PREV_VERSION" == "null" ]] && PUBLISHED+="*${added_modified_file}" || PUBLISHED+="*${added_modified_file}~$PREV_VERSION"
               else
                 ERROR=`echo $PD_OUTPUT | jq -r ".error"`
@@ -112,15 +115,15 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.2
-      - uses: pnpm/action-setup@v2.2.4
+        uses: actions/checkout@v4.1.1
+      - uses: pnpm/action-setup@v2.4.0
         with:
-          version: 7.22.0
+          version: 7.33.6
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -128,7 +131,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v4.0.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -138,11 +141,13 @@ jobs:
       - name: Install pd cli
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
+          PD_ORG_ID: ${{ secrets.PD_ORG_ID }}
         run: |
           curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
           unzip pd.zip
           mkdir -p $HOME/.config/pipedream
           echo "api_key = $PD_API_KEY" > $HOME/.config/pipedream/config
+          echo "org_id = $PD_ORG_ID" >> $HOME/.config/pipedream/config
       - name: Compile TypeScript
         id: compile
         run: npm run build > files.txt
@@ -153,8 +158,9 @@ jobs:
           format: 'csv'
       - name: Publish TypeScript components (dry run)
         env:
-            PD_API_KEY: ${{ secrets.PD_API_KEY }}
-            ENDPOINT: ${{ secrets.ENDPOINT }}
+          PD_API_KEY: ${{ secrets.PD_API_KEY }}
+          PD_ORG_ID: ${{ secrets.PD_ORG_ID }}
+          ENDPOINT: ${{ secrets.ENDPOINT }}
         shell: bash {0} # don't fast fail
         run: |
           IFS=$'\n'
@@ -211,7 +217,7 @@ jobs:
                   KEY=`echo $PD_OUTPUT | jq -r ".key"`
                   echo "published ${KEY}"
                   echo "${KEY} will be added to the registry"
-                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${changed_output_file}'"}}'
+                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String, $orgId: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath, orgId: $orgId){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'","orgId":"'${PD_ORG_ID}'"}}'
                   [[ "$PREV_VERSION" == "null" ]] && PUBLISHED+="*${changed_output_file}" || PUBLISHED+="*${changed_output_file}~$PREV_VERSION"
                 else
                   ERROR=`echo $PD_OUTPUT | jq -r ".error"`

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/spreadsheet_com",
+  "version": "0.1.0",
+  "description": "Pipedream Spreadsheet.com Components",
+  "main": "spreadsheet_com.app.mjs",
+  "keywords": [
+    "pipedream",
+    "spreadsheet_com"
+  ],
+  "homepage": "https://pipedream.com/apps/spreadsheet_com",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "moment": "^2.29.4",
+    "@pipedream/platform": "^1.5.1"
+  }
+}

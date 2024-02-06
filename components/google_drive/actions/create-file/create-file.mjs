@@ -1,13 +1,13 @@
 import googleDrive from "../../google_drive.app.mjs";
 import fs from "fs";
-import got from "got";
+import got from "got@13.0.0";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "google_drive-create-file",
   name: "Create a New File",
   description: "Create a new file from a URL or /tmp/filepath. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.1.0",
+  version: "0.1.3",
   type: "action",
   props: {
     googleDrive,

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/zoho_sprints",
+  "version": "0.1.0",
+  "description": "Pipedream Zoho Sprints Components",
+  "main": "zoho_sprints.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_sprints"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_sprints",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

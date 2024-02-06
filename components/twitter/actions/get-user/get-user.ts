@@ -1,4 +1,5 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
   getUserId, getUserFields,
@@ -12,21 +13,23 @@ const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-id";
 
 export default defineAction({
+  ...common,
   key: "twitter-get-user",
   name: "Get User",
-  description: `Get information about a user. [See docs here](${DOCS_LINK})`,
-  version: "1.1.2",
+  description: `Get information about a user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.7",
   type: "action",
   props: {
-    app,
+    ...common.props,
     userNameOrId: {
       propDefinition: [
-        app,
+        common.props.app,
         "userNameOrId",
       ],
     },
   },
   methods: {
+    ...common.methods,
     getUserId,
     getUserFields,
   },
@@ -35,6 +38,7 @@ export default defineAction({
     const params = {
       $,
       params: this.getUserFields(),
+      fallbackError: ACTION_ERROR_MESSAGE,
     };
     if (this.userNameOrId === "me") {
       response = await this.app.getAuthenticatedUser(params);
@@ -43,7 +47,10 @@ export default defineAction({
       response = await this.app.getUser(params);
     }
 
-    $.export("$summary", `Successfully retrieved user "${(response.data as User)?.username}"`);
+    $.export(
+      "$summary",
+      `Successfully retrieved user "${(response.data as User)?.username}"`,
+    );
 
     return response;
   },

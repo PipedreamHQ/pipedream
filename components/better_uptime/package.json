@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/better_uptime",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Better Uptime Components",
   "main": "dist/app/better_uptime.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/better_uptime",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

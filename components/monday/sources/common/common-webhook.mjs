@@ -65,7 +65,7 @@ export default {
       };
     },
     async commonDeploy() {
-      const { items } = (await this.monday.listItemsBoard({
+      const { items_page: { items } } = (await this.monday.listItemsBoard({
         boardId: +this.boardId,
       })).data.boards[0];
       for (const item of items.slice(-25).reverse()) {
@@ -76,7 +76,9 @@ export default {
         const meta = this.generateMeta({
           item,
         });
-        this.$emit(itemData, meta);
+        this.$emit({
+          item: itemData,
+        }, meta);
       }
     },
   },

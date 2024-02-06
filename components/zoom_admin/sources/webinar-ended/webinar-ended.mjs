@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "Webinar Ended",
   description: "Emits an event each time a webinar ends in your Zoom account",
-  version: "0.1.1",
+  version: "0.1.3",
   dedupe: "unique", // Dedupe based on webinar ID
   props: {
     zoomAdmin,

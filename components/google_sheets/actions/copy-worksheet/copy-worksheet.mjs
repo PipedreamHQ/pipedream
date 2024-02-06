@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-copy-worksheet",
   name: "Copy Worksheet",
   description: "Copy an existing worksheet to another Google Sheets file",
-  version: "0.1.0",
+  version: "0.1.2",
   type: "action",
   props: {
     googleSheets,

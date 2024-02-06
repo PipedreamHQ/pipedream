@@ -1,11 +1,13 @@
 import base from "../common/webhooks.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
   key: "telegram_bot_api-channel-updates",
   name: "New Channel Updates (Instant)",
   description: "Emit new event each time a channel post is created or updated.",
-  version: "0.1.3",
+  version: "0.1.5",
+
   type: "source",
   dedupe: "unique",
   methods: {
@@ -33,4 +35,5 @@ export default {
       this.$emit(event, this.getMeta(event, channelPost));
     },
   },
+  sampleEmit,
 };

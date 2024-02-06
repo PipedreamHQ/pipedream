@@ -1,10 +1,12 @@
 import shopify from "../../shopify.app.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "shopify-search-custom-collection-by-name",
   name: "Search Custom Collection by Name",
-  description: "Search for a custom collection by name/title. [See the docs](https://shopify.dev/docs/api/admin-rest/2023-01/resources/customcollection#get-custom-collections)",
-  version: "0.0.1",
+  description: "Search for a custom collection by name/title. [See the documentation](https://shopify.dev/docs/api/admin-rest/2023-01/resources/customcollection#get-custom-collections)",
+  version: "0.0.4",
   type: "action",
   props: {
     shopify,
@@ -15,34 +17,6 @@ export default {
       ],
       description: "The name of the custom collection",
     },
-    exactMatch: {
-      type: "boolean",
-      label: "Exact Match",
-      description: "The custom collection title search should be an exact match",
-      optional: true,
-      default: false,
-    },
-  },
-  async run({ $ }) {
-    const {
-      title,
-      exactMatch,
-    } = this;
-
-    const params = {};
-    if (exactMatch) {
-      params.title = title;
-    }
-
-    let collections = await this.shopify.getObjects("customCollection", params);
-
-    if (!exactMatch) {
-      const lowerCaseTitle = title.toLowerCase();
-      collections = collections.filter(({ title }) =>
-        title.toLowerCase().includes(lowerCaseTitle));
-    }
-
-    $.export("$summary", `Found ${collections.length} collection(s) matching search criteria.`);
-    return collections;
+    ...common.props,
   },
 };

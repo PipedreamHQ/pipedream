@@ -1,14 +1,12 @@
 import dropbox from "../../dropbox.app.mjs";
-import common from "../common/common.mjs";
 import fs from "fs";
 import { file } from "tmp-promise";
 
 export default {
-  ...common,
   name: "Download File to TMP",
   description: "Download a specific file to the temporary directory. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDownload__anchor).",
   key: "dropbox-download-file-to-tmp",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     dropbox,
@@ -28,7 +26,7 @@ export default {
   },
   async run({ $ }) {
     const { result } = await this.dropbox.downloadFile({
-      path: this.getNormalizedPath(this.path, false),
+      path: this.dropbox.getNormalizedPath(this.path, false),
     });
 
     const {

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/google_chat",
+  "version": "0.0.2",
+  "description": "Pipedream Google Chat Components",
+  "main": "google_chat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_chat"
+  ],
+  "homepage": "https://pipedream.com/apps/google_chat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

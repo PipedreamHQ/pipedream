@@ -1,18 +1,8 @@
 # Bash
 
-Prefer to write quick scripts in Bash? We've got you covered.
+Prefer to write quick scripts in Bash? We've got you covered. You can run any Bash in a Pipedream step within your workflows.
 
-You can run any Bash in a Pipedream step within your workflows.
-
-::: warning
-Bash steps are in **beta**. There might be changes while we prepare it for a full release.
-
-You can still run Bash scripts, [share data between steps](/code/bash/#sharing-data-between-steps), and [access environment variables](/code/bash/#using-environment-variables).
-
-However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time.
-
-If you have any feedback on the Bash runtime, please let us know in [our community](https://pipedream.com/support).
-:::
+Within a Bash step, you can [share data between steps](/code/bash/#sharing-data-between-steps) and [access environment variables](/code/bash/#using-environment-variables). But you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time.
 
 ## Adding a Bash code step
 
@@ -68,7 +58,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger via a P
 In our Bash script, we can access this data via the `$PIPEDREAM_STEPS` file. Specifically, this data from the POST request into our workflow is available in the `trigger` object.
 
 ```bash
-echo $PIPEDREAM_STEPS | jq .trigger.event
+cat $PIPEDREAM_STEPS | jq .trigger.event
 
 # Results in { id: 1, name: "Bulbasaur", type: "plant" }
 ```

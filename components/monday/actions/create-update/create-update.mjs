@@ -4,9 +4,9 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-create-update",
   name: "Create an Update",
-  description: "Creates a new update. [See the docs here](https://api.developer.monday.com/docs/updates-queries#create-an-update)",
+  description: "Creates a new update. [See the documentation](https://api.developer.monday.com/docs/updates-queries#create-an-update)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.7",
   props: {
     monday,
     updateBody: {

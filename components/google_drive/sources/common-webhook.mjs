@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 
 import googleDrive from "../google_drive.app.mjs";
 import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../constants.mjs";
+import { getListFilesOpts } from "../common/utils.mjs";
 
 export default {
   props: {
@@ -95,6 +96,12 @@ export default {
     },
     getDriveId(drive = this.drive) {
       return googleDrive.methods.getDriveId(drive);
+    },
+    getListFilesOpts(args = {}) {
+      return getListFilesOpts(this.drive, {
+        q: "mimeType != 'application/vnd.google-apps.folder' and trashed = false",
+        ...args,
+      });
     },
     /**
      * This method returns the types of updates/events from Google Drive that

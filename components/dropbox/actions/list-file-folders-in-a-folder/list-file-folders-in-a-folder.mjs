@@ -4,7 +4,7 @@ export default {
   name: "List All Files/Subfolders in a Folder",
   description: "Retrieves a list of files or subfolders in a specified folder [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesListFolder__anchor)",
   key: "dropbox-list-file-folders-in-a-folder",
-  version: "0.0.5",
+  version: "0.0.8",
   type: "action",
   props: {
     dropbox,
@@ -63,7 +63,7 @@ export default {
       includeNonDownloadableFiles,
     } = this;
     const res = await this.dropbox.listFilesFolders({
-      path: path?.value || path,
+      path: this.dropbox.getPath(path),
       recursive,
       include_deleted: includeDeleted,
       include_has_explicit_shared_members: includeHasExplicitSharedMembers,

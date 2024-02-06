@@ -1,44 +1,48 @@
-// legacy_hash_id: a_8Ki7G7
-import Client from "ssh2-sftp-client";
+import app from "../../sftp.app.mjs";
+import fs from "fs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "sftp-upload-file",
-  name: "Upload String as File",
-  description: "Uploads a UTF-8 string as a file on an SFTP server",
-  version: "0.1.1",
+  name: "Upload File",
+  description: "Uploads a file or string in UTF-8 format to the SFTP server. [See the documentation](https://github.com/theophilusx/ssh2-sftp-client#org99d1b64)",
+  version: "0.2.0",
   type: "action",
   props: {
-    sftp: {
-      type: "app",
-      app: "sftp",
+    app,
+    file: {
+      propDefinition: [
+        app,
+        "file",
+      ],
     },
     data: {
       type: "string",
-      description: "A UTF-8 string to upload as a file on the remote server.",
+      label: "Data",
+      description: "Upload a string in UTF-8 format to the remote server.",
+      optional: true,
     },
     remotePath: {
       type: "string",
       label: "Remote Path",
-      description: "The path to the remote file to be created on the server.",
+      description: "The path on the sftp server for store the data. e.g. `./uploads/my-file.txt`",
     },
   },
   async run({ $ }) {
-    const {
-      host,
-      username,
-      privateKey,
-    } = this.sftp.$auth;
+    if (!this.data && !this.file) {
+      throw new ConfigurationError("Either `Data` or `File` must be provided.");
+    }
 
-    const config = {
-      host,
-      username,
-      privateKey,
-    };
+    const buffer = this.file ?
+      fs.readFileSync(this.file) :
+      Buffer.from(this.data);
 
-    const sftp = new Client();
+    const response = await this.app.put({
+      buffer: buffer,
+      remotePath: this.remotePath,
+    });
 
-    await sftp.connect(config);
-    $.export("putResponse", await sftp.put(Buffer.from(this.data), this.remotePath));
-    await sftp.end();
+    $.export("$summary", "Successfully uploaded data stream");
+    return response;
   },
 };

@@ -91,7 +91,7 @@ export default {
       };
     },
   },
-  async run() {
+  async run({ $ }) {
     let blocks = this.blocks;
 
     if (!blocks) {
@@ -167,7 +167,8 @@ export default {
       obj.post_at = this.post_at;
       return await this.slack.sdk().chat.scheduleMessage(obj);
     }
-
-    return await this.slack.sdk().chat.postMessage(obj);
+    const resp = await this.slack.sdk().chat.postMessage(obj);
+    $.export("$summary", "Successfully sent a message to channel ID " + resp.channel);
+    return resp;
   },
 };

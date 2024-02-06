@@ -1,10 +1,10 @@
 const VERSION_PATH = "rest";
 const BASE_URL = "https://api.linkedin.com/";
-const VERSION_HEADER = "202206";
+const VERSION_HEADER = "202309";
 
 const VISIBILITIES = [
   {
-    label: "Connections",
+    label: "Only my connections",
     value: "CONNECTIONS",
   },
   {
@@ -12,7 +12,7 @@ const VISIBILITIES = [
     value: "PUBLIC",
   },
   {
-    label: "Logged in",
+    label: "Logged-in users only",
     value: "LOGGED_IN",
   },
 ];

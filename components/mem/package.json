@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mem",
+  "version": "0.1.0",
+  "description": "Pipedream Mem Components",
+  "main": "mem.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mem"
+  ],
+  "homepage": "https://pipedream.com/apps/mem",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

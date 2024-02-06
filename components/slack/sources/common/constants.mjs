@@ -46,6 +46,9 @@ const ALLOWED_MESSAGE_IN_CHANNEL_SUBTYPES = [
   SUBTYPE.MESSAGE_REPLIED,
 ];
 
+export const NAME_CACHE_MAX_SIZE = 1000;
+export const NAME_CACHE_TIMEOUT = 3600000;
+
 export default {
   events,
   eventsOptions,

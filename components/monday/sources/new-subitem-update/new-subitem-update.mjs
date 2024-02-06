@@ -6,7 +6,7 @@ export default {
   name: "New Sub-Item Update (Instant)",
   description: "Emit new event when an update is posted in sub-items. To create this trigger, you need to have at least one subitem previously created on your board.",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,

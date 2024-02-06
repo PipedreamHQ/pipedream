@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-ticket",
   name: "New Tickets",
   description: "Emit new event for each new ticket created.",
-  version: "0.0.10",
+  version: "0.0.12",
   dedupe: "unique",
   type: "source",
   hooks: {},

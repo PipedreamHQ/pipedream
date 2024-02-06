@@ -3,13 +3,7 @@ short_description: Store and read data with data stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
 ---
 
-:::warning
-
-This feature is in **beta**. There might be changes while we prepare it for a full release.
-
-If you have any feedback on the Python runtime, please let us know in [our community](https://pipedream.com/support).
-
-:::
+# Using Data Stores
 
 You can store and retrieve data from [Data Stores](/data-stores/) in Python without connecting to a 3rd party database.
 
@@ -106,7 +100,7 @@ def handler(pd: "pipedream"):
     last_ran_at = data_store["last_ran_at"]
 
     # Print the timestamp
-    print(f"Last ran at {last_ran_at")
+    print(f"Last ran at {last_ran_at}")
 ```
 
 Alternatively, use the `data_store.get()` method to retrieve a specific key's contents:
@@ -120,7 +114,7 @@ def handler(pd: "pipedream"):
     last_ran_at = data_store.get("last_ran_at")
 
     # Print the timestamp
-    print(f"Last ran at {last_ran_at")
+    print(f"Last ran at {last_ran_at}")
 ```
 
 ::: tip
@@ -130,7 +124,8 @@ What's the difference between `data_store["key"]` and `data_store.get("key")`?
 - `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the Data Store.
 - `data_store.get("key")` will instead return `None` if the key doesn't exist in the Data Store.
 - `data_store.get("key", "default_value")` will return `"default_value"` if the key doesn't exist on the Data Store.
-- :::
+
+:::
 
 ### Retrieving all records
 
@@ -307,12 +302,6 @@ def handler(pd: "pipedream"):
       data_store["emails"] = emails
       return new_email
 ```
-
-## Data store limitations
-
-Data stores are in beta. There may be changes to this feature while we prepare it for a full release.
-
-Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
 
 ### Supported data types
 

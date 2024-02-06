@@ -1,9 +1,9 @@
 import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
-import isNil from "lodash/isNil.js";
 import isArray from "lodash/isArray.js";
-import isString from "lodash/isString.js";
 import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
+import isString from "lodash/isString.js";
 import { promisify } from "util";
 import {
   ITEM_TYPES,
@@ -355,6 +355,12 @@ export default {
       default:
         return item.name;
       }
+    },
+    async getPlaylist({
+      playlistId, params,
+    }) {
+      const res = await this._makeRequest("GET", `/playlists/${playlistId}`, params);
+      return get(res, "data", {});
     },
     async getPlaylists(params) {
       const res = await this._makeRequest("GET", "/me/playlists", params);

@@ -1,5 +1,5 @@
 import twilio from "../../twilio.app.mjs";
-import got from "got";
+import got from "got@13.0.0";
 import stream from "stream";
 import { promisify } from "util";
 import fs from "fs";
@@ -8,7 +8,7 @@ export default {
   key: "twilio-download-recording-media",
   name: "Download Recording Media",
   description: "Download a recording media file. [See the docs](https://www.twilio.com/docs/voice/api/recording#fetch-a-recording-media-file) for more information",
-  version: "0.1.2",
+  version: "0.1.4",
   type: "action",
   props: {
     twilio,

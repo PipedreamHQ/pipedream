@@ -1,11 +1,12 @@
 import discord from "../../discord.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   type: "source",
   key: "discord-new-command-received",
   name: "New Command Received (Instant)",
   description: "Emit new event for each command posted to one or more channels in a Discord server",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     discord,
@@ -50,4 +51,5 @@ export default {
       ts: Date.parse(event.createdTimestamp),
     });
   },
+  sampleEmit,
 };

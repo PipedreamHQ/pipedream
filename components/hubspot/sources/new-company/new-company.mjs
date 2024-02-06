@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-company",
   name: "New Companies",
   description: "Emit new event for each new company added.",
-  version: "0.0.13",
+  version: "0.0.15",
   dedupe: "unique",
   type: "source",
   hooks: {},

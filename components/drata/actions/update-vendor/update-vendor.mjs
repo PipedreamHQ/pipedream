@@ -6,7 +6,7 @@ export default {
   key: "drata-update-vendor",
   name: "Update Vendor",
   description: `Update a Vendor. [See the documentation](${docsLink}).`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     drata,

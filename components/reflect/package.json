@@ -1,17 +1,18 @@
 {
   "name": "@pipedream/reflect",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Pipedream Reflect Components",
-  "main": "dist/app/reflect.app.mjs",
+  "main": "reflect.app.mjs",
   "keywords": [
     "pipedream",
     "reflect"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/reflect",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

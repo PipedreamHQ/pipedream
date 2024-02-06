@@ -41,6 +41,10 @@ Referencing an environment variable that doesn't exist returns the value `undefi
 Logging the value of any environment variables — for example, using `console.log` — will include that value in the logs associated with the cell. Please keep this in mind and take care not to print the values of sensitive secrets.
 :::
 
+::: tip
+`process.env` will always return `undefined` when used outside of the `defineComponent` export.
+:::
+
 ## Referencing environment variables in actions
 
 [Actions](/components#actions) are pre-built code steps that let you provide input in a form, selecting the correct params to send to the action.

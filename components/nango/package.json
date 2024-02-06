@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/nango",
+  "version": "0.1.0",
+  "description": "Pipedream Nango Components",
+  "main": "nango.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nango"
+  ],
+  "homepage": "https://pipedream.com/apps/nango",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,4 +1,5 @@
 import cronParser from "cron-parser";
+import sampleEmit from "./test-event.mjs";
 import includes from "lodash/includes.js";
 import { v4 as uuid } from "uuid";
 
@@ -16,7 +17,7 @@ export default {
   key: "google_drive-changes-to-specific-files",
   name: "Changes to Specific Files",
   description: "Watches for changes to specific files, emitting an event any time a change is made to one of those files. To watch for changes to [shared drive](https://support.google.com/a/users/answer/9310351) files, use the **Changes to Specific Files (Shared Drive)** source instead.",
-  version: "0.1.0",
+  version: "0.1.3",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -223,4 +224,5 @@ export default {
 
     this.processChange(file, headers);
   },
+  sampleEmit,
 };

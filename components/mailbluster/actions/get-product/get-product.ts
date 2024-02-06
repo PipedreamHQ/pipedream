@@ -3,9 +3,9 @@ import mailbluster from "../../app/mailbluster.app";
 export default {
   key: "mailbluster-get-product",
   name: "Get Product",
-  description: "Get a specific product. [See the docs here](https://app.mailbluster.com/api-doc/products/read)",
+  description: "Get a specific product. [See the documentation](https://app.mailbluster.com/api-doc/products/read)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     mailbluster,
     productId: {

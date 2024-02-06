@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/_twocaptcha",
+  "version": "0.0.1",
+  "description": "Pipedream twocaptcha Components",
+  "main": "dist/app/_twocaptcha.app.mjs",
+  "keywords": [
+    "pipedream",
+    "_twocaptcha"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/_twocaptcha",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

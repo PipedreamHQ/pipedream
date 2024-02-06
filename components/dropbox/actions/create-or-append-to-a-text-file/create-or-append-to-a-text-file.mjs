@@ -1,11 +1,10 @@
 import dropbox from "../../dropbox.app.mjs";
-import common from "../common/common.mjs";
 
 export default {
   name: "Create or Append to a Text File",
   description: "Adds a new line to an existing text file, or creates a file if it doesn't exist. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-create-or-append-to-a-text-file",
-  version: "0.0.5",
+  version: "0.0.8",
   type: "action",
   props: {
     dropbox,
@@ -29,7 +28,6 @@ export default {
     },
   },
   methods: {
-    ...common.methods,
     async getFileInfo(path, content) {
       let file;
       try {
@@ -67,7 +65,7 @@ export default {
       path,
     } = this;
 
-    const normalizedPath = this.getNormalizedPath(path, true) + name;
+    const normalizedPath = this.dropbox.getNormalizedPath(path, true) + name;
     const {
       fileExists,
       content: normalizedContent,

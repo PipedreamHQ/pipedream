@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-deal",
   name: "New Deals",
   description: "Emit new event for each new deal created. [See the docs here](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.14",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
   props: {

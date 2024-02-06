@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/metaphor",
+  "version": "0.1.0",
+  "description": "Pipedream Metaphor Components",
+  "main": "metaphor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "metaphor"
+  ],
+  "homepage": "https://pipedream.com/apps/metaphor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

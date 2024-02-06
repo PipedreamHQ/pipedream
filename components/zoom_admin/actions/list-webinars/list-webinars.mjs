@@ -1,39 +1,23 @@
+import { paginate } from "../../common/pagination.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   name: "List Webinars",
   description: "List all webinars for a user. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinars)",
   key: "zoom_admin-list-webinars",
-  version: "0.1.1",
+  version: "0.2.0",
   type: "action",
   props: {
     zoomAdmin,
-    pageSize: {
-      propDefinition: [
-        zoomAdmin,
-        "pageSize",
-      ],
-    },
-    pageNumber: {
-      propDefinition: [
-        zoomAdmin,
-        "pageNumber",
-      ],
-    },
   },
   async run ({ $ }) {
-    const res = await axios($, this.zoomAdmin._getAxiosParams({
-      method: "GET",
-      path: "/users/me/webinars",
-      params: {
-        page_size: this.pageSize,
-        page_number: this.pageNumber,
-      },
-    }));
+    const data = await paginate(
+      this.zoomAdmin.listWebinars,
+      "webinars",
+    );
 
-    $.export("$summary", "Webinars successfully fetched");
+    $.export("$summary", `${data.length} Webinar(s) successfully fetched`);
 
-    return res;
+    return data;
   },
 };

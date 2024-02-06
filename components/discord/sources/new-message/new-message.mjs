@@ -1,11 +1,13 @@
 import discord from "../../discord.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   type: "source",
   key: "discord-new-message",
   name: "New Message (Instant)",
   description: "Emit new event for each message posted to one or more channels in a Discord server",
-  version: "1.0.1",
+  version: "1.0.2",
+
   dedupe: "unique",
   props: {
     discord,
@@ -32,4 +34,5 @@ export default {
       id: event.id,
     });
   },
+  sampleEmit,
 };

@@ -5,7 +5,7 @@ export default {
   key: "eventbrite-new-attendee-checkin",
   name: "New Attendee Check-In (Instant)",
   description: "Emit new event when an attendee checks in to an event",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   type: "source",
   methods: {

@@ -1,6 +1,6 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
 import fs from "fs";
-import got from "got";
+import got from "got@13.0.0";
 import stream from "stream";
 import { promisify } from "util";
 import FormData from "form-data";
@@ -9,7 +9,7 @@ export default {
   key: "cloudflare_api_key-import-dns-records",
   name: "Import DNS Records",
   description: "Import a BIND config into a zone. [See the docs here](https://api.cloudflare.com/#dns-records-for-a-zone-import-dns-records)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     cloudflare,

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/lnk_bio",
+  "version": "0.1.0",
+  "description": "Pipedream Lnk.Bio Components",
+  "main": "lnk_bio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lnk_bio"
+  ],
+  "homepage": "https://pipedream.com/apps/lnk_bio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "1.5.1"
+  }
+}

@@ -20,11 +20,28 @@ export default {
   key: "google_drive-new-or-modified-folders",
   name: "New or Modified Folders",
   description: "Emit new event any time any folder in your linked Google Drive is added, modified, or deleted",
-  version: "0.1.0",
+  version: "0.1.2",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
+  hooks: {
+    async deploy() {
+      const daysAgo = new Date();
+      daysAgo.setDate(daysAgo.getDate() - 30);
+      const timeString = daysAgo.toISOString();
+
+      const args = this.getListFilesOpts({
+        q: `mimeType = "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
+        fields: "files(id, mimeType)",
+      });
+
+      const { files } = await this.googleDrive.listFilesInPage(null, args);
+
+      await this.processChanges(files);
+    },
+    ...common.hooks,
+  },
   methods: {
     ...common.methods,
     _getLastModifiedTimeForFile(fileId) {
@@ -51,6 +68,21 @@ export default {
         ts,
       };
     },
+    async getChanges(headers) {
+      if (!headers) {
+        return;
+      }
+      const resourceUri = headers["x-goog-resource-uri"];
+      const metadata = await this.googleDrive.getFileMetadata(`${resourceUri}&fields=*`);
+      return {
+        ...metadata,
+        change: {
+          state: headers["x-goog-resource-state"],
+          resourceURI: headers["x-goog-resource-uri"],
+          changed: headers["x-goog-changed"], // "Additional details about the changes. Possible values: content, parents, children, permissions"
+        },
+      };
+    },
     async processChanges(changedFiles, headers) {
       const files = changedFiles.filter(
         // API docs that define Google Drive folders:
@@ -67,18 +99,14 @@ export default {
         const modifiedTime = Date.parse(fileInfo.modifiedTime);
         if (lastModifiedTimeForFile == modifiedTime) continue;
 
-        const metadata = await this.googleDrive.getFileMetadata(`${headers["x-goog-resource-uri"]}&fields=*`);
+        const changes = await this.getChanges(headers);
 
         const eventToEmit = {
-          file,
-          ...metadata,
-          change: {
-            state: headers["x-goog-resource-state"],
-            resourceURI: headers["x-goog-resource-uri"],
-            changed: headers["x-goog-changed"], // "Additional details about the changes. Possible values: content, parents, children, permissions"
-          },
+          file: fileInfo,
+          ...changes,
         };
-        const meta = this.generateMeta(file, modifiedTime);
+        const meta = this.generateMeta(fileInfo, modifiedTime);
+
         this.$emit(eventToEmit, meta);
 
         this._setModifiedTimeForFile(file.id, modifiedTime);

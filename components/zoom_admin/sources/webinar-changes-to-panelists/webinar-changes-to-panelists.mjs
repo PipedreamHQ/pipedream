@@ -8,7 +8,7 @@ export default {
   type: "source",
   name: "Changes to Webinar Panelists",
   key: "zoom_admin-webinar-changes-to-panelists",
-  version: "0.1.1",
+  version: "0.1.3",
   description: "Emit new event every time a panelist is added or removed from a webinar, or any time their details change",
   dedupe: "unique",
   props: {
@@ -61,9 +61,7 @@ export default {
       if (!this.webinars || !this.webinars.length) {
         let nextPageToken;
         do {
-          const resp = await this.zoomAdmin.listWebinars({
-            nextPageToken,
-          });
+          const resp = await this.zoomAdmin.listWebinars(null, nextPageToken);
           for (const webinar of resp.webinars) {
             webinars.push(webinar.id);
           }

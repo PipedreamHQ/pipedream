@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-clear-cell",
   name: "Clear Cell",
   description: "Delete the content of a specific cell in a spreadsheet",
-  version: "0.1.0",
+  version: "0.1.3",
   type: "action",
   props: {
     googleSheets,

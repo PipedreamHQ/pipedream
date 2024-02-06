@@ -1,11 +1,11 @@
 import airtable from "../../airtable.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "airtable-delete-record",
   name: "Delete Record",
   description: "Delete a record from a table by record ID.",
-  version: "0.2.0",
+  version: "0.2.3",
   type: "action",
   props: {
     ...common.props,

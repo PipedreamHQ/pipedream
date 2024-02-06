@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "slack-new-star-added",
   name: "New Star Added (Instant)",
-  version: "0.0.15",
+  version: "0.0.17",
   description: "Emit new event when a star is added to an item",
   type: "source",
   dedupe: "unique",

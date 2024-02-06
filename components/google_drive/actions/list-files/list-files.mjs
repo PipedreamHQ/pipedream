@@ -4,8 +4,8 @@ import { getListFilesOpts } from "../../common/utils.mjs";
 export default {
   key: "google_drive-list-files",
   name: "List Files",
-  description: "List files from a specific folder. [See the docs](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "0.1.0",
+  description: "List files from a specific folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
+  version: "0.1.4",
   type: "action",
   props: {
     googleDrive,
@@ -40,6 +40,12 @@ export default {
       type: "string",
       optional: true,
     },
+    trashed: {
+      label: "Trashed",
+      type: "boolean",
+      description: "List trashed files or non-trashed files. Keep it empty to include both.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const opts = getListFilesOpts(this.drive, {
@@ -53,11 +59,24 @@ export default {
         ? " AND "
         : ""}name contains '${this.filterText}'`;
     }
+    if (typeof this.trashed !== "undefined") {
+      opts.q += `${opts.q
+        ? " AND "
+        : ""}trashed=${this.trashed}`;
+    }
     if (this.fields) {
       opts.fields = this.fields;
     }
-    const files = (await this.googleDrive.listFilesInPage(null, opts)).files;
-    $.export("$summary", `Successfully found ${files.length} file(s).`);
-    return files;
+    const allFiles = [];
+    let pageToken;
+    do {
+      const {
+        files, nextPageToken,
+      }  = await this.googleDrive.listFilesInPage(pageToken, opts);
+      allFiles.push(...files);
+      pageToken = nextPageToken;
+    } while (pageToken);
+    $.export("$summary", `Successfully found ${allFiles.length} file(s).`);
+    return allFiles;
   },
 };

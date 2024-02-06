@@ -5,24 +5,31 @@ const path = require("path");
 const rootDir = path.resolve(__dirname, "..");
 const componentsDir = path.join(rootDir, "components");
 
+const REGEXP_COMPONENT_KEY = {
+  regExp: /(?:(?:['"]key['"])|(?:key)): ['"]([^'"]+)/,
+  captureGroup: 1
+};
+
 let err = false;
 
-const isAppFile = ( subname ) =>
+const isAppFile = (subname) =>
   subname.endsWith(".app.mjs") || subname.endsWith(".app.js") || subname.endsWith(".app.mts") || subname.endsWith(".app.ts");
 
-const isSourceFile = ( subname ) =>
+const isSourceFile = (subname) =>
   subname.endsWith(".mjs") || subname.endsWith(".js") || subname.endsWith(".mts") || subname.endsWith(".ts");
 
-const isCommonFile = ( subname ) => {
-  const regex = /\/common.*(\/|\.js|\.mjs|\.ts|\.mts|)/g;
+const isCommonFile = (subname) => {
+  const regex = /\/?common.*(\/|\.js|\.mjs|\.ts|\.mts|)/g;
   return regex.test(subname);
 };
 
-const getComponentKey = ( p )  => {
+const isTestEventFile = (subname) => subname.includes("test-event.mjs");
+
+const getComponentKey = (p) => {
   const data = fs.readFileSync(p, "utf8");
-  const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
-  if (md && md.length > 1)
-    return md[1];
+  const md = data.match(REGEXP_COMPONENT_KEY.regExp);
+  if (md && md.length > REGEXP_COMPONENT_KEY.captureGroup)
+    return md[REGEXP_COMPONENT_KEY.captureGroup];
   return false;
 };
 
@@ -39,7 +46,7 @@ function* iterateComponentFiles() {
     const p = path.join(rootDir, file);
     if (!file.startsWith("components/"))
       continue;
-    if (isAppFile(p) || isCommonFile(p) || !isSourceFile(p))
+    if (isAppFile(p) || isCommonFile(p) || !isSourceFile(p) || isTestEventFile(p))
       continue;
     yield file;
   }
@@ -82,11 +89,15 @@ function checkKeys(p, nameSlug) {
       continue;
     }
     if (name.endsWith(".mjs") || name.endsWith(".js") || name.endsWith(".ts") || name.endsWith(".mts")) {
+      // ignore test-event files
+      if (isCommonFile(name) || isTestEventFile(name)) {
+        continue;
+      }
       const data = fs.readFileSync(pp, "utf8");
-      const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
+      const md = data.match(REGEXP_COMPONENT_KEY.regExp);
       if (md) {
-        const key = md[1];
-        if (!key.startsWith(`${nameSlug}-`)) {
+        const key = md[REGEXP_COMPONENT_KEY.captureGroup];
+        if (!key?.startsWith(`${nameSlug}-`)) {
           err = true;
           console.error(`[?] ${pp} [key: ${key}] [nameSlug: ${nameSlug}]`);
         }

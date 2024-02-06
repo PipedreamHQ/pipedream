@@ -4,7 +4,7 @@ export default {
   key: "segment-page",
   name: "Record page views on your website",
   description: "The page method lets you record page views on your website, along with optional extra information about the page being viewed (note requires userId or anonymousId). See the docs [here](https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/#page)",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   props: {
     segmentApp,

@@ -1,12 +1,12 @@
 import airtable from "../../airtable.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import commonActions from "../../common/actions.mjs";
 
 export default {
   key: "airtable-create-or-update-record",
   name: "Create Single Record Or Update",
   description: "Updates a record if `recordId` is provided or adds a record to a table.",
-  version: "0.0.3",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,

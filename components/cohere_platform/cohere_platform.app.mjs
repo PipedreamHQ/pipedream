@@ -1,4 +1,5 @@
 import cohere from "cohere-ai";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -39,11 +40,8 @@ export default {
     model: {
       type: "string",
       label: "Model",
-      description: "The size of the model to generate with. Currently available models are `medium` and `xlarge` (default). Smaller models are faster, while larger models will perform better. [Custom models](https://docs.cohere.ai/docs/training-custom-models) can also be supplied with their full ID.",
-      options: [
-        "medium",
-        "xlarge",
-      ],
+      description: "The size of the model. Currently available models are `medium` and `xlarge` (default). Smaller models are faster, while larger models will perform better. [Custom models](https://docs.cohere.ai/docs/training-custom-models) can also be supplied with their full ID.",
+      options: constants.MODEL_OPTIONS,
       optional: true,
     },
     numGenerations: {
@@ -63,7 +61,7 @@ export default {
     preset: {
       type: "string",
       label: "Preset",
-      description: "The ID of a custom playground preset. You can create presets in the [playground](https://dashboard.cohere.ai/playground/generate). If you use a preset, the `prompt` parameter becomes optional, and any included parameters will override the preset's parameters.",
+      description: "The ID of a custom playground preset. You can create presets in the [playground](https://dashboard.cohere.ai/playground/generate). If you use a preset, all other parameters become optional, and any included parameters will override the preset's parameters.",
       optional: true,
     },
     prompt: {
@@ -75,11 +73,7 @@ export default {
       type: "string",
       label: "Return Likelihoods",
       description: "It specifies how and if the token likelihoods are returned with the response. Defaults to `NONE`. If `GENERATION` is selected, the token likelihoods will only be provided for generated text. If `ALL` is selected, the token likelihoods will be provided both for the prompt and the generated text.",
-      options: [
-        "GENERATION",
-        "ALL",
-        "NONE",
-      ],
+      options: constants.RETURN_LIKELIHOODS_OPTIONS,
       optional: true,
     },
     stopSequences: {
@@ -98,11 +92,35 @@ export default {
       type: "string",
       label: "Truncate",
       description: "It specifies how the API will handle inputs longer than the maximum token length. Passing `START` will discard the start of the input. `END` will discard the end of the input. In both cases, input is discarded until the remaining input is exactly the maximum input token length for the model. If `NONE` is selected, when the input exceeds the maximum input token length an error will be returned.",
-      options: [
-        "NONE",
-        "START",
-        "END",
-      ],
+      options: constants.TRUNCATE_OPTIONS,
+      optional: true,
+    },
+    classifyModel: {
+      type: "string",
+      label: "Model",
+      description: "The size of the model.",
+      options: constants.CLASSIFY_MODEL_OPTIONS,
+      optional: true,
+    },
+    summaryLength: {
+      type: "string",
+      label: "Length",
+      description: "Indicates the approximate length of the summary.",
+      options: constants.SUMMARY_LENGTH_OPTIONS,
+      optional: true,
+    },
+    summaryFormat: {
+      type: "string",
+      label: "Format",
+      description: "Indicates the style in which the summary will be delivered - in a free form paragraph or in bullet points.",
+      options: constants.SUMMARY_FORMAT_OPTIONS,
+      optional: true,
+    },
+    summaryModel: {
+      type: "string",
+      label: "Model",
+      description: "The ID of the model to generate the summary with. Smaller models are faster, while larger models will perform better.",
+      options: constants.SUMMARY_MODEL_OPTIONS,
       optional: true,
     },
   },
@@ -113,6 +131,12 @@ export default {
     },
     generateText(data) {
       return this.api().generate(data);
+    },
+    classifyText(data) {
+      return this.api().classify(data);
+    },
+    summarizeText(data) {
+      return this.api().summarize(data);
     },
   },
 };

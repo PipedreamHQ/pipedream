@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/vero",
+  "version": "0.1.1",
+  "description": "Pipedream Vero Components",
+  "main": "dist/app/vero.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vero"
+  ],
+  "homepage": "https://pipedream.com/apps/vero",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

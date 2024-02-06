@@ -7,14 +7,15 @@ export default {
   key: "drata-upload-device-compliance-document",
   name: "Upload Device Compliance Document",
   description: `Upload a device compliance document. [See the documentation](${docsLink}).`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     drata,
     deviceId: {
-      type: "integer",
-      label: "Device ID",
-      description: "The ID of the device.",
+      propDefinition: [
+        drata,
+        "deviceId",
+      ],
     },
     documentType: {
       type: "string",

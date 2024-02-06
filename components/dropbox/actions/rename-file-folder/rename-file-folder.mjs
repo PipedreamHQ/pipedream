@@ -4,7 +4,7 @@ export default {
   name: "Rename a File/Folder",
   description: "Renames a file or folder in the user's Dropbox [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesMoveV2__anchor)",
   key: "dropbox-rename-file-folder",
-  version: "0.0.5",
+  version: "0.0.8",
   type: "action",
   props: {
     dropbox,
@@ -12,6 +12,9 @@ export default {
       propDefinition: [
         dropbox,
         "pathFileFolder",
+        () => ({
+          omitRootFolder: true,
+        }),
       ],
       label: "Path From",
       description: "The file that you want to rename.",
@@ -42,7 +45,7 @@ export default {
       allowOwnershipTransfer,
     } = this;
 
-    const normalizedPathFrom = pathFrom?.value || pathFrom;
+    const normalizedPathFrom = this.dropbox.getPath(pathFrom);
     const splitedPath = normalizedPathFrom.split("/");
     splitedPath[splitedPath.length - 1] = newName;
     const res = await this.dropbox.filesMove({

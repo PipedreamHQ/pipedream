@@ -7,7 +7,7 @@ next: false
 
 We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/components#sources), [workflows](/workflows), [actions](/components#actions), and other integration components so that other Pipedream users benefit from your work.
 
-To support these goals, **Pipedream offers a generous free tier**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
+To support these goals, Pipedream offers a generous [free tier](#free-tier), and you can **[request a free trial of our Advanced or Business plan](https://pipedream.com/pricing)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
 
 [Read more about our plans and pricing here](https://pipedream.com/pricing).
 
@@ -15,7 +15,7 @@ To support these goals, **Pipedream offers a generous free tier**. You can run s
 
 ## Free Tier
 
-Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers. 
+Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers.
 
 But Free account have a [daily limit of free credits](/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
 
@@ -27,9 +27,7 @@ Free Tier accounts can connect up to 3 different service accounts like Twitter, 
 
 ### Free Tier Workflow Limitations
 
-Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have the lowest amount of active workflows available.
-
-Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
+Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have limits on the number of active workflows. Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
 
 ### Free Tier Polling Interval Limitations
 
@@ -37,15 +35,15 @@ Free Tier account triggers powered by polling are limited to the longest interva
 
 ### Free Tier Support options
 
-Users on the Developer Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
+Users on the Free Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
 
 ## Paid Tiers
 
-[Visit our pricing page](https://pipedream.com/pricing) to learn more about our paid plan options.
+[Visit our pricing page](https://pipedream.com/pricing) to learn more about our paid plans.
 
 All paid plans vary features based on tier, but each paid plan option will:
 
-- Lift the daily 100 credits limit
+- Remove the daily {{$site.themeConfig.DAILY_CREDITS_LIMIT}} [credits](#credits) limit
 - Increase the number of active workflows available
 - Increase the number of connected accounts
 
@@ -55,15 +53,7 @@ Pipedream uses a number of terms to describe platform metrics and details of our
 
 ### Credits
 
-::: tip
-
-If you're still on our legacy Developer, Professional or Organization plan, you still may be incurring **invocations** and not credits.
-
-During this transitionary period, you'll still be billed in terms of invocations. However workspace migrations are coming. You'll be guided on how to migrate your account to a [workspace](/workspaces) in the near future.
-
-:::
-
-Pipedream charges one credit per {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory }} megabytes of memory (the default) per workflow execution.
+Pipedream charges one credit per {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory }} megabytes of memory (the default) per workflow execution. Credits are also charged for [dedicated workers](/workflows/settings/#eliminate-cold-starts).
 
 **Most workflow executions use a single credit**, regardless of the number of steps (unlike some other platforms, Pipedream does not charge for usage based on the number of steps).
 
@@ -112,17 +102,13 @@ Execution time used to develop a workflow in the builder does not count towards 
 
 #### Source Credit Usage
 
-When an [event source](/sources) triggers a workflow, the first credit per source execution is included for free. This means that the first {{ $site.themeConfig.base_credits_price.seconds }} of compute doesn't incur credits. This includes [Free Tier](/pricing/#free-tier) accounts.
+When an [event source](/sources) triggers a workflow, **the source execution is included for free.** This includes workspaces on the [Free Tier](/pricing/#free-tier).
 
-When a source is configured as a workflow trigger, the core value is in the workflow. We don't want to charge you two credits (one to run the source, one to run the workflow) when the workflow contains the core logic. Sources that trigger workflows are called "dependent" sources.
-
-On the other hand, sources that don't trigger workflows are "independent", since they run independently. Pipedream charges credits for all indepedent source executions.
+When a source is configured as a workflow trigger, the core value is in the workflow. You won't be charged for two credits (one to run the source, one to run the workflow) when the workflow contains the core logic.
 
 ::: tip
 
-This free first credit per execution **only** applies to sources from the [Pipedream public registry](/sources).
-
-If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counted toward credits.
+This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources). If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counts toward credits.
 
 :::
 
@@ -130,39 +116,24 @@ If you deploy a private custom source to your account, then all computation time
 
 For example, a source that polls an API for new events like [Airtable - New Row Added](https://pipedream.com/apps/airtable/triggers/new-records) only takes ~5 seconds to poll and emit events to subscribing workflows.
 
-This would result 0 credits per run because:
-
-- The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
-- The **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
+This would result in **0 credits** per run because the **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
 
 :::
 
 ::: details A polling source finishing over {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
 
-Consider an a source (like **RSS - New Item in Feed** for instance) that takes 60 seconds total to finish polling, per execution.
+Consider a source (like **RSS - New Item in Feed** for instance) that takes 60 seconds total to finish polling, per execution.
 
-Each execution of this source would result 1 credit because:
-
-- The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
-- The **RSS - New Item in Feed** source is a [publicly available component](https://pipedream.com/apps/rss/triggers/new-item-in-feed).
+Each execution of this source would result in **0 credits** because the **RSS - New Item in Feed** source is a [publicly available component](https://pipedream.com/apps/rss/triggers/new-item-in-feed).
 
 :::
 
-::: details A custom source that finised under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+::: details A custom source that finished under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
 
-This would result in 1 credit per execution.
-
-The initial free credit only applies to Pipedream Public Registry sources.
+This would result in **1 credit** per execution because the initial free credit only applies to Pipedream Public Registry sources attached to at least one workflow.
 
 :::
 
-::: details A source not connected to any workflow
-
-A source that isn't connected to any workflow is called an [**Independent Source**](https://pipedream.com/docs/workflows/steps/triggers/#dependent-and-independent-sources). Independent sources do not incur credits.
-
-Only when sources are attached to workflows and begin to trigger workflow executions do source execution credits incur.
-
-:::
 
 ### Billing Period
 
@@ -187,6 +158,30 @@ A Data Store key represents a single record in a Data Store.
 In the example below, there are two records in the Data Store, and therefore there are two keys total.
 
 ![Example of a Data Store with two keys](https://res.cloudinary.com/pipedreamin/image/upload/v1673537163/docs/CleanShot_2023-01-12_at_10.25.25_z6yg8t.png)
+
+## Managing my plan
+
+To cancel, upgrade or downgrade your plan, open the [pricing page](https://pipedream.com/pricing).
+
+To update your billing details, such as your VAT number, email address, etc. use the **Manage Billing Information** button in your [workspace billing settings](https://pipedream.com/settings/billing) to change your plan. Within this portal you can cancel, upgrade or downgrade your plan at any time.
+
+### Upgrading behavior
+
+Upgrading your subscription instantly activates the features available to your workspace. For example, if you upgrade your workspace from Free to Basic, that workspace will be able to activate more workflows and connected accounts.
+
+### Downgrading behavior
+
+Downgrades will apply at the end of your billing cycle, and any workflows that use features outside of the new billing plan will be automatically disabled.
+
+For example, if your workspace downgrades from Advanced to Basic and a workflow uses an Advanced feature such as [auto-retries](/workflows/settings/#auto-retry-errors), then this workflow will be disabled because the workspace plan no longer qualifies for that feature.
+
+Additionally, resource limits such as the number of active workflows and connected accounts will also be enforced at this same time.
+
+### Cancellation behavior
+
+To cancel your plan, open the [pricing page](https://pipedream.com/pricing) and click **Cancel** beneath your current plan.
+
+Cancelling your subscription will apply at the end of your current billing period. Workflows, connected accounts and sources will be deactivated from newest to oldest until the Free limits have been reached.
 
 ## FAQ
 
@@ -242,4 +237,4 @@ You can update your billing information in your [Stripe customer portal](https:/
 
 ### How do I contact the Pipedream team with other questions?
 
-You can email **billing@pipedream.com** for any billing-related questions.
+You can start a support ticket [on our support page](https://pipedream.com/support). Select the **Billing Issues** category to start a billing related ticket.

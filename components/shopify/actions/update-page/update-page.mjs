@@ -1,10 +1,12 @@
 import app from "../../common/rest-admin.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "shopify-update-page",
   name: "Update Page",
   description: "Update an existing page. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/page#put-pages-page-id)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
@@ -27,37 +29,5 @@ export default {
         "bodyHtml",
       ],
     },
-  },
-  methods: {
-    updatePage({
-      pageId, ...args
-    } = {}) {
-      return this.app.put({
-        path: `/pages/${pageId}`,
-        ...args,
-      });
-    },
-  },
-  async run({ $: step }) {
-    const {
-      pageId,
-      title,
-      bodyHtml,
-    } = this;
-
-    const response = await this.updatePage({
-      step,
-      pageId,
-      data: {
-        page: {
-          title,
-          body_html: bodyHtml,
-        },
-      },
-    });
-
-    step.export("$summary", `Updated page with ID ${response.page.id}`);
-
-    return response;
   },
 };

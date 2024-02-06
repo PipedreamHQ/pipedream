@@ -1,6 +1,6 @@
 import raindrop from "../../raindrop.app.mjs";
 import fs from "fs";
-import got from "got";
+import got from "got@13.0.0";
 import stream from "stream";
 import { promisify } from "util";
 import FormData from "form-data";
@@ -9,7 +9,7 @@ export default {
   key: "raindrop-parse-bookmark-file",
   name: "Parse HTML Bookmark File",
   description: "Convert HTML bookmark file to JSON. Support Nestcape, Pocket and Instapaper file formats. [See the docs here](https://developer.raindrop.io/v1/import#parse-html-import-file)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     raindrop,

@@ -57,7 +57,7 @@ Develop components without leaving your browser with the Pipedream Gitpod worksp
 3. Open a new Gitpod Workspace with your fork: `https://gitpod.io/#https://github.com/<your-github-username>/pipedream`
 4. Run `pd init app` to scaffold a new app, or make changes to an exisiting one in the `components` directory
 
-This workspace will automatically configure the Pipedream CLI client with your API key. This allows you to interact with the [advanced Pipedream CLI tool](https://pipedream.com/docs/cli) and develop components on the fly.
+This workspace will automatically configure the Pipedream CLI client with your API key. This allows you to interact with the [advanced Pipedream CLI tool](https://pipedream.com/docs/cli/reference/) and develop components on the fly.
 
 ## The Pull Request process
 

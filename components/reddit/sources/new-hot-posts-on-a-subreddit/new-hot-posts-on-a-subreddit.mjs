@@ -1,4 +1,5 @@
 import common from "../common.mjs";
+import sampleEmit from "./test-event.mjs";
 import regionData from "./region-data.mjs";
 import get from "lodash/get.js";
 const { reddit } = common.props;
@@ -10,7 +11,7 @@ export default {
   name: "New hot posts on a subreddit",
   description:
     "Emit new event each time a new hot post is added to the top 10 items in a subreddit.",
-  version: "0.2.0",
+  version: "0.2.1",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -78,4 +79,5 @@ export default {
   async run() {
     await this.fetchData();
   },
+  sampleEmit,
 };

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cults",
+  "version": "0.0.1",
+  "description": "Pipedream Cults Components",
+  "main": "cults.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cults"
+  ],
+  "homepage": "https://pipedream.com/apps/cults",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

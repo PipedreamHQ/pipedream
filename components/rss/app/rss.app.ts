@@ -49,7 +49,9 @@ export default defineApp({
       const itemId = id ?? guid ?? link ?? title;
       if (itemId) {
         // reduce itemId length for deduping
-        return itemId.length > 64 ? itemId.slice(-64) : itemId;
+        return itemId.length > 64
+          ? itemId.slice(-64)
+          : itemId;
       }
       return hash(item);
     },
@@ -88,7 +90,6 @@ export default defineApp({
         feedparser.on("readable", function (this: FeedParser) {
           let item: any = this.read();
           while (item) {
-            console.log(`Item: ${JSON.stringify(item, null, 2)}`);
             for (const k in item) {
               if (item[`rss:${k}`]) {
                 delete item[`rss:${k}`];

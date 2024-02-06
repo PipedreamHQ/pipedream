@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/roam_research",
+  "version": "0.0.1",
+  "description": "Pipedream Roam Research Components",
+  "main": "roam_research.app.mjs",
+  "keywords": [
+    "pipedream",
+    "roam_research"
+  ],
+  "homepage": "https://pipedream.com/apps/roam_research",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

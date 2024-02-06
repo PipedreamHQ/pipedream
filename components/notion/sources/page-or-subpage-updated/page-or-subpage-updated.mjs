@@ -1,4 +1,5 @@
 import base from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
@@ -6,7 +7,7 @@ export default {
   key: "notion-page-or-subpage-updated",
   name: "Page or Subpage Updated", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page or one of its sub-pages is updated.",
-  version: "0.0.3",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -67,4 +68,5 @@ export default {
     } while (hasMore);
     this.setLastUpdatedTimestamp(maxTimestamp);
   },
+  sampleEmit,
 };

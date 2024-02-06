@@ -1,11 +1,11 @@
-import quickbooks from "../../quickbooks.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
   key: "quickbooks-get-time-activity",
   name: "Get Time Activity",
   description: "Returns info about an activity. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#read-a-timeactivity-object)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     quickbooks,

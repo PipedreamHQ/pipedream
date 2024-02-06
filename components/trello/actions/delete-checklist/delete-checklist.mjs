@@ -1,11 +1,11 @@
-import common from "../common.js";
+import common from "../common.mjs";
 
 export default {
   ...common,
   key: "trello-delete-checklist",
   name: "Delete Checklist",
   description: "Deletes the specified checklist. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-id-delete)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     ...common.props,

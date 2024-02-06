@@ -1,12 +1,10 @@
 import dropbox from "../../dropbox.app.mjs";
-import common from "../common/common.mjs";
 
 export default {
-  ...common,
   name: "Create folder",
   description: "Create a folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesCreateFolderV2__anchor)",
   key: "dropbox-create-folder",
-  version: "0.0.5",
+  version: "0.0.8",
   type: "action",
   props: {
     dropbox,
@@ -39,7 +37,7 @@ export default {
 
     const res = await this.dropbox.createFolder({
       autorename,
-      path: this.getNormalizedPath(path, true) + name,
+      path: this.dropbox.getNormalizedPath(path, true) + name,
     });
     $.export("$summary", `Folder successfully created: \`${res.result.metadata.name}\``);
     return res;

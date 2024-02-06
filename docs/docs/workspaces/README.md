@@ -1,50 +1,33 @@
 # Workspaces
 
-::: tip
+When you sign up for a Pipedream account, you'll either create a new workspace or join an existing one if you signed up from an invitation.
 
-Pipedream organizations are now **workspaces**. If you have an exisiting organization, it will be migrated to a workspace soon.
+You can create and join any number of workspaces. For example, you can create one to work alone and another to collaborate with your team. You can also start working alone, then easily add others into your existing workspace to work together on workflows you've already built out.
 
-:::
-
-When you sign up for a Pipedream account, you'll either be asked to create a workspace or join an existing workspace. You can invite your team to your workspace, create workflows, and organize them within projects and folders.
-
-You can create and join any number of workspaces.
+Once you've created a new workspace, you can invite your team to create and edit workflows together, and organize them within projects and folders (this feature is rolling out now).
 
 [[toc]]
 
 ## Creating a new workspace
 
-To create another workspace, open the dropdown menu in the top left of the Pipedream dashboard.
+To create a new workspace,
 
-Then select **Create new workspace**.
-
-You'll be prompted to name the workspace. You can [change the name later](/workspaces/#renaming-a-workspace).
-
-::: tip
-
-**Free** and **Professional** tier accounts are limited to one workspace. The [Advanced, Business, and Enterprise plans](https://pipedream.com/pricing) allow your team to manage multiple workspaces. This can be helpful when you need to manage workflows for multiple teams in Pipedream.
-
-:::
+- Open the dropdown menu in the top left of the Pipedream dashboard
+- Select **New workspace**
+- You'll be prompted to name the workspace (you can [change the name later](/workspaces/#renaming-a-workspace))
 
 ## Workspace settings
 
-Find your current workspace settings like current members, under the **Settings** navigation menu item on the left hand side. Here is where you can manage your workspace settings, including the workspace name, members and member permissions.
+Find your current [workspace settings](https://pipedream.com/settings/account) like current members, under the **Settings** navigation menu item on the left hand side. This is where you can manage your workspace settings, including the workspace name, members, and member permissions.
 
 ### Inviting others to a join a workspace
 
-After opening your workspace settings, open the **Membership** tab.
+After opening your workspace settings, open the [**Membership**](https://pipedream.com/settings/users) tab.
 
-Invite members to your workspace by entering in their Pipedream username or email address and then clicking **Send**.
+- Invite people to your workspace by entering their email address and then clicking **Send**
+- Or create an invite link to more easily share with a larger group (you can limit access to only specific email domains)
 
-::: tip
-
-Pipedream username names are formatted like `@pierce`. They can be found in the bottom left hand corner of the Pipedream dashboard.
-
-![Example of a Pipedream username in the dashboard](https://res.cloudinary.com/pipedreamin/image/upload/v1673541487/docs/CleanShot_2023-01-12_at_11.37.56_ilk3v8.png)
-
-:::
-
-If the member does not yet have a Pipedream account, an email will be sent to their inbox containing an invitation link to create an account and join your workspace.
+![Creating an invite link](https://res.cloudinary.com/pipedreamin/image/upload/v1688074217/Google_Chrome_-_Settings_-_Users_-_Pipedream_2023-06-29_at_2.28.12_PM_xy33fl.png)
 
 ### Managing member permissions
 
@@ -52,34 +35,60 @@ By default, new workspace members are assigned the **Member** level permission.
 
 **Members** will be able to perform general tasks like viewing, developing, and deploying workflows.
 
-However, only **Admins** will be able to manage workspace level settings, like inviting new members, changing member roles, renaming workspaces, etc.
+However, only **Admins** will be able to manage workspace level settings, like changing member roles, renaming workspaces, and modifying Slack error notifications.
 
 #### Promoting a member to admin
 
-To promote a member to an admin level account in your workspace, click the corresponding checkbox under their member entry.
+To promote a member to an admin level account in your workspace, click the 3 dots to the right of their email and select "Make Admin".
+
+![Promoting a member to admin](https://res.cloudinary.com/pipedreamin/image/upload/v1688075628/making_admin_btkbh7.gif)
 
 #### Demoting an admin to a member
 
-To demote an admin back to a member, uncheck the **Admin** checkbox in that members record in your workspace settings.
+To demote an admin back to a member, click the 3 dots to the right of their email address and select "Remove Admin".
+
+![Demoting an admin to a member](https://res.cloudinary.com/pipedreamin/image/upload/v1688075628/removing_admin_wez5km.gif)
 
 ### Finding your workspace's ID
 
-Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Access** section. You'll see your workspace ID here.
+Visit your [workspace settings](https://pipedream.com/settings/account) and scroll down to the **API** section. You'll see your workspace ID here.
 
-### Configuring Single-sign on (SS0)
+### Requiring Two-Factor Authentication
+As a workspace admin or owner on the [Business plan](https://pipedream.com/pricing), you're able to **require** that all members in your workspace must enable 2FA on their account.
 
-Workspaces on the Business and Enterprise plans can configure Single-sign on, so your users can login to Pipedream using your identity provider.
+1. Open the Authentication tab in your [workspace settings](https://pipedream.com/settings/authentication) (you must be an admin or owner to make changes here)
+2. Make sure you're in the [correct workspace](/workspaces/#switching-between-workspaces)
+3. Click the toggle under **Require 2FA** — this will open a confirmation modal with some additional information
+4. Once you enable the change in the modal, **all workspace members (including admins and owners) will immediately be required to configure 2FA on their account**. All new and existing workspace members will be required to set up 2FA the next time they sign in.
+
+![Require 2FA Toggle](https://res.cloudinary.com/pipedreamin/image/upload/v1695147277/require_2fa_xha6yc.png)
+
+::: warning  Anyone who is currently logged in to Pipedream will be temporarily signed out until they set up 2FA
+
+If anyone is actively making changes to a workflow, their session may be interrupted. We recommend enabling the 2FA requirement in off hours.
+
+:::
+
+
+### Configuring Single Sign-On (SSO)
+
+Workspaces on the Business and Enterprise plans can configure Single Sign-On, so your users can login to Pipedream using your identity provider.
 
 Pipedream supports SSO with Google, Okta, and any provider that supports the SAML protocol. See the guides below to configure SSO for your identity provider:
 
 - [Okta](/workspaces/sso/okta/)
 - [Google](/workspaces/sso/google/)
+- [Other SAML provider](/workspaces/sso/saml/)
+
+### SCIM
+
+Pipedream supports provisioning user accounts from your IdP via SCIM. Any workspace on the Business and Enterprise plans can configure Single Sign-On with SCIM.
 
 ### Renaming a workspace
 
-To rename a workspace, open your workspace settings and navigate to the **Account Settings** area.
+To rename a workspace, open your [workspace settings](https://pipedream.com/settings/account) and navigate to the **General** tab.
 
-Click the green check icon on the far right of the input to save the changes.
+Click the save button to save the changes.
 
 ::: tip
 

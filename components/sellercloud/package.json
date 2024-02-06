@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sellercloud",
+  "version": "0.1.0",
+  "description": "Pipedream SellerCloud Components",
+  "main": "sellercloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sellercloud"
+  ],
+  "homepage": "https://pipedream.com/apps/sellercloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

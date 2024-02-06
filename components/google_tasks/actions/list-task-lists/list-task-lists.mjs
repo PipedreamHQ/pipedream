@@ -4,7 +4,7 @@ export default {
   key: "google_tasks-list-task-lists",
   name: "List Task Lists",
   description: "Lists the authenticated user's task lists. [See the docs here](https://developers.google.com/tasks/reference/rest/v1/tasklists/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

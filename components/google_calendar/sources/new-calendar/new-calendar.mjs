@@ -1,25 +1,17 @@
-import googleCalendar from "../../google_calendar.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   key: "google_calendar-new-calendar",
-  name: "New Calendar",
-  description: "Emit an event when a calendar is created.",
-  version: "0.1.2",
+  name: "New Calendar Created",
+  description: "Emit new event when a calendar is created.",
+  version: "0.1.5",
   type: "source",
   props: {
+    ...common.props,
     db: "$.service.db",
-    googleCalendar,
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
   },
   hooks: {
     async activate() {
-      // get list of calendars
       const { items: calendars = [] } = await this.googleCalendar.listCalendars();
       this.emitNewCalendars(calendars);
       const calendarIds = calendars.map((item) => item.id);

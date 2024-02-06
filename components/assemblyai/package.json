@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/assemblyai",
+  "version": "0.2.0",
+  "description": "Pipedream AssemblyAI Components",
+  "main": "assemblyai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "assemblyai"
+  ],
+  "homepage": "https://pipedream.com/apps/assemblyai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

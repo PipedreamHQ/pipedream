@@ -10,7 +10,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Copy an existing file to Google Drive. [See the docs](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "0.1.0",
+  version: "0.1.3",
   type: "action",
   props: {
     googleDrive,
@@ -69,6 +69,15 @@ export default {
       default: GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART,
       optional: true,
     },
+    fileId: {
+      propDefinition: [
+        googleDrive,
+        "fileId",
+      ],
+      label: "File to replace",
+      description: "Id of the file to replace. Leave it empty to upload a new file.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -83,21 +92,39 @@ export default {
       throw new Error("One of File URL and File Path is required.");
     }
     const driveId = this.googleDrive.getDriveId(this.drive);
+
+    const filename = name || path.basename(fileUrl || filePath);
+
     const file = await getFileStream({
       $,
       fileUrl,
       filePath,
     });
     console.log(`Upload type: ${uploadType}.`);
-    const resp = await this.googleDrive.createFile(omitEmptyStringValues({
-      file,
-      mimeType,
-      name: name || path.basename(fileUrl || filePath),
-      parentId,
-      driveId,
-      uploadType,
-    }));
-    $.export("$summary", `Successfully uploaded a new file, "${resp.name}"`);
-    return resp;
+
+    let result = null;
+    if (this.fileId) {
+      await this.googleDrive.updateFileMedia(this.fileId, file, omitEmptyStringValues({
+        mimeType,
+        uploadType,
+      }));
+      result = await this.googleDrive.updateFile(this.fileId, omitEmptyStringValues({
+        name: filename,
+        mimeType,
+        uploadType,
+      }));
+      $.export("$summary", `Successfully updated file, "${result.name}"`);
+    } else {
+      result = await this.googleDrive.createFile(omitEmptyStringValues({
+        file,
+        mimeType,
+        name: filename,
+        parentId,
+        driveId,
+        uploadType,
+      }));
+      $.export("$summary", `Successfully uploaded a new file, "${result.name}"`);
+    }
+    return result;
   },
 };

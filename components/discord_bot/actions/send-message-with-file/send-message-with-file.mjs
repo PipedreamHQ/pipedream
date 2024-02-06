@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../../common.mjs";
+import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
-import constants from "../../constants.mjs";
 
 const { discord } = common.props;
 
@@ -9,7 +9,7 @@ export default {
   key: "discord_bot-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file. [See the docs here](https://discord.com/developers/docs/reference#uploading-files)",
-  version: "0.0.1",
+  version: "0.0.5",
   type: "action",
   props: {
     discord,

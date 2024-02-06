@@ -1,4 +1,5 @@
 import pipedream from "../../pipedream.app.mjs";
+import sampleEmit from "./test-event.mjs";
 import { uuid } from "uuidv4";
 
 export default {
@@ -7,7 +8,7 @@ export default {
   type: "source",
   description:
     "Exposes an HTTP API for scheduling messages to be emitted at a future time",
-  version: "0.3.0",
+  version: "0.3.1",
   dedupe: "unique", // Dedupe on a UUID generated for every scheduled task
   props: {
     pipedream,
@@ -237,4 +238,5 @@ export default {
       this.emitEvent(event);
     }
   },
+  sampleEmit,
 };

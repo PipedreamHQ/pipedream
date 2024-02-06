@@ -1,10 +1,12 @@
 import googleCalendar from "../../google_calendar.app.mjs";
+import createEventCommon from "../common/create-event-common.mjs";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   key: "google_calendar-create-event",
   name: "Create Event",
-  description: "Create an event to the Google Calendar. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#insert)",
-  version: "0.1.4",
+  description: "Create an event to the Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#insert)",
+  version: "0.1.8",
   type: "action",
   props: {
     googleCalendar,
@@ -14,114 +16,59 @@ export default {
         "calendarId",
       ],
     },
-    summary: {
-      label: "Event Title",
-      type: "string",
-      description: "Enter static text (e.g., `hello world`) for the event name",
+    createMeetRoom: {
+      label: "Create Meet Room",
+      description: "Create a Google Meet room for this event.",
+      type: "boolean",
       optional: true,
     },
-    location: {
-      label: "Event Venue",
-      type: "string",
-      description: "Enter static text (e.g., `hello world`) for the event venue",
-      optional: true,
-    },
-    description: {
-      label: "Event Description",
-      type: "string",
-      description: "Enter detailed event description",
-      optional: true,
-    },
-    attendees: {
-      label: "Attendees",
-      type: "string[]",
-      description: "Enter the EmailId of the attendees",
-      optional: true,
-    },
-    eventStartDate: {
-      label: "Event Date",
-      type: "string",
-      description: "For all-day events, enter the Event day in the format 'yyyy-mm-dd'. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): 'yyyy-mm-ddThh:mm:ss+01:00'. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
-    },
-    eventEndDate: {
-      label: "Event End Date",
-      type: "string",
-      description: "For all-day events, enter the Event day in the format 'yyyy-mm-dd'. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): 'yyyy-mm-ddThh:mm:ss+01:00'. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
-    },
-    sendUpdates: {
-      label: "Send Updates",
-      type: "string",
-      description: "Whether to send notifications about the creation of the new event.",
-      optional: true,
-      options: [
-        "all",
-        "externalOnly",
-        "none",
-      ],
-    },
-    timeZone: {
-      propDefinition: [
-        googleCalendar,
-        "timeZone",
-      ],
-    },
+    ...createEventCommon.props({
+      isUpdate: false,
+    }),
+  },
+  methods: {
+    ...createEventCommon.methods,
   },
   async run({ $ }) {
-    /**
-     * Based on the IINA Time Zone DB
-     * http://www.iana.org/time-zones
-     */
-    const { value: timeZone } = this.timeZone ?? await this.googleCalendar.getSettings({
-      setting: "timezone",
-    });
+    const timeZone = this.getTimeZone(this.timeZone);
+    const attendees = this.formatAttendees(this.attendees);
 
-    /**
-     * Format for the attendees
-     *
-     * [
-     *   { "email": "lpage@example.com",},
-     *   { "email": "sbrin@example.com",},
-     * ]
-     */
-
-    let attendees = [];
-
-    if (this.attendees && Array.isArray(this.attendees)) {
-      attendees = this.attendees.map((email) => ({
-        email,
-      }));
-    }
-
-    const response = await this.googleCalendar.createEvent({
+    const data = {
       calendarId: this.calendarId,
       sendUpdates: this.sendUpdates,
+      sendNotifications: this.sendNotifications,
       resource: {
         summary: this.summary,
         location: this.location,
         description: this.description,
-        start: {
-          date: this.eventStartDate.length <= 10
-            ? this.eventStartDate
-            : undefined,
-          dateTime: this.eventStartDate.length > 10
-            ? this.eventStartDate
-            : undefined,
+        start: this.getDateParam({
+          date: this.eventStartDate,
           timeZone,
-        },
-        end: {
-          date: this.eventEndDate.length <= 10
-            ? this.eventEndDate
-            : undefined,
-          dateTime: this.eventEndDate.length > 10
-            ? this.eventEndDate
-            : undefined,
+        }),
+        end: this.getDateParam({
+          date: this.eventEndDate,
           timeZone,
-        },
+        }),
+        recurrence: this.recurrence,
         attendees,
       },
-    });
+    };
 
-    $.export("$summary", `Successfully created event ${response.id}`);
+    if (this.createMeetRoom) {
+      data.conferenceDataVersion = 1;
+      data.resource.conferenceData = {
+        createRequest: {
+          requestId: uuidv4(),
+          conferenceSolutionKey: {
+            type: "hangoutsMeet",
+          },
+        },
+      };
+    }
+
+    const response = await this.googleCalendar.createEvent(data);
+
+    $.export("$summary", `Successfully created event: "${response.id}"`);
 
     return response;
   },

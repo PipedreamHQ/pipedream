@@ -1,4 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 import gmail from "../../gmail_custom_oauth.app.mjs";
 
 export default {
@@ -6,7 +7,7 @@ export default {
   name: "New Labeled Email",
   description: "Emit new event when a new email is labeled.",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     gmail,
@@ -89,4 +90,5 @@ export default {
     }
     await this.emitHistories(lastHistoryId);
   },
+  sampleEmit,
 };

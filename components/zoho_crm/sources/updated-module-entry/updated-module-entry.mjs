@@ -6,7 +6,7 @@ export default {
   key: "zoho_crm-updated-module-entry",
   name: "Updated Module Entry (Instant)",
   description: "Emits an event each time a new module/record is updated in Zoho CRM",
-  version: "0.0.11",
+  version: "0.0.13",
   type: "source",
   methods: {
     ...common.methods,

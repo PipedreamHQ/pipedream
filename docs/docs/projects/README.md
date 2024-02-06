@@ -20,7 +20,7 @@ That's it, you now have a dedicated new project created within your workspace. N
 
 ::: details How do I limit workspace members from viewing or developing workflows in certain projects?
 
-Members of a given workspace can see all projects in the workspace. 
+Members of a given workspace can see all projects in the workspace.
 
 If you need to limit certain project's visibility to only some members, then those members belong in a different workspace.
 
@@ -30,7 +30,7 @@ If you need to limit certain project's visibility to only some members, then tho
 
 Within a given project, you can create folders for your workflows.
 
-Open your project, and then click the **Create** button for a dropdown to create a workflow in your current project.
+Open your project, and then click the **New** button for a dropdown to create a workflow in your current project.
 
 ::: tip
 
@@ -42,14 +42,13 @@ Helpful hotkeys to speed up your development
 :::
 
 
-A folders can also contain sub-folders, which allows you to create a filing system to organize your workflows.
+Folders can also contain sub-folders, which allows you to create a filing system to organize your workflows.
 
 ### Moving workflows into folders
 
 To move workflows into folders, simply drag and drop the workflow into the folder.
 
-You can move a workflows or folders up a level by dragging and dropping the workflow to the folder icon at the top of the list.
-
+You can move workflows or folders up a level by dragging and dropping the workflow to the folder icon at the top of the list.
 
 
 ### Importing workflows into workspaces
@@ -65,3 +64,26 @@ To import a workflow from the general **Workflows** area of your dashboard into 
 Then at the top right of the project's page, click the **Import** button.
 
 You'll be prompted to select a workflow from your **Workflows** area to import.
+
+### Moving workflows between projects
+
+To move a workflow from one project to another project, first check the workflow and then click **Move** to open a dropdown of projects. Select the project to move this workflow to, and click **Move** once more to complete the move.
+
+![How to move workflows from one project to another in the Pipedream dashboard.](https://res.cloudinary.com/pipedreamin/image/upload/v1695662665/docs/docs/projects/CleanShot_2023-09-25_at_13.23.38_2x_dyrtlv.png)
+
+::: warning Github Sync limitation
+
+At this time it's not possible to move workflows out of GitHub Synchronized Projects.
+
+:::
+
+
+## Frequently Asked Questions
+
+### Can sources and connected accounts be organized into projects as well?
+
+At this time no, but that is on our roadmap. Projects will eventually contain all the resources needed for a complete system of workflows to work together.
+
+### Can projects be synchronized to a Github repository?
+
+Yes, [please read here](/projects/git/) for more information on the Github synchronization feature for projects.

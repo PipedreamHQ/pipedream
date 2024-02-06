@@ -5,10 +5,10 @@ export default {
   key: "slack-send-large-message",
   name: "Send a Large Message (3000+ characters)",
   description: "Send a large message (more than 3000 characters) to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.10",
+  version: "0.0.13",
   type: "action",
   props: {
-    ...common.props,
+    slack: common.props.slack,
     conversation: {
       propDefinition: [
         common.props.slack,
@@ -48,6 +48,7 @@ export default {
       ],
       description: "Optionally provide an image URL to use as the bot icon for this message.",
     },
+    ...common.props,
   },
   async run() {
     if (this.include_sent_via_pipedream_flag) {

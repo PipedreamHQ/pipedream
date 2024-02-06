@@ -39,7 +39,7 @@ export default {
     if (field.type == "number") {
       type = "integer";
     }
-    if (field.config.settings.multiple) {
+    if (field.config.settings?.multiple) {
       type += "[]";
     }
     return type;

@@ -8,6 +8,7 @@
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
 import common from "../common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 import {
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
@@ -25,7 +26,7 @@ export default {
   key: "google_drive-changes-to-specific-files-shared-drive",
   name: "Changes to Specific Files (Shared Drive)",
   description: "Watches for changes to specific files in a shared drive, emitting an event any time a change is made to one of those files",
-  version: "0.1.0",
+  version: "0.1.3",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -40,19 +41,26 @@ export default {
       default: [],
       options({ prevContext }) {
         const { nextPageToken } = prevContext;
-        const baseOpts = {};
-        const opts = this.isMyDrive()
-          ? baseOpts
-          : {
-            ...baseOpts,
-            corpora: "drive",
-            driveId: this.getDriveId(),
-            includeItemsFromAllDrives: true,
-            supportsAllDrives: true,
-          };
-        return this.googleDrive.listFilesOptions(nextPageToken, opts);
+        return this.googleDrive.listFilesOptions(nextPageToken, this.getListFilesOpts());
       },
     },
+  },
+  hooks: {
+    async deploy() {
+      const daysAgo = new Date();
+      daysAgo.setDate(daysAgo.getDate() - 30);
+      const timeString = daysAgo.toISOString();
+
+      const args = this.getListFilesOpts({
+        q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
+        fields: "files",
+      });
+
+      const { files } = await this.googleDrive.listFilesInPage(null, args);
+
+      this.processChanges(files);
+    },
+    ...common.hooks,
   },
   methods: {
     ...common.methods,
@@ -69,35 +77,48 @@ export default {
         name: fileName,
         modifiedTime: tsString,
       } = data;
-      const {
-        "x-goog-message-number": eventId,
-        "x-goog-resource-state": resourceState,
-      } = headers;
+      const ts = Date.parse(tsString);
+      const eventId = headers && headers["x-goog-message-number"];
+      const resourceState = headers && headers["x-goog-resource-state"];
+
+      const summary = resourceState
+        ? `${resourceState.toUpperCase()} - ${fileName || "Untitled"}`
+        : fileName || "Untitled";
 
       return {
-        id: `${fileId}-${eventId}`,
-        summary: `${resourceState.toUpperCase()} - ${
-          fileName || "Untitled"
-        }`,
-        ts: Date.parse(tsString),
+        id: `${fileId}-${eventId || ts}`,
+        summary,
+        ts,
       };
     },
     isFileRelevant(file) {
       return this.files.includes(file.id);
     },
-    async processChange(file, headers) {
-      const eventToEmit = {
-        file,
+    getChanges(headers) {
+      if (!headers) {
+        return;
+      }
+      return {
         change: {
           state: headers["x-goog-resource-state"],
           resourceURI: headers["x-goog-resource-uri"],
           changed: headers["x-goog-changed"], // "Additional details about the changes. Possible values: content, parents, children, permissions"
         },
       };
+    },
+    processChange(file, headers) {
+      const changes = this.getChanges(headers);
+      const eventToEmit = {
+        file,
+        ...changes,
+      };
       const meta = this.generateMeta(file, headers);
       this.$emit(eventToEmit, meta);
     },
-    async processChanges(changedFiles, headers) {
+    processChanges(changedFiles, headers) {
+      console.log(`Processing ${changedFiles.length} changed files`);
+      console.log(`Changed files: ${JSON.stringify(changedFiles, null, 2)}!!!`);
+      console.log(`Files: ${this.files}!!!`);
       for (const file of changedFiles) {
         if (!this.isFileRelevant(file)) {
           console.log(`Skipping event for irrelevant file ${file.id}`);
@@ -107,4 +128,5 @@ export default {
       }
     },
   },
+  sampleEmit,
 };

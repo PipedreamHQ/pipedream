@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/postgresql",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "description": "Pipedream PostgreSQL Components",
   "main": "postgresql.app.mjs",
   "keywords": [

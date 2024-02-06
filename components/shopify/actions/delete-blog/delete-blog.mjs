@@ -1,10 +1,12 @@
 import app from "../../common/rest-admin.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "shopify-delete-blog",
   name: "Delete Blog",
   description: "Delete an existing blog. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/blog#delete-blogs-blog-id)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
@@ -14,29 +16,5 @@ export default {
         "blogId",
       ],
     },
-  },
-  methods: {
-    deleteBlog({
-      blogId, ...args
-    } = {}) {
-      return this.app.delete({
-        path: `/blogs/${blogId}`,
-        ...args,
-      });
-    },
-  },
-  async run({ $: step }) {
-    const { blogId } = this;
-
-    await this.deleteBlog({
-      step,
-      blogId,
-    });
-
-    step.export("$summary", `Deleted blog with ID ${blogId}`);
-
-    return {
-      success: true,
-    };
   },
 };

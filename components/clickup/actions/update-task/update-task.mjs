@@ -1,11 +1,12 @@
 import common from "../common/task-props.mjs";
 import constants from "../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "clickup-update-task",
   name: "Update Task",
   description: "Update a task. See the docs [here](https://clickup.com/api) in **Tasks / Update Task** section.",
-  version: "0.0.7",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,
@@ -61,6 +62,18 @@ export default {
       ],
       optional: true,
     },
+    dueDate: {
+      label: "Due Date",
+      type: "string",
+      description: "The due date of task, please use `YYYY-MM-DD` format",
+      optional: true,
+    },
+    startDate: {
+      label: "Start Date",
+      type: "string",
+      description: "The start date of task, please use `YYYY-MM-DD` format",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -87,7 +100,21 @@ export default {
       },
       status,
       parent,
+      due_date: this.dueDate
+        ? new Date(this.dueDate).getTime()
+        : undefined,
+      start_date: this.startDate
+        ? new Date(this.startDate).getTime()
+        : undefined,
     };
+
+    if (data.due_date && isNaN(data.due_date)) {
+      throw new ConfigurationError("Due date is not a valid date");
+    }
+
+    if (data.start_date && isNaN(data.start_date)) {
+      throw new ConfigurationError("Start date is not a valid date");
+    }
 
     if (priority) data[priority] = constants.PRIORITIES[priority];
 

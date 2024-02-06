@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/civicrm",
+  "version": "0.0.1",
+  "description": "Pipedream CiviCRM Components",
+  "main": "dist/app/civicrm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "civicrm"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/civicrm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

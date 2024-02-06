@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/oauth_app_demo_1",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream OAuth App Demo 1 Components",
   "main": "dist/app/oauth_app_demo_1.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/oauth_app_demo_1",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

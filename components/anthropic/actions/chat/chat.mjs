@@ -3,15 +3,15 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Chat",
-  version: "0.0.2",
+  version: "0.0.4",
   key: "anthropic-chat",
-  description: "The Chat API. [See docs here](https://console.anthropic.com/docs/api/reference#-v1-complete)",
+  description: "The Chat API. [See the documentation](https://docs.anthropic.com/claude/reference/complete_post)",
   type: "action",
   props: {
     anthropic,
     model: {
       label: "Model",
-      description: "Select the model to use for your query. Defaults to the `claude-v1` model, which is recommended by Anthropic, and always uses their latest stable version.",
+      description: "Select the model to use for your query. Defaults to the latest stable `claude-2` model, which Anthropic describes as having \"superior performance on tasks that require complex reasoning\".",
       type: "string",
       options: constants.COMPLETION_MODELS,
       default: constants.COMPLETION_MODELS[0],
@@ -35,24 +35,20 @@ export default {
     },
     topK: {
       label: "Top K",
-      description: "Only sample from the top K options for each subsequent token. Used to remove `long tail` low probability responses. Default: `-1`",
+      description: "Only sample from the top K options for each subsequent token. Used to remove `long tail` low probability responses.",
       type: "integer",
       optional: true,
-      default: -1,
     },
     topP: {
       label: "Top P",
-      description: "Does nucleus sampling, in which we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified. Default: `-1`",
+      description: "Does nucleus sampling, in which we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified.",
       type: "string",
       optional: true,
-      default: "-1",
     },
     maxTokensToSample: {
       label: "Maximum Tokens To Sample",
-      description: "A maximum number of tokens to generate before stopping. Default: `300`",
+      description: "A maximum number of tokens to generate before stopping.",
       type: "integer",
-      optional: true,
-      default: 300,
     },
   },
   async run({ $ }) {
@@ -85,8 +81,12 @@ export default {
         prompt,
         model: this.model,
         max_tokens_to_sample: this.maxTokensToSample,
-        temperature: this.temperature,
-        top_p: this.topP,
+        temperature: this.temperature
+          ? parseFloat(this.temperature)
+          : undefined,
+        top_p: this.topP
+          ? parseFloat(this.topP)
+          : undefined,
         top_k: this.topK,
       },
     });

@@ -5,7 +5,7 @@ export default {
   key: "microsoft_teams-new-chat-message",
   name: "New Chat Message",
   description: "Emit new event when a new message is received in a chat",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -14,12 +14,6 @@ export default {
       propDefinition: [
         base.props.microsoftTeams,
         "chat",
-      ],
-    },
-    max: {
-      propDefinition: [
-        base.props.microsoftTeams,
-        "max",
       ],
     },
   },
@@ -31,7 +25,6 @@ export default {
         {
           chatId: this.chat,
         },
-        this.max,
         lastCreated,
       );
     },

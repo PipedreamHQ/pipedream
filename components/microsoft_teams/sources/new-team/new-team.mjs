@@ -5,25 +5,15 @@ export default {
   key: "microsoft_teams-new-team",
   name: "New Team",
   description: "Emit new event when a new team is joined by the authenticated user",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
-  props: {
-    ...base.props,
-    max: {
-      propDefinition: [
-        base.props.microsoftTeams,
-        "max",
-      ],
-    },
-  },
   methods: {
     ...base.methods,
     async getResources(lastCreated) {
       return this.getNewPaginatedResources(
         this.microsoftTeams.listTeams,
         {},
-        this.max,
         lastCreated,
       );
     },

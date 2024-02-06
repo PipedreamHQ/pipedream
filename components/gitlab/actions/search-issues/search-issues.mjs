@@ -5,8 +5,8 @@ import lodash from "lodash";
 export default {
   key: "gitlab-search-issues",
   name: "Search Issues",
-  description: "Search for issues in a repository with a query. [See docs](https://docs.gitlab.com/ee/api/issues.html#list-issues)",
-  version: "0.0.1",
+  description: "Search for issues in a repository with a query. [See the documentation](https://docs.gitlab.com/ee/api/issues.html#list-issues)",
+  version: "0.0.2",
   type: "action",
   props: {
     gitlab,
@@ -22,6 +22,7 @@ export default {
         "query",
       ],
       description: "Search issues against their **title** and **description**. Leave this field blank to list all issues",
+      optional: true,
     },
     labels: {
       propDefinition: [
@@ -56,18 +57,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = lodash.pickBy(lodash.pick(this, [
-      "projectId",
-      "search",
-      "labels",
-      "state",
-      "assigneeId",
-      "max",
-    ]));
-    opts.scope = constants.issues.scopes.ALL;
-    opts.labels = opts.labels?.join();
+    const params = lodash.pickBy({
+      search: this.search,
+      labels: this.labels,
+      state: this.state,
+      assignee_id: this.assigneeId,
+      per_page: this.max,
+    });
+    params.scope = constants.issues.scopes.ALL;
+    params.labels = params.labels?.join();
 
-    const issues = await this.gitlab.searchIssues(opts);
+    const issues = await this.gitlab.searchIssues(this.projectId, {
+      params,
+    });
     const suffix = issues.length === 1
       ? ""
       : "s";

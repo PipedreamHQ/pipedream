@@ -6,7 +6,7 @@ export default {
   name: "Delete webinar",
   description: "Delete a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinardelete)",
   key: "zoom_admin-delete-webinar",
-  version: "0.1.1",
+  version: "0.1.3",
   type: "action",
   props: {
     zoomAdmin,

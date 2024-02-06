@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New Spreadsheet (Instant)",
   description: "Emit new event each time a new spreadsheet is created in a drive.",
-  version: "0.1.0",
+  version: "0.1.2",
   props: {
     googleDrive: newFilesInstant.props.googleDrive,
     db: newFilesInstant.props.db,
@@ -54,19 +54,30 @@ export default {
       }
       return opts;
     },
+    getSpreadsheetsFromFiles(files, limit) {
+      return files.reduce(async (acc, file) => {
+        const spreadsheets = await acc;
+        const fileInfo = await this.googleDrive.getFile(file.id);
+        return spreadsheets.length >= limit
+          ? spreadsheets
+          : spreadsheets.concat(fileInfo);
+      }, []);
+    },
     async getSpreadsheets(limit) {
-      const spreadsheets = [];
       const foldersIds = this.folders;
-      for (const folderId of foldersIds) {
-        const opts = this.getSpreadsheetsFromFolderOpts(folderId);
-        const filesWrapper = await this.googleDrive.listFilesInPage(null, opts);
-        for (const file of filesWrapper.files) {
-          const fileInfo = await this.googleDrive.getFile(file.id);
-          spreadsheets.push(fileInfo);
-          if (spreadsheets.length >= limit) { return spreadsheets; }
-        }
+
+      if (!foldersIds.length) {
+        const opts = this.getSpreadsheetsFromFolderOpts("root");
+        const { files } = await this.googleDrive.listFilesInPage(null, opts);
+        return this.getSpreadsheetsFromFiles(files, limit);
       }
-      return spreadsheets;
+
+      return foldersIds.reduce(async (spreadsheets, folderId) => {
+        const opts = this.getSpreadsheetsFromFolderOpts(folderId);
+        const { files } = await this.googleDrive.listFilesInPage(null, opts);
+        const nextSpreadsheets = await this.getSpreadsheetsFromFiles(files, limit);
+        return (await spreadsheets).concat(nextSpreadsheets);
+      }, []);
     },
   },
 };

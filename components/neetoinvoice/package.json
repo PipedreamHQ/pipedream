@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/neetoinvoice",
+  "version": "0.1.0",
+  "description": "Pipedream neetoinvoice Components",
+  "main": "neetoinvoice.app.mjs",
+  "keywords": [
+    "pipedream",
+    "neetoinvoice"
+  ],
+  "homepage": "https://pipedream.com/apps/neetoinvoice",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

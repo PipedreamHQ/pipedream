@@ -5,7 +5,7 @@ export default {
   key: "github-new-mention",
   name: "New Mention",
   description: "Emit new events when you are @mentioned in a new commit, comment, issue or pull request",
-  version: "0.1.7",
+  version: "0.1.16",
   type: "source",
   hooks: {
     async activate() {

@@ -1,10 +1,12 @@
 import app from "../../common/rest-admin.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "shopify-update-article",
   name: "Update Article",
   description: "Update a blog article. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#put-blogs-blog-id-articles-article-id)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
@@ -37,39 +39,5 @@ export default {
         "bodyHtml",
       ],
     },
-  },
-  methods: {
-    updateBlogArticle({
-      blogId, articleId, ...args
-    } = {}) {
-      return this.app.put({
-        path: `/blogs/${blogId}/articles/${articleId}`,
-        ...args,
-      });
-    },
-  },
-  async run({ $: step }) {
-    const {
-      blogId,
-      articleId,
-      title,
-      bodyHtml,
-    } = this;
-
-    const response = await this.updateBlogArticle({
-      step,
-      blogId,
-      articleId,
-      data: {
-        article: {
-          title,
-          body_html: bodyHtml,
-        },
-      },
-    });
-
-    step.export("$summary", `Updated article with ID ${response.article.id}.`);
-
-    return response;
   },
 };

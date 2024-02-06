@@ -1,16 +1,14 @@
 {
   "name": "@pipedream/beanstalkapp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Beanstalk Components",
-  "main": "dist/app/beanstalkapp.app.mjs",
+  "main": "beanstalkapp.app.mjs",
   "keywords": [
     "pipedream",
     "beanstalkapp"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/beanstalkapp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

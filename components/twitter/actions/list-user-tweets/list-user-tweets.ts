@@ -1,11 +1,15 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
-  getMultiItemSummary, getUserId, getTweetFields,
+  getMultiItemSummary,
+  getUserId,
+  getTweetFields,
 } from "../../common/methods";
 import { GetUserTweetsParams } from "../../common/types/requestParams";
 import {
-  PaginatedResponseObject, Tweet,
+  PaginatedResponseObject,
+  Tweet,
 } from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
@@ -15,22 +19,23 @@ const DEFAULT_RESULTS = 10;
 export const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
+  ...common,
   key: "twitter-list-user-tweets",
   name: "List User Tweets",
-  description: `Return a collection of the most recent tweets posted by a user. [See docs here](${DOCS_LINK})`,
-  version: "1.1.2",
+  description: `Return a collection of the most recent tweets posted by a user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.7",
   type: "action",
   props: {
-    app,
+    ...common.props,
     userNameOrId: {
       propDefinition: [
-        app,
+        common.props.app,
         "userNameOrId",
       ],
     },
     maxResults: {
       propDefinition: [
-        app,
+        common.props.app,
         "maxResults",
       ],
       min: MIN_RESULTS,
@@ -39,6 +44,7 @@ export default defineAction({
     },
   },
   methods: {
+    ...common.methods,
     getMultiItemSummary,
     getUserId,
     getTweetFields,
@@ -52,11 +58,15 @@ export default defineAction({
       maxResults: this.maxResults,
       params: this.getTweetFields(),
       userId,
+      fallbackError: ACTION_ERROR_MESSAGE,
     };
 
     const response = await this.app.getUserTweets(params);
 
-    $.export("$summary", this.getMultiItemSummary("tweet", response.data?.length));
+    $.export(
+      "$summary",
+      this.getMultiItemSummary("tweet", response.data?.length),
+    );
 
     return response;
   },

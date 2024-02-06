@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/docsumo",
+  "version": "0.1.0",
+  "description": "Pipedream Docsumo Components",
+  "main": "docsumo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "docsumo"
+  ],
+  "homepage": "https://pipedream.com/apps/docsumo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

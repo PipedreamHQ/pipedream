@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/grab_your_reviews",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Grab Your Reviews Components",
   "main": "dist/app/grab_your_reviews.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/grab_your_reviews",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

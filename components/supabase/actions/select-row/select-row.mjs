@@ -5,7 +5,7 @@ export default {
   key: "supabase-select-row",
   name: "Select Row",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.6",
   description: "Selects row(s) in a database. [See the docs here](https://supabase.com/docs/reference/javascript/select)",
   props: {
     supabase,
@@ -45,15 +45,10 @@ export default {
       description: "Column name to order by",
     },
     sortOrder: {
-      type: "string",
-      label: "Sort Order",
-      description: "Sort ascending or descending",
-      options: [
-        "ascending",
-        "descending",
+      propDefinition: [
+        supabase,
+        "sortOrder",
       ],
-      optional: true,
-      default: "ascending",
     },
     max: {
       type: "integer",

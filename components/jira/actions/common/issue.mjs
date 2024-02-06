@@ -23,19 +23,6 @@ export default {
       ],
       description: "Details of issue properties to be add or update, please provide an array of objects with keys and values.",
     },
-    transitionId: {
-      label: "Transition ID",
-      propDefinition: [
-        app,
-        "transition",
-      ],
-    },
-    transitionLooped: {
-      type: "boolean",
-      label: "Transition Looped",
-      description: "Whether the transition is looped.",
-      optional: true,
-    },
     update: {
       type: "object",
       label: "Update",
@@ -50,13 +37,23 @@ export default {
     },
   },
   methods: {
+    getIssueTypes(args = {}) {
+      return this.app._makeRequest({
+        path: "/issuetype",
+        ...args,
+      });
+    },
     getResourcesInfo(key) {
+      const {
+        app,
+        cloudId,
+      } = this;
       switch (key) {
       case constants.FIELD_KEY.PARENT:
         return {
-          fn: this.app.getIssues,
+          fn: app.getIssues,
           args: {
-            cloudId: this.cloudId,
+            cloudId,
             params: {
               maxResults: 100,
             },
@@ -71,21 +68,32 @@ export default {
         };
       case constants.FIELD_KEY.LABELS:
         return {
-          fn: this.app.getLabels,
+          fn: app.getLabels,
           args: {
-            cloudId: this.cloudId,
+            cloudId,
             params: {
               maxResults: 100,
             },
           },
           map: ({ values }) => values,
         };
+      case constants.FIELD_KEY.ISSUETYPE:
+        return {
+          fn: this.getIssueTypes,
+          args: {
+            cloudId,
+          },
+          map: (issueTypes) =>
+            issueTypes?.map(({
+              id: value, name: label,
+            }) => ({
+              value,
+              label,
+            })),
+        };
       default:
         return {};
       }
-    },
-    getPropType(schemaType) {
-      return constants.TYPE[schemaType] || "object";
     },
     async getDynamicFields({
       fields, predicate = (field) => field,
@@ -95,13 +103,16 @@ export default {
       const keysForResourceRequest = [
         constants.FIELD_KEY.PARENT,
         constants.FIELD_KEY.LABELS,
+        constants.FIELD_KEY.ISSUETYPE,
       ];
 
       return Object.values(fields)
         .filter(predicate)
         .reduce(async (props, {
-          schema, name: label, key, required, autoCompleteUrl,
+          schema, name: label, key, autoCompleteUrl,
         }) => {
+          const reduction = await props;
+
           const {
             type: schemaType,
             custom,
@@ -112,25 +123,32 @@ export default {
             : key;
 
           const value = {
-            type: this.getPropType(schemaType),
+            // It defaults to object because it may expect a structure like { id: "123" }
+            type: constants.TYPE[schemaType] || "object",
             label,
             description: "Set your field value",
-            optional: !required,
+            optional: true,
           };
 
           // Requests by URL
           if (schemaTypes.includes(schemaType)) {
-            const resources = await this.app._makeRequest({
-              url: autoCompleteUrl,
-            });
+            try {
+              const resources = await this.app._makeRequest({
+                url: autoCompleteUrl,
+              });
 
-            return Promise.resolve({
-              ...await props,
-              [newKey]: {
-                ...value,
-                options: resources.map(constants.SCHEMA[schemaType].mapping),
-              },
-            });
+              return Promise.resolve({
+                ...reduction,
+                [newKey]: {
+                  ...value,
+                  options: resources.map(constants.SCHEMA[schemaType].mapping),
+                },
+              });
+
+            } catch (error) {
+              console.log("Error fetching resources requested by URL", autoCompleteUrl, error);
+              return Promise.resolve(reduction);
+            }
           }
 
           // Requests by Resource
@@ -144,7 +162,7 @@ export default {
             const response = await resourcesFn(resourcesFnArgs);
 
             return Promise.resolve({
-              ...await props,
+              ...reduction,
               [newKey]: {
                 ...value,
                 options: resourcesFnMap(response),
@@ -153,7 +171,7 @@ export default {
           }
 
           return Promise.resolve({
-            ...await props,
+            ...reduction,
             [newKey]: value,
           });
         }, Promise.resolve({}));
@@ -172,6 +190,11 @@ export default {
         constants.FIELD_KEY.ASSIGNEE,
         constants.FIELD_KEY.REPORTER,
         constants.FIELD_KEY.PARENT,
+        constants.FIELD_KEY.ISSUETYPE,
+      ];
+
+      const keysToConsiderAsArray = [
+        constants.FIELD_KEY.LABELS,
       ];
 
       return Object.entries(fields)
@@ -200,7 +223,12 @@ export default {
                 ? {
                   id: value,
                 }
-                : value,
+                : keysToConsiderAsArray.includes(fieldName) && Array.isArray(value)
+                  ? [
+                    value,
+                    value.length,
+                  ]
+                  : value,
           };
         }, {});
     },

@@ -4,7 +4,7 @@ export default {
   key: "notion-retrieve-page-property-item",
   name: "Retrieve Page Property Item",
   description: "Retrieves a `property_item` object for a given `page_id` and `property_id`.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     notion,

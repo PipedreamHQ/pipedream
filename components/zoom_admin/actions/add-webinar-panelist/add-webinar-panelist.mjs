@@ -6,7 +6,7 @@ export default {
   name: "Add webinar panelist",
   description: "Register a panelist for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarpanelistcreate)",
   key: "zoom_admin-add-webinar-panelist",
-  version: "0.1.1",
+  version: "0.1.3",
   type: "action",
   props: {
     zoomAdmin,

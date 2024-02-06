@@ -4,6 +4,7 @@ import get from "lodash/get.js";
 import config from "./common/config.mjs";
 import isString from "lodash/isString.js";
 import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
 
 const Dropbox = dropbox.Dropbox;
 
@@ -14,23 +15,24 @@ export default {
     pathFolder: {
       type: "string",
       label: "Path",
-      description: "The folder path. (Please use a valid path to filter the values)",
+      description: "The folder path. (Please use a valid path to filter the values and type at least 2 characters after the latest '/' to perform the search.)",
       useQuery: true,
       withLabel: true,
       async options({
         prevContext,
         query,
         returnSimpleString,
+        omitRootFolder,
       }) {
         if (prevContext?.reachedLastPage) {
           return [];
         }
         return this.getPathOptions(
           query,
-          prevContext?.cursor,
           {
             omitFiles: true,
             returnSimpleString,
+            omitRootFolder,
           },
         );
       },
@@ -45,16 +47,17 @@ export default {
         prevContext,
         query,
         returnSimpleString,
+        omitRootFolder,
       }) {
         if (prevContext?.reachedLastPage) {
           return [];
         }
         return this.getPathOptions(
           query,
-          prevContext?.cursor,
           {
             omitFolders: true,
             returnSimpleString,
+            omitRootFolder,
           },
         );
       },
@@ -69,15 +72,16 @@ export default {
         prevContext,
         query,
         returnSimpleString,
+        omitRootFolder,
       }) {
         if (prevContext?.reachedLastPage) {
           return [];
         }
         return this.getPathOptions(
           query,
-          prevContext?.cursor,
           {
             returnSimpleString,
+            omitRootFolder,
           },
         );
       },
@@ -111,6 +115,25 @@ export default {
     },
   },
   methods: {
+    getPath(path) {
+      return Object.prototype.hasOwnProperty.call(path, "value")
+        ? path.value
+        : path;
+    },
+    getNormalizedPath(path, appendFinalBar) {
+      let normalizedPath = this.getPath(path);
+
+      // Check for empties path
+      if (isNil(normalizedPath) || isEmpty(normalizedPath)) {
+        normalizedPath = "/";
+      }
+
+      if (appendFinalBar && normalizedPath[normalizedPath.length - 1] !== "/") {
+        normalizedPath += "/";
+      }
+
+      return normalizedPath;
+    },
     async sdk() {
       const baseClientOpts = {
         accessToken: this.$auth.oauth_access_token,
@@ -166,36 +189,47 @@ export default {
         this.normalizeError(err);
       }
     },
-    async getPathOptions(path, prevCursor, opts = {}) {
+    async getPathOptions(path, opts = {}) {
       try {
         const {
           omitFolders,
           omitFiles,
+          omitRootFolder,
         } = opts;
 
         let data = [];
-        let res = null;
         path = path === "/" || path === null
           ? ""
           : path;
 
-        const dpx = await this.sdk();
+        if (path.length > 0 && !path.startsWith("/")) {
+          path = "/" + path;
+        }
+
         if (path === "") {
-          res = await dpx.filesListFolder({
+          const entries = await this.listFilesFolders({
             path,
-            limit: config.GET_PATH_OPTIONS.DEFAULT_MAX_RESULTS,
             recursive: true,
+            include_mounted_folders: true,
           });
 
-          data = res.result.entries.map((item) => ({
+          data = entries.map((item) => ({
             path: item.path_display,
             type: item[".tag"],
           }));
+
         } else {
-          res = await this.searchFilesFolders({
-            query: path,
+          let subpath = "";
+          let query = path;
+          if ((path.match(/\//g) || []).length > 1) {
+            const splitPath = path.split("/");
+            query = splitPath.pop();
+            subpath = splitPath.join("/");
+          }
+          const res = await this.searchFilesFolders({
+            query,
             options: {
-              path: "",
+              path: subpath,
             },
           });
 
@@ -206,11 +240,12 @@ export default {
 
           const folders = data.filter((item) => item.type !== "file");
           for (const folder of folders) {
-            res = await dpx.filesListFolder({
+            const entries = await this.listFilesFolders({
               path: folder.path,
               recursive: true,
+              include_mounted_folders: true,
             });
-            const folderData = res.result?.entries?.map((item) => ({
+            const folderData = entries?.map((item) => ({
               path: item.path_display,
               type: item[".tag"],
             }));
@@ -226,7 +261,20 @@ export default {
           data = data.filter((item) => item.type !== "folder");
         }
 
-        data = data.map((item) => (item.path));
+        data = data.map((item) => ({
+          label: item.path,
+          value: item.path,
+        }));
+
+        if (path === "" && !omitFolders && !omitRootFolder) {
+          data = [
+            {
+              label: "Root Folder",
+              value: "",
+            },
+            ...data,
+          ];
+        }
 
         data.sort((a, b) => {
           return a > b ?

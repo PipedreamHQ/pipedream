@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-engagement",
   name: "New Engagement",
   description: "Emit new event for each new engagement created. This action returns a maximum of 5000 records at a time, make sure you set a correct time range so you don't miss any events",
-  version: "0.0.14",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
   hooks: {},

@@ -5,14 +5,6 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763806/docs/
 
 # Connecting apps in Python
 
-:::warning
-
-This feature is in **beta**. There might be changes while we prepare it for a full release.
-
-If you have any feedback on the Python runtime, please let us know in [our community](https://pipedream.com/support).
-
-:::
-
 When you use [prebuilt actions](/components#actions) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
 
 But sometimes you'll need to [write your own code](/code/python/). You can also connect apps to custom code steps, using the auth information to authorize requests to that app.
@@ -23,7 +15,7 @@ Add Slack as an app on the Python step, then connect your Slack account.
 
 ![Add your Slack account to a Python code step by adding it](https://res.cloudinary.com/pipedreamin/image/upload/v1658954165/docs/components/CleanShot_2022-07-27_at_16.35.37_ytofp2.gif)
 
-Then within the Python code step, `pd.steps["slack"]["$auth"]["oauth_access_token"]` will contain your Slack account OAuth token.
+Then within the Python code step, `pd.inputs["slack"]["$auth"]["oauth_access_token"]` will contain your Slack account OAuth token.
 
 With that token, you can make authenticated API calls to Slack:
 

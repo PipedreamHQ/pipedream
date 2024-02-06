@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-create-channel",
   description: "Create a new channel (Bot). [See docs here](https://api.slack.com/methods/conversations.create)",
-  version: "0.0.1",
+  version: "0.0.2",
 };

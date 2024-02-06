@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emit new event for each new Hubspot event.",
-  version: "0.0.13",
+  version: "0.0.15",
   dedupe: "unique",
   type: "source",
   props: {

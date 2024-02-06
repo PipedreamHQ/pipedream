@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-delete-worksheet",
   name: "Delete Worksheet",
   description: "Delete a specific worksheet",
-  version: "0.1.0",
+  version: "0.1.2",
   type: "action",
   props: {
     googleSheets,

@@ -5,7 +5,7 @@ export default {
   key: "gitlab-new-project",
   name: "New Project",
   description: "Emit new event when a project (i.e. repository) is created",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "greatest",
   type: "source",
   props: {
@@ -20,9 +20,11 @@ export default {
   },
   hooks: {
     async activate() {
-      const { data: projects } = await this.gitlab.listProjects({
-        owned: true,
-        max: 1,
+      const projects = await this.gitlab.listProjects({
+        params: {
+          owned: true,
+          per_page: 1,
+        },
       });
       if (projects.length > 0) {
         const lastProcessedProjectId = projects[0].id;
@@ -56,7 +58,12 @@ export default {
     // don't emit events for them (i.e. we only want to emit events
     // for new projects).
     let lastProcessedProjectId = this._getLastProcessedProjectId();
-    const projects = await this.gitlab.getUnprocessedProjects(lastProcessedProjectId);
+    const projects = await this.gitlab.listProjects({
+      params: {
+        id_after: lastProcessedProjectId,
+        owned: true,
+      },
+    });
 
     if (projects.length === 0) {
       console.log("No new GitLab projects detected");

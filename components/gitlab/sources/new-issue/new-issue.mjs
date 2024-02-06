@@ -6,7 +6,7 @@ export default {
   key: "gitlab-new-issue",
   name: "New Issue (Instant)",
   description: "Emit new event when an issue is created in a project",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   type: "source",
   hooks: {

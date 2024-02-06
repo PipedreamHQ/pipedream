@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fluent_support",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Fluent Support Components",
   "main": "dist/app/fluent_support.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/fluent_support",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

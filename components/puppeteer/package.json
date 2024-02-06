@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/puppeteer",
+  "version": "1.0.1",
+  "description": "Pipedream Puppeteer Components",
+  "main": "puppeteer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "puppeteer"
+  ],
+  "homepage": "https://pipedream.com/apps/puppeteer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "@sparticuz/chromium": "121.0.0",
+    "puppeteer-core": "21.11.0"
+  }
+}

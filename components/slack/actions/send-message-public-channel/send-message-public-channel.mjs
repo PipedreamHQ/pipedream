@@ -6,10 +6,10 @@ export default {
   key: "slack-send-message-public-channel",
   name: "Send Message to a Public Channel",
   description: "Send a message to a public channel and customize the name and avatar of the bot that posts the message. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.14",
+  version: "0.2.17",
   type: "action",
   props: {
-    ...common.props,
+    slack: common.props.slack,
     conversation: {
       propDefinition: [
         common.props.slack,
@@ -54,5 +54,6 @@ export default {
       ],
       description: "Optionally provide an image URL to use as the bot icon for this message.",
     },
+    ...common.props,
   },
 };

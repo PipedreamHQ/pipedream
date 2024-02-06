@@ -1,12 +1,12 @@
-import common from "../common/common.mjs";
 import constants from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 
 export default {
   type: "source",
   key: "webflow-new-site-published",
   name: "New Site Published",
   description: "Emit new event when a site is published. [See the docs here](https://developers.webflow.com/#trigger-types)",
-  version: "0.2.1",
+  version: "0.2.2",
   ...common,
   hooks: {
     ...common.hooks,

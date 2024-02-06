@@ -8,7 +8,7 @@ export default {
   name: "Rename Channel",
   description: "Rename a channel to a specified name you choose",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.12",
   props: {
     ...common.props,
     channelId: {

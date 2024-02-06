@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-get-file",
   description: "Return information about a file (Bot). [See docs here](https://api.slack.com/methods/files.info)",
-  version: "0.0.1",
+  version: "0.0.2",
 };

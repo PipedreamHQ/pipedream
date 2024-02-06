@@ -1,11 +1,12 @@
 import base from "../common/webhooks.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
   key: "telegram_bot_api-new-bot-command-received",
   name: "New Bot Command Received (Instant)",
   description: "Emit new event each time a Telegram Bot command is received.",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -55,4 +56,5 @@ export default {
       this.$emit(event, this.getMeta(event, message));
     },
   },
+  sampleEmit,
 };

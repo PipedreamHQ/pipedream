@@ -18,7 +18,7 @@ export default {
   key: "google_drive-download-file",
   name: "Download File",
   description: "Download a file. [See the docs](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     googleDrive,

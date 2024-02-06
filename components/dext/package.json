@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/dext",
+  "version": "0.1.0",
+  "description": "Pipedream Dext Components",
+  "main": "dext.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dext"
+  ],
+  "homepage": "https://pipedream.com/apps/dext",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

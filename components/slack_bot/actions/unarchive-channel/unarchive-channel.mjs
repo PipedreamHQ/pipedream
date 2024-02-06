@@ -34,5 +34,5 @@ export default {
   }),
   key: "slack_bot-unarchive-channel",
   description: "Unarchive a channel (Bot). [See docs here](https://api.slack.com/methods/conversations.unarchive)",
-  version: "0.0.1",
+  version: "0.0.2",
 };

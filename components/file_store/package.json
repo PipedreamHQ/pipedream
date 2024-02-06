@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/file_store",
+  "version": "0.0.1",
+  "description": "Pipedream File Store Components",
+  "main": "file_store.app.mjs",
+  "keywords": [
+    "pipedream",
+    "file_store"
+  ],
+  "homepage": "https://pipedream.com/apps/file_store",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

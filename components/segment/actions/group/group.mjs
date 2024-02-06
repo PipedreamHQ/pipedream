@@ -4,7 +4,7 @@ export default {
   key: "segment-group",
   name: "Associate an identified user with a group",
   description: "Group lets you associate an identified user with a group (note requires userId or anonymousId). See the docs [here](https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/#group)",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   props: {
     segmentApp,

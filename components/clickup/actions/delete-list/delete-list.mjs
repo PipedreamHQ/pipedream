@@ -4,7 +4,7 @@ export default {
   key: "clickup-delete-list",
   name: "Delete List",
   description: "Delete a list. See the docs [here](https://clickup.com/api) in **Lists / Delete List** section.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: common.props,
   async run({ $ }) {

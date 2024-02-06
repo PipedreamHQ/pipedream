@@ -1,17 +1,19 @@
 {
   "name": "@pipedream/salesmsg",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Salesmsg Components",
-  "main": "dist/app/salesmsg.app.mjs",
+  "main": "salesmsg.app.mjs",
   "keywords": [
     "pipedream",
     "salesmsg"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/salesmsg",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
+

@@ -1,16 +1,17 @@
 {
   "name": "@pipedream/quaderno",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Pipedream Quaderno Components",
-  "main": "dist/app/quaderno.app.mjs",
+  "main": "quaderno.app.mjs",
   "keywords": [
     "pipedream",
     "quaderno"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/quaderno",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
   "publishConfig": {
     "access": "public"
   }

@@ -3,8 +3,8 @@ import common from "../common/common-hook.mjs";
 export default {
   key: "podio-new-item-created",
   name: "New Item Created",
-  description: "Emit new events when a new item is created. [See the docs here](https://developers.podio.com/doc/hooks)",
-  version: "0.0.1",
+  description: "Emit new events when a new item is created. [See the documentation](https://developers.podio.com/doc/hooks)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

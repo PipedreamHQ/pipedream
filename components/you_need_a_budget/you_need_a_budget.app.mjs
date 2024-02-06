@@ -4,10 +4,10 @@ export default {
   type: "app",
   app: "you_need_a_budget",
   propDefinitions: {
-    // eslint-disable-next-line pipedream/props-description
     budgetId: {
       type: "string",
       label: "Budget ID",
+      description: "Budget ID",
       async options() {
         const { budgets } = await this.getBudgets();
         return budgets.map((budget) => ({
@@ -80,15 +80,34 @@ export default {
     date: {
       type: "string",
       label: "Date",
-      description: "E.g. `2021-11-29`",
+      description: "The transaction date in ISO format `YYYY-MM-DD` (e.g. `2016-12-01`).",
     },
     amount: {
       type: "string",
       label: "Amount",
       description: "E.g. `-290.99`",
     },
+    transactionId: {
+      type: "string",
+      label: "Transaction ID",
+      description: "The ID of the transaction to update.",
+      async options({ budgetId }) {
+        const { transactions } = await this.getTransactions({
+          budgetId,
+        });
+        return transactions.map(({
+          payee_name, id,
+        }) => ({
+          label: `${id} (${payee_name})`,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
+    getAccessToken() {
+      return this.$auth.oauth_access_token;
+    },
     _isUUID(value) {
       const hyphen = "-";
       return value.length === 36
@@ -98,11 +117,10 @@ export default {
         && value.charAt(23) === hyphen;
     },
     _client() {
-      return new ynab.API(this.$auth.oauth_access_token);
+      return new ynab.API(this.getAccessToken());
     },
     throwFormattedError(error) {
       const message = JSON.stringify(error, null, 2);
-      console.error(message);
       throw new Error(message);
     },
     /**

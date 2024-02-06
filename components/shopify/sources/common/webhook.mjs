@@ -9,12 +9,26 @@ export default {
       type: "$.interface.http",
       customResponse: true,
     },
+    metafieldNamespaces: {
+      type: "string[]",
+      label: "Metafield Namespaces",
+      description: "Array of namespaces for any metafields that should be included with each webhook",
+      optional: true,
+    },
+    privateMetafieldNamespaces: {
+      type: "string[]",
+      label: "Private Metafield Namespaces",
+      description: "Array of namespaces for any private metafields that should be included with each webhook",
+      optional: true,
+    },
   },
   hooks: {
     async activate() {
       const { result: webhook } = await this.app.createWebhook({
         address: this.http.endpoint,
         topic: this.getTopic(),
+        metafield_namespaces: this.metafieldNamespaces,
+        private_metafield_namespaces: this.privateMetafieldNamespaces,
       });
       this.setWebhookId(webhook.id);
     },
@@ -64,6 +78,9 @@ export default {
     });
 
     if (!isValid) {
+      this.http.respond({
+        status: 401,
+      });
       console.log(`Ignoring webhook event with domain: ${domain} and topic: ${topic}`);
       return;
     }

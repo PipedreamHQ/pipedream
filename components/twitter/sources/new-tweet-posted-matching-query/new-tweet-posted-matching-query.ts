@@ -1,4 +1,3 @@
-import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
@@ -13,14 +12,14 @@ export default defineSource({
   ...common,
   key: "twitter-new-tweet-posted-matching-query",
   name: "New Tweet Posted Matching Query",
-  description: `Emit new event when a new tweet matching the specified query is posted [See docs here](${DOCS_LINK})`,
-  version: "0.1.2",
+  description: `Emit new event when a new tweet matching the specified query is posted [See the documentation](${DOCS_LINK})`,
+  version: "2.0.7",
   type: "source",
   props: {
     ...common.props,
     query: {
       propDefinition: [
-        app,
+        common.props.app,
         "query",
       ],
     },

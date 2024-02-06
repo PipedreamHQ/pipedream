@@ -1,38 +1,46 @@
-import common from "../common/common-webhook.mjs";
+import common from "../common/common-flex.mjs";
+import {
+  getSampleTimerEvent, getSampleWebhookEvent,
+} from "./common-sample-events.mjs";
+
+const DOCS_LINK =
+  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#discussion";
 
 export default {
   ...common,
   key: "github-new-discussion",
-  name: "New Discussion (Instant)",
-  description: "Emit new events on new discussion to a repository",
-  version: "0.0.1",
+  name: "New Discussion",
+  description: `Emit new event when a discussion is created [See the documentation](${DOCS_LINK})`,
+  version: "1.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getSampleTimerEvent,
+    getSampleWebhookEvent,
     getWebhookEvents() {
       return [
         "discussion",
       ];
     },
-    generateMeta(data) {
-      return {
-        id: data.id,
-        summary: data.title,
-        ts: Date.parse(data.created_at),
-      };
+    shouldEmitWebhookEvent(body) {
+      return body?.action === "created";
     },
-  },
-  async run(event) {
-    const { body } = event;
-
-    // skip initial response from Github
-    if (body?.zen) {
-      console.log(body.zen);
-      return;
-    }
-
-    const meta = this.generateMeta(body.discussion);
-    this.$emit(body.discussion, meta);
+    getWebhookEventItem(body) {
+      return body.discussion;
+    },
+    getSummary(item) {
+      return `New discussion: "${item.title}"`;
+    },
+    getPollingData(args) {
+      return this.github.getDiscussions(args);
+    },
+    sortByTimestamp(items) {
+      return items.sort((a, b) => {
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
+        return dateA - dateB;
+      });
+    },
   },
 };

@@ -3,9 +3,9 @@ import app from "../../zendesk.app.mjs";
 export default {
   key: "zendesk-delete-ticket",
   name: "Delete Ticket",
-  description: "Deletes a ticket. [See the docs](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#delete-ticket).",
+  description: "Deletes a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#delete-ticket).",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.2",
   props: {
     app,
     ticketId: {

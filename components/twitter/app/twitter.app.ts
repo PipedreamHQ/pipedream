@@ -1,7 +1,9 @@
 import OAuth from "oauth-1.0a";
 import crypto from "crypto";
 import { defineApp } from "@pipedream/types";
-import { axios } from "@pipedream/platform";
+import {
+  axios, transformConfigForOauth, ConfigurationError,
+} from "@pipedream/platform";
 import {
   AddUserToListParams,
   CreateTweetParams,
@@ -25,8 +27,12 @@ import {
   UnlikeTweetParams,
   GetListTweetsParams,
   GetAuthenticatedUserParams,
+  SendMessageParams,
+  GetDirectMessagesParams,
+  UploadMediaParams,
 } from "../common/types/requestParams";
 import {
+  DirectMessage,
   List,
   PaginatedResponseObject,
   ResponseObject,
@@ -34,6 +40,7 @@ import {
   TwitterEntity,
   User,
 } from "../common/types/responseSchemas";
+import { ERROR_BY_TYPE } from "../common/errorMessage";
 
 export default defineApp({
   type: "app",
@@ -57,14 +64,12 @@ export default defineApp({
           userId,
         });
 
-        return (
-          lists.data?.map(({
-            id, name,
-          }: List) => ({
-            label: name,
-            value: id,
-          })) ?? []
-        );
+        return lists.data?.map(({
+          id, name,
+        }: List) => ({
+          label: name,
+          value: id,
+        })) ?? [];
       },
     },
     userNameOrId: {
@@ -99,15 +104,24 @@ export default defineApp({
     },
   },
   methods: {
-    async _getAuthHeader(config: HttpRequestParams) {
+    throwError(data) {
+      const errorMessage = ERROR_BY_TYPE[data?.type];
+      if (!errorMessage) {
+        return;
+      }
+      throw new ConfigurationError(errorMessage);
+    },
+    _getAuthHeader(config: HttpRequestParams) {
       const {
-        oauth_access_token: key, oauth_refresh_token: secret,
-      } =
-        this.$auth;
+        developer_consumer_key: devKey,
+        developer_consumer_secret: devSecret,
+        oauth_access_token: key,
+        oauth_refresh_token: secret,
+      } = this.$auth;
 
       const consumer = {
-        key,
-        secret,
+        key: devKey,
+        secret: devSecret,
       };
 
       const oauth = new OAuth({
@@ -121,44 +135,65 @@ export default defineApp({
         },
       });
 
-      if (!config.method) config.method = "GET";
+      const token = {
+        key,
+        secret,
+      };
 
-      return oauth.toHeader(oauth.authorize(config, consumer));
+      const requestData = transformConfigForOauth(config);
+
+      return oauth.toHeader(oauth.authorize(requestData, token));
     },
     _getBaseUrl() {
       return "https://api.twitter.com/2";
     },
     async _httpRequest({
-      $ = this,
-      ...args
+      $ = this, headers, specialAuth = false, throwError = true, fallbackError, ...args
     }: HttpRequestParams): Promise<ResponseObject<TwitterEntity>> {
+      const maxRetries = 3;
+      let response: ResponseObject<TwitterEntity>;
+      let counter = 1;
+
       const config = {
         baseURL: this._getBaseUrl(),
         ...args,
       };
-      // const headers = this._getAuthHeader(config);
 
-      const request = () => axios($, {
+      const authConfig = specialAuth
+        ? {
+          ...config,
+          params: {},
+          data: {},
+        }
+        : config;
+
+      const axiosConfig = {
+        debug: true,
         ...config,
-        // headers,
-      }, {
-        oauthSignerUri: this.$auth.oauth_signer_uri,
-        token: {
-          key: this.$auth.oauth_access_token,
-          secret: this.$auth.oauth_refresh_token,
+        headers: {
+          ...headers,
+          ...this._getAuthHeader(authConfig),
         },
-      });
+      };
 
-      let response: ResponseObject<TwitterEntity>,
-        counter = 1;
       do {
         try {
-          response = await request();
+          response = await axios($, axiosConfig);
+
         } catch (err) {
           console.log(`Request error on attempt #${counter}: `, err);
+          if (counter === maxRetries) {
+            if (throwError && err.response?.data) {
+              this.throwError(err.response.data);
+            }
+            if (fallbackError) {
+              throw new ConfigurationError(fallbackError);
+            }
+            throw err;
+          }
         }
-      } while (!response && ++counter < 3);
-      if (!response) response = await request();
+      } while (!response && ++counter <= maxRetries);
+
       return response;
     },
     async _paginatedRequest({
@@ -213,7 +248,7 @@ export default defineApp({
             ([
               key,
               value]: [string, TwitterEntity[]
-]) => {
+              ]) => {
               if (!totalIncludes[key]) totalIncludes[key] = [];
               totalIncludes[key].push(...value);
             },
@@ -242,6 +277,7 @@ export default defineApp({
     },
     async createTweet(args: CreateTweetParams): Promise<object> {
       return this._httpRequest({
+        throwError: false,
         method: "POST",
         url: "/tweets",
         ...args,
@@ -283,7 +319,9 @@ export default defineApp({
         ...args,
       });
     },
-    async getAuthenticatedUser(args: GetAuthenticatedUserParams): Promise<ResponseObject<User>> {
+    async getAuthenticatedUser(
+      args: GetAuthenticatedUserParams,
+    ): Promise<ResponseObject<User>> {
       return this._httpRequest({
         url: "/users/me",
         ...args,
@@ -292,6 +330,14 @@ export default defineApp({
     async getAuthenticatedUserId(): Promise<User["id"]> {
       const response = await this.getAuthenticatedUser();
       return response.data.id;
+    },
+    async getDirectMessages(
+      args: GetDirectMessagesParams,
+    ): Promise<PaginatedResponseObject<DirectMessage>> {
+      return this._paginatedRequest({
+        url: "/dm_events",
+        ...args,
+      });
     },
     async getUserLikedTweets({
       userId,
@@ -394,6 +440,16 @@ export default defineApp({
         ...args,
       });
     },
+    async sendMessage({
+      userId,
+      ...args
+    }: SendMessageParams): Promise<object> {
+      return this._httpRequest({
+        method: "POST",
+        url: `/dm_conversations/with/${userId}/messages`,
+        ...args,
+      });
+    },
     async unfollowUser({
       userId,
       ...args
@@ -413,6 +469,18 @@ export default defineApp({
       return this._httpRequest({
         method: "DELETE",
         url: `/users/${id}/likes/${tweetId}`,
+        ...args,
+      });
+    },
+    async uploadMedia(args: UploadMediaParams): Promise<object> {
+      return this._httpRequest({
+        baseURL: "https://upload.twitter.com/1.1",
+        url: "/media/upload.json",
+        method: "POST",
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${args.data.getBoundary()}`,
+        },
+        specialAuth: true,
         ...args,
       });
     },

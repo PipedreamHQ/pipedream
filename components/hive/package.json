@@ -1,17 +1,19 @@
 {
   "name": "@pipedream/hive",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Hive Components",
-  "main": "dist/app/hive.app.mjs",
+  "main": "hive.app.mjs",
   "keywords": [
     "pipedream",
     "hive"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/hive",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "moment": "^2.29.4"
   }
 }

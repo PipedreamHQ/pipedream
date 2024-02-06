@@ -442,7 +442,7 @@ export default {
           pageToken,
         );
 
-        for (const drive in drives) {
+        for (const drive of drives) {
           yield drive;
         }
 
@@ -626,6 +626,7 @@ export default {
      * @type {Comment}
      */
     async *listComments(fileId, startModifiedTime = null) {
+      let data;
       const drive = this.drive();
       const opts = {
         fileId,
@@ -633,12 +634,17 @@ export default {
         pageSize: 100,
       };
 
-      if (startModifiedTime !== null) {
+      if (startModifiedTime !== null && startModifiedTime !== undefined) {
         opts.startModifiedTime = new Date(startModifiedTime).toISOString();
       }
 
       while (true) {
-        const { data } = await drive.comments.list(opts);
+        try {
+          ({ data } = await drive.comments.list(opts));
+        } catch (error) {
+          console.log("listComments error!!", error);
+          break;
+        }
         const {
           comments = [],
           nextPageToken,

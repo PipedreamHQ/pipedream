@@ -1,7 +1,9 @@
 import app from "../../slack_bot.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   props: {
@@ -14,6 +16,29 @@ export default {
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+  },
+  hooks: {
+    async deploy() {
+      const sdk = await this.app.sdk();
+      const auth = await sdk.auth.test();
+      const scopes = auth.response_metadata.scopes;
+
+      const missingScopes = constants.REQUIRED_SOURCE_SCOPES.filter(
+        (scope) => !scopes.includes(scope),
+      );
+      if (missingScopes.length) {
+        throw new ConfigurationError(`Scope(s) \`${missingScopes}\` missing from your Slack app.
+          Scopes provided: \`${scopes}\``);
+      }
+
+      const botUserId = auth.user_id;
+      const { members } = await sdk.conversations.members({
+        channel: this.channelId,
+      });
+      if (!members.includes(botUserId)) {
+        throw new ConfigurationError("Bot not added to channel. From the Slack app, right click on the bot name and select `View app details`. Then click `Add this app to a channel` and select the appropriate channel.");
+      }
     },
   },
   methods: {

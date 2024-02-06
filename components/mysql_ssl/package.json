@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/mysql_ssl",
+  "version": "1.0.1",
+  "description": "Pipedream MySQL (SSL) Components",
+  "main": "mysql_ssl.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mysql_ssl"
+  ],
+  "homepage": "https://pipedream.com/apps/mysql_ssl",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0",
+    "mysql2-promise": "^0.1.4",
+    "uuid": "^8.3.2"
+  }
+}

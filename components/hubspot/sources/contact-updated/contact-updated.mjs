@@ -1,13 +1,22 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-contact-updated",
   name: "Contact Updated",
   description: "Emit new event each time a contact is updated.",
-  version: "0.0.13",
+  version: "0.1.0",
   dedupe: "unique",
   type: "source",
+  props: {
+    ...common.props,
+    properties: {
+      propDefinition: [
+        common.props.hubspot,
+        "contactProperties",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     getTs(contact) {
@@ -37,7 +46,7 @@ export default {
             direction: "DESCENDING",
           },
         ],
-        properties: this._getProperties(),
+        properties: this.properties,
         object: "contacts",
       };
     },

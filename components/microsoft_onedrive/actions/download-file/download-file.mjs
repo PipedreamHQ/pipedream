@@ -1,4 +1,6 @@
 import fs from "fs";
+import stream from "stream";
+import util from "util";
 import onedrive from "../../microsoft_onedrive.app.mjs";
 import httpRequest from "../../common/httpRequest.mjs";
 import { ConfigurationError } from "@pipedream/platform";
@@ -7,7 +9,7 @@ export default {
   name: "Download File",
   description: "Download a file stored in OneDrive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_get_content?view=odsp-graph-online)",
   key: "microsoft_onedrive-download-file",
-  version: "0.0.1",
+  version: "0.0.5",
   type: "action",
   props: {
     onedrive,
@@ -64,16 +66,16 @@ export default {
     const response = await this.httpRequest({
       $,
       url,
-      responseType: "arraybuffer",
+      responseType: "stream",
     });
 
     const fileName = newFileName.split("/").pop();
     const tmpFilePath = `/tmp/${fileName}`;
-    const buffer = Buffer.from(response, "base64");
 
-    fs.writeFileSync(tmpFilePath, buffer);
+    const pipeline = util.promisify(stream.pipeline);
+    await pipeline(response, fs.createWriteStream(tmpFilePath));
 
     $.export("$summary", `Returned file contents and saved to \`${tmpFilePath}\`.`);
-    return buffer;
+    return tmpFilePath;
   },
 };

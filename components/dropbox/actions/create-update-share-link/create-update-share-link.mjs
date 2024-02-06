@@ -5,7 +5,7 @@ export default {
   name: "Create/Update a Share Link",
   description: "Creates or updates a public share link to the file or folder (It allows to share the file or folder with anyone). [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#sharingCreateSharedLinkWithSettings__anchor)",
   key: "dropbox-create-update-share-link",
-  version: "0.0.5",
+  version: "0.0.8",
   type: "action",
   props: {
     dropbox,
@@ -13,6 +13,9 @@ export default {
       propDefinition: [
         dropbox,
         "pathFileFolder",
+        () => ({
+          omitRootFolder: true,
+        }),
       ],
       description: "The path to be shared by the shared link.",
     },
@@ -27,6 +30,11 @@ export default {
       label: "Link password",
       description: "If `require_password` is `true`, this is needed to specify the password to access the link.",
       optional: true,
+    },
+    allowDownload: {
+      type: "boolean",
+      label: "Allow downloads",
+      description: "Boolean flag to allow or not allow capabilities for shared links.",
     },
     expires: {
       type: "string",
@@ -48,12 +56,6 @@ export default {
       optional: true,
       options: consts.CREATE_SHARED_LINK_ACCESS_OPTIONS,
     },
-    allowDownload: {
-      type: "boolean",
-      label: "Allow downloads",
-      description: "Boolean flag to allow or not allow capabilities for shared links.",
-      optional: true,
-    },
   },
   async run({ $ }) {
     const {
@@ -73,7 +75,7 @@ export default {
     }
 
     const res = await this.dropbox.createSharedLink({
-      path: path?.value || path,
+      path: this.dropbox.getPath(path),
       settings: {
         require_password: requirePassword,
         link_password: linkPassword,

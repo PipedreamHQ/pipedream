@@ -4,8 +4,8 @@ import lodash from "lodash";
 export default {
   key: "gitlab-create-issue",
   name: "Create issue",
-  description: "Creates a new issue. [See docs](https://docs.gitlab.com/ee/api/issues.html#new-issue)",
-  version: "0.2.0",
+  description: "Creates a new issue. [See the documentation](https://docs.gitlab.com/ee/api/issues.html#new-issue)",
+  version: "0.2.1",
   type: "action",
   props: {
     gitlab,
@@ -52,14 +52,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = lodash.pickBy(lodash.pick(this, [
-      "title",
-      "description",
-      "labels",
-      "assigneeIds",
-    ]));
-    opts.labels = opts.labels?.join();
-    const response = await this.gitlab.createIssue(this.projectId, opts);
+    const data = lodash.pickBy({
+      title: this.title,
+      description: this.description,
+      labels: this.labels,
+      assignee_ids: this.assigneeIds,
+    });
+    data.labels = data.labels?.join();
+    const response = await this.gitlab.createIssue(this.projectId, {
+      data,
+    });
     $.export("$summary", `Created issue ${this.title}`);
     return response;
   },

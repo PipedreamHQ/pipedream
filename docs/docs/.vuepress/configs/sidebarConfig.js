@@ -1,7 +1,32 @@
 // NEW NAV
 
 const docsNav = [
-  "/quickstart/",
+  {
+    title: "Quickstart",
+    children: [
+      {
+        title: "Develop Workflows",
+        path: "/quickstart/",
+      },
+      {
+        title: "Use GitHub Sync",
+        path: "/quickstart/github-sync/",
+      },
+    ]
+  },
+  "/workspaces/",
+  {
+    title: "Projects",
+    children: [
+      "/projects/",
+      "/projects/git/",
+      {
+        title: "File Stores",
+        type: "group",
+        children: [{ title: "File Stores", path: "/projects/file-stores/" }, { title: "Node.js Reference", path: "/projects/file-stores/reference/" }],
+      },
+    ]
+  },
   {
     title: "Workflows",
     children: [
@@ -12,11 +37,13 @@ const docsNav = [
       "/workflows/steps/using-props/",
       "/workflows/events/",
       "/workflows/events/inspect/",
-      "/workflows/built-in-functions/",
+      "/workflows/flow-control/",
       "/workflows/errors/",
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
-      "/workflows/networking/",
+      "/workflows/vpc/",
+      "/workflows/domains/",
+      "/workflows/sharing/",
       "/migrate-from-v1/",
     ],
   },
@@ -35,6 +62,7 @@ const docsNav = [
         sidebarDepth: 2,
         children: [
           "/code/nodejs/",
+          "/code/nodejs/ai-code-generation/",
           "/code/nodejs/auth/",
           "/code/nodejs/http-requests/",
           "/code/nodejs/working-with-files/",
@@ -44,6 +72,11 @@ const docsNav = [
           "/environment-variables/",
           "/code/nodejs/async/",
           "/code/nodejs/sharing-code/",
+          "/code/nodejs/browser-automation/",
+          {
+            title: "Reference",
+            path: "/components/api/#run"
+          }
         ],
       },
       {
@@ -54,10 +87,13 @@ const docsNav = [
         children: [
           "/code/python/",
           "/code/python/auth/",
+          "/code/python/http-requests/",
+          "/code/python/working-with-files/",
           "/code/python/using-data-stores/",
+          "/code/python/delay/",
           "/code/python/rerun/",
           "/code/python/import-mappings/",
-          "/code/python/faqs/"
+          "/code/python/faqs/",
         ],
       },
       "/code/go/",
@@ -70,15 +106,16 @@ const docsNav = [
       "/environment-variables/",
     ],
   },
+  "/http/",
   {
-    title: 'Integrations',
-    type: "group", 
+    title: "Integrations",
+    type: "group",
     children: [
       "/apps/",
       "/apps/contributing/",
       {
-        title: "Components", 
-        type: "group", 
+        title: "Components",
+        type: "group",
         collapsable: false,
         children: [
           "/components/",
@@ -86,19 +123,20 @@ const docsNav = [
           "/components/quickstart/nodejs/sources/",
           "/pipedream-axios/",
           "/components/typescript/",
-          "/components/guidelines/"
-        ]
+          "/components/guidelines/",
+        ],
       },
-    ]
+    ],
   },
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
   {
-    title: "Workspaces",
+    title: "Single-Sign On (SSO)",
     children: [
-      "/workspaces/", 
+      "/workspaces/sso/",
+      "/workspaces/sso/okta/",
       "/workspaces/sso/google/",
-      "/workspaces/sso/okta/"
+      "/workspaces/sso/saml/",
     ],
   },
 ];
@@ -106,11 +144,7 @@ const docsNav = [
 const referenceNav = [
   {
     title: "Components API",
-    children: [
-
-      "/components/api/",
-
-    ],
+    children: ["/components/api/"],
   },
   {
     title: "CLI",
@@ -140,7 +174,7 @@ const referenceNav = [
       "/subprocessors/",
     ],
   },
-  "/workflows/events/cold-starts/",
+  "/workflows/settings/#eliminate-cold-starts",
 ];
 
 const pricingNav = ["/pricing/"];
@@ -166,7 +200,7 @@ module.exports = {
   "/privacy-and-reference/pgp-key/": referenceNav,
   "/privacy-and-reference/best-practices/": referenceNav,
   "/subprocessors/": referenceNav,
-  "/workflows/events/cold-starts/": referenceNav,
+  "/workflows/settings/#eliminate-cold-starts": referenceNav,
   "/abuse/": referenceNav,
   // pricing nav
   "/pricing/": pricingNav,

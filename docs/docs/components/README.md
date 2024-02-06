@@ -31,7 +31,7 @@ Pipedream supports two types of components — [sources](#sources) and [actions]
 
 **Example**
 
-The [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.mjs) source for Twitter is a prebuilt component in Pipedream's registry that can be deployed in seconds and emits new Tweets that match a search query. After a user configures and deploys it, the deployed component polls the Twitter API for new results. When new results are found, each new result is emitted as an event that may be inspected and used to trigger a workflow.
+The [New Files (Instant)](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_drive/sources/new-files-instant/new-files-instant.mjs) source for Google Drive is a prebuilt component in Pipedream's registry that can be deployed in seconds and emits an event every time a new file is added to the user's Google Drive, and can also be configured to watch for changes to a specific folder within that drive. Each new event that is emitted can be used to trigger a workflow.
 
 ### Actions
 
@@ -55,15 +55,13 @@ Components may be instantiated or added to workflows via Pipedream's UI.
 
 ### Using Private Actions
 
-Private action components published from the [CLI](/cli/reference/#pd-publish) or from a Node.js Code Step are available for use across your workflows.
+Private action components published from the [CLI](/cli/reference/#pd-publish) or from a [Node.js Code Step](/code/nodejs/sharing-code) are available for use across your workflows.
 
 To use a published action, add a new step to your workflow and click **My Actions**. Your privately published action components will appear in this list.
 
 ![Use the "My Actions" section in a new step to include your private actions](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165325045_ia5sd5.png)
 
 ### Using Private Sources
-
-<AlphaFeatureNotice feature="Components Page - add a page for published components" />
 
 Private source components deployed from your account via the [CLI](/cli/reference/#pd-deploy) will automatically create a new Source in your account with the prop configuration you specified.
 
@@ -106,8 +104,6 @@ Your private components published from the CLI or from Node.js code steps are li
 
 ### Unpublishing Privately Published Components
 
-<AlphaFeatureNotice feature="Components Page - add a page for published components" />
-
 <VideoPlayer src="https://www.youtube.com/embed/3wmnFi7thUg" title="Unpublishing Privately Published Components" />
 
 To unpublish components belonging to your workspace, open the menu on the right hand side of the component details and select **Unpublish Component**.
@@ -118,7 +114,7 @@ A prompt will open to confirm the action, click **Confirm** to unpublish your ac
 
 ::: danger
 
-Unpublishing a component is an permanent action, please be careful to you still have access to the source code.
+Unpublishing a component is a permanent action, please be careful to ensure you still have access to the source code.
 
 :::
 

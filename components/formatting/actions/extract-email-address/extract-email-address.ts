@@ -7,7 +7,7 @@ export default defineAction({
   description:
     "Find an email address out of a text field. Finds the first email address only.",
   key: "formatting-extract-email-address",
-  version: "0.0.1",
+  version: "0.0.5",
   type: "action",
   props: {
     ...commonExtractText.props,
@@ -20,7 +20,7 @@ export default defineAction({
   methods: {
     ...commonExtractText.methods,
     getRegExp() {
-      return /[\w-.]+@([\w-]+\.)+[\w-]{2,}/;
+      return /[\w.!#$%&'*+-/=?^_`{|}~]+@([\w-]+\.)+[\w-]{2,}/;
     },
     getType() {
       return "email address";

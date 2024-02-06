@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/screenshotone",
+  "version": "0.1.1",
+  "description": "Pipedream ScreenshotOne Components",
+  "main": "screenshotone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "screenshotone"
+  ],
+  "homepage": "https://pipedream.com/apps/screenshotone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "path": "^0.12.7",
+    "stream": "^0.0.2",
+    "util": "^0.12.5"
+  }
+}

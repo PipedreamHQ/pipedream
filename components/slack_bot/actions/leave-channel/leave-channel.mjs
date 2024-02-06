@@ -31,5 +31,5 @@ export default {
   }),
   key: "slack_bot-leave-channel",
   description: "Leave an existing channel (Bot). [See docs here](https://api.slack.com/methods/conversations.leave)",
-  version: "0.0.1",
+  version: "0.0.2",
 };

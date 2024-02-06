@@ -1,17 +1,21 @@
 {
   "name": "@pipedream/accredible",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Accredible Components",
-  "main": "dist/app/accredible.app.mjs",
+  "main": "accredible.app.mjs",
   "keywords": [
     "pipedream",
     "accredible"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/accredible",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

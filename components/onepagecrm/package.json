@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/onepagecrm",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream OnePageCRM Components",
-  "main": "dist/app/onepagecrm.app.mjs",
+  "main": "onepagecrm.app.mjs",
   "keywords": [
     "pipedream",
     "onepagecrm"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/onepagecrm",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
+

@@ -1,17 +1,20 @@
 {
   "name": "@pipedream/stannp",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Stannp Components",
-  "main": "dist/app/stannp.app.mjs",
+  "main": "stannp.app.mjs",
   "keywords": [
     "pipedream",
     "stannp"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/stannp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "url-exist": "^3.0.1"
   }
 }

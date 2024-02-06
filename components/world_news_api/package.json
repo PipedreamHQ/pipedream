@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/world_news_api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream World News API Components",
   "main": "world_news_api.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/world_news_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

@@ -22,9 +22,7 @@ export default {
         const {
           organizations,
           pagination,
-        } = await this.listMyOrganizations(
-          params,
-        );
+        } = await this.listMyOrganizations(params);
         const options = organizations.map((org) => {
           const {
             name,
@@ -84,13 +82,11 @@ export default {
     },
     _makeRequest({
       $ = this,
-      method,
       endpoint,
       url = `${this._getBaseUrl()}${endpoint}`,
       ...args
     }) {
       const config = {
-        method,
         url,
         headers: this._getHeaders(),
         ...args,
@@ -98,90 +94,70 @@ export default {
       return axios($, config);
     },
     createHook(orgId, data) {
-      return this._makeRequest(
-        {
-          method: "POST",
-          endpoint: `organizations/${orgId}/webhooks/`,
-          data,
-        },
-      );
+      return this._makeRequest({
+        method: "POST",
+        endpoint: `organizations/${orgId}/webhooks/`,
+        data,
+      });
     },
     deleteHook(hookId) {
-      return this._makeRequest(
-        {
-          method: "DELETE",
-          endpoint: `webhooks/${hookId}/`,
-        },
-      );
+      return this._makeRequest({
+        method: "DELETE",
+        endpoint: `webhooks/${hookId}/`,
+      });
     },
     listMyOrganizations(params) {
-      return this._makeRequest(
-        {
-          method: "GET",
-          endpoint: "users/me/organizations",
-          params,
-        },
-      );
-    },
-    listEvents(
-      {
-        orgId,
+      return this._makeRequest({
+        endpoint: "users/me/organizations",
         params,
-      },
-    ) {
-      return this._makeRequest(
-        {
-          method: "GET",
-          endpoint: `organizations/${orgId}/events/`,
-          params,
-        },
-      );
+      });
+    },
+    listEvents({
+      orgId,
+      params,
+    }) {
+      return this._makeRequest({
+        endpoint: `organizations/${orgId}/events/`,
+        params,
+      });
+    },
+    listUserOrders(args = {}) {
+      return this._makeRequest({
+        endpoint: "users/me/orders",
+        ...args,
+      });
     },
     getResource(url) {
-      return this._makeRequest(
-        {
-          method: "GET",
-          url,
-        },
-      );
+      return this._makeRequest({
+        url,
+      });
     },
     getOrderAttendees(orderId) {
-      return this._makeRequest(
-        {
-          method: "GET",
-          endpoint: `orders/${orderId}/attendees/`,
-        },
-      );
+      return this._makeRequest({
+        endpoint: `orders/${orderId}/attendees/`,
+      });
     },
     getEvent($, eventId, params) {
-      return this._makeRequest(
-        {
-          method: "GET",
-          endpoint: `events/${eventId}/`,
-          params,
-          $,
-        },
-      );
+      return this._makeRequest({
+        endpoint: `events/${eventId}/`,
+        params,
+        $,
+      });
     },
     getEventAttendees($, eventId, params) {
-      return this._makeRequest(
-        {
-          method: "GET",
-          endpoint: `events/${eventId}/attendees/`,
-          params,
-          $,
-        },
-      );
+      return this._makeRequest({
+        endpoint: `events/${eventId}/attendees/`,
+        params,
+        $,
+      });
     },
     createEvent($, orgId, data) {
-      return this._makeRequest(
-        {
-          method: "POST",
-          endpoint: `organizations/${orgId}/events/`,
-          data,
-          $,
-        },
-      );
+      return this._makeRequest({
+        method: "POST",
+        endpoint: `organizations/${orgId}/events/`,
+        data,
+        $,
+      });
     },
   },
 };

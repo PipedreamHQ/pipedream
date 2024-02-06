@@ -168,8 +168,8 @@ directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
 #### Using APIs vs Client Libraries
 
 If the app has a well-supported [Node.js client
-library](/components/api/#using-npm-packages), that should be preferred to manually
-constructed API requests to reduce code and improve maintenance.
+library](/components/api/#using-npm-packages), feel free to use that instead of manually
+constructing API requests.
 
 ### `package.json`
 
@@ -450,7 +450,7 @@ for an example of offset-based pagination. See
 [Twitter](https://github.com/PipedreamHQ/pipedream/blob/d240752028e2a17f7cca1a512b40725566ea97bd/components/twitter/twitter.app.mjs#L200)
 for an example of cursor-based pagination.
 
-### Dynamic props
+### Dynamic Props
 
 [Dynamic props](/components/api/#dynamic-props) can improve the user experience for components. They let you render props in the Pipedream dynamically, based on the value of other props, and can be used to collect more specific information that can make it easier to use the component. See the Google Sheets example in the linked component API docs.
 
@@ -517,6 +517,29 @@ Use built-in [deduping strategies](/components/api/#dedupe-strategies) whenever 
 custom deduping code if the existing strategies do not support the requirements
 for a source.
 
+### Surfacing Test Events
+
+In order to provide users with source events that they can immediately reference when building their workflow, we should implement 2 strategies whenever possible:
+
+#### Emit Events on First Run:
+- Polling sources should always emit events on the first run (see the [Spotify: New Playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/sources/new-playlist/new-playlist.mjs) source as an example)
+- Webhook-based sources should attempt to fetch existing events in the `deploy()` hook during source creation (see the [Jotform: New Submission](https://github.com/PipedreamHQ/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.mjs) source)
+
+_Note – make sure to emit the most recent events (considering pagination), and limit the count to no more than 50 events._
+
+#### Include a static sample event:
+There are times where there may not be any historical events available (think about sources that emit less frequently, like "New Customer" or "New Order", etc). In these cases, we should include a static sample event so users can see the event shape and reference it while building their workflow, even if it's using fake data.
+
+To do this,
+1. Copy the JSON output from the source's emit (what you get from `steps.trigger.event`) and **make sure to remove or scrub any sensitive or personal data** (you can also copy this from the app's API docs)
+2. Add a new file called `test-event.mjs` in the same directory as the component source and export the JSON event via `export default` ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/jotform/sources/new-submission/test-event.mjs))
+3. In the source component code, make sure to import that file as `sampleEmit` ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.mjs#L2))
+4. And finally, export the `sampleEmit` object ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.mjs#L96))
+
+This will render a "Generate Test Event" button in the UI for users to emit that sample event:
+
+![generate-sample-event](https://res.cloudinary.com/pipedreamin/image/upload/v1690488844/generate-test-event_drjykm.gif)
+
 ### Polling Sources
 
 #### Default Timer Interval
@@ -525,13 +548,23 @@ As a general heuristic, set the default timer interval to 15 minutes. However,
 you may set a custom interval (greater or less than 15 minutes) if appropriate
 for the specific source. Users may also override the default value at any time.
 
-#### Emit Events on First Run
+For polling sources in the Pipedream registry, the default polling interval is set as a global config. Individual sources can access that default within the props definition:
 
-Polling sources should emit events on the first run. This helps users to know
-their source works when they activate it. This also provides users with events
-they can immediately use to support workflow development. Do not emit multiple
-pages of results or more than 100 events on the first run (as a general
-heuristic, emit the first page of results returned by the API).
+``` javascript
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+
+export default {
+  props: {
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
+  },
+  // rest of component
+}
+```
 
 #### Rate Limit Optimization
 

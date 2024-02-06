@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/concord",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Concord Components",
   "main": "dist/app/concord.app.mjs",
   "keywords": [
@@ -10,8 +10,11 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/concord",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "@pipedream/types": "^0.1.4"
   }
 }

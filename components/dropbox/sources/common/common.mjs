@@ -31,7 +31,7 @@ export default {
     },
     async getHistoricalEvents(fileTypes = []) {
       const files = await this.dropbox.listFilesFolders({
-        path: this.path?.value || this.path,
+        path: this.dropbox.getPath(this.path),
         recursive: this.recursive,
         include_media_info: this.includeMediaInfo,
       });

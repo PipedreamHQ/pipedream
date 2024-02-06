@@ -1,5 +1,5 @@
+import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
-import constants from "../../constants.mjs";
 import common from "../common.mjs";
 
 const { discord } = common.props;
@@ -11,7 +11,7 @@ export default {
   name: "List Users that Reacted with Emoji",
   description: "Return a list of users that reacted with a specified emoji.",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.12",
   props: {
     ...common.props,
     messageId: {

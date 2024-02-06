@@ -4,9 +4,9 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-create-column",
   name: "Create Column",
-  description: "Creates a column. [See the docs here](https://developer.monday.com/api-reference/docs/columns-queries-1)",
+  description: "Creates a column. [See the documentation](https://developer.monday.com/api-reference/docs/columns-queries-1)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.5",
   props: {
     monday,
     boardId: {

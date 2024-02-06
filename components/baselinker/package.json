@@ -1,16 +1,17 @@
 {
   "name": "@pipedream/baselinker",
-  "version": "0.0.1",
-  "description": "Pipedream BaseLinker Components",
-  "main": "dist/app/baselinker.app.mjs",
+  "version": "0.1.0",
+  "description": "Pipedream Baselinker Components",
+  "main": "baselinker.app.mjs",
   "keywords": [
     "pipedream",
     "baselinker"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/baselinker",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
   "publishConfig": {
     "access": "public"
   }

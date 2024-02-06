@@ -73,7 +73,7 @@ export default {
       paginationDirection = "forward",
       recordsPerRun = 50,
     }) {
-      const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2022-07/graphql.json`;
+      const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2023-04/graphql.json`;
       const client = new GraphQLClient(endpoint, {
         headers: {
           "Content-Type": "application/json",

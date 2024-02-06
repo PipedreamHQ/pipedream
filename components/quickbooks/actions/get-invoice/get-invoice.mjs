@@ -1,11 +1,11 @@
-import quickbooks from "../../quickbooks.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
   key: "quickbooks-get-invoice",
   name: "Get Invoice",
   description: "Returns info about an invoice. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#read-an-invoice)",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   props: {
     quickbooks,

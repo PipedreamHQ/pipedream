@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ez_texting",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream iHomefinder Components",
   "main": "dist/app/ez_texting.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/ez_texting",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

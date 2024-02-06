@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import constants from "../../constants.mjs";
+import constants from "../../common/constants.mjs";
 import common from "../common.mjs";
 
 const { discord } = common.props;
@@ -19,7 +19,7 @@ export default {
   name: "Modify Guild Member",
   description: "Update attributes of a guild member. [See the docs here](https://discord.com/developers/docs/resources/guild#modify-guild-member)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.9",
   props: {
     ...common.props,
     userId: {

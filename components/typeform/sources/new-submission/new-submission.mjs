@@ -1,4 +1,5 @@
 import { createHmac } from "crypto";
+import sampleEmit from "./test-event.mjs";
 import { uuid } from "uuidv4";
 import common from "../common/common.mjs";
 import constants from "../../constants.mjs";
@@ -11,7 +12,7 @@ export default {
   ...common,
   key: "typeform-new-submission",
   name: "New Submission",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   description: "Emit new submission",
   props: {
@@ -140,4 +141,5 @@ export default {
       status: 200,
     });
   },
+  sampleEmit,
 };

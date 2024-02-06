@@ -1,5 +1,5 @@
-import constants from "../constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "./constants.mjs";
 
 export default {
   computePermissions(overwrites = []) {
@@ -14,20 +14,51 @@ export default {
     }, undefined);
   },
   getChannelOptions({
-    channels, notAllowedChannels = [],
+    channels, notAllowedChannels = [], allowedChannels = [],
   }) {
-    return channels.reduce((reduction, channel) => {
-      return !notAllowedChannels.includes(channel.type)
-        ? [
+    const channelsResp = [];
+    if (notAllowedChannels.length) {
+      channelsResp.push(...channels.reduce((reduction, channel) => {
+        return !notAllowedChannels.includes(channel.type)
+          ? [
+            ...reduction,
+            {
+              label: channel.name,
+              value: channel.id,
+            },
+          ]
+          : reduction;
+
+      }, []));
+    }
+
+    if (allowedChannels.length) {
+      channelsResp.push(...channels.reduce((reduction, channel) => {
+        return allowedChannels.includes(channel.type)
+          ? [
+            ...reduction,
+            {
+              label: channel.name,
+              value: channel.id,
+            },
+          ]
+          : reduction;
+
+      }, []));
+    }
+
+    if (!notAllowedChannels.length && !allowedChannels.length) {
+      channelsResp.push(...channels.reduce((reduction, channel) => {
+        return [
           ...reduction,
           {
             label: channel.name,
             value: channel.id,
           },
-        ]
-        : reduction;
-
-    }, []);
+        ];
+      }, []));
+    }
+    return channelsResp;
   },
   getCategoryChannelOptions(channels) {
     return channels.reduce((reduction, channel) => {

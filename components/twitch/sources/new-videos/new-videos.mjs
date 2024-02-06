@@ -6,7 +6,7 @@ export default {
   name: "New Videos",
   key: "twitch-new-videos",
   description: "Emit new event when there is a new video from channels you follow.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   props: {
     ...common.props,

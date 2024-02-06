@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/insites",
+  "version": "0.1.1",
+  "description": "Pipedream Insites Components",
+  "main": "insites.app.mjs",
+  "keywords": [
+    "pipedream",
+    "insites"
+  ],
+  "homepage": "https://pipedream.com/apps/insites",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

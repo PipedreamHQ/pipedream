@@ -5,6 +5,18 @@ export default {
   type: "app",
   app: "google_analytics",
   propDefinitions: {
+    account: {
+      type: "string",
+      label: "Account",
+      description: "The Google Analytics account ID to list properties from.",
+      async options() {
+        const response = await this.listAccounts();
+        return response?.accounts?.map((account) => ({
+          label: account.displayName,
+          value: account.name,
+        }));
+      },
+    },
     viewId: {
       type: "string",
       label: "View Id",
@@ -20,9 +32,6 @@ export default {
     _accessToken() {
       return this.$auth.oauth_access_token;
     },
-    getUrl(path) {
-      return `https://analyticsdata.googleapis.com${path}`;
-    },
     getHeaders(headers = {}) {
       return {
         authorization: `Bearer ${this._accessToken()}`,
@@ -32,21 +41,31 @@ export default {
     makeRequest(customConfig) {
       const {
         $ = this,
-        path,
         headers,
         ...otherConfig
       } = customConfig;
 
       const config = {
         headers: this.getHeaders(headers),
-        url: this.getUrl(path),
         ...otherConfig,
       };
       return axios($, config);
     },
     async queryReportsGA4(args = {}) {
       return this.makeRequest({
-        path: `/v1beta/properties/${args.property}:runReport`,
+        url: `https://analyticsdata.googleapis.com/v1beta/properties/${args.property}:runReport`,
+        method: "POST",
+        ...args,
+      });
+    },
+    async listAccounts() {
+      return this.makeRequest({
+        url: "https://analyticsadmin.googleapis.com/v1beta/accounts",
+      });
+    },
+    async createProperty(args) {
+      return this.makeRequest({
+        url: "https://analyticsadmin.googleapis.com/v1beta/properties",
         method: "POST",
         ...args,
       });

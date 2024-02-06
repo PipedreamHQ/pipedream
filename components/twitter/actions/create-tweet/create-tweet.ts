@@ -1,4 +1,5 @@
 import app from "../../app/twitter.app";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import { CreateTweetParams } from "../../common/types/requestParams";
 
@@ -8,8 +9,8 @@ const DOCS_LINK =
 export default defineAction({
   key: "twitter-create-tweet",
   name: "Create Tweet",
-  description: `Create a new tweet. [See docs here](${DOCS_LINK})`,
-  version: "1.0.2",
+  description: `Create a new tweet. [See the documentation](${DOCS_LINK})`,
+  version: "2.1.5",
   type: "action",
   props: {
     app,
@@ -87,11 +88,15 @@ export default defineAction({
           },
         }),
       },
+      fallbackError: ACTION_ERROR_MESSAGE,
     };
 
     const response = await this.app.createTweet(params);
 
-    $.export("$summary", `Successfully posted tweet (ID ${response.data?.id})`);
+    $.export(
+      "$summary",
+      `Successfully posted tweet (ID ${response.data?.id})`,
+    );
 
     return response;
   },

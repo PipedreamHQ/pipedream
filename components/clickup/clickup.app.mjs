@@ -120,6 +120,8 @@ export default {
           throw new ConfigurationError("Custom task id is a ClickApp, and it must to be enabled on ClickUp settings.");
         }
 
+        console.log(tasks);
+
         return tasks.map((task) => ({
           label: task.name,
           value: useCustomTaskIds ?
@@ -857,6 +859,22 @@ export default {
     async deleteHook(hookId, $ = this) {
       return this._makeRequest(`webhook/${hookId}`, {
         method: "DELETE",
+      }, $);
+    },
+    async startTimeEntry({
+      $, teamId, data, params,
+    }) {
+      return this._makeRequest(`team/${teamId}/time_entries/start`, {
+        method: "post",
+        data,
+        params,
+      }, $);
+    },
+    async stopTimeEntry({
+      $, teamId,
+    }) {
+      return this._makeRequest(`team/${teamId}/time_entries/stop`, {
+        method: "post",
       }, $);
     },
   },

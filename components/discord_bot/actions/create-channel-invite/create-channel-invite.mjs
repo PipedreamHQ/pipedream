@@ -1,4 +1,4 @@
-import constants from "../../constants.mjs";
+import constants from "../../common/constants.mjs";
 import common from "../common.mjs";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   name: "Create Channel Invite",
   description: "Create a new invite for the channel. [See the docs here](https://discord.com/developers/docs/resources/channel#create-channel-invite)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.11",
   props: {
     ...common.props,
     maxAge: {
@@ -63,7 +63,7 @@ export default {
       optional: true,
     },
   },
-  async run ({ $ }) {
+  async run({ $ }) {
     const {
       channelId,
       maxAge,

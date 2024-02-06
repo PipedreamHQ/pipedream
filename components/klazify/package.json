@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/klazify",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Klazify Components",
   "main": "klazify.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/klazify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.4.1"
   },

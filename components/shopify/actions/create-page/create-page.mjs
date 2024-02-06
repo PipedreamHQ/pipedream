@@ -1,10 +1,12 @@
 import app from "../../common/rest-admin.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "shopify-create-page",
   name: "Create Page",
   description: "Create a new page. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/page#post-pages)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
@@ -21,33 +23,5 @@ export default {
         "bodyHtml",
       ],
     },
-  },
-  methods: {
-    createPage(args = {}) {
-      return this.app.post({
-        path: "/pages",
-        ...args,
-      });
-    },
-  },
-  async run({ $: step }) {
-    const {
-      title,
-      bodyHtml,
-    } = this;
-
-    const response = await this.createPage({
-      step,
-      data: {
-        page: {
-          title,
-          body_html: bodyHtml,
-        },
-      },
-    });
-
-    step.export("$summary", `Created new page with ID ${response.page.id}`);
-
-    return response;
   },
 };

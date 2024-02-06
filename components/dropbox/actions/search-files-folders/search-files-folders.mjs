@@ -1,13 +1,12 @@
 import dropbox from "../../dropbox.app.mjs";
 import isNil from "lodash/isNil.js";
-import get from "lodash/get.js";
 import consts from "../../common/consts.mjs";
 
 export default {
   name: "Search files and folders",
   description: "Searches for files and folders by name. [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesSearchV2__anchor)",
   key: "dropbox-search-files-folders",
-  version: "0.0.5",
+  version: "0.0.8",
   type: "action",
   props: {
     dropbox,
@@ -91,7 +90,7 @@ export default {
           include_highlights: includeHighlights,
         },
       options: {
-        path: get(path, "value", path) || "",
+        path: this.dropbox.getPath(path),
         order_by: orderBy
           ? {
             ".tag": orderBy,

@@ -3,9 +3,9 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-update-item-name",
   name: "Update Item Name",
-  description: "Update an item's name. [See the docs here](https://api.developer.monday.com/docs/item-name)",
+  description: "Update an item's name. [See the documentation](https://api.developer.monday.com/docs/item-name)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.7",
   props: {
     monday,
     boardId: {

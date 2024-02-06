@@ -4,7 +4,7 @@ export default {
   key: "google_drive-create-shared-drive",
   name: "Create Shared Drive",
   description: "Create a new shared drive. [See the docs](https://developers.google.com/drive/api/v3/reference/drives/create) for more information",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     googleDrive,

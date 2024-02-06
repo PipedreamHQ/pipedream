@@ -90,7 +90,10 @@ export const prepareData = (job, {
       channels: slackAppChannels,
     };
   }
-  if (["1", "3"].includes(targetDevice)) {
+  if ([
+    "1",
+    "3",
+  ].includes(targetDevice)) {
     if (cropX && cropY && cropWidth && cropHeight) {
       job.crop = {
         x: cropX,

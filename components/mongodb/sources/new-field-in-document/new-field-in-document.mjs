@@ -5,7 +5,7 @@ export default {
   key: "mongodb-new-field-in-document",
   name: "New Field in Document",
   description: "Emit new an event when a new field is added to a document",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {

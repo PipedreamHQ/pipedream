@@ -1,5 +1,3 @@
-// See API docs here:
-// https://gist.github.com/gauravmk/c9263120b9309c24d6f14df6668e5326
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -32,24 +30,25 @@ export default {
     blocks: {
       label: "Blocks",
       type: "string[]",
-      description: "Add one or more blocks to your thread. You can use [Markdown](https://www.markdownguide.org/basic-syntax/) to format text. Try `# This is a block`",
+      description:
+        "Add one or more blocks to a thread. You can use [Markdown](https://www.markdownguide.org/basic-syntax/) to format text. Try `# This is a block`",
     },
     threadID: {
       type: "string",
       label: "Thread ID",
       description:
-        "To find your thread ID, open the relevant thread in your browser and copy the ID: `https://trythreads.com/{thread_id}`",
+        "To find your thread ID, open the relevant thread in your browser and copy the ID: `https://threads.com/{thread_id}`",
     },
     chatID: {
       type: "string",
       label: "Chat ID",
       description:
-        "To find the chat ID, open the Threads chat in your browser and copy the ID: `https://trythreads.com/messages/{your_chat_id}`",
+        "To find your chat ID, open the Threads chat in your browser and copy the ID: `https://threads.com/messages/{your_chat_id}`",
     },
   },
   methods: {
     _apiUrl() {
-      return "https://trythreads.com/api/public";
+      return "https://threads.com/api/public";
     },
     _apiKey() {
       return this.$auth.api_key;

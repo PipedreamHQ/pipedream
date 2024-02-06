@@ -27,7 +27,6 @@ export default {
     categories: {
       type: "string[]",
       label: "Categories",
-      optional: true,
       description:
         "The Discourse categories you want to watch for changes. **Leave blank to watch all categories**.",
       async options({ page = 0 }) {
@@ -185,10 +184,7 @@ export default {
       tag_names = [],
       web_hook_event_type_ids = [],
     }) {
-      const {
-        data,
-        status,
-      } = await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: "/admin/api/web_hooks",
         data: {
@@ -208,10 +204,6 @@ export default {
         },
         validateStatus: () => true,
       });
-
-      if (status < 400) return data?.web_hook;
-      console.log(`Request failed with status ${status}`);
-      throw new Error(JSON.stringify(data, null, 2));
     },
     async deleteHook({ hookID }) {
       try {
@@ -225,7 +217,7 @@ export default {
     },
     // https://docs.discourse.org/#tag/Posts/paths/~1posts.json/get
     async getLatestPosts(categories) {
-      const { data } = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/posts",
       });
       const posts = get(data, "latest_posts", []);
@@ -233,40 +225,36 @@ export default {
     },
     // https://docs.discourse.org/#tag/Topics/paths/~1latest.json/get
     async getLatestTopics(categories) {
-      const { data } = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/latest",
       });
       const topics = get(data, "topic_list.topics", []);
       return this._filterOnCategories(topics, categories);
     },
     async listCategories() {
-      const { data } = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/categories",
       });
       return get(data, "category_list.categories", []);
     },
     async listUsers() {
-      const { data } = await this._makeRequest({
+      return this._makeRequest({
         path: "/admin/users",
       });
-      return data;
     },
     async getTopics({ ...args }) {
-      const response = await this._makeRequest({
+      const data = await this._makeRequest({
         path: "/latest.json",
         ...args,
       });
-
-      return response.data?.topic_list?.topics ?? [];
+      return data?.topic_list?.topics ?? [];
     },
     async createPostOrTopic({ ...args }) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
         path: "/posts.json",
         method: "post",
         ...args,
       });
-
-      return response.data;
     },
   },
 };

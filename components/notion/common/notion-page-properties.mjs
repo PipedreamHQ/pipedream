@@ -33,9 +33,17 @@ const NOTION_PAGE_PROPERTIES = {
       number: property.value,
     }),
   },
+  status: {
+    type: "string",
+    options: (property) => property.status?.options.map((option) => option.name),
+    convertToNotion: (property) => ({
+      status: {
+        name: property.value,
+      },
+    }),
+  },
   select: {
     type: "string",
-    example: "3f806034-9c48-4519-871e-60c9c32d73d8",
     options: (property) => property.select?.options.map((option) => option.name),
     convertToNotion: (property) => ({
       select: {
@@ -92,7 +100,9 @@ const NOTION_PAGE_PROPERTIES = {
     type: "boolean",
     options: () => undefined,
     convertToNotion: (property) => ({
-      checkbox: property.value,
+      checkbox: !property.value || property.value === "false"
+        ? false
+        : true,
     }),
   },
   url: {

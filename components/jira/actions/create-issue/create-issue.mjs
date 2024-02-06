@@ -1,13 +1,13 @@
-import common from "../common/issue.mjs";
-import utils from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
+import common from "../common/issue.mjs";
 
 export default {
   ...common,
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post)",
-  version: "0.1.10",
+  version: "0.1.16",
   type: "action",
   props: {
     ...common.props,
@@ -84,8 +84,6 @@ export default {
       updateHistory,
       historyMetadata,
       properties,
-      transitionId,
-      transitionLooped,
       update,
       additionalProperties,
       ...dynamicFields
@@ -103,13 +101,6 @@ export default {
       additionalProps: this.formatFields(dynamicFields),
     });
 
-    const transition = utils.reduceProperties({
-      additionalProps: {
-        id: transitionId,
-        looped: transitionLooped,
-      },
-    });
-
     const params = utils.reduceProperties({
       additionalProps: {
         updateHistory,
@@ -124,7 +115,6 @@ export default {
         fields,
         historyMetadata: utils.parseObject(historyMetadata),
         properties: utils.parse(properties),
-        transition,
         update: utils.parseObject(update),
         ...utils.parseObject(additionalProperties),
       },

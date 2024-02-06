@@ -2,7 +2,7 @@ import analytics from "../../google_analytics.app.mjs";
 
 export default {
   key: "google_analytics-run-report-in-ga4",
-  version: "0.0.1",
+  version: "0.0.3",
   name: "Run Report in GA4",
   description: "Returns a customized report of your Google Analytics event data. Reports contain statistics derived from data collected by the Google Analytics tracking code. [See the documentation here](https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/runReport)",
   type: "action",
@@ -34,10 +34,20 @@ export default {
       description: "Dimension attributes for your data. Explore the available dimensions [here](https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#dimensions)",
       optional: true,
     },
+    dimensionFilter: {
+      type: "object",
+      label: "Dimension filter",
+      description: "Dimension filters let you ask for only specific dimension values in the report. Read more about dimension filters [here](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#dimension_filters)",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const metrics = this.metrics || [];
     const dimensions = this.dimensions || [];
+
+    const dimensionFilter = typeof this.dimensionFilter === "string"
+      ? JSON.parse(this.dimensionFilter)
+      : this.dimensionFilter;
 
     const data = {
       dateRanges: [
@@ -52,6 +62,7 @@ export default {
       metrics: metrics.map((metric) => ({
         name: metric,
       })),
+      dimensionFilter: dimensionFilter,
     };
     const report = await this.analytics.queryReportsGA4({
       property: this.property,

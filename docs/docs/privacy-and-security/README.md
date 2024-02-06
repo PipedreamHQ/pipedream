@@ -19,11 +19,11 @@ If you have any questions related to data privacy, please email <span style="fon
 
 If you'd like to report a suspected vulnerability, please contact <span style="font-weight: bold">security@pipedream.com</span>.
 
-If you need to encrypt sensitive data as part of your report, you can use our [PGP key](/privacy-and-security/pgp-key/).
+If you need to encrypt sensitive data as part of your report, you can use our security team's [PGP key](/privacy-and-security/pgp-key/).
 
 ## Reporting abuse
 
-If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report it here](/abuse/).
+If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report abuse here](/abuse/).
 
 ## Compliance
 
@@ -47,27 +47,27 @@ You can find a list of Pipedream subprocessors [here](/subprocessors/).
 
 When you [delete your account](/user-settings/#delete-account), Pipedream deletes all personal data we hold on you in our system and our vendors.
 
-If you need to delete data on behalf of one of your users, you can delete the event data yourself in your workflow or event source (for example, by deleting the events, or by removing the data from `$checkpoint`). Your customer event data is automatically deleted from Pipedream subprocessors.
+If you need to delete data on behalf of one of your users, you can delete the event data yourself in your workflow or event source (for example, by deleting the events, or by removing the data from data stores). Your customer event data is automatically deleted from Pipedream subprocessors.
 
 ## Hosting Details
 
-Pipedream is hosted on the [Amazon Web Services](https://aws.amazon.com/) (AWS) platform. The physical hardware powering Pipedream, and the data stored by our platform, is hosted in data centers controlled and secured by AWS. You can read more about AWS’s security practices and compliance certifications [here](https://aws.amazon.com/security/).
+Pipedream is hosted on the [Amazon Web Services](https://aws.amazon.com/) (AWS) platform in the `us-east-1` region. The physical hardware powering Pipedream, and the data stored by our platform, is hosted in data centers controlled and secured by AWS. You can read more about AWS’s security practices and compliance certifications [here](https://aws.amazon.com/security/).
 
 Pipedream further secures access to AWS resources through a series of controls, including but not limited to: using multi-factor authentication to access AWS, hosting services within a private network inaccessible to the public internet, and more.
 
 ## Intrustion Detection and Prevention
 
-Pipedream uses AWS WAF, GuardDuty, and Datadog to monitor and block suspected attacks against Pipedream infrastructure, including DDoS attacks.
+Pipedream uses AWS WAF, GuardDuty, CloudTrail, CloudWatch, Datadog, and other custom alerts to monitor and block suspected attacks against Pipedream infrastructure, including DDoS attacks.
 
-Pipedream implements a number of industry-standard and custom alerts to detect anomalous activity on the platform, and reacts to potential threats quickly based on [our incident response policy](#incident-response).
+Pipedream reacts to potential threats quickly based on [our incident response policy](#incident-response).
 
 ## User Accounts, Authentication and Authorization
 
-When you sign up for a Pipedream account, you can choose to link your Pipedream login to either an existing [Google](https://google.com) or [Github](https://github.com) account, or create an account directly with Pipedream.
+When you sign up for a Pipedream account, you can choose to link your Pipedream login to either an existing [Google](https://google.com) or [Github](https://github.com) account, or create an account directly with Pipedream. Pipedream also supports [single-sign on](/workspaces/#configuring-single-sign-on-sso).
 
 When you link your Pipedream login to an existing identity provider, Pipedream does not store any passwords tied to your user account — that information is secured with the identity provider. We recommend you configure two-factor authentication in the provider to further protect access to your Pipedream account.
 
-When you create an account on Pipedream directly, with a username and password, Pipedream implements best account security practices (for example: Pipedream hashes your password, and the hashed password is encrypted in our database, which resides in a private network accessible only to select Pipedream employees).
+When you create an account on Pipedream directly, with a username and password, Pipedream implements account security best practices (for example: Pipedream hashes your password, and the hashed password is encrypted in our database, which resides in a private network accessible only to select Pipedream employees).
 
 ## Third party OAuth grants, API keys, and environment variables
 
@@ -85,17 +85,25 @@ No credentials are logged in your source or workflow by default. If you log thei
 
 You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account. You must revoke that access wherever you manage OAuth grants in your third party application.
 
-## Execution Environment
+## Execution environment
 
 The **execution environment** refers to the environment in which your sources, workflows, and other Pipedream code is executed.
 
-Each version of a source or workflow is deployed to its own virtual machine. This means your execution environment has its own RAM and disk, isolated from other users' environments. You can read more about the details of the virtualization and isolation mechanisms used to secure your execution environment [here](https://firecracker-microvm.github.io/).
+Each version of a source or workflow is deployed to its own virtual machine in AWS. This means your execution environment has its own RAM and disk, isolated from other users' environments. You can read more about the details of the virtualization and isolation mechanisms used to secure your execution environment [here](https://firecracker-microvm.github.io/).
+
+Instances of running VMs are called **workers**. If Pipedream spins up three VMs to handle multiple, concurrent requests for a single workflow, we're running three **workers**. Each worker runs the same Pipedream execution environment. Workers are ephemeral — AWS will shut them down within ~5 minutes of inactivity — but you can configure [dedicated workers](/workflows/settings/#eliminate-cold-starts) to ensure workers are always available to handle incoming requests.
+
+## Controlling egress traffic from Pipedream
+
+By default, outbound traffic shares the same network as other AWS services deployed in the `us-east-1` region. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
+
+[Pipedream VPCs](/workflows/vpc/) enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresses that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform). Outbound network requests from workflows that run in a VPC will originate from these IP addresses, and only workflows in your workspace will run there.
 
 ## Encryption of data in transit, TLS (SSL) Certificates
 
 When you use the Pipedream web application at [https://pipedream.com](https://pipedream.com), traffic between your client and Pipedream services is encrypted in transit. When you create an HTTP interface in Pipedream, the Pipedream UI defaults to displaying the HTTPS endpoint, which we recommend you use when sending HTTP traffic to Pipedream so that your data is encrypted in transit.
 
-All Pipedream-managed certificates used to protect user data in transit are created using [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/). This eliminates the need for our employees to manage certificate private keys: these keys are managed and secured by Amazon.
+All Pipedream-managed certificates, including those we create for [custom domains](/workflows/domains/), are created using [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/). This eliminates the need for our employees to manage certificate private keys: these keys are managed and secured by Amazon. Certificate renewal is also handled by Amazon.
 
 ## Encryption of data at rest
 

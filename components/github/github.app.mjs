@@ -1,8 +1,9 @@
 import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
 import queries from "./common/queries.mjs";
-import { axios } from "@pipedream/platform";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -37,6 +38,9 @@ export default {
       description: "The repository in a organization",
       type: "string",
       async options({ org }) {
+        if (!org) {
+          throw new ConfigurationError("Must specify `org` to display repository options.");
+        }
         const repositories = await this.getOrgRepos({
           org,
         });
@@ -152,13 +156,19 @@ export default {
       label: "Branch",
       description: "Branch to monitor for new commits",
       type: "string",
-      async options({ repoFullname }) {
+      async options({
+        page, repoFullname,
+      }) {
         const branches = await this.getBranches({
           repoFullname,
+          params: {
+            page: page + 1,
+          },
         });
+
         return branches.map((branch) => ({
           label: branch.name,
-          value: branch.commit.sha,
+          value: `${branch.commit.sha}/${branch.name}`,
         }));
       },
     },
@@ -192,6 +202,23 @@ export default {
         }));
       },
     },
+    gistId: {
+      label: "Gist Id",
+      description: "The Gist Id to perform your action",
+      type: "string",
+      async options({ page }) {
+        const PER_PAGE = 100;
+        const gists = await this.getGists({
+          per_page: PER_PAGE,
+          page: page + 1,
+        });
+
+        return gists.map((gist) => ({
+          label: gist.description ?? gist.id,
+          value: gist.id,
+        }));
+      },
+    },
     teamId: {
       label: "Team Id",
       description: "The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization.",
@@ -222,6 +249,7 @@ export default {
     async _makeRequest({
       $ = this,
       path,
+      headers = {},
       ...args
     } = {}) {
       return axios($, {
@@ -229,6 +257,7 @@ export default {
         headers: {
           Authorization: `Bearer ${this._accessToken()}`,
           Accept: "application/vnd.github+json",
+          ...headers,
         },
         ...args,
       });
@@ -287,11 +316,16 @@ export default {
     async getRepoContent({
       repoFullname,
       path,
+      mediaType,
     }) {
-      const { data } = await this
-        ._client()
-        .request(`GET /repos/${repoFullname}/contents/${path}`, {});
-      return data;
+      return this._makeRequest({
+        path: `/repos/${repoFullname}/contents/${path}`,
+        ...(mediaType && {
+          headers: {
+            Accept: mediaType,
+          },
+        }),
+      });
     },
     async getRepositoryLabels({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/labels`, {});
@@ -386,6 +420,13 @@ export default {
     },
     async createRepository({ data }) {
       const response = await this._client().request("POST /user/repos", data);
+
+      return response.data;
+    },
+    async createPullRequest({
+      repoFullname, data,
+    }) {
+      const response = await this._client().request(`POST /repos/${repoFullname}/pulls`, data);
 
       return response.data;
     },
@@ -511,6 +552,133 @@ export default {
         method: "put",
         data: data,
       });
+    },
+    async createGist(data) {
+      return this._makeRequest({
+        path: "/gists",
+        method: "post",
+        data,
+      });
+    },
+    async listGistsFromUser(username, params = {}) {
+      return this._makeRequest({
+        path: `/users/${username}/gists`,
+        params,
+      });
+    },
+    async updateGist(gistId, data) {
+      return this._makeRequest({
+        path: `/gists/${gistId}`,
+        method: "patch",
+        data,
+      });
+    },
+    async listReleases({
+      repoFullname,
+      perPage,
+      page,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/releases`, {
+        per_page: perPage,
+        page: page,
+      });
+
+      return response.data;
+    },
+    async getUserRepoPermissions({
+      repoFullname, username,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/collaborators/${username}/permission`, {});
+
+      return response.data;
+    },
+    async getRepositoryLatestPullRequests({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/pulls`, {
+        direction: "desc",
+        ...args,
+      });
+
+      return response.data;
+    },
+    async getRepositoryLatestCollaborators({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/collaborators`, {
+        ...args,
+      });
+
+      return response.data;
+    },
+    async getRepositoryLatestCommitComments({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/comments`, {
+        ...args,
+      });
+
+      return response.data;
+    },
+    async getRepositoryLatestIssues({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/issues`, {
+        state: "all",
+        ...args,
+      });
+
+      return response.data;
+    },
+    async getRepositoryLatestLabels({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/labels`, {
+        ...args,
+      });
+
+      return response.data;
+    },
+    async getDiscussions({ repoFullname }) {
+      const [
+        repoOwner,
+        repoName,
+      ] = repoFullname.split("/");
+      const response = await this.graphql(queries.discussionsQuery, {
+        repoOwner,
+        repoName,
+      });
+      return response?.repository?.discussions.nodes ?? [];
+    },
+    async getRepositoryForks({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/forks`, {
+        ...args,
+      });
+
+      return response.data;
+    },
+    async getRepositoryMilestones({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/milestones`, {
+        ...args,
+        per_page: 100,
+        state: "open",
+      });
+
+      return response.data;
+    },
+    async getRepositoryStargazers({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/stargazers`, {
+        ...args,
+        per_page: 100,
+      });
+
+      return response.data;
     },
   },
 };

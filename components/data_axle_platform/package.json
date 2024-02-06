@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/data_axle_platform",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Data Axle Platform Components",
   "main": "dist/app/data_axle_platform.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/data_axle_platform",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

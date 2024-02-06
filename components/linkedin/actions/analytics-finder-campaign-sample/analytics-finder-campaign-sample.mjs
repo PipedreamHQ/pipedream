@@ -4,7 +4,7 @@ export default {
   key: "linkedin-analytics-finder-campaign-sample",
   name: "Query Analytics Finder Campaign Sample",
   description: "Sample query using analytics finder that gets analytics for a particular campaign in a date range starting in a given year. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/ads-reporting/ads-reporting#analytics-finder)",
-  version: "0.2.2",
+  version: "0.2.4",
   type: "action",
   props: {
     linkedin,

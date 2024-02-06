@@ -2,19 +2,19 @@ import common from "../common/ticket.mjs";
 
 export default {
   ...common,
-  name: "Ticket Pended (Instant)",
+  name: "Ticket Pending (Instant)",
   key: "zendesk-ticket-pended",
   type: "source",
   description: "Emit new event when a ticket has changed to pending status",
-  version: "0.2.0",
+  version: "0.2.2",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getWebhookName() {
-      return "Ticket Pended Webhook";
+      return "Ticket Pending Webhook";
     },
     getTriggerTitle() {
-      return "Ticket Pended Trigger";
+      return "Ticket Pending Trigger";
     },
     getTriggerConditions() {
       return {

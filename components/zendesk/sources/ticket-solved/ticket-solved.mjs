@@ -6,7 +6,7 @@ export default {
   key: "zendesk-ticket-solved",
   type: "source",
   description: "Emit new event when a ticket has changed to solved status",
-  version: "0.2.0",
+  version: "0.2.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

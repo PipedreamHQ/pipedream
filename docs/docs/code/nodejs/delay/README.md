@@ -7,9 +7,9 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841376/docs/
 
 <VideoPlayer title="Delaying Workflow Steps" url="https://www.youtube.com/embed/IBORwBnIZ-k" startAt="148" />
 
-Use `$.flow.delay` to [delay a step in a workflow](/workflows/built-in-functions/#delay).
+Use `$.flow.delay` to [delay a step in a workflow](/workflows/flow-control/#delay).
 
-These docs show you how write Node.js code to handle delays. If you don't need to write code, see [our built-in delay actions](/workflows/built-in-functions/#delay-actions).
+These docs show you how to write Node.js code to handle delays. If you don't need to write code, see [our built-in delay actions](/workflows/flow-control/#delay-actions).
 
 [[toc]]
 
@@ -37,6 +37,28 @@ export default defineComponent({
   })
 });
 ```
+
+::: tip Paused workflow state
+
+When `$.flow.delay` is executed in a Node.js step, the workflow itself will enter a **Paused** state.
+
+While the workflow is paused, it will not incur any credits towards compute time. You can also [view all paused workflows in the Event History](/event-history/#filtering-by-status).
+
+:::
+
+### Credit usage
+
+The length of time a workflow is delayed from `$.flow.delay` does _not_ impact your credit usage. For example, delaying a 256 megabyte workflow for five minutes will **not** incur ten credits.
+
+However, using `$.flow.delay` in a workflow will incur two credits.
+
+One credit is used to initially start the workflow, then the second credit is used when the workflow resumes after its pause period has ended.
+
+::: tip Exact credit usage depends on duration and memory configuration
+
+If your workflow's [execution timeout limit](/workflows/settings/#execution-timeout-limit) is set to longer than [default limit](/limits/#time-per-execution), it may incur more than two [credits](/pricing/#credits) when using `pd.flow.delay`.
+
+:::
 
 ## `cancel_url` and `resume_url`
 
@@ -94,3 +116,29 @@ export default defineComponent({
 You cannot run `$.respond` after running `$.flow.delay`. Pipedream ends the original execution of the workflow when `$.flow.delay` is called and issues the following response to the client to indicate this state:
 
 > $.respond() not called for this invocation
+
+If you need to set a delay on an HTTP request triggered workflow, consider using [`setTimeout`](#settimeout) instead.
+
+## `setTimeout`
+
+Alternatively, you can use `setTimeout` instead of using `$.flow.delay` to delay individual workflow steps.
+
+However, there are some drawbacks to using `setTimeout` instead of `$.flow.delay`. `setTimeout` will count towards your workflow's compute time, for example:
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    // delay this step for 30 seconds
+    const delay = 30000;
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('timer ended')
+      }, delay)
+    })
+  }
+});
+
+```
+
+The Node.js step above will hold the workflow's execution for this step for 30 seconds; however, 30 seconds will also _contribute_ to your credit usage. Also consider that workflows have a hard limit of {{$site.themeConfig.MAX_WORKFLOW_EXECUTION_LIMIT}} seconds.

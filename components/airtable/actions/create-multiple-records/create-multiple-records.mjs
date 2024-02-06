@@ -1,6 +1,6 @@
 import chunk from "lodash.chunk";
 import airtable from "../../airtable.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 const BATCH_SIZE = 10; // The Airtable API allows us to update up to 10 rows per request.
 
@@ -8,7 +8,7 @@ export default {
   key: "airtable-create-multiple-records",
   name: "Create Multiple Records",
   description: "Create one or more records in a table by passing an array of objects containing field names and values as key/value pairs.",
-  version: "0.2.0",
+  version: "0.2.3",
   type: "action",
   props: {
     ...common.props,

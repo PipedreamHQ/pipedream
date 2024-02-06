@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shotstack",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Shotstack Components",
   "main": "shotstack.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/shotstack",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.4.1"
   },

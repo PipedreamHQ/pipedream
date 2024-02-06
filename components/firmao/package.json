@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/firmao",
+  "version": "0.1.0",
+  "description": "Pipedream Firmao Components",
+  "main": "firmao.app.mjs",
+  "keywords": [
+    "pipedream",
+    "firmao"
+  ],
+  "homepage": "https://pipedream.com/apps/firmao",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

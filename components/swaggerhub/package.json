@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/swaggerhub",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SwaggerHub Components",
   "main": "swaggerhub.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/swaggerhub",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

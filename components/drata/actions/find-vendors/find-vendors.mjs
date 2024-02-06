@@ -7,7 +7,7 @@ export default {
   key: "drata-find-vendors",
   name: "Find Vendors",
   description: `Find Vendors. [See the documentation](${docsLink}).`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     drata,

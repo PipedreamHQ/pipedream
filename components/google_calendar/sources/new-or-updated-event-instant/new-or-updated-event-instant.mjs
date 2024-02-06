@@ -1,13 +1,14 @@
 import { v4 as uuid } from "uuid";
+import sampleEmit from "./test-event.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "google_calendar-new-or-updated-event-instant",
   type: "source",
-  name: "New or Updated Event (Instant)",
-  description: "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
-  version: "0.1.5",
+  name: "New Created or Updated Event (Instant)",
+  description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
+  version: "0.1.9",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -18,13 +19,16 @@ export default {
         "calendarId",
       ],
       type: "string[]",
+      default: [
+        "primary",
+      ],
       label: "Calendars",
-      description: "Select one or more calendars to watch",
+      description: "Select one or more calendars to watch (defaults to the primary calendar)",
     },
     newOnly: {
-      label: "New events only?",
+      label: "Emit only for new events",
       type: "boolean",
-      description: "Emit new events only, and not updates to existing events",
+      description: "Emit new events only, and not updates to existing events (defaults to `false`)",
       optional: true,
       default: false,
     },
@@ -287,4 +291,5 @@ export default {
       this.setNextSyncToken(calendarId, nextSyncToken);
     }
   },
+  sampleEmit,
 };

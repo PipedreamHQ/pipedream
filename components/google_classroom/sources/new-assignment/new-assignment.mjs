@@ -1,11 +1,12 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "google_classroom-new-assignment",
   name: "New Assignment",
   description: "Emit new event when an assignment is added to a course.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -76,4 +77,5 @@ export default {
       };
     },
   },
+  sampleEmit,
 };

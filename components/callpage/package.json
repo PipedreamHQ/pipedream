@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/callpage",
+  "version": "0.1.0",
+  "description": "Pipedream CallPage Components",
+  "main": "callpage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "callpage"
+  ],
+  "homepage": "https://pipedream.com/apps/callpage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

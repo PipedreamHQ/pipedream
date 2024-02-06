@@ -2,7 +2,7 @@ import wise from "../../wise.app.mjs";
 
 export default {
   name: "Get Balance",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "wise-get-balance",
   description: "Get a balance. [See docs here](https://api-docs.wise.com/api-reference/balance#get)",
   type: "action",

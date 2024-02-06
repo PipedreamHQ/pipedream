@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cloudflare_r2",
+  "version": "0.0.1",
+  "description": "Pipedream Cloudflare R2 Components",
+  "main": "cloudflare_r2.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cloudflare_r2"
+  ],
+  "homepage": "https://pipedream.com/apps/cloudflare_r2",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

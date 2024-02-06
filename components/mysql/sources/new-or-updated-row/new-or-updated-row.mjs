@@ -1,4 +1,5 @@
 import common from "../common/table.mjs";
+import { v4 as uuidv4 } from "uuid";
 
 const { mysql } = common.props;
 
@@ -8,7 +9,7 @@ export default {
   name: "New or Updated Row",
   description: "Emit new event when you add or modify a new row in a table. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -37,18 +38,8 @@ export default {
       await this.listRowResults(this.column);
     },
     generateMeta(row) {
-      /**
-       * Workaround to fix the following issue
-       * https://github.com/PipedreamHQ/pipedream/issues/1842
-       */
-      const {
-        // eslint-disable-next-line no-unused-vars
-        id,
-        ...otherProperties
-      } = row;
-
       return {
-        id: JSON.stringify(otherProperties),
+        id: uuidv4(),
         summary: `New Row Added/Updated ${row[this.column]}`,
         ts: Date.now(),
       };

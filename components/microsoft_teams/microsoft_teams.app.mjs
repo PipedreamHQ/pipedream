@@ -96,13 +96,6 @@ export default {
       label: "Message",
       description: "Message to be sent",
     },
-    max: {
-      type: "integer",
-      label: "Max",
-      description: "Maximum number of items to return",
-      optional: true,
-      default: 20,
-    },
   },
   methods: {
     _accessToken() {
@@ -149,17 +142,17 @@ export default {
     async listTeams() {
       const id = await this.authenticatedUserId();
       return this.makeRequest({
-        path: `/users/${id}/joinedTeams?${constants.ORDER_BY_CREATED_DESC}`,
+        path: `/users/${id}/joinedTeams`,
       });
     },
     async listChannels({ teamId }) {
       return this.makeRequest({
-        path: `/teams/${teamId}/channels?${constants.ORDER_BY_CREATED_DESC}`,
+        path: `/teams/${teamId}/channels`,
       });
     },
     async listChats() {
       return this.makeRequest({
-        path: `/chats?$expand=members&${constants.ORDER_BY_CREATED_DESC}`,
+        path: "/chats?$expand=members",
       });
     },
     async createChannel({
@@ -214,7 +207,7 @@ export default {
       teamId, channelId,
     }) {
       return this.makeRequest({
-        path: `/teams/${teamId}/channels/${channelId}/messages/delta?${constants.ORDER_BY_CREATED_DESC}`,
+        path: `/teams/${teamId}/channels/${channelId}/messages/delta`,
       });
     },
     async listTeamMembers({ teamId }) {
@@ -224,7 +217,12 @@ export default {
     },
     async listChatMessages({ chatId }) {
       return this.makeRequest({
-        path: `/chats/${chatId}/messages?${constants.ORDER_BY_CREATED_DESC}`,
+        path: `/chats/${chatId}/messages`,
+      });
+    },
+    async listShifts({ teamId }) {
+      return this.makeRequest({
+        path: `/teams/${teamId}/schedule/shifts`,
       });
     },
   },

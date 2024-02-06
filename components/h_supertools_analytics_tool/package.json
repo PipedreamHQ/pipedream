@@ -1,17 +1,18 @@
 {
   "name": "@pipedream/h_supertools_analytics_tool",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream H-supertools Analytics Tool Components",
-  "main": "dist/app/h_supertools_analytics_tool.app.mjs",
+  "main": "h_supertools_analytics_tool.app.mjs",
   "keywords": [
     "pipedream",
     "h_supertools_analytics_tool"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/h_supertools_analytics_tool",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "moment": "^2.29.4"
   }
 }

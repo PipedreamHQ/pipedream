@@ -1,4 +1,3 @@
-import app from "../../app/twitter.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
 import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
@@ -14,14 +13,14 @@ export default defineSource({
   ...common,
   key: "twitter-new-tweet-liked-by-user",
   name: "New Tweet Liked by User",
-  description: `Emit new event when a Tweet is liked by the specified User [See docs here](${DOCS_LINK})`,
-  version: "0.1.2",
+  description: `Emit new event when a Tweet is liked by the specified User [See the documentation](${DOCS_LINK})`,
+  version: "2.0.7",
   type: "source",
   props: {
     ...common.props,
     userNameOrId: {
       propDefinition: [
-        app,
+        common.props.app,
         "userNameOrId",
       ],
     },

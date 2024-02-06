@@ -4,25 +4,15 @@ Monitor all workflow events and their stack traces in one centralized view under
 
 Within the **Event History**, you'll be able to filter your events by workflow, execution status, within a specific time range.
 
-This includes events in progress for real-time visibility into the health of your workflows.
-
-::: tip This feature is in beta
-
-Event Histories are currently in **beta** and are only available to Paid workspaces and with a limited number of events to start.
-
-:::
-
 [[toc]]
 
 ## Filtering Events
 
-The filters at the top of the screen allow you to search all events processed by your workflows:
-
-![Filtering all events in a workspace by its status, when it was executed or by workflow ID](https://res.cloudinary.com/pipedreamin/image/upload/v1683747287/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.34.00_2x_voaos3.png)
+The filters at the top of the screen allow you to search all events processed by your workflows.
 
 You can filter by the event's **Status**, **time of initiation** or by the **Workflow name**.
 
-::: tip 
+::: tip
 
 The filters are scoped to the current [workspace](/workspaces/).
 
@@ -32,19 +22,9 @@ If you're not seeing the events or workflow you're expecting, try [switching wor
 
 ### Filtering by status
 
-The **Status** filter controls which events are shown by their status. For example selecting the **Executing** status, you'll be shown all events that are currently being processed by your workflows.
+The **Status** filter controls which events are shown by their status. For example selecting the **Success** status, you'll be shown all events that were successfully executed by workflows.
 
-![Only showing workflow events that are currently being executed](https://res.cloudinary.com/pipedreamin/image/upload/v1683748216/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.50.05_2x_yroowb.png)
-
-#### All paused workflow executions
-
-Workflows that are paused from `$.flow.delay` or `$.flow.suspend` will be shown when this filter is activated.
-
-::: warning
-
-If you're using `setTimeout` or `sleep` in Node.js or Python steps, the event will not be considered **Paused**. Using those language native execution holding controls leaves your workflow in a **Executing** state.
-
-:::
+![Only showing workflow events by current execution status](https://res.cloudinary.com/pipedreamin/image/upload/v1689875830/docs/docs/event%20histories/image_44_g2sabg.png)
 
 #### All failed workflow executions
 
@@ -54,17 +34,27 @@ This will only display the failed workflow executions in the selected time perio
 
 This view in particular is helpful for identifying trends of errors, or workflows with persistent problems.
 
-![Viewing all failed workflow executions by the filter in the Event History](https://res.cloudinary.com/pipedreamin/image/upload/v1683747364/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.35.34_2x_pbooqv.png)
+![Viewing all failed workflow executions by the filter in the Event History](https://res.cloudinary.com/pipedreamin/image/upload/v1689876111/docs/docs/event%20histories/CleanShot_2023-07-20_at_14.01.43_2x_nksdxd.png)
 
+#### All paused workflow executions
+
+Workflows that are paused from `$.flow.delay` or `$.flow.suspend` will be shown when this filter is activated.
+
+![Only showing workflows that are currently paused](https://res.cloudinary.com/pipedreamin/image/upload/v1689875506/docs/docs/event%20histories/CleanShot_2023-07-20_at_13.51.11_2x_kn2dpw.png)
+
+::: warning
+
+If you're using `setTimeout` or `sleep` in Node.js or Python steps, the event will not be considered **Paused**. Using those language native execution holding controls leaves your workflow in a **Executing** state.
+
+:::
 
 ### Within a time frame
 
 Filtering by time frame will only include workflow events _started_ within the defined range.
 
-Using this dropdown, you can select between convienent time ranges, or specify a custom range on the right side.
+Using this dropdown, you can select between convenient time ranges, or specify a custom range on the right side.
 
 ![How to filter events by a timerange](https://res.cloudinary.com/pipedreamin/image/upload/v1683747452/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.37.01_2x_oxb07m.png)
-
 
 ::: tip Long running workflows
 
@@ -102,13 +92,12 @@ You'll need to replay an event to execute the workflow with the latest changes.
 
 :::
 
-
 ## Limits
 
-::: tip Beta access
-
-During the beta, Paid accounts will have access to view the past 100 events across all of their workflows. This limit will increase as this trial continues.
-
-:::
-
 The number of events recorded and available for viewing in the Event History depends on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
+
+## Frequently asked questions
+
+### Are event histories available on all plans?
+
+Yes, event history is available for all workspace plans, including free plans. However, the length of searchable or viewable history changes depending on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.

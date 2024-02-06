@@ -17,7 +17,7 @@ export default {
         "database",
       ],
     },
-    schema: {
+    schemas: {
       propDefinition: [
         common.props.snowflake,
         "schema",
@@ -25,6 +25,13 @@ export default {
           database: configuredProps.database,
         }),
       ],
+      type: "string[]",
+    },
+    taskName: {
+      type: "string",
+      label: "Task Name",
+      description: "The name of the task to watch for failures. It allows you to use Regex to match multiple tasks.",
+      optional: true,
     },
   },
   type: "source",
@@ -32,11 +39,12 @@ export default {
   // eslint-disable-next-line
   name: "Failed Task in Schema",
   description: "Emit new events when a task fails in a database schema",
-  version: "0.0.5",
+  version: "0.0.8",
   async run() {
     await this.emitFailedTasks({
       database: this.database,
-      schema: this.schema,
+      schemas: this.schemas,
+      taskName: this.taskName,
     });
   },
 };

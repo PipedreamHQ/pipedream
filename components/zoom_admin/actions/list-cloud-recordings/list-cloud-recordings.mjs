@@ -1,27 +1,15 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import consts from "../../consts.mjs";
-import { axios } from "@pipedream/platform";
+import { paginate } from "../../common/pagination.mjs";
 
 export default {
   name: "List Cloud Recordings",
   description: "Search cloud recordings from a meeting or webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingslist)",
   key: "zoom_admin-list-cloud-recordings",
-  version: "0.1.1",
+  version: "0.2.0",
   type: "action",
   props: {
     zoomAdmin,
-    pageSize: {
-      propDefinition: [
-        zoomAdmin,
-        "pageSize",
-      ],
-    },
-    nextPageToken: {
-      propDefinition: [
-        zoomAdmin,
-        "nextPageToken",
-      ],
-    },
     mc: {
       type: "string",
       label: "MC",
@@ -55,22 +43,22 @@ export default {
     },
   },
   async run ({ $ }) {
-    const res = await axios($, this.zoomAdmin._getAxiosParams({
-      method: "GET",
-      path: "/users/me/recordings",
-      params: {
-        page_size: this.pageSize,
-        next_page_token: this.nextPageToken,
-        mc: this.mc,
-        trash: this.trash,
-        trash_type: this.trashType,
-        from: this.from,
-        to: this.to,
-      },
-    }));
+    const params = {
+      mc: this.mc,
+      trash: this.trash,
+      trash_type: this.trashType,
+      from: this.from,
+      to: this.to,
+    };
 
-    $.export("$summary", "Cloud records successfully fetched");
+    const data = await paginate(
+      this.zoomAdmin.listCloudRecordings,
+      "meetings",
+      params,
+    );
 
-    return res;
+    $.export("$summary", `${data.length} Cloud record(s) successfully fetched`);
+
+    return data;
   },
 };

@@ -1,11 +1,15 @@
-import app from "../../app/twitter.app";
+import common from "../../common/appValidation";
+import { ACTION_ERROR_MESSAGE } from "../../common/errorMessage";
 import { defineAction } from "@pipedream/types";
 import {
-  getMultiItemSummary, getUserId, getUserFields,
+  getMultiItemSummary,
+  getUserId,
+  getUserFields,
 } from "../../common/methods";
 import { GetUserFollowersParams } from "../../common/types/requestParams";
 import {
-  PaginatedResponseObject, User,
+  PaginatedResponseObject,
+  User,
 } from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
@@ -15,22 +19,23 @@ const DEFAULT_RESULTS = 100;
 export const MAX_RESULTS_PER_PAGE = 1000;
 
 export default defineAction({
+  ...common,
   key: "twitter-list-followers",
   name: "List Followers",
-  description: `Return a collection of user objects for users following the specified user. [See docs here](${DOCS_LINK})`,
-  version: "1.1.2",
+  description: `Return a collection of user objects for users following the specified user. [See the documentation](${DOCS_LINK})`,
+  version: "2.0.7",
   type: "action",
   props: {
-    app,
+    ...common.props,
     userNameOrId: {
       propDefinition: [
-        app,
+        common.props.app,
         "userNameOrId",
       ],
     },
     maxResults: {
       propDefinition: [
-        app,
+        common.props.app,
         "maxResults",
       ],
       min: MIN_RESULTS,
@@ -39,6 +44,7 @@ export default defineAction({
     },
   },
   methods: {
+    ...common.methods,
     getMultiItemSummary,
     getUserId,
     getUserFields,
@@ -52,11 +58,15 @@ export default defineAction({
       maxResults: this.maxResults,
       params: this.getUserFields(),
       userId,
+      fallbackError: ACTION_ERROR_MESSAGE,
     };
 
     const response = await this.app.getUserFollowers(params);
 
-    $.export("$summary", this.getMultiItemSummary("follower", response.data?.length));
+    $.export(
+      "$summary",
+      this.getMultiItemSummary("follower", response.data?.length),
+    );
 
     return response;
   },

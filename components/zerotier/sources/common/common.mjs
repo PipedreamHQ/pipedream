@@ -44,11 +44,11 @@ export default {
       const previousStatus = this._getNodeStatus(nodeId);
       const rightStatus = this.getRightStatus();
 
-      const online = previousStatus || lastSeen === 0
-        ? lastSeen - 180000 > previousStatus
-        : true;
+      const online = !(lastSeen === 0) && ((clock - lastSeen) < 180000);   //lastSeen === 0 means Zerotier reset api to 0 and indicates device has never connected since
 
-      if (online != previousStatus) {
+      if (previousStatus == null)
+        this._setNodeStatus(nodeId, online);
+      else if (online != previousStatus) {
         this._setNodeStatus(nodeId, online);
 
         if (online === rightStatus) {

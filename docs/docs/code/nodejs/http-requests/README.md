@@ -441,15 +441,13 @@ export default defineComponent({
 This example shows you how to download a file to a file in [the `/tmp` directory](/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
 
 ```javascript
-import stream from "stream";
-import { promisify } from "util";
+import { pipeline } from "stream/promises";
 import fs from "fs";
 import got from "got";
 
 export default defineComponent({
   async run({ steps, $ }) {
     // Download the webpage HTML file to /tmp
-    const pipeline = promisify(stream.pipeline);
     return await pipeline(
       got.stream("https://example.com"),
       fs.createWriteStream('/tmp/file.html')
@@ -458,7 +456,7 @@ export default defineComponent({
 })
 ```
 
-[Copy this workflow](https://pipedream.com/@dylburger/download-a-file-from-a-url-to-tmp-p_pWCYA8y/edit) to run this example.
+[Copy this workflow](https://pipedream.com/new?h=tch_wqKfoW) to run this example.
 
 ## Upload a file from the `/tmp` directory
 
@@ -488,11 +486,17 @@ export default defineComponent({
 });
 ```
 
-[Copy this workflow](https://pipedream.com/@dylburger/stream-a-file-upload-p_6lC1d2Z/edit) to run this example.
+[Copy this workflow](https://pipedream.com/new?h=tch_Oknf4r) to run this example.
+
+## IP addresses for HTTP requests made from Pipedream workflows
+
+By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/privacy-and-security/#hosting-details). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
+
+- [Use a Pipedream VPC](/workflows/vpc/) to route all outbound HTTP requests through a single IP address
+- If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
+
 
 ## Use an HTTP proxy to proxy requests through another host
-
-When you make HTTP requests to certain services, they might require you whitelist a set of IP addresses those requests come from. Often, this is to improve the security of the target service.
 
 By default, HTTP requests made from Pipedream can come from a range of IP addresses. **If you need to make requests from a single IP address, you can route traffic through an HTTP proxy**:
 
@@ -501,12 +505,53 @@ import axios from "axios";
 import httpsProxyAgent from "https-proxy-agent";
 
 export default defineComponent({
+  props: {
+    user: {
+      type: 'string',
+      label: 'Username',
+      description: 'The username for the HTTP proxy authentication',
+    },
+    pass: {
+      type: 'string',
+      label: 'Password',
+      secret: true,
+      description: 'The password for the HTTP proxy authentication',
+    },
+    host: {
+      type: 'string',
+      label: "HTTP Proxy Host",
+      description: "The URL for the HTTP proxy",
+    },
+    port: {
+      type: "string",
+      label: "Port",
+      description: "The port the HTTP proxy is accepting requests at",
+    },
+    target_host: {
+      type: 'string',
+      label: "Target Host",
+      description: "The URL for the end target to reach through the proxy",
+    },
+    method: {
+      type: 'string',
+      default: 'GET',
+      label: "HTTP method",
+      description: "The HTTP method to use to reach the end target host"
+    },
+    body: {
+      type: 'object',
+      label: "HTTP body",
+      description: "The HTTP body payload to send to the end target host"
+    }
+  },
   async run({ steps, $ }) {
+    const { user, pass, host, port, target_host, method } = this;
     const agent = new httpsProxyAgent(`http://${user}:${pass}@${host}:${port}`);
 
     const config = {
-      method: "GET",
-      url: "https://example.com",
+      method,
+      url: target_host,
+      body,
       httpsAgent: agent,
     };
 
@@ -515,16 +560,7 @@ export default defineComponent({
 });
 ```
 
-**If you don't have access to an HTTP proxy, and you are a customer on the Teams or Enterprise plan, [reach out to our team](https://pipedream.com/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
-
-[Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/make-an-http-request-through-a-proxy-p_ezC6RD/edit).
-
-## IP addresses for HTTP requests made from Pipedream workflows
-
-By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/workflows/networking/). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
-
-- [Use an HTTP proxy to proxy requests](#use-an-http-proxy-to-proxy-requests-through-another-host)
-- If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
+[Copy this workflow to run this code on Pipedream](https://pipedream.com/new?h=tch_mypfby).
 
 ## Stream a downloaded file directly to another URL
 
@@ -584,3 +620,76 @@ See [the `axios` docs](https://github.com/axios/axios#request-config) for more d
 When you fetch data from an API, the API may return records in "pages". For example, if you're trying to fetch a list of 1,000 records, the API might return those in groups of 100 items.
 
 Different APIs paginate data in different ways. You'll need to consult the docs of your API provider to see how they suggest you paginate through records.
+
+## Send GraphQL request
+
+Make a GraphQL request using the `graphql-request` NPM package:
+
+```javascript
+import { graphql } from  'graphql'
+import { request, gql } from 'graphql-request'
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    const document = gql`
+      query samplePokeAPIquery {
+        generations: pokemon_v2_generation {
+          name
+          pokemon_species: pokemon_v2_pokemonspecies_aggregate {
+            aggregate {
+              count
+            }
+          }
+        }
+      }
+    `
+    return await request('https://beta.pokeapi.co/graphql/v1beta', document)
+  },
+})
+```
+
+:::tip The graphql package is required
+
+The `graphql` package is required for popular GraphQL clients to function, like `graphql-request` and `urql`. 
+
+Even though you will not need to use the `graphql` code itself in your code step, it's required to import it in order for `graphql-request` to function.
+
+:::
+
+### Send an authenticated GraphQL request
+
+Authenticate your connected accounts in Pipedream with GraphQL requests using the `app` prop:
+
+```javascript
+import { graphql } from  'graphql'
+import { GraphQLClient, gql } from 'graphql-request'
+
+export default defineComponent({
+  props: {
+    github: {
+      type: 'app',
+      app: 'github'
+    }
+  },
+  async run({ steps, $ }) {
+    const me = gql`
+      query { 
+        viewer { 
+          login
+        }
+      }
+    `
+
+    const client = new GraphQLClient('https://api.github.com/graphql', {
+      headers: {
+        authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
+      },
+    })
+
+    return await client.request(me)
+  },
+})
+
+```
+
+Alternatively, you can use Environment Variables as well for simple API key based GraphQL APIs.

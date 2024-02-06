@@ -7,7 +7,7 @@ export default {
   name: "Create Document From File",
   description: "Create a document from a file or public file URL. [See the docs here](https://developers.pandadoc.com/reference/create-document-from-pdf)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.7",
   props: {
     app,
     name: {
@@ -41,6 +41,13 @@ export default {
         "documentFolderId",
       ],
     },
+    fields: {
+      type: "string",
+      label: "Fields",
+      description: `A \`fields\` object containing fields to add to the document. [See the documentation](https://developers.pandadoc.com/reference/create-document-from-pdf) for more information about fields.
+      \nE.g. \`{ "name": { "value": "Jane", "role": "user" }, "like": { "value": true, "role": "user" } }\``,
+      optional: true,
+    },
   },
   methods: createDocumentAttachment.methods,
   async run({ $ }) {
@@ -64,6 +71,12 @@ export default {
       recipients: parsedRecipients,
       folder_uuid: documentFolderId,
     };
+    if (this.fields) {
+      json.parse_form_fields = true;
+      json.fields = typeof this.fields === "string"
+        ? JSON.parse(this.fields)
+        : this.fields;
+    }
 
     if (fileUrl) {
       data = json;
@@ -83,7 +96,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created document attachment with ID: ${response.uuid}`);
+    $.export("$summary", `Successfully created document with ID: ${response.uuid}`);
     return response;
   },
 };

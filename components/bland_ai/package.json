@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bland_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Bland AI Components",
+  "main": "bland_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bland_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/bland_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

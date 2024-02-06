@@ -59,6 +59,8 @@ If you resume a workflow, any data sent in the HTTP request is passed to the wor
   <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655271815/docs/resume_data_lafhxr.png" alt="resume data step export" width="350px"/>
 </div>
 
+Requests to the `resume_url` have [the same limits as any HTTP request to Pipedream](/limits/#http-request-body-size), but you can send larger payloads using our [large payload](/workflows/steps/triggers/#sending-large-payloads) or [large file](/workflows/steps/triggers/#large-file-support) interfaces.
+
 ### Default timeout of 24 hours 
 
 By default, `$.flow.suspend` will automatically resume the workflow after 24 hours. You can set your own timeout (in milliseconds) as the first argument:
@@ -78,6 +80,47 @@ export default defineComponent({
 <VideoPlayer src="https://www.youtube.com/embed/Fz_hjbza6Yo" title="Rerunning a Node.js code step with $.rerun"/>
 
 Use `$.flow.rerun` when you want to run a specific step of a workflow multiple times. This is useful when you need to start a job in an external API and poll for its completion, or have the service call back to the step and let you process the HTTP request within the step.
+
+### Retrying a Failed API Request
+
+`$.flow.rerun` can be used to conditionally retry a failed API request due to a service outage or rate limit reached. Place the `$.flow.rerun` call within a `catch` block to only retry the API request if an error is thrown:
+
+```javascript
+import { axios } from "@pipedream/platform"
+
+export default defineComponent({
+  props: {
+    openai: {
+      type: "app",
+      app: "openai"
+    }
+  },
+  async run({steps, $}) {
+    try {
+      return await axios($, {
+        url: `https://api.openai.com/v1/completions`,
+        method: 'post',
+        headers: {
+          Authorization: `Bearer ${this.openai.$auth.api_key}`,
+        },
+        data: {
+          "model": "text-davinci-003",
+          "prompt": "Say this is a test",
+          "max_tokens": 7,
+          "temperature": 0
+        }
+      })
+    } catch(error) {
+      const MAX_RETRIES = 3
+      const DELAY = 1000 * 30
+
+      // Retry the request every 30 seconds, for up to 3 times
+      $.flow.rerun(DELAY, null, MAX_RETRIES)
+    }
+  },
+})
+```
+
 
 ### Polling for the status of an external job
 
@@ -128,7 +171,7 @@ $.flow.rerun(
 
 ### Accept an HTTP callback from an external service
 
-When you trigger a job in an external service, and that service can send back data in an HTTP callback to Pipedream, you can process that data within the same step using `$.flow.retry`:
+When you trigger a job in an external service, and that service can send back data in an HTTP callback to Pipedream, you can process that data within the same step using `$.flow.rerun`:
 
 ```javascript
 import axios from 'axios'
@@ -151,14 +194,11 @@ export default defineComponent({
         }
       })
     }
-    else if (run.runs === 2) {
-      throw new Error("External service never completed job")
-    }
+
     // When the external service calls back into the resume_url, you have access to 
     // the callback data within $.context.run.callback_request
-    else {
-      const { callback_request } = run
-      return callback_request
+    else if(run.callback_request) {
+      return run.callback_request
     }
   },
 })

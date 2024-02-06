@@ -5,7 +5,7 @@ export default {
   key: "gmail_custom_oauth-create-draft",
   name: "Create Draft",
   description: "Create a draft from your Google Workspace email account",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     gmail,
@@ -66,8 +66,11 @@ export default {
     inReplyTo: {
       propDefinition: [
         gmail,
-        "inReplyTo",
+        "message",
       ],
+      label: "In Reply To",
+      description: "Specify the `message-id` this email is replying to.",
+      optional: true,
     },
     mimeType: {
       propDefinition: [

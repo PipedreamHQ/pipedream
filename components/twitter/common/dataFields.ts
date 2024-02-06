@@ -23,6 +23,25 @@ export const MEDIA_FIELD_OPTIONS = [
   "variants",
 ];
 
+export const MESSAGE_FIELD_OPTIONS = [
+  "id",
+  "text",
+  "event_type",
+  "created_at",
+  "dm_conversation_id",
+  "sender_id",
+  "participant_ids",
+  "referenced_tweets",
+  "attachments",
+];
+
+export const METRICS_FIELDS = [
+  "public_metrics",
+  "non_public_metrics",
+  "organic_metrics",
+  "promoted_metrics",
+];
+
 export const PLACE_FIELD_OPTIONS = [
   "contained_within",
   "country",

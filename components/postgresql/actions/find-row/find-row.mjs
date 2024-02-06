@@ -4,10 +4,16 @@ export default {
   name: "Find Row",
   key: "postgresql-find-row",
   description: "Finds a row in a table via a lookup column. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     postgresql,
+    rejectUnauthorized: {
+      propDefinition: [
+        postgresql,
+        "rejectUnauthorized",
+      ],
+    },
     schema: {
       propDefinition: [
         postgresql,
@@ -50,12 +56,6 @@ export default {
           schema: c.schema,
           rejectUnauthorized: c.rejectUnauthorized,
         }),
-      ],
-    },
-    rejectUnauthorized: {
-      propDefinition: [
-        postgresql,
-        "rejectUnauthorized",
       ],
     },
   },

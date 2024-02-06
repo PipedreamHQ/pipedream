@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/docraptor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream DocRaptor Components",
   "main": "dist/app/docraptor.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/docraptor",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

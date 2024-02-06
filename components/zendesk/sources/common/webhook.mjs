@@ -19,6 +19,18 @@ export default {
         "customSubdomain",
       ],
     },
+    fields: {
+      propDefinition: [
+        app,
+        "fields",
+      ],
+    },
+    jsonBody: {
+      type: "string",
+      label: "JSON Body",
+      description: "Custom JSON Body of the incoming payload. Setting `jsonBody` will overwrite the `fields` prop",
+      optional: true,
+    },
   },
   hooks: {
     async activate() {
@@ -197,6 +209,9 @@ export default {
         ) === 0
       );
     },
+    isRelevant() {
+      return true;
+    },
   },
   async run(event) {
     const {
@@ -221,12 +236,17 @@ export default {
       return;
     }
 
+    const isRelevant = await this.isRelevant(payload);
+    if (!isRelevant) {
+      return;
+    }
+
     const ts = Date.parse(payload.updatedAt);
     const id = `${payload.ticketId}-${ts}`;
 
     this.$emit(payload, {
       id,
-      summary: payload.title,
+      summary: payload.title || payload.ticketId,
       ts,
     });
   },
