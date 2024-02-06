@@ -7473,7 +7473,10 @@ importers:
     specifiers: {}
 
   components/venly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/vercel:
     specifiers:
