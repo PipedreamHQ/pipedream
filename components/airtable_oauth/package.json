@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.6.0",
+    "airtable": "^0.11.1",
     "bottleneck": "^2.19.5",
     "lodash": "^4.17.21",
     "lodash.chunk": "^4.2.0",
