@@ -8,108 +8,81 @@ export default {
       type: "string",
       label: "Client ID",
       description: "The ID of the client",
+      async options() {
+        const { data: { clients: { nodes } } } = await this.post({
+          data: {
+            query: `query GetClients {
+              clients {
+                nodes {
+                  id
+                  firstName
+                  lastName
+                  companyName
+                }
+              }
+            }`,
+          },
+        });
+        return nodes.map(({
+          id: value, firstName, lastName, companyName,
+        }) => ({
+          value,
+          label: companyName || `${firstName} ${lastName}`,
+        }));
+      },
     },
-    clientName: {
+    propertyId: {
       type: "string",
-      label: "Client Name",
-      description: "The name of the client",
-    },
-    clientContactInfo: {
-      type: "string",
-      label: "Client Contact Information",
-      description: "The contact information of the client",
-    },
-    clientAddress: {
-      type: "string",
-      label: "Client Address",
-      description: "The address of the client",
-    },
-    serviceDetails: {
-      type: "string",
-      label: "Service Details",
-      description: "Details of the service request",
-    },
-    appointmentTime: {
-      type: "string",
-      label: "Appointment Time",
-      description: "The appointment time for the service",
-    },
-    quoteDetails: {
-      type: "string",
-      label: "Quote Details",
-      description: "Details of the quote including service, price, and terms",
-    },
-    servicePrice: {
-      type: "string",
-      label: "Service Price",
-      description: "The price of the service",
-    },
-    quoteTerms: {
-      type: "string",
-      label: "Quote Terms",
-      description: "The terms of the quote",
+      label: "Property ID",
+      description: "The ID of a property",
+      async options() {
+        const { data: { properties: { nodes } } } = await this.post({
+          data: {
+            query: `query GetProperties {
+              properties {
+                nodes {
+                  id
+                  address {
+                    street
+                  }
+                }
+              }
+            }`,
+          },
+        });
+        return nodes.map(({
+          id: value, address,
+        }) => ({
+          value,
+          label: address.street,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.getjobber.com";
+      return "https://api.getjobber.com/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "get",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "X-JOBBER-GRAPHQL-VERSION": "2023-11-15",
         },
       });
     },
-    async createClient({
-      clientName, clientContactInfo, clientAddress,
-    }) {
+    post(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/clients",
-        data: {
-          name: clientName,
-          contact_info: clientContactInfo,
-          address: clientAddress,
-        },
-      });
-    },
-    async createServiceRequest({
-      clientId, serviceDetails, appointmentTime,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/service_requests",
-        data: {
-          client_id: clientId,
-          service_details: serviceDetails,
-          appointment_time: appointmentTime,
-        },
-      });
-    },
-    async createQuote({
-      clientId, quoteDetails, servicePrice, quoteTerms,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/quotes",
-        data: {
-          client_id: clientId,
-          quote_details: quoteDetails,
-          service_price: servicePrice,
-          quote_terms: quoteTerms,
-        },
+        path: "/graphql",
+        ...opts,
       });
     },
   },
