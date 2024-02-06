@@ -1504,7 +1504,10 @@ importers:
     specifiers: {}
 
   components/dailybot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/danny_test_app:
     specifiers: {}
