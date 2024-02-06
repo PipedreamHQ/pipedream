@@ -1,8 +1,5 @@
 import common from "../common/base.mjs";
-import user from "../../common/sobjects/user.mjs";
-import {
-  pickBy, pick,
-} from "lodash-es";
+import utils from "../../common/props-utils.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 const { salesforce } = common.props;
@@ -20,72 +17,199 @@ export default {
   type: "action",
   props: {
     salesforce,
-    Alias: {
+    alias: {
       type: "string",
       label: "Alias",
-      description: "Required. Alias of the user. The alias can contain only underscores and alphanumeric characters. It must be unique in your org, not include spaces, not end with a hyphen, and not contain two consecutive hyphens.",
+      description: "Alias of the user. The alias can contain only underscores and alphanumeric characters. It must be unique in your org, not include spaces, not end with a hyphen, and not contain two consecutive hyphens.",
     },
-    Email: {
+    email: {
       type: "string",
       label: "Email",
-      description: "Required. The email address of the user.",
+      description: "The email address of the user.",
     },
-    EmailEncodingKey: {
+    emailEncodingKey: {
       type: "string",
       label: "Email Encoding Key",
-      description: "Required. The key used to encode the user's email.",
+      description: "The key used to encode the user's email.",
+      options: [
+        "ISO-8859-1",
+        "UTF-8",
+        "Shift_JIS",
+        "EUC-JP",
+        "ISO-2022-JP",
+      ],
+      default: "UTF-8",
     },
-    LanguageLocaleKey: {
+    languageLocaleKey: {
       type: "string",
       label: "Language Locale Key",
-      description: "Required. The user's language locale key.",
+      description: "The user's language locale key.",
+      async options() {
+        const fields = await this.salesforce.getFieldsForObjectType("User");
+        const { picklistValues } = fields.find(({ name }) => name === "LanguageLocaleKey");
+        return picklistValues.map(({
+          value, label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    LastName: {
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The user's first name.",
+      optional: true,
+    },
+    lastName: {
       type: "string",
       label: "Last Name",
-      description: "Required. The user's last name.",
+      description: "The user's last name.",
     },
-    LocaleSidKey: {
+    localeSidKey: {
       type: "string",
       label: "Locale Sid Key",
-      description: "Required. The user's locale sid key.",
+      description: "The user's locale sid key.",
+      async options() {
+        const fields = await this.salesforce.getFieldsForObjectType("User");
+        const { picklistValues } = fields.find(({ name }) => name === "LocaleSidKey");
+        return picklistValues.map(({
+          value, label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    ProfileId: {
+    profileId: {
       type: "string",
       label: "Profile ID",
-      description: "Required. The ID of the user's profile.",
+      description: "The ID of the user's profile.",
+      async options() {
+        const { records } = await this.salesforce.query({
+          query: "SELECT Id, Name FROM Profile",
+        });
+        return records.map(({
+          Id: value, Name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    TimeZoneSidKey: {
+    timeZoneSidKey: {
       type: "string",
       label: "Time Zone Sid Key",
-      description: "Required. The user's time zone sid key.",
+      description: "The user's time zone sid key.",
+      async options() {
+        const fields = await this.salesforce.getFieldsForObjectType("User");
+        const { picklistValues } = fields.find(({ name }) => name === "TimeZoneSidKey");
+        return picklistValues.map(({
+          value, label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    UserName: {
+    userName: {
       type: "string",
       label: "User Name",
-      description: "Required. The user's username.",
+      description: "The user's username. It should be in email format. Eg. `john@acme.com`.",
     },
-  },  
-  additionalProps() {
-    return this.additionalProps(this.selector, user);
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The user's title.",
+      optional: true,
+    },
+    department: {
+      type: "string",
+      label: "Department",
+      description: "The department the user belongs to.",
+      optional: true,
+    },
+    division: {
+      type: "string",
+      label: "Division",
+      description: "The division the user belongs to.",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The user's phone number.",
+      optional: true,
+    },
+    mobilePhone: {
+      type: "string",
+      label: "Mobile Phone",
+      description: "The user's mobile phone number.",
+      optional: true,
+    },
+    street: {
+      type: "string",
+      label: "Street",
+      description: "The user's street address.",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "The user's city.",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The user's state.",
+      optional: true,
+    },
+    postalCode: {
+      type: "string",
+      label: "Postal Code",
+      description: "The user's postal code.",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "The user's country.",
+      optional: true,
+    },
+    userRoleId: {
+      type: "string",
+      label: "User Role ID",
+      description: "The ID of the user's role.",
+      optional: true,
+    },
+    isActive: {
+      type: "boolean",
+      label: "Is Active",
+      description: "Whether the user is active.",
+      optional: true,
+    },
+  },
+  methods: {
+    createUser(args = {}) {
+      return this.salesforce._makeRequest({
+        method: "POST",
+        url: this.salesforce._sObjectTypeApiUrl("User"),
+        ...args,
+      });
+    },
   },
   async run({ $ }) {
-    const data = pickBy(pick(this, [
-      "Alias",
-      "Email",
-      "EmailEncodingKey",
-      "LanguageLocaleKey",
-      "LastName",
-      "LocaleSidKey",
-      "ProfileId",
-      "TimeZoneSidKey",
-      "UserName",
-    ]));
-    const response = await this.salesforce.createUser({
+    const {
+      createUser,
+      ...data
+    } = this;
+
+    const response = await createUser({
       $,
-      data,
+      data: utils.keysToCapitalCase(data),
     });
-    $.export("$summary", `Successfully created user "${this.Alias}"`);
+    $.export("$summary", `Successfully created user with ID \`${response.id}\``);
     return response;
   },
 };

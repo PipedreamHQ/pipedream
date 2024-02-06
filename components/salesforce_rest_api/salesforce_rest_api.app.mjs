@@ -326,15 +326,6 @@ export default {
         data,
       });
     },
-    async createUser({ $, data }) {
-      const url = this._sObjectTypeApiUrl("User");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
     async createCampaign({
       $, data,
     }) {
