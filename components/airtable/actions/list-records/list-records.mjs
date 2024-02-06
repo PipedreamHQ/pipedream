@@ -6,7 +6,7 @@ export default {
   name: "List Records",
   description: "Retrieve records from a table with automatic pagination. Optionally sort and filter results.",
   type: "action",
-  version: "0.2.2",
+  version: "0.2.3",
   ...commonList,
   props: {
     ...common.props,

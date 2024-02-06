@@ -124,9 +124,11 @@ export default {
       operand2 = this.parse(operand2, "array");
       if (valueType === valueTypes.TEXT) {
         operand1 = this.convertToString(operand1, caseSensitive);
+        operand2 = operand2.map((element) => this.convertToString(element, caseSensitive));
       }
       if (valueType === valueTypes.NUMBER) {
         operand1 = this.convertToNumber(operand1);
+        operand2 = operand2.map((element) => this.convertToNumber(element));
       }
       return operand2.includes(operand1);
     },
