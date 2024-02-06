@@ -7,7 +7,7 @@ export default {
   name: "New Records",
   description: "Emit new event for each new record in a table",
   key: "airtable-new-records",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "source",
   props: {
     ...base.props,
