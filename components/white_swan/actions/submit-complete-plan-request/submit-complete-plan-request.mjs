@@ -1,5 +1,6 @@
 import whiteSwan from "../../white_swan.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "white_swan-submit-complete-plan-request",
@@ -57,7 +58,7 @@ export default {
     dateOfBirth: {
       type: "string",
       label: "Date of Birth",
-      description: "The date of birth of the intended insured person. Example: `19850716T000000+0100`",
+      description: "The date of birth of the intended insured person in ISO 8601 format.",
     },
     healthRating: {
       type: "string",
@@ -104,7 +105,7 @@ export default {
         death_benefit: this.deathBenefitNeeded,
         payment_schedule: this.paymentSchedule,
         gender: this.gender,
-        date_of_birth: this.dateOfBirth,
+        date_of_birth: utils.convertISOToCustomFormat(this.dateOfBirth),
         health_rating: this.healthRating,
         tobacco: this.usesTobacco,
         height_feet: this.insuredHeightFeet,

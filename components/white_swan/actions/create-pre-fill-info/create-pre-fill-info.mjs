@@ -1,5 +1,6 @@
 import whiteSwan from "../../white_swan.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "white_swan-create-pre-fill-info",
@@ -36,7 +37,7 @@ export default {
     dateOfBirth: {
       type: "string",
       label: "Date of Birth",
-      description: "The date of birth of the intended insured person. Example: `19850716T000000+0100`",
+      description: "The date of birth of the intended insured person in ISO 8601 format.",
       optional: true,
     },
     policyType: {
@@ -55,7 +56,9 @@ export default {
         last_name: this.lastName,
         email: this.email,
         address: this.address,
-        date_of_birth: this.dateOfBirth,
+        date_of_birth: this.dateOfBirth
+          ? utils.convertISOToCustomFormat(this.dateOfBirth)
+          : undefined,
         policy_type: this.policyType,
       },
     });
