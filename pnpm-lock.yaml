@@ -2179,7 +2179,10 @@ importers:
     specifiers: {}
 
   components/facebook_marketing:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/facebook_pages:
     specifiers:
