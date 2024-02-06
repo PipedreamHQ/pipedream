@@ -87,6 +87,13 @@ export default {
       description: "This or `trail_price` is required if type is `trailing_stop`",
       optional: true,
     },
+    extendedHours: {
+      type: "boolean",
+      label: "Extended Hours",
+      description: "If true, order will be eligible to execute in premarket/afterhours. Only works with `Type` **Limit** and `Time in Force` **Day**.",
+      optional: true,
+      default: false,
+    },
   },
   async run ({ $ }) {
     if (!this.qty && !this.notional) {
@@ -118,6 +125,7 @@ export default {
         stop_price: this.stopPrice,
         trail_price: this.trailPrice,
         trail_percent: this.trailPercent,
+        extended_hours: this.extendedHours,
       },
     });
     $.export("$summary", `Order(ID:${response.id}) has been placed.`);
