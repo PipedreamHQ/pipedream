@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-create-or-update-record",
   name: "Create Single Record Or Update",
   description: "Updates a record if `recordId` is provided or adds a record to a table.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

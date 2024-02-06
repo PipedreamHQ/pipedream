@@ -4,7 +4,7 @@ export default {
   key: "puppeteer-get-html",
   name: "Get HTML",
   description: "Get the HTML of a webpage using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.content)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     puppeteer,
