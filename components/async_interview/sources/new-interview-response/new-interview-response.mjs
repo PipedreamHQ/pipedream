@@ -23,8 +23,8 @@ export default {
     _getLastId() {
       return this.db.get("lastId") || 0;
     },
-    _setLastId(createdAt) {
-      this.db.set("lastId", createdAt);
+    _setLastId(lastId) {
+      this.db.set("lastId", lastId);
     },
     generateMeta(event) {
       return {
