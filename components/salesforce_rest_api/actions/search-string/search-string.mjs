@@ -1,7 +1,7 @@
 import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
 
 export default {
-  key: "salesforce_rest_api-search-records",
+  key: "salesforce_rest_api-search-string",
   name: "Search Object Records",
   description:
     "Searches for records in an object using a parameterized search. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_parameterized.htm)",
@@ -39,7 +39,7 @@ export default {
         sobject: sobjectType,
         fields: fields.join(","),
       });
-        const resultsFound = response.searchRecords.length;
+      const resultsFound = response.searchRecords.length;
       $.export("$summary", "Search completed successfully");
       $.export("results_found", resultsFound);
       return response;
