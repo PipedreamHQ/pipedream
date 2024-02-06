@@ -1,5 +1,5 @@
 import base from "../common/common.mjs";
-import common from "../../../airtable/sources/new-modified-or-deleted-records/common.mjs";
+import common from "./common.mjs";
 
 export default {
   ...base,

@@ -1,7 +1,7 @@
 import Airtable from "airtable";
 import isEmpty from "lodash.isempty";
 import { axios } from "@pipedream/platform";
-import { SORT_DIRECTION_OPTIONS } from "./common/constants.mjs";
+import { SORT_DIRECTION_OPTIONS } from "../airtable/common/constants.mjs";
 import Bottleneck from "bottleneck";
 const limiter = new Bottleneck({
   minTime: 250, // 4 requests per second

@@ -1,4 +1,4 @@
-import commonApp from "./common-app.mjs";
+import commonApp from "../airtable_oauth/common-app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
