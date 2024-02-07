@@ -4,7 +4,7 @@ export default {
   name: "New Field",
   description: "Emit new event for each new field created in a table",
   key: "airtable_oauth-new-field",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   props: {
     ...common.props,
