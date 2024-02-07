@@ -6,7 +6,7 @@ export default {
   name: "Save URL",
   description: "Save a URL to Omnivore. [See the documentation](https://github.com/omnivore-app/omnivore/blob/main/packages/api/src/schema.ts#L2590)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     url: {
