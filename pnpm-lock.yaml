@@ -2703,13 +2703,13 @@ importers:
   components/google_calendar:
     specifiers:
       '@googleapis/calendar': ^1.0.2
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.0
       lodash.get: ^4.4.2
       moment-timezone: ^0.5.33
       uuid: ^8.3.2
     dependencies:
       '@googleapis/calendar': 1.0.4
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       lodash.get: 4.4.2
       moment-timezone: 0.5.43
       uuid: 8.3.2
@@ -4010,6 +4010,9 @@ importers:
       '@pipedream/platform': ^1.4.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/mailninja:
+    specifiers: {}
 
   components/mailrefine:
     specifiers: {}
@@ -7736,6 +7739,9 @@ importers:
     specifiers: {}
 
   components/whatconverts:
+    specifiers: {}
+
+  components/whatsable:
     specifiers: {}
 
   components/whatsapp_business:
