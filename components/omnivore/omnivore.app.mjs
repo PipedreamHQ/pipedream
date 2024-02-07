@@ -84,6 +84,40 @@ export default {
       type: "string",
       optional: true,
     },
+    url: {
+      type: "string",
+      label: "URL",
+      description: "The URL to save.",
+    },
+    source: {
+      type: "string",
+      label: "Source",
+      description: "The source of the URL.",
+    },
+    clientRequestId: {
+      type: "string",
+      label: "Client Request ID",
+      description: "A unique id for this request. This can be generated using a uuid library, and is used to look up requests on subsequent API calls. For example: `85282635-4DF4-4BFC-A3D4-B3A004E57067`",
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The state of the URL.",
+      optional: true,
+      options: [
+        "PROCESSING",
+        "SUCCEEDED",
+        "FAILED",
+        "DELETED",
+        "ARCHIVED",
+      ],
+    },
+    locale: {
+      type: "string",
+      label: "Locale",
+      description: "The locale of the URL.",
+      optional: true,
+    },
   },
   methods: {
     getBaseUrl() {
