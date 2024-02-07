@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   type: "action",
   key: "alpaca-place-order",
-  version: "0.0.1",
+  version: "0.1.0",
   name: "Place Order",
   description: "Places a new order for the given account. An order request may be rejected if the account is not authorized for trading, or if the tradable balance is insufficient to fill the order, [See the docs](https://alpaca.markets/docs/api-references/trading-api/orders/#request-a-new-order)",
   props: {
@@ -87,6 +87,13 @@ export default {
       description: "This or `trail_price` is required if type is `trailing_stop`",
       optional: true,
     },
+    extendedHours: {
+      type: "boolean",
+      label: "Extended Hours",
+      description: "If true, order will be eligible to execute in premarket/afterhours. Only works with `Type` **Limit** and `Time in Force` **Day**.",
+      optional: true,
+      default: false,
+    },
   },
   async run ({ $ }) {
     if (!this.qty && !this.notional) {
@@ -118,6 +125,7 @@ export default {
         stop_price: this.stopPrice,
         trail_price: this.trailPrice,
         trail_percent: this.trailPercent,
+        extended_hours: this.extendedHours,
       },
     });
     $.export("$summary", `Order(ID:${response.id}) has been placed.`);

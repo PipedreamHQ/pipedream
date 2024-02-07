@@ -187,7 +187,10 @@ importers:
       lodash.pickby: 4.6.0
 
   components/agiled:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/ahrefs:
     specifiers: {}
@@ -241,32 +244,22 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
-  components/airtable:
+  components/airtable_oauth:
     specifiers:
-      '@pipedream/platform': ^1.4.0
+      '@pipedream/platform': ^1.6.0
       airtable: ^0.11.1
       bottleneck: ^2.19.5
       lodash: ^4.17.21
       lodash.chunk: ^4.2.0
       lodash.isempty: ^4.4.0
-      moment: ^2.29.4
+      moment: ^2.30.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       airtable: 0.11.6
       bottleneck: 2.19.5
       lodash: 4.17.21
       lodash.chunk: 4.2.0
       lodash.isempty: 4.4.0
-      moment: 2.29.4
-
-  components/airtable_oauth:
-    specifiers:
-      '@pipedream/platform': ^1.5.1
-      lodash.chunk: ^4.2.0
-      moment: ^2.30.1
-    dependencies:
-      '@pipedream/platform': 1.5.1
-      lodash.chunk: 4.2.0
       moment: 2.30.1
 
   components/aivoov:
@@ -302,15 +295,18 @@ importers:
 
   components/alpaca:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
 
   components/alphamoon:
     specifiers: {}
 
   components/altoviz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/alttext_ai:
     specifiers:
@@ -485,7 +481,10 @@ importers:
     specifiers: {}
 
   components/async_interview:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/autoklose:
     specifiers: {}
@@ -724,7 +723,10 @@ importers:
     specifiers: {}
 
   components/bland_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/blink:
     specifiers:
@@ -3446,7 +3448,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/jobber:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      moment-timezone: ^0.5.45
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      moment-timezone: 0.5.45
 
   components/jobnimbus:
     specifiers:
@@ -4666,7 +4673,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/omnisend:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/omnivore:
     specifiers:
@@ -5277,7 +5287,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
 
   components/practitest:
     specifiers:
@@ -7735,7 +7745,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/white_swan:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      md5: ^2.3.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      md5: 2.3.0
 
   components/whop:
     specifiers:
@@ -23756,6 +23771,12 @@ packages:
       moment: 2.30.1
     dev: false
 
+  /moment-timezone/0.5.45:
+    resolution: {integrity: sha512-HIWmqA86KcmCAhnMAN0wuDOARV/525R2+lOLotuGFzn4HO+FH+/645z2wx0Dt3iDv6/p61SIvKnDstISainhLQ==}
+    dependencies:
+      moment: 2.30.1
+    dev: false
+
   /moment/2.29.4:
     resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
     dev: false
@@ -26840,7 +26861,7 @@ packages:
       mime-types: 2.1.35
       mkdirp: 1.0.4
       moment: 2.30.1
-      moment-timezone: 0.5.43
+      moment-timezone: 0.5.45
       open: 7.4.2
       python-struct: 1.1.3
       simple-lru-cache: 0.0.2
