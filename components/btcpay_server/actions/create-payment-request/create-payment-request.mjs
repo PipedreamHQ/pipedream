@@ -1,7 +1,7 @@
 import btcPayServer from "../../btcpay_server.app.mjs";
 
 export default {
-  key: "btcpay-_server-create-payment-request",
+  key: "btcpay_server-create-payment-request",
   name: "Create Payment Request",
   description: "Generates a new payment request for a user. [See the documentation](https://docs.btcpayserver.org/API/Greenfield/v1/#operation/PaymentRequests_CreatePaymentRequest)",
   version: "0.0.1",
