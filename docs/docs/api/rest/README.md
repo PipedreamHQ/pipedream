@@ -760,7 +760,7 @@ POST /sources/
 
 ---
 
-`component_id` **string** 
+`component_id` **string** (_optional_)
 
 The ID of a component previously created in your account. [See the component
 endpoints](/api/rest/#components) for information on how to retrieve this ID.
