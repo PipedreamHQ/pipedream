@@ -66,12 +66,12 @@ export default {
     const {
       // eslint-disable-next-line no-unused-vars
       app,
-      saveUrl,
+      savePage,
       ...input
     } = this;
 
-    const { saveUrl: response } =
-      await saveUrl({
+    const { savePage: response } =
+      await savePage({
         input,
       });
 
