@@ -3371,7 +3371,10 @@ importers:
       crypto: 1.0.1
 
   components/interzoid:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/intuiface:
     specifiers: {}
@@ -4010,6 +4013,9 @@ importers:
       '@pipedream/platform': ^1.4.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/mailninja:
+    specifiers: {}
 
   components/mailrefine:
     specifiers: {}
@@ -7736,6 +7742,9 @@ importers:
     specifiers: {}
 
   components/whatconverts:
+    specifiers: {}
+
+  components/whatsable:
     specifiers: {}
 
   components/whatsapp_business:
