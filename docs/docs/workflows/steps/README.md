@@ -90,7 +90,6 @@ Pipedream lets you add notes to individual steps in your workflow so you can  in
 ![View notes](https://res.cloudinary.com/pipedreamin/image/upload/v1698167274/view_note_p5uvkg.gif)
 
 ### Current limitations
-- Step notes are not currently included when copying or [sharing](/workflows/sharing) a workflow
 - Step notes are only accessible in Edit mode, and not from the Inspector
 
 <Footer />
