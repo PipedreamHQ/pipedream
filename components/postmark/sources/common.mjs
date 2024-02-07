@@ -3,46 +3,52 @@ import postmark from "../postmark.app.mjs";
 export default {
   props: {
     postmark,
+    db: "$.service.db",
     http: {
       type: "$.interface.http",
       customResponse: true,
     },
   },
   methods: {
-    getWebhookType() {
-      throw new Error("Component is missing Webhook type definition");
-    },
     getWebhookProps() {
       return {};
+    },
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
+    },
+    _getHookId() {
+      return this.db.get("hookId");
     },
   },
   hooks: {
     async activate() {
-      return this.postmark.setServerInfo({
-        [this.getWebhookType()]: this.http.endpoint,
-        ...this.getWebhookProps(),
+      const webhook = await this.postmark.createWebhook({
+        data: {
+          url: this.http.endpoint,
+          ...this.getWebhookProps(),
+        },
       });
+      this._setHookId(webhook.ID);
     },
     async deactivate() {
-      return this.postmark.setServerInfo({
-        [this.getWebhookType()]: "",
-      });
+      const hookId = this._getHookId();
+      return await this.postmark.deleteWebhook(hookId);
     },
   },
-  async run(data) {
+  async run({ body }) {
     this.http.respond({
       status: 200,
     });
 
-    let dateParam = data.ReceivedAt ?? data.Date ?? Date.now();
+    let dateParam = body.ReceivedAt ?? body.Date ?? Date.now();
     let dateObj = new Date(dateParam);
 
-    let msgId = data.MessageID;
+    let msgId = body.MessageID;
     let id = `${msgId}-${dateObj.toISOString()}`;
 
-    this.$emit(data, {
+    this.$emit(body, {
       id,
-      summary: data.Subject,
+      summary: this.getSummary(body),
       ts: dateObj.valueOf(),
     });
   },
