@@ -24,7 +24,6 @@ export default {
       type: "string",
       label: "Last Name",
       description: "Last name of the client",
-      optional: true,
     },
     isCompany: {
       type: "boolean",
