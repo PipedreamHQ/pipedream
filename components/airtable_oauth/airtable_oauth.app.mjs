@@ -1,6 +1,6 @@
-import commonApp from "../airtable/common-app.mjs";
+import commonApp from "./common-app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
-import { fieldTypeToPropType } from "../airtable/common/utils.mjs";
+import { fieldTypeToPropType } from "./common/utils.mjs";
 
 export default {
   ...commonApp,

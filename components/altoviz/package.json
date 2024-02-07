@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/altoviz",
+  "version": "0.0.1",
+  "description": "Pipedream Altoviz Components",
+  "main": "altoviz.app.mjs",
+  "keywords": [
+    "pipedream",
+    "altoviz"
+  ],
+  "homepage": "https://pipedream.com/apps/altoviz",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
