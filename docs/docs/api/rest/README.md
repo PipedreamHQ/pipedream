@@ -640,6 +640,56 @@ curl 'https://api.pipedream.com/v1/orgs/o_abc123/sources' \
 }
 ```
 
+### Get Workspaces's Connected Accounts
+
+---
+
+Retrieve all the connected accounts for a specific workspace.
+
+#### Endpoint
+
+```
+GET /workspaces/<workspace_id>/accounts
+```
+
+#### Path Parameters
+
+`workspace_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+#### Query Parameters
+
+`app_slug` **string** (_optional_)
+
+To look up the connected account information for a specific app, use the `app_slug` query parameter to filter results for that app. You can find a given app's `app_slug` from the [Explore](https://pipedream.com/explore) page by selecting the app, and looking at the prop definition for the app.
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/workspaces/o_abc123/accounts?query=google_sheets' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 1,
+    "count": 1,
+    "start_cursor": "YXBuXzJrVmhMUg",
+    "end_cursor": "YXBuXzJrVmhMUg"
+  },
+  "data": [
+    {
+      "id": "apn_2kVhLR",
+      "name": "Google Sheets #1"
+    }
+  ]
+}
+```
+
 ## Sources
 
 Event sources run code to collect events from an API, or receive events via
@@ -710,7 +760,7 @@ POST /sources/
 
 ---
 
-`component_id` **string** (_optional_)
+`component_id` **string** 
 
 The ID of a component previously created in your account. [See the component
 endpoints](/api/rest/#components) for information on how to retrieve this ID.
