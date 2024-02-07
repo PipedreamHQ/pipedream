@@ -11,11 +11,9 @@ export default {
     paystack,
     email: {
       propDefinition: [paystack, "email"],
-      optional: false,
     },
     amount: {
       propDefinition: [paystack, "amount"],
-      optional: false,
     },
     currency: {
       propDefinition: [paystack, "currency"],

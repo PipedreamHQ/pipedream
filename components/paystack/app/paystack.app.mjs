@@ -43,9 +43,6 @@ export default {
     _baseUrl() {
       return "https://api.paystack.co";
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     async _makeAPIRequest({ $ = this, ...opts }) {
       if (!opts.headers) opts.headers = {};
       opts.headers["Authorization"] = `Bearer ${this.$auth.api_key}`;
