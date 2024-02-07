@@ -1,11 +1,14 @@
+import FormData from "form-data";
+import fs from "fs";
+import urlExists from "url-exist";
 import claidAi from "../../claid_ai.app.mjs";
-import { axios } from "@pipedream/platform";
+import { checkTmp } from "../../common/utils.mjs";
 
 export default {
   key: "claid_ai-upscale-image",
   name: "Upscale Image",
   description: "Enlarges the selected image in order to improve its resolution. By running this action, users can obtain clearer and sharper images.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     claidAi,
@@ -15,50 +18,65 @@ export default {
         "image",
       ],
     },
-    upscale: {
-      type: "boolean",
-      label: "Upscale Image",
-      description: "Enlarge the image to improve its resolution.",
-      optional: true,
-      default: true,
-    },
-    hdr: {
-      propDefinition: [
-        claidAi,
-        "hdr",
-        () => ({
-          default: false,
-        }),
+    upscaleType: {
+      type: "string",
+      label: "Upscale Type",
+      description: "The behavior of the upscale.",
+      options: [
+        "pixel",
+        "percentage",
       ],
     },
-    removeBackground: {
-      propDefinition: [
-        claidAi,
-        "removeBackground",
-        () => ({
-          default: false,
-        }),
-      ],
+    upscaleHeight: {
+      type: "integer",
+      label: "Upscale Height",
+      description: "The quantity of pixels or percentage.",
+    },
+    upscaleWidth: {
+      type: "integer",
+      label: "Upscale Width",
+      description: "The quantity of pixels or percentage.",
     },
   },
   async run({ $ }) {
-    const operations = [];
-    if (this.hdr) operations.push({
-      operation: "hdr",
-    });
-    if (this.removeBackground) operations.push({
-      operation: "remove_background",
-    });
-    if (this.upscale) operations.push({
-      operation: "upscale",
-    });
+    let imageUrl = this.image;
+    let response = "";
 
-    const response = await this.claidAi.editImage({
-      image: this.image,
-      operations: operations.length > 0
-        ? operations
-        : undefined,
-    });
+    const upscaleHeight = this.upscaleType === "pixel"
+      ? this.upscaleHeight
+      : `${this.upscaleHeight}%`;
+    const upscaleWidth = this.upscaleType === "pixel"
+      ? this.upscaleWidth
+      : `${this.upscaleWidth}%`;
+
+    const operations = {
+      resizing: {
+        width: upscaleWidth,
+        height: upscaleHeight,
+      },
+    };
+
+    if (!await urlExists(this.image)) {
+      const formData = new FormData();
+      formData.append("file", fs.createReadStream(checkTmp(this.image)));
+      formData.append("data", JSON.stringify({
+        operations,
+      }));
+
+      response = await this.claidAi.uploadImage({
+        $,
+        data: formData,
+        headers: formData.getHeaders(),
+      });
+    } else {
+      response = await this.claidAi.editImage({
+        $,
+        data: {
+          input: imageUrl,
+          operations,
+        },
+      });
+    }
 
     $.export("$summary", "Image successfully upscaled");
     return response;

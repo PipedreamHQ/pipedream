@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/claid_ai",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Claid AI Components",
   "main": "claid_ai.app.mjs",
   "keywords": [
@@ -11,5 +11,10 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "url-exist": "^3.0.1"
   }
 }

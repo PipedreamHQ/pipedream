@@ -7,7 +7,7 @@ export default {
     image: {
       type: "string",
       label: "Image URL",
-      description: "The URL of the image to be processed.",
+      description: "The image URL or the path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
     },
     operations: {
       type: "object",
@@ -40,64 +40,35 @@ export default {
     _baseUrl() {
       return "https://api.claid.ai/v1-beta1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "POST", path, headers, data, params, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
+    _headers(headers) {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+        ...headers,
+      };
+    },
+    async _makeRequest({
+      $ = this, path, headers, ...opts
+    }) {
+      const config = {
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
-        data,
-        params,
-      });
-    },
-    async authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    async uploadImage({
-      image, operations,
-    }) {
-      const formData = new FormData();
-      formData.append("file", image);
-      formData.append("data", JSON.stringify({
-        operations,
-      }));
+        headers: this._headers(headers),
+        ...opts,
+      };
 
+      return axios($, config);
+    },
+    async uploadImage(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/image/edit/upload",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        data: formData,
+        ...opts,
       });
     },
-    async editImage({
-      image, operations, hdr, removeBackground, upscale,
-    }) {
-      const ops = [];
-      if (hdr) ops.push({
-        operation: "hdr",
-      });
-      if (removeBackground) ops.push({
-        operation: "remove_background",
-      });
-      if (upscale) ops.push({
-        operation: "upscale",
-      });
-
+    async editImage(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/image/edit",
-        data: {
-          input: image,
-          operations: ops.length > 0
-            ? ops
-            : operations,
-        },
+        ...opts,
       });
     },
   },
