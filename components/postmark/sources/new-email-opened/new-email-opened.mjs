@@ -6,18 +6,10 @@ export default {
   name: "New Email Opened",
   description:
     "Emit new event when an email is opened by a recipient [(See docs here)](https://postmarkapp.com/developer/webhooks/open-tracking-webhook)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     ...common.props,
-    trackOpensByDefault: {
-      type: "boolean",
-      label: "Track opens by default",
-      description: `If enabled, all emails being sent through this server will have open tracking enabled by default. Otherwise, only emails that have open tracking explicitly set will trigger this event when opened.
-        \\
-        **Note:** only emails with \`HTML Body\` will have open tracking enabled.
-        `,
-    },
     postFirstOpenOnly: {
       type: "boolean",
       label: "Track first open only",
@@ -30,12 +22,16 @@ export default {
     ...common.methods,
     getWebhookProps() {
       return {
-        PostFirstOpenOnly: this.postFirstOpenOnly,
-        TrackOpens: this.trackOpensByDefault,
+        Triggers: {
+          "Open": {
+            "Enabled": true,
+            "PostFirstOpenOnly": false,
+          },
+        },
       };
     },
-    getWebhookType() {
-      return "OpenHookUrl";
+    getSummary(body) {
+      return `New email opened! MessageID - ${body.MessageID}`;
     },
   },
 };
