@@ -35,7 +35,7 @@ export default {
     service: {
       type: "string",
       label: "Service",
-      description: "You can choose wich service to use to deliver the message. Your sender name must have an active SMS feature. SMS does not support `subject`, `effect`, or `reply_to_id` parameters. `attachments` in SMS - only support pictures (MMS).",
+      description: "You can choose which service to use to deliver the message. Your sender name must have an active SMS feature. SMS does not support `subject`, `effect`, or `reply_to_id` parameters. `attachments` in SMS - only support pictures (MMS).",
       options: constants.SERVICES,
       optional: true,
     },
@@ -157,6 +157,14 @@ export default {
         path: "/contact/lookup/",
         ...args,
       });
+    },
+    emitAlert({
+      alertType, senderName,
+    }) {
+      // This method would be used to emit an event when an alert is received via webhook
+      // The specifics of emitting an event depend on the Pipedream platform's capabilities
+      // and are not fully implemented in this example.
+      console.log(`Alert of type ${alertType} received from ${senderName}`);
     },
   },
 };
