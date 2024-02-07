@@ -8,47 +8,50 @@ export default {
       type: "string",
       label: "Printer UID",
       description: "The unique identifier of the designated printer",
-    },
-    printerMsg: {
-      type: "string",
-      label: "Printer Message",
-      description: "The content to be printed",
+      async options() {
+        const printers = await this.listPrinters();
+        return printers?.map(({
+          printer_uid: value, printer_name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.expedy.io/v2";
+      return "https://www.expedy.fr/api/v2";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          Accept: "application/json",
+          Authorization: `${this.$auth.api_sid}:${this.$auth.api_key}`,
         },
       });
     },
-    async sendPrintJob(printerUid, printerMsg) {
+    listPrinters(opts = {}) {
+      return this._makeRequest({
+        path: "/printers/all",
+        ...opts,
+      });
+    },
+    createPrintJob({
+      printerUid, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/printjobs",
-        data: {
-          printer_uid: printerUid,
-          printer_msg: printerMsg,
-        },
+        path: `/printers/${printerUid}/print`,
+        ...opts,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
