@@ -10,64 +10,29 @@ export default {
       description: "Your Chargeblast API Key",
       secret: true,
     },
-    alertType: {
-      type: "string",
-      label: "Alert Type",
-      description: "The type of alert to filter by",
-      optional: true,
-      async options() {
-        return [
-          {
-            label: "All",
-            value: "",
-          },
-          {
-            label: "Fraud",
-            value: "fraud",
-          },
-          {
-            label: "Chargeback",
-            value: "chargeback",
-          },
-          {
-            label: "Other",
-            value: "other",
-          },
-        ];
-      },
-    },
   },
   methods: {
     _baseUrl() {
-      return "https://api.chargeblast.io";
+      return "https://api.chargeblast.io/api";
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, params, ...otherOpts
+        $ = this, path, headers, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.apiKey}`,
-          "Content-Type": "application/json",
-        },
-        params,
-      });
-    },
-    async getAlerts({ alertType }) {
-      return this._makeRequest({
-        path: "/embed/alerts",
         params: {
-          alert_type: alertType,
+          ...headers,
+          api_key: this.$auth.api_key,
         },
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async getAlerts(args = {}) {
+      return this._makeRequest({
+        path: "/alerts",
+        ...args,
+      });
     },
   },
-  version: "0.0.{{ts}}",
 };

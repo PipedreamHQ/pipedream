@@ -1,20 +1,15 @@
-import chargeblastApp from "../../chargeblast.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import app from "../../chargeblast.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "chargeblast-new-alert",
   name: "New Alert in Chargeblast",
-  description: "Emits an event for each new alert in Chargeblast. [See the documentation](https://docs.chargeblast.io/reference/getembedalerts)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event for each alert in Chargeblast. [See the documentation](https://docs.chargeblast.io/reference/getembedalerts)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    chargeblast: {
-      type: "app",
-      app: "chargeblast",
-    },
+    app,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -22,68 +17,44 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    apiKey: {
-      propDefinition: [
-        chargeblastApp,
-        "apiKey",
-      ],
-    },
-    alertType: {
-      propDefinition: [
-        chargeblastApp,
-        "alertType",
-      ],
-    },
   },
   methods: {
-    _getLastEmittedAlertId() {
-      return this.db.get("lastEmittedAlertId") || null;
-    },
-    _setLastEmittedAlertId(id) {
-      this.db.set("lastEmittedAlertId", id);
-    },
-  },
-  hooks: {
-    async deploy() {
-      // Emit the last 50 alerts in order of most recent to least recent
-      const { data: alerts } = await this.chargeblast.getAlerts({
-        alertType: this.alertType,
+    emitEvent(data) {
+      this._setLastResourceId(data.id);
+
+      this.$emit(data, {
+        id: data.id,
+        summary: `New alert with ID ${data.id}`,
+        ts: Date.parse(data.createdAt),
       });
-      const lastAlerts = alerts.slice(0, 50).reverse();
-      for (const alert of lastAlerts) {
-        this.$emit(alert, {
-          id: alert.id,
-          summary: `New Alert: ${alert.description}`,
-          ts: Date.parse(alert.created_at),
-        });
-      }
-      const lastEmittedId = lastAlerts.length > 0
-        ? lastAlerts[0].id
-        : null;
-      this._setLastEmittedAlertId(lastEmittedId);
+    },
+    _setLastResourceId(id) {
+      this.db.set("lastResourceId", id);
+    },
+    _getLastResourceId() {
+      return this.db.get("lastResourceId");
     },
   },
   async run() {
-    const lastEmittedAlertId = this._getLastEmittedAlertId();
-    const { data: alerts } = await this.chargeblast.getAlerts({
-      alertType: this.alertType,
-    });
+    const lastResourceId = this._getLastResourceId();
 
-    for (const alert of alerts) {
-      if (alert.id === lastEmittedAlertId) {
-        // We've reached the last emitted alert, stop processing
-        break;
-      }
-      this.$emit(alert, {
-        id: alert.id,
-        summary: `New Alert: ${alert.description}`,
-        ts: Date.parse(alert.created_at),
+    let page = 1;
+
+    while (page >= 0) {
+      const resources = await this.app.getAlerts({
+        params: {
+          page,
+        },
       });
-    }
 
-    // Set the last emitted id to the first one in the fetched array
-    if (alerts.length > 0) {
-      this._setLastEmittedAlertId(alerts[0].id);
+      resources.reverse().forEach(this.emitEvent);
+
+      if (resources.filter((resource) => resource.id === lastResourceId)) {
+        page = -1;
+        return;
+      }
+
+      page++;
     }
   },
 };
