@@ -2374,6 +2374,9 @@ importers:
   components/formdesk:
     specifiers: {}
 
+  components/formpress:
+    specifiers: {}
+
   components/forms_on_fire:
     specifiers: {}
 
@@ -4011,6 +4014,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/mailninja:
+    specifiers: {}
+
   components/mailrefine:
     specifiers: {}
 
@@ -4911,7 +4917,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/passslot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      md5: ^2.3.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      md5: 2.3.0
 
   components/patreon:
     specifiers:
@@ -7739,6 +7750,9 @@ importers:
     specifiers: {}
 
   components/whatconverts:
+    specifiers: {}
+
+  components/whatsable:
     specifiers: {}
 
   components/whatsapp_business:
