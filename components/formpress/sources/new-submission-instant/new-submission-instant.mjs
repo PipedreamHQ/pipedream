@@ -1,65 +1,61 @@
-import axios from "@pipedream/platform";
 import formpress from "../../formpress.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "formpress-new-submission-instant",
-  name: "New Submission Instant",
-  description: "Emit new event when there is a new submission.",
-  version: "0.0.{{ts}}",
+  name: "New Submission (Instant)",
+  description: "Emit new event when there is a new submission. [See the documentation](https://formpress.org/blog-details/030-how-to-use-api-key-with-formpress)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     formpress,
     db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+    http: "$.interface.http",
+    formId: {
+      propDefinition: [
+        formpress,
+        "formId",
+      ],
     },
   },
   hooks: {
     async activate() {
-      const tokenResponse = await this.formpress.createToken({
-        apiKey: this.formpress.$auth.apiKey,
-        expiryDate: this.formpress.$auth.expiryDate,
-      });
-      const userId = tokenResponse.data.user_id;
-      const forms = await this.formpress.getForms({
-        userId: userId,
-        token: tokenResponse.data.token,
-      });
-      for (const form of forms.data) {
-        await this.formpress.subscribeWebhook({
-          formId: form.id,
+      const { webhookId } = await this.formpress.createWebhook({
+        formId: this.formId,
+        data: {
           webhookUrl: this.http.endpoint,
-          token: tokenResponse.data.token,
-        });
-      }
+        },
+      });
+      this._setHookId(webhookId);
     },
     async deactivate() {
-      const tokenResponse = await this.formpress.createToken({
-        apiKey: this.formpress.$auth.apiKey,
-        expiryDate: this.formpress.$auth.expiryDate,
-      });
-      const userId = tokenResponse.data.user_id;
-      const forms = await this.formpress.getForms({
-        userId: userId,
-        token: tokenResponse.data.token,
-      });
-      for (const form of forms.data) {
-        await this.formpress.unsubscribeWebhook({
-          formId: form.id,
-          webhookId: this.formpress.$auth.webhookId,
-          token: tokenResponse.data.token,
+      const hookId = this._getHookId();
+      if (hookId) {
+        await this.formpress.deleteWebhook({
+          formId: this.formId,
+          data: {
+            webhookId: hookId,
+          },
         });
       }
     },
   },
-  async run(event) {
-    const body = event.body;
+  methods: {
+    _getHookId() {
+      return this.db.get("hookId");
+    },
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
+    },
+  },
+  async run({ body }) {
+    const { metadata } = body;
     this.$emit(body, {
-      id: body.id,
-      summary: `New submission: ${body.id}`,
-      ts: Date.now(),
+      id: metadata.submissionId,
+      summary: `New submission: ${metadata.submissionId}`,
+      ts: Date.parse(metadata.submissionDate),
     });
   },
+  sampleEmit,
 };
