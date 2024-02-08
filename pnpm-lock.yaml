@@ -2374,6 +2374,9 @@ importers:
   components/formdesk:
     specifiers: {}
 
+  components/formpress:
+    specifiers: {}
+
   components/forms_on_fire:
     specifiers: {}
 
@@ -4010,6 +4013,9 @@ importers:
       '@pipedream/platform': ^1.4.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/mailninja:
+    specifiers: {}
 
   components/mailrefine:
     specifiers: {}
@@ -7740,6 +7746,12 @@ importers:
 
   components/whatconverts:
     specifiers: {}
+
+  components/whatsable:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/whatsapp_business:
     specifiers:

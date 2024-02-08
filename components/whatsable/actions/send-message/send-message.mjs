@@ -1,5 +1,4 @@
 import whatsable from "../../whatsable.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "whatsable-send-message",
@@ -13,9 +12,6 @@ export default {
       propDefinition: [
         whatsable,
         "phoneNumber",
-        (c) => ({
-          phoneNumber: c.phoneNumber,
-        }),
       ],
     },
     message: {
@@ -25,12 +21,24 @@ export default {
       ],
     },
   },
+  methods: {
+    _sanitizePhoneNumber(phoneNumber) {
+      return `+${phoneNumber.replace(/-/g, "")}`;
+    },
+  },
   async run({ $ }) {
+    const sanitizedNumber = this._sanitizePhoneNumber(this.phoneNumber);
+
     const response = await this.whatsable.sendMessage({
-      phoneNumber: this.phoneNumber,
-      message: this.message,
+      $,
+      data: {
+        to: sanitizedNumber,
+        text: this.message,
+      },
     });
-    $.export("$summary", `Sent message to ${this.phoneNumber}`);
+
+    $.export("$summary", `Successfully sent message to ${this.phoneNumber}`);
+
     return response;
   },
 };
