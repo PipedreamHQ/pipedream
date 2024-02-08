@@ -45,7 +45,7 @@ export default {
         props.stitching = {
           type: "boolean",
           label: "Stitching",
-          description: "whether the image will be stitched or not.",
+          description: "Whether the image will be stitched or not.",
         };
       }
     } else {
