@@ -1352,202 +1352,127 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
 ```json
 {
   "data": {
-    "pipeline": {
-      "id": "p_0V9CmY",
-      "owner_id": "o_BYDI5y",
-      "owner_type": "Org",
-      "name": "test workflow name",
-      "description": null,
-      "name_slug": "test-workflow-name",
-      "created_at": "2024-02-07T23:55:59.000Z",
-      "updated_at": "2024-02-07T23:56:14.000Z",
-      "public": false,
-      "inactive": false,
-      "archived": false,
-      "readme_md": null,
-      "test_event_json": null,
-      "error_triggered": false,
-      "emits": false,
-      "created_from_release_id": null,
-      "lambda_timeout": 30,
-      "execution_environment_id": null,
-      "emitter_connected": null,
-      "lambda_memory": 256,
-      "disabled_at": null,
-      "redis_delivery": false,
-      "concurrency": -1,
-      "rate_limit": -1,
-      "rate_limit_bucket_size_seconds": 1,
-      "hid": "p_0V9CmY",
-      "max_event_queue_size": null,
-      "data_public": false,
-      "deleted_at": null,
-      "version": 2,
-      "allow_support": false,
-      "project_id": 231,
-      "production_pipeline_id": null,
-      "repository_user_checkout_id": null,
-      "latest_deployment_id": 3977,
-      "latest_trafficked_deployment_id": 3977,
-      "tiny_config_hash_id": 13,
-      "autodeployable": false,
-      "auto_rerun": false,
-      "project_folder_id": null,
-      "provisioned_concurrency": 0,
-      "network_id": null,
-      "auto_rerun_email_on_first_error": false,
-      "inactive_reason": null,
-      "dir_hash": null,
-      "last_event_at": null,
-      "no_trace_history": false,
-      "owner_name": "jacobpines",
-      "ownerName": "jacobpines",
-      "deployment": {
-        "id": "d_pJs662",
-        "pipeline_id": "p_0V9CmY",
-        "version": 2,
-        "created_at": "2024-02-07T23:56:11.000Z",
-        "updated_at": "2024-02-07T23:56:11.000Z",
-        "traffick_start": "2024-02-07T23:56:12.403Z",
-        "traffick_end": null,
-        "traffick_error": null,
-        "traffick_status": "live_jit",
-        "platform_version": null,
-        "hid": "d_pJs662",
-        "execution_environment_id": null,
-        "use_manifest": true,
-        "workdir_hash": null,
-        "system_created": true,
-        "pipeline_name": "test workflow name",
-        "deployed_by": "user-a6f29bb2e09ba20b8400189b5636499a",
-        "cells": [
-          {
-            "id": "c_elfPBa",
-            "type": "CodeCell",
-            "namespace": "code",
-            "disabled": false,
-            "code_raw": null,
-            "codeRaw": null,
-            "codeConfigJson": null,
-            "lang": "nodejs20.x",
-            "text_raw": null,
-            "appConnections": [],
-            "flat_params_visibility_json": null,
-            "params_json": "{}",
-            "component": true,
-            "savedComponent": {
-              "id": "sc_PRYiAZ",
-              "code": "export default defineComponent({\n  props: {\n    stringProp: {\n      type: \"string\"\n    },\n    intProp: {\n      type: \"integer\",\n    }\n  },\n  async run({ steps, $ }) {\n    console.log(this.stringProp)\n    return steps.trigger.event\n  },\n})",
-              "codeHash": "1908045950f3c1a861e538b20d70732adb701a81174dc59f809398e43f85d132",
-              "configurableProps": [
-                {
-                  "name": "stringProp",
-                  "type": "string"
-                },
-                {
-                  "name": "intProp",
-                  "type": "integer"
-                }
-              ],
-              "key": null,
-              "description": null,
-              "entryPath": null,
-              "version": "",
-              "apps": []
+    "id": "p_48rCxZ",
+    "name": "example workflow name",
+    "active": true,
+    "steps": [
+      {
+        "id": "c_MAfYdM",
+        "type": "CodeCell",
+        "namespace": "code",
+        "disabled": false,
+        "code_raw": null,
+        "codeRaw": null,
+        "codeConfigJson": null,
+        "lang": "nodejs20.x",
+        "text_raw": null,
+        "appConnections": [],
+        "flat_params_visibility_json": null,
+        "params_json": "{}",
+        "component": true,
+        "savedComponent": {
+          "id": "sc_PRYiAZ",
+          "code": "export default defineComponent({\n  props: {\n    stringProp: {\n      type: \"string\"\n    },\n    intProp: {\n      type: \"integer\",\n    }\n  },\n  async run({ steps, $ }) {\n    console.log(this.stringProp)\n    return steps.trigger.event\n  },\n})",
+          "codeHash": "1908045950f3c1a861e538b20d70732adb701a81174dc59f809398e43f85d132",
+          "configurableProps": [
+            {
+              "name": "stringProp",
+              "type": "string"
             },
-            "component_key": null,
-            "component_owner_id": null,
-            "configured_props_json": "{}"
-          },
-          {
-            "id": "c_Epflmo",
-            "type": "CodeCell",
-            "namespace": "python",
-            "disabled": false,
-            "code_raw": null,
-            "codeRaw": null,
-            "codeConfigJson": null,
-            "lang": "python3.12",
-            "text_raw": null,
-            "appConnections": [],
-            "flat_params_visibility_json": null,
-            "params_json": "{}",
-            "component": true,
-            "savedComponent": {
-              "id": "sc_mweiWO",
-              "code": "def handler(pd: \"pipedream\"):\n    # Reference data from previous steps\n    print(pd.steps[\"trigger\"][\"context\"][\"id\"])\n    # Return data for use in future steps\n    return {\"foo\": {\"test\": True}}\n",
-              "codeHash": "63b32f00f1bc0b594e7a109cced4bda5011ab4420e358f743058dc46de8c5270",
-              "configurableProps": [],
-              "key": null,
-              "description": null,
-              "entryPath": null,
-              "version": "",
-              "apps": []
-            },
-            "component_key": null,
-            "component_owner_id": null,
-            "configured_props_json": "{}"
-          },
-          {
-            "id": "c_GafGMl",
-            "type": "CodeCell",
-            "namespace": "keyauth_hello_world",
-            "disabled": false,
-            "code_raw": null,
-            "codeRaw": null,
-            "codeConfigJson": null,
-            "lang": "nodejs20.x",
-            "text_raw": null,
-            "appConnections": [],
-            "flat_params_visibility_json": null,
-            "params_json": "{}",
-            "component": true,
-            "savedComponent": {
-              "id": "sc_71Li4l",
-              "code": "const keyauth = {\n  type: \"app\",\n  app: \"keyauth\",\n  propDefinitions: {},\n}\n\nexport default {\n  name: \"Key auth hello world\",\n  version: \"0.0.1\",\n  key: \"keyauth-hello-world\",\n  type: \"action\",\n  description: \"simple hello world with dev keyauth app.\",\n  props: {\n    keyauth,\n  },\n  async run() {\n    console.log(\"hello world\")\n    return \"hello world\"\n  },\n}\n",
-              "codeHash": "b7d5c6540f60e63174a96d5e5ba4aa89bf45b7b9d9fdc01db0ee64c905962415",
-              "configurableProps": [
-                {
-                  "name": "keyauth",
-                  "type": "app",
-                  "app": "keyauth"
-                }
-              ],
-              "key": "keyauth-hello-world",
-              "description": "simple hello world with dev keyauth app.",
-              "entryPath": null,
-              "version": "0.0.1",
-              "apps": [
-                {
-                  "appId": "app_1xohQx",
-                  "nameSlug": "keyauth",
-                  "authType": "keys"
-                }
-              ]
-            },
-            "component_key": "keyauth-hello-world",
-            "component_owner_id": null,
-            "configured_props_json": "{}"
-          }
-        ],
-        "emits": false
+            {
+              "name": "intProp",
+              "type": "integer"
+            }
+          ],
+          "key": null,
+          "description": null,
+          "entryPath": null,
+          "version": "",
+          "apps": []
+        },
+        "component_key": null,
+        "component_owner_id": null,
+        "configured_props_json": "{}"
       },
-      "route_params": {
-        "ownerName": "jacobpines",
-        "id": "p_0V9CmY",
-        "nameSlug": "test-workflow-name-",
-        "projectId": "proj_wx9sgy",
-        "branch": null
+      {
+        "id": "c_vZfZGz",
+        "type": "CodeCell",
+        "namespace": "python",
+        "disabled": false,
+        "code_raw": null,
+        "codeRaw": null,
+        "codeConfigJson": null,
+        "lang": "python3.12",
+        "text_raw": null,
+        "appConnections": [],
+        "flat_params_visibility_json": null,
+        "params_json": "{}",
+        "component": true,
+        "savedComponent": {
+          "id": "sc_mweiWO",
+          "code": "def handler(pd: \"pipedream\"):\n    # Reference data from previous steps\n    print(pd.steps[\"trigger\"][\"context\"][\"id\"])\n    # Return data for use in future steps\n    return {\"foo\": {\"test\": True}}\n",
+          "codeHash": "63b32f00f1bc0b594e7a109cced4bda5011ab4420e358f743058dc46de8c5270",
+          "configurableProps": [],
+          "key": null,
+          "description": null,
+          "entryPath": null,
+          "version": "",
+          "apps": []
+        },
+        "component_key": null,
+        "component_owner_id": null,
+        "configured_props_json": "{}"
+      },
+      {
+        "id": "c_0Rfrq6",
+        "type": "CodeCell",
+        "namespace": "keyauth_hello_world",
+        "disabled": false,
+        "code_raw": null,
+        "codeRaw": null,
+        "codeConfigJson": null,
+        "lang": "nodejs20.x",
+        "text_raw": null,
+        "appConnections": [],
+        "flat_params_visibility_json": null,
+        "params_json": "{}",
+        "component": true,
+        "savedComponent": {
+          "id": "sc_71Li4l",
+          "code": "const keyauth = {\n  type: \"app\",\n  app: \"keyauth\",\n  propDefinitions: {},\n}\n\nexport default {\n  name: \"Key auth hello world\",\n  version: \"0.0.1\",\n  key: \"keyauth-hello-world\",\n  type: \"action\",\n  description: \"simple hello world with dev keyauth app.\",\n  props: {\n    keyauth,\n  },\n  async run() {\n    console.log(\"hello world\")\n    return \"hello world\"\n  },\n}\n",
+          "codeHash": "b7d5c6540f60e63174a96d5e5ba4aa89bf45b7b9d9fdc01db0ee64c905962415",
+          "configurableProps": [
+            {
+              "name": "keyauth",
+              "type": "app",
+              "app": "keyauth"
+            }
+          ],
+          "key": "keyauth-hello-world",
+          "description": "simple hello world with dev keyauth app.",
+          "entryPath": null,
+          "version": "0.0.1",
+          "apps": [
+            {
+              "appId": "app_1xohQx",
+              "nameSlug": "keyauth",
+              "authType": "keys"
+            }
+          ]
+        },
+        "component_key": "keyauth-hello-world",
+        "component_owner_id": null,
+        "configured_props_json": "{}"
       }
-    },
+    ],
     "triggers": [
       {
-        "id": "hi_A6LHbN",
-        "key": "eozt1lsxg95robv",
-        "endpoint_url": "http://eozt1lsxg95robv.m.d.pipedream.net",
+        "id": "hi_0R3HKG",
+        "key": "eohq5aaq8yr4sye",
+        "endpoint_url": "http://eojq5abv8yr4sye.m.d.pipedream.net",
         "custom_response": false,
-        "created_at": 1707350166,
-        "updated_at": 1707350166
+        "created_at": 1707418403,
+        "updated_at": 1707418403
       },
       {
         "id": "dc_rmXuv3",
@@ -1561,16 +1486,16 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
         "name_slug": "emit-hello-world-6"
       },
       {
-        "id": "ti_3j9TYL",
+        "id": "ti_aPxTPY",
         "interval_seconds": 3600,
         "cron": null,
         "timezone": "America/New_York",
-        "schedule_changed_at": 1707350172,
-        "created_at": 1707350167,
-        "updated_at": 1707350167
+        "schedule_changed_at": 1707418408,
+        "created_at": 1707418404,
+        "updated_at": 1707418404
       },
       {
-        "id": "dc_rZdulp",
+        "id": "dc_5nvuPv",
         "owner_id": "o_BYDI5y",
         "component_id": "sc_XGBiLw",
         "configured_props": {
@@ -1580,16 +1505,16 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
           "string": "jkl"
         },
         "active": true,
-        "created_at": 1707350167,
-        "updated_at": 1707350167,
+        "created_at": 1707418404,
+        "updated_at": 1707418404,
         "name": "oauth-test-source",
-        "name_slug": "oauth-test-source-2"
+        "name_slug": "oauth-test-source-3"
       },
       {
-        "id": "ei_D21TXQ",
-        "email_address": "emw4kuldqdz7pyd@upload.pipedream.net",
-        "created_at": 1707350170,
-        "updated_at": 1707350170
+        "id": "ei_QbGT3D",
+        "email_address": "em5tdwgfgbw9piv@upload.pipedream.net",
+        "created_at": 1707418407,
+        "updated_at": 1707418407
       }
     ]
   }
