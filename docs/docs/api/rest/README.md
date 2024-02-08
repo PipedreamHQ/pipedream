@@ -1290,6 +1290,8 @@ POST /workflows
 
 [Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
 
+---
+
 `project_id` **string**
 
 The ID of the project where the new workflow will be created. To find your project ID, switch to your desired worksapce, and click on Projects in the top left of the Pipedream dashboard.
@@ -1298,13 +1300,21 @@ Click on the project where you'd like to create the new workflow, and the projec
 
 If the URL is [https://pipedream.com/@pd-testing/projects/proj_GzsRY5N/tree](https://pipedream.com/@pd-testing/projects/proj_GzsRY5N/tree), your `project_id` is `proj_GzsRY5N`.
 
+---
+
 `template_id` **string** 
 
 The ID of the workflow template to base the workflow on. To find a workflow's `template_id`, navigate to your workflow that you'd like to create a template for, and click "Create share link". If the URL created is [https://pipedream.com/new?h=tch_Vdfl0l](https://pipedream.com/new?h=tch_Vdfl0l), your `template_id` is `tch_Vdfl01`.
 
+---
+
 `steps` **object**: Definitions of the steps to include in the workflow. Each key within the steps object represents a step type, and the associated `props` define the step's configuration.
 
+---
+
 `triggers` **array**: Definitions of the triggers that will start the workflow. Each item in the array represents a trigger, with its type and `props`.
+
+---
 
 `settings` **object**: Additional settings for the workflow, such as `name` and `auto_deploy`.
 
@@ -1521,6 +1531,64 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
 }
 ```
 :::
+
+### Update a workflow
+
+---
+
+Updates the workflow's activation status. 
+
+#### Endpoint
+
+```
+PUT /workflows/{id}
+```
+
+#### Path Parameters
+
+`id` **string** 
+The ID of the workflow to update. 
+
+To find your workflow ID, navigate to your workflow. 
+
+If the URL is [https://pipedream.com/@michael-testing/api-p_13CDnxK/inspect](https://pipedream.com/@michael-testing/api-p_13CDnxK/inspect), your `workflow_id` begins with `p_` and would be `p_13CDnxK`.
+
+#### Request Body
+
+`active` **boolean**
+The activation status of a workflow. Set to `true` to activate the workflow, or `false` to deactivate it.
+
+#### Example Request
+
+```shell
+curl -X PUT 'https://api.pipedream.com/v1/workflows/p_abc123' \
+  -H 'Authorization: Bearer <api_key>' \
+  -H 'Content-Type: application/json' \
+  -d '{"active": false}'
+```
+
+### Get a workflow's details
+
+---
+
+Retrieves the details of a specific workflow within an organization's project. 
+
+#### Endpoint
+
+```
+GET /workflows/{workflow_id}
+```
+
+#### Path Parameters
+
+`workflow_id` **string**: The ID of the workflow to retrieve. 
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/workflows/p_abc123 \
+  -H 'Authorization: Bearer <api_key>'
+```
 
 ### Get Workflow Emits
 
