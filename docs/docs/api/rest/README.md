@@ -1272,6 +1272,331 @@ curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
 
 Pipedream exposes a limited API for retrieving workflow events, and plans to expose APIs for creating, updating, and deleting workflows programmatically in the future. If you'd like to see this, please upvote and add detail on your use case on [this GitHub issue](https://github.com/PipedreamHQ/pipedream/issues/8735).
 
+### Create a workflow
+
+---
+
+Creates a new workflow within an organization's project. This endpoint allows defining workflow steps, triggers, and settings, based on a supplied template.
+
+#### Endpoint
+
+```
+POST /workflows
+```
+
+#### Request Body
+
+`org_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+`project_id` **string**
+
+The ID of the project where the new workflow will be created. To find your project ID, switch to your desired worksapce, and click on Projects in the top left of the Pipedream dashboard.
+
+Click on the project where you'd like to create the new workflow, and the project ID can be found in the URL, starting with `proj_`.
+
+If the URL is [https://pipedream.com/@pd-testing/projects/proj_GzsRY5N/tree](https://pipedream.com/@pd-testing/projects/proj_GzsRY5N/tree), your `project_id` is `proj_GzsRY5N`.
+
+`template_id` **string** 
+
+The ID of the workflow template to base the workflow on. To find a workflow's `template_id`, navigate to your workflow that you'd like to create a template for, and click "Create share link". If the URL created is [https://pipedream.com/new?h=tch_Vdfl0l](https://pipedream.com/new?h=tch_Vdfl0l), your `template_id` is `tch_Vdfl01`.
+
+`steps` **object**: Definitions of the steps to include in the workflow. Each key within the steps object represents a step type, and the associated `props` define the step's configuration.
+
+`triggers` **array**: Definitions of the triggers that will start the workflow. Each item in the array represents a trigger, with its type and `props`.
+
+`settings` **object**: Additional settings for the workflow, such as `name` and `auto_deploy`.
+
+#### Example Request
+
+```json
+{
+  "project_id": "proj_wx9sgy",
+  "org_id": "o_BYDI5y",
+  "template_id": "tch_3BXfWO",
+  "steps": {
+    "code": {
+      "props": {
+        "stringProp": "asdf"
+      }
+    },
+    "keyauth_hello_world": {
+      "props": {
+        "keyauth": {
+          "authProvisionId": "apn_Nb6h9v"
+        }
+      }
+    }
+  },
+  "triggers": [
+    {},
+    {},
+    {},
+    {
+      "props": {
+        "oauth": {
+          "authProvisionId": "apn_qZWh4A"
+        },
+        "string": "jkl"
+      }
+    }
+  ],
+  "settings": {
+    "name": "example workflow name",
+    "auto_deploy": true
+  }
+}
+```
+
+#### Example Response
+``` json
+{
+  "data": {
+    "pipeline": {
+      "id": "p_0V9CmY",
+      "owner_id": "o_BYDI5y",
+      "owner_type": "Org",
+      "name": "test workflow name",
+      "description": null,
+      "name_slug": "test-workflow-name",
+      "created_at": "2024-02-07T23:55:59.000Z",
+      "updated_at": "2024-02-07T23:56:14.000Z",
+      "public": false,
+      "inactive": false,
+      "archived": false,
+      "readme_md": null,
+      "test_event_json": null,
+      "error_triggered": false,
+      "emits": false,
+      "created_from_release_id": null,
+      "lambda_timeout": 30,
+      "execution_environment_id": null,
+      "emitter_connected": null,
+      "lambda_memory": 256,
+      "disabled_at": null,
+      "redis_delivery": false,
+      "concurrency": -1,
+      "rate_limit": -1,
+      "rate_limit_bucket_size_seconds": 1,
+      "hid": "p_0V9CmY",
+      "max_event_queue_size": null,
+      "data_public": false,
+      "deleted_at": null,
+      "version": 2,
+      "allow_support": false,
+      "project_id": 231,
+      "production_pipeline_id": null,
+      "repository_user_checkout_id": null,
+      "latest_deployment_id": 3977,
+      "latest_trafficked_deployment_id": 3977,
+      "tiny_config_hash_id": 13,
+      "autodeployable": false,
+      "auto_rerun": false,
+      "project_folder_id": null,
+      "provisioned_concurrency": 0,
+      "network_id": null,
+      "auto_rerun_email_on_first_error": false,
+      "inactive_reason": null,
+      "dir_hash": null,
+      "last_event_at": null,
+      "no_trace_history": false,
+      "owner_name": "jacobpines",
+      "ownerName": "jacobpines",
+      "deployment": {
+        "id": "d_pJs662",
+        "pipeline_id": "p_0V9CmY",
+        "version": 2,
+        "created_at": "2024-02-07T23:56:11.000Z",
+        "updated_at": "2024-02-07T23:56:11.000Z",
+        "traffick_start": "2024-02-07T23:56:12.403Z",
+        "traffick_end": null,
+        "traffick_error": null,
+        "traffick_status": "live_jit",
+        "platform_version": null,
+        "hid": "d_pJs662",
+        "execution_environment_id": null,
+        "use_manifest": true,
+        "workdir_hash": null,
+        "system_created": true,
+        "pipeline_name": "test workflow name",
+        "deployed_by": "user-a6f29bb2e09ba20b8400189b5636499a",
+        "cells": [
+          {
+            "id": "c_elfPBa",
+            "type": "CodeCell",
+            "namespace": "code",
+            "disabled": false,
+            "code_raw": null,
+            "codeRaw": null,
+            "codeConfigJson": null,
+            "lang": "nodejs20.x",
+            "text_raw": null,
+            "appConnections": [],
+            "flat_params_visibility_json": null,
+            "params_json": "{}",
+            "component": true,
+            "savedComponent": {
+              "id": "sc_PRYiAZ",
+              "code": "export default defineComponent({\n  props: {\n    stringProp: {\n      type: \"string\"\n    },\n    intProp: {\n      type: \"integer\",\n    }\n  },\n  async run({ steps, $ }) {\n    console.log(this.stringProp)\n    return steps.trigger.event\n  },\n})",
+              "codeHash": "1908045950f3c1a861e538b20d70732adb701a81174dc59f809398e43f85d132",
+              "configurableProps": [
+                {
+                  "name": "stringProp",
+                  "type": "string"
+                },
+                {
+                  "name": "intProp",
+                  "type": "integer"
+                }
+              ],
+              "key": null,
+              "description": null,
+              "entryPath": null,
+              "version": "",
+              "apps": []
+            },
+            "component_key": null,
+            "component_owner_id": null,
+            "configured_props_json": "{}"
+          },
+          {
+            "id": "c_Epflmo",
+            "type": "CodeCell",
+            "namespace": "python",
+            "disabled": false,
+            "code_raw": null,
+            "codeRaw": null,
+            "codeConfigJson": null,
+            "lang": "python3.12",
+            "text_raw": null,
+            "appConnections": [],
+            "flat_params_visibility_json": null,
+            "params_json": "{}",
+            "component": true,
+            "savedComponent": {
+              "id": "sc_mweiWO",
+              "code": "def handler(pd: \"pipedream\"):\n    # Reference data from previous steps\n    print(pd.steps[\"trigger\"][\"context\"][\"id\"])\n    # Return data for use in future steps\n    return {\"foo\": {\"test\": True}}\n",
+              "codeHash": "63b32f00f1bc0b594e7a109cced4bda5011ab4420e358f743058dc46de8c5270",
+              "configurableProps": [],
+              "key": null,
+              "description": null,
+              "entryPath": null,
+              "version": "",
+              "apps": []
+            },
+            "component_key": null,
+            "component_owner_id": null,
+            "configured_props_json": "{}"
+          },
+          {
+            "id": "c_GafGMl",
+            "type": "CodeCell",
+            "namespace": "keyauth_hello_world",
+            "disabled": false,
+            "code_raw": null,
+            "codeRaw": null,
+            "codeConfigJson": null,
+            "lang": "nodejs20.x",
+            "text_raw": null,
+            "appConnections": [],
+            "flat_params_visibility_json": null,
+            "params_json": "{}",
+            "component": true,
+            "savedComponent": {
+              "id": "sc_71Li4l",
+              "code": "const keyauth = {\n  type: \"app\",\n  app: \"keyauth\",\n  propDefinitions: {},\n}\n\nexport default {\n  name: \"Key auth hello world\",\n  version: \"0.0.1\",\n  key: \"keyauth-hello-world\",\n  type: \"action\",\n  description: \"simple hello world with dev keyauth app.\",\n  props: {\n    keyauth,\n  },\n  async run() {\n    console.log(\"hello world\")\n    return \"hello world\"\n  },\n}\n",
+              "codeHash": "b7d5c6540f60e63174a96d5e5ba4aa89bf45b7b9d9fdc01db0ee64c905962415",
+              "configurableProps": [
+                {
+                  "name": "keyauth",
+                  "type": "app",
+                  "app": "keyauth"
+                }
+              ],
+              "key": "keyauth-hello-world",
+              "description": "simple hello world with dev keyauth app.",
+              "entryPath": null,
+              "version": "0.0.1",
+              "apps": [
+                {
+                  "appId": "app_1xohQx",
+                  "nameSlug": "keyauth",
+                  "authType": "keys"
+                }
+              ]
+            },
+            "component_key": "keyauth-hello-world",
+            "component_owner_id": null,
+            "configured_props_json": "{}"
+          }
+        ],
+        "emits": false
+      },
+      "route_params": {
+        "ownerName": "jacobpines",
+        "id": "p_0V9CmY",
+        "nameSlug": "test-workflow-name-",
+        "projectId": "proj_wx9sgy",
+        "branch": null
+      }
+    },
+    "triggers": [
+      {
+        "id": "hi_A6LHbN",
+        "key": "eozt1lsxg95robv",
+        "endpoint_url": "http://eozt1lsxg95robv.m.d.pipedream.net",
+        "custom_response": false,
+        "created_at": 1707350166,
+        "updated_at": 1707350166
+      },
+      {
+        "id": "dc_rmXuv3",
+        "owner_id": "o_BYDI5y",
+        "component_id": "sc_PgliBJ",
+        "configured_props": {},
+        "active": true,
+        "created_at": 1707241571,
+        "updated_at": 1707241571,
+        "name": "Emit hello world",
+        "name_slug": "emit-hello-world-6"
+      },
+      {
+        "id": "ti_3j9TYL",
+        "interval_seconds": 3600,
+        "cron": null,
+        "timezone": "America/New_York",
+        "schedule_changed_at": 1707350172,
+        "created_at": 1707350167,
+        "updated_at": 1707350167
+      },
+      {
+        "id": "dc_rZdulp",
+        "owner_id": "o_BYDI5y",
+        "component_id": "sc_XGBiLw",
+        "configured_props": {
+          "oauth": {
+            "authProvisionId": "apn_qZWh4A"
+          },
+          "string": "jkl"
+        },
+        "active": true,
+        "created_at": 1707350167,
+        "updated_at": 1707350167,
+        "name": "oauth-test-source",
+        "name_slug": "oauth-test-source-2"
+      },
+      {
+        "id": "ei_D21TXQ",
+        "email_address": "emw4kuldqdz7pyd@upload.pipedream.net",
+        "created_at": 1707350170,
+        "updated_at": 1707350170
+      }
+    ]
+  }
+}
+```
+
 ### Get Workflow Emits
 
 ---
