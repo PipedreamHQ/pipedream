@@ -43,18 +43,24 @@ export default {
     _baseUrl() {
       return "https://api.paystack.co";
     },
-    async _makeAPIRequest({ $ = this, ...opts }) {
-      if (!opts.headers) opts.headers = {};
-      opts.headers["Authorization"] = `Bearer ${this.$auth.api_key}`;
-      opts.headers["Content-Type"] = "application/json";
-      opts.headers["user-agent"] = "@PaystackOSS/paystack v0.1";
-      const { path } = opts;
-      delete opts.path;
-      opts.url = `${this._baseUrl()}${path[0] === "/" ? "" : "/"}${path}`;
-      return axios($, opts);
+    _headers() {
+        return {
+            "Authorization": `Bearer ${this.$auth.api_key}`,
+            "Content-Type": "application/json",
+            "user-agent": "@PaystackOSS/paystack v0.1"
+        }
     },
-    async initializeTransaction(args = {}) {
-      return await this._makeAPIRequest({
+    _makeRequest({ 
+        $ = this, path = "/", ...opts
+    }) {
+      return axios($, {
+          url: this._baseUrl() + path,
+          headers: this._headers(),
+          ...opts,
+      });
+    },
+    initializeTransaction(args = {}) {
+      return await this._makeRequest({
         method: "POST",
         path: "/transaction/initialize",
       ...args,
