@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/slite",
+  "version": "0.0.1",
+  "description": "Pipedream Slite Components",
+  "main": "slite.app.mjs",
+  "keywords": [
+    "pipedream",
+    "slite"
+  ],
+  "homepage": "https://pipedream.com/apps/slite",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
