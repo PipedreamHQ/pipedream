@@ -1330,9 +1330,6 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
     }
   },
   "triggers": [
-    {},
-    {},
-    {},
     {
       "props": {
         "oauth": {
@@ -1350,6 +1347,7 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
 ```
 
 #### Example Response
+::: Details
 ``` json
 {
   "data": {
@@ -1596,6 +1594,7 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
   }
 }
 ```
+:::
 
 ### Get Workflow Emits
 
