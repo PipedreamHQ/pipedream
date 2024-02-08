@@ -57,9 +57,7 @@ export default {
       return await this._makeAPIRequest({
         method: "POST",
         path: "/transaction/initialize",
-        data: {
-          ...args,
-        },
+      ...args,
       });
     },
   },
