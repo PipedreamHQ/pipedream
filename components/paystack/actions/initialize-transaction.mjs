@@ -34,8 +34,10 @@ export default {
   },
   async run({ $ }) {
     const response = await this.paystack.initializeTransaction({
-      email: this.email,
-      amount: this.amount,
+      data: {
+        email: this.email,
+        amount: this.amount,
+      }
     });
 
     $.export("$summary", `Transaction initialized`);
