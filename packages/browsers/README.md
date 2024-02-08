@@ -62,4 +62,4 @@ export default defineComponent({
 * Compatibility Table for Chromium <> Puppeteer version support here: https://pptr.dev/chromium-support
 * Compatibility Table for Chromium <> Playwright versions can be found here: https://www.browserstack.com/docs/automate/playwright/browsers-and-os
 
-The reason why playwright is locked to an old version is because the latest Puppeeter Chromium version that works in a code step is chromium@112.
+The reason why playwright is locked to an old version is because the latest Puppeeter Chromium version that works in a code step is chromium@121.
