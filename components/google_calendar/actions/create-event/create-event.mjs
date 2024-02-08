@@ -26,10 +26,10 @@ export default {
       isUpdate: false,
     }),
     colorId: {
-      label: "Color ID",
-      description: "The color of the event. This is an ID referring to an entry in the event section of the colors definition (see the colors endpoint).",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        googleCalendar,
+        "colorId",
+      ],
     },
   },
   methods: {
