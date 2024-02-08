@@ -36,10 +36,10 @@ export default {
       label: "Analysis ID",
       description: "The ID of the analysis.",
       async options({ projectId }) {
-        const response = await this.listAnalyses({
+        const { analyses } = await this.listAnalyses({
           projectId,
         });
-        return response.map((analysis) => ({
+        return analyses.map((analysis) => ({
           label: `Analysis ${analysis.id}`,
           value: analysis.id,
         }));
