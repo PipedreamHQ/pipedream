@@ -2383,6 +2383,9 @@ importers:
   components/formdesk:
     specifiers: {}
 
+  components/formpress:
+    specifiers: {}
+
   components/forms_on_fire:
     specifiers: {}
 
