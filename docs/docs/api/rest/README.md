@@ -1347,8 +1347,9 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
 ```
 
 #### Example Response
-::: Details
-``` json
+
+::: details
+```json
 {
   "data": {
     "pipeline": {
