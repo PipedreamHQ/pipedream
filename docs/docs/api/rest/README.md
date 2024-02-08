@@ -533,11 +533,46 @@ GET /v1/workspaces/<workspace_id>
 		"id": "o_Qa8I1Z",
 		"orgname": "asdf",
 		"name": "asdf",
-		"email": "makedev@pipedream.com",
+		"email": "dev@pipedream.com",
 		"daily_credits_quota": 100,
 		"daily_credits_used": 0
 	}
 }
+```
+
+### List Projects
+
+Programmatically list the workspace's projects.
+
+#### Endpoint
+
+```
+GET /v1/workspaces/<workspace_id>/projects
+```
+
+#### Path Parameters
+
+`workspaces_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+#### Example Responses
+
+```
+  "data": [
+    {
+      "id": "proj_kYRs18",
+      "hid": "proj_kYRs18",
+      "name": "Sample Project",
+      "repository_id": null,
+      "repository_path": null,
+      "created_at": "2024-02-05T21:47:24.000Z",
+      "updated_at": "2024-02-06T16:13:07.000Z",
+      "org_id": 1,
+      "exceptions": null,
+      "allow_support": false
+    }
+  ]
 ```
 
 ### Get Workspaces's Subscriptions
@@ -1817,6 +1852,45 @@ Paid user:
     "billing_period_end_ts": 1612833378,
     "billing_period_credits": 12345
   }
+}
+```
+
+### Get Current User's Workspaces
+
+### Get Current User Info
+
+---
+
+List the workspaces the current user is a member of.
+
+#### Endpoint
+
+```
+GET /users/me/workspaces
+```
+
+#### Parameters
+
+_No parameters_
+
+#### Example Request
+
+```bash
+curl 'https://api.pipedream.com/v1/users/me/workspaces' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "o_abc123",
+      "orgname": "acme",
+      "name": "Acme Corp"
+    }
+  ]
 }
 ```
 
