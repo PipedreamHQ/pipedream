@@ -4,118 +4,89 @@ export default {
   type: "app",
   app: "appointedd",
   propDefinitions: {
-    bookingDetails: {
-      type: "object",
-      label: "Booking Details",
-      description: "Details of the booking",
-      optional: true,
-    },
-    customerDetails: {
-      type: "object",
-      label: "Customer Details",
-      description: "Details of the customer",
-      optional: true,
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description: "Filters the returned bookings by customer ID, returning only those that have a customer ID that matches the customer ID here.",
+      async options({ prevContext }) {
+        const params = prevContext?.next
+          ? {
+            start: next,
+          }
+          : {};
+        const {
+          data, next,
+        } = await this.listCustomers({
+          params,
+        });
+        const options = data?.map(({
+          id: value, profile,
+        }) => ({
+          value,
+          label: `${profile.firstname} ${profile.lastname}`,
+        })) || [];
+        return {
+          options,
+          context: {
+            next,
+          },
+        };
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.appointedd.com";
+      return "https://api.appointedd.com/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.access_token}`,
+          "X-API-KEY": `${this.$auth.api_key}`,
         },
       });
     },
-    async createCustomer(customerDetails) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/customer",
-        data: customerDetails,
-      });
-    },
-    async getCustomers() {
+    listCustomers(opts = {}) {
       return this._makeRequest({
         path: "/customers",
+        ...opts,
       });
     },
-    async getCustomer(customerId) {
-      return this._makeRequest({
-        path: `/customer/${customerId}`,
-      });
-    },
-    async updateCustomer(customerId, customerDetails) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/customer/${customerId}`,
-        data: customerDetails,
-      });
-    },
-    async deleteCustomer(customerId) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/customer/${customerId}`,
-      });
-    },
-    async createBooking(bookingDetails) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/booking",
-        data: bookingDetails,
-      });
-    },
-    async getBookings() {
+    listBookings(opts = {}) {
       return this._makeRequest({
         path: "/bookings",
+        ...opts,
       });
     },
-    async updateBooking(bookingId, bookingDetails) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/booking/${bookingId}`,
-        data: bookingDetails,
-      });
-    },
-    async cancelBooking(bookingId) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/booking/${bookingId}/cancel`,
-      });
-    },
-    async updateBookingCustomer(bookingId, customerDetails) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/booking/${bookingId}/customer`,
-        data: customerDetails,
-      });
-    },
-    async cancelBookingCustomer(bookingId) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/booking/${bookingId}/customer/cancel`,
-      });
-    },
-    async createBookingCustomerInvoice(bookingId, invoiceDetails) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/booking/${bookingId}/customer/invoice`,
-        data: invoiceDetails,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      resourceFn,
+      params,
+      max,
+    }) {
+      let count = 0;
+      let totalItems = 0;
+      do {
+        const {
+          data, total, next,
+        } = await resourceFn({
+          params,
+        });
+        for (const item of data) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        params.start = next;
+        totalItems = total;
+      } while (count < totalItems);
     },
   },
 };
