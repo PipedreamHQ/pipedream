@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-quick-add-event",
   name: "Add Quick Event",
   description: "Create a quick event to the Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#quickAdd)",
-  version: "0.1.4",
+  version: "0.1.3",
   type: "action",
   props: {
     googleCalendar,
