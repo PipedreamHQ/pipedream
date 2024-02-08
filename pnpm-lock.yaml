@@ -1098,10 +1098,12 @@ importers:
 
   components/claid_ai:
     specifiers:
+      '@pipedream/platform': ^1.5.1
       form-data: ^4.0.0
       fs: ^0.0.1-security
       url-exist: ^3.0.1
     dependencies:
+      '@pipedream/platform': 1.6.0
       form-data: 4.0.0
       fs: 0.0.1-security
       url-exist: 3.0.1
