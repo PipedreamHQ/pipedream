@@ -5,7 +5,7 @@ export default {
   name: "Initialize Transaction",
   description:
     "Initializes a new transaction on Paystack. [See the documentation](https://paystack.com/docs/api/transaction/#initialize)",
-  version: "0.0.10",
+  version: "0.0.1",
   type: "action",
   props: {
     paystack,
