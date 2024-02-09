@@ -1,5 +1,6 @@
 import shopify from "../shopify_partner.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import getAppName from "./queries/getAppName.mjs";
 
 export default {
   props: {
@@ -15,4 +16,32 @@ export default {
     },
   },
   dedupe: "unique",
+  async additionalProps() {
+    const {
+      appId, db,
+    } = this;
+
+    if (!appId) return {};
+
+    const name = await new Promise((resolve) => {
+      this.shopify.query({
+        db,
+        query: getAppName,
+        variables: {
+          appId: `gid://partners/App/${appId}`,
+        },
+        key: "shopify_partner-appname",
+        handleEmit: resolve,
+        getCursor: () => false,
+      });
+    });
+
+    return {
+      testProp: {
+        type: "alert",
+        alertType: "info",
+        content: `App name: ${name}`,
+      },
+    };
+  },
 };
