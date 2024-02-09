@@ -1,5 +1,7 @@
 import shopify from "../shopify_partner.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "@pipedream/platform";
 import getAppName from "./queries/getAppName.mjs";
 
 export default {
@@ -37,16 +39,13 @@ export default {
     });
 
     const appName = response?.app?.name;
+    if (!appName) throw new ConfigurationError("**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.");
 
     return {
       appAlert: {
         type: "alert",
-        alertType: appName
-          ? "info"
-          : "error",
-        content: appName
-          ? `Shopify App: **${appName}**`
-          : "**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.",
+        alertType: "info",
+        content: `Shopify App: **${appName}**`,
       },
     };
   },
