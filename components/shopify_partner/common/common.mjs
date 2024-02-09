@@ -23,9 +23,7 @@ export default {
 
     if (!appId) return {};
 
-    console.log("appId: ", appId);
-
-    const { app: { name } } = await new Promise((resolve) => {
+    const response = await new Promise((resolve) => {
       this.shopify.query({
         db,
         query: getAppName,
@@ -38,11 +36,17 @@ export default {
       });
     });
 
+    const appName = response?.app?.name;
+
     return {
       appAlert: {
         type: "alert",
-        alertType: "info",
-        content: `App name: ${name}`,
+        alertType: appName
+          ? "info"
+          : "error",
+        content: appName
+          ? `Shopify App: **${appName}**`
+          : "**App not found!** Check if the `Shopify App ID` provided is correct.",
       },
     };
   },
