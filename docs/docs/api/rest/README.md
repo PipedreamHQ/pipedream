@@ -1305,9 +1305,6 @@ curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
 
 ## Workflows
 
-Pipedream exposes a limited API for retrieving workflow events, and plans to expose APIs for creating, updating, and deleting workflows programmatically in the future. If you'd like to see this, please upvote and add detail on your use case on [this GitHub issue](https://github.com/PipedreamHQ/pipedream/issues/8735).
-
-
 ### Create a Workflow
 
 ---
@@ -1572,7 +1569,7 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
 
 ---
 
-Updates the workflow's activation status. 
+Updates the workflow's activation status. If you need to modify the workflow's steps, triggers, or connected accounts [consider making a new workflow](#create-a-workflow).
 
 #### Endpoint
 
