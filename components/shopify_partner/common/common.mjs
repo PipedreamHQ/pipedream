@@ -17,30 +17,35 @@ export default {
       },
     },
   },
+  methods: {
+    async checkAppId() {
+      const {
+        appId, db,
+      } = this;
+
+      if (!appId) return {};
+
+      const response = await new Promise((resolve) => {
+        this.shopify.query({
+          db,
+          query: getAppName,
+          variables: {
+            appId: `gid://partners/App/${appId}`,
+          },
+          key: "shopify_partner-appname",
+          handleEmit: (data) => resolve(data),
+          getCursor: () => false,
+        });
+      });
+
+      const appName = response?.app?.name;
+      if (!appName) throw new ConfigurationError("**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.");
+      return appName;
+    },
+  },
   dedupe: "unique",
   async additionalProps() {
-    const {
-      appId, db,
-    } = this;
-
-    if (!appId) return {};
-
-    const response = await new Promise((resolve) => {
-      this.shopify.query({
-        db,
-        query: getAppName,
-        variables: {
-          appId: `gid://partners/App/${appId}`,
-        },
-        key: "shopify_partner-appname",
-        handleEmit: (data) => resolve(data),
-        getCursor: () => false,
-      });
-    });
-
-    const appName = response?.app?.name;
-    if (!appName) throw new ConfigurationError("**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.");
-
+    const appName = await this.checkAppId();
     return {
       appAlert: {
         type: "alert",
@@ -48,5 +53,10 @@ export default {
         content: `Shopify App: **${appName}**`,
       },
     };
+  },
+  hooks: {
+    async deploy() {
+      await this.checkAppId();
+    },
   },
 };
