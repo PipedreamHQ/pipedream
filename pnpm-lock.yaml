@@ -878,6 +878,9 @@ importers:
   components/bugsnag:
     specifiers: {}
 
+  components/buildchatbot:
+    specifiers: {}
+
   components/builder_io:
     specifiers: {}
 
@@ -2372,6 +2375,9 @@ importers:
     specifiers: {}
 
   components/formdesk:
+    specifiers: {}
+
+  components/formpress:
     specifiers: {}
 
   components/forms_on_fire:
@@ -4011,6 +4017,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/mailninja:
+    specifiers: {}
+
   components/mailrefine:
     specifiers: {}
 
@@ -5482,6 +5491,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/qualetics:
+    specifiers: {}
+
   components/quentn:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -6422,6 +6434,9 @@ importers:
     specifiers: {}
 
   components/slicktext:
+    specifiers: {}
+
+  components/slite:
     specifiers: {}
 
   components/slottable:
@@ -7739,6 +7754,9 @@ importers:
     specifiers: {}
 
   components/whatconverts:
+    specifiers: {}
+
+  components/whatsable:
     specifiers: {}
 
   components/whatsapp_business:
