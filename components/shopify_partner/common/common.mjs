@@ -38,9 +38,7 @@ export default {
         });
       });
 
-      const appName = response?.app?.name;
-      if (!appName) throw new ConfigurationError("**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.");
-      return appName;
+      return response?.app?.name;
     },
   },
   dedupe: "unique",
@@ -49,14 +47,19 @@ export default {
     return {
       appAlert: {
         type: "alert",
-        alertType: "info",
-        content: `Shopify App: **${appName}**`,
+        alertType: appName
+          ? "info"
+          : "error",
+        content: appName
+          ? `Shopify App: **${appName}**`
+          : "**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.",
       },
     };
   },
   hooks: {
     async deploy() {
-      await this.checkAppId();
+      const appName = await this.checkAppId();
+      if (!appName) throw new ConfigurationError("**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.");
     },
   },
 };
