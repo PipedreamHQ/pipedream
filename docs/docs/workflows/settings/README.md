@@ -51,13 +51,11 @@ On any workflow with auto-retry enabled, you can optionally choose to **Send not
 For custom control over error handling, you can implement error logic in code steps (e.g. `try` / `catch` statements in Node.js code), or [create your own custom error workflow](/workflows/errors/#process-errors-with-custom-logic-instead-of-email).
 
 ## Data Retention Controls
-By default, Pipedream logs and surfaces event data from your deployed workflow in two places in the Pipedream UI, so you can easily understand the state of your workflow and debug any errors that pop up:
+By default, Pipedream stores exports, logs, and other data tied to workflow executions. You can view these logs in two places:
 1. [The workflow inspector](/workflows/events/inspect/#the-inspector)
 2. [Event History](/event-history)
 
-However, the nature of your workflow may necessitate exporting sensitive data between steps that you may not want logged or surfaced anywhere. 
-- You can **disable data retention** in your workflow settings, which prevents the logging of those events altogether
-- Pipedream will not log or show events anywhere when data retention is disabled
+But if you're processing sensitive data, you may not want to store those logs. You can **Disable data retention** in your workflow settings to disable **all** logging. Since Pipedream stores no workflow logs with this setting enabled, you'll see no logs in the inspector or event history UI.
 
 ![Disable data retention setting](./images/disable-data-retention-settings.png)
 
