@@ -1,61 +1,95 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "kwtsms",
   propDefinitions: {
-    recipientNumber: {
+    senderId: {
       type: "string",
-      label: "Recipient Number",
-      description: "The telephone number of the recipient.",
+      label: "Sender ID",
+      description: "The sender ID of the SMS message. Use your private senderid or one of ours. SenderID is case sensitive. If **Sender ID** has spaces, replace them with `+` sign.",
+      async options() {
+        const { senderid } = await this.listSenderIds();
+        return senderid;
+      },
     },
-    messageContent: {
+    mobile: {
       type: "string",
-      label: "Message Content",
-      description: "The content of the SMS message to send.",
+      label: "Mobile",
+      description: "List of mobile numbers separated by `,` commas. Characters like `+`, `00`, `.` or space in numbers are not allowed.",
+    },
+    lang: {
+      type: "integer",
+      label: "Language",
+      description: "Language of the SMS message.",
+      options: [
+        {
+          label: "English (ASCII)",
+          value: 1,
+        },
+        {
+          label: "Arabic (CP1256)",
+          value: 2,
+        },
+        {
+          label: "Arabic (UTF-8)",
+          value: 3,
+        },
+        {
+          label: "Unicode",
+          value: 4,
+        },
+      ],
+    },
+    message: {
+      type: "string",
+      label: "Message",
+      description: "The content of the SMS message to send. Spaces must be converted to `+` sign (do not encode), use `\n` for new lines.",
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    _baseUrl() {
-      return "https://api.kwtsms.com";
+    getData(data) {
+      return {
+        ...data,
+        username: this.$auth.api_username,
+        password: this.$auth.api_password,
+      };
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method,
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+    async _makeRequest({
+      $ = this, path, data, headers, ...args
+    } = {}) {
+      const response = await axios($, {
+        ...args,
+        url: this.getUrl(path),
+        data: this.getData(data),
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
+          "Content-Type": "application/json",
         },
-        data,
-        params,
+        ...args,
       });
+
+      if (response?.result && response.result !== "OK") {
+        throw new Error(JSON.stringify(response, null, 2));
+      }
+
+      return response;
     },
-    async sendSms({
-      recipientNumber, messageContent,
-    }) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/send_sms",
-        data: {
-          recipient: recipientNumber,
-          message: messageContent,
-        },
+        ...args,
+      });
+    },
+    listSenderIds(args = {}) {
+      return this.post({
+        path: "/senderid/",
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };

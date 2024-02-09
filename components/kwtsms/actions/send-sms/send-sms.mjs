@@ -1,34 +1,80 @@
-import kwtsms from "../../kwtsms.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../kwtsms.app.mjs";
 
 export default {
   key: "kwtsms-send-sms",
   name: "Send SMS",
   description: "Sends an SMS to a specified number. [See the documentation](https://api.kwtsms.com/doc/kwtsms.com_api_documentation_v36.pdf)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    kwtsms,
-    recipientNumber: {
+    app,
+    sender: {
       propDefinition: [
-        kwtsms,
-        "recipientNumber",
+        app,
+        "senderId",
       ],
     },
-    messageContent: {
+    mobile: {
       propDefinition: [
-        kwtsms,
-        "messageContent",
+        app,
+        "mobile",
       ],
+    },
+    lang: {
+      propDefinition: [
+        app,
+        "lang",
+      ],
+    },
+    message: {
+      propDefinition: [
+        app,
+        "message",
+      ],
+    },
+    test: {
+      type: "boolean",
+      label: "Test",
+      description: "If set to `true`, the SMS will be sent to handsets, but will be inserted to the queue and can be deleted to recover the credits.",
+      optional: true,
+    },
+  },
+  methods: {
+    booleanToNumber(value) {
+      return typeof(value) === "boolean" && value
+        ? 1
+        : 0;
+    },
+    sendSms(args = {}) {
+      return this.app.post({
+        path: "/send/",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const response = await this.kwtsms.sendSms({
-      recipientNumber: this.recipientNumber,
-      messageContent: this.messageContent,
+    const {
+      sendSms,
+      booleanToNumber,
+      sender,
+      mobile,
+      lang,
+      message,
+      test,
+    } = this;
+
+    const response = await sendSms({
+      $,
+      data: {
+        sender,
+        mobile,
+        lang,
+        message,
+        test: booleanToNumber(test),
+      },
     });
 
-    $.export("$summary", `Sent SMS to ${this.recipientNumber}`);
+    $.export("$summary", `Successfully sent SMS with ID \`${response["msg-id"]}\``);
     return response;
   },
 };

@@ -3718,7 +3718,10 @@ importers:
     specifiers: {}
 
   components/kwtsms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/kyvio:
     specifiers: {}
