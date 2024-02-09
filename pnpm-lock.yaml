@@ -878,6 +878,9 @@ importers:
   components/bugsnag:
     specifiers: {}
 
+  components/buildchatbot:
+    specifiers: {}
+
   components/builder_io:
     specifiers: {}
 
@@ -5493,6 +5496,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/qualetics:
+    specifiers: {}
+
   components/quentn:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -6433,6 +6439,9 @@ importers:
     specifiers: {}
 
   components/slicktext:
+    specifiers: {}
+
+  components/slite:
     specifiers: {}
 
   components/slottable:
