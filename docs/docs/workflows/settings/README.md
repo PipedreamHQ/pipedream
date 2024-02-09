@@ -52,7 +52,7 @@ For custom control over error handling, you can implement error logic in code st
 
 ## Data Retention Controls
 By default, Pipedream logs and surfaces event data from your deployed workflow in two places in the Pipedream UI, so you can easily understand the state of your workflow and debug any errors that pop up:
-1. [The workflow inspector](/workflows/events/inspect/#inspector)
+1. [The workflow inspector](/workflows/events/inspect/#the-inspector)
 2. [Event History](/event-history)
 
 However, the nature of your workflow may necessitate exporting sensitive data between steps that you may not want logged or surfaced anywhere. 
