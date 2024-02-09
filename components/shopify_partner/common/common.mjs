@@ -46,7 +46,7 @@ export default {
           : "error",
         content: appName
           ? `Shopify App: **${appName}**`
-          : "**App not found!** Check if the `Shopify App ID` provided is correct.",
+          : "**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.",
       },
     };
   },
