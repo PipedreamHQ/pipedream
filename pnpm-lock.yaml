@@ -878,6 +878,9 @@ importers:
   components/bugsnag:
     specifiers: {}
 
+  components/buildchatbot:
+    specifiers: {}
+
   components/builder_io:
     specifiers: {}
 
@@ -2374,6 +2377,9 @@ importers:
   components/formdesk:
     specifiers: {}
 
+  components/formpress:
+    specifiers: {}
+
   components/forms_on_fire:
     specifiers: {}
 
@@ -3079,7 +3085,10 @@ importers:
       '@pipedreamhq/platform': 0.8.1
 
   components/herobot_chatbot_marketing:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/heygen:
     specifiers:
@@ -4010,6 +4019,9 @@ importers:
       '@pipedream/platform': ^1.4.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/mailninja:
+    specifiers: {}
 
   components/mailrefine:
     specifiers: {}
@@ -5482,6 +5494,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/qualetics:
+    specifiers: {}
+
   components/quentn:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -6422,6 +6437,9 @@ importers:
     specifiers: {}
 
   components/slicktext:
+    specifiers: {}
+
+  components/slite:
     specifiers: {}
 
   components/slottable:
@@ -7739,6 +7757,9 @@ importers:
     specifiers: {}
 
   components/whatconverts:
+    specifiers: {}
+
+  components/whatsable:
     specifiers: {}
 
   components/whatsapp_business:
@@ -11309,12 +11330,12 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.2.2:
-    resolution: {integrity: sha512-j2HNFFHb8dqlzwsD2bmawwqjdlNZ2/4+7igF34JwsBtfhk9ve0ynUKVyB5W4V4gAvrhVOuQv8avfBMMaKDnefA==}
+  /@definitelytyped/header-parser/0.2.3:
+    resolution: {integrity: sha512-+Aqor10pJj+U8Dc+mG/2TXSw2xCvrQZAkEvB66L8k9ttUXjn/79Ne57HS7zwav1Qs3NEh75abugBUregtLBVUg==}
     engines: {node: '>=18.18.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.0
-      '@definitelytyped/utils': 0.1.1
+      '@definitelytyped/utils': 0.1.2
       semver: 7.5.4
     dev: true
 
@@ -11339,8 +11360,8 @@ packages:
     engines: {node: '>=18.18.0'}
     dev: true
 
-  /@definitelytyped/utils/0.1.1:
-    resolution: {integrity: sha512-VCamUy7vNS4x4ZkSTMs/YpyvwDOoPSfJ6OzoHM2PrArGRpvP34z7Au5yauiGGlAOpW3S6JjLQKZaF91sHVUTEg==}
+  /@definitelytyped/utils/0.1.2:
+    resolution: {integrity: sha512-US2EZ26bkNEcrZsRQ8o3y8WG7pTvv/7ttRdP7TrzW3GI7oYRo2XGKO75DM7wX/9/13v9p3daha8AskwdYzos0Q==}
     engines: {node: '>=18.18.0'}
     dependencies:
       '@definitelytyped/typescript-packages': 0.1.0
@@ -18173,7 +18194,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.2
+      '@definitelytyped/header-parser': 0.2.3
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -18188,7 +18209,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.2
+      '@definitelytyped/header-parser': 0.2.3
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -18204,9 +18225,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.2
+      '@definitelytyped/header-parser': 0.2.3
       '@definitelytyped/typescript-versions': 0.1.0
-      '@definitelytyped/utils': 0.1.1
+      '@definitelytyped/utils': 0.1.2
       dts-critic: 3.3.11_typescript@4.9.5
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -18224,9 +18245,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.2
+      '@definitelytyped/header-parser': 0.2.3
       '@definitelytyped/typescript-versions': 0.1.0
-      '@definitelytyped/utils': 0.1.1
+      '@definitelytyped/utils': 0.1.2
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
