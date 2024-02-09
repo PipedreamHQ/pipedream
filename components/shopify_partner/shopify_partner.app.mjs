@@ -7,8 +7,9 @@ export default {
   propDefinitions: {
     appId: {
       type: "string",
-      description: "gid://partners/App/<your App ID here>",
+      description: "Open your app in the partner portal, and look at the URL to find its ID. If your URL is *https://partners.shopify.com/3027494/apps/**51358007297**/overview*, enter `51358007297` here.",
       label: "Shopify App ID",
+      reloadProps: true,
     },
     occurredAtMin: {
       type: "string",
