@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,183 +9,105 @@ export default {
       type: "string",
       label: "User ID",
       description: "The unique identifier for the user.",
-    },
-    contentMessage: {
-      type: "string",
-      label: "Content Message",
-      description: "The message content to send to the user.",
-    },
-    tagName: {
-      type: "string",
-      label: "Tag Name",
-      description: "The name of the tag.",
-    },
-    tagId: {
-      type: "string",
-      label: "Tag ID",
-      description: "The unique identifier for the tag.",
-      optional: true,
-    },
-    customFieldName: {
-      type: "string",
-      label: "Custom Field Name",
-      description: "The name of the custom field.",
-    },
-    customFieldType: {
-      type: "string",
-      label: "Custom Field Type",
-      description: "The type of the custom field.",
-      options: [
-        {
-          label: "Text",
-          value: "text",
-        },
-        {
-          label: "Number",
-          value: "number",
-        },
-        {
-          label: "Boolean",
-          value: "boolean",
-        },
-        {
-          label: "Date",
-          value: "date",
-        },
-      ],
-    },
-    newUserDetails: {
-      type: "object",
-      label: "New User Details",
-      description: "The details of the new user including required and optional properties.",
-    },
-    flowId: {
-      type: "string",
-      label: "Flow ID",
-      description: "The unique identifier for the flow.",
-      optional: true,
-    },
-    productId: {
-      type: "string",
-      label: "Product ID",
-      description: "The unique identifier for the product.",
-      optional: true,
-    },
-    orderId: {
-      type: "string",
-      label: "Order ID",
-      description: "The unique identifier for the order.",
-      optional: true,
-    },
-    customFieldId: {
-      type: "string",
-      label: "Custom Field ID",
-      description: "The unique identifier for the custom field.",
-      optional: true,
-    },
-    customFieldValue: {
-      type: "string",
-      label: "Custom Field Value",
-      description: "The value for the custom field.",
-      optional: true,
+      async options({ page }) {
+        const data = await this.listUsers({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({
+          id: value, full_name: fullName, email,
+        }) => ({
+          label: email || fullName,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://my.herobot.app/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "X-ACCESS-TOKEN": `${this.$auth.api_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data,
-        params,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async sendMessage({
-      userId, contentMessage,
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users/",
+        ...opts,
+      });
+    },
+    sendMessage({
+      userId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/users/${userId}/send/text`,
-        data: {
-          message: contentMessage,
-        },
+        ...opts,
       });
     },
-    async createTag({ tagName }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/accounts/tags",
-        data: {
-          name: tagName,
-        },
-      });
-    },
-    async createUser({ newUserDetails }) {
+    createUser(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/users",
-        data: newUserDetails,
+        ...opts,
       });
     },
-    async createCustomField({
-      customFieldName, customFieldType,
-    }) {
+    createCustomField(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/accounts/custom_fields",
-        data: {
-          name: customFieldName,
-          type: customFieldType,
-        },
+        ...opts,
       });
     },
-    async addTagToUser({
-      userId, tagId,
+    getUserTags({ userId }) {
+      return this._makeRequest({
+        path: `/users/${userId}/tags`,
+      });
+    },
+    getTag({ tagId }) {
+      return this._makeRequest({
+        path: `/accounts/tags/${tagId}`,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null,
     }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/users/${userId}/tags/${tagId}`,
-      });
-    },
-    async sendMessageToUser({
-      userId, contentMessage,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/users/${userId}/send/text`,
-        data: {
-          text: contentMessage,
-        },
-      });
-    },
-    async getTags() {
-      return this._makeRequest({
-        path: "/accounts/tags",
-      });
-    },
-    async getCustomFields() {
-      return this._makeRequest({
-        path: "/accounts/custom_fields",
-      });
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page;
+        page++;
+        const data = await fn({
+          params,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

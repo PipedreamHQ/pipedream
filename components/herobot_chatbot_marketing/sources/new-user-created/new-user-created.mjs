@@ -1,58 +1,77 @@
-import { axios } from "@pipedream/platform";
-import herobotChatbotMarketing from "../../herobot_chatbot_marketing.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import app from "../../herobot_chatbot_marketing.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "herobot_chatbot_marketing-new-user-created",
   name: "New User Created",
-  description: "Emits an event when a new user is created. [See the documentation](https://my.herobot.app/api/swagger/)",
+  description: "Emit new event when a new user is created.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    herobotChatbotMarketing,
+    app,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60, // 1 minute
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
   methods: {
-    ...herobotChatbotMarketing.methods,
-  },
-  hooks: {
-    async deploy() {
-      // Fetch and emit events for existing users during the first run
-      const users = await this.herobotChatbotMarketing.getUsers();
-      for (const user of users) {
-        this.$emit(user, {
-          id: user.id,
-          summary: `New User: ${user.name}`,
-          ts: Date.parse(user.created_at),
+    _getLastDate() {
+      return this.db.get("lastDate") || 0;
+    },
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
+    },
+    generateMeta(user) {
+      return {
+        id: user.id,
+        summary: `New User: ${user.full_name || user.email}`,
+        ts: Date.parse(user.subscribed_date),
+      };
+    },
+    async startEvent(maxResults = 0) {
+      const lastDate = this._getLastDate();
+
+      let users = this.app.paginate({
+        fn: this.app.listUsers,
+        maxResults,
+      });
+
+      let userArray = [];
+
+      for await (const user of users) {
+        userArray.push(user);
+      }
+
+      userArray = userArray
+        .filter((item) => Date.parse(item.subscribed_date) > lastDate)
+        .sort(function(item1, item2) {
+          return Date.parse(item1.subscribed_date) < Date.parse(item2.subscribed_date)
+            ? -1
+            : Date.parse(item1.subscribed_date) > Date.parse(item2.subscribed_date)
+              ? 1
+              : 0;
         });
+
+      if (userArray.length) this._setLastDate(Date.parse(userArray[0].subscribed_date));
+
+      for (const item of userArray.reverse()) {
+        this.$emit(item, this.generateMeta(item));
       }
     },
   },
-  async run() {
-    const lastChecked = this.db.get("lastChecked") || 0;
-    const users = await this.herobotChatbotMarketing.getUsers({
-      lastChecked,
-    });
-
-    for (const user of users) {
-      const ts = Date.parse(user.created_at);
-      if (ts > lastChecked) {
-        this.$emit(user, {
-          id: user.id,
-          summary: `New User: ${user.name}`,
-          ts,
-        });
-      }
-    }
-
-    // Update the last checked timestamp
-    const latestTimestamp = Math.max(...users.map((user) => Date.parse(user.created_at)));
-    this.db.set("lastChecked", latestTimestamp);
+  hooks: {
+    async deploy() {
+      await this.startEvent(25);
+    },
   },
+  async run() {
+    await this.startEvent();
+  },
+  sampleEmit,
 };
+

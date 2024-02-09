@@ -1,47 +1,61 @@
-import herobotChatbotMarketing from "../../herobot_chatbot_marketing.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
+import app from "../../herobot_chatbot_marketing.app.mjs";
 
 export default {
   key: "herobot_chatbot_marketing-create-user",
   name: "Create User",
-  description: "Saves pertinent information about a new user. [See the documentation](https://my.herobot.app/api/swagger/)",
+  description: "Saves pertinent information about a new user. [See the documentation](https://my.herobot.app/api/swagger/#/Users/createNewContact)",
   version: "0.0.1",
   type: "action",
   props: {
-    herobotChatbotMarketing,
-    userId: herobotChatbotMarketing.propDefinitions.userId,
-    contentMessage: herobotChatbotMarketing.propDefinitions.contentMessage,
-    tagName: herobotChatbotMarketing.propDefinitions.tagName,
-    tagId: herobotChatbotMarketing.propDefinitions.tagId,
-    customFieldName: herobotChatbotMarketing.propDefinitions.customFieldName,
-    customFieldType: herobotChatbotMarketing.propDefinitions.customFieldType,
-    newUserDetails: herobotChatbotMarketing.propDefinitions.newUserDetails,
-    flowId: herobotChatbotMarketing.propDefinitions.flowId,
-    productId: herobotChatbotMarketing.propDefinitions.productId,
-    orderId: herobotChatbotMarketing.propDefinitions.orderId,
-    customFieldId: herobotChatbotMarketing.propDefinitions.customFieldId,
-    customFieldValue: herobotChatbotMarketing.propDefinitions.customFieldValue,
+    app,
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The user's phone number.",
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The user's first name.",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The user's last name.",
+      optional: true,
+    },
+    gender: {
+      type: "string",
+      label: "Gender",
+      description: "The user's gender.",
+      options: [
+        "female",
+        "male",
+      ],
+      optional: true,
+    },
+    actions: {
+      type: "string",
+      label: "Actions",
+      description: "An stringified array of objects of the actions.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const newUserResponse = await this.herobotChatbotMarketing.createUser({
-      newUserDetails: this.newUserDetails,
+    const response = await this.app.createUser({
+      $,
+      data: {
+        phone: this.phone,
+        first_name: this.firstName,
+        last_name: this.lastName,
+        gender: this.gender,
+        actions: this.actions && parseObject(this.actions),
+      },
     });
 
-    if (this.tagId) {
-      await this.herobotChatbotMarketing.addTagToUser({
-        userId: newUserResponse.id,
-        tagId: this.tagId,
-      });
-    }
-
-    if (this.customFieldId && this.customFieldValue) {
-      await this.herobotChatbotMarketing.createCustomField({
-        customFieldName: this.customFieldName,
-        customFieldType: this.customFieldType,
-      });
-    }
-
-    $.export("$summary", `Successfully created new user with ID ${newUserResponse.id}`);
-    return newUserResponse;
+    $.export("$summary", `Successfully created new user with ID ${response.data?.id}`);
+    return response;
   },
 };

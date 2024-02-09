@@ -1,34 +1,62 @@
-import herobotChatbotMarketing from "../../herobot_chatbot_marketing.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../herobot_chatbot_marketing.app.mjs";
 
 export default {
   key: "herobot_chatbot_marketing-create-custom-field",
   name: "Create Custom Field",
-  description: "Create a new custom field in the HeroBot account. [See the documentation](https://my.herobot.app/api/swagger/)",
+  description: "Create a new custom field in the HeroBot account. [See the documentation](https://my.herobot.app/api/swagger/#/Accounts/createCustomField)",
   version: "0.0.1",
   type: "action",
   props: {
-    herobotChatbotMarketing,
-    customFieldName: {
-      propDefinition: [
-        herobotChatbotMarketing,
-        "customFieldName",
+    app,
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the custom field.",
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The type of the custom field.",
+      options: [
+        {
+          label: "Text",
+          value: "0",
+        },
+        {
+          label: "Number",
+          value: "1",
+        },
+        {
+          label: "Date (Unix timestamp)",
+          value: "2",
+        },
+        {
+          label: "Datetime (Unix timestamp)",
+          value: "3",
+        },
+        {
+          label: "Boolean",
+          value: "4",
+        },
       ],
     },
-    customFieldType: {
-      propDefinition: [
-        herobotChatbotMarketing,
-        "customFieldType",
-      ],
+    description: {
+      type: "string",
+      label: "Description",
+      description: "The description of the custom field.",
     },
   },
   async run({ $ }) {
-    const response = await this.herobotChatbotMarketing.createCustomField({
-      customFieldName: this.customFieldName,
-      customFieldType: this.customFieldType,
+    const response = await this.app.createCustomField({
+      $,
+      data: {
+        name: this.name,
+        type: parseInt(this.type),
+        description: this.description,
+      },
     });
 
-    $.export("$summary", `Successfully created custom field ${this.customFieldName} of type ${this.customFieldType}`);
+    $.export("$summary", `Successfully created custom field ${this.name}`);
     return response;
   },
 };

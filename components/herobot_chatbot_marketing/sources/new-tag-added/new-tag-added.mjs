@@ -1,63 +1,71 @@
-import { axios } from "@pipedream/platform";
-import herobotChatbotMarketing from "../../herobot_chatbot_marketing.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import app from "../../herobot_chatbot_marketing.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "herobot_chatbot_marketing-new-tag-added",
   name: "New Tag Added",
-  description: "Emits an event when a new tag is added to a specific user. [See the documentation](https://my.herobot.app/api/swagger/)",
+  description: "Emit new event when a new tag is added to a specific user.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    herobotChatbotMarketing,
+    app,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     userId: {
       propDefinition: [
-        herobotChatbotMarketing,
+        app,
         "userId",
       ],
     },
   },
   methods: {
-    ...herobotChatbotMarketing.methods,
-    async fetchTags() {
-      const response = await this.herobotChatbotMarketing.getTags({
+    _getLastTags() {
+      return this.db.get("lastTags") || [];
+    },
+    _setLastTags(lastTags) {
+      this.db.set("lastTags", lastTags);
+    },
+    filterArray(arr1, arr2) {
+      return arr1.filter(({ id }) => {
+        return arr2.indexOf(id) === -1;
+      });
+    },
+    generateMeta(event) {
+      const ts = new Date();
+      return {
+        id: event.id + ts,
+        summary: `New Tag added: ${event.name}`,
+        ts: ts,
+      };
+    },
+    async startEvent() {
+      const lastTags = this._getLastTags();
+
+      let tags = await this.app.getUserTags({
         userId: this.userId,
       });
-      return response.tags.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    },
-    getStoredLatestTagId() {
-      return this.db.get("latestTagId") || null;
-    },
-    storeLatestTagId(tagId) {
-      this.db.set("latestTagId", tagId);
-    },
-  },
-  hooks: {
-    async deploy() {
-      const tags = await this.fetchTags();
-      if (tags.length) {
-        this.storeLatestTagId(tags[0].id);
+      const filteredTags = this.filterArray(tags, lastTags);
+
+      for (const tag of filteredTags.reverse()) {
+        const tagInfo = await this.app.getTag({
+          tagId: tag.id,
+        });
+
+        this.$emit(tagInfo, this.generateMeta(tagInfo));
       }
+
+      if (tags.length) this._setLastTags(tags.map((item) => item.id));
     },
   },
   async run() {
-    const tags = await this.fetchTags();
-    const latestStoredTagId = this.getStoredLatestTagId();
-    if (tags.length && tags[0].id !== latestStoredTagId) {
-      const newTag = tags.find((tag) => tag.id === tags[0].id);
-      this.$emit(newTag, {
-        id: newTag.id,
-        summary: `New Tag: ${newTag.name}`,
-        ts: Date.now(),
-      });
-      this.storeLatestTagId(tags[0].id);
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };
