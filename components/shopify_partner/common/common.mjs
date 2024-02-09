@@ -4,6 +4,8 @@ import {
 } from "@pipedream/platform";
 import getAppName from "./queries/getAppName.mjs";
 
+const errorMessage = "**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.";
+
 export default {
   props: {
     shopify,
@@ -52,14 +54,14 @@ export default {
           : "error",
         content: appName
           ? `Shopify App: **${appName}**`
-          : "**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.",
+          : errorMessage,
       },
     };
   },
   hooks: {
     async deploy() {
       const appName = await this.checkAppId();
-      if (!appName) throw new ConfigurationError("**Invalid App ID.** Please double check the app ID and ensure that it is correct, and visible within your organization.");
+      if (!appName) throw new ConfigurationError(errorMessage);
     },
   },
 };
