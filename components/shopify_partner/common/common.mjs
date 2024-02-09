@@ -23,7 +23,9 @@ export default {
 
     if (!appId) return {};
 
-    const name = await new Promise((resolve) => {
+    console.log("appId: ", appId);
+
+    const { app: { name } } = await new Promise((resolve) => {
       this.shopify.query({
         db,
         query: getAppName,
@@ -31,13 +33,13 @@ export default {
           appId: `gid://partners/App/${appId}`,
         },
         key: "shopify_partner-appname",
-        handleEmit: resolve,
+        handleEmit: (data) => resolve(data),
         getCursor: () => false,
       });
     });
 
     return {
-      testProp: {
+      appAlert: {
         type: "alert",
         alertType: "info",
         content: `App name: ${name}`,
