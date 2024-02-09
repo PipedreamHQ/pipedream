@@ -42,13 +42,14 @@ export default {
       labels,
     } = this;
 
-    const fileData = files.map((file) => fs.createReadStream(file.includes("tmp/")
-      ? file
-      : `/tmp/${file}`));
-
     const data = new FormData();
     if (description) data.append("description", description);
-    data.append("files", JSON.stringify(fileData));
+
+    files.forEach((file) => {
+      data.append("files", fs.createReadStream(file.includes("tmp/")
+        ? file
+        : `/tmp/${file}`));});
+
     if (labels) data.append("labels", labels);
     data.append("name", name);
 
