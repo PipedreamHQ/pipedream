@@ -1,91 +1,81 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "slite",
   propDefinitions: {
-    parentId: {
+    title: {
       type: "string",
-      label: "Parent ID",
-      description: "The ID of the parent document or channel",
+      label: "Title",
+      description: "The title of the document",
     },
-    docTitle: {
+    markdown: {
       type: "string",
-      label: "Document Title",
-      description: "The title of the new document",
+      label: "Markdown",
+      description: "The markdown content of the document.",
     },
-    docId: {
+    noteId: {
       type: "string",
-      label: "Document ID",
-      description: "The ID of the document to modify",
-    },
-    updateData: {
-      type: "object",
-      label: "Update Data",
-      description: "The information to update in the document",
-    },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The maximum number of sub-documents to retrieve",
-      optional: true,
+      label: "Note ID",
+      description: "The ID of a note",
+      useQuery: true,
+      async options({
+        page, query, parentNoteId,
+      }) {
+        try {
+          const { hits } = await this.searchNotes({
+            params: {
+              query,
+              parentNoteId,
+              page,
+            },
+          });
+          return hits.map(({
+            id: value, title: label,
+          }) => ({
+            label,
+            value,
+          }));
+        } catch (error) {
+          return [];
+        }
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    _baseUrl() {
-      return "https://api.slite.com";
-    },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        ...args,
+        url: this.getUrl(path),
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "accept": "application/json",
+          "x-slite-api-key": this.$auth.api_key,
         },
       });
     },
-    async createDocument({
-      parentId, docTitle,
-    }) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/v1/documents",
-        data: {
-          parent: parentId,
-          title: docTitle,
-        },
+        ...args,
       });
     },
-    async retrieveSubDocuments({
-      parentId, limit,
-    }) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/api/v1/documents/${parentId}/children`,
-        params: {
-          limit,
-        },
-      });
-    },
-    async modifyDocumentSection({
-      docId, updateData,
-    }) {
+    put(args = {}) {
       return this._makeRequest({
         method: "PUT",
-        path: `/api/v1/documents/${docId}`,
-        data: updateData,
+        ...args,
+      });
+    },
+    searchNotes(args = {}) {
+      return this._makeRequest({
+        path: "/search-notes",
+        ...args,
       });
     },
   },

@@ -1,40 +1,44 @@
-import slite from "../../slite.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../slite.app.mjs";
 
 export default {
   key: "slite-fetch-sub-docs",
   name: "Fetch Sub-Documents",
-  description: "Fetches a certain number of sub-documents related to a parent document in Slite. [See the documentation](https://slite.slite.page/p/obsom1-pf7s6tb/slite-api?backward=)",
-  version: "0.0.{{ts}}",
+  description: "Fetches a certain number of sub-documents related to a parent document in Slite. [See the documentation](https://developers.slite.com/reference/getnotechildren)",
+  version: "0.0.1",
   type: "action",
   props: {
-    slite,
-    parentId: {
+    app,
+    noteId: {
+      label: "Parent Note ID",
+      description: "The ID of the parent note.",
       propDefinition: [
-        slite,
-        "parentId",
-      ],
-    },
-    limit: {
-      propDefinition: [
-        slite,
-        "limit",
-        (c) => ({
-          optional: true,
-        }),
+        app,
+        "noteId",
       ],
     },
   },
+  methods: {
+    listSubDocuments({
+      noteId, ...args
+    } = {}) {
+      return this.app._makeRequest({
+        path: `/notes/${noteId}/children`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const parentId = this.parentId;
-    const limit = this.limit;
+    const {
+      listSubDocuments,
+      noteId,
+    } = this;
 
-    const response = await this.slite.retrieveSubDocuments({
-      parentId,
-      limit,
+    const response = await listSubDocuments({
+      $,
+      noteId,
     });
 
-    $.export("$summary", `Successfully fetched ${response.length} sub-documents for parent ID ${parentId}`);
+    $.export("$summary", `Successfully fetched \`${response.notes.length}\` sub-document(s)`);
     return response;
   },
 };

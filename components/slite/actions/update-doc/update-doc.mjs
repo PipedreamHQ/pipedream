@@ -1,34 +1,61 @@
-import slite from "../../slite.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../slite.app.mjs";
 
 export default {
   key: "slite-update-doc",
-  name: "Update Document Section",
-  description: "Modifies a specific section of a Slite document. [See the documentation](https://slite.com/api)",
-  version: "0.0.{{ts}}",
+  name: "Update Document",
+  description: "Modifies a Slite document. [See the documentation](https://developers.slite.com/reference/updatenote)",
+  version: "0.0.1",
   type: "action",
   props: {
-    slite,
-    docId: {
+    app,
+    noteId: {
       propDefinition: [
-        slite,
-        "docId",
+        app,
+        "noteId",
       ],
     },
-    updateData: {
+    title: {
       propDefinition: [
-        slite,
-        "updateData",
+        app,
+        "title",
+      ],
+    },
+    markdown: {
+      optional: true,
+      propDefinition: [
+        app,
+        "markdown",
       ],
     },
   },
+  methods: {
+    updateDocument({
+      noteId, ...args
+    } = {}) {
+      return this.app.put({
+        path: `/notes/${noteId}`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.slite.modifyDocumentSection({
-      docId: this.docId,
-      updateData: this.updateData,
+    const {
+      updateDocument,
+      noteId,
+      title,
+      markdown,
+    } = this;
+
+    const response = await updateDocument({
+      $,
+      noteId,
+      data: {
+        title,
+        markdown,
+      },
     });
 
-    $.export("$summary", `Updated document section with ID: ${this.docId}`);
+    $.export("$summary", `Updated document with ID \`${response.id}\``);
     return response;
   },
 };
