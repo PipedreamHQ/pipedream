@@ -436,6 +436,17 @@ Otherwise, the workflow will [end early](/code/nodejs/#ending-a-workflow-early).
 
 Since you can [run any code](/code/) in a workflow, you can implement more complex validation. For example, you could require JWT tokens and validate those tokens using the [`jsonwebtoken` package](https://www.npmjs.com/package/jsonwebtoken) at the start of your workflow.
 
+### Special handling for HTTP requests
+As soon as you create an HTTP trigger in Pipedream, it's a deployed resource that's ready to receive events, whether or not you've deployed your workflow. Pipedream provides the below flags that you can pass as `GET` params or headers on inbound HTTP requests.
+
+**`x-pd-nostore=1`**
+- Does not store the event in the trigger's event selector in the builder
+- Pair this flag with **[data retention controls](/workflows/settings/#data-retention-controls)** to avoid logging any sensitive data
+
+**`x-pd-notrigger=1`**
+- Enables easier testing and avoids triggering the deployed workflow
+- The event will still come in to the event list when in build mode, but the deployed workflow will not get triggered
+
 ## Schedule
 
 Pipedream allows you to run hosted scheduled jobs — commonly-referred to as a "cron job" — [for free](/pricing/). You can think of workflows like scripts that run on a schedule.

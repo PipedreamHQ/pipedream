@@ -61,6 +61,10 @@ But if you're processing sensitive data, you may not want to store those logs. Y
 
 Refer to our [pricing page](https://pipedream.com/pricing) to understand the latest limits based on your plan.
 
+::: tip Avoid logging inbound HTTP requests
+Even with data retention disabled on your workflow, the builder will still surface inbound events for the source when in build mode. To avoid logging potentially sensitive data here as well, refer to [these docs](/workflows/steps/triggers/#special-handling-for-http-requests).
+:::
+
 ::: warning No events will be shown in the UI
 When data retention is disabled for your workflow, the Pipedream UI will not show any new events in the inspector or Event History for that workflow.
 :::
