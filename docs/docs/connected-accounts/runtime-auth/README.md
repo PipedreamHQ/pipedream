@@ -7,11 +7,9 @@ There are two ways to pass auth at runtime:
 1. [Pass it in an HTTP request](#quickstart-pass-credentials-via-http)
 2. [Fetch credentials from a DB or secrets store](#quickstart-fetch-credentials-from-a-db-or-secrets-store) within a workflow step
 
-::: tip
+::: tip Runtime auth is in beta
 Passing credentials at runtime is in **beta**, and we're looking for feedback. Please [let us know](https://pipedream.com/support) how you're using it, what's not working, and what else you'd like to see.
 :::
-
-[[toc]]
 
 ## Quickstart — Pass credentials via HTTP
 

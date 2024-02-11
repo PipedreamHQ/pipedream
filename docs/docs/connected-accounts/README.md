@@ -238,7 +238,7 @@ See above for info on [managing access](#managing-access).
 
 #### Can I still work with other people on a single workflow, even if I don't want them to have access to my connected account?
 
-Yes! See the section on [collaborating with others](#collaborating-with-others).
+Yes, see the section on [collaborating with others](#collaborating-with-others).
 
 ## Accessing credentials via API
 
@@ -248,7 +248,7 @@ You can access credentials for any connected account via API, letting you build 
 
 If you use a secrets store like [HashiCorp Vault](https://www.vaultproject.io/) or [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), store credentials in a database, or use a service like [Nango](https://www.nango.dev/) to manage auth, you can retrieve these secrets at runtime and pass them to any step. [See the full guide here](/connected-accounts/runtime-auth/).
 
-## Account Security
+## Account security
 
 [See our security docs](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables) for details on how Pipedream secures your connected accounts.
 
