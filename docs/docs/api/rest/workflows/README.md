@@ -1,6 +1,6 @@
 # REST API example: Create an Workflow
 
-Here, we'll walk through an example of how to create a [workflow](/workflow/) programmatically using the [create workflow endpoint](/api/rest/#create-a-workflow) from a [shared link](/workflows/sharing/), and pass your own connected accounts, step and trigger props as configuration.
+Here, we'll walk through an example of how to create a [workflow](/workflow/) programmatically using the [create workflow endpoint](/api/rest/#create-a-workflow) from a [workflow share link](/workflows/sharing/), and pass your own connected accounts, step and trigger props as configuration.
 
 Before you begin, you'll need your [Pipedream API Key](/api/auth/#pipedream-api-key).
 
@@ -8,18 +8,18 @@ Before you begin, you'll need your [Pipedream API Key](/api/auth/#pipedream-api-
 
 ## Creating a new workflow from a template
 
-Workflows can be shared as templates using a [Share Link](/workflows/sharing/). When you share a workflow, a unique key is created that represents that workflow's triggers, steps and settings.
+Workflows can be shared as templates using a [Workflow Share Link](/workflows/sharing/). When you share a workflow, a unique key is created that represents that workflow's triggers, steps and settings.
 
-However, opening shared workflow link with a browser will not include sharing private resources - such as connected accounts, sources and data stores. Connections to your private resources have to be populated by hand.
+However, opening workflow share link with a browser will not include sharing private resources - such as connected accounts, sources and data stores. Connections to your private resources have to be populated by hand.
 
 The [create workflow endpoint](/api/rest/#create-a-workflow) allows you to programmatically assign your own connected accounts, props within the workflow, and even deploy the workflow in a single API request.
 
 
 ### Step 1 - Create a workflow share link
 
-First, you'll need to start with workflow template. To create a new workflow template, follow this short guide.
+First, you’ll need a workflow template. To create a new workflow template, follow this short guide.
 
-A shared workflow template URL has the following format:
+A workflow share link has the following format:
 
 ```
 https://pipedream.com/new?h=tch_abc123
@@ -29,15 +29,15 @@ The `tch_abc123` portion of the URL represents the unique workflow template ID. 
 
 :::tip You can create workflows from any Workflow Template
 
-You're not limited to creating new workflows from your own templates, you can create your own workflows using this endopint with any shared workflow link.
+You're not limited to creating new workflows from your own templates, you can create your own workflows using this endpoint with any workflow share link.
 
-This guide will also work for any shared workflow link, although we recommend copying the workflow to your account first so you can view the workflow's available configurable props.
+This guide will also work for any workflow share link, although we recommend copying the workflow to your account first so you can view the workflow's available configurable props.
 
 :::
 
 ### Step 2 - Create the workflow, and view the parameters 
 
-You'll need to view the shared workflow's configuration so you can identify the props you'll need to configure for the triggers and steps within the workflow.
+You'll need to view the original workflow's configuration so you can identify the props you'll need to provide for the new version of the workflow.
 
 Use the **Get Workflow** endpoint to retrieve the details about the workflow you've created a template for.
 
@@ -108,7 +108,7 @@ Now that we have the names of the configurable props for both the `triggers` and
 
 First, populate the `project_id` and `org_id` where you'd like this new workflow to be instantiated under. Please refer to the [**Create Workflow** parameters documentation](/api/rest/#create-a-workflow) on how to find these values.
 
-The `template_id` for your workflow can be found from the URL of the shared workflow link you created in **Step 1** of this guide.
+The `template_id` for your workflow can be found from the URL of the workflow share link you created in **Step 1** of this guide.
 
 The `trigger` as a `url` prop, so let's provide it with a specific URL (`https://hnrss.org/newest?q=Pipedream`) for this new workflow:
 
