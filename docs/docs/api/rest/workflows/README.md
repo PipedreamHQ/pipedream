@@ -203,7 +203,7 @@ Given we now have the connected account ID, we can design the rest of the payloa
   }
 }
 ```
-Our payload now instructs Pipedream to set up the `send-message` step in our workflow with our connected Slack account and specific `channelId` and `message` parameters.
+Our payload now instructs Pipedream to set up the `send_message` step in our workflow with our connected Slack account and specific `channelId` and `message` parameters.
 
 ### Step 4 - Define settings (optional)
 
