@@ -52,7 +52,7 @@ The next step is to learn how we can pass our specific connected accounts to app
 
 Within the `steps` and `triggers`, find the `configurable_props` for the trigger. Here is where you can find the available slots that you can programmtically provide configuration for the **Create Workflow** endpoint:
 
-```json{5-10,25-39}
+```json{6-11,27-41}
 // Example of a Get Workflow response
 {
   "triggers": [
@@ -73,6 +73,7 @@ Within the `steps` and `triggers`, find the `configurable_props` for the trigger
     },
   ],
   "steps": [
+    {
       "namespace": "send_message",
       "lang": "nodejs20.x",
       "component": true,
@@ -177,7 +178,7 @@ Now we can copy the ID for our Slack account from the response: `apn_abc123`.
 
 Given we now have the connected account ID, we can design the rest of the payload:
 
-```json{13-20}
+```json{13-21}
 {
   "project_id": "proj_abc123",
   "org_id": "o_abc123",
@@ -189,7 +190,7 @@ Given we now have the connected account ID, we can design the rest of the payloa
       }
     }
   ],
-  "steps": {
+  "steps": [
     {
       "namespace": "send_message",
       "props": {
@@ -200,7 +201,7 @@ Given we now have the connected account ID, we can design the rest of the payloa
         "message": "**New HackerNews Mention** \n \n {{steps.trigger.event.item.title}} \n {{steps.trigger.event.item.description}}"
       }
     }
-  }
+  ]
 }
 ```
 Our payload now instructs Pipedream to set up the `send_message` step in our workflow with our connected Slack account and specific `channelId` and `message` parameters.
@@ -209,7 +210,7 @@ Our payload now instructs Pipedream to set up the `send_message` step in our wor
 
 You can also define workflow settings such as the workflows, name, allocated memory, or if it should be deployed immediately:
 
-```json{22-25}
+```json{24-27}
 {
   "project_id": "proj_abc123",
   "org_id": "o_abc123",
@@ -221,7 +222,7 @@ You can also define workflow settings such as the workflows, name, allocated mem
       }
     }
   ],
-  "steps": {
+  "steps": [
     {
       "namespace": "send_message",
       "props": {
@@ -232,7 +233,7 @@ You can also define workflow settings such as the workflows, name, allocated mem
         "message": "**New HackerNews Mention** \n \n {{steps.trigger.event.item.title}} \n {{steps.trigger.event.item.description}}"
       }
     }
-  },
+  ],
   "settings": {
     "name": "New HackerNews Mentions to Slack",
     "auto_deploy": true
