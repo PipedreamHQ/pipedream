@@ -221,7 +221,7 @@ You can also define workflow settings such as the workflows, name, allocated mem
   ],
   "steps": {
     {
-      "namespace": "send-message",
+      "namespace": "send_message",
       "props": {
         "slack": "apn_abc123",
         "channelId": "U12356",
