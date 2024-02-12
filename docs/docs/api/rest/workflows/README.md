@@ -1,6 +1,6 @@
 # REST API example: Create an Workflow
 
-Here, we'll walk through an example of how to create a [workflow](/workflow/) programmatically using the [create workflow endpoint](/api/rest/#create-a-workflow) from a [workflow share link](/workflows/sharing/), and pass your own connected accounts, step and trigger props as configuration.
+Here, we'll walk through an example of how to create a [workflow](/workflows/) programmatically using the [create workflow endpoint](/api/rest/#create-a-workflow) from a [workflow share link](/workflows/sharing/), and pass your own connected accounts, step and trigger props as configuration.
 
 Before you begin, you'll need your [Pipedream API Key](/api/auth/#pipedream-api-key).
 
