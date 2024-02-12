@@ -1358,20 +1358,22 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
   "project_id": "proj_wx9sgy",
   "org_id": "o_BYDI5y",
   "template_id": "tch_3BXfWO",
-  "steps": {
-    "code": {
+  "steps": [
+    {
+      "namespace": "code",
       "props": {
         "stringProp": "asdf"
       }
     },
-    "keyauth_hello_world": {
+    {
+      "namespace": "keyauth_hello_world",
       "props": {
         "keyauth": {
           "authProvisionId": "apn_Nb6h9v"
         }
       }
     }
-  },
+  ],
   "triggers": [
     {
       "props": {
