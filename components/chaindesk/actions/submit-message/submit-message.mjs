@@ -1,5 +1,4 @@
 import chaindesk from "../../chaindesk.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "chaindesk-submit-message",
@@ -16,16 +15,25 @@ export default {
       ],
     },
     query: {
-      propDefinition: [
-        chaindesk,
-        "query",
-      ],
+      type: "string",
+      label: "Query",
+      description: "The query you want to ask your agent.",
+    },
+    conversationId: {
+      type: "string",
+      label: "Conversation Id",
+      description: "The Id of the conversation.",
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.chaindesk.sendMessage({
+      $,
       agentId: this.agentId,
-      query: this.query,
+      data: {
+        query: this.query,
+        conversationId: this.conversationId,
+      },
     });
 
     $.export("$summary", `Message successfully submitted to agent ID ${this.agentId}`);

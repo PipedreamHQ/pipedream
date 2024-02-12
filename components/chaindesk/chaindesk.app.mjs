@@ -3,72 +3,72 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "chaindesk",
-  version: "0.0.1",
   propDefinitions: {
     agentId: {
       type: "string",
       label: "Agent ID",
       description: "The ID of the agent",
-    },
-    query: {
-      type: "string",
-      label: "Query",
-      description: "The query you want to ask your agent.",
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "The description to update the agent with to improve the accuracy of generated responses.",
+      async options() {
+        const data = await this.listAgents();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.chaindesk.ai";
+      return "https://api.chaindesk.ai/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "Content-Type": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path = "/",  ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async sendMessage({
-      agentId, query,
+    listAgents(opts = {}) {
+      return this._makeRequest({
+        path: "/agents",
+        ...opts,
+      });
+    },
+    listMessages({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/conversations/${conversationId}`,
+        ...opts,
+      });
+    },
+    sendMessage({
+      agentId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/agents/${agentId}/query`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          query,
-        },
+        ...opts,
       });
     },
-    async updateAgent({
-      agentId, description,
+    updateAgent({
+      agentId, ...opts
     }) {
       return this._makeRequest({
         method: "PATCH",
         path: `/agents/${agentId}`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          description,
-        },
+        ...opts,
       });
     },
   },

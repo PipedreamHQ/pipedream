@@ -1,68 +1,69 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import chaindesk from "../../chaindesk.app.mjs";
 
 export default {
   key: "chaindesk-new-response-generated",
   name: "New Response Generated",
-  description: "Emits an event when a new message from an agent is created. [See the documentation](https://docs.chaindesk.ai/api-reference/endpoint/agents/query)",
+  description: "Emit new event when a new message from an agent is created.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     chaindesk,
     db: "$.service.db",
-    agentId: {
-      propDefinition: [
-        chaindesk,
-        "agentId",
-      ],
-    },
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+    conversationId: {
+      type: "string",
+      label: "Conversation Id",
+      description: "The Id of the conversation you want to receive the events.",
     },
   },
   methods: {
-    generateMeta(data) {
-      const {
-        id, sender, text, created_at,
-      } = data;
+    _getLastDatetime() {
+      return this.db.get("lastDatetime") || 0;
+    },
+    _setLastDatetime(lastDatetime = null) {
+      this.db.set("lastDatetime", lastDatetime);
+    },
+    generateMeta({
+      id, createdAt,
+    }) {
       return {
         id,
-        summary: `New message from ${sender}: ${text.slice(0, 100)}`,
-        ts: Date.parse(created_at),
+        summary: `New message from agent with Id: ${id}`,
+        ts: Date.parse(createdAt),
       };
+    },
+    async startEvent(maxResults) {
+      const lastDatetime = this._getLastDatetime();
+
+      let { messages } = await this.chaindesk.listMessages({
+        conversationId: this.conversationId,
+      });
+
+      messages = messages
+        .filter(({ from }) => from === "agent")
+        .filter(({ createdAt }) => Date.parse(createdAt) > lastDatetime);
+      if (maxResults && (messages.length > maxResults)) messages.length = maxResults;
+
+      if (messages.length) this._setLastDatetime(Date.parse(messages[0].createdAt));
+
+      for (const message of messages.reverse()) {
+        this.$emit(message, this.generateMeta(message));
+      }
     },
   },
   hooks: {
     async deploy() {
-      const messages = await this.chaindesk.getMessages({
-        agentId: this.agentId,
-        limit: 50,
-      });
-      messages.forEach((message) => {
-        const meta = this.generateMeta(message);
-        this.$emit(message, meta);
-      });
+      await this.startEvent(25);
     },
   },
   async run() {
-    const lastMessageId = this.db.get("lastMessageId") || 0;
-    const messages = await this.chaindesk.getMessages({
-      agentId: this.agentId,
-      sinceId: lastMessageId,
-    });
-
-    messages.forEach((message) => {
-      const meta = this.generateMeta(message);
-      this.$emit(message, meta);
-    });
-
-    if (messages.length > 0) {
-      const maxId = Math.max(...messages.map((message) => message.id));
-      this.db.set("lastMessageId", maxId);
-    }
+    await this.startEvent();
   },
 };
