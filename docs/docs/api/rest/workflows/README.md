@@ -236,7 +236,7 @@ You can also define workflow settings such as the workflows, name, allocated mem
 }
 ```
 
-The `autodeploy` option instructs Pipedream to deploy this workflow automatically, without requiring a manual deployment from the dashboard.
+The `auto_deploy` option instructs Pipedream to deploy this workflow automatically, without requiring a manual deployment from the dashboard.
 
 ### Step 4 - Send the request
 
