@@ -142,7 +142,7 @@ If `expires_at` is missing or `null`, the credentials do not expire.
 ```javascript
 /*** PSEUDO-CODE — use this as a guide ***/
 
-// Fetch the most-recent token and expiry from cache or DB
+// Fetch the most-recent token and expiry from cache / DB
 const cache = Cache();
 const { oauth_access_token, expires_at } = await cache.get("credentials");
 
@@ -161,13 +161,14 @@ if (expires_at && new Date(expires_at) < new Date()) {
   });
   if (!response.ok)
     throw new Error(`Unable to fetch token: ${response.status}`);
+
   const { data } = await response.json();
   const newToken = data?.credentials?.oauth_access_token;
   if (!newToken) throw new Error("No access token");
   token = newToken;
 }
 
-// Use token in API requests
+// Use `token` in API requests
 ```
 
 Since these credentials are sensitive, you should encrypt them in the DB or data store you're using, decrypting them only at runtime when authorizing API requests.
