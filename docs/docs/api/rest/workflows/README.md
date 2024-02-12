@@ -225,7 +225,9 @@ You can also define workflow settings such as the workflows, name, allocated mem
     {
       "namespace": "send_message",
       "props": {
-        "slack": "apn_abc123",
+        "slack": {
+          "authProvisionId": "apn_abc123",
+        }
         "channelId": "U12356",
         "message": "**New HackerNews Mention** \n \n {{steps.trigger.event.item.title}} \n {{steps.trigger.event.item.description}}"
       }
