@@ -158,6 +158,7 @@ const referenceNav = [
       "/api/",
       "/api/auth/",
       "/api/rest/",
+      "/api/rest/workflows/",
       "/api/rest/webhooks/",
       "/api/rest/rss/",
       "/api/sse/",
