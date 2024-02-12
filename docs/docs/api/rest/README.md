@@ -1402,7 +1402,7 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
     "active": true,
     "steps": [
       {
-        "id": "c_MAfYdM",
+        "id": "c_bDf10L",
         "type": "CodeCell",
         "namespace": "code",
         "disabled": false,
@@ -1437,10 +1437,12 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
         },
         "component_key": null,
         "component_owner_id": null,
-        "configured_props_json": "{}"
+        "configured_props_json": "{\"intProp\":5,\"stringProp\":\"asdf\"}",
+        "authProvisionIdMap": {},
+        "authProvisionIds": []
       },
       {
-        "id": "c_vZfZGz",
+        "id": "c_W3f0YV",
         "type": "CodeCell",
         "namespace": "python",
         "disabled": false,
@@ -1466,10 +1468,12 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
         },
         "component_key": null,
         "component_owner_id": null,
-        "configured_props_json": "{}"
+        "configured_props_json": null,
+        "authProvisionIdMap": {},
+        "authProvisionIds": []
       },
       {
-        "id": "c_0Rfrq6",
+        "id": "c_D7feVN",
         "type": "CodeCell",
         "namespace": "keyauth_hello_world",
         "disabled": false,
@@ -1507,7 +1511,9 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
         },
         "component_key": "keyauth-hello-world",
         "component_owner_id": null,
-        "configured_props_json": "{}"
+        "configured_props_json": "{\"keyauth\":{\"authProvisionId\":\"apn_Nb6h9v\"}}",
+        "authProvisionIdMap": {},
+        "authProvisionIds": []
       }
     ],
     "triggers": [
