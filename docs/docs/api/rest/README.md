@@ -1341,7 +1341,7 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
 
 ---
 
-`steps` **object**: Definitions of the steps to include in the workflow. Each key within the steps object represents a step type, and the associated `props` define the step's configuration.
+`steps` **array**: Definitions of the steps to include in the workflow. Each item in the array represents a step, with its namespace and `props`.
 
 ---
 
