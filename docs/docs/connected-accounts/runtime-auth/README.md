@@ -21,7 +21,7 @@ Passing credentials at runtime is in **beta**, and we're looking for feedback. P
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707630109/docs/Screenshot_2024-02-10_at_9.39.59_PM_vp4wz1.png" />
 </div>
 
-4. You'll be prompted for all required credentials for the app, often just an `oauth_access_token` or `api_key`. [Find the variable that contains your credentials](workflows/events/#copying-references-to-event-data) and pass them to each field:
+4. You'll be prompted for all required credentials for the app, often just an `oauth_access_token` or `api_key`. [Find the variable that contains your credentials](/workflows/events/#copying-references-to-event-data) and pass them to each field:
 
 <div style="margin-bottom: 2rem">
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707630112/docs/Screenshot_2024-02-10_at_9.40.54_PM_hynkvq.png" />
@@ -44,7 +44,7 @@ You can set [the `pd-nostore` flag](/workflows/steps/triggers/#x-pd-nostore) to 
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707630109/docs/Screenshot_2024-02-10_at_9.39.59_PM_vp4wz1.png" />
 </div>
 
-3. You'll be prompted for all required credentials for the app, often just an `oauth_access_token` or `api_key`. [Find the variable that contains your credentials](workflows/events/#copying-references-to-event-data) and pass them to each field:
+3. You'll be prompted for all required credentials for the app, often just an `oauth_access_token` or `api_key`. [Find the variable that contains your credentials](/workflows/events/#copying-references-to-event-data) and pass them to each field:
 
 <div style="margin-bottom: 2rem">
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707630112/docs/Screenshot_2024-02-10_at_9.40.54_PM_hynkvq.png" />
