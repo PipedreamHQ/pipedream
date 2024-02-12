@@ -191,7 +191,7 @@ Given we now have the connected account ID, we can design the rest of the payloa
   ],
   "steps": {
     {
-      "namespace": "send-message",
+      "namespace": "send_message",
       "props": {
         "slack": {
           "authProvisionId": "apn_abc123",
