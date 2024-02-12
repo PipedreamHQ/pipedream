@@ -46,7 +46,7 @@ export default defineComponent({
     },
   },
   async run({ steps, $ }) {
-    const url = `https://api.pipedream.com/v1/accounts/${this.accoundId}/credentials`;
+    const url = `https://api.pipedream.com/v1/accounts/${this.accoundId}?include_credentials=1`;
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${this.pipedream.$auth.api_key}`,
@@ -74,7 +74,7 @@ def handler(pd: "pipedream"):
       'Content-Type': 'application/json',
       'Authorization': f'Bearer {pd.inputs["pipedream"]["$auth"]["api_key"]}',
     };
-    r = requests.get("https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>/credentials", headers=headers)
+    r = requests.get("https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>?include_credentials=1", headers=headers)
     return r.json()
 ```
 
@@ -83,7 +83,7 @@ def handler(pd: "pipedream"):
 ::: tab "cURL"
 
 ```bash
-curl 'https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>/credentials' \
+curl 'https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>?include_credentials=1' \
   -H "Authorization: Bearer <PIPEDREAM_API_KEY>"
 ```
 
@@ -92,7 +92,7 @@ curl 'https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>/credentials' \
 ::: tab "Node.js v20"
 
 ```javascript
-const url = `https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>/credentials`;
+const url = `https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>?include_credentials=1`;
 const headers = {
   "Content-Type": "application/json",
   Authorization: `Bearer <PIPEDREAM_API_KEY>`,
@@ -119,7 +119,7 @@ headers = {
   'Content-Type': 'application/json',
   'Authorization': f'Bearer <PIPEDREAM_API_KEY>',
 };
-r = requests.get("https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>/credentials", headers=headers)
+r = requests.get("https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>?include_credentials=1", headers=headers)
 
 # Credentials are in data.data.credentials
 data = r.json()
@@ -135,7 +135,7 @@ data = r.json()
 
 Access tokens for most OAuth services are valid for at least one hour. Some tokens have a longer expiry, and some are static until rotated or revoked.
 
-The response from `/v1/accounts/:id` contains an `expires_at` field, an ISO timestamp representing the expiry of the current token. This maps to the `expires_at` timestamp in the OAuth access token response. While tokens are not guaranteed to be valid until expiry, they are for most APIs in practice. We recommend caching credentials with the `expires_at` timestamp, using the tokens until expiry, retrieving new credentials only after expiry or when you encounter auth errors when making your API request.
+The response from `/v1/accounts/:id?include_credentials=1` contains an `expires_at` field, an ISO timestamp representing the expiry of the current token. This maps to the `expires_at` timestamp in the OAuth access token response. While tokens are not guaranteed to be valid until expiry, they are for most APIs in practice. We recommend caching credentials with the `expires_at` timestamp, using the tokens until expiry, retrieving new credentials only after expiry or when you encounter auth errors when making your API request.
 
 If `expires_at` is missing or `null`, the credentials do not expire.
 
@@ -149,7 +149,7 @@ const { oauth_access_token, expires_at } = await cache.get("credentials");
 // Only fetch new tokens when expired
 let token = oauth_access_token;
 if (expires_at && new Date(expires_at) < new Date()) {
-  const url = `https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>/credentials`;
+  const url = `https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>?include_credentials=1`;
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer <PIPEDREAM_API_KEY>`,
@@ -168,7 +168,8 @@ if (expires_at && new Date(expires_at) < new Date()) {
   token = newToken;
 }
 
-// Use `token` in API requests
+// Use `token` in API requests. Handle credentials errors and
+// fetch new credentials from Pipedream as necessary
 ```
 
 Since these credentials are sensitive, you should encrypt them in the DB or data store you're using, decrypting them only at runtime when authorizing API requests.
