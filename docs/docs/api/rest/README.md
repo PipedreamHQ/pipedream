@@ -695,9 +695,9 @@ GET /workspaces/<workspace_id>/accounts
 
 #### Query Parameters
 
-`app_slug` **string** (_optional_)
+`query` **string** (_optional_)
 
-To look up the connected account information for a specific app, use the `app_slug` query parameter to filter results for that app. You can find a given app's `app_slug` from the [Explore](https://pipedream.com/explore) page by selecting the app, and looking at the prop definition for the app.
+To look up the connected account information for a specific app, use the `query` query parameter to filter results for that app. You can find a given app's `query` from the [Explore](https://pipedream.com/explore) page by selecting the app, and looking at the prop definition for the app.
 
 #### Example Request
 
@@ -1627,9 +1627,59 @@ GET /workflows/{workflow_id}
 #### Example Request
 
 ```shell
-curl 'https://api.pipedream.com/v1/workflows/p_abc123 \
+curl 'https://api.pipedream.com/v1/workflows/p_abc123?org_id=o_abc123 \
   -H 'Authorization: Bearer <api_key>'
 ```
+
+#### Example Response
+
+```json
+{
+  "triggers": [
+    {
+      "id": "hi_ABpHKz",
+      "key": "eabcdefghiklmnop",
+      "endpoint_url": "http://eabcdefghiklmnop.m.d.pipedream.net",
+      "custom_response": false,
+    }
+  ],
+  "steps": [
+    {
+      "id": "c_abc123",
+      "namespace": "code",
+      "disabled": false,
+      "lang": "nodejs20.x",
+      "appConnections": [],
+      "component": true,
+      "savedComponent": {
+        "id": "sc_abc123",
+        "codeHash": "long-hash-here",
+        "configurableProps": [
+          {
+            "name": "channelId",
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "type": "string"
+          },
+          {
+            "name": "slack",
+            "type": "app",
+            "app": "slack"
+          }
+        ],
+        "version": ""
+      },
+      "component_key": null,
+      "component_owner_id": "o_abc123",
+      "configured_props_json": "{}"
+    }
+  ]
+}
+
+```
+
 
 ### Get Workflow Emits
 
