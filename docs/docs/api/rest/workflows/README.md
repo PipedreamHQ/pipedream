@@ -235,7 +235,7 @@ You can also define workflow settings such as the workflows, name, allocated mem
   },
   "settings": {
     "name": "New HackerNews Mentions to Slack",
-    "autodeploy": true
+    "auto_deploy": true
   }
 }
 ```
