@@ -9,75 +9,40 @@ export default {
       label: "Data Machine ID",
       description: "The ID of the Data Machine to initiate",
     },
-    eventId: {
-      type: "string",
-      label: "Event ID",
-      description: "The ID of the event to record",
-    },
-    eventData: {
-      type: "object",
-      label: "Event Data",
-      description: "The data related to the event",
-    },
-    severityLevel: {
-      type: "string",
-      label: "Severity Level",
-      description: "The severity level of exceptions to fetch",
-      optional: true,
-    },
-    searchTerms: {
-      type: "string",
-      label: "Search Terms",
-      description: "The terms the user is searching for",
-    },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.qualetics.com";
-    },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
-        path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "application/json",
         },
       });
     },
-    async initiateDataMachine(dataMachineId) {
+    initiateDataMachine(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/dataMachines/${dataMachineId}/initiate`,
+        url: "https://mlapi.qualetics.com/api/datamachine/init",
+        ...opts,
       });
     },
-    async recordEvent(eventId, eventData) {
+    sendData({
+      params, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/events/${eventId}`,
-        data: eventData,
+        url: "https://mq.qualetics.com/api/sendmessage",
+        params: {
+          ...params,
+          "client_id": `${this.$auth.app_prefix}`,
+        },
+        ...opts,
       });
-    },
-    async getExceptions(severityLevel) {
-      return this._makeRequest({
-        path: `/exceptions?severityLevel=${severityLevel}`,
-      });
-    },
-    async searchWebApp(searchTerms) {
-      return this._makeRequest({
-        path: `/search?terms=${searchTerms}`,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
