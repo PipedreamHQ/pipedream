@@ -175,11 +175,11 @@ omitted). Codes in the **5xx** range indicate an error with Pipedream’s server
 
 [Connected accounts](/connected-accounts/) let you manage credentials for integrated APIs.
 
-### Get account metadata
+### Get account
 
 ---
 
-This route returns metadata for a specific connected account.
+By default, this route returns metadata for a specific connected account. Set `include_credentials=1` to return credentials that you can use in any app where you need auth. [See this guide](/connected-accounts/api/) to learn more.
 
 #### Endpoint
 
@@ -203,9 +203,13 @@ To retrieve your account ID:
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707622922/docs/Screenshot_2024-02-10_at_7.10.59_PM_zxfpkt.png" />
 </div>
 
+`include_credentials` **number**
+
+Default `0`: Response only contains account metadata, no credentials. Pass `1` to include `credentials`.
+
 ---
 
-#### Example Request
+#### Example Request — Get account metadata
 
 ```bash
 curl 'https://api.pipedream.com/v1/accounts/<account_id>' \
@@ -213,7 +217,7 @@ curl 'https://api.pipedream.com/v1/accounts/<account_id>' \
   -H "Content-Type: application/json"
 ```
 
-#### Example Response
+#### Example Response — Get account metadata
 
 ```json
 {
@@ -231,45 +235,15 @@ curl 'https://api.pipedream.com/v1/accounts/<account_id>' \
 }
 ```
 
-### Get account credentials
-
----
-
-This route returns metadata and credentials for a specific connected account.
-
-#### Endpoint
-
-```
-GET /accounts/{account_id}/credentials
-```
-
-#### Parameters
-
----
-
-`account_id` **string**
-
-To retrieve your account ID:
-
-1. [Connect your account](/connected-accounts/#connecting-a-new-account)
-2. On [https://pipedream.com/accounts](https://pipedream.com/accounts), find your account and click the `...` to the right of the account,
-3. **Copy Account ID**
-
-<div>
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707622922/docs/Screenshot_2024-02-10_at_7.10.59_PM_zxfpkt.png" />
-</div>
-
----
-
-#### Example Request
+#### Example Request — Get account credentials
 
 ```bash
-curl 'https://api.pipedream.com/v1/accounts/<account_id>/credentials' \
+curl 'https://api.pipedream.com/v1/accounts/<account_id>?include_credentials=1' \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json"
 ```
 
-#### Example Response
+#### Example Response — Get account credentials
 
 ```json
 {
@@ -277,14 +251,14 @@ curl 'https://api.pipedream.com/v1/accounts/<account_id>/credentials' \
     "id": "apn_abc123",
     "created_at": "2022-07-27T20:37:52.000Z",
     "updated_at": "2024-02-11T04:18:46.000Z",
+    "expires_at": "2024-02-11T05:18:46.000Z",
     "name": "Google Sheets — pipedream.com", // account nickname, if set
     "app": {
       "id": "app_abc123",
       "name": "Google Sheets"
     },
     "credentials": {
-      "expires_at": "2024-02-11T05:18:46.000Z"
-      // Remaining properties are specific to the app — see below
+      // Properties are specific to the app — see below
     }
   }
 }

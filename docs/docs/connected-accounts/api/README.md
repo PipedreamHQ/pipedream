@@ -135,7 +135,7 @@ data = r.json()
 
 Access tokens for most OAuth services are valid for at least one hour. Some tokens have a longer expiry, and some are static until rotated or revoked.
 
-The response from `/v1/accounts/:id/credentials` contains an `expires_at` field, an ISO timestamp representing the expiry of the current token. Access tokens should be valid until expiry, so you can persist them in your own DB along with the `expires_at`, fetching new credentials from Pipedream only when they expire.
+The response from `/v1/accounts/:id` contains an `expires_at` field, an ISO timestamp representing the expiry of the current token. This maps to the `expires_at` timestamp in the OAuth access token response. While tokens are not guaranteed to be valid until expiry, they are for most APIs in practice. We recommend caching credentials with the `expires_at` timestamp, using the tokens until expiry, retrieving new credentials only after expiry or when you encounter auth errors when making your API request.
 
 If `expires_at` is missing or `null`, the credentials do not expire.
 
