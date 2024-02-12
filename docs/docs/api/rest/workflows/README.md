@@ -193,7 +193,9 @@ Given we now have the connected account ID, we can design the rest of the payloa
     {
       "namespace": "send-message",
       "props": {
-        "slack": "apn_abc123",
+        "slack": {
+          "authProvisionId": "apn_abc123",
+        }
         "channelId": "U12356",
         "message": "**New HackerNews Mention** \n \n {{steps.trigger.event.item.title}} \n {{steps.trigger.event.item.description}}"
       }
