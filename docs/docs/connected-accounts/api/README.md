@@ -27,7 +27,7 @@ During the beta:
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707622922/docs/Screenshot_2024-02-10_at_7.10.59_PM_zxfpkt.png" />
 </div>
 
-4. Make a request to the [**Get account credentials** endpoint](/api/rest/#get-account-credentials).
+4. Make a request to the [**Get account credentials** endpoint](/api/rest/#get-account).
 
 :::: tabs :options="{ useUrlFragment: false }"
 
