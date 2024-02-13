@@ -8,85 +8,116 @@ export default {
       type: "string",
       label: "Project ID",
       description: "The ID of the project",
+      async options() {
+        const { response: { data: { projects } } } = await this.listProjects();
+        if (!projects?.length) {
+          return [];
+        }
+        return projects.map(({
+          projectId: value, title: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
-    scheduleTime: {
+    userId: {
       type: "string",
-      label: "Schedule Time",
-      description: "The time to set the schedule",
-      optional: true,
+      label: "User ID",
+      description: "The ID of the user",
+      async options() {
+        const { response: { data: { employees } } } = await this.listEmployees();
+        if (!employees?.length) {
+          return [];
+        }
+        return employees.map(({
+          userId: value, userName: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
-    taskTitle: {
+    botId: {
       type: "string",
-      label: "Task Title",
-      description: "The title of the task",
-    },
-    taskDescription: {
-      type: "string",
-      label: "Task Description",
-      description: "The description of the task",
-    },
-    message: {
-      type: "string",
-      label: "Message",
-      description: "The text of the notification message",
+      label: "Bot ID",
+      description: "The ID of the bot",
+      async options() {
+        const { response: { data: { bots } } } = await this.listBots();
+        if (!bots?.length) {
+          return [];
+        }
+        return bots.map(({
+          botId: value, botName: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.morningmate.com";
+      return "https://api.morningmate.com/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        data,
-        params,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        data,
-        params,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "x-flow-api-key": `${this.$auth.api_key}`,
+          "Content-Type": "application/json",
         },
       });
     },
-    async sendNotification({ message }) {
+    listProjects(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/v1/bots/{botId}/notifications",
-        data: {
-          message,
-        },
+        path: "/projects",
+        ...opts,
       });
     },
-    async createSchedule({
-      projectId, scheduleTime,
+    listEmployees(opts = {}) {
+      return this._makeRequest({
+        path: "/employees",
+        ...opts,
+      });
+    },
+    listBots(opts = {}) {
+      return this._makeRequest({
+        path: "/bots",
+        ...opts,
+      });
+    },
+    sendNotification({
+      botId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/v1/posts/projects/${projectId}/schedules`,
-        data: {
-          schedule_time: scheduleTime,
-        },
+        path: `/bots/${botId}/notifications`,
+        ...opts,
       });
     },
-    async createTask({
-      projectId, taskTitle, taskDescription,
+    createSchedule({
+      projectId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/v1/posts/projects/${projectId}/tasks`,
-        data: {
-          task_title: taskTitle,
-          task_description: taskDescription,
-        },
+        path: `/posts/projects/${projectId}/schedules`,
+        ...opts,
+      });
+    },
+    createTask({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/posts/projects/${projectId}/tasks`,
+        ...opts,
       });
     },
   },
