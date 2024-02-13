@@ -1,80 +1,115 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "dopplerai",
   propDefinitions: {
-    messageText: {
+    chatUuid: {
       type: "string",
-      label: "Message Text",
-      description: "The text of the message to send to the AI",
-      required: true,
+      label: "Chat UUID",
+      description: "The UUID of the chat that the message will belong to",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const params = {
+          limit,
+          skip: page * limit,
+        };
+        const chats = await this.listChats({
+          params,
+        });
+        return chats?.map(({
+          uuid: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    collectionName: {
+    collectionUuid: {
       type: "string",
-      label: "Collection Name",
-      description: "The name of the new collection",
+      label: "Collection UUID",
+      description: "The UUID of the collection to extract embeddings from",
+      optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const params = {
+          limit,
+          skip: page * limit,
+        };
+        const collections = await this.listCollections({
+          params,
+        });
+        return collections?.map(({
+          uuid: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    referenceId: {
+      type: "string",
+      label: "Reference ID",
+      description: "An optional reference ID for your own reference",
       optional: true,
     },
-    visibility: {
+    name: {
       type: "string",
-      label: "Visibility",
-      description: "The visibility of the new collection",
+      label: "Name",
+      description: "An optional name for your own reference",
       optional: true,
-      options: [
-        "public",
-        "private",
-      ],
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.dopplerai.com/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async initializeChat() {
+    listChats(opts = {}) {
+      return this._makeRequest({
+        path: "/chats",
+        ...opts,
+      });
+    },
+    listCollections(opts = {}) {
+      return this._makeRequest({
+        path: "/collections",
+        ...opts,
+      });
+    },
+    createChat(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/chats",
+        ...opts,
       });
     },
-    async dispatchMessage(messageText) {
+    sendMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/messages",
-        data: {
-          message: messageText,
-        },
+        ...opts,
       });
     },
-    async establishCollection(collectionName, visibility) {
+    createCollection(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/collections",
-        data: {
-          name: collectionName,
-          visibility: visibility,
-        },
+        ...opts,
       });
     },
   },
