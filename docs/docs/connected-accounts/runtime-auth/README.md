@@ -27,6 +27,12 @@ Passing credentials at runtime is in **beta**, and we're looking for feedback. P
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707630112/docs/Screenshot_2024-02-10_at_9.40.54_PM_hynkvq.png" />
 </div>
 
+Most steps require additional, user-specific configuration. For example, the Slack **Send a Message** action requires a **Channel ID**, which may be specific to the end user's workspace. You'll need to pass these values in the HTTP request or return them from another step, referencing them here.
+
+<div style="margin-bottom: 2rem">
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707782845/docs/Screenshot_2024-02-12_at_4.05.20_PM_ajikdu.png" />
+</div>
+
 ::: warning Default logging
 
 When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/workflows/settings/#data-retention-controls) you've configured.
@@ -48,6 +54,12 @@ You can set [the `pd-nostore` flag](/workflows/steps/triggers/#x-pd-nostore) to 
 
 <div style="margin-bottom: 2rem">
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707630112/docs/Screenshot_2024-02-10_at_9.40.54_PM_hynkvq.png" />
+</div>
+
+Most steps require additional, user-specific configuration. For example, the Slack **Send a Message** action requires a **Channel ID**, which may be specific to the end user's workspace. You'll need to fetch these values from another step and reference them here.
+
+<div style="margin-bottom: 2rem">
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707782845/docs/Screenshot_2024-02-12_at_4.05.20_PM_ajikdu.png" />
 </div>
 
 ::: warning Default logging
