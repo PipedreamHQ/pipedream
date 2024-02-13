@@ -1050,6 +1050,9 @@ importers:
       '@pipedream/platform': 1.5.1
       axios: 1.6.5
 
+  components/chatfai:
+    specifiers: {}
+
   components/chatfuel_dashboard_api_:
     specifiers: {}
 
@@ -1856,6 +1859,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/doppler_ops:
+    specifiers: {}
+
+  components/dopplerai:
     specifiers: {}
 
   components/dots_:
@@ -4311,6 +4317,9 @@ importers:
   components/mobilemonkey:
     specifiers: {}
 
+  components/mobygames:
+    specifiers: {}
+
   components/mocean_api:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -4383,6 +4392,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/morningmate:
+    specifiers: {}
 
   components/motion:
     specifiers:
@@ -4465,6 +4477,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/ncscale:
+    specifiers: {}
 
   components/nectar_crm:
     specifiers:
@@ -5688,6 +5703,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/reform:
+    specifiers: {}
 
   components/regfox:
     specifiers:
@@ -7211,6 +7229,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/tpscheck:
+    specifiers: {}
 
   components/trackingtime:
     specifiers:
