@@ -1,5 +1,4 @@
 import mxTechnologies from "../../mx_technologies.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "mx_technologies-create-user",
@@ -12,35 +11,41 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "The email of the user to be created.",
+      description: "The end user's email address.",
     },
     id: {
       type: "string",
       label: "ID",
-      description: "A unique identifier for the new user. (Optional)",
+      description: "A unique, partner-defined, enforced identifier for the **user**. This value must be URL-safe. The **id** field must only contain letters, numbers, and the dash and underscore characters.",
       optional: true,
     },
     isDisabled: {
       type: "boolean",
       label: "Is Disabled",
-      description: "Flag to indicate if the user should be disabled. (Optional)",
+      description: "This indicates whether the user has been disabled. Defaults to **false**.",
       optional: true,
     },
     metadata: {
-      type: "object",
-      label: "Metadata",
-      description: "Additional metadata for the user. (Optional)",
+      propDefinition: [
+        mxTechnologies,
+        "metadata",
+      ],
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.mxTechnologies.createUser({
-      email: this.email,
-      id: this.id,
-      isDisabled: this.isDisabled,
-      metadata: this.metadata,
+      $,
+      data: {
+        user: {
+          email: this.email,
+          id: this.id,
+          is_disabled: this.isDisabled,
+          metadata: this.metadata && JSON.stringify(this.metadata),
+        },
+      },
     });
-    $.export("$summary", `Successfully created user with email ${this.email}`);
+    $.export("$summary", `Successfully created user with Id: ${response.user.guid}`);
     return response;
   },
 };
