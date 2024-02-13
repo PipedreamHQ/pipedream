@@ -38,14 +38,6 @@ export default ({
   router, // the router instance for the app
   siteData, // site metadata
 }) => {
-  if (typeof window !== "undefined") {
-    Vue.use(VueGtm, {
-      id: "GTM-KBDH3DB",
-      enabled: true,
-      debug: false,
-      vueRouter: router,
-    });
-  }
 
   // Adapted from https://github.com/vuepress/vuepress-community/blob/7feb5c514090b6901cd7d9998f4dd858e0055b7a/packages/vuepress-plugin-smooth-scroll/src/enhanceApp.ts#L21
   // With a bug fix for handling long pages

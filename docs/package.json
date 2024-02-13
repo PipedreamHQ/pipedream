@@ -20,7 +20,6 @@
     "autoprefixer": "^9.0.0",
     "postcss": "^8.4.31",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "vue-gtm": "^3.5.0",
     "vue-tabs-component": "^1.5.0",
     "vuepress-plugin-canonical": "^1.0.0",
     "vuepress-plugin-code-copy": "^1.0.6",
