@@ -25,4 +25,5 @@ Here are a few examples of what you can build using the Toggl Track API:
 - User interface: Access and integrate Toggl Track's intuitive user interface
   into applications.
 
-The API Reference has been updated to V9 and has been relocated [here](https://developers.track.toggl.com/)
+- The API Reference has been updated to V9 and has been relocated [here](https://developers.track.toggl.com/)
+- This current implementation in pipdream only utilizes time entries. Toggl also offers coverage at the workspace level down to the individual task level. The workspace docs located [here](https://developers.track.toggl.com/docs/api/workspaces) provide insight in how to begin creating workspaces and allowing other individuals to be added to those workspaces allowing the tracking of whole teams at a time.
