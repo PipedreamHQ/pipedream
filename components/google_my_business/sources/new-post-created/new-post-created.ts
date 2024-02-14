@@ -10,7 +10,7 @@ export default defineSource({
   key: "google_my_business-new-post-created",
   name: "New Post Created",
   description: `Emit new event for each new local post on a location [See the documentation](${DOCS_LINK})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
