@@ -1,95 +1,89 @@
-import { axios } from "@pipedream/platform";
-import linearb from "../../linearb.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import app from "../../linearb.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "linearb-new-deploy-created",
   name: "New Deploy Created",
-  description: "Emits an event when a new deploy is created in LinearB. [See the documentation](https://docs.linearb.io/api-deployments/)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new deploy is created in LinearB. [See the documentation](https://docs.linearb.io/api-deployments/)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    linearb,
+    app,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
+      label: "Polling Schedule",
+      description: "How often to poll the API",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    repoUrl: {
-      propDefinition: [
-        linearb,
-        "repoUrl",
-      ],
-    },
-    refName: {
-      propDefinition: [
-        linearb,
-        "refName",
-      ],
-    },
-    timestamp: {
-      propDefinition: [
-        linearb,
-        "timestamp",
-      ],
-      optional: true,
-    },
-    stage: {
-      propDefinition: [
-        linearb,
-        "stage",
-      ],
-      optional: true,
-    },
-    services: {
-      propDefinition: [
-        linearb,
-        "services",
-      ],
-      optional: true,
+    repositoryId: {
+      type: "integer",
+      label: "Repository ID",
+      description: "The git repository id. Eg. `1`",
     },
   },
-  hooks: {
-    async deploy() {
-      // Emit events for the last 50 deployments, sorted by most recent
-      const { data: deployments } = await this.linearb.createDeployment({
-        repoUrl: this.repoUrl,
-        refName: this.refName,
-        timestamp: this.timestamp,
-        stage: this.stage,
-        services: this.services,
-      });
-      deployments.slice(-50).forEach((deployment) => {
-        this.$emit(deployment, {
-          id: deployment.id,
-          summary: `New Deployment: ${deployment.ref_name}`,
-          ts: Date.parse(deployment.created_at),
-        });
-      });
+  methods: {
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: "New Deploy Created",
+        ts: Date.now(),
+      };
+    },
+    setLastCreatedAt(value) {
+      this.db.set(constants.LAST_CREATED_AT, value);
+    },
+    getLastCreatedAt() {
+      return this.db.get(constants.LAST_CREATED_AT);
+    },
+    getResourcesName() {
+      return "items";
+    },
+    getResourcesFn() {
+      return this.app.listDeployments;
+    },
+    getResourcesFnArgs() {
+      return {
+        params: {
+          repository_id: this.repositoryId,
+          limit: 50,
+          sort_by: "published_at",
+          sort_dir: "desc",
+          after: this.getLastCreatedAt(),
+        },
+      };
+    },
+    processResource(resource) {
+      const meta = this.generateMeta(resource);
+      this.$emit(resource, meta);
     },
   },
   async run() {
-    // Fetch new deployments since the last time we checked
-    const lastTimestamp = this.db.get("lastTimestamp") || new Date().toISOString();
-    const { data: deployments } = await this.linearb.createDeployment({
-      repoUrl: this.repoUrl,
-      refName: this.refName,
-      timestamp: lastTimestamp,
-      stage: this.stage,
-      services: this.services,
-    });
+    const {
+      getResourcesFn,
+      getResourcesFnArgs,
+      getResourcesName,
+      processResource,
+    } = this;
 
-    deployments.forEach((deployment) => {
-      this.$emit(deployment, {
-        id: deployment.id,
-        summary: `New Deployment: ${deployment.ref_name}`,
-        ts: Date.parse(deployment.created_at),
-      });
-    });
+    const resourcesFn = getResourcesFn();
+    const { [getResourcesName()]: resources } =
+      await resourcesFn(getResourcesFnArgs());
 
-    // Update the last timestamp we checked
-    this.db.set("lastTimestamp", new Date().toISOString());
+    const [
+      lastResource,
+    ] = resources;
+
+    if (lastResource?.created_at) {
+      this.setLastCreatedAt(lastResource.created_at);
+    }
+
+    Array.from(resources)
+      .reverse()
+      .forEach(processResource);
   },
 };

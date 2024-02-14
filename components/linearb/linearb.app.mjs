@@ -1,138 +1,86 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "linearb",
-  propDefinitions: {
-    repoUrl: {
-      type: "string",
-      label: "Repository URL",
-      description: "The git repository URL ending with .git",
-      pattern: "^https://[a-zA-Z0-9./+^@_-]{15,250}\\.git$",
-    },
-    refName: {
-      type: "string",
-      label: "Reference Name",
-      description: "Ref name of the release, accepts any Git ref (i.e., commit short or long SHA/tag name)",
-      pattern: "^[a-zA-Z0-9._-]*$",
-    },
-    timestamp: {
-      type: "string",
-      label: "Timestamp",
-      description: "The deployment or custom pre-deployment stage occurred at this specific time (timestamp ISO 8601 format)",
-      optional: true,
-    },
-    stage: {
-      type: "string",
-      label: "Stage",
-      description: "The key of the custom pre-deployment stage (lowercase only)",
-      optional: true,
-      pattern: "^[a-z]+$",
-    },
-    services: {
-      type: "string[]",
-      label: "Services",
-      description: "The list of LinearB services names monitoring this (lowercase only)",
-      optional: true,
-      pattern: "^[a-z]+$",
-    },
-    issueData: {
-      type: "object",
-      label: "Issue Data",
-      description: "The data for the issue to be sent to GitHub",
-    },
-    githubRepo: {
-      type: "string",
-      label: "GitHub Repository",
-      description: "The GitHub repository to send the issue to",
-    },
-    githubToken: {
-      type: "string",
-      label: "GitHub Token",
-      description: "The GitHub token for authentication",
-      secret: true,
-    },
-    data: {
-      type: "object",
-      label: "Data",
-      description: "The data to report to other apps",
-    },
-    destinationUrl: {
-      type: "string",
-      label: "Destination URL",
-      description: "The URL of the app to report the data to",
-    },
-  },
+  propDefinitions: {},
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getUrl(path, versionPath = constants.VERSION_PATH.V1) {
+      return `${constants.BASE_URL}${versionPath}${path}`;
     },
-    _baseUrl() {
-      return "https://api.linearb.io";
+    getHeaders(headers) {
+      return {
+        "Content-Type": "application/json",
+        "x-api-key": this.$auth.api_key,
+        ...headers,
+      };
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, path, headers, versionPath, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "x-api-key": this.$auth.api_key,
-        },
+        ...args,
+        url: this.getUrl(path, versionPath),
+        headers: this.getHeaders(headers),
       });
     },
-    async createDeployment({
-      repoUrl, refName, timestamp, stage, services,
-    }) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
+        ...args,
+      });
+    },
+    listDeployments(args = {}) {
+      return this._makeRequest({
         path: "/deployments",
-        data: {
-          repo_url: repoUrl,
-          ref_name: refName,
-          ...(timestamp && {
-            timestamp,
-          }),
-          ...(stage && {
-            stage,
-          }),
-          ...(services && {
-            services,
-          }),
-        },
+        ...args,
       });
     },
-    async sendIssueToGitHub({
-      issueData, githubRepo, githubToken,
+    async *getIterations({
+      resourceFn, resourceFnArgs, resourceName,
+      max = constants.DEFAULT_MAX,
     }) {
-      return axios(this, {
-        method: "POST",
-        url: `https://api.github.com/repos/${githubRepo}/issues`,
-        headers: {
-          "Authorization": `token ${githubToken}`,
-          "Accept": "application/vnd.github.v3+json",
-        },
-        data: issueData,
-      });
+      let offset = 0;
+      let resourcesCount = 0;
+
+      while (true) {
+        const response =
+          await resourceFn({
+            ...resourceFnArgs,
+            params: {
+              ...resourceFnArgs?.params,
+              offset,
+            },
+          });
+
+        const nextResources = resourceName && response[resourceName] || response;
+
+        if (!nextResources?.length) {
+          console.log("No more resources found");
+          return;
+        }
+
+        for (const resource of nextResources) {
+          yield resource;
+          resourcesCount += 1;
+
+          if (resourcesCount >= max) {
+            return;
+          }
+        }
+
+        if (nextResources.length < constants.DEFAULT_LIMIT) {
+          console.log("Last page reached");
+          return;
+        }
+
+        offset += constants.DEFAULT_LIMIT;
+      }
     },
-    async reportDataToOtherApps({
-      data, destinationUrl,
-    }) {
-      return axios(this, {
-        method: "POST",
-        url: destinationUrl,
-        data,
-      });
+    paginate(args = {}) {
+      return utils.iterate(this.getIterations(args));
     },
-    // Additional methods to emit events for deploy, merge, pickup, pull request, review can be added here.
   },
-  version: "0.0.{{ts}}",
 };
