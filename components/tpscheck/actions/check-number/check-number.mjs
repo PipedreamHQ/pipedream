@@ -1,30 +1,29 @@
 import tpscheck from "../../tpscheck.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "tpscheck-check-number",
   name: "Check Number Against TPS/CTPS",
   description: "Validates a provided number against the TPS/CTPS register. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     tpscheck,
-    number: {
+    phonenumber: {
       propDefinition: [
         tpscheck,
-        "number",
+        "phonenumber",
       ],
     },
   },
   async run({ $ }) {
-    const isRegistered = await this.tpscheck.validateNumber({
-      number: this.number,
+    const response = await this.tpscheck.validateNumber({
+      $,
+      data: {
+        phone: this.phonenumber,
+      },
     });
-    $.export("$summary", `Number ${this.number} is ${isRegistered
-      ? ""
-      : "not "}registered with TPS/CTPS.`);
-    return {
-      isRegistered,
-    };
+    $.export("$summary", `Successfully validated phone number ${this.phonenumber}`);
+
+    return response;
   },
 };
