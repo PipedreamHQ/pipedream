@@ -79,7 +79,7 @@ At this time it's not possible to move workflows out of GitHub Synchronized Proj
 
 :::
 
-## Access permissions
+## Access controls
 
 The [project list view](https://pipedream.com/projects) contains **Owner** and **Access** columns.
 
@@ -96,7 +96,7 @@ Projects created before February 2024 don't automatically have owners, which has
 ![Project Listing (Access)](./images/project-listing-access.png)
 
 ### Permissions
-Workspace owners and admins are able to perform all actions in projects, whereas members are restricted from performing certain actions.
+Workspace owners and admins are able to perform all actions in projects, whereas workspace members are restricted from performing certain actions in projects.
 
 | Operation | Project creator | Workspace members |
 | --  | :--: | :--: | :--: |
@@ -114,7 +114,7 @@ _Workspace admins and owners have the same permissions as project creators for a
 
 ### Managing access
 :::tip By default, all projects are accessible to all workspace members.
-Workspaces on the [Business plan](https://pipedream.com/pricing) can restrict members' access to specific projects.
+Workspaces on the [Business plan](https://pipedream.com/pricing) can restrict access for individual projects to specific workspace members.
 :::
 
 You can easily modify the access rules for a project directly from the [project list view](https://pipedream.com/projects), either by clicking the access badge in the project row (fig 1) or clicking the 3 dots to open the action menu, then selecting **Manage Access** (fig 2).
@@ -143,6 +143,9 @@ You can always see who has access and remove access if necessary:
 
 ![Manage access showing members with access](./images/slideout-member-list.png)
 
+## Project Variables
+
+
 ## Frequently asked questions
 
 ### Can sources and connected accounts be organized into projects as well?
@@ -152,3 +155,7 @@ At this time no, but that is on our roadmap. Projects will eventually contain al
 ### Can projects be synchronized to a Github repository?
 
 Yes, [please read here](/projects/git/) for more information on the Github synchronization feature for projects.
+
+### Can I configure which members in my workspace have access to individual projects?
+
+Yes! Learn about managing access [here](/projects/#managing-access).
