@@ -4,40 +4,34 @@ export default {
   type: "app",
   app: "reputation_lyncs",
   propDefinitions: {
-    customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: "The unique identifier for the customer.",
-      optional: false,
-    },
     customerName: {
       type: "string",
       label: "Customer Name",
       description: "The name of the customer.",
       optional: true,
     },
-    customerPhone: {
-      type: "string",
-      label: "Customer Phone",
-      description: "The phone number of the customer.",
-      optional: true,
-    },
-    fullName: {
-      type: "string",
-      label: "Full Name",
-      description: "The full name of the customer.",
-      optional: false,
-    },
     email: {
       type: "string",
       label: "Email",
-      description: "The email address of the customer.",
+      description: "The email address of the customer. You must provide at least one of **Email** or **Phone Number**.",
       optional: true,
     },
-    phone: {
+    phoneNumber: {
       type: "string",
-      label: "Phone",
-      description: "The phone number of the customer.",
+      label: "Phone Number",
+      description: "The phone number of the customer. You must provide at least one of **Email** or **Phone Number**.",
+      optional: true,
+    },
+    whatsappEnabled: {
+      type: "boolean",
+      label: "WhatsApp Enabled",
+      description: "Indicate if the Phone Number provided is a WhatsApp enabled number",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Comma separated list of tags to help identify customers (example: retail, online, etc.)",
       optional: true,
     },
   },
