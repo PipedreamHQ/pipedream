@@ -13,8 +13,13 @@ export default {
       type: "string",
       label: "Workspace ID",
       description: "ID of the workspace",
-      async options() {
-        const { data } = await this.listWorkspaces();
+      async options({ page }) {
+        const limit = 20;
+        const params = {
+           limit,
+           offset: page * limit,
+        };
+        const { data } = await this.listWorkspaces({ params });
 
         return data.map(({
           workspaceId, name,
