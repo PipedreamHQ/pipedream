@@ -37,52 +37,34 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.reputationlyncs.com";
+      return "https://reputationlync.com/app/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      data,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        data: {
+          ...data,
+          "Apikey": `${this.$auth.api_key}`,
         },
       });
     },
-    async addCustomer({
-      fullName, email, phone,
-    }) {
+    async addCustomer(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/customers",
-        data: {
-          fullName,
-          email,
-          phone,
-        },
+        path: "/customer/addCustomer",
+        ...args,
       });
     },
     async getCustomer({ customerId }) {
       return this._makeRequest({
         method: "GET",
         path: `/customers/${customerId}`,
-      });
-    },
-    async emitNewCustomerEvent({
-      customerId, customerName, customerPhone,
-    }) {
-      console.log("Emitting new customer event:", {
-        customerId,
-        customerName,
-        customerPhone,
       });
     },
   },
