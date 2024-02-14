@@ -7,6 +7,7 @@ import {
   ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "@pipedream/platform";
 import { ReadStream } from "fs";
+import querystring from "querystring";
 
 export default defineApp({
   type: "app",
@@ -56,6 +57,8 @@ export default defineApp({
       return hash(item);
     },
     async fetchFeed(url: string): Promise<any> {
+      const params = querystring.parse(url);
+      url = url.split('?')[0];
       const res = await axios(this, {
         url,
         method: "GET",
@@ -65,6 +68,7 @@ export default defineApp({
         validateStatus: () => true, // does not throw on any bad status code
         responseType: "stream", // stream is required for feedparser
         returnFullResponse: true,
+        params,
       });
 
       // Handle status codes as error codes

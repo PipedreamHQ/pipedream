@@ -103,60 +103,7 @@ We recommend using the popular `requests` HTTP client package available in Pytho
 
 No need to run `pip install`, just `import requests` at the top of your step's code and it's available for your code to use.
 
-### Making a `GET` request
-
-GET requests typically are for retrieving data from an API. Below is an example.
-
-```python
-import requests
-
-def handler(pd: "pipedream"):
-  url = "https://swapi.dev/api/people/1"
-
-  r = requests.get(url)
-
-  # The response is logged in your Pipedream step results:
-  print(r.text)
-
-  # The response status code is logged in your Pipedream step results:
-  print(r.status_code)
-```
-
-### Making a POST request
-
-```python
-import requests
-
-def handler(pd: "pipedream"):
-  # This a POST request to this URL will echo back whatever data we send to it
-  url = "https://postman-echo.com/post"
-
-  data = {"name": "Bulbasaur"}
-
-  r = requests.post(url, data)
-
-  # The response is logged in your Pipedream step results:
-  print(r.text)
-
-  # The response status code is logged in your Pipedream step results:
-  print(r.status_code)
-```
-
-### Sending files
-
-You can also send files within a step.
-
-An example of sending a previously stored file in the workflow's `/tmp` directory:
-
-```python
-import requests
-
-def handler(pd: "pipedream"):
-  # Retrieving a previously saved file from workflow storage
-  files = {"image": open("/tmp/python-logo.png", "rb")}
-
-  r = requests.post(url="https://api.imgur.com/3/image", files=files)
-```
+See the [Making HTTP Requests with Python](/code/python/http-requests/) docs for more information.
 
 ## Returning HTTP responses
 
@@ -353,46 +300,4 @@ The `/tmp` directory is accessible from your workflow steps for saving and retri
 
 You have full access to read and write both files in `/tmp`.
 
-### Writing a file to /tmp
-
-```python
-import requests
-
-def handler(pd: "pipedream"):
-  # Download the Python logo
-  r = requests.get("https://www.python.org/static/img/python-logo@2x.png")
-
-  # Create a new file python-logo.png in the /tmp/data directory
-  with open("/tmp/python-logo.png", "wb") as f:
-    # Save the content of the HTTP response into the file
-    f.write(r.content)
-```
-
-Now `/tmp/python-logo.png` holds the official Python logo.
-
-### Reading a file from /tmp
-
-You can also open files you have previously stored in the `/tmp` directory. Let's open the `python-logo.png` file.
-
-```python
-def handler(pd: "pipedream"):
-  with open("/tmp/python-logo.png", "rb") as f:
-    # Store the contents of the file into a variable
-    file_data = f.read()
-```
-
-### Listing files in /tmp
-
-If you need to check what files are currently in `/tmp` you can list them and print the results to the **Logs** section of **Results**:
-
-```python
-import os
-
-def handler(pd: "pipedream"):
-  # Prints the files in the tmp directory
-  print(os.listdir("/tmp"))
-```
-
-:::warning
-The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/limits/#disk) for details.
-:::
+See the [Working with the filesystem in Python](/code/python/working-with-files/) docs for more information.

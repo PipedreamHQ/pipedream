@@ -285,7 +285,7 @@ export default defineComponent({
     $.export('content', content);
 
     // The browser context and browser needs to be closed, otherwise the step will hang
-    await page.context().clos);
+    await page.context().close();
     await browser.close();
   },
 })

@@ -49,7 +49,14 @@ const docsNav = [
   },
   "/event-history/",
   "/sources/",
-  "/connected-accounts/",
+  {
+    title: "Connected Accounts",
+    children: [
+      "/connected-accounts/",
+      "/connected-accounts/api/",
+      "/connected-accounts/runtime-auth/",
+    ],
+  },
   ["/data-stores/", "Data Stores"],
   {
     title: "Code",
@@ -87,7 +94,10 @@ const docsNav = [
         children: [
           "/code/python/",
           "/code/python/auth/",
+          "/code/python/http-requests/",
+          "/code/python/working-with-files/",
           "/code/python/using-data-stores/",
+          "/code/python/delay/",
           "/code/python/rerun/",
           "/code/python/import-mappings/",
           "/code/python/faqs/",

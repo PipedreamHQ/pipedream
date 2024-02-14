@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/qualetics",
+  "version": "0.0.1",
+  "description": "Pipedream Qualetics Components",
+  "main": "qualetics.app.mjs",
+  "keywords": [
+    "pipedream",
+    "qualetics"
+  ],
+  "homepage": "https://pipedream.com/apps/qualetics",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

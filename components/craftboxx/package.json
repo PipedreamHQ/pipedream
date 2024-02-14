@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/craftboxx",
+  "version": "0.0.1",
+  "description": "Pipedream Craftboxx Components",
+  "main": "craftboxx.app.mjs",
+  "keywords": [
+    "pipedream",
+    "craftboxx"
+  ],
+  "homepage": "https://pipedream.com/apps/craftboxx",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

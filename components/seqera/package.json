@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/seqera",
+  "version": "0.0.1",
+  "description": "Pipedream Seqera Components",
+  "main": "seqera.app.mjs",
+  "keywords": [
+    "pipedream",
+    "seqera"
+  ],
+  "homepage": "https://pipedream.com/apps/seqera",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
