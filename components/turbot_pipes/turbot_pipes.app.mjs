@@ -4,93 +4,74 @@ export default {
   type: "app",
   app: "turbot_pipes",
   propDefinitions: {
-    orgName: {
+    handle: {
       type: "string",
-      label: "Organization Name",
-      description: "The name of the organization to create or delete",
+      label: "Handle",
+      description: "New handle of the user",
     },
-    orgDescription: {
+    orgHandle: {
       type: "string",
-      label: "Organization Description",
-      description: "The description of the organization to create",
+      label: "Organization Handle",
+      description: "Handle of the organization",
+    },
+    displayName: {
+      type: "string",
+      label: "Display Name",
+      description: "Display name of the organization",
       optional: true,
     },
-    organizationId: {
+    url: {
       type: "string",
-      label: "Organization ID",
-      description: "The ID of the organization to delete",
-      async options() {
-        const organizations = await this.listOrganizations();
-        return organizations.map((org) => ({
-          label: org.title,
-          value: org.id,
-        }));
-      },
+      label: "URL",
+      description: "URL of the organization",
+      optional: true,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://pipes.turbot.com/api/latest";
+      return "https://pipes.turbot.com/api/v0";
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, data, params, ...otherOpts
+        $ = this,
+        path,
+        headers,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.$auth.token}`,
         },
-        data,
-        params,
       });
     },
-    async createOrganization({
-      orgName, orgDescription,
-    }) {
+    async createOrganization(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/orgs",
-        data: {
-          name: orgName,
-          description: orgDescription,
-        },
+        path: "/org",
+        ...args,
       });
     },
-    async deleteOrganization({ organizationId }) {
+    async updateOrganization({
+      org_handle, ...args
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/org/${org_handle}`,
+        ...args,
+      });
+    },
+    async deleteOrganization({
+      org_handle, ...args
+    }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/orgs/${organizationId}`,
+        path: `/org/${org_handle}`,
+        ...args,
       });
-    },
-    async listOrganizations() {
-      return this._makeRequest({
-        path: "/orgs",
-      });
-    },
-    async paginate(fn, opts = {}) {
-      const results = [];
-      let response;
-      do {
-        response = await fn({
-          ...opts,
-          params: {
-            ...opts.params,
-          },
-        });
-        results.push(...response.items);
-        if (response.pagination && response.pagination.next) {
-          opts.params.page = response.pagination.next;
-        }
-      } while (response.pagination && response.pagination.next);
-      return results;
     },
   },
-  version: "0.0.{{ts}}",
 };

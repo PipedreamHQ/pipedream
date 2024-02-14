@@ -1,26 +1,28 @@
-import turbotPipes from "../../turbot_pipes.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../turbot_pipes.app.mjs";
 
 export default {
   key: "turbot_pipes-delete-organization",
   name: "Delete Organization",
   description: "Deletes the specified organization. [See the documentation](https://redocly.github.io/redoc/?url=https://pipes.turbot.com/api/latest/docs/openapi.json&nocors#tag/orgs/operation/org_delete)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    turbotPipes,
-    organizationId: {
+    app,
+    orgHandle: {
       propDefinition: [
-        turbotPipes,
-        "organizationId",
+        app,
+        "orgHandle",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.turbotPipes.deleteOrganization({
-      organizationId: this.organizationId,
+    const response = await this.app.deleteOrganization({
+      $,
+      org_handle: this.orgHandle,
     });
-    $.export("$summary", `Successfully deleted organization with ID ${this.organizationId}`);
+
+    $.export("$summary", `Successfully deleted organization with handle ${this.orgHandle}`);
+
     return response;
   },
 };

@@ -1,37 +1,44 @@
-import turbotPipes from "../../turbot_pipes.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../turbot_pipes.app.mjs";
 
 export default {
   key: "turbot_pipes-create-organization",
   name: "Create Organization",
-  description: "Creates a new organization in Turbot Pipes. [See the documentation](https://redocly.github.io/redoc/?url=https://pipes.turbot.com/api/latest/docs/openapi.json&nocors#tag/orgs/operation/org_create)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new organization in Turbot Pipes. [See the documentation](https://redocly.github.io/redoc/?url=https://pipes.turbot.com/api/latest/docs/openapi.json&nocors#tag/Orgs/operation/org_create)",
+  version: "0.0.1",
   type: "action",
   props: {
-    turbotPipes,
-    orgName: {
+    app,
+    displayName: {
       propDefinition: [
-        turbotPipes,
-        "orgName",
+        app,
+        "displayName",
       ],
     },
-    orgDescription: {
+    url: {
       propDefinition: [
-        turbotPipes,
-        "orgDescription",
-        (c) => ({
-          optional: true,
-        }),
+        app,
+        "url",
+      ],
+    },
+    orgHandle: {
+      propDefinition: [
+        app,
+        "orgHandle",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.turbotPipes.createOrganization({
-      orgName: this.orgName,
-      orgDescription: this.orgDescription,
+    const response = await this.app.createOrganization({
+      $,
+      data: {
+        display_name: this.displayName,
+        url: this.url,
+        handle: this.orgHandle,
+      },
     });
 
-    $.export("$summary", `Successfully created organization '${this.orgName}'`);
+    $.export("$summary", `Successfully created organization with handle '${this.orgHandle}'`);
+
     return response;
   },
 };
