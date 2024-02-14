@@ -8,10 +8,17 @@ export default {
   type: "action",
   props: {
     app,
+    includeDeleted: {
+      propDefinition: [
+        app,
+        "includeDeleted",
+      ],
+    },
   },
   async run({ $ }) {
     const limit = 20;
     const params = {
+      includeDeleted: this.includeDeleted,
       limit,
       offset: 0,
     };
@@ -25,10 +32,10 @@ export default {
       workspaces.push(...data);
       total = data?.length;
       params.offset += limit;
-    } while (total === limit)
+    } while (total === limit);
 
     $.export("$summary", "Successfully retrieved the list of workspaces");
 
-    return response;
+    return workspaces;
   },
 };

@@ -16,10 +16,12 @@ export default {
       async options({ page }) {
         const limit = 20;
         const params = {
-           limit,
-           offset: page * limit,
+          limit,
+          offset: page * limit,
         };
-        const { data } = await this.listWorkspaces({ params });
+        const { data } = await this.listWorkspaces({
+          params,
+        });
 
         return data.map(({
           workspaceId, name,
