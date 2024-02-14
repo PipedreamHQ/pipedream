@@ -24,3 +24,5 @@ Here are a few examples of what you can build using the Toggl Track API:
   related to time tracking data.
 - User interface: Access and integrate Toggl Track's intuitive user interface
   into applications.
+
+The API Reference has been updated to V9 and has been relocated [here](https://developers.track.toggl.com/)
