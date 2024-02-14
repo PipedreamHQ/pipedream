@@ -133,6 +133,20 @@ HTTP request headers will be available in the `steps.trigger.event.headers` step
 
 Pipedream will automatically lowercase header keys for consistency.
 
+### Pipedream-specific request parameters
+
+These params can be set as headers or query string parameters on any request to a Pipedream HTTP endpoint.
+
+#### `x-pd-nostore`
+
+Set to `1` to prevent logging any data for this execution. Pipedream will execute all steps of the workflow, but no data will be logged to Pipedream. No event will show up in the inspector or the Event History UI.
+
+If you need to disable logging for _all_ requests, use the workflow's [Data Retention controls](/workflows/settings/#data-retention-controls), instead.
+
+#### `x-pd-notrigger`
+
+Set to `1` to send an event to the workflow for testing. Pipedream will **not** trigger the production version of the workflow, but will display the event in the [list of test events](/workflows/events/#selecting-a-test-event) on the HTTP trigger.
+
 #### Limits
 
 You can send any content, up to the [HTTP payload size limit](/limits/#http-request-body-size), as a part of the form request. The content of uploaded images or other binary files does not contribute to this limit — the contents of the file will be uploaded at a Pipedream URL you have access to within your source or workflow. See the section on [Large File Support](#large-file-support) for more detail.
@@ -522,9 +536,9 @@ import { simpleParser } from "mailparser";
 
 export default defineComponent({
   async run({ steps, $ }) {
-    return await simpleParser(steps.get_large_email_content.$return_value)
+    return await simpleParser(steps.get_large_email_content.$return_value);
   },
-})
+});
 ```
 
 #### Example: Download the email to the `/tmp` directory, read it and parse it
@@ -535,8 +549,8 @@ export default defineComponent({
 import stream from "stream";
 import { promisify } from "util";
 import fs from "fs";
-import got from "got"; 
-import { simpleParser } from 'mailparser';
+import got from "got";
+import { simpleParser } from "mailparser";
 
 // To use previous step data, pass the `steps` object to the run() function
 export default defineComponent({
@@ -549,10 +563,10 @@ export default defineComponent({
 
     // Now read the file and parse its contents into the `parsed` variable
     // See https://nodemailer.com/extras/mailparser/ for parsing options
-    const f = fs.readFileSync(`/tmp/raw_email`)
-    return await simpleParser(f)
+    const f = fs.readFileSync(`/tmp/raw_email`);
+    return await simpleParser(f);
   },
-})
+});
 ```
 
 #### How the email is saved
@@ -599,7 +613,6 @@ This will create an RSS [event source](/sources/) that polls the feed for new it
 ## Don't see a trigger you need?
 
 If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/support/).
-
 
 ## Troubleshooting
 
