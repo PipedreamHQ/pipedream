@@ -10,9 +10,22 @@ export default {
     app,
   },
   async run({ $ }) {
-    const response = await this.app.listWorkspaces({
-      $,
-    });
+    const limit = 20;
+    const params = {
+      limit,
+      offset: 0,
+    };
+    let total = 0;
+    const workspaces = [];
+    do {
+      const { data } = await this.app.listWorkspaces({
+        $,
+        params,
+      });
+      workspaces.push(...data);
+      total = data?.length;
+      params.offset += limit;
+    } while (total === limit)
 
     $.export("$summary", "Successfully retrieved the list of workspaces");
 
