@@ -30,6 +30,9 @@ export default {
       const meta = this.generateMeta(item);
       this.$emit(item, meta);
     },
+    filterRelevantItems(items) {
+      return items;
+    },
     async processEvent(max) {
       const lastTs = this._getLastTs();
       const resourceFn = this.getResourceFn();
@@ -48,7 +51,8 @@ export default {
         return;
       }
       this._setLastTs(items[0][this.getTsField()]);
-      items.reverse().forEach((item) => this.emitEvent(item));
+      const relevantItems = this.filterRelevantItems(items);
+      relevantItems.reverse().forEach((item) => this.emitEvent(item));
     },
     getResourceFn() {
       throw new Error("getResourceFn is not implemented");

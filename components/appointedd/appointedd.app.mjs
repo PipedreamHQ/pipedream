@@ -8,6 +8,7 @@ export default {
       type: "string",
       label: "Customer ID",
       description: "Filters the returned bookings by customer ID, returning only those that have a customer ID that matches the customer ID here.",
+      optional: true,
       async options({ prevContext }) {
         const params = prevContext?.next
           ? {
