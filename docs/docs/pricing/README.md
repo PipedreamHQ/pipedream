@@ -17,7 +17,7 @@ To support these goals, Pipedream offers a generous [free tier](#free-tier), and
 
 Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers.
 
-But Free account have a [daily limit of free credits](/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
+But Free account have a [daily limit of free credits](/limits/#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
 
 **To lift the daily credit limit and increase the number of workflows and connected accounts [upgrade to a paid tier](https://pipedream.com/pricing)**.
 
@@ -27,7 +27,7 @@ Free Tier accounts can connect up to 3 different service accounts like Twitter, 
 
 ### Free Tier Workflow Limitations
 
-Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have limits on the number of active workflows. Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
+Free Tier accounts have a [daily credit limit](/limits/#daily-credits-limit) and have limits on the number of active workflows. Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
 
 ### Free Tier Polling Interval Limitations
 
