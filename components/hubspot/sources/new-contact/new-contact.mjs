@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-contact",
   name: "New Contacts",
   description: "Emit new event for each new contact added.",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   type: "source",
   props: {
