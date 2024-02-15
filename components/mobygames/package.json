@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mobygames",
+  "version": "0.0.1",
+  "description": "Pipedream MobyGames Components",
+  "main": "mobygames.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mobygames"
+  ],
+  "homepage": "https://pipedream.com/apps/mobygames",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

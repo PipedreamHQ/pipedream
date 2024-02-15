@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/aevent",
+  "version": "0.0.1",
+  "description": "Pipedream AEvent Components",
+  "main": "aevent.app.mjs",
+  "keywords": [
+    "pipedream",
+    "aevent"
+  ],
+  "homepage": "https://pipedream.com/apps/aevent",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
