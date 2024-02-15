@@ -112,3 +112,7 @@ If you're trying to migrate all resources from one workspace to another [please 
 ### Can I share my v1 workflows?
 
 No, v1 workflows are not shareable. If you need to share a v1 workflow, please see our [migration guide](/migrate-from-v1/) to convert it into a modern v2 workflow.
+
+### Are step notes included when I share a workflow?
+
+Yes any [step notes](/workflows/steps/#step-notes) you've added to your workflow are included in the copied version.
