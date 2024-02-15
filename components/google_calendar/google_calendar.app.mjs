@@ -261,6 +261,22 @@ export default {
       description: "Whether to send notifications about the event update",
       optional: true,
     },
+    colorId: {
+      label: "Color ID",
+      type: "string",
+      description: "The color of the event. This is an ID referring to an entry in the event section of the colors definition (see the colors endpoint).",
+      optional: true,
+      async options() {
+        const response = await this.listColors();
+        return Object.entries(response.event).map(([
+          key,
+          value,
+        ]) => ({
+          label: `Background ${value.background} | Foreground ${value.foreground}`,
+          value: key,
+        }));
+      },
+    },
   },
   methods: {
     _tokens() {
@@ -470,6 +486,13 @@ export default {
         nextSyncToken = syncResp?.nextSyncToken;
       }
       return nextSyncToken;
+    },
+    async listColors(args = {}) {
+      return this.requestHandler({
+        api: constants.API.COLORS.NAME,
+        method: constants.API.COLORS.METHOD.GET,
+        args,
+      });
     },
   },
 };
