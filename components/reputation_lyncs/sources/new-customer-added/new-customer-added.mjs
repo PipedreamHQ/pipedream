@@ -1,8 +1,8 @@
 import reputationLyncs from "../../reputation_lyncs.app.mjs";
 
 export default {
-  key: "reputation_lyncs-new-customer-added-instant",
-  name: "New Customer Added (Instant)",
+  key: "reputation_lyncs-new-customer-added",
+  name: "New Customer Added",
   description: "Emit new event when a new customer is added to the system.",
   version: "0.0.{{ts}}",
   type: "source",
