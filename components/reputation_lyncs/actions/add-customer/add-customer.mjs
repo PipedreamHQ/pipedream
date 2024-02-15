@@ -5,7 +5,7 @@ export default {
   key: "reputation_lyncs-add-customer",
   name: "Add Customer",
   description:
-    "Adds a new customer to the Reputation Lyncs platform. Requires the customer's full name. Optionally, an email and a phone number can be provided.",
+    "Adds a new customer to the Reputation Lyncs platform. [See the documentation](https://documenter.getpostman.com/view/25361963/2s93Xzw2bS#46718236-5ef1-4c93-992d-cd7d3722b02f)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -58,11 +58,11 @@ export default {
         email_id: this.email,
         phone_number: this.phoneNumber,
         whatsapp_enabled: whatsappEnabled,
-        tags: this.tags,
+        tags: this.tags?.join?.() ?? this.tags,
       },
     });
 
-    $.export("$summary", "Successfully added new customer");
+    $.export("$summary", `Successfully added new customer (ID: ${response?.customerId})`);
     return response;
   },
 };
