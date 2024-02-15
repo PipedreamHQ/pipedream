@@ -1315,7 +1315,10 @@ importers:
     specifiers: {}
 
   components/codescene:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/cody:
     specifiers:
