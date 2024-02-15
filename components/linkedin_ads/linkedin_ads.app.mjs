@@ -1,4 +1,5 @@
 import app from "../linkedin/linkedin.app.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   ...app,
@@ -71,6 +72,57 @@ export default {
         }));
       },
     },
+    eventId: {
+      type: "string",
+      label: "Event ID",
+      description: "The ID of the event to retrieve registrations for.",
+      async options({
+        organizationId, page,
+      }) {
+        if (!organizationId) {
+          return [];
+        }
+        const count = 20;
+        const { elements } = await this.searchEvents({
+          params: {
+            q: "organizerLeadGenFormEnabledEvents",
+            organizer: this.getOrganizationUrn(organizationId),
+            count,
+            start: page * count,
+          },
+        });
+        return elements?.map(({
+          id: value, localizedName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    conversionId: {
+      type: "string",
+      label: "Conversion ID",
+      description: "The ID of the conversion event.",
+      async options({
+        adAccountId, page,
+      }) {
+        const count = 20;
+        const { elements } = await this.searchConversions({
+          params: {
+            q: "account",
+            account: this.getSponsoredAccountUrn(adAccountId),
+            count,
+            start: page * count,
+          },
+        });
+        return elements?.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     ...app.methods,
@@ -80,11 +132,64 @@ export default {
     getSponsoredCampaignUrn(id) {
       return `urn:li:sponsoredCampaign:${id}`;
     },
+    getOrganizationUrn(id) {
+      return `urn:li:organization:${id}`;
+    },
+    getConversionUrn(id) {
+      return `urn:lla:llaPartnerConversion:${id}`;
+    },
+    getEventUrn(id) {
+      return `urn:li:event:${id}`;
+    },
     searchCampaigns({
       adAccountId, ...args
     } = {}) {
       return this._makeRequest({
         path: `/adAccounts/${adAccountId}/adCampaigns?q=search`,
+        ...args,
+      });
+    },
+    searchLeadForms(args = {}) {
+      const keys = [
+        "owner",
+      ];
+      return this._makeRequest({
+        debug: true,
+        path: "/leadForms",
+        paramsSerializer: utils.getParamsSerializer(utils.encodeParamKeys(keys)),
+        ...args,
+      });
+    },
+    searchEvents(args = {}) {
+      const keys = [
+        "organizer",
+      ];
+      return this._makeRequest({
+        debug: true,
+        path: "/events",
+        paramsSerializer: utils.getParamsSerializer(utils.encodeParamKeys(keys)),
+        transformResponse: utils.transformResponse,
+        ...args,
+      });
+    },
+    searchConversions(args = {}) {
+      return this._makeRequest({
+        debug: true,
+        path: "/conversions",
+        paramsSerializer: utils.getParamsSerializer(utils.encodeFn),
+        ...args,
+      });
+    },
+    searchLeadFormResponses(args = {}) {
+      const keys = [
+        "owner",
+        "versionedLeadGenFormUrn",
+        "associatedEntity",
+      ];
+      return this._makeRequest({
+        debug: true,
+        path: "/leadFormResponses",
+        paramsSerializer: utils.getParamsSerializer(utils.encodeParamKeys(keys)),
         ...args,
       });
     },
