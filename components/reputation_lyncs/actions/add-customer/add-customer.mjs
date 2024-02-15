@@ -62,6 +62,11 @@ export default {
       },
     });
 
+    if (response.status === "error") {
+      $.export("response", response);
+      throw new Error(`**API Response:** "${response.result?.join?.(", ")}"`);
+    }
+
     $.export("$summary", `Successfully added new customer (ID: ${response?.customerId})`);
     return response;
   },
