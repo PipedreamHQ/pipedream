@@ -61,10 +61,11 @@ export default {
         ...args,
       });
     },
-    async getCustomer({ customerId }) {
+    async listCustomers(args) {
       return this._makeRequest({
-        method: "GET",
-        path: `/customers/${customerId}`,
+        method: "POST",
+        path: "/customer/listCustomer",
+        ...args,
       });
     },
   },
