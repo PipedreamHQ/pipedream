@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "2captcha",
+  app: "_twocaptcha",
   propDefinitions: {
     clientKey: {
       type: "string",
