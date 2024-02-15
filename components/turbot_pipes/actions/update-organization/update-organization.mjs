@@ -36,7 +36,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.updateOrganization({
       $,
-      org_handle: this.orgHandle,
+      orgHandle: this.orgHandle,
       data: {
         display_name: this.displayName,
         url: this.url,

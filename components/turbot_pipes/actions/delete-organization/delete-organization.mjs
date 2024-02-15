@@ -18,7 +18,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.deleteOrganization({
       $,
-      org_handle: this.orgHandle,
+      orgHandle: this.orgHandle,
     });
 
     $.export("$summary", `Successfully deleted organization with handle ${this.orgHandle}`);

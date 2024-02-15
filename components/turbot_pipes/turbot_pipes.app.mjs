@@ -13,6 +13,24 @@ export default {
       type: "string",
       label: "Organization Handle",
       description: "Handle of the organization",
+      async options({ prevContext }) {
+        const params = {};
+
+        if (prevContext?.nextToken) params.next_token = prevContext.nextToken;
+
+        const {
+          items: orgs, next_token,
+        } = await this.getOrganizations({
+          params,
+        });
+
+        return {
+          context: {
+            nextToken: next_token,
+          },
+          options: orgs.data.map((org) => org.handle),
+        };
+      },
     },
     displayName: {
       type: "string",
@@ -55,21 +73,27 @@ export default {
         ...args,
       });
     },
+    async getOrganizations(args = {}) {
+      return this._makeRequest({
+        path: "/org",
+        ...args,
+      });
+    },
     async updateOrganization({
-      org_handle, ...args
+      orgHandle, ...args
     }) {
       return this._makeRequest({
         method: "PATCH",
-        path: `/org/${org_handle}`,
+        path: `/org/${orgHandle}`,
         ...args,
       });
     },
     async deleteOrganization({
-      org_handle, ...args
+      orgHandle, ...args
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/org/${org_handle}`,
+        path: `/org/${orgHandle}`,
         ...args,
       });
     },
