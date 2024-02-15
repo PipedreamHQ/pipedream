@@ -74,9 +74,6 @@ importers:
   components/_46elks:
     specifiers: {}
 
-  components/_46elks:
-    specifiers: {}
-
   components/_twocaptcha:
     specifiers: {}
 
@@ -5760,7 +5757,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/reform:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      form-data: 4.0.0
 
   components/regfox:
     specifiers:
