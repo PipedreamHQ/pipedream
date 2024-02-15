@@ -1,11 +1,12 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import _twocaptcha from "../../_twocaptcha.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "_twocaptcha-balance-updated",
-  name: "2Captcha Balance Updated",
-  description: "Emits an event when the user's balance in 2Captcha API is changed.",
-  version: "0.0.{{ts}}",
+  name: "New 2Captcha Balance Updated",
+  description: "Emit new event when the user's balance in 2Captcha API is changed.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -14,45 +15,38 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 5, // 5 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
-  hooks: {
-    async deploy() {
-      // Initial check for balance at deployment
-      const initialBalance = await this._twocaptcha.getBalance({
-        clientKey: this._twocaptcha.$auth.client_key,
-      });
-      this.db.set("initialBalance", initialBalance);
-    },
-  },
   methods: {
-    async getBalance() {
-      return this._twocaptcha.getBalance({
-        clientKey: this._twocaptcha.$auth.client_key,
-      });
+    _getLastBalance() {
+      return this.db.get("lastBalance") || null;
     },
-    isBalanceChanged(currentBalance) {
-      const lastBalance = this.db.get("lastBalance") || this.db.get("initialBalance");
-      return currentBalance !== lastBalance;
+    _setLastBalance(lastBalance) {
+      this.db.set("lastBalance", lastBalance);
     },
-    emitBalanceChangedEvent(currentBalance) {
-      this.$emit({
-        balance: currentBalance,
-      }, {
-        id: `${currentBalance}-${Date.now()}`,
+    generateMeta(currentBalance) {
+      const ts = Date.now();
+      return {
+        id: `${currentBalance}-${ts}`,
         summary: `Balance Updated: ${currentBalance}`,
-        ts: Date.now(),
-      });
+        ts,
+      };
+    },
+    async startEvent() {
+      const lastBalance = this._getLastBalance();
+
+      let response = await this._twocaptcha.getBalance();
+
+      if (!lastBalance || (lastBalance && response.balance != lastBalance)) {
+        this.$emit(response, this.generateMeta(response.balance));
+        this._setLastBalance(response.balance);
+      }
     },
   },
   async run() {
-    const currentBalance = await this.getBalance();
-
-    if (this.isBalanceChanged(currentBalance)) {
-      this.emitBalanceChangedEvent(currentBalance);
-      this.db.set("lastBalance", currentBalance);
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };

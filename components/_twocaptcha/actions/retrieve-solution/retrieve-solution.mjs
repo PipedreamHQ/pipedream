@@ -1,38 +1,28 @@
 import _twocaptcha from "../../_twocaptcha.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "_twocaptcha-retrieve-solution",
   name: "Retrieve Captcha Solution",
   description: "Fetch the solution of a previously submitted captcha from the 2Captcha service.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     _twocaptcha,
-    clientKey: {
-      propDefinition: [
-        _twocaptcha,
-        "clientKey",
-      ],
-    },
     taskId: {
-      propDefinition: [
-        _twocaptcha,
-        "taskId",
-      ],
+      type: "string",
+      label: "Task ID",
+      description: "The ID of the captcha task you want to get the result for.",
     },
   },
   async run({ $ }) {
     const response = await this._twocaptcha.getTaskResult({
-      clientKey: this.clientKey,
-      taskId: this.taskId,
+      $,
+      data: {
+        taskId: this.taskId,
+      },
     });
 
-    if (response.status === "ready") {
-      $.export("$summary", "Successfully retrieved the captcha solution");
-      return response.solution;
-    } else {
-      throw new Error("Captcha solution is not ready yet. Please try again later.");
-    }
+    $.export("$summary", "Successfully retrieved the captcha solution");
+    return response;
   },
 };

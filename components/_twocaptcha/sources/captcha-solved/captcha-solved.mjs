@@ -1,91 +1,51 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import _twocaptcha from "../../_twocaptcha.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "_twocaptcha-captcha-solved",
-  name: "Captcha Solved",
+  name: "New Captcha Solved",
   description: "Emit new event when a captcha has been successfully solved by the 2Captcha service.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     _twocaptcha,
-    db: "$.service.db",
-    clientKey: {
-      propDefinition: [
-        _twocaptcha,
-        "clientKey",
-      ],
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
+    taskId: {
+      type: "string",
+      label: "Task ID",
+      description: "The ID of the captcha task you want to get the result for.",
     },
   },
   methods: {
-    async checkTaskCompletion(clientKey, taskId) {
-      const response = await this._twocaptcha.getTaskResult({
-        clientKey,
-        taskId,
+    generateMeta() {
+      const ts = Date.now();
+      return {
+        id: `${this.taskId}-${ts}`,
+        summary: "Chaptcha successfully solved!",
+        ts,
+      };
+    },
+    async startEvent() {
+      let response = await this._twocaptcha.getTaskResult({
+        data: {
+          taskId: this.taskId,
+        },
       });
 
-      return response.status === "ready";
-    },
-  },
-  hooks: {
-    async deploy() {
-      const lastTaskId = this.db.get("lastTaskId") || "0";
-      const taskId = this.db.get("submittedTaskId");
-
-      if (!taskId) {
-        console.log("No new captcha tasks submitted for solving.");
-        return;
-      }
-
-      if (taskId > lastTaskId) {
-        const isCompleted = await this.checkTaskCompletion(this.clientKey, taskId);
-
-        if (isCompleted) {
-          const taskResult = await this._twocaptcha.getTaskResult({
-            clientKey: this.clientKey,
-            taskId: taskId,
-          });
-          this.$emit(taskResult, {
-            id: taskResult.taskId,
-            summary: `Captcha Solved: ${taskResult.taskId}`,
-            ts: Date.now(),
-          });
-
-          this.db.set("lastTaskId", taskId);
-        } else {
-          console.log(`Task ${taskId} is still being processed or encountered an error.`);
-        }
+      if (response.status && response.status === "ready") {
+        this.$emit(response, this.generateMeta(response));
       }
     },
   },
   async run() {
-    const lastTaskId = this.db.get("lastTaskId") || "0";
-    const taskId = this.db.get("submittedTaskId");
-
-    if (!taskId) {
-      console.log("No new captcha tasks submitted for solving.");
-      return;
-    }
-
-    if (taskId > lastTaskId) {
-      const isCompleted = await this.checkTaskCompletion(this.clientKey, taskId);
-
-      if (isCompleted) {
-        const taskResult = await this._twocaptcha.getTaskResult({
-          clientKey: this.clientKey,
-          taskId: taskId,
-        });
-        this.$emit(taskResult, {
-          id: taskResult.taskId,
-          summary: `Captcha Solved: ${taskResult.taskId}`,
-          ts: Date.now(),
-        });
-
-        this.db.set("lastTaskId", taskId);
-      } else {
-        console.log(`Task ${taskId} is still being processed or encountered an error.`);
-      }
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };

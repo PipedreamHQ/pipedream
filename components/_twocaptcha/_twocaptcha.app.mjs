@@ -3,7 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "2captcha",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     clientKey: {
       type: "string",
@@ -15,82 +14,51 @@ export default {
       label: "Task Object",
       description: "The task object for the captcha you want to solve.",
     },
-    taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "The ID of the captcha task you want to get the result for.",
-    },
   },
   methods: {
     _baseUrl() {
       return "https://api.2captcha.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path,
-        headers,
-        data,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Content-Type": "application/json",
+      };
+    },
+    _data(data) {
+      return {
+        clientKey: `${this.$auth.api_key}`,
+        ...data,
+      };
+    },
+    _makeRequest({
+      $ = this, path, data = {}, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-        },
-        data,
+        headers: this._headers(),
+        data: this._data(data),
+        ...opts,
       });
     },
-    async createTask({
-      clientKey, task,
-    }) {
+    createTask(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/createTask",
-        data: {
-          clientKey,
-          task,
-        },
+        ...opts,
       });
     },
-    async getTaskResult({
-      clientKey, taskId,
-    }) {
+    getTaskResult(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/getTaskResult",
-        data: {
-          clientKey,
-          taskId,
-        },
+        ...opts,
       });
     },
-    async getBalance({ clientKey }) {
+    getBalance() {
       return this._makeRequest({
+        method: "POST",
         path: "/getBalance",
-        data: {
-          clientKey,
-        },
       });
-    },
-    async checkTaskCompletion({
-      clientKey, taskId,
-    }) {
-      const result = await this.getTaskResult({
-        clientKey,
-        taskId,
-      });
-      return result.status === "ready";
-    },
-    async checkBalanceChange({
-      clientKey, initialBalance,
-    }) {
-      const { balance } = await this.getBalance({
-        clientKey,
-      });
-      return balance !== initialBalance;
     },
   },
 };
