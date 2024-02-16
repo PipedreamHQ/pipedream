@@ -74,6 +74,9 @@ importers:
   components/_46elks:
     specifiers: {}
 
+  components/_46elks:
+    specifiers: {}
+
   components/_twocaptcha:
     specifiers: {}
 
@@ -3213,7 +3216,10 @@ importers:
       object-hash: 3.0.0
 
   components/https_airbyte_com:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/httpsms:
     specifiers: {}
