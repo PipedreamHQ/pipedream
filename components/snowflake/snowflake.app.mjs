@@ -149,7 +149,7 @@ export default {
     async listFieldsForTable(tableName) {
       const sqlText = "DESCRIBE TABLE IDENTIFIER(:1)";
       const binds = [
-        tableName,
+        `${this.$auth.database}.${this.$auth.schema}.${tableName}`,
       ];
       const statement = {
         sqlText,
