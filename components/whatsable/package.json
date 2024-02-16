@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/whatsable",
+  "version": "0.0.1",
+  "description": "Pipedream WhatsAble Components",
+  "main": "whatsable.app.mjs",
+  "keywords": [
+    "pipedream",
+    "whatsable"
+  ],
+  "homepage": "https://pipedream.com/apps/whatsable",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

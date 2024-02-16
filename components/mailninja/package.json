@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mailninja",
+  "version": "0.0.1",
+  "description": "Pipedream MailNinja Components",
+  "main": "mailninja.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailninja"
+  ],
+  "homepage": "https://pipedream.com/apps/mailninja",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

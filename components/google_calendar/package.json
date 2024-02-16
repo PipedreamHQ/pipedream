@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_calendar",
-  "version": "0.3.18",
+  "version": "0.4.0",
   "description": "Pipedream Google_calendar Components",
   "main": "google_calendar.app.mjs",
   "keywords": [
@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@googleapis/calendar": "^1.0.2",
-    "@pipedream/platform": "^1.2.0",
+    "@pipedream/platform": "^1.6.0",
     "lodash.get": "^4.4.2",
     "moment-timezone": "^0.5.33",
     "uuid": "^8.3.2"
