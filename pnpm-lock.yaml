@@ -1023,7 +1023,10 @@ importers:
     specifiers: {}
 
   components/chaindesk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/chaport:
     specifiers: {}
@@ -3213,7 +3216,10 @@ importers:
       object-hash: 3.0.0
 
   components/https_airbyte_com:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/httpsms:
     specifiers: {}
@@ -3712,7 +3718,10 @@ importers:
     specifiers: {}
 
   components/kwtsms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/kyvio:
     specifiers: {}
@@ -4436,7 +4445,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/morningmate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/motion:
     specifiers:
@@ -5461,7 +5473,7 @@ importers:
       '@pipedream/platform': ^1.5.1
       crypto: ^1.0.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.5.1
       crypto: 1.0.1
 
   components/productlane:
@@ -6510,7 +6522,10 @@ importers:
     specifiers: {}
 
   components/slite:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/slottable:
     specifiers:

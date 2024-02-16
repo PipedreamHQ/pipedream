@@ -4,11 +4,32 @@ export default {
   ...common,
   props: {
     ...common.props,
-    username: {
+    handle: {
       type: "string",
-      label: "Username",
-      description: "Search for new videos uploaded by the YouTube Username.",
+      label: "Handle",
+      description: "Search for new videos uploaded by the YouTube Handle. Handles appear at the end of a channel's URL. For example, if the channel URL is `https://www.youtube.com/@pipedreamhq`, the Handle is `@pipedreamhq`.",
+      reloadProps: true,
     },
+  },
+  async additionalProps() {
+    const props = {};
+    if (!this.handle) {
+      return props;
+    }
+    const channelParams = {
+      part: "id",
+      forHandle: this.handle,
+    };
+    const channels = (await this.youtubeDataApi.getChannels(channelParams)).data;
+    if (!channels.items) {
+      props.alert = {
+        type: "alert",
+        alertType: "error",
+        content: `A channel for handle "${this.handle}" was not found`,
+        hidden: false,
+      };
+    }
+    return props;
   },
   hooks: {
     ...common.hooks,
@@ -36,11 +57,11 @@ export default {
     async getChannelIds() {
       const channelParams = {
         part: "id",
-        forUsername: this.username,
+        forHandle: this.handle,
       };
       const channels = (await this.youtubeDataApi.getChannels(channelParams)).data;
       if (!channels.items) {
-        throw new Error(`A channel for username "${this.username}" is not found`);
+        throw new Error(`A channel for handle "${this.handle}" was not found`);
       }
       const channelIds = channels.items.map((channel) => {
         return channel.id;
