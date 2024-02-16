@@ -66,6 +66,15 @@ importers:
       typescript: 5.2.2
 
   components/_0codekit:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
+  components/_46elks:
+    specifiers: {}
+
+  components/_46elks:
     specifiers: {}
 
   components/_46elks:
@@ -165,6 +174,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/aevent:
+    specifiers: {}
 
   components/affinda:
     specifiers: {}
@@ -867,7 +879,10 @@ importers:
       puppeteer-core: 19.8.0
 
   components/btcpay_server:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/budgets_ai:
     specifiers: {}
@@ -1014,7 +1029,10 @@ importers:
     specifiers: {}
 
   components/chaindesk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/chaport:
     specifiers: {}
@@ -1028,7 +1046,10 @@ importers:
       chargebee: 2.28.0
 
   components/chargeblast:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/chartmogul:
     specifiers:
@@ -1106,7 +1127,16 @@ importers:
     specifiers: {}
 
   components/claid_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+      url-exist: ^3.0.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      form-data: 4.0.0
+      fs: 0.0.1-security
+      url-exist: 3.0.1
 
   components/clearbit:
     specifiers:
@@ -1303,10 +1333,16 @@ importers:
     specifiers: {}
 
   components/codescene:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/cody:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/cohere_platform:
     specifiers:
@@ -1425,6 +1461,9 @@ importers:
     specifiers: {}
 
   components/covalent:
+    specifiers: {}
+
+  components/craftboxx:
     specifiers: {}
 
   components/craftmypdf:
@@ -2142,7 +2181,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/expedy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/expensify:
     specifiers:
@@ -2387,7 +2429,10 @@ importers:
     specifiers: {}
 
   components/formpress:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/forms_on_fire:
     specifiers: {}
@@ -2718,13 +2763,13 @@ importers:
   components/google_calendar:
     specifiers:
       '@googleapis/calendar': ^1.0.2
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.0
       lodash.get: ^4.4.2
       moment-timezone: ^0.5.33
       uuid: ^8.3.2
     dependencies:
       '@googleapis/calendar': 1.0.4
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       lodash.get: 4.4.2
       moment-timezone: 0.5.43
       uuid: 8.3.2
@@ -3094,7 +3139,10 @@ importers:
       '@pipedreamhq/platform': 0.8.1
 
   components/herobot_chatbot_marketing:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/heygen:
     specifiers:
@@ -3174,7 +3222,10 @@ importers:
       object-hash: 3.0.0
 
   components/https_airbyte_com:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/httpsms:
     specifiers: {}
@@ -3458,9 +3509,9 @@ importers:
 
   components/jira_service_desk:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
 
   components/jobber:
     specifiers:
@@ -4941,7 +4992,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/passslot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      md5: ^2.3.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      md5: 2.3.0
 
   components/patreon:
     specifiers:
@@ -5416,7 +5472,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/productive_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      crypto: ^1.0.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      crypto: 1.0.1
 
   components/productlane:
     specifiers:
@@ -6929,6 +6990,9 @@ importers:
     specifiers: {}
 
   components/t2m_url_shortener:
+    specifiers: {}
+
+  components/tableau:
     specifiers: {}
 
   components/talend:
