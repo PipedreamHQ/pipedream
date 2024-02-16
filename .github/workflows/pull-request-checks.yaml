@@ -5,7 +5,10 @@ name: Pull Request Checks
 # https://help.github.com/en/articles/workflow-syntax-for-github-actions
 #
 
-on: push
+on:
+  pull_request:
+    branches:
+      - master
 
 jobs:
   check_version:
