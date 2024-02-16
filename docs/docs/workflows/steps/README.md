@@ -71,7 +71,7 @@ For examples of supported data types in your steps language, see the examples be
 
 Pipedream lets you add notes to individual steps in your workflow so you can  include helpful context to other workspace members or even yourself, and you can even write markdown!
 
-![Viewing step notes](https://res.cloudinary.com/pipedreamin/image/upload/v1698167274/view_notes_zto8bp.png)
+![Viewing step notes](./images/step-notes-example.png)
 
 ### Adding or editing a note
 1. Enter build mode on any workflow
@@ -81,16 +81,15 @@ Pipedream lets you add notes to individual steps in your workflow so you can  in
 
 ![Add note](https://res.cloudinary.com/pipedreamin/image/upload/v1698167274/add_note_kvvxju.png)
 
-![Adding step notes](https://res.cloudinary.com/pipedreamin/image/upload/v1698167274/add_note_zg62i2.gif)
+![Adding step notes](./images/adding-step-note.gif)
 
 ### Showing notes
 1. Any step that has a note will indicate this with a special icon (shown below)
 2. Click on the icon to hide or show the note
 
-![View notes](https://res.cloudinary.com/pipedreamin/image/upload/v1698167274/view_note_p5uvkg.gif)
+![View notes](./images/show-hide-note.gif)
 
 ### Current limitations
-- Step notes are not currently included when copying or [sharing](/workflows/sharing) a workflow
 - Step notes are only accessible in Edit mode, and not from the Inspector
 
 <Footer />

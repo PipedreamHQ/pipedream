@@ -49,7 +49,14 @@ const docsNav = [
   },
   "/event-history/",
   "/sources/",
-  "/connected-accounts/",
+  {
+    title: "Connected Accounts",
+    children: [
+      "/connected-accounts/",
+      "/connected-accounts/api/",
+      "/connected-accounts/external-auth/",
+    ],
+  },
   ["/data-stores/", "Data Stores"],
   {
     title: "Code",

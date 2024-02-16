@@ -6,7 +6,7 @@ export default {
   key: "snowflake-usage-monitor",
   name: "New Usage Monitor",
   description: "Emit new event when a query is executed in the specified params",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     snowflake,
