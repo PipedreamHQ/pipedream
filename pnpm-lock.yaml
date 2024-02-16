@@ -1026,7 +1026,10 @@ importers:
     specifiers: {}
 
   components/chaindesk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/chaport:
     specifiers: {}
