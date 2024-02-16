@@ -1,0 +1,233 @@
+{
+  "env": {
+    "commonjs": true,
+    "es2020": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:jsonc/recommended-with-jsonc",
+    "plugin:jest/recommended"
+  ],
+  "ignorePatterns": ["scripts", "components/**/test-event.mjs"],
+  "overrides": [
+    {
+      "files": [
+        ".eslintrc",
+        "*.json"
+      ],
+      "parser": "jsonc-eslint-parser"
+    },
+    {
+      "files": [
+        "**/actions/**/*.*js",
+        "**/sources/**/*.*js"
+      ],
+      "rules": {
+        "pipedream/required-properties-key": "error",
+        "pipedream/required-properties-name": "error",
+        "pipedream/required-properties-version": "error",
+        "pipedream/required-properties-description": "error",
+        "pipedream/required-properties-type": "error",
+        "pipedream/props-label": "warn",
+        "pipedream/props-description": "warn",
+        "pipedream/source-name": "warn",
+        "pipedream/source-description": "warn",
+        "pipedream/no-ts-version": "warn"
+      }
+    },
+    {
+      "files": [
+        "**/actions/**/common*.*js",
+        "**/actions/common/*",
+        "**/sources/common/*",
+        "**/sources/**/common*.*js",
+        "**/sources/**/constant*.*js",
+        "**/actions/**/constant*.*js"
+      ],
+      "rules": {
+        "pipedream/required-properties-key": "off",
+        "pipedream/required-properties-name": "off",
+        "pipedream/required-properties-version": "off",
+        "pipedream/required-properties-description": "off",
+        "pipedream/required-properties-type": "off",
+        "pipedream/source-name": "off",
+        "pipedream/source-description": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.app.*js"
+      ],
+      "rules": {
+        "pipedream/props-label": "warn",
+        "pipedream/props-description": "warn"
+      }
+    },
+    {
+      "files": [
+        "**/components/bash/**/*.*js",
+        "**/components/go/**/*.*js",
+        "**/components/node/**/*.*js",
+        "**/components/python/**/*.*js"
+      ],
+      "rules": {
+        "no-unused-vars": "off"
+      }
+    },
+    {
+      "files": [
+        "*.ts",
+        "*.mts"
+      ],
+      "extends": [
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "max-len": "off",
+        // note you must disable the base rule as it can report incorrect errors
+        "semi": "off",
+        "@typescript-eslint/semi": ["error"],
+        "@typescript-eslint/member-delimiter-style": ["error", {
+          "multiline": {
+            "delimiter": "semi",
+            "requireLast": true
+          },
+          "singleline": {
+            "delimiter": "semi",
+            "requireLast": true
+          },
+          "multilineDetection": "brackets",
+          "overrides": {
+            "interface": {
+              "multiline": {
+                "delimiter": "semi",
+                "requireLast": true
+              }
+            }
+          }
+        }]
+      }
+    }
+  ],
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "jsonc",
+    "putout",
+    "pipedream",
+    "@typescript-eslint",
+    "jest"
+  ],
+  "root": true,
+  "rules": {
+    "arrow-parens": "error",
+    "arrow-spacing": "error",
+    "array-bracket-newline": [
+      "error",
+      {
+        "minItems": 1
+      }
+    ],
+    "array-element-newline": [
+      "error",
+      "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "comma-spacing": "error",
+    "eol-last": "error",
+    "function-call-argument-newline": [
+      "error",
+      "consistent"
+    ],
+    "function-paren-newline": [
+      "error",
+      "consistent"
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "key-spacing": "error",
+    "keyword-spacing": "error",
+    "max-len": [
+      "error",
+      {
+        "code": 100,
+        "tabWidth": 2,
+        "ignoreTrailingComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+      }
+    ],
+    "multiline-ternary": [
+      "error",
+      "always"
+    ],
+    "newline-per-chained-call": "error",
+    "no-constant-condition": [
+      "error",
+      {
+        "checkLoops": false
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxBOF": 0,
+        "maxEOF": 1
+      }
+    ],
+    "no-trailing-spaces": "error",
+    "no-unused-vars": "error",
+    "object-curly-newline": [
+      "error",
+      {
+        "ExportDeclaration": "always",
+        "ImportDeclaration": {
+          "minProperties": 2,
+          "multiline": true
+        },
+        "ObjectExpression": {
+          "minProperties": 1,
+          "multiline": true
+        },
+        "ObjectPattern": {
+          "minProperties": 2,
+          "multiline": true
+        }
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "object-property-newline": [
+      "error",
+      {
+        "allowAllPropertiesOnSameLine": false
+      }
+    ],
+    "quote-props": [
+      "error",
+      "consistent"
+    ],
+    "quotes": "error",
+    "semi": "error",
+    "space-before-blocks": [
+      "error",
+      "always"
+    ],
+    "space-infix-ops": "error"
+  }
+}
