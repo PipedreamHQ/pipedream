@@ -74,9 +74,6 @@ importers:
   components/_46elks:
     specifiers: {}
 
-  components/_46elks:
-    specifiers: {}
-
   components/_twocaptcha:
     specifiers: {}
 
@@ -4445,7 +4442,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/morningmate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/motion:
     specifiers:
@@ -5470,7 +5470,7 @@ importers:
       '@pipedream/platform': ^1.5.1
       crypto: ^1.0.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.5.1
       crypto: 1.0.1
 
   components/productlane:
@@ -6094,6 +6094,9 @@ importers:
     specifiers: {}
 
   components/scopemaster:
+    specifiers: {}
+
+  components/scoredetect:
     specifiers: {}
 
   components/scoro:
