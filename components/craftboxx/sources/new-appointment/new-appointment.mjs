@@ -1,68 +1,35 @@
-import craftboxx from "../../craftboxx.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/polling.mjs";
 
 export default {
+  ...common,
   key: "craftboxx-new-appointment",
   name: "New Appointment",
-  description: "Emits an event when a new appointment is created in Craftboxx. [See the documentation](https://api.craftboxx.de/docs/docs.json)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new appointment is created in Craftboxx. [See the documentation](https://api.craftboxx.de/docs/docs.json)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    craftboxx,
-    db: "$.service.db",
-    projectId: {
-      propDefinition: [
-        craftboxx,
-        "projectId",
-      ],
-    },
-    customerId: {
-      propDefinition: [
-        craftboxx,
-        "customerId",
-      ],
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-  },
-  hooks: {
-    async deploy() {
-      // Initialize state
-      this.db.set("lastCheck", new Date().toISOString());
-    },
-  },
   methods: {
-    ...craftboxx.methods,
-    generateMeta(appointment) {
-      const meta = {
-        id: appointment.id,
-        summary: `New appointment created for project ${appointment.projectId}`,
-        ts: Date.parse(appointment.createdAt),
-      };
-      return meta;
+    ...common.methods,
+    getResourceName() {
+      return "data";
     },
-  },
-  async run() {
-    const lastCheck = this.db.get("lastCheck");
-    const newAppointments = await this.craftboxx._makeRequest({
-      method: "GET",
-      path: "/assignments",
-      params: {
-        createdAt_gte: lastCheck,
-        projectId: this.projectId,
-        customerId: this.customerId,
-      },
-    });
-
-    for (const appointment of newAppointments) {
-      this.$emit(appointment, this.generateMeta(appointment));
-    }
-
-    this.db.set("lastCheck", new Date().toISOString());
+    getResourcesFn() {
+      return this.app.listAppointments;
+    },
+    getResourcesFnArgs() {
+      return {
+        params: {
+          order_by: "created_at",
+          order_direction: "desc",
+        },
+      };
+    },
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: `New Appointment: ${resource.title}`,
+        ts: Date.parse(resource.created_at),
+      };
+    },
   },
 };
