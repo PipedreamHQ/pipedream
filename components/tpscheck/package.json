@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/tpscheck",
+  "version": "0.0.1",
+  "description": "Pipedream TPSCheck Components",
+  "main": "tpscheck.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tpscheck"
+  ],
+  "homepage": "https://pipedream.com/apps/tpscheck",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

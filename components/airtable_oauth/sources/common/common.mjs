@@ -1,6 +1,5 @@
 import airtable from "../../airtable_oauth.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import common from "../../../airtable/sources/common/common.mjs";
 
 export default {
   props: {
@@ -20,9 +19,28 @@ export default {
     },
   },
   hooks: {
-    ...common.hooks,
+    activate() {
+      const startTimestamp = new Date().toISOString();
+      this._setLastTimestamp(startTimestamp);
+    },
+    deactivate() {
+      this._setLastTimestamp(null);
+    },
   },
   methods: {
-    ...common.methods,
+    _getLastTimestamp() {
+      return this.db.get("lastTimestamp");
+    },
+    _setLastTimestamp(lastTimestamp) {
+      this.db.set("lastTimestamp", lastTimestamp);
+    },
+    updateLastTimestamp(event) {
+      const { timestamp } = event;
+      const timestampMillis = timestamp
+        ? timestamp * 1000
+        : Date.now();
+      const formattedTimestamp = new Date(timestampMillis).toISOString();
+      this._setLastTimestamp(formattedTimestamp);
+    },
   },
 };

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/scoredetect",
+  "version": "0.0.1",
+  "description": "Pipedream ScoreDetect Components",
+  "main": "scoredetect.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scoredetect"
+  ],
+  "homepage": "https://pipedream.com/apps/scoredetect",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

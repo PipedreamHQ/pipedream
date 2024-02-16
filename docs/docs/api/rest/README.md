@@ -171,6 +171,112 @@ failure of an API request. Codes in the **2xx** range indicate success. Codes in
 the **4xx** range indicate an error that failed (e.g., a required parameter was
 omitted). Codes in the **5xx** range indicate an error with Pipedream’s server.
 
+## Accounts
+
+[Connected accounts](/connected-accounts/) let you manage credentials for integrated APIs.
+
+### Get account
+
+---
+
+By default, this route returns metadata for a specific connected account. Set `include_credentials=1` to return credentials that you can use in any app where you need auth. [See this guide](/connected-accounts/api/) to learn more.
+
+#### Endpoint
+
+```
+GET /accounts/{account_id}
+```
+
+#### Parameters
+
+---
+
+`account_id` **string**
+
+To retrieve your account ID:
+
+1. [Connect your account](/connected-accounts/#connecting-a-new-account)
+2. On [https://pipedream.com/accounts](https://pipedream.com/accounts), find your account and click the `...` to the right of the account,
+3. **Copy Account ID**
+
+<div>
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707622922/docs/Screenshot_2024-02-10_at_7.10.59_PM_zxfpkt.png" />
+</div>
+
+`include_credentials` **number**
+
+Default `0`: Response only contains account metadata, no credentials. Pass `1` to include `credentials`.
+
+---
+
+#### Example Request — Get account metadata
+
+```bash
+curl 'https://api.pipedream.com/v1/accounts/<account_id>' \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
+
+#### Example Response — Get account metadata
+
+```json
+{
+  "data": {
+    "id": "apn_abc123",
+    "created_at": "2022-07-27T20:37:52.000Z",
+    "updated_at": "2024-02-11T04:18:46.000Z",
+    "name": "Google Sheets — pipedream.com", // account nickname, if set
+    "app": {
+      "id": "app_abc123",
+      "name": "Google Sheets"
+    },
+    "healthy": true // true if Pipedream can make a successful test request
+  }
+}
+```
+
+#### Example Request — Get account credentials
+
+```bash
+curl 'https://api.pipedream.com/v1/accounts/<account_id>?include_credentials=1' \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
+
+#### Example Response — Get account credentials
+
+```json
+{
+  "data": {
+    "id": "apn_abc123",
+    "created_at": "2022-07-27T20:37:52.000Z",
+    "updated_at": "2024-02-11T04:18:46.000Z",
+    "expires_at": "2024-02-11T05:18:46.000Z",
+    "name": "Google Sheets — pipedream.com", // account nickname, if set
+    "app": {
+      "id": "app_abc123",
+      "name": "Google Sheets"
+    },
+    "credentials": {
+      // Properties are specific to the app — see below
+    }
+  }
+}
+```
+
+#### The `credentials` object
+
+The properties of the `credentials` object are specific to the app.
+
+All OAuth apps expose the following properties:
+
+- `oauth_access_token` — A fresh OAuth access token
+- `oauth_client_id` — The client ID of the OAuth app
+- `oauth_refresh_token` — The latest OAuth refresh token for your grant
+- `oauth_uid` — A unique identifier in the third party API's system, typically a user ID or email address
+
+Apps with static credentials expose fields specific to the API, e.g. `api_key`. Review the response for specific apps to see the app-specific response.
+
 ## Components
 
 Components are objects that represent the code for an [event source](#sources).
