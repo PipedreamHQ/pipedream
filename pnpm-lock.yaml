@@ -6092,6 +6092,9 @@ importers:
   components/scopemaster:
     specifiers: {}
 
+  components/scoredetect:
+    specifiers: {}
+
   components/scoro:
     specifiers: {}
 
