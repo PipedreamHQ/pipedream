@@ -54,7 +54,7 @@ export default {
       returnFieldsByFieldId: this.returnFieldsByFieldId,
     };
 
-    const data = await this.airtable.liarRecords({
+    const data = await this.airtable.listRecords({
       baseId,
       tableId,
       params,
