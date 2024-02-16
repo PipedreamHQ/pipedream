@@ -783,19 +783,5 @@ export default {
         },
       );
     },
-    async createTicket({
-      $,
-      ...args
-    }) {
-      return this.makeRequest(
-        API_PATH.CRMV3,
-        "/objects/tickets",
-        {
-          $,
-          method: "POST",
-          ...args,
-        },
-      );
-    },
   },
 };
