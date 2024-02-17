@@ -1057,6 +1057,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/chatbot_builder:
+    specifiers: {}
+
   components/chatbotic:
     specifiers: {}
 
@@ -2249,6 +2252,9 @@ importers:
     specifiers: {}
 
   components/faire:
+    specifiers: {}
+
+  components/faraday:
     specifiers: {}
 
   components/fastfield_mobile_forms:
@@ -4155,6 +4161,9 @@ importers:
       lodash-es: 4.17.21
 
   components/mav:
+    specifiers: {}
+
+  components/mctime:
     specifiers: {}
 
   components/mediatoolkit:
@@ -6406,6 +6415,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/shopwaive:
+    specifiers: {}
+
   components/short:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -7110,6 +7122,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/templated:
+    specifiers: {}
 
   components/terminus_app:
     specifiers: {}
@@ -8088,6 +8103,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/yespo:
+    specifiers: {}
 
   components/yoast_seo:
     specifiers: {}
