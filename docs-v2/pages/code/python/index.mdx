@@ -95,9 +95,9 @@ There are many cases where you may want to specify the version of the packages y
 import pandas
 ```
 
-::: warning
+<Callout type="warning" emoji="⚠">
 Currently, you cannot use different versions of the same package in different steps in a workflow.
-:::
+</Callout>
 
 ## Making an HTTP request
 
@@ -123,11 +123,9 @@ def handler(pd: "pipedream"):
 
 Please note to always include at least the `body` and `status` keys in your `pd.respond` argument. The `body` must also be a JSON serializable object or dictionary.
 
-:::warning
-
+<Callout type="warning" emoji="⚠">
 Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/triggers/#http-responses), the Python `pd.respond` helper does not yet support responding with Streams.
-
-:::
+</Callout>
 
 <Callout type="info" emoji="ℹ️">
 _Don't forget_ to [configure your workflow's HTTP trigger to allow a custom response](/workflows/steps/triggers/#http-responses). Otherwise your workflow will return the default response.
@@ -184,14 +182,14 @@ def handler(pd: "pipedream"):
 
 Now this `pokemon` data is accessible to downstream steps within `pd.steps["code"]["pokemon"]`
 
-::: warning
+<Callout type="warning" emoji="⚠">
 You can only export JSON-serializable data from steps. Things like:
 
 - strings
 - numbers
 - lists
 - dictionaries
-  :::
+</Callout>
 
 ## Using environment variables
 

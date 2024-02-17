@@ -34,13 +34,13 @@ Most steps require additional, user-specific configuration. For example, the Sla
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707782845/docs/Screenshot_2024-02-12_at_4.05.20_PM_ajikdu.png" />
 </div>
 
-::: warning Default logging
+<Callout type="warning" emoji="⚠">
+Default logging
 
 When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/workflows/settings/#data-retention-controls) you've configured.
 
 You can set [the `pd-nostore` flag](/workflows/steps/triggers/#x-pd-nostore) to `1` on requests with credentials to disable logging for those requests only.
-
-:::
+</Callout>
 
 ## Fetch credentials from a DB or secrets store
 
@@ -61,10 +61,10 @@ Most steps require additional, user-specific configuration. For example, the Sla
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707782845/docs/Screenshot_2024-02-12_at_4.05.20_PM_ajikdu.png" />
 </div>
 
-::: warning Default logging
+<Callout type="warning" emoji="⚠">
+Default logging
 
 When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/workflows/settings/#data-retention-controls) you've configured.
 
 You can set [the `pd-nostore` flag](/workflows/steps/triggers/#x-pd-nostore) to `1` on requests with credentials to disable logging for those requests only.
-
-:::
+</Callout>

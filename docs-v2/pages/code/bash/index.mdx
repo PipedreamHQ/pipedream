@@ -82,11 +82,11 @@ EXPORT="key:json=${DATA}"
 echo $EXPORT >> $PIPEDREAM_EXPORTS
 ```
 
-::: warning
+<Callout type="warning" emoji="⚠">
 Not all data types can be stored in the `$PIPEDREAM_EXPORTS` data shared between workflow steps.
 
 You can only export JSON-serializable data from Bash steps.
-:::
+</Callout>
 
 ## Using environment variables
 
@@ -113,11 +113,11 @@ echo "Exiting now!" 1>&2
 exit 1
 ```
 
-:::warning
+<Callout type="warning" emoji="⚠">
 Using `exit` to quit a Bash step early _won't_ stop the execution of the rest of the workflow.
 
 Exiting a Bash step will only apply that particular step in the workflow.
-:::
+</Callout>
 
 This will exit the step and output the error message to `stderr` which will appear in the results of the step in the workflow.
 
@@ -137,6 +137,6 @@ curl --silent https://wttr.in/Cleveland.png --output /tmp/weather.png
 ls /tmp
 ```
 
-:::warning
+<Callout type="warning" emoji="⚠">
 The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/limits/#disk) for details.
-:::
+</Callout>

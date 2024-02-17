@@ -147,13 +147,11 @@ def handler(pd: "pipedream"):
 
 This code step example exports all records within the data store as a dictionary.
 
-::: warning
-
+<Callout type="warning" emoji="⚠">
 The `datastore.keys()` method does not return a list, but instead it returns a `Keys` iterable object. You cannot export a `data_store` or `data_store.keys()` from a Python code step at this time.
 
 Instead build a dictionary or list using the `data_store.keys()` method.
-
-:::
+</Callout>
 
 ## Deleting or updating values within a record
 
@@ -240,11 +238,9 @@ def handler(pd: "pipedream"):
     data_store.clear()
 ```
 
-::: warning
-
+<Callout type="warning" emoji="⚠">
 `data_store.clear()` is an **irreversible** change, **even when testing code** in the workflow builder.
-
-:::
+</Callout>
 
 ## Viewing store data
 

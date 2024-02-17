@@ -107,7 +107,7 @@ You can delete a data store from this dashboard as well. On the far right in the
 
 **Deleting a data store is irreversible**.
 
-::: warning
+<Callout type="warning" emoji="⚠">
 If the **Delete** option is greyed out and unclickable, you have workflows using the data store in a step. Click the **>** to the left of the data store's name to expand the linked workflows.
 
 <div>
@@ -115,8 +115,7 @@ If the **Delete** option is greyed out and unclickable, you have workflows using
 </div>
 
 Then remove the data store from any linked steps.
-
-:::
+</Callout>
 
 ## Using data stores in code steps
 
@@ -173,9 +172,9 @@ If the data contained in each key is large, consider lowering the number of `chu
 
 - Monitor the exports of this step after each execution for any potential errors preventing a full export. Run the step as many times as needed until all your data is exported.
 
-:::warning
+<Callout type="warning" emoji="⚠">
 This action deletes the keys that were successfully exported. It is advisable to first run a test without deleting the keys. In case of any unforeseen errors, your data will still be safe.
-:::
+</Callout>
 
 ```javascript
 import { axios } from "@pipedream/platform"

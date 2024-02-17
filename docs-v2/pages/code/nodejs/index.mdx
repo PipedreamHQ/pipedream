@@ -109,7 +109,7 @@ export default defineComponent({
 
 Now this `pokemon` data is accessible to downstream steps within `steps.code.pokemon`
 
-::: warning
+<Callout type="warning" emoji="⚠">
 You can only export JSON-serializable data from steps. Things like:
 
 - strings
@@ -117,7 +117,7 @@ You can only export JSON-serializable data from steps. Things like:
 - objects
 
 You cannot export functions or other complex objects that don't serialize to JSON. [You can save that data to a file in the `/tmp` directory](/code/nodejs/working-with-files/).
-:::
+</Callout>
 
 ## Passing props to code steps
 
@@ -218,9 +218,9 @@ export default defineComponent({
 
 Pipedream will attempt to catch syntax errors when you're writing code, highlighting the lines where the error occurred in red.
 
-::: warning
+<Callout type="warning" emoji="⚠">
 While you can save a workflow with syntax errors, it's unlikely to run correctly on new events. Make sure to fix syntax errors before running your workflow.
-:::
+</Callout>
 
 ## Using `npm` packages
 
@@ -280,9 +280,9 @@ To allow for patch and minor version upgrades, use:
 import got from "got@^11.0.0";
 ```
 
-::: warning
+<Callout type="warning" emoji="⚠">
 The behavior of the caret (`^`) operator is different for 0.x versions, for which it will only match patch versions, and not minor versions.
-:::
+</Callout>
 
 You can also specify different versions of the same package in different steps. Each step will used the associated version. Note that this also increases the size of your deployment, which can affect cold start times.
 

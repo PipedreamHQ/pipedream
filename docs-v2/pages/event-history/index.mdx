@@ -42,11 +42,9 @@ Workflows that are paused from `$.flow.delay` or `$.flow.suspend` will be shown 
 
 ![Only showing workflows that are currently paused](https://res.cloudinary.com/pipedreamin/image/upload/v1689875506/docs/docs/event%20histories/CleanShot_2023-07-20_at_13.51.11_2x_kn2dpw.png)
 
-::: warning
-
+<Callout type="warning" emoji="⚠">
 If you're using `setTimeout` or `sleep` in Node.js or Python steps, the event will not be considered **Paused**. Using those language native execution holding controls leaves your workflow in a **Executing** state.
-
-:::
+</Callout>
 
 ### Within a time frame
 
@@ -84,13 +82,13 @@ If there is an error message, the link at the bottom of the error message will l
 
 ![Viewing individual event executions](https://res.cloudinary.com/pipedreamin/image/upload/v1683748495/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.53.44_2x_t30gsb.png)
 
-::: warning The event log is missing a workflow step, or the configuration is not what I expect
+<Callout type="warning" emoji="⚠">
+The event log is missing a workflow step, or the configuration is not what I expect
 
 Changing a workflow _after_ a particular event's execution will not update it's event history with that new workflow change.
 
 You'll need to replay an event to execute the workflow with the latest changes.
-
-:::
+</Callout>
 
 ## Limits
 

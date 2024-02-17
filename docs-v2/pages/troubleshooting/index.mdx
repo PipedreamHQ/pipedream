@@ -172,12 +172,13 @@ You can potentially fix this issue by downgrading packages by pinning in [your N
 
 Alternatively, if the error is due to a major release that changes the import signature of a package, then modifying your code to match the signature may help.
 
-:::warning Some Pipedream components use NPM packages
+<Callout type="warning" emoji="⚠">
+Some Pipedream components use NPM packages
 
 Some Pipedream components like pre-built [actions and triggers for Slack use NPM packages](https://github.com/PipedreamHQ/pipedream/blob/9aea8653dc65d438d968971df72e95b17f52d51c/components/slack/slack.app.mjs#L1).
 
 In order to downgrade these packages, you'll need to fork the Pipedream Github Repository and deploy your own changes to test them privately. Then you can [contribute the fix back into the main Pipedream Repository](https://pipedream.com/docs/apps/contributing/#contribution-process).
-:::
+</Callout>
 
 ### Packages consuming all available storage
 

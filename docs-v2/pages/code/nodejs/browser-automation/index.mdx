@@ -545,11 +545,11 @@ Yes, the same `@pipedream/browsers` package can be used in [actions](https://pip
 
 The steps are the same as usage in Node.js code. Open a browser, create a page, and close the browser at the end of the code step.
 
-:::warning Memory limits
+<Callout type="warning" emoji="⚠">
+Memory limits
 
 At this time it's not possible to configure the allocated memory to a Source. You may experience a higher rate of Out of Memory errors on Sources that use Puppeteer or Playwright due to the high usage of memory required by Chromium.
-
-:::
+</Callout>
 
 ### Workflow exited before step finished execution
 

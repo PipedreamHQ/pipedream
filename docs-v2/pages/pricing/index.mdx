@@ -65,42 +65,43 @@ Adding additional memory capacity to workflows will increase credit usage in int
 
 #### Scenarios
 
-::: details A workflow that executes once for less than 30 seconds total
+<Callout type="info" emoji="ℹ️">
+A workflow that executes once for less than 30 seconds total
 
 This is the most common scenario. Regardless of the number of steps within the workflow, if it completes it's execution under 30 seconds then only one credit is incurred.
+</Callout>
 
-:::
-
-::: details A workflow that executes 5 times with 1 second per run
+<Callout type="info" emoji="ℹ️">
+A workflow that executes 5 times with 1 second per run
 
 5 credits are incurred, because the workflow ran for a total of 5 executions and under the {process.env.base_credits_price.seconds } seconds threshold (5 executions at 1 credit each).
+</Callout>
 
-:::
-
-::: details A workflow that executes 2 times with {process.env.base_credits_price.seconds + 5 } seconds per run
+<Callout type="info" emoji="ℹ️">
+A workflow that executes 2 times with {process.env.base_credits_price.seconds + 5 } seconds per run
 
 4 credits are incurred, because each workflow execution exceeded 1 credit time limit of {process.env.base_credits_price.seconds } by 5 seconds.
+</Callout>
 
-:::
-
-::: details Developing a workflow with test events in the Pipedream workflow builder
+<Callout type="info" emoji="ℹ️">
+Developing a workflow with test events in the Pipedream workflow builder
 
 0 credits are incurred. Developing and testing your workflows is free.
 
 Execution time used to develop a workflow in the builder does not count towards your credit usage.
+</Callout>
 
-:::
-
-::: details An active standard workflow that isn't executed at all in a billing period
+<Callout type="info" emoji="ℹ️">
+An active standard workflow that isn't executed at all in a billing period
 
 0 credits are incurred. Pipedream only charges credits for workflow executions.
+</Callout>
 
-:::
-
-::: details A workflow with 512 megabytes of memory executing for 5 seconds
+<Callout type="info" emoji="ℹ️">
+A workflow with 512 megabytes of memory executing for 5 seconds
 
 2 credits are incurred, because the workflow executed for a total of 5 seconds at 512 megabytes of memory.
-:::
+</Callout>
 
 #### Source Credit Usage
 
@@ -112,27 +113,27 @@ When a source is configured as a workflow trigger, the core value is in the work
 This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources). If you deploy a private custom source to your account, then all computation time including the inital {process.env.base_credits_price.seconds } seconds for that private source counts toward credits.
 </Callout>
 
-::: details A polling source finishing under {process.env.base_credits_price.seconds } seconds per execution
+<Callout type="info" emoji="ℹ️">
+A polling source finishing under {process.env.base_credits_price.seconds } seconds per execution
 
 For example, a source that polls an API for new events like [Airtable - New Row Added](https://pipedream.com/apps/airtable/triggers/new-records) only takes ~5 seconds to poll and emit events to subscribing workflows.
 
 This would result in **0 credits** per run because the **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
+</Callout>
 
-:::
-
-::: details A polling source finishing over {process.env.base_credits_price.seconds } seconds per execution
+<Callout type="info" emoji="ℹ️">
+A polling source finishing over {process.env.base_credits_price.seconds } seconds per execution
 
 Consider a source (like **RSS - New Item in Feed** for instance) that takes 60 seconds total to finish polling, per execution.
 
 Each execution of this source would result in **0 credits** because the **RSS - New Item in Feed** source is a [publicly available component](https://pipedream.com/apps/rss/triggers/new-item-in-feed).
+</Callout>
 
-:::
-
-::: details A custom source that finished under {process.env.base_credits_price.seconds } seconds per execution
+<Callout type="info" emoji="ℹ️">
+A custom source that finished under {process.env.base_credits_price.seconds } seconds per execution
 
 This would result in **1 credit** per execution because the initial free credit only applies to Pipedream Public Registry sources attached to at least one workflow.
-
-:::
+</Callout>
 
 
 ### Billing Period

@@ -39,9 +39,9 @@ Variable names are case-sensitive. Use the name you defined in your Environment 
 
 Referencing an environment variable that doesn't exist returns the value `undefined` in Node.js. For example, if you try to reference `process.env.API_KEY` without first defining the `API_KEY` variable in your environment settings, it will return the value `undefined`.
 
-::: warning
+<Callout type="warning" emoji="⚠">
 Logging the value of any environment variables — for example, using `console.log` — will include that value in the logs associated with the cell. Please keep this in mind and take care not to print the values of sensitive secrets.
-:::
+</Callout>
 
 <Callout type="info" emoji="ℹ️">
 `process.env` will always return `undefined` when used outside of the `defineComponent` export.
