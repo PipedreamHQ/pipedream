@@ -53,13 +53,13 @@ Pipedream uses a number of terms to describe platform metrics and details of our
 
 ### Credits
 
-Pipedream charges one credit per {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory }} megabytes of memory (the default) per workflow execution. Credits are also charged for [dedicated workers](/workflows/settings/#eliminate-cold-starts).
+Pipedream charges one credit per {process.env.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory } megabytes of memory (the default) per workflow execution. Credits are also charged for [dedicated workers](/workflows/settings/#eliminate-cold-starts).
 
 **Most workflow executions use a single credit**, regardless of the number of steps (unlike some other platforms, Pipedream does not charge for usage based on the number of steps).
 
 Credits are not charged for workflows during development or testing.
 
-Adding additional memory capacity to workflows will increase credit usage in intervals of 256 megabytes. For example, doubling the memory of a workflow from {{ $site.themeConfig.base_credits_price.memory }} to {{ $site.themeConfig.base_credits_price.memory * 2 }} will double the cost of credits in the same execution time.
+Adding additional memory capacity to workflows will increase credit usage in intervals of 256 megabytes. For example, doubling the memory of a workflow from {process.env.base_credits_price.memory }} to {{ $site.themeConfig.base_credits_price.memory * 2 } will double the cost of credits in the same execution time.
 
 #### Scenarios
 
@@ -71,13 +71,13 @@ This is the most common scenario. Regardless of the number of steps within the w
 
 ::: details A workflow that executes 5 times with 1 second per run
 
-5 credits are incurred, because the workflow ran for a total of 5 executions and under the {{ $site.themeConfig.base_credits_price.seconds }} seconds threshold (5 executions at 1 credit each).
+5 credits are incurred, because the workflow ran for a total of 5 executions and under the {process.env.base_credits_price.seconds } seconds threshold (5 executions at 1 credit each).
 
 :::
 
-::: details A workflow that executes 2 times with {{ $site.themeConfig.base_credits_price.seconds + 5 }} seconds per run
+::: details A workflow that executes 2 times with {process.env.base_credits_price.seconds + 5 } seconds per run
 
-4 credits are incurred, because each workflow execution exceeded 1 credit time limit of {{ $site.themeConfig.base_credits_price.seconds }} by 5 seconds.
+4 credits are incurred, because each workflow execution exceeded 1 credit time limit of {process.env.base_credits_price.seconds } by 5 seconds.
 
 :::
 
@@ -108,11 +108,11 @@ When a source is configured as a workflow trigger, the core value is in the work
 
 ::: tip
 
-This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources). If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counts toward credits.
+This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources). If you deploy a private custom source to your account, then all computation time including the inital {process.env.base_credits_price.seconds } seconds for that private source counts toward credits.
 
 :::
 
-::: details A polling source finishing under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+::: details A polling source finishing under {process.env.base_credits_price.seconds } seconds per execution
 
 For example, a source that polls an API for new events like [Airtable - New Row Added](https://pipedream.com/apps/airtable/triggers/new-records) only takes ~5 seconds to poll and emit events to subscribing workflows.
 
@@ -120,7 +120,7 @@ This would result in **0 credits** per run because the **Airtable - New Row Adde
 
 :::
 
-::: details A polling source finishing over {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+::: details A polling source finishing over {process.env.base_credits_price.seconds } seconds per execution
 
 Consider a source (like **RSS - New Item in Feed** for instance) that takes 60 seconds total to finish polling, per execution.
 
@@ -128,7 +128,7 @@ Each execution of this source would result in **0 credits** because the **RSS - 
 
 :::
 
-::: details A custom source that finished under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+::: details A custom source that finished under {process.env.base_credits_price.seconds } seconds per execution
 
 This would result in **1 credit** per execution because the initial free credit only applies to Pipedream Public Registry sources attached to at least one workflow.
 
