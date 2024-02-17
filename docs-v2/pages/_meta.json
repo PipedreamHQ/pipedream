@@ -1,7 +1,8 @@
 {
-  "index": "Introduction",
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
+  "index": "What's Pipedream?",
+  "quickstart": {
+    "title": "Quickstart"
+  },
   "support": {
     "title": "Support",
     "type": "page",

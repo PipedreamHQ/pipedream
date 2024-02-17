@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:not(pre) > code::before, :not(pre) > code::after {
+  content: '`';
+}
+
+pre {
+  font-variant-ligatures: none;
+}

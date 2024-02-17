@@ -1,13 +1,12 @@
 import React from 'react';
-import styles from './VideoPlayer.module.css';
 
 const VideoPlayer = ({ src, title, startAt }) => {
   const embedUrl = `${src}${startAt ? `?start=${startAt}` : ""}`;
 
   return (
     <iframe
-      className={styles.video}
-      src={src}
+      className="mt-8 mx-auto aspect-video w-full"
+      src={embedUrl}
       title={title}
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen

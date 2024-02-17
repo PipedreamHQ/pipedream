@@ -1,5 +1,7 @@
 import React from 'react'
 import { DocsThemeConfig } from 'nextra-theme-docs'
+
+import PipedreamCode from './components/PipedreamCode'
 import PipedreamLink from './components/PipedreamLink'
 import PipedreamTextLogo from './components/PipedreamTextLogo'
 import SlackLogo from './components/SlackLogo'
@@ -7,6 +9,7 @@ import SlackLogo from './components/SlackLogo'
 const config: DocsThemeConfig = {
   components: {
     'a': PipedreamLink,
+    'code': PipedreamCode,
   },
   logo: PipedreamTextLogo,
   logoLink: 'https://pipedream.com',
@@ -27,6 +30,9 @@ const config: DocsThemeConfig = {
   },
   primaryHue: 153,
   primarySaturation: 100,
+  feedback: {
+    content: null,
+  }
 }
 
 export default config

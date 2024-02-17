@@ -1,8 +1,6 @@
 # Quickstart - Workflow Development
 
-Sign up for a [free Pipedream account (no credit card required)](https://pipedream.com/auth/signup) and complete this quickstart guide to learn the basic patterns for workflow development:
-
-[[toc]]
+Sign up for a [free Pipedream account](https://pipedream.com/auth/signup) (no credit card required) and complete this quickstart guide to learn the basic patterns for workflow development:
 
 ## Create a project
 
@@ -16,11 +14,9 @@ Next, enter a project name and click **Create Project**. For this example, we'll
 
 ![configure project](./images/configure-project.png)
 
-::: tip
+TIP!!!!
 
 Configure GitHub Sync for projects to enable git-based version control and unlock the ability to develop in branches, commit to or pull changes from GitHub, view diffs, create PRs and more. To learn more, complete this quickstart guide to learn the basics of workflow development and then follow the [quickstart guide for GitHub Sync](./github-sync/).
-
-:::
 
 ## Create a workflow
 
@@ -50,11 +46,9 @@ Pipedream will generate a unique URL to trigger this workflow. Once your workflo
 
 Next, generate a test event to help you build the workflow. 
 
-::: tip
+TIP!!!!!
 
 The test event will be used to provide autocomplete suggestion as you build your workflow. The data will also be used when testing later steps. You may generate or select a different test event at any time when building a workflow.
-
-:::
 
 For this example, let's use the following test event data:
 
@@ -72,7 +66,7 @@ Pipedream will automatically select and display the contents of the selected eve
 
 ![Inspect trigger event](./images/inspect-trigger-event.png)
 
-::: tip
+TIP!!!!!
 
 You may also send live data to the unique URL for your workflow using your favorite HTTP tool or by running a `cURL` command. E.g.,
 
@@ -81,8 +75,6 @@ curl -d '{
   "message": "Pipedream is awesome!"
 }'   -H "Content-Type: application/json"   YOUR-TRIGGER-URL-GOES-HERE
 ```
-:::
-
 ## Enrich trigger data using Node.js and npm
 
 Before we send data to Google Sheets, let's use the npm [`sentiment`](https://www.npmjs.com/package/sentiment) package to generate a sentiment score for our message. To do that, click **Continue** or the **+** button.
@@ -112,13 +104,13 @@ export default defineComponent({
 
 This code imports the npm package, passes the message we sent to our trigger to the `analyze()` function by referencing `steps.trigger.event.body.message` and then returns the result. 
 
-::: tip
-To use any npm package on Pipedream, just `import` it. There's no `npm install` or `package.json` required.
-:::
+TIP!!!!!
 
-::: tip
+To use any npm package on Pipedream, just `import` it. There's no `npm install` or `package.json` required.
+
+TIP!!!!!
+
 Any data you `return` from a step is exported so it can be inspected and referenced it in future steps via the `steps` object. In this example, return values will be exported to `steps.sentiment.$return_value` because we renamed the step to **sentiment** .
-::: 
 
 Your code step should now look like the screenshot below. To run the step and test the code, click the **Test** button.
 
@@ -128,11 +120,9 @@ You should see the results of the sentiment analysis when the test is complete.
 
 ![Test results](./images/sentiment-results.png)
 
-::: tip
+TIP!!!!!
 
 When you **Test** a step, only the current step is executed. Use the caret to test different ranges of steps including the entire workflow.
-
-::: 
 
 ## Save data to Google Sheets
 
@@ -154,17 +144,15 @@ Click to connect you Google Sheets account to Pipedream (or select it from the d
 
 Pipedream will open Google's sign in flow in a new window. Sign in with the account you want to connect.
 
-<img src="./images/google-oauth.png" alt="Google OAuth Window" style="zoom: 33%;" />
+<img src="./images/google-oauth.png" alt="Google OAuth Window" />
 
-::: warning
+WARNING!!!!
 
 If prompted, you must check the box for Pipedream to **See, edit, create and delete all of your Google Drive files**. These permissions are required for configure and use the pre-built actions for Google Sheets.
 
-<img src="./images/google-permissions.png" alt="Google Permissions" style="zoom:33%;" />
+<img src="./images/google-permissions.png" alt="Google Permissions" />
 
 Learn more about Pipedream's [privacy and security policy](/privacy-and-security/).
-
-::: 
 
 When you complete connecting your Google account, the window should close and you should return to Pipedream. Your connected account should automatically be selected. Next, select your spreadsheet from the dropdown menu:
 
@@ -188,13 +176,13 @@ When you click into the **Timestamp** field, Pipedream will display an object ex
 
 ![Add reference to timestamp](./images/add-timestamp.png)
 
-Click **select path** to insert a reference to <code v-pre>{{steps.trigger.context.ts}}</code>:
+Click **select path** to insert a reference to <code v-pre>steps.trigger.context.ts</code>:
 
 ![Timestamp added](./images/timestamp-added.png)
 
-Next, let's use autocomplete to enter a value for the **Message** column. First, add double braces `{{` — Pipedream will automatically add the closing braces `}}`. 
+Next, let's use autocomplete to enter a value for the **Message** column. First, add double braces `{{` — Pipedream will automatically add the closing braces `}}`. 
 
-Then, type `steps.trigger.event.body.message` between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press **Tab**  to use a suggestion and then click `.` to get suggestions for the next key. The final value in the **Message** field should be <code v-pre>{{steps.trigger.event.body.message}}</code>.
+Then, type `steps.trigger.event.body.message` between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press **Tab**  to use a suggestion and then click `.` to get suggestions for the next key. The final value in the **Message** field should be `steps.trigger.event.body.message`.
 
 ![Add reference to message](./images/autocomplete-message.png)
 
@@ -206,7 +194,7 @@ Next,  click the **Copy Path** link next to the score.
 
 ![Copy path to sentiment score](./images/copy-path.png) 
 
-Paste the value into the **Sentiment Score** field — Pipedream will automatically wrap the reference in double braces <code v-pre>{{ }}</code>.
+Paste the value into the **Sentiment Score** field — Pipedream will automatically wrap the reference in double braces `{{ }}`.
 
 ![Paste reference to sentiment score](./images/action-configuration-complete.png)
 
