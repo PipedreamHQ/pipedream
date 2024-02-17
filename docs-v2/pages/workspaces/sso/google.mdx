@@ -2,8 +2,6 @@
 
 Pipedream supports Single Sign-On (SSO) with Google Workspace. This guide shows you how to configure SSO in Pipedream to authenticate with your Google org.
 
-
-
 ## Requirements
 
 - SSO is only supported for [workspaces](/workspaces/) on the Business and Enterprise plans. Visit the [Pipedream pricing page](https://pipedream.com/pricing) to upgrade.
@@ -47,9 +45,9 @@ To configure SSO in Pipedream, you need to set up a [SAML application](https://a
 
 5. In the **Service provider details**, provide the following values:
 
-- **ACS URL** — `https://api.pipedream.com/auth/saml/consume`
-- **Entity ID** — Pipedream
-- **Start URL** — `https://api.pipedream.com/auth/saml/<your workspace name>`
+- **ACS URL** — `https://api.pipedream.com/auth/saml/consume`
+- **Entity ID** — Pipedream
+- **Start URL** — `https://api.pipedream.com/auth/saml/<your workspace name>`
 
 replacing `<your workspace name>` with the workspace name at [https://pipedream.com/settings/account](https://pipedream.com/settings/account). For example, if your workspace name is `example-workspace`, your start URL will be `https://api.pipedream.com/auth/saml/example-workspace`.
 
@@ -61,8 +59,8 @@ replacing `<your workspace name>` with the workspace name at [https://pipedream.
 
 In the **Name ID** section, provide these values:
 
-- **Name ID format** — `EMAIL`
-- **Name ID** — Basic Information > Primary email
+- **Name ID format** — `EMAIL`
+- **Name ID** — Basic Information > Primary email
 
 then press **Continue**.
 
@@ -91,7 +89,7 @@ First, click the **Download Metadata** button on the left of the app configurati
 
 <br />
 <div>
-<img alt="Pipedream SAML Metadata URL" src="https://res.cloudinary.com/pipedreamin/image/upload/v1699919663/saml-metadata-url_cxciur.png">
+<img alt="Pipedream SAML Metadata URL" src="https://res.cloudinary.com/pipedreamin/image/upload/v1699919663/saml-metadata-url_cxciur.png" />
 </div>
 <br />
 

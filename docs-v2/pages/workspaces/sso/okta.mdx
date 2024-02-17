@@ -1,8 +1,8 @@
+import PipedreamImg from '@/components/PipedreamImg'
+
 # Configure SSO with Okta
 
 Pipedream supports Single Sign-On (SSO) with Okta. This guide shows you how to configure SSO in Pipedream to authenticate with your Okta org.
-
-
 
 ## Requirements
 
@@ -14,71 +14,49 @@ Pipedream supports Single Sign-On (SSO) with Okta. This guide shows you how to c
 
 1. In your Okta **Admin** dashboard, select the **Applications** section and click **Applications** below that:
 
-<div>
-<img alt="Okta - application list" src="./images/step-1.png" width="250px">
-</div>
+<PipedreamImg src="https://res.cloudinary.com/pipedreamin/image/upload/v1708206184/docs/step-1_nphexc.png" alt="Okta - Application list" width={250} height={500} />
 
 2. Click **Browse App Catalog**:
 
-<div>
-<img alt="Okta - browse app catalog" src="./images/step-2.png" width="400px">
-</div>
+![Okta - browser app catalog](https://res.cloudinary.com/pipedreamin/image/upload/v1708206192/docs/step-2_iv1a2c.png)
 
 3. Search for "Pipedream" and select the Pipedream app:
 
-<div>
-<img alt="Okta - Pipedream app" src="./images/step-3.png">
-</div>
+![Okta - Pipedream app](https://res.cloudinary.com/pipedreamin/image/upload/v1708206192/docs/step-3_z2buml.png)
 
 4. Click **Add**:
 
-<div>
-<img alt="Okta - Add Pipedream app" src="./images/step-4.png">
-</div>
+![Okta - Add Pipedream app](https://res.cloudinary.com/pipedreamin/image/upload/v1708206216/docs/step-4_mfd5bs.png)
 
 5. Fill out the **General Settings** that Okta presents, and click **Done**:
 
-<div>
-<img alt="Okta - General Settings" src="./images/step-5.png" width="600px">
-</div>
+![Okta - General Settings](https://res.cloudinary.com/pipedreamin/image/upload/v1708206216/docs/step-5_fqmywz.png)
 
 6. Select the **Sign On** tab, and click **Edit** at the top right:
 
-<div>
-<img alt="Okta - Edit Sign In" src="./images/step-6.png" width="600px">
-</div>
+![Okta - Edit Sign In](https://res.cloudinary.com/pipedreamin/image/upload/v1708206216/docs/step-6_zzeeul.png)
 
 7. Scroll down to the **SAML 2.0** settings. In the **Default Relay State** section, enter `organization_username`:
 
-<div>
-<img alt="Okta - Default Relay State" src="./images/step-7.png" width="500px">
-</div>
+![Okta - Default Relay State](https://res.cloudinary.com/pipedreamin/image/upload/v1708206217/docs/step-7_dqtq43.png)
 
 8. Set any other configuration options you need in that section or in the **Credentials Details** section, and click **Save**.
 
 9. In the **Sign On** section, you'll see a section that includes the setup instructions for SAML:
 
-<div>
-<img alt="Okta - SAML" src="./images/step-9-1.png" width="500px">
-</div>
+![Okta - SAML](https://res.cloudinary.com/pipedreamin/image/upload/v1708206217/docs/step-9-1_ucbq6e.png)
 
 Click the **Identity Provider metadata** link and copy the URL from your browser's address bar:
 
-<div>
-<img alt="Okta - Identity Metadata URL" src="./images/step-9-2.png">
-</div>
+![Okta - Identity Metadata URL](https://res.cloudinary.com/pipedreamin/image/upload/v1708206217/docs/step-9-2_nlrois.png)
 
 10. Visit your [Pipedream workspace authentication settings](https://pipedream.com/settings/authentication). Click the toggle to **Enable SSO**, then click **Edit SSO Configuration**, and add the metadata URL in the **SAML** section and click **Save**:
 
-<div>
-<img alt="Pipedream SAML Metadata URL" src="https://res.cloudinary.com/pipedreamin/image/upload/v1699919663/saml-metadata-url_cxciur.png">
-</div>
+![Pipedream - SAML Metadata URL](https://res.cloudinary.com/pipedreamin/image/upload/v1708206217/docs/step-10_seqd43.png)
 
 11. Back in Okta, click on the **Assignments** tab of the Pipedream application. Click on the **Assign** dropdown and select **Assign to People**:
 
-<div>
-<img alt="Okta - Assign Users" src="./images/step-11.png">
-</div>
+![Okta - Assign Users](https://res.cloudinary.com/pipedreamin/image/upload/v1708206217/docs/step-11_i8wm6k.png)
 
 Assign the application to the relevant users in Okta, and Pipedream will configure the associated accounts on our end.
 

@@ -1,6 +1,11 @@
 {
-  "index": {
-    "display": "hidden"
+  "install": {
+    "display": "children"
+  },
+  "login": {
+    "display": "children"
+  },
+  "reference": {
+    "display": "children"
   }
 }
-

@@ -6,6 +6,14 @@ const withNextra = require("nextra")({
 
 module.exports = withNextra({
   basePath: "/docs",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
+  },
   env: {
     PIPEDREAM_NODE_VERSION: "20",
     PIPEDREAM_BASE_URL: "https://pipedream.com",

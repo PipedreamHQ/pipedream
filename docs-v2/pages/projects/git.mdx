@@ -81,7 +81,7 @@ Pipedream will present a diff between the development branch and the `production
 
 To create a pull request in GitHub, either choose Open GitHub pull request from the git-actions menu in Pipedream or in GitHub:
 
-  <img src="https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F2fe3a718-2558-47de-aab4-818801c5a344%2FUntitled.png?id=55bb9040-28fa-4af2-833c-854eb5733d99&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2" alt="Opening a PR request in Pipedream" />
+<img src="https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F2fe3a718-2558-47de-aab4-818801c5a344%2FUntitled.png?id=55bb9040-28fa-4af2-833c-854eb5733d99&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2" alt="Opening a PR request in Pipedream" />
 
 You can also review and merge changes directly from GitHub using the standard pull request process.
 
@@ -105,7 +105,7 @@ You can review the diff and enter a commit message:
 
 If remote changes are detected, you'll be prompted to pull the changes:
 
-![Click the Pull <branch name> to pull in the latest changes to your current branch](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fac13c163-7816-4e67-bb4a-ccbfb97471c4%2FUntitled.png?id=434ad559-bf3c-4e9c-96a3-c784122793a9&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2)
+![Click the Pull `<branch name>` to pull in the latest changes to your current branch](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fac13c163-7816-4e67-bb4a-ccbfb97471c4%2FUntitled.png?id=434ad559-bf3c-4e9c-96a3-c784122793a9&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2)
 
 Pipedream will attempt to automatically merge changes. If there are conflicts, you will be prompted to manually resolve it:
 
@@ -146,7 +146,7 @@ Projects that use GitHub sync may be edited outside of Pipedream. You can edit a
 To test external edits in Pipedream:
 
 1. Commit and push local changes to your development branch in GitHub
-2. Open the project in Pipedream’s UI and load your development branch
+2. Open the project in Pipedream's UI and load your development branch
 3. Use the Git Actions menu to pull changes from GitHub
 
 ## Known Issues
@@ -210,13 +210,13 @@ To resolve this error:
 
 ### Can I sync an existing GitHub Repository with workflows to a new Pipedream Project?
 
-No, at this time it’s not possible because of how resources are connected during the bootstrapping process from the workflow YAML specification.
+No, at this time it's not possible because of how resources are connected during the bootstrapping process from the workflow YAML specification.
 However, this is on our roadmap, [please subscribe to this issue](https://github.com/PipedreamHQ/pipedream/issues/9255) for the latest details.
 
 ### How does the `production` branch work?
 
 Anything merged to the `production` branch will be deployed to your production workflows on Pipedream.
 
-From a design perspective, we want to let you manage any branching strategy on your end, since you may be making commits to the repo outside of Pipedream. Once we support managing Pipedream workflows in a monorepo, where you may have other changes, we wanted to use a branch that didn’t conflict with a conventional main branch (like `main` or `master`).
+From a design perspective, we want to let you manage any branching strategy on your end, since you may be making commits to the repo outside of Pipedream. Once we support managing Pipedream workflows in a monorepo, where you may have other changes, we wanted to use a branch that didn't conflict with a conventional main branch (like `main` or `master`).
 
 In the future, we also plan to support you changing the default branch name.

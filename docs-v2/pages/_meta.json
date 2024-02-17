@@ -1,10 +1,13 @@
 {
-  "index": "What's Pipedream?",
+  "index": "What is Pipedream?",
   "quickstart": {
     "title": "Quickstart"
   },
   "workspaces": {
     "title": "Workspaces"
+  },
+  "projects": {
+    "title": "Projects"
   },
   "support": {
     "title": "Support",
@@ -28,6 +31,6 @@
     "display": "children"
   },
   "cli": {
-    "display": "none"
+    "display": "children"
   }
 }
