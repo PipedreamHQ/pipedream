@@ -5,4 +5,7 @@ const withNextra = require("nextra")({
 
 module.exports = withNextra({
   basePath: "/docs",
+  env: {
+    PIPEDREAM_NODE_VERSION: "20",
+  },
 });

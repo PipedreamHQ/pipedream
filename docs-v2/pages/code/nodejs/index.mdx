@@ -1,23 +1,22 @@
+import Callout from "@/components/Callout";
+import VideoPlayer from "@/components/VideoPlayer";
+
 # Writing Node.js in Steps
 
-Pipedream supports [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/).
+Pipedream supports writing Node.js v{process.env.PIPEDREAM_NODE_VERSION} at any point of a workflow.
 
-**Anything you can do with Node.js, you can do in a workflow**. This includes using most of [npm's 400,000+ packages](#using-npm-packages).
+Anything you can do with Node.js, you can do in a workflow. This includes using most of [npm's 400,000+ packages](#using-npm-packages). JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2019#technology-_-programming-scripting-and-markup-languages) [languages](https://github.blog/2018-11-15-state-of-the-octoverse-top-programming-languages/) in the world, with a thriving community and extensive package ecosystem. If you work on websites and know JavaScript well, Pipedream makes you a full stack engineer. If you've never used JavaScript, see the [resources below](#new-to-javascript).
 
-JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2019#technology-_-programming-scripting-and-markup-languages) [languages](https://github.blog/2018-11-15-state-of-the-octoverse-top-programming-languages/) in the world, with a thriving community and [extensive package ecosystem](https://www.npmjs.com). If you work on websites and know JavaScript well, Pipedream makes you a full stack engineer. If you've never used JavaScript, see the [resources below](#new-to-javascript).
-
-::: tip
+<Callout type="info" emoji="ℹ️">
 It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or its URL**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
-:::
-
-[[toc]]
+</Callout>
 
 ## Adding a code step
 
 1. Click the **+** button below any step of your workflow.
 2. Select the option to **Run custom code**.
 
-Note that new code steps will default to Node.js v{{$site.themeConfig.NODE_VERSION}}. You can add any Node.js code in the editor that appears. For example, try:
+Note that new code steps will default to Node.js v{process.env.PIPEDREAM_NODE_VERSION}. You can add any Node.js code in the editor that appears. For example, try:
 
 ```javascript
 export default defineComponent({
