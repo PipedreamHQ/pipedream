@@ -17,5 +17,17 @@
     "type": "page",
     "href": "https://pipedream.com/pricing",
     "newWindow": true
+  },
+  "workspaces-and-credits-faq": {
+    "display": "children"
+  },
+  "abuse": {
+    "display": "children"
+  },
+  "airtable": {
+    "display": "children"
+  },
+  "cli": {
+    "display": "none"
   }
 }
