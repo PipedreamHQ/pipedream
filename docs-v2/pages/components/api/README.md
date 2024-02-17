@@ -21,7 +21,7 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 - Trigger Node.js code on HTTP requests, timers, cron schedules, or manually
 - Emit data on each event to inspect it. Trigger Pipedream hosted workflows or access it outside of Pipedream via API
 - Accept user input on deploy via [CLI](/cli/reference/#pd-deploy), [API](/api/rest/#overview), or [UI](https://pipedream.com/sources)
-- Connect to [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/apps) using Pipedream managed auth
+- Connect to [{process.env.PUBLIC_APPS}+ apps](https://pipedream.com/apps) using Pipedream managed auth
 - Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
 
@@ -729,9 +729,9 @@ Refer to GitHub's component sources in the `pipedream` repo for an [example impl
 
 #### Limits on props
 
-When a user configures a prop with a value, it can hold at most `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` data. Consider this when accepting large input in these fields (such as a base64 string).
+When a user configures a prop with a value, it can hold at most `{process.env.CONFIGURED_PROPS_SIZE_LIMIT}` data. Consider this when accepting large input in these fields (such as a base64 string).
 
-The `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example <ClientOnly><code v-pre>{{steps.nodejs.$return_value}}</code></ClientOnly>, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits/).
+The `{process.env.CONFIGURED_PROPS_SIZE_LIMIT}}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example <ClientOnly><code v-pre>{{steps.nodejs.$return_value}</code></ClientOnly>, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits/).
 
 ### Methods
 
@@ -1205,7 +1205,7 @@ When you navigate to your source [in the UI](https://pipedream.com/sources), you
 
 #### Workflows
 
-[Trigger hosted Node.js workflows](/workflows/) on each event. Integrate with {{$site.themeConfig.PUBLIC_APPS}}+ apps including Google Sheets, Discord, Slack, AWS, and more!
+[Trigger hosted Node.js workflows](/workflows/) on each event. Integrate with {process.env.PUBLIC_APPS}+ apps including Google Sheets, Discord, Slack, AWS, and more!
 
 #### API
 

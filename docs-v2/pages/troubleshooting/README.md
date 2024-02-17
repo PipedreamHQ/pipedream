@@ -83,7 +83,7 @@ Paid plans have no credit limit. [Upgrade here](https://pipedream.com/pricing).
 
 ### Runtime Quota Exceeded
 
-You **do not** use credits testing workflows, but workspaces on the **Free** plan are limited to {{$site.themeConfig.DAILY_TESTING_LIMIT}} of test runtime per day. If you exceed this limit when testing in the builder, you'll see a **Runtime Quota Exceeded** error.
+You **do not** use credits testing workflows, but workspaces on the **Free** plan are limited to {process.env.DAILY_TESTING_LIMIT} of test runtime per day. If you exceed this limit when testing in the builder, you'll see a **Runtime Quota Exceeded** error.
 
 ### Timeout
 
@@ -120,7 +120,7 @@ Pipedream supports two different ways to bypass this limit. Both of these interf
 
 ### Function Payload Limit Exceeded
 
-The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to workflows and sources cannot exceed a combined size of `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
+The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to workflows and sources cannot exceed a combined size of `{process.env.FUNCTION_PAYLOAD_LIMIT}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
 Often, this occurs when you pass large data between steps using [step exports](/workflows/steps/#step-exports). You can avoid this error by [writing that data to the `/tmp` directory](/code/nodejs/working-with-files/#writing-a-file-to-tmp) in one step, and [reading the data into another step](/code/nodejs/working-with-files/#reading-a-file-from-tmp), which avoids the use of step exports and should keep you under the payload limit.
 
@@ -136,7 +136,7 @@ Often, objects with this many nested objects result from a programming error tha
 
 Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the [maximum queue size](/workflows/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow), you may encounter an **Event Queue Full** error.
 
-[Paid plans](https://pipedream.com/pricing) can [increase their queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}}](/workflows/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow.
+[Paid plans](https://pipedream.com/pricing) can [increase their queue size up to {process.env.MAX_WORKFLOW_QUEUE_SIZE}](/workflows/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow.
 
 ### Credit Budget Exceeded
 

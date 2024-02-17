@@ -17,7 +17,7 @@ Sometimes you need to wait a specific amount of time before the next step of you
 1. The built-in **Delay** actions
 2. The `$.flow.delay` function in Node.js
 
-{{$site.themeConfig.DELAY_MIN_MAX_TIME}}. For example, we at Pipedream use this functionality to delay welcome emails to our customers until they've had a chance to use the product.
+{process.env.DELAY_MIN_MAX_TIME}. For example, we at Pipedream use this functionality to delay welcome emails to our customers until they've had a chance to use the product.
 
 ### Delay actions
 

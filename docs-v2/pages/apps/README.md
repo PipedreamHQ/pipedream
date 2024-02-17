@@ -1,6 +1,6 @@
 # Integrated Apps
 
-Pipedream has built-in integrations with more than {{$site.themeConfig.PUBLIC_APPS}} apps. Since you can [write any code](/code/nodejs/) on Pipedream, and pass API keys or credentials using [environment variables](/environment-variables/), you can connect to virtually any service, so the list is not exhaustive.
+Pipedream has built-in integrations with more than {process.env.PUBLIC_APPS} apps. Since you can [write any code](/code/nodejs/) on Pipedream, and pass API keys or credentials using [environment variables](/environment-variables/), you can connect to virtually any service, so the list is not exhaustive.
 
 But Pipedream-integrated apps provide a few benefits:
 

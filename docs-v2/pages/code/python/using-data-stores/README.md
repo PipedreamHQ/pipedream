@@ -317,6 +317,6 @@ But you cannot serialize Modules, Functions, Classes, or other more complex obje
 
 ### Querying records
 
-You can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} records within a single query.
+You can retrieve up to {process.env.DATA_STORES_MAX_KEYS} records within a single query.
 
-The `pd.inputs["data_store"].keys()` function allow you to retrieve all keys from your data store. However, using this method with a data store with over {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys will result in a 426 error.
+The `pd.inputs["data_store"].keys()` function allow you to retrieve all keys from your data store. However, using this method with a data store with over {process.env.DATA_STORES_MAX_KEYS} keys will result in a 426 error.

@@ -4,7 +4,7 @@
 
 ## What are Components?
 
-Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required.
+Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [{process.env.PUBLIC_APPS}+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required.
 
 Components are most commonly used as the building blocks of Pipedream workflows, but they can also be used like typical serverless functions. You can explore curated components for popular apps in Pipedream's [Marketplace](https://pipedream.com/explore) and [GitHub repo](https://github.com/pipedreamhq/pipedream/tree/master/components) or you can author and share your own.
 

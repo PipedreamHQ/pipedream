@@ -81,7 +81,7 @@ If your workflow times out, and needs to run for longer than the [default limit]
 
 ### Memory
 
-By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. If you're processing a lot of data in memory, you might need to raise that limit. Here, you can increase the memory of your workflow up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}}`.
+By default, workflows run with `{process.env.MEMORY_LIMIT}}` of memory. If you're processing a lot of data in memory, you might need to raise that limit. Here, you can increase the memory of your workflow up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}`.
 
 **Pipedream charges credits proportional to your memory configuration**. When you modify your memory settings, Pipedream will show you the number of credits you'll be charged per execution. [Read more here](/pricing/#how-does-workflow-memory-affect-credits).
 
@@ -140,7 +140,7 @@ It can take 5-10 minutes for Pipedream to fully configure a new dedicated worker
 
 ### Pricing for dedicated workers
 
-You're charged {{$site.themeConfig.WARM_WORKERS_CREDITS_PER_INTERVAL}} credits for every {{$site.themeConfig.WARM_WORKERS_INTERVAL}} a dedicated worker is live, per worker, per {{$site.themeConfig.MEMORY_LIMIT}} memory. You can view the credits used by dedicated workers [in your billing settings](https://pipedream.com/settings/billing):
+You're charged {process.env.WARM_WORKERS_CREDITS_PER_INTERVAL}} credits for every {{$site.themeConfig.WARM_WORKERS_INTERVAL}} a dedicated worker is live, per worker, per {{$site.themeConfig.MEMORY_LIMIT} memory. You can view the credits used by dedicated workers [in your billing settings](https://pipedream.com/settings/billing):
 
 <div>
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1686015101/docs/Screenshot_2023-06-05_at_6.26.53_PM_stlljl.png" alt="Warm workers credit usage in billing" />
@@ -155,9 +155,9 @@ For example, if you run a single dedicated worker for 24 hours, that would cost 
 = 720 credits
 ```
 
-{{$site.themeConfig.WARM_WORKERS_INTERVAL}} is the _minimum_ interval that Pipedream charges for usage. If you have a dedicated worker live for 1 minute, Pipedream will still charge {{$site.themeConfig.WARM_WORKERS_CREDITS_PER_INTERVAL}} credits.
+{process.env.WARM_WORKERS_INTERVAL}} is the _minimum_ interval that Pipedream charges for usage. If you have a dedicated worker live for 1 minute, Pipedream will still charge {{$site.themeConfig.WARM_WORKERS_CREDITS_PER_INTERVAL} credits.
 
-Additionally, any change to dedicated worker configuration, (including worklow deploys) will result in an extra {{$site.themeConfig.WARM_WORKERS_CREDITS_PER_INTERVAL}} credits of usage.
+Additionally, any change to dedicated worker configuration, (including worklow deploys) will result in an extra {process.env.WARM_WORKERS_CREDITS_PER_INTERVAL} credits of usage.
 
 <div>
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1686079387/docs/Screenshot_2023-06-06_at_12.23.03_PM_mpsqek.png" alt="Dedicated worker overlap" />

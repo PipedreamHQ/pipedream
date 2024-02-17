@@ -13,7 +13,7 @@ These docs show you how to write Python code to handle delays. If you don't need
 
 ## Using `pd.flow.delay`
 
-`pd.flow.delay` takes one argument: the number of **milliseconds** you'd like to pause your workflow until the next step executes. {{$site.themeConfig.DELAY_MIN_MAX_TIME}}.
+`pd.flow.delay` takes one argument: the number of **milliseconds** you'd like to pause your workflow until the next step executes. {process.env.DELAY_MIN_MAX_TIME}.
 
 Note that [delays happen at the end of the step where they're called](#when-delays-happen).
 
@@ -133,4 +133,4 @@ def handler(pd: 'pipedream'):
   time.sleep(delay)
 ```
 
-The Python step above will hold the workflow's execution for this step for 30 seconds; however, 30 seconds will also _contribute_ to your credit usage. Also consider that workflows have a hard limit of {{$site.themeConfig.MAX_WORKFLOW_EXECUTION_LIMIT}} seconds.
+The Python step above will hold the workflow's execution for this step for 30 seconds; however, 30 seconds will also _contribute_ to your credit usage. Also consider that workflows have a hard limit of {process.env.MAX_WORKFLOW_EXECUTION_LIMIT} seconds.

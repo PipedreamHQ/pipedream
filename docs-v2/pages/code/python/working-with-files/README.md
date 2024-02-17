@@ -11,7 +11,7 @@ You can work with files within a workflow. For instance, downloading content fro
 
 ## The `/tmp` directory
 
-Within a workflow, you have full read-write access to the `/tmp` directory. You have {{$site.themeConfig.TMP_SIZE_LIMIT}} of available space in `/tmp` to save any file.
+Within a workflow, you have full read-write access to the `/tmp` directory. You have {process.env.TMP_SIZE_LIMIT} of available space in `/tmp` to save any file.
 
 ### Managing `/tmp` across workflow runs
 
@@ -109,7 +109,7 @@ def handler(pd: "pipedream"):
 
 ## `/tmp` limitations
 
-The `/tmp` directory can store up to {{$site.themeConfig.TMP_SIZE_LIMIT}} of storage. Also the storage may be wiped or may not exist between workflow executions.
+The `/tmp` directory can store up to {process.env.TMP_SIZE_LIMIT} of storage. Also the storage may be wiped or may not exist between workflow executions.
 
 To avoid errors, assume that the `/tmp` directory is empty between workflow runs. Please refer to the [disk limits](/limits/#disk) for details.
 

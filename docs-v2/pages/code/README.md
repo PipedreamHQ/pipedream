@@ -6,9 +6,9 @@ _This document details how to use code in [workflow steps](/workflows/steps/), w
 
 Pipedream comes with thousands of prebuilt [triggers](/workflows/steps/triggers/) and [actions](/components#actions) for [hundreds of apps](https://pipedream.com/apps). Often, these will be sufficient for building simple workflows.
 
-But sometimes you need to run your own custom logic. You may need to make an API request to fetch additional metadata about the event, transform  data into a custom format, or end the execution of a workflow early under some conditions. **Code steps let you do this and more**.
+But sometimes you need to run your own custom logic. You may need to make an API request to fetch additional metadata about the event, transform data into a custom format, or end the execution of a workflow early under some conditions. **Code steps let you do this and more**.
 
-Code steps let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/) (JavaScript) code, Python, Go or even Bash right in a workflow.
+Code steps let you execute [Node.js v{process.env.PIPEDREAM_NODE_VERSION}](https://nodejs.org/) (JavaScript) code, Python, Go or even Bash right in a workflow.
 
 Choose a language to get started:
 

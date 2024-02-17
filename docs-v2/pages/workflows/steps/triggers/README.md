@@ -78,7 +78,7 @@ You can send any HTTP requests to this endpoint, from anywhere on the web. You c
 
 ::: tip Custom domains
 
-Pipedream also supports [custom domains](/workflows/domains). This lets you host endpoints on `https://endpoint.yourdomain.com` instead of the default `{{$site.themeConfig.ENDPOINT_BASE_URL}}` domain.
+Pipedream also supports [custom domains](/workflows/domains). This lets you host endpoints on `https://endpoint.yourdomain.com` instead of the default `{process.env.ENDPOINT_BASE_URL}` domain.
 
 :::
 
@@ -100,7 +100,7 @@ The primary limit we impose is on the size of the request body: we'll issue a `4
 
 ### Custom domains
 
-To configure endpoints on your own domain, e.g. `endpoint.yourdomain.com` instead of the default `{{$site.themeConfig.ENDPOINT_BASE_URL}}` domain, see the [custom domains](/workflows/domains) docs.
+To configure endpoints on your own domain, e.g. `endpoint.yourdomain.com` instead of the default `{process.env.ENDPOINT_BASE_URL}` domain, see the [custom domains](/workflows/domains) docs.
 
 ### How Pipedream handles JSON payloads
 
@@ -155,7 +155,7 @@ You can send any content, up to the [HTTP payload size limit](/limits/#http-requ
 
 _If you're uploading files, like images or videos, you should use the [large file upload interface](#large-file-support), instead_.
 
-By default, the body of HTTP requests sent to a source or workflow is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`. **But you can send an HTTP payload of any size to a [workflow](/workflows/) or an [event source](/sources/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
+By default, the body of HTTP requests sent to a source or workflow is limited to `{process.env.PAYLOAD_SIZE_LIMIT}`. **But you can send an HTTP payload of any size to a [workflow](/workflows/) or an [event source](/sources/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
 
 ```bash
 curl -d '{ "name": "Yoda" }' \
@@ -174,7 +174,7 @@ Within your workflow, you can download the contents of this data using the **Sen
 
 #### Example: Download the HTTP payload using the Send HTTP Request action
 
-_Note: you can only download payloads at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
+_Note: you can only download payloads at most `{process.env.FUNCTION_PAYLOAD_LIMIT}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
 You can download the HTTP payload using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-http-payload-p_6lC1ynx/edit).
 
@@ -418,7 +418,7 @@ Occasionally, you may encounter errors when sending requests to your endpoint:
 
 #### Request Entity Too Large
 
-The endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`.
+The endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds `{process.env.PAYLOAD_SIZE_LIMIT}`.
 
 In this case, the request will still appear in the inspector, with information on the error.
 
@@ -517,7 +517,7 @@ As soon as you send an email to the workflow-specific address, Pipedream parses 
 
 ### Sending large emails
 
-By default, you can send emails up to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LIMIT}}` in total size (content, headers, attachments). Emails over this size will be rejected, and you will not see them appear in your workflow.
+By default, you can send emails up to `{process.env.EMAIL_PAYLOAD_SIZE_LIMIT}` in total size (content, headers, attachments). Emails over this size will be rejected, and you will not see them appear in your workflow.
 
 **You can send emails up to `30MB` in size by sending emails to `[YOUR EMAIL ENDPOINT]@upload.pipedream.net`**. If your workflow-specific email address is `endpoint@pipedream.net`, your "large email address" is `endpoint@upload.pipedream.net`.
 
@@ -525,7 +525,7 @@ Emails delivered to this address are uploaded to a private URL you have access t
 
 #### Example: Download the email using the Send HTTP Request action
 
-_Note: you can only download emails at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
+_Note: you can only download emails at most `{process.env.FUNCTION_PAYLOAD_LIMIT}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
 You can download the email using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/new?h=tch_1AfMyl).
 

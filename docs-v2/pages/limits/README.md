@@ -25,7 +25,7 @@ The limit of active workflows depends on your current plan. [See our pricing pag
 
 ## Daily Credits Limit
 
-Free Pipedream accounts are limited to {{$site.themeConfig.DAILY_CREDITS_LIMIT}} [credits](/pricing/#credits) per day. Paid plans do not have a daily credit limit.
+Free Pipedream accounts are limited to {process.env.DAILY_CREDITS_LIMIT} [credits](/pricing/#credits) per day. Paid plans do not have a daily credit limit.
 
 You can view your credits usage at the bottom-left of [the Pipedream UI](https://pipedream.com).
 
@@ -46,7 +46,7 @@ Your included credits count is reset daily at 00:00 (midnight) UTC.
 
 ## Daily workflow testing limit
 
-You **do not** use credits testing workflows, but workspaces on the **Free** plan are limited to {{$site.themeConfig.DAILY_TESTING_LIMIT}} of test runtime per day. If you exceed this limit when testing in the builder, you'll see a **Runtime Quota Exceeded** error.
+You **do not** use credits testing workflows, but workspaces on the **Free** plan are limited to {process.env.DAILY_TESTING_LIMIT} of test runtime per day. If you exceed this limit when testing in the builder, you'll see a **Runtime Quota Exceeded** error.
 
 ## Data stores
 
@@ -68,9 +68,9 @@ The following limits apply to [HTTP triggers](/workflows/steps/triggers/#http).
 
 ### HTTP Request Body Size
 
-By default, the body of HTTP requests sent to a source or workflow is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`.
+By default, the body of HTTP requests sent to a source or workflow is limited to `{process.env.PAYLOAD_SIZE_LIMIT}`.
 
-Your endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`.
+Your endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds `{process.env.PAYLOAD_SIZE_LIMIT}`.
 
 **Pipedream supports two different ways to bypass this limit**. Both of these interfaces support uploading data up to `5TB`, though you may encounter other platform limits.
 
@@ -91,11 +91,11 @@ We'll also accept short bursts of traffic, as long as you remain close to an ave
 
 Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also apply to [email triggers](/workflows/steps/triggers/#email).
 
-The only limit that differs between email and HTTP triggers is the payload size: the total size of an email sent to a workflow - its body, headers, and attachments - is limited to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LIMIT}}`.
+The only limit that differs between email and HTTP triggers is the payload size: the total size of an email sent to a workflow - its body, headers, and attachments - is limited to `{process.env.EMAIL_PAYLOAD_SIZE_LIMIT}`.
 
 ## Memory
 
-By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/settings/#memory), up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}}`.
+By default, workflows run with `{process.env.MEMORY_LIMIT}}` of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/settings/#memory), up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}`.
 
 Increasing your workflow's memory gives you a proportional increase in CPU. If your workflow is limited by memory or compute, increasing your workflow's memory can reduce its overall runtime and make it more performant.
 
@@ -103,7 +103,7 @@ Increasing your workflow's memory gives you a proportional increase in CPU. If y
 
 ## Disk
 
-Your code, or a third party library, may need access to disk during the execution of your workflow or event source. **You have access to `{{$site.themeConfig.TMP_SIZE_LIMIT}}` of disk in the `/tmp` directory**.
+Your code, or a third party library, may need access to disk during the execution of your workflow or event source. **You have access to `{process.env.TMP_SIZE_LIMIT}` of disk in the `/tmp` directory**.
 
 This limit cannot be raised.
 
@@ -129,18 +129,18 @@ Events that trigger a **Timeout** error will appear in red in the [Inspector](/w
 
 ### Event / Execution History
 
-The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. We retain up to {{$site.themeConfig.PAID_INSPECTOR_EVENT_LIMIT}} per workflow:
+The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. We retain up to {process.env.PAID_INSPECTOR_EVENT_LIMIT} per workflow:
 
 |    Tier    |                           Events retained per workflow                           |
 | :--------: | :------------------------------------------------------------------------------: |
-| Free tiers |                 {{$site.themeConfig.FREE_INSPECTOR_EVENT_LIMIT}}                 |
+| Free tiers |                 {process.env.FREE_INSPECTOR_EVENT_LIMIT}                 |
 | Paid tiers | [View breakdown of events history per paid plan](https://pipedream.com/pricing/) |
 
-The execution details for a specific event also expires after {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} days.
+The execution details for a specific event also expires after {process.env.INSPECTOR_EVENT_EXPIRY_DAYS} days.
 
 ### Logs, Step Exports, and other observability
 
-The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
+The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of `{process.env.FUNCTION_PAYLOAD_LIMIT}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
 This limit cannot be raised.
 

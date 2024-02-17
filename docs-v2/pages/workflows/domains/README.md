@@ -1,6 +1,6 @@
 # Custom Domains
 
-By default, all new [Pipedream HTTP endpoints](/workflows/steps/triggers/#http) are hosted on the `{{$site.themeConfig.ENDPOINT_BASE_URL}}` domain. But you can configure any domain you want: instead of `https://endpoint.m.pipedream.net`, the endpoint would be available on `https://endpoint.example.com`.
+By default, all new [Pipedream HTTP endpoints](/workflows/steps/triggers/#http) are hosted on the `{process.env.ENDPOINT_BASE_URL}` domain. But you can configure any domain you want: instead of `https://endpoint.m.pipedream.net`, the endpoint would be available on `https://endpoint.example.com`.
 
 ## Configuring a new custom domain
 
@@ -75,9 +75,9 @@ Once you've finished adding these DNS records, please **reach out to the Pipedre
 
 ### 4. Send a test request to your custom domain
 
-Any traffic to existing `{{$site.themeConfig.ENDPOINT_BASE_URL}}` endpoints will continue to work uninterrupted.
+Any traffic to existing `{process.env.ENDPOINT_BASE_URL}` endpoints will continue to work uninterrupted.
 
-To confirm traffic to your new domain works, take any Pipedream endpoint URL and replace the `{{$site.themeConfig.ENDPOINT_BASE_URL}}` with your custom domain. For example, if you configured a custom domain of `pipedream.example.com` and have an existing endpoint at
+To confirm traffic to your new domain works, take any Pipedream endpoint URL and replace the `{process.env.ENDPOINT_BASE_URL}` with your custom domain. For example, if you configured a custom domain of `pipedream.example.com` and have an existing endpoint at
 
 ```
 https://[endpoint_id].m.pipedream.net

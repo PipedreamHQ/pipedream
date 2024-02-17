@@ -79,11 +79,11 @@ To stop the queue from invoking your workflow, throttle workflow execution and s
 
 ### Increasing the queue size for a workflow
 
-By default, your workflow can hold up to {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}} events in its queue at once. Any events that arrive once the queue is full will be dropped, and you'll see an [Event Queue Full](/troubleshooting/#event-queue-full) error.
+By default, your workflow can hold up to {process.env.DEFAULT_WORKFLOW_QUEUE_SIZE} events in its queue at once. Any events that arrive once the queue is full will be dropped, and you'll see an [Event Queue Full](/troubleshooting/#event-queue-full) error.
 
 For example, if you serialize the execution of your workflow by setting a concurrency of `1`, but receive 200 events from your workflow's event source at once, the workflow's queue can only hold the first 100 events. The last 100 events will be dropped.
 
-Users on [paid tiers](https://pipedream.com/pricing) can increase their queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} events for a given workflow, just below the **Concurrency** section of your **Execution Controls** settings:
+Users on [paid tiers](https://pipedream.com/pricing) can increase their queue size up to {process.env.MAX_WORKFLOW_QUEUE_SIZE} events for a given workflow, just below the **Concurrency** section of your **Execution Controls** settings:
 
 <div>
 <img alt="Queue size" width="400" src="./images/queue-size.png">

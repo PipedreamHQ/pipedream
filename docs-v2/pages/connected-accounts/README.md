@@ -2,7 +2,7 @@
 
 <VideoPlayer title="Connecting accounts to Pipedream" url="https://www.youtube.com/embed/xmDD1wRWnp0" />
 
-Pipedream provides native integrations for [{{$site.themeConfig.PUBLIC_APPS}}+ APIs](https://pipedream.com/apps). Once you connect an account, you can
+Pipedream provides native integrations for [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps). Once you connect an account, you can
 
 - [Link that account to any step of a workflow](#connecting-accounts), using the associated credentials to make API requests to any service.
 - [Manage permissions](#managing-connected-accounts), limiting access to sensitive accounts
@@ -16,7 +16,7 @@ If you use an existing secrets store, or manage credentials in a database, you c
 
 ## Supported Apps
 
-Pipedream supports [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/apps), and we're adding more every day.
+Pipedream supports [{process.env.PUBLIC_APPS}+ apps](https://pipedream.com/apps), and we're adding more every day.
 
 If you don't see an integration for a service you need, you can [request the integration here](#requesting-a-new-app-or-service), or [use environment variables](/environment-variables) to manage custom credentials.
 

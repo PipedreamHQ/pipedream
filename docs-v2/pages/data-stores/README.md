@@ -155,9 +155,9 @@ But you cannot serialize functions, classes, sets, maps, or other complex object
 
 ## Retrieving a large number of keys
 
-You can retrieve up to {{$site.themeConfig.DATA_STORES_MAX_KEYS}} keys from a data store in a single query.
+You can retrieve up to {process.env.DATA_STORES_MAX_KEYS} keys from a data store in a single query.
 
-If you're using a pre-built action or code to retrieve all records or keys, and your data store contains more than {{$site.themeConfig.DATA_STORES_MAX_KEYS}} records, you'll receive a 426 error.
+If you're using a pre-built action or code to retrieve all records or keys, and your data store contains more than {process.env.DATA_STORES_MAX_KEYS} records, you'll receive a 426 error.
 
 ## Exporting data to an external service
 

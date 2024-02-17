@@ -2,7 +2,7 @@
 
 **Anything you can do in Python can be done in a Pipedream workflow**. This includes using any of the [350,000+ packages available on PyPI](https://pypi.org/).
 
-Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.python.org) in workflows.
+Pipedream supports [Python v{process.env.PYTHON_VERSION}](https://www.python.org) in workflows.
 
 ## Adding a Python code step
 

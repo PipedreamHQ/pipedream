@@ -11,7 +11,7 @@ You'll commonly need to work with files in a workflow, for example: downloading 
 
 ## The `/tmp` directory
 
-Within a workflow, you have full read-write access to the `/tmp` directory. You have {{$site.themeConfig.TMP_SIZE_LIMIT}} of available space in `/tmp` to save any file.
+Within a workflow, you have full read-write access to the `/tmp` directory. You have {process.env.TMP_SIZE_LIMIT} of available space in `/tmp` to save any file.
 
 ### Managing `/tmp` across workflow runs
 

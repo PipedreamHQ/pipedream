@@ -15,7 +15,7 @@ Environment variables are defined at the account-level, and can be referenced in
 
 ## Creating, updating environment variables
 
-Environment variables are managed at the account-level. You can access your environment variables at <a href="https://pipedream.com/settings/env-vars">{{$site.themeConfig.PIPEDREAM_BASE_URL}}/settings/env-vars</a>.
+Environment variables are managed at the account-level. You can access your environment variables at <a href="https://pipedream.com/settings/env-vars">{process.env.PIPEDREAM_BASE_URL}/settings/env-vars</a>.
 
 To add an environment variable, click the **New Environment Variable** button.
 

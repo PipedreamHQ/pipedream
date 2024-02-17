@@ -2,7 +2,7 @@
 
 **Anything you can do in Go, you can do in a Pipedream Workflow**. You can use any of the [Go packages available](https://pkg.go.dev/) with a simple `import` — no `go get` needed.
 
-Pipedream supports [Go v{{$site.themeConfig.GO_LANG_VERSION}}](https://go.dev) in workflows.
+Pipedream supports [Go v{process.env.GO_LANG_VERSION}](https://go.dev) in workflows.
 
 When you write Go code on Pipedream, you can [share data between steps](/code/bash/#sharing-data-between-steps) and [access environment variables](/code/bash/#using-environment-variables). However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time.
 
@@ -347,6 +347,6 @@ func main() {
 
 ### `/tmp` limitations
 
-The `/tmp` directory can store up to {{$site.themeConfig.TMP_SIZE_LIMIT}} of storage. Also the storage may be wiped or may not exist between workflow executions.
+The `/tmp` directory can store up to {process.env.TMP_SIZE_LIMIT} of storage. Also the storage may be wiped or may not exist between workflow executions.
 
 To avoid errors, assume that the `/tmp` directory is empty between workflow runs.
