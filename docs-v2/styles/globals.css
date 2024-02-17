@@ -9,3 +9,7 @@
 pre {
   font-variant-ligatures: none;
 }
+
+:not(pre) > code {
+  font-size: calc(1em - 2px) !important;
+}
