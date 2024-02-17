@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/reform",
+  "version": "0.0.1",
+  "description": "Pipedream Reform Components",
+  "main": "reform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "reform"
+  ],
+  "homepage": "https://pipedream.com/apps/reform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

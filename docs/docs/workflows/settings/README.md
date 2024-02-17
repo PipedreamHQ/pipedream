@@ -50,6 +50,27 @@ On any workflow with auto-retry enabled, you can optionally choose to **Send not
 
 For custom control over error handling, you can implement error logic in code steps (e.g. `try` / `catch` statements in Node.js code), or [create your own custom error workflow](/workflows/errors/#process-errors-with-custom-logic-instead-of-email).
 
+## Data Retention Controls
+
+By default, Pipedream stores exports, logs, and other data tied to workflow executions. You can view these logs in two places:
+
+1. [The workflow inspector](/workflows/events/inspect/#the-inspector)
+2. [Event History](/event-history)
+
+But if you're processing sensitive data, you may not want to store those logs. You can **Disable data retention** in your workflow settings to disable **all** logging. Since Pipedream stores no workflow logs with this setting enabled, you'll see no logs in the inspector or event history UI.
+
+![Disable data retention setting](./images/disable-data-retention-settings.png)
+
+Refer to our [pricing page](https://pipedream.com/pricing) to understand the latest limits based on your plan.
+
+### Constraints
+- **Data Retention Controls do not apply to sources**: Even with data retention disabled on your workflow, Pipedream will still log inbound events for the source.
+- **No events will be shown in the UI**: When data retention is disabled for your workflow, the Pipedream UI will not show any new events in the inspector or Event History for that workflow.
+
+::: tip Avoid surfacing events in the builder
+Even with data retention disabled on your workflow, the builder will still surface inbound events when in build mode. To avoid surfacing potentially sensitive data here as well, refer to [these docs](/workflows/steps/triggers/#pipedream-specific-request-parameters).
+:::
+
 ## Execution Controls
 
 ### Execution Timeout Limit
@@ -158,7 +179,7 @@ export default defineComponent({
       .toString();
     console.log(fileData);
   },
-})
+});
 ```
 
 <div>

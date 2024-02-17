@@ -36,7 +36,7 @@ module.exports = {
   TMP_SIZE_LIMIT: "2GB",
   DELAY_MIN_MAX_TIME:
     "You can pause your workflow for as little as one millisecond, or as long as one year",
-  PUBLIC_APPS: "1,600",
+  PUBLIC_APPS: "1,700",
   WARM_WORKERS_INTERVAL: "10 minutes",
   WARM_WORKERS_CREDITS_PER_INTERVAL: 5,
 };

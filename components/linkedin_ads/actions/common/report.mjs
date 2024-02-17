@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import app from "../../linkedin_ads.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   props: {
@@ -53,14 +54,7 @@ export default {
     createReport(args = {}) {
       return this.app._makeRequest({
         path: "/adAnalytics",
-        paramsSerializer: (params) => {
-          return Object.entries(params)
-            .map(([
-              key,
-              value,
-            ]) => `${key}=${value}`)
-            .join("&");
-        },
+        paramsSerializer: utils.getParamsSerializer(),
         ...args,
       });
     },

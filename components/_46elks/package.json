@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/_46elks",
+  "version": "0.0.1",
+  "description": "Pipedream 46elks Components",
+  "main": "_46elks.app.mjs",
+  "keywords": [
+    "pipedream",
+    "_46elks"
+  ],
+  "homepage": "https://pipedream.com/apps/_46elks",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
