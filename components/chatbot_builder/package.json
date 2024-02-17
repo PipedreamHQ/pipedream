@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chatbot_builder",
+  "version": "0.0.1",
+  "description": "Pipedream Chatbot Builder Components",
+  "main": "chatbot_builder.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatbot_builder"
+  ],
+  "homepage": "https://pipedream.com/apps/chatbot_builder",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
