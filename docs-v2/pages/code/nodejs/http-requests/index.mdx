@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 ---
 short_description: Make HTTP requests with Node.js in code steps.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646761145/docs/icons/shrine20210108-1-qsuy1b_bhftb2.svg
@@ -648,13 +650,13 @@ export default defineComponent({
 })
 ```
 
-:::tip The graphql package is required
+<Callout type="info" emoji="ℹ️">
+The graphql package is required
 
 The `graphql` package is required for popular GraphQL clients to function, like `graphql-request` and `urql`. 
 
 Even though you will not need to use the `graphql` code itself in your code step, it's required to import it in order for `graphql-request` to function.
-
-:::
+</Callout>
 
 ### Send an authenticated GraphQL request
 

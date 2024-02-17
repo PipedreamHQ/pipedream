@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Installing the CLI
 
 <VideoPlayer src="https://www.youtube.com/embed/CelgPjcB2nU" title="Installing the CLI"/>
@@ -28,15 +30,13 @@ If this returns a permissions error, you may need to run:
 curl https://cli.pipedream.com/install | sudo sh
 ```
 
-::: tip
-
+<Callout type="info" emoji="ℹ️">
 If you encounter the error `bad CPU type in executable: pd`, you will need to install Rosetta 2 on your Mac by running the following command:
 
 ```bash
 softwareupdate --install-rosetta
 ```
-
-:::
+</Callout>
 
 ## Linux
 

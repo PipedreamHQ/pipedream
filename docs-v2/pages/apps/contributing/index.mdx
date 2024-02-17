@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Pipedream Registry
 
 When developing workflows with pre-built actions and triggers, under the hood you're using [components](/components/) from the [Pipedream Registry Github Repository](https://github.com/pipedreamhq/pipedream).
@@ -5,12 +7,12 @@ When developing workflows with pre-built actions and triggers, under the hood yo
 Components contributed to the [Pipedream Registry Github Repository](https://github.com/pipedreamhq/pipedream) are published to the [Pipedream marketplace](https://pipedream.com/apps) and are listed in
 the Pipedream UI when building workflows.
 
-::: tip What is a component?
+<Callout type="info" emoji="ℹ️">
+What is a component?
 
 If you haven't yet, we recommend starting with our Component Development Quickstart Guides for [sources](/components/quickstart/nodejs/sources/)
 and [actions](/components/quickstart/nodejs/actions/) to learn how to build components and privately publish them to your account.
-
-:::
+</Callout>
 
 ## Registry Components Structure
 
@@ -35,13 +37,13 @@ airtable
 
 In the example above, the `components/airtable/actions/get-record/get-record.mjs` component is published as the **Get Record** action under the **Airtable** app within the workflow builder in Pipedream.
 
-::: tip The repository is missing the app directory I'd like to add components for
+<Callout type="info" emoji="ℹ️">
+The repository is missing the app directory I'd like to add components for
 
 You can request to have new apps integrated into Pipedream.
 
 Once the Pipedream team integrates the app, we'll create a directory for the app in the [`components`](https://github.com/PipedreamHQ/pipedream/tree/master/components) directory of the GitHub repo.
-
-:::
+</Callout>
 
 ## Contribution Process
 
@@ -60,12 +62,12 @@ To submit new components or update existing components:
 
 Join the discussion with other Pipedream component developers at the [#contribute channel](https://pipedream-users.slack.com/archives/C01E5KCTR16) in Slack or [on Discourse](https://pipedream.com/community/c/dev/11).
 
-:::tip Not sure what to build?
+<Callout type="info" emoji="ℹ️">
+Not sure what to build?
 
 Need inspiration? Check out [sources](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BSOURCE%5D+in%3Atitle)
 and [actions](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BACTION%5D+in%3Atitle+) requested by the community!
-
-:::
+</Callout>
 
 ## Reference Components
 

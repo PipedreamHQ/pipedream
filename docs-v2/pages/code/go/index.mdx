@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Go
 
 **Anything you can do in Go, you can do in a Pipedream Workflow**. You can use any of the [Go packages available](https://pkg.go.dev/) with a simple `import` — no `go get` needed.
@@ -20,7 +22,7 @@ You can use `fmt.Println` at any time to log information as the script is runnin
 
 The output for the `fmt.Println` **Logs** will appear in the `Results` section just beneath the code editor.
 
-:::tip
+<Callout type="info" emoji="ℹ️">
 Don't forget to import the `fmt` package in order to run `fmt.Println`.
 
 ```go{3}
@@ -32,8 +34,7 @@ Don't forget to import the `fmt` package in order to run `fmt.Println`.
     fmt.Println("Hello World!")
   }
 ```
-
-:::
+</Callout>
 
 ## Using third party packages
 

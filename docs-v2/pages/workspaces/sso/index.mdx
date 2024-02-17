@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Single Sign-On Overview
 
 Pipedream supports Single Sign-On (SSO) with [Okta](./okta), [Google](./google), or [any provider](./saml) that supports SAML or Google OAuth, which allows IT and workspace administrators easier controls to manage access and security.
@@ -27,9 +29,10 @@ In order to configure SAML SSO for your workspace, you first need to verify owne
 
 ![Verified Domains](https://res.cloudinary.com/pipedreamin/image/upload/v1699938431/verified-domains_qcjpnb.png)
 
-:::tip Make sure to verify all your domains
+<Callout type="info" emoji="ℹ️">
+Make sure to verify all your domains
 There's no limit on the number of domains you can verify for SSO, so if you use `example.com`, `example.net`, and `foo.example.com`, make sure to verify each one.
-:::
+</Callout>
 
 ## Setting up SSO
 

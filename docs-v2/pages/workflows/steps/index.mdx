@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Steps
 
 Steps are the building blocks you use to create workflows. You can easily combine multiple steps into a workflow to integrate your apps, data and APIs: 
@@ -40,9 +42,9 @@ You can rename a step by clicking on its name and typing a new one in its place:
 
 After changing a step name, you'll need to update any references to the old step. In this example, you'd now reference this step as `steps.get_data`.
 
-::: tip
+<Callout type="info" emoji="ℹ️">
 Step names cannot contain spaces or dashes. Please use underscores or camel casing for your step names, like `getData` or `get_data`.
-:::
+</Callout>
 
 ## Passing data to steps from the workflow builder
 

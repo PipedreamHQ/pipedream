@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Browser Automation with Node.js
 
 <VideoPlayer src="https://www.youtube.com/embed/RXlCDTQc8xI" title="Browser automation with Node.js in Pipedream" />
@@ -291,7 +293,8 @@ export default defineComponent({
 })
 ```
 
-::: tip Don't forget to close the Browser Context
+<Callout type="info" emoji="ℹ️">
+Don't forget to close the Browser Context
 
 Playwright differs from Puppeteer slightly in that you have to close the page's BrowserContext before closing the Browser itself.
 
@@ -301,8 +304,7 @@ Playwright differs from Puppeteer slightly in that you have to close the page's 
 await page.context().close();
 await browser.close();
 ```
-
-:::
+</Callout>
 
 #### Screenshot a webpage
 

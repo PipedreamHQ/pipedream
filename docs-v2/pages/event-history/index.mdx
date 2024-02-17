@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Event History
 
 Monitor all workflow events and their stack traces in one centralized view under the [**Event History**](https://pipedream.com/event-history) section in the dashboard.
@@ -12,13 +14,11 @@ The filters at the top of the screen allow you to search all events processed by
 
 You can filter by the event's **Status**, **time of initiation** or by the **Workflow name**.
 
-::: tip
-
+<Callout type="info" emoji="ℹ️">
 The filters are scoped to the current [workspace](/workspaces/).
 
 If you're not seeing the events or workflow you're expecting, try [switching workspaces](/workspaces/#switching-between-workspaces).
-
-:::
+</Callout>
 
 ### Filtering by status
 
@@ -56,11 +56,11 @@ Using this dropdown, you can select between convenient time ranges, or specify a
 
 ![How to filter events by a timerange](https://res.cloudinary.com/pipedreamin/image/upload/v1683747452/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.37.01_2x_oxb07m.png)
 
-::: tip Long running workflows
+<Callout type="info" emoji="ℹ️">
+Long running workflows
 
 The time range filter depends on when the execution event first started. If a long running workflow starts within the specified time range but it's execution continues _past_ the filtered timeframe, it will still be included in the results.
-
-:::
+</Callout>
 
 ### Filtering by workflow
 

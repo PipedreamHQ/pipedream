@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Github Sync
 
 When Github Syncing is enabled on your project, Pipedream will serialize your workflows and synchronize changes to a GitHub repo.
@@ -12,11 +14,9 @@ Capabilities include:
 - Edit in Pipedream or use a local editor and synchronize via GitHub (e.g., edit code, find and replace across multiple steps or workflows)
 - Organize workflows into projects with support for nested folders
 
-::: tip
-
+<Callout type="info" emoji="ℹ️">
 Follow our [quickstart guide](/quickstart/github-sync/) to start building projects on Pipedream using GitHub Sync.
-
-:::
+</Callout>
 
 ## Getting Started
 
@@ -39,13 +39,13 @@ A project may contain one or more workflows and may be further organized using n
 
 ### Create a branch to edit a project
 
-::: tip Branches are required to make changes
+<Callout type="info" emoji="ℹ️">
+Branches are required to make changes
 
 All changes to resources in a project must be made in a development branch.
 
 Examples of changes include creating, editing, deleting, enabling, disabling and renaming workflows. This also includes changing workflow settings like concurrency, VPC assignment and auto-retries.
-
-:::
+</Callout>
 
 To edit a git-backed project you must create a development branch by clicking **Edit > Create Branch**
 
@@ -127,11 +127,11 @@ Then, select the project to move the selected workflows to:
 
 ![Select which project to move the selected workflows into in the dropdown in the top right of the screen](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F5fcb3357-9957-4307-aac9-e28ed59f85b0%2FUntitled.png?id=7fca27aa-28ec-4bcc-940d-9b66d1d692be&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2)
 
-::: tip Undeployed changes are automatically assigned a development branch
+<Callout type="info" emoji="ℹ️">
+Undeployed changes are automatically assigned a development branch
 
 If any moved workflows have undeployed changes, those changes will staged in a branch prefixed with `undeployed-changes` (e.g., `undeployed-changes-27361`).
-
-:::
+</Callout>
 
 ### Use the changelog
 

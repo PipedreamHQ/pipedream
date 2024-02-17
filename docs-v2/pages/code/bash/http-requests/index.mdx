@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 ---
 short_description: Make HTTP requests with Bash in code steps.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646761145/docs/icons/shrine20210108-1-qsuy1b_bhftb2.svg
@@ -20,11 +22,11 @@ echo $WEATHER
 # San Francisco: 🌫  +48°F
 ```
 
-::: tip
+<Callout type="info" emoji="ℹ️">
 Use the `--silent` flag with `curl` to suppress extra extra diagnostic information that `curl` produces when making requests.
 
-This enables you to only worry about the body of the response so you can visualize it with tools like `echo` or `jq`. 
-:::
+This enables you to only worry about the body of the response so you can visualize it with tools like `echo` or `jq`.
+</Callout>
 
 ## Making a `POST` request
 

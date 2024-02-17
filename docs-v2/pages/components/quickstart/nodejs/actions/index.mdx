@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Quickstart: Action Development
 
 [[toc]]
@@ -13,9 +15,9 @@ This document is intended for developers who want to author and edit [Pipedream 
 - Use npm packages
 - Use Pipedream managed auth for a 3rd party app
 
-::: tip
+<Callout type="info" emoji="ℹ️">
 If you previously developed actions using Pipedream's UI, we recommend reviewing our [migration guide](/components/migrating/) after completing this quickstart.
-:::
+</Callout>
 
 ## Prerequisites
 
@@ -219,9 +221,9 @@ export default {
 };
 ```
 
-::: tip
+<Callout type="info" emoji="ℹ️">
 To use most npm packages on Pipedream, just `import` or `require` them — there is no `package.json` or `npm install` required.
-:::
+</Callout>
 
 Then, update the `run()` method to:
 
@@ -359,9 +361,9 @@ export default {
 };
 ```
 
-::: tip
+<Callout type="info" emoji="ℹ️">
 The value for the `app` property is the name slug for the app in Pipedream. This is not currently discoverable, but it will be in the near future on app pages in the [Pipedream Marketplace](https://pipedream.com/explore). For the time being, if you want to know how to reference an app, please please [reach out](https://pipedream.com/community).
-:::
+</Callout>
 
 Next, update the `run()` method to get a repo from Github and return it. For this example, we'll pass static values to get the `pipedreamhq/pipedream` repo. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the `$auth` property of the app prop — `this.github.$auth.oauth_access_token`. You can discover how to reference auth tokens in the **Authentication Strategy** section for each app in the [Pipedream Marketplace](https://pipedream.com/explore).
 

@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 ---
 short_description: Store and read data with data stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
@@ -24,11 +26,11 @@ export default defineComponent({
 });
 ```
 
-:::tip
+<Callout type="info" emoji="ℹ️">
 `props` injects variables under `this` scope in components.
 
 In the above example we essentially instructed that this step needs the data store injected into the `this.store` prop.
-:::
+</Callout>
 
 :::warning
 All data store operations are asynchronous, so `await` must be used in order to allow them to complete.

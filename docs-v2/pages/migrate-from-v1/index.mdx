@@ -1,8 +1,10 @@
+import Callout from '@/components/Callout'
+
 # Migrate from v1
 
-::: tip
+<Callout type="info" emoji="ℹ️">
 Never used Pipedream v1? You can skip this migration guide and read on about [Steps](/workflows/steps/).
-:::
+</Callout>
 
 We are excited to announce that we have launched a new version (v2) of Pipedream to all new and existing users! :fire: :rocket: :chart_with_upwards_trend:
 
@@ -163,9 +165,9 @@ defineComponent({
 });
 ```
 
-::: tip
+<Callout type="info" emoji="ℹ️">
 Using `return` to export data is the same from v1 to v2. You can still `return` data, and it will be available to other steps with `steps.[stepName].$return_value.
-:::
+</Callout>
 
 ### Exiting a workflow early
 

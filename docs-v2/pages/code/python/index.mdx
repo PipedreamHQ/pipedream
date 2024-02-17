@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Python
 
 **Anything you can do in Python can be done in a Pipedream workflow**. This includes using any of the [350,000+ packages available on PyPI](https://pypi.org/).
@@ -127,9 +129,9 @@ Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/trigg
 
 :::
 
-:::tip
+<Callout type="info" emoji="ℹ️">
 _Don't forget_ to [configure your workflow's HTTP trigger to allow a custom response](/workflows/steps/triggers/#http-responses). Otherwise your workflow will return the default response.
-:::
+</Callout>
 
 ## Sharing data between steps
 
@@ -229,7 +231,7 @@ def handler(pd: "pipedream"):
   print(r.text)
 ```
 
-:::tip
+<Callout type="info" emoji="ℹ️">
 There are 2 different ways of using the `os` module to access your environment variables.
 
 `os.environ["ENV_NAME_HERE"]` will raise an error that stops your workflow if that key doesn't exist in your Pipedream account.
@@ -237,7 +239,7 @@ There are 2 different ways of using the `os` module to access your environment v
 Whereas `os.environ.get("ENV_NAME_HERE")` will _not_ throw an error and instead returns an empty string.
 
 If your code relies on the presence of a environment variable, consider using `os.environ["ENV_NAME_HERE"]` instead.
-:::
+</Callout>
 
 ## Handling errors
 
@@ -260,10 +262,10 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 
 **In any code step, calling `return pd.flow.exit()` will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
 
-::: tip
+<Callout type="info" emoji="ℹ️">
 It's a good practice to use `return pd.flow.exit()` to immediately exit the workflow.
 In contrast, `pd.flow.exit()` on its own will end the workflow only after executing all remaining code in the step.
-:::
+</Callout>
 
 ```python
 def handler(pd: "pipedream"):

@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Bash
 
 Prefer to write quick scripts in Bash? We've got you covered. You can run any Bash in a Pipedream step within your workflows.
@@ -63,9 +65,9 @@ cat $PIPEDREAM_STEPS | jq .trigger.event
 # Results in { id: 1, name: "Bulbasaur", type: "plant" }
 ```
 
-::: tip
+<Callout type="info" emoji="ℹ️">
 The period (`.`) in front the `trigger.event` in the example is not a typo. This is to define the starting point for `jq` to traverse down the JSON in the HTTP response.
-:::
+</Callout>
 
 ### Sending data downstream to other steps
 

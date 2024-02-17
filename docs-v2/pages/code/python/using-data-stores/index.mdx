@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 ---
 short_description: Store and read data with data stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
@@ -79,13 +81,11 @@ def handler(pd: "pipedream"):
 
 Data Stores are very performant at retrieving single records by keys. However you can also use key iteration to retrieve all records within a Data Store as well.
 
-::: tip
-
+<Callout type="info" emoji="ℹ️">
 Data Stores are intended to be a fast and convienent data storage option for quickly adding data storage capability to your workflows without adding another database dependency.
 
 However, if you need more advanced querying capabilities for querying records with nested dictionaries or filtering based on a record value - consider using a full fledged database. Pipedream can integrate with MySQL, Postgres, DynamoDb, MongoDB and more.
-
-:::
+</Callout>
 
 ### Get a single record
 
@@ -117,15 +117,13 @@ def handler(pd: "pipedream"):
     print(f"Last ran at {last_ran_at}")
 ```
 
-::: tip
-
+<Callout type="info" emoji="ℹ️">
 What's the difference between `data_store["key"]` and `data_store.get("key")`?
 
 - `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the Data Store.
 - `data_store.get("key")` will instead return `None` if the key doesn't exist in the Data Store.
 - `data_store.get("key", "default_value")` will return `"default_value"` if the key doesn't exist on the Data Store.
-
-:::
+</Callout>
 
 ### Retrieving all records
 

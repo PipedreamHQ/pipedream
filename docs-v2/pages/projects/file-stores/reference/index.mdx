@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # File Stores Node.js Reference
 
 The File Stores Node.js helper allows you to manage files within Code Steps and Action components.
@@ -103,21 +105,21 @@ export default defineComponent({
 
 ```
 
-:::tip Pre-signed GET URLs are short lived.
+<Callout type="info" emoji="ℹ️">
+Pre-signed GET URLs are short lived.
 
 The `File.toUrl()` will expire after 30 minutes.
-
-:::
+</Callout>
 
 ### `File.toFile(path)`
 
 *Async.* Downloads the file to the local path in the current workflow. If the file doesn't exist, a new one will be created at the path specified.
 
-:::tip Only `/tmp` is writable in workflow environments
+<Callout type="info" emoji="ℹ️">
+Only `/tmp` is writable in workflow environments
 
-Only the `/tmp` directory is writable in your workflow's exection environment. So you must download your file to the `/tmp` directory. 
-
-:::
+Only the `/tmp` directory is writable in your workflow's exection environment. So you must download your file to the `/tmp` directory.
+</Callout>
 
 ```javascript
 export default defineComponent({
@@ -178,11 +180,11 @@ export default defineComponent({
 
 *Async.* Creates a write stream to populate the file with.
 
-:::tip Pass the content length if possible
+<Callout type="info" emoji="ℹ️">
+Pass the content length if possible
 
 The `contentLength` argument is optional, however we do recommend passing it. Otherwise the entire file will need to be written to the local `/tmp` before it can be uploaded to the File store.
-
-:::
+</Callout>
 
 ```javascript
 import { pipeline } from 'stream/promises';
@@ -203,11 +205,11 @@ export default defineComponent({
 
 *Async.* Populates a file's contents from the `ReadableStream`.
 
-:::tip Pass the content length if possible
+<Callout type="info" emoji="ℹ️">
+Pass the content length if possible
 
 The `contentLength` argument is optional, however we do recommend passing it. Otherwise the entire file will need to be written to the local `/tmp` before it can be uploaded to the File store.
-
-:::
+</Callout>
 
 ```javascript
 import got from 'got'

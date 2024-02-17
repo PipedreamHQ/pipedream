@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 ---
 prev: false
 next: false
@@ -41,9 +43,9 @@ Referencing an environment variable that doesn't exist returns the value `undefi
 Logging the value of any environment variables — for example, using `console.log` — will include that value in the logs associated with the cell. Please keep this in mind and take care not to print the values of sensitive secrets.
 :::
 
-::: tip
+<Callout type="info" emoji="ℹ️">
 `process.env` will always return `undefined` when used outside of the `defineComponent` export.
-:::
+</Callout>
 
 ## Referencing environment variables in actions
 

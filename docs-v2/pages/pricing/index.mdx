@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 ---
 prev: false
 next: false
@@ -106,11 +108,9 @@ When an [event source](/sources) triggers a workflow, **the source execution is 
 
 When a source is configured as a workflow trigger, the core value is in the workflow. You won't be charged for two credits (one to run the source, one to run the workflow) when the workflow contains the core logic.
 
-::: tip
-
+<Callout type="info" emoji="ℹ️">
 This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources). If you deploy a private custom source to your account, then all computation time including the inital {process.env.base_credits_price.seconds } seconds for that private source counts toward credits.
-
-:::
+</Callout>
 
 ::: details A polling source finishing under {process.env.base_credits_price.seconds } seconds per execution
 
