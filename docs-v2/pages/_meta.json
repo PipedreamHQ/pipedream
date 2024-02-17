@@ -2,14 +2,16 @@
   "index": "Introduction",
   "another": "Another Page",
   "advanced": "Advanced (A Folder)",
-  "about": {
-    "title": "About",
-    "type": "page"
-  },
-  "contact": {
-    "title": "Contact ↗",
+  "support": {
+    "title": "Support",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
+    "href": "https://pipedream.com/support",
+    "newWindow": true
+  },
+  "pricing": {
+    "title": "Pricing",
+    "type": "page",
+    "href": "https://pipedream.com/pricing",
     "newWindow": true
   }
 }
