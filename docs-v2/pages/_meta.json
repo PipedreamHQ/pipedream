@@ -3,6 +3,9 @@
   "quickstart": {
     "title": "Quickstart"
   },
+  "workspaces": {
+    "title": "Workspaces"
+  },
   "support": {
     "title": "Support",
     "type": "page",

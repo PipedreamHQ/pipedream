@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Quickstart - Workflow Development
 
 Sign up for a [free Pipedream account](https://pipedream.com/auth/signup) (no credit card required) and complete this quickstart guide to learn the basic patterns for workflow development:
@@ -14,9 +16,9 @@ Next, enter a project name and click **Create Project**. For this example, we'll
 
 ![configure project](./images/configure-project.png)
 
-TIP!!!!
-
+<Callout type="info" emoji="ℹ️">
 Configure GitHub Sync for projects to enable git-based version control and unlock the ability to develop in branches, commit to or pull changes from GitHub, view diffs, create PRs and more. To learn more, complete this quickstart guide to learn the basics of workflow development and then follow the [quickstart guide for GitHub Sync](./github-sync/).
+</Callout>
 
 ## Create a workflow
 
@@ -46,9 +48,9 @@ Pipedream will generate a unique URL to trigger this workflow. Once your workflo
 
 Next, generate a test event to help you build the workflow. 
 
-TIP!!!!!
-
+<Callout type="info" emoji="ℹ️">
 The test event will be used to provide autocomplete suggestion as you build your workflow. The data will also be used when testing later steps. You may generate or select a different test event at any time when building a workflow.
+</Callout>
 
 For this example, let's use the following test event data:
 
@@ -66,15 +68,17 @@ Pipedream will automatically select and display the contents of the selected eve
 
 ![Inspect trigger event](./images/inspect-trigger-event.png)
 
-TIP!!!!!
+<Callout type="info" emoji="ℹ️">
 
-You may also send live data to the unique URL for your workflow using your favorite HTTP tool or by running a `cURL` command. E.g.,
+You may also send live data to the unique URL for your workflow using your favorite HTTP tool or by running a `cURL` command, e.g.,
 
 ```bash
-curl -d '{
-  "message": "Pipedream is awesome!"
-}'   -H "Content-Type: application/json"   YOUR-TRIGGER-URL-GOES-HERE
+curl -d '{"message": "Pipedream is awesome!"}' \
+  -H "Content-Type: application/json" \
+  YOUR_ENDPOINT_URL
 ```
+</Callout>
+
 ## Enrich trigger data using Node.js and npm
 
 Before we send data to Google Sheets, let's use the npm [`sentiment`](https://www.npmjs.com/package/sentiment) package to generate a sentiment score for our message. To do that, click **Continue** or the **+** button.
@@ -104,13 +108,13 @@ export default defineComponent({
 
 This code imports the npm package, passes the message we sent to our trigger to the `analyze()` function by referencing `steps.trigger.event.body.message` and then returns the result. 
 
-TIP!!!!!
-
+<Callout type="info" emoji="ℹ️">
 To use any npm package on Pipedream, just `import` it. There's no `npm install` or `package.json` required.
+</Callout>
 
-TIP!!!!!
-
+<Callout type="info" emoji="ℹ️">
 Any data you `return` from a step is exported so it can be inspected and referenced it in future steps via the `steps` object. In this example, return values will be exported to `steps.sentiment.$return_value` because we renamed the step to **sentiment** .
+</Callout>
 
 Your code step should now look like the screenshot below. To run the step and test the code, click the **Test** button.
 
@@ -120,9 +124,10 @@ You should see the results of the sentiment analysis when the test is complete.
 
 ![Test results](./images/sentiment-results.png)
 
-TIP!!!!!
 
+<Callout type="info" emoji="ℹ️">
 When you **Test** a step, only the current step is executed. Use the caret to test different ranges of steps including the entire workflow.
+</Callout>
 
 ## Save data to Google Sheets
 
@@ -146,9 +151,9 @@ Pipedream will open Google's sign in flow in a new window. Sign in with the acco
 
 <img src="./images/google-oauth.png" alt="Google OAuth Window" />
 
-WARNING!!!!
-
+<Callout type="warning" emoji="⚠️">
 If prompted, you must check the box for Pipedream to **See, edit, create and delete all of your Google Drive files**. These permissions are required for configure and use the pre-built actions for Google Sheets.
+</Callout>
 
 <img src="./images/google-permissions.png" alt="Google Permissions" />
 
