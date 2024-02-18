@@ -79,9 +79,9 @@ At this time it's not possible to move workflows out of GitHub Synchronized Proj
 
 :::
 
-## Access controls
+## Access Controls
 
-The [project list view](https://pipedream.com/projects) contains **Owner** and **Access** columns.
+The [projects list view](https://pipedream.com/projects) contains **Owner** and **Access** columns.
 
 **Owner** indicates who within the workspace owns each project. This is typically the person who created the project.
 
@@ -142,9 +142,6 @@ Select specific members of the workspace to grant access:
 You can always see who has access and remove access if necessary:
 
 ![Manage access showing members with access](./images/slideout-member-list.png)
-
-## Project Variables
-
 
 ## Frequently asked questions
 
