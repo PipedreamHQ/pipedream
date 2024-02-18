@@ -76,7 +76,6 @@ const docsNav = [
           "/code/nodejs/using-data-stores/",
           "/code/nodejs/delay/",
           "/code/nodejs/rerun/",
-          "/environment-variables/",
           "/code/nodejs/async/",
           "/code/nodejs/sharing-code/",
           "/code/nodejs/browser-automation/",
