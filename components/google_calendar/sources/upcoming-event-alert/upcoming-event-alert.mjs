@@ -1,6 +1,6 @@
 import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "google_calendar-upcoming-event-alert",
@@ -8,13 +8,19 @@ export default {
   description: `Emit new event based on a time interval before an upcoming event in the calendar. This source uses Pipedream's Task Scheduler.
     [See the documentation](https://pipedream.com/docs/examples/waiting-to-execute-next-step-of-workflow/#step-1-create-a-task-scheduler-event-source) 
     for more information and instructions for connecting your Pipedream account.`,
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   props: {
     pipedream: taskScheduler.props.pipedream,
     googleCalendar,
     db: "$.service.db",
     http: "$.interface.http",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL, // poll source occasionally to schedule events created after source has been deployed
+      },
+    },
     calendarId: {
       propDefinition: [
         googleCalendar,
@@ -29,6 +35,7 @@ export default {
           calendarId: c.calendarId,
         }),
       ],
+      optional: true,
     },
     time: {
       type: "integer",
@@ -38,36 +45,36 @@ export default {
     },
   },
   hooks: {
-    async activate() {
-      // workaround - self call run() because selfSubscribe() can't be run on activate or deploy
-      // see selfSubscribe() method in pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs
-      await axios(this, {
-        url: this.http.endpoint,
-        method: "POST",
-        data: {
-          schedule: true,
-        },
-      });
-    },
     async deactivate() {
-      const id = this._getScheduledEventId();
-      if (id && await this.deleteEvent({
-        body: {
-          id,
-        },
-      })) {
-        console.log("Cancelled scheduled event");
-        this._setScheduledEventId();
+      const ids = this._getScheduledEventIds();
+      if (!ids?.length) {
+        return;
       }
+      for (const id of ids) {
+        if (await this.deleteEvent({
+          body: {
+            id,
+          },
+        })) {
+          console.log("Cancelled scheduled event");
+        }
+      }
+      this._setScheduledEventIds();
     },
   },
   methods: {
     ...taskScheduler.methods,
-    _getScheduledEventId() {
-      return this.db.get("scheduledEventId");
+    _getScheduledEventIds() {
+      return this.db.get("scheduledEventIds");
     },
-    _setScheduledEventId(id) {
-      this.db.set("scheduledEventId", id);
+    _setScheduledEventIds(ids) {
+      this.db.set("scheduledEventIds", ids);
+    },
+    _getScheduledCalendarEventIds() {
+      return this.db.get("scheduledCalendarEventIds");
+    },
+    _setScheduledCalendarEventIds(ids) {
+      this.db.set("scheduledCalendarEventIds", ids);
     },
     _hasDeployed() {
       const result = this.db.get("hasDeployed");
@@ -77,6 +84,24 @@ export default {
     subtractMinutes(date, minutes) {
       return date.getTime() - minutes * 60000;
     },
+    async getCalendarEvents() {
+      const calendarEvents = [];
+      if (this.eventId) {
+        const item = await this.googleCalendar.getEvent({
+          calendarId: this.calendarId,
+          eventId: this.eventId,
+        });
+        calendarEvents.push(item);
+      } else {
+        const { data: { items } } = await this.googleCalendar.getEvents({
+          calendarId: this.calendarId,
+        });
+        if (items?.length) {
+          calendarEvents.push(...items);
+        }
+      }
+      return calendarEvents;
+    },
   },
   async run(event) {
     // self subscribe only on the first time
@@ -84,25 +109,32 @@ export default {
       await this.selfSubscribe();
     }
 
+    const scheduledEventIds = this._getScheduledEventIds() || [];
+
     // incoming scheduled event
     if (event.$channel === this.selfChannel()) {
+      const remainingScheduledEventIds = scheduledEventIds.filter((id) => id !== event["$id"]);
+      this._setScheduledEventIds(remainingScheduledEventIds);
       this.emitEvent(event, `Upcoming ${event.summary} event`);
-      this._setScheduledEventId();
       return;
     }
 
-    // received schedule command
-    if (event.body?.schedule) {
-      const calendarEvent = await this.googleCalendar.getEvent({
-        calendarId: this.calendarId,
-        eventId: this.eventId,
-      });
+    // schedule new events
+    const scheduledCalendarEventIds = this._getScheduledCalendarEventIds() || {};
+    const calendarEvents = await this.getCalendarEvents();
 
+    for (const calendarEvent of calendarEvents) {
       const startTime = new Date(calendarEvent.start.dateTime || calendarEvent.start.date);
+      if (startTime.getTime() < Date.now() || scheduledCalendarEventIds[calendarEvent.id]) {
+        continue;
+      }
       const later = new Date(this.subtractMinutes(startTime, this.time));
 
       const scheduledEventId = this.emitScheduleEvent(calendarEvent, later);
-      this._setScheduledEventId(scheduledEventId);
+      scheduledEventIds.push(scheduledEventId);
+      scheduledCalendarEventIds[calendarEvent.id] = true;
     }
+    this._setScheduledEventIds(scheduledEventIds);
+    this._setScheduledCalendarEventIds(scheduledCalendarEventIds);
   },
 };
