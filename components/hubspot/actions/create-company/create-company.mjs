@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "hubspot-create-company",
   name: "Create Company",
-  description: "Create a company in Hubspot. [See the docs here](https://developers.hubspot.com/docs/api/crm/companies#endpoint?spec=POST-/crm/v3/objects/companies)",
-  version: "0.0.9",
+  description: "Create a company in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies#endpoint?spec=POST-/crm/v3/objects/companies)",
+  version: "0.0.10",
   type: "action",
   methods: {
     ...common.methods,
