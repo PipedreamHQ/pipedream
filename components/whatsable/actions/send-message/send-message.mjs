@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     _sanitizePhoneNumber(phoneNumber) {
-      return `+${phoneNumber.replace(/-/g, "")}`;
+      return `+${phoneNumber.replace(/[^\w\s]/gi, "")}`;
     },
   },
   async run({ $ }) {
