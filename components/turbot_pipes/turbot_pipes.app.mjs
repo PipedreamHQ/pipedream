@@ -13,24 +13,6 @@ export default {
       type: "string",
       label: "Organization Handle",
       description: "Handle of the organization",
-      async options({ prevContext }) {
-        const params = {};
-
-        if (prevContext?.nextToken) params.next_token = prevContext.nextToken;
-
-        const {
-          items: orgs, next_token,
-        } = await this.getOrganizations({
-          params,
-        });
-
-        return {
-          context: {
-            nextToken: next_token,
-          },
-          options: orgs.data.map((org) => org.handle),
-        };
-      },
     },
     displayName: {
       type: "string",
