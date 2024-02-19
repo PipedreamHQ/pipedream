@@ -3,7 +3,7 @@ import tpscheck from "../../tpscheck.app.mjs";
 export default {
   key: "tpscheck-check-number",
   name: "Check Number Against TPS/CTPS",
-  description: "Validates a provided number against the TPS/CTPS register. [See the documentation]()",
+  description: "Validates a provided number against the TPS/CTPS register. [See the documentation](https://www.tpscheck.uk/profile#api)",
   version: "0.0.1",
   type: "action",
   props: {
