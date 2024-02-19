@@ -1,6 +1,8 @@
+import VideoPlayer from "@/components/VideoPlayer";
+
 # Handling errors
 
-By default, [Pipedream sends an email](#default-system-emails) when a workflow throws an unhandled error. But what if you want to:
+By default, [Pipedream sends an email](#default-system-emails) when a workflow throws an unhandled error. But you can
 
 - Send error notifications to Slack
 - Handle errors from one workflow in a specific way
@@ -10,13 +12,11 @@ These docs describe the default error behavior, and how to handle custom use cas
 
 Before you jump into the examples below, remember that all Pipedream workflows are just code. You can always use the built-in error handling logic native to your programming language, for example: using JavaScript's [`try / catch` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch). In the future, Pipedream plans to support this kind of error-handling for built-in actions, as well.
 
-
-
 ## Default system emails
 
 Any time your workflow throws an unhandled error, you'll receive an email like this:
 
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656630943/docs/Screen_Shot_2022-06-29_at_6.20.42_PM_kmsjbr.png" alt="Example error email">
+![Example error email](https://res.cloudinary.com/pipedreamin/image/upload/v1656630943/docs/Screen_Shot_2022-06-29_at_6.20.42_PM_kmsjbr.png)
 
 This email includes a link to the error so you can see the data and logs associated with the run. When you inspect the data in the Pipedream UI, you'll see details on the error below the step that threw the error, e.g. the full stack trace.
 

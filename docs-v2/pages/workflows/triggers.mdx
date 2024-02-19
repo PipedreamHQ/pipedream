@@ -1,4 +1,6 @@
+import Image from 'next/image'
 import Callout from '@/components/Callout'
+import PipedreamImg from '@/components/PipedreamImg'
 import VideoPlayer from "@/components/VideoPlayer";
 
 # Triggers
@@ -170,7 +172,7 @@ Within your workflow, you can download the contents of this data using the **Sen
 
 _Note: you can only download payloads at most {process.env.FUNCTION_PAYLOAD_LIMIT} in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
-You can download the HTTP payload using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-http-payload-p_6lC1ynx/edit).
+You can download the HTTP payload using the **Send HTTP Request** action. [Copy this workflow to see how this works](https://pipedream.com/@dylburger/example-download-http-payload-p_6lC1ynx/edit).
 
 This will return the data in the variable `steps.send_http_request.$return_value`:
 
@@ -487,7 +489,7 @@ Code steps show [logs](/code/nodejs/#logs) below the step itself. Any time you r
 
 When you select the **Email** trigger:
 
-![Email source](/images/triggers/email.png)
+<PipedreamImg alt="Email source" src="https://res.cloudinary.com/pipedreamin/image/upload/v1708323548/docs/email_clrdbg.png" width={500} height={600} />
 
 Pipedream creates an email address specific to your workflow. Any email sent to this address triggers your workflow:
 
@@ -509,7 +511,7 @@ Emails delivered to this address are uploaded to a private URL you have access t
 
 _Note: you can only download emails at most {process.env.FUNCTION_PAYLOAD_LIMIT} in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
-You can download the email using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/new?h=tch_1AfMyl).
+You can download the email using the **Send HTTP Request** action. [Copy this workflow to see how this works](https://pipedream.com/new?h=tch_1AfMyl).
 
 This workflow also parses the contents of the email and exposes it as a JavaScript object using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
 
@@ -586,7 +588,7 @@ This allows you implement conditional logic in your workflow based on the data i
 
 Choose the RSS trigger to watch an RSS feed for new items:
 
-![RSS source](/images/triggers/rss.png)
+<PipedreamImg alt="RSS source" src="https://res.cloudinary.com/pipedreamin/image/upload/v1708323587/docs/c1264873-969c-4f3a-9d4d-210b69ea9fa3.png" width={400} height={500} />
 
 This will create an RSS [event source](/sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
 

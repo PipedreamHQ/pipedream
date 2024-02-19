@@ -12,6 +12,9 @@
   "workflows": {
     "title": "Workflows"
   },
+  "code": {
+    "title": "Code"
+  },
   "support": {
     "title": "Support",
     "type": "page",

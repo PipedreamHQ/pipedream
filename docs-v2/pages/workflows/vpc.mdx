@@ -1,6 +1,8 @@
+import VideoPlayer from '@/components/VideoPlayer';
+
 # Virtual Private Clouds
 
-<VideoPlayer url="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Private Clouds" />
+<VideoPlayer src="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Private Clouds" />
 
 Every Pipedream workflow is deployed to its own virtual machine in AWS. This means your workflow's execution environment has its own RAM and disk, isolated from other users’ workflows.
 
@@ -9,8 +11,6 @@ However, outbound traffic shares the same network as other AWS services deployed
 Pipedream VPCs enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresses that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform).
 
 Outbound network requests from workflows that run in a VPC will originate from these static IP addresses, so you can whitelist access to sensitive resources (like databases and APIs) with confidence that the requests will only originate from the Pipedream workflows in your workspace.
-
-
 
 ## Getting started
 
@@ -38,7 +38,7 @@ To run workflows in a VPC, check the **Run in Private Network** option in workfl
 
 ![Selecting a VPC within the workflow settings](https://res.cloudinary.com/pipedreamin/image/upload/v1690913944/CleanShot_2023-08-01_at_14.18.42_rihwff.png)
 
-If you don’t see the network listed, the network setup may still be in progress. If the issue persists longer than 10 minutes, please [contact support](https://pipedream.com/support).
+If you don't see the network listed, the network setup may still be in progress. If the issue persists longer than 10 minutes, please [contact support](https://pipedream.com/support).
 
 ### Find the static outbound IP address for a VPC
 
@@ -59,9 +59,9 @@ If you're interested in running Pipedream workflows in your own infrastructure, 
 - Only workflows can run in VPCs (other resources like sources or data stores are not currently supported). For example, [sources](/sources/) cannot yet run in VPCs.
 - Creating a new network can take up to 5 minutes. Deploying your first workflow into a new network and testing that workflow for the first time can take up to 1 min. Subsequent operations should be as fast as normal.
 - VPCs only provide static IPs for outbound network requests. This feature does not provide a static IP for or otherwise restrict inbound requests.
-- You can’t set a default network for all new workflows in a workspace or project (you must select the network every time you create a new workflow). Please [reach out](https://pipedream.com/support) if you're interesting in imposing controls like this in your workspace.
+- You can't set a default network for all new workflows in a workspace or project (you must select the network every time you create a new workflow). Please [reach out](https://pipedream.com/support) if you're interesting in imposing controls like this in your workspace.
 - Workflows running in a VPC will still route specific requests routed through [the shared Pipedream network](/destinations/http/#ip-addresses-for-pipedream-http-requests):
-  - [`$.send.http()`](/destinations/http/) requests are routed through
+  - [`$.send.http()`](/destinations/http/) requests
   - Async options requests (these are requests that are made to populate options in drop down menus for actions while a building a workflow — e.g., the option to “select a Google Sheet” when using the “add row to Google Sheets” action)
 
 ## Frequently Asked Questions

@@ -3,7 +3,7 @@
   "steps": "Steps",
   "triggers": "Triggers",
   "actions": "Actions",
-  "using-props": "Using props",
+  "using-props": "Using Props",
   "events": "Events",
   "inspect": "Inspect events",
   "flow-control": "Flow Control",
@@ -12,5 +12,8 @@
   "settings": "Settings",
   "vpc": "Virtual Private Clouds",
   "domains": "Custom Domains",
-  "sharing": "Sharing workflows"
+  "sharing": "Sharing workflows",
+  "build-and-run": {
+    "display": "hidden"
+  }
 }
