@@ -14,7 +14,7 @@ The `$.files` helper is the main module to interact with the Project's File Stor
 
 ### `$.files.openDescriptor(fileDescriptor)`
 
-*Sync.* Creates a new `File` from the JSON friendly description of a file. Useful for recreating a `File` from a step export.
+*Sync.* Creates a new `File` from the JSON friendly descriptor of a file. Useful for recreating a `File` from a step export.
 
 For example, export a `File` as a step export which will render the `File` as JSON:
 
@@ -31,14 +31,14 @@ export default defineComponent({
 }
 ```
 
-Then in a downstream step recreate the `File` instance from the step export friendly _description_:
+Then in a downstream step recreate the `File` instance from the step export friendly _descriptor_:
 
 ```javascript
 // download_file
 // Opens a file downloaded from a previous step, and saves it.
 export default defineComponent({
   async run({ steps, $ }) {
-    // Convert the the description of the file back into a File instance
+    // Convert the the descriptor of the file back into a File instance
     const file = $.files.openDescriptor(steps.create_file.$return_value)
     // Download the file to the local /tmp directory
     await $.file.download('/tmp/example.png')
