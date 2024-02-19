@@ -9,6 +9,9 @@
   "projects": {
     "title": "Projects"
   },
+  "workflows": {
+    "title": "Workflows"
+  },
   "support": {
     "title": "Support",
     "type": "page",

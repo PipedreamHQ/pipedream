@@ -2,27 +2,24 @@ import Callout from '@/components/Callout'
 
 # Steps
 
-Steps are the building blocks you use to create workflows. You can easily combine multiple steps into a workflow to integrate your apps, data and APIs: 
+Steps are the building blocks you use to create workflows.
 
-- Steps include triggers, code and prebuilt actions.
-
-- Steps are executed linearly, in the order they appear in your workflow.
-
-- You can pass data between steps using `steps` objects.
-
-- You can observe the execution results for each step including export values, logs and errors.
-
-
+- Use [triggers](/workflows/steps/triggers/), [code](/code/), and [pre-built actions](/docs/components#actions)
+- Steps are run linearly, in the order they appear in your workflow
+- You can pass data between steps using [the `steps` object](#step-exports)
+- Observe the logs, errors, timing, and other execution details for every step
 
 ## Types of Steps
 
-### Trigger
+### Triggers
 
-Every workflow begins with a single [**trigger**](/workflows/steps/triggers/) step. Trigger steps initiate the execution of a workflow; i.e., workflows execute on each trigger event. For example, you can create an [HTTP trigger](/workflows/steps/triggers/#http) to accept HTTP requests. We give you a unique URL where you can send HTTP requests, and your workflow is executed on each request.
+Every workflow begins with a [trigger](/workflows/steps/triggers/) step. Trigger steps initiate the execution of a workflow; i.e., workflows execute on each trigger event. For example, you can create an [HTTP trigger](/workflows/steps/triggers/#http) to accept HTTP requests. We give you a unique URL where you can send HTTP requests, and your workflow is executed on each requesingle st.
+
+You can add [multiple triggers](/workflows/steps/triggers/#can-i-add-multiple-triggers-to-a-workflow) to a workflow, allowing you to run it on distinct events.
 
 ### Code, Actions
 
-[**Actions**](https://pipedream.com/docs/components#actions) and [**code**](/code/) steps drive the logic of your workflow. Anytime your workflow runs, Pipedream executes each step of your workflow in order. Actions are prebuilt code steps that let you connect to hundreds of APIs without writing code. When you need more control than the default actions provide, code steps let you write any custom Node.js code.
+[Actions](/components#actions) and [code](/code/) steps drive the logic of your workflow. Anytime your workflow runs, Pipedream executes each step of your workflow in order. Actions are prebuilt code steps that let you connect to hundreds of APIs without writing code. When you need more control than the default actions provide, code steps let you write any custom Node.js code.
 
 Code and action steps cannot precede triggers, since they'll have no data to operate on.
 
@@ -73,7 +70,7 @@ For examples of supported data types in your steps language, see the examples be
 
 Pipedream lets you add notes to individual steps in your workflow so you can  include helpful context to other workspace members or even yourself, and you can even write markdown!
 
-![Viewing step notes](./images/step-notes-example.png)
+![Viewing step notes](/images/steps/step-notes-example.png)
 
 ### Adding or editing a note
 1. Enter build mode on any workflow
@@ -83,14 +80,15 @@ Pipedream lets you add notes to individual steps in your workflow so you can  in
 
 ![Add note](https://res.cloudinary.com/pipedreamin/image/upload/v1698167274/add_note_kvvxju.png)
 
-![Adding step notes](./images/adding-step-note.gif)
+![Adding step notes](/images/steps/adding-step-note.gif)
 
 ### Showing notes
 1. Any step that has a note will indicate this with a special icon (shown below)
 2. Click on the icon to hide or show the note
 
-![View notes](./images/show-hide-note.gif)
+![View notes](/images/steps/show-hide-note.gif)
 
 ### Current limitations
-- Step notes are only accessible in Edit mode, and not from the Inspector
+
+- Step notes are only accessible in Build mode, not in the Inspector
 

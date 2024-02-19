@@ -1,0 +1,16 @@
+{
+  "index": "What are workflows?",
+  "steps": "Steps",
+  "triggers": "Triggers",
+  "actions": "Actions",
+  "using-props": "Using props",
+  "events": "Events",
+  "inspect": "Inspect events",
+  "flow-control": "Flow Control",
+  "errors": "Handling errors",
+  "concurrency-and-throttling": "Concurrency and Throttling",
+  "settings": "Settings",
+  "vpc": "Virtual Private Clouds",
+  "domains": "Custom Domains",
+  "sharing": "Sharing workflows"
+}

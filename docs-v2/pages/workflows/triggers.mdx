@@ -1,8 +1,9 @@
 import Callout from '@/components/Callout'
+import VideoPlayer from "@/components/VideoPlayer";
 
 # Triggers
 
-<VideoPlayer url="https://www.youtube.com/embed/Jjq-ZoYZQoQ" title="Using Triggers" />
+<VideoPlayer src="https://www.youtube.com/embed/Jjq-ZoYZQoQ" title="Using Triggers" />
 
 **Triggers** define the type of event that runs your workflow. For example, HTTP triggers expose a URL where you can send any HTTP requests. Pipedream will run your workflow on each request. The Scheduler trigger runs your workflow on a schedule, like a cron job.
 
@@ -22,15 +23,11 @@ You can trigger a workflow on events from apps like Twitter, Google Calendar, an
 
 When you create a workflow, you'll see your available triggers:
 
-<div>
-<img alt="App triggers" src="./images/app-triggers.png">
-</div>
+![App triggers](/images/triggers/app-triggers.png)
 
 Search by **app name** to find triggers associated with your app. For Google Calendar, for example, you can run your workflow every time a new event is **added** to your calendar, each time an event **starts**, **ends**, and more:
 
-<div>
-<img alt="Google Calendar sources" src="./images/google-calendar-triggers.png">
-</div>
+![Google Calendar sources](/images/triggers/google-calendar-triggers.png)
 
 Once you select your trigger, you'll be asked to connect any necessary accounts (for example, Google Calendar sources require you authorize Pipedream access to your Google account), and enter the values for any configuration settings.
 
@@ -44,7 +41,7 @@ Then you can select a specific test event and manually trigger your workflow wit
 
 You'll notice the docs use the terms **event source** and **trigger** interchangeably above. It's useful to clarify the distinction in the context of workflows.
 
-[**Event sources**](/sources/) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
+[Event sources](/sources/) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
 
 For example, you might create a single source to listen for new Twitter mentions for a keyword, then trigger multiple workflows each time a new tweet is found: one to [send new tweets to Slack](https://pipedream.com/@pravin/twitter-mentions-slack-p_dDCA5e/edit), another to [save those tweets to an Amazon S3 bucket](https://pipedream.com/@dylan/twitter-to-s3-p_KwCZGA/readme), etc.
 
@@ -52,23 +49,21 @@ For example, you might create a single source to listen for new Twitter mentions
 
 Moreover, you can access events emitted by sources using Pipedream's [SSE](/api/sse/) and [REST APIs](/api/rest/). This allows you to access these events in your own app, outside Pipedream's platform.
 
-### Can I add multiple triggers to a workflow
+### Can I add multiple triggers to a workflow?
 
 Yes, you can add any number of triggers to a workflow. Click the top right menu in the trigger step and select **Add trigger**.
 
-<div>
-<img src="./images/add-multi-trigger.gif" alt="Add multiple triggers to a workflow" />
-</div>
+![Add multiple triggers to a workflow](/images/triggers/add-multi-trigger.gif)
 
 ### Shape of the `steps.trigger.event` object
 
-In all workflows, you have access to [event data](/workflows/events/#event-format) using one the variable `steps.trigger.event`.
+In all workflows, you have access to [event data](/workflows/events/#event-format) using the variable `steps.trigger.event`.
 
 The shape of the event is specific to the source. For example, RSS sources produce events with a `url` and `title` property representing the data provided by new items from a feed. Google Calendar sources produce events with a meeting title, start date, etc.
 
 ## HTTP
 
-When you select the **HTTP API** trigger:
+When you select the **HTTP** trigger:
 
 ![HTTP API Trigger](https://res.cloudinary.com/pipedreamin/image/upload/v1647894504/docs/components/CleanShot_2022-03-21_at_16.27.45_2x_klxmpz.png)
 
@@ -79,9 +74,8 @@ Pipedream creates a URL endpoint specific to your workflow:
 You can send any HTTP requests to this endpoint, from anywhere on the web. You can configure the endpoint as the destination URL for a webhook or send HTTP traffic from your application - we'll accept any [valid HTTP request](#valid-requests).
 
 <Callout type="info" emoji="ℹ️">
-Custom domains
 
-Pipedream also supports [custom domains](/workflows/domains). This lets you host endpoints on `https://endpoint.yourdomain.com` instead of the default `{process.env.ENDPOINT_BASE_URL}` domain.
+Pipedream also supports [custom domains](/workflows/domains). This lets you host endpoints on `https://endpoint.yourdomain.com` instead of the default \`{process.env.ENDPOINT_BASE_URL}\` domain.
 </Callout>
 
 ### Accessing HTTP request data
@@ -106,11 +100,9 @@ To configure endpoints on your own domain, e.g. `endpoint.yourdomain.com` instea
 
 ### How Pipedream handles JSON payloads
 
-JSON is the defacto stand data exchange format on the web today. Pipedream optimizes for the case where you've sent JSON as the source event to a workflow.
+When you send JSON in the HTTP payload, or when JSON data is sent in the payload from a webhook provider, **Pipedream converts that JSON to its equivalent JavaScript object**. The trigger data can be referenced using [the `steps` object](#shape-of-the-stepstriggerevent-object).
 
-When you send JSON in the HTTP payload, or when JSON data is sent in the payload from a webhook provider, **Pipedream converts that JSON to its equivalent JavaScript object**. The trigger data can be referenced using either `event` or the `steps` object.
-
-In the [Inspector](/workflows/events/inspect/), we present `event.body` cleanly, indenting nested properties, to make the payload easy to read. Since `event.body` is a JavaScript object, it's easy to reference and manipulate properties of the payload using dot-notation.
+In the [Inspector](/workflows/events/inspect/), we present `steps.trigger.event` cleanly, indenting nested properties, to make the payload easy to read. Since `steps.trigger.event` is a JavaScript object, it's easy to reference and manipulate properties of the payload using dot-notation.
 
 ### How Pipedream handles `multipart/form-data`
 
@@ -122,7 +114,7 @@ curl -F 'name=Leia' -F 'title=General' https://myendpoint.m.pipedream.net
 
 Pipedream will convert that to a JavaScript object, `event.body`, with the following shape:
 
-```javascript
+```json
 {
   name: "Leia",
   title: "General",
@@ -157,7 +149,7 @@ You can send any content, up to the [HTTP payload size limit](/limits/#http-requ
 
 _If you're uploading files, like images or videos, you should use the [large file upload interface](#large-file-support), instead_.
 
-By default, the body of HTTP requests sent to a source or workflow is limited to `{process.env.PAYLOAD_SIZE_LIMIT}`. **But you can send an HTTP payload of any size to a [workflow](/workflows/) or an [event source](/sources/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
+By default, the body of HTTP requests sent to a source or workflow is limited to {process.env.PAYLOAD_SIZE_LIMIT}. **But you can send an HTTP payload of any size to a [workflow](/workflows/) or an [event source](/sources/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
 
 ```bash
 curl -d '{ "name": "Yoda" }' \
@@ -176,15 +168,13 @@ Within your workflow, you can download the contents of this data using the **Sen
 
 #### Example: Download the HTTP payload using the Send HTTP Request action
 
-_Note: you can only download payloads at most `{process.env.FUNCTION_PAYLOAD_LIMIT}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
+_Note: you can only download payloads at most {process.env.FUNCTION_PAYLOAD_LIMIT} in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
 You can download the HTTP payload using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-http-payload-p_6lC1ynx/edit).
 
 This will return the data in the variable `steps.send_http_request.$return_value`:
 
-<div>
-<img alt="HTTP response data" width="600px" src="./images/send_http_request_action.png">
-</div>
+![HTTP response data](/images/triggers/send_http_request_action.png)
 
 #### Example: Download the HTTP payload to the `/tmp` directory
 
@@ -221,9 +211,7 @@ You can upload any file to a [workflow](/workflows/) or an [event source](/sourc
 
 In workflows, these file URLs are provided in the `steps.trigger.event.body` variable, so you can download the file using the URL within your workflow, or pass the URL on to another third-party system for it to process.
 
-<div>
-<img alt="Raw file URL in event data" width="600px" src="./images/file-upload-urls.png">
-</div>
+![Raw file URL in event data](/images/triggers/file-upload-urls.png)
 
 Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/code/nodejs/working-with-files/).
 
@@ -239,9 +227,7 @@ The `-F` tells `cURL` we're sending form data, with a single "part": a field nam
 
 When you send this image to a workflow, Pipedream [parses the form data](#how-pipedream-handles-multipart-form-data) and converts it to a JavaScript object, `event.body`. Select the event from the [inspector](/workflows/events/inspect/#the-inspector), and you'll see the `image` property under `event.body`:
 
-<div>
-<img alt="Image form data" src="./images/image_form_data.png">
-</div>
+![Image form data](/images/triggers/image_form_data.png)
 
 When you upload a file as a part of the form request, Pipedream saves it to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/), generating a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
 
@@ -420,7 +406,7 @@ Occasionally, you may encounter errors when sending requests to your endpoint:
 
 #### Request Entity Too Large
 
-The endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds `{process.env.PAYLOAD_SIZE_LIMIT}`.
+The endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds {process.env.PAYLOAD_SIZE_LIMIT}.
 
 In this case, the request will still appear in the inspector, with information on the error.
 
@@ -462,9 +448,7 @@ You can write scheduled job to send an HTTP request, send a scheduled email, run
 
 To create a new scheduled job, create a new workflow and search for the **Schedule** trigger:
 
-<div>
-<img alt="Cron Scheduler source" width="400px" src="./images/schedule.png">
-</div>
+![Cron Scheduler source](/images/triggers/schedule.png)
 
 By default, your trigger will be turned **Off**. **To enable it, select either of the scheduling options**:
 
@@ -503,15 +487,11 @@ Code steps show [logs](/code/nodejs/#logs) below the step itself. Any time you r
 
 When you select the **Email** trigger:
 
-<div>
-<img alt="Email source" width="400px" src="./images/email.png">
-</div>
+![Email source](/images/triggers/email.png)
 
 Pipedream creates an email address specific to your workflow. Any email sent to this address triggers your workflow:
 
-<div>
-<img alt="Custom workflow email address" width="400px" src="./images/email-addr.png">
-</div>
+![Custom workflow email address](/images/triggers/email-addr.png)
 
 As soon as you send an email to the workflow-specific address, Pipedream parses its body, headers, and attachments into a JavaScript object it exposes in the `steps.trigger.event` variable that you can access within your workflow. This transformation can take a few seconds to perform. Once done, Pipedream will immediately trigger your workflow with the transformed payload.
 
@@ -519,7 +499,7 @@ As soon as you send an email to the workflow-specific address, Pipedream parses 
 
 ### Sending large emails
 
-By default, you can send emails up to `{process.env.EMAIL_PAYLOAD_SIZE_LIMIT}` in total size (content, headers, attachments). Emails over this size will be rejected, and you will not see them appear in your workflow.
+By default, you can send emails up to {process.env.EMAIL_PAYLOAD_SIZE_LIMIT} in total size (content, headers, attachments). Emails over this size will be rejected, and you will not see them appear in your workflow.
 
 **You can send emails up to `30MB` in size by sending emails to `[YOUR EMAIL ENDPOINT]@upload.pipedream.net`**. If your workflow-specific email address is `endpoint@pipedream.net`, your "large email address" is `endpoint@upload.pipedream.net`.
 
@@ -527,7 +507,7 @@ Emails delivered to this address are uploaded to a private URL you have access t
 
 #### Example: Download the email using the Send HTTP Request action
 
-_Note: you can only download emails at most `{process.env.FUNCTION_PAYLOAD_LIMIT}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
+_Note: you can only download emails at most {process.env.FUNCTION_PAYLOAD_LIMIT} in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
 You can download the email using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/new?h=tch_1AfMyl).
 
@@ -606,9 +586,7 @@ This allows you implement conditional logic in your workflow based on the data i
 
 Choose the RSS trigger to watch an RSS feed for new items:
 
-<div>
-<img alt="RSS source" width="400px" src="./images/rss.png">
-</div>
+![RSS source](/images/triggers/rss.png)
 
 This will create an RSS [event source](/sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
 
@@ -627,4 +605,3 @@ If the presigned URL for the attachment has expired, then you'll need to send an
 If you're using email attachments in combination with [`$.flow.delay`](/code/nodejs/delay/) or [`$.flow.rerun`](/code/nodejs/rerun/) which introduces a gap of time between steps in your workflow, then there's a chance the email attachment's URL will expire.
 
 To overcome this, we suggest uploading your email attachments to your Project's [File Store](/projects/file-stores/) for persistent storage.
-

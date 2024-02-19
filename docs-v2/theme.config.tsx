@@ -32,6 +32,10 @@ const config: DocsThemeConfig = {
   primarySaturation: 100,
   feedback: {
     content: null,
+  },
+  sidebar: {
+    autoCollapse: true,
+    defaultMenuCollapseLevel: 1,
   }
 }
 
