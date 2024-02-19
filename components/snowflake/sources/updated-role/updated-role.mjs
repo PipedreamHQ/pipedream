@@ -6,7 +6,7 @@ export default {
   key: "snowflake-updated-role",
   name: "New Update Role",
   description: "Emit new event when a role is updated",
-  version: "0.0.4",
+  version: "0.0.5",
   methods: {
     ...common.methods,
     getLookUpKey() {

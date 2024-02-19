@@ -17,7 +17,7 @@ def get_embedding(text):
         }
         data = {
             "input": text,
-            "model": "text-embedding-ada-002",
+            "model": config["openai_embeddings_model"],
         }
         response = requests.post(url, headers=headers, params=params, json=data)
     else:
@@ -27,7 +27,7 @@ def get_embedding(text):
         }
         data = {
             "input": text,
-            "model": "text-embedding-ada-002",
+            "model": config["openai_embeddings_model"],
         }
         response = requests.post(url, headers=headers, json=data)
 
