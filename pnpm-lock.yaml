@@ -3243,11 +3243,11 @@ importers:
 
   components/hubspot:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.0
       bottleneck: ^2.19.5
       package: ^1.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       bottleneck: 2.19.5
     devDependencies:
       package: 1.0.1
