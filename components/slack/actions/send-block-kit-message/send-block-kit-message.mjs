@@ -1,12 +1,12 @@
-import common from "../common/send-message.mjs";
 import buildBlocks from "../common/build-blocks.mjs";
+import common from "../common/send-message.mjs";
 
 export default {
   ...common,
   ...buildBlocks,
   name: "Build and Send a Block Kit Message (Beta)",
   description: "Configure custom blocks and send to a channel, group, or user. [See Slack's docs for more info](https://api.slack.com/tools/block-kit-builder).",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   key: "slack-send-block-kit-message",
   props: {

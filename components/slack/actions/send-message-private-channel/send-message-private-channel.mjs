@@ -1,12 +1,12 @@
-import common from "../common/send-message.mjs";
 import constants from "../../common/constants.mjs";
+import common from "../common/send-message.mjs";
 
 export default {
   ...common,
   key: "slack-send-message-private-channel",
   name: "Send Message to a Private Channel",
   description: "Send a message to a private channel and customize the name and avatar of the bot that posts the message. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.18",
+  version: "0.2.19",
   type: "action",
   props: {
     slack: common.props.slack,
