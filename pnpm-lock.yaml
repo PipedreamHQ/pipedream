@@ -3442,7 +3442,10 @@ importers:
       crypto: 1.0.1
 
   components/interzoid:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/intuiface:
     specifiers: {}
