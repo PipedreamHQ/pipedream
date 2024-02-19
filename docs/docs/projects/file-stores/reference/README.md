@@ -58,13 +58,13 @@ Here's an example of how to iterate over the files in the root directory and ope
 export default defineComponent({
   async run({ steps, $ }) {
     // list all contents of the root File Stores directory in this project
-    const dirs = $.files.dir();
+    const nodes = $.files.dir();
     let files = [];
 
-    for await(const dir of dirs) {
+    for await(const node of nodes) {
       // if this is a file, let's open it
-      if(dir.isFile()) {
-        files.push(await $.files.open(dir.path))
+      if(node.isFile()) {
+        files.push(await $.files.open(node.path))
       }
     }
 
