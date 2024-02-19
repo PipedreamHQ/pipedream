@@ -449,7 +449,10 @@ importers:
       sqlstring: 2.3.3
 
   components/appointedd:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/arxiv:
     specifiers: {}
