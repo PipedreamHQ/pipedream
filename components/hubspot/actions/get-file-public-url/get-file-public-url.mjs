@@ -3,8 +3,8 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-get-file-public-url",
   name: "Get File Public URL",
-  description: "Get a publicly available URL for a file that was uploaded using a Hubspot form. [See the docs here](https://developers.hubspot.com/docs/api/files/files#endpoint?spec=GET-/files/v3/files/{fileId}/signed-url)",
-  version: "0.0.7",
+  description: "Get a publicly available URL for a file that was uploaded using a Hubspot form. [See the documentation](https://developers.hubspot.com/docs/api/files/files#endpoint?spec=GET-/files/v3/files/{fileId}/signed-url)",
+  version: "0.0.8",
   type: "action",
   props: {
     hubspot,
