@@ -6426,9 +6426,11 @@ importers:
 
   components/shopify_partner:
     specifiers:
+      '@pipedream/platform': ^1.6.0
       graphql: ^16.8.1
       graphql-request: ^3.7.0
     dependencies:
+      '@pipedream/platform': 1.6.0
       graphql: 16.8.1
       graphql-request: 3.7.0_graphql@16.8.1
 
