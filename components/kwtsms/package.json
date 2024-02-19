@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/kwtsms",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream YoPlanning Components",
   "main": "dist/app/kwtsms.app.mjs",
   "keywords": [
     "pipedream",
     "kwtsms"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/kwtsms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
   }
 }
