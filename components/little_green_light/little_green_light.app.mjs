@@ -1,93 +1,238 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
-  app: "littlegreenlight",
+  app: "little_green_light",
   propDefinitions: {
+    appealId: {
+      type: "string",
+      label: "Appeal ID",
+      description: "The ID of the appeal.",
+      async options({ page }) {
+        const { items } = await this.listAppeals({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     constituentId: {
       type: "string",
       label: "Constituent ID",
       description: "The ID of the constituent in Little Green Light.",
+      async options({ page }) {
+        const { items } = await this.listConstituents({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return items.map(({
+          id: value, first_name: fName, last_name: lName, org_name: orgName,
+        }) => ({
+          label: fName
+            ? `${fName} ${lName}`
+            : orgName,
+          value,
+        }));
+      },
     },
-    lastName: {
+    fundId: {
       type: "string",
-      label: "Last Name",
-      description: "The last name of the constituent.",
+      label: "Fund ID",
+      description: "The ID of the fund.",
+      async options({ page }) {
+        const { items } = await this.listFunds({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    giftCategoryId: {
+      type: "string",
+      label: "Gift Category ID",
+      description: "The ID of the gift category.",
+      async options({ page }) {
+        const { items } = await this.listGiftCategories({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return items.map(({
+          id: value, display_name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     giftTypeId: {
       type: "string",
       label: "Gift Type ID",
       description: "The ID of the gift type.",
-    },
-    giftTypeName: {
-      type: "string",
-      label: "Gift Type Name",
-      description: "The name of the gift type.",
-    },
-    clientKey: {
-      type: "string",
-      label: "Client Key",
-      description: "The client key used for authentication.",
-      secret: true,
+      async options({ page }) {
+        const { items } = await this.listGiftTypes({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.littlegreenlight.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.clientKey}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async createGift({
-      constituentId, giftTypeId, giftTypeName, ...opts
+    getConstituent({
+      constituentId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/constituents/${constituentId}`,
+        ...opts,
+      });
+    },
+    listAppeals(opts = {}) {
+      return this._makeRequest({
+        path: "/appeals",
+        ...opts,
+      });
+    },
+    listConstituents(opts = {}) {
+      return this._makeRequest({
+        path: "/constituents",
+        ...opts,
+      });
+    },
+    listFunds(opts = {}) {
+      return this._makeRequest({
+        path: "/funds",
+        ...opts,
+      });
+    },
+    listGiftCategories(opts = {}) {
+      return this._makeRequest({
+        path: "/gift_categories",
+        ...opts,
+      });
+    },
+    listGiftTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/gift_types",
+        ...opts,
+      });
+    },
+    createGift({
+      constituentId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/constituents/${constituentId}/gifts`,
-        data: {
-          gift_type_id: giftTypeId,
-          gift_type_name: giftTypeName,
-          ...opts,
-        },
+        ...opts,
       });
     },
-    async addConstituent({
-      lastName, ...opts
-    }) {
+    addConstituent(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/constituents",
-        data: {
-          last_name: lastName,
-          ...opts,
-        },
+        ...opts,
       });
     },
-    async updateConstituent({
+    updateConstituent({
       constituentId, ...opts
     }) {
       return this._makeRequest({
         method: "PATCH",
         path: `/constituents/${constituentId}`,
-        data: opts,
+        ...opts,
       });
     },
-    async fetchGifts({ constituentId }) {
+    searchGifts(opts = {}) {
       return this._makeRequest({
         method: "GET",
-        path: `/constituents/${constituentId}/gifts`,
+        path: "/gifts/search",
+        ...opts,
       });
+    },
+    searchConstituents(opts = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: "/constituents/search",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page;
+        page++;
+
+        const {
+          items,
+          items_count,
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of items) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = items_count === LIMIT;
+
+      } while (hasMore);
     },
   },
 };

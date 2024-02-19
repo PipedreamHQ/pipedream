@@ -1,38 +1,67 @@
 import littleGreenLight from "../../little_green_light.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "little_green_light-create-constituent",
   name: "Create Constituent",
-  description: "Adds a constituent to an account along with related objects. [See the documentation](https://api.littlegreenlight.com/api-docs/static.html)",
+  description: "Adds a constituent to an account along with related objects. [See the documentation](https://api.littlegreenlight.com/api-docs/static.html#create_new_constituent)",
   version: "0.0.1",
   type: "action",
   props: {
     littleGreenLight,
-    lastName: littleGreenLight.propDefinitions.lastName,
-    giftTypeId: littleGreenLight.propDefinitions.giftTypeId,
-    giftTypeName: littleGreenLight.propDefinitions.giftTypeName,
+    externalConstituentId: {
+      type: "string",
+      label: "External Constituent Id",
+      description: "The external identifier to the new constituent.",
+      optional: true,
+    },
+    isOrg: {
+      type: "boolean",
+      label: "Is Org",
+      description: "This constituent is an organization or company.",
+      optional: true,
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the constituent.",
+    },
+    middleName: {
+      type: "string",
+      label: "Middle Name",
+      description: "The middle name of the constituent.",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the constituent.",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email Address of the constituent.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const constituentData = await this.littleGreenLight.addConstituent({
-      lastName: this.lastName,
+    const response = await this.littleGreenLight.addConstituent({
+      $,
+      data: {
+        external_constituent_id: this.externalConstituentId,
+        is_org: this.isOrg,
+        first_name: this.firstName,
+        org_name: this.firstName,
+        middle_name: this.middleName,
+        last_name: this.lastName,
+        email_addresses: [
+          {
+            address: this.email,
+          },
+        ],
+      },
     });
 
-    if (!constituentData || !constituentData.id) {
-      throw new Error("Failed to create constituent");
-    }
-
-    const giftCreationResponse = await this.littleGreenLight.createGift({
-      constituentId: constituentData.id,
-      giftTypeId: this.giftTypeId,
-      giftTypeName: this.giftTypeName,
-    });
-
-    $.export("$summary", `Successfully created constituent with ID ${constituentData.id} and associated gift`);
-
-    return {
-      constituentData,
-      giftCreationResponse,
-    };
+    $.export("$summary", `Successfully created constituent with ID ${response.id}!`);
+    return response;
   },
 };

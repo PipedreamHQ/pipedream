@@ -1,12 +1,11 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import littleGreenLight from "../../little_green_light.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "little_green_light-new-gift-recorded",
   name: "New Gift Recorded",
-  description: "Emits an event for each new gift recorded in Little Green Light. [See the documentation]()",
+  description: "Emit new event for each new gift recorded in Little Green Light.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -19,46 +18,61 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    constituentId: {
-      propDefinition: [
-        littleGreenLight,
-        "constituentId",
-      ],
+  },
+  methods: {
+    _getLastDate() {
+      return this.db.get("lastDate") || 0;
+    },
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
+    },
+    async generateMeta(gift) {
+      let constituentName = "Anonymous";
+      if (gift.constituent_id) {
+        const constituent = await this.littleGreenLight.getConstituent({
+          constituentId: gift.constituent_id,
+        });
+        constituentName = `${constituent.first_name} ${constituent.last_name}`;
+      }
+      return {
+        id: gift.id,
+        summary: `New Gift: $${gift.received_amount} from ${constituentName}`,
+        ts: Date.parse(gift.created_at),
+      };
+    },
+    async startEvent(maxResults = 0) {
+      const lastDate = this._getLastDate();
+
+      let data = this.littleGreenLight.paginate({
+        fn: this.littleGreenLight.searchGifts,
+        maxResults,
+        params: {
+          created_from: lastDate,
+        },
+      });
+
+      let responseArray = [];
+      for await (const item of data) {
+        responseArray.push(item);
+      }
+
+      responseArray = responseArray.sort(
+        (a, b) => b.id - a.id,
+      );
+      if (responseArray.length) this._setLastDate(responseArray[0].deposit_date);
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, await this.generateMeta(item));
+      }
     },
   },
   hooks: {
     async deploy() {
-      // Fetch gifts once on deploy, but do not emit events to avoid duplicates
-      await this.fetchGifts(true);
-    },
-  },
-  methods: {
-    async fetchGifts(isDeploy = false) {
-      const lastGiftId = this.db.get("lastGiftId") || 0;
-      let maxGiftId = lastGiftId;
-
-      const gifts = await this.littleGreenLight.fetchGifts({
-        constituentId: this.constituentId,
-      });
-      for (const gift of gifts) {
-        if (gift.id > lastGiftId) {
-          if (!isDeploy) { // Avoid emitting during deploy
-            this.$emit(gift, {
-              id: gift.id.toString(),
-              summary: `New Gift: $${gift.received_amount} from ${gift.tributee_name || "Anonymous"}`,
-              ts: new Date(gift.received_date).getTime(),
-            });
-          }
-          if (gift.id > maxGiftId) {
-            maxGiftId = gift.id;
-          }
-        }
-      }
-
-      this.db.set("lastGiftId", maxGiftId);
+      await this.startEvent(25);
     },
   },
   async run() {
-    await this.fetchGifts();
+    await this.startEvent();
   },
+  sampleEmit,
 };
