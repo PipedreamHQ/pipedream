@@ -6,7 +6,7 @@ export default {
   ...base,
   key: "gorgias_oauth-ticket-updated",
   name: "New Updated Ticket",
-  description: "Emit new event when a ticket is updated. [See the docs](https://developers.gorgias.com/reference/the-event-object)",
+  description: "Emit new event when a ticket is updated. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
   version: "0.1.4",
   type: "source",
   props: {
@@ -16,12 +16,16 @@ export default {
         base.props.gorgias_oauth,
         "channel",
       ],
+      default: "",
+      description: "The channel used to send the message.",
     },
     via: {
       propDefinition: [
         base.props.gorgias_oauth,
         "via",
       ],
+      default: "",
+      description: "How the message has been received, or sent from Gorgias.",
     },
     assigneeId: {
       propDefinition: [
@@ -38,7 +42,7 @@ export default {
     isRelevant(ticket) {
       return (!this.channel || ticket.channel === this.channel)
         && (!this.via || ticket.via === this.via)
-        && (!this.assigneeId || ticket.assignee_user.id === this.assigneeId);
+        && (!this.assigneeId || ticket?.assignee_user_id === this.assigneeId);
     },
     async processHistoricalEvent(event) {
       const ticket = await this.retrieveTicket(event.object_id);

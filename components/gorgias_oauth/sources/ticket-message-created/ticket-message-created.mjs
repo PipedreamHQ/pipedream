@@ -7,7 +7,7 @@ export default {
   ...base,
   key: "gorgias_oauth-ticket-message-created",
   name: "New Ticket Message",
-  description: "Emit new event when a ticket message is created. [See the docs](https://developers.gorgias.com/reference/the-event-object)",
+  description: "Emit new event when a ticket message is created. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
   version: "0.1.4",
   type: "source",
   props: {
@@ -17,6 +17,8 @@ export default {
         base.props.gorgias_oauth,
         "channel",
       ],
+      default: "",
+      description: "The channel used to send the message.",
     },
     ticketId: {
       propDefinition: [
