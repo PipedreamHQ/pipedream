@@ -7,7 +7,7 @@ export default {
   name: "New Transaction",
   description: "Emit new event when a new transaction is created. [See the Documentation](https://developers.etsy.com/documentation/reference#operation/getShopReceiptTransactionsByShop)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,
