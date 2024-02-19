@@ -1,10 +1,11 @@
 import wordpress from "../../wordpress_org.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "wordpress_org-update-post",
   name: "Update Post",
   description: "Updates a post specified by its ID. [See the documentation](https://developer.wordpress.org/rest-api/reference/posts/#update-a-post)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     wordpress,
@@ -58,6 +59,18 @@ export default {
         "commentStatus",
       ],
     },
+    meta: {
+      propDefinition: [
+        wordpress,
+        "meta",
+      ],
+    },
+    media: {
+      propDefinition: [
+        wordpress,
+        "media",
+      ],
+    },
   },
   async run({ $ }) {
     const params = {
@@ -68,6 +81,8 @@ export default {
       categories: this.categories,
       excerpt: this.excerpt,
       comment_status: this.commentStatus,
+      meta: utils.parseObj(this.meta),
+      featured_media: this.media,
     };
 
     const resp = await this.wordpress.updatePost(this.post, params);
