@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/shopwaive",
+  "version": "0.0.1",
+  "description": "Pipedream Shopwaive Components",
+  "main": "shopwaive.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shopwaive"
+  ],
+  "homepage": "https://pipedream.com/apps/shopwaive",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
