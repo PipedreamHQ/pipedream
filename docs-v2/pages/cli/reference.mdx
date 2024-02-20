@@ -1,11 +1,5 @@
 # CLI Reference
 
-The Pipedream CLI currently allows you to manage [components](/components/). If you'd like to see support for managing [workflows](/workflows/), please +1 [this issue on Github](https://github.com/PipedreamHQ/pipedream/issues/220).
-
-When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
-
-
-
 ## Installing the CLI
 
 [See the CLI installation docs](/cli/install/) to learn how to install the CLI for your OS / architecture.
@@ -20,14 +14,14 @@ We've also documented each command below, with usage examples for each.
 
 Everywhere you can refer to a specific component as an argument, you can use the component's ID _or_ its name slug. For example, to retrieve details about a specific source using `pd describe`, you can use either of the following commands:
 
-```
-λ ~/ pd describe dc_abc123
+```bash
+> pd describe dc_abc123
 
   id: dc_abc123
   name: http
   endpoint: https://myendpoint.m.pipedream.net
 
-λ ~/ pd describe http
+> pd describe http
 Searching for sources matching http
 
   id: dc_abc123
@@ -39,7 +33,7 @@ Searching for sources matching http
 
 Deletes an event source. Run:
 
-```
+```bash
 pd delete <source-id-or-name>
 ```
 
@@ -55,13 +49,13 @@ When you select a source, we'll deploy it and start listening for new events.
 
 You can also deploy a specific source via the source's `key` (defined in the component file for the source):
 
-```
+```bash
 pd deploy http-new-requests
 ```
 
 or author a component locally and deploy that local file:
 
-```
+```bash
 pd deploy http.js
 ```
 
@@ -71,48 +65,48 @@ pd deploy http.js
 
 Display the details for a source: its id, name, and other configuration details:
 
-```
-pd describe <source-id-or-name>
+```bash
+pd describe SOURCE_ID_OR_NAME
 ```
 
 ### `pd dev`
 
 `pd dev` allows you to interactively develop a source from a local file.`pd dev` will link your local file with the deployed component and watch your local file for changes. When you save changes to your local file, your component will automatically be updated on Pipedream.
 
-```
-pd dev <file-or-name>
+```bash
+pd dev FILE_OR_NAME
 ```
 
 If you quit `pd dev` and want to link the same deployed source to your local file, you can pass the deployed component ID using the `--dc` flag:
 
-```
-pd dev --dc <existing-deployed-component-id> <file-or-name>
+```bash
+pd dev --dc SOURCE_ID FILE_OR_NAME
 ```
 
 ### `pd events`
 
 Returns historical events sent to a source, and streams emitted events directly to the CLI.
 
-```
-pd events <source-id-or-name>
+```bash
+pd events SOURCE_ID
 ```
 
 By default, `pd events` prints (up to) the last 10 events sent to your source.
 
-```
-pd events -n 100 <source-id-or-name>
+```bash
+pd events -n 100 SOURCE_ID_OR_NAME
 ```
 
 `pd events -n N` retrieves the last `N` events sent to your source. We store the last 100 events sent to a source, so you can retrieve a max of 100 events using this command.
 
-```
-pd events -f <source-id-or-name>
+```bash
+pd events -f SOURCE_ID_OR_NAME
 ```
 
 `pd events -f` connects to the [SSE stream tied to your source](/api/sse/) and displays events as the source produces them.
 
-```
-pd events -n N -f <source-id-or-name>
+```bash
+pd events -n N -f SOURCE_ID_OR_NAME
 ```
 
 You can combine the `-n` and `-f` options to list historical events _and_ follow the source for new events.
@@ -129,7 +123,7 @@ Generate new app and component files from templates.
 
 Creates a directory and [an app file](/components/guidelines/#app-files) from a template
 
-```
+```bash
 # Creates google_calendar/ directory and google_calendar.mjs file
 pd init app google_calendar
 ```
@@ -138,7 +132,7 @@ pd init app google_calendar
 
 Creates a new directory and [a component action](/components#actions) from a template.
 
-```
+```bash
 # Creates add-new-event/ directory and add-new-event.mjs file
 pd init action add-new-event
 ```
@@ -147,7 +141,7 @@ pd init action add-new-event
 
 Creates a new directory and [an event source](/sources/) from a template.
 
-```
+```bash
 # Creates cancelled-event/ directory and cancelled_event.mjs file
 pd init source cancelled-event
 ```
@@ -162,7 +156,7 @@ You can attach [database](/components/api/#db), [HTTP](/components/api/#http), o
 
 For example, running:
 
-```
+```bash
 pd init source cancelled-event --db --http --timer
 ```
 
@@ -182,21 +176,21 @@ Lists Pipedream sources running in your account. Running `pd list` without any a
 
 You can also list specific resource types directly:
 
-```
+```bash
 pd list components
 ```
 
-```
+```bash
 pd list streams
 ```
 
 `sources` and `streams` have shorter aliases, too:
 
-```
+```bash
 pd list so
 ```
 
-```
+```bash
 pd list st
 ```
 
@@ -212,8 +206,8 @@ Running `pd logout` without any arguments removes the default API key from your 
 
 You can remove the API key for a specific profile by running:
 
-```
-pd logout -p <profile>
+```bash
+pd logout -p PROFILE
 ```
 
 ### `pd logs`
@@ -232,7 +226,7 @@ To publish an action, use the `pd publish` command.
 pd publish <filename>
 ```
 
-E.g.,
+For example:
 
 ```bash
 pd publish my-action.js
@@ -256,26 +250,27 @@ Updates the code, props, or metadata for an event source.
 
 If you deployed a source from Github, for example, someone might publish an update to that source, and you may want to run the updated code.
 
-```
-pd update <source-id-or-name> --code https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/new-requests/new-requests.js
+```bash
+pd update SOURCE_ID_OR_NAME \
+  --code https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/new-requests/new-requests.js
 ```
 
 You can change the name of a source:
 
-```
-pd update <source-id-or-name> --name new-awesome-name
+```bash
+pd update SOURCE_ID_OR_NAME --name NEW_NAME
 ```
 
 You can deactivate a source if you want to stop it from running:
 
-```
-pd update <source-id-or-name> --deactivate
+```bash
+pd update SOURCE_ID_OR_NAME --deactivate
 ```
 
 or activate a source you previously deactivated:
 
-```
-pd update <source-id-or-name> --activate
+```bash
+pd update SOURCE_ID_OR_NAME --activate
 ```
 
 ## Profiles
@@ -286,19 +281,19 @@ Profiles allow you to work with multiple, named Pipedream accounts via the CLI.
 
 When you [login to the CLI](/cli/login/), the CLI writes the API key for that account to your config file, in the `api_key` field:
 
-```
+```bash
 api_key = abc123
 ```
 
 You can set API keys for other, named profiles, too. Run
 
-```
+```bash
 pd login -p <profile>
 ```
 
 `<profile>` can be any string of shell-safe characters that you'd like to use to identify this new profile. The CLI opens up a browser asking you to login to your target Pipedream account, then writes the API key to a section of the config file under this profile:
 
-```
+```bash
 [your_profile]
 api_key = def456
 ```
@@ -312,7 +307,7 @@ If you're working with resources in an [workspace](/workspaces/), you'll need to
 1. [Retrieve your workspaces's ID](/workspaces/#finding-your-workspace-s-id)
 2. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
 
-```
+```bash
 [profile_name]
 api_key = <API Key from user settings>
 org_id = <Workspace ID from workspace settings>
@@ -328,15 +323,15 @@ pd publish file.js --profile workspace
 
 You can set a profile on any `pd` command by setting the `-p` or `--profile` flag. For example, to list the sources in a specific account, run:
 
-```
-pd list sources --profile <profile>
+```bash
+pd list sources --profile PROFILE
 ```
 
 ## Version
 
 To get the current version of the `pd` CLI, run
 
-```
+```bash
 pd --version
 ```
 

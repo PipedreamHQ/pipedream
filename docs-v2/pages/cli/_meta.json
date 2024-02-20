@@ -1,11 +1,5 @@
 {
-  "install": {
-    "display": "children"
-  },
-  "login": {
-    "display": "children"
-  },
-  "reference": {
-    "display": "children"
-  }
+  "reference": "CLI Reference",
+  "install": "Install",
+  "login": "Login"
 }

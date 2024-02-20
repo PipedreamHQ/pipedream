@@ -9,11 +9,9 @@ This document is intended for a technical audience (including those interested i
 - Use Pipedream managed OAuth for an app
 - Use npm packages in components
 
-We recommend that you execute the examples in order — each one builds on the concepts and practices of earlier examples.
+We recommend that you execute the examples in order — each one builds on the concepts and practices of earlier examples.
 
-
-
-# Quickstart Examples
+## Quickstart Examples
 
 **Hello World! (~10 minutes)**
 
@@ -34,7 +32,7 @@ We recommend that you execute the examples in order — each one builds on the 
 - Use Pipedream managed OAuth with Github's API to retrieve issues for a repo
 - Use the `greatest` deduping strategy to only emit new issues
 
-# Prerequisites
+## Prerequisites
 
 **Step 1.** Create a free account at [https://pipedream.com](https://pipedream.com). Just sign in with your Google or Github account.
 
@@ -48,7 +46,7 @@ pd login
 
 See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
 
-# CLI Development Mode
+## CLI Development Mode
 
 The examples in this guide use the `pd dev` command. This command will deploy your code in "development mode". What that means is that the CLI will attach to the deployed component and watch your local file for changes — when you save changes to your local file, your component will automatically be updated on Pipedream (the alternative is to `pd deploy` and run `pd update` for each change).
 
@@ -71,7 +69,7 @@ pd dev --dc dc_123456 components/sources/my-source.mjs
 
 See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
 
-# Hello World!
+## Hello World!
 
 Here is a simple component that will emit an event with a payload of `{ message: "hello world!" }` on each execution.
 
@@ -238,7 +236,7 @@ http: {
 In addition, we'll update the function signature to pass in the HTTP event so we can reference it in our code:
 
 ```javascript
-async run(event) {
+async run(event) { }
 ```
 
 Finally, let's update the `run()` method to use `event` to both echo back the request body in the HTTP response and emit it as the event payload.
@@ -302,7 +300,7 @@ curl -d '{ "message": "hello world!" }' \
 
 ![source](./images/quickstart/hello-world-4.gif)
 
-# Emit new RSS items on a schedule (~10 mins)
+## Emit new RSS items on a schedule (~10 mins)
 
 Next, let's cover some real-world examples starting with RSS. Continue editing the same file, but start with the following scaffolding for this example.
 
@@ -314,7 +312,7 @@ export default {
 };
 ```
 
-## Emit items in an RSS Feed
+### Emit items in an RSS Feed
 
 > **Note:** The code for the examples below was adapted from the samples provided in the readme for the `rss-parser` package at https://www.npmjs.com/package/rss-parser. To use most npm packages on Pipedream, just `import` them — there is no `package.json` or `npm install` required.
 
@@ -357,7 +355,7 @@ export default {
 
 Save the changes to your file, and then refresh your source in the Pipedream UI and click **RUN NOW**. You should see 10 events emitted. Each event corresponds with an RSS item. You can select each event to inspect it.
 
-## Add an optional summary for each emitted event
+### Add an optional summary for each emitted event
 
 Next, we'll add a summary for each event. The summary is displayed in the event list and makes it easy to differentiate events at a glance in the list. For this example, let's emit the `title` as the summary for each RSS item. To do that, we add a metadata object to `this.$emit()`.
 
@@ -391,7 +389,7 @@ export default {
 
 Save the changes to your file and then click **RUN NOW** in the Pipedream UI. You should again see 10 events emitted, but this time each event should have a corresponding summary in the event list.
 
-## Only Emit New Items in the RSS Feed
+### Only emit new items in the RSS Feed
 
 In the previous examples, we always emit any data that is returned. However, we are emitting duplicate events -- e.g., if you run invoke the component twice, you will see the same events emitted twice.
 
@@ -436,7 +434,7 @@ export default {
 
 Save the changes to your file and then click **RUN NOW** in the Pipedream UI. Similar to previous executions, you should see 10 events emitted. Now, run the component **again**. You should see a maximum of **one, if any** events emitted (the reason one event may be emitted is if a new item was added to the RSS feed). If no new events were emitted, wait for ~1 minute and try again.
 
-## Add a timer interface to invoke the component on a schedule
+### Add a timer interface to invoke the component on a schedule
 
 Now we're ready to add a timer to our component to check for new RSS items automatically. Similar to the **hello world!** example above, we'll add a timer prop, and we'll set the default interval to 5 minutes:
 
@@ -483,7 +481,7 @@ export default {
 
 **Save** your component then return to the UI and reload the page. You should see the updated configuration on your summary card and a countdown to the next execution. You can still click **RUN NOW** to execute your source manually.
 
-# Use managed auth to pull data from Github (~10 mins)
+## Use managed auth to pull data from Github (~10 mins)
 
 In the last example, we were able to retrieve data to emit without any authentication. Now we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). Similar to the last example, continue editing the same file, but start with the following scaffolding:
 
@@ -495,7 +493,7 @@ export default {
 };
 ```
 
-## Get issues for a repo
+### Get issues for a repo
 
 First, import `axios` so we can make a request to the Github REST API:
 
@@ -566,7 +564,7 @@ export default {
 
 Next save your changes and go to the terminal where you ran `pd dev` **— follow the CLI prompts to select a connected account for Github (or connect a new one)**. Then load the Pipedream UI, and click **RUN NOW**. Your component should emit 30 issues.
 
-## Dedupe the events
+### Dedupe the events
 
 In the RSS example, we deduped the emitted events based on the `unique` strategy. The limitation of the unique strategy is that it will only maintain uniqueness for 100 items. Since Github issues have increasing numeric IDs, we can use the `greatest` strategy to filter for new issues.
 
@@ -624,7 +622,7 @@ export default {
 
 Save, load the Pipedream UI, and click **RUN NOW**. You should see 30 issues emitted, now with summaries. When you click **RUN NOW** again, only new issues will be emitted (if there are any).
 
-## Add a timer to run on a schedule
+### Add a timer to run on a schedule
 
 As the final step of this walk-through, we'll update our component to check for new issues every 15 minutes. To do that, we'll add a timer prop.
 
@@ -679,8 +677,8 @@ export default {
 
 Save and reload your source in the Pipedream UI. You should now see a countdown timer to the next execution.
 
-# What's Next?
+## What's Next?
 
-You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](../../../api/) at any time!
+You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](/components/api/) at any time!
 
 If you have any questions or feedback, please join our [public Slack](https://pipedream.com/support).

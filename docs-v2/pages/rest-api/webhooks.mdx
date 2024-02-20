@@ -4,25 +4,19 @@ Pipedream supports webhooks as a way to deliver events to a endpoint you own. We
 
 For example, you can run a Twitter [event source](/sources/) that listens for new tweets. If you [subscribe](/api/rest/#subscriptions) the webhook to this source, Pipedream will deliver those tweets directly to your webhook's URL without running a workflow. 
 
-
-
 ## Send events from an existing event source to a webhook
 
 [Event sources](/sources/) source data from a service / API, emitting events that can trigger Pipedream workflows. For example, you can run a Github event source that emits an event anytime someone stars your repo, triggering a workflow on each new star.
 
 **You can also send the events emitted by an event source to a webhook**.
 
-<div>
-<img alt="Github stars to Pipedream" src="./images/webhook-proxy.png">
-</div>
+![Github stars to Pipedream](./images/webhook-proxy.png)
 
 ### Step 1 - retrieve the source's ID
 
 First, you'll need the ID of your source. You can visit [https://pipedream.com/sources](https://pipedream.com/sources), select a source, and copy its ID from the URL. It's the string that starts with `dc_`:
 
-<div>
-<img alt="Source ID" width="300px" src="./images/source-id.png">
-</div>
+![Source ID](./images/source-id.png)
 
 You can also find the ID by running `pd list sources` using [the CLI](/cli/reference/#pd-list).
 

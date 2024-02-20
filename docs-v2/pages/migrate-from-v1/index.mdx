@@ -25,7 +25,7 @@ _Get Started_
 Watch a demo:
 
 <video controls poster="./images/demo-poster.png" width="100%">
-  <source src="https://res.cloudinary.com/pipedreamin/video/upload/v1644985143/homepage/pipedream-demo_qyvlni.mp4" type="video/mp4">
+  <source src="https://res.cloudinary.com/pipedreamin/video/upload/v1644985143/homepage/pipedream-demo_qyvlni.mp4" type="video/mp4" />
 Your browser does not support the video tag.
 </video>
 
@@ -41,21 +41,15 @@ In v1, building your workflow and inspecting past events were visible in the sam
 
 Switch between these contexts using the menu in the top right of the workflow builder.
 
-<div style="display: flex; justify-content: center;">
-  <img src="./images/new-builder-context-switcher.gif" alt="Switching between the Builder & Inspector contexts in the v2 workflow builder">
-</div>
+![Switching between the Builder & Inspector contexts in the v2 workflow builder](./images/new-builder-context-switcher.gif)
 
 When you first open a deployed workflow, you're presented with the **Inspector** version of the workflow. In this view you can see logs of past events, and select them to see the results of each step in the workflow.
 
-<div style="display: flex; justify-content: center;">
-  <img src="./images/inspector-sample.png" alt="Example of events listed in the Inspector">
-</div>
+![Example of events listed in the Inspector](./images/inspector-sample.png)
 
 To edit the workflow, click the **Edit** button in the top right hand corner. This will close the inspector and allow you to edit your workflow without the distraction of logs from the production flow.
 
-<div style="display: flex; justify-content: center;">
-  <img src="./images/builder-mode-sample.png" alt="Example of the new dedicated Builder mode">
-</div>
+![Example of the new dedicated Builder mode](./images/builder-mode-sample.png)
 
 ### Testing Changes
 
@@ -65,9 +59,7 @@ We've improved this flow. Now you can test your changes with a new **Test** butt
 
 In addition to testing single steps, you can now selectively test portions of your workflow (e.g. all steps above or below the selected step):
 
-<div style="display: flex; justify-content: center;">
-  <img src="./images/test-workflow-portions.png" alt="Selectively pick testing your workflow above or below the current step is now available.">
-</div>
+![Selectively pick testing your workflow above or below the current step is now available.](./images/test-workflow-portions.png)
 
 #### Testing individual events
 
@@ -75,9 +67,7 @@ Not only can you test portions of your workflow in isolation, but you can also s
 
 In the **Test Trigger** portion of your trigger, you can select a past event seen by the workflow and build your steps against it - without having to re-trigger it manually:
 
-<div style="display: flex; justify-content: center;">
-  <img src="./images/testing-individual-events.gif" alt="Test your workflow with a specific event">
-</div>
+![Test your workflow with a specific event](./images/testing-individual-events.gif)
 
 ### Deploying Changes
 
@@ -114,7 +104,7 @@ defineComponent({
 
 You can think of the `$` as the entry point to built in Pipedream functions. In v1, this special functions included `$end`, `$respond`, etc. In v2, these have been remapped to `$.flow.exit` and `$.respond` respectively.
 
-These changes unify workflow development to the [Component API](/components/) used by pre-built actions and also allows the [defining of props](#params-vs-props) from within your code steps.
+These changes unify workflow development to the [Component API](/components/api) used by pre-built actions and also allows the [defining of props](#params-vs-props) from within your code steps.
 
 ### Using 3rd party packages
 
@@ -221,7 +211,7 @@ In the example, you added a firstName string prop. The value assigned to this pr
 
 Additionally, Pipedream renders a visual component in the step **Configuration** to accept this input:
 
-<img src="./images/custom-string-prop.png" alt="Custom props render in the Configuration portion of the code step.">
+![Custom props render in the Configuration portion of the code step.](./images/custom-string-prop.png)
 
 ### Connecting apps
 
@@ -252,7 +242,7 @@ export default defineComponent({
 
 After testing the step, you'll see the Slack app will appear in the **Configuration** section on the left hand side. In this section you can choose which Slack account you'd like to use in the step.
 
-<img src="./images/app-props-example.png" alt="Example of adding an app connection to a v2 Node.js step">
+![Example of adding an app connection to a v2 Node.js step](./images/app-props-example.png)
 
 ### HTTP Response
 
@@ -276,7 +266,7 @@ export default defineComponent({
 
 Please note, you'll also need to configure the HTTP trigger step to also allow custom responses. Use the dropdown in the **HTTP Response** section of the HTTP trigger to select the **Return a custom response from your workflow** option:
 
-<img src="./images/custom-http-response-option.png" alt="Select the option to allow your workflow to send it's own HTTP responses">
+![Select the option to allow your workflow to send it's own HTTP responses](./images/custom-http-response-option.png)
 
 ## Known Gaps & Limitations
 
