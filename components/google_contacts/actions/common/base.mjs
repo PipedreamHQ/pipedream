@@ -6,6 +6,14 @@ export default {
     googleContacts,
   },
   methods: {
+    getPersonFields(personFields) {
+      return [
+        ...new Set([
+          ...personFields,
+          ...Object.keys(this.additionalFields ?? {}),
+        ]),
+      ].join();
+    },
     getPersonFieldProps(personFields) {
       const result = {};
       if (personFields.includes("names")) {
@@ -116,8 +124,8 @@ export default {
           {
             date: {
               year,
-              month,
-              day,
+              month: Number(month),
+              day: Number(day),
             },
           },
         ];

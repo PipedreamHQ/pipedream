@@ -29,7 +29,7 @@ export default {
 
       return this.googleContacts.createContact(client, {
         requestBody,
-        personFields: this.personFields.join(),
+        personFields: this.getPersonFields(this.personFields),
       });
     },
     emitSummary($, results) {

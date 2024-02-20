@@ -46,7 +46,7 @@ export default {
       return this.googleContacts.updateContact(client, {
         resourceName,
         requestBody,
-        updatePersonFields: updatePersonFields.join(),
+        updatePersonFields: this.getPersonFields(updatePersonFields),
       });
     },
     emitSummary($) {

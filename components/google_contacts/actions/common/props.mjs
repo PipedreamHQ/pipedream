@@ -82,7 +82,7 @@ export default {
   additionalFields: {
     type: "object",
     label: "Additional Fields",
-    description: "An object with additional fields to be included. Each value will be parsed as a JSON object, and keys that have the same name as other props will override them. [See the documentation](https://developers.google.com/people/api/rest/v1/people#resource:-person) for all available fields and their structure.",
+    description: "An object with additional fields to be included. Each value will be parsed as a JSON object, and keys that have the same name as other props will override them. [See the documentation](https://developers.google.com/people/api/rest/v1/people#resource:-person) for all available fields and their structure. Example value: `{ \"genders\": [{ \"value\": \"male\" }] }`",
     optional: true,
   },
 };
