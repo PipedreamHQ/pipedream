@@ -28,10 +28,12 @@ Click **New Variable** to add a new environment variable or secret:
 **Configure the required fields**:
 ![Add new var modal](./images//add-var-modal-v2.png)
 
-- **Key**: Name of the var, for example, `CLIENT_ID`.
-- **Value**: The value can contain any string with a max limit of 64KB.
-- **Description**: Optionally add a description to add context for you and other workspace members. This is only visible in the UI, and is not accessible within a workflow.
-- **Secret**: New variables default to **secret**. If configured as a secret, the value is never exposed in the UI and cannot be modified.
+| Input field | Description |
+| :-- | :-- |
+| **Key** | Name of the variable — for example, `CLIENT_ID` |
+| **Value** | The value, which can contain any string with a max limit of 64KB |
+| **Description** | Optionally add a description of the variable. This is only visible in the UI, and is not accessible within a workflow. |
+| **Secret** | New variables default to **secret**. If configured as a secret, the value is never exposed in the UI and cannot be modified. |
 
 To edit an environment variable, click the **Edit** button from the three dots to the right of a specific variable.
 ![Edit an env var](./images/edit-env-var.png)

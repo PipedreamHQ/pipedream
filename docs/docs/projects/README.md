@@ -143,6 +143,10 @@ You can always see who has access and remove access if necessary:
 
 ![Manage access showing members with access](./images/slideout-member-list.png)
 
+## Project variables and secrets
+Environment variables defined at the global workspace level are accessible to all workspace members and workflows within the workspace. To restrict access to sensitive variables or secrets, define them at the project-level and [configure access controls for the project](/projects/#managing-access).
+
+
 ## Frequently asked questions
 
 ### Can sources and connected accounts be organized into projects as well?
