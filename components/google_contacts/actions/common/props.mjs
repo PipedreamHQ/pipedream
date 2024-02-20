@@ -75,12 +75,12 @@ export default {
     ],
   },
   urls: {
-    location: "string[]",
+    type: "string[]",
     label: "URLs",
     description: "The contact's associated URLs.",
   },
   additionalFields: {
-    location: "object",
+    type: "object",
     label: "Additional Fields",
     description: "An object with additional fields to be included. Each value will be parsed as a JSON object, and keys that have the same name as other props will override them. [See the documentation](https://developers.google.com/people/api/rest/v1/people#resource:-person) for all available fields and their structure.",
     optional: true,
