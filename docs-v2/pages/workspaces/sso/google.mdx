@@ -1,3 +1,5 @@
+import { Steps } from 'nextra/components'
+
 # Configure SSO with Google Workspace
 
 Pipedream supports Single Sign-On (SSO) with Google Workspace. This guide shows you how to configure SSO in Pipedream to authenticate with your Google org.
@@ -11,7 +13,11 @@ Pipedream supports Single Sign-On (SSO) with Google Workspace. This guide shows 
 
 To configure SSO in Pipedream, you need to set up a [SAML application](https://apps.google.com/supportwidget/articlehome?hl=en&article_url=https%3A%2F%2Fsupport.google.com%2Fa%2Fanswer%2F6087519%3Fhl%3Den&assistant_id=generic-unu&product_context=6087519&product_name=UnuFlow&trigger_context=a) in Google Workspace. If you're a Google Workspace admin, you're all set. Otherwise, coordinate with a Google Workspace admin before you continue.
 
-1. In your **Google Workspace** admin console, select **Apps** > **Web and Mobile apps**
+<Steps>
+
+### Find Web and Mobile apps in Google Workspace
+
+In your **Google Workspace** admin console, select **Apps** > **Web and Mobile apps**
 
 <br />
 <div>
@@ -19,7 +25,9 @@ To configure SSO in Pipedream, you need to set up a [SAML application](https://a
 </div>
 <br />
 
-2. In the **Add app** menu, select the option to **Add custom SAML app**:
+### Add a custom SAML app
+
+In the **Add app** menu, select the option to **Add custom SAML app**:
 
 <br />
 <div>
@@ -27,7 +35,9 @@ To configure SSO in Pipedream, you need to set up a [SAML application](https://a
 </div>
 <br />
 
-3. First, add **Pipedream** as the app name, and an app description that makes sense for your organization:
+### Configure the app
+
+First, add **Pipedream** as the app name, and an app description that makes sense for your organization:
 
 <br />
 <div>
@@ -35,7 +45,7 @@ To configure SSO in Pipedream, you need to set up a [SAML application](https://a
 </div>
 <br />
 
-4. Continue past the configuration step:
+### Continue past the configuration step
 
 <br />
 <div>
@@ -43,7 +53,9 @@ To configure SSO in Pipedream, you need to set up a [SAML application](https://a
 </div>
 <br />
 
-5. In the **Service provider details**, provide the following values:
+### Configure the Service provider details
+
+In the **Service provider details**, provide the following values:
 
 - **ACS URL** — `https://api.pipedream.com/auth/saml/consume`
 - **Entity ID** — Pipedream
@@ -70,9 +82,13 @@ then press **Continue**.
 </div>
 <br />
 
-6. Once the app is configured, visit the **User access** section to add Google Workspace users to your Pipedream SAML app. See [step 14 of the Google Workspace SAML docs](https://apps.google.com/supportwidget/articlehome?hl=en&article_url=https%3A%2F%2Fsupport.google.com%2Fa%2Fanswer%2F6087519%3Fhl%3Den&assistant_id=generic-unu&product_context=6087519&product_name=UnuFlow&trigger_context=a) for more detail.
+### Configure the Attribute mapping
 
-7. Pipedream requires access to SAML metadata at a publicly-accessible URL. This communicates public metadata about the identity provider (Google Workspace) that Pipedream can use to configure the SAML setup in Pipedream.
+Once the app is configured, visit the **User access** section to add Google Workspace users to your Pipedream SAML app. See [step 14 of the Google Workspace SAML docs](https://apps.google.com/supportwidget/articlehome?hl=en&article_url=https%3A%2F%2Fsupport.google.com%2Fa%2Fanswer%2F6087519%3Fhl%3Den&assistant_id=generic-unu&product_context=6087519&product_name=UnuFlow&trigger_context=a) for more detail.
+
+### Download and host the SAML metadata
+
+Pipedream requires access to SAML metadata at a publicly-accessible URL. This communicates public metadata about the identity provider (Google Workspace) that Pipedream can use to configure the SAML setup in Pipedream.
 
 First, click the **Download Metadata** button on the left of the app configuration page:
 
@@ -84,14 +100,20 @@ First, click the **Download Metadata** button on the left of the app configurati
 
 **Host this file on a public web server where Pipedream can access it via URL**, for example: `https://example.com/metadata.xml`. You'll use that URL in the next step.
 
-8. In Pipedream, visit your workspace's [authentication settings](https://pipedream.com/settings/authentication).
-9. In the **Single Sign-On** section, select **SAML**, and add the URL from step 7 above in the **Metadata URL** field, then click Save.
+### Visit your workspace's authentication settings
+
+In Pipedream, visit your workspace's [authentication settings](https://pipedream.com/settings/authentication).
+
+### Add the SAML metadata URL
+
+In the **Single Sign-On** section, select **SAML**, and add the URL from step 7 above in the **Metadata URL** field, then click Save.
 
 <br />
 <div>
 <img alt="Pipedream SAML Metadata URL" src="https://res.cloudinary.com/pipedreamin/image/upload/v1699919663/saml-metadata-url_cxciur.png" />
 </div>
 <br />
+</Steps>
 
 Any user in your workspace can now log into Pipedream at [https://pipedream.com/auth/sso](https://pipedream.com/auth/sso) by entering your workspaces's name (found in your [Settings](https://pipedream.com/settings/account)). You can also access your SSO sign in URL directly by visiting [https://pipedream.com/auth/sso/your-workspace-name](https://pipedream.com/auth/sso), where `your-workspace-name` is the name of your workspace.
 
