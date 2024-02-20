@@ -349,16 +349,20 @@ async function run() {
 
   if (componentsDiffContents.length) {
     for ({ dependencyFilePath, componentFilePath } of componentsDiffContents) {
-      const content = await readFile(componentFilePath, "utf-8")
-      const currentVersion = getVersion(content)
-      const increasedVersion = increaseVersion(currentVersion)
-
-      await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
-
-      console.log(`✅ Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+      try {
+        const content = await readFile(componentFilePath, "utf-8")
+        const currentVersion = getVersion(content)
+        const increasedVersion = increaseVersion(currentVersion)
+  
+        await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
+  
+        console.log(`✅ Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+      } catch(error) {
+        console.error(`❌ Error increasing version of ${getComponentFilePath(componentFilePath)}: ${error}`);
+      }
     };
   }
-  
+
   const totalErrors = componentsThatDidNotModifyVersion.length;
   let counter = 1;
 
