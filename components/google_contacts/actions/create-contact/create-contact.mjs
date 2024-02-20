@@ -12,7 +12,7 @@ export default {
     personFields: {
       propDefinition: [
         common.props.googleContacts,
-        "updatePersonFields",
+        "fields",
       ],
       label: "Contact Fields",
       description: "Contact sections to include",
