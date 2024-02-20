@@ -25,7 +25,8 @@
     "nextra-theme-docs": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-markdown": "^9.0.1"
+    "react-markdown": "^9.0.1",
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.1.0",
