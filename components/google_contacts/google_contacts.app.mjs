@@ -45,12 +45,6 @@ export default {
         };
       },
     },
-    updatePersonFields: {
-      type: "string[]",
-      label: "Update Fields",
-      description: "Contact sections to update",
-      options: constants.UPDATE_PERSON_FIELD_OPTIONS,
-    },
     streetAddress: {
       type: "string",
       label: "Street Address",
