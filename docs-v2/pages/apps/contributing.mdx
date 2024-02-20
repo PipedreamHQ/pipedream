@@ -1,4 +1,5 @@
 import Callout from '@/components/Callout'
+import { FileTree } from 'nextra/components'
 
 # Pipedream Registry
 
@@ -20,20 +21,26 @@ All Pipedream registry components live in [this GitHub repo](https://github.com/
 
 Every integrated app on Pipedream has a corresponding directory that defines the actions and sources available for that app. Below is a simplified version of the [Airtable app directory](https://github.com/PipedreamHQ/pipedream/tree/master/components/airtable) within the registry:
 
-```
-airtable
-├── README.md
-├── actions
-│   ├── get-record
-│   │   └── get-record.mjs
-├── airtable.app.mjs
-├── node_modules
-│   ├── ...here be dragons
-├── package.json
-└── sources
-    └── new-records
-        └── new-records.mjs
-```
+<FileTree>
+  <FileTree.Folder name="airtable" defaultOpen>
+    <FileTree.File name="README.md" />
+    <FileTree.File name="airtable.app.mjs" />
+    <FileTree.File name="package.json" />
+    <FileTree.Folder name="actions" defaultOpen>
+      <FileTree.Folder name="get-record" defaultOpen>
+        <FileTree.File name="get-record.mjs" />
+      </FileTree.Folder>
+    </FileTree.Folder>
+    <FileTree.Folder name="node_modules" defaultOpen>
+      <FileTree.File name="...here be dragons" />
+    </FileTree.Folder>
+    <FileTree.Folder name="sources" defaultOpen>
+      <FileTree.Folder name="new-records" defaultOpen>
+        <FileTree.File name="new-records.mjs" />
+      </FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
 
 In the example above, the `components/airtable/actions/get-record/get-record.mjs` component is published as the **Get Record** action under the **Airtable** app within the workflow builder in Pipedream.
 

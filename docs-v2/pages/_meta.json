@@ -15,8 +15,15 @@
   "code": {
     "title": "Code"
   },
+  "environment-variables": {
+    "title": "Environment Variables"
+  },
   "data-stores": "Data Stores",
   "destinations": "Destinations",
+  "http": "HTTP",
+  "apps": "Integrations",
+  "user-settings": "User and Billing Settings",
+  "troubleshooting": "Troubleshooting",
   "support": {
     "title": "Support",
     "type": "page",
@@ -25,9 +32,10 @@
   },
   "pricing": {
     "title": "Pricing",
-    "type": "page",
-    "href": "https://pipedream.com/pricing",
-    "newWindow": true
+    "type": "page"
+  },
+  "privacy-and-security": {
+    "title": "Security"
   },
   "workspaces-and-credits-faq": {
     "display": "children"

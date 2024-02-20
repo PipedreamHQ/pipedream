@@ -4,8 +4,6 @@ import Callout from '@/components/Callout'
 
 This doc describes some common solutions for fixing issues with [pipedream.com](https://pipedream.com) or with a specific workflow.
 
-
-
 ## A feature isn't working on pipedream.com
 
 If you're seeing an issue with [pipedream.com](https://pipedream.com) (for example, the site won't load, or you think you've found a bug), try each of the following steps, checking to see if they fix the problem:
@@ -36,18 +34,21 @@ Most Pipedream sources fall into one of two categories: webhook-based or timer-b
 
 ### Webhook-based instant sources
 
-- These sources will get triggered immediately. But because events come in in real-time, most will **not** automatically fetch historical events upon creation.
-- To surface test events in your workflow while building, you'll need to generate an eligible event in the selected app.
-- For example, if you've configured the "[Message Updates (Instant)](https://pipedream.com/apps/telegram-bot-api/triggers/message-updates) Telegram source, you'll need to send a message in the Telegram account you've selected in order for an event to appear.
-  ![Select an event](https://res.cloudinary.com/pipedreamin/image/upload/v1653434586/docs/webhook-triggers-select-event_qj7nlp.png)
-- Sources for apps like [Telegram](https://pipedream.com/apps/telegram-bot-api/triggers/message-updates) and [Google Sheets](https://pipedream.com/apps/google-sheets/triggers/new-row-added) use webhooks and get triggered immediately.
+These sources will get triggered immediately. But because events come in in real-time, most will **not** automatically fetch historical events upon creation. To surface test events in your workflow while building, you'll need to generate an eligible event in the selected app.
+
+For example, if you've configured the "[Message Updates (Instant)](https://pipedream.com/apps/telegram-bot-api/triggers/message-updates) Telegram source, you'll need to send a message in the Telegram account you've selected in order for an event to appear.
+
+![Select an event](https://res.cloudinary.com/pipedreamin/image/upload/v1653434586/docs/webhook-triggers-select-event_qj7nlp.png)
+
+Sources for apps like [Telegram](https://pipedream.com/apps/telegram-bot-api/triggers/message-updates) and [Google Sheets](https://pipedream.com/apps/google-sheets/triggers/new-row-added) use webhooks and get triggered immediately.
 
 ### Timer-based polling sources
 
-- These sources will fetch new events on a regular interval, based on a schedule you specify in the trigger configuration.
-  ![Configure polling timer](https://res.cloudinary.com/pipedreamin/image/upload/v1653434591/docs/polling-triggers-timer_ooz26c.png)
-- In most cases, Pipedream will automatically fetch recent historical events to help enable easier workflow development.
-- Sources for apps like [Twitter](https://pipedream.com/apps/twitter/triggers/search-mentions) and [Spotify](https://pipedream.com/apps/spotify/triggers/new-playlist) require we poll their endpoints in order to fetch new events.
+These sources will fetch new events on a regular interval, based on a schedule you specify in the trigger configuration.
+
+![Configure polling timer](https://res.cloudinary.com/pipedreamin/image/upload/v1653434591/docs/polling-triggers-timer_ooz26c.png)
+
+In most cases, Pipedream will automatically fetch recent historical events to help enable easier workflow development. Sources for apps like [Twitter](https://pipedream.com/apps/twitter/triggers/search-mentions) and [Spotify](https://pipedream.com/apps/spotify/triggers/new-playlist) require we poll their endpoints in order to fetch new events.
 
 ## Where do I find my workflow's ID?
 
@@ -225,11 +226,11 @@ https://pipedream.com/@yourworkspace/projects/yourproject/test-workflow-pabc123
 
 ## Frequently-asked questions
 
-### How do I resolve the error "Undeployed changes — You have made changes to this workflow. Deploy the latest version from the editor"
+### How do I resolve the error "Undeployed changes — You have made changes to this workflow. Deploy the latest version from the editor"
 
 On workflows that are not [synced with GitHub](/projects/git/), you may notice the following warning at the top of your workflow:
 
-> **Undeployed changes** — You have made changes to this workflow. Deploy the latest version from the editor
+> **Undeployed changes** — You have made changes to this workflow. Deploy the latest version from the editor
 
 This means that you've made some changes to your workflow that you haven't yet deployed. To see a diff of what's changed, we recommend [enabling GitHub sync](/projects/git/), where you'll get a full commit history of changes made to your workflows, synced to your own GitHub repo.
 

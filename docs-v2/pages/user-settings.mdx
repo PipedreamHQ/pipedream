@@ -1,10 +1,9 @@
 import Callout from '@/components/Callout'
+import VideoPlayer from '@/components/VideoPlayer'
 
-# User Settings
+# User and Billing Settings
 
 You can find important account details, text editor configuration, and more in your [User Settings](https://pipedream.com/user).
-
-
 
 ## Account
 
@@ -16,17 +15,13 @@ Pipedream sends system emails to the email address tied to your Pipedream login.
 
 Pipedream marketing emails may still be sent to the original email address you used when signing up for Pipedream. To change the email address tied to marketing emails, please [reach out to our team](https://pipedream.com/support).
 
-
 ### Two-Factor Authentication
-
-<br/>
 
 <VideoPlayer src="https://www.youtube.com/embed/M2_JrDh6cVI?si=1Yee9XJ10PhzoMmJ" title="Two Factor Authenitcation" />
 
 Two-factor authentication (2FA) adds an additional layer of security for your Pipedream account and is recommended for all users.
 
 #### Configuring 2FA
-<br>
 
 1. Open your [Account Settings](https://pipedream.com/user)
 2. Click **Configure** under **Two-Factor Authentication**
@@ -43,8 +38,6 @@ If you lose access to your authenticator app and your recovery codes, you will p
 
 #### Signing in with 2FA
 
-<br>
-
 1. You'll be prompted to enter your OTP the next time you sign in to Pipedream
 2. When prompted, you can enter the OTP from your authenticator app or a recovery code
 
@@ -60,6 +53,7 @@ Pipedream recommends enabling 2FA with your identity provider.
 </Callout>
 
 #### Requiring 2-Factor Authentication
+
 Workspaces on the Business and Enterprise plans can [require all workspace members to configure 2FA](/workspaces/#requiring-two-factor-authentication) in order to log in to Pipedream. 
 
 If you are a member of any workspace where 2FA is required, you cannot disable 2FA, but you can still reconfigure it in your [account settings](https://pipedream.com/account/) if necessary.
@@ -69,6 +63,7 @@ Admins and Owners control 2FA settings
 
 Only workspace owner and admin members can enable or disable 2FA for an entire workspace.
 </Callout>
+
 ### Pipedream API Key
 
 Pipedream provides a [REST API](/api/) for interacting with Pipedream programmatically. You'll find your API key here, which you use to [authorize requests to the API](/api/auth/).
@@ -109,15 +104,11 @@ If you've already upgraded, you'll see an option to **Manage Subscription** here
 
 Hover over a specific column in the chart to see the number of credits run for that specific day:
 
-<div>
-<img width="333" alt="Daily credits tooltip" src="./images/daily-invocations-tooltip.png">
-</div>
+![Daily credits tooltip](./images/daily-invocations-tooltip.png)
 
 _Click_ on a specific column to see credits for that day, broken out by workflow / source:
 
-<div>
-<img alt="Credits broken out by workflow / source" src="./images/usage-by-resource.png">
-</div>
+![Credits broken out by workflow / source](./images/usage-by-resource.png)
 
 Users on the free tier will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
 
