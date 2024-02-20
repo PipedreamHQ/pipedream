@@ -9,10 +9,10 @@
   ],
   "homepage": "https://pipedream.com/apps/ticktick",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "dependencies": {
-    "@pipedream/platform": "^0.10.0"
-  },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
   }
 }
