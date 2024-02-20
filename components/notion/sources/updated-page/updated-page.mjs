@@ -109,11 +109,13 @@ export default {
             };
           }
         }
-        if (!propertyChangeFound
-          || (!this.includeNewPages && page?.last_edited_time === page?.created_time)
-        ) {
+        if (!propertyChangeFound) {
           continue;
         }
+      }
+
+      if (!this.includeNewPages && page?.last_edited_time === page?.created_time) {
+        continue;
       }
 
       const meta = this.generateMeta(
