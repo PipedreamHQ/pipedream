@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-update-event-attendees",
   name: "Update attendees of an event",
   description: "Update attendees of an existing event. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#update)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     googleCalendar,

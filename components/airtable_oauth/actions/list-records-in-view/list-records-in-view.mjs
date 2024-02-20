@@ -6,7 +6,7 @@ export default {
   name: "List Records in View",
   description: "Retrieve records in a view with automatic pagination. Optionally sort and filter results. Only available for Enterprise accounts.",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.5",
   ...commonList,
   props: {
     ...common.props,

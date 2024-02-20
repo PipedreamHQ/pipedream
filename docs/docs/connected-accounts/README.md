@@ -2,15 +2,39 @@
 
 <VideoPlayer title="Connecting accounts to Pipedream" url="https://www.youtube.com/embed/xmDD1wRWnp0" />
 
-Pipedream allows you to connect accounts for various apps and services within our UI. Once you connect an account, you can link that account to any step of a workflow, and use the OAuth access tokens, API key, or other auth info to make API requests to the desired service.
+Pipedream provides native integrations for [{{$site.themeConfig.PUBLIC_APPS}}+ APIs](https://pipedream.com/apps). Once you connect an account, you can
+
+- [Link that account to any step of a workflow](#connecting-accounts), using the associated credentials to make API requests to any service.
+- [Manage permissions](#managing-connected-accounts), limiting access to sensitive accounts
+- [Access credentials via API](#accessing-credentials-via-api), letting you build services anywhere and use Pipedream to handle auth
+
+Pipedream handles OAuth for you, ensuring you always have a fresh access token to authorize requests, and [credentials are tightly-secured](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables).
+
+If you use an existing secrets store, or manage credentials in a database, you can also [pass those to Pipedream at runtime](/connected-accounts/external-auth/) instead of connecting accounts in the UI.
 
 [[toc]]
 
 ## Supported Apps
 
-Pipedream supports [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/apps), with more added every day.
+Pipedream supports [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/apps), and we're adding more every day.
 
-If we don't support a service you need, please [request an app here](#requesting-a-new-app-or-service).
+If you don't see an integration for a service you need, you can [request the integration here](#requesting-a-new-app-or-service), or [use environment variables](/environment-variables) to manage custom credentials.
+
+## Types of Integrations
+
+### OAuth
+
+For services that support OAuth, Pipedream operates an OAuth application that mediates access to the service so you don't have to maintain your own app, store refresh and access tokens, and more.
+
+When you connect an account, you'll see a new window open where you authorize the Pipedream application to access data in your account. Pipedream stores the OAuth refresh token tied to your authorization grant, automatically generating access tokens you can use to authorized requests to the service's API. You can [access these tokens in code steps](/code/nodejs/auth/).
+
+### Key-based
+
+We also support services that use API keys or other long-lived tokens to authorize requests.
+
+For those services, you'll have to create your keys in the service itself, then add them to your connected accounts in Pipedream.
+
+For example, if you add a new connected account for **Sendgrid**, you'll be asked to add your Sendgrid API key.
 
 ## Connecting accounts
 
@@ -91,7 +115,9 @@ You'll also see some data associated with these accounts:
 
 ### Connecting a new account
 
-- To get started, click the "Connect an app" button at the top right of the [Accounts page](https://pipedream.com/accounts) and select the app you'd like to connect
+1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts)
+2. Click the **Connect an app** button at the top-right.
+3. Select the app you'd like to connect.
 
 ### Reconnecting an account
 
@@ -99,21 +125,23 @@ If you encounter errors in a step that appear to be related to credentials or au
 
 1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts)
 2. Search for your account
-3. Click on the *...* next to your account, on the right side of the page
+3. Click on the _..._ next to your account, on the right side of the page
 4. Select the option to **Reconnect** your account
 
 ## Access Control
 
 **New connected accounts are private by default** and can only be used by the person who added it.
+
 ::: tip Accounts connected before August 2023
 
-Prior to this change, all connected accounts were accessible to all workspace members. You can now manage access to new and existing connected accounts.
+Prior to this change, all connected accounts were accessible to all workspace members. Accounts connected before 2023 will be accessible to all workspace members by default. You can [make them private](#managing-access) at any time.
 
 :::
 
 ### Managing access
+
 - Find the account on the Accounts page and click the 3 dots on the far right of the row
-- Select "Manage Access"
+- Select **Manage Access**
 
 ![Selecting Manage Access](https://res.cloudinary.com/pipedreamin/image/upload/v1691617725/manage-access-button_bgnebz.png)
 
@@ -122,12 +150,12 @@ Prior to this change, all connected accounts were accessible to all workspace me
 
 ![Managing Access for a Connected Account](https://res.cloudinary.com/pipedreamin/image/upload/v1691614603/manage-access-modal_crmx3f.gif)
 
-
 ### Collaborating with others
 
 Even if a workspace member doesn't have access to a private connected account, you can still collaborate together on the same workflows.
 
 Workspace members who don't have access to a connected account **can perform the following actions** on workflows:
+
 - Reference step exports
 - Inspect prop inputs, step logs, and errors
 - Test any step, so they can effectively develop and debug workflows end to end
@@ -141,13 +169,16 @@ Workspace members who do **not** have access to a given connected account **cann
 <br>
 
 To make changes to steps that are locked in read-only mode, you can:
+
 - Ask the account owner to [grant access](#managing-access)
-- Click "More Actions" and change the connected account to one that you have access to (note that this may remove some prop configurations)
+- Click **More Actions** and change the connected account to one that you have access to (note that this may remove some prop configurations)
 
 ### Explanation of access
-Access to connected accounts is enforced at the step-level within workflows and is designed with security and control in mind. 
+
+Access to connected accounts is enforced at the step-level within workflows and is designed with security and control in mind.
 
 When you connect an account in Pipedream, you are the owner of that connected account, and you always have full access. You can:
+
 - Manage access
 - Delete
 - Reconnect
@@ -159,15 +190,15 @@ How workspace members can use connected accounts that are **private**:
 
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/private-auth_ecm7jx.png" width="100px" />
 
-| Operations | Workspace Owner & Admin | Other Members |
-| --  | :--: | :--: | :--: |
-| View on [Accounts](https://pipedream.com/accounts) | :white_check_mark: | :x: |
-| Add to a new trigger or step | :x: | :x: |
-| Modify existing steps | :x: | :x: |
-| Test exising steps | :white_check_mark: | :white_check_mark: |
-| Manage access | :x: | :x: |
-| Reconnect | :x: | :x: |
-|  Delete  |  :white_check_mark: |  :x: |
+| Operations                                         | Workspace Owner & Admin |   Other Members    |
+| -------------------------------------------------- | :---------------------: | :----------------: |
+| View on [Accounts](https://pipedream.com/accounts) |   :white_check_mark:    |        :x:         |
+| Add to a new trigger or step                       |           :x:           |        :x:         |
+| Modify existing steps                              |           :x:           |        :x:         |
+| Test exising steps                                 |   :white_check_mark:    | :white_check_mark: |
+| Manage access                                      |           :x:           |        :x:         |
+| Reconnect                                          |           :x:           |        :x:         |
+| Delete                                             |   :white_check_mark:    |        :x:         |
 
 <br>
 
@@ -175,15 +206,15 @@ How workspace members can use connected accounts that are **shared**:
 
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/shared-auth-workspace_usdwod.png" width="240px" />
 
-| Operations | Workspace Owner & Admin | Other Members |
-| --  | :--: | :--: | :--: |
-| View on [Accounts](https://pipedream.com/accounts) | :white_check_mark: | :white_check_mark: |
-| Add to a new trigger or step | :white_check_mark: | :white_check_mark: |
-| Modify existing steps | :white_check_mark: | :white_check_mark: |
-| Test exising steps | :white_check_mark: | :white_check_mark: |
-| Manage access | :x: | :x: |
-| Reconnect | :x: | :x: |
-|  Delete  |  :white_check_mark: |  :x: |
+| Operations                                         | Workspace Owner & Admin |   Other Members    |
+| -------------------------------------------------- | :---------------------: | :----------------: |
+| View on [Accounts](https://pipedream.com/accounts) |   :white_check_mark:    | :white_check_mark: |
+| Add to a new trigger or step                       |   :white_check_mark:    | :white_check_mark: |
+| Modify existing steps                              |   :white_check_mark:    | :white_check_mark: |
+| Test exising steps                                 |   :white_check_mark:    | :white_check_mark: |
+| Manage access                                      |           :x:           |        :x:         |
+| Reconnect                                          |           :x:           |        :x:         |
+| Delete                                             |   :white_check_mark:    |        :x:         |
 
 ### Frequently Asked Questions
 
@@ -194,39 +225,37 @@ In order to use a connected account in the legacy (v1) workflow builder, the acc
 :::
 
 #### What is the "Owner" column?
+
 The owner column on the Accounts page indicates who in the workspace originally connected the account (that is the only person who has permissions to manage access).
 
 #### Why is there no "Owner" for certain connected accounts?
+
 Accounts that were connected before August 2023 don't have an owner associated with them, and are shared with the entire workspace. In order to manage access for any of those accounts, we'll first prompt you to reconnect.
 
 #### How can I restrict access to a connected account that's already shared with the workspace?
+
 See above for info on [managing access](#managing-access).
 
 #### Can I still work with other people on a single workflow, even if I don't want them to have access to my connected account?
-Yes! See the section on [collaborating with others](#collaborating-with-others).
 
-## Types of Integrations
+Yes, see the section on [collaborating with others](#collaborating-with-others).
 
-### OAuth
+## Accessing credentials via API
 
-For services that support OAuth, Pipedream operates an OAuth application that mediates access to the service so you don't have to maintain your own app, store refresh and access tokens, and more.
+You can access credentials for any connected account via API, letting you build services anywhere and use Pipedream to handle auth. See [the guide for accessing credentials via API](/connected-accounts/api/) for more details.
 
-When you connect an account, you'll see a new window open where you authorize the Pipedream application to access data in your account. Pipedream stores the OAuth refresh token tied to your authorization grant, automatically generating access tokens you can use to authorized requests to the service's API. You can [access these tokens in code steps](/code/nodejs/auth/).
+## Passing external credentials at runtime
 
-### Key-based
+If you use a secrets store like [HashiCorp Vault](https://www.vaultproject.io/) or [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), store credentials in a database, or use a service like [Nango](https://www.nango.dev/) to manage auth, you can retrieve these secrets at runtime and pass them to any step. [See the full guide here](/connected-accounts/external-auth/).
 
-We also support services that use API keys or other long-lived tokens to authorize requests.
-
-For those services, you'll have to create your keys in the service itself, then add them to your connected accounts in Pipedream.
-
-For example, if you add a new connected account for **Sendgrid**, you'll be asked to add your Sendgrid API key.
-
-## Account Security
+## Account security
 
 [See our security docs](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables) for details on how Pipedream secures your connected accounts.
 
 ## Requesting a new app or service
 
-Please request new apps by [visiting our Support page](https://pipedream.com/support), and selecting "App / Integration questions" from the dropdown toward the bottom of the page.
+1. Visit [https://pipedream.com/support](https://pipedream.com/support)
+2. Scroll to the bottom, where you'll see a Support form.
+3. Select **App / Integration questions** and submit the request.
 
 <Footer />

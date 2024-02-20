@@ -44,11 +44,11 @@ def generate_app_file_prompt(requirements, app_file_content):
         return f"""Given the existing app file and the requirements below, generate an app file that provides propDefinitions and methods that solve the requirements:
 ## EXISTING APP FILE CODE
 
-{requirements}
+{app_file_content}
 
 ## REQUIREMENTS
 
-{app_file_content}"""
+{requirements}"""
 
     return f"""Generate an app file that provides propDefinitions and methods that solve the following requirements:
 

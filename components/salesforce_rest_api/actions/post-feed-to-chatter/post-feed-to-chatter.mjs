@@ -8,7 +8,7 @@ export default {
     Posts a message to the Chatter Feed.
     [See doc](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/quickreference_post_feed_item.htm)
   `),
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     salesForceRestApi,
