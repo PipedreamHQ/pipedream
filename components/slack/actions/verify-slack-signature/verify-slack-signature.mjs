@@ -1,5 +1,5 @@
-import crypto from "crypto";
 import slack from "../../slack.app.mjs";
+import crypto from "crypto";
 
 export default {
   key: "slack-verify-slack-signature",

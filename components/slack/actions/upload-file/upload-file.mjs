@@ -1,6 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
 import slack from "../../slack.app.mjs";
+import fs from "fs";
 
 export default {
   key: "slack-upload-file",

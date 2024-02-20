@@ -1,5 +1,5 @@
-import buildBlocks from "../common/build-blocks.mjs";
 import common from "../common/send-message.mjs";
+import buildBlocks from "../common/build-blocks.mjs";
 
 export default {
   ...common,
