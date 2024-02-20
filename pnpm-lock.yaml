@@ -5969,7 +5969,10 @@ importers:
       lodash: 4.17.21
 
   components/rkvst:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/roam_research:
     specifiers: {}
