@@ -1,17 +1,15 @@
 // legacy_hash_id: a_rJiLNE
 import { axios } from "@pipedream/platform";
+import coinmarketcap from "../../coinmarketcap.app.mjs";
 
 export default {
   key: "coinmarketcap-latest-listings",
-  name: "Latest Listings",
-  description: "Returns a paginated list of all active cryptocurrencies with latest market data. https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyListingsLatest",
-  version: "0.1.1",
+  name: "Get Latest Listings",
+  description: "Returns a paginated list of all active cryptocurrencies with latest market data. [See the documentation](https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyListingsLatest)",
+  version: "0.1.2",
   type: "action",
   props: {
-    coinmarketcap: {
-      type: "app",
-      app: "coinmarketcap",
-    },
+    coinmarketcap,
     start: {
       type: "integer",
       description: "Optionally offset the start (1-based index) of the paginated list of items to return.",

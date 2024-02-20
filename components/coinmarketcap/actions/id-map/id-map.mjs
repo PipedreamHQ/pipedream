@@ -1,17 +1,15 @@
 // legacy_hash_id: a_LgijYE
 import { axios } from "@pipedream/platform";
+import coinmarketcap from "../../coinmarketcap.app.mjs";
 
 export default {
   key: "coinmarketcap-id-map",
-  name: "CoinMarketCap ID Map",
-  description: "Returns a mapping of all cryptocurrencies to unique CoinMarketCap ids. https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap",
-  version: "0.1.1",
+  name: "Get ID Map (V1)",
+  description: "Returns a mapping of all cryptocurrencies to unique CoinMarketCap ids. [See the documentation](https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap)",
+  version: "0.1.2",
   type: "action",
   props: {
-    coinmarketcap: {
-      type: "app",
-      app: "coinmarketcap",
-    },
+    coinmarketcap,
     listing_status: {
       type: "string",
       description: "Only active cryptocurrencies are returned by default. Pass inactive to get a list of cryptocurrencies that are no longer active. Pass untracked to get a list of cryptocurrencies that are listed but do not yet meet methodology requirements to have tracked markets available. You may pass one or more comma-separated values.",
@@ -53,9 +51,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const limit = (typeof this.limit === "undefined")
-      ? 100
-      : this.limit;
+    const limit = this.limit ?? 100;
 
     return await axios($, {
       url: `https://${this.coinmarketcap.$auth.environment}-api.coinmarketcap.com/v1/cryptocurrency/map`,
