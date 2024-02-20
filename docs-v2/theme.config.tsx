@@ -7,6 +7,13 @@ import PipedreamTextLogo from "./components/PipedreamTextLogo";
 import SlackLogo from "./components/SlackLogo";
 
 const config: DocsThemeConfig = {
+  head: (
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta property="og:title" content="Pipedream Documentation" />
+      <link rel="icon" href="/favicon.ico" />
+    </>
+  ),
   components: {
     "a": PipedreamLink,
     "code": PipedreamCode,
