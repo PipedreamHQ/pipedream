@@ -1,24 +1,21 @@
-import mobygames from "../../mobygames.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../mobygames.app.mjs";
 
 export default {
   key: "mobygames-list-genres",
   name: "List Genres",
   description: "Provides a list of genres which may be used for filtering games via the MobyGames API. [See the documentation](https://www.mobygames.com/info/api/#genres)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    mobygames,
+    app,
   },
   async run({ $ }) {
-    const genres = await this.mobygames.getGenres();
+    const response = await this.app.getGenres({
+      $,
+    });
+
     $.export("$summary", "Successfully retrieved genres");
-    return genres.map((genre) => ({
-      genre_category: genre.genre_category,
-      genre_category_id: genre.genre_category_id,
-      genre_description: genre.genre_description,
-      genre_id: genre.genre_id,
-      genre_name: genre.genre_name,
-    }));
+
+    return response;
   },
 };

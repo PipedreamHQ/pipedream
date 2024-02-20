@@ -1,41 +1,44 @@
-import mobygames from "../../mobygames.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../mobygames.app.mjs";
 
 export default {
   key: "mobygames-list-games",
   name: "List Games",
-  description: "Provides a list of games matching the filters given in the query parameters, ordered by id. [See the documentation](https://www.mobygames.com/info/api/#games)",
-  version: "0.0.{{ts}}",
+  description: "Provides a list of games. [See the documentation](https://www.mobygames.com/info/api/#games)",
+  version: "0.0.1",
   type: "action",
   props: {
-    mobygames,
-    genreId: {
+    app,
+    platform: {
       propDefinition: [
-        mobygames,
-        "genreId",
+        app,
+        "platform",
       ],
     },
-    platformId: {
+    genre: {
       propDefinition: [
-        mobygames,
-        "platformId",
+        app,
+        "genre",
       ],
     },
-    queryParams: {
+    title: {
       propDefinition: [
-        mobygames,
-        "queryParams",
+        app,
+        "title",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.mobygames.getGames({
-      genreId: this.genreId,
-      platformId: this.platformId,
-      queryParams: this.queryParams,
+    const response = await this.app.getGames({
+      $,
+      params: {
+        platform: this.platform,
+        genre: this.genre,
+        title: this.title,
+      },
     });
 
     $.export("$summary", "Successfully retrieved the list of games");
+
     return response;
   },
 };

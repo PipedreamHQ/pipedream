@@ -4,85 +4,82 @@ export default {
   type: "app",
   app: "mobygames",
   propDefinitions: {
-    genreId: {
+    platform: {
       type: "string",
-      label: "Genre",
-      description: "Select a genre to filter games",
+      label: "Platform ID",
+      description: "The ID of a platform on which the game was released",
+      optional: true,
       async options() {
-        const genres = await this.getGenres();
-        return genres.map((genre) => ({
-          label: genre.genre_name,
-          value: genre.genre_id.toString(),
+        const { platforms } = await this.getPlatforms();
+
+        return platforms.map(({
+          platform_id, platform_name,
+        }) => ({
+          label: platform_name,
+          value: platform_id,
         }));
       },
     },
-    platformId: {
+    genre: {
       type: "string",
-      label: "Platform",
-      description: "Select a platform to filter games",
+      label: "Genre ID",
+      description: "The ID of a genre assigned to the game",
+      optional: true,
       async options() {
-        const platforms = await this.getPlatforms();
-        return platforms.map((platform) => ({
-          label: platform.platform_name,
-          value: platform.platform_id.toString(),
+        const { genres } = await this.getGenres();
+
+        return genres.map(({
+          genre_id, genre_name,
+        }) => ({
+          label: genre_name,
+          value: genre_id,
         }));
       },
     },
-    queryParams: {
-      type: "object",
-      label: "Query Parameters",
-      description: "Additional query parameters to filter games",
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the game",
+      optional: true,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.mobygames.com/v1";
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         params,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        params,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        params: {
+          ...params,
+          api_key: this.$auth.api_key,
         },
       });
     },
-    async getGenres() {
+    async getGenres(args = {}) {
       return this._makeRequest({
         path: "/genres",
+        ...args,
       });
     },
-    async getPlatforms() {
+    async getPlatforms(args = {}) {
       return this._makeRequest({
         path: "/platforms",
+        ...args,
       });
     },
-    async getGames({
-      genreId, platformId, queryParams,
-    }) {
+    async getGames(args = {}) {
       return this._makeRequest({
         path: "/games",
-        params: {
-          genre: genreId,
-          platform: platformId,
-          ...queryParams,
-        },
+        ...args,
       });
     },
   },
-  version: `0.0.${new Date().getTime()}`,
 };

@@ -1,21 +1,19 @@
-import mobygames from "../../mobygames.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../mobygames.app.mjs";
 
 export default {
   key: "mobygames-list-platforms",
   name: "List Platforms",
   description: "List all platforms available for filtering games via the MobyGames API. [See the documentation](https://www.mobygames.com/info/api/#platforms)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    mobygames,
+    app,
   },
   async run({ $ }) {
-    const response = await this.mobygames.getPlatforms();
-    $.export("$summary", "Successfully retrieved platforms list");
-    return response.map((platform) => ({
-      label: platform.platform_name,
-      value: platform.platform_id.toString(),
-    }));
+    const response = await this.app.getPlatforms({
+      $,
+    });
+    $.export("$summary", "Successfully retrieved genres");
+    return response;
   },
 };
