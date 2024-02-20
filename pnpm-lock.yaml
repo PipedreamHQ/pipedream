@@ -4504,7 +4504,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/mx_technologies:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/mx_toolbox:
     specifiers: {}
