@@ -18,10 +18,8 @@ export default {
     updatePersonFields: {
       propDefinition: [
         common.props.googleContacts,
-        "fields",
+        "updatePersonFields",
       ],
-      label: "Update Fields",
-      description: "Contact sections to update",
       reloadProps: true,
     },
   },
