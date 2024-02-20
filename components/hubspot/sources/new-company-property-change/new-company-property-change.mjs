@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "hubspot-new-company-property-change",
   name: "New Company Property Change",
-  description: "Emit new event when a specified property is provided or updated on a company. [See the docs here](https://developers.hubspot.com/docs/api/crm/companies)",
-  version: "0.0.4",
+  description: "Emit new event when a specified property is provided or updated on a company. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies)",
+  version: "0.0.5",
   dedupe: "unique",
   type: "source",
   props: {
