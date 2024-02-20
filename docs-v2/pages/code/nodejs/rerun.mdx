@@ -1,9 +1,5 @@
 import Callout from '@/components/Callout'
-
----
-short_description: How to rerun a step execution in Node.js
-thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841376/docs/icons/icons8-time-96_kupxpi.png
----
+import VideoPlayer from '@/components/VideoPlayer'
 
 # Pause, resume, and rerun a workflow
 
@@ -16,8 +12,6 @@ This is useful when you want to:
 - Trigger an external API to start a job, pause the workflow, and resume it when the external API sends an HTTP callback
 
 We'll cover all of these examples below.
-
-
 
 ## `$.flow.suspend`
 
@@ -216,9 +210,9 @@ $.flow.rerun(1000, { hello: "world" })
 
 `$.context.run.context` will contain:
 
-<div>
-  <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655274732/docs/Screen_Shot_2022-06-14_at_11.32.06_PM_dmzgkh.png" alt="resume data step export" width="250px"/>
-</div>
+<br />
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655274732/docs/Screen_Shot_2022-06-14_at_11.32.06_PM_dmzgkh.png" alt="resume data step export" width="250px"/>
+<br />
 
 ### `maxRetries`
 

@@ -1,10 +1,9 @@
 import Callout from '@/components/Callout'
+import VideoPlayer from '@/components/VideoPlayer'
 
 # Python
 
-**Anything you can do in Python can be done in a Pipedream workflow**. This includes using any of the [350,000+ packages available on PyPI](https://pypi.org/).
-
-Pipedream supports [Python v{process.env.PYTHON_VERSION}](https://www.python.org) in workflows.
+Pipedream supports [Python v{process.env.PYTHON_VERSION}](https://www.python.org) in workflows. Run any Python code, use any [PyPI package](https://pypi.org/), connect to APIs, and more.
 
 ## Adding a Python code step
 
@@ -39,9 +38,7 @@ You can use `print` at any time in a Python code step to log information as the 
 
 The output for the `print` **logs** will appear in the `Results` section just beneath the code editor.
 
-<div>
-<img alt="Python print log output in the results" src="./images/print-logs.png">
-</div>
+![Python print log output in the results](./images/print-logs.png)
 
 ## Using third party packages
 
@@ -59,9 +56,7 @@ To use a PyPI package, just include it in your step's code:
 import requests
 ```
 
-And that's it.
-
-No need to update a `requirements.txt` or specify elsewhere in your workflow of which packages you need. Pipedream will automatically install the dependency for you.
+And that's it. No need to update a `requirements.txt` or specify elsewhere in your workflow of which packages you need. Pipedream will automatically install the dependency for you.
 
 ### If your package's `import` name differs from its PyPI package name
 

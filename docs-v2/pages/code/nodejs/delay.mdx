@@ -1,13 +1,9 @@
 import Callout from '@/components/Callout'
-
----
-short_description: How to delay a workflow's execution with Node.js.
-thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841376/docs/icons/icons8-time-96_kupxpi.png
----
+import VideoPlayer from '@/components/VideoPlayer'
 
 # Delaying a workflow
 
-<VideoPlayer title="Delaying Workflow Steps" url="https://www.youtube.com/embed/IBORwBnIZ-k" startAt="148" />
+<VideoPlayer title="Delaying Workflow Steps" src="https://www.youtube.com/embed/IBORwBnIZ-k" startAt="148" />
 
 Use `$.flow.delay` to [delay a step in a workflow](/workflows/flow-control/#delay).
 
@@ -36,7 +32,7 @@ export default defineComponent({
 
     // Delay a workflow a random amount of time
     $.flow.delay(Math.floor(Math.random() * 1000))
-  })
+  }
 });
 ```
 
@@ -92,7 +88,7 @@ export default defineComponent({
       subject: `Workflow execution ${steps.trigger.context.id}`,
       text: `Cancel your workflow here: ${cancel_url} . Resume early here: ${resume_url}`,
     });
-  })
+  }
 });
 
 // Delay happens at the end of this step
@@ -107,7 +103,7 @@ export default defineComponent({
   async run({ steps, $ }) {
     const { cancel_url, resume_url } = $.flow.delay(15 * 60 * 1000)
     // ... run any code you want here
-  })
+  }
 });
 
 // Delay happens at the end of this step

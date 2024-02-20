@@ -1,0 +1,12 @@
+{
+  "index": "Running Python in workflows",
+  "auth": "Connect apps",
+  "http-requests": "HTTP requests",
+  "working-with-files": "Files",
+  "using-data-stores": "Data stores",
+  "delay": "Delaying steps",
+  "rerun": "Pause, resume, and rerun steps",
+  "async": "Running asynchronous code",
+  "sharing-code": "Sharing code across workflows",
+  "browser-automation": "Browser automation"
+}

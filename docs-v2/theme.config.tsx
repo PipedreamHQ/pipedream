@@ -36,6 +36,9 @@ const config: DocsThemeConfig = {
   sidebar: {
     autoCollapse: true,
     defaultMenuCollapseLevel: 1,
+  },
+  nextThemes: {
+    defaultTheme: 'dark'
   }
 }
 

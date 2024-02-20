@@ -1,9 +1,5 @@
 import Callout from '@/components/Callout'
-
----
-short_description: Reuse your code steps across workflows to speed up your solutions development.
-thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841235/docs/icons/icons8-copy-96_dx48fh.png
----
+import VideoPlayer from '@/components/VideoPlayer'
 
 # Sharing code across workflows
 
@@ -27,7 +23,7 @@ To convert a Node.js code step into an publishable action, make sure to include 
 - `key`
 - `type`
 
-```javascript{6-9}
+```javascript {6-9}
 // Adding properties to a regular Node.js code step make it publishable
 import { parseISO, format } from 'date-fns';
 
@@ -66,7 +62,7 @@ Then open the menu in the top righthand corner of the code step and select **Pub
 And now you've successfully saved a custom Node.js code step to your account. You'll be able to use this code step in any of your workflows.
 
 <Callout type="info" emoji="ℹ️">
-Why can't I use the `steps` variable in published Node.js code steps?
+**Why can't I use the `steps` variable in published Node.js code steps?**
 
 The `steps` variable contains the _workflows_ step exports.
 
@@ -95,7 +91,7 @@ This will open up the code editor for this action, even if this wasn't the origi
 
 Now increment the `version` field in the code:
 
-```javascript{6}
+```javascript {6}
 import { parseISO, format } from 'date-fns';
 
 // The version field on a Node.js action is versioned
@@ -126,7 +122,7 @@ export default defineComponent({
 Finally use the **Publish to My Actions** button in the right hand side menu to publish this new version.
 
 <Callout type="info" emoji="ℹ️">
-I'm not seeing an **Edit Action** button option in my step
+**I'm not seeing an **Edit Action** button option in my step**
 
 The **Edit Action** button is only available for actions that are published from Node.js code steps.
 
@@ -134,7 +130,7 @@ Actions submitted to the public component registry can contain multiple files. A
 </Callout>
 
 <Callout type="info" emoji="ℹ️">
-Will publishing a new version of an action automatically update all other steps using it?
+**Will publishing a new version of an action automatically update all other steps using it?**
 
 No, a new version of an action doesn't automatically update all instances of the same action across your workflows.
 

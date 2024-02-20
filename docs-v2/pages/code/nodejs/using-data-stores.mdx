@@ -1,10 +1,5 @@
 import Callout from '@/components/Callout'
 
----
-short_description: Store and read data with data stores.
-thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
----
-
 # Using Data Stores
 
 In Node.js (Javascript) code steps, you can also store and retrieve data within code steps without connecting a 3rd party database.
@@ -27,18 +22,16 @@ export default defineComponent({
 ```
 
 <Callout type="info" emoji="ℹ️">
-`props` injects variables under `this` scope in components.
-
-In the above example we essentially instructed that this step needs the data store injected into the `this.store` prop.
+**`props` injects variables into `this`**. See how we declared the `data` prop in the `props` object, and then accessed it at `this.data` in the `run` method.
 </Callout>
 
 <Callout type="warning" emoji="⚠">
-All data store operations are asynchronous, so `await` must be used in order to allow them to complete.
+All data store operations are asynchronous, so must be `await`ed.
 </Callout>
 
 ## Using the data store
 
-Once you have defined a data store prop for your component, then you'll be able to create a new data store or use an existing one from your account.
+Once you've defined a data store prop for your component, then you'll be able to create a new data store or use an existing one from your account.
 
 ![Create a new data store or choose another one from your account for your component](https://res.cloudinary.com/pipedreamin/image/upload/v1649270361/docs/components/data_store_scaffolding_bluivn.png)
 
