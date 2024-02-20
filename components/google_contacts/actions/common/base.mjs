@@ -1,4 +1,5 @@
 import googleContacts from "../../google_contacts.app.mjs";
+import props from "./props.mjs";
 
 export default {
   props: {
@@ -6,76 +7,26 @@ export default {
   },
   methods: {
     getPersonFieldProps(personFields, optional = false) {
-      const props = {};
+      const result = {};
       if (personFields.includes("names")) {
-        props.firstName = {
-          type: "string",
-          label: "First Name",
-          description: "Contact's first name",
-          optional,
-        };
-        props.middleName = {
-          type: "string",
-          label: "Middle Name",
-          description: "Contact's middle name",
-          optional,
-        };
-        props.lastName = {
-          type: "string",
-          label: "Last Name",
-          description: "Contact's last name",
-          optional,
-        };
+        result.firstName = props.firstName(optional);
+        result.middleName = props.middleName(optional);
+        result.lastName = props.lastName(optional);
       }
       if (personFields.includes("emailAddresses")) {
-        props.email = {
-          type: "string",
-          label: "Email Address",
-          description: "Contact's email address",
-          optional,
-        };
+        result.email = props.email(optional);
       }
       if (personFields.includes("phoneNumbers")) {
-        props.phoneNumber = {
-          type: "string",
-          label: "Phone Number",
-          description: "Contact's phone number",
-          optional,
-        };
+        result.phoneNumber = props.phoneNumber(optional);
       }
       if (personFields.includes("addresses")) {
-        props.streetAddress = {
-          type: "string",
-          label: "Street Address",
-          description: "Contact's street address",
-          optional,
-        };
-        props.city = {
-          type: "string",
-          label: "City",
-          description: "Contact's city",
-          optional,
-        };
-        props.state = {
-          type: "string",
-          label: "State",
-          description: "Contact's state/region",
-          optional,
-        };
-        props.zipCode = {
-          type: "string",
-          label: "Zip Code",
-          description: "Contact's zip code",
-          optional,
-        };
-        props.country = {
-          type: "string",
-          label: "Country",
-          description: "Contact's country",
-          optional,
-        };
+        result.streetAddress = props.streetAddress(optional);
+        result.city = props.city(optional);
+        result.state = props.state(optional);
+        result.zipCode = props.zipCode(optional);
+        result.country = props.country(optional);
       }
-      return props;
+      return result;
     },
     getRequestBody(personFields, ctx) {
       const {
