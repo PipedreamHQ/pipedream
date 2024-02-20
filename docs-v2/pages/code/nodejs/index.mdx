@@ -1,7 +1,7 @@
 import Callout from '@/components/Callout'
 import VideoPlayer from "@/components/VideoPlayer";
 
-# Writing Node.js in Steps
+# Running Node.js in workflows
 
 Pipedream supports writing Node.js v{process.env.PIPEDREAM_NODE_VERSION} at any point of a workflow.
 
@@ -146,9 +146,7 @@ export default defineComponent({
 
 The workflow builder now can accept text input to populate the `firstName` to this particular step only:
 
-<div>
-  <img alt="Workflow builder displaying the input visually as a text input field" src="./images/user-input-props-example.png" width="740px" />
-</div>
+![Workflow builder displaying the input visually as a text input field](/images/code/nodejs/user-input-props-example.png)
 
 Accepting a single string is just one example, you can build a step to accept arrays of strings through a dropdown presented in the workflow builder.
 
@@ -455,7 +453,7 @@ If you're trying to run code that doesn't work or you have questions about any l
 
 We use the [Monaco Editor](https://microsoft.github.io/monaco-editor/), which powers VS Code and other web-based editors.
 
-We also let you customize the editor. For example, you can enable Vim mode, and change the default tab size for indented code. Visit your [**Settings**](https://pipedream.com/settings) to modify these settings.
+We also let you customize the editor. For example, you can enable Vim mode, and change the default tab size for indented code. Visit your [Settings](https://pipedream.com/settings) to modify these settings.
 
 ## Keyboard Shortcuts
 

@@ -1,7 +1,4 @@
----
-short_description: Connect to apps with Node.js code with ease.
-thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763806/docs/icons/icons8-connected-96_fcbhxc.png
----
+import VideoPlayer from '@/components/VideoPlayer';
 
 # Connecting apps in Node.js 
 
@@ -39,11 +36,7 @@ export default defineComponent({
 
 Now the step in the workflow builder will allow you to connect your Slack account:
 
-<div>
-  <img src="./images/slack-auth-prop-example.png" alt="Connect a Slack account to a Node.js code step using a prop" width="100%"/>
-</div>
-
-
+![Connect a Slack account to a Node.js code step using a prop](/images/code/nodejs/auth/slack-auth-prop-example.png)
 
 ## Accessing connected account data with `this.appName.$auth`
 
@@ -112,7 +105,7 @@ When you search for an app in a step:
 
 1. Click the **+** button below any step.
 2. Search for the app you're looking for and select it from the list.
-3. Select the option to **Use any [app] API**.
+3. Select the option to **Use any \<app\> API**.
 
 This code operates as a template you can extend, and comes preconfigured with the connection to the target app and the code for authorizing requests to the API. You can modify this code however you'd like.
 

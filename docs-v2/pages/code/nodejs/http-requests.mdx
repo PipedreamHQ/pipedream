@@ -1,9 +1,5 @@
 import Callout from '@/components/Callout'
-
----
-short_description: Make HTTP requests with Node.js in code steps.
-thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646761145/docs/icons/shrine20210108-1-qsuy1b_bhftb2.svg
----
+import { Tabs } from 'nextra/components'
 
 # Make HTTP Requests with Node.js
 
@@ -16,8 +12,6 @@ We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://gith
 If you're developing Pipedream components, you may find the [`@pipedream/platform` version of `axios`](/pipedream-axios/) helpful for displaying error data clearly in the Pipedream UI.
 
 If you're new to HTTP, see our [glossary of HTTP terms](https://requestbin.com/blog/working-with-webhooks/#webhooks-glossary-common-terms) for a helpful introduction.
-
-
 
 ## Basic `axios` usage notes
 
@@ -69,9 +63,8 @@ const { data } = resp;
 
 Make a request to retrieve Star Wars films from the Star Wars API:
 
-:::: tabs :options="{ useUrlFragment: false }"
- 
-::: tab Axios 
+<Tabs items={['axios', 'http-request prop']}>
+<Tabs.Tab>
 ``` javascript
 import axios from "axios";
 
@@ -85,14 +78,11 @@ export default defineComponent({
 
     // Retrieve just the data from the response
     const { data } = res;
-  })
+  }
 });
 ```
-:::
- 
- 
-::: tab "http-request prop"
-
+</Tabs.Tab>
+<Tabs.Tab>
 ``` javascript
 export default defineComponent({
   props: {
@@ -114,23 +104,19 @@ export default defineComponent({
   },
 })
 ```
+
 **Produces**
 
 ![With the http-request prop](https://res.cloudinary.com/pipedreamin/image/upload/v1649961271/docs/components/CleanShot_2022-04-14_at_14.34.16_2x_c0urph.png)
-:::
- 
-::::
- 
-
-[Copy this workflow to run this example on Pipedream](https://pipedream.com/@dylburger/make-an-http-get-request-to-the-star-wars-api-p_OKC2KA/edit).
+</Tabs.Tab>
+</Tabs>
 
 ## Send a `POST` request to submit data
 
 POST sample JSON to [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free mock API service:
 
-:::: tabs :options="{ useUrlFragment: false }"
- 
-::: tab Axios 
+<Tabs items={['axios', 'http-request prop']}>
+<Tabs.Tab>
 ``` javascript
 import axios from "axios";
 
@@ -147,13 +133,11 @@ export default defineComponent({
 
     // Retrieve just the data from the response
     const { data } = resp;
-  })
+  }
 });
 ```
-:::
- 
- 
-::: tab "http-request prop"
+</Tabs.Tab>
+<Tabs.Tab> 
 ``` javascript
 export default defineComponent({
   props: {
@@ -179,21 +163,17 @@ export default defineComponent({
   },
 })
 ```
-:::
- 
-::::
+</Tabs.Tab>
+</Tabs>
 
 When you make a `POST` request, you pass `POST` as the `method`, and include the data you'd like to send in the `data` object.
-
-[Copy this workflow to run this example on Pipedream](https://pipedream.com/@dylburger/make-an-http-post-request-using-axios-p_o7CbpY/edit).
 
 ## Pass query string parameters to a `GET` request
 
 Retrieve fake comment data on a specific post using [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free mock API service. Here, you fetch data from the `/comments` resource, retrieving data for a specific post by query string parameter: `/comments?postId=1`.
 
-:::: tabs :options="{ useUrlFragment: false }"
- 
-::: tab Axios 
+<Tabs items={['axios', 'http-request prop']}>
+<Tabs.Tab>
 ``` javascript
 import axios from "axios";
 
@@ -210,13 +190,11 @@ export default defineComponent({
 
     // Retrieve just the data from the response
     const { data } = resp;
-  })
+  }
 });
 ```
-:::
- 
- 
-::: tab "http-request prop"
+</Tabs.Tab>
+<Tabs.Tab>
 ``` javascript
 export default defineComponent({
   props: {
@@ -241,13 +219,10 @@ export default defineComponent({
   },
 })
 ```
-:::
- 
-::::
 
 You should pass query string parameters using the `params` object, like above. When you do, `axios` automatically [URL-encodes](https://www.w3schools.com/tags/ref_urlencode.ASP) the parameters for you, which you'd otherwise have to do manually.
-
-[Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/pass-query-string-parameters-to-an-http-get-request-p_xMCOvj/edit).
+</Tabs.Tab>
+</Tabs>
 
 ## Send a request with HTTP headers
 
@@ -370,43 +345,39 @@ export default defineComponent({
 
 The Mozilla docs expand on the difference between these methods, and when you may want to use one or the other:
 
-> The `Promise.allSettled()` method returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.<br /></br >
-> It is typically used when you have multiple asynchronous tasks that are not dependent on one another to complete successfully, or you'd always like to know the result of each promise.<br /></br >
+> The `Promise.allSettled()` method returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.<br />
+> It is typically used when you have multiple asynchronous tasks that are not dependent on one another to complete successfully, or you'd always like to know the result of each promise.<br />
 > In comparison, the Promise returned by `Promise.all()` may be more appropriate if the tasks are dependent on each other / if you'd like to immediately reject upon any of them rejecting.
 
 ## Send a `multipart/form-data` request
 
-:::: tabs :options="{ useUrlFragment: false }"
+<Tabs items={['axios', 'http-request prop']}>
  
-::: tab Axios 
+<Tabs.Tab>
 ``` javascript
 import axios from "axios";
 import FormData from "form-data";
 
 export default defineComponent({
   async run({ steps, $ }) {
-    export default defineComponent({
-      async run({ steps, $ }) {
-        const formData = new FormData();
-        formData.append("name", "Luke Skywalker");
+    const formData = new FormData();
+    formData.append("name", "Luke Skywalker");
 
-        const headers = formData.getHeaders();
-        const config = {
-          method: "POST",
-          url: "https://example.com",
-          headers,
-          data: formData,
-        };
-        return await axios(config);
-      }
-    });
-  })
+    const headers = formData.getHeaders();
+    const config = {
+      method: "POST",
+      url: "https://example.com",
+      headers,
+      data: formData,
+    };
+    return await axios(config);
+  }
 });
 ```
-:::
+</Tabs.Tab>
  
  
-::: tab "http-request prop"
+<Tabs.Tab>
 ``` javascript
 export default defineComponent({
   props: {
@@ -432,9 +403,8 @@ export default defineComponent({
   },
 })
 ```
-:::
- 
-::::
+</Tabs.Tab>
+</Tabs>
 
 [Copy this workflow](https://pipedream.com/@dylburger/send-a-multipart-form-data-request-p_WxCQRyr/edit) to run this example.
 
