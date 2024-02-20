@@ -74,9 +74,6 @@ importers:
   components/_46elks:
     specifiers: {}
 
-  components/_46elks:
-    specifiers: {}
-
   components/_twocaptcha:
     specifiers: {}
 
@@ -4504,7 +4501,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/mx_technologies:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/mx_toolbox:
     specifiers: {}
@@ -5502,7 +5502,7 @@ importers:
       '@pipedream/platform': ^1.5.1
       crypto: ^1.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       crypto: 1.0.1
 
   components/productlane:
