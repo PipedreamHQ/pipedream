@@ -54,7 +54,7 @@ export default {
         slug: this.slug,
         symbol: this.symbol,
         convert: this.convert,
-        convert_id: this.convert_id,
+        convert_id: this.convertId,
       },
     });
   },

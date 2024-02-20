@@ -4,24 +4,28 @@ import coinmarketcap from "../../coinmarketcap.app.mjs";
 export default {
   key: "coinmarketcap-latest-listings",
   name: "Get Latest Listings",
-  description: "Returns a paginated list of all active cryptocurrencies with latest market data. [See the documentation](https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyListingsLatest)",
+  description:
+    "Returns a paginated list of all active cryptocurrencies with latest market data. [See the documentation](https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyListingsLatest)",
   version: "0.1.2",
   type: "action",
   props: {
     coinmarketcap,
     start: {
       type: "integer",
-      description: "Optionally offset the start (1-based index) of the paginated list of items to return.",
+      description:
+        "Optionally offset the start (1-based index) of the paginated list of items to return.",
       optional: true,
     },
     limit: {
       type: "integer",
-      description: "Optionally specify the number of results to return. Use this parameter and the \"start\" parameter to determine your own pagination size.",
+      description:
+        "Optionally specify the number of results to return. Use this parameter and the \"start\" parameter to determine your own pagination size.",
       optional: true,
     },
-    volume_24h_min: {
+    volume24hMin: {
       type: "integer",
-      description: "Optionally specify a threshold of minimum 24 hour USD volume to filter results by.",
+      description:
+        "Optionally specify a threshold of minimum 24 hour USD volume to filter results by.",
       optional: true,
     },
     convert: {
@@ -60,16 +64,17 @@ export default {
         "volume_30d",
       ],
     },
-    sort_dir: {
+    sortDir: {
       type: "string",
-      description: "The direction in which to order cryptocurrencies against the specified sort.",
+      description:
+        "The direction in which to order cryptocurrencies against the specified sort.",
       optional: true,
       options: [
         "asc",
         "desc",
       ],
     },
-    cryptocurrency_type: {
+    cryptocurrencyType: {
       type: "string",
       description: "The type of cryptocurrency to include.",
       optional: true,
@@ -80,9 +85,26 @@ export default {
       ],
     },
     aux: {
-      type: "string",
-      description: "Optionally specify a comma-separated list of supplemental data fields to return. Pass num_market_pairs,cmc_rank,date_added,tags,platform,max_supply,circulating_supply,total_supply,market_cap_by_total_supply,volume_24h_reported,volume_7d,volume_7d_reported,volume_30d,volume_30d_reported to include all auxiliary fields.",
-      optional: true,
+      propDefinition: [
+        coinmarketcap,
+        "aux",
+      ],
+      options: [
+        "num_market_pairs",
+        "cmc_rank",
+        "date_added",
+        "tags",
+        "platform",
+        "max_supply",
+        "circulating_supply",
+        "total_supply",
+        "market_cap_by_total_supply",
+        "volume_24h_reported",
+        "volume_7d",
+        "volume_7d_reported",
+        "volume_30d",
+        "volume_30d_reported",
+      ],
     },
   },
   async run({ $ }) {
@@ -92,13 +114,13 @@ export default {
       params: {
         start: this.start,
         limit: this.limit,
-        volume_24h_min: this.volume_24h_min,
+        volume_24h_min: this.volume24hMin,
         convert: this.convert,
-        convert_id: this.convert_id,
+        convert_id: this.convertId,
         sort: this.sort,
-        sort_dir: this.sort_dir,
-        cryptocurrency_type: this.cryptocurrency_type,
-        aux: this.aux,
+        sort_dir: this.sortDir,
+        cryptocurrency_type: this.cryptocurrencyType,
+        aux: this.aux?.join?.(),
       },
     });
     $.export("$summary", "Successfully retrieved listings");

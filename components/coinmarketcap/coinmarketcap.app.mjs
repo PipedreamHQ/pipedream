@@ -16,6 +16,12 @@ export default {
       description: "Optionally calculate market quotes by CoinMarketCap ID instead of symbol. This option is identical to convert outside of ID format. Ex: **Convert ID = `1,2781`** would replace **Convert** = `BTC,USD` in your query. This parameter cannot be used when **Convert** is used.",
       optional: true,
     },
+    aux: {
+      type: "string[]",
+      label: "Supplemental Fields",
+      description: "Optionally specify supplemental data fields to return.",
+      optional: true,
+    },
   },
   methods: {
     _makeRequest({

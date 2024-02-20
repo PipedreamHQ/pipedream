@@ -10,7 +10,7 @@ export default {
   type: "action",
   props: {
     coinmarketcap,
-    listing_status: {
+    listingStatus: {
       type: "string",
       description: "Only active cryptocurrencies are returned by default. Pass inactive to get a list of cryptocurrencies that are no longer active. Pass untracked to get a list of cryptocurrencies that are listed but do not yet meet methodology requirements to have tracked markets available. You may pass one or more comma-separated values.",
       optional: true,
@@ -45,9 +45,17 @@ export default {
       optional: true,
     },
     aux: {
-      type: "string",
-      description: "Optionally specify a comma-separated list of supplemental data fields to return. Pass platform,first_historical_data,last_historical_data,is_active,status to include all auxiliary fields.",
-      optional: true,
+      propDefinition: [
+        coinmarketcap,
+        "aux",
+      ],
+      options: [
+        "platform",
+        "first_historical_data",
+        "last_historical_data",
+        "is_active",
+        "status",
+      ],
     },
   },
   async run({ $ }) {
@@ -59,12 +67,12 @@ export default {
         "X-CMC_PRO_API_KEY": `${this.coinmarketcap.$auth.api_key}`,
       },
       params: {
-        listing_status: this.listing_status,
+        listing_status: this.listingStatus,
         start: this.start,
         limit,
         sort: this.sort,
         symbol: this.symbol,
-        aux: this.aux,
+        aux: this.aux?.join?.(),
       },
     });
   },
