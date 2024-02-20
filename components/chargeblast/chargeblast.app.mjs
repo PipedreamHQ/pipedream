@@ -1,11 +1,38 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "chargeblast",
-  propDefinitions: {},
+  propDefinitions: {
+    apiKey: {
+      type: "string",
+      label: "API Key",
+      description: "Your Chargeblast API Key",
+      secret: true,
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.chargeblast.io/api";
+    },
+    async _makeRequest(opts = {}) {
+      const {
+        $ = this, path, headers, ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        url: this._baseUrl() + path,
+        params: {
+          ...headers,
+          api_key: this.$auth.api_key,
+        },
+      });
+    },
+    async getAlerts(args = {}) {
+      return this._makeRequest({
+        path: "/alerts",
+        ...args,
+      });
     },
   },
 };

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/tableau",
+  "version": "0.0.1",
+  "description": "Pipedream Tableau Components",
+  "main": "tableau.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tableau"
+  ],
+  "homepage": "https://pipedream.com/apps/tableau",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

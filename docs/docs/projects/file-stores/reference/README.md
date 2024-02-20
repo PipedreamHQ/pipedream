@@ -14,7 +14,7 @@ The `$.files` helper is the main module to interact with the Project's File Stor
 
 ### `$.files.openDescriptor(fileDescriptor)`
 
-*Sync.* Creates a new `File` from the JSON friendly description of a file. Useful for recreating a `File` from a step export.
+*Sync.* Creates a new `File` from the JSON friendly descriptor of a file. Useful for recreating a `File` from a step export.
 
 For example, export a `File` as a step export which will render the `File` as JSON:
 
@@ -31,14 +31,14 @@ export default defineComponent({
 }
 ```
 
-Then in a downstream step recreate the `File` instance from the step export friendly _description_:
+Then in a downstream step recreate the `File` instance from the step export friendly _descriptor_:
 
 ```javascript
 // download_file
 // Opens a file downloaded from a previous step, and saves it.
 export default defineComponent({
   async run({ steps, $ }) {
-    // Convert the the description of the file back into a File instance
+    // Convert the the descriptor of the file back into a File instance
     const file = $.files.openDescriptor(steps.create_file.$return_value)
     // Download the file to the local /tmp directory
     await $.file.download('/tmp/example.png')
@@ -58,13 +58,13 @@ Here's an example of how to iterate over the files in the root directory and ope
 export default defineComponent({
   async run({ steps, $ }) {
     // list all contents of the root File Stores directory in this project
-    const dirs = $.files.dir();
+    const nodes = $.files.dir();
     let files = [];
 
-    for await(const dir of dirs) {
+    for await(const node of nodes) {
       // if this is a file, let's open it
-      if(dir.isFile()) {
-        files.push(await $.files.open(dir.path))
+      if(node.isFile()) {
+        files.push(await $.files.open(node.path))
       }
     }
 
