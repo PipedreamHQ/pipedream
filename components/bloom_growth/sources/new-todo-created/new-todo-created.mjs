@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "bloom_growth-new-todo-created",
   name: "New To-Do Created",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a new to-do is created.",
   type: "source",
   dedupe: "unique",

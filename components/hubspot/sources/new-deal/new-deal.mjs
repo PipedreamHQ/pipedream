@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "hubspot-new-deal",
   name: "New Deals",
-  description: "Emit new event for each new deal created. [See the docs here](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.16",
+  description: "Emit new event for each new deal created. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
+  version: "0.0.17",
   dedupe: "unique",
   type: "source",
   props: {
