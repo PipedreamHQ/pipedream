@@ -5,7 +5,7 @@ export default {
   key: "google_contacts-update-contact",
   name: "Update Contact",
   description: "Updates a contact. [See the documentation](https://developers.google.com/people/api/rest/v1/people/updateContact)",
-  version: "0.0.3",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
