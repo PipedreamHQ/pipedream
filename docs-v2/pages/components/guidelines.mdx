@@ -19,32 +19,30 @@ run the following commands at the root of the project:
 
 1. To install all the project's dependencies (only needed once):
 
-   ```shell
-   pnpm install
-   ```
+```shell
+pnpm install
+```
 
 2. To install all required dependencies:
 
-   ```shell
-   npx pnpm install -r
-   ```
+```shell
+npx pnpm install -r
+```
 
-3. To run the linter checks against your code (assuming that your changes are
-   located at `components/foo` for example):
+3. To run the linter checks against your code (assuming that your changes are located at `components/foo` for example):
 
-   ```shell
-   npx eslint components/foo
-   ```
+```shell
+npx eslint components/foo
+```
 
-4. Optionally, you can automatically fix any linter issues by running the
-   following command:
+4. Optionally, you can automatically fix any linter issues by running the following command:
 
-   ```shell
-   npx eslint --fix components/foo
-   ```
+```shell
+npx eslint --fix components/foo
+```
 
-   Keep in mind that not all issues can be automatically fixed by the linter
-   since they could alter the behaviour of the code.
+Keep in mind that not all issues can be automatically fixed by the linter
+since they could alter the behaviour of the code.
 
 
 ## General
@@ -88,7 +86,7 @@ You'll notice that many of the existing components are written as CommonJS modul
 Create components to address specific use cases whenever possible. For example,
 when a user subscribes to a Github webhook to listen for “star” activity, events
 can be generated when users star or unstar a repository. The “New Star” source
-filters events for only new star activity so the user doesn’t have to.
+filters events for only new star activity so the user doesn't have to.
 
 There may be cases where it's valuable to create a generic component that
 provides users with broad latitude (e.g., see the [custom
@@ -385,7 +383,7 @@ As a general rule of thumb, we should strive to only incorporate the 3-4 most re
 Use [prop](/components/api/#user-input-props) labels to customize the name of a prop or
 propDefinition (independent of the variable name in the code). The label should
 mirror the name users of an app are familiar with; i.e., it should mirror the
-equivalent label in the app’s UI. This applies to usage in labels, descriptions,
+equivalent label in the app's UI. This applies to usage in labels, descriptions,
 etc. E.g., the Twitter API property for search keywords is “q”, but but label is
 set to “Search Term”.
 
