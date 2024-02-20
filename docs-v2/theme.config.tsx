@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { DocsThemeConfig } from "nextra-theme-docs";
 
 import PipedreamCode from "./components/PipedreamCode";
@@ -7,13 +8,7 @@ import PipedreamTextLogo from "./components/PipedreamTextLogo";
 import SlackLogo from "./components/SlackLogo";
 
 const config: DocsThemeConfig = {
-  head: (
-    <>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta property="og:title" content="Pipedream Documentation" />
-      <link rel="icon" href="/favicon.ico" />
-    </>
-  ),
+  head: null,
   components: {
     "a": PipedreamLink,
     "code": PipedreamCode,
@@ -27,7 +22,7 @@ const config: DocsThemeConfig = {
     link: "https://pipedream.com/support",
     icon: SlackLogo,
   },
-  docsRepositoryBase: "https://github.com/PipedreamHQ/pipedream/docs",
+  docsRepositoryBase: "https://github.com/PipedreamHQ/pipedream/docs-v2",
   footer: {
     text: (
       <span>
@@ -46,6 +41,20 @@ const config: DocsThemeConfig = {
   },
   nextThemes: {
     defaultTheme: "dark",
+  },
+  useNextSeoProps() {
+    const { route } = useRouter();
+    return {
+      titleTemplate: "%s - Pipedream",
+      description: "Workflow automation for developers",
+      canonical: `https://pipedream.com/docs${route}`,
+      additionalLinkTags: [
+        {
+          href: "/docs/favicon.ico",
+          rel: "icon",
+        },
+      ],
+    };
   },
 };
 
