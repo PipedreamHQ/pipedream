@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import rawMappings from './python-mappings.json';
+import React, {
+  useState, useEffect,
+} from "react";
+import rawMappings from "./python-mappings.json";
 
 const PythonMappings = () => {
-  const [mappings, setMappings] = useState([]);
-  const [query, setQuery] = useState("");
-  const [requestedPackage, setRequestedPackage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [
+    mappings,
+    setMappings,
+  ] = useState([]);
+  const [
+    query,
+    setQuery,
+  ] = useState("");
 
   useEffect(() => {
     setMappings(Object.entries(rawMappings));
@@ -15,15 +19,16 @@ const PythonMappings = () => {
 
   useEffect(() => {
     search(query);
-  }, [query]);
+  }, [
+    query,
+  ]);
 
   const search = (query) => {
     if (query === "") {
       setMappings(Object.entries(rawMappings));
     } else {
       const filteredMappings = mappings.filter((mapping) =>
-        new RegExp(query, "i").test(mapping[0])
-      );
+        new RegExp(query, "i").test(mapping[0]));
       setMappings(filteredMappings);
     }
   };

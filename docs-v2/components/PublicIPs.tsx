@@ -1,4 +1,4 @@
-import publicIps from './publicNodeIps.json';
+import publicIps from "./publicNodeIps.json";
 
 // Create a React component to display the public IPs in a code block, one IP on each line
 export default function PublicIPs() {

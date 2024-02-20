@@ -1,6 +1,5 @@
 import Callout from '@/components/Callout'
 
-
 # Plans and Pricing
 
 We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/components#sources), [workflows](/workflows), [actions](/components#actions), and other integration components so that other Pipedream users benefit from your work.
@@ -9,15 +8,13 @@ To support these goals, Pipedream offers a generous [free tier](#free-tier), and
 
 [Read more about our plans and pricing here](https://pipedream.com/pricing).
 
-
-
 ## Free Tier
 
 Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers.
 
 But Free account have a [daily limit of free credits](/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
 
-**To lift the daily credit limit and increase the number of workflows and connected accounts [upgrade to a paid tier](https://pipedream.com/pricing)**.
+To lift the daily credit limit and increase the number of workflows and connected accounts [upgrade to a paid tier](https://pipedream.com/pricing).
 
 ### Free Tier Connected Accounts
 
@@ -51,13 +48,13 @@ Pipedream uses a number of terms to describe platform metrics and details of our
 
 ### Credits
 
-Pipedream charges one credit per {process.env.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory } megabytes of memory (the default) per workflow execution. Credits are also charged for [dedicated workers](/workflows/settings/#eliminate-cold-starts).
+Pipedream charges one credit per 30 seconds of compute time at 256MB megabytes of memory (the default) per workflow execution. Credits are also charged for [dedicated workers](/workflows/settings/#eliminate-cold-starts).
 
 **Most workflow executions use a single credit**, regardless of the number of steps (unlike some other platforms, Pipedream does not charge for usage based on the number of steps).
 
 Credits are not charged for workflows during development or testing.
 
-Adding additional memory capacity to workflows will increase credit usage in intervals of 256 megabytes. For example, doubling the memory of a workflow from {process.env.base_credits_price.memory }} to {{ $site.themeConfig.base_credits_price.memory * 2 } will double the cost of credits in the same execution time.
+Adding additional memory capacity to workflows will increase credit usage in intervals of 256 megabytes. For example, doubling the memory of a workflow from 256MB to 512MB will double the cost of credits in the same execution time.
 
 #### Scenarios
 
@@ -70,13 +67,13 @@ This is the most common scenario. Regardless of the number of steps within the w
 <Callout type="info" emoji="ℹ️">
 A workflow that executes 5 times with 1 second per run
 
-5 credits are incurred, because the workflow ran for a total of 5 executions and under the {process.env.base_credits_price.seconds } seconds threshold (5 executions at 1 credit each).
+5 credits are incurred, because the workflow ran for a total of 5 executions and under the 30 second threshold (5 executions at 1 credit each).
 </Callout>
 
 <Callout type="info" emoji="ℹ️">
-A workflow that executes 2 times with {process.env.base_credits_price.seconds + 5 } seconds per run
+A workflow that executes 2 times with 35 seconds per run
 
-4 credits are incurred, because each workflow execution exceeded 1 credit time limit of {process.env.base_credits_price.seconds } by 5 seconds.
+4 credits are incurred, because each workflow execution exceeded 1 credit time limit of 30 seconds by 5 seconds.
 </Callout>
 
 <Callout type="info" emoji="ℹ️">
@@ -106,11 +103,11 @@ When an [event source](/sources) triggers a workflow, **the source execution is 
 When a source is configured as a workflow trigger, the core value is in the workflow. You won't be charged for two credits (one to run the source, one to run the workflow) when the workflow contains the core logic.
 
 <Callout type="info" emoji="ℹ️">
-This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources). If you deploy a private custom source to your account, then all computation time including the inital {process.env.base_credits_price.seconds } seconds for that private source counts toward credits.
+This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources). If you deploy a private custom source to your account, then all computation time including the inital 30 seconds for that private source counts toward credits.
 </Callout>
 
 <Callout type="info" emoji="ℹ️">
-A polling source finishing under {process.env.base_credits_price.seconds } seconds per execution
+A polling source finishing under 30 seconds per execution
 
 For example, a source that polls an API for new events like [Airtable - New Row Added](https://pipedream.com/apps/airtable/triggers/new-records) only takes ~5 seconds to poll and emit events to subscribing workflows.
 
@@ -118,7 +115,7 @@ This would result in **0 credits** per run because the **Airtable - New Row Adde
 </Callout>
 
 <Callout type="info" emoji="ℹ️">
-A polling source finishing over {process.env.base_credits_price.seconds } seconds per execution
+A polling source finishing over 30 seconds per execution
 
 Consider a source (like **RSS - New Item in Feed** for instance) that takes 60 seconds total to finish polling, per execution.
 
@@ -126,11 +123,10 @@ Each execution of this source would result in **0 credits** because the **RSS - 
 </Callout>
 
 <Callout type="info" emoji="ℹ️">
-A custom source that finished under {process.env.base_credits_price.seconds } seconds per execution
+A custom source that finished under 30 seconds per execution
 
 This would result in **1 credit** per execution because the initial free credit only applies to Pipedream Public Registry sources attached to at least one workflow.
 </Callout>
-
 
 ### Billing Period
 
@@ -184,7 +180,7 @@ Cancelling your subscription will apply at the end of your current billing perio
 
 ### How does workflow memory affect credits?
 
-Pipedream charges credits proportional to the memory configuration. If you run your workflow at the default memory of `{process.env.MEMORY_LIMIT}}`, you are charged one credit each time your workflow executes for {{ $site.themeConfig.base_credits_price.seconds }. But if you configure your workflow with `1024MB` of memory, for example, you're charged **four** credits, since you're using `4x` the default memory.
+Pipedream charges credits proportional to the memory configuration. If you run your workflow at the default memory of `{process.env.MEMORY_LIMIT}`, you are charged one credit each time your workflow executes for 30 seconds. But if you configure your workflow with `1024MB` of memory, for example, you're charged **four** credits, since you're using `4x` the default memory.
 
 ### Are there any limits on paid tiers?
 

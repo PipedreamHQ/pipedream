@@ -32,6 +32,7 @@
   "destinations": "Destinations",
   "user-settings": "User and Billing Settings",
   "troubleshooting": "Troubleshooting",
+  "pricing": "Pricing",
   "privacy-and-security": {
     "title": "Security"
   },
@@ -42,8 +43,10 @@
     "href": "https://pipedream.com/support",
     "newWindow": true
   },
-  "pricing": {
+  "pricing-page": {
     "title": "Pricing",
+    "href": "https://pipedream.com/pricing",
+    "newWindow": true,
     "type": "page"
   },
   "statuspage": {

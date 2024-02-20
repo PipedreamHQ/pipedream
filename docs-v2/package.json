@@ -11,8 +11,8 @@
   "license": "MIT",
   "homepage": "https://pipedream.com",
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.0.1",
-    "@typescript-eslint/parser": "^7.0.1",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
     "eslint": "^8.56.0",
     "eslint-plugin-jest": "^27.9.0",
     "eslint-plugin-jsonc": "^2.13.0",
@@ -28,10 +28,14 @@
     "react-markdown": "^9.0.1"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^14.1.0",
     "@types/node": "18.11.10",
     "autoprefixer": "^10.4.17",
+    "eslint-config-next": "^14.1.0",
     "postcss": "^8.4.35",
+    "prettier": "^3.2.5",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^7.0.2"
   }
 }

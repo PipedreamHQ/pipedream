@@ -1,8 +1,8 @@
-import React from 'react';
-import { Callout } from 'nextra/components'
+import React from "react";
+import { Callout } from "nextra/components";
 
 interface CalloutProps {
-  type?: 'default' | 'info' | 'warning' | 'error';
+  type?: "default" | "info" | "warning" | "error";
   emoji?: string | React.ReactNode;
   children: React.ReactNode;
 }
