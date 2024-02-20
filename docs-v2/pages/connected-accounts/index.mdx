@@ -1,8 +1,9 @@
 import Callout from '@/components/Callout'
+import VideoPlayer from '@/components/VideoPlayer'
 
 # Connected Accounts
 
-<VideoPlayer title="Connecting accounts to Pipedream" url="https://www.youtube.com/embed/xmDD1wRWnp0" />
+<VideoPlayer title="Connecting accounts to Pipedream" src="https://www.youtube.com/embed/xmDD1wRWnp0" />
 
 Pipedream provides native integrations for [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps). Once you connect an account, you can
 
@@ -13,8 +14,6 @@ Pipedream provides native integrations for [{process.env.PUBLIC_APPS}+ APIs](htt
 Pipedream handles OAuth for you, ensuring you always have a fresh access token to authorize requests, and [credentials are tightly-secured](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables).
 
 If you use an existing secrets store, or manage credentials in a database, you can also [pass those to Pipedream at runtime](/connected-accounts/external-auth/) instead of connecting accounts in the UI.
-
-
 
 ## Supported Apps
 
@@ -94,7 +93,7 @@ export default defineComponent({
       text: "Hello, world!",
       channel: "#general",
     })
-  })
+  }
 });
 ```
 
@@ -168,8 +167,6 @@ Workspace members who do **not** have access to a given connected account **cann
 
 ![Read only code step](https://res.cloudinary.com/pipedreamin/image/upload/v1691621275/read-only-code-step_ijqvjc.png)
 
-<br>
-
 To make changes to steps that are locked in read-only mode, you can:
 
 - Ask the account owner to [grant access](#managing-access)
@@ -186,11 +183,11 @@ When you connect an account in Pipedream, you are the owner of that connected ac
 - Reconnect
 - Add to any step or trigger
 
-<br>
-
 How workspace members can use connected accounts that are **private**:
 
+<br />
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/private-auth_ecm7jx.png" width="100px" />
+<br />
 
 | Operations                                         | Workspace Owner & Admin |   Other Members    |
 | -------------------------------------------------- | :---------------------: | :----------------: |
@@ -202,11 +199,11 @@ How workspace members can use connected accounts that are **private**:
 | Reconnect                                          |           :x:           |        :x:         |
 | Delete                                             |   :white_check_mark:    |        :x:         |
 
-<br>
-
 How workspace members can use connected accounts that are **shared**:
 
+<br />
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/shared-auth-workspace_usdwod.png" width="240px" />
+<br />
 
 | Operations                                         | Workspace Owner & Admin |   Other Members    |
 | -------------------------------------------------- | :---------------------: | :----------------: |
@@ -234,7 +231,7 @@ The owner column on the Accounts page indicates who in the workspace originally 
 
 Accounts that were connected before August 2023 don't have an owner associated with them, and are shared with the entire workspace. In order to manage access for any of those accounts, we'll first prompt you to reconnect.
 
-#### How can I restrict access to a connected account that's already shared with the workspace?
+#### How can I restrict access to a connected account shared with the workspace?
 
 See above for info on [managing access](#managing-access).
 

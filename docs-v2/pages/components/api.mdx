@@ -12,8 +12,6 @@ While sources and actions share the same core component API, they differ in both
 
 If you have any questions about component development, please reach out [in our community](https://pipedream.com/community/c/dev/11).
 
-
-
 ## Overview
 
 ### What is a component?
@@ -24,7 +22,7 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 - Emit data on each event to inspect it. Trigger Pipedream hosted workflows or access it outside of Pipedream via API
 - Accept user input on deploy via [CLI](/cli/reference/#pd-deploy), [API](/api/rest/#overview), or [UI](https://pipedream.com/sources)
 - Connect to [{process.env.PUBLIC_APPS}+ apps](https://pipedream.com/apps) using Pipedream managed auth
-- Use most npm packages with no `npm install` or `package.json` required
+- Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
 
 ### Quickstarts
@@ -145,7 +143,7 @@ props: {
 | `type`           | `string`                             | required  | Value must be set to a valid `PropType` (see below). Suffix with `[]` (e.g. `string[]`) to denote array of that type (if supported).                                                                                                                                                                                                                                                                                                                                           |
 | `label`          | `string`                             | optional  | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed to the user.                                                                                                                                                                                                                                                                                                                                                           |
 | `description`    | `string`                             | optional  | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported.                                                                                                                                                                                                                                                                                                                  |
-| `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
+| `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu.<br />&nbsp;<br />**`[]` Basic usage**<br />Array of strings. E.g.,<br />`['option 1', 'option 2']`<br />&nbsp;<br />**`object[]` Define Label and Value**<br />`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br />&nbsp;<br />**`method` Dynamic Options**<br />You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
 | `useQuery`       | `boolean`                            | optional  | Use in conjunction with **Dynamic Options**. If set to `true`, the prop accepts a real-time query that can be used by the `options` method to obtain results according to that query.                                                                                                                                                                                                                                                                                          |
 | `optional`       | `boolean`                            | optional  | Set to `true` to make this prop optional. Defaults to `false`.                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `propDefinition` | `[]`                                 | optional  | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage.                                                                                                                                                                                                       |
@@ -162,7 +160,7 @@ props: {
 | ------------------- | --------------- | --------------------- | --------------------- | :---------------------------------------------------------------------------------------------------------- |
 | `app`               |                 | ✓                     | ✓                     | See [App Props](#app-props) below                                                                           |
 | `boolean`           | ✓               | ✓                     | ✓                     |
-| `integer`           | ✓               | ✓                     | ✓                     | - `min` (`integer`): Minimum allowed integer value.<br/>- `max` (`integer`): Maximum allowed integer value. |
+| `integer`           | ✓               | ✓                     | ✓                     | - `min` (`integer`): Minimum allowed integer value.<br />- `max` (`integer`): Maximum allowed integer value. |
 | `string`            | ✓               | ✓                     | ✓                     | - `secret` (`boolean`): Whether to treat the value as a secret.                                             |
 | `object`            |                 | ✓                     | ✓                     |
 | `any`               |                 |                       | ✓                     |
@@ -218,7 +216,7 @@ async options({
 
 | Property      | Type      | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------------- | --------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `options()`   | `method`  | optional  | Typically returns an array of values matching the prop type (e.g., `string`) or an array of object that define the `label` and `value` for each option. The `page` and `prevContext` input parameter names are reserved for pagination (see below).<br>&nbsp;<br>When using `prevContext` for pagination, it must return an object with an `options` array and a `context` object with a `nextPageToken` key. E.g., `{ options, context: { nextPageToken }, }` |
+| `options()`   | `method`  | optional  | Typically returns an array of values matching the prop type (e.g., `string`) or an array of object that define the `label` and `value` for each option. The `page` and `prevContext` input parameter names are reserved for pagination (see below).<br />&nbsp;<br />When using `prevContext` for pagination, it must return an object with an `options` array and a `context` object with a `nextPageToken` key. E.g., `{ options, context: { nextPageToken }, }` |
 | `page`        | `integer` | optional  | Returns a `0` indexed page number. Use with APIs that accept a numeric page number for pagination.                                                                                                                                                                                                                                                                                                                                                             |
 | `prevContext` | `string`  | optional  | Returns a string representing the context for the previous `options` execution. Use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                                 |
 | `query`       | `string`  | optional  | Returns a string with the user input if the prop has the `useQuery` property set to `true`. Use with APIs that return items based on a query or search parameter.                                                                                                                                                                                                                                                                                              |
@@ -268,7 +266,7 @@ props: {
 | `propDefinition`     | `array`  | optional  | An array of options that define a reference to a `propDefinitions` within the `propDefinitions` for an `app`                                                                                                                                                          |
 | `app`                | `object` | required  | An app object                                                                                                                                                                                                                                                         |
 | `propDefinitionName` | `string` | required  | The name of a specific `propDefinition` defined in the corresponding `app` object                                                                                                                                                                                     |
-| `inputValues`        | `object` | optional  | Values to pass into the prop definition. To reference values from previous props, use an arrow function. E.g.,:<br>&nbsp;<br>`c => ({ variableName: c.previousPropName })`<br /><br />[See these docs](#referencing-values-from-previous-props) for more information. |
+| `inputValues`        | `object` | optional  | Values to pass into the prop definition. To reference values from previous props, use an arrow function. E.g.,:<br />&nbsp;<br />`c => ({ variableName: c.previousPropName })`<br /><br />[See these docs](#referencing-values-from-previous-props) for more information. |
 
 Following is an example source that demonstrates how to use `propDefinitions`.
 
@@ -305,15 +303,11 @@ When you define a prop in an app file, and that prop depends on the value of ano
 
 You create Trello _boards_ for new projects. Boards contain _lists_. For example, this **Active** board contains two lists:
 
-<div>
-<img alt="Trello board example" src="./images/trello-board-example.png">
-</div>
+![Trello board example](./images/trello-board-example.png)
 
 In Pipedream, users can choose from lists on a specific board:
 
-<div>
-<img alt="Trello board and lists props" src="./images/trello-props.png">
-</div>
+![Trello board and lists props](./images/trello-props.png)
 
 Both **Board** and **Lists** are defined in the Trello app file:
 
@@ -363,9 +357,7 @@ Some prop definitions must be computed dynamically, after the user configures an
 
 First, determine the prop whose selection should render dynamic props. In the Google Sheets example, we ask the user whether their sheet contains a header row. If it does, we display header fields as individual props:
 
-<div>
-<img alt="Google Sheets Additional props example - header columns loading as props" src="https://res.cloudinary.com/pipedreamin/image/upload/v1654129371/docs/additional-props_lx5jtv.gif">
-</div>
+![Google Sheets Additional props example - header columns loading as props](https://res.cloudinary.com/pipedreamin/image/upload/v1654129371/docs/additional-props_lx5jtv.gif)
 
 To load dynamic props, the header prop must have the `reloadProps` field set to `true`:
 
@@ -474,7 +466,7 @@ props: {
 | Property  | Type     | Required? | Description                                                                                                                                  |
 | --------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`    | `string` | required  | Must be set to `$.interface.timer`                                                                                                           |
-| `default` | `object` | optional  | **Define a default interval**<br>`{ intervalSeconds: 60, },`<br>&nbsp;<br>**Define a default cron expression**<br>`{ cron: "0 0 * * *", },` |
+| `default` | `object` | optional  | **Define a default interval**<br />`{ intervalSeconds: 60, },`<br />&nbsp;<br />**Define a default cron expression**<br />`{ cron: "0 0 * * *", },` |
 
 **Usage**
 
@@ -733,7 +725,7 @@ Refer to GitHub's component sources in the `pipedream` repo for an [example impl
 
 When a user configures a prop with a value, it can hold at most `{process.env.CONFIGURED_PROPS_SIZE_LIMIT}` data. Consider this when accepting large input in these fields (such as a base64 string).
 
-The `{process.env.CONFIGURED_PROPS_SIZE_LIMIT}}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example <ClientOnly><code v-pre>{{steps.nodejs.$return_value}</code></ClientOnly>, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits/).
+The `{process.env.CONFIGURED_PROPS_SIZE_LIMIT}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example `{{steps.nodejs.$return_value}}`, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits/).
 
 ### Methods
 
@@ -911,9 +903,7 @@ async run({ $ }) {
 
 `$.summary` is used to surface brief, user-friendly summaries about what happened when an action step succeeds. For example, when [adding items to a Spotify playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/actions/add-items-to-playlist/add-items-to-playlist.mjs#L51):
 
-<div>
-<img alt="Spotify example with $summary" src="./images/spotify-$summary-example.png">
-</div>
+![Spotify example with $summary](./images/spotify-$summary-example.png)
 
 Example implementation:
 

@@ -12,16 +12,22 @@
   "workflows": {
     "title": "Workflows"
   },
+  "connected-accounts": {
+    "title": "Connected Accounts"
+  },
   "code": {
     "title": "Code"
   },
+  "data-stores": "Data Stores",
+  "components": "Components",
+  "sources": "Sources",
+  "event-history": "Event History",
+  "http": "HTTP",
+  "apps": "Integrations",
   "environment-variables": {
     "title": "Environment Variables"
   },
-  "data-stores": "Data Stores",
   "destinations": "Destinations",
-  "http": "HTTP",
-  "apps": "Integrations",
   "user-settings": "User and Billing Settings",
   "troubleshooting": "Troubleshooting",
   "support": {

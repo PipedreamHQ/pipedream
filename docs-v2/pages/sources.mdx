@@ -1,14 +1,13 @@
 import Callout from '@/components/Callout'
+import VideoPlayer from '@/components/VideoPlayer'
 
 # Sources
 
-<VideoPlayer url="https://www.youtube.com/embed/RjsWeXW_DC0" title="Understanding Sources in Pipedream" />
+<VideoPlayer src="https://www.youtube.com/embed/RjsWeXW_DC0" title="Understanding Sources in Pipedream" />
 
 Event sources operate primarily as workflow triggers. When you add a new app-based [trigger](/workflows/steps/triggers/) to your workflow, you're creating an event source.
 
-<div>
-<img alt="New-app-based trigger" width="600px" src="./images/app-based-trigger.png">
-</div>
+![New app-based trigger](./images/app-based-trigger.png)
 
 Event sources run as their own resources, separate from workflows, for two reasons:
 
@@ -16,8 +15,6 @@ Event sources run as their own resources, separate from workflows, for two reaso
 - If you need to consume events emitted by event sources in your own application, you don't need to run a workflow: you can use Pipedream's [REST API](/api/rest/) or a [private, real-time SSE stream](/api/sse/) to access the event data directly.
 
 You can view your event sources at [https://pipedream.com/sources](https://pipedream.com/sources). Here, you'll see the events a specific source has emitted, as well as the logs and configuration for that source.
-
-
 
 ## Overview
 

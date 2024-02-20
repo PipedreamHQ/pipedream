@@ -1,4 +1,5 @@
 import Callout from '@/components/Callout'
+import { Tabs } from 'nextra/components'
 
 # Accessing credentials via API
 
@@ -17,23 +18,18 @@ During the beta:
 - The API is subject to change.
 </Callout>
 
-
-
 ## Using the credentials API
 
 1. [Connect your account](/connected-accounts/#connecting-a-new-account)
 2. On [https://pipedream.com/accounts](https://pipedream.com/accounts), find your account and click the `...` to the right of the account,
 3. **Copy Account ID**
 
-<div>
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1707622922/docs/Screenshot_2024-02-10_at_7.10.59_PM_zxfpkt.png" />
-</div>
+![Copy Account ID](https://res.cloudinary.com/pipedreamin/image/upload/v1707622922/docs/Screenshot_2024-02-10_at_7.10.59_PM_zxfpkt.png)
 
 4. Make a request to the [**Get account credentials** endpoint](/api/rest/#get-account).
 
-:::: tabs :options="{ useUrlFragment: false }"
-
-::: tab "Pipedream (Node.js)"
+<Tabs items={['Pipedream (Node.js)', 'Pipedream (Python)', 'cURL' , 'Node.js v20', 'Python 3.12']}>
+<Tabs.Tab>
 
 ```javascript
 export default defineComponent({
@@ -64,9 +60,8 @@ export default defineComponent({
 });
 ```
 
-:::
-
-::: tab "Pipedream (Python)"
+</Tabs.Tab>
+<Tabs.Tab>
 
 ```python
 import requests
@@ -80,18 +75,16 @@ def handler(pd: "pipedream"):
     return r.json()
 ```
 
-:::
-
-::: tab "cURL"
+</Tabs.Tab>
+<Tabs.Tab>
 
 ```bash
 curl 'https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>?include_credentials=1' \
   -H "Authorization: Bearer <PIPEDREAM_API_KEY>"
 ```
 
-:::
-
-::: tab "Node.js v20"
+</Tabs.Tab>
+<Tabs.Tab>
 
 ```javascript
 const url = `https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>?include_credentials=1`;
@@ -112,7 +105,8 @@ const { data } = await response.json();
 
 :::
 
-::: tab "Python 3.12"
+</Tabs.Tab>
+<Tabs.Tab>
 
 ```python
 import requests
@@ -127,9 +121,8 @@ r = requests.get("https://api.pipedream.com/v1/accounts/<ACCOUNT_ID>?include_cre
 data = r.json()
 ```
 
-:::
-
-::::
+</Tabs.Tab>
+</Tabs>
 
 5. It's not necessary to fetch credentials on every request to your app. You should [cache credentials in your own DB](#caching-credentials), refreshing them only when necessary.
 
