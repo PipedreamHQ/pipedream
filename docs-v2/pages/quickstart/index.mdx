@@ -1,10 +1,12 @@
 import Callout from '@/components/Callout'
+import { Steps } from 'nextra/components'
 
 # Quickstart - Workflow Development
 
 Sign up for a [free Pipedream account](https://pipedream.com/auth/signup) (no credit card required) and complete this quickstart guide to learn the basic patterns for workflow development:
 
-## Create a project
+<Steps>
+### Create a project
 
 Workflows must be created in **Projects**. Projects make it easy to organize your workflows and collaborate with your team. 
 
@@ -20,7 +22,7 @@ Next, enter a project name and click **Create Project**. For this example, we'll
 Configure GitHub Sync for projects to enable git-based version control and unlock the ability to develop in branches, commit to or pull changes from GitHub, view diffs, create PRs and more. To learn more, complete this quickstart guide to learn the basics of workflow development and then follow the [quickstart guide for GitHub Sync](./github-sync/).
 </Callout>
 
-## Create a workflow
+### Create a workflow
 
 After the project is created, use the **New** button to create a new workflow.
 
@@ -30,7 +32,7 @@ Name the workflow and click **Create Workflow** to use the default settings. For
 
 ![Configure new workflow](./images/configure-workflow.png)
 
-## Add an HTTP / Webhook trigger
+### Add an HTTP / Webhook trigger
 
 Next, Pipedream will launch the workflow builder and prompt you to add a trigger. For this example, select **HTTP / Webhook Requests**. 
 
@@ -44,7 +46,7 @@ Pipedream will generate a unique URL to trigger this workflow. Once your workflo
 
 ![Unique URL](./images/unique-url.png)
 
-## Generate a test event
+### Generate a test event
 
 Next, generate a test event to help you build the workflow. 
 
@@ -79,7 +81,7 @@ curl -d '{"message": "Pipedream is awesome!"}' \
 ```
 </Callout>
 
-## Enrich trigger data using Node.js and npm
+### Enrich trigger data using Node.js and npm
 
 Before we send data to Google Sheets, let's use the npm [`sentiment`](https://www.npmjs.com/package/sentiment) package to generate a sentiment score for our message. To do that, click **Continue** or the **+** button.
 
@@ -129,7 +131,7 @@ You should see the results of the sentiment analysis when the test is complete.
 When you **Test** a step, only the current step is executed. Use the caret to test different ranges of steps including the entire workflow.
 </Callout>
 
-## Save data to Google Sheets
+### Save data to Google Sheets
 
 Next, create a Google Sheet and add **Timestamp**, **Message** and **Sentiment Score** to the first row. These labels act as our column headers amd will help us configure the Google Sheets step of the workflow. 
 
@@ -222,9 +224,9 @@ When your workflow deploys, you will be redirected to the **Inspector**. Your wo
 To validate your workflow is working as expected, send a new request to your workflow: You can edit and run the following `cURL` command:
 
 ```bash
-curl -d '{
-  "message": "Wow!!! Pipedream IS awesome and easy to use!!!"
-}'   -H "Content-Type: application/json"   YOUR-TRIGGER-URL-GOES-HERE
+curl -d '{ "message": "Pipedream is awesome!" }' \
+  -H "Content-Type: application/json" \
+  YOUR-TRIGGER-URL
 ```
 
 The event will instantly appear in the event list. Select it to inspect the workflow execution.
@@ -234,6 +236,8 @@ The event will instantly appear in the event list. Select it to inspect the work
 Finally, you can return to Google Sheets to validate that the new data was automatically inserted.
 
 ![Live data inserted into sheets](./images/live-test.png) 
+
+</Steps>
 
 ## Next Steps
 
