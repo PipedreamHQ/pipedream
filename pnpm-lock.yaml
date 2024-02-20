@@ -1365,6 +1365,12 @@ importers:
   components/coinmarketcal_demo_app:
     specifiers: {}
 
+  components/coinmarketcap:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/college_football_data:
     specifiers: {}
 
