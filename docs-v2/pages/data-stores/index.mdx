@@ -1,8 +1,9 @@
 import Callout from '@/components/Callout'
+import VideoPlayer from '@/components/VideoPlayer'
 
 # Data Stores
 
-<VideoPlayer url="https://www.youtube.com/embed/0WMcAnDF7FA" title="Data store Basics" />
+<VideoPlayer src="https://www.youtube.com/embed/0WMcAnDF7FA" title="Data store Basics" />
 
 **Data stores** are Pipedream's built-in key-value store.
 
@@ -17,8 +18,6 @@ Data stores are useful for:
 You can connect to the same data store across workflows, so they're also great for sharing state across different services.
 
 You can use pre-built, no-code actions to store, update, and clear data, or interact with data stores programmatically in [Node.js](/code/nodejs/using-data-stores/) or [Python](/code/python/using-data-stores/).
-
-
 
 ## Using pre-built Data Store actions
 
@@ -42,7 +41,7 @@ Configure the action:
 
 ![Configure the action](https://res.cloudinary.com/pipedreamin/image/upload/v1648063057/docs/components/CleanShot_2022-03-23_at_15.17.30_2x_snunyz.png)
 
-For example, to store the timestamp when the workflow was initially triggered, set the **Key** to **Triggered At** and the **Value** to <code v-pre>{{steps.trigger.context.ts}}</code>.
+For example, to store the timestamp when the workflow was initially triggered, set the **Key** to **Triggered At** and the **Value** to `{{steps.trigger.context.ts}}`.
 
 The **Key** must evaluate to a string. You can pass a static string, reference [exports](/workflows/steps/#step-exports) from a previous step, or use [any valid expression](/workflows/steps/using-props/#entering-expressions).
 

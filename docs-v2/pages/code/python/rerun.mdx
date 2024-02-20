@@ -1,10 +1,5 @@
 import Callout from '@/components/Callout'
 
----
-short_description: How to rerun a step execution in Python
-thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841376/docs/icons/icons8-time-96_kupxpi.png
----
-
 # Pause, resume, and rerun a workflow
 
 You can use `pd.flow.suspend` and `pd.flow.rerun` to pause a workflow and resume it later. 
@@ -16,8 +11,6 @@ This is useful when you want to:
 - Trigger an external API to start a job, pause the workflow, and resume it when the external API sends an HTTP callback
 
 We'll cover all of these examples below.
-
-
 
 ## `pd.flow.suspend`
 
@@ -37,9 +30,7 @@ def handler(pd: 'pipedream'):
 
 You'll receive an email like this:
 
-<div>
-  <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655272047/docs/approve-workflow_oc06k3.png" alt="approve this workflow" width="100%"/>
-</div>
+![Approve this workflow](https://res.cloudinary.com/pipedreamin/image/upload/v1655272047/docs/approve-workflow_oc06k3.png)
 
 And can resume or cancel the rest of the workflow by clicking on the appropriate link.
 
@@ -54,9 +45,7 @@ These URLs are specific to a single execution of your workflow. While the workfl
 
 If you resume a workflow, any data sent in the HTTP request is passed to the workflow and returned in the `$resume_data` [step export](/workflows/steps/#step-exports) of the suspended step. For example, if you call `pd.flow.suspend` within a step named `code`, the `$resume_data` export should contain the data sent in the `resume_url` request:
 
-<div>
-  <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655271815/docs/resume_data_lafhxr.png" alt="resume data step export" width="350px"/>
-</div>
+![resume data step export](https://res.cloudinary.com/pipedreamin/image/upload/v1655271815/docs/resume_data_lafhxr.png)
 
 ### Default timeout of 24 hours 
 
@@ -105,7 +94,7 @@ def handler(pd: 'pipedream'):
     pd.flow.rerun(DELAY, None, MAX_RETRIES)
 ```
 
-`$.flow.rerun` accepts the following arguments:
+`pd.flow.rerun` accepts the following arguments:
 
 ```python
 pd.flow.rerun(
@@ -148,11 +137,11 @@ Within a Python code step, `pd.context.run.context` contains the `context` passe
 pd.flow.rerun(1000, { "hello": "world" })
 ```
 
-`$.context.run.context` will contain:
+`pd.context.run.context` will contain:
 
-<div>
-  <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655274732/docs/Screen_Shot_2022-06-14_at_11.32.06_PM_dmzgkh.png" alt="resume data step export" width="250px"/>
-</div>
+<br />
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655274732/docs/Screen_Shot_2022-06-14_at_11.32.06_PM_dmzgkh.png" alt="resume data step export" width="250px"/>
+<br />
 
 ### `maxRetries`
 
