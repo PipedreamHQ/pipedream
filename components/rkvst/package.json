@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/rkvst",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream RKVST Components",
-  "main": "dist/app/rkvst.app.mjs",
+  "main": "rkvst.app.mjs",
   "keywords": [
     "pipedream",
     "rkvst"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/rkvst",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
+
