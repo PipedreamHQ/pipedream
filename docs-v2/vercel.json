@@ -233,6 +233,14 @@
     {
       "source": "/docs/api",
       "destination": "/docs/rest-api"
+    },
+    {
+      "source": "/docs/components/quickstart/nodejs/actions",
+      "destination": "/docs/components/actions-quickstart"
+    },
+    {
+      "source": "/docs/components/quickstart/nodejs/sources",
+      "destination": "/docs/components/sources-quickstart"
     }
   ]
 }
