@@ -20,7 +20,7 @@ export default {
     },
   },
   async additionalProps() {
-    return this.getPersonFieldProps(this.personFields, true);
+    return this.getPersonFieldProps(this.personFields);
   },
   methods: {
     ...common.methods,

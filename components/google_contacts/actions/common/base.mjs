@@ -6,26 +6,42 @@ export default {
     googleContacts,
   },
   methods: {
-    getPersonFieldProps(personFields, optional = false) {
+    getPersonFieldProps(personFields) {
       const result = {};
       if (personFields.includes("names")) {
-        result.firstName = props.firstName(optional);
-        result.middleName = props.middleName(optional);
-        result.lastName = props.lastName(optional);
+        result.firstName = props.firstName;
+        result.middleName = props.middleName;
+        result.lastName = props.lastName;
       }
       if (personFields.includes("emailAddresses")) {
-        result.email = props.email(optional);
+        result.email = props.email;
       }
       if (personFields.includes("phoneNumbers")) {
-        result.phoneNumber = props.phoneNumber(optional);
+        result.phoneNumber = props.phoneNumber;
       }
       if (personFields.includes("addresses")) {
-        result.streetAddress = props.streetAddress(optional);
-        result.city = props.city(optional);
-        result.state = props.state(optional);
-        result.zipCode = props.zipCode(optional);
-        result.country = props.country(optional);
+        result.streetAddress = props.streetAddress;
+        result.city = props.city;
+        result.state = props.state;
+        result.zipCode = props.zipCode;
+        result.country = props.country;
       }
+      if (personFields.includes("biographies")) {
+        result.biography = props.biography;
+      }
+      if (personFields.includes("birthdays")) {
+        result.birthday = props.birthday;
+      }
+      if (personFields.includes("calendarUrls")) {
+        result.calendarUrl = props.calendarUrl;
+      }
+      if (personFields.includes("genders")) {
+        result.gender = props.gender;
+      }
+      if (personFields.includes("urls")) {
+        result.urls = props.urls;
+      }
+      result.additionalFields = props.additionalFields;
       return result;
     },
     getRequestBody(personFields, ctx) {
@@ -40,6 +56,12 @@ export default {
         state: region,
         zipCode: postalCode,
         country,
+        biography,
+        birthday,
+        calendarUrl,
+        gender,
+        urls,
+        additionalFields,
       } = ctx;
 
       const requestBody = {};
@@ -76,6 +98,60 @@ export default {
             value: phoneNumber,
           },
         ];
+      }
+      if (personFields.includes("biographies")) {
+        requestBody.biographies = [
+          {
+            value: biography,
+          },
+        ];
+      }
+      if (personFields.includes("birthdays")) {
+        const [
+          year,
+          month,
+          day,
+        ] = birthday.split("-");
+        requestBody.birthdays = [
+          {
+            date: {
+              year,
+              month,
+              day,
+            },
+          },
+        ];
+      }
+      if (personFields.includes("calendarUrls")) {
+        requestBody.calendarUrls = [
+          {
+            url: calendarUrl,
+          },
+        ];
+      }
+      if (personFields.includes("genders")) {
+        requestBody.genders = [
+          {
+            value: gender,
+          },
+        ];
+      }
+      if (personFields.includes("urls")) {
+        requestBody.urls = urls.map((value) => ({
+          value,
+        }));
+      }
+      if (additionalFields) {
+        Object.entries(additionalFields).forEach(([
+          key,
+          value,
+        ]) => {
+          try {
+            requestBody[key] = JSON.parse(value);
+          } catch (e) {
+            requestBody[key] = value;
+          }
+        });
       }
       return requestBody;
     },
