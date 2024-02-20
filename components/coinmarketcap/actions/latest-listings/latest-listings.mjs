@@ -1,5 +1,4 @@
 // legacy_hash_id: a_rJiLNE
-import { axios } from "@pipedream/platform";
 import coinmarketcap from "../../coinmarketcap.app.mjs";
 
 export default {
@@ -87,11 +86,9 @@ export default {
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: `https://${this.coinmarketcap.$auth.environment}-api.coinmarketcap.com/v1/cryptocurrency/listings/latest`,
-      headers: {
-        "X-CMC_PRO_API_KEY": `${this.coinmarketcap.$auth.api_key}`,
-      },
+    const response = await this.coinmarketcap._makeRequest({
+      $,
+      url: "/v1/cryptocurrency/listings/latest",
       params: {
         start: this.start,
         limit: this.limit,
@@ -104,5 +101,7 @@ export default {
         aux: this.aux,
       },
     });
+    $.export("$summary", "Successfully retrieved listings");
+    return response;
   },
 };

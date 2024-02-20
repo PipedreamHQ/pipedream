@@ -1,3 +1,5 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "coinmarketcap",
@@ -16,9 +18,17 @@ export default {
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _makeRequest({
+      $, headers, ...args
+    }) {
+      return axios($, {
+        ...args,
+        baseURL: `https://${this.$auth.environment}-api.coinmarketcap.com`,
+        headers: {
+          ...headers,
+          "X-CMC_PRO_API_KEY": `${this.$auth.api_key}`,
+        },
+      });
     },
   },
 };
