@@ -6,7 +6,10 @@ interface PipedreamCodeProps {
 }
 
 const fira = Fira_Code({
-  weight: "400",
+  weight: [
+    "400",
+    "600",
+  ],
   subsets: [
     "latin",
   ],

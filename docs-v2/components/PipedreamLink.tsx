@@ -10,7 +10,7 @@ const PipedreamLink = ({
   href, children,
 }: PipedreamLinkProps) => {
   return (
-    <Link className="underline underline-offset-4 hover:decoration-2 decoration-brand font-semibold text-black dark:text-white" href={href}>{children}</Link>
+    <Link className="underline underline-offset-4 hover:decoration-2 font-medium decoration-brand/50 text-black dark:text-white" href={href}>{children}</Link>
   );
 };
 

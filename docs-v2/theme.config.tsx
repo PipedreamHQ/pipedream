@@ -1,32 +1,32 @@
-import React from 'react'
-import { DocsThemeConfig } from 'nextra-theme-docs'
+import React from "react";
+import { DocsThemeConfig } from "nextra-theme-docs";
 
-import PipedreamCode from './components/PipedreamCode'
-import PipedreamLink from './components/PipedreamLink'
-import PipedreamTextLogo from './components/PipedreamTextLogo'
-import SlackLogo from './components/SlackLogo'
+import PipedreamCode from "./components/PipedreamCode";
+import PipedreamLink from "./components/PipedreamLink";
+import PipedreamTextLogo from "./components/PipedreamTextLogo";
+import SlackLogo from "./components/SlackLogo";
 
 const config: DocsThemeConfig = {
   components: {
-    'a': PipedreamLink,
-    'code': PipedreamCode,
+    "a": PipedreamLink,
+    "code": PipedreamCode,
   },
   logo: PipedreamTextLogo,
-  logoLink: 'https://pipedream.com',
+  logoLink: "https://pipedream.com",
   project: {
-    link: 'https://github.com/PipedreamHQ/pipedream',
+    link: "https://github.com/PipedreamHQ/pipedream",
   },
   chat: {
-    link: 'https://pipedream.com/support',
+    link: "https://pipedream.com/support",
     icon: SlackLogo,
   },
-  docsRepositoryBase: 'https://github.com/PipedreamHQ/pipedream/docs',
+  docsRepositoryBase: "https://github.com/PipedreamHQ/pipedream/docs",
   footer: {
     text: (
       <span>
-        Pipedream, Inc. {new Date().getFullYear()} {' '}
+        Pipedream, Inc. {new Date().getFullYear()} {" "}
       </span>
-    )
+    ),
   },
   primaryHue: 153,
   primarySaturation: 100,
@@ -38,8 +38,8 @@ const config: DocsThemeConfig = {
     defaultMenuCollapseLevel: 1,
   },
   nextThemes: {
-    defaultTheme: 'dark'
-  }
-}
+    defaultTheme: "dark",
+  },
+};
 
-export default config
+export default config;
