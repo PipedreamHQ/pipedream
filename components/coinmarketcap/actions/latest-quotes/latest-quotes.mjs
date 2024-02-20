@@ -31,14 +31,16 @@ export default {
       optional: true,
     },
     convert: {
-      type: "string",
-      description: "Optionally calculate market quotes in up to 120 currencies at once by passing a comma-separated list of cryptocurrency or fiat currency symbols. Each additional convert option beyond the first requires an additional call credit. A list of supported fiat options can be found at https://coinmarketcap.com/api/documentation/v1/#section/Standards-and-Conventions. Each conversion is returned in its own \"quote\" object.",
-      optional: true,
+      propDefinition: [
+        coinmarketcap,
+        "convert",
+      ],
     },
-    convert_id: {
-      type: "string",
-      description: "Optionally calculate market quotes by CoinMarketCap ID instead of symbol. This option is identical to convert outside of ID format. Ex: convert_id=1,2781 would replace convert=BTC,USD in your query. This parameter cannot be used when convert is used.",
-      optional: true,
+    convertId: {
+      propDefinition: [
+        coinmarketcap,
+        "convertId",
+      ],
     },
   },
   async run({ $ }) {
