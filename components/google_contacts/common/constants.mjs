@@ -30,6 +30,12 @@ export default {
     "urls",
     "userDefined",
   ],
+  UPDATE_PERSON_FIELD_OPTIONS: [
+    "names",
+    "emailAddresses",
+    "phoneNumbers",
+    "addresses",
+  ],
   RESOURCE_NAME: "people/me",
   GROUP_FIELDS: [
     "clientData",

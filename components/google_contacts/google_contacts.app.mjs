@@ -45,6 +45,42 @@ export default {
         };
       },
     },
+    updatePersonFields: {
+      type: "string[]",
+      label: "Update Fields",
+      description: "Contact sections to update",
+      options: constants.UPDATE_PERSON_FIELD_OPTIONS,
+    },
+    streetAddress: {
+      type: "string",
+      label: "Street Address",
+      description: "Contact's street address",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "Contact's city",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "Contact's state",
+      optional: true,
+    },
+    zipCode: {
+      type: "string",
+      label: "Zip Code",
+      description: "Contact's zip code",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Contact's country",
+      optional: true,
+    },
   },
   methods: {
     getClient() {
