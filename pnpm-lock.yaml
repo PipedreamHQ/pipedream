@@ -74,6 +74,9 @@ importers:
   components/_46elks:
     specifiers: {}
 
+  components/_46elks:
+    specifiers: {}
+
   components/_twocaptcha:
     specifiers: {}
 
@@ -7349,7 +7352,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/tpscheck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/trackingtime:
     specifiers:
