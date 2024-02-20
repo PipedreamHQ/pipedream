@@ -1,10 +1,9 @@
 import Callout from '@/components/Callout'
+import PublicIPs from '@/components/PublicIPs'
 
 # HTTP
 
 HTTP Destinations allow you to send data to another HTTP endpoint URL outside of Pipedream. This can be an endpoint you own and operate, or a URL tied to a service you use (for example, a [Slack Incoming Webhook](https://api.slack.com/incoming-webhooks)).
-
-
 
 ## Using `$.send.http` in workflows
 
@@ -20,7 +19,7 @@ export default defineComponent({
       name: "Luke Skywalker",
     },
   });
- })
+ }
 });
 ```
 
@@ -37,7 +36,7 @@ export default defineComponent({
       params, // An object containing query string parameters as key-value pairs
       auth, // An object that contains a username and password property, for HTTP basic auth
     });
-  })
+  }
 });
 
 ```
@@ -60,7 +59,7 @@ export default defineComponent({
         },
       });
     });
-  })
+  }
 });
 ```
 
@@ -75,11 +74,11 @@ If you're authoring a [component action](/components#actions), you can deliver d
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
-      $.send.http({
-        method: "GET",
-        url: "https://example.com"
-      })
-  })
+    $.send.http({
+      method: "GET",
+      url: "https://example.com"
+    })
+  }
 });
 ```
 
@@ -115,7 +114,7 @@ Currently, Pipedream will not retry any failed request. If your HTTP destination
 
 When you make an HTTP request using `$.send.http()`, the traffic will come from one of the following IP addresses:
 
-<<< @/docs/snippets/public-node-ips.txt
+<PublicIPs />
 
 This list may change over time. If you've previously whitelisted these IP addresses and are having trouble sending HTTP requests to your target service, please check to ensure this list matches your firewall rules.
 

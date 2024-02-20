@@ -4,8 +4,8 @@
 
 However, Destinations are different than actions in two ways:
 
-- **Events are delivered to the Destinations asynchronously**, after your workflow completes. This means you don't wait for network I/O (e.g. for HTTP requests or connection overhead for data warehouses) within your workflow code, so you can process more events faster.
-- In the case of data stores like S3, you typically don't want to send every event on its own. This can be costly and carries little benefit. **Instead, you typically want to batch a collection of events together, sending the batch at some frequency. Destinations handle that batching for relevant services**.
+- Events are delivered to the Destinations asynchronously, after your workflow completes. This means you don't wait for network I/O (e.g. for HTTP requests or connection overhead for data warehouses) within your workflow code, so you can process more events faster.
+- In the case of data stores like S3, you typically don't want to send every event on its own. This can be costly and carries little benefit. Instead, you typically want to batch a collection of events together, sending the batch at some frequency. Destinations handle that batching for relevant services.
 
 The docs below discuss features common to all Destinations. See the [docs for a given destination](#available-destinations) for information specific to those destinations.
 
@@ -25,7 +25,7 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 
 You can send data to Destinations in [Node.js code steps](/code/nodejs/), too, using `$.send` functions.
 
-`$.send` is an object provided by Pipedream that exposes destination-specific functions like `$.send.http()`, `$.send.s3()`, and more. **This allows you to send data to destinations programmatically, if you need more control than the default actions provide**.
+`$.send` is an object provided by Pipedream that exposes destination-specific functions like `$.send.http()`, `$.send.s3()`, and more. This allows you to send data to destinations programmatically, if you need more control than the default actions provide.
 
 Let's use `$.send.http()` to send an HTTP POST request like we did in the Action example above. [Add a new action](/workflows/steps/actions), then search for "**Run custom code**":
 
@@ -70,7 +70,7 @@ you won't have to `await` the execution of the HTTP requests in your workflow. W
 
 ### Using destinations in actions
 
-If you're authoring a [component action](/components#actions), you can deliver data to destinations, too. `$.send` isn't directly available to actions like it is for workflow code steps. **Instead, you use `$.send` to access the destination-specific functions**:
+If you're authoring a [component action](/components#actions), you can deliver data to destinations, too. `$.send` isn't directly available to actions like it is for workflow code steps. Instead, you use `$.send` to access the destination-specific functions:
 
 ```javascript
 export default {

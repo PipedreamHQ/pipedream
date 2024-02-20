@@ -2,8 +2,6 @@
 
 Pipedream supports [Server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) (SSE) as a destination, enabling you to send events from a workflow directly to a client subscribed to the event stream. 
 
-
-
 ## What is SSE?
 
 [Server-sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) (SSE) is a specification that allows servers to send events directly to clients that subscribe to those events, similar to [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) and related server to client push technologies.
@@ -33,7 +31,7 @@ export default defineComponent({
         name: "Luke Skywalker" 
       }
     });
-  })
+  }
 });
 ```
 
@@ -55,7 +53,7 @@ export default defineComponent({
         }
       });
     });
-  })
+  }
 });
 ```
 
@@ -76,7 +74,7 @@ export default defineComponent({
         name: "Luke Skywalker"
       }
     });
-  })
+  }
 });
 ```
 
@@ -88,9 +86,7 @@ Once you've sent events to an SSE Destination, you can start receiving a stream 
 
 First, it's important to note that all events sent to an SSE destination within a workflow are sent to an SSE event stream specific to that workflow. The event stream is tied to the workflow's ID, which you can find by examining the URL of the pipeline in the Pipedream UI. For example, the `p_aBcDeF` in this URL is the pipeline ID:
 
-<div>
-<img alt="New code step" width="500" src="./images/pipeline-id.png">
-</div>
+![Pipeline ID](./images/pipeline-id.png)
 
 **Note that the `p_` prefix is part of the workflow ID**.
 

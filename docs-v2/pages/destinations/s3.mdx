@@ -1,8 +1,8 @@
+import PublicIPs from '@/components/PublicIPs'
+
 # Amazon S3
 
 [Amazon S3](https://aws.amazon.com/s3/) — the Simple Storage Service — is a common place to dump data for long-term storage on AWS. Pipedream supports delivery to S3 as a first-class Destination.
-
-
 
 ## Using `$.send.s3` in workflows
 
@@ -98,7 +98,7 @@ As noted above, a given object contains all payloads delivered to an S3 Destinat
 
 S3 provides a mechanism to [limit operations only from specific IP addresses](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-3). If you'd like to apply that filter, uploads using `$.send.s3()` should come from one of the following IP addresses:
 
-<<< @/docs/snippets/public-node-ips.txt
+<PublicIPs />
 
 This list may change over time. If you've previously whitelisted these IP addresses and are having trouble uploading S3 objects, please check to ensure this list matches your firewall rules.
 
