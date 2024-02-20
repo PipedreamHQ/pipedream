@@ -97,7 +97,8 @@ export default {
     clientRequestId: {
       type: "string",
       label: "Client Request ID",
-      description: "A unique id for this request. This can be generated using a uuid library, and is used to look up requests on subsequent API calls. For example: `85282635-4DF4-4BFC-A3D4-B3A004E57067`",
+      description: "A unique UUID for this request. This can be used to look up requests on subsequent API calls. If not specified, a v4 UUID will be generated automatically.",
+      optional: true,
     },
     state: {
       type: "string",

@@ -1,5 +1,6 @@
 import app from "../../omnivore.app.mjs";
 import url from "../../common/queries/url.mjs";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   key: "omnivore-save-page",
@@ -67,12 +68,16 @@ export default {
       // eslint-disable-next-line no-unused-vars
       app,
       savePage,
+      clientRequestId,
       ...input
     } = this;
 
     const { savePage: response } =
       await savePage({
-        input,
+        input: {
+          ...input,
+          clientRequestId: clientRequestId ?? uuidv4(),
+        },
       });
 
     if (response.errorCodes?.length) {
