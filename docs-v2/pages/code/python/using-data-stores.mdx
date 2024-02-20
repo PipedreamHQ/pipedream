@@ -1,13 +1,8 @@
 import Callout from '@/components/Callout'
 
----
-short_description: Store and read data with data stores.
-thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
----
-
 # Using Data Stores
 
-You can store and retrieve data from [Data Stores](/data-stores/) in Python without connecting to a 3rd party database.
+You can store and retrieve data from [Data stores](/data-stores/) in Python without connecting to a 3rd party database.
 
 Add a data store as a input to a Python step, then access it in your Python `handler` with `pd.inputs["data_store"]`.
 
@@ -26,15 +21,15 @@ def handler(pd: "pipedream"):
 
 ## Adding a Data Store
 
-In the _inputs_ select the _Add Data Store_ option.
+Click _Add Data Store_ near the top of a Python step:
 
-![Adding a datastore to a Python step](https://res.cloudinary.com/pipedreamin/image/upload/v1658954673/docs/components/CleanShot_2022-07-27_at_16.44.16_olfejo.gif)
+![Adding a data store to a Python step](https://res.cloudinary.com/pipedreamin/image/upload/v1658954673/docs/components/CleanShot_2022-07-27_at_16.44.16_olfejo.gif)
 
-This will add the selected Data Store to your Python code step.
+This will add the selected data store to your Python code step.
 
 ## Saving data
 
-Data Stores are key-value stores. Saving data within a Data Store is just like setting a property on a dictionary:
+Data stores are key-value stores. Saving data within a data store is just like setting a property on a dictionary:
 
 ```python
 from datetime import datetime
@@ -49,7 +44,7 @@ def handler(pd: "pipedream"):
 
 ## Retrieving keys
 
-Fetch all the keys in a given Data Store using the `keys` method:
+Fetch all the keys in a given data store using the `keys` method:
 
 ```python
 def handler(pd: "pipedream"):
@@ -65,7 +60,7 @@ def handler(pd: "pipedream"):
 
 ## Checking for the existence of specific keys
 
-If you need to check whether a specific `key` exists in a Data Store, use `if` and `in` as a conditional:
+If you need to check whether a specific `key` exists in a data store, use `if` and `in` as a conditional:
 
 ```python
 def handler(pd: "pipedream"):
@@ -79,17 +74,17 @@ def handler(pd: "pipedream"):
 
 ## Retrieving data
 
-Data Stores are very performant at retrieving single records by keys. However you can also use key iteration to retrieve all records within a Data Store as well.
+Data stores are very performant at retrieving single records by keys. However you can also use key iteration to retrieve all records within a Data Store as well.
 
 <Callout type="info" emoji="ℹ️">
-Data Stores are intended to be a fast and convienent data storage option for quickly adding data storage capability to your workflows without adding another database dependency.
+Data stores are intended to be a fast and convienent data storage option for quickly adding data storage capability to your workflows without adding another database dependency.
 
 However, if you need more advanced querying capabilities for querying records with nested dictionaries or filtering based on a record value - consider using a full fledged database. Pipedream can integrate with MySQL, Postgres, DynamoDb, MongoDB and more.
 </Callout>
 
 ### Get a single record
 
-You can retrieve single records from a Data Store by key:
+You can retrieve single records from a data store by key:
 
 ```python
 def handler(pd: "pipedream"):
@@ -120,14 +115,14 @@ def handler(pd: "pipedream"):
 <Callout type="info" emoji="ℹ️">
 What's the difference between `data_store["key"]` and `data_store.get("key")`?
 
-- `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the Data Store.
-- `data_store.get("key")` will instead return `None` if the key doesn't exist in the Data Store.
-- `data_store.get("key", "default_value")` will return `"default_value"` if the key doesn't exist on the Data Store.
+- `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the data store.
+- `data_store.get("key")` will instead return `None` if the key doesn't exist in the data store.
+- `data_store.get("key", "default_value")` will return `"default_value"` if the key doesn't exist on the data store.
 </Callout>
 
 ### Retrieving all records
 
-You can retrieve all records within a Data Store by iterating over all keys within the Data Store.
+You can retrieve all records within a data store by iterating over all keys within the data store.
 
 For example, use the `data_store.keys()` method to retrieve all keys, then iterate over each to build a dictionary of records:
 
@@ -214,7 +209,7 @@ def handler(pd: "pipedream"):
 
 ## Deleting specific records
 
-To delete individual records in a Data Store, use the `del` operation for a specific `key`:
+To delete individual records in a data store, use the `del` operation for a specific `key`:
 
 ```python
 def handler(pd: "pipedream"):
@@ -225,9 +220,9 @@ def handler(pd: "pipedream"):
     del data_store["last_ran_at"]
 ```
 
-## Deleting all records from a specific Data Store
+## Deleting all records from a specific data store
 
-If you need to delete all records in a given Data Store, you can use the `clear` method.
+If you need to delete all records in a given data store, you can use the `clear` method.
 
 ```python
 def handler(pd: "pipedream"):

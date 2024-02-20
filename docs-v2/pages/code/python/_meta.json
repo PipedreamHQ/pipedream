@@ -6,7 +6,6 @@
   "using-data-stores": "Data stores",
   "delay": "Delaying steps",
   "rerun": "Pause, resume, and rerun steps",
-  "async": "Running asynchronous code",
-  "sharing-code": "Sharing code across workflows",
-  "browser-automation": "Browser automation"
+  "import-mappings": "Different PyPI package name and import name",
+  "faqs": "Python FAQs"
 }

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:not(pre) > code::before, :not(pre) > code::after {
+:not(pre,h1,h2,h3,h4,h5,h6) > code::before, :not(pre,h1,h2,h3,h4,h5,h6) > code::after {
   content: '`';
 }
 

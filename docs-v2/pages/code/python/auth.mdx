@@ -1,8 +1,3 @@
----
-short_description: Connect to apps with Python code with ease.
-thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763806/docs/icons/icons8-connected-96_fcbhxc.png
----
-
 # Connecting apps in Python
 
 When you use [prebuilt actions](/components#actions) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
@@ -46,8 +41,8 @@ def handler(pd: "pipedream"):
 In our Slack example above, we created a Slack `WebClient` using the Slack OAuth access token:
 
 ```python
-  # Instantiate a new Slack client with your token
-  client = WebClient(token=token)
+# Instantiate a new Slack client with your token
+client = WebClient(token=token)
 ```
 
 Where did `pd.inputs["slack"]` come from? Good question. It was generated when we connected Slack to our Python step.
