@@ -7248,9 +7248,9 @@ importers:
 
   components/ticktick:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.6.0
 
   components/tidy:
     specifiers:
