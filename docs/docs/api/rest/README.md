@@ -1913,8 +1913,6 @@ Paid user:
 
 ### Get Current User's Workspaces
 
-### Get Current User Info
-
 ---
 
 List the workspaces the current user is a member of.
