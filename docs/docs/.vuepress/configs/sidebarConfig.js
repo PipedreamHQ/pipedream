@@ -54,7 +54,7 @@ const docsNav = [
     children: [
       "/connected-accounts/",
       "/connected-accounts/api/",
-      "/connected-accounts/runtime-auth/",
+      "/connected-accounts/external-auth/",
     ],
   },
   ["/data-stores/", "Data Stores"],
