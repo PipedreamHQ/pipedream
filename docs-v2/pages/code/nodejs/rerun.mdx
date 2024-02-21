@@ -34,9 +34,9 @@ export default defineComponent({
 
 You'll receive an email like this:
 
-<div>
-  <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655272047/docs/approve-workflow_oc06k3.png" alt="approve this workflow" width="100%"/>
-</div>
+<br />
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655272047/docs/approve-workflow_oc06k3.png" alt="approve this workflow" width="100%"/>
+<br />
 
 And can resume or cancel the rest of the workflow by clicking on the appropriate link.
 
@@ -51,9 +51,9 @@ These URLs are specific to a single execution of your workflow. While the workfl
 
 If you resume a workflow, any data sent in the HTTP request is passed to the workflow and returned in the `$resume_data` [step export](/workflows/steps/#step-exports) of the suspended step. For example, if you call `$.flow.suspend` within a step named `code`, the `$resume_data` export should contain the data sent in the `resume_url` request:
 
-<div>
-  <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655271815/docs/resume_data_lafhxr.png" alt="resume data step export" width="350px"/>
-</div>
+<br />
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1655271815/docs/resume_data_lafhxr.png" alt="resume data step export" width="350px"/>
+<br />
 
 Requests to the `resume_url` have [the same limits as any HTTP request to Pipedream](/limits/#http-request-body-size), but you can send larger payloads using our [large payload](/workflows/steps/triggers/#sending-large-payloads) or [large file](/workflows/steps/triggers/#large-file-support) interfaces.
 
