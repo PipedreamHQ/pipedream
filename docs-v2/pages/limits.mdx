@@ -61,9 +61,9 @@ The following limits apply to [HTTP triggers](/workflows/steps/triggers/#http).
 
 ### HTTP Request Body Size
 
-By default, the body of HTTP requests sent to a source or workflow is limited to `{process.env.PAYLOAD_SIZE_LIMIT}`.
+By default, the body of HTTP requests sent to a source or workflow is limited to {process.env.PAYLOAD_SIZE_LIMIT}.
 
-Your endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds `{process.env.PAYLOAD_SIZE_LIMIT}`.
+Your endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds {process.env.PAYLOAD_SIZE_LIMIT}.
 
 **Pipedream supports two different ways to bypass this limit**. Both of these interfaces support uploading data up to `5TB`, though you may encounter other platform limits.
 
@@ -84,11 +84,11 @@ We'll also accept short bursts of traffic, as long as you remain close to an ave
 
 Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also apply to [email triggers](/workflows/steps/triggers/#email).
 
-The only limit that differs between email and HTTP triggers is the payload size: the total size of an email sent to a workflow - its body, headers, and attachments - is limited to `{process.env.EMAIL_PAYLOAD_SIZE_LIMIT}`.
+The only limit that differs between email and HTTP triggers is the payload size: the total size of an email sent to a workflow - its body, headers, and attachments - is limited to {process.env.EMAIL_PAYLOAD_SIZE_LIMIT}.
 
 ## Memory
 
-By default, workflows run with `{process.env.MEMORY_LIMIT}}` of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/settings/#memory), up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}`.
+By default, workflows run with {process.env.MEMORY_LIMIT} of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/settings/#memory), up to {process.env.MEMORY_ABSOLUTE_LIMIT}.
 
 Increasing your workflow's memory gives you a proportional increase in CPU. If your workflow is limited by memory or compute, increasing your workflow's memory can reduce its overall runtime and make it more performant.
 
@@ -96,7 +96,7 @@ Increasing your workflow's memory gives you a proportional increase in CPU. If y
 
 ## Disk
 
-Your code, or a third party library, may need access to disk during the execution of your workflow or event source. **You have access to `{process.env.TMP_SIZE_LIMIT}` of disk in the `/tmp` directory**.
+Your code, or a third party library, may need access to disk during the execution of your workflow or event source. **You have access to {process.env.TMP_SIZE_LIMIT} of disk in the `/tmp` directory**.
 
 This limit cannot be raised.
 
@@ -122,7 +122,7 @@ Events that trigger a **Timeout** error will appear in red in the [Inspector](/w
 
 ### Event / Execution History
 
-The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. We retain up to {process.env.PAID_INSPECTOR_EVENT_LIMIT} per workflow:
+The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. Events have a limited retention period, depending on your plan:
 
 |    Tier    |                           Events retained per workflow                           |
 | :--------: | :------------------------------------------------------------------------------: |
@@ -133,7 +133,7 @@ The execution details for a specific event also expires after {process.env.INSPE
 
 ### Logs, Step Exports, and other observability
 
-The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of `{process.env.FUNCTION_PAYLOAD_LIMIT}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
+The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of {process.env.FUNCTION_PAYLOAD_LIMIT}. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
 This limit cannot be raised.
 

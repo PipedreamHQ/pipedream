@@ -51,6 +51,7 @@ module.exports = withNextra({
     DELAY_MIN_MAX_TIME:
     "You can pause your workflow for as little as one millisecond, or as long as one year",
     PUBLIC_APPS: "1,700",
+    FREE_INSPECTOR_EVENT_LIMIT: "7 days of events",
     WARM_WORKERS_INTERVAL: "10 minutes",
     WARM_WORKERS_CREDITS_PER_INTERVAL: "5",
     ALGOLIA_APP_ID: "XY28M447C5",

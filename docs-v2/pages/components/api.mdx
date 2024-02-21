@@ -723,9 +723,9 @@ Refer to GitHub's component sources in the `pipedream` repo for an [example impl
 
 #### Limits on props
 
-When a user configures a prop with a value, it can hold at most `{process.env.CONFIGURED_PROPS_SIZE_LIMIT}` data. Consider this when accepting large input in these fields (such as a base64 string).
+When a user configures a prop with a value, it can hold at most {process.env.CONFIGURED_PROPS_SIZE_LIMIT} data. Consider this when accepting large input in these fields (such as a base64 string).
 
-The `{process.env.CONFIGURED_PROPS_SIZE_LIMIT}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example `{{steps.nodejs.$return_value}}`, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits/).
+The {process.env.CONFIGURED_PROPS_SIZE_LIMIT} limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example `{{steps.nodejs.$return_value}}`, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits/).
 
 ### Methods
 
