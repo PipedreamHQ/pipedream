@@ -124,8 +124,13 @@ export default {
     const calendarEvents = await this.getCalendarEvents();
 
     for (const calendarEvent of calendarEvents) {
-      const startTime = new Date(calendarEvent.start.dateTime || calendarEvent.start.date);
-      if (startTime.getTime() < Date.now() || scheduledCalendarEventIds[calendarEvent.id]) {
+      const startTime = calendarEvent.start
+        ? (new Date(calendarEvent.start.dateTime || calendarEvent.start.date))
+        : null;
+      if (!startTime
+        || startTime.getTime() < Date.now()
+        || scheduledCalendarEventIds[calendarEvent.id])
+      {
         continue;
       }
       const later = new Date(this.subtractMinutes(startTime, this.time));
