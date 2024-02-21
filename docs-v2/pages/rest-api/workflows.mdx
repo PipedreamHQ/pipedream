@@ -149,13 +149,13 @@ To connect your accounts to the workflow, you'll need to find the specific IDs f
 
 You can find your connected account IDs by using the [List Accounts endpoint](/api/rest/#get-workspaces-s-connected-accounts).
 
-You can filter your accounts by using the `app_slug` query parameter. For example, if you want to find your connected Slack accounts to your workspace, then add `slack` to the query param:
+You can filter your accounts by using the `query` query parameter. For example, if you want to find your connected Slack accounts to your workspace, then add `slack` to the query param:
 
 ```
-GET /workspaces/<workspace_id>/accounts?app_slug=slack
+GET /workspaces/<workspace_id>/accounts?query=slack
 ```
 
-This request will narrow down the results to only your connected Slack accounts, for easier finding.
+This request will narrow down the results to your connected Slack accounts, for easier finding.
 
 You'll need the ID of each connected account you'd like to configure this new workflow with. Copy down the `apn_******` value of the connected accounts from the response you'd like to use for the steps.
 
