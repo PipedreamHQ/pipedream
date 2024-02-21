@@ -74,6 +74,9 @@ importers:
   components/_46elks:
     specifiers: {}
 
+  components/_46elks:
+    specifiers: {}
+
   components/_twocaptcha:
     specifiers: {}
 
@@ -7427,7 +7430,10 @@ importers:
     specifiers: {}
 
   components/turbot_pipes:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/tutor_lms:
     specifiers: {}
