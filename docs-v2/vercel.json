@@ -281,6 +281,10 @@
     {
       "source": "/docs/workspaces/saml",
       "destination": "/docs/workspaces/sso/saml"
+    },
+    {
+      "source": "/docs/workflows/built-in-functions",
+      "destination": "/docs/workflows/flow-control"
     }
   ]
 }
