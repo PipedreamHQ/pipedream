@@ -5,9 +5,9 @@ next: false
 
 # Environment Variables
 
-Environment variables enable you to separate secrets and other static configuration data from your code.
+Environment variables (env vars) enable you to separate secrets and other static configuration data from your code.
 
-You shouldn't include API keys or other sensitive data directly in your workflow's code. By referencing the value of an environment variable instead, your workflow includes a reference to that variable — `process.env.API_KEY` — instead of the API key itself.
+You shouldn't include API keys or other sensitive data directly in your workflow's code. By referencing the value of an environment variable instead, your workflow includes a reference to that variable — for example, `process.env.API_KEY` instead of the API key itself.
 
 You can reference env vars and secrets in [workflow code](/code/) or in the object explorer when passing data to steps, and you can define them either globally for the entire workspace, or scope them to individual projects.
 
@@ -65,7 +65,12 @@ print(os.environ[API_KEY])
 
 Variable names are case-sensitive. Use the key name you defined when referencing your variable in `process.env`.
 
-Referencing an environment variable that doesn't exist returns the value `undefined` in Node.js. For example, if you try to reference `process.env.API_KEY` without first defining the `API_KEY` environment variable ni the UI, it will return the value `undefined`.
+Referencing an environment variable that doesn't exist returns the value `undefined` in Node.js. For example, if you try to reference `process.env.API_KEY` without first defining the `API_KEY` environment variable in the UI, it will return the value `undefined`.
+
+### Using autocomplete to reference env vars
+When referencing env vars directly in code within your Pipedream workflow, you can also take advantage of autocomplete:
+
+![Autocomplete with env vars](./images/autocomplete-env-vars.png)
 
 ::: warning
 Logging the value of any environment variables — for example, using `console.log` — will include that value in the logs associated with the cell. Please keep this in mind and take care not to print the values of sensitive secrets.
