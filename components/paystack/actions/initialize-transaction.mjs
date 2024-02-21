@@ -1,4 +1,4 @@
-import paystack from "../paystack.app.mjs";
+import paystack from "../app/paystack.app.mjs";
 
 export default {
   key: "paystack-initialize-transaction",
