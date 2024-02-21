@@ -3,7 +3,7 @@ import app from "../../kwtsms.app.mjs";
 export default {
   key: "kwtsms-send-sms",
   name: "Send SMS",
-  description: "Sends an SMS to a specified number. [See the documentation](https://api.kwtsms.com/doc/kwtsms.com_api_documentation_v36.pdf)",
+  description: "Sends an SMS to a specified number. [See the documentation](https://www.kwtsms.com/doc/KwtSMS.com_API_Documentation_v37.pdf)",
   version: "0.0.1",
   type: "action",
   props: {
