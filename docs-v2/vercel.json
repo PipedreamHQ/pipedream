@@ -235,6 +235,10 @@
       "destination": "/docs/rest-api"
     },
     {
+      "source": "/docs/api/rest",
+      "destination": "/docs/rest-api"
+    },
+    {
       "source": "/docs/components/quickstart/nodejs/actions",
       "destination": "/docs/components/actions-quickstart"
     },
@@ -249,6 +253,26 @@
     {
       "source": "/docs/workflows/events/inspect",
       "destination": "/docs/workflows/inspect"
+    },
+    {
+      "source": "/docs/workflows/steps/triggers",
+      "destination": "/docs/workflows/triggers"
+    },
+    {
+      "source": "/docs/workflows/steps/actions",
+      "destination": "/docs/workflows/actions"
+    },
+    {
+      "source": "/docs/workspaces/okta",
+      "destination": "/docs/workspaces/sso/okta"
+    },
+    {
+      "source": "/docs/workspaces/google",
+      "destination": "/docs/workspaces/sso/google"
+    },
+    {
+      "source": "/docs/workspaces/saml",
+      "destination": "/docs/workspaces/sso/saml"
     }
   ]
 }
