@@ -16,7 +16,7 @@ export default {
     },
     dateTime: {
       type: "string",
-      label: "Start Datetime",
+      label: "Stop Datetime",
       description: "The dateTime when the clock is stopped. Provide in ISO-8601 format containing a timezone, eg. `2022-04-25T08:00:00+03:00`.",
     },
   },
