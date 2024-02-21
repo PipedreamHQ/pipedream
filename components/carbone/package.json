@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/carbone",
+  "version": "0.0.1",
+  "description": "Pipedream Carbone Components",
+  "main": "carbone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "carbone"
+  ],
+  "homepage": "https://pipedream.com/apps/carbone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
