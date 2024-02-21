@@ -241,6 +241,14 @@
     {
       "source": "/docs/components/quickstart/nodejs/sources",
       "destination": "/docs/components/sources-quickstart"
+    },
+    {
+      "source": "/docs/github-sync",
+      "destination": "/docs/quickstart/github-sync"
+    },
+    {
+      "source": "/docs/workflows/events/inspect",
+      "destination": "/docs/workflows/inspect"
     }
   ]
 }
