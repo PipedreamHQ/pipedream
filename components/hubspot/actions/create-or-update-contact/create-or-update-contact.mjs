@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "hubspot-create-or-update-contact",
   name: "Create or Update Contact",
-  description: "Creates a new contact or updates an existing contact based on email address. [See the docs here](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=POST-/crm/v3/objects/contacts)",
-  version: "0.0.7",
+  description: "Creates a new contact or updates an existing contact based on email address. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=POST-/crm/v3/objects/contacts)",
+  version: "0.0.8",
   type: "action",
   async additionalProps() {
     const schema = await this.hubspot.getSchema(this.getObjectType());

@@ -4,7 +4,7 @@ export default {
   key: "airtable_oauth-create-comment",
   name: "Create Comment",
   description: "Create a new comment on a record. [See the documentation](https://airtable.com/developers/web/api/create-comment)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/faraday",
+  "version": "0.0.1",
+  "description": "Pipedream Faraday Components",
+  "main": "faraday.app.mjs",
+  "keywords": [
+    "pipedream",
+    "faraday"
+  ],
+  "homepage": "https://pipedream.com/apps/faraday",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
