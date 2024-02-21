@@ -239,6 +239,10 @@
       "destination": "/docs/rest-api"
     },
     {
+      "source": "/docs/api/auth",
+      "destination": "/docs/rest-api"
+    },
+    {
       "source": "/docs/components/quickstart/nodejs/actions",
       "destination": "/docs/components/actions-quickstart"
     },
@@ -269,6 +273,10 @@
     {
       "source": "/docs/workspaces/google",
       "destination": "/docs/workspaces/sso/google"
+    },
+    {
+      "source": "/docs/workspaces/saml",
+      "destination": "/docs/workspaces/sso/saml"
     },
     {
       "source": "/docs/workspaces/saml",
