@@ -1,17 +1,14 @@
 import interseller from "../../interseller.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
-  key: "interseller-create-contact",
-  name: "Create Contact",
-  description: "Creates a new contact. [See the documentation](https://interseller.readme.io/reference/contact)",
+  key: "interseller-update-contact",
+  name: "Update Contact",
+  description: "Update an existing contact. [See the documentation](https://interseller.readme.io/reference/update-contact)",
   version: "0.0.1",
   type: "action",
   props: {
     interseller,
     contactId: interseller.propDefinitions.contactId,
-    booked: interseller.propDefinitions.booked,
-    sentiment: interseller.propDefinitions.sentiment,
     name: interseller.propDefinitions.name,
     company: interseller.propDefinitions.company,
     profileUrl: interseller.propDefinitions.profileUrl,
@@ -21,19 +18,20 @@ export default {
     title: interseller.propDefinitions.title,
   },
   async run({ $ }) {
-    const response = await this.interseller.createContact({
+    const response = await this.interseller.updateContact({
+      $,
       contactId: this.contactId,
-      booked: this.booked,
-      sentiment: this.sentiment,
-      name: this.name,
-      company: this.company,
-      profileUrl: this.profileUrl,
-      sourceUrl: this.sourceUrl,
-      location: this.location,
-      phoneNumber: this.phoneNumber,
-      title: this.title,
+      data: {
+        name: this.name,
+        company: this.company,
+        profile_url: this.profileUrl,
+        source_url: this.sourceUrl,
+        location: this.location,
+        phone_number: this.phoneNumber,
+        title: this.title,
+      },
     });
-    $.export("$summary", `Successfully created a new contact with ID ${this.contactId}`);
+    $.export("$summary", `Successfully updated the contact with ID ${this.contactId}`);
     return response;
   },
 };

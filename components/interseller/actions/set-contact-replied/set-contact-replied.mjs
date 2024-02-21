@@ -1,5 +1,4 @@
 import interseller from "../../interseller.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "interseller-set-contact-replied",
@@ -36,7 +35,7 @@ export default {
         sentiment: this.sentiment,
       },
     });
-    $.export("$summary", `Successfully updated contact ${this.contactId} as replied with sentiment ${this.sentiment}`);
+    $.export("$summary", `Successfully replied contact ${this.contactId}!`);
     return response;
   },
 };
