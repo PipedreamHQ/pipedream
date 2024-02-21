@@ -1,6 +1,7 @@
 import { default as puppeteerCore } from "puppeteer-core";
 import { default as chromium } from "@sparticuz/chromium";
 import { chromium as playwrightCore } from "playwright-core";
+import getExecutablePath from "./executable-path.mjs";
 
 export const puppeteer = {
   /**
@@ -13,7 +14,7 @@ export const puppeteer = {
      */
   async launch(opts = {}) {
     const browser = await puppeteerCore.launch({
-      executablePath: await chromium.executablePath(),
+      executablePath: await getExecutablePath(),
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
       defaultViewport: chromium.defaultViewport,
@@ -88,7 +89,7 @@ export const playwright = {
      */
   async launch(opts = {}) {
     const browser = await playwrightCore.launch({
-      executablePath: await chromium.executablePath(),
+      executablePath: await getExecutablePath(),
       headless: true,
       ignoreHTTPSErrors: true,
       args: [
