@@ -2,41 +2,73 @@ import Callout from '@/components/Callout'
 
 # Environment Variables
 
-**Environment variables** enable you to separate secrets and other data from your code.
+Environment variables (env vars) enable you to separate secrets and other static configuration data from your code.
 
-You should not include API keys or other sensitive data directly in your workflow's code. By referencing the value of an environment variable, instead, your workflow includes a reference to that variable — `process.env.API_KEY` — instead of the API key itself.
+You shouldn't include API keys or other sensitive data directly in your workflow's code. By referencing the value of an environment variable instead, your workflow includes a reference to that variable — for example, `process.env.API_KEY` instead of the API key itself.
 
-Environment variables are defined at the account-level, and can be referenced in [workflow code](/code/) or in the object explorer when passing data to steps.
+You can reference env vars and secrets in [workflow code](/code/) or in the object explorer when passing data to steps, and you can define them either globally for the entire workspace, or scope them to individual projects.
 
-## Creating, updating environment variables
+| Scope | Description |
+| -- | -- |
+| **Workspace** | All environment variables are available to all workflows within the workspace. All workspace members can manage workspace-wide variables [in the UI](https://pipedream.com/settings/env-vars). |
+| **Project** | Environment variables defined within a project are only accessible to the workflows within that project. Only workspace members who have [access to the project](/projects/#access-controls) can manage project variables. |
 
-Environment variables are managed at the account-level. You can access your environment variables at <a href="https://pipedream.com/settings/env-vars">{process.env.PIPEDREAM_BASE_URL}/settings/env-vars</a>.
+## Creating and updating environment variables
 
-To add an environment variable, click the **New Environment Variable** button.
+- To manage **global** environment variables for the workspace, navigate to **Settings**, then click **Environment Variables**: [https://pipedream.com/settings/env-vars](https://pipedream.com/settings/env-vars)
+- To manage environment variables within a project, open the project, then click **Variables** from the project nav on the left
 
-To edit an environment variable, click the **Reveal / Edit** button next to a specific variable.
+<img width="300px" alt="Project Variables" src="https://res.cloudinary.com/pipedreamin/image/upload/v1708551738/env-vars-feb-2024/project-vars_ilxq7x.png" />
 
-Updates to environment variables will be made available to your workflows as soon as the save operation is complete — typically a few seconds after you click **Save**. If you update the value of an environment variable in the UI, your workflow should automatically use that new value where it's referenced.
+Click **New Variable** to add a new environment variable or secret:
+<img width="600px" alt="Add new variable" src="https://res.cloudinary.com/pipedreamin/image/upload/v1708551738/env-vars-feb-2024/add-new-var-v2_ocvfoi.png" />
+
+**Configure the required fields**:
+<img width="600px" alt="Configure new variable" src="https://res.cloudinary.com/pipedreamin/image/upload/v1708551738/env-vars-feb-2024/add-var-modal-v2_nvu2eq.png" />
+
+| Input field | Description |
+| :-- | :-- |
+| **Key** | Name of the variable — for example, `CLIENT_ID` |
+| **Value** | The value, which can contain any string with a max limit of 64KB |
+| **Description** | Optionally add a description of the variable. This is only visible in the UI, and is not accessible within a workflow. |
+| **Secret** | New variables default to **secret**. If configured as a secret, the value is never exposed in the UI and cannot be modified. |
+
+To edit an environment variable, click the **Edit** button from the three dots to the right of a specific variable.
+<img width="600px" alt="Edit variable" src="https://res.cloudinary.com/pipedreamin/image/upload/v1708551738/env-vars-feb-2024/edit-env-var_bno34z.png" />
+
+- Updates to environment variables will be made available to your workflows as soon as the save operation is complete — typically a few seconds after you click **Save**.
+- If you update the value of an environment variable in the UI, your workflow should automatically use that new value where it's referenced.
+- If you delete a variable in the UI, any deployed workflows that reference it will return `undefined`.
 
 ## Referencing environment variables in code
 
 You can reference the value of any environment variable using the object [`process.env`](https://nodejs.org/dist/latest-v10.x/docs/api/process.html#process_process_env). This object contains environment variables as key-value pairs.
 
-For example, let's say you have an environment variable named `API_KEY`. You can reference its value using `process.env.API_KEY`:
-
+For example, let's say you have an environment variable named `API_KEY`. You can reference its value in Node.js using `process.env.API_KEY`:
 ```javascript
 const url = `http://yourapi.com/endpoint/?api_key=${process.env.API_KEY}`;
 ```
 
-Variable names are case-sensitive. Use the name you defined in your Environment settings in the app when referencing your variable in `process.env`.
+Reference the same environment variable in Python:
 
-Referencing an environment variable that doesn't exist returns the value `undefined` in Node.js. For example, if you try to reference `process.env.API_KEY` without first defining the `API_KEY` variable in your environment settings, it will return the value `undefined`.
+```python
+import os
+print(os.environ[API_KEY])
+```
 
-<Callout type="warning" emoji="⚠">
+Variable names are case-sensitive. Use the key name you defined when referencing your variable in `process.env`.
+
+Referencing an environment variable that doesn't exist returns the value `undefined` in Node.js. For example, if you try to reference `process.env.API_KEY` without first defining the `API_KEY` environment variable in the UI, it will return the value `undefined`.
+
+### Using autocomplete to reference env vars
+When referencing env vars directly in code within your Pipedream workflow, you can also take advantage of autocomplete:
+<img width="600px" alt="Autocomplete env variable" src="https://res.cloudinary.com/pipedreamin/image/upload/v1708551738/env-vars-feb-2024/autocomplete-env-vars_yoeaxy.png" />
+
+<Callout type="warning">
 Logging the value of any environment variables — for example, using `console.log` — will include that value in the logs associated with the cell. Please keep this in mind and take care not to print the values of sensitive secrets.
 </Callout>
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 `process.env` will always return `undefined` when used outside of the `defineComponent` export.
 </Callout>
 
@@ -44,19 +76,19 @@ Logging the value of any environment variables — for example, using `console.l
 
 [Actions](/components#actions) are pre-built code steps that let you provide input in a form, selecting the correct params to send to the action.
 
-You can reference the value of environment variables using <code>{process.env.YOUR_ENV_VAR}</code>. You'll see a list of your environment variables in the object explorer when selecting a variable to pass to a step.
+You can reference the value of environment variables using `{{process.env.YOUR_ENV_VAR}}`. You'll see a list of your environment variables in the object explorer when selecting a variable to pass to a step.
+<img width="600px" alt="Env Vars in object explorer" src="https://res.cloudinary.com/pipedreamin/image/upload/v1708551738/env-vars-feb-2024/env-vars-object-explorer-v2_x9afzl.png" />
 
-## Copying workflows that use environment variables
+## Frequently Asked Questions
 
-Your environment variables are made available to any running workflow. **If you copy a public workflow that uses an environment variable, make sure you review the code to see what environment variables it's using**.
+### What if I define the same variable key in my workspace env vars and project env vars?
+The project-scoped variable will take priority if the same variable key exists at both the workspace and project level. If a workflow _outside_ of the relevant project references that variable, it'll use the value of the environment variable defined for the workspace.
 
-Reviewing the code ensures you have the necessary variables defined for the workflow to run correctly, and makes sure the original workflow author isn't reading variables that you don't need for the workflow to function. You can always modify the code for the workflow after copying to remove these variables, or change their names.
+### What happens if I share a workflow that references an environment variable?
+If you [share a workflow](/workflows/sharing/) that references an environment variable, **only the reference is included, and not the actual value**.
 
 ## Limits
-
-Currently, **environment variables are only exposed in Pipedream workflows, [not event sources](https://github.com/PipedreamHQ/pipedream/issues/583)**.
-
-The value of any environment variable may be no longer than `64KB`.
-
-The names of environment variables must start with a letter or underscore. Pipedream also reserves environment variables that start with `PIPEDREAM_` for internal use. You cannot create an environment variable that begins with that prefix.
-
+- Currently, environment variables are only exposed in Pipedream workflows, [not event sources](https://github.com/PipedreamHQ/pipedream/issues/583).
+- The value of any environment variable may be no longer than `64KB`.
+- The names of environment variables must start with a letter or underscore.
+- Pipedream reserves environment variables that start with `PIPEDREAM_` for internal use. You cannot create an environment variable that begins with that prefix.
