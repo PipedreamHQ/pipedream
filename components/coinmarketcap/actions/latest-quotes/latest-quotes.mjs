@@ -1,5 +1,4 @@
 // legacy_hash_id: a_wdijbV
-import { axios } from "@pipedream/platform";
 import coinmarketcap from "../../coinmarketcap.app.mjs";
 
 export default {
@@ -44,11 +43,9 @@ export default {
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: `https://${this.coinmarketcap.$auth.environment}-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest`,
-      headers: {
-        "X-CMC_PRO_API_KEY": `${this.coinmarketcap.$auth.api_key}`,
-      },
+    const response = await this.coinmarketcap._makeRequest({
+      $,
+      url: "/v1/cryptocurrency/quotes/latest",
       params: {
         id: this.id,
         slug: this.slug,
@@ -57,5 +54,7 @@ export default {
         convert_id: this.convertId,
       },
     });
+    $.export("$summary", "Successfully retrieved latest quotes");
+    return response;
   },
 };
