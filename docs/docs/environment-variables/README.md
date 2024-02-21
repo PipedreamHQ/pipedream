@@ -5,22 +5,26 @@ next: false
 
 # Environment Variables
 
-**Environment variables** enable you to separate secrets and other static configuration data from your code.
+Environment variables enable you to separate secrets and other static configuration data from your code.
 
-You should not include API keys or other sensitive data directly in your workflow's code. By referencing the value of an environment variable instead, your workflow includes a reference to that variable — `process.env.API_KEY` — instead of the API key itself.
+You shouldn't include API keys or other sensitive data directly in your workflow's code. By referencing the value of an environment variable instead, your workflow includes a reference to that variable — `process.env.API_KEY` — instead of the API key itself.
 
-You can reference env vars and secrets in [workflow code](/code/) or in the object explorer when passing data to steps, and you can define them either globally for the entire workspace, or scope them to individual projects:
+You can reference env vars and secrets in [workflow code](/code/) or in the object explorer when passing data to steps, and you can define them either globally for the entire workspace, or scope them to individual projects.
 
-- **[Global Env Vars](https://pipedream.com/settings/env-vars)**: All workspace members can reference any env var or secret across any workflow
-- **[Project Env Vars](/projects/#vars)**: Define access management rules for the project in order to scope the vars and secrets only to the individual workflows and members within a specific project
+| Scope | Description |
+| -- | -- |
+| **Workspace** | All environment variables are available to all workflows within the workspace. All workspace members can manage workspace-wide variables [in the UI](https://pipedream.com/settings/env-vars). |
+| **Project** | Environment variables defined within a project are only accessible to the workflows within that project. Only workspace members who have [access to the project](/projects/#permissions) can manage project variables. |
+
+<br />
 
 [[toc]]
 
 ## Creating and updating environment variables
 
-- To manage **global** environment variables for the workspace, navigate to **Settings**, then click **Environment Vars**: [https://pipedream.com/settings/env-vars](https://pipedream.com/settings/env-vars)
-- To manage environment variables within a project, open the project, then click **Variables**
-<!-- ![Project Variables](./images//project-vars.png) -->
+- To manage **global** environment variables for the workspace, navigate to **Settings**, then click **Environment Variables**: [https://pipedream.com/settings/env-vars](https://pipedream.com/settings/env-vars)
+- To manage environment variables within a project, open the project, then click **Variables** from the project nav on the left
+<img style="max-width:300px" alt="Project Variables" src="./images//project-vars.png" />
 
 Click **New Variable** to add a new environment variable or secret:
 ![Add new var](./images/add-new-var-v2.png)
@@ -89,11 +93,9 @@ The project-scoped variable will take priority if the same variable key exists a
 If you [share a workflow](/workflows/sharing/) that references an environment variable, **only the reference is included, and not the actual value**.
 
 ## Limits
-
-Currently, **environment variables are only exposed in Pipedream workflows, [not event sources](https://github.com/PipedreamHQ/pipedream/issues/583)**.
-
-The value of any environment variable may be no longer than `64KB`.
-
-The names of environment variables must start with a letter or underscore. Pipedream also reserves environment variables that start with `PIPEDREAM_` for internal use. You cannot create an environment variable that begins with that prefix.
+- Currently, **environment variables are only exposed in Pipedream workflows, [not event sources](https://github.com/PipedreamHQ/pipedream/issues/583)**.
+- The value of any environment variable may be no longer than `64KB`.
+- The names of environment variables must start with a letter or underscore.
+- Pipedream reserves environment variables that start with `PIPEDREAM_` for internal use. You cannot create an environment variable that begins with that prefix.
 
 <Footer />

@@ -79,7 +79,7 @@ At this time it's not possible to move workflows out of GitHub Synchronized Proj
 
 :::
 
-## Access Controls
+## Access controls
 
 The [projects list view](https://pipedream.com/projects) contains **Owner** and **Access** columns.
 
@@ -146,6 +146,11 @@ You can always see who has access and remove access if necessary:
 ## Project variables and secrets
 Environment variables defined at the global workspace level are accessible to all workspace members and workflows within the workspace. To restrict access to sensitive variables or secrets, define them at the project-level and [configure access controls for the project](/projects/#managing-access).
 
+[See here](/environment-variables) for info on creating, managing, and using environment variables and secrets.
+
+::: tip Project variables take priority of workspace variables
+If you have the same variable defined at both the workspace and project level (for example, `process.env.BASE_DOMAIN`), the project-scoped variable level will take priority.
+:::
 
 ## Frequently asked questions
 
