@@ -148,8 +148,8 @@ Environment variables defined at the global workspace level are accessible to al
 
 [See here](/environment-variables) for info on creating, managing, and using environment variables and secrets.
 
-::: tip Project variables take priority over workspace variables
-When the same variable is defined at the workspace and project level (for example, `process.env.BASE_DOMAIN`), the project-scoped variable level takes priority.
+::: tip Project variables override workspace variables
+When the same variable is defined at both the workspace and project levels (for example, `process.env.BASE_DOMAIN`), the **project** variable takes precedence.
 :::
 
 ## Frequently asked questions
