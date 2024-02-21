@@ -1,0 +1,63 @@
+export default {
+      "id": 0,
+      "constituent_id": 0,
+      "external_id": 0,
+      "is_anon": true,
+      "gift_type_id": 0,
+      "gift_type_name": "",
+      "gift_category_id": 0,
+      "gift_category_name": "",
+      "campaign_id": 0,
+      "campaign_name": "",
+      "fund_id": 0,
+      "fund_name": "",
+      "appeal_id": 0,
+      "appeal_name": "",
+      "event_id": 0,
+      "event_name": "",
+      "received_amount": 0,
+      "received_date": "",
+      "payment_type_id": 0,
+      "payment_type_name": "",
+      "check_number": "",
+      "deductible_amount": 0,
+      "note": "",
+      "ack_template_name": "",
+      "deposit_date": "",
+      "deposited_amount": 0,
+      "parent_gift_id": 0,
+      "parent_external_id": 0,
+      "tribute_name": "",
+      "tributee_name": "",
+      "tribute_dedication": "",
+      "tribute_recipient_name": "",
+      "tribute_recipient_salutation": "",
+      "tribute_recipient_email": "",
+      "tribute_recipient_address": "",
+      "tribute_recipient_notification_template": "",
+      "team_member_email": "",
+      "custom_fields": [
+        {
+          "id": 0,
+          "item_type": "",
+          "name": "",
+          "key": "",
+          "facet_type": "",
+          "ordinal": 0,
+          "removable": true,
+          "editable": true,
+          "values": [
+            {
+              "category_id": 0,
+              "name": "",
+              "description": "",
+              "short_code": "",
+              "ordinal": 0,
+              "removable": true,
+              "can_change": true,
+              "can_select": true
+            }
+          ]
+        }
+      ]
+    }

@@ -7,7 +7,7 @@ export default {
   name: "New Shop Receipt",
   description: "Emit new event when a new shop receipt is created. [See the Documentation](https://developers.etsy.com/documentation/reference#operation/getShopReceipts)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

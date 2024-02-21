@@ -13,10 +13,12 @@ def get_env_var(var_name, required=False, default=None):
 
 
 openai_api_type = get_env_var("OPENAI_API_TYPE", default="openai")
+openai_embeddings_model = get_env_var("OPENAI_EMBEDDINGS_MODEL", default="text-embedding-3-small")
 
 config = {
     "temperature": get_env_var("OPENAI_TEMPERATURE", default=0.5),
     "openai_api_type": openai_api_type,
+    "openai_embeddings_model": openai_embeddings_model,
     "openai": {
         "api_key": get_env_var("OPENAI_API_KEY", required=openai_api_type == "openai"),
         "model": get_env_var("OPENAI_MODEL", default="gpt-4-0125-preview"),
