@@ -74,12 +74,6 @@ importers:
   components/_46elks:
     specifiers: {}
 
-  components/_46elks:
-    specifiers: {}
-
-  components/_46elks:
-    specifiers: {}
-
   components/_twocaptcha:
     specifiers: {}
 
@@ -2474,9 +2468,9 @@ importers:
 
   components/fraudlabs_pro:
     specifiers:
-      fraudlabspro-nodejs: ^2.1.0
+      fraudlabspro-nodejs: ^3.0.0
     dependencies:
-      fraudlabspro-nodejs: 2.2.0
+      fraudlabspro-nodejs: 3.0.0
 
   components/freedcamp:
     specifiers: {}
@@ -5414,7 +5408,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.5.1
 
   components/practitest:
     specifiers:
@@ -19612,8 +19606,8 @@ packages:
     resolution: {integrity: sha512-by7U5W8dkIzcvDofUcO42yl9JbnHTEDBrzu3pt5fKT+Z4Oy85I21K80EYJYdjQGC2qum4Vo55Ag57iiIK4FYuA==}
     dev: false
 
-  /fraudlabspro-nodejs/2.2.0:
-    resolution: {integrity: sha512-MQQp/EIUzM1RKK/0ZnpHHre6OM4gEmbkZBhMBWwQysTcYmf1F3hJk5VDGTwqTDkeV47iS+9F7AilpLeV8auUBw==}
+  /fraudlabspro-nodejs/3.0.0:
+    resolution: {integrity: sha512-f+3gwDWunQoFRiX8/pbegr28qRztGgKrxF0oH7yIZQho0N3/kZjYHn3LelTio++nGoPcDIKkZob/WS1jQuSnHg==}
     dev: false
 
   /from/0.1.7:
