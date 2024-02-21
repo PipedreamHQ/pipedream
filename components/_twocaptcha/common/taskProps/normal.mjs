@@ -1,4 +1,14 @@
 export default {
+  type: {
+    type: "string",
+    label: "Type",
+    description: "The type of the ArkoseLabs task.",
+    options: [
+      "ImageToTextTask",
+    ],
+    default: "ImageToTextTask",
+    reloadProps: true,
+  },
   body: {
     type: "string",
     label: "Body",

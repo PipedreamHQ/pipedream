@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import _twocaptcha from "../../_twocaptcha.app.mjs";
 import {
   TASK_TYPE_OPTIONS,
@@ -19,7 +20,6 @@ export default {
       label: "Task Type",
       description: "The type of the task you want to create.",
       reloadProps: true,
-      optional: true,
       options: TASK_TYPE_OPTIONS,
     },
     languagePool: {
@@ -48,7 +48,7 @@ export default {
         props.initParameters.optional = false;
       }
 
-      if (this.type && (!filterProxy.includes(this.type)) && !this.type.endsWith("Proxyless")) {
+      if (this.type && (!filterProxy.includes(this.taskType)) && !this.type.endsWith("Proxyless")) {
         props = {
           ...props,
           ...proxy,
@@ -80,11 +80,15 @@ export default {
     const response = await _twocaptcha.createTask({
       $,
       data: {
-        task,
         languagePool,
         softId,
+        task,
       },
     });
+
+    if (response.errorId) {
+      throw new ConfigurationError(response.errorDescription);
+    }
 
     $.export("$summary", `Successfully submitted captcha with task ID ${response.taskId}`);
     return response;

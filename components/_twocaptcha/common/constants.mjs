@@ -1,8 +1,3 @@
-/* import {
-  amazon, arkose, audio, bounding, capy, click, cloudflare, cutcaptcha,
-  cyber, datadome, draw, friendly, geetest, geetestProxy, grid, hcap,
-  key, lemin, mt, normal, reEnter, rev2, rev3, rotate, text,
-} from "../common/taskProps/index.mjs"; */
 import {
   amazon,
   arkose,
@@ -30,6 +25,7 @@ import {
 } from "../common/taskProps/index.mjs";
 
 export const filterProxy = [
+  "normal",
   "audio",
   "bounding",
   "click",
