@@ -7862,7 +7862,7 @@ importers:
 
   components/webflow:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.5.1
       webflow-api: ^0.5.0
     dependencies:
       '@pipedream/platform': 1.5.1
