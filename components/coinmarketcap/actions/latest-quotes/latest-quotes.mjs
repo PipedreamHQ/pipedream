@@ -13,11 +13,6 @@ export default {
       type: "string",
       description: "One or more comma-separated cryptocurrency CoinMarketCap IDs. Example: 1,2",
       optional: true,
-      options: [
-        "active",
-        "inactive",
-        "untracked",
-      ],
     },
     slug: {
       type: "string",
