@@ -13,3 +13,32 @@ pre {
 :not(pre) > code {
   font-size: calc(1em - 2px) !important;
 }
+
+.DocSearch {
+  --docsearch-primary-color: hsl(var(--nextra-primary-hue)var(--nextra-primary-saturation)77%/.3);
+  --docsearch-highlight-color: hsl(var(--nextra-primary-hue)var(--nextra-primary-saturation)50%/.5);
+  --docsearch-text-color: rgba(241,245,249,var(--tw-text-opacity))
+  --docsearch-muted-color: var(--tw-grayscale);
+  --docsearch-container-background: rgba(47, 55, 69, 0.7);
+  /* Modal */
+  --docsearch-modal-background: black;
+  /* Search box */
+  --docsearch-searchbox-background: black;
+  --docsearch-searchbox-focus-background: hsl(var(--nextra-primary-hue)var(--nextra-primary-saturation)94%/.05);
+  --docsearch-searchbox-shadow: 0 0 0 2px var(--docsearch-primary-color);
+  /* Hit */
+  --docsearch-hit-color: rgba(241,245,249,var(--tw-text-opacity))
+  --docsearch-hit-active-color: white;
+  --docsearch-hit-background: black;
+  /* Footer */
+  --docsearch-footer-background: black;
+  --docsearch-key-gradient: linear-gradient(
+    -26.5deg,
+    0 0%,
+    0 100%
+  );
+}
+
+.DocSearch input.DocSearch-Input:focus-visible {
+  box-shadow: none;
+}

@@ -6,6 +6,7 @@ import PipedreamCode from "./components/PipedreamCode";
 import PipedreamLink from "./components/PipedreamLink";
 import PipedreamTextLogo from "./components/PipedreamTextLogo";
 import SlackLogo from "./components/SlackLogo";
+import DocSearch from "./components/DocSearch";
 
 const config: DocsThemeConfig = {
   head: null,
@@ -55,6 +56,10 @@ const config: DocsThemeConfig = {
         },
       ],
     };
+  },
+  search: {
+    component: DocSearch,
+    // component: Docsearch,
   },
 };
 

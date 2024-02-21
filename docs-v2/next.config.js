@@ -53,5 +53,8 @@ module.exports = withNextra({
     PUBLIC_APPS: "1,700",
     WARM_WORKERS_INTERVAL: "10 minutes",
     WARM_WORKERS_CREDITS_PER_INTERVAL: "5",
+    ALGOLIA_APP_ID: "XY28M447C5",
+    ALGOLIA_SEARCH_API_KEY: "9d9169458128b3d60c22bb04da4431c7",
+    ALGOLIA_INDEX_NAME: "pipedream",
   },
 });
