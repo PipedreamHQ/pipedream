@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import googleContacts from "../../google_contacts.app.mjs";
 import props from "./props.mjs";
 
@@ -115,20 +116,24 @@ export default {
         ];
       }
       if (personFields.includes("birthdays")) {
-        const [
-          year,
-          month,
-          day,
-        ] = birthday.split("-");
-        requestBody.birthdays = [
-          {
-            date: {
-              year,
-              month: Number(month),
-              day: Number(day),
+        try {
+          const [
+            year,
+            month,
+            day,
+          ] = birthday.split("-");
+          requestBody.birthdays = [
+            {
+              date: {
+                year,
+                month: Number(month),
+                day: Number(day),
+              },
             },
-          },
-        ];
+          ];
+        } catch (err) {
+          throw new ConfigurationError("Error parsing birthday. Make sure it is a string in the format `YYYY-MM-DD`");
+        }
       }
       if (personFields.includes("calendarUrls")) {
         requestBody.calendarUrls = [
