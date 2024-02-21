@@ -24,8 +24,6 @@ If you're encountering a specific issue in a workflow, try the following steps, 
 
 2. Try searching [the community](https://pipedream.com/support) or [the `pipedream` GitHub repo](https://github.com/PipedreamHQ/pipedream/issues) to see if anyone else has solved the same issue.
 
-3. [Copy your workflow](/workflows/copy/) to see if the issue persists on the new workflow.
-
 If you're still seeing the issue after trying these steps, please reach out in [the community](https://pipedream.com/support).
 
 ## Why is my trigger not emitting events?

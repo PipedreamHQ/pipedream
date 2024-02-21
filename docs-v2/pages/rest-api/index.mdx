@@ -2,13 +2,9 @@ import Callout from '@/components/Callout'
 
 # REST API
 
-
-
 ## Overview
 
 Use the REST API to create and manage sources, workflows, subscriptions, and more.
-
-Pipedream exposes a limited API for retrieving workflow events, and plans to expose APIs for creating, updating, and deleting workflows programmatically in the future. If you'd like to see this, please upvote and add detail on your use case on [this GitHub issue](https://github.com/PipedreamHQ/pipedream/issues/8735).
 
 ## Base URL
 
@@ -611,18 +607,14 @@ curl -X DELETE \
 Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status
 code in response to any deletion requests.
 
-## Workspaces
+### List Projects
 
-[Workspaces](/workspaces/) provide your team a way to manage resources in a shared workspace. Any resources created by the workspace are owned by the workspace and accessible to its members.
-
-### Get a Workspace
-
-Programmatically view your workspace's current credit usage for the billing period in real time.
+Programmatically list the workspace's projects.
 
 #### Endpoint
 
 ```
-GET /v1/workspaces/<workspace_id>
+GET /v1/workspaces/<workspace_id>/projects
 ```
 
 #### Path Parameters
@@ -631,119 +623,23 @@ GET /v1/workspaces/<workspace_id>
 
 [Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
 
-#### Example Response
+#### Example Responses
 
 ```
-{
-	"data": {
-		"id": "o_Qa8I1Z",
-		"orgname": "asdf",
-		"name": "asdf",
-		"email": "makedev@pipedream.com",
-		"daily_credits_quota": 100,
-		"daily_credits_used": 0
-	}
-}
-```
-
-### Get Workspaces's Subscriptions
-
----
-
-Retrieve all the [subscriptions](#subscriptions) configured for a specific workspace.
-
-#### Endpoint
-
-```
-GET /workspaces/<workspace_id>/subscriptions
-```
-
-#### Path Parameters
-
-`workspaces_id` **string**
-
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
-
-#### Example Request
-
-```shell
-curl 'https://api.pipedream.com/v1/workspaces/o_abc123/subscriptions' \
-  -H 'Authorization: Bearer <api_key>'
-```
-
-#### Example Response
-
-```json
-{
   "data": [
     {
-      "id": "sub_abc123",
-      "emitter_id": "dc_abc123",
-      "listener_id": "p_abc123",
-      "event_name": ""
-    },
-    {
-      "id": "sub_def456",
-      "emitter_id": "dc_def456",
-      "listener_id": "p_def456",
-      "event_name": ""
+      "id": "proj_kYRs18",
+      "hid": "proj_kYRs18",
+      "name": "Sample Project",
+      "repository_id": null,
+      "repository_path": null,
+      "created_at": "2024-02-05T21:47:24.000Z",
+      "updated_at": "2024-02-06T16:13:07.000Z",
+      "org_id": 1,
+      "exceptions": null,
+      "allow_support": false
     }
   ]
-}
-```
-
-### Get Workspaces's Sources
-
----
-
-Retrieve all the [event sources](#sources) configured for a specific workspace.
-
-#### Endpoint
-
-```
-GET /orgs/<workspace_id>/sources
-```
-
-#### Path Parameters
-
-`org_id` **string**
-
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
-
-#### Example Request
-
-```shell
-curl 'https://api.pipedream.com/v1/orgs/o_abc123/sources' \
-  -H 'Authorization: Bearer <api_key>'
-```
-
-#### Example Response
-
-```json
-{
-  "page_info": {
-    "total_count": 19,
-    "count": 10,
-    "start_cursor": "ZGNfSzB1QWVl",
-    "end_cursor": "ZGNfeUx1alJx"
-  },
-  "data": [
-    {
-      "id": "dc_abc123",
-      "component_id": "sc_def456",
-      "configured_props": {
-        "http": {
-          "endpoint_url": "https://myendpoint.m.pipedream.net"
-        }
-      },
-      "active": true,
-      "created_at": 1587679599,
-      "updated_at": 1587764467,
-      "name": "test",
-      "name_slug": "test"
-    }
-  ]
-}
 ```
 
 ## Sources
@@ -1189,294 +1085,6 @@ curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_i
   -H "Content-Type: application/json"
 ```
 
-## Webhooks
-
-Pipedream supports webhooks as a way to deliver events to a endpoint you own.
-Webhooks are managed at an account-level, and you send data to these webhooks
-using [subscriptions](#subscriptions).
-
-For example, you can run a Twitter [event source](/sources/) that listens
-for new tweets. If you [subscribe](#subscriptions) the webhook to this source,
-Pipedream will deliver those tweets directly to your webhook's URL without
-running a workflow.
-
-[**See these tutorials**](/api/rest/webhooks/) for examples.
-
-### Create a webhook
-
-Creates a webhook pointing to a URL. Configure a [subscription](#subscriptions)
-to deliver events to this webhook.
-
-#### Endpoint
-
-```
-POST /webhooks?url={your_endpoint_url}&name={name}&description={description}
-```
-
-#### Parameters
-
----
-
-`url` **string**
-
-The endpoint URL where you'd like to deliver events. Any events sent to this
-webhook object will be delivered to this endpoint URL.
-
-This URL **must** contain, at a minimum, a protocol — one of `http` or `https` —
-and hostname, but can specify resources or ports. For example, these URLs work:
-
-```
-https://example.com
-http://example.com
-https://example.com:12345/endpoint
-```
-
-but these do not:
-
-```
-# No protocol - needs http(s)://
-example.com
-
-# mysql protocol not supported. Must be an HTTP(S) endpoint
-mysql://user:pass@host:port
-```
-
----
-
-`name` **string**
-
-The name you'd like to assign to this webhook, which will appear when [listing
-your webhooks](#get-current-user-s-webhooks).
-
----
-
-`description` **string**
-
-The description you'd like to assign to this webhook, which will appear when
-[listing your webhooks](#get-current-user-s-webhooks).
-
-#### Example Request
-
-You can create a webhook that delivers events to
-`https://endpoint.m.pipedream.net` using the following command:
-
-```shell
-curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description" \
-  -X POST \
-  -H "Authorization: Bearer <api_key>" \
-  -H "Content-Type: application/json"
-```
-
-#### Example Response
-
-Successful API responses contain a webhook ID for the webhook that was created
-in `data.id` — the string that starts with `wh_` — which you can reference when
-creating [subscriptions](#subscriptions).
-
-```json
-{
-  "data": {
-    "id": "wh_abc123",
-    "user_id": "u_abc123",
-    "name": null,
-    "description": null,
-    "url": "https://endpoint.m.pipedream.net",
-    "active": true,
-    "created_at": 1611964025,
-    "updated_at": 1611964025
-  }
-}
-```
-
-### List webhooks
-
-You can list webhooks you've created in your account using the
-[`/users/me/webhooks` endpoint](#get-current-user-s-webhooks)
-
-### Delete a webhook
-
----
-
-Use this endpoint to delete a webhook in your account.
-
-#### Endpoint
-
-```
-DELETE /webhooks/{id}
-```
-
-#### Path Parameters
-
----
-
-`id` **string**
-
-The ID of a webhook in your account.
-
----
-
-#### Example Request
-
-```shell
-curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
-  -X DELETE \
-  -H "Authorization: Bearer <api_key>" \
-  -H "Content-Type: application/json"
-```
-
-## Workflows
-
-Pipedream exposes a limited API for retrieving workflow events, and plans to expose APIs for creating, updating, and deleting workflows programmatically in the future. If you'd like to see this, please upvote and add detail on your use case on [this GitHub issue](https://github.com/PipedreamHQ/pipedream/issues/8735).
-
-### Get Workflow Emits
-
----
-
-Retrieve up to the last 100 events emitted from a workflow using
-[`$send.emit()`](/destinations/emit/#emit-events).
-
-#### Endpoint
-
-```
-GET /workflows/{workflow_id}/event_summaries
-```
-
-#### Notes and Examples
-
-The event data for events larger than `1KB` may get truncated in the response.
-If you're retrieving larger events, and need to see the full event data, pass
-`?expand=event`:
-
-```
-GET /workflows/{workflow_id}/event_summaries&expand=event
-```
-
-Pass `?limit=N` to retrieve the last **N** events:
-
-```
-GET /v1/workflows/{workflow_id}/event_summaries?expand=event&limit=1
-```
-
-#### Example Request
-
-```shell
-curl 'https://api.pipedream.com/v1/workflows/p_abc123/event_summaries?expand=event&limit=1' \
-  -H 'Authorization: Bearer <api_key>'
-```
-
-#### Example Response
-
-```json
-{
-  "page_info": {
-    "total_count": 1,
-    "start_cursor": "1606511826306-0",
-    "end_cursor": "1606511826306-0",
-    "count": 1
-  },
-  "data": [
-    {
-      "id": "1606511826306-0",
-      "indexed_at_ms": 1606511826306,
-      "event": {
-        "raw_event": {
-          "name": "Luke",
-          "title": "Jedi"
-        }
-      },
-      "metadata": {
-        "emit_id": "1ktF96gAMsLqdYSRWYL9KFS5QqW",
-        "name": "",
-        "emitter_id": "p_abc123"
-      }
-    }
-  ]
-}
-```
-
----
-
-### Get Workflow Errors
-
----
-
-Retrieve up to the last 100 events for a workflow that threw an error. The
-details of the error, along with the original event data, will be included
-
-#### Endpoint
-
-```
-GET /workflows/{workflow_id}/$errors/event_summaries
-```
-
-#### Notes and Examples
-
-The event data for events larger than `1KB` may get truncated in the response.
-If you're processing larger events, and need to see the full event data, pass
-`?expand=event`:
-
-```
-GET /workflows/{workflow_id}/$errors/event_summaries&expand=event
-```
-
-Pass `?limit=N` to retrieve the last **N** events:
-
-```
-GET /v1/workflows/{workflow_id}/$errors/event_summaries?expand=event&limit=1
-```
-
-#### Example Request
-
-```shell
-curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?expand=event&limit=1' \
-  -H 'Authorization: Bearer <api_key>'
-```
-
-#### Example Response
-
-```json
-{
-  "page_info": {
-    "total_count": 100,
-    "start_cursor": "1606370816223-0",
-    "end_cursor": "1606370816223-0",
-    "count": 1
-  },
-  "data": [
-    {
-      "id": "1606370816223-0",
-      "indexed_at_ms": 1606370816223,
-      "event": {
-        "original_event": {
-          "name": "Luke",
-          "title": "Jedi"
-        },
-        "original_context": {
-          "id": "1kodJIW7jVnKfvB2yp1OoPrtbFk",
-          "ts": "2020-11-26T06:06:44.652Z",
-          "workflow_id": "p_abc123",
-          "deployment_id": "d_abc123",
-          "source_type": "SDK",
-          "verified": false,
-          "owner_id": "u_abc123",
-          "platform_version": "3.1.20"
-        },
-        "error": {
-          "code": "InternalFailure",
-          "cellId": "c_abc123",
-          "ts": "2020-11-26T06:06:56.077Z",
-          "stack": "    at Request.extractError ..."
-      },
-      "metadata": {
-        "emitter_id": "p_abc123",
-        "emit_id": "1kodKnAdWGeJyhqYbqyW6lEXVAo",
-        "name": "$errors"
-      }
-    }
-  ]
-}
-```
-
 ## Users
 
 ### Get Current User Info
@@ -1659,3 +1267,846 @@ curl 'https://api.pipedream.com/v1/users/me/webhooks' \
 }
 ```
 
+## Webhooks
+
+Pipedream supports webhooks as a way to deliver events to a endpoint you own.
+Webhooks are managed at an account-level, and you send data to these webhooks
+using [subscriptions](#subscriptions).
+
+For example, you can run a Twitter [event source](/sources/) that listens
+for new tweets. If you [subscribe](#subscriptions) the webhook to this source,
+Pipedream will deliver those tweets directly to your webhook's URL without
+running a workflow.
+
+[**See these tutorials**](/api/rest/webhooks/) for examples.
+
+### Create a webhook
+
+Creates a webhook pointing to a URL. Configure a [subscription](#subscriptions)
+to deliver events to this webhook.
+
+#### Endpoint
+
+```
+POST /webhooks?url={your_endpoint_url}&name={name}&description={description}
+```
+
+#### Parameters
+
+---
+
+`url` **string**
+
+The endpoint URL where you'd like to deliver events. Any events sent to this
+webhook object will be delivered to this endpoint URL.
+
+This URL **must** contain, at a minimum, a protocol — one of `http` or `https` —
+and hostname, but can specify resources or ports. For example, these URLs work:
+
+```
+https://example.com
+http://example.com
+https://example.com:12345/endpoint
+```
+
+but these do not:
+
+```
+# No protocol - needs http(s)://
+example.com
+
+# mysql protocol not supported. Must be an HTTP(S) endpoint
+mysql://user:pass@host:port
+```
+
+---
+
+`name` **string**
+
+The name you'd like to assign to this webhook, which will appear when [listing
+your webhooks](#get-current-user-s-webhooks).
+
+---
+
+`description` **string**
+
+The description you'd like to assign to this webhook, which will appear when
+[listing your webhooks](#get-current-user-s-webhooks).
+
+#### Example Request
+
+You can create a webhook that delivers events to
+`https://endpoint.m.pipedream.net` using the following command:
+
+```shell
+curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description" \
+  -X POST \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
+
+#### Example Response
+
+Successful API responses contain a webhook ID for the webhook that was created
+in `data.id` — the string that starts with `wh_` — which you can reference when
+creating [subscriptions](#subscriptions).
+
+```json
+{
+  "data": {
+    "id": "wh_abc123",
+    "user_id": "u_abc123",
+    "name": null,
+    "description": null,
+    "url": "https://endpoint.m.pipedream.net",
+    "active": true,
+    "created_at": 1611964025,
+    "updated_at": 1611964025
+  }
+}
+```
+
+### List webhooks
+
+You can list webhooks you've created in your account using the
+[`/users/me/webhooks` endpoint](#get-current-user-s-webhooks)
+
+### Delete a webhook
+
+---
+
+Use this endpoint to delete a webhook in your account.
+
+#### Endpoint
+
+```
+DELETE /webhooks/{id}
+```
+
+#### Path Parameters
+
+---
+
+`id` **string**
+
+The ID of a webhook in your account.
+
+---
+
+#### Example Request
+
+```shell
+curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
+  -X DELETE \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
+
+## Workflows
+
+### Create a Workflow
+
+---
+
+Creates a new workflow within an organization's project. This endpoint allows defining workflow steps, triggers, and settings, based on a supplied template.
+
+#### Endpoint
+
+```
+POST /workflows
+```
+
+#### Request Body
+
+`org_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+---
+
+`project_id` **string**
+
+The ID of the project where the new workflow will be created. To find your project ID, switch to your desired worksapce, and click on Projects in the top left of the Pipedream dashboard.
+
+Click on the project where you'd like to create the new workflow, and the project ID can be found in the URL, starting with `proj_`.
+
+If the URL is [https://pipedream.com/@pd-testing/projects/proj_GzsRY5N/tree](https://pipedream.com/@pd-testing/projects/proj_GzsRY5N/tree), your `project_id` is `proj_GzsRY5N`.
+
+---
+
+`template_id` **string** 
+
+The ID of the workflow template to base the workflow on. To find a workflow's `template_id`, navigate to your workflow that you'd like to create a template for, and click "Create share link". If the URL created is [https://pipedream.com/new?h=tch_Vdfl0l](https://pipedream.com/new?h=tch_Vdfl0l), your `template_id` is `tch_Vdfl01`.
+
+---
+
+`steps` **array**: Definitions of the steps to include in the workflow. Each item in the array represents a step, with its namespace and `props`.
+
+---
+
+`triggers` **array**: Definitions of the triggers that will start the workflow. Each item in the array represents a trigger, with its type and `props`.
+
+---
+
+`settings` **object**: Additional settings for the workflow, such as `name` and `auto_deploy`.
+
+#### Example Request
+
+```json
+{
+  "project_id": "proj_wx9sgy",
+  "org_id": "o_BYDI5y",
+  "template_id": "tch_3BXfWO",
+  "steps": [
+    {
+      "namespace": "code",
+      "props": {
+        "stringProp": "asdf"
+      }
+    },
+    {
+      "namespace": "keyauth_hello_world",
+      "props": {
+        "keyauth": {
+          "authProvisionId": "apn_Nb6h9v"
+        }
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "props": {
+        "oauth": {
+          "authProvisionId": "apn_qZWh4A"
+        },
+        "string": "jkl"
+      }
+    }
+  ],
+  "settings": {
+    "name": "example workflow name",
+    "auto_deploy": true
+  }
+}
+```
+
+#### Example Response
+
+```json
+{
+  "data": {
+    "id": "p_48rCxZ",
+    "name": "example workflow name",
+    "active": true,
+    "steps": [
+      {
+        "id": "c_bDf10L",
+        "type": "CodeCell",
+        "namespace": "code",
+        "disabled": false,
+        "code_raw": null,
+        "codeRaw": null,
+        "codeConfigJson": null,
+        "lang": "nodejs20.x",
+        "text_raw": null,
+        "appConnections": [],
+        "flat_params_visibility_json": null,
+        "params_json": "{}",
+        "component": true,
+        "savedComponent": {
+          "id": "sc_PRYiAZ",
+          "code": "export default defineComponent({\n  props: {\n    stringProp: {\n      type: \"string\"\n    },\n    intProp: {\n      type: \"integer\",\n    }\n  },\n  async run({ steps, $ }) {\n    console.log(this.stringProp)\n    return steps.trigger.event\n  },\n})",
+          "codeHash": "1908045950f3c1a861e538b20d70732adb701a81174dc59f809398e43f85d132",
+          "configurableProps": [
+            {
+              "name": "stringProp",
+              "type": "string"
+            },
+            {
+              "name": "intProp",
+              "type": "integer"
+            }
+          ],
+          "key": null,
+          "description": null,
+          "entryPath": null,
+          "version": "",
+          "apps": []
+        },
+        "component_key": null,
+        "component_owner_id": null,
+        "configured_props_json": "{\"intProp\":5,\"stringProp\":\"asdf\"}",
+        "authProvisionIdMap": {},
+        "authProvisionIds": []
+      },
+      {
+        "id": "c_W3f0YV",
+        "type": "CodeCell",
+        "namespace": "python",
+        "disabled": false,
+        "code_raw": null,
+        "codeRaw": null,
+        "codeConfigJson": null,
+        "lang": "python3.12",
+        "text_raw": null,
+        "appConnections": [],
+        "flat_params_visibility_json": null,
+        "params_json": "{}",
+        "component": true,
+        "savedComponent": {
+          "id": "sc_mweiWO",
+          "code": "def handler(pd: \"pipedream\"):\n    # Reference data from previous steps\n    print(pd.steps[\"trigger\"][\"context\"][\"id\"])\n    # Return data for use in future steps\n    return {\"foo\": {\"test\": True}}\n",
+          "codeHash": "63b32f00f1bc0b594e7a109cced4bda5011ab4420e358f743058dc46de8c5270",
+          "configurableProps": [],
+          "key": null,
+          "description": null,
+          "entryPath": null,
+          "version": "",
+          "apps": []
+        },
+        "component_key": null,
+        "component_owner_id": null,
+        "configured_props_json": null,
+        "authProvisionIdMap": {},
+        "authProvisionIds": []
+      },
+      {
+        "id": "c_D7feVN",
+        "type": "CodeCell",
+        "namespace": "keyauth_hello_world",
+        "disabled": false,
+        "code_raw": null,
+        "codeRaw": null,
+        "codeConfigJson": null,
+        "lang": "nodejs20.x",
+        "text_raw": null,
+        "appConnections": [],
+        "flat_params_visibility_json": null,
+        "params_json": "{}",
+        "component": true,
+        "savedComponent": {
+          "id": "sc_71Li4l",
+          "code": "const keyauth = {\n  type: \"app\",\n  app: \"keyauth\",\n  propDefinitions: {},\n}\n\nexport default {\n  name: \"Key auth hello world\",\n  version: \"0.0.1\",\n  key: \"keyauth-hello-world\",\n  type: \"action\",\n  description: \"simple hello world with dev keyauth app.\",\n  props: {\n    keyauth,\n  },\n  async run() {\n    console.log(\"hello world\")\n    return \"hello world\"\n  },\n}\n",
+          "codeHash": "b7d5c6540f60e63174a96d5e5ba4aa89bf45b7b9d9fdc01db0ee64c905962415",
+          "configurableProps": [
+            {
+              "name": "keyauth",
+              "type": "app",
+              "app": "keyauth"
+            }
+          ],
+          "key": "keyauth-hello-world",
+          "description": "simple hello world with dev keyauth app.",
+          "entryPath": null,
+          "version": "0.0.1",
+          "apps": [
+            {
+              "appId": "app_1xohQx",
+              "nameSlug": "keyauth",
+              "authType": "keys"
+            }
+          ]
+        },
+        "component_key": "keyauth-hello-world",
+        "component_owner_id": null,
+        "configured_props_json": "{\"keyauth\":{\"authProvisionId\":\"apn_Nb6h9v\"}}",
+        "authProvisionIdMap": {},
+        "authProvisionIds": []
+      }
+    ],
+    "triggers": [
+      {
+        "id": "hi_0R3HKG",
+        "key": "eohq5aaq8yr4sye",
+        "endpoint_url": "http://eojq5abv8yr4sye.m.d.pipedream.net",
+        "custom_response": false,
+        "created_at": 1707418403,
+        "updated_at": 1707418403
+      },
+      {
+        "id": "dc_rmXuv3",
+        "owner_id": "o_BYDI5y",
+        "component_id": "sc_PgliBJ",
+        "configured_props": {},
+        "active": true,
+        "created_at": 1707241571,
+        "updated_at": 1707241571,
+        "name": "Emit hello world",
+        "name_slug": "emit-hello-world-6"
+      },
+      {
+        "id": "ti_aPxTPY",
+        "interval_seconds": 3600,
+        "cron": null,
+        "timezone": "America/New_York",
+        "schedule_changed_at": 1707418408,
+        "created_at": 1707418404,
+        "updated_at": 1707418404
+      },
+      {
+        "id": "dc_5nvuPv",
+        "owner_id": "o_BYDI5y",
+        "component_id": "sc_XGBiLw",
+        "configured_props": {
+          "oauth": {
+            "authProvisionId": "apn_qZWh4A"
+          },
+          "string": "jkl"
+        },
+        "active": true,
+        "created_at": 1707418404,
+        "updated_at": 1707418404,
+        "name": "oauth-test-source",
+        "name_slug": "oauth-test-source-3"
+      },
+      {
+        "id": "ei_QbGT3D",
+        "email_address": "em5tdwgfgbw9piv@upload.pipedream.net",
+        "created_at": 1707418407,
+        "updated_at": 1707418407
+      }
+    ]
+  }
+}
+```
+
+### Update a Workflow
+
+---
+
+Updates the workflow's activation status. If you need to modify the workflow's steps, triggers, or connected accounts [consider making a new workflow](#create-a-workflow).
+
+#### Endpoint
+
+```bash
+PUT /workflows/{id}
+```
+
+#### Path Parameters
+
+`id` **string** 
+The ID of the workflow to update. 
+
+To find your workflow ID, navigate to your workflow. 
+
+If the URL is [https://pipedream.com/@michael-testing/api-p_13CDnxK/inspect](https://pipedream.com/@michael-testing/api-p_13CDnxK/inspect), your `workflow_id` begins with `p_` and would be `p_13CDnxK`.
+
+#### Request Body
+
+`active` **boolean**
+The activation status of a workflow. Set to `true` to activate the workflow, or `false` to deactivate it.
+
+#### Example Request
+
+```bash
+curl -X PUT 'https://api.pipedream.com/v1/workflows/p_abc123' \
+  -H 'Authorization: Bearer <api_key>' \
+  -H 'Content-Type: application/json' \
+  -d '{"active": false}'
+```
+
+### Get a Workflow's details
+
+---
+
+Retrieves the details of a specific workflow within an organization's project. 
+
+#### Endpoint
+
+```bash
+GET /workflows/{workflow_id}
+```
+
+#### Path Parameters
+
+`workflow_id` **string**: The ID of the workflow to retrieve. 
+
+#### Example Request
+
+```bash
+curl 'https://api.pipedream.com/v1/workflows/p_abc123?org_id=o_abc123' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "triggers": [
+    {
+      "id": "hi_ABpHKz",
+      "key": "eabcdefghiklmnop",
+      "endpoint_url": "http://eabcdefghiklmnop.m.d.pipedream.net",
+      "custom_response": false,
+    }
+  ],
+  "steps": [
+    {
+      "id": "c_abc123",
+      "namespace": "code",
+      "disabled": false,
+      "lang": "nodejs20.x",
+      "appConnections": [],
+      "component": true,
+      "savedComponent": {
+        "id": "sc_abc123",
+        "codeHash": "long-hash-here",
+        "configurableProps": [
+          {
+            "name": "channelId",
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "type": "string"
+          },
+          {
+            "name": "slack",
+            "type": "app",
+            "app": "slack"
+          }
+        ],
+        "version": ""
+      },
+      "component_key": null,
+      "component_owner_id": "o_abc123",
+      "configured_props_json": "{}"
+    }
+  ]
+}
+```
+
+### Get Workflow Emits
+
+---
+
+Retrieve up to the last 100 events emitted from a workflow using
+[`$send.emit()`](/destinations/emit/#emit-events).
+
+#### Endpoint
+
+```
+GET /workflows/{workflow_id}/event_summaries
+```
+
+#### Notes and Examples
+
+The event data for events larger than `1KB` may get truncated in the response.
+If you're retrieving larger events, and need to see the full event data, pass
+`?expand=event`:
+
+```
+GET /workflows/{workflow_id}/event_summaries&expand=event
+```
+
+Pass `?limit=N` to retrieve the last **N** events:
+
+```
+GET /v1/workflows/{workflow_id}/event_summaries?expand=event&limit=1
+```
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/workflows/p_abc123/event_summaries?expand=event&limit=1' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 1,
+    "start_cursor": "1606511826306-0",
+    "end_cursor": "1606511826306-0",
+    "count": 1
+  },
+  "data": [
+    {
+      "id": "1606511826306-0",
+      "indexed_at_ms": 1606511826306,
+      "event": {
+        "raw_event": {
+          "name": "Luke",
+          "title": "Jedi"
+        }
+      },
+      "metadata": {
+        "emit_id": "1ktF96gAMsLqdYSRWYL9KFS5QqW",
+        "name": "",
+        "emitter_id": "p_abc123"
+      }
+    }
+  ]
+}
+```
+
+---
+
+### Get Workflow Errors
+
+---
+
+Retrieve up to the last 100 events for a workflow that threw an error. The
+details of the error, along with the original event data, will be included
+
+#### Endpoint
+
+```
+GET /workflows/{workflow_id}/$errors/event_summaries
+```
+
+#### Notes and Examples
+
+The event data for events larger than `1KB` may get truncated in the response.
+If you're processing larger events, and need to see the full event data, pass
+`?expand=event`:
+
+```
+GET /workflows/{workflow_id}/$errors/event_summaries&expand=event
+```
+
+Pass `?limit=N` to retrieve the last **N** events:
+
+```
+GET /v1/workflows/{workflow_id}/$errors/event_summaries?expand=event&limit=1
+```
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?expand=event&limit=1' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 100,
+    "start_cursor": "1606370816223-0",
+    "end_cursor": "1606370816223-0",
+    "count": 1
+  },
+  "data": [
+    {
+      "id": "1606370816223-0",
+      "indexed_at_ms": 1606370816223,
+      "event": {
+        "original_event": {
+          "name": "Luke",
+          "title": "Jedi"
+        },
+        "original_context": {
+          "id": "1kodJIW7jVnKfvB2yp1OoPrtbFk",
+          "ts": "2020-11-26T06:06:44.652Z",
+          "workflow_id": "p_abc123",
+          "deployment_id": "d_abc123",
+          "source_type": "SDK",
+          "verified": false,
+          "owner_id": "u_abc123",
+          "platform_version": "3.1.20"
+        },
+        "error": {
+          "code": "InternalFailure",
+          "cellId": "c_abc123",
+          "ts": "2020-11-26T06:06:56.077Z",
+          "stack": "    at Request.extractError ..."
+        },
+        "metadata": {
+          "emitter_id": "p_abc123",
+          "emit_id": "1kodKnAdWGeJyhqYbqyW6lEXVAo",
+          "name": "$errors"
+        }
+      }
+    }
+  ]
+}
+```
+
+## Workspaces
+
+[Workspaces](/workspaces/) provide your team a way to manage resources in a shared workspace. Any resources created by the workspace are owned by the workspace and accessible to its members.
+
+### Get a Workspace
+
+Programmatically view your workspace's current credit usage for the billing period in real time.
+
+#### Endpoint
+
+```
+GET /v1/workspaces/<workspace_id>
+```
+
+#### Path Parameters
+
+`workspaces_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+#### Example Response
+
+```
+{
+	"data": {
+		"id": "o_Qa8I1Z",
+		"orgname": "asdf",
+		"name": "asdf",
+		"email": "dev@pipedream.com",
+		"daily_credits_quota": 100,
+		"daily_credits_used": 0
+	}
+}
+```
+
+### Get Workspaces's Connected Accounts
+
+---
+
+Retrieve all the connected accounts for a specific workspace.
+
+#### Endpoint
+
+```
+GET /workspaces/<workspace_id>/accounts
+```
+
+#### Path Parameters
+
+`workspace_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+#### Query Parameters
+
+`query` **string** (_optional_)
+
+To look up the connected account information for a specific app, use the `query` query parameter to filter results for that app. You can find a given app's `query` from the [Explore](https://pipedream.com/explore) page by selecting the app, and looking at the prop definition for the app.
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/workspaces/o_abc123/accounts?query=google_sheets' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 1,
+    "count": 1,
+    "start_cursor": "YXBuXzJrVmhMUg",
+    "end_cursor": "YXBuXzJrVmhMUg"
+  },
+  "data": [
+    {
+      "id": "apn_2kVhLR",
+      "name": "Google Sheets #1"
+    }
+  ]
+}
+```
+
+### Get Workspaces's Subscriptions
+
+---
+
+Retrieve all the [subscriptions](#subscriptions) configured for a specific workspace.
+
+#### Endpoint
+
+```
+GET /workspaces/<workspace_id>/subscriptions
+```
+
+#### Path Parameters
+
+`workspaces_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/workspaces/o_abc123/subscriptions' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "sub_abc123",
+      "emitter_id": "dc_abc123",
+      "listener_id": "p_abc123",
+      "event_name": ""
+    },
+    {
+      "id": "sub_def456",
+      "emitter_id": "dc_def456",
+      "listener_id": "p_def456",
+      "event_name": ""
+    }
+  ]
+}
+```
+
+### Get Workspaces's Sources
+
+---
+
+Retrieve all the [event sources](#sources) configured for a specific workspace.
+
+#### Endpoint
+
+```
+GET /orgs/<workspace_id>/sources
+```
+
+#### Path Parameters
+
+`org_id` **string**
+
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/orgs/o_abc123/sources' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 19,
+    "count": 10,
+    "start_cursor": "ZGNfSzB1QWVl",
+    "end_cursor": "ZGNfeUx1alJx"
+  },
+  "data": [
+    {
+      "id": "dc_abc123",
+      "component_id": "sc_def456",
+      "configured_props": {
+        "http": {
+          "endpoint_url": "https://myendpoint.m.pipedream.net"
+        }
+      },
+      "active": true,
+      "created_at": 1587679599,
+      "updated_at": 1587764467,
+      "name": "test",
+      "name_slug": "test"
+    }
+  ]
+}
+```
