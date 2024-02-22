@@ -2840,10 +2840,10 @@ importers:
 
   components/google_contacts:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.6.0
       googleapis: ^96.0.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.6.0
       googleapis: 96.0.0
 
   components/google_dialogflow:
@@ -4805,9 +4805,11 @@ importers:
 
   components/omnivore:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.0
+      uuid: ^9.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
+      uuid: 9.0.1
 
   components/oncehub:
     specifiers:
