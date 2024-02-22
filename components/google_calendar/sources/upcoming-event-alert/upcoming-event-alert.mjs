@@ -1,6 +1,5 @@
 import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "google_calendar-upcoming-event-alert",
@@ -15,12 +14,6 @@ export default {
     googleCalendar,
     db: "$.service.db",
     http: "$.interface.http",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL, // poll source occasionally to schedule events created after source has been deployed
-      },
-    },
     calendarId: {
       propDefinition: [
         googleCalendar,
@@ -42,7 +35,21 @@ export default {
       label: "Minutes Before",
       description: "Number of minutes to trigger before the start of the calendar event.",
       min: 0,
+      reloadProps: true,
     },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.time > 0) {
+      props.timer = {
+        type: "$.interface.timer",
+        description: "Poll the API to schedule alerts for any newly created events",
+        default: {
+          intervalSeconds: 60 * this.time,
+        },
+      };
+    }
+    return props;
   },
   hooks: {
     async deactivate() {
