@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:not(pre,h1,h2,h3,h4,h5,h6,td) > code::before, :not(pre,h1,h2,h3,h4,h5,h6,td) > code::after {
+  content: '`';
+}
+
+pre {
+  font-variant-ligatures: none;
+}
+
+:not(pre) > code {
+  font-size: calc(1em - 2px) !important;
+}
+
+html.dark .DocSearch-Button {
+  --docsearch-highlight-color: hsl(var(--nextra-primary-hue)var(--nextra-primary-saturation)50%/.5);
+  --docsearch-text-color: rgba(241,245,249,var(--tw-text-opacity));
+  --docsearch-muted-color: var(--tw-grayscale);
+  --docsearch-key-gradient: linear-gradient(
+    -26.5deg,
+    0 0%,
+    0 100%
+  );
+  --docsearch-searchbox-focus-background: black;
+}
+
+.DocSearch input.DocSearch-Input:focus-visible {
+  box-shadow: none;
+}
