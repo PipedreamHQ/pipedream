@@ -1,4 +1,4 @@
-import { Steps } from 'nextra/components'
+import { Steps } from "nextra/components";
 
 # Configure SSO with Google Workspace
 
@@ -20,13 +20,11 @@ To configure SSO in Pipedream, you need to set up a [SAML application](https://a
 In your **Google Workspace** admin console, select **Apps** > **Web and Mobile apps**
 
 <br />
-<<<<<<< HEAD
-<div>
-<img alt="Create a new SAML app in Google Workspace" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693962607/docs/Screenshot_2023-09-05_at_6.04.53_PM_kr9oe4.png" width="300px" />
-</div>
-=======
-<img alt="Create a new SAML app in Google Workspace" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693962607/docs/Screenshot_2023-09-05_at_6.04.53_PM_kr9oe4.png" width="300px" />
->>>>>>> origin/master
+<img
+  alt="Create a new SAML app in Google Workspace"
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1693962607/docs/Screenshot_2023-09-05_at_6.04.53_PM_kr9oe4.png"
+  width="300px"
+/>
 <br />
 
 ### Add a custom SAML app
@@ -34,13 +32,11 @@ In your **Google Workspace** admin console, select **Apps** > **Web and Mobile a
 In the **Add app** menu, select the option to **Add custom SAML app**:
 
 <br />
-<<<<<<< HEAD
-<div>
-<img alt="Add app > Add custom SAML app" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693962942/docs/Screenshot_2023-09-05_at_6.15.12_PM_jrzszg.png" width="300px" />
-</div>
-=======
-<img alt="Add app > Add custom SAML app" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693962942/docs/Screenshot_2023-09-05_at_6.15.12_PM_jrzszg.png" width="300px" />
->>>>>>> origin/master
+<img
+  alt="Add app > Add custom SAML app"
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1693962942/docs/Screenshot_2023-09-05_at_6.15.12_PM_jrzszg.png"
+  width="300px"
+/>
 <br />
 
 ### Configure the app
@@ -48,25 +44,19 @@ In the **Add app** menu, select the option to **Add custom SAML app**:
 First, add **Pipedream** as the app name, and an app description that makes sense for your organization:
 
 <br />
-<<<<<<< HEAD
-<div>
-<img alt="App name + description" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693963913/docs/Screenshot_2023-09-05_at_6.31.46_PM_ggnyrq.png" />
-</div>
-=======
-<img alt="App name + description" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693963913/docs/Screenshot_2023-09-05_at_6.31.46_PM_ggnyrq.png" />
->>>>>>> origin/master
+<img
+  alt="App name + description"
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1693963913/docs/Screenshot_2023-09-05_at_6.31.46_PM_ggnyrq.png"
+/>
 <br />
 
 ### Continue past the configuration step
 
 <br />
-<<<<<<< HEAD
-<div>
-<img alt="App name + description" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693964121/docs/Screenshot_2023-09-05_at_6.35.15_PM_imjbuy.png" />
-</div>
-=======
-<img alt="App name + description" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693964121/docs/Screenshot_2023-09-05_at_6.35.15_PM_imjbuy.png" />
->>>>>>> origin/master
+<img
+  alt="App name + description"
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1693964121/docs/Screenshot_2023-09-05_at_6.35.15_PM_imjbuy.png"
+/>
 <br />
 
 ### Configure the Service provider details
@@ -80,13 +70,10 @@ In the **Service provider details**, provide the following values:
 replacing `<your workspace name>` with the workspace name at [https://pipedream.com/settings/account](https://pipedream.com/settings/account). For example, if your workspace name is `example-workspace`, your start URL will be `https://api.pipedream.com/auth/saml/example-workspace`.
 
 <br />
-<<<<<<< HEAD
-<div>
-<img alt="SAML settings for Google Workspace" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693964299/docs/Screenshot_2023-09-05_at_6.38.12_PM_wplrr0.png" />
-</div>
-=======
-<img alt="SAML settings for Google Workspace" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693964299/docs/Screenshot_2023-09-05_at_6.38.12_PM_wplrr0.png" />
->>>>>>> origin/master
+<img
+  alt="SAML settings for Google Workspace"
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1693964299/docs/Screenshot_2023-09-05_at_6.38.12_PM_wplrr0.png"
+/>
 <br />
 
 In the **Name ID** section, provide these values:
@@ -97,13 +84,10 @@ In the **Name ID** section, provide these values:
 then press **Continue**.
 
 <br />
-<<<<<<< HEAD
-<div>
-<img alt="SAML settings for Google Workspace" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693965371/docs/Screenshot_2023-09-05_at_6.55.40_PM_f9fgyr.png" />
-</div>
-=======
-<img alt="SAML settings for Google Workspace" src="https://res.cloudinary.com/pipedreamin/image/upload/v1693965371/docs/Screenshot_2023-09-05_at_6.55.40_PM_f9fgyr.png" />
->>>>>>> origin/master
+<img
+  alt="SAML settings for Google Workspace"
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1693965371/docs/Screenshot_2023-09-05_at_6.55.40_PM_f9fgyr.png"
+/>
 <br />
 
 ### Configure the Attribute mapping
@@ -117,13 +101,11 @@ Pipedream requires access to SAML metadata at a publicly-accessible URL. This co
 First, click the **Download Metadata** button on the left of the app configuration page:
 
 <br />
-<<<<<<< HEAD
-<div>
-<img alt="Download Metadata" src="https://res.cloudinary.com/pipedreamin/image/upload/v1694026083/docs/Screenshot_2023-09-06_at_11.47.33_AM_mez7j1.png" width="300px" />
-</div>
-=======
-<img alt="Download Metadata" src="https://res.cloudinary.com/pipedreamin/image/upload/v1694026083/docs/Screenshot_2023-09-06_at_11.47.33_AM_mez7j1.png" width="300px" />
->>>>>>> origin/master
+<img
+  alt="Download Metadata"
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1694026083/docs/Screenshot_2023-09-06_at_11.47.33_AM_mez7j1.png"
+  width="300px"
+/>
 <br />
 
 **Host this file on a public web server where Pipedream can access it via URL**, for example: `https://example.com/metadata.xml`. You'll use that URL in the next step.
@@ -137,13 +119,7 @@ In Pipedream, visit your workspace's [authentication settings](https://pipedream
 In the **Single Sign-On** section, select **SAML**, and add the URL from step 7 above in the **Metadata URL** field, then click Save.
 
 <br />
-<<<<<<< HEAD
-<div>
 <img alt="Pipedream SAML Metadata URL" src="https://res.cloudinary.com/pipedreamin/image/upload/v1699919663/saml-metadata-url_cxciur.png" />
-</div>
-=======
-<img alt="Pipedream SAML Metadata URL" src="https://res.cloudinary.com/pipedreamin/image/upload/v1699919663/saml-metadata-url_cxciur.png" />
->>>>>>> origin/master
 <br />
 </Steps>
 

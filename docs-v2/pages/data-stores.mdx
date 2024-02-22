@@ -1,9 +1,12 @@
-import Callout from '@/components/Callout'
-import VideoPlayer from '@/components/VideoPlayer'
+import Callout from "@/components/Callout";
+import VideoPlayer from "@/components/VideoPlayer";
 
 # Data Stores
 
-<VideoPlayer src="https://www.youtube.com/embed/0WMcAnDF7FA" title="Data store Basics" />
+<VideoPlayer
+  src="https://www.youtube.com/embed/0WMcAnDF7FA"
+  title="Data store Basics"
+/>
 
 **Data stores** are Pipedream's built-in key-value store.
 
@@ -47,12 +50,9 @@ The **Key** must evaluate to a string. You can pass a static string, reference [
 
 ![Workflow trigger example](https://res.cloudinary.com/pipedreamin/image/upload/v1649270704/docs/components/add_update_record_action_eh7dpz.png)
 
-<<<<<<< HEAD
 <Callout type="info">
-=======
-<Callout type="info" emoji="ℹ️">
->>>>>>> origin/master
-Need to store multiple records in one action? Use the **Add or update multiple records** action instead.
+  Need to store multiple records in one action? Use the **Add or update multiple
+  records** action instead.
 </Callout>
 
 ### Retrieving Data
@@ -113,17 +113,15 @@ You can delete a data store from this dashboard as well. On the far right in the
 <Callout type="warning" emoji="⚠">
 If the **Delete** option is greyed out and unclickable, you have workflows using the data store in a step. Click the **>** to the left of the data store's name to expand the linked workflows.
 
-<<<<<<< HEAD
-<div>
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1702248767/docs/Screenshot_2023-12-10_at_2.52.21_PM_tw2qwo.png" width="600px" />
-</div>
-=======
 <br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1702248767/docs/Screenshot_2023-12-10_at_2.52.21_PM_tw2qwo.png" width="600px" />
+<img
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1702248767/docs/Screenshot_2023-12-10_at_2.52.21_PM_tw2qwo.png"
+  width="600px"
+/>
 <br />
->>>>>>> origin/master
 
 Then remove the data store from any linked steps.
+
 </Callout>
 
 ## Using data stores in code steps
@@ -144,15 +142,12 @@ Depending on your plan, Pipedream sets limits on:
 
 You'll find your workspace's limits in the **Data Stores** section of usage dashboard in the bottom-left of [https://pipedream.com](https://pipedream.com).
 
-<<<<<<< HEAD
-<div>
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1702248992/docs/Screenshot_2023-12-10_at_2.56.28_PM_xmwqbq.png" width="300px" />
-</div>
-=======
 <br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1702248992/docs/Screenshot_2023-12-10_at_2.56.28_PM_xmwqbq.png" width="300px" />
+<img
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1702248992/docs/Screenshot_2023-12-10_at_2.56.28_PM_xmwqbq.png"
+  width="300px"
+/>
 <br />
->>>>>>> origin/master
 
 ## Supported data types
 
@@ -180,7 +175,8 @@ In order to stay within the [data store limits](#data-store-limits), you may nee
 The following Node.js example action will export the data in chunks via an HTTP POST request. You may need to adapt the code to your needs. Click on [this link](https://pipedream.com/new?h=tch_egfAMv) to create a copy of the workflow in your workspace.
 
 <Callout type="info" emoji="ℹ️">
-If the data contained in each key is large, consider lowering the number of `chunkSize`.
+  If the data contained in each key is large, consider lowering the number of
+  `chunkSize`.
 </Callout>
 
 - Adjust your [workflow memory and timeout settings](/workflows/settings/) according to the size of the data in your data store. Set the memory at 512 MB and timeout to 60 seconds and adjust higher if needed.
@@ -188,11 +184,13 @@ If the data contained in each key is large, consider lowering the number of `chu
 - Monitor the exports of this step after each execution for any potential errors preventing a full export. Run the step as many times as needed until all your data is exported.
 
 <Callout type="warning" emoji="⚠">
-This action deletes the keys that were successfully exported. It is advisable to first run a test without deleting the keys. In case of any unforeseen errors, your data will still be safe.
+  This action deletes the keys that were successfully exported. It is advisable
+  to first run a test without deleting the keys. In case of any unforeseen
+  errors, your data will still be safe.
 </Callout>
 
 ```javascript
-import { axios } from "@pipedream/platform"
+import { axios } from "@pipedream/platform";
 
 export default defineComponent({
   props: {
@@ -210,28 +208,28 @@ export default defineComponent({
       label: "Delete keys after export",
       description: "Whether the data store keys will be deleted after export",
       default: true,
-    }
+    },
   },
   methods: {
     async *chunkAsyncIterator(asyncIterator, chunkSize) {
-      let chunk = []
+      let chunk = [];
 
       for await (const item of asyncIterator) {
-        chunk.push(item)
+        chunk.push(item);
 
         if (chunk.length === chunkSize) {
-          yield chunk
-          chunk = []
+          yield chunk;
+          chunk = [];
         }
       }
 
       if (chunk.length > 0) {
-        yield chunk
+        yield chunk;
       }
     },
   },
   async run({ steps, $ }) {
-    const iterator = this.chunkAsyncIterator(this.dataStore, this.chunkSize)
+    const iterator = this.chunkAsyncIterator(this.dataStore, this.chunkSize);
     for await (const chunk of iterator) {
       try {
         // export data to external service
@@ -240,19 +238,21 @@ export default defineComponent({
           method: "POST",
           data: chunk,
           // may need to add authentication
-        })
+        });
 
         // delete exported keys and values
         if (this.shouldDeleteKeys) {
-          await Promise.all(chunk.map(([key]) => this.dataStore.delete(key)))
+          await Promise.all(chunk.map(([key]) => this.dataStore.delete(key)));
         }
 
-        console.log(`number of remaining keys: ${(await this.dataStore.keys()).length}`)
+        console.log(
+          `number of remaining keys: ${(await this.dataStore.keys()).length}`
+        );
       } catch (e) {
         // an error occurred, don't delete keys
-        console.log(`error exporting data: ${e}`)
+        console.log(`error exporting data: ${e}`);
       }
     }
   },
-})
+});
 ```

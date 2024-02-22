@@ -14,19 +14,6 @@ pre {
   font-size: calc(1em - 2px) !important;
 }
 
-<<<<<<< HEAD
-@media (prefers-color-scheme: dark) {
-  .DocSearch-Button {
-    --docsearch-highlight-color: hsl(var(--nextra-primary-hue)var(--nextra-primary-saturation)50%/.5);
-    --docsearch-text-color: rgba(241,245,249,var(--tw-text-opacity));
-    --docsearch-muted-color: var(--tw-grayscale);
-    --docsearch-key-gradient: linear-gradient(
-      -26.5deg,
-      0 0%,
-      0 100%
-    );
-  }
-=======
 html.dark .DocSearch-Button {
   --docsearch-highlight-color: hsl(var(--nextra-primary-hue)var(--nextra-primary-saturation)50%/.5);
   --docsearch-text-color: rgba(241,245,249,var(--tw-text-opacity));
@@ -37,7 +24,6 @@ html.dark .DocSearch-Button {
     0 100%
   );
   --docsearch-searchbox-focus-background: black;
->>>>>>> origin/master
 }
 
 .DocSearch input.DocSearch-Input:focus-visible {
