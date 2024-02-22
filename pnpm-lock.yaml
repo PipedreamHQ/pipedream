@@ -449,7 +449,10 @@ importers:
       sqlstring: 2.3.3
 
   components/appointedd:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/arxiv:
     specifiers: {}
@@ -986,6 +989,9 @@ importers:
   components/captaindata:
     specifiers: {}
 
+  components/carbone:
+    specifiers: {}
+
   components/cardly:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1056,6 +1062,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/chatbot_builder:
+    specifiers: {}
 
   components/chatbotic:
     specifiers: {}
@@ -1898,7 +1907,10 @@ importers:
     specifiers: {}
 
   components/dopplerai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/dots_:
     specifiers: {}
@@ -2251,6 +2263,9 @@ importers:
   components/faire:
     specifiers: {}
 
+  components/faraday:
+    specifiers: {}
+
   components/fastfield_mobile_forms:
     specifiers: {}
 
@@ -2456,9 +2471,9 @@ importers:
 
   components/fraudlabs_pro:
     specifiers:
-      fraudlabspro-nodejs: ^2.1.0
+      fraudlabspro-nodejs: ^3.0.0
     dependencies:
-      fraudlabspro-nodejs: 2.2.0
+      fraudlabspro-nodejs: 3.0.0
 
   components/freedcamp:
     specifiers: {}
@@ -2882,10 +2897,10 @@ importers:
 
   components/google_my_business:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.0
       '@pipedream/types': ^0.1.6
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       '@pipedream/types': 0.1.6
 
   components/google_palm_api:
@@ -3234,11 +3249,11 @@ importers:
 
   components/hubspot:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.0
       bottleneck: ^2.19.5
       package: ^1.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       bottleneck: 2.19.5
     devDependencies:
       package: 1.0.1
@@ -3436,7 +3451,10 @@ importers:
       crypto: 1.0.1
 
   components/interzoid:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/intuiface:
     specifiers: {}
@@ -3624,6 +3642,9 @@ importers:
   components/key_app_demo_1:
     specifiers: {}
 
+  components/keysender:
+    specifiers: {}
+
   components/kickbox:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3702,7 +3723,10 @@ importers:
     specifiers: {}
 
   components/knowfirst:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/koala_ai:
     specifiers: {}
@@ -3848,7 +3872,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/linearb:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/linkedin:
     specifiers:
@@ -3891,7 +3918,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/little_green_light:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/liveagent:
     specifiers:
@@ -4157,6 +4187,9 @@ importers:
   components/mav:
     specifiers: {}
 
+  components/mctime:
+    specifiers: {}
+
   components/mediatoolkit:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4374,7 +4407,10 @@ importers:
     specifiers: {}
 
   components/mobygames:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/mocean_api:
     specifiers:
@@ -4480,7 +4516,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/mx_technologies:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/mx_toolbox:
     specifiers: {}
@@ -4673,9 +4712,9 @@ importers:
 
   components/nordigen:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
 
   components/northflank:
     specifiers:
@@ -5375,7 +5414,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.5.1
 
   components/practitest:
     specifiers:
@@ -5478,7 +5517,7 @@ importers:
       '@pipedream/platform': ^1.5.1
       crypto: ^1.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       crypto: 1.0.1
 
   components/productlane:
@@ -5576,7 +5615,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/qualetics:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/quentn:
     specifiers:
@@ -5774,7 +5816,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/reform:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      form-data: 4.0.0
 
   components/regfox:
     specifiers:
@@ -5820,7 +5867,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/reputation_lyncs:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/rescuetime:
     specifiers:
@@ -6394,9 +6444,11 @@ importers:
 
   components/shopify_partner:
     specifiers:
+      '@pipedream/platform': ^1.6.0
       graphql: ^16.8.1
       graphql-request: ^3.7.0
     dependencies:
+      '@pipedream/platform': 1.6.0
       graphql: 16.8.1
       graphql-request: 3.7.0_graphql@16.8.1
 
@@ -6405,6 +6457,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/shopwaive:
+    specifiers: {}
 
   components/short:
     specifiers:
@@ -7111,6 +7166,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/templated:
+    specifiers: {}
+
   components/terminus_app:
     specifiers: {}
 
@@ -7281,6 +7339,9 @@ importers:
       '@pipedream/platform': 0.10.0
       toggl-api: 1.0.2
 
+  components/token_metrics:
+    specifiers: {}
+
   components/tolstoy:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -7309,7 +7370,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/tpscheck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/trackingtime:
     specifiers:
@@ -7381,7 +7445,10 @@ importers:
     specifiers: {}
 
   components/turbot_pipes:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/tutor_lms:
     specifiers: {}
@@ -8088,6 +8155,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/yespo:
+    specifiers: {}
 
   components/yoast_seo:
     specifiers: {}
@@ -19545,8 +19615,8 @@ packages:
     resolution: {integrity: sha512-by7U5W8dkIzcvDofUcO42yl9JbnHTEDBrzu3pt5fKT+Z4Oy85I21K80EYJYdjQGC2qum4Vo55Ag57iiIK4FYuA==}
     dev: false
 
-  /fraudlabspro-nodejs/2.2.0:
-    resolution: {integrity: sha512-MQQp/EIUzM1RKK/0ZnpHHre6OM4gEmbkZBhMBWwQysTcYmf1F3hJk5VDGTwqTDkeV47iS+9F7AilpLeV8auUBw==}
+  /fraudlabspro-nodejs/3.0.0:
+    resolution: {integrity: sha512-f+3gwDWunQoFRiX8/pbegr28qRztGgKrxF0oH7yIZQho0N3/kZjYHn3LelTio++nGoPcDIKkZob/WS1jQuSnHg==}
     dev: false
 
   /from/0.1.7:

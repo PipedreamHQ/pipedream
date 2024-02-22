@@ -1075,4 +1075,8 @@
   "z3c.zcmlhook": "z3c",
   "pyzmq": "zmq",
   "zopyx.textindexng3": "zopyx"
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master
