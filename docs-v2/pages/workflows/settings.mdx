@@ -1,4 +1,4 @@
-import Callout from '@/components/Callout'
+import Callout from "@/components/Callout";
 
 # Settings
 
@@ -8,7 +8,11 @@ You can control workflow-specific settings in your workflow's **Settings**:
 2. Select the _..._ menu at the top-right and click **Settings**:
 
 <br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656632132/docs/2022-06-30_16.35.17_g13fag.gif" alt="Click on the ... menu at the top-right and select Settings" width="300px" />
+<img
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1656632132/docs/2022-06-30_16.35.17_g13fag.gif"
+  alt="Click on the ... menu at the top-right and select Settings"
+  width="300px"
+/>
 <br />
 
 ## Enable Workflow
@@ -21,8 +25,18 @@ By default, you'll receive notifications when your workflow throws an unhandled 
 
 You can disable these notifications for your workflow by disabling the **Notify me on errors** toggle:
 
+<img
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1656631849/docs/Screen_Shot_2022-06-30_at_4.30.44_PM_oauty4.png"
+  width="200px"
+  alt="Notify me on errors toggle"
+/>
+
 <br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656631849/docs/Screen_Shot_2022-06-30_at_4.30.44_PM_oauty4.png" width="200px" alt="Notify me on errors toggle" />
+<img
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1656631849/docs/Screen_Shot_2022-06-30_at_4.30.44_PM_oauty4.png"
+  width="200px"
+  alt="Notify me on errors toggle"
+/>
 <br />
 
 ## Auto-retry Errors
@@ -37,7 +51,10 @@ On error, the step will export a `$summary` property that tells you how many tim
 4. `resume_ts` — An ISO 8601 timestamp that tells you the timestamp of the next retry
 
 <br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1677119396/docs/Screen_Shot_2023-02-22_at_6.29.08_PM_ssnzsi.png" alt="Step exports for failed auto-retry" />
+<img
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1677119396/docs/Screen_Shot_2023-02-22_at_6.29.08_PM_ssnzsi.png"
+  alt="Step exports for failed auto-retry"
+/>
 <br />
 
 If the step execution succeeds during any retry, the execution will proceed to the next step of the workflow.
@@ -74,6 +91,7 @@ Refer to our [pricing page](https://pipedream.com/pricing) to understand the lat
 **Avoid surfacing events in the builder**
 
 Even with data retention disabled on your workflow, the builder will still surface inbound events when in build mode. To avoid surfacing potentially sensitive data here as well, refer to [these docs](/workflows/steps/triggers/#pipedream-specific-request-parameters).
+
 </Callout>
 
 ## Execution Controls
@@ -107,7 +125,10 @@ You can reduce cold starts by configuring a number of dedicated **workers**:
 3. Configure [the appropriate number of workers](#how-many-workers-should-i-configure) for your use case
 
 <br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1686079534/docs/Screenshot_2023-06-06_at_12.24.03_PM_zctp50.png" alt="Warm workers configuration" />
+<img
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1686079534/docs/Screenshot_2023-06-06_at_12.24.03_PM_zctp50.png"
+  alt="Warm workers configuration"
+/>
 <br />
 
 When you configure workers for a specific workflow, Pipedream initializes dedicated workers — virtual machines that run Pipedream's [execution environment](/privacy-and-security/#execution-environment). [It can take a few minutes](#how-long-does-it-take-to-spin-up-a-dedicated-worker) for new dedicated workers to deploy. Once deployed, these workers are available at all times to respond to workflow executions, with no cold starts.
@@ -116,6 +137,7 @@ When you configure workers for a specific workflow, Pipedream initializes dedica
 You may need to configure [multiple dedicated workers](#how-many-workers-should-i-configure) to handle multiple, concurrent requests.
 
 Pipedream also performs some initialization operations on new workflow runs, so you may still observe a small startup time (typically around 50ms per workflow step) on dedicated workers.
+
 </Callout>
 
 ### When should I configure dedicated workers?
@@ -142,10 +164,13 @@ It can take 5-10 minutes for Pipedream to fully configure a new dedicated worker
 
 ### Pricing for dedicated workers
 
-You're charged {process.env.WARM_WORKERS_CREDITS_PER_INTERVAL}} credits for every {process.env.WARM_WORKERS_INTERVAL} a dedicated worker is live, per worker, per {process.env.MEMORY_LIMIT} memory. You can view the credits used by dedicated workers [in your billing settings](https://pipedream.com/settings/billing):
+You're charged {process.env.WARM_WORKERS_CREDITS_PER_INTERVAL} credits for every {process.env.WARM_WORKERS_INTERVAL} a dedicated worker is live, per worker, per {process.env.MEMORY_LIMIT} memory. You can view the credits used by dedicated workers [in your billing settings](https://pipedream.com/settings/billing):
 
 <br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1686015101/docs/Screenshot_2023-06-05_at_6.26.53_PM_stlljl.png" alt="Warm workers credit usage in billing" />
+<img
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1686015101/docs/Screenshot_2023-06-05_at_6.26.53_PM_stlljl.png"
+  alt="Warm workers credit usage in billing"
+/>
 <br />
 
 For example, if you run a single dedicated worker for 24 hours, that would cost 720 credits:
@@ -162,7 +187,10 @@ For example, if you run a single dedicated worker for 24 hours, that would cost 
 Additionally, any change to dedicated worker configuration, (including worklow deploys) will result in an extra {process.env.WARM_WORKERS_CREDITS_PER_INTERVAL} credits of usage.
 
 <br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1686079387/docs/Screenshot_2023-06-06_at_12.23.03_PM_mpsqek.png" alt="Dedicated worker overlap" />
+<img
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1686079387/docs/Screenshot_2023-06-06_at_12.23.03_PM_mpsqek.png"
+  alt="Dedicated worker overlap"
+/>
 <br />
 
 ## Attachments
