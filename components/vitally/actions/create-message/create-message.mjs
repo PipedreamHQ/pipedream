@@ -3,7 +3,7 @@ import vitally from "../../vitally.app.mjs";
 export default {
   key: "vitally-create-message",
   name: "Create Message",
-  version: "0.0.4",
+  version: "0.0.1",
   description: "Create a new message. [See the documentation](https://docs.vitally.io/pushing-data-to-vitally/rest-api/messages#create-a-message-post)",
   type: "action",
   props: {
