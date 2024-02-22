@@ -244,7 +244,7 @@
     },
     {
       "source": "/docs/api/auth",
-      "destination": "/docs/rest-api"
+      "destination": "/docs/rest-api/auth"
     },
     {
       "source": "/docs/components/quickstart/nodejs/actions",
