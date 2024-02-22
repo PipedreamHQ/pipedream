@@ -1,23 +1,21 @@
-import Callout from '@/components/Callout'
+import Callout from "@/components/Callout";
 
 # Projects
 
 A workspace can contain one or more _projects_. Projects are a way to organize your workflows into specific groupings or categories.
-<<<<<<< HEAD
+
 <br />
 <div class="flex justify-center">
-<img width="450px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1674143831/docs/New_Project_5_zep4ii.png" alt="How workspaces are organized" />
+  <img
+    width="450px"
+    src="https://res.cloudinary.com/pipedreamin/image/upload/v1674143831/docs/New_Project_5_zep4ii.png"
+    alt="How workspaces are organized"
+  />
 </div>
 
 ## Getting started with projects
 
 ### Creating projects
-=======
-
-![How workspaces are organized](https://res.cloudinary.com/pipedreamin/image/upload/v1674143831/docs/New_Project_5_zep4ii.png)
-
-### Creating Projects
->>>>>>> origin/master
 
 To create a new project, first [open the Projects section in the dashboard](https://pipedream.com/projects).
 
@@ -27,34 +25,18 @@ Enter in your desired name for the project in the prompt, then click **Create**.
 
 That's it, you now have a dedicated new project created within your workspace. Now you can create workflows within this project, or move workflows into it or create folders for further organization.
 
-<<<<<<< HEAD
-=======
-<Callout type="info" emoji="ℹ️">
-How do I limit workspace members from viewing or developing workflows in certain projects?
-
-Members of a given workspace can see all projects in the workspace.
-
-If you need to limit certain project's visibility to only some members, then those members belong in a different workspace.
-</Callout>
-
->>>>>>> origin/master
 ### Creating folders and workflows in projects
 
 Within a given project, you can create folders for your workflows.
 
 Open your project, and then click the **New** button for a dropdown to create a workflow in your current project.
 
-<<<<<<< HEAD
 <Callout type="info">
-=======
-<Callout type="info" emoji="ℹ️">
->>>>>>> origin/master
 Helpful hotkeys to speed up your development
 
-* `C then F` creates a new folder.
-* `C then W` creates a new workflow.
-</Callout>
-
+- `C then F` creates a new folder.
+- `C then W` creates a new workflow.
+  </Callout>
 
 Folders can also contain sub-folders, which allows you to create a filing system to organize your workflows.
 
@@ -64,18 +46,11 @@ To move workflows into folders, simply drag and drop the workflow into the folde
 
 You can move workflows or folders up a level by dragging and dropping the workflow to the folder icon at the top of the list.
 
-
-<<<<<<< HEAD
 ### Importing workflows into projects
 
 <Callout type="info">
-This only applies to Pipedream accounts that created workflows before the projects feature was released.
-=======
-### Importing workflows into workspaces
-
-<Callout type="info" emoji="ℹ️">
-This only applies to Pipedream accounts that created workflows before the workspaces feature was released.
->>>>>>> origin/master
+  This only applies to Pipedream accounts that created workflows before the
+  projects feature was released.
 </Callout>
 
 To import a workflow from the general **Workflows** area of your dashboard into a project, first open up the specific project you'd like to import the workflow into.
@@ -90,17 +65,13 @@ To move a workflow from one project to another project, first check the workflow
 
 ![How to move workflows from one project to another in the Pipedream dashboard.](https://res.cloudinary.com/pipedreamin/image/upload/v1695662665/docs/docs/projects/CleanShot_2023-09-25_at_13.23.38_2x_dyrtlv.png)
 
-<<<<<<< HEAD
 <Callout type="warning">
-=======
-<Callout type="warning" emoji="⚠">
->>>>>>> origin/master
 Github Sync limitation
 
 At this time it's not possible to move workflows out of GitHub Synchronized Projects.
+
 </Callout>
 
-<<<<<<< HEAD
 ## Access Controls
 
 The [projects list view](https://pipedream.com/projects) contains **Owner** and **Access** columns.
@@ -110,7 +81,8 @@ The [projects list view](https://pipedream.com/projects) contains **Owner** and 
 ![Project Listing (Owner)](./images/project-listing-owner.png)
 
 <Callout type="warning">
-Projects created before February 2024 don't automatically have owners, which has no functional impact.
+  Projects created before February 2024 don't automatically have owners, which
+  has no functional impact.
 </Callout>
 
 **Access** indicates which workspace members have access to each project, and this can be displayed as "me", "Workspace", or "N members".
@@ -118,27 +90,32 @@ Projects created before February 2024 don't automatically have owners, which has
 ![Project Listing (Access)](./images/project-listing-access.png)
 
 ### Permissions
+
 Workspace owners and admins are able to perform all actions in projects, whereas workspace members are restricted from performing certain actions in projects.
 
-| Operation | Project creator | Workspace members |
-| ---  | :---: | :---: |
-| View in [projects listing](https://pipedream.com/projects) | ✅ | ✅ |
-| View in [Event History](https://pipedream.com/event-history) | ✅ | ✅ |
-| View in global search | ✅ | ✅ |
-| Manage project workflows | ✅ | ✅ |
-| Manage project files | ✅ | ✅ |
-| Manage project variables | ✅ | ✅ |
-| Manage member access | ✅ | ❌ |
-| Manage GitHub Sync settings | ✅ | ❌ |
-| Delete project | ✅ | ❌ |
+| Operation                                                    | Project creator | Workspace members |
+| ------------------------------------------------------------ | :-------------: | :---------------: |
+| View in [projects listing](https://pipedream.com/projects)   |       ✅        |        ✅         |
+| View in [Event History](https://pipedream.com/event-history) |       ✅        |        ✅         |
+| View in global search                                        |       ✅        |        ✅         |
+| Manage project workflows                                     |       ✅        |        ✅         |
+| Manage project files                                         |       ✅        |        ✅         |
+| Manage project variables                                     |       ✅        |        ✅         |
+| Manage member access                                         |       ✅        |        ❌         |
+| Manage GitHub Sync settings                                  |       ✅        |        ❌         |
+| Delete project                                               |       ✅        |        ❌         |
 
 <Callout type="info">
-**Workspace admins and owners have the same permissions as project creators for all projects in the workspace.**
+  **Workspace admins and owners have the same permissions as project creators
+  for all projects in the workspace.**
 </Callout>
 
 ### Managing access
+
 <Callout type="info">
-By default, all projects are accessible to all workspace members. Workspaces on the [Business plan](https://pipedream.com/pricing) can restrict access for individual projects to specific workspace members.
+  By default, all projects are accessible to all workspace members. Workspaces
+  on the [Business plan](https://pipedream.com/pricing) can restrict access for
+  individual projects to specific workspace members.
 </Callout>
 
 You can easily modify the access rules for a project directly from the [project list view](https://pipedream.com/projects), either by clicking the access badge in the project row (fig 1) or clicking the 3 dots to open the action menu, then selecting **Manage Access** (fig 2).
@@ -168,15 +145,16 @@ You can always see who has access and remove access if necessary:
 ![Manage access showing members with access](./images/slideout-member-list.png)
 
 ## Project variables and secrets
+
 Environment variables defined at the global workspace level are accessible to all workspace members and workflows within the workspace. To restrict access to sensitive variables or secrets, define them at the project-level and [configure access controls for the project](/projects/#managing-access).
 
 [See here](/environment-variables) for info on creating, managing, and using environment variables and secrets.
 
 <Callout type="info">
-**Project variables override workspace variables**. When the same variable is defined at both the workspace and project levels (for example, `process.env.BASE_DOMAIN`), the **project** variable takes precedence.
+  **Project variables override workspace variables**. When the same variable is
+  defined at both the workspace and project levels (for example,
+  `process.env.BASE_DOMAIN`), the **project** variable takes precedence.
 </Callout>
-=======
->>>>>>> origin/master
 
 ## Frequently Asked Questions
 
@@ -187,10 +165,7 @@ At this time no, but that is on our roadmap. Projects will eventually contain al
 ### Can projects be synchronized to a Github repository?
 
 Yes, [please read here](/projects/git/) for more information on the Github synchronization feature for projects.
-<<<<<<< HEAD
 
 ### Can I configure which members in my workspace have access to individual projects?
 
 Yes! Learn about managing access [here](/projects/#managing-access).
-=======
->>>>>>> origin/master

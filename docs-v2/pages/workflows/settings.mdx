@@ -25,9 +25,11 @@ By default, you'll receive notifications when your workflow throws an unhandled 
 
 You can disable these notifications for your workflow by disabling the **Notify me on errors** toggle:
 
-<<<<<<< HEAD
-
-# <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656631849/docs/Screen_Shot_2022-06-30_at_4.30.44_PM_oauty4.png" width="200px" alt="Notify me on errors toggle" />
+<img
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1656631849/docs/Screen_Shot_2022-06-30_at_4.30.44_PM_oauty4.png"
+  width="200px"
+  alt="Notify me on errors toggle"
+/>
 
 <br />
 <img
@@ -36,7 +38,6 @@ You can disable these notifications for your workflow by disabling the **Notify 
   alt="Notify me on errors toggle"
 />
 <br />
->>>>>>> origin/master
 
 ## Auto-retry Errors
 
@@ -49,22 +50,12 @@ On error, the step will export a `$summary` property that tells you how many tim
 3. `rerun_url` — You can call this URL to proceed with the execution immediately
 4. `resume_ts` — An ISO 8601 timestamp that tells you the timestamp of the next retry
 
-<<<<<<< HEAD
-
-<div>
-  <img
-    src="https://res.cloudinary.com/pipedreamin/image/upload/v1677119396/docs/Screen_Shot_2023-02-22_at_6.29.08_PM_ssnzsi.png"
-    alt="Step exports for failed auto-retry"
-  />
-</div>
-=======
 <br />
 <img
   src="https://res.cloudinary.com/pipedreamin/image/upload/v1677119396/docs/Screen_Shot_2023-02-22_at_6.29.08_PM_ssnzsi.png"
   alt="Step exports for failed auto-retry"
 />
 <br />
->>>>>>> origin/master
 
 If the step execution succeeds during any retry, the execution will proceed to the next step of the workflow.
 
@@ -92,10 +83,6 @@ But if you're processing sensitive data, you may not want to store those logs. Y
 Refer to our [pricing page](https://pipedream.com/pricing) to understand the latest limits based on your plan.
 
 ### Constraints
-
-# <<<<<<< HEAD
-
-> > > > > > > origin/master
 
 - **Data Retention Controls do not apply to sources**: Even with data retention disabled on your workflow, Pipedream will still log inbound events for the source.
 - **No events will be shown in the UI**: When data retention is disabled for your workflow, the Pipedream UI will not show any new events in the inspector or Event History for that workflow.
@@ -195,7 +182,7 @@ For example, if you run a single dedicated worker for 24 hours, that would cost 
 = 720 credits
 ```
 
-{process.env.WARM*WORKERS_INTERVAL} is the \_minimum* interval that Pipedream charges for usage. If you have a dedicated worker live for 1 minute, Pipedream will still charge {process.env.WARM_WORKERS_CREDITS_PER_INTERVAL} credits.
+{process.env.WARM\*WORKERS*INTERVAL} is the \_minimum* interval that Pipedream charges for usage. If you have a dedicated worker live for 1 minute, Pipedream will still charge {process.env.WARM_WORKERS_CREDITS_PER_INTERVAL} credits.
 
 Additionally, any change to dedicated worker configuration, (including worklow deploys) will result in an extra {process.env.WARM_WORKERS_CREDITS_PER_INTERVAL} credits of usage.
 
