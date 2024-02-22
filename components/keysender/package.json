@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/keysender",
+  "version": "0.0.1",
+  "description": "Pipedream Keysender Components",
+  "main": "keysender.app.mjs",
+  "keywords": [
+    "pipedream",
+    "keysender"
+  ],
+  "homepage": "https://pipedream.com/apps/keysender",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
