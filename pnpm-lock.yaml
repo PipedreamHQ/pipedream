@@ -4805,9 +4805,11 @@ importers:
 
   components/omnivore:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.0
+      uuid: ^9.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
+      uuid: 9.0.1
 
   components/oncehub:
     specifiers:

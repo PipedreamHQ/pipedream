@@ -3,11 +3,11 @@ import url from "../../common/queries/url.mjs";
 import { v4 as uuidv4 } from "uuid";
 
 export default {
-  key: "omnivore-save-url",
-  name: "Save URL",
-  description: "Save a URL to Omnivore. [See the documentation](https://github.com/omnivore-app/omnivore/blob/main/packages/api/src/schema.ts#L2590)",
+  key: "omnivore-save-page",
+  name: "Save Page",
+  description: "Save a page with supplied HTML content. [See the documentation](https://docs.omnivore.app/integrations/api.html#commonly-used-methods)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.1",
   props: {
     app,
     url: {
@@ -21,6 +21,7 @@ export default {
         app,
         "source",
       ],
+      description: "The source of the page.",
     },
     clientRequestId: {
       propDefinition: [
@@ -33,18 +34,31 @@ export default {
         app,
         "state",
       ],
+      description: "The state of the page.",
     },
     locale: {
       propDefinition: [
         app,
         "locale",
       ],
+      description: "The locale of the page.",
+    },
+    originalContent: {
+      type: "string",
+      label: "Original Content",
+      description: "The HTML content to save.",
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the page.",
+      optional: true,
     },
   },
   methods: {
-    saveUrl(variables = {}) {
+    savePage(variables = {}) {
       return this.app.makeRequest({
-        query: url.mutations.saveUrl,
+        query: url.mutations.savePage,
         variables,
       });
     },
@@ -53,13 +67,13 @@ export default {
     const {
       // eslint-disable-next-line no-unused-vars
       app,
-      saveUrl,
+      savePage,
       clientRequestId,
       ...input
     } = this;
 
-    const { saveUrl: response } =
-      await saveUrl({
+    const { savePage: response } =
+      await savePage({
         input: {
           ...input,
           clientRequestId: clientRequestId ?? uuidv4(),
@@ -70,7 +84,7 @@ export default {
       throw new Error(JSON.stringify(response, null, 2));
     }
 
-    step.export("$summary", `Successfully saved URL with clientRequestId \`${response.clientRequestId}\``);
+    step.export("$summary", `Successfully saved page with clientRequestId \`${response.clientRequestId}\``);
 
     return response;
   },
