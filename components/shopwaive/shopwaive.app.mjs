@@ -21,64 +21,46 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://app.shopwaive.com/api/customer";
+      return "https://app.shopwaive.com/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...args
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        ...args,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          "X-Shopwaive-Access-Token": this.$auth.api_key,
+          "X-Shopwaive-Access-Token": this.$auth.access_token,
           "X-Shopwaive-Platform": this.$auth.platform,
           "Content-Type": "application/json",
         },
-        data,
-        params,
       });
     },
-    async fetchCustomerBalance({ customerId }) {
+    async fetchCustomerBalance({
+      customerEmail, ...args
+    }) {
       return this._makeRequest({
         method: "GET",
-        path: `/${customerId}`,
+        url: `customer/${customerEmail}`,
+        ...args,
       });
     },
-    async increaseCustomerBalance({
-      customerId, balanceIncrement,
-    }) {
+    async increaseCustomerBalance(args) {
       return this._makeRequest({
         method: "PUT",
-        data: {
-          customer_id: customerId,
-          amount: balanceIncrement,
-          note: "Balance increment via API",
-        },
+        url: "/customer",
+        ...args,
       });
     },
-    async updateCustomerBalance({
-      customerId, newBalance,
-    }) {
+    async updateCustomerBalance(args) {
       return this._makeRequest({
         method: "POST",
-        data: {
-          customer_id: customerId,
-          balance: newBalance,
-          note: "Balance update via API",
-        },
+        url: "/customer",
+        ...args,
       });
     },
   },
