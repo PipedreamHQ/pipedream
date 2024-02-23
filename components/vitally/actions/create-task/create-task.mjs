@@ -3,7 +3,7 @@ import vitally from "../../vitally.app.mjs";
 export default {
   key: "vitally-create-task",
   name: "Create Task",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Create a new task. [See the documentation](https://docs.vitally.io/pushing-data-to-vitally/rest-api/tasks#create-a-task-post)",
   type: "action",
   props: {
