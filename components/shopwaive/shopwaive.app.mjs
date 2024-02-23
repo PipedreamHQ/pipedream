@@ -9,10 +9,15 @@ export default {
       label: "Customer Email",
       description: "The email address of the customer",
     },
-    balanceIncrement: {
+    amount: {
       type: "integer",
-      label: "Balance Increment",
-      description: "The value to increment the customer's balance by",
+      label: "Increment Amount",
+      description: "Value to increment (add or subtract) to the customer's available balance",
+    },
+    note: {
+      type: "string",
+      label: "Note",
+      description: "Description of the transaction",
     },
     newBalance: {
       type: "integer",
