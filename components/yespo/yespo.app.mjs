@@ -1,110 +1,143 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "yespo",
   propDefinitions: {
-    segment: {
+    contactId: {
       type: "string",
-      label: "Segment",
-      description: "The name of the segment.",
-      async options() {
-        const response = await this.getSegments();
-        return response.map((segment) => ({
-          label: segment.name,
-          value: segment.id,
+      label: "Contact Id",
+      description: "The Id of the contact.",
+      async options({ page }) {
+        const data = await this.listContacts({
+          params: {
+            page,
+          },
+        });
+
+        return data.map(({
+          id: value, firstName, lastName,
+        }) => ({
+          label: `${firstName} ${lastName}`,
+          value,
         }));
       },
     },
-    channels: {
-      type: "string[]",
-      label: "Channels",
-      description: "Channels for the contact",
-    },
-    eventtypekey: {
+    segmentId: {
       type: "string",
-      label: "Event Type Key",
-      description: "The event type key.",
-    },
-    recipientEmail: {
-      type: "string",
-      label: "Recipient's Email Address",
-      description: "The email address of the message recipient.",
-    },
-    messageSubject: {
-      type: "string",
-      label: "Message Subject",
-      description: "The subject of the message.",
-    },
-    messageBody: {
-      type: "string",
-      label: "Message Body",
-      description: "The body of the message.",
+      label: "Segment Id",
+      description: "The id of the segment.",
+      async options() {
+        const response = await this.getSegments();
+
+        return response
+          .filter((item) => item.type === "Static")
+          .map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.yespo.io/api/";
+      return "https://yespo.io/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
+    _headers() {
+      return {
+        "Content-Type": "application/json; charset=UTF-8",
+      };
+    },
+    _auth() {
+      return {
+        username: "x",
+        password: `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      const config = {
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-      });
+        headers: this._headers(),
+        auth: this._auth(),
+        ...opts,
+      };
+
+      return axios($, config);
     },
-    async getSegments() {
+    listContacts(opts = {}) {
       return this._makeRequest({
-        path: "segments",
+        path: "/contacts",
+        ...opts,
       });
     },
-    async addOrUpdateContact({
-      channels, ...opts
+    listContactsFromSegment({
+      segmentId, ...opts
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: "contact",
-        data: {
-          channels: channels.map((channel) => JSON.parse(channel)),
-          ...opts,
-        },
+        path: `/group/${segmentId}/contacts`,
+        ...opts,
       });
     },
-    async sendEmail({
-      recipientEmail, messageSubject, messageBody, ...opts
-    }) {
+    getSegments() {
       return this._makeRequest({
-        method: "POST",
-        path: "message/email",
-        data: {
-          emails: [
-            recipientEmail,
-          ],
-          subject: messageSubject,
-          htmlText: messageBody,
-          ...opts,
-        },
+        path: "/groups",
       });
     },
-    async registerEvent({
-      eventtypekey, ...opts
-    }) {
+    addOrUpdateContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "event",
-        data: {
-          eventTypeKey: eventtypekey,
-          ...opts,
-        },
+        path: "/contact",
+        ...opts,
       });
+    },
+    sendEmail(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/message/email",
+        ...opts,
+      });
+    },
+    registerEvent(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/event",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        if (page) {
+          params.startindex = (LIMIT * page) + 1;
+        }
+        params.maxrows = LIMIT;
+        page++;
+
+        const data = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

@@ -1,49 +1,136 @@
+import { parseObject } from "../../common/utils.mjs";
 import yespo from "../../yespo.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "yespo-add-update-contact",
   name: "Add or Update Contact",
   description: "Adds a new contact or updates an existing one. [See the documentation](https://docs.yespo.io/reference/addcontact-1)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     yespo,
-    channels: yespo.propDefinitions.channels,
-    segment: {
-      ...yespo.propDefinitions.segment,
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "Contact's first name.",
       optional: true,
     },
-    eventtypekey: {
-      ...yespo.propDefinitions.eventtypekey,
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Contact's last name.",
       optional: true,
     },
-    recipientEmail: {
-      ...yespo.propDefinitions.recipientEmail,
+    channels: {
+      type: "string[]",
+      label: "Channels",
+      description: "Channels for the contact. [See the documentation to further information](https://docs.yespo.io/reference/addcontact-1)",
+    },
+    addressRegion: {
+      type: "string",
+      label: "Region",
+      description: "The address region.",
       optional: true,
     },
-    messageSubject: {
-      ...yespo.propDefinitions.messageSubject,
+    addressTown: {
+      type: "string",
+      label: "Town",
+      description: "The address city.",
       optional: true,
     },
-    messageBody: {
-      ...yespo.propDefinitions.messageBody,
+    address: {
+      type: "string",
+      label: "Address",
+      description: "The address line.",
+      optional: true,
+    },
+    addressPostcode: {
+      type: "string",
+      label: "Postcode",
+      description: "Postal/ZIP code.",
+      optional: true,
+    },
+    additionalFields: {
+      type: "object",
+      label: "Additional Fields",
+      description: "Values of the additional fields for a contact. Keys are additional field ID.",
+      optional: true,
+    },
+    addressBookId: {
+      type: "string",
+      label: "Address Book Id",
+      description: "The address book unique identifier.",
+      optional: true,
+    },
+    contactId: {
+      propDefinition: [
+        yespo,
+        "contactId",
+      ],
+      optional: true,
+    },
+    externalCustomerId: {
+      type: "string",
+      label: "External Customer Id",
+      description: "External contact id.",
+      optional: true,
+    },
+    contactKey: {
+      type: "string",
+      label: "Contact Key",
+      description: "Contact's key.",
+      optional: true,
+    },
+    languageCode: {
+      type: "string",
+      label: "Language Code",
+      description: "Language code for the contact.",
+      optional: true,
+    },
+    timeZone: {
+      type: "string",
+      label: "TimeZone",
+      description: "The contact's time zone. See [TZ database name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).",
       optional: true,
     },
   },
   async run({ $ }) {
+    const fields = [];
+    if (this.additionalFields) {
+      for (const [
+        key,
+        value,
+      ] of Object.entries(this.additionalFields)) {
+        fields.push({
+          [key]: value,
+        });
+      }
+    }
+
     const data = {
-      channels: this.channels.map(JSON.parse),
+      firstName: this.firstName,
+      lastName: this.lastName,
+      channels: this.channels && parseObject(this.channels),
+      address: {
+        region: this.addressRegion,
+        town: this.addressTown,
+        address: this.address,
+        postcode: this.addressPostcode,
+      },
+      addressBookId: this.addressBookId,
+      contactId: this.contactId,
+      externalCustomerId: this.externalCustomerId,
+      contactKey: this.contactKey,
+      languageCode: this.languageCode,
+      timeZone: this.timeZone,
+      fields,
     };
 
-    if (this.segment) data.segment = this.segment;
-    if (this.eventtypekey) data.eventtypekey = this.eventtypekey;
-    if (this.recipientEmail) data.recipientEmail = this.recipientEmail;
-    if (this.messageSubject) data.messageSubject = this.messageSubject;
-    if (this.messageBody) data.messageBody = this.messageBody;
-
-    const response = await this.yespo.addOrUpdateContact(data);
-    $.export("$summary", "Successfully added or updated the contact");
+    const response = await this.yespo.addOrUpdateContact({
+      $,
+      data,
+    });
+    $.export("$summary", `Successfully added or updated the contact with Id: ${response.id}`);
     return response;
   },
 };
