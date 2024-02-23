@@ -88,11 +88,23 @@ export default {
       return date.getTime() - minutes * 60000;
     },
     async getCalendarEvents() {
-      const { data: { items } } = await this.googleCalendar.getEvents({
+      const calendarEvents = [];
+      const params = {
         calendarId: this.calendarId,
         eventTypes: this.eventTypes,
-      });
-      return items || [];
+      };
+      do {
+        const {
+          data: {
+            items, nextPageToken,
+          },
+        } = await this.googleCalendar.getEvents(params);
+        if (items?.length) {
+          calendarEvents.push(...items);
+        }
+        params.pageToken = nextPageToken;
+      } while (params.pageToken);
+      return calendarEvents;
     },
   },
   async run(event) {
