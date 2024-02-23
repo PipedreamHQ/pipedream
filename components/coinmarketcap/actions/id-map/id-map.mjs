@@ -1,18 +1,15 @@
 // legacy_hash_id: a_LgijYE
-import { axios } from "@pipedream/platform";
+import coinmarketcap from "../../coinmarketcap.app.mjs";
 
 export default {
   key: "coinmarketcap-id-map",
-  name: "CoinMarketCap ID Map",
-  description: "Returns a mapping of all cryptocurrencies to unique CoinMarketCap ids. https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap",
-  version: "0.1.1",
+  name: "Get ID Map (V1)",
+  description: "Returns a mapping of all cryptocurrencies to unique CoinMarketCap ids. [See the documentation](https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap)",
+  version: "0.1.2",
   type: "action",
   props: {
-    coinmarketcap: {
-      type: "app",
-      app: "coinmarketcap",
-    },
-    listing_status: {
+    coinmarketcap,
+    listingStatus: {
       type: "string",
       description: "Only active cryptocurrencies are returned by default. Pass inactive to get a list of cryptocurrencies that are no longer active. Pass untracked to get a list of cryptocurrencies that are listed but do not yet meet methodology requirements to have tracked markets available. You may pass one or more comma-separated values.",
       optional: true,
@@ -47,29 +44,35 @@ export default {
       optional: true,
     },
     aux: {
-      type: "string",
-      description: "Optionally specify a comma-separated list of supplemental data fields to return. Pass platform,first_historical_data,last_historical_data,is_active,status to include all auxiliary fields.",
-      optional: true,
+      propDefinition: [
+        coinmarketcap,
+        "aux",
+      ],
+      options: [
+        "platform",
+        "first_historical_data",
+        "last_historical_data",
+        "is_active",
+        "status",
+      ],
     },
   },
   async run({ $ }) {
-    const limit = (typeof this.limit === "undefined")
-      ? 100
-      : this.limit;
+    const limit = this.limit ?? 100;
 
-    return await axios($, {
-      url: `https://${this.coinmarketcap.$auth.environment}-api.coinmarketcap.com/v1/cryptocurrency/map`,
-      headers: {
-        "X-CMC_PRO_API_KEY": `${this.coinmarketcap.$auth.api_key}`,
-      },
+    const response = await this.coinmarketcap._makeRequest({
+      $,
+      url: "/v1/cryptocurrency/map",
       params: {
-        listing_status: this.listing_status,
+        listing_status: this.listingStatus,
         start: this.start,
         limit,
         sort: this.sort,
         symbol: this.symbol,
-        aux: this.aux,
+        aux: this.aux?.join?.(),
       },
     });
+    $.export("$summary", "Successfully retrieved ID map");
+    return response;
   },
 };
