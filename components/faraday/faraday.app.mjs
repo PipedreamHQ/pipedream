@@ -4,50 +4,52 @@ export default {
   type: "app",
   app: "faraday",
   propDefinitions: {
-    personData: {
-      type: "object",
-      label: "Person's Data",
-      description: "The data of the person for whom prediction is to be generated",
-      optional: false,
-    },
-    apiKey: {
+    targetId: {
       type: "string",
-      label: "API Key",
-      description: "The API Key for Faraday",
-      optional: false,
-      secret: true,
+      label: "Target ID",
+      description: "The ID of the target to use for the prediction",
+      async options() {
+        const targets = await this.listTargets();
+        return targets?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.faraday.io";
+      return "https://api.faraday.ai/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.apiKey}`,
+          "Authorization": `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async generatePrediction(personData) {
+    listTargets(opts = {}) {
+      return this._makeRequest({
+        path: "/targets",
+        ...opts,
+      });
+    },
+    generatePrediction({
+      targetId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/v3/predictions",
-        data: personData,
+        path: `/targets/${targetId}/lookup`,
+        ...opts,
       });
     },
   },
