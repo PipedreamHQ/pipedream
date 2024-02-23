@@ -1,27 +1,26 @@
-import chatfai from "../../chatfai.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../chatfai.app.mjs";
 
 export default {
-  key: "chaftai-get-public-character-by-id",
+  key: "chatfai-get-character",
   name: "Get Public Character by ID",
-  description: "Get a public character by ID from ChatFAI. [See the documentation](https://chatfai.com/developers/docs#tag/characters/paths/~1characters~1{id}/get)",
-  version: "0.0.{{ts}}",
+  description: "Gets a public character by ID from ChatFAI. [See the documentation](https://chatfai.com/developers/docs#tag/characters/paths/~1characters~1{id}/get)",
+  version: "0.0.1",
   type: "action",
   props: {
-    chatfai,
+    app,
     characterId: {
       propDefinition: [
-        chatfai,
+        app,
         "characterId",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.chatfai.getPublicCharacterById({
-      characterId: this.characterId,
+    const response = await this.app.getCharacter({
+      $,
+      id: this.characterId,
     });
-
-    $.export("$summary", `Successfully retrieved character with ID ${this.characterId}`);
+    $.export("$summary", `Successfully retrieved the character with ID ${this.characterId}`);
     return response;
   },
 };

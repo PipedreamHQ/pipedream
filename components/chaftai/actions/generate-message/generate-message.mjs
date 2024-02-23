@@ -1,34 +1,60 @@
-import chatfai from "../../chatfai.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../chatfai.app.mjs";
 
 export default {
-  key: "chaftai-generate-message-reply",
+  key: "chatfai-generate-message",
   name: "Generate Message Reply",
-  description: "Generates a message reply using a specified character. [See the documentation](https://chatfai.com/developers/docs#tag/chat/paths/~1chat/post)",
-  version: "0.0.{{ts}}",
+  description: "Generates a message reply using a ChatFAI character. [See the documentation](https://chatfai.com/developers/docs#tag/Chat/paths/~1chat/post)",
+  version: "0.0.1",
   type: "action",
   props: {
-    chatfai,
+    app,
     characterId: {
       propDefinition: [
-        chatfai,
+        app,
         "characterId",
       ],
     },
-    conversation: {
+    content: {
       propDefinition: [
-        chatfai,
-        "conversation",
+        app,
+        "content",
+      ],
+    },
+    name: {
+      propDefinition: [
+        app,
+        "name",
+      ],
+    },
+    bio: {
+      propDefinition: [
+        app,
+        "bio",
+      ],
+    },
+    useInternalOptimizations: {
+      propDefinition: [
+        app,
+        "useInternalOptimizations",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.chatfai.generateMessageReply({
-      characterId: this.characterId,
-      conversation: this.conversation.map(JSON.parse),
+    const response = await this.app.generateMessage({
+      $,
+      data: {
+        character_id: this.characterId,
+        conversation: [
+          {
+            content: this.content,
+          },
+        ],
+        name: this.name,
+        bio: this.bio,
+        use_internal_optimizations: this.useInternalOptimizations,
+      },
     });
-
-    $.export("$summary", "Generated message reply successfully");
+    $.export("$summary", "Generated a message reply successfully");
     return response;
   },
 };

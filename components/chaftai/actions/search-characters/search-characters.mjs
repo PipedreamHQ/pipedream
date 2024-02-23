@@ -1,26 +1,27 @@
-import chatfai from "../../chatfai.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../chatfai.app.mjs";
 
 export default {
   key: "chatfai-search-characters",
   name: "Search Public Characters",
   description: "Search for public characters on ChatFAI. [See the documentation](https://chatfai.com/developers/docs#tag/characters/paths/~1characters~1search/get)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    chatfai,
+    app,
     searchQuery: {
       propDefinition: [
-        chatfai,
+        app,
         "searchQuery",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.chaftai.searchPublicCharacters({
-      searchQuery: this.searchQuery,
+    const response = await this.app.searchCharacters({
+      $,
+      params: {
+        q: this.searchQuery,
+      },
     });
-
     $.export("$summary", `Successfully searched for public characters with query: ${this.searchQuery}`);
     return response;
   },
