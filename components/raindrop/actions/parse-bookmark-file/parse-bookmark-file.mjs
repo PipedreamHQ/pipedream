@@ -1,6 +1,6 @@
 import raindrop from "../../raindrop.app.mjs";
 import fs from "fs";
-import got from "got@13.0.0";
+import got from "got";
 import stream from "stream";
 import { promisify } from "util";
 import FormData from "form-data";
