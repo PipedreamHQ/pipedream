@@ -19,6 +19,7 @@ export default {
         shopwaive,
         "amount",
       ],
+      label: "New Balance",
       description: "Value to assign to the customer's available balance",
     },
     note: {
