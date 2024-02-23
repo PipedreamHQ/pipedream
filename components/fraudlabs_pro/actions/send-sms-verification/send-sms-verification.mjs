@@ -56,7 +56,7 @@ export default {
       otp_timeout: otpTimeout ?? "",
     });
 
-    if ('error' in response) {
+    if ("error" in response) {
       throw new Error(`Fraudlabs Pro response: error code ${response.error.error_code} - ${response.error.error_message}`);
     } else {
       $.export("$summary", "Successfully sent SMS verification");

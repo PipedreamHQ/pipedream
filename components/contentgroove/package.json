@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/contentgroove",
+  "version": "0.0.1",
+  "description": "Pipedream ContentGroove Components",
+  "main": "contentgroove.app.mjs",
+  "keywords": [
+    "pipedream",
+    "contentgroove"
+  ],
+  "homepage": "https://pipedream.com/apps/contentgroove",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

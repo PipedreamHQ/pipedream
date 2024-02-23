@@ -38,7 +38,7 @@ export default {
       format: format ?? "json",
       otp,
     });
-    if ('error' in response) {
+    if ("error" in response) {
       throw new Error(`Fraudlabs Pro response: error code ${response.error.error_code} - ${response.error.error_message}`);
     } else {
       $.export("$summary", "Successfully verified the OTP");

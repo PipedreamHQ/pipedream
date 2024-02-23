@@ -15,8 +15,24 @@ const saveUrl = gql`
   }
 `;
 
+const savePage = gql`
+  mutation savePage($input: SavePageInput!) {
+    savePage(input: $input) {
+      ... on SaveSuccess {
+        url
+        clientRequestId
+      }
+      ... on SaveError {
+        errorCodes
+        message
+      }
+    }
+  }
+`;
+
 export default {
   mutations: {
+    savePage,
     saveUrl,
   },
 };

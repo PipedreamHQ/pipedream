@@ -66,7 +66,7 @@ jobs:
         for f in ${{ steps.changed_files.outputs.all }}
         do
           ext="${f##*.}"
-          if [ $ext = "md" ]
+          if [ $ext = "md" ] || [ $ext = "mdx" ]
           then
             files="${f} ${files}"
           fi
