@@ -1013,6 +1013,9 @@ importers:
   components/caspio:
     specifiers: {}
 
+  components/castmagic:
+    specifiers: {}
+
   components/cdc_national_environmental_public_health_tracking:
     specifiers: {}
 
@@ -1395,6 +1398,9 @@ importers:
   components/commercehq:
     specifiers: {}
 
+  components/commpeak:
+    specifiers: {}
+
   components/companycam:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -1434,6 +1440,9 @@ importers:
       lodash: 4.17.21
 
   components/content_snare:
+    specifiers: {}
+
+  components/contentgroove:
     specifiers: {}
 
   components/convenia:
@@ -2401,6 +2410,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/fluxguard:
+    specifiers: {}
+
   components/focuster:
     specifiers: {}
 
@@ -3028,6 +3040,9 @@ importers:
   components/govee:
     specifiers: {}
 
+  components/gpt_trainer:
+    specifiers: {}
+
   components/grab_your_reviews:
     specifiers: {}
 
@@ -3120,6 +3135,9 @@ importers:
       moment: 2.29.4
 
   components/heartbeat:
+    specifiers: {}
+
+  components/heedjy:
     specifiers: {}
 
   components/helcim:
@@ -4788,6 +4806,9 @@ importers:
   components/nusii_proposals:
     specifiers: {}
 
+  components/nutshell:
+    specifiers: {}
+
   components/oauth_app_demo:
     specifiers: {}
 
@@ -5959,6 +5980,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/reviewflowz:
+    specifiers: {}
+
   components/reviews_io:
     specifiers: {}
 
@@ -6772,6 +6796,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/spoke_phone:
+    specifiers: {}
+
   components/spondyr:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -7255,6 +7282,9 @@ importers:
       '@pipedream/platform': 1.5.1
       dayjs: 1.11.10
 
+  components/thoughtful_gpt:
+    specifiers: {}
+
   components/threads:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -7672,6 +7702,9 @@ importers:
   components/utradea:
     specifiers: {}
 
+  components/vapi:
+    specifiers: {}
+
   components/vbout:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -7973,6 +8006,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/winston_ai:
+    specifiers: {}
 
   components/wire2air:
     specifiers: {}
@@ -8293,6 +8329,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zixflow:
+    specifiers: {}
 
   components/zoho_analytics:
     specifiers: {}
