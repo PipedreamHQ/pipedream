@@ -59,7 +59,6 @@ const config: DocsThemeConfig = {
   },
   search: {
     component: DocSearch,
-    // component: Docsearch,
   },
 };
 

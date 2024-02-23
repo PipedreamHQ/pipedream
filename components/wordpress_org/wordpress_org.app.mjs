@@ -61,7 +61,7 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "  The email address for the user",
+      description: "The email address for the user",
     },
     url: {
       type: "string",
@@ -150,6 +150,25 @@ export default {
         }));
       },
     },
+    media: {
+      type: "string",
+      label: "Featured Media",
+      description: "Identifier of an uploaded media item",
+      optional: true,
+      async options({ page }) {
+        const media = await this.listMedia(page + 1);
+        return media.map((item) => ({
+          label: item?.title?.rendered || item.id,
+          value: item.id,
+        }));
+      },
+    },
+    meta: {
+      type: "object",
+      label: "Meta",
+      description: "Metafields for the post. Note: Metafield keys must be registered in your Wordpress instance.",
+      optional: true,
+    },
   },
   methods: {
     async getClient() {
@@ -231,6 +250,17 @@ export default {
     async createUser(params) {
       const wp = await this.getClient();
       return wp.users().create(params);
+    },
+    async createMedia(file, params) {
+      const wp = await this.getClient();
+      return wp.media()
+        .file(file)
+        .create(params);
+    },
+    async listMedia(page) {
+      const wp = await this.getClient();
+      return wp.media().perPage(PER_PAGE)
+        .page(page);
     },
   },
 };

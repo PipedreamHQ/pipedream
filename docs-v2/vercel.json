@@ -23,6 +23,10 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "destination": "/docs/"
+    },
+    {
       "source": "/docs-v2",
       "destination": "/docs/"
     },
