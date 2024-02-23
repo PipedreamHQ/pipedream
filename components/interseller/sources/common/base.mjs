@@ -23,7 +23,7 @@ export default {
       return {
         id: event.id,
         summary: this.getSummary(event),
-        ts: Date.parse(dateField),
+        ts: Date.parse(event[dateField]),
       };
     },
     getParams() {
