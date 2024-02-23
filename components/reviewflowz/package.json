@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/reviewflowz",
+  "version": "0.0.1",
+  "description": "Pipedream Reviewflowz Components",
+  "main": "reviewflowz.app.mjs",
+  "keywords": [
+    "pipedream",
+    "reviewflowz"
+  ],
+  "homepage": "https://pipedream.com/apps/reviewflowz",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
