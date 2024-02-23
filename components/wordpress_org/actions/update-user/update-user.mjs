@@ -5,7 +5,7 @@ export default {
   key: "wordpress_org-update-user",
   name: "Update User",
   description: "Updates the information of a user. [See the documentation](https://developer.wordpress.org/rest-api/reference/users/#update-a-user-2)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     wordpress,

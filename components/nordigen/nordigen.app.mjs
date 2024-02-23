@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     _getHost() {
-      return "https://ob.nordigen.com/api/v2";
+      return "https://bankaccountdata.gocardless.com/api/v2";
     },
     _getHeaders() {
       return {
