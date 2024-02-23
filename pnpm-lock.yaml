@@ -74,6 +74,9 @@ importers:
   components/_46elks:
     specifiers: {}
 
+  components/_46elks:
+    specifiers: {}
+
   components/_twocaptcha:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7940,7 +7943,10 @@ importers:
     specifiers: {}
 
   components/whatsable:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/whatsapp_business:
     specifiers:
