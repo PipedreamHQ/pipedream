@@ -7666,8 +7666,12 @@ importers:
   components/urlbox_io:
     specifiers:
       '@pipedream/platform': ^1.4.1
+      crypto-js: ^4.2.0
+      qs: ^6.11.2
     dependencies:
       '@pipedream/platform': 1.5.1
+      crypto-js: 4.2.0
+      qs: 6.11.2
 
   components/uscreen:
     specifiers:
@@ -17783,6 +17787,10 @@ packages:
 
   /crypto-js/4.1.1:
     resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
+
+  /crypto-js/4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
     dev: false
 
   /crypto-random-string/1.0.0:
