@@ -5703,8 +5703,16 @@ importers:
   components/raindrop:
     specifiers:
       '@pipedream/platform': ^1.2.0
+      form-data: ^4.0.0
+      got: ^13.0.0
+      stream: ^0.0.2
+      util: ^0.12.5
     dependencies:
       '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
+      got: 13.0.0
+      stream: 0.0.2
+      util: 0.12.5
 
   components/raisely:
     specifiers:
@@ -20391,11 +20399,11 @@ packages:
       '@sindresorhus/is': 5.6.0
       '@szmarczak/http-timer': 5.0.1
       cacheable-lookup: 7.0.0
-      cacheable-request: 10.2.13
+      cacheable-request: 10.2.14
       decompress-response: 6.0.0
       form-data-encoder: 2.1.4
       get-stream: 6.0.1
-      http2-wrapper: 2.2.0
+      http2-wrapper: 2.2.1
       lowercase-keys: 3.0.0
       p-cancelable: 3.0.0
       responselike: 3.0.0
