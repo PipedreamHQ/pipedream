@@ -4,10 +4,10 @@ export default {
   type: "app",
   app: "shopwaive",
   propDefinitions: {
-    customerId: {
+    customerEmail: {
       type: "string",
-      label: "Customer ID",
-      description: "The unique identifier of the customer",
+      label: "Customer Email",
+      description: "The email address of the customer",
     },
     balanceIncrement: {
       type: "integer",
