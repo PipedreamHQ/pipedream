@@ -3,7 +3,7 @@ import vitally from "../../vitally.app.mjs";
 export default {
   key: "vitally-create-note",
   name: "Create Note",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Create a new note. [See the documentation](https://docs.vitally.io/pushing-data-to-vitally/rest-api/notes#create-a-note-post)",
   type: "action",
   props: {

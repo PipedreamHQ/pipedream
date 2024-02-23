@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/winston_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Winston AI Components",
+  "main": "winston_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "winston_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/winston_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

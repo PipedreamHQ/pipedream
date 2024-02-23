@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/commpeak",
+  "version": "0.0.1",
+  "description": "Pipedream CommPeak Components",
+  "main": "commpeak.app.mjs",
+  "keywords": [
+    "pipedream",
+    "commpeak"
+  ],
+  "homepage": "https://pipedream.com/apps/commpeak",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
