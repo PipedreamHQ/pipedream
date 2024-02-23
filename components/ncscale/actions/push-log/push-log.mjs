@@ -1,5 +1,4 @@
 import ncscale from "../../ncscale.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ncscale-push-log",
@@ -9,27 +8,67 @@ export default {
   type: "action",
   props: {
     ncscale,
-    message: ncscale.propDefinitions.message,
-    timestamp: {
-      ...ncscale.propDefinitions.timestamp,
-      label: "Timestamp as createdAt",
+    message: {
+      type: "string",
+      label: "Log Message",
+      description: "The details of the log entry.",
     },
-    severity: ncscale.propDefinitions.severity,
+    createdAt: {
+      type: "integer",
+      label: "Created At",
+      description: "The timestamp when the log was created. Format: Timestamp UTC",
+    },
+    severity: {
+      type: "string",
+      label: "Severity",
+      description: "The type of log event.",
+      options: [
+        {
+          label: "Verbose",
+          value: "verbose",
+        },
+        {
+          label: "Info",
+          value: "info",
+        },
+        {
+          label: "Warning",
+          value: "warning",
+        },
+        {
+          label: "Error",
+          value: "error",
+        },
+        {
+          label: "Critical",
+          value: "critical",
+        },
+      ],
+    },
     eventName: {
-      ...ncscale.propDefinitions.eventName,
-      name: "event_name",
+      type: "string",
+      label: "Event Name",
+      description: "The name of the event.",
     },
-    extra: ncscale.propDefinitions.extra,
+    extra: {
+      type: "object",
+      label: "Extra Information",
+      description: "An object with further information. Keys must follow specific format rules.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.ncscale.pushLog({
-      message: this.message,
-      timestamp: this.timestamp,
-      severity: this.severity,
-      eventName: this.eventName,
-      extra: this.extra,
+      $,
+      data: {
+        createdAt: this.createdAt,
+        event_name: this.eventName,
+        extra: this.extra,
+        message: this.message,
+        severity: this.severity,
+      },
     });
-    $.export("$summary", "Successfully pushed log entry");
+    $.export("$summary", `Successfully pushed log entry with Id: ${response.SendMessageResponse?.SendMessageResult?.MessageId}`);
     return response;
   },
 };
