@@ -7,7 +7,7 @@ export default {
   name: "Search For Pages",
   description: "Search for pages in Omnivore. [See the documentation](https://github.com/omnivore-app/omnivore/blob/main/packages/api/src/schema.ts#L2680)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     query: {
