@@ -23,7 +23,7 @@ export default {
     note: {
       propDefinition: [
         shopwaive,
-        "amount",
+        "note",
       ],
     },
   },
@@ -36,7 +36,7 @@ export default {
         note: this.note,
       },
     });
-    $.export("$summary", `Successfully adjusted balance for ${this.customerEmail}`);
+    $.export("$summary", `Successfully adjusted balance for ${this.customerEmail} by ${this.amount}`);
     return response;
   },
 };

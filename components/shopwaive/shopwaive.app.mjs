@@ -19,11 +19,6 @@ export default {
       label: "Note",
       description: "Description of the transaction",
     },
-    newBalance: {
-      type: "integer",
-      label: "New Balance",
-      description: "The new balance to set for the customer",
-    },
   },
   methods: {
     _baseUrl() {

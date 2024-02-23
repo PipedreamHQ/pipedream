@@ -3,21 +3,42 @@ import shopwaive from "../../shopwaive.app.mjs";
 export default {
   key: "shopwaive-set-available-balance",
   name: "Set Available Balance",
-  description: "Updates the available balance of a named customer to an exact value. [See the documentation](https://api.shopwaive.com/reference/rest-api-documentation/customer-api)",
-  version: "0.0.{{ts}}",
+  description: "Updates the available balance of a customer to an exact value. [See the documentation](https://api.shopwaive.com/reference/rest-api-documentation/customer-api#set-customer-balance)",
+  version: "0.0.1",
   type: "action",
   props: {
     shopwaive,
-    customerId: shopwaive.propDefinitions.customerId,
-    newBalance: shopwaive.propDefinitions.newBalance,
+    customerEmail: {
+      propDefinition: [
+        shopwaive,
+        "customerEmail",
+      ],
+    },
+    balance: {
+      propDefinition: [
+        shopwaive,
+        "amount",
+      ],
+      description: "Value to assign to the customer's available balance",
+    },
+    note: {
+      propDefinition: [
+        shopwaive,
+        "note",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.shopwaive.updateCustomerBalance({
-      customerId: this.customerId,
-      newBalance: this.newBalance,
+      $,
+      data: {
+        customer_email: this.customerEmail,
+        balance: this.balance,
+        note: this.note,
+      },
     });
 
-    $.export("$summary", `Successfully set the available balance for customer ID ${this.customerId}`);
+    $.export("$summary", `Successfully set balance for ${this.customerEmail} to ${this.balance}`);
     return response;
   },
 };
