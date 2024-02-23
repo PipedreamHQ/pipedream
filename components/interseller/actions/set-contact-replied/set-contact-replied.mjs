@@ -15,10 +15,10 @@ export default {
       ],
     },
     booked: {
-      propDefinition: [
-        interseller,
-        "booked",
-      ],
+      type: "boolean",
+      label: "Booked",
+      description: "A true/false value to indicate if the contact also booked a meeting.",
+      optional: true,
     },
     sentiment: {
       propDefinition: [
@@ -29,6 +29,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.interseller.setContactReplied({
+      $,
       contactId: this.contactId,
       data: {
         booked: this.booked,
