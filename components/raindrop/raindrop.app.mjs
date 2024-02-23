@@ -15,11 +15,20 @@ export default {
           label: e.title,
         }));
         items.unshift(
-          {value: 0, label: "All Bookmarks"}, 
-          {value: -1, label: "Unsorted"},
-          {value: -99, label: "Trash"}  
+          {
+            value: 0,
+            label: "All Bookmarks",
+          },
+          {
+            value: -1,
+            label: "Unsorted",
+          },
+          {
+            value: -99,
+            label: "Trash",
+          },
         );
-        return items
+        return items;
       },
     },
     raindropId: {
