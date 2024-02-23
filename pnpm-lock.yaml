@@ -75,7 +75,10 @@ importers:
     specifiers: {}
 
   components/_twocaptcha:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/a123formbuilder:
     specifiers:
@@ -668,6 +671,9 @@ importers:
   components/beanstalkapp:
     specifiers: {}
 
+  components/beebole:
+    specifiers: {}
+
   components/beehiiv:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -987,6 +993,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/captaindata:
+    specifiers: {}
+
+  components/carbone:
     specifiers: {}
 
   components/cardly:
@@ -2468,9 +2477,9 @@ importers:
 
   components/fraudlabs_pro:
     specifiers:
-      fraudlabspro-nodejs: ^2.1.0
+      fraudlabspro-nodejs: ^3.0.0
     dependencies:
-      fraudlabspro-nodejs: 2.2.0
+      fraudlabspro-nodejs: 3.0.0
 
   components/freedcamp:
     specifiers: {}
@@ -2834,10 +2843,10 @@ importers:
 
   components/google_contacts:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.6.0
       googleapis: ^96.0.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.6.0
       googleapis: 96.0.0
 
   components/google_dialogflow:
@@ -3639,6 +3648,9 @@ importers:
   components/key_app_demo_1:
     specifiers: {}
 
+  components/keysender:
+    specifiers: {}
+
   components/kickbox:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3717,7 +3729,10 @@ importers:
     specifiers: {}
 
   components/knowfirst:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/koala_ai:
     specifiers: {}
@@ -3909,7 +3924,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/little_green_light:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/liveagent:
     specifiers:
@@ -4395,7 +4413,10 @@ importers:
     specifiers: {}
 
   components/mobygames:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/mocean_api:
     specifiers:
@@ -4697,9 +4718,9 @@ importers:
 
   components/nordigen:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
 
   components/northflank:
     specifiers:
@@ -4787,9 +4808,11 @@ importers:
 
   components/omnivore:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.0
+      uuid: ^9.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
+      uuid: 9.0.1
 
   components/oncehub:
     specifiers:
@@ -5399,7 +5422,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.5.1
 
   components/practitest:
     specifiers:
@@ -7324,6 +7347,9 @@ importers:
       '@pipedream/platform': 0.10.0
       toggl-api: 1.0.2
 
+  components/token_metrics:
+    specifiers: {}
+
   components/tolstoy:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -7427,7 +7453,10 @@ importers:
     specifiers: {}
 
   components/turbot_pipes:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/tutor_lms:
     specifiers: {}
@@ -19594,8 +19623,8 @@ packages:
     resolution: {integrity: sha512-by7U5W8dkIzcvDofUcO42yl9JbnHTEDBrzu3pt5fKT+Z4Oy85I21K80EYJYdjQGC2qum4Vo55Ag57iiIK4FYuA==}
     dev: false
 
-  /fraudlabspro-nodejs/2.2.0:
-    resolution: {integrity: sha512-MQQp/EIUzM1RKK/0ZnpHHre6OM4gEmbkZBhMBWwQysTcYmf1F3hJk5VDGTwqTDkeV47iS+9F7AilpLeV8auUBw==}
+  /fraudlabspro-nodejs/3.0.0:
+    resolution: {integrity: sha512-f+3gwDWunQoFRiX8/pbegr28qRztGgKrxF0oH7yIZQho0N3/kZjYHn3LelTio++nGoPcDIKkZob/WS1jQuSnHg==}
     dev: false
 
   /from/0.1.7:

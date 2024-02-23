@@ -5,10 +5,29 @@ export default {
   ...common,
   props: {
     ...common.props,
+    database: {
+      propDefinition: [
+        common.props.snowflake,
+        "database",
+      ],
+    },
+    schema: {
+      propDefinition: [
+        common.props.snowflake,
+        "schema",
+        (c) =>  ({
+          database: c.database,
+        }),
+      ],
+    },
     tableName: {
       propDefinition: [
         common.props.snowflake,
         "tableName",
+        (c) => ({
+          database: c.database,
+          schema: c.schema,
+        }),
       ],
       description: "The table to watch for new rows",
     },
@@ -81,7 +100,7 @@ export default {
       const columns = await this.snowflake.listFieldsForTable(this.tableName);
       const columnNames = columns.map((i) => i.name);
       if (!columnNames.includes(columnNameToValidate)) {
-        throw new Error(`Inexistent column: ${columnNameToValidate}`);
+        throw new Error(`Nonexistent column: ${columnNameToValidate}`);
       }
     },
     generateMeta(data) {
