@@ -93,19 +93,27 @@ export default {
     },
     async getCalendarEvents() {
       const calendarEvents = [];
+      const params = {
+        calendarId: this.calendarId,
+      };
       if (this.eventId) {
         const item = await this.googleCalendar.getEvent({
-          calendarId: this.calendarId,
+          ...params,
           eventId: this.eventId,
         });
         calendarEvents.push(item);
       } else {
-        const { data: { items } } = await this.googleCalendar.getEvents({
-          calendarId: this.calendarId,
-        });
-        if (items?.length) {
-          calendarEvents.push(...items);
-        }
+        do {
+          const {
+            data: {
+              items, nextPageToken,
+            },
+          } = await this.googleCalendar.getEvents(params);
+          if (items?.length) {
+            calendarEvents.push(...items);
+          }
+          params.pageToken = nextPageToken;
+        } while (params.pageToken);
       }
       return calendarEvents;
     },
