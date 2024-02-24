@@ -19,6 +19,7 @@ jobs:
       - uses: actions/checkout@v4.1.1
         name: Checkout repo
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           # See https://github.com/actions/checkout#checkout-v2
           # This will be slow. The intent is to fetch all commits
           # since the merge-base (the commit where we branched off)
@@ -39,6 +40,14 @@ jobs:
           all_files: ${{ steps.changed_files.outputs.all }}
           base_commit: ${{ github.event.pull_request.base.sha }}
           head_commit: ${{ github.event.pull_request.head.sha }}
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+           commit_message: Automatically updating actions and sources versions
+           commit_options:  '--no-verify'
+           commit_user_name: Pipedream [Bot]
+           commit_user_email: pipedream@pipedream.com
+           commit_author: Pipedream [Bot] <pipedream@pipedream.com>
+           push_options: '--force'
 
   spellcheck:
     name: Spellcheck
@@ -57,14 +66,14 @@ jobs:
         for f in ${{ steps.changed_files.outputs.all }}
         do
           ext="${f##*.}"
-          if [ $ext = "md" ]
+          if [ $ext = "md" ] || [ $ext = "mdx" ]
           then
             files="${f} ${files}"
           fi
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.35.0
+    - uses: rojopolis/spellcheck-github-actions@0.36.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -82,7 +91,7 @@ jobs:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
           fetch-depth: 0
-      - uses: pnpm/action-setup@v2.4.0
+      - uses: pnpm/action-setup@v3.0.0
         with:
           version: 7.33.6
       - name: Get pnpm store directory
@@ -99,7 +108,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r
       - name: Setup Node Env
-        uses: actions/setup-node@v4.0.1
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
@@ -134,7 +143,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: pnpm/action-setup@v2.4.0
+      - uses: pnpm/action-setup@v3.0.0
         with:
           version: 7.33.6
       - name: Get pnpm store directory
@@ -148,7 +157,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - uses: actions/setup-node@v4.0.1
+      - uses: actions/setup-node@v4.0.2
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
@@ -168,7 +177,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
-      - uses: pnpm/action-setup@v2.4.0
+      - uses: pnpm/action-setup@v3.0.0
         with:
           version: 7.33.6
       - name: Get pnpm store directory
@@ -183,7 +192,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v4.0.1
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
@@ -257,7 +266,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
-      - uses: pnpm/action-setup@v2.4.0
+      - uses: pnpm/action-setup@v3.0.0
         with:
           version: 7.33.6
       - name: Get pnpm store directory
@@ -272,7 +281,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v4.0.1
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/

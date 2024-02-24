@@ -1,47 +1,44 @@
 import app from "../../omnivore.app.mjs";
 import url from "../../common/queries/url.mjs";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   key: "omnivore-save-url",
   name: "Save URL",
   description: "Save a URL to Omnivore. [See the documentation](https://github.com/omnivore-app/omnivore/blob/main/packages/api/src/schema.ts#L2590)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     url: {
-      type: "string",
-      label: "URL",
-      description: "The URL to save.",
+      propDefinition: [
+        app,
+        "url",
+      ],
     },
     source: {
-      type: "string",
-      label: "Source",
-      description: "The source of the URL.",
+      propDefinition: [
+        app,
+        "source",
+      ],
     },
     clientRequestId: {
-      type: "string",
-      label: "Client Request ID",
-      description: "The client request ID.",
+      propDefinition: [
+        app,
+        "clientRequestId",
+      ],
     },
     state: {
-      type: "string",
-      label: "State",
-      description: "The state of the URL.",
-      optional: true,
-      options: [
-        "PROCESSING",
-        "SUCCEEDED",
-        "FAILED",
-        "DELETED",
-        "ARCHIVED",
+      propDefinition: [
+        app,
+        "state",
       ],
     },
     locale: {
-      type: "string",
-      label: "Locale",
-      description: "The locale of the URL.",
-      optional: true,
+      propDefinition: [
+        app,
+        "locale",
+      ],
     },
   },
   methods: {
@@ -57,12 +54,16 @@ export default {
       // eslint-disable-next-line no-unused-vars
       app,
       saveUrl,
+      clientRequestId,
       ...input
     } = this;
 
     const { saveUrl: response } =
       await saveUrl({
-        input,
+        input: {
+          ...input,
+          clientRequestId: clientRequestId ?? uuidv4(),
+        },
       });
 
     if (response.errorCodes?.length) {

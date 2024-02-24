@@ -5,13 +5,32 @@ export default {
   key: "snowflake-insert-row",
   name: "Insert Single Row",
   description: "Insert a row into a table",
-  version: "1.0.5",
+  version: "1.0.7",
   props: {
     snowflake,
+    database: {
+      propDefinition: [
+        snowflake,
+        "database",
+      ],
+    },
+    schema: {
+      propDefinition: [
+        snowflake,
+        "schema",
+        (c) =>  ({
+          database: c.database,
+        }),
+      ],
+    },
     tableName: {
       propDefinition: [
         snowflake,
         "tableName",
+        (c) => ({
+          database: c.database,
+          schema: c.schema,
+        }),
       ],
       description: "The table where you want to add a new row",
       reloadProps: true,

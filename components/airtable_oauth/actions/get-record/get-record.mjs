@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-get-record",
   name: "Get Record",
   description: "Get a record from a table by record ID. [See the documentation](https://airtable.com/developers/web/api/get-record)",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
