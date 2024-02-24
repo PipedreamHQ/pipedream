@@ -59,7 +59,7 @@ export default {
           ...opts,
       });
     },
-    initializeTransaction(args = {}) {
+    async initializeTransaction(args = {}) {
       return await this._makeRequest({
         method: "POST",
         path: "/transaction/initialize",
@@ -67,4 +67,4 @@ export default {
       });
     },
   },
-};
+}
