@@ -6,7 +6,7 @@ export default {
   key: "snowflake-new-role",
   name: "New Role",
   description: "Emit new event when a role is created",
-  version: "0.0.6",
+  version: "0.0.7",
   methods: {
     ...common.methods,
     alwaysRunInSingleProcessMode() {
