@@ -1037,12 +1037,6 @@ importers:
   components/cflow:
     specifiers: {}
 
-  components/chaftai:
-    specifiers:
-      '@pipedream/platform': ^1.6.0
-    dependencies:
-      '@pipedream/platform': 1.6.0
-
   components/chaindesk:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1091,6 +1085,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       axios: 1.6.5
+
+  components/chatfai:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/chatfuel_dashboard_api_:
     specifiers: {}
