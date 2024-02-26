@@ -2,14 +2,18 @@ import scoreDetect from "../../scoredetect.app.mjs";
 
 export default {
   key: "scoredetect-create-timestamp-file",
-  name: "Create Timestamped Blockchain Certificate",
-  description: "Creates a timestamped blockchain certificate using a provided file. The file can be a local file path or a URL. If it's a URL, the file will be fetched from it.",
+  name: "Create Certificate from File",
+  description: "Creates a timestamped blockchain certificate using a provided file (local or URL). [See the documentation](https://api.scoredetect.com/docs/routes#create-certificate)",
   version: "0.0.1",
   type: "action",
   props: {
     scoreDetect,
-    fileOrUrl: scoreDetect.propDefinitions.fileOrUrl,
-    textToCertify: scoreDetect.propDefinitions.textToCertify,
+    fileOrUrl: {
+      propDefinition: [
+        scoreDetect,
+        "fileOrUrl",
+      ],
+    },
   },
   async run({ $ }) {
     // Determine if the provided input is a URL

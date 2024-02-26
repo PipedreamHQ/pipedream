@@ -3,12 +3,17 @@ import scoreDetect from "../../scoredetect.app.mjs";
 export default {
   key: "scoredetect-create-timestamp-text",
   name: "Create Timestamped Blockchain Certificate",
-  description: "Generates a timestamped blockchain certificate from a given text. [See the documentation](https://api.scoredetect.com/docs/routes#create-certificate)",
+  description: "Creates a timestamped blockchain certificate using the provided text. [See the documentation](https://api.scoredetect.com/docs/routes#create-certificate)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
     scoreDetect,
-    textToCertify: scoreDetect.propDefinitions.textToCertify,
+    text: {
+      propDefinition: [
+        scoreDetect,
+        "text",
+      ],
+    },
   },
   async run({ $ }) {
     // Generate checksum for the text to be certified
