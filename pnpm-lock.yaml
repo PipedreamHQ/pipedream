@@ -7484,6 +7484,9 @@ importers:
   components/triggercmd:
     specifiers: {}
 
+  components/triggre:
+    specifiers: {}
+
   components/trint:
     specifiers: {}
 
