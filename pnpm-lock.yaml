@@ -1087,7 +1087,10 @@ importers:
       axios: 1.6.5
 
   components/chatfai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/chatfuel_dashboard_api_:
     specifiers: {}
