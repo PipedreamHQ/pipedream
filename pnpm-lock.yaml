@@ -356,6 +356,9 @@ importers:
   components/ambient_weather:
     specifiers: {}
 
+  components/ambivo:
+    specifiers: {}
+
   components/amcards:
     specifiers: {}
 
@@ -464,9 +467,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.0
       axios: ^0.21.1
+      lodash: ^4.17.21
     dependencies:
       '@pipedream/platform': 1.5.1
       axios: 0.21.4
+      lodash: 4.17.21
 
   components/asknicely:
     specifiers:
@@ -1972,6 +1977,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/drimify:
+    specifiers: {}
+
   components/drip:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -3119,6 +3127,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/handwrytten:
+    specifiers: {}
+
+  components/hansei:
     specifiers: {}
 
   components/happy_scribe:
@@ -6179,6 +6190,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/satuit:
+    specifiers: {}
+
   components/saucelabs:
     specifiers: {}
 
@@ -6660,6 +6674,9 @@ importers:
   components/smartrmail:
     specifiers: {}
 
+  components/smartroutes:
+    specifiers: {}
+
   components/smartsheet:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -6871,6 +6888,9 @@ importers:
       node-ssh: ^12.0.4
     dependencies:
       node-ssh: 12.0.5
+
+  components/stack_ai:
+    specifiers: {}
 
   components/stack_exchange:
     specifiers:
@@ -7132,6 +7152,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/tapfiliate:
+    specifiers: {}
+
+  components/tapform:
     specifiers: {}
 
   components/tave:
