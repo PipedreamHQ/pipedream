@@ -33,7 +33,7 @@ export default {
     },
     title: {
       type: "string",
-      label: "Title",
+      label: "Appointment Title",
       description: "The title of the appointment",
     },
     description: {
