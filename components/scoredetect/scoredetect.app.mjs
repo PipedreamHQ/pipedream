@@ -18,59 +18,26 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.scoredetect.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method, path, headers, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, headers, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async createCertificate({
-      fileOrUrl, isUrl,
-    }) {
-      const formData = new FormData();
-      if (isUrl) {
-        const response = await axios({
-          method: "get",
-          url: fileOrUrl,
-          responseType: "blob",
-        });
-        formData.append("file", response.data, "file");
-      } else {
-        formData.append("file", fileOrUrl);
-      }
+    async createCertificate(args) {
       return this._makeRequest({
         method: "POST",
         path: "/create-certificate",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        data: formData,
-      });
-    },
-    async generateChecksum({ textToCertify }) {
-      const formData = new FormData();
-      formData.append("text", textToCertify);
-      return this._makeRequest({
-        method: "POST",
-        path: "/generate-checksum",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        data: formData,
+        ...args,
       });
     },
   },
