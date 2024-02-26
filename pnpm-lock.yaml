@@ -7666,8 +7666,12 @@ importers:
   components/urlbox_io:
     specifiers:
       '@pipedream/platform': ^1.4.1
+      crypto-js: ^4.2.0
+      qs: ^6.11.2
     dependencies:
       '@pipedream/platform': 1.5.1
+      crypto-js: 4.2.0
+      qs: 6.11.2
 
   components/uscreen:
     specifiers:
@@ -17785,6 +17789,10 @@ packages:
     resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
     dev: false
 
+  /crypto-js/4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    dev: false
+
   /crypto-random-string/1.0.0:
     resolution: {integrity: sha512-GsVpkFPlycH7/fRR7Dhcmnoii54gV1nz7y4CWyeFS14N+JVBBhY+r8amRHE4BwSYal7BPTDp8isvAlCxyFt3Hg==}
     engines: {node: '>=4'}
@@ -20400,11 +20408,11 @@ packages:
       '@sindresorhus/is': 5.6.0
       '@szmarczak/http-timer': 5.0.1
       cacheable-lookup: 7.0.0
-      cacheable-request: 10.2.13
+      cacheable-request: 10.2.14
       decompress-response: 6.0.0
       form-data-encoder: 2.1.4
       get-stream: 6.0.1
-      http2-wrapper: 2.2.0
+      http2-wrapper: 2.2.1
       lowercase-keys: 3.0.0
       p-cancelable: 3.0.0
       responselike: 3.0.0
