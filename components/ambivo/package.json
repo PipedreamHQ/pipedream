@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ambivo",
+  "version": "0.0.1",
+  "description": "Pipedream Ambivo Components",
+  "main": "ambivo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ambivo"
+  ],
+  "homepage": "https://pipedream.com/apps/ambivo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1087,7 +1087,10 @@ importers:
       axios: 1.6.5
 
   components/chatfai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/chatfuel_dashboard_api_:
     specifiers: {}
@@ -7484,6 +7487,9 @@ importers:
   components/triggercmd:
     specifiers: {}
 
+  components/triggre:
+    specifiers: {}
+
   components/trint:
     specifiers: {}
 
@@ -7934,10 +7940,10 @@ importers:
   components/webflow:
     specifiers:
       '@pipedream/platform': ^1.1.0
-      webflow-api: ^0.5.0
+      webflow-api: 1.3.1
     dependencies:
       '@pipedream/platform': 1.5.1
-      webflow-api: 0.5.4
+      webflow-api: 1.3.1
 
   components/webinarfuel:
     specifiers: {}
@@ -8225,7 +8231,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/yespo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/yoast_seo:
     specifiers: {}
@@ -18729,10 +18738,6 @@ packages:
       next-tick: 1.1.0
     dev: false
 
-  /es6-error/4.1.1:
-    resolution: {integrity: sha512-Um/+FxMr9CISWh0bi5Zv0iOD+4cFh5qLeks1qhAopKVAJw3drgKbKySikp7wGhDL0HPeaja0P5ULZrxLkniUVg==}
-    dev: false
-
   /es6-iterator/2.0.3:
     resolution: {integrity: sha512-zw4SRzoUkd+cl+ZoE15A9o1oQd920Bb0iOJMQkQhl3jNc03YqVjAhG7scf9C5KWRU/R13Orf588uCC6525o02g==}
     dependencies:
@@ -29079,7 +29084,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
@@ -29190,14 +29195,12 @@ packages:
     engines: {node: '>= 8'}
     dev: false
 
-  /webflow-api/0.5.4:
-    resolution: {integrity: sha512-bAXtZmcnhM1LyDlN5QWxvF6wd06OmZeQxR/fdASxSbNnLhuiPBYamx56q4yKJntx0SRpwqOMkH6LaIpRlocwSQ==}
+  /webflow-api/1.3.1:
+    resolution: {integrity: sha512-ij/Y7t7VqeS2doOhHaCSToKkZeItFwkgCS003mqbG6d51eUmihcJ2ri4SOiR3zTxmUYZO+sg1sF+aAqsY7tgiA==}
     dependencies:
-      es6-error: 4.1.1
-      isomorphic-fetch: 3.0.0
-      qs: 6.11.2
+      axios: 1.6.5
     transitivePeerDependencies:
-      - encoding
+      - debug
     dev: false
 
   /webidl-conversions/3.0.1:

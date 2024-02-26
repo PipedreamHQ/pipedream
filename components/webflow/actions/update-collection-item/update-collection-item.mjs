@@ -4,7 +4,7 @@ export default {
   key: "webflow-update-collection-item",
   name: "Update Collection Item",
   description: "Update collection item. [See the documentation](https://developers.webflow.com/#update-collection-item)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     webflow,

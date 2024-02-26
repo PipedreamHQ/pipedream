@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/stack_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Stack AI Components",
+  "main": "stack_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "stack_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/stack_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
