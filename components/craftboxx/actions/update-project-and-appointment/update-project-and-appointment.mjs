@@ -17,7 +17,7 @@ export default {
     },
     projectTitle: {
       type: "string",
-      label: "Title",
+      label: "Project Title",
       description: "The title of the project",
     },
     projectNr: {
