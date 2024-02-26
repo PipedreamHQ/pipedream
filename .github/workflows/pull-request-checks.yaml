@@ -40,7 +40,7 @@ jobs:
           all_files: ${{ steps.changed_files.outputs.all }}
           base_commit: ${{ github.event.pull_request.base.sha }}
           head_commit: ${{ github.event.pull_request.head.sha }}
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: Automatically updating actions and sources versions
            commit_options:  '--no-verify'
