@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/drimify",
+  "version": "0.0.1",
+  "description": "Pipedream Drimify Components",
+  "main": "drimify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "drimify"
+  ],
+  "homepage": "https://pipedream.com/apps/drimify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
