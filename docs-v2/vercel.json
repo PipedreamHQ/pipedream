@@ -243,6 +243,10 @@
       "destination": "/docs/rest-api"
     },
     {
+      "source": "/docs/api/rest/(.*)",
+      "destination": "/docs/rest-api/$1"
+    },
+    {
       "source": "/docs/api/auth",
       "destination": "/docs/rest-api/auth"
     },
