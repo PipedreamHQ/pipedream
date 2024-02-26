@@ -24,7 +24,7 @@ export default {
     channels: {
       type: "string[]",
       label: "Channels",
-      description: "Channels for the contact. [See the documentation to further information](https://docs.yespo.io/reference/addcontact-1)",
+      description: "Channels for the contact. For example: `[ { "device": { "appId": "83b77a49-fc28-409b-aeaa-68c9d544ab9d", "deviceModel": "iPhone", "os": "iOS", "locale": "en_UK", "clientVersion": "native", "appVersion": "1.23.45", "active": true }, "type": "email", "value": "pipedream@test.com" } ]`. [See the documentation to further information](https://docs.yespo.io/reference/addcontact-1)",
     },
     addressRegion: {
       type: "string",
