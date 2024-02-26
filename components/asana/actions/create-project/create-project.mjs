@@ -4,8 +4,8 @@ import constants from "../common/constants.mjs";
 export default {
   key: "asana-create-project",
   name: "Create Project",
-  description: "Create a new project in a workspace or team. [See the docs here](https://developers.asana.com/docs/create-a-project)",
-  version: "0.9.3",
+  description: "Create a new project in a workspace or team. [See the documentation](https://developers.asana.com/docs/create-a-project)",
+  version: "0.9.4",
   type: "action",
   props: {
     asana,
@@ -113,7 +113,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.asana._makeRequest("projects", {
+    const response = await this.asana._makeRequest({
+      path: "projects",
       method: "post",
       data: {
         data: {
@@ -133,7 +134,8 @@ export default {
           owner: this.owner,
         },
       },
-    }, $);
+      $,
+    });
 
     $.export("$summary", "Successfully created project");
 

@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Story Added To Project (Instant)",
   description: "Emit new event for each story added to a project.",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -44,7 +44,9 @@ export default {
       if (!body || !body.events) return;
 
       for (const e of body.events) {
-        const story = await this.asana.getStory(e.resource.gid);
+        const { data: story } = await this.asana.getStory({
+          storyId: e.resource.gid,
+        });
 
         this.$emit(story, {
           id: story.gid,

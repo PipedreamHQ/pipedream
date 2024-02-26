@@ -6,8 +6,8 @@ export default {
   key: "asana-task-field-updated-in-project",
   type: "source",
   name: "Task Field Updated In Project (Instant)",
-  description: "Emit a new event whenever given task fields are updated.",
-  version: "0.0.2",
+  description: "Emit new event whenever given task fields are updated.",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -53,7 +53,9 @@ export default {
       const promises = events
         .map(async (event) => ({
           event,
-          task: await this.asana.getTask(event.resource.gid),
+          task: (await this.asana.getTask({
+            taskId: event.resource.gid,
+          })).data,
         }));
 
       const responses = await Promise.all(promises);

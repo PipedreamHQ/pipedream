@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New Team",
   description: "Emit new event for each task added to an organization.",
-  version: "0.1.4",
+  version: "0.1.5",
   dedupe: "unique",
   props: {
     asana,
@@ -30,8 +30,10 @@ export default {
   async run() {
     const teams = await this.asana.getTeams(this.organization);
 
-    for (let team of teams) {
-      team = await this.asana.getTeam(team.gid);
+    for (const item of teams) {
+      const { data: team } = await this.asana.getTeam({
+        teamId: item.gid,
+      });
 
       this.$emit(team, {
         id: team.gid,

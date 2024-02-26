@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Tag Added To Task (Instant)",
   description: "Emit new event for each new tag added to a task.",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -59,8 +59,12 @@ export default {
         })
         .map(async (event) => ({
           event,
-          task: await this.asana.getTask(event.resource.gid),
-          tag: await this.asana.getTag(event.parent.gid),
+          task: (await this.asana.getTask({
+            taskId: event.resource.gid,
+          })).data,
+          tag: (await this.asana.getTag({
+            tagId: event.parent.gid,
+          })).data,
         }));
 
       const responses = await Promise.all(promises);

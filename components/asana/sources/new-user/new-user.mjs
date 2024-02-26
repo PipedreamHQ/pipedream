@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New User (Instant)",
   description: "Emit new event for each user added to a workspace.",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -36,8 +36,12 @@ export default {
       if (!body || !body.events) return;
 
       for (const e of body.events) {
-        const membership = await this.asana.getWorkspaceMembership(e.resource.gid);
-        const user = await this.asana.getUser(membership.user.gid);
+        const { data: membership } = await this.asana.getWorkspaceMembership({
+          membershipId: e.resource.gid,
+        });
+        const { data: user } = await this.asana.getUser({
+          userId: membership.user.gid,
+        });
 
         this.$emit(user, {
           id: user.gid,
