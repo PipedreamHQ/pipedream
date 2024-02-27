@@ -17,6 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.app.getTemplate({
+      $,
       id: this.templateId,
     });
     $.export("$summary", `Successfully retrieved template with ID: ${this.id}`);

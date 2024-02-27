@@ -27,8 +27,10 @@ export default {
 
     const response = await this.app.createRender({
       $,
-      id: this.templateId,
-      layers,
+      data: {
+        template: this.templateId,
+        layers,
+      },
     });
 
     $.export("$summary", `Successfully created render for template ID ${this.templateId}`);

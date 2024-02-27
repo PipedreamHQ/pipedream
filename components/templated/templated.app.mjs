@@ -54,12 +54,12 @@ export default {
         ...args,
       });
     },
-    // async createRender(args = {}) {
-    //   return this._makeRequest({
-    //     path: "/render",
-    //     ...args,
-    //   });
-    // },
+    async createRender(args = {}) {
+      return this._makeRequest({
+        path: "/render",
+        ...args,
+      });
+    },
     async getTemplate({
       id, ...args
     }) {

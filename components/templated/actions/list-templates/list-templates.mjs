@@ -10,7 +10,9 @@ export default {
     app,
   },
   async run({ $ }) {
-    const templates = await this.app.listTemplates();
+    const templates = await this.app.listTemplates({
+      $,
+    });
 
     $.export("$summary", "Successfully listed templates");
 
