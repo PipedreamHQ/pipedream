@@ -45,9 +45,9 @@ export default {
       $,
       data: {
         url: this.url,
-        boosted_words: this.boosted_words,
-        language_code: this.language_code,
-        language_detection: this.language_detection,
+        boosted_words: this.boostedWords,
+        language_code: this.languageCode,
+        language_detection: this.languageDetection,
       },
     });
 
