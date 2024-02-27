@@ -71,46 +71,33 @@ export default {
     _baseUrl() {
       return "https://api.gowinston.ai/functions/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path,
-        headers,
-        data,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...args
+    }) {
       return axios($, {
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
+        method: "post",
         headers: {
           ...headers,
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `Bearer ${this.$auth.api_token}`,
         },
-        data,
-        ...otherOpts,
+        ...args,
       });
     },
-    async checkAiContent({
-      text, language, sentences, version,
-    }) {
+    async checkAiContent(args) {
       return this._makeRequest({
-        path: "/predict",
-        data: {
-          text,
-          language,
-          sentences,
-          version,
-        },
+        url: "/predict",
+
+        ...args,
       });
     },
-    async checkPlagiarism({ text }) {
+    async checkPlagiarism(args) {
       return this._makeRequest({
-        path: "/plagiarism",
-        data: {
-          text,
-        },
+        url: "/plagiarism",
+        ...args,
       });
     },
   },
