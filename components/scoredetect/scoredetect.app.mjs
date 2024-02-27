@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import FormData from "form-data";
 
 export default {
   type: "app",
@@ -6,15 +7,13 @@ export default {
   propDefinitions: {
     fileOrUrl: {
       type: "string",
-      label: "File or URL",
-      description: "Provide the file path for local files or the URL for remote files.",
-      required: true,
+      label: "File Path or URL",
+      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). Alternatively, you can pass the direct URL to a file.",
     },
-    textToCertify: {
+    text: {
       type: "string",
-      label: "Text to Certify",
-      description: "Provide the text to be certified.",
-      required: true,
+      label: "Text",
+      description: "Provide the text to generate the certificate.",
     },
   },
   methods: {
@@ -33,10 +32,19 @@ export default {
         },
       });
     },
-    async createCertificate(args) {
+    async createCertificate({
+      file, ...args
+    }) {
+      const data = new FormData();
+      data.append("file", file);
+
+      const headers = data.getHeaders();
+
       return this._makeRequest({
         method: "POST",
         path: "/create-certificate",
+        headers,
+        data,
         ...args,
       });
     },
