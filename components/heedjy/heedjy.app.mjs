@@ -5,35 +5,28 @@ export default {
   app: "heedjy",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://app.heedjy.com/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
-        path = "/",
-        headers,
+        path,
+        url,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: url || `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async emitAppPublishedEvent() {
+    listApps(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/apps/publish",
+        path: "/apps",
+        ...opts,
       });
     },
   },
