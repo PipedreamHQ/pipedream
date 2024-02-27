@@ -223,6 +223,14 @@ export default {
         },
       });
     },
+    async createSubItem(variables) {
+      return this.makeRequest({
+        query: mutations.createSubItem,
+        options: {
+          variables,
+        },
+      });
+    },
     async createUpdate(variables) {
       return this.makeRequest({
         query: mutations.createUpdate,
