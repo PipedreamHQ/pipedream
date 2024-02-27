@@ -3,66 +3,39 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "castmagic",
-  propDefinitions: {
-    aiContentIdentification: {
-      type: "string",
-      label: "AI Content Identification",
-      description: "Identification of the AI content to be pushed",
-    },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "URL of the recording file to be imported",
-    },
-    fileName: {
-      type: "string",
-      label: "File Name",
-      description: "Custom name for the file once it's imported",
-      optional: true,
-    },
-  },
+  propDefinitions: {},
   methods: {
     _baseUrl() {
       return "https://app.castmagic.io/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_secret}`,
+          Authorization: `Bearer ${this.$auth.secret_key}`,
         },
       });
     },
-    async emitAiContentEvent({ aiContentIdentification }) {
+    getTranscription({
+      transcriptionId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: `/ai-content/${aiContentIdentification}`,
+        path: `/transcripts/${transcriptionId}`,
+        ...opts,
       });
     },
-    async importRecordingFile({
-      fileUrl, fileName,
-    }) {
+    submitTranscriptionRequest(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/transcripts",
-        data: {
-          url: fileUrl,
-          name: fileName,
-        },
+        ...opts,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
