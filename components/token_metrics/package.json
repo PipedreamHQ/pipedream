@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/token_metrics",
+  "version": "0.0.1",
+  "description": "Pipedream Token Metrics Components",
+  "main": "token_metrics.app.mjs",
+  "keywords": [
+    "pipedream",
+    "token_metrics"
+  ],
+  "homepage": "https://pipedream.com/apps/token_metrics",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -9,11 +9,26 @@ export default {
       label: "Collection ID",
       description: "The collection ID",
       async options() {
-        const { items } = await this.getCollections();
-        return items.map((e) => ({
+        let { items } = await this.getCollections();
+        items = items.map((e) => ({
           value: e._id,
           label: e.title,
         }));
+        items.unshift(
+          {
+            value: 0,
+            label: "All Bookmarks",
+          },
+          {
+            value: -1,
+            label: "Unsorted",
+          },
+          {
+            value: -99,
+            label: "Trash",
+          },
+        );
+        return items;
       },
     },
     raindropId: {

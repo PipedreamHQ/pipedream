@@ -43,7 +43,7 @@ export default {
     },
     height: {
       type: "integer",
-      label: "Width",
+      label: "Height",
       description: "Viewport height of the browser in pixels. Default is 1024.",
       optional: true,
     },

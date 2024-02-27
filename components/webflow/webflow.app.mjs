@@ -1,4 +1,7 @@
-import Webflow from "webflow-api";
+// Webflow version support here: https://www.npmjs.com/package/webflow-api?activeTab=versions
+// @note: this is pinned to Webflow 1.3.1
+// because the upgrade to version 2 requires a new app
+import Webflow from "webflow-api@1.3.1";
 import constants from "./common/constants.mjs";
 
 export default {
