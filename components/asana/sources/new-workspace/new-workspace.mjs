@@ -6,7 +6,7 @@ export default {
   key: "asana-new-workspace",
   name: "New Workspace Added",
   description: "Emit new event each time you add a new workspace/organization.",
-  version: "0.1.4",
+  version: "0.1.5",
   dedupe: "unique",
   props: {
     asana,
@@ -18,12 +18,13 @@ export default {
       },
     },
   },
-
   async run() {
-    const workspaces = await this.asana.getWorkspaces();
+    const { data: workspaces } = await this.asana.getWorkspaces();
 
-    for (let workspace of workspaces) {
-      workspace = await this.asana.getWorkspace(workspace.gid);
+    for (const item of workspaces) {
+      const { data: workspace } = await this.asana.getWorkspace({
+        workspaceId: item.gid,
+      });
 
       this.$emit(workspace, {
         id: workspace.gid,

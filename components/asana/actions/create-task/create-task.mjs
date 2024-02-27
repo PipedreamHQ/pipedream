@@ -4,8 +4,8 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-create-task",
   name: "Create Task",
-  description: "Creates a new task. [See the docs here](https://developers.asana.com/docs/create-a-task)",
-  version: "0.3.3",
+  description: "Creates a new task. [See the documentation](https://developers.asana.com/docs/create-a-task)",
+  version: "0.3.4",
   type: "action",
   props: {
     ...common.props,
@@ -117,7 +117,8 @@ export default {
     let customFields;
     if (this.custom_fields) customFields = JSON.parse(this.custom_fields);
 
-    const response = await this.asana._makeRequest("tasks", {
+    const response = await this.asana._makeRequest({
+      path: "tasks",
       method: "post",
       data: {
         data: {
@@ -138,7 +139,8 @@ export default {
           custom_fields: customFields,
         },
       },
-    }, $);
+      $,
+    });
 
     $.export("$summary", "Successfully created task");
 
