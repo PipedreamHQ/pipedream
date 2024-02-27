@@ -3495,6 +3495,12 @@ importers:
       '@pipedream/platform': 1.5.1
       crypto: 1.0.1
 
+  components/interseller:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/interzoid:
     specifiers:
       '@pipedream/platform': ^1.6.0
