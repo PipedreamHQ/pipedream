@@ -11,11 +11,21 @@ export default {
   version: "0.0.1",
   props: {
     monday,
+    boardId: {
+      propDefinition: [
+        monday,
+        "boardId",
+      ],
+    },
     parentItemId: {
       propDefinition: [
         monday,
         "itemId",
+        ({ boardId }) => ({
+          boardId: +boardId,
+        }),
       ],
+      optional: false,
       description: "The parent item's unique identifier",
     },
     itemName: {
@@ -36,7 +46,7 @@ export default {
   methods: {
     ...commonCreateItem.methods,
     sendRequest({ columnValues }) {
-      return this.monday.createItem({
+      return this.monday.createSubItem({
         parentItemId: utils.emptyStrToUndefined(this.parentItemId),
         itemName: utils.emptyStrToUndefined(this.itemName),
         columnValues: utils.strinfied(columnValues),
