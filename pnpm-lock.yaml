@@ -2294,7 +2294,10 @@ importers:
     specifiers: {}
 
   components/faraday:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/fastfield_mobile_forms:
     specifiers: {}
