@@ -42,7 +42,7 @@ export default {
 
       return this._makeRequest({
         method: "POST",
-        path: "/create-certificate",
+        url: "/create-certificate",
         headers,
         data,
         ...args,
