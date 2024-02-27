@@ -1496,7 +1496,10 @@ importers:
     specifiers: {}
 
   components/craftboxx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/craftmypdf:
     specifiers: {}
