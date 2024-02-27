@@ -8,29 +8,22 @@ export default {
   type: "action",
   props: {
     winstonAi,
-    text: winstonAi.propDefinitions.text,
-    language: {
-      ...winstonAi.propDefinitions.language,
-      optional: true,
-    },
-    sentences: {
-      ...winstonAi.propDefinitions.sentences,
-      optional: true,
-    },
-    version: {
-      ...winstonAi.propDefinitions.version,
-      optional: true,
+    text: {
+      propDefinition: [
+        winstonAi,
+        "text",
+      ],
     },
   },
   async run({ $ }) {
     const response = await this.winstonAi.checkPlagiarism({
-      text: this.text,
-      language: this.language,
-      sentences: this.sentences,
-      version: this.version,
+      $,
+      data: {
+        text: this.text,
+      },
     });
 
-    $.export("$summary", "Plagiarism check completed");
+    $.export("$summary", `Sucessfully performed plagiarism check (${response.results_count} results)`);
     return response;
   },
 };
