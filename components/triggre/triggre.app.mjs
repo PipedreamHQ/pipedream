@@ -4,25 +4,6 @@ export default {
   type: "app",
   app: "triggre",
   propDefinitions: {
-    listenTo: {
-      type: "string",
-      label: "Listen To",
-      description: "The type of data change to trigger on",
-      options: [
-        {
-          label: "Addition",
-          value: "addition",
-        },
-        {
-          label: "Modification",
-          value: "modification",
-        },
-        {
-          label: "Deletion",
-          value: "deletion",
-        },
-      ],
-    },
     flowName: {
       type: "string",
       label: "Flow Name",
@@ -35,38 +16,29 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.triggre.com";
+      return `${this.$auth.triggre_application_url}/${this.$auth.application_environment}/interfaces/rest`;
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this, path, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Basic ${Buffer.from(
-            `${this.$auth.username}:${this.$auth.password}`,
-          ).toString("base64")}`,
+        url: `${this._baseUrl()}${path}`,
+        auth: {
+          username: `${this.$auth.application_username}`,
+          password: `${this.$auth.application_password}`,
         },
       });
     },
-    async emitDataChange(listenTo) {
-      return this._makeRequest({
-        path: `/datachange/${listenTo}`,
-      });
-    },
-    async startAutomationFlow(flowName, flowData) {
+    startAutomationFlow({
+      flowName, flowNameWithUnderscores, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/automation/${flowName}`,
-        data: flowData,
+        path: `/${flowName}/${flowNameWithUnderscores}`,
+        ...opts,
       });
     },
   },
