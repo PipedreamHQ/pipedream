@@ -1,4 +1,7 @@
 import { axios } from "@pipedream/platform";
+import {
+  LANGUAGE_OPTIONS, MODEL_VERSION_OPTIONS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,62 +10,28 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "The text to scan for AI-generated content or plagiarism. Minimum 300 characters. Maximum 100 000 characters.",
+      description: "The text to scan. Minimum 300 characters. Texts under 600 characters may produce unreliable results and should be avoided. Maximum 100 000 characters per request.",
     },
     language: {
       type: "string",
       label: "Language",
-      description: "2 letter language code. At this time, the API is only available in English (en), French (fr), Spanish (es), Portuguese (pt), and German (de). Default: en.",
-      options: [
-        {
-          label: "English",
-          value: "en",
-        },
-        {
-          label: "French",
-          value: "fr",
-        },
-        {
-          label: "Spanish",
-          value: "es",
-        },
-        {
-          label: "Portuguese",
-          value: "pt",
-        },
-        {
-          label: "German",
-          value: "de",
-        },
-      ],
+      description: "2 letter language code.",
+      options: LANGUAGE_OPTIONS,
       optional: true,
       default: "en",
     },
     sentences: {
       type: "boolean",
       label: "Include Sentences",
-      description: "Whether the response should include an array of sentences and their scores. Default: true.",
+      description: "Whether the response should include an array of sentences and their scores.",
       optional: true,
       default: true,
     },
     version: {
       type: "string",
       label: "Model Version",
-      description: "The model version to use. Our latest and most accurate version is '3.0'. Using 'latest' will ensure you are always using the latest version. Default: 2.0.",
-      options: [
-        {
-          label: "3.0",
-          value: "3.0",
-        },
-        {
-          label: "2.0",
-          value: "2.0",
-        },
-        {
-          label: "Latest",
-          value: "latest",
-        },
-      ],
+      description: "The model version to use. Winston AI's latest and most accurate version is '3.0'. Using 'latest' will ensure you are always using the latest version.",
+      options: MODEL_VERSION_OPTIONS,
       optional: true,
       default: "2.0",
     },
@@ -90,7 +59,6 @@ export default {
     async checkAiContent(args) {
       return this._makeRequest({
         url: "/predict",
-
         ...args,
       });
     },

@@ -8,20 +8,41 @@ export default {
   type: "action",
   props: {
     winstonAi,
-    text: winstonAi.propDefinitions.text,
-    language: winstonAi.propDefinitions.language,
-    sentences: winstonAi.propDefinitions.sentences,
-    version: winstonAi.propDefinitions.version,
+    text: {
+      propDefinition: [
+        winstonAi,
+        "text",
+      ],
+    },
+    language: {
+      propDefinition: [
+        winstonAi,
+        "language",
+      ],
+    },
+    sentences: {
+      propDefinition: [
+        winstonAi,
+        "sentences",
+      ],
+    },
+    version: {
+      propDefinition: [
+        winstonAi,
+        "version",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.winstonAi.checkAiContent({
-      text: this.text,
-      language: this.language,
-      sentences: this.sentences,
-      version: this.version,
+    const {
+      winstonAi, ...data
+    } = this;
+    const response = await winstonAi.checkAiContent({
+      $,
+      data,
     });
 
-    $.export("$summary", `AI content detection completed. Human score: ${response.data.score}`);
-    return response.data;
+    $.export("$summary", `Successfully scanned for AI content (score: ${response.score})`);
+    return response;
   },
 };
