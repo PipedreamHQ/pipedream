@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/spoke_phone",
+  "version": "0.0.1",
+  "description": "Pipedream Spoke Phone Components",
+  "main": "spoke_phone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "spoke_phone"
+  ],
+  "homepage": "https://pipedream.com/apps/spoke_phone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

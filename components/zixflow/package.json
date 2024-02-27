@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zixflow",
+  "version": "0.0.1",
+  "description": "Pipedream Zixflow Components",
+  "main": "zixflow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zixflow"
+  ],
+  "homepage": "https://pipedream.com/apps/zixflow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

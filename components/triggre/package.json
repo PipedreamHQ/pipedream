@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/triggre",
+  "version": "0.0.1",
+  "description": "Pipedream Triggre Components",
+  "main": "triggre.app.mjs",
+  "keywords": [
+    "pipedream",
+    "triggre"
+  ],
+  "homepage": "https://pipedream.com/apps/triggre",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

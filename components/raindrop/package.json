@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/raindrop",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "Pipedream Raindrop.io Components",
   "main": "raindrop.app.js",
   "keywords": [
@@ -17,6 +17,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.0"
+    "@pipedream/platform": "^1.2.0",
+    "form-data": "^4.0.0",
+    "got": "^13.0.0",
+    "stream": "^0.0.2",
+    "util": "^0.12.5"
   }
 }
