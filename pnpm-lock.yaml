@@ -4630,7 +4630,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/ncscale:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/nectar_crm:
     specifiers:
