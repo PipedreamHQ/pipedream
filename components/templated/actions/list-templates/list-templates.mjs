@@ -1,27 +1,19 @@
-import templated from "../../templated.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../templated.app.mjs";
 
 export default {
   key: "templated-list-templates",
   name: "List Templates",
   description: "List all templates of a user on Templated. [See the documentation](https://app.templated.io/docs#list-all-templates)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    templated,
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "The page number to list the templates from",
-      default: 0,
-      optional: true,
-    },
+    app,
   },
   async run({ $ }) {
-    const templates = await this.templated.listTemplates({
-      page: this.page,
-    });
+    const templates = await this.app.listTemplates();
+
     $.export("$summary", "Successfully listed templates");
+
     return templates;
   },
 };

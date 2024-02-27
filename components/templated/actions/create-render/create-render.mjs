@@ -1,40 +1,38 @@
-import templated from "../../templated.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../templated.app.mjs";
 
 export default {
   key: "templated-create-render",
   name: "Create Render",
   description: "Creates a render on a template in Templated. [See the documentation](https://app.templated.io/docs#create-render)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    templated,
-    apiKey: {
-      propDefinition: [
-        templated,
-        "apiKey",
-      ],
-    },
+    app,
     templateId: {
       propDefinition: [
-        templated,
+        app,
         "templateId",
       ],
     },
-    layerChanges: {
-      propDefinition: [
-        templated,
-        "layerChanges",
-      ],
+    layers: {
+      label: "Layers",
+      description: "An object of layers that will be updated in the template. E.g. { \"text-1\" : { \"text\" : \"This is my text to be rendered\", \"color\" : \"#FFFFFF\", \"background\" : \"#0000FF\" }, \"image-1\": { \"image_url\" : \"https://pathtomyphoto.com/123.jpg\" } }",
+      type: "object",
     },
   },
   async run({ $ }) {
-    const response = await this.templated.createRender({
-      templateId: this.templateId,
-      layerChanges: this.layerChanges,
+    const layers = typeof this.layers === "string"
+      ? JSON.parse(this.layers)
+      : this.layers;
+
+    const response = await this.app.createRender({
+      $,
+      id: this.templateId,
+      layers,
     });
 
     $.export("$summary", `Successfully created render for template ID ${this.templateId}`);
+
     return response;
   },
 };

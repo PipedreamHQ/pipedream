@@ -4,109 +4,69 @@ export default {
   type: "app",
   app: "templated",
   propDefinitions: {
-    apiKey: {
-      type: "string",
-      label: "API Key",
-      description: "Your Templated API Key",
-      secret: true,
-    },
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The unique identifier for the template",
-      async options({ page = 0 }) {
-        const templates = await this.listTemplates({
-          page,
-        });
-        return templates.map((template) => ({
-          label: template.name,
-          value: template.id,
+      description: "The ID of the template used to render",
+      async options() {
+        const resources = await this.listTemplates();
+
+        return resources.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
         }));
       },
-    },
-    renderId: {
-      type: "string",
-      label: "Render ID",
-      description: "The unique identifier for the render",
-      async options({ templateId }) {
-        const renders = await this.listRenders({
-          templateId,
-        });
-        return renders.map((render) => ({
-          label: render.id,
-          value: render.id,
-        }));
-      },
-    },
-    layerChanges: {
-      type: "string",
-      label: "Layer Changes",
-      description: "JSON string of the layer changes to apply to the template",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.templated.io";
+      return "https://api.templated.io/v1";
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.apiKey}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async listTemplates({ page }) {
+    async listTemplates(args = {}) {
       return this._makeRequest({
-        path: "/v1/templates",
-        params: {
-          page,
-        },
+        path: "/templates",
+        ...args,
       });
     },
-    async listTemplateLayers({ templateId }) {
-      return this._makeRequest({
-        path: `/v1/templates/${templateId}/layers`,
-      });
-    },
-    async createRender({
-      templateId, layerChanges,
+    async listTemplateLayers({
+      id, ...args
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/v1/render",
-        data: {
-          templateId,
-          layerChanges: JSON.parse(layerChanges),
-        },
+        path: `/template/${id}/layers/`,
+        ...args,
       });
     },
-    async retrieveRender({ renderId }) {
+    // async createRender(args = {}) {
+    //   return this._makeRequest({
+    //     path: "/render",
+    //     ...args,
+    //   });
+    // },
+    async getTemplate({
+      id, ...args
+    }) {
       return this._makeRequest({
-        path: `/v1/render/${renderId}`,
+        path: `/template/${id}`,
+        ...args,
       });
-    },
-    async listRenders({ templateId }) {
-      return this._makeRequest({
-        path: "/v1/renders",
-        params: {
-          templateId,
-        },
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
-  version: "0.0.{{ts}}",
 };
