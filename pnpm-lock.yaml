@@ -6686,6 +6686,9 @@ importers:
   components/small_improvements:
     specifiers: {}
 
+  components/smartproxy:
+    specifiers: {}
+
   components/smartreach:
     specifiers: {}
 
