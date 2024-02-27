@@ -6,7 +6,7 @@ export default {
   name: "New Sub-Item Column Value Updated (Instant)",
   description: "Emit new event when any sub-item column changes. To create this trigger, you need to have at least one subitem previously created on your board.",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
     ...common.props,

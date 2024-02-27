@@ -8,7 +8,7 @@ export default {
   name: "Create Item",
   description: "Creates an item. [See the documentation](https://api.developer.monday.com/docs/items-queries#create-an-item)",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.9",
   props: {
     monday,
     boardId: {
