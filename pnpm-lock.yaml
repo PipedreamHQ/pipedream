@@ -4500,13 +4500,13 @@ importers:
 
   components/monday:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.0
       lodash.flatmap: ^4.5.0
       lodash.map: ^4.6.0
       lodash.uniqby: ^4.7.0
       monday-sdk-js: ^0.1.3
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
       lodash.uniqby: 4.7.0
