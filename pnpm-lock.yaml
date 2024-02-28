@@ -4842,7 +4842,10 @@ importers:
     specifiers: {}
 
   components/nutshell:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/oauth_app_demo:
     specifiers: {}
@@ -6690,6 +6693,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/small_improvements:
+    specifiers: {}
+
+  components/smartproxy:
     specifiers: {}
 
   components/smartreach:
