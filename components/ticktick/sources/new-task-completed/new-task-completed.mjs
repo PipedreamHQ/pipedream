@@ -25,9 +25,6 @@ export default {
     const tasks = await this.ticktick.listTasks({
       projectId: this.projectId,
     });
-    if (!tasks?.length) {
-      return;
-    }
     const previousTaskIds = this._getPreviousTaskIds();
     const currentTaskIds = tasks.map(({ id }) => id);
     const completedTaskIds = tasks.filter(({ completedTime }) => completedTime).map(({ id }) => id);
