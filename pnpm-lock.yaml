@@ -4244,7 +4244,10 @@ importers:
     specifiers: {}
 
   components/mctime:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/mediatoolkit:
     specifiers:
@@ -6684,6 +6687,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/small_improvements:
+    specifiers: {}
+
+  components/smartproxy:
     specifiers: {}
 
   components/smartreach:
