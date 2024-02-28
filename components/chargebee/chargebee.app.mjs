@@ -26,5 +26,8 @@ export default {
     getPaymentSources(args = {}) {
       return this.instance().payment_source.list(args).request();
     },
+    getEvents(args = {}) {
+      return this.instance().event.list(args).request();
+    },
   },
 };

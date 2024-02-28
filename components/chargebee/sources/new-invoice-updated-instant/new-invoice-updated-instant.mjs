@@ -14,7 +14,7 @@ export default {
     ...common.methods,
     getEventTypes() {
       return [
-        events.INVOICE_GENERATED,
+        events.INVOICE_UPDATED,
       ];
     },
     async getResources() {

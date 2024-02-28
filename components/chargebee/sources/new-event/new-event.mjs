@@ -25,7 +25,7 @@ export default {
       return this.eventType;
     },
     async getResources() {
-      const { list } = await this.app.getInvoices({
+      const { list } = await this.app.getEvents({
         "limit": constants.MAX_LIMIT,
         "sort_by[desc]": "date",
       });
