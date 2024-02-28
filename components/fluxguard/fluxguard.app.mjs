@@ -32,63 +32,38 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.fluxguard.com";
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "x-api-key": this.$auth.api_key,
         },
       });
     },
-    async listProjects() {
+    async createWebhook({ ...args }) {
       return this._makeRequest({
-        path: "/projects",
+        path: "/account/webhook",
+        method: "put",
+        ...args,
       });
     },
-    async listChecks({ projectId }) {
+    async removeWebhook({ ...args }) {
       return this._makeRequest({
-        path: `/projects/${projectId}/checks`,
+        path: "/account/webhook",
+        method: "delete",
+        ...args,
       });
-    },
-    async detectChanges({
-      projectId, checkId,
-    }) {
-      return this._makeRequest({
-        path: `/projects/${projectId}/checks/${checkId}/changes`,
-        method: "POST",
-      });
-    },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let response;
-      do {
-        response = await fn(...opts);
-        results = results.concat(response.items);
-        if (response.pagination && response.pagination.next) {
-          opts[0] = {
-            ...opts[0],
-            page: response.pagination.next,
-          };
-        }
-      } while (response.pagination && response.pagination.next);
-      return results;
     },
   },
-  version: `0.0.${new Date().getTime()}`,
 };
