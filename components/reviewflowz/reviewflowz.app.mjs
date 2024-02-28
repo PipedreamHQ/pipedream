@@ -8,52 +8,77 @@ export default {
       type: "string",
       label: "Account ID",
       description: "The account ID associated with your listings.",
+      async options() {
+        const { accounts } = await this.getMe();
+
+        return accounts.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.reviewflowz.com/v2";
+      return "https://app.reviewflowz.com/api/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      const config = {
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
+      };
+
+      return axios($, config);
+    },
+    getMe() {
+      return this._makeRequest({
+        path: "/me",
       });
     },
-    async getReviews({
+    listReviews({
       accountId, ...opts
     }) {
       return this._makeRequest({
-        path: `/reviews/${accountId}`,
+        path: `/accounts/${accountId}/reviews`,
         ...opts,
       });
     },
-    async emitReviewPublishedEvent({ accountId }) {
-      const reviews = await this.getReviews({
-        accountId,
-      });
-      // Logic to emit new review events goes here.
-      // This is a placeholder to illustrate how you might structure this method.
-      // You'll need to replace this with your actual event emitting logic.
-      for (const review of reviews) {
-        console.log(`New review published: ${review.id}`);
-        // Replace console.log with actual event emission logic
-      }
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          data,
+          pagination: { next },
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+        hasMore = next;
+
+      } while (hasMore);
     },
   },
 };

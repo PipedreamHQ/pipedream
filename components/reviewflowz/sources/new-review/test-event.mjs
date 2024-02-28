@@ -1,0 +1,21 @@
+export default {
+  "rating": 3,
+  "platform": "Reviewflowz",
+  "profile": "Campaign 01",
+  "profile_url": "https://app.reviewflowz.com/review_campaigns/3873855-27e7-584d-bb00-0ebb088055086",
+  "date": "2024-02-28T14:08:31.510-07:00",
+  "link": null,
+  "overall": "description test",
+  "pros": null,
+  "cons": null,
+  "version": null,
+  "locales": [],
+  "reviewer_name": null,
+  "reviewer_company": null,
+  "language": null,
+  "title": null,
+  "reviewer_industry": null,
+  "reviewer_job_title": null,
+  "reviewer_linkedin_url": null,
+  "tags": []
+}
