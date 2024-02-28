@@ -1,14 +1,14 @@
+import utils from "../../common/utils.mjs";
 import monday from "../../monday.app.mjs";
 import commonCreateItem from "../common/common-create-item.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   ...commonCreateItem,
-  key: "monday-create-item",
-  name: "Create Item",
-  description: "Creates an item. [See the documentation](https://api.developer.monday.com/docs/items-queries#create-an-item)",
+  key: "monday-create-subitem",
+  name: "Create Subitem",
+  description: "Creates a subitem. [See the documentation](https://developer.monday.com/api-reference/docs/introduction-to-graphql#mondaycom-schema)",
   type: "action",
-  version: "0.0.9",
+  version: "0.0.1",
   props: {
     monday,
     boardId: {
@@ -17,20 +17,23 @@ export default {
         "boardId",
       ],
     },
-    groupId: {
+    parentItemId: {
       propDefinition: [
         monday,
-        "groupId",
+        "itemId",
         ({ boardId }) => ({
           boardId: +boardId,
         }),
       ],
+      optional: false,
+      description: "The parent item's unique identifier",
     },
     itemName: {
       propDefinition: [
         monday,
         "itemName",
       ],
+      description: "The new subitem's name",
     },
     createLabels: {
       propDefinition: [
@@ -43,16 +46,15 @@ export default {
   methods: {
     ...commonCreateItem.methods,
     sendRequest({ columnValues }) {
-      return this.monday.createItem({
-        boardId: +this.boardId,
-        groupId: utils.emptyStrToUndefined(this.groupId),
+      return this.monday.createSubItem({
+        parentItemId: utils.emptyStrToUndefined(this.parentItemId),
         itemName: utils.emptyStrToUndefined(this.itemName),
         columnValues: utils.strinfied(columnValues),
         createLabels: utils.emptyStrToUndefined(this.createLabels),
       });
     },
     getItemId(data) {
-      return data.create_item.id;
+      return data.create_subitem.id;
     },
   },
 };

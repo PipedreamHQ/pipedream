@@ -6,7 +6,7 @@ export default {
   name: "New Column Value Updated (Instant)",
   description: "Emit new event when a column value is updated on a board in Monday. For changes to Name, use the Name Updated Trigger.",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   hooks: {
     ...common.hooks,
