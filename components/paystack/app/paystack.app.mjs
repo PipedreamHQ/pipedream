@@ -59,8 +59,8 @@ export default {
           ...opts,
       });
     },
-    async initializeTransaction(args = {}) {
-      return await this._makeRequest({
+    initializeTransaction(args = {}) {
+      return this._makeRequest({
         method: "POST",
         path: "/transaction/initialize",
       ...args,
