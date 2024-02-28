@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Completed Task (Instant)",
   description: "Emit new event for each task completed in a project.",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -47,7 +47,9 @@ export default {
       if (!body || !body.events) return;
 
       for (const e of body.events) {
-        const task = await this.asana.getTask(e.resource.gid);
+        const { data: task } = await this.asana.getTask({
+          taskId: e.resource.gid,
+        });
 
         this.$emit(task, {
           id: task.gid,

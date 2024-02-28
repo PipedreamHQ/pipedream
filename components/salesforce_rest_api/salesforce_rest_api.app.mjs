@@ -509,6 +509,16 @@ export default {
         url,
       });
     },
+    async parameterizedSearch(params) {
+      const baseUrl = this._baseApiVersionUrl();
+      const url = `${baseUrl}/parameterizedSearch/`;
+
+      return this._makeRequest({
+        url,
+        method: "GET",
+        params,
+      });
+    },
     async insertBlobData(sobjectName, {
       $, headers, data,
     }) {

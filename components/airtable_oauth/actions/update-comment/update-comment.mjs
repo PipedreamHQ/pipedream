@@ -4,7 +4,7 @@ export default {
   key: "airtable_oauth-update-comment",
   name: "Update Comment",
   description: "Updates an existing comment on a record. [See the documentation](https://airtable.com/developers/web/api/update-comment)",
-  version: "0.0.2",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,

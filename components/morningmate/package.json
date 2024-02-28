@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/morningmate",
+  "version": "0.1.0",
+  "description": "Pipedream morningmate Components",
+  "main": "morningmate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "morningmate"
+  ],
+  "homepage": "https://pipedream.com/apps/morningmate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

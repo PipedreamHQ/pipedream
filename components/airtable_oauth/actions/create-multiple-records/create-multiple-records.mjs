@@ -8,7 +8,7 @@ export default {
   key: "airtable_oauth-create-multiple-records",
   name: "Create Multiple Records",
   description: "Create one or more records in a table by passing an array of objects containing field names and values as key/value pairs. [See the documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "0.0.2",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,

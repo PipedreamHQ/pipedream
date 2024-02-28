@@ -5,7 +5,7 @@ export default {
   key: "google_calendar-new-or-updated-event",
   name: "New Created or Updated Event",
   description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
-  version: "0.1.5",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique",
   props: {

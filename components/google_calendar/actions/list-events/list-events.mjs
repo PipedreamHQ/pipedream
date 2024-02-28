@@ -1,10 +1,11 @@
 import googleCalendar from "../../google_calendar.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "google_calendar-list-events",
   name: "List Events",
   description: "Retrieve a list of event from the Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/list)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     googleCalendar,
@@ -111,30 +112,15 @@ export default {
         "updatedMin",
       ],
     },
-  },
-  methods: {
-    filterEmptyValues(obj) {
-      if (!obj) {
-        return obj;
-      }
-      return Object.entries(obj)
-        .reduce((reduction,
-          [
-            key,
-            value,
-          ]) => {
-          if (value === undefined || value === null) {
-            return reduction;
-          }
-          return {
-            ...reduction,
-            [key]: value,
-          };
-        }, {});
+    eventTypes: {
+      propDefinition: [
+        googleCalendar,
+        "eventTypes",
+      ],
     },
   },
   async run({ $ }) {
-    const args = this.filterEmptyValues({
+    const args = utils.filterEmptyValues({
       calendarId: this.calendarId,
       iCalUID: this.iCalUID,
       maxAttendees: this.maxAttendees,
@@ -152,6 +138,7 @@ export default {
       timeMin: this.timeMin,
       timeZone: this.timeZone,
       updatedMin: this.updatedMin,
+      eventTypes: this.eventTypes,
     });
     const response = await this.googleCalendar.listEvents(args);
 

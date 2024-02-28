@@ -4,8 +4,8 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-delete-task",
   name: "Delete Task",
-  description: "Deletes a specific and existing task. [See the docs here](https://developers.asana.com/docs/delete-a-task)",
-  version: "0.0.4",
+  description: "Deletes a specific and existing task. [See the documentation](https://developers.asana.com/docs/delete-a-task)",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,
@@ -23,9 +23,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.asana._makeRequest(`tasks/${this.task_gid}`, {
+    const response = await this.asana._makeRequest({
+      path: `tasks/${this.task_gid}`,
       method: "delete",
-    }, $);
+      $,
+    });
 
     $.export("$summary", "Successfully deleted task");
 

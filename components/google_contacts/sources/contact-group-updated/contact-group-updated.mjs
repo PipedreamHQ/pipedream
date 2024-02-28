@@ -6,7 +6,7 @@ export default {
   key: "google_contacts-contact-group-updated",
   name: "Contact Group Updated",
   description: "Emit new event when a contact group is updated. [See the documentation](https://developers.google.com/people/api/rest/v1/contactGroups/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

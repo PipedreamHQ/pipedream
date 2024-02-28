@@ -6,8 +6,8 @@ export default {
   key: "asana-tags-added-to-any-task",
   type: "source",
   name: "Tags added to any task (Instant)",
-  description: "Emit a new event each time a tag is added to any task, optionally filtering by a given set of tags.",
-  version: "0.0.2",
+  description: "Emit new event each time a tag is added to any task, optionally filtering by a given set of tags.",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -28,9 +28,6 @@ export default {
       propDefinition: [
         asana,
         "tags",
-        (c) => ({
-          tags: c.tags,
-        }),
       ],
     },
   },
@@ -59,8 +56,12 @@ export default {
         })
         .map(async (event) => ({
           event,
-          task: await this.asana.getTask(event.resource.gid),
-          tag: await this.asana.getTag(event.parent.gid),
+          task: (await this.asana.getTask({
+            taskId: event.resource.gid,
+          })).data,
+          tag: (await this.asana.getTag({
+            tagId: event.parent.gid,
+          })).data,
         }));
 
       const responses = await Promise.all(promises);

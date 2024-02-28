@@ -4,8 +4,8 @@ import _ from "lodash";
 export default {
   key: "asana-search-user-projects",
   name: "Get list of user projects",
-  description: "Return list of projects given the user and workspace gid. [See the docs here](https://developers.asana.com/docs/get-multiple-projects)",
-  version: "0.4.3",
+  description: "Return list of projects given the user and workspace gid. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
+  version: "0.4.4",
   type: "action",
   props: {
     asana,
@@ -30,12 +30,20 @@ export default {
     },
   },
   async run({ $ }) {
-    let projects = await this.asana.getProjects(this.workspace, {}, $);
+    let { data: projects } = await this.asana.getProjects({
+      params: {
+        workspace: this.workspace,
+      },
+      $,
+    });
 
     projects = projects.filter(async (project) => {
-      project = await this.asana.getProject(project.gid);
+      const { data } = await this.asana.getProject({
+        projectId: project.gid,
+        $,
+      });
 
-      return project.members && !!_.find(project.members, {
+      return data.members && !!_.find(data.members, {
         gid: this.user,
       });
     });

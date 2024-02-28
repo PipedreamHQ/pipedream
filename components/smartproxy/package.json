@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/smartproxy",
+  "version": "0.0.1",
+  "description": "Pipedream Smartproxy Components",
+  "main": "smartproxy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smartproxy"
+  ],
+  "homepage": "https://pipedream.com/apps/smartproxy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
