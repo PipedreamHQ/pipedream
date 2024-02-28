@@ -43,10 +43,12 @@ export default {
   },
   hooks: {
     async activate() {
-      const response = await this.asana.createWebHook({
+      const { data: response } = await this.asana.createWebHook({
         data: {
-          ...this.getWebhookFilter(),
-          target: this.http.endpoint,
+          data: {
+            ...this.getWebhookFilter(),
+            target: this.http.endpoint,
+          },
         },
       });
 

@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "Task Updated In Project (Instant)",
   description: "Emit new event for each update to a task.",
-  version: "1.1.1",
+  version: "1.1.2",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -71,7 +71,9 @@ export default {
         })
         .map(async (event) => ({
           event,
-          task: await this.asana.getTask(event.resource.gid),
+          task: (await this.asana.getTask({
+            taskId: event.resource.gid,
+          })).data,
         }));
 
       const responses = await Promise.all(promises);

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hansei",
+  "version": "0.0.1",
+  "description": "Pipedream Hansei Components",
+  "main": "hansei.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hansei"
+  ],
+  "homepage": "https://pipedream.com/apps/hansei",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

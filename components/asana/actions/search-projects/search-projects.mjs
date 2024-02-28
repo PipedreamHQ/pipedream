@@ -3,9 +3,9 @@ import asana from "../../asana.app.mjs";
 export default {
   type: "action",
   key: "asana-search-projects",
-  version: "0.2.3",
+  version: "0.2.4",
   name: "Search Projects",
-  description: "Finds an existing project. [See the docs here](https://developers.asana.com/docs/get-multiple-projects)",
+  description: "Finds an existing project. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
   props: {
     asana,
     name: {
@@ -38,9 +38,13 @@ export default {
       archived,
     } = this;
 
-    const projects = await this.asana.getProjects(workspace, {
-      archived,
-    }, $);
+    const { data: projects } = await this.asana.getProjects({
+      params: {
+        workspace,
+        archived,
+      },
+      $,
+    });
 
     $.export("$summary", "Successfully retrieved projects");
 

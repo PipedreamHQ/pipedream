@@ -277,6 +277,18 @@ export default {
         }));
       },
     },
+    eventTypes: {
+      type: "string[]",
+      label: "Event Types",
+      description: "Filter events by event type",
+      optional: true,
+      options: [
+        "default",
+        "focusTime",
+        "outOfOffice",
+        "workingLocation",
+      ],
+    },
   },
   methods: {
     _tokens() {

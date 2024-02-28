@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Task (Instant)",
   description: "Emit new event for each task added to a project. [See docs here](https://developers.asana.com/docs/establish-a-webhook)",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         asana,
         "projects",
+        (c) => ({
+          workspace: c.workspace,
+        }),
       ],
     },
   },
@@ -40,10 +43,12 @@ export default {
       if (!body || !body.events) return;
 
       for (const e of body.events) {
-        // This conditional ignore when Asana fire a new subtask event
+        // This conditional ignores when Asana fires a new subtask event
         if (e.parent && e.parent.resource_type === "task") continue;
 
-        const task = await this.asana.getTask(e.resource.gid);
+        const { data: task } = await this.asana.getTask({
+          taskId: e.resource.gid,
+        });
 
         this.$emit(task, {
           id: task.gid,
