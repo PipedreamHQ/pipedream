@@ -33,19 +33,15 @@ export default {
     },
   },
   async run({ $ }) {
-
-    const optionalArgs = {
-      currency: this.currency,
-      reference: this.reference,
-      callback_url: this.callback_url,
-      metadata: this.metadata
-    }
-
     const response = await this.paystack.initializeTransaction({
+      $,
       data: {
         email: this.email,
         amount: this.amount,
-        ...optionalArgs
+        currency: this.currency,
+        reference: this.reference,
+        callback_url: this.callback_url,
+        metadata: this.metadata
       }
     });
 
