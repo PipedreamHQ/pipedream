@@ -1,0 +1,26 @@
+export default {
+  marketingEventOptions: [
+    "spam",
+    "opened",
+    "click",
+    "hardBounce",
+    "softBounce",
+    "unsubscribed",
+    "listAddition",
+    "delivered",
+  ],
+  transactionalEventOptions: [
+    "sent",
+    "delivered",
+    "hardBounce",
+    "softBounce",
+    "blocked",
+    "spam",
+    "invalid",
+    "deferred",
+    "click",
+    "opened",
+    "uniqueOpened",
+    "unsubscribed",
+  ],
+};
