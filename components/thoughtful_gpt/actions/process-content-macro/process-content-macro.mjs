@@ -1,29 +1,39 @@
-import thoughtfulgpt from "../../thoughtfulgpt.app.mjs";
-import { axios } from "@pipedream/platform";
+import thoughtfulgpt from "../../thoughtful_gpt.app.mjs";
 
 export default {
-  key: "thoughtfulgpt-process-content-macro",
+  key: "thoughtful_gpt-process-content-macro",
   name: "Process Content Macro",
   description: "Processes given content using a specified macro. [See the documentation](https://docs.thoughtfulgpt.com/thoughtfulgpt-documentation/product-guide/api-reference)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     thoughtfulgpt,
     content: {
       type: "string",
       label: "Content",
-      description: "The content to be processed",
+      description: "Transcript content to be processed",
     },
     macro: {
       type: "string",
       label: "Macro",
-      description: "The macro to process the content",
+      description: "The macro to apply to the content",
+    },
+    llmModel: {
+      type: "string",
+      label: "LLM Model",
+      description: "The LLM Model to use for processing",
+      optional: true,
+      default: "gpt-3.5",
     },
   },
   async run({ $ }) {
     const response = await this.thoughtfulgpt.processContent({
-      content: this.content,
-      macro: this.macro,
+      $,
+      data: {
+        content: this.content,
+        macro: this.macro,
+        llm_model: this.llmModel,
+      },
     });
     $.export("$summary", `Successfully processed content using macro: ${this.macro}`);
     return response;
