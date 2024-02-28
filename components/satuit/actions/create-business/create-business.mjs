@@ -1,62 +1,51 @@
-import satuit from "../../satuit.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../satuit.app.mjs";
 
 export default {
   key: "satuit-create-business",
   name: "Create Business",
-  description: "Creates a new business within the Satuit platform. [See the documentation]()", // Placeholder for docs link
-  version: "0.0.{{ts}}",
+  description: "Creates a new business within the Satuit platform. [See the documentation](https://satuittechnologies.zendesk.com/hc/en-us/articles/360055725213-Satuit-REST-API-Postman-Documentation)",
+  version: "0.0.1",
   type: "action",
   props: {
-    satuit,
-    businessName: {
-      propDefinition: [
-        satuit,
-        "businessName",
-      ],
+    app,
+    cBusiness: {
+      type: "string",
+      label: "Business Name",
+      description: "The name of the business",
     },
-    industryType: {
-      propDefinition: [
-        satuit,
-        "industryType",
-      ],
+    cCity: {
+      type: "string",
+      label: "City",
+      description: "The city of the business",
     },
-    businessDescription: {
-      propDefinition: [
-        satuit,
-        "businessDescription",
-      ],
-      optional: true,
-    },
-    businessAddress: {
-      propDefinition: [
-        satuit,
-        "businessAddress",
-      ],
-      optional: true,
+  },
+  methods: {
+    createBusiness(args = {}) {
+      return this.app.post({
+        path: "/business",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const data = {
-      Name: this.businessName,
-      Industry: this.industryType,
-      ...(this.businessDescription && {
-        Description: this.businessDescription,
-      }),
-      ...(this.businessAddress && {
-        Address: this.businessAddress,
-      }),
-    };
+    const {
+      createBusiness,
+      cBusiness,
+      cCity,
+    } = this;
 
-    const response = await this.satuit.createBusiness({
-      data,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.satuit.$auth.oauth_access_token}`,
+    const response = await createBusiness({
+      $,
+      data: {
+        cbusiness: cBusiness,
+        address: {
+          ccity: cCity,
+        },
       },
     });
 
-    $.export("$summary", `Successfully created new business: ${this.businessName}`);
+    $.export("$summary", `Successfully created a business with ID \`${response?.Result?.id}\``);
+
     return response;
   },
 };

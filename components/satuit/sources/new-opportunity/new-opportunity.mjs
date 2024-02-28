@@ -1,98 +1,47 @@
-import satuit from "../../satuit.app.mjs";
-import {
-  axios, defineSource,
-} from "@pipedream/platform";
+import common from "../common/polling.mjs";
+import constants from "../../common/constants.mjs";
 
-export default defineSource({
+export default {
+  ...common,
   key: "satuit-new-opportunity",
   name: "New Opportunity",
-  description: "Emits an event when a new opportunity is created in Satuit.",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new opportunity is created in Satuit. [See the documentation](https://satuittechnologies.zendesk.com/hc/en-us/articles/360055725213-Satuit-REST-API-Postman-Documentation)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    satuit,
-    db: "$.service.db",
-    opportunityTitle: {
-      propDefinition: [
-        satuit,
-        "opportunityTitle",
-      ],
+  methods: {
+    ...common.methods,
+    getFieldId() {
+      return "pproduct.iprodkey";
     },
-    opportunityDescription: {
-      propDefinition: [
-        satuit,
-        "opportunityDescription",
-      ],
+    getResourceName() {
+      return "Result";
     },
-    opportunityValue: {
-      propDefinition: [
-        satuit,
-        "opportunityValue",
-      ],
+    getResourcesFn() {
+      return this.app.getOpportunity;
     },
-    associatedBusinesses: {
-      propDefinition: [
-        satuit,
-        "associatedBusinesses",
-        (c) => ({
-          optional: true,
-        }),
-      ],
+    getResourcesFnArgs() {
+      return {
+        params: {
+          pagesize: constants.DEFAULT_LIMIT,
+          orderby: encodeURIComponent(
+            JSON.stringify({
+              [this.getFieldId()]: "desc",
+            }),
+          ),
+        },
+      };
     },
-    associatedContacts: {
-      propDefinition: [
-        satuit,
-        "associatedContacts",
-        (c) => ({
-          optional: true,
-        }),
-      ],
+    generateMeta(resource) {
+      const {
+        [this.getFieldId()]: id,
+        ["pproduct.dcreated"]: createdAt,
+      } = resource;
+      return {
+        id,
+        summary: `New Opportunity: ${id}`,
+        ts: Date.parse(createdAt),
+      };
     },
   },
-  hooks: {
-    async deploy() {
-      // Fetches up to the last 50 opportunities and emits them
-      const opportunities = await this.satuit.getOpportunities({
-        title: this.opportunityTitle,
-        description: this.opportunityDescription,
-        value: this.opportunityValue,
-        businesses: this.associatedBusinesses,
-        contacts: this.associatedContacts,
-      });
-
-      opportunities.slice(0, 50).forEach((opportunity) => {
-        this.$emit(opportunity, {
-          id: opportunity.id,
-          summary: `New Opportunity: ${opportunity.title}`,
-          ts: Date.parse(opportunity.created_at),
-        });
-      });
-    },
-  },
-  async run() {
-    // Poll for new opportunities since the last run
-    const lastOpportunityId = this.db.get("lastOpportunityId") || 0;
-    const opportunities = await this.satuit.getOpportunities({
-      title: this.opportunityTitle,
-      description: this.opportunityDescription,
-      value: this.opportunityValue,
-      businesses: this.associatedBusinesses,
-      contacts: this.associatedContacts,
-      sinceId: lastOpportunityId,
-    });
-
-    opportunities.forEach((opportunity) => {
-      this.$emit(opportunity, {
-        id: opportunity.id,
-        summary: `New Opportunity: ${opportunity.title}`,
-        ts: Date.parse(opportunity.created_at),
-      });
-    });
-
-    if (opportunities.length > 0) {
-      const latestOpportunityId = opportunities[0].id;
-      this.db.set("lastOpportunityId", latestOpportunityId);
-    }
-  },
-});
+};

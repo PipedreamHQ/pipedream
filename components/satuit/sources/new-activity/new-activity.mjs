@@ -1,81 +1,47 @@
-import satuit from "../../satuit.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/polling.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
+  ...common,
   key: "satuit-new-activity",
   name: "New Activity",
-  description: "Emits an event when a new activity is created in Satuit.",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new activity is created in Satuit. [See the documentation](https://satuittechnologies.zendesk.com/hc/en-us/articles/360055725213-Satuit-REST-API-Postman-Documentation)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    satuit,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    activityType: {
-      propDefinition: [
-        satuit,
-        "activityType",
-      ],
-    },
-    activityDate: {
-      propDefinition: [
-        satuit,
-        "activityDate",
-      ],
-    },
-    associatedUser: {
-      propDefinition: [
-        satuit,
-        "associatedUser",
-      ],
-    },
-  },
-  hooks: {
-    async deploy() {
-      // Emit at most 50 events in order of most recent to least recent
-      const activities = await this.satuit.getActivities({
-        limit: 50,
-      });
-      activities.slice(-50).forEach((activity) => {
-        this.$emit(activity, {
-          id: activity.id,
-          summary: `New Activity: ${activity.title}`,
-          ts: Date.parse(activity.created_at),
-        });
-      });
-    },
-  },
   methods: {
-    ...satuit.methods,
-    generateMeta(activity) {
+    ...common.methods,
+    getFieldId() {
+      return "ptickler.icomkey";
+    },
+    getResourceName() {
+      return "Result";
+    },
+    getResourcesFn() {
+      return this.app.getActivity;
+    },
+    getResourcesFnArgs() {
       return {
-        id: activity.id,
-        summary: `New Activity: ${activity.title}`,
-        ts: Date.parse(activity.created_at),
+        params: {
+          pagesize: constants.DEFAULT_LIMIT,
+          orderby: encodeURIComponent(
+            JSON.stringify({
+              [this.getFieldId()]: "desc",
+            }),
+          ),
+        },
       };
     },
-  },
-  async run() {
-    const lastActivityId = this.db.get("lastActivityId") || 0;
-    let maxActivityId = lastActivityId;
-
-    const activities = await this.satuit.getActivities({
-      since_id: lastActivityId,
-    });
-    activities.forEach((activity) => {
-      const meta = this.generateMeta(activity);
-      this.$emit(activity, meta);
-      if (activity.id > maxActivityId) {
-        maxActivityId = activity.id;
-      }
-    });
-
-    this.db.set("lastActivityId", maxActivityId);
+    generateMeta(resource) {
+      const {
+        [this.getFieldId()]: id,
+        ["ptickler.dcreated"]: createdAt,
+      } = resource;
+      return {
+        id,
+        summary: `New Activity: ${id}`,
+        ts: Date.parse(createdAt),
+      };
+    },
   },
 };

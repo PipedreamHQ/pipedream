@@ -1,178 +1,182 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "satuit",
   propDefinitions: {
-    activityType: {
+    business: {
       type: "string",
-      label: "Activity Type",
-      description: "The type of activity",
-      optional: true,
+      label: "Business ID",
+      description: "The ID of the business",
+      async options({
+        mapper = ({
+          ["pbus.ibuskey"]: value,
+          ["pbus.cbusiness"]: label,
+        }) => ({
+          label,
+          value: String(value),
+        }),
+      }) {
+        const { Result: data } = await this.getBusinesses({
+          params: {
+            top: 20,
+            fields: "pbus.ibuskey,pbus.crep,pbus.cbusiness",
+            orderby: {
+              ["pbus.ibuskey"]: "desc",
+            },
+          },
+        });
+        return data.map(mapper);
+      },
     },
-    activityDate: {
+    rep: {
       type: "string",
-      label: "Activity Date",
-      description: "The date of the activity",
-      optional: true,
-    },
-    associatedUser: {
-      type: "string",
-      label: "Associated User",
-      description: "The user associated with the activity",
-      optional: true,
-    },
-    contactDetails: {
-      type: "object",
-      label: "Contact Details",
-      description: "The details of the contact",
-    },
-    contactPreferences: {
-      type: "object",
-      label: "Contact Preferences",
-      description: "The preferences related to the contact",
-      optional: true,
-    },
-    opportunityTitle: {
-      type: "string",
-      label: "Opportunity Title",
-      description: "The title of the opportunity",
-    },
-    opportunityDescription: {
-      type: "string",
-      label: "Opportunity Description",
-      description: "The description of the opportunity",
-    },
-    opportunityValue: {
-      type: "number",
-      label: "Opportunity Value",
-      description: "The value of the opportunity",
-    },
-    associatedBusinesses: {
-      type: "string[]",
-      label: "Associated Businesses",
-      description: "The businesses associated with the opportunity",
-      optional: true,
-    },
-    associatedContacts: {
-      type: "string[]",
-      label: "Associated Contacts",
-      description: "The contacts associated with the opportunity",
-      optional: true,
-    },
-    businessName: {
-      type: "string",
-      label: "Business Name",
-      description: "The name of the business",
-    },
-    industryType: {
-      type: "string",
-      label: "Industry Type",
-      description: "The industry type of the business",
-    },
-    businessDescription: {
-      type: "string",
-      label: "Business Description",
-      description: "The description of the business",
-      optional: true,
-    },
-    businessAddress: {
-      type: "string",
-      label: "Business Address",
-      description: "The address of the business",
-      optional: true,
-    },
-    emailAddress: {
-      type: "string",
-      label: "Email Address",
-      description: "The email address of the contact",
-    },
-    dealName: {
-      type: "string",
-      label: "Deal Name",
-      description: "The name of the deal flow",
-    },
-    involvedParties: {
-      type: "string[]",
-      label: "Involved Parties",
-      description: "The parties involved in the deal flow",
-    },
-    dealValue: {
-      type: "number",
-      label: "Deal Value",
-      description: "The value of the deal flow",
-      optional: true,
-    },
-    expectedClosingDate: {
-      type: "string",
-      label: "Expected Closing Date",
-      description: "The expected closing date of the deal flow",
-      optional: true,
+      label: "Rep ID",
+      description: "The ID of the rep",
+      async options({ mapper = ({ crep: value }) => value }) {
+        const { Result: data } = await this.getReps();
+        return data.map(mapper);
+      },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.satuitcrm.com";
-    },
-    async _makeRequest(opts = {}) {
+    getUrl(path) {
       const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+        environment,
+        sitename,
+      } = this.$auth;
+
+      const baseUrl = `${constants.BASE_URL}${constants.VERSION_PATH}`
+        .replace(constants.ENV_PLACEHOLDER, environment)
+        .replace(constants.SITENAME_PLACEHOLDER, sitename);
+
+      return `${baseUrl}${path}`;
+    },
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        ...args,
+        debug: true,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
       });
     },
-    async createActivity(opts = {}) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
+        ...args,
+      });
+    },
+    createActivity(args = {}) {
+      return this.post({
         path: "/activities",
-        ...opts,
+        ...args,
       });
     },
-    async createContact(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
+    createContact(args = {}) {
+      return this.post({
         path: "/contacts",
-        ...opts,
+        ...args,
       });
     },
-    async createOpportunity(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
+    createOpportunity(args = {}) {
+      return this.post({
         path: "/opportunities",
-        ...opts,
+        ...args,
       });
     },
-    async createBusiness(opts = {}) {
+    getBusinesses(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/businesses",
-        ...opts,
+        path: "/business",
+        ...args,
       });
     },
-    async searchContactByEmail(opts = {}) {
+    getReps(args = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: `/contacts/search?email=${opts.emailAddress}`,
+        path: "/rep",
+        ...args,
       });
     },
-    async createDealFlow(opts = {}) {
+    getContact(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/dealflows",
-        ...opts,
+        path: "/contact",
+        ...args,
       });
+    },
+    getOpportunity(args = {}) {
+      return this._makeRequest({
+        path: "/opportunity",
+        ...args,
+      });
+    },
+    getActivity(args = {}) {
+      return this._makeRequest({
+        path: "/activity",
+        ...args,
+      });
+    },
+    async *getIterations({
+      resourcesFn, resourcesFnArgs, resourceName,
+      fieldId, lastId,
+      max = constants.DEFAULT_MAX,
+    }) {
+      let page = 1;
+      let resourcesCount = 0;
+
+      while (true) {
+        const response =
+          await resourcesFn({
+            ...resourcesFnArgs,
+            params: {
+              ...resourcesFnArgs?.params,
+              page,
+            },
+          });
+
+        const nextResources = resourceName && response[resourceName] || response;
+
+        if (!nextResources?.length) {
+          console.log("No more resources found");
+          return;
+        }
+
+        for (const resource of nextResources) {
+          const idFound = lastId && resource[fieldId] === lastId;
+
+          if (idFound) {
+            console.log("Reached the last ID");
+            return;
+          }
+
+          yield resource;
+          resourcesCount += 1;
+
+          if (resourcesCount >= max) {
+            return;
+          }
+        }
+
+        if (nextResources.length < constants.DEFAULT_LIMIT) {
+          console.log("Reached the end of the resources");
+          return;
+        }
+
+        page += 1;
+      }
+    },
+    paginate(args = {}) {
+      return utils.iterate(this.getIterations(args));
     },
   },
-  version: "0.0.{{ts}}",
 };

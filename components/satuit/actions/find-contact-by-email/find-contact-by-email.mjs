@@ -1,26 +1,46 @@
-import satuit from "../../satuit.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../satuit.app.mjs";
 
 export default {
   key: "satuit-find-contact-by-email",
-  name: "Find Contact by Email",
-  description: "Searches for a specific contact within the Satuit platform using an email address as the key identifier. [See the documentation](https://satuittechnologies.zendesk.com/hc/en-us/articles/360055725213-satuit-rest-api-postman-documentation)",
-  version: "0.0.{{ts}}",
+  name: "Find Contact By Email",
+  description: "Searches for a specific contact within the Satuit platform using an email address as the key identifier. [See the documentation](https://satuittechnologies.zendesk.com/hc/en-us/articles/360055725213-Satuit-REST-API-Postman-Documentation)",
+  version: "0.0.1",
   type: "action",
   props: {
-    satuit,
-    emailAddress: {
-      propDefinition: [
-        satuit,
-        "emailAddress",
-      ],
+    app,
+    email: {
+      type: "string",
+      label: "Email Address",
+      description: "The email address of the contact",
     },
   },
   async run({ $ }) {
-    const response = await this.satuit.searchContactByEmail({
-      emailAddress: this.emailAddress,
+    const {
+      app,
+      email,
+    } = this;
+
+    const response = await app.getContact({
+      $,
+      params: {
+        top: 1,
+        filters: encodeURIComponent(
+          JSON.stringify({
+            ["pcontact.ccemail"]: email,
+          }),
+        ),
+      },
     });
-    $.export("$summary", `Successfully found contact by email: ${this.emailAddress}`);
-    return response;
+
+    if (!response) {
+      $.export("$summary", `No contact was found with the email address \`${email}\``);
+      return {
+        success: false,
+      };
+    }
+
+    $.export("$summary", `Successfully found a contact with the email address \`${email}\``);
+
+    return response?.Result[0];
   },
 };
