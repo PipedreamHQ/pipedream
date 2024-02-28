@@ -6,7 +6,7 @@ export default {
   key: "asana-new-project",
   name: "New Project Added To Workspace (Instant)",
   description: "Emit new event for each new project added to a workspace.",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -37,7 +37,9 @@ export default {
       if (!body || !body.events) return;
 
       for (const e of body.events) {
-        const project = await this.asana.getProject(e.resource.gid);
+        const { data: project } = await this.asana.getProject({
+          projectId: e.resource.gid,
+        });
 
         this.$emit(project, {
           id: project.gid,

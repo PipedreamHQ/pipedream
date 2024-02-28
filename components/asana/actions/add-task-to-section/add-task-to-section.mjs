@@ -3,9 +3,9 @@ import common from "../common/common.mjs";
 
 export default {
   name: "Add Task To Section",
-  description: "Add a task to a specific, existing section. This will remove the task from other sections of the project. [See the docs here](https://developers.asana.com/docs/add-task-to-section)",
+  description: "Add a task to a specific, existing section. This will remove the task from other sections of the project. [See the documentation](https://developers.asana.com/docs/add-task-to-section)",
   key: "asana-add-task-to-section",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   props: {
     ...common.props,
@@ -61,7 +61,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.asana._makeRequest(`sections/${this.section_gid}/addTask`, {
+    const response = await this.asana._makeRequest({
+      path: `sections/${this.section_gid}/addTask`,
       method: "post",
       data: {
         data: {
@@ -70,7 +71,8 @@ export default {
           insert_after: this.insert_after,
         },
       },
-    }, $);
+      $,
+    });
 
     $.export("$summary", "Successfully added task to section");
 

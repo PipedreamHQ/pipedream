@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/satuit",
+  "version": "0.0.1",
+  "description": "Pipedream Satuit Components",
+  "main": "satuit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "satuit"
+  ],
+  "homepage": "https://pipedream.com/apps/satuit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
