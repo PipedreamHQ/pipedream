@@ -4,64 +4,54 @@ export default {
   type: "app",
   app: "keysender",
   propDefinitions: {
-    productId: {
-      type: "string",
-      label: "Product ID",
-      description: "The ID of the product for the order",
-    },
-    quantity: {
+    databaseId: {
       type: "integer",
-      label: "Quantity",
-      description: "The quantity of the product for the order",
-    },
-    recipientInfo: {
-      type: "object",
-      label: "Recipient Information",
-      description: "The information of the recipient for the order",
-    },
-    orderType: {
-      type: "string",
-      label: "Order Type",
-      description: "The type of the order",
-      optional: true,
-    },
-    priorityStatus: {
-      type: "string",
-      label: "Priority Status",
-      description: "The priority status of the order",
-      optional: true,
+      label: "Database ID",
+      description: "The database ID from which codes will be taken.",
+      async options({ page }) {
+        const databases = await this.listDatabases({
+          params: {
+            page,
+          },
+        });
+        return databases?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "http://panel.keysender.co.uk/api";
+      return "https://panel.keysender.co.uk/api/v1.0";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "get",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "application/json",
         },
       });
     },
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    listDatabases(opts = {}) {
+      return this._makeRequest({
+        path: "/databases",
+        ...opts,
+      });
     },
-    async createOrder(opts = {}) {
+    createTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/orders",
+        path: "/transaction/addcustom",
         ...opts,
       });
     },
