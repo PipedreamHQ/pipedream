@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/paystack",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Paystack Components",
   "main": "dist/app/paystack.app.mjs",
   "keywords": [
