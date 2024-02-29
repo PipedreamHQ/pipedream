@@ -32,6 +32,8 @@ export default {
           },
         });
 
+        console.log('Auto-rev test...')
+
         return customers.map((customer) => customer.uid);
       },
     },
