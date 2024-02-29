@@ -1,5 +1,6 @@
 import keysender from "../../keysender.app.mjs";
 import constants from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "keysender-create-transaction",
@@ -47,6 +48,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (isNaN(this.amount)) {
+      throw new ConfigurationError("Amount must be a valid number.");
+    }
+
     const response = await this.keysender.createTransaction({
       $,
       data: {
