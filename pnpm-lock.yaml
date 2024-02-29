@@ -72,7 +72,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/_46elks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/_twocaptcha:
     specifiers:
@@ -6224,7 +6227,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/satuit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/saucelabs:
     specifiers: {}
@@ -7367,7 +7373,10 @@ importers:
       dayjs: 1.11.10
 
   components/thoughtful_gpt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/threads:
     specifiers:

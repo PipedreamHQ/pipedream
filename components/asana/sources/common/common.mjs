@@ -16,7 +16,6 @@ export default {
         asana,
         "workspaces",
       ],
-      optional: true,
     },
   },
   methods: {

@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+const DEFAULT_LIMIT = 25;
 
 export default {
   type: "app",
@@ -21,11 +22,12 @@ export default {
       description: "List of workspaces. This field uses the workspace GID.",
       type: "string[]",
       async options({ prevContext }) {
-        const params = prevContext?.offset
-          ? {
-            offset: prevContext.offset,
-          }
-          : {};
+        const params = {
+          limit: DEFAULT_LIMIT,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
         const {
           data: workspaces, next_page: next,
         } = await this.getWorkspaces({
@@ -62,11 +64,10 @@ export default {
       async options({
         workspace, prevContext,
       }) {
-        const params = workspace
-          ? {
-            workspace,
-          }
-          : {};
+        const params = {
+          workspace,
+          limit: DEFAULT_LIMIT,
+        };
         if (prevContext?.offset) {
           params.offset = prevContext.offset;
         }
@@ -92,11 +93,12 @@ export default {
       description: "List of tags. This field uses the tag GID.",
       type: "string[]",
       async options({ prevContext }) {
-        const params = prevContext?.offset
-          ? {
-            offset: prevContext.offset,
-          }
-          : {};
+        const params = {
+          limit: DEFAULT_LIMIT,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
         const {
           data: tags, next_page: next,
         } = await this.getTags({
@@ -119,11 +121,12 @@ export default {
       description: "List of users. This field uses the user GID.",
       type: "string[]",
       async options({ prevContext }) {
-        const params = prevContext?.offset
-          ? {
-            offset: prevContext.offset,
-          }
-          : {};
+        const params = {
+          limit: DEFAULT_LIMIT,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
         const {
           data: users, next_page: next,
         } = await this.getUsers({
@@ -153,6 +156,7 @@ export default {
         }
         const params = {
           project,
+          limit: DEFAULT_LIMIT,
         };
         if (prevContext?.offset) {
           params.offset = prevContext.offset;
@@ -186,11 +190,12 @@ export default {
         if (!project) {
           return [];
         }
-        const params = prevContext?.offset
-          ? {
-            offset: prevContext.offset,
-          }
-          : {};
+        const params = {
+          limit: DEFAULT_LIMIT,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
         const {
           data: sections, next_page: next,
         } = await this.getSections({

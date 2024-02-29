@@ -5,7 +5,7 @@ export default {
   key: "asana-delete-task",
   name: "Delete Task",
   description: "Deletes a specific and existing task. [See the documentation](https://developers.asana.com/docs/delete-a-task)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
