@@ -1,27 +1,24 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "content_snare",
   propDefinitions: {
-    requestName: {
-      type: "string",
-      label: "Request Name",
-      description: "The name of the request to initiate on Content Snare.",
-    },
     companyName: {
       type: "string",
       label: "Company Name",
       description: "The name of the client's company.",
+      optional: true,
     },
     clientEmail: {
       type: "string",
-      label: "Client Email",
+      label: "Email",
       description: "The email address of the client.",
     },
     clientFullName: {
       type: "string",
-      label: "Client Full Name",
+      label: "Full Name",
       description: "The full name of the client.",
     },
     clientPhone: {
@@ -30,124 +27,79 @@ export default {
       description: "The phone number of the client.",
       optional: true,
     },
-    additionalProps: {
-      type: "object",
-      label: "Additional Properties",
-      description: "Additional properties for creating a request or client.",
-      optional: true,
-    },
-    requestId: {
+    requestTemplateId: {
       type: "string",
-      label: "Request ID",
-      description: "The ID of the request",
-      async options() {
-        const { requests } = await this.listRequests();
-        return requests.map((request) => ({
-          label: request.name,
-          value: request.id,
-        }));
-      },
-    },
-    fieldId: {
-      type: "string",
-      label: "Field ID",
-      description: "The ID of the field",
-      async options({ requestId }) {
-        const { fields } = await this.listFields(requestId);
-        return fields.map((field) => ({
-          label: field.label,
-          value: field.id,
-        }));
-      },
-    },
-    clientId: {
-      type: "string",
-      label: "Client ID",
-      description: "The ID of the client",
-      async options() {
-        const { clients } = await this.listClients();
-        return clients.map((client) => ({
-          label: client.full_name,
-          value: client.id,
-        }));
+      label: "Request Template ID",
+      description: "The ID of the request template to use for this request.",
+      async options({ prevContext }) {
+        const { nextOffset } = prevContext;
+        if (nextOffset === null) {
+          return [];
+        }
+        const {
+          pagination: { offset },
+          results,
+        } = await this.listRequestTemplates({
+          params: {
+            limit: constants.DEFAULT_LIMIT,
+            offset: nextOffset,
+          },
+        });
+        return {
+          options: results.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextOffset: results.length < constants.DEFAULT_LIMIT
+              ? null
+              : offset + results.length,
+          },
+        };
       },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.contentsnare.com/partner_api/v1";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
     },
-    async listRequests() {
-      return this._makeRequest({
-        path: `/requests`,
-      });
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      const config = {
+        ...args,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
+      };
+      return axios($, config);
     },
-    async listFields(requestId) {
-      return this._makeRequest({
-        path: `/requests/${requestId}/fields`,
-      });
-    },
-    async listClients() {
-      return this._makeRequest({
-        path: `/clients`,
-      });
-    },
-    async initiateRequest({ requestName, ...additionalProps }) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/requests",
-        data: {
-          name: requestName,
-          ...additionalProps,
-        },
+        ...args,
       });
     },
-    async generateClient({ companyName, clientEmail, clientFullName, clientPhone, ...additionalProps }) {
+    delete(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/clients",
-        data: {
-          company_name: companyName,
-          email: clientEmail,
-          full_name: clientFullName,
-          phone: clientPhone,
-          ...additionalProps,
-        },
+        method: "DELETE",
+        ...args,
       });
     },
-    async updateClient({ clientId, ...opts }) {
+    listRequestTemplates(args = {}) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/clients/${clientId}`,
-        data: {
-          ...opts,
-        },
-      });
-    },
-    async emitEvent(eventName, eventData) {
-      this.$emit({
-        name: eventName,
-        data: eventData,
+        path: "/request_templates",
+        ...args,
       });
     },
   },
-  version: `0.0.${new Date().getTime()}`,
 };

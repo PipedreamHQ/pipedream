@@ -1,0 +1,38 @@
+export default {
+  "id": "fld_1lqbwY6TaMPmAo",
+  "event_name": "field_approved",
+  "section_id": "0",
+  "section_name": "Example section name",
+  "page_id": "0",
+  "page_name": "Example page name",
+  "name": 'Example approved field name',
+  "instruction_text": "Example approved field instructions",
+  "status": "approved",
+  "type": "text",
+  "values": ["Example approved field answer"],
+  "values_flat": "Example approved field answer",
+  "request": {
+    "id": "req_1k7zv4aUlpN8PB",
+    "name": "Example Request",
+    "status": "published",
+    "due_date": "2020-10-20",
+    "folder_name": "Default Folder",
+    "url": "https://app.contentsnare.com/requests/EXAMPLE_ONLY",
+    "pin_code_enabled": "true",
+    "pin_code": "1234",
+    "request_template_name": "Example Template",
+    "communications_template_name": "Default",
+    "completion_percentage": "0",
+    "share_link": "https://app.contentsnare.com/requests/EXAMPLE_ONLY",
+    "owner_name": "Example Owner",
+    "author_name": "Example Author",
+    "client": {
+      "id": "acc_MORVw9Cyq97AyN",
+      "company_name": "Example Company",
+      "email": "example@example.com",
+      "full_name": "Example Client",
+      "phone": "123-456-7890",
+      "avatar": "https://www.gravatar.com/avatar/93942e96f5acd83e2e047ad8fe03114d?s=100&d=robohash",
+    }
+  }
+};

@@ -1,59 +1,70 @@
-import contentSnare from "../../content_snare.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../content_snare.app.mjs";
 
 export default {
   key: "content_snare-create-client",
   name: "Create Client",
-  description: "Creates a new client on Content Snare. Requires at least one company name, the client's email, and full name. Other attributes such as phone are optional. [See the documentation](https://api.contentsnare.com/partner_api/v1/documentation)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new client on Content Snare. [See the documentation](https://api.contentsnare.com/partner_api/v1/documentation#post-/partner_api/v1/clients)",
+  version: "0.0.1",
   type: "action",
   props: {
-    contentSnare,
+    app,
     companyName: {
       propDefinition: [
-        contentSnare,
+        app,
         "companyName",
       ],
     },
-    clientEmail: {
+    email: {
       propDefinition: [
-        contentSnare,
+        app,
         "clientEmail",
       ],
     },
-    clientFullName: {
+    fullName: {
       propDefinition: [
-        contentSnare,
+        app,
         "clientFullName",
       ],
     },
-    clientPhone: {
+    phone: {
       propDefinition: [
-        contentSnare,
+        app,
         "clientPhone",
       ],
-      optional: true,
     },
-    additionalProps: {
-      propDefinition: [
-        contentSnare,
-        "additionalProps",
-      ],
-      optional: true,
+  },
+  methods: {
+    createClient(args = {}) {
+      return this.app.post({
+        path: "/clients",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const clientData = {
-      companyName: this.companyName,
-      clientEmail: this.clientEmail,
-      clientFullName: this.clientFullName,
-      ...(this.clientPhone && { clientPhone: this.clientPhone }),
-      ...(this.additionalProps && { ...this.additionalProps }),
-    };
+    const {
+      createClient,
+      companyName,
+      email,
+      fullName,
+      phone,
+    } = this;
 
-    const response = await this.contentSnare.generateClient(clientData);
+    const response = await createClient({
+      $,
+      data: {
+        client_companies: (companyName && [
+          {
+            name: companyName,
+          },
+        ]),
+        email,
+        full_name: fullName,
+        phone,
+      },
+    });
 
-    $.export("$summary", `Successfully created client: ${this.clientFullName}`);
+    $.export("$summary", `Successfully created client with ID \`${response.id}\``);
     return response;
   },
 };

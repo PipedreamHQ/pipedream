@@ -1,74 +1,91 @@
-import contentSnare from "../../content_snare.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../content_snare.app.mjs";
 
 export default {
   key: "content_snare-create-request",
-  name: "Create Request on Content Snare",
-  description: "Initiates a novel request on Content Snare. The mandatory prop is name and all other props are optional. [See the documentation](https://api.contentsnare.com/partner_api/v1/documentation)",
-  version: `0.0.${new Date().getTime()}`,
+  name: "Create Request",
+  description: "Initiates a novel request on Content Snare. [See the documentation](https://api.contentsnare.com/partner_api/v1/documentation#post-/partner_api/v1/requests)",
+  version: "0.0.1",
   type: "action",
   props: {
-    contentSnare,
-    requestName: {
-      propDefinition: [
-        contentSnare,
-        "requestName"
-      ]
-    },
-    companyName: {
-      propDefinition: [
-        contentSnare,
-        "companyName",
-        (c) => ({ optional: true })
-      ],
-      optional: true
+    app,
+    name: {
+      type: "string",
+      label: "Request Name",
+      description: "The name of the request to initiate on Content Snare.",
     },
     clientEmail: {
       propDefinition: [
-        contentSnare,
+        app,
         "clientEmail",
-        (c) => ({ optional: true })
       ],
-      optional: true
     },
     clientFullName: {
       propDefinition: [
-        contentSnare,
+        app,
         "clientFullName",
-        (c) => ({ optional: true })
       ],
-      optional: true
     },
     clientPhone: {
       propDefinition: [
-        contentSnare,
+        app,
         "clientPhone",
-        (c) => ({ optional: true })
       ],
-      optional: true
     },
-    additionalProps: {
+    companyName: {
       propDefinition: [
-        contentSnare,
-        "additionalProps",
-        (c) => ({ optional: true })
+        app,
+        "companyName",
       ],
-      optional: true
+    },
+    requestTemplateName: {
+      type: "string",
+      label: "Request Template Name",
+      description: "The name of the request template to use for this request. Either this field or **Request Template ID** must be provided.",
+      optional: true,
+    },
+    requestTemplateId: {
+      propDefinition: [
+        app,
+        "requestTemplateId",
+      ],
+      optional: true,
+    },
+  },
+  methods: {
+    createRequest(args = {}) {
+      return this.app.post({
+        path: "/requests",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const additionalProps = this.additionalProps || {};
-    
-    const response = await this.contentSnare.initiateRequest({
-      requestName: this.requestName,
-      companyName: this.companyName,
-      clientEmail: this.clientEmail,
-      clientFullName: this.clientFullName,
-      clientPhone: this.clientPhone,
-      ...additionalProps,
+    const {
+      createRequest,
+      name,
+      clientEmail,
+      clientFullName,
+      clientPhone,
+      companyName,
+      requestTemplateName,
+      requestTemplateId,
+    } = this;
+
+    const response = await createRequest({
+      $,
+      data: {
+        name,
+        client_email: clientEmail,
+        client_full_name: clientFullName,
+        client_phone: clientPhone,
+        company_name: companyName,
+        request_template_name: requestTemplateName,
+        request_template_id: requestTemplateId,
+      },
     });
 
-    $.export("$summary", `Successfully initiated request with name: ${this.requestName}`);
+    $.export("$summary", `Successfully created request with ID \`${response.id}\``);
+
     return response;
   },
 };
