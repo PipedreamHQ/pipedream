@@ -7,7 +7,7 @@ export default defineSource({
   key: "rss-new-item-in-feed",
   name: "New Item in Feed",
   description: "Emit new items from an RSS feed",
-  version: "1.2.5",
+  version: "1.2.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -18,11 +18,11 @@ export default defineSource({
         "url",
       ],
     },
-    publishedAfterThan: {
+    publishedAfter: {
       type: "string",
-      label: "Published After Than",
+      label: "Published After",
       description: "Emit items published after the specified date in ISO 8601 format .e.g `2022-12-07T12:57:10+07:00`",
-      optional: true,
+      default: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // default to one day ago
     },
   },
   hooks: {
@@ -45,12 +45,10 @@ export default defineSource({
   async run() {
     const items = await this.rss.fetchAndParseFeed(this.url);
     for (const item of items.reverse()) {
-      if (this.publishedAfterThan) {
-        const publishedAfterThan = +new Date(this.publishedAfterThan);
-        const ts = this.rss.itemTs(item);
-        if (Number.isNaN(publishedAfterThan) || publishedAfterThan > ts) {
-          continue;
-        }
+      const publishedAfter = +new Date(this.publishedAfter);
+      const ts = this.rss.itemTs(item);
+      if (Number.isNaN(publishedAfter) || publishedAfter > ts) {
+        continue;
       }
       const meta = this.generateMeta(item);
       this.$emit(item, meta);
