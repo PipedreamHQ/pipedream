@@ -23,9 +23,9 @@ jobs:
       - uses: actions/checkout@v4.1.1
         name: Checkout repo
         with:
-          # token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: pull/${{ github.event.number }}/head:${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.ref }}
           # See https://github.com/actions/checkout#checkout-v2
           # This will be slow. The intent is to fetch all commits
           # since the merge-base (the commit where we branched off)
