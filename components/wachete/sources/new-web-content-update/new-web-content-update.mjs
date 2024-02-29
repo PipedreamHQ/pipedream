@@ -1,4 +1,5 @@
 import wachete from "../../wachete.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "wachete-new-web-content-update",
@@ -81,4 +82,5 @@ export default {
     const meta = this.generateMeta(body);
     this.$emit(body, meta);
   },
+  sampleEmit,
 };
