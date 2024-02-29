@@ -27,7 +27,7 @@ export default {
     async getResources() {
       const { list } = await this.app.getEvents({
         "limit": constants.MAX_LIMIT,
-        "sort_by[desc]": "date",
+        "sort_by[desc]": "occurred_at",
       });
       return list;
     },
