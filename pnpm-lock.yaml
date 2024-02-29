@@ -7358,7 +7358,10 @@ importers:
       dayjs: 1.11.10
 
   components/thoughtful_gpt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/threads:
     specifiers:
