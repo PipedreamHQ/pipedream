@@ -1,0 +1,30 @@
+const CURRENCY = [
+  "GBP",
+  "EUR",
+  "USD",
+  "PLN",
+  "CAD",
+  "NOK",
+  "DKK",
+  "SEK",
+  "RUR",
+  "LTL",
+  "CHF",
+  "UAH",
+  "HUF",
+  "AUD",
+  "CZK",
+  "HKD",
+  "ILS",
+  "JPY",
+  "MXN",
+  "TWD",
+  "NZD",
+  "PHP",
+  "SGD",
+  "THB",
+];
+
+export default {
+  CURRENCY,
+};
