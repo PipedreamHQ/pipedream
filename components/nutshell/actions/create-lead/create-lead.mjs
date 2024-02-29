@@ -22,13 +22,6 @@ export default {
       description: "A list of tags.",
       optional: true,
     },
-    description: {
-      propDefinition: [
-        nutshell,
-        "description",
-      ],
-      reloadProps: true,
-    },
     accountId: {
       propDefinition: [
         nutshell,
@@ -44,6 +37,13 @@ export default {
       ],
       type: "string[]",
       optional: true,
+    },
+    description: {
+      propDefinition: [
+        nutshell,
+        "description",
+      ],
+      reloadProps: true,
     },
   },
   async additionalProps() {

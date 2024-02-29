@@ -15,14 +15,6 @@ export default {
       description: "The name to the contact.",
       optional: true,
     },
-    description: {
-      propDefinition: [
-        nutshell,
-        "description",
-      ],
-      description: "A description to identify the new contact.",
-      reloadProps: true,
-    },
     phone: {
       propDefinition: [
         nutshell,
@@ -77,6 +69,14 @@ export default {
         "audienceId",
       ],
       optional: true,
+    },
+    description: {
+      propDefinition: [
+        nutshell,
+        "description",
+      ],
+      description: "A description to identify the new contact.",
+      reloadProps: true,
     },
   },
   async additionalProps() {

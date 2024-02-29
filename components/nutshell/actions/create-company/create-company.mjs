@@ -9,13 +9,6 @@ export default {
   type: "action",
   props: {
     nutshell,
-    companyName: {
-      propDefinition: [
-        nutshell,
-        "companyName",
-      ],
-      reloadProps: true,
-    },
     industryId: {
       propDefinition: [
         nutshell,
@@ -62,6 +55,13 @@ export default {
         "address",
       ],
       optional: true,
+    },
+    companyName: {
+      propDefinition: [
+        nutshell,
+        "companyName",
+      ],
+      reloadProps: true,
     },
   },
   async additionalProps() {
