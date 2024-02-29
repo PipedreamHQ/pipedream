@@ -1,76 +1,60 @@
 import contentgroove from "../../contentgroove.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "contentgroove-new-media-processing-finished-instant",
-  name: "New Media Processing Finished",
-  description: "Emit new event when a media is done processing by ContentGroove. [See the documentation](https://developers.contentgroove.com/api_reference)",
-  version: "0.0.{{ts}}",
+  name: "New Media Processing Finished (Instant)",
+  description: "Emit new event when a media is done processing by ContentGroove.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    contentgroove: {
-      type: "app",
-      app: "contentgroove",
-    },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
+    contentgroove,
+    http: "$.interface.http",
     db: "$.service.db",
+  },
+  methods: {
+    emitData(data) {
+      this.$emit(data, {
+        id: data.id,
+        summary: `Media ${data.attributes.name} processed.`,
+        ts: Date.parse(data.attributes.created_at),
+      });
+    },
   },
   hooks: {
     async deploy() {
-      // Fetch and emit the 50 most recent processed media items as historical data
-      const mediaItems = await this.contentgroove.paginate(this.contentgroove.listProcessedMedia);
-      mediaItems.slice(-50).reverse()
-        .forEach((mediaItem) => {
-          this.$emit(mediaItem, {
-            id: mediaItem.id,
-            summary: `Media ${mediaItem.id} processed`,
-            ts: Date.parse(mediaItem.processedAt),
-          });
-        });
+      const { data } = await this.contentgroove.listProcessedMedia({
+        params: {
+          size: 25,
+          sort: "-createdAt",
+        },
+      });
+
+      data.reverse()
+        .forEach((mediaItem) => this.emitData(mediaItem));
     },
     async activate() {
-      // Example: Create a webhook subscription if the API supports it
-      // This is a placeholder. Actual implementation may vary based on the API.
-      // const webhookId = await this.contentgroove.createWebhook({ url: this.http.endpoint });
-      // this.db.set("webhookId", webhookId);
+      const response = await this.contentgroove.createWebhook({
+        data: {
+          data: {
+            attributes: {
+              url: this.http.endpoint,
+              subscribed_events: [
+                "media.processing_finished",
+              ],
+            },
+          },
+        },
+      });
+      this.db.set("webhookId", response.data?.id);
     },
     async deactivate() {
-      // Example: Delete the webhook subscription if the API supports it
-      // This is a placeholder. Actual implementation may vary based on the API.
-      // const webhookId = this.db.get("webhookId");
-      // await this.contentgroove.deleteWebhook(webhookId);
+      const webhookId = this.db.get("webhookId");
+      await this.contentgroove.deleteWebhook(webhookId);
     },
   },
-  async run(event) {
-    // Assuming the event body contains the processed media information
-    const media = event.body;
-    // Emit each processed media item if it's an array, otherwise check the status
-    if (media && Array.isArray(media)) {
-      media.forEach((mediaItem) => {
-        this.$emit(mediaItem, {
-          id: mediaItem.id,
-          summary: `Media ${mediaItem.id} processed`,
-          ts: Date.parse(mediaItem.processedAt),
-        });
-      });
-    } else if (media && media.mediaId) {
-      const mediaInfo = await this.contentgroove.checkMediaStatus(media.mediaId);
-      if (mediaInfo.status === "processed") {
-        this.$emit(mediaInfo, {
-          id: mediaInfo.id,
-          summary: `Media ${mediaInfo.id} processed`,
-          ts: Date.parse(mediaInfo.processedAt),
-        });
-      }
-    }
-    // Respond to the webhook
-    this.http.respond({
-      status: 200,
-      body: "OK",
-    });
+  async run({ body }) {
+    const { payload: { data } } = body;
+    this.emitData(data);
   },
 };
