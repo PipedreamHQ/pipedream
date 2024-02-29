@@ -72,7 +72,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/_46elks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/_twocaptcha:
     specifiers:
@@ -4500,13 +4503,13 @@ importers:
 
   components/monday:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.0
       lodash.flatmap: ^4.5.0
       lodash.map: ^4.6.0
       lodash.uniqby: ^4.7.0
       monday-sdk-js: ^0.1.3
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
       lodash.uniqby: 4.7.0
@@ -6212,7 +6215,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/satuit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/saucelabs:
     specifiers: {}
@@ -6239,7 +6245,12 @@ importers:
     specifiers: {}
 
   components/scoredetect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      form-data: 4.0.0
 
   components/scoro:
     specifiers: {}
@@ -7347,7 +7358,10 @@ importers:
       dayjs: 1.11.10
 
   components/thoughtful_gpt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/threads:
     specifiers:

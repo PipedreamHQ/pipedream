@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sms_everyone",
+  "version": "0.0.1",
+  "description": "Pipedream SMS Everyone Components",
+  "main": "sms_everyone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sms_everyone"
+  ],
+  "homepage": "https://pipedream.com/apps/sms_everyone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

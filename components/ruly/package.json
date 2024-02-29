@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ruly",
+  "version": "0.0.1",
+  "description": "Pipedream Ruly Components",
+  "main": "ruly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ruly"
+  ],
+  "homepage": "https://pipedream.com/apps/ruly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
