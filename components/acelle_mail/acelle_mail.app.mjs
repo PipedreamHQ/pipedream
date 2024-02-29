@@ -32,6 +32,9 @@ export default {
           },
         });
 
+        console.log('auto-rev-test')
+        console.log('auto-rev-test')
+
         return customers.map((customer) => customer.uid);
       },
     },
