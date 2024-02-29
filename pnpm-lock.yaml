@@ -940,7 +940,12 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/bybit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      crypto-js: ^4.2.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      crypto-js: 4.2.0
 
   components/cabinpanda:
     specifiers: {}
