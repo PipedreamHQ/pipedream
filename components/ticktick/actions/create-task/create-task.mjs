@@ -5,7 +5,7 @@ export default {
   key: "ticktick-create-task",
   name: "Create a Task",
   description: "Create a Task. [See the documentation](https://developer.ticktick.com/api#/openapi?id=create-a-task)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     ticktick,
