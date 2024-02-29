@@ -6,7 +6,7 @@ export default {
   key: "asana-new-workspace",
   name: "New Workspace Added",
   description: "Emit new event each time you add a new workspace/organization.",
-  version: "0.1.5",
+  version: "0.1.6",
   dedupe: "unique",
   props: {
     asana,

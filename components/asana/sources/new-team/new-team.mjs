@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New Team",
   description: "Emit new event for each task added to an organization.",
-  version: "0.1.5",
+  version: "0.1.6",
   dedupe: "unique",
   props: {
     asana,
