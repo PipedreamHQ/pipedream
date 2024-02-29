@@ -4,8 +4,8 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-create-task-comment",
   name: "Create Task Comment",
-  description: "Adds a comment to a task. [See the docs here](https://developers.asana.com/docs/create-a-story-on-a-task)",
-  version: "0.2.3",
+  description: "Adds a comment to a task. [See the documentation](https://developers.asana.com/docs/create-a-story-on-a-task)",
+  version: "0.2.4",
   type: "action",
   props: {
     ...common.props,
@@ -47,7 +47,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.asana._makeRequest(`tasks/${this.task_gid}/stories`, {
+    const response = await this.asana._makeRequest({
+      path: `tasks/${this.task_gid}/stories`,
       method: "post",
       data: {
         data: {
@@ -57,7 +58,8 @@ export default {
           sticker_name: this.sticker_name,
         },
       },
-    }, $);
+      $,
+    });
 
     $.export("$summary", "Successfully created task comment");
 

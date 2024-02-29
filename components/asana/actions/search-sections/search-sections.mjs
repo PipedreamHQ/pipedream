@@ -3,8 +3,8 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-search-sections",
   name: "Search Sections",
-  description: "Searches for a section by name within a particular project. [See the docs here](https://developers.asana.com/docs/get-sections-in-a-project)",
-  version: "0.2.3",
+  description: "Searches for a section by name within a particular project. [See the documentation](https://developers.asana.com/docs/get-sections-in-a-project)",
+  version: "0.2.4",
   type: "action",
   props: {
     ...common.props,
@@ -15,7 +15,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const sections = await this.asana.getSections(this.project, $);
+    const { data: sections } = await this.asana.getSections({
+      project: this.project,
+      $,
+    });
 
     $.export("$summary", "Successfully retrieved sections");
 

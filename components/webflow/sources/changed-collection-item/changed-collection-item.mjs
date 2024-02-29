@@ -5,7 +5,7 @@ export default {
   key: "webflow-changed-collection-item",
   name: "New Changed Collection Item",
   description: "Emit new event when a collection item is changed. [See the docs here](https://developers.webflow.com/#model16)",
-  version: "0.2.2",
+  version: "0.2.3",
   ...common,
   methods: {
     ...common.methods,

@@ -4,7 +4,7 @@ export default {
   key: "webflow-fulfill-order",
   name: "Fulfill Order",
   description: "Fulfill an order. [See the docs here](https://developers.webflow.com/#fulfill-order)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     webflow,

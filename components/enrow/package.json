@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/enrow",
+  "version": "0.0.1",
+  "description": "Pipedream Enrow Components",
+  "main": "enrow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "enrow"
+  ],
+  "homepage": "https://pipedream.com/apps/enrow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

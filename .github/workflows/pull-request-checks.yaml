@@ -15,11 +15,17 @@ jobs:
     name: Ensure component commits modify component versions
     runs-on: ubuntu-latest
 
+    permissions: 
+      contents: write
+      pull-requests: write
+
     steps:
       - uses: actions/checkout@v4.1.1
         name: Checkout repo
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.head_ref }}
           # See https://github.com/actions/checkout#checkout-v2
           # This will be slow. The intent is to fetch all commits
           # since the merge-base (the commit where we branched off)
@@ -40,7 +46,7 @@ jobs:
           all_files: ${{ steps.changed_files.outputs.all }}
           base_commit: ${{ github.event.pull_request.base.sha }}
           head_commit: ${{ github.event.pull_request.head.sha }}
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: Automatically updating actions and sources versions
            commit_options:  '--no-verify'

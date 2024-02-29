@@ -4,8 +4,8 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-search-tasks",
   name: "Search Tasks",
-  description: "Searches for a Task by name within a Project. [See the docs here](https://developers.asana.com/docs/get-multiple-tasks)",
-  version: "0.2.3",
+  description: "Searches for a Task by name within a Project. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
+  version: "0.2.4",
   type: "action",
   props: {
     ...common.props,
@@ -52,10 +52,10 @@ export default {
   },
   async run({ $ }) {
     if ((!this.workspace || !this.assignee) && !this.project && !this.section) {
-      throw new Error("You must specify exactly one of workspace, project, or section");
+      throw new Error("You must specify a Project or Section if you do not specify Assignee and Workspace");
     }
 
-    const tasks = await this.asana.getTasks({
+    const { data: tasks } = await this.asana.getTasks({
       params: {
         assignee: this.assignee,
         project: this.project,
@@ -64,7 +64,8 @@ export default {
         completed_since: this.completed_since,
         modified_since: this.modified_since,
       },
-    }, $);
+      $,
+    });
 
     $.export("$summary", "Successfully retrieved tasks");
 
