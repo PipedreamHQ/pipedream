@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4.1.1
         name: Checkout repo
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.head_ref }}
           # See https://github.com/actions/checkout#checkout-v2
@@ -50,9 +50,9 @@ jobs:
         with:
            commit_message: Automatically updating actions and sources versions
            commit_options:  '--no-verify'
-           commit_user_name: Pipedream [Bot]
-           commit_user_email: pipedream@pipedream.com
-           commit_author: Pipedream [Bot] <pipedream@pipedream.com>
+          #  commit_user_name: Pipedream [Bot]
+          #  commit_user_email: pipedream@pipedream.com
+          #  commit_author: Pipedream [Bot] <pipedream@pipedream.com>
            push_options: '--force'
 
   spellcheck:
