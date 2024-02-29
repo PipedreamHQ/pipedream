@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   type: "action",
   key: "asana-search-projects",
-  version: "0.2.4",
+  version: "0.2.5",
   name: "Search Projects",
   description: "Finds an existing project. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
   props: {

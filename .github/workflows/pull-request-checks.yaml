@@ -24,6 +24,7 @@ jobs:
         name: Checkout repo
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.head_ref }}
           # See https://github.com/actions/checkout#checkout-v2
           # This will be slow. The intent is to fetch all commits
