@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cronfree",
+  "version": "0.0.1",
+  "description": "Pipedream Cronfree Components",
+  "main": "cronfree.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cronfree"
+  ],
+  "homepage": "https://pipedream.com/apps/cronfree",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
