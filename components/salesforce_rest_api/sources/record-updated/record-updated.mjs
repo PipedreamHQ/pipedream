@@ -5,10 +5,10 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   type: "source",
-  name: "New Updated Object (of Selectable Type)",
-  key: "salesforce_rest_api-object-updated",
-  description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is updated. [See the docs](https://sforce.co/3yPSJZy) for more information.",
-  version: "0.1.11",
+  name: "New Updated Record (of Selectable Type)",
+  key: "salesforce_rest_api-record-updated",
+  description: "Emit new event (at regular intervals) when a record of arbitrary type (selected as an input parameter by the user) is updated. [See the docs](https://sforce.co/3yPSJZy) for more information.",
+  version: "0.1.12",
   hooks: {
     ...common.hooks,
     async activate() {
