@@ -54,22 +54,15 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.commpeak.com";
+      return "https://hlr.commpeak.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, data, params, headers, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, headers, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        data,
-        params,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.api_token}`,
