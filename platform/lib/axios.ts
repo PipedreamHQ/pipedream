@@ -2,7 +2,10 @@ import axios from "axios";
 import { AxiosRequestConfig } from "./index";
 import * as querystring from "querystring";
 import { cloneSafe } from "./utils";
-import { ConfigurationError } from "./errors";
+import {
+  ConfigurationError,
+  NonexistentDataPropertyError,
+} from "./errors";
 
 function cleanObject(o = {}) {
   for (const k in o) {
@@ -28,7 +31,9 @@ function returnDataObject(response, returnFullResponse) {
   return new Proxy(response.data, {
     get(target, prop) {
       if (prop === "data") {
-        throw new Error("The `data` property does not exist. Access the response object directly.");
+        throw new NonexistentDataPropertyError(
+          "The Pipedream version of axios returns the data directly. Learn more: https://pipedream.com/docs/pipedream-axios#response-format",
+        );
       }
       return target[prop];
     },
