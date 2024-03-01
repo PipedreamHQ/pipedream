@@ -12,6 +12,29 @@ function cleanObject(o = {}) {
   }
 }
 
+function returnDataObject(response, returnFullResponse) {
+  if (returnFullResponse) {
+    return response;
+  }
+
+  // axios will always have a data property in the response
+  // if there is a data property inside response.data, do nothing
+  if (response.data.data) {
+    return response.data;
+  }
+
+  // proxy the response data to prevent access to the `data` property
+  // users aware with how axios works were accessing response.data but were getting undefined
+  return new Proxy(response.data, {
+    get(target, prop) {
+      if (prop === "data") {
+        throw new Error("The `data` property does not exist. Access the response object directly.");
+      }
+      return target[prop];
+    },
+  });
+}
+
 // remove query params from url and put into config.params
 function removeSearchFromUrl(config: AxiosRequestConfig) {
   if (!config.url) return;
@@ -116,9 +139,7 @@ async function callAxios(step: any, config: AxiosRequestConfig, signConfig?: any
       stepExport(step, response.data, "debug_response");
     }
 
-    return config.returnFullResponse
-      ? response
-      : response.data;
+    return returnDataObject(response, config.returnFullResponse);
   } catch (err) {
     if (err.response) {
       convertAxiosError(err);
@@ -185,9 +206,7 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
       stepExport(this, response.data, "debug_response");
     }
 
-    return config.returnFullResponse
-      ? response
-      : response.data;
+    return returnDataObject(response, config.returnFullResponse);
   }, (error) => {
     if (error.response) {
       convertAxiosError(error);
