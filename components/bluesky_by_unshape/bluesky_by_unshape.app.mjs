@@ -9,95 +9,63 @@ export default {
       label: "Content",
       description: "The body of the post",
     },
-    author: {
+    url: {
       type: "string",
-      label: "Author",
-      description: "The creator of the post",
+      label: "URL",
+      description: "The post's URL",
     },
-    title: {
+    embedUrl: {
       type: "string",
-      label: "Title",
-      description: "The title of the post",
+      label: "Embed URL",
+      description: "URL which will have an embed in the post if provided",
       optional: true,
     },
     tags: {
       type: "string[]",
       label: "Tags",
-      description: "Tags associated with the post",
-      optional: true,
-    },
-    url: {
-      type: "string",
-      label: "URL",
-      description: "The identifier of the post",
-    },
-    replyContent: {
-      type: "string",
-      label: "Reply Content",
-      description: "The body of the reply",
-    },
-    replyAuthor: {
-      type: "string",
-      label: "Reply Author",
-      description: "The author of the reply",
+      description: "Hashtags to add at the end of the post. This will truncate the text of the post. Example: `#pipedream`",
       optional: true,
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.unshape.app/bluesky";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: this.$auth.oauth_access_token,
+          "X-Bluesky-Username": `${this.$auth.bluesky_username}`,
+          "X-Bluesky-Email": `${this.$auth.bluesky_email}`,
+          "X-Bluesky-App-Password": `${this.$auth.bluesky_password}`,
+          "Accept": "application/json",
         },
       });
     },
-    async createPost({
-      content, author, title, tags,
-    }) {
+    createPost(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/create-post",
-        data: {
-          content,
-          author,
-          title,
-          tags,
-        },
+        ...opts,
       });
     },
-    async fetchPost({ url }) {
+    fetchPost(opts = {}) {
       return this._makeRequest({
-        path: `/post/${url}`,
+        path: "/post",
+        ...opts,
       });
     },
-    async replyPost({
-      url, replyContent, replyAuthor,
-    }) {
+    replyPost(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/reply/${url}`,
-        data: {
-          replyContent,
-          replyAuthor,
-        },
+        path: "/reply",
+        ...opts,
       });
     },
   },

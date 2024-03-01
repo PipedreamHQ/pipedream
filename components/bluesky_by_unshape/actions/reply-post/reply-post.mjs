@@ -1,43 +1,49 @@
-import blueskyByUnshape from "../../bluesky_by_unshape.app.mjs";
+import bluesky from "../../bluesky_by_unshape.app.mjs";
 
 export default {
   key: "bluesky_by_unshape-reply-post",
   name: "Reply to a Post",
-  description: "Allows you to reply to a post in Bluesky",
-  version: "0.0.{{ts}}",
+  description: "Allows you to reply to a post in Bluesky. [See the documentation](https://unshape.readme.io/reference/post_bluesky-reply)",
+  version: "0.0.1",
   type: "action",
   props: {
-    blueskyByUnshape,
+    bluesky,
     url: {
       propDefinition: [
-        blueskyByUnshape,
+        bluesky,
         "url",
       ],
     },
-    replyContent: {
+    content: {
       propDefinition: [
-        blueskyByUnshape,
-        "replyContent",
+        bluesky,
+        "content",
       ],
     },
-    replyAuthor: {
+    embedUrl: {
       propDefinition: [
-        blueskyByUnshape,
-        "replyAuthor",
-        (c) => ({
-          replyContent: c.replyContent,
-        }),
+        bluesky,
+        "embedUrl",
       ],
-      optional: true,
+    },
+    tags: {
+      propDefinition: [
+        bluesky,
+        "tags",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.blueskyByUnshape.replyPost({
-      url: this.url,
-      replyContent: this.replyContent,
-      replyAuthor: this.replyAuthor,
+    const response = await this.bluesky.replyPost({
+      $,
+      data: {
+        postUrl: this.url,
+        text: this.content,
+        embedUrl: this.embedUrl,
+        tags: this.tags,
+      },
     });
-    $.export("$summary", `Replied to post ${this.url}`);
+    $.export("$summary", `Successfully replied to post ${this.url}`);
     return response;
   },
 };
