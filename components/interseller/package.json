@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/interseller",
+  "version": "0.1.0",
+  "description": "Pipedream Interseller Components",
+  "main": "interseller.app.mjs",
+  "keywords": [
+    "pipedream",
+    "interseller"
+  ],
+  "homepage": "https://pipedream.com/apps/interseller",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

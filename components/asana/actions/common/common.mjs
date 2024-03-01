@@ -11,7 +11,6 @@ export default {
         asana,
         "workspaces",
       ],
-      optional: true,
     },
     project: {
       label: "Project",
@@ -19,8 +18,10 @@ export default {
       propDefinition: [
         asana,
         "projects",
+        (c) => ({
+          workspace: c.workspace,
+        }),
       ],
-      optional: true,
     },
   },
 };

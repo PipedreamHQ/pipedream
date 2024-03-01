@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/test_app_for_oauth_bug",
+  "version": "0.0.1",
+  "description": "Pipedream Test app for OAuth bug Components",
+  "main": "test_app_for_oauth_bug.app.mjs",
+  "keywords": [
+    "pipedream",
+    "test_app_for_oauth_bug"
+  ],
+  "homepage": "https://pipedream.com/apps/test_app_for_oauth_bug",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

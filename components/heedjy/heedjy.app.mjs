@@ -1,11 +1,33 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "heedjy",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://app.heedjy.com/api";
+    },
+    _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        path,
+        url,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        url: url || `${this._baseUrl()}${path}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+      });
+    },
+    listApps(opts = {}) {
+      return this._makeRequest({
+        path: "/apps",
+        ...opts,
+      });
     },
   },
 };

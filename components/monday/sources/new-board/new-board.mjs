@@ -6,7 +6,7 @@ export default {
   name: "New Board",
   description: "Emit new event when a new board is created in Monday.",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     ...common.props,

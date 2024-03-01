@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bluesky_by_unshape",
+  "version": "0.0.1",
+  "description": "Pipedream Bluesky by Unshape Components",
+  "main": "bluesky_by_unshape.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bluesky_by_unshape"
+  ],
+  "homepage": "https://pipedream.com/apps/bluesky_by_unshape",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
