@@ -52,6 +52,7 @@ export default {
     const data = this.wachete.paginate({
       resourceFn: this.wachete.getMonitorData,
       args: {
+        $,
         id: this.wachetId,
         params: {
           from: this.from,
