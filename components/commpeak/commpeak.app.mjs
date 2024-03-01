@@ -83,10 +83,18 @@ export default {
         ...args,
       });
     },
-    async getBulkNumberLookup(args) {
+    async performBulkNumberLookup(args) {
       return this._makeRequest({
         method: "POST",
         url: "/info/async/hlr",
+        ...args,
+      });
+    },
+    async getBulkLookupResults({
+      taskId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/result/${taskId}`,
         ...args,
       });
     },
