@@ -31,9 +31,7 @@ function returnDataObject(response, returnFullResponse) {
   return new Proxy(response.data, {
     get(target, prop) {
       if (prop === "data") {
-        throw new NonexistentDataPropertyError(
-          "The Pipedream version of axios returns the data directly. Learn more: https://pipedream.com/docs/pipedream-axios#response-format",
-        );
+        throw new NonexistentDataPropertyError();
       }
       return target[prop];
     },

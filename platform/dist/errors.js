@@ -10,10 +10,9 @@ class ConfigurationError extends Error {
 }
 exports.ConfigurationError = ConfigurationError;
 class NonexistentDataPropertyError extends Error {
-    constructor(message, exposeStack = false) {
-        super(message);
+    constructor() {
+        super("The Pipedream version of axios returns the data directly");
         this.name = "Nonexistent Data Property Error";
-        this.exposeStack = exposeStack;
     }
 }
 exports.NonexistentDataPropertyError = NonexistentDataPropertyError;
