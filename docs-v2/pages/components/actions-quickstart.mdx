@@ -15,10 +15,6 @@ This document is intended for developers who want to author and edit [Pipedream 
 - Use npm packages
 - Use Pipedream managed auth for a 3rd party app
 
-<Callout type="info" emoji="ℹ️">
-If you previously developed actions using Pipedream's UI, we recommend reviewing our [migration guide](/components/migrating/) after completing this quickstart.
-</Callout>
-
 ## Prerequisites
 
 - Create a free account at [https://pipedream.com](https://pipedream.com)
@@ -73,13 +69,21 @@ export default {
 };
 ```
 
+Please note the value of the `key` attribute *must be unique* across all components in your account (sources and actions). If it's not unique, the pre-existing component with the matching `key` will be updated.
+
 To get started, save the code to a local `.js` file (e.g., `action.js`) and run the following CLI command:
 
 ```bash
-pd publish action.js
+pd publish action.js --org_id o_abc123
 ```
 
-The CLI will publish the component as an action in your account with the key `action_demo`. **The key must be unique across all components in your account (sources and actions). If it's not unique, the existing component with the matching key will be updated.**
+The CLI will publish the component as an action in your account with the key `action_demo`. 
+
+<Callout type="info" emoji="ℹ️">
+
+</Callout>
+
+
 
 The CLI output should look similar to this:
 
