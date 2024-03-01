@@ -779,7 +779,10 @@ importers:
     specifiers: {}
 
   components/bluesky_by_unshape:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/bolt_iot:
     specifiers: {}
