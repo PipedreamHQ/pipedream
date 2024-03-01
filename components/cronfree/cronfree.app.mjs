@@ -1,4 +1,6 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+import timezones from "./common/timezones.mjs";
 
 export default {
   type: "app",
@@ -7,88 +9,69 @@ export default {
     wdays: {
       type: "string[]",
       label: "Weekdays",
-      description: "The days of the week to trigger the event (0-6 for Sunday-Saturday, -1 for any day)",
-      default: [
-        "-1",
-      ],
+      description: "The days of the week to trigger the event (`0-6` for Sunday-Saturday, `-1` for any day)",
+      options: constants.WEEKDAYS,
     },
     months: {
       type: "string[]",
       label: "Months",
-      description: "The months to trigger the event (1-12, -1 for any month)",
-      default: [
-        "-1",
-      ],
+      description: "The months to trigger the event (`1-12`, `-1` for any month)",
+      options: constants.MONTHS,
     },
     mdays: {
       type: "string[]",
-      label: "Month Days",
-      description: "The days of the month to trigger the event (1-31, -1 for any day)",
-      default: [
-        "-1",
-      ],
+      label: "Days",
+      description: "The days of the month to trigger the event (`1-31`, `-1` for any day)",
+      options: constants.DAYS,
     },
     hours: {
       type: "string[]",
       label: "Hours",
-      description: "The hours to trigger the event (0-23, -1 for any hour)",
-      default: [
-        "-1",
-      ],
+      description: "The hours to trigger the event (`0-23`, `-1` for any hour)",
+      options: constants.HOURS,
     },
     minutes: {
       type: "string[]",
       label: "Minutes",
-      description: "The minutes to trigger the event (0-59, -1 for any minute)",
-      default: [
-        "-1",
-      ],
+      description: "The minutes to trigger the event (`0-59`, `-1` for any minute)",
+      options: constants.MINUTES,
     },
     timezone: {
       type: "string",
       label: "Timezone",
       description: "The timezone to trigger the event",
-      default: "Africa/Abidjan",
+      options: timezones,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    _baseUrl() {
-      return "https://login.cronfree.com/zapier/schedule";
+    getAuthData(data) {
+      return {
+        ...data,
+        license_key: this.$auth.license_key,
+      };
     },
-    async scheduleEvent(opts = {}) {
-      const {
-        $ = this,
-        wdays = this.wdays,
-        months = this.months,
-        mdays = this.mdays,
-        hours = this.hours,
-        minutes = this.minutes,
-        timezone = this.timezone,
-        hookUrl,
-        licenseKey = this.$auth.api_key,
-      } = opts;
-
-      return axios($, {
-        method: "POST",
-        url: this._baseUrl(),
+    makeRequest({
+      $ = this, path, data, ...args
+    }) {
+      const config = {
+        ...args,
+        debug: true,
+        url: this.getUrl(path),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${licenseKey}`,
         },
-        data: {
-          hookUrl,
-          wdays,
-          months,
-          mdays,
-          hours,
-          minutes,
-          timezone,
-        },
+        data: this.getAuthData(data),
+      };
+      return axios($, config);
+    },
+    post(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };
