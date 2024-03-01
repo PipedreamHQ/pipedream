@@ -11,7 +11,6 @@ export default {
         asana,
         "workspaces",
       ],
-      optional: true,
     },
     project: {
       label: "Project",
@@ -23,7 +22,6 @@ export default {
           workspace: c.workspace,
         }),
       ],
-      optional: true,
     },
   },
 };

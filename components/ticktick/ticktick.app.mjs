@@ -103,5 +103,13 @@ export default {
       });
       return tasks;
     },
+    getTask({
+      projectId, taskId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/project/${projectId}/task/${taskId}`,
+        ...args,
+      });
+    },
   },
 };
