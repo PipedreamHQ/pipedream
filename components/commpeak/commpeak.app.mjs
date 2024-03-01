@@ -69,29 +69,25 @@ export default {
         },
       });
     },
-    async sendSMS({
-      recipients, messageContent, scheduledTime,
-    }) {
-      const data = {
-        recipients,
-        messageContent,
-        ...(scheduledTime && {
-          scheduledTime,
-        }),
-      };
+    async getAccountInfo(args) {
       return this._makeRequest({
-        method: "POST",
-        path: "/sendSMS",
-        data,
+        url: "/info",
+        ...args,
       });
     },
-    async customAPIRequest({
-      apiEndpoint, apiData,
+    async getSingleNumberLookup({
+      requestType, phoneNumber, ...args
     }) {
       return this._makeRequest({
+        url: `/info/sync/${requestType}/${phoneNumber}`,
+        ...args,
+      });
+    },
+    async getBulkNumberLookup(args) {
+      return this._makeRequest({
         method: "POST",
-        path: apiEndpoint,
-        data: apiData,
+        url: "/info/async/hlr",
+        ...args,
       });
     },
   },
