@@ -44,27 +44,27 @@ export default {
       return "https://api.paystack.co";
     },
     _headers() {
-      return {
-        "Authorization": `Bearer ${this.$auth.api_key}`,
-        "Content-Type": "application/json",
-        "user-agent": "@PaystackOSS/paystack v0.1",
-      };
+        return {
+            "Authorization": `Bearer ${this.$auth.api_key}`,
+            "Content-Type": "application/json",
+            "user-agent": "@PaystackOSS/paystack v0.1"
+        }
     },
-    _makeRequest({
-      $ = this, path = "/", ...opts
+    _makeRequest({ 
+        $ = this, path = "/", ...opts
     }) {
       return axios($, {
-        url: this._baseUrl() + path,
-        headers: this._headers(),
-        ...opts,
+          url: this._baseUrl() + path,
+          headers: this._headers(),
+          ...opts,
       });
     },
     initializeTransaction(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/transaction/initialize",
-        ...args,
+      ...args,
       });
     },
   },
-};
+}

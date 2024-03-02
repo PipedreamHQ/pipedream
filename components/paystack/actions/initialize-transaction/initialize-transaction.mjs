@@ -10,43 +10,25 @@ export default {
   props: {
     paystack,
     email: {
-      propDefinition: [
-        paystack,
-        "email",
-      ],
+      propDefinition: [paystack, "email"],
     },
     amount: {
-      propDefinition: [
-        paystack,
-        "amount",
-      ],
+      propDefinition: [paystack, "amount"],
     },
     currency: {
-      propDefinition: [
-        paystack,
-        "currency",
-      ],
+      propDefinition: [paystack, "currency"],
       optional: true,
     },
     reference: {
-      propDefinition: [
-        paystack,
-        "reference",
-      ],
+      propDefinition: [paystack, "reference"],
       optional: true,
     },
     callback_url: {
-      propDefinition: [
-        paystack,
-        "callback_url",
-      ],
+      propDefinition: [paystack, "callback_url"],
       optional: true,
     },
     metadata: {
-      propDefinition: [
-        paystack,
-        "metadata",
-      ],
+      propDefinition: [paystack, "metadata"],
       optional: true,
     },
   },
@@ -59,11 +41,11 @@ export default {
         currency: this.currency,
         reference: this.reference,
         callback_url: this.callback_url,
-        metadata: this.metadata,
-      },
+        metadata: this.metadata
+      }
     });
 
-    $.export("$summary", "Transaction initialized");
+    $.export("$summary", `Transaction initialized`);
     return response;
   },
 };
