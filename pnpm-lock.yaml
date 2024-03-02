@@ -841,7 +841,10 @@ importers:
     specifiers: {}
 
   components/brevo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/brex:
     specifiers:
@@ -943,7 +946,12 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/bybit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      crypto-js: ^4.2.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      crypto-js: 4.2.0
 
   components/cabinpanda:
     specifiers: {}
@@ -4860,7 +4868,10 @@ importers:
     specifiers: {}
 
   components/nutshell:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/oauth_app_demo:
     specifiers: {}
@@ -6042,7 +6053,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/reviewflowz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/reviews_io:
     specifiers: {}
@@ -7964,7 +7978,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wachete:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/waitwhile:
     specifiers:
@@ -8120,7 +8137,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/winston_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/wire2air:
     specifiers: {}
