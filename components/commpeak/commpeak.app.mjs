@@ -79,14 +79,14 @@ export default {
       requestType, phoneNumber, ...args
     }) {
       return this._makeRequest({
-        url: `/info/sync/${requestType}/${phoneNumber}`,
+        url: `/sync/${requestType}/${phoneNumber}`,
         ...args,
       });
     },
     async requestBulkNumberLookup(args) {
       return this._makeRequest({
         method: "POST",
-        url: "/info/async/hlr",
+        url: "/async/hlr",
         ...args,
       });
     },
