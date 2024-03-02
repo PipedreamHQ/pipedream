@@ -14,18 +14,9 @@ export default {
       description: "Phone number to lookup in E.164 format, e.g. `447520640056`.",
     },
     requestType: {
-      type: "string",
-      label: "Request Type",
-      description: "The lookup type.",
-      options: [
-        {
-          label: "Validation only (validate)",
-          value: "validate",
-        },
-        {
-          label: "Full lookup (hlr)",
-          value: "hlr",
-        },
+      propDefinition: [
+        commpeak,
+        "requestType",
       ],
     },
   },

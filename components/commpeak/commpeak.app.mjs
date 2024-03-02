@@ -4,53 +4,20 @@ export default {
   type: "app",
   app: "commpeak",
   propDefinitions: {
-    smsNumber: {
+    requestType: {
       type: "string",
-      label: "SMS Number",
-      description: "The phone number of the incoming SMS",
-      optional: false,
-    },
-    recipients: {
-      type: "string[]",
-      label: "Recipients",
-      description: "The phone numbers of the SMS recipients",
-      optional: false,
-    },
-    messageContent: {
-      type: "string",
-      label: "Message Content",
-      description: "The content of the message to be sent",
-      optional: false,
-    },
-    scheduledTime: {
-      type: "string",
-      label: "Scheduled Time",
-      description: "The scheduled time to send the message (optional)",
-      optional: true,
-    },
-    clickCountLimit: {
-      type: "integer",
-      label: "Click Count Limit",
-      description: "The maximum number of clicks for the URL (optional)",
-      optional: true,
-    },
-    specificUrl: {
-      type: "string",
-      label: "Specific URL",
-      description: "The specific URL to track clicks for (optional)",
-      optional: true,
-    },
-    apiEndpoint: {
-      type: "string",
-      label: "API Endpoint",
-      description: "The CommPeak API endpoint you're trying to access",
-      optional: false,
-    },
-    apiData: {
-      type: "object",
-      label: "API Data",
-      description: "The data to be sent in the API request",
-      optional: true,
+      label: "Request Type",
+      description: "The lookup type.",
+      options: [
+        {
+          label: "Validation only (validate)",
+          value: "validate",
+        },
+        {
+          label: "Full lookup (hlr)",
+          value: "hlr",
+        },
+      ],
     },
   },
   methods: {
@@ -83,10 +50,12 @@ export default {
         ...args,
       });
     },
-    async requestBulkNumberLookup(args) {
+    async requestBulkNumberLookup({
+      requestType, ...args
+    }) {
       return this._makeRequest({
         method: "POST",
-        url: "/async/hlr",
+        url: `/async/${requestType}`,
         ...args,
       });
     },

@@ -13,6 +13,12 @@ export default {
       label: "Numbers",
       description: "The numbers to perform the lookup on. Up to 200 phone numbers are supported per a single request.",
     },
+    requestType: {
+      propDefinition: [
+        commpeak,
+        "requestType",
+      ],
+    },
     respondUrl: {
       type: "string",
       label: "Respond URL",
@@ -23,6 +29,7 @@ export default {
   async run({ $ }) {
     const response = await this.commpeak.requestBulkNumberLookup({
       $,
+      requestType: this.requestType,
       data: {
         keys: this.keys.map((key) => ({
           key,
@@ -33,7 +40,7 @@ export default {
         }),
       },
     });
-    $.export("$summary", `Successfully obtained results for task ${this.taskId}`);
+    $.export("$summary", `Successfully requested bulk lookup (task id: ${response.task_id})`);
     return response;
   },
 };
