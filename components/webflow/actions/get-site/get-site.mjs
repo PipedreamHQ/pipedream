@@ -4,7 +4,7 @@ export default {
   key: "webflow-get-site",
   name: "Get Site",
   description: "Get a site. [See the docs here](https://developers.webflow.com/#get-specific-site)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     webflow,

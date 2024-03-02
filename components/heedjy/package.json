@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/heedjy",
+  "version": "0.1.0",
+  "description": "Pipedream heedjy Components",
+  "main": "heedjy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "heedjy"
+  ],
+  "homepage": "https://pipedream.com/apps/heedjy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

@@ -6,7 +6,7 @@ export default {
   key: "snowflake-deleted-role",
   name: "New Deleted Role",
   description: "Emit new event when a role is deleted",
-  version: "0.0.5",
+  version: "0.0.6",
   methods: {
     ...common.methods,
     getSqlText() {

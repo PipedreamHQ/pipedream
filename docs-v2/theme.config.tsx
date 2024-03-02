@@ -10,6 +10,7 @@ import DocSearch from "./components/DocSearch";
 
 const config: DocsThemeConfig = {
   head: null,
+  // Custom components that replace the default MDX components
   components: {
     "a": PipedreamLink,
     "code": PipedreamCode,
@@ -31,17 +32,14 @@ const config: DocsThemeConfig = {
       </span>
     ),
   },
-  primaryHue: 153,
+  primaryHue: 153, // Pipedream green
   primarySaturation: 100,
   feedback: {
-    content: null,
+    content: null,  // By default this showed a Discord support icon, this was the recommended way to disable it
   },
   sidebar: {
     autoCollapse: true,
     defaultMenuCollapseLevel: 1,
-  },
-  nextThemes: {
-    defaultTheme: "dark",
   },
   useNextSeoProps() {
     const { route } = useRouter();

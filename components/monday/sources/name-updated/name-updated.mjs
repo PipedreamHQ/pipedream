@@ -6,7 +6,7 @@ export default {
   name: "New Name Updated (Instant)",
   description: "Emit new event when an item's Name is updated on a board in Monday.",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   hooks: {
     ...common.hooks,

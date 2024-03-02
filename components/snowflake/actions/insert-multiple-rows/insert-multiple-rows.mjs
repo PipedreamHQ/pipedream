@@ -6,13 +6,32 @@ export default {
   key: "snowflake-insert-multiple-rows",
   name: "Insert Multiple Rows",
   description: "Insert multiple rows into a table",
-  version: "0.0.7",
+  version: "0.0.8",
   props: {
     snowflake,
+    database: {
+      propDefinition: [
+        snowflake,
+        "database",
+      ],
+    },
+    schema: {
+      propDefinition: [
+        snowflake,
+        "schema",
+        (c) =>  ({
+          database: c.database,
+        }),
+      ],
+    },
     tableName: {
       propDefinition: [
         snowflake,
         "tableName",
+        (c) => ({
+          database: c.database,
+          schema: c.schema,
+        }),
       ],
       description: "The table where you want to add rows",
     },
@@ -38,7 +57,7 @@ export default {
     let inputValidated = true;
 
     if (!Array.isArray(rows)) {
-      rows = JSON.parse(this.rows);
+      rows = JSON.parse(rows);
     }
 
     if (!rows || !rows.length || !Array.isArray(rows)) {

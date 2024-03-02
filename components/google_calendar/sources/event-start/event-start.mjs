@@ -6,7 +6,7 @@ export default {
   key: "google_calendar-event-start",
   name: "New Event Start",
   description: "Emit new event when the specified time before the Google Calendar event starts",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "source",
   dedupe: "unique",
   props: {
