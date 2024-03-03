@@ -66,5 +66,11 @@ export default {
       ...args,
       });
     },
+    verifyTransaction({reference}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/transaction/verify/${reference}`,
+      });
+    },
   },
 }
