@@ -1,51 +1,53 @@
-import { axios } from "@pipedream/platform";
 import allImagesAi from "../../all_images_ai.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "all_images_ai-new-generation-image-update-instant",
   name: "New Generation Image Update (Instant)",
   description: "Emit new event when the generation status of an image gets updated.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    allImagesAi: {
-      type: "app",
-      app: "all_images_ai",
-    },
+    allImagesAi,
     db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+    http: "$.interface.http",
+  },
+  methods: {
+    _getHookId() {
+      return this.db.get("hookId");
+    },
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
     },
   },
   hooks: {
     async activate() {
-      const webhookUrl = `${this.http.endpoint}`;
-      const events = [
-        "image.generation.updated",
-      ];
-      const { data } = await this.allImagesAi.subscribeToWebhook({
-        url: webhookUrl,
-        events,
+      const { webhookId } = await this.allImagesAi.createWebhook({
+        data: {
+          url: this.http.endpoint,
+          events: [
+            "print.created",
+            "print.active",
+            "print.progress",
+            "print.failed",
+            "print.completed",
+          ],
+        },
       });
-      this.db.set("apiWebhookId", data.id);
+      this._setHookId(webhookId);
     },
     async deactivate() {
-      const apiWebhookId = this.db.get("apiWebhookId");
-      if (apiWebhookId) {
-        await this.allImagesAi.unsubscribeFromWebhook({
-          apiWebhookId,
-        });
-        this.db.set("apiWebhookId", null);
-      }
+      const hookId = this._getHookId();
+      await this.allImagesAi.deleteWebhook(hookId);
     },
   },
-  async run(event) {
-    this.$emit(event.body, {
-      id: event.body.id,
-      summary: `Image generation status updated for image ID: ${event.body.data.imageId}`,
-      ts: Date.parse(event.body.created),
+  async run({ body }) {
+    this.$emit(body, {
+      id: body.id,
+      summary: `Image generation status updated for image ID: ${body.type}`,
+      ts: Date.parse(body.created),
     });
   },
+  sampleEmit,
 };

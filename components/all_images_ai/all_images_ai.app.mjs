@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -6,106 +7,105 @@ export default {
   propDefinitions: {
     imageId: {
       type: "string",
-      label: "Image ID",
+      label: "Image Id",
       description: "Enter the unique ID of the image.",
+      async options({ page }) {
+        const { images } = await this.listImages({
+          params: {
+            limit: LIMIT,
+            offset: page * LIMIT,
+          },
+        });
+
+        return images.map(({ id }) => id);
+      },
     },
-    name: {
+    imageGenerationId: {
       type: "string",
-      label: "Name",
-      description: "Enter the name for the image generation.",
-    },
-    mode: {
-      type: "string",
-      label: "Mode",
-      description: "Enter the mode for the image generation.",
-      options: [
-        {
-          label: "Default",
-          value: "default",
-        },
-        {
-          label: "Custom",
-          value: "custom",
-        },
-      ],
-    },
-    prompt: {
-      type: "string",
-      label: "Prompt",
-      description: "Enter the prompt for the image generation.",
+      label: "Image Generation Id",
+      description: "Enter the unique ID of the image.",
+      async options({ page }) {
+        const { prints } = await this.listGenerationImages({
+          params: {
+            limit: LIMIT,
+            offset: page * LIMIT,
+          },
+        });
+
+        return prints.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.all-images.ai/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "api-key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "api-key": `${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async generateImage({
-      name, mode, prompt,
-    }) {
+    generateImage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/image-generations",
-        data: {
-          name,
-          mode,
-          prompt,
-        },
+        ...opts,
       });
     },
-    async getImage({ imageId }) {
+    getImage({
+      imageId, ...opts
+    }) {
       return this._makeRequest({
         path: `/image-generations/${imageId}`,
+        ...opts,
       });
     },
-    async purchaseImage({ imageId }) {
+    listImages(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/images/search",
+        ...opts,
+      });
+    },
+    listGenerationImages(opts = {}) {
+      return this._makeRequest({
+        path: "/image-generations",
+        ...opts,
+      });
+    },
+    purchaseImage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/images/buy",
-        data: {
-          id: imageId,
-        },
+        ...opts,
       });
     },
-    async subscribeToWebhook({
-      url, events,
-    }) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/api-keys/webhook/subscribe",
-        data: {
-          url,
-          events,
-        },
+        ...opts,
       });
     },
-    async unsubscribeFromWebhook({ apiWebhookId }) {
+    deleteWebhook(hookId) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/api-keys/webhook/unsubscribe/${apiWebhookId}`,
+        path: `/api-keys/webhook/unsubscribe/${hookId}`,
       });
-    },
-    async emitImageUpdateEvent() {
-      // This method is a placeholder for emitting events when an image's generation status is updated.
-      // Implement the logic to subscribe to the webhook and emit the event.
-      console.log("Emitting image update event. This method should be implemented based on specific event handling logic.");
     },
   },
 };

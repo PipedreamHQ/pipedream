@@ -1,5 +1,4 @@
 import allImagesAi from "../../all_images_ai.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "all_images_ai-get-image-generation",
@@ -10,13 +9,15 @@ export default {
   props: {
     allImagesAi,
     imageId: {
-      type: "string",
-      label: "Image ID",
-      description: "Enter the unique ID of the image.",
+      propDefinition: [
+        allImagesAi,
+        "imageId",
+      ],
     },
   },
   async run({ $ }) {
     const response = await this.allImagesAi.getImage({
+      $,
       imageId: this.imageId,
     });
     $.export("$summary", `Successfully retrieved image generation with ID: ${this.imageId}`);

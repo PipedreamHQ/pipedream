@@ -8,17 +8,42 @@ export default {
   type: "action",
   props: {
     allImagesAi,
-    name: allImagesAi.propDefinitions.name,
-    mode: allImagesAi.propDefinitions.mode,
-    prompt: allImagesAi.propDefinitions.prompt,
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Enter the name for the image generation.",
+    },
+    prompt: {
+      type: "string",
+      label: "Prompt",
+      description: "Enter the prompt for the image generation.",
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Tags make it easy to find generations.",
+      optional: true,
+    },
+    metaData: {
+      type: "object",
+      label: "Meta Data",
+      description: "Pass on metadata to a ImageGeneration.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.allImagesAi.generateImage({
-      name: this.name,
-      mode: this.mode,
-      prompt: this.prompt,
+      $,
+      data: {
+        name: this.name,
+        mode: "advanced",
+        prompt: this.prompt,
+        tags: this.tags,
+        metaData: this.metaData,
+      },
     });
     $.export("$summary", `Successfully generated images with the name "${this.name}"`);
     return response;
   },
 };
+
