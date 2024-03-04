@@ -3,8 +3,7 @@ import paystack from "../../paystack.app.mjs";
 export default {
   key: "paystack-fetch-transaction",
   name: "Fetch Transaction",
-  description:
-    "Fetch a single transaction. [See the documentation](https://paystack.com/docs/api/transaction/#fetch)",
+  description: "Fetch a single transaction. [See the documentation](https://paystack.com/docs/api/transaction/#fetch)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -12,7 +11,7 @@ export default {
     transactionID: {
       propDefinition: [
         paystack,
-        "transactionID"
+        "transactionID",
       ],
     },
   },

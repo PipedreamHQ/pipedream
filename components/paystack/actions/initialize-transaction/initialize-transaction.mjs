@@ -3,8 +3,7 @@ import paystack from "../../paystack.app.mjs";
 export default {
   key: "paystack-initialize-transaction",
   name: "Initialize Transaction",
-  description:
-    "Initializes a new transaction on Paystack. [See the documentation](https://paystack.com/docs/api/transaction/#initialize)",
+  description: "Initializes a new transaction on Paystack. [See the documentation](https://paystack.com/docs/api/transaction/#initialize)",
   version: "0.0.2",
   type: "action",
   props: {
@@ -12,40 +11,40 @@ export default {
     email: {
       propDefinition: [
         paystack,
-        "email"
+        "email",
       ],
     },
     amount: {
       propDefinition: [
         paystack,
-        "amount"
+        "amount",
       ],
     },
     currency: {
       propDefinition: [
         paystack,
-        "currency"
+        "currency",
       ],
       optional: true,
     },
     reference: {
       propDefinition: [
         paystack,
-        "reference"
+        "reference",
       ],
       optional: true,
     },
-    callback_url: {
+    callbackUrl: {
       propDefinition: [
         paystack,
-        "callback_url"
+        "callbackUrl",
       ],
       optional: true,
     },
     metadata: {
       propDefinition: [
         paystack,
-        "metadata"
+        "metadata",
       ],
       optional: true,
     },
@@ -58,12 +57,12 @@ export default {
         amount: this.amount,
         currency: this.currency,
         reference: this.reference,
-        callback_url: this.callback_url,
-        metadata: this.metadata
-      }
+        callback_url: this.callbackUrl,
+        metadata: this.metadata,
+      },
     });
 
-    $.export("$summary", `Transaction initialized`);
+    $.export("$summary", "Transaction initialized");
     return response;
   },
 };
