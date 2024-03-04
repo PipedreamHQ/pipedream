@@ -1,7 +1,7 @@
 import paystack from "../../app/paystack.app.mjs";
 
 export default {
-  key: "paystack-list-transaction",
+  key: "paystack-list-transactions",
   name: "List Transactions",
   description:
     "List transactions carried out on your integration. [See the documentation](https://paystack.com/docs/api/transaction/#list)",
