@@ -361,11 +361,12 @@ async function run() {
         console.error(`❌ Error checking component diff of ${getComponentFilePath(componentFilePath)}: ${error}`);
       }
     };
+
+    console.error(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased, to fix the versions, just run the command below in your terminal:`)
+    console.log('\n' + command + '\n')
   }
 
 
-  console.error(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased, to fix the versions, just run the command below in your terminal:`)
-  console.log('\n' + command + '\n')
 
   const totalErrors = componentsThatDidNotModifyVersion.length;
   let counter = 1;
