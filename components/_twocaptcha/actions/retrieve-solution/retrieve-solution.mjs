@@ -4,7 +4,7 @@ export default {
   key: "_twocaptcha-retrieve-solution",
   name: "Retrieve Captcha Solution",
   description: "Fetch the solution of a previously submitted captcha from the 2Captcha service.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     _twocaptcha,
@@ -21,6 +21,8 @@ export default {
         taskId: this.taskId,
       },
     });
+
+    console.log("aaas");
 
     $.export("$summary", "Successfully retrieved the captcha solution");
     return response;
