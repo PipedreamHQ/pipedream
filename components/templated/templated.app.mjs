@@ -57,6 +57,7 @@ export default {
     async createRender(args = {}) {
       return this._makeRequest({
         path: "/render",
+        method: "post",
         ...args,
       });
     },

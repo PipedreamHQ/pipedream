@@ -20,7 +20,7 @@ export default {
       $,
       id: this.templateId,
     });
-    $.export("$summary", `Successfully retrieved template with ID: ${this.id}`);
+    $.export("$summary", `Successfully retrieved template with ID: ${this.templateId}`);
     return response;
   },
 };
