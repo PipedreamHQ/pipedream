@@ -6,7 +6,7 @@ export default {
   name: "Create an Update",
   description: "Creates a new update. [See the documentation](https://api.developer.monday.com/docs/updates-queries#create-an-update)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   props: {
     monday,
     updateBody: {

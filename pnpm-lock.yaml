@@ -72,7 +72,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/_46elks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/_twocaptcha:
     specifiers:
@@ -467,9 +470,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.0
       axios: ^0.21.1
+      lodash: ^4.17.21
     dependencies:
       '@pipedream/platform': 1.5.1
       axios: 0.21.4
+      lodash: 4.17.21
 
   components/asknicely:
     specifiers:
@@ -773,6 +778,9 @@ importers:
   components/blue:
     specifiers: {}
 
+  components/bluesky_by_unshape:
+    specifiers: {}
+
   components/bolt_iot:
     specifiers: {}
 
@@ -833,7 +841,10 @@ importers:
     specifiers: {}
 
   components/brevo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/brex:
     specifiers:
@@ -935,7 +946,12 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/bybit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      crypto-js: ^4.2.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      crypto-js: 4.2.0
 
   components/cabinpanda:
     specifiers: {}
@@ -1494,7 +1510,10 @@ importers:
     specifiers: {}
 
   components/craftboxx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/craftmypdf:
     specifiers: {}
@@ -1516,6 +1535,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/crisp:
+    specifiers: {}
+
+  components/cronfree:
     specifiers: {}
 
   components/crove_app:
@@ -2138,6 +2160,9 @@ importers:
   components/enormail:
     specifiers: {}
 
+  components/enrow:
+    specifiers: {}
+
   components/envoy:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2294,7 +2319,10 @@ importers:
     specifiers: {}
 
   components/faraday:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/fastfield_mobile_forms:
     specifiers: {}
@@ -3150,7 +3178,10 @@ importers:
     specifiers: {}
 
   components/heedjy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/helcim:
     specifiers: {}
@@ -3492,6 +3523,12 @@ importers:
       '@pipedream/platform': 1.5.1
       crypto: 1.0.1
 
+  components/interseller:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/interzoid:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -3685,7 +3722,10 @@ importers:
     specifiers: {}
 
   components/keysender:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/kickbox:
     specifiers:
@@ -4230,7 +4270,10 @@ importers:
     specifiers: {}
 
   components/mctime:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/mediatoolkit:
     specifiers:
@@ -4480,13 +4523,13 @@ importers:
 
   components/monday:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.0
       lodash.flatmap: ^4.5.0
       lodash.map: ^4.6.0
       lodash.uniqby: ^4.7.0
       monday-sdk-js: ^0.1.3
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.0
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
       lodash.uniqby: 4.7.0
@@ -4619,7 +4662,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/ncscale:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/nectar_crm:
     specifiers:
@@ -4819,7 +4865,10 @@ importers:
     specifiers: {}
 
   components/nutshell:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/oauth_app_demo:
     specifiers: {}
@@ -6001,7 +6050,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/reviewflowz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/reviews_io:
     specifiers: {}
@@ -6107,6 +6159,9 @@ importers:
   components/rudderstack_transformation:
     specifiers: {}
 
+  components/ruly:
+    specifiers: {}
+
   components/rytr:
     specifiers: {}
 
@@ -6189,7 +6244,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/satuit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/saucelabs:
     specifiers: {}
@@ -6216,7 +6274,12 @@ importers:
     specifiers: {}
 
   components/scoredetect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      form-data: 4.0.0
 
   components/scoro:
     specifiers: {}
@@ -6669,6 +6732,9 @@ importers:
   components/small_improvements:
     specifiers: {}
 
+  components/smartproxy:
+    specifiers: {}
+
   components/smartreach:
     specifiers: {}
 
@@ -6710,6 +6776,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/sms_everyone:
+    specifiers: {}
 
   components/sms_it:
     specifiers: {}
@@ -7324,7 +7393,10 @@ importers:
       dayjs: 1.11.10
 
   components/thoughtful_gpt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/threads:
     specifiers:
@@ -7351,9 +7423,9 @@ importers:
 
   components/ticktick:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.6.0
 
   components/tidy:
     specifiers:
@@ -7518,7 +7590,10 @@ importers:
     specifiers: {}
 
   components/triggre:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/trint:
     specifiers: {}
@@ -7903,7 +7978,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wachete:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/waitwhile:
     specifiers:
@@ -8059,7 +8137,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/winston_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/wire2air:
     specifiers: {}
