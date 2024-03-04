@@ -5,6 +5,7 @@ const { exec } = require("@actions/exec");
 const dependencyTree = require("dependency-tree");
 const difference = require("lodash.difference");
 const uniqWith = require('lodash.uniqwith');
+const chalk = require('chalk')
 
 const COMPONENTS_SUFFIX = "components/";
 const componentFiles = new RegExp("^.*components\/.*\/sources|actions\/.*\.[t|j|mj]s$");
@@ -362,8 +363,8 @@ async function run() {
       }
     };
 
-    console.error(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased, to fix the versions, in your terminal go to project root path and run the command below:`)
-    console.log(`\n\`\`\`${command}\`\`\`\n`)
+    core.setFailed(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased, to fix the versions, in your terminal go to project root path and run the command below:`)
+    console.log(`\n${chalk.bold.green(command)}\n`)
   }
 
 
