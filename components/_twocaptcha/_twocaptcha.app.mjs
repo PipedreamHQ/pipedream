@@ -41,6 +41,8 @@ export default {
       });
     },
     createTask(opts = {}) {
+      console.log("aaa");
+
       return this._makeRequest({
         method: "POST",
         path: "/createTask",
