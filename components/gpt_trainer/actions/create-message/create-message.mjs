@@ -1,34 +1,60 @@
-import gptTrainer from "../../gpt_trainer.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../gpt_trainer.app.mjs";
 
 export default {
   key: "gpt_trainer-create-message",
   name: "Create Message",
   description: "Create a session message for a chatbot session specified by session UUID. [See the documentation](https://guide.gpt-trainer.com/api-reference/messages/create)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    gptTrainer,
-    sessionUuid: {
+    app,
+    chatbotUuid: {
       propDefinition: [
-        gptTrainer,
-        "sessionUuid",
+        app,
+        "chatbotUuid",
       ],
     },
-    messageQuery: {
+    sessionUuid: {
       propDefinition: [
-        gptTrainer,
-        "messageQuery",
+        app,
+        "sessionUuid",
+        ({ chatbotUuid }) => ({
+          chatbotUuid,
+        }),
       ],
+    },
+    query: {
+      type: "string",
+      label: "Message Query",
+      description: "The query message to send to the chatbot session",
+    },
+  },
+  methods: {
+    createSessionMessage({
+      sessionUuid, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/session/${sessionUuid}/message/stream`,
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const response = await this.gptTrainer.createSessionMessage({
-      sessionUuid: this.sessionUuid,
-      messageQuery: this.messageQuery,
+    const {
+      createSessionMessage,
+      sessionUuid,
+      query,
+    } = this;
+
+    const response = await createSessionMessage({
+      $,
+      sessionUuid,
+      data: {
+        query,
+      },
     });
 
-    $.export("$summary", `Successfully created a message in the session with UUID: ${this.sessionUuid}`);
+    $.export("$summary", "Successfully created message.");
     return response;
   },
 };
