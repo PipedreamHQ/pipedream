@@ -308,6 +308,9 @@ importers:
   components/algorand_developer_portal:
     specifiers: {}
 
+  components/all_images_ai:
+    specifiers: {}
+
   components/alpaca:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -1672,6 +1675,9 @@ importers:
       '@pipedream/platform': 1.5.1
       uuid: 8.3.2
 
+  components/datagma:
+    specifiers: {}
+
   components/dataset:
     specifiers: {}
 
@@ -1742,6 +1748,9 @@ importers:
       dayjs: 1.11.10
 
   components/deployhq:
+    specifiers: {}
+
+  components/desktime:
     specifiers: {}
 
   components/detrack:
@@ -1955,6 +1964,9 @@ importers:
   components/dokan:
     specifiers: {}
 
+  components/donedone:
+    specifiers: {}
+
   components/doppler:
     specifiers: {}
 
@@ -2064,7 +2076,13 @@ importers:
   components/e_conomic:
     specifiers: {}
 
+  components/easy_project:
+    specifiers: {}
+
   components/easy_projects:
+    specifiers: {}
+
+  components/easycsv:
     specifiers: {}
 
   components/easyly:
@@ -2569,6 +2587,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/freshmarketer:
+    specifiers: {}
 
   components/freshsales:
     specifiers: {}
@@ -3226,6 +3247,9 @@ importers:
       streamifier: 0.1.1
       xml-js: 1.6.11
 
+  components/helpspace:
+    specifiers: {}
+
   components/helpwise:
     specifiers: {}
 
@@ -3258,6 +3282,9 @@ importers:
   components/highlevel_oauth:
     specifiers: {}
 
+  components/hippo_video:
+    specifiers: {}
+
   components/hive:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3271,6 +3298,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/home_connect:
+    specifiers: {}
 
   components/hookdeck:
     specifiers:
@@ -3369,6 +3399,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/hygraph:
+    specifiers: {}
+
+  components/hyperise:
     specifiers: {}
 
   components/hyros:
@@ -4287,6 +4320,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/meaningcloud:
+    specifiers: {}
+
   components/mediatoolkit:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4735,10 +4771,16 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/new_york_times:
+    specifiers: {}
+
   components/newsletter:
     specifiers: {}
 
   components/newslit:
+    specifiers: {}
+
+  components/newsman:
     specifiers: {}
 
   components/nextdns:
@@ -5948,6 +5990,9 @@ importers:
   components/remarkety:
     specifiers: {}
 
+  components/remote:
+    specifiers: {}
+
   components/render:
     specifiers: {}
 
@@ -6622,6 +6667,9 @@ importers:
       lodash: 4.17.21
       validate.js: 0.13.1
 
+  components/shorten_rest:
+    specifiers: {}
+
   components/shotstack:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -7184,6 +7232,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/swell:
+    specifiers: {}
 
   components/swiftype:
     specifiers: {}
