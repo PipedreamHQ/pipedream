@@ -363,8 +363,10 @@ async function run() {
       }
     };
 
-    core.setFailed(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased, to fix the versions, in your terminal go to project root path and run the command below:`)
-    console.log(`\n${chalk.bold.green(command)}\n`)
+    core.setFailed(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased.`)
+    core.setFailed(`🚀 To fix the versions, in your terminal go to project root path and run the command below:`)
+
+    console.log(`\n${chalk.green.bold(command)}\n`)
   }
 
 
