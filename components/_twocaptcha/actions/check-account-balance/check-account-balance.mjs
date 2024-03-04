@@ -13,6 +13,8 @@ export default {
     const response = await this._twocaptcha.getBalance({
       $,
     });
+
+    console.log("aaa");
     $.export("$summary", `Current account balance is $${response.balance}`);
     return response;
   },
