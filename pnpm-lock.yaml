@@ -7483,7 +7483,10 @@ importers:
       toggl-api: 1.0.2
 
   components/token_metrics:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/tolstoy:
     specifiers:
