@@ -22,6 +22,8 @@ export default {
       },
     });
 
+    console.log("aaa");
+
     $.export("$summary", "Successfully retrieved the captcha solution");
     return response;
   },
