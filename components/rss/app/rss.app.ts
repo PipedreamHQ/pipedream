@@ -58,7 +58,7 @@ export default defineApp({
     },
     async fetchFeed(url: string): Promise<any> {
       const params = querystring.parse(url);
-      url = url.split('?')[0];
+      url = url.split("?")[0];
       const res = await axios(this, {
         url,
         method: "GET",
@@ -95,14 +95,16 @@ export default defineApp({
           let item: any = this.read();
 
           while (item) {
-            /* 
-            Valid escaped entries in RSS are being stripped out, see issue: https://github.com/danmactough/node-feedparser/issues/243
-            Author suggests using the values below, so I check for them, if they exist, overwrite title.
+            /*
+            Valid escaped entries in RSS are being stripped out, see issue:
+            https://github.com/danmactough/node-feedparser/issues/243
+            Author suggests using the values below, so I check for them,
+            if they exist, overwrite title.
             */
-            if(item['atom:title'] && item['atom:title']['#']) {
-              item.title = item['atom:title']['#'];
-            } else if(item['rss:title'] && item['rss:title']['#']) {
-              item.title = item['rss:title']['#'];
+            if (item["atom:title"] && item["atom:title"]["#"]) {
+              item.title = item["atom:title"]["#"];
+            } else if (item["rss:title"] && item["rss:title"]["#"]) {
+              item.title = item["rss:title"]["#"];
             }
             for (const k in item) {
               if (item[`rss:${k}`]) {

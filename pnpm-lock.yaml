@@ -779,7 +779,10 @@ importers:
     specifiers: {}
 
   components/bluesky_by_unshape:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/bolt_iot:
     specifiers: {}
@@ -1033,7 +1036,10 @@ importers:
     specifiers: {}
 
   components/castmagic:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/cdc_national_environmental_public_health_tracking:
     specifiers: {}
@@ -1538,7 +1544,10 @@ importers:
     specifiers: {}
 
   components/cronfree:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/crove_app:
     specifiers: {}
