@@ -11,7 +11,6 @@ export default {
     paystack,
     reference: {
       propDefinition: [paystack, "reference"],
-      optional: true,
     },
   },
   async run({ $ }) {
