@@ -20,6 +20,8 @@ export default {
       return "https://api.2captcha.com";
     },
     _headers() {
+      console.log("aaa");
+
       return {
         "Content-Type": "application/json",
       };
