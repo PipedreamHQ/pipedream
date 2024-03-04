@@ -23,6 +23,7 @@ export default {
     });
 
     console.log("aaas");
+    console.log("aaas");
 
     $.export("$summary", "Successfully retrieved the captcha solution");
     return response;
