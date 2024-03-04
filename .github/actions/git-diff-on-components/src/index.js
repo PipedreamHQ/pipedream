@@ -362,8 +362,8 @@ async function run() {
       }
     };
 
-    console.error(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased, to fix the versions, just run the command below in your terminal:`)
-    console.log('\n' + command + '\n')
+    console.error(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased, to fix the versions, in your terminal go to project root path and run the command below:`)
+    console.log(`\n\`\`\`${command}\`\`\`\n`)
   }
 
 
