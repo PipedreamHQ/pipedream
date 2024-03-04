@@ -44,6 +44,11 @@ export default {
       description:
         "Status of a transaction. Possible values are success, failed, and abandoned.",
     },
+    transactionID: {
+      type: "integer",
+      label: "Transaction ID",
+      description: "Unique numerical ID for a transaction on your integration"
+    },
     customerID: {
       type: "integer",
       label: "Customer ID",
@@ -109,6 +114,12 @@ export default {
         path: `/transaction`,
         params,
       });
+    },
+    fetchTransaction({ transactionID }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/transaction/${transactionID}`
+      })
     },
   },
 };

@@ -5,7 +5,7 @@ export default {
   name: "List Transactions",
   description:
     "List transactions carried out on your integration. [See the documentation](https://paystack.com/docs/api/transaction/#list)",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     paystack,
