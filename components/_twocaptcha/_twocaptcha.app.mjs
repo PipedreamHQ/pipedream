@@ -17,6 +17,8 @@ export default {
   },
   methods: {
     _baseUrl() {
+      console.log("aaa");
+
       return "https://api.2captcha.com";
     },
     _headers() {
