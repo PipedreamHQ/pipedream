@@ -47,7 +47,7 @@ export default {
     transactionID: {
       type: "integer",
       label: "Transaction ID",
-      description: "Unique numerical ID for a transaction on your integration"
+      description: "Unique numerical ID for a transaction on your integration",
     },
     customerID: {
       type: "integer",
@@ -83,12 +83,13 @@ export default {
     },
     _headers() {
       return {
-        Authorization: `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
         "Content-Type": "application/json",
         "user-agent": "@PaystackOSS/paystack v0.1",
       };
     },
-    _makeRequest({ $ = this, path = "/", ...opts }) {
+    _makeRequest({
+      $ = this, path = "/", ...opts }) {
       return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(),

@@ -1,4 +1,4 @@
-import paystack from "../../app/paystack.app.mjs";
+import paystack from "../../paystack.app.mjs";
 
 export default {
   key: "paystack-fetch-transaction",
@@ -10,7 +10,10 @@ export default {
   props: {
     paystack,
     transactionID: {
-      propDefinition: [paystack, "transactionID"],
+      propDefinition: [
+        paystack,
+        "transactionID"
+      ],
     },
   },
   async run({ $ }) {
@@ -19,7 +22,7 @@ export default {
       transactionID: this.transactionID,
     });
 
-    $.export("$summary", `Transaction fetched`);
+    $.export("$summary", `Successfully fetched transaction with ID ${response.data.id}`);
     return response;
   },
 };

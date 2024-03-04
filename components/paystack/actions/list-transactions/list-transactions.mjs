@@ -1,4 +1,4 @@
-import paystack from "../../app/paystack.app.mjs";
+import paystack from "../../paystack.app.mjs";
 
 export default {
   key: "paystack-list-transactions",
@@ -10,27 +10,45 @@ export default {
   props: {
     paystack,
     status: {
-        propDefinition: [paystack, "status"],
+        propDefinition: [
+          paystack,
+          "status"
+        ],
         optional: true
     },
     customerID: {
-        propDefinition: [paystack, "customerID"],
+        propDefinition: [
+          paystack,
+          "customerID"
+        ],
         optional: true
     },
     perPage: {
-        propDefinition: [paystack, "perPage"],
+        propDefinition: [
+          paystack,
+          "perPage"
+        ],
         optional: true
     },
     page: {
-        propDefinition: [paystack, "page"],
+        propDefinition: [
+          paystack,
+          "page"
+        ],
         optional: true
     },
     from: {
-        propDefinition: [paystack, "from"],
+        propDefinition: [
+          paystack,
+          "from"
+        ],
         optional: true
     },
     to: {
-        propDefinition: [paystack, "to"],
+        propDefinition: [
+          paystack,
+          "to"
+        ],
         optional: true
     },
 

@@ -1,4 +1,4 @@
-import paystack from "../../app/paystack.app.mjs";
+import paystack from "../../paystack.app.mjs";
 
 export default {
   key: "paystack-verify-transaction",
@@ -10,7 +10,10 @@ export default {
   props: {
     paystack,
     reference: {
-      propDefinition: [paystack, "reference"],
+      propDefinition: [
+        paystack,
+        "reference"
+      ],
     },
   },
   async run({ $ }) {
@@ -19,7 +22,7 @@ export default {
       reference: this.reference,
     });
 
-    $.export("$summary", `Transaction verified`);
+    $.export("$summary", `Verified transaction with reference ${response.data.reference}`);
     return response;
   },
 };

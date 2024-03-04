@@ -1,34 +1,52 @@
-import paystack from "../../app/paystack.app.mjs";
+import paystack from "../../paystack.app.mjs";
 
 export default {
   key: "paystack-initialize-transaction",
   name: "Initialize Transaction",
   description:
     "Initializes a new transaction on Paystack. [See the documentation](https://paystack.com/docs/api/transaction/#initialize)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     paystack,
     email: {
-      propDefinition: [paystack, "email"],
+      propDefinition: [
+        paystack,
+        "email"
+      ],
     },
     amount: {
-      propDefinition: [paystack, "amount"],
+      propDefinition: [
+        paystack,
+        "amount"
+      ],
     },
     currency: {
-      propDefinition: [paystack, "currency"],
+      propDefinition: [
+        paystack,
+        "currency"
+      ],
       optional: true,
     },
     reference: {
-      propDefinition: [paystack, "reference"],
+      propDefinition: [
+        paystack,
+        "reference"
+      ],
       optional: true,
     },
     callback_url: {
-      propDefinition: [paystack, "callback_url"],
+      propDefinition: [
+        paystack,
+        "callback_url"
+      ],
       optional: true,
     },
     metadata: {
-      propDefinition: [paystack, "metadata"],
+      propDefinition: [
+        paystack,
+        "metadata"
+      ],
       optional: true,
     },
   },
