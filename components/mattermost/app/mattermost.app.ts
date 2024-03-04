@@ -70,5 +70,12 @@ export default defineApp({
         endpoint: "/channels",
       });
     },
+    async createWebhook(args) {
+      return this._httpRequest({
+        endpoint: "/webhooks/outgoing",
+        method: "POST",
+        ...args,
+      });
+    }
   },
 });
