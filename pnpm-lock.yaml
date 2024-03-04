@@ -72,7 +72,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/_46elks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/_twocaptcha:
     specifiers:
@@ -776,7 +779,10 @@ importers:
     specifiers: {}
 
   components/bluesky_by_unshape:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/bolt_iot:
     specifiers: {}
@@ -838,7 +844,10 @@ importers:
     specifiers: {}
 
   components/brevo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/brex:
     specifiers:
@@ -940,7 +949,12 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/bybit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      crypto-js: ^4.2.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      crypto-js: 4.2.0
 
   components/cabinpanda:
     specifiers: {}
@@ -1022,7 +1036,10 @@ importers:
     specifiers: {}
 
   components/castmagic:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/cdc_national_environmental_public_health_tracking:
     specifiers: {}
@@ -1525,6 +1542,12 @@ importers:
 
   components/crisp:
     specifiers: {}
+
+  components/cronfree:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/crove_app:
     specifiers: {}
@@ -3708,7 +3731,10 @@ importers:
     specifiers: {}
 
   components/keysender:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/kickbox:
     specifiers:
@@ -4848,7 +4874,10 @@ importers:
     specifiers: {}
 
   components/nutshell:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/oauth_app_demo:
     specifiers: {}
@@ -6030,7 +6059,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/reviewflowz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/reviews_io:
     specifiers: {}
@@ -6221,7 +6253,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/satuit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/saucelabs:
     specifiers: {}
@@ -7364,7 +7399,10 @@ importers:
       dayjs: 1.11.10
 
   components/thoughtful_gpt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/threads:
     specifiers:
@@ -7391,9 +7429,9 @@ importers:
 
   components/ticktick:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.6.0
 
   components/tidy:
     specifiers:
@@ -7946,7 +7984,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wachete:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/waitwhile:
     specifiers:
@@ -8102,7 +8143,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/winston_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/wire2air:
     specifiers: {}
