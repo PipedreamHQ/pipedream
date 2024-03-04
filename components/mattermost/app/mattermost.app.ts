@@ -76,6 +76,12 @@ export default defineApp({
         method: "POST",
         ...args,
       });
+    },
+    async deleteWebhook(id: string) {
+      return this._httpRequest({
+        endpoint: `/webhooks/outgoing/${id}`,
+        method: "DELETE",
+      });
     }
   },
 });

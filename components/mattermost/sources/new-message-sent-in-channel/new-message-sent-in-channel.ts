@@ -11,12 +11,55 @@ export default defineSource({
   props: {
     mattermost,
     db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+    http: "$.interface.http",
+    teamId: {
+      propDefinition: [
+        mattermost,
+        "teamId"
+      ]
     },
+    channelId: {
+      propDefinition: [
+        mattermost,
+        "channelId"
+      ]
+    },
+    displayName: {
+      type: "string",
+      label: "Display Name",
+      description: "The display name of the webhook in Mattermost",
+      optional: true,
+      default: "Pipedream source"
+    },
+    triggerWords: {
+      type: "string[]",
+      label: "Trigger Words",
+      description: "List of words that will trigger an event"
+    },
+    triggerWhen: {
+      type: "integer",
+      label: "Trigger When",
+      description: "When to trigger an event",
+      optional: true,
+      options: [
+        {
+          label: "When a trigger word is present in the message",
+          value: 0,
+        },
+        {
+          label: "If the message starts with a trigger word",
+          value: 1,
+        },
+      ],
+    }
   },
   methods: {
+    _getWebhookId(): string {
+      return this.db.get("webhookId");
+    },
+    _setWebhookId(value: string) {
+      this.db.set("webhookId", value);
+    },
     getSummary(item): string {
       return `New message: ${item}`;
     },
@@ -24,37 +67,40 @@ export default defineSource({
   hooks: {
     async activate() {
       const data = {
-        eventKey: this.getHookType(),
-        hookUrl: this.http.endpoint,
+        team_id: this.teamId,
+        channel_id: this.channelId,
+        display_name: this.displayName,
+        description: `Pipedream - New Message Sent in Channel ${this.channelId}`,
+        trigger_words: this.triggerWords,
+        trigger_when: this.triggerWhen,
+        callback_urls: [this.http.endpoint],
+        content_type: "application/json"
       };
 
-      const { key } = await this.infusionsoft.createHook(data);
-
-      this.db.set("hookKey", key);
+      const { id } = await this.mattermost.createWebhook(data);
+      this._setWebhookId(id);
     },
     async deactivate() {
-      const key: string = this.db.get("hookKey");
-
-      await this.infusionsoft.deleteHook({
-        key,
-      });
+      const id = this._getWebhookId();
+      await this.mattermost.deleteWebhook(id,);
     },
   },
   async run(data: SourceHttpRunOptions) {
+    console.log(data);
     // const result = await Promise.all(promises);
-    const result = [];data;
-    result.forEach(({
-      obj, response,
-    }) => {
-      const data = response.noUrl
-        ? obj
-        : response;
-      const summary = this.getSummary(data);
-      this.$emit(data, {
-        id: obj.id,
-        summary,
-        ts: new Date(obj.timestamp).valueOf(),
-      });
-    });
+    // const result = [];data;
+    // result.forEach(({
+    //   obj, response,
+    // }) => {
+    //   const data = response.noUrl
+    //     ? obj
+    //     : response;
+    //   const summary = this.getSummary(data);
+    //   this.$emit(data, {
+    //     id: obj.id,
+    //     summary,
+    //     ts: new Date(obj.timestamp).valueOf(),
+    //   });
+    // });
   },
 });
