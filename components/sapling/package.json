@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sapling",
+  "version": "0.0.1",
+  "description": "Pipedream Sapling Components",
+  "main": "sapling.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sapling"
+  ],
+  "homepage": "https://pipedream.com/apps/sapling",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
