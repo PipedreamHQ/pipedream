@@ -1,23 +1,23 @@
-import zixflow from "../../zixflow.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../zixflow.app.mjs";
 
 export default {
   key: "zixflow-delete-activity",
-  name: "Delete an Activity",
-  description: "Deletes an existing activity or task from Zixflow. [See the documentation](https://api.zixflow.com/docs)",
-  version: "0.0.{{ts}}",
+  name: "Delete Activity",
+  description: "Deletes an existing activity or task from Zixflow. [See the documentation](https://docs.zixflow.com/api-reference/activity-list/delete)",
+  version: "0.0.1",
   type: "action",
   props: {
-    zixflow,
+    app,
     activityId: {
       propDefinition: [
-        zixflow,
+        app,
         "activityId",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.zixflow.removeTask({
+    const response = await this.app.deleteActivity({
+      $,
       activityId: this.activityId,
     });
 

@@ -1,60 +1,70 @@
-import zixflow from "../../zixflow.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../zixflow.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "zixflow-create-activity",
   name: "Create Activity",
-  description: "Creates a new activity or task within Zixflow. [See the documentation](https://api.zixflow.com/docs)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new activity or task within Zixflow. [See the documentation](https://docs.zixflow.com/api-reference/activity-list/create)",
+  version: "0.0.1",
   type: "action",
   props: {
-    zixflow,
-    taskTitle: {
+    app,
+    iconType: {
       propDefinition: [
-        zixflow,
-        "taskTitle",
+        app,
+        "iconType",
+      ],
+      reloadProps: true,
+    },
+    scheduleAt: {
+      propDefinition: [
+        app,
+        "scheduleAt",
       ],
     },
-    taskDescription: {
+    name: {
       propDefinition: [
-        zixflow,
-        "taskDescription",
+        app,
+        "name",
       ],
     },
-    dueDate: {
+    description: {
       propDefinition: [
-        zixflow,
-        "dueDate",
-        (c) => ({
-          optional: c.dueDate
-            ? false
-            : true,
-        }),
+        app,
+        "description",
       ],
-      optional: true,
-    },
-    assignedMembers: {
-      propDefinition: [
-        zixflow,
-        "assignedMembers",
-        (c) => ({
-          optional: c.assignedMembers
-            ? false
-            : true,
-        }),
-      ],
-      optional: true,
     },
   },
+  async additionalProps() {
+    const props = {
+      iconValue: {
+        type: "string",
+        label: "Icon Value",
+        description: "Defines the specific value of the icon based on the iconType",
+      },
+    };
+
+    if (this.iconType !== "emoji") {
+      props.iconValue.options = this.iconType === "interaction"
+        ? constants.INTERACTION_TYPES
+        : constants.MESSAGING_TYPES;
+    }
+
+    return props;
+  },
   async run({ $ }) {
-    const response = await this.zixflow.createTask({
-      taskTitle: this.taskTitle,
-      taskDescription: this.taskDescription,
-      dueDate: this.dueDate,
-      assignedMembers: this.assignedMembers,
+    const response = await this.app.createTask({
+      $,
+      data: {
+        iconType: this.iconType,
+        iconValue: this.iconValue,
+        scheduleAt: this.scheduleAt,
+        name: this.name,
+        description: this.description,
+      },
     });
 
-    $.export("$summary", `Successfully created activity with title '${this.taskTitle}'`);
+    $.export("$summary", `Successfully created activity with title '${this.name}'`);
     return response;
   },
 };

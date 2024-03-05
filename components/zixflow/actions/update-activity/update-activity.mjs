@@ -1,68 +1,75 @@
-import zixflow from "../../zixflow.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../zixflow.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "zixflow-update-activity",
   name: "Update Activity",
-  description: "Updates an existing activity or task in Zixflow. [See the documentation](https://api.zixflow.com/docs)",
-  version: "0.0.{{ts}}",
+  description: "Updates an existing activity or task in Zixflow. [See the documentation](https://docs.zixflow.com/api-reference/activity-list/edit)",
+  version: "0.0.1",
   type: "action",
   props: {
-    zixflow,
+    app,
     activityId: {
       propDefinition: [
-        zixflow,
+        app,
         "activityId",
       ],
+      reloadProps: true,
     },
-    taskTitle: {
+    iconType: {
       propDefinition: [
-        zixflow,
-        "taskTitle",
-        (c) => ({
-          optional: true,
-        }),
+        app,
+        "iconType",
       ],
-      optional: true,
     },
-    taskDescription: {
+    scheduleAt: {
       propDefinition: [
-        zixflow,
-        "taskDescription",
-        (c) => ({
-          optional: true,
-        }),
+        app,
+        "scheduleAt",
       ],
-      optional: true,
     },
-    dueDate: {
+    name: {
       propDefinition: [
-        zixflow,
-        "dueDate",
-        (c) => ({
-          optional: true,
-        }),
+        app,
+        "name",
       ],
-      optional: true,
     },
-    assignedMembers: {
+    description: {
       propDefinition: [
-        zixflow,
-        "assignedMembers",
-        (c) => ({
-          optional: true,
-        }),
+        app,
+        "description",
       ],
-      optional: true,
     },
   },
+  async additionalProps() {
+    const props = {
+      iconValue: {
+        type: "string",
+        label: "Icon Value",
+        description: "Defines the specific value of the icon based on the iconType",
+      },
+    };
+
+    if (this.iconType !== "emoji") {
+      props.iconValue.options = this.iconType === "interaction"
+        ? constants.INTERACTION_TYPES
+        : constants.MESSAGING_TYPES;
+    }
+
+    return props;
+  },
   async run({ $ }) {
-    const response = await this.zixflow.updateTask({
+    const response = await this.app.updateActivity({
+      $,
       activityId: this.activityId,
-      taskTitle: this.taskTitle,
-      taskDescription: this.taskDescription,
-      dueDate: this.dueDate,
-      assignedMembers: this.assignedMembers,
+      data: {
+        iconType: this.iconType,
+        iconValue: this.iconValue,
+        scheduleAt: this.scheduleAt,
+        name: this.name,
+        description: this.description,
+        status: "65338d9cf781c59be3859c62", //não encontrei uma forma de listar os IDs dos status
+      },
     });
 
     $.export("$summary", `Successfully updated activity with ID ${this.activityId}`);

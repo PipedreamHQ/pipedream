@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./actions/common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,95 +8,75 @@ export default {
     activityId: {
       type: "string",
       label: "Activity ID",
-      description: "The unique identifier for the activity or task.",
+      description: "The unique identifier for the activity or task",
     },
-    taskTitle: {
+    iconType: {
       type: "string",
-      label: "Task Title",
-      description: "The title of the task.",
+      label: "Icon Type",
+      description: "Specifies the type of icon associated with the activity",
+      options: constants.ICON_TYPES,
     },
-    taskDescription: {
+    name: {
       type: "string",
-      label: "Task Description",
-      description: "The description of the task.",
+      label: "Activity Name",
+      description: "The name or title of the activity",
     },
-    dueDate: {
+    scheduleAt: {
       type: "string",
-      label: "Due Date",
-      description: "The due date for the task. (Optional)",
-      optional: true,
+      label: "Schedule At",
+      description: "Specifies the scheduled time for the activity in the format `YYYY-MM-DDTHH:mm:ss.SSSZ`",
     },
-    assignedMembers: {
-      type: "string[]",
-      label: "Assigned Members",
-      description: "The members assigned to the task. (Optional)",
+    description: {
+      type: "string",
+      label: "Description",
+      description: "A description providing additional details about the activity",
       optional: true,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.zixflow.com";
+      return "https://api.zixflow.com/api/v1";
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        headers,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async createTask({
-      taskTitle, taskDescription, dueDate, assignedMembers,
-    }) {
+    async createTask(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/tasks",
-        data: {
-          title: taskTitle,
-          description: taskDescription,
-          due_date: dueDate,
-          assigned_members: assignedMembers,
-        },
+        path: "/collection-records/activity-list",
+        ...args,
       });
     },
-    async updateTask({
-      activityId, taskTitle, taskDescription, dueDate, assignedMembers,
+    async updateActivity({
+      activityId, ...args
     }) {
-      const data = {
-        ...(taskTitle && {
-          title: taskTitle,
-        }),
-        ...(taskDescription && {
-          description: taskDescription,
-        }),
-        ...(dueDate && {
-          due_date: dueDate,
-        }),
-        ...(assignedMembers && {
-          assigned_members: assignedMembers,
-        }),
-      };
       return this._makeRequest({
-        method: "PUT",
-        path: `/tasks/${activityId}`,
-        data,
+        method: "PATCH",
+        path: `/collection-records/activity-list/${activityId}`,
+        ...args,
       });
     },
-    async removeTask({ activityId }) {
+    async deleteActivity({
+      activityId, ...args
+    }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/tasks/${activityId}`,
+        path: `/collection-records/activity-list/${activityId}`,
+        ...args,
       });
     },
   },
-  version: `0.0.${Date.now()}`,
 };
