@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/time_doctor",
+  "version": "0.0.1",
+  "description": "Pipedream Time Doctor Components",
+  "main": "time_doctor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "time_doctor"
+  ],
+  "homepage": "https://pipedream.com/apps/time_doctor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
