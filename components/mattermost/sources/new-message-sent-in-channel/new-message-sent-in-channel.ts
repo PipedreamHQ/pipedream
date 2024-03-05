@@ -1,5 +1,7 @@
 import mattermost from "../../app/mattermost.app";
-import { SourceHttpRunOptions, defineSource } from "@pipedream/types";
+import {
+  SourceHttpRunOptions, defineSource,
+} from "@pipedream/types";
 
 export default defineSource({
   name: "New Message Sent in Channel (Instant)",
@@ -16,14 +18,16 @@ export default defineSource({
     teamId: {
       propDefinition: [
         mattermost,
-        "teamId"
-      ]
+        "teamId",
+      ],
     },
     channelId: {
       propDefinition: [
         mattermost,
         "publicChannelId",
-        ({ teamId }) => ({ teamId })
+        ({ teamId }) => ({
+          teamId,
+        }),
       ],
     },
     displayName: {
@@ -31,12 +35,12 @@ export default defineSource({
       label: "Display Name",
       description: "The display name of the webhook in Mattermost",
       optional: true,
-      default: "Pipedream source"
+      default: "Pipedream source",
     },
     triggerWords: {
       type: "string[]",
       label: "Trigger Words",
-      description: "List of words that will trigger an event"
+      description: "List of words that will trigger an event",
     },
     triggerWhen: {
       type: "integer",
@@ -53,7 +57,7 @@ export default defineSource({
           value: 1,
         },
       ],
-    }
+    },
   },
   methods: {
     _getWebhookId(): string {
@@ -72,8 +76,10 @@ export default defineSource({
         description: `Pipedream - New Message Sent in Channel ${this.channelId}`,
         trigger_words: this.triggerWords,
         trigger_when: this.triggerWhen,
-        callback_urls: [this.http.endpoint],
-        content_type: "application/json"
+        callback_urls: [
+          this.http.endpoint,
+        ],
+        content_type: "application/json",
       };
 
       const { id } = await this.mattermost.createWebhook(data);
@@ -88,7 +94,9 @@ export default defineSource({
     if (body) {
       const ts = Date.now();
       this.$emit(body, {
-        id: typeof body.id === 'string' ? body.id : ts,
+        id: typeof body.id === "string"
+          ? body.id
+          : ts,
         summary: "New message",
         ts,
       });
