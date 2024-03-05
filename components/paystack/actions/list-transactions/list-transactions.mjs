@@ -46,7 +46,7 @@ export default {
   async run({ $ }) {
     const params = {
       status: this.status,
-      customerID: this.customerID,
+      customer: this.customerID,
       from: this.from,
       to: this.to,
     };
