@@ -1,53 +1,77 @@
-import Lastpass from "../../lastpass.app.mjs";
+import lastpass from "../../lastpass.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "lastpass-new-watch-events",
   name: "New Watch Events",
-  description: "Emit new event when a new report is generated in LastPass",
+  description: "Emit new event when a new event is generated in LastPass",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    lastpass: {
-      type: "app",
-      app: "lastpass",
-    },
+    lastpass,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    userLogin: Lastpass.propDefinitions.userLogin,
-    pushedSite: Lastpass.propDefinitions.pushedSite,
+    username: {
+      propDefinition: [
+        lastpass,
+        "username",
+      ],
+      description: "To pull data for a specific user, enter their username. To pull data for all users, enter 'allusers'.",
+      default: "allusers",
+      optional: true,
+    },
+    admin: {
+      type: "boolean",
+      label: "Admin Events Only",
+      description: "To retrieve only admin events, set this value to `true`",
+      optional: true,
+    },
   },
   methods: {
-    _getReportId() {
-      return this.db.get("reportId") || null;
+    _getLastDate() {
+      return this.db.get("lastDate") || this.oneDayAgo();
     },
-    _setReportId(id) {
-      this.db.set("reportId", id);
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
+    },
+    oneDayAgo() {
+      return new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+        .split(".")[0] + "+00:00";
+    },
+    generateMeta(event) {
+      return {
+        id: `${event.Username}${event.Time}`,
+        summary: `New Event: ${event.Action}`,
+        ts: Date.parse(event.Time),
+      };
     },
   },
   async run() {
-    const {
-      userLogin, pushedSite,
-    } = this;
-    const report = await this.lastpass.generateReport({
-      userLogin,
-      pushedSite,
+    const lastDate = this._getLastDate();
+    let maxDate = lastDate;
+    const { data } = await this.lastpass.getEvents({
+      data: {
+        user: this.username,
+        admin: this.admin,
+        from: lastDate,
+      },
     });
-    const reportId = report.id;
-    const lastReportId = this._getReportId();
-
-    if (reportId !== lastReportId) {
-      this.$emit(report, {
-        id: reportId,
-        summary: `New report generated: ${reportId}`,
-        ts: Date.now(),
-      });
-      this._setReportId(reportId);
+    for (const key in data) {
+      const event = data[key];
+      if (Date.parse(event.Time) > Date.parse(maxDate)) {
+        maxDate = event.Time;
+      }
+      const meta = this.generateMeta(event);
+      this.$emit(event, meta);
     }
+    this._setLastDate(maxDate);
   },
+  sampleEmit,
 };

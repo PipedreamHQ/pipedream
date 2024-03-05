@@ -1,24 +1,38 @@
 import lastpass from "../../lastpass.app.mjs";
-import { axios } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "lastpass-delete-user",
   name: "Delete User",
   description: "Deactivates or completely removes a user account. This action must be used responsibly, considering its irreversible nature.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     lastpass,
-    userId: {
+    username: {
       propDefinition: [
         lastpass,
-        "userId",
+        "username",
       ],
+    },
+    deleteAction: {
+      type: "string",
+      label: "Delete Action",
+      description: "The type of action to perform",
+      options: constants.DELETE_ACTIONS,
     },
   },
   async run({ $ }) {
-    const response = await this.lastpass.deactivateOrDeleteUser(this.userId);
-    $.export("$summary", `Successfully deactivated or deleted user with ID: ${this.userId}`);
+    const response = await this.lastpass.deactivateOrDeleteUser({
+      $,
+      data: {
+        data: {
+          username: this.username,
+          deleteaction: this.deleteAction,
+        },
+      },
+    });
+    $.export("$summary", `Successfully deactivated or deleted user "${this.username}"`);
     return response;
   },
 };

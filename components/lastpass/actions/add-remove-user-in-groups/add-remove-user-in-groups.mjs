@@ -1,5 +1,4 @@
 import lastpass from "../../lastpass.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "lastpass-add-remove-user-in-groups",
@@ -9,25 +8,39 @@ export default {
   type: "action",
   props: {
     lastpass,
-    userId: {
+    username: {
       propDefinition: [
         lastpass,
-        "userId",
+        "username",
       ],
     },
-    groupIds: {
-      propDefinition: [
-        lastpass,
-        "groupIds",
-      ],
+    addGroupNames: {
+      type: "string[]",
+      label: "Groups to Add",
+      description: "A list of group names to add the user to",
+      optional: true,
+    },
+    deleteGroupNames: {
+      type: "string[]",
+      label: "Groups to Remove",
+      description: "A list of group names to remove the user from",
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.lastpass.manageUserGroup({
-      userId: this.userId,
-      groupIds: this.groupIds,
+      $,
+      data: {
+        data: [
+          {
+            username: this.username,
+            add: this.addGroupNames || [],
+            del: this.deleteGroupNames || [],
+          },
+        ],
+      },
     });
-    $.export("$summary", `User ${this.userId} group membership updated.`);
+    $.export("$summary", `User "${this.username} group membership updated`);
     return response;
   },
 };
