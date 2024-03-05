@@ -329,17 +329,14 @@ export default {
         ...args,
       });
     },
-    async executeStoredProcedure({
+    executeStoredProcedure({
       storedProcedure, values = [], ...args
     } = {}) {
-      const [
-        result,
-      ] = await this.executeQuery({
+      return this.executeQuery({
         sql: `CALL ${storedProcedure}(${values.map(() => "?")})`,
         values,
         ...args,
       });
-      return result;
     },
   },
 };

@@ -6,7 +6,7 @@ export default {
   name: "New User",
   description: "Emit new event when a new user is created in Monday.",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   methods: {
     ...common.methods,
