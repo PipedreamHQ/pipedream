@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "rkvst-new-event-detected",
   name: "New Event Detected",
-  description: "Emit new event for each new activity related to any asset within the platform.",
+  description: "Emit new event for each new activity related to any asset within the platform. Note that **event only emitted when it is created by the API or Pipedream DataTrails action: Create new Event**.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -16,6 +16,7 @@ export default {
         common.props.rkvst,
         "assetId",
       ],
+      optional: true,
     },
   },
   methods: {
@@ -30,7 +31,7 @@ export default {
     getParams() {
       return {
         fn: this.rkvst.listEvents,
-        assetId: this.assetId,
+        assetId: this.assetId || "assets/-",
         dataField: "events",
       };
     },

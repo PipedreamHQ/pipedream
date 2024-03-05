@@ -54,6 +54,15 @@ export default {
         ...opts,
       });
     },
+    createEvent({
+      assetId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/${assetId}/events`,
+        ...opts,
+      });
+    },
     listAssets(opts = {}) {
       return this._makeRequest({
         path: "/assets",
