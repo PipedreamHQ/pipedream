@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lastpass",
+  "version": "0.0.1",
+  "description": "Pipedream LastPass Enterprise API Components",
+  "main": "lastpass.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lastpass"
+  ],
+  "homepage": "https://pipedream.com/apps/lastpass",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
