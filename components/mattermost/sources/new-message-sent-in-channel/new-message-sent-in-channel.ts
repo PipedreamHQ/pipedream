@@ -21,8 +21,9 @@ export default defineSource({
     channelId: {
       propDefinition: [
         mattermost,
-        "channelId"
-      ]
+        "publicChannelId",
+        ({ teamId }) => ({ teamId })
+      ],
     },
     displayName: {
       type: "string",
