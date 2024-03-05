@@ -1,0 +1,94 @@
+{
+  "index": "What is Pipedream?",
+  "quickstart": {
+    "title": "Quickstart"
+  },
+  "workspaces": {
+    "title": "Workspaces"
+  },
+  "projects": {
+    "title": "Projects"
+  },
+  "workflows": {
+    "title": "Workflows"
+  },
+  "connected-accounts": {
+    "title": "Connected Accounts"
+  },
+  "code": {
+    "title": "Code"
+  },
+  "data-stores": "Data Stores",
+  "components": "Components",
+  "sources": "Sources",
+  "event-history": "Event History",
+  "http": "HTTP",
+  "apps": "Integrations",
+  "rest-api": "API Reference",
+  "cli": "CLI",
+  "environment-variables": {
+    "title": "Environment Variables"
+  },
+  "destinations": "Destinations",
+  "user-settings": "User and Billing Settings",
+  "troubleshooting": "Troubleshooting",
+  "pricing": "Pricing FAQ",
+  "privacy-and-security": {
+    "title": "Security"
+  },
+  "limits": "Limits",
+  "support": {
+    "title": "Support",
+    "type": "page",
+    "href": "https://pipedream.com/support",
+    "newWindow": true
+  },
+  "pricing-page": {
+    "title": "Pricing",
+    "href": "https://pipedream.com/pricing",
+    "newWindow": true,
+    "type": "page"
+  },
+  "statuspage": {
+    "title": "Status",
+    "type": "page",
+    "href": "https://status.pipedream.com",
+    "newWindow": true
+  },
+  "workspaces-and-credits-faq": {
+    "display": "children"
+  },
+  "abuse": {
+    "display": "children"
+  },
+  "airtable": {
+    "display": "children"
+  },
+  "examples": {
+    "display": "children"
+  },
+  "migrate-from-v1": {
+    "display": "children"
+  },
+  "new-feature-or-bug": {
+    "display": "children"
+  },
+  "nodejs20-faq-2024-02": {
+    "display": "children"
+  },
+  "scheduling-future-tasks": {
+    "display": "children"
+  },
+  "shopify-faq-2023-10": {
+    "display": "children"
+  },
+  "subprocessors": {
+    "display": "children"
+  },
+  "pipedream-axios": {
+    "display": "children"
+  },
+  "status": {
+    "display": "children"
+  }
+}

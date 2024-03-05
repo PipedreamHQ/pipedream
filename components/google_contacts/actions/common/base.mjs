@@ -1,81 +1,57 @@
+import { ConfigurationError } from "@pipedream/platform";
 import googleContacts from "../../google_contacts.app.mjs";
+import props from "./props.mjs";
 
 export default {
   props: {
     googleContacts,
   },
   methods: {
-    getPersonFieldProps(personFields, optional = false) {
-      const props = {};
+    getPersonFields(personFields) {
+      return [
+        ...new Set([
+          ...personFields,
+          ...Object.keys(this.additionalFields ?? {}),
+        ]),
+      ].join();
+    },
+    getPersonFieldProps(personFields) {
+      const result = {};
       if (personFields.includes("names")) {
-        props.firstName = {
-          type: "string",
-          label: "First Name",
-          description: "Contact's first name",
-          optional,
-        };
-        props.middleName = {
-          type: "string",
-          label: "Middle Name",
-          description: "Contact's middle name",
-          optional,
-        };
-        props.lastName = {
-          type: "string",
-          label: "Last Name",
-          description: "Contact's last name",
-          optional,
-        };
+        result.firstName = props.firstName;
+        result.middleName = props.middleName;
+        result.lastName = props.lastName;
       }
       if (personFields.includes("emailAddresses")) {
-        props.email = {
-          type: "string",
-          label: "Email Address",
-          description: "Contact's email address",
-          optional,
-        };
+        result.email = props.email;
       }
       if (personFields.includes("phoneNumbers")) {
-        props.phoneNumber = {
-          type: "string",
-          label: "Phone Number",
-          description: "Contact's phone number",
-          optional,
-        };
+        result.phoneNumber = props.phoneNumber;
       }
       if (personFields.includes("addresses")) {
-        props.streetAddress = {
-          type: "string",
-          label: "Street Address",
-          description: "Contact's street address",
-          optional,
-        };
-        props.city = {
-          type: "string",
-          label: "City",
-          description: "Contact's city",
-          optional,
-        };
-        props.state = {
-          type: "string",
-          label: "State",
-          description: "Contact's state/region",
-          optional,
-        };
-        props.zipCode = {
-          type: "string",
-          label: "Zip Code",
-          description: "Contact's zip code",
-          optional,
-        };
-        props.country = {
-          type: "string",
-          label: "Country",
-          description: "Contact's country",
-          optional,
-        };
+        result.streetAddress = props.streetAddress;
+        result.city = props.city;
+        result.state = props.state;
+        result.zipCode = props.zipCode;
+        result.country = props.country;
       }
-      return props;
+      if (personFields.includes("biographies")) {
+        result.biography = props.biography;
+      }
+      if (personFields.includes("birthdays")) {
+        result.birthday = props.birthday;
+      }
+      if (personFields.includes("calendarUrls")) {
+        result.calendarUrl = props.calendarUrl;
+      }
+      if (personFields.includes("genders")) {
+        result.gender = props.gender;
+      }
+      if (personFields.includes("urls")) {
+        result.urls = props.urls;
+      }
+      result.additionalFields = props.additionalFields;
+      return result;
     },
     getRequestBody(personFields, ctx) {
       const {
@@ -89,6 +65,12 @@ export default {
         state: region,
         zipCode: postalCode,
         country,
+        biography,
+        birthday,
+        calendarUrl,
+        gender,
+        urls,
+        additionalFields,
       } = ctx;
 
       const requestBody = {};
@@ -125,6 +107,64 @@ export default {
             value: phoneNumber,
           },
         ];
+      }
+      if (personFields.includes("biographies")) {
+        requestBody.biographies = [
+          {
+            value: biography,
+          },
+        ];
+      }
+      if (personFields.includes("birthdays")) {
+        try {
+          const [
+            year,
+            month,
+            day,
+          ] = birthday.split("-");
+          requestBody.birthdays = [
+            {
+              date: {
+                year,
+                month: Number(month),
+                day: Number(day),
+              },
+            },
+          ];
+        } catch (err) {
+          throw new ConfigurationError("Error parsing birthday. Make sure it is a string in the format `YYYY-MM-DD`");
+        }
+      }
+      if (personFields.includes("calendarUrls")) {
+        requestBody.calendarUrls = [
+          {
+            url: calendarUrl,
+          },
+        ];
+      }
+      if (personFields.includes("genders")) {
+        requestBody.genders = [
+          {
+            value: gender,
+          },
+        ];
+      }
+      if (personFields.includes("urls")) {
+        requestBody.urls = urls.map((value) => ({
+          value,
+        }));
+      }
+      if (additionalFields) {
+        Object.entries(additionalFields).forEach(([
+          key,
+          value,
+        ]) => {
+          try {
+            requestBody[key] = JSON.parse(value);
+          } catch (e) {
+            requestBody[key] = value;
+          }
+        });
       }
       return requestBody;
     },

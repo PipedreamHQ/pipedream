@@ -4,7 +4,7 @@ export default {
   key: "webflow-list-collections",
   name: "List Collections",
   description: "List collections. [See the docs here](https://developers.webflow.com/#list-collections)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     webflow,

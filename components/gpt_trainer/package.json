@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/gpt_trainer",
+  "version": "0.0.1",
+  "description": "Pipedream gpt-trainer Components",
+  "main": "gpt_trainer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gpt_trainer"
+  ],
+  "homepage": "https://pipedream.com/apps/gpt_trainer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

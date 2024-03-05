@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/freshmarketer",
+  "version": "0.0.1",
+  "description": "Pipedream Freshmarketer Components",
+  "main": "freshmarketer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "freshmarketer"
+  ],
+  "homepage": "https://pipedream.com/apps/freshmarketer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

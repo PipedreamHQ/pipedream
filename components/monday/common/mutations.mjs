@@ -50,6 +50,23 @@ export default {
       }
     }
   `,
+  createSubItem: `
+    mutation createSubItem (
+      $itemName: String!
+      $parentItemId: ID!
+      $columnValues: JSON
+      $createLabels: Boolean
+    ) {
+      create_subitem (
+        item_name: $itemName
+        parent_item_id: $parentItemId
+        column_values: $columnValues
+        create_labels_if_missing: $createLabels
+      ) {
+        id
+      }
+    }
+  `,
   createUpdate: `
     mutation createUpdate (
       $updateBody: String!

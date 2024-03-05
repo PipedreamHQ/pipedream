@@ -6,7 +6,7 @@ export default {
   key: "snowflake-deleted-user",
   name: "New Deleted User",
   description: "Emit new event when a user is deleted",
-  version: "0.0.5",
+  version: "0.0.6",
   methods: {
     ...common.methods,
     getSqlText() {

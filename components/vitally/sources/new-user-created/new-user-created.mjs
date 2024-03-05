@@ -5,7 +5,7 @@ import vitally from "../../vitally.app.mjs";
 export default {
   key: "vitally-new-user-created",
   name: "New User Created",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a new user is created.",
   type: "source",
   dedupe: "unique",

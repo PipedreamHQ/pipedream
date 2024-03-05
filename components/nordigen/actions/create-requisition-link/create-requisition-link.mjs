@@ -4,7 +4,7 @@ export default {
   key: "nordigen-create-requisition-link",
   name: "Create Requisition Link",
   description: "Create a requisition link and id to be used in other Nordigen actions. [See the docs](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   props: {
     nordigen,

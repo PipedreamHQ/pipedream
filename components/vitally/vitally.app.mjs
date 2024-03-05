@@ -197,7 +197,8 @@ export default {
   },
   methods: {
     _apiUrl() {
-      return "https://rest.vitally.io/resources";
+      const subdomain = this.$auth.subdomain;
+      return `https://${subdomain}.rest.vitally.io/resources`;
     },
     _getAuth() {
       return {

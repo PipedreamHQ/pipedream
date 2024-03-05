@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/urlbox_io",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Urlbox.io Components",
   "main": "urlbox_io.app.mjs",
   "keywords": [
@@ -13,6 +13,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.4.1"
+    "@pipedream/platform": "^1.4.1",
+    "crypto-js": "^4.2.0",
+    "qs": "^6.11.2"
   }
 }
