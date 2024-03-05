@@ -122,11 +122,11 @@ export default defineApp({
         endpoint: "/teams",
       });
     },
-    async createWebhook(args) {
+    async createWebhook(data: object) {
       return this._httpRequest({
         endpoint: "/webhooks/outgoing",
         method: "POST",
-        ...args,
+        data,
       });
     },
     async deleteWebhook(id: string) {

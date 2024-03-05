@@ -2,12 +2,13 @@ import mattermost from "../../app/mattermost.app";
 import { SourceHttpRunOptions, defineSource } from "@pipedream/types";
 
 export default defineSource({
-  name: "New Message Sent in Channel",
+  name: "New Message Sent in Channel (Instant)",
   description:
     "Emit new event when a message matching the requirements is sent in a channel. [See the documentation](https://api.mattermost.com/#tag/webhooks/operation/CreateOutgoingWebhook)",
   key: "mattermost-new-message-sent-in-channel",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     mattermost,
     db: "$.service.db",
@@ -61,9 +62,6 @@ export default defineSource({
     _setWebhookId(value: string) {
       this.db.set("webhookId", value);
     },
-    getSummary(item): string {
-      return `New message: ${item}`;
-    },
   },
   hooks: {
     async activate() {
@@ -83,25 +81,17 @@ export default defineSource({
     },
     async deactivate() {
       const id = this._getWebhookId();
-      await this.mattermost.deleteWebhook(id,);
+      await this.mattermost.deleteWebhook(id);
     },
   },
-  async run(data: SourceHttpRunOptions) {
-    console.log(data);
-    // const result = await Promise.all(promises);
-    // const result = [];data;
-    // result.forEach(({
-    //   obj, response,
-    // }) => {
-    //   const data = response.noUrl
-    //     ? obj
-    //     : response;
-    //   const summary = this.getSummary(data);
-    //   this.$emit(data, {
-    //     id: obj.id,
-    //     summary,
-    //     ts: new Date(obj.timestamp).valueOf(),
-    //   });
-    // });
+  async run({ body }: SourceHttpRunOptions) {
+    if (body) {
+      const ts = Date.now();
+      this.$emit(body, {
+        id: typeof body.id === 'string' ? body.id : ts,
+        summary: "New message",
+        ts,
+      });
+    }
   },
 });
