@@ -47,9 +47,7 @@ export interface Tweet
     place_id: string;
   },
   entities?: {
-    mentions?: {
-      username: string;
-    }
+    mentions?: User[];
   }
   includes?: {
     tweets?: Tweet[];
@@ -67,7 +65,12 @@ export interface User extends TwitterEntity {
   pinned_tweet_id?: string;
 }
 
+type Poll = TwitterEntity;
+type Place = TwitterEntity;
+
 export interface ResponseIncludes {
+  places?: Place[];
+  polls?: Poll[];
   users?: User[];
   tweets?: Tweet[];
   media?: MediaItem[];
