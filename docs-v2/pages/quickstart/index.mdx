@@ -34,13 +34,17 @@ Name the workflow and click **Create Workflow** to use the default settings. For
 
 ### Add an HTTP / Webhook trigger
 
-Next, Pipedream will launch the workflow builder and prompt you to add a trigger. For this example, select **HTTP / Webhook Requests**. 
+Next, Pipedream will launch the workflow builder and prompt you to add a trigger. 
 
-![Add HTTP trigger](./images/add-trigger.png)
+![Create a new Trigger for the workflow](./images/add-trigger.png)
 
-Click **Save and continue** to accept the default settings.
+Clicking the trigger opens a new menu to select the trigger. For this example, select **New HTTP / Webhook Requests**.
 
-![Save trigger](./images/save-trigger.png)
+![Add HTTP trigger](./images/create-http-trigger.png)
+
+Click **Save and continue** in the step editor on the right to accept the default settings.
+
+![Save trigger](./images/save-http-trigger.png)
 
 Pipedream will generate a unique URL to trigger this workflow. Once your workflow is deployed, your workflow will run on every request to this URL.
 
@@ -91,9 +95,14 @@ That will open the **Add a step** menu. Select **Run custom code**.
 
 ![Add step](./images/step-selector-code.png) 
 
-Pipedream will add a Node.js code step. Rename the step to **sentiment**.
+Pipedream will add a Node.js code step to the workflow.
 
-![Rename step to sentiment](./images/rename-code-step.png) 
+![The new code step is added to the workflow after the HTTP trigger](./images/new-code-step-added.png)
+
+
+Rename the step to **sentiment**.
+
+![Rename step to sentiment](./images/rename-code-step.gif) 
 
 Next, add the following code to the code step:
 
