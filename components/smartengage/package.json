@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/smartengage",
+  "version": "0.0.1",
+  "description": "Pipedream SmartEngage  Components",
+  "main": "smartengage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smartengage"
+  ],
+  "homepage": "https://pipedream.com/apps/smartengage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

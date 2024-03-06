@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hyperise",
+  "version": "0.0.1",
+  "description": "Pipedream Hyperise Components",
+  "main": "hyperise.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hyperise"
+  ],
+  "homepage": "https://pipedream.com/apps/hyperise",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
