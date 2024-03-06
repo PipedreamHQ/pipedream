@@ -1,61 +1,41 @@
-import { axios } from "@pipedream/platform";
-import fogbugz from "../../fogbugz.app.mjs";
+import { CASE_COLS } from "../../common/constants.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "fogbugz-new-case-in-filter",
   name: "New Case in Filter",
-  description: "Emits a new event when there's a new case under a specified filter. Note this may not effectively work for filters that generate results too long, or filters with more than 50,000 cases, especially if your FogBugz site is running Ocelot. [See the documentation](https://api.manuscript.com/)",
+  description: "Emit new new event when there's a new case under a specified filter. Note this may not effectively work for filters that generate results too long, or filters with more than 50,000 cases, especially if your FogBugz site is running Ocelot.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    fogbugz,
-    db: "$.service.db",
-    filterId: {
-      propDefinition: [
-        fogbugz,
-        "filterId",
-      ],
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
+    ...common.props,
+    criteria: {
+      type: "string",
+      label: "criteria",
+      description: "The filter you want to apply to the search. For more details about how to combine multiple search criteria read our [Ultimate FogBugz Search Guide](https://support.fogbugz.com/hc/en-us/articles/360011257174-Searching-in-FogBugz-Syntax-and-the-Search-Axis-the-Ultimate-Guide-for-Complex-FogBugz-Searches#case-axes).",
     },
   },
   methods: {
-    async fetchAndEmitCases() {
-      const lastCaseNumber = this.db.get("lastCaseNumber") || 0;
-      let maxCaseNumber = lastCaseNumber;
-
-      const response = await this.fogbugz._makeRequest({
-        method: "POST",
-        path: "/api/search",
-        data: {
-          q: `filter:${this.filterId}`,
-          cols: [
-            "ixBug",
-            "sTitle",
-            "events",
-          ],
-        },
-      });
-
-      const newCases = response.cases.filter((caseItem) => caseItem.ixBug > lastCaseNumber);
-      for (const caseItem of newCases) {
-        this.$emit(caseItem, {
-          id: caseItem.ixBug.toString(),
-          summary: `New Case: ${caseItem.sTitle}`,
-          ts: Date.now(),
-        });
-        maxCaseNumber = Math.max(maxCaseNumber, caseItem.ixBug);
-      }
-
-      this.db.set("lastCaseNumber", maxCaseNumber);
+    ...common.methods,
+    getData() {
+      return {
+        cmd: "search",
+        q: this.criteria,
+        cols: CASE_COLS,
+      };
+    },
+    getDataField() {
+      return "cases";
+    },
+    getIdField() {
+      return "ixBug";
+    },
+    getSummary(item) {
+      return `New case event created with Id: ${item.ixBug}`;
     },
   },
-  async run() {
-    await this.fetchAndEmitCases();
-  },
+  sampleEmit,
 };
