@@ -1,15 +1,13 @@
+import google_cloud_translate from "../../google_cloud_translate.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
   name: "Translate",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "google-cloud-translate-text",
   description: "Translate text using Google Cloud Translate",
   props: {
-    google_cloud_translate: {
-      type: "app",
-      app: "google_cloud_translate",
-    },
+    google_cloud_translate,
     text: {
       type: "string",
       description: "Text to translate",
@@ -20,10 +18,19 @@ export default {
       label: "Target Language",
       description: "The two letter ISO code for the language to translate the text into",
       default: "en",
+      async options() {
+        const response = await fetch(`https://translation.googleapis.com/language/translate/v2/languages?key=${this.google_cloud_translate.$auth.api_key}&target=en`, {
+          method: "GET",
+        });
+        const data = await response.json();
+        return data.data.languages.map((language) => ({
+          label: language.name,
+          value: language.language,
+        }));
+      },
     },
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     return await axios($, {
       method: "post",
