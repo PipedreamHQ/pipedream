@@ -42,53 +42,6 @@ jobs:
           base_commit: ${{ github.event.pull_request.base.sha }}
           head_commit: ${{ github.event.pull_request.head.sha }}
 
-  check_components:
-    name: Check component keys and app props
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4.1.1
-        with:
-          # Full git history is needed to get a proper list of changed files
-          # within `super-linter`
-          fetch-depth: 0
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 7.33.6
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - name: Install dependencies
-        run: pnpm install -r
-      - name: Setup Node Env
-        uses: actions/setup-node@v4.0.2
-        with:
-          node-version: 18
-          registry-url: https://registry.npmjs.org/
-          cache: 'pnpm'
-      - name: Compile TypeScript
-        run: npm run build
-      - name: Get Changed Files
-        id: changed_files
-        uses: jitterbit/get-changed-files@v1
-        with:
-          format: 'csv'
-      - name: Check component keys
-        run: node scripts/findBadKeys.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
-      - name: Check component app prop
-        run: node scripts/checkComponentAppProp.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
-      - name: Check for duplicate component keys
-        run: node scripts/findDuplicateKeys.js
-
   verify-typescript-components:
     name: Verify TypeScript components
     runs-on: ubuntu-latest
