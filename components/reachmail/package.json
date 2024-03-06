@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/reachmail",
+  "version": "0.0.1",
+  "description": "Pipedream ReachMail Components",
+  "main": "reachmail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "reachmail"
+  ],
+  "homepage": "https://pipedream.com/apps/reachmail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

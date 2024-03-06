@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sms_partner",
+  "version": "0.0.1",
+  "description": "Pipedream SMS Partner Components",
+  "main": "sms_partner.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sms_partner"
+  ],
+  "homepage": "https://pipedream.com/apps/sms_partner",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
