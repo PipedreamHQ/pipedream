@@ -2977,6 +2977,9 @@ importers:
       lodash-es: 4.17.21
       uuid: 8.3.2
 
+  components/google_cloud_translate:
+    specifiers: {}
+
   components/google_cloud_vision_api:
     specifiers:
       '@pipedream/platform': ^1.6.0
