@@ -75,8 +75,6 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: Compile TypeScript
-        run: npm run build
       - name: Lint Code Base
         uses: github/super-linter@v5
         env:
@@ -87,15 +85,3 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_JSON: true
-      - name: Get Changed Files
-        id: changed_files
-        uses: jitterbit/get-changed-files@v1
-        with:
-          format: 'csv'
-      # TODO: Move these checks to the Components workflow
-      - name: Check component keys
-        run: node scripts/findBadKeys.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
-      - name: Check component app prop
-        run: node scripts/checkComponentAppProp.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
-      - name: Check for duplicate component keys
-        run: node scripts/findDuplicateKeys.js
