@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chatpdf",
+  "version": "0.0.1",
+  "description": "Pipedream ChatPDF Components",
+  "main": "chatpdf.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatpdf"
+  ],
+  "homepage": "https://pipedream.com/apps/chatpdf",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
