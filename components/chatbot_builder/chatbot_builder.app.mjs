@@ -4,10 +4,10 @@ export default {
   type: "app",
   app: "chatbot_builder",
   propDefinitions: {
-    tagData: {
-      type: "object",
-      label: "Tag Data",
-      description: "The data required to create a new tag",
+    name: {
+      type: "string",
+      label: "Tag Name",
+      description: "The name of the new tag",
     },
     pageId: {
       type: "string",
@@ -17,57 +17,60 @@ export default {
     tagId: {
       type: "string",
       label: "Tag ID",
-      description: "The ID of the tag to delete",
+      description: "The ID of the tag",
+      async options() {
+        const tags = await this.getTags();
+
+        return tags.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://app.chatgptbuilder.io/api";
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
-        data,
-        params,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "X-ACCESS-TOKEN": `${this.$auth.api_access_token}`,
         },
-        data,
-        params,
       });
     },
-    async createTag({ tagData }) {
+    async createTag(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/accounts/tags",
-        data: tagData,
+        ...args,
       });
     },
-    async getTagsFromPage({ pageId }) {
+    async getTags(args = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: `/accounts/tags/${pageId}`,
+        path: "/accounts/tags",
+        ...args,
       });
     },
-    async deleteTag({ tagId }) {
+    async deleteTag({
+      tagId, ...args
+    }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/accounts/tags/${tagId}`,
+        ...args,
       });
     },
   },
-  version: `0.0.${Date.now()}`,
 };

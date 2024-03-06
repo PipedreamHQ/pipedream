@@ -1,23 +1,23 @@
-import chatbotBuilder from "../../chatbot_builder.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../chatbot_builder.app.mjs";
 
 export default {
   key: "chatbot_builder-delete-tag",
   name: "Delete Tag",
   description: "Deletes a tag from Chatbot Builder. [See the documentation](https://app.chatgptbuilder.io/api/swagger/#/accounts/deletetag)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    chatbotBuilder,
+    app,
     tagId: {
       propDefinition: [
-        chatbotBuilder,
+        app,
         "tagId",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.chatbotBuilder.deleteTag({
+    const response = await this.app.deleteTag({
+      $,
       tagId: this.tagId,
     });
     $.export("$summary", `Successfully deleted tag with ID: ${this.tagId}`);

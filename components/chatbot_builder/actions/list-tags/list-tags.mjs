@@ -1,23 +1,18 @@
-import chatbotBuilder from "../../chatbot_builder.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../chatbot_builder.app.mjs";
 
 export default {
   key: "chatbot_builder-list-tags",
-  name: "List Tags from a Page",
-  description: "Get all tags from a specified page in Chatbot Builder. [See the documentation](https://app.chatgptbuilder.io/api/swagger/#/accounts/getpagetags)",
-  version: "0.0.{{ts}}",
+  name: "List Tags",
+  description: "Lists all tags in Chatbot Builder. [See the documentation](https://app.chatgptbuilder.io/api/swagger/#/accounts/getpagetags)",
+  version: "0.0.1",
   type: "action",
   props: {
-    chatbotBuilder,
-    pageId: {
-      propDefinition: [
-        chatbotBuilder,
-        "pageId"
-      ]
-    },
+    app,
   },
   async run({ $ }) {
-    const tags = await this.chatbotBuilder.getTagsFromPage({ pageId: this.pageId });
+    const tags = await this.app.getTags({
+      $,
+    });
     $.export("$summary", `Retrieved ${tags.length} tags from page ${this.pageId}`);
     return tags;
   },
