@@ -1,27 +1,43 @@
-import proofly from "../../proofly.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../proofly.app.mjs";
 
 export default {
   key: "proofly-toggle-campaign",
   name: "Toggle Campaign Status",
   description: "Switch a campaign's status between active and inactive. [See the documentation](https://proofly.io/developers)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    proofly,
+    app,
     campaignId: {
       propDefinition: [
-        proofly,
+        app,
         "campaignId",
       ],
     },
   },
+  methods: {
+    switchCampaignStatus({
+      campaignId, ...args
+    }) {
+      return this.app.put({
+        path: `/campaign/${campaignId}`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.proofly.switchCampaignStatus({
-      campaignId: this.campaignId,
+    const {
+      campaignId,
+      switchCampaignStatus,
+    } = this;
+
+    const response = await switchCampaignStatus({
+      $,
+      campaignId,
     });
 
-    $.export("$summary", `Toggled campaign status for campaign ID ${this.campaignId}`);
+    $.export("$summary", `Successfully toggled campaign with status \`${response.status}\` and message \`${response.data}\``);
+
     return response;
   },
 };
