@@ -8,19 +8,19 @@ export default {
   type: "action",
   props: {
     allImagesAi,
-    imageId: {
+    imageGenerationId: {
       propDefinition: [
         allImagesAi,
-        "imageId",
+        "imageGenerationId",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.allImagesAi.getImage({
       $,
-      imageId: this.imageId,
+      imageGenerationId: this.imageGenerationId,
     });
-    $.export("$summary", `Successfully retrieved image generation with ID: ${this.imageId}`);
+    $.export("$summary", `Successfully retrieved image generation with ID: ${this.imageGenerationId}`);
     return response;
   },
 };
