@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "nocodb-add-record",
   name: "Add Record",
-  description: "This action adds a record in a table. [See the docs here](https://all-apis.nocodb.com/#tag/DB-table-row/operation/db-table-row-create)",
-  version: "0.0.2",
+  description: "This action adds a record in a table. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-create)",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -17,20 +17,15 @@ export default {
     },
   },
   methods: {
-    async processEvent() {
-      const {
-        projectId,
-        tableName,
-        data,
-      } = this;
+    async processEvent($) {
       return this.nocodb.createTableRow({
-        projectId,
-        tableName: tableName.value,
-        data,
+        tableId: this.tableId.value,
+        data: this.data,
+        $,
       });
     },
     getSummary() {
-      return `Record Successfully added in ${this.tableName.label} table!`;
+      return `Record Successfully added in ${this.tableId.label} table!`;
     },
   },
 };

@@ -5,16 +5,25 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   props: {
     nocodb,
+    workspaceId: {
+      propDefinition: [
+        nocodb,
+        "workspaceId",
+      ],
+    },
     projectId: {
       propDefinition: [
         nocodb,
         "projectId",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
     },
-    tableName: {
+    tableId: {
       propDefinition: [
         nocodb,
-        "tableName",
+        "tableId",
         (c) => ({
           projectId: c.projectId,
         }),
@@ -44,7 +53,10 @@ export default {
 
       const records = this.nocodb.paginate({
         fn: this.nocodb.listTableRow,
-        params,
+        args: {
+          tableId: this.tableId.value,
+          params,
+        },
       });
 
       for await (const record of records) {
@@ -58,9 +70,8 @@ export default {
       const timeField = this.getTimeField();
       const lastTime = this._getLastTime();
       const { list } = await this.nocodb.listTableRow({
-        projectId: this.projectId,
-        tableName: this.tableName.value,
-        query: {
+        tableId: this.tableId.value,
+        params: {
           sort: `-${timeField}`,
         },
       });
@@ -76,22 +87,13 @@ export default {
     },
   },
   async run() {
-    const {
-      projectId,
-      tableName,
-    } = this;
-
     const timeField = this.getTimeField();
     const lastTime = this._getLastTime();
     const params = {
-      query: {
-        sort: timeField,
-      },
-      projectId,
-      tableName: tableName.value,
+      sort: timeField,
     };
     // moment is necessary because nocodb query doesn't filter equal datetime in 'greater than'
-    if (lastTime) params.query.where = `(${timeField},gte,${moment(lastTime).add(1, "ms")
+    if (lastTime) params.where = `(${timeField},gte,${moment(lastTime).add(1, "ms")
       .toISOString()})`;
     return this.processEvent({
       params,
