@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/proofly",
+  "version": "0.0.1",
+  "description": "Pipedream Proofly Components",
+  "main": "proofly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "proofly"
+  ],
+  "homepage": "https://pipedream.com/apps/proofly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
