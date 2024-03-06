@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sendloop",
+  "version": "0.0.1",
+  "description": "Pipedream Sendloop Components",
+  "main": "sendloop.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sendloop"
+  ],
+  "homepage": "https://pipedream.com/apps/sendloop",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
