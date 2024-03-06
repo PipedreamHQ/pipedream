@@ -3162,7 +3162,10 @@ importers:
     specifiers: {}
 
   components/gpt_trainer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/grab_your_reviews:
     specifiers: {}
