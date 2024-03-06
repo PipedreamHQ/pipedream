@@ -24,7 +24,7 @@ function flatClearIncludeIds(
   );
 }
 
-function getDirectMessageIncludeIds(obj: DirectMessage) {
+export function getDirectMessageIncludeIds(obj: DirectMessage) {
   return flatClearIncludeIds({
     userIds: [obj.sender_id, obj.participant_ids],
     mediaKeys: [obj.attachments?.media_keys],
@@ -32,19 +32,19 @@ function getDirectMessageIncludeIds(obj: DirectMessage) {
   });
 }
 
-function getListIncludeIds(obj: List) {
+export function getListIncludeIds(obj: List) {
   return flatClearIncludeIds({
     userIds: [obj.owner_id],
   });
 }
 
-function getUserIncludeIds(obj: User) {
+export function getUserIncludeIds(obj: User) {
   return flatClearIncludeIds({
     tweetIds: [obj.pinned_tweet_id],
   });
 }
 
-function getTweetIncludeIds(obj: Tweet) {
+export function getTweetIncludeIds(obj: Tweet) {
   return flatClearIncludeIds({
     userIds: [obj.author_id, obj.in_reply_to_user_id],
     userNames: [obj.entities?.mentions?.map(({ username }) => username)],
