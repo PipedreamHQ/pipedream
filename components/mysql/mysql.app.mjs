@@ -4,11 +4,23 @@ export default {
   type: "app",
   app: "mysql",
   propDefinitions: {
+    database: {
+      type: "string",
+      label: "Database",
+      description:
+        "The database to use for the Pipedream Query Builder (For Mysql the database is selected at account connection time, but some apps may allow selection of a different database/schema at runtime.)",
+      async options() {
+        return this.$auth.database;
+      },
+    },
     table: {
       type: "string",
       label: "Table",
       description: "The database table to watch for changes",
-      async options() {
+      async options(options = null) {
+        /*eslint no-unused-vars: ["error", { "argsIgnorePattern": "options" }]*/
+        // In Mysql the database is selected as part of the connected account
+        // so we ignore the input parameter.
         const { database } = this.$auth;
         const tables = await this.listTables();
         return tables.map((table) => {
@@ -30,17 +42,20 @@ export default {
     whereCondition: {
       type: "string",
       label: "Where condition",
-      description: "In this **expression** you can write your own conditions (eg. `column1 = ? or column2 = ?`). Depending on the number of `?` symbols likewise you need to add the same number of **values**.",
+      description:
+        "In this **expression** you can write your own conditions (eg. `column1 = ? or column2 = ?`). Depending on the number of `?` symbols likewise you need to add the same number of **values**.",
     },
     whereValues: {
       type: "string[]",
       label: "Values",
-      description: "This is the list of **values** that will match every `?` symbol in the **where expression**. If you want to build yourself the **values** (eg. `{{[\"string1\", \"string2\"]}}`)",
+      description:
+        "This is the list of **values** that will match every `?` symbol in the **where expression**. If you want to build yourself the **values** (eg. `{{[\"string1\", \"string2\"]}}`)",
     },
     whereOperator: {
       type: "string",
       label: "Where Operator",
-      description: "Build a filter based on this operator (eg. `=, >, >=, <, !=, <=, LIKE`).",
+      description:
+        "Build a filter based on this operator (eg. `=, >, >=, <, !=, <=, LIKE`).",
       options() {
         return [
           {
@@ -97,11 +112,7 @@ export default {
   methods: {
     getConfig() {
       const {
-        host,
-        port,
-        username,
-        password,
-        database,
+        host, port, username, password, database,
       } = this.$auth;
       return {
         host,
@@ -129,11 +140,9 @@ export default {
           rows,
         ] = await connection.execute(preparedStatement);
         return rows;
-
       } catch (error) {
         console.log("Error executing query", error);
         throw error;
-
       } finally {
         if (connection) {
           await this.closeConnection(connection);
@@ -309,13 +318,14 @@ export default {
       });
     },
     updateRow({
-      table, condition,
-      conditionValues = [], columnsToUpdate = [], valuesToUpdate = [],
+      table,
+      condition,
+      conditionValues = [],
+      columnsToUpdate = [],
+      valuesToUpdate = [],
       ...args
     } = {}) {
-      const updates =
-        columnsToUpdate
-          .map((column) => `\`${column}\` = ?`);
+      const updates = columnsToUpdate.map((column) => `\`${column}\` = ?`);
 
       return this.executeQuery({
         sql: `
