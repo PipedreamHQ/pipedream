@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/easypost",
+  "version": "0.0.1",
+  "description": "Pipedream EasyPost Components",
+  "main": "easypost.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easypost"
+  ],
+  "homepage": "https://pipedream.com/apps/easypost",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

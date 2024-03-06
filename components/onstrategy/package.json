@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/onstrategy",
+  "version": "0.0.1",
+  "description": "Pipedream OnStrategy Components",
+  "main": "onstrategy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "onstrategy"
+  ],
+  "homepage": "https://pipedream.com/apps/onstrategy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

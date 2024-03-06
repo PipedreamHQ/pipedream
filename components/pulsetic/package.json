@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pulsetic",
+  "version": "0.0.1",
+  "description": "Pipedream Pulsetic Components",
+  "main": "pulsetic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pulsetic"
+  ],
+  "homepage": "https://pipedream.com/apps/pulsetic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

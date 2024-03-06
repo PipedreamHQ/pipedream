@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/swell",
+  "version": "0.0.1",
+  "description": "Pipedream Swell Components",
+  "main": "swell.app.mjs",
+  "keywords": [
+    "pipedream",
+    "swell"
+  ],
+  "homepage": "https://pipedream.com/apps/swell",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
