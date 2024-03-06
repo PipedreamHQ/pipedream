@@ -1,4 +1,7 @@
-import { IncludesIdCollection } from "./types/includeMapping";
+import {
+  IncludesIdCollection,
+  IncludesIdCollectionFlattened,
+} from "./types/includeMapping";
 import {
   DirectMessage,
   List,
@@ -10,7 +13,9 @@ import {
 
 // https://developer.twitter.com/en/docs/twitter-api/expansions
 
-function flatClearIncludeIds(obj: IncludesIdCollection) {
+function flatClearIncludeIds(
+  obj: IncludesIdCollection
+): IncludesIdCollectionFlattened {
   return Object.fromEntries(
     Object.entries(obj).map(([key, value]) => [
       key,
@@ -53,22 +58,23 @@ function getTweetIncludeIds(obj: Tweet) {
   });
 }
 
-export function getTweetIncludes(obj: Tweet, includes: ResponseIncludes) {
-  const result: ResponseIncludes = {};
-
+export function getObjIncludes(
+  obj: TwitterEntity,
+  includes: ResponseIncludes,
+  getIncludeIds: (o: TwitterEntity) => IncludesIdCollectionFlattened
+) {
   const { userIds, userNames, tweetIds, pollIds, placeIds, mediaKeys } =
-    getTweetIncludeIds(obj);
+    getIncludeIds(obj);
 
-  result.media = includes.media?.filter((item) =>
-    mediaKeys.includes(item.media_key)
-  );
-  result.users = includes.users?.filter(
-    (item) => userIds.includes(item.id) || userNames.includes(item.username)
-  );
-  result.places = includes.places?.filter((item) => placeIds.includes(item.id));
-  result.polls = includes.polls?.filter((item) => pollIds.includes(item.id));
-  result.tweets = includes.tweets?.filter((item) => tweetIds.includes(item.id));
-
+  const result: ResponseIncludes = {
+    media: includes.media?.filter((item) => mediaKeys?.includes(item.media_key)),
+    users: includes.users?.filter(
+      (item) => userIds?.includes(item.id) || userNames?.includes(item.username)
+    ),
+    places: includes.places?.filter((item) => placeIds?.includes(item.id)),
+    polls: includes.polls?.filter((item) => pollIds?.includes(item.id)),
+    tweets: includes.tweets?.filter((item) => tweetIds?.includes(item.id)),
+  };
   return Object.fromEntries(
     Object.entries(result).filter(([, value]) => value?.length > 0)
   );

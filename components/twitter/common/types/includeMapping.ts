@@ -1,10 +1,11 @@
-type IdCollection = (string | string[])[];
-
-export interface IncludesIdCollection {
-  mediaKeys?: IdCollection;
-  placeIds?: IdCollection;
-  pollIds?: IdCollection;
-  tweetIds?: IdCollection;
-  userIds?: IdCollection;
-  userNames?: IdCollection;
+type IncludesIdMap<T> = {
+  mediaKeys?: T;
+  placeIds?: T;
+  pollIds?: T;
+  tweetIds?: T;
+  userIds?: T;
+  userNames?: T;
 }
+
+export type IncludesIdCollection = IncludesIdMap<(string | string[])[]>;
+export type IncludesIdCollectionFlattened = IncludesIdMap<string[]>;
