@@ -348,20 +348,27 @@ async function run() {
   }
 
   if (componentsDiffContents.length) {
+    let command = ''
+
     for ({ dependencyFilePath, componentFilePath } of componentsDiffContents) {
       try {
         const content = await readFile(componentFilePath, "utf-8")
         const currentVersion = getVersion(content)
         const increasedVersion = increaseVersion(currentVersion)
-  
-        await execCmd("sed", ["-i", `0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/}`, getComponentFilePath(componentFilePath)]);
-  
-        console.log(`✅ Version of ${getComponentFilePath(componentFilePath)} changed from ${currentVersion} to ${increasedVersion} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
-      } catch(error) {
-        console.error(`❌ Error increasing version of ${getComponentFilePath(componentFilePath)}: ${error}`);
+
+        command += `${command.length ? " && " : ""}sed -i 0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/} ${getComponentFilePath(componentFilePath)}`
+      } catch (error) {
+        console.error(`❌ Error checking component diff of ${getComponentFilePath(componentFilePath)}: ${error}`);
       }
     };
+
+    core.setFailed(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased.`)
+    core.setFailed(`🚀 To fix the versions, in your terminal go to project root path and run the command below:`)
+
+    console.log(`\n${command}\n`)
   }
+
+
 
   const totalErrors = componentsThatDidNotModifyVersion.length;
   let counter = 1;

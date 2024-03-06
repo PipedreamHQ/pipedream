@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/anymail_finder",
+  "version": "0.0.1",
+  "description": "Pipedream Anymail Finder Components",
+  "main": "anymail_finder.app.mjs",
+  "keywords": [
+    "pipedream",
+    "anymail_finder"
+  ],
+  "homepage": "https://pipedream.com/apps/anymail_finder",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

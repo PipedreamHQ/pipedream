@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/glide",
+  "version": "0.0.1",
+  "description": "Pipedream Glide Components",
+  "main": "glide.app.mjs",
+  "keywords": [
+    "pipedream",
+    "glide"
+  ],
+  "homepage": "https://pipedream.com/apps/glide",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
