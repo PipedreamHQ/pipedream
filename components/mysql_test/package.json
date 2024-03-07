@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/mysql_test",
   "version": "0.0.1",
-  "description": "Pipedream MySQL - TEST Components",
+  "description": "Pipedream Mysql - TEST Components",
   "main": "mysql_test.app.mjs",
   "keywords": [
     "pipedream",
@@ -11,5 +11,11 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0",
+    "mysql2": "^3.9.2",
+    "mysql2-promise": "^0.1.4",
+    "uuid": "^8.3.2"
   }
 }
