@@ -26,9 +26,9 @@ export default {
   },
   async run({ $ }) {
     const response = await this.dynamics.getSalesOrder({
+      $,
       companyId: this.companyId,
       salesOrderId: this.salesOrderId,
-      $,
     });
     $.export("$summary", `Successfully retrieved sales order with ID ${this.salesOrderId}`);
     return response;

@@ -65,6 +65,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.dynamics.createCustomer({
+      $,
       companyId: this.companyId,
       data: {
         displayName: this.name,
@@ -78,7 +79,6 @@ export default {
           postalCode: this.postalCode,
         },
       },
-      $,
     });
     $.export("$summary", `Successfully created customer with ID ${response.id}`);
     return response;

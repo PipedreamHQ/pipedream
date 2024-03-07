@@ -97,6 +97,7 @@ export default {
       || this.countryLetterCode
       || this.postalCode;
     const response = await this.dynamics.updateCustomer({
+      $,
       companyId: this.companyId,
       customerId: this.customerId,
       data: utils.cleanObject({
@@ -107,7 +108,6 @@ export default {
           ? await this.buildAddress($)
           : undefined,
       }),
-      $,
     });
     $.export("$summary", `Successfully updated customer with ID ${this.customerId}`);
     return response;
