@@ -22,6 +22,11 @@ export default {
         "iconType",
       ],
     },
+    iconValue: {
+      type: "string",
+      label: "Icon Value",
+      description: "Defines the specific value of the icon based on the iconType",
+    },
     scheduleAt: {
       propDefinition: [
         app,
@@ -38,6 +43,18 @@ export default {
       propDefinition: [
         app,
         "description",
+      ],
+    },
+    statusId: {
+      propDefinition: [
+        app,
+        "statusId",
+      ],
+    },
+    associatedId: {
+      propDefinition: [
+        app,
+        "associatedId",
       ],
     },
   },
@@ -68,7 +85,8 @@ export default {
         scheduleAt: this.scheduleAt,
         name: this.name,
         description: this.description,
-        status: "65338d9cf781c59be3859c62", //não encontrei uma forma de listar os IDs dos status
+        status: this.statusId,
+        associated: this.associatedId,
       },
     });
 

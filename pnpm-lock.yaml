@@ -1756,6 +1756,9 @@ importers:
   components/desktime:
     specifiers: {}
 
+  components/detectify:
+    specifiers: {}
+
   components/detrack:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -1917,6 +1920,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/docmosis:
+    specifiers: {}
+
   components/docraptor:
     specifiers: {}
 
@@ -1931,6 +1937,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/docugenerate:
+    specifiers: {}
 
   components/document360:
     specifiers:
@@ -2060,6 +2069,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/droxy:
+    specifiers: {}
 
   components/dub:
     specifiers:
@@ -2253,6 +2265,9 @@ importers:
       lodash: 4.17.21
       timezones-list: 3.0.2
 
+  components/eventee:
+    specifiers: {}
+
   components/eversign:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2349,6 +2364,9 @@ importers:
     specifiers: {}
 
   components/faire:
+    specifiers: {}
+
+  components/faktoora:
     specifiers: {}
 
   components/faraday:
@@ -2484,6 +2502,9 @@ importers:
     specifiers: {}
 
   components/focuster:
+    specifiers: {}
+
+  components/fogbugz:
     specifiers: {}
 
   components/follow_up_boss:
@@ -2787,6 +2808,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/glide:
+    specifiers: {}
 
   components/gmail:
     specifiers:
@@ -3339,6 +3363,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/hr_partner:
+    specifiers: {}
+
   components/html_css_to_image:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -3422,6 +3449,9 @@ importers:
       lodash.pickby: 4.6.0
 
   components/icontact:
+    specifiers: {}
+
+  components/icypeas:
     specifiers: {}
 
   components/idealpostcodes:
@@ -3902,6 +3932,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/lastpass:
+    specifiers: {}
 
   components/leadboxer:
     specifiers: {}
@@ -4642,6 +4675,9 @@ importers:
   components/mozilla_observatory:
     specifiers: {}
 
+  components/mumara:
+    specifiers: {}
+
   components/murlist:
     specifiers: {}
 
@@ -4740,6 +4776,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/netatmo:
+    specifiers: {}
 
   components/nethunt_crm:
     specifiers:
@@ -4936,6 +4975,9 @@ importers:
     specifiers: {}
 
   components/octopus_deploy:
+    specifiers: {}
+
+  components/octopush_sms:
     specifiers: {}
 
   components/oksign:
@@ -5699,6 +5741,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/proofly:
+    specifiers: {}
+
   components/propelauth:
     specifiers: {}
 
@@ -6296,6 +6341,9 @@ importers:
   components/samcart:
     specifiers: {}
 
+  components/sapling:
+    specifiers: {}
+
   components/sapling_ai:
     specifiers:
       '@pipedream/platform': ^1.4.1
@@ -6800,6 +6848,9 @@ importers:
   components/small_improvements:
     specifiers: {}
 
+  components/smartengage:
+    specifiers: {}
+
   components/smartproxy:
     specifiers: {}
 
@@ -7042,6 +7093,9 @@ importers:
       he: 1.2.0
       lodash: 4.17.21
 
+  components/stackshare_api:
+    specifiers: {}
+
   components/stammer_ai:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -7117,6 +7171,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/streamwish:
+    specifiers: {}
 
   components/stripe:
     specifiers:
@@ -7510,6 +7567,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/time_doctor:
+    specifiers: {}
+
   components/time_tracker_by_ebillity:
     specifiers: {}
 
@@ -7657,6 +7717,9 @@ importers:
       '@pipedream/platform': 1.5.1
       crypto-js: 4.1.1
 
+  components/trestle:
+    specifiers: {}
+
   components/triggercmd:
     specifiers: {}
 
@@ -7797,6 +7860,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
+
+  components/unione:
+    specifiers: {}
 
   components/unisender:
     specifiers:
@@ -8022,6 +8088,9 @@ importers:
       xml2js: 0.6.2
 
   components/vivifyscrum:
+    specifiers: {}
+
+  components/vivocalendar:
     specifiers: {}
 
   components/vk:
@@ -8253,6 +8322,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/wonderchat:
+    specifiers: {}
 
   components/woocommerce:
     specifiers:

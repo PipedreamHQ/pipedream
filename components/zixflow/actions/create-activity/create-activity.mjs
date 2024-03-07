@@ -5,7 +5,7 @@ export default {
   key: "zixflow-create-activity",
   name: "Create Activity",
   description: "Creates a new activity or task within Zixflow. [See the documentation](https://docs.zixflow.com/api-reference/activity-list/create)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     app,
@@ -15,6 +15,11 @@ export default {
         "iconType",
       ],
       reloadProps: true,
+    },
+    iconValue: {
+      type: "string",
+      label: "Icon Value",
+      description: "Defines the specific value of the icon based on the iconType",
     },
     scheduleAt: {
       propDefinition: [
@@ -32,6 +37,18 @@ export default {
       propDefinition: [
         app,
         "description",
+      ],
+    },
+    statusId: {
+      propDefinition: [
+        app,
+        "statusId",
+      ],
+    },
+    associatedId: {
+      propDefinition: [
+        app,
+        "associatedId",
       ],
     },
   },
@@ -53,7 +70,7 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const response = await this.app.createTask({
+    const response = await this.app.createActivity({
       $,
       data: {
         iconType: this.iconType,
@@ -61,6 +78,8 @@ export default {
         scheduleAt: this.scheduleAt,
         name: this.name,
         description: this.description,
+        status: this.statusId,
+        associated: this.associatedId,
       },
     });
 

@@ -15,31 +15,31 @@ export default {
   ],
   INTERACTION_TYPES: [
     {
-      label: "Emoji",
+      label: "Call",
       value: "call",
     },
     {
-      label: "Interaction",
+      label: "Meeting",
       value: "meeting",
     },
     {
-      label: "Messaging App",
+      label: "Message",
       value: "message",
     },
     {
-      label: "Messaging App",
+      label: "Coffee",
       value: "coffee",
     },
     {
-      label: "Messaging App",
+      label: "Lunch",
       value: "lunch",
     },
     {
-      label: "Messaging App",
+      label: "Event",
       value: "event",
     },
     {
-      label: "Messaging App",
+      label: "Drink",
       value: "drink",
     },
   ],
@@ -61,7 +61,7 @@ export default {
       value: "hangout",
     },
     {
-      label: "Sjype",
+      label: "Skype",
       value: "skype",
     },
     {

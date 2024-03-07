@@ -9,6 +9,46 @@ export default {
       type: "string",
       label: "Activity ID",
       description: "The unique identifier for the activity or task",
+      async options({ page }) {
+        const { data: resources } = await this.getActivities({
+          data: {
+            offset: page * 100,
+            limit: 100,
+          },
+        });
+
+        return resources.map(({
+          _id, name,
+        }) => ({
+          value: _id,
+          label: name,
+        }));
+      },
+    },
+    associatedId: {
+      type: "string",
+      label: "Associated ID",
+      description: "The ID of the collection record associated with the activity.",
+      async options({ page }) {
+        const { data: resources } = await this.getCollections({
+          data: {
+            offset: page * 100,
+            limit: 100,
+          },
+        });
+
+        return resources.map(({
+          _id, name,
+        }) => ({
+          value: _id,
+          label: name,
+        }));
+      },
+    },
+    statusId: {
+      type: "string",
+      label: "Status ID",
+      description: "The unique identifier for the status attribute",
     },
     iconType: {
       type: "string",
@@ -27,6 +67,12 @@ export default {
       description: "Specifies the scheduled time for the activity in the format `YYYY-MM-DDTHH:mm:ss.SSSZ`",
     },
     description: {
+      type: "string",
+      label: "Description",
+      description: "A description providing additional details about the activity",
+      optional: true,
+    },
+    status: {
       type: "string",
       label: "Description",
       description: "A description providing additional details about the activity",
@@ -53,10 +99,24 @@ export default {
         },
       });
     },
-    async createTask(args = {}) {
+    async createActivity(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/collection-records/activity-list",
+        ...args,
+      });
+    },
+    async getCollections(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/collections",
+        ...args,
+      });
+    },
+    async getActivities(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/collection-records/activity-list/query",
         ...args,
       });
     },
