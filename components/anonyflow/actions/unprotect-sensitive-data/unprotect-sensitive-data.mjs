@@ -1,27 +1,50 @@
-import anonyflow from "../../anonyflow.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../anonyflow.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "anonyflow-unprotect-sensitive-data",
   name: "Unprotect Sensitive Data",
   description: "Decrypts protected data using AnonyFlow decryption service with a unique private key, managed by AnonyFlow. [See the documentation](https://anonyflow.com/api)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    anonyflow,
-    encryptedData: {
+    app,
+    data: {
       propDefinition: [
-        anonyflow,
-        "encryptedData",
+        app,
+        "data",
+      ],
+    },
+    keys: {
+      propDefinition: [
+        app,
+        "keys",
       ],
     },
   },
+  methods: {
+    deanonyPacket(args = {}) {
+      return this.app.post({
+        path: "/deanony-packet",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.anonyflow.decryptData({
-      encryptedData: this.encryptedData,
-    });
+    const {
+      deanonyPacket,
+      data,
+      keys,
+    } = this;
 
-    $.export("$summary", "Successfully decrypted the data");
+    const response = await deanonyPacket({
+      $,
+      data: {
+        data: utils.valueToObject(data),
+        keys,
+      },
+    });
+    $.export("$summary", `Successfully unprotected the data with status \`${response.status}\``);
     return response;
   },
 };

@@ -350,6 +350,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/amazon_polly:
+    specifiers: {}
+
   components/amazon_ses:
     specifiers:
       '@aws-sdk/client-ec2': ^3.89.0
@@ -413,7 +416,10 @@ importers:
     specifiers: {}
 
   components/anonyflow:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/anthropic:
     specifiers: {}
@@ -4747,9 +4753,6 @@ importers:
   components/mozilla_observatory:
     specifiers: {}
 
-  components/mtest:
-    specifiers: {}
-
   components/mumara:
     specifiers: {}
 
@@ -7772,19 +7775,6 @@ importers:
 
   components/tmetric:
     specifiers: {}
-
-  components/tmp/postgresql_test:
-    specifiers:
-      dtslint: ^4.2.1
-      pg: ^8.7.1
-      pg-format: ^1.0.4
-      typescript: ^4.6.4
-    dependencies:
-      pg: 8.11.3
-      pg-format: 1.0.4
-      typescript: 4.9.5
-    devDependencies:
-      dtslint: 4.2.1_typescript@4.9.5
 
   components/todoist:
     specifiers:

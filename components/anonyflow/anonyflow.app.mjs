@@ -4,54 +4,43 @@ export default {
   type: "app",
   app: "anonyflow",
   propDefinitions: {
-    encryptedData: {
-      type: "string",
-      label: "Encrypted Data",
-      description: "The data to be decrypted",
+    data: {
+      type: "object",
+      label: "Data",
+      description: "Data packet to be Anonymized or Deanonymized. Note that **only JSON Object is accepted**",
     },
-    sensitiveData: {
-      type: "string",
-      label: "Sensitive Data",
-      description: "The sensitive data to be encrypted",
+    keys: {
+      type: "string[]",
+      label: "Keys",
+      description: "Provided keys to be used for Anonymization or Deanonymization",
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getUrl(path) {
+      return `https://api.anonyflow.com${path}`;
     },
-    _baseUrl() {
-      return "https://api.anonyflow.com";
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "x-api-key": this.$auth.api_key,
+      };
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "POST", path, data, headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data,
-      });
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      const config = {
+        ...args,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
+      };
+      return axios($, config);
     },
-    async encryptData({ sensitiveData }) {
+    post(args = {}) {
       return this._makeRequest({
-        path: "/anony-value",
-        data: {
-          value: sensitiveData,
-        },
-      });
-    },
-    async decryptData({ encryptedData }) {
-      return this._makeRequest({
-        path: "/deanony-value",
-        data: {
-          value: encryptedData,
-        },
+        method: "post",
+        ...args,
       });
     },
   },
