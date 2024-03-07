@@ -5,7 +5,7 @@ type IncludesIdMap<T> = {
   tweetIds?: T;
   userIds?: T;
   userNames?: T;
-}
+};
 
 export type IncludesIdCollection = IncludesIdMap<(string | string[])[]>;
 export type IncludesIdCollectionFlattened = IncludesIdMap<string[]>;

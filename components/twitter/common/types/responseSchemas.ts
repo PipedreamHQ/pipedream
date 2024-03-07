@@ -42,13 +42,13 @@ export interface Tweet
   in_reply_to_user_id?: string;
   attachments?: HasMediaAttachments["attachments"] & {
     poll_ids: string[];
-  }
+  };
   geo?: {
     place_id: string;
-  },
+  };
   entities?: {
     mentions?: User[];
-  }
+  };
   includes?: {
     tweets?: Tweet[];
   };
