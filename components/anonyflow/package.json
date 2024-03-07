@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/anonyflow",
+  "version": "0.0.1",
+  "description": "Pipedream AnonyFlow Components",
+  "main": "anonyflow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "anonyflow"
+  ],
+  "homepage": "https://pipedream.com/apps/anonyflow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

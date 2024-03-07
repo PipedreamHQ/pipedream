@@ -46,7 +46,7 @@ const config: DocsThemeConfig = {
     return {
       titleTemplate: "%s - Pipedream",
       description: "Workflow automation for developers",
-      canonical: `https://pipedream.com/docs${route}`,
+      canonical: `https://pipedream.com/docs${ route === '/' ? '' : route}`,
       additionalLinkTags: [
         {
           href: "/docs/favicon.ico",

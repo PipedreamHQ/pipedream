@@ -409,6 +409,9 @@ importers:
   components/announcekit:
     specifiers: {}
 
+  components/anonyflow:
+    specifiers: {}
+
   components/anthropic:
     specifiers: {}
 
@@ -1151,6 +1154,9 @@ importers:
     specifiers: {}
 
   components/chmeetings:
+    specifiers: {}
+
+  components/cinc:
     specifiers: {}
 
   components/circl_hash_lookup:
@@ -2447,6 +2453,9 @@ importers:
   components/file_store:
     specifiers: {}
 
+  components/filestack:
+    specifiers: {}
+
   components/filter:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2974,6 +2983,9 @@ importers:
       lodash-es: 4.17.21
       uuid: 8.3.2
 
+  components/google_cloud_translate:
+    specifiers: {}
+
   components/google_cloud_vision_api:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -3162,7 +3174,10 @@ importers:
     specifiers: {}
 
   components/gpt_trainer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/grab_your_reviews:
     specifiers: {}
@@ -3961,7 +3976,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/lastpass:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/leadboxer:
     specifiers: {}
@@ -4363,11 +4381,11 @@ importers:
 
   components/mattermost:
     specifiers:
-      '@pipedream/platform': ^1.1.1
-      '@pipedream/types': ^0.1.4
+      '@pipedream/platform': ^1.6.0
+      '@pipedream/types': ^0.2.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-      '@pipedream/types': 0.1.6
+      '@pipedream/platform': 1.6.0
+      '@pipedream/types': 0.2.0
 
   components/mautic:
     specifiers:
@@ -4603,6 +4621,9 @@ importers:
     specifiers: {}
 
   components/mobilemonkey:
+    specifiers: {}
+
+  components/mobivate:
     specifiers: {}
 
   components/mobygames:
@@ -5004,11 +5025,17 @@ importers:
   components/oauth_app_demo_1:
     specifiers: {}
 
+  components/octoparse:
+    specifiers: {}
+
   components/octopus_deploy:
     specifiers: {}
 
   components/octopush_sms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/oksign:
     specifiers: {}
@@ -5738,6 +5765,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/product_fruits:
+    specifiers: {}
+
   components/product_hunt:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -5784,7 +5814,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/proofly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/propelauth:
     specifiers: {}
@@ -6258,7 +6291,10 @@ importers:
       lodash: 4.17.21
 
   components/rkvst:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/roam_research:
     specifiers: {}
@@ -7674,6 +7710,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/timely_time_tracking:
+    specifiers: {}
+
   components/timeular:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7712,7 +7751,10 @@ importers:
       toggl-api: 1.0.2
 
   components/token_metrics:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/tolstoy:
     specifiers:
@@ -13412,6 +13454,12 @@ packages:
     resolution: {integrity: sha512-JPBEJuk80yd5na+E0HlapDRQtDIJZUeoQ6IIBTHK3/Ic1aFMuT8rQDbZloydfa9aMD9iqvETiKfzEpjKV0aaxg==}
     dependencies:
       typescript: 4.9.5
+
+  /@pipedream/types/0.2.0:
+    resolution: {integrity: sha512-n+yf9InY0pNqlcU7Ckn99Dp+LIWLyW6klh1jDTss9qEHF+Z6HlasXksU6y371o1c3qavaHtiDTmyU9TJTO99rw==}
+    dependencies:
+      typescript: 5.3.3
+    dev: false
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
