@@ -67,10 +67,10 @@ export default {
       });
     },
     getImage({
-      imageId, ...opts
+      imageGenerationId, ...opts
     }) {
       return this._makeRequest({
-        path: `/image-generations/${imageId}`,
+        path: `/image-generations/${imageGenerationId}`,
         ...opts,
       });
     },
