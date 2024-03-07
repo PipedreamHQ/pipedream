@@ -309,7 +309,10 @@ importers:
     specifiers: {}
 
   components/all_images_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/alpaca:
     specifiers:
@@ -407,6 +410,9 @@ importers:
       uuid: 8.3.2
 
   components/announcekit:
+    specifiers: {}
+
+  components/anonyflow:
     specifiers: {}
 
   components/anthropic:
@@ -1151,6 +1157,9 @@ importers:
     specifiers: {}
 
   components/chmeetings:
+    specifiers: {}
+
+  components/cinc:
     specifiers: {}
 
   components/circl_hash_lookup:
@@ -2447,6 +2456,9 @@ importers:
   components/file_store:
     specifiers: {}
 
+  components/filestack:
+    specifiers: {}
+
   components/filter:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2973,6 +2985,9 @@ importers:
       crypto: 1.0.1
       lodash-es: 4.17.21
       uuid: 8.3.2
+
+  components/google_cloud_translate:
+    specifiers: {}
 
   components/google_cloud_vision_api:
     specifiers:
@@ -4369,11 +4384,11 @@ importers:
 
   components/mattermost:
     specifiers:
-      '@pipedream/platform': ^1.1.1
-      '@pipedream/types': ^0.1.4
+      '@pipedream/platform': ^1.6.0
+      '@pipedream/types': ^0.2.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-      '@pipedream/types': 0.1.6
+      '@pipedream/platform': 1.6.0
+      '@pipedream/types': 0.2.0
 
   components/mautic:
     specifiers:
@@ -4609,6 +4624,9 @@ importers:
     specifiers: {}
 
   components/mobilemonkey:
+    specifiers: {}
+
+  components/mobivate:
     specifiers: {}
 
   components/mobygames:
@@ -5008,6 +5026,9 @@ importers:
     specifiers: {}
 
   components/oauth_app_demo_1:
+    specifiers: {}
+
+  components/octoparse:
     specifiers: {}
 
   components/octopus_deploy:
@@ -5747,6 +5768,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/product_fruits:
+    specifiers: {}
+
   components/product_hunt:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -5793,7 +5817,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/proofly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/propelauth:
     specifiers: {}
@@ -7685,6 +7712,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/timely_time_tracking:
+    specifiers: {}
 
   components/timeular:
     specifiers:
@@ -13427,6 +13457,12 @@ packages:
     resolution: {integrity: sha512-JPBEJuk80yd5na+E0HlapDRQtDIJZUeoQ6IIBTHK3/Ic1aFMuT8rQDbZloydfa9aMD9iqvETiKfzEpjKV0aaxg==}
     dependencies:
       typescript: 4.9.5
+
+  /@pipedream/types/0.2.0:
+    resolution: {integrity: sha512-n+yf9InY0pNqlcU7Ckn99Dp+LIWLyW6klh1jDTss9qEHF+Z6HlasXksU6y371o1c3qavaHtiDTmyU9TJTO99rw==}
+    dependencies:
+      typescript: 5.3.3
+    dev: false
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
