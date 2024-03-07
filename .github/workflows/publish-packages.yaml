@@ -2,19 +2,42 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - 'docs/**'
+      - 'docs-v2/**'
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - 'docs/**'
+      - 'docs-v2/**'
 
 jobs:
   # See https://pnpm.io/continuous-integration#github-actions
   publish:
+    name: pnpm publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: pnpm/action-setup@v3.0.0
         with:
           version: 7.33.6
+      - name: Get pnpm store directory
+        if: github.ref != 'refs/heads/master' # Cache is used only for dry runs
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v4
+        if: github.ref != 'refs/heads/master' # Cache is used only for dry runs
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - uses: actions/setup-node@v4.0.2
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: pnpm install
@@ -24,5 +47,9 @@ jobs:
       # See https://pnpm.io/using-changesets
       - name: Setup npmrc for pnpm publish
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+      - name: pnpm publish (dry run)
+        if: github.ref != 'refs/heads/master'
+        run: pnpm publish -r --no-git-checks --dry-run
       - name: pnpm publish
+        if: github.ref == 'refs/heads/master'
         run: pnpm publish -r --no-git-checks

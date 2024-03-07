@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   HttpRequestParams,
-  PostMessageParams, PostMessageResponse,
+  PostMessageParams, PostMessageResponse, Team,
 } from "../common/types";
 import { Channel } from "../common/types";
 
@@ -18,6 +18,48 @@ export default defineApp({
         const channels: Channel[] = await this.listChannels();
 
         return channels.map(({
+          id, name, display_name,
+        }) => {
+          const label = name && display_name && (name !== display_name)
+            ? `${display_name} (${name})`
+            : (display_name || name);
+
+          return {
+            label,
+            value: id,
+          };
+        });
+      },
+    },
+    publicChannelId: {
+      label: "Channel",
+      description: "A public channel on this team to emit events for.",
+      type: "string",
+      async options({ teamId }) {
+        const channels: Channel[] = await this.listTeamChannels(teamId);
+
+        return channels.map(({
+          id, name, display_name,
+        }) => {
+          const label = name && display_name && (name !== display_name)
+            ? `${display_name} (${name})`
+            : (display_name || name);
+
+          return {
+            label,
+            value: id,
+          };
+        });
+      },
+    },
+    teamId: {
+      label: "Team",
+      description: "The ID of the team that events will be emitted for.",
+      type: "string",
+      async options() {
+        const teams: Team[] = await this.listTeams();
+
+        return teams.map(({
           id, name, display_name,
         }) => {
           const label = name && display_name && (name !== display_name)
@@ -68,6 +110,29 @@ export default defineApp({
     async listChannels(): Promise<Channel[]> {
       return this._httpRequest({
         endpoint: "/channels",
+      });
+    },
+    async listTeamChannels(teamId: string): Promise<Channel[]> {
+      return this._httpRequest({
+        endpoint: `/teams/${teamId}/channels`,
+      });
+    },
+    async listTeams(): Promise<object[]> {
+      return this._httpRequest({
+        endpoint: "/teams",
+      });
+    },
+    async createWebhook(data: object): Promise<object> {
+      return this._httpRequest({
+        endpoint: "/webhooks/outgoing",
+        method: "POST",
+        data,
+      });
+    },
+    async deleteWebhook(id: string): Promise<object> {
+      return this._httpRequest({
+        endpoint: `/webhooks/outgoing/${id}`,
+        method: "DELETE",
       });
     },
   },

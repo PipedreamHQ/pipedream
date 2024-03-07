@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/parsehub",
+  "version": "0.0.1",
+  "description": "Pipedream ParseHub Components",
+  "main": "parsehub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "parsehub"
+  ],
+  "homepage": "https://pipedream.com/apps/parsehub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
