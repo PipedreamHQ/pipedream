@@ -3,27 +3,76 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "tento8",
-  version: "0.0.{{ts}}",
   propDefinitions: {
-    time: {
+    service: {
       type: "string",
-      label: "Time",
-      description: "The ISO datetime string for the appointment time slot.",
-      required: true,
-    },
-    attendeeCount: {
-      type: "integer",
-      label: "Attendee Count",
-      description: "The number of attendees for the appointment.",
+      label: "Service",
+      description: "The service resource URI that the appointment will be booked for.",
       optional: true,
+      async options() {
+        const services = await this.getServices();
+        return services.map(({
+          resource_uri: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    staff: {
+      type: "string",
+      label: "Staff",
+      description: "The staff you wish to book. Default is the Organisation's first Staff member.",
+      optional: true,
+      async options({ prevContext }) {
+        const { nextUrl } = prevContext;
+        if (nextUrl === null) {
+          return [];
+        }
+        const {
+          next,
+          results,
+        } = await this.getStaff();
+        const options = results.map(({
+          resource_uri: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+        return {
+          options,
+          context: {
+            nextUrl: next,
+          },
+        };
+      },
     },
     location: {
       type: "string",
       label: "Location",
-      description: "The location resource URI where the appointment will take place.",
+      description: "The location you wish to book at. Default is the Organisation's first Location.",
       optional: true,
-      async options() {
-        return this.getLocations();
+      async options({ prevContext }) {
+        const { nextUrl } = prevContext;
+        if (nextUrl === null) {
+          return [];
+        }
+        const {
+          next,
+          results,
+        } = await this.getLocations();
+        const options = results.map(({
+          resource_uri: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+        return {
+          options,
+          context: {
+            nextUrl: next,
+          },
+        };
       },
     },
   },
@@ -31,87 +80,43 @@ export default {
     _baseUrl() {
       return "https://10to8.com/api/booking/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      const config = {
+        ...args,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
           "Content-Type": "application/json",
-          "Authorization": `Token ${this.$auth.api_token}`,
+          "Authorization": `token ${this.$auth.api_token}`,
         },
-      });
-    },
-    async bookAppointment({
-      startDatetime,
-      service,
-      customerName,
-      customerEmail,
-      customerPhone,
-      customerPhoneCountry,
-      customerTimezone,
-      staff,
-      location,
-      attendeeCount,
-      answers,
-    }) {
-      const data = {
-        start_datetime: startDatetime,
-        service,
-        ...(customerName && {
-          customer_name: customerName,
-        }),
-        ...(customerEmail && {
-          customer_email: customerEmail,
-        }),
-        ...(customerPhone && {
-          customer_phone_number: customerPhone,
-        }),
-        ...(customerPhoneCountry && {
-          customer_phone_country: customerPhoneCountry,
-        }),
-        ...(customerTimezone && {
-          customer_timezone: customerTimezone,
-        }),
-        ...(staff && {
-          staff,
-        }),
-        ...(location && {
-          location,
-        }),
-        ...(attendeeCount && {
-          attendee_count: attendeeCount,
-        }),
-        ...(answers && {
-          answers,
-        }),
       };
+      return axios($, config);
+    },
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/book/",
-        data,
+        ...args,
       });
     },
-    async getLocations() {
-      const response = await this._makeRequest({
-        method: "GET",
+    getServices(args = {}) {
+      return this._makeRequest({
+        path: "/service/",
+        ...args,
+      });
+    },
+    getStaff(args = {}) {
+      return this._makeRequest({
+        path: "/staff/",
+        ...args,
+      });
+    },
+    getLocations(args = {}) {
+      return this._makeRequest({
         path: "/location/",
+        ...args,
       });
-      return response.map((location) => ({
-        label: location.name,
-        value: location.resource_uri,
-      }));
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };

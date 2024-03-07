@@ -2109,6 +2109,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/dux_soup:
+    specifiers: {}
+
   components/dynapictures:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3407,6 +3410,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/howuku:
+    specifiers: {}
 
   components/hr_partner:
     specifiers: {}
@@ -4772,6 +4778,9 @@ importers:
       mysql2-promise: 0.1.4
       uuid: 8.3.2
 
+  components/mysql_test:
+    specifiers: {}
+
   components/n8n_io:
     specifiers: {}
 
@@ -5660,6 +5669,9 @@ importers:
       typescript: 4.9.5
     devDependencies:
       dtslint: 4.2.1_typescript@4.9.5
+
+  components/postgresql_test:
+    specifiers: {}
 
   components/postgrid:
     specifiers:
