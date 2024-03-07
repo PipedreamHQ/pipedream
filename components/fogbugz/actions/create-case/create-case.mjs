@@ -70,10 +70,23 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    async createCase({
+      data, ...opts
+    }) {
+      return await this.fogbugz.post({
+        data: {
+          cmd: "new",
+          ...data,
+        },
+        ...opts,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.fogbugz.post({
+    const response = await this.createCase({
+      $,
       data: {
-        cmd: "new",
         ixBugParent: this.ixBugParent,
         sTitle: this. sTitle,
         sTags: parseObject(this.sTags).toString(),

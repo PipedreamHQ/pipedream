@@ -21,11 +21,23 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    async listProjects({
+      data, ...opts
+    }) {
+      return await this.fogbugz.post({
+        data: {
+          cmd: "listProjects",
+          ...data,
+        },
+        ...opts,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.fogbugz.post({
+    const response = await this.listProjects({
       $,
       data: {
-        cmd: "listProjects",
         fWrite: this.fWrite,
         fIncludeDeleted: this.fIncludeDeleted,
       },

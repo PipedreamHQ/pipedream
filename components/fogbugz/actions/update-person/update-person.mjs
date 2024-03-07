@@ -58,11 +58,23 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    async editPerson({
+      data, ...opts
+    }) {
+      return await this.fogbugz.post({
+        data: {
+          cmd: "editPerson",
+          ...data,
+        },
+        ...opts,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.fogbugz.post({
+    const response = await this.editPerson({
       $,
       data: {
-        cmd: "editPerson",
         ixPerson: this.ixPersonId,
         sEmail: this.sEmail,
         sFullName: this.sFullName,
