@@ -4,47 +4,52 @@ export default {
   type: "app",
   app: "pulsetic",
   propDefinitions: {
-    startDt: {
-      type: "string",
-      label: "Start Date",
-      description: "Indicates the start date to filter the results. Format: YYYY-MM-DD",
-    },
     monitorId: {
       type: "string",
       label: "Monitor ID",
       description: "The ID of the monitor to retrieve events for",
+      async options() {
+        const data = await this.listMonitors();
+
+        return data.map(({
+          id: value, name, url,
+        }) => ({
+          label: name || url,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.pulsetic.com/api/public";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, params, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        params,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async emitEvent({
-      monitorId, startDt,
+    listEvents({
+      monitorId, ...opts
     }) {
       return this._makeRequest({
         path: `/${monitorId}/events`,
-        params: {
-          start_dt: startDt,
-        },
+        ...opts,
+      });
+    },
+    listMonitors(opts = {}) {
+      return this._makeRequest({
+        path: "/monitors",
+        ...opts,
       });
     },
   },

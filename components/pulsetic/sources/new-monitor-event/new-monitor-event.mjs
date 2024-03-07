@@ -1,60 +1,82 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import pulsetic from "../../pulsetic.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "pulsetic-new-monitor-event",
   name: "New Monitor Event",
-  description: "Emits a new event when a monitor event occurs. [See the documentation](https://app.pulsetic.com/account/api)",
+  description: "Emit new event when a monitor event occurs.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     pulsetic,
     db: "$.service.db",
-    monitorId: pulsetic.propDefinitions.monitorId,
-    startDt: pulsetic.propDefinitions.startDt,
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+    monitorId: {
+      propDefinition: [
+        pulsetic,
+        "monitorId",
+      ],
+    },
+  },
+  methods: {
+    _getLastDate() {
+      return this.db.get("lastDate") || "1970-01-01T00:00:00Z";
+    },
+    _setLastDate(createdAt) {
+      this.db.set("lastDate", createdAt);
+    },
+    generateMeta(event) {
+      const ts = Date.parse(event.created_at);
+      return {
+        id: ts,
+        summary: `New event published with type: ${event.type}`,
+        ts: ts,
+      };
+    },
+    getParams() {
+      return {};
+    },
+    async startEvent(maxResults = 0) {
+      const lastDate = this._getLastDate();
+
+      const data = await this.pulsetic.listEvents({
+        monitorId: this.monitorId,
+        params: {
+          start_dt: lastDate,
+          end_dt: new Date(),
+        },
+      });
+
+      const responseArray = [];
+      for await (const item of data) {
+        if (Date.parse(item.created_at) <= Date.parse(lastDate)) break;
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) this._setLastDate(responseArray[0].created_at);
+      if (maxResults && responseArray.length > maxResults) {
+        responseArray.length = maxResults;
+      }
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, this.generateMeta(item));
+      }
     },
   },
   hooks: {
     async deploy() {
-      // Emit events for the first time during deployment
-      const startDt = this.db.get("lastStartDt") || this.startDt;
-      const events = await this.pulsetic.emitEvent({
-        monitorId: this.monitorId,
-        startDt,
-      });
-      events.forEach((event) => {
-        this.$emit(event, {
-          id: event.id,
-          summary: `New Event: ${event.title}`,
-          ts: Date.parse(event.created_at),
-        });
-      });
-      // Update the start date for the next poll
-      this.db.set("lastStartDt", new Date().toISOString()
-        .split("T")[0]);
+      await this.startEvent(25);
     },
   },
   async run() {
-    const startDt = this.db.get("lastStartDt") || this.startDt;
-    const events = await this.pulsetic.emitEvent({
-      monitorId: this.monitorId,
-      startDt,
-    });
-    events.forEach((event) => {
-      this.$emit(event, {
-        id: event.id,
-        summary: `New Event: ${event.title}`,
-        ts: Date.parse(event.created_at),
-      });
-    });
-    // Update the start date for the next poll
-    this.db.set("lastStartDt", new Date().toISOString()
-      .split("T")[0]);
+    await this.startEvent();
   },
+  sampleEmit,
 };
