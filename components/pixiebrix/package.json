@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pixiebrix",
+  "version": "0.0.1",
+  "description": "Pipedream PixieBrix Components",
+  "main": "pixiebrix.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pixiebrix"
+  ],
+  "homepage": "https://pipedream.com/apps/pixiebrix",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
