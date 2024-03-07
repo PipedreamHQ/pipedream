@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/reward_sciences",
+  "version": "0.0.1",
+  "description": "Pipedream Reward Sciences Components",
+  "main": "reward_sciences.app.mjs",
+  "keywords": [
+    "pipedream",
+    "reward_sciences"
+  ],
+  "homepage": "https://pipedream.com/apps/reward_sciences",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
