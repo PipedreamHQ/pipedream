@@ -2456,6 +2456,9 @@ importers:
   components/file_store:
     specifiers: {}
 
+  components/filestack:
+    specifiers: {}
+
   components/filter:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -5814,7 +5817,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/proofly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/propelauth:
     specifiers: {}
