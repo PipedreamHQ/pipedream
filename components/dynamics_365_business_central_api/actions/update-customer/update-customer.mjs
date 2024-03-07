@@ -2,7 +2,7 @@ import dynamics from "../../dynamics_365_business_central_api.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "dynamics_365_business_central_api-update-customerr",
+  key: "dynamics_365_business_central_api-update-customer",
   name: "Update Customer",
   description: "Updates an existing customer. [See the documentation](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/api-reference/v2.0/api/dynamics_customer_update)",
   version: "0.0.1",
