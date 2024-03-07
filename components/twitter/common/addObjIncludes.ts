@@ -60,7 +60,7 @@ export function getTweetIncludeIds(obj: Tweet) {
 
 export function getObjIncludes(
   obj: TwitterEntity,
-  includes: ResponseIncludes,
+  includes: ResponseIncludes = {},
   getIncludeIds: (o: TwitterEntity) => IncludesIdCollectionFlattened
 ) {
   const { userIds, userNames, tweetIds, pollIds, placeIds, mediaKeys } =
