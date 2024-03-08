@@ -9,7 +9,15 @@
   ],
   "homepage": "https://pipedream.com/apps/postgresql_test",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "pg": "^8.7.1",
+    "pg-format": "^1.0.4",
+    "typescript": "^4.6.4"
+  },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "dtslint": "^4.2.1"
   }
 }
