@@ -5874,7 +5874,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/pulsetic:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/puppeteer:
     specifiers:
