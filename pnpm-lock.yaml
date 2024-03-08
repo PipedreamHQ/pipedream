@@ -4735,9 +4735,6 @@ importers:
   components/mozilla_observatory:
     specifiers: {}
 
-  components/mtest:
-    specifiers: {}
-
   components/mumara:
     specifiers: {}
 
