@@ -1,7 +1,7 @@
 import mysql from "../../mysql_test.app.mjs";
 
 export default {
-  key: "mysql-execute-query",
+  key: "mysql_test-execute-query",
   name: "Execute Query",
   description:
     "Find row(s) via a custom query. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",

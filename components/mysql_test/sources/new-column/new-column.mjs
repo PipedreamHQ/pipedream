@@ -2,9 +2,10 @@ import common from "../common/table.mjs";
 
 export default {
   ...common,
-  key: "mysql-new-column",
+  key: "mysql_test-new-column",
   name: "New Column",
-  description: "Emit new event when you add a new column to a table. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/show-columns.html)",
+  description:
+    "Emit new event when you add a new column to a table. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/show-columns.html)",
   type: "source",
   version: "0.0.7",
   dedupe: "unique",
@@ -29,10 +30,9 @@ export default {
       });
       this.iterateAndEmitEvents(columns);
 
-      const newColumnNames =
-        columns
-          .map((column) => column.Field)
-          .filter((c) => !previousColumns.includes(c));
+      const newColumnNames = columns
+        .map((column) => column.Field)
+        .filter((c) => !previousColumns.includes(c));
 
       previousColumns = previousColumns.concat(newColumnNames);
       this._setPreviousColumns(previousColumns);

@@ -1,7 +1,7 @@
 import mysql from "../../mysql_test.app.mjs";
 
 export default {
-  key: "mysql-execute-stored-procedure",
+  key: "mysql_test-execute-stored-procedure",
   name: "Execute Stored Procedure",
   description:
     "Execute Stored Procedure. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/stored-programs-defining.html)",

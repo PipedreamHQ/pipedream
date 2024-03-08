@@ -1,7 +1,7 @@
 import mysql from "../../mysql_test.app.mjs";
 
 export default {
-  key: "mysql-delete-row",
+  key: "mysql_test-delete-row",
   name: "Delete Row",
   description:
     "Delete an existing row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/delete.html)",

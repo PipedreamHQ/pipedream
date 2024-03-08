@@ -2,7 +2,7 @@ import mysql from "../../mysql_test.app.mjs";
 import utils from "../common/utils.mjs";
 
 export default {
-  key: "mysql-create-row",
+  key: "mysql_test-create-row",
   name: "Create Row",
   description:
     "Adds a new row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",

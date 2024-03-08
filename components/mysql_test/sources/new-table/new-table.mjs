@@ -2,9 +2,10 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "mysql-new-table",
+  key: "mysql_test-new-table",
   name: "New Table",
-  description: "Emit new event when a new table is added to a database. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
+  description:
+    "Emit new event when a new table is added to a database. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "source",
   version: "0.0.7",
   dedupe: "unique",

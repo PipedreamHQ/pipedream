@@ -2,7 +2,7 @@ import mysql from "../../mysql_test.app.mjs";
 import utils from "../common/utils.mjs";
 
 export default {
-  key: "mysql-update-row",
+  key: "mysql_test-update-row",
   name: "Update Row",
   description:
     "Updates an existing row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/update.html)",
