@@ -27,11 +27,14 @@ export default {
   },
   methods: {
     async processEvent($) {
+      const data = typeof this.data === "string"
+        ? JSON.parse(this.data)
+        : this.data;
       return this.nocodb.updateTableRow({
         tableId: this.tableId.value,
         data: {
           Id: this.rowId,
-          ...this.data,
+          ...data,
         },
         $,
       });

@@ -18,9 +18,12 @@ export default {
   },
   methods: {
     async processEvent($) {
+      const data = typeof this.data === "string"
+        ? JSON.parse(this.data)
+        : this.data;
       return this.nocodb.createTableRow({
         tableId: this.tableId.value,
-        data: this.data,
+        data,
         $,
       });
     },
