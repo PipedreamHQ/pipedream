@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/z_api",
+  "version": "0.0.1",
+  "description": "Pipedream Z-API Components",
+  "main": "z_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "z_api"
+  ],
+  "homepage": "https://pipedream.com/apps/z_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/snowflake_test",
+  "version": "0.0.1",
+  "description": "Pipedream Snowflake - TEST Components",
+  "main": "snowflake_test.app.mjs",
+  "keywords": [
+    "pipedream",
+    "snowflake_test"
+  ],
+  "homepage": "https://pipedream.com/apps/snowflake_test",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -769,6 +769,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/blazemeter:
+    specifiers: {}
+
   components/blink:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2099,6 +2102,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/dropmark:
+    specifiers: {}
 
   components/droxy:
     specifiers: {}
@@ -4741,6 +4747,9 @@ importers:
   components/mozilla_observatory:
     specifiers: {}
 
+  components/mtest:
+    specifiers: {}
+
   components/mumara:
     specifiers: {}
 
@@ -5278,6 +5287,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/paigo:
+    specifiers: {}
+
   components/pandadoc:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -5550,6 +5562,9 @@ importers:
       '@pipedream/platform': ^1.3.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/pixiebrix:
+    specifiers: {}
 
   components/placetel:
     specifiers: {}
@@ -5865,7 +5880,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/pulsetic:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/puppeteer:
     specifiers:
@@ -7093,6 +7111,9 @@ importers:
       snowflake-sdk: 1.9.0_asn1.js@5.4.1
       uuid: 8.3.2
 
+  components/snowflake_test:
+    specifiers: {}
+
   components/snyk:
     specifiers: {}
 
@@ -7336,6 +7357,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@supabase/supabase-js': 2.39.0
+
+  components/supercast:
+    specifiers: {}
 
   components/superdocu:
     specifiers:
@@ -7749,6 +7773,19 @@ importers:
   components/tmetric:
     specifiers: {}
 
+  components/tmp/postgresql_test:
+    specifiers:
+      dtslint: ^4.2.1
+      pg: ^8.7.1
+      pg-format: ^1.0.4
+      typescript: ^4.6.4
+    dependencies:
+      pg: 8.11.3
+      pg-format: 1.0.4
+      typescript: 4.9.5
+    devDependencies:
+      dtslint: 4.2.1_typescript@4.9.5
+
   components/todoist:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -8102,6 +8139,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/usps:
+    specifiers: {}
 
   components/utradea:
     specifiers: {}
@@ -8696,6 +8736,9 @@ importers:
     specifiers: {}
 
   components/yumpu:
+    specifiers: {}
+
+  components/z_api:
     specifiers: {}
 
   components/zagomail:
