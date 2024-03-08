@@ -3,7 +3,7 @@ import common from "../common.mjs";
 export default {
   ...common,
   name: "New Row",
-  key: "postgresql-test-new-row",
+  key: "postgresql_test-new-row",
   description:
     "Emit new event when a new row is added to a table. [See Docs](https://node-postgres.com/features/queries)",
   version: "1.0.7",

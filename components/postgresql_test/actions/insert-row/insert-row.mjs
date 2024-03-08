@@ -2,7 +2,7 @@ import postgresql from "../../postgresql_test.app.mjs";
 
 export default {
   name: "Insert Row",
-  key: "postgresql-test-insert-row",
+  key: "postgresql_test-insert-row",
   description:
     "Adds a new row. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.7",

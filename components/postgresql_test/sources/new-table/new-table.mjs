@@ -3,7 +3,7 @@ import common from "../common.mjs";
 export default {
   ...common,
   name: "New Table",
-  key: "postgresql-test-new-table",
+  key: "postgresql_test-new-table",
   description:
     "Emit new event when a new table is added to the database. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.10",

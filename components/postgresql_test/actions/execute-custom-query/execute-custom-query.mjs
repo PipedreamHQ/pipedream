@@ -2,7 +2,7 @@ import postgresql from "../../postgresql_test.app.mjs";
 
 export default {
   name: "Execute Custom Query",
-  key: "postgresql-test-execute-custom-query",
+  key: "postgresql_test-execute-custom-query",
   description:
     "Executes a custom query you provide. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.9",

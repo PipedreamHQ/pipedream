@@ -2,7 +2,7 @@ import postgresql from "../../postgresql_test.app.mjs";
 
 export default {
   name: "Update Row",
-  key: "postgresql-test-update-row",
+  key: "postgresql_test-update-row",
   description:
     "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.10",

@@ -3,7 +3,7 @@ import common from "../common.mjs";
 export default {
   ...common,
   name: "New Row Custom Query",
-  key: "postgresql-test-new-row-custom-query",
+  key: "postgresql_test-new-row-custom-query",
   description:
     "Emit new event when new rows are returned from a custom query that you provide. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.10",

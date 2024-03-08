@@ -2,7 +2,7 @@ import postgresql from "../../postgresql_test.app.mjs";
 
 export default {
   name: "Find Row",
-  key: "postgresql-test-find-row",
+  key: "postgresql_test-find-row",
   description:
     "Finds a row in a table via a lookup column. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.10",
