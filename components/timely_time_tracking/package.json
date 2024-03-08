@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/timely_time_tracking",
+  "version": "0.0.1",
+  "description": "Pipedream Timely Time Tracking Components",
+  "main": "timely_time_tracking.app.mjs",
+  "keywords": [
+    "pipedream",
+    "timely_time_tracking"
+  ],
+  "homepage": "https://pipedream.com/apps/timely_time_tracking",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
