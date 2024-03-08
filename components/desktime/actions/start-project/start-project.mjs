@@ -1,40 +1,37 @@
-import desktime from "../../desktime.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../desktime.app.mjs";
 
 export default {
   key: "desktime-start-project",
-  name: "Start Tracking Time for a Project",
+  name: "Start Project",
   description: "Starts tracking time for a given project and optionally a task. [See the documentation](https://desktime.com/app/settings/api?tab=project)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    desktime,
-    projectId: {
+    app,
+    project: {
       propDefinition: [
-        desktime,
-        "projectId",
+        app,
+        "project",
       ],
     },
-    taskId: {
+    task: {
       propDefinition: [
-        desktime,
-        "taskId",
-        (c) => ({
-          optional: true,
-        }), // Making taskId optional
+        app,
+        "task",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.desktime.startTracking({
-      projectId: this.projectId,
-      taskId: this.taskId || undefined,
+    const response = await this.app.startTracking({
+      $,
+      params: {
+        project: this.project,
+        task: this.task,
+      },
     });
 
-    const summary = `Started tracking time for project ID: ${this.projectId}` + (this.taskId
-      ? ` and task ID: ${this.taskId}`
-      : "");
-    $.export("$summary", summary);
+    $.export("$summary", `Tracking of project '${this.project}' started successfully`);
+
     return response;
   },
 };

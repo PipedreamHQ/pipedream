@@ -1,37 +1,37 @@
-import desktime from "../../desktime.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../desktime.app.mjs";
 
 export default {
   key: "desktime-create-project",
-  name: "Create a New Project with Optional Tasks",
-  description: "Create a new project with optional tasks in DeskTime. [See the documentation](https://desktime.com/app/settings/api?tab=project)",
-  version: "0.0.{{ts}}",
+  name: "Create a New Project with an optional task",
+  description: "Create a new project with an optional task in DeskTime. [See the documentation](https://desktime.com/app/settings/api?tab=project)",
+  version: "0.0.1",
   type: "action",
   props: {
-    desktime,
-    name: {
+    app,
+    project: {
       propDefinition: [
-        desktime,
-        "name",
+        app,
+        "project",
       ],
     },
-    tasks: {
+    task: {
       propDefinition: [
-        desktime,
-        "tasks",
+        app,
+        "task",
       ],
     },
   },
   async run({ $ }) {
-    const tasksParsed = this.tasks
-      ? this.tasks.map((task) => JSON.parse(task))
-      : [];
-    const response = await this.desktime.createProject({
-      name: this.name,
-      tasks: tasksParsed,
+    const response = await this.app.createProject({
+      $,
+      params: {
+        project: this.project,
+        task: this.task,
+      },
     });
 
-    $.export("$summary", `Successfully created project '${this.name}' with tasks: ${tasksParsed.map((task) => task.name).join(", ")}`);
+    $.export("$summary", `Successfully created project '${this.project}'`);
+
     return response;
   },
 };

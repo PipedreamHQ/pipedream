@@ -1,40 +1,37 @@
-import desktime from "../../desktime.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../desktime.app.mjs";
 
 export default {
   key: "desktime-stop-project",
   name: "Stop Project",
   description: "Stop tracking time for a given project and optionally a task. [See the documentation](https://desktime.com/app/settings/api?tab=project)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    desktime,
-    projectId: {
+    app,
+    project: {
       propDefinition: [
-        desktime,
-        "projectId",
+        app,
+        "project",
       ],
     },
-    taskId: {
+    task: {
       propDefinition: [
-        desktime,
-        "taskId",
+        app,
+        "task",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.desktime.stopTracking({
-      projectId: this.projectId,
-      taskId: this.taskId || null,
+    const response = await this.app.stopTracking({
+      $,
+      params: {
+        project: this.project,
+        task: this.task,
+      },
     });
 
-    const summaryMessage = `Stopped tracking time for project ID ${this.projectId}` +
-      (this.taskId
-        ? ` and task ID ${this.taskId}`
-        : "");
+    $.export("$summary", `Tracking of project \`${this.project}\` stopped successfully`);
 
-    $.export("$summary", summaryMessage);
     return response;
   },
 };

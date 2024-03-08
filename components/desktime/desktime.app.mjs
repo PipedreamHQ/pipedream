@@ -15,84 +15,56 @@ export default {
       description: "The ID of the task to track time for (optional)",
       optional: true,
     },
-    name: {
+    project: {
       type: "string",
       label: "Project Name",
       description: "The name of the project",
     },
-    tasks: {
-      type: "string[]",
-      label: "Tasks",
-      description: "A list of tasks for the project (optional)",
+    task: {
+      type: "string",
+      label: "Task Name",
+      description: "The name of the task",
       optional: true,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://desktime.com/api/v2";
+      return "https://desktime.com/api/v2/json";
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        data,
         params,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
-        method,
-        url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "App-Key": this.$auth.api_key,
-        },
-        data,
-        params,
         ...otherOpts,
+        url: this._baseUrl() + path,
+        params: {
+          ...params,
+          apiKey: this.$auth.api_key,
+        },
       });
     },
-    async createProject({
-      name, tasks,
-    }) {
+    async createProject(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/projects",
-        data: {
-          name,
-          tasks: tasks.map(JSON.parse),
-        },
+        path: "/create-project",
+        ...args,
       });
     },
-    async startTracking({
-      projectId, taskId,
-    }) {
+    async startTracking(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/tracking",
-        data: {
-          projectId,
-          taskId,
-        },
+        path: "/start-project",
+        ...args,
       });
     },
-    async stopTracking({
-      projectId, taskId,
-    }) {
+    async stopTracking(args = {}) {
       return this._makeRequest({
-        method: "DELETE",
-        path: "/tracking",
-        data: {
-          projectId,
-          taskId,
-        },
+        path: "/stop-project",
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };
