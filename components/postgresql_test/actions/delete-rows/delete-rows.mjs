@@ -2,7 +2,7 @@ import postgresql from "../../postgresql_test.app.mjs";
 
 export default {
   name: "Delete Row(s)",
-  key: "postgresql-delete-rows",
+  key: "postgresql-test-delete-rows",
   description:
     "Deletes a row or rows from a table. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.10",

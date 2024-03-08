@@ -3,8 +3,9 @@ import common from "../common.mjs";
 export default {
   ...common,
   name: "New Table",
-  key: "postgresql-new-table",
-  description: "Emit new event when a new table is added to the database. [See Docs](https://node-postgres.com/features/queries)",
+  key: "postgresql-test-new-table",
+  description:
+    "Emit new event when a new table is added to the database. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.10",
   type: "source",
   props: {
@@ -22,7 +23,10 @@ export default {
   async run() {
     const previousTables = this._getPreviousValues() || [];
 
-    const tables = await this.postgresql.getTables(this.schema, this.rejectUnauthorized);
+    const tables = await this.postgresql.getTables(
+      this.schema,
+      this.rejectUnauthorized,
+    );
 
     const newTables = tables.filter((table) => !previousTables.includes(table));
     for (const table of newTables) {

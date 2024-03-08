@@ -3,7 +3,7 @@ import format from "pg-format";
 
 export default {
   name: "Upsert Row",
-  key: "postgresql-upsert-row",
+  key: "postgresql-test-upsert-row",
   description:
     "Adds a new row or updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.1",

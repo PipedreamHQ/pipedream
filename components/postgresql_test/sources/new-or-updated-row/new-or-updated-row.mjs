@@ -3,8 +3,9 @@ import common from "../common.mjs";
 export default {
   ...common,
   name: "New or Updated Row",
-  key: "postgresql-new-or-updated-row",
-  description: "Emit new event when a row is added or modified. [See Docs](https://node-postgres.com/features/queries)",
+  key: "postgresql-test-new-or-updated-row",
+  description:
+    "Emit new event when a row is added or modified. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.9",
   type: "source",
   dedupe: "unique",
@@ -40,7 +41,8 @@ export default {
           rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
-      description: "The column to identify an unique row, commonly it's `id` or `uuid`.",
+      description:
+        "The column to identify an unique row, commonly it's `id` or `uuid`.",
     },
     timestampColumn: {
       label: "Timestamp Column",
@@ -53,16 +55,19 @@ export default {
           rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
-      description: "A datetime column, such as 'date_updated' or 'last_modified' that is set to the current datetime when a row is updated.",
+      description:
+        "A datetime column, such as 'date_updated' or 'last_modified' that is set to the current datetime when a row is updated.",
     },
   },
   hooks: {
     async deploy() {
-      await this.initialRows(this.schema,
+      await this.initialRows(
+        this.schema,
         this.table,
         this.timestampColumn,
         this.limit,
-        this.rejectUnauthorized);
+        this.rejectUnauthorized,
+      );
     },
   },
   methods: {
