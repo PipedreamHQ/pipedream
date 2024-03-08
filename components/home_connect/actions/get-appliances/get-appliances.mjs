@@ -1,18 +1,19 @@
-import homeConnect from "../../home_connect.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../home_connect.app.mjs";
 
 export default {
   key: "home_connect-get-appliances",
-  name: "Get Paired Home Appliances",
-  description: "Retrieves a list of paired home appliances. [See the documentation](https://api-docs.home-connect.com/general/#best-practices)",
-  version: "0.0.{{ts}}",
+  name: "Get Home Appliances",
+  description: "Retrieves a list of paired home appliances. [See the documentation](https://apiclient.home-connect.com/#/appliances/get_home_appliances)",
+  version: "0.0.1",
   type: "action",
   props: {
-    homeConnect,
+    app,
   },
   async run({ $ }) {
-    const response = await this.homeConnect.getPairedAppliances();
+    const response = await this.app.getAppliances($);
+
     $.export("$summary", "Successfully retrieved paired home appliances");
+
     return response;
   },
 };
