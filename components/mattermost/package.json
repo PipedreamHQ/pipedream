@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mattermost",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Mattermost Components",
   "main": "dist/app/mattermost.app.mjs",
   "keywords": [
@@ -16,7 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.1.1",
-    "@pipedream/types": "^0.1.4"
+    "@pipedream/platform": "^1.6.0",
+    "@pipedream/types": "^0.2.0"
   }
 }
