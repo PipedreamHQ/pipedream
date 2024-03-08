@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/php_point_of_sale",
+  "version": "0.0.1",
+  "description": "Pipedream PHP Point of Sale Components",
+  "main": "php_point_of_sale.app.mjs",
+  "keywords": [
+    "pipedream",
+    "php_point_of_sale"
+  ],
+  "homepage": "https://pipedream.com/apps/php_point_of_sale",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

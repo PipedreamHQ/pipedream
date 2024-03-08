@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/diffbot",
+  "version": "0.0.1",
+  "description": "Pipedream Diffbot Components",
+  "main": "diffbot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "diffbot"
+  ],
+  "homepage": "https://pipedream.com/apps/diffbot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

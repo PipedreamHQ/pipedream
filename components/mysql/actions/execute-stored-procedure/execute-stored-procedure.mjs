@@ -5,7 +5,7 @@ export default {
   name: "Execute Stored Procedure",
   description: "Execute Stored Procedure. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/stored-programs-defining.html)",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   props: {
     mysql,
     storedProcedure: {
@@ -27,13 +27,20 @@ export default {
       values,
     } = this;
 
-    const result = await this.mysql.executeStoredProcedure({
+    const response = await this.mysql.executeStoredProcedure({
       storedProcedure,
       values,
     });
 
     $.export("$summary", `Successfully executed stored procedure ${storedProcedure}`);
 
-    return result;
+    const result =
+      Array.isArray(response)
+        ? response[0]
+        : response;
+
+    return result || {
+      success: false,
+    };
   },
 };

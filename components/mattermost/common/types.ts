@@ -30,3 +30,5 @@ export interface Channel {
   name: string;
   display_name: string;
 }
+
+export type Team = Channel;

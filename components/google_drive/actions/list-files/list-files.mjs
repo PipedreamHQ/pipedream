@@ -5,7 +5,7 @@ export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     googleDrive,
@@ -39,6 +39,7 @@ export default {
       description: "Filter by file name that contains a specific text",
       type: "string",
       optional: true,
+      reloadProps: true,
     },
     trashed: {
       label: "Trashed",
@@ -46,6 +47,22 @@ export default {
       description: "List trashed files or non-trashed files. Keep it empty to include both.",
       optional: true,
     },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.filterText) {
+      props.filterType = {
+        type: "string",
+        label: "Filter Type",
+        description: "Whether to return files with names containing the Filter Text or files with names that match the Filter Text exactly. Defaults to \"CONTAINS\"",
+        options: [
+          "CONTAINS",
+          "EXACT MATCH",
+        ],
+        default: "CONTAINS",
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     const opts = getListFilesOpts(this.drive, {
@@ -57,7 +74,9 @@ export default {
     if (this.filterText) {
       opts.q += `${opts.q
         ? " AND "
-        : ""}name contains '${this.filterText}'`;
+        : ""}name ${this.filterType === "CONTAINS"
+        ? "contains"
+        : "="} '${this.filterText}'`;
     }
     if (typeof this.trashed !== "undefined") {
       opts.q += `${opts.q
