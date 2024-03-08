@@ -15,8 +15,11 @@ export default {
     },
   },
   methods: {
+    getInitialValue() {
+      return 0;
+    },
     _getLastId() {
-      return this.db.get("lastId") || 0;
+      return this.db.get("lastId") || this.getInitialValue();
     },
     _setLastId(lastId) {
       this.db.set("lastId", lastId);

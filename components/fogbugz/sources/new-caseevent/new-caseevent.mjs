@@ -12,6 +12,9 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getInitialValue() {
+      return "1970-01-01T00:00:00Z";
+    },
     getData() {
       return {
         cmd: "listCases",
@@ -22,7 +25,7 @@ export default {
       return "cases";
     },
     getIdField() {
-      return "ixBug";
+      return "dtLastUpdated";
     },
     getSummary(item) {
       return `New case event created with Id: ${item.ixBug}`;
