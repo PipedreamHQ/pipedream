@@ -1,64 +1,25 @@
-import howuku from "../../howuku.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "howuku-new-incoming-survey",
   name: "New Incoming Survey",
-  description: "Emit new event when a new incoming survey is received.",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new incoming survey is received. [See the documentation](https://rest.howuku.com/#survey)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    howuku,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    surveyToTrack: {
-      propDefinition: [
-        howuku,
-        "surveyToTrack",
-      ],
-    },
-  },
   methods: {
-    _getStoredCursor() {
-      return this.db.get("cursor") || null;
+    ...common.methods,
+    getResourceFn() {
+      return this.howuku.listSurveys;
     },
-    _setStoredCursor(cursor) {
-      this.db.set("cursor", cursor);
+    generateMeta(survey) {
+      const ts = Date.parse(survey.dt);
+      return {
+        id: `${survey.id}${ts}`,
+        summary: `New response for survey: ${survey.question_id}`,
+        ts,
+      };
     },
-  },
-  async run() {
-    const cursor = this._getStoredCursor();
-    const params = {
-      survey: this.surveyToTrack,
-    };
-
-    if (cursor) {
-      params.cursor = cursor;
-    }
-
-    const { data } = await this.howuku._makeRequest({
-      method: "GET",
-      path: "/surveys",
-      params,
-    });
-
-    if (data.length > 0) {
-      const newCursor = data[data.length - 1].id;
-      this._setStoredCursor(newCursor);
-
-      for (const survey of data) {
-        this.$emit(survey, {
-          id: survey.id,
-          summary: `New survey: ${survey.title}`,
-          ts: Date.parse(survey.created_at),
-        });
-      }
-    }
   },
 };
