@@ -1,11 +1,17 @@
-import app from "../../filestack.app.mjs";
+import filestack from "../../filestack.app.mjs";
 import fs from "fs";
 
 export default {
+  key: "filestack-upload-image",
+  name: "Upload Image",
+  description:
+    "Upload an image from a file or URL to FileStack. [See the documentation](https://www.filestack.com/docs/uploads/uploading/#upload-file)",
+  version: "0.0.1",
+  type: "action",
   props: {
-    app,
+    filestack,
     propDefinition: [
-      app,
+      filestack,
       "fileOrUrl",
     ],
   },
@@ -51,5 +57,19 @@ export default {
           },
         };
     },
+  },
+  async run({ $ }) {
+    const args = await this.getImageData();
+
+    const response = await this.filestack.uploadImage({
+      $,
+      ...args,
+    });
+
+    $.export(
+      "$summary",
+      "Successfully uploaded image",
+    );
+    return response;
   },
 };

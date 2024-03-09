@@ -98,6 +98,13 @@ export default {
         },
       });
     },
+    async uploadImage(args) {
+      return this._makeRequest({
+        url: "store/S3",
+        method: "POST",
+        ...args,
+      });
+    },
     async transformImage({
       imageSource, transformationType, rotationDegree, width, height, blurAmount, sharpenAmount,
     }) {
