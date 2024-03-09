@@ -79,21 +79,17 @@ export default {
     _baseUrl() {
       return "https://www.filestackapi.com/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      params,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        baseURL: this._baseUrl(),
+        params: {
+          ...params,
+          key: this.$auth.api_key,
         },
       });
     },
