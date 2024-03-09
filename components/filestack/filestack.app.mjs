@@ -4,6 +4,11 @@ export default {
   type: "app",
   app: "filestack",
   propDefinitions: {
+    fileOrUrl: {
+      type: "string",
+      label: "Image Path or URL",
+      description: "The path to an image file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). Alternatively, you can pass the direct URL to an image file.",
+    },
     imageSource: {
       type: "string",
       label: "Image Source URL",
