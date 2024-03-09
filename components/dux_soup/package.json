@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dux_soup",
+  "version": "0.0.1",
+  "description": "Pipedream Dux Soup Components",
+  "main": "dux_soup.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dux_soup"
+  ],
+  "homepage": "https://pipedream.com/apps/dux_soup",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
