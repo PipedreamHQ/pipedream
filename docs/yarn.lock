@@ -1482,11 +1482,6 @@
   optionalDependencies:
     prettier "^1.18.2 || ^2.0.0"
 
-"@vue/devtools-api@^6.5.0":
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.5.0.tgz#98b99425edee70b4c992692628fa1ea2c1e57d07"
-  integrity sha512-o9KfBeaBmCKl10usN4crU53fYtC1r7jJwdGKjPT24t348rHxgfpZ0xL3Xm/gLUYnc0oTp8LAmrxOeLyu6tbk2Q==
-
 "@vuepress/core@1.9.10":
   version "1.9.10"
   resolved "https://registry.yarnpkg.com/@vuepress/core/-/core-1.9.10.tgz#ce17d603a0195ab2b8152f5a33bea274869184a3"
@@ -8953,11 +8948,6 @@ url-parse@^1.5.10:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
 
-url-search-params-polyfill@^8.1.0:
-  version "8.2.5"
-  resolved "https://registry.yarnpkg.com/url-search-params-polyfill/-/url-search-params-polyfill-8.2.5.tgz#2d31de6a2140c9b9cf6ee036fe0be07dd2644674"
-  integrity sha512-FOEojW4XReTmtZOB7xqSHmJZhrNTmClhBriwLTmle4iA7bwuCo6ldSfbtsFSb8bTf3E0a3XpfonAdaur9vqq8A==
-
 url@^0.11.0:
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/url/-/url-0.11.2.tgz#02f250a6e0d992b781828cd456d44f49bf2e19dd"
@@ -9052,15 +9042,6 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
-vue-gtm@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/vue-gtm/-/vue-gtm-3.5.0.tgz#a64843cec1c39aa57f07d25e114908d65b47f0d0"
-  integrity sha512-MJ0eqPm2NG1MjUJv8K3DghVzbXNONLd2rav0WbpuCfnD5r+SKyD+kxYnPo8exAg7zN+krY+swXoXKJuXtb2Acg==
-  dependencies:
-    url-search-params-polyfill "^8.1.0"
-  optionalDependencies:
-    vue-router "^4.0.0"
-
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
@@ -9081,13 +9062,6 @@ vue-router@^3.4.5:
   version "3.6.5"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.6.5.tgz#95847d52b9a7e3f1361cb605c8e6441f202afad8"
   integrity sha512-VYXZQLtjuvKxxcshuRAwjHnciqZVoXAjTjcqBTz4rKc8qih9g9pI3hbDjmqXaHdgL3v8pV6P8Z335XvHzESxLQ==
-
-vue-router@^4.0.0:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.2.4.tgz#382467a7e2923e6a85f015d081e1508052c191b9"
-  integrity sha512-9PISkmaCO02OzPVOMq2w82ilty6+xJmQrarYZDkjZBfl4RvYAlt4PKnEX21oW4KTtWfa9OuO/b3qk1Od3AEdCQ==
-  dependencies:
-    "@vue/devtools-api" "^6.5.0"
 
 vue-server-renderer@2.5.22:
   version "2.5.22"
