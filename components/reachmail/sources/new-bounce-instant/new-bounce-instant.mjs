@@ -1,57 +1,22 @@
-import reachmail from "../../reachmail.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "reachmail-new-bounce-instant",
   name: "New Bounce Instant",
   description: "Emit new event when a recipient's email address bounces.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    reachmail: {
-      type: "app",
-      app: "reachmail",
+  methods: {
+    ...common.methods,
+    getAction() {
+      return "Bounce";
     },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: "$.service.db",
-  },
-  hooks: {
-    async deploy() {
-      const bounces = await this.reachmail.getBounces({
-        max: 50,
-      });
-      for (const bounce of bounces) {
-        this.$emit(bounce, {
-          id: bounce.id,
-          summary: `New bounce: ${bounce.email}`,
-          ts: Date.parse(bounce.timestamp),
-        });
-      }
-    },
-    async activate() {
-      const webhookId = await this.reachmail.createWebhookSubscription({
-        eventType: "bounce",
-        url: this.http.endpoint,
-      });
-      this.db.set("webhookId", webhookId);
-    },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      await this.reachmail.deleteWebhookSubscription({
-        webhookId,
-      });
+    getSummary(body) {
+      return `New bounce: ${body.Email}`;
     },
   },
-  async run(event) {
-    const bounce = event.body;
-    this.$emit(bounce, {
-      id: bounce.id,
-      summary: `New bounce: ${bounce.email}`,
-      ts: Date.parse(bounce.timestamp),
-    });
-  },
+  sampleEmit,
 };

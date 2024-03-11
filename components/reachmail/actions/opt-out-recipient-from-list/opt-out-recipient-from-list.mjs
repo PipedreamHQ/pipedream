@@ -1,5 +1,4 @@
 import reachmail from "../../reachmail.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "reachmail-opt-out-recipient-from-list",
@@ -15,15 +14,21 @@ export default {
       description: "The email address of the recipient.",
     },
     listId: {
+      propDefinition: [
+        reachmail,
+        "listId",
+      ],
       type: "string",
-      label: "List ID",
       description: "The ID of the list from which the recipient should be opted out.",
     },
   },
   async run({ $ }) {
     const response = await this.reachmail.optOutRecipient({
-      recipient: this.recipient,
+      $,
       listId: this.listId,
+      data: {
+        recipient: this.recipient,
+      },
     });
     $.export("$summary", `Successfully opted out ${this.recipient} from list ${this.listId}`);
     return response;
