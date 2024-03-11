@@ -4,108 +4,76 @@ export default {
   type: "app",
   app: "tawk_to",
   propDefinitions: {
-    ticketSubject: {
+    type: {
       type: "string",
-      label: "Ticket Subject",
-      description: "The subject of the ticket",
+      label: "Type",
+      description: "Type to filter property to",
+      options: [
+        "business",
+        "profile",
+      ],
     },
-    initialComment: {
+    propertyId: {
       type: "string",
-      label: "Initial Comment",
-      description: "The initial comment of the ticket",
-    },
-    submitter: {
-      type: "string",
-      label: "Submitter",
-      description: "The submitter of the ticket",
-    },
-    messageContent: {
-      type: "string",
-      label: "Message Content",
-      description: "The content of the first message in a chat",
-    },
-    senderDetails: {
-      type: "string",
-      label: "Sender Details",
-      description: "The details of the sender of the first message in a chat",
-    },
-    timestamp: {
-      type: "string",
-      label: "Timestamp",
-      description: "The timestamp of the first message in a chat",
-    },
-    chatId: {
-      type: "string",
-      label: "Chat ID",
-      description: "The ID of the chat that ended",
-    },
-    endTime: {
-      type: "string",
-      label: "End Time",
-      description: "The end time of the chat",
-    },
-    lastMessage: {
-      type: "string",
-      label: "Last Message",
-      description: "The last message in the chat that ended",
+      label: "Property ID",
+      description: "Identifier of the property to watch",
+      async options({ type }) {
+        const { data } = await this.listProperties({
+          data: {
+            type,
+          },
+        });
+        return data?.map(({
+          propertyId: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.tawk.to";
+      return "https://api.tawk.to/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
+        auth: {
+          username: `${this.$auth.api_key}`,
+          password: "f",
+        },
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "Content-Type": "application/json",
         },
       });
     },
-    async createTicket(ticketSubject, initialComment, submitter) {
+    listProperties(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/tickets",
-        data: {
-          subject: ticketSubject,
-          comment: initialComment,
-          submitter: submitter,
-        },
+        path: "/property.list",
+        ...opts,
       });
     },
-    async sendMessage(messageContent, senderDetails, timestamp) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/messages",
-        data: {
-          content: messageContent,
-          sender: senderDetails,
-          timestamp: timestamp,
-        },
+        path: "/webhooks.create",
+        ...opts,
       });
     },
-    async endChat(chatId, endTime, lastMessage) {
+    deleteWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/chats/${chatId}/end`,
-        data: {
-          end_time: endTime,
-          last_message: lastMessage,
-        },
+        path: "/webhooks.delete",
+        ...opts,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };

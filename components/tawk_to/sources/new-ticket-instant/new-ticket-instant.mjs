@@ -1,58 +1,26 @@
-import tawkTo from "../../tawk_to.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "tawk_to-new-ticket-instant",
-  name: "New Ticket Instant",
-  description: "Emit new event when a new ticket is created. [See the documentation](https://docs.tawk.to/)",
-  version: "0.0.{{ts}}",
+  name: "New Ticket (Instant)",
+  description: "Emit new event when a new ticket is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    tawkTo: {
-      type: "app",
-      app: "tawk_to",
+  methods: {
+    ...common.methods,
+    getEvents() {
+      return [
+        "ticket:create",
+      ];
     },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+    generateMeta(event) {
+      return {
+        id: event.ticket.id,
+        summary: `New ticket ${event.ticket.id}`,
+        ts: Date.parse(event.time),
+      };
     },
-    db: "$.service.db",
-    ticketSubject: {
-      propDefinition: [
-        tawkTo,
-        "ticketSubject",
-      ],
-    },
-    initialComment: {
-      propDefinition: [
-        tawkTo,
-        "initialComment",
-      ],
-    },
-    submitter: {
-      propDefinition: [
-        tawkTo,
-        "submitter",
-      ],
-    },
-  },
-  hooks: {
-    async activate() {
-      // Create a new ticket when the source is activated
-      await this.tawkTo.createTicket(this.ticketSubject, this.initialComment, this.submitter);
-    },
-  },
-  async run(event) {
-    const { body } = event;
-
-    if (body.subject !== this.ticketSubject || body.comment !== this.initialComment || body.submitter !== this.submitter) {
-      return;
-    }
-
-    this.$emit(body, {
-      id: body.id,
-      summary: `New ticket created: ${body.subject}`,
-      ts: Date.now(),
-    });
   },
 };
