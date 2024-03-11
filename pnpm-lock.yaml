@@ -350,6 +350,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/amazon_polly:
+    specifiers: {}
+
   components/amazon_ses:
     specifiers:
       '@aws-sdk/client-ec2': ^3.89.0
@@ -1785,9 +1788,6 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
-
-  components/detectify:
-    specifiers: {}
 
   components/detectify:
     specifiers: {}
@@ -4747,9 +4747,6 @@ importers:
   components/mozilla_observatory:
     specifiers: {}
 
-  components/mtest:
-    specifiers: {}
-    
   components/mumara:
     specifiers: {}
 
@@ -7769,19 +7766,6 @@ importers:
 
   components/tmetric:
     specifiers: {}
-
-  components/tmp/postgresql_test:
-    specifiers:
-      dtslint: ^4.2.1
-      pg: ^8.7.1
-      pg-format: ^1.0.4
-      typescript: ^4.6.4
-    dependencies:
-      pg: 8.11.3
-      pg-format: 1.0.4
-      typescript: 4.9.5
-    devDependencies:
-      dtslint: 4.2.1_typescript@4.9.5
 
   components/todoist:
     specifiers:
@@ -12017,8 +12001,8 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.2.7:
-    resolution: {integrity: sha512-bfey0RYDAAzabneDjkQviP5MB8A/5wV9d42s2MNgQS+Ptj26P8ve19s6nbylHlXcRfTtpBF3haZMbsKRpYKMKQ==}
+  /@definitelytyped/header-parser/0.2.8:
+    resolution: {integrity: sha512-EbwPQxkjJ2dG5F+kZy/D5eMvFeM3FBJ+A8oXy6eOr+8aoRBzS94PiSyfHStZHJzruHDG/Lo2v9+0nSGsPJiOdw==}
     engines: {node: '>=18.18.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.1
@@ -18878,7 +18862,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.7
+      '@definitelytyped/header-parser': 0.2.8
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -18893,7 +18877,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.7
+      '@definitelytyped/header-parser': 0.2.8
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -18909,7 +18893,7 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.7
+      '@definitelytyped/header-parser': 0.2.8
       '@definitelytyped/typescript-versions': 0.1.1
       '@definitelytyped/utils': 0.1.5
       dts-critic: 3.3.11_typescript@4.9.5
@@ -18929,7 +18913,7 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.7
+      '@definitelytyped/header-parser': 0.2.8
       '@definitelytyped/typescript-versions': 0.1.1
       '@definitelytyped/utils': 0.1.5
       dts-critic: 3.3.11_typescript@5.2.2
