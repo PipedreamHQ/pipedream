@@ -1,44 +1,33 @@
-import helpspace from "../../helpspace.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "helpspace-new-customer",
-  name: "New Customer in Helpspace",
-  description: "This source emits an event when a new customer signs up on Helpspace.",
+  name: "New Customer (Instant)",
+  description: "Emit new event when a new customer signs up on Helpspace. [See the documentation](https://documentation.helpspace.com/article/340/webhook)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    helpspace,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-  },
   methods: {
-    generateMeta(data) {
-      const {
-        id, created_at,
-      } = data;
-      const ts = new Date(created_at).getTime();
+    ...common.methods,
+    getTrigger() {
+      const baseTrigger = this.getBaseTrigger();
       return {
-        id,
-        summary: `New Customer: ${id}`,
-        ts,
+        ...baseTrigger,
+        customer: {
+          ...baseTrigger.customer,
+          created: true,
+        },
+      };
+    },
+    generateMeta(customer) {
+      return {
+        id: customer.id,
+        summary: `New Customer ${customer.name}`,
+        ts: Date.parse(customer.created_at),
       };
     },
   },
-  async run() {
-    const lastRunTime = this.db.get("lastRunTime") || this.timer.intervalSeconds;
-    const now = new Date().getTime();
-    const newCustomers = await this.helpspace.getNewCustomer();
-    newCustomers.forEach((customer) => {
-      if (new Date(customer.created_at).getTime() > lastRunTime) {
-        this.$emit(customer, this.generateMeta(customer));
-      }
-    });
-    this.db.set("lastRunTime", now);
-  },
+  sampleEmit,
 };

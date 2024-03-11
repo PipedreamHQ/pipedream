@@ -4,131 +4,141 @@ export default {
   type: "app",
   app: "helpspace",
   propDefinitions: {
-    ticketId: {
-      type: "string",
-      label: "Ticket ID",
-      description: "The ID of the ticket",
-      optional: false,
-    },
-    clientId: {
-      type: "string",
-      label: "Client ID",
-      description: "The ID of the client",
-      optional: true,
-    },
-    customerName: {
-      type: "string",
-      label: "Customer Name",
-      description: "Name of the customer",
-      optional: false,
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "Email of the customer",
-      optional: false,
-    },
-    phone: {
-      type: "string",
-      label: "Phone",
-      description: "Phone number of the customer",
-      optional: true,
-    },
-    address: {
-      type: "string",
-      label: "Address",
-      description: "Address of the customer",
-      optional: true,
-    },
-    ticketTitle: {
-      type: "string",
-      label: "Ticket Title",
-      description: "Title of the ticket",
-      optional: false,
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "Description of the ticket",
-      optional: false,
-    },
-    attachment: {
-      type: "string",
-      label: "Attachment",
-      description: "Attachment for the ticket",
-      optional: true,
-    },
-    category: {
-      type: "string",
-      label: "Category",
-      description: "Category of the ticket",
-      optional: true,
-    },
     customerId: {
       type: "string",
       label: "Customer ID",
       description: "The ID of the customer",
-      optional: false,
+      async options({ page }) {
+        const { data } = await this.listCustomers({
+          params: {
+            page,
+          },
+        });
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    customerEmail: {
+      type: "string",
+      label: "Customer Email",
+      description: "The email address of the customer",
+      async options({ page }) {
+        const { data } = await this.listCustomers({
+          params: {
+            page,
+          },
+        });
+        return data?.map(({
+          email: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the customer",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email address of the customer",
+    },
+    jobTitle: {
+      type: "string",
+      label: "Job Title",
+      description: "Job title of the customer",
+      optional: true,
+    },
+    address: {
+      type: "string",
+      label: "Street Address",
+      description: "Street address of the customer",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "City of the customer",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "State of the customer",
+      optional: true,
+    },
+    postalCode: {
+      type: "string",
+      label: "Postal Code",
+      description: "Postal Code of the customer",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Country of the customer",
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.helpspace.com";
+      return "https://api.helpspace.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        data,
-        params,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        data,
-        params,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "Authorization": `Bearer ${this.$auth.access_token}`,
+          "Hs-Client-Id": `${this.$auth.client_id}`,
         },
       });
     },
-    async createCustomer(opts = {}) {
+    updateWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhook",
+        ...opts,
+      });
+    },
+    listCustomers(opts = {}) {
+      return this._makeRequest({
+        path: "/customers",
+        ...opts,
+      });
+    },
+    createCustomer(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/customers",
         ...opts,
       });
     },
-    async createTicket(opts = {}) {
+    createTicket(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/tickets",
         ...opts,
       });
     },
-    async updateCustomer(opts = {}) {
+    updateCustomer({
+      customerId, ...opts
+    }) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/customers/${opts.customerId}`,
-        ...opts,
-      });
-    },
-    async getNewCustomer(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/customers/new",
-        ...opts,
-      });
-    },
-    async getNewTicket(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/tickets/new",
+        method: "PATCH",
+        path: `/customers/${customerId}`,
         ...opts,
       });
     },

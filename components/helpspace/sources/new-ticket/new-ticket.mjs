@@ -1,56 +1,33 @@
-import helpspace from "../../helpspace.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "helpspace-new-ticket",
-  name: "New Ticket Opened",
-  description: "Emits an event when a new ticket is opened in HelpSpace",
-  version: "0.0.{{ts}}",
+  name: "New Ticket (Instant)",
+  description: "Emit new event when a new ticket is opened in HelpSpace. [See the documentation](https://documentation.helpspace.com/article/340/webhook)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    helpspace,
-    ticketId: {
-      propDefinition: [
-        helpspace,
-        "ticketId",
-      ],
-    },
-    clientId: {
-      propDefinition: [
-        helpspace,
-        "clientId",
-      ],
-      optional: true,
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-  },
   methods: {
-    _getTicketId() {
-      return this.db.get("ticketId");
+    ...common.methods,
+    getTrigger() {
+      const baseTrigger = this.getBaseTrigger();
+      return {
+        ...baseTrigger,
+        ticket: {
+          ...baseTrigger.ticket,
+          created: true,
+        },
+      };
     },
-    _setTicketId(ticketId) {
-      this.db.set("ticketId", ticketId);
+    generateMeta(ticket) {
+      return {
+        id: ticket.id,
+        summary: `New Ticket ${ticket.subject}`,
+        ts: Date.parse(ticket.created_at),
+      };
     },
   },
-  async run() {
-    const lastTicketId = this._getTicketId();
-    const newTicket = await this.helpspace.getNewTicket({
-      ticketId: this.ticketId,
-      clientId: this.clientId,
-    });
-    if (newTicket.id !== lastTicketId) {
-      this.$emit(newTicket, {
-        id: newTicket.id,
-        summary: `New ticket opened: ${newTicket.title}`,
-        ts: Date.parse(newTicket.created_at),
-      });
-      this._setTicketId(newTicket.id);
-    }
-  },
+  sampleEmit,
 };
