@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_vertex_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Google Vertex AI Components",
+  "main": "google_vertex_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_vertex_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/google_vertex_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
