@@ -1,23 +1,29 @@
-import filestack from "../../filestack.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "filestack-rotate-image",
   name: "Rotate Image",
-  description: "Rotates an input image by a specified degree. [See the documentation](https://www.filestack.com/docs/api/processing/#rotate)",
+  description: "Rotates an uploaded image by a specified degree. [See the documentation](https://www.filestack.com/docs/api/processing/#rotate)",
   version: "0.0.1",
   type: "action",
   props: {
-    filestack,
-    imageSource: filestack.propDefinitions.imageSource,
-    rotationDegree: filestack.propDefinitions.rotationDegree,
+    ...common.props,
+    degrees: {
+      type: "integer",
+      label: "Degrees",
+      description: "How much to rotate the image in degrees, clockwise from 0 degrees (no rotation) to 359 (nearly all the way around).",
+      min: 0,
+      max: 359,
+    },
   },
-  async run({ $ }) {
-    const response = await this.filestack.transformImage({
-      imageSource: this.imageSource,
-      transformationType: "rotate",
-      rotationDegree: this.rotationDegree,
-    });
-    $.export("$summary", `Image rotated ${this.rotationDegree} degrees successfully`);
-    return response;
+  methods: {
+    ...common.methods,
+    getSummary() {
+      return `Image rotated successfully by ${this.degrees} degrees`;
+    },
+    getTransformations() {
+      return `rotate=deg:${this.degrees}`;
+    },
   },
 };
