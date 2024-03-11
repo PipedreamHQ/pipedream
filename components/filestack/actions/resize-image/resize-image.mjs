@@ -1,7 +1,7 @@
-import filestack from "../../filestack.app.mjs";
-import fs from "fs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "filestack-resize-image",
   name: "Resize Image",
   description:
@@ -9,19 +9,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    filestack,
-    uploadedImageUrl: {
-      propDefinition: [
-        filestack,
-        "uploadedImageUrl",
-      ],
-    },
-    outputFilename: {
-      propDefinition: [
-        filestack,
-        "outputFilename",
-      ],
-    },
+    ...common.props,
     width: {
       type: "integer",
       label: "Width",
@@ -66,32 +54,15 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
-    const {
-      uploadedImageUrl, outputFilename, width, height, mode,
-    } = this;
-    let transformations = `resize=height:${height},width:${width}`;
-    if (mode) transformations += `,fit:${mode}`;
-
-    const response = await this.filestack.transformImage({
-      $,
-      uploadedImageUrl,
-      transformations,
-    });
-
-    $.export(
-      "$summary",
-      `Image resized successfully to ${width}x${height}`,
-    );
-
-    if (outputFilename) {
-      const filePath = outputFilename?.includes?.("tmp/")
-        ? outputFilename
-        : `/tmp/${outputFilename}`;
-
-      await fs.promises.writeFile(filePath, Buffer.from(response));
-      return filePath;
-    }
-    else return response;
+  methods: {
+    ...common.methods,
+    getSummary() {
+      return `Image resized successfully to ${this.width}x${this.height}`;
+    },
+    getTransformations() {
+      let transformations = `resize=height:${this.height},width:${this.width}`;
+      if (this.mode) transformations += `,fit:${this.mode}`;
+      return transformations;
+    },
   },
 };
