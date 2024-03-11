@@ -65,7 +65,7 @@ export default {
         `width:${this.width}`,
       ];
       if (this.mode) transformations.push(`,fit:${this.mode}`);
-      return transformations;
+      return transformations.join();
     },
   },
 };

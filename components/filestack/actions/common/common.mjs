@@ -33,7 +33,7 @@ export default {
     const response = await this.filestack.transformImage({
       $,
       uploadedImageUrl,
-      transformations: this.getTransformations().join(),
+      transformations: this.getTransformations(),
     });
 
     $.export(

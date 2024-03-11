@@ -86,7 +86,7 @@ export default {
       }
 
       if (!transformations.length) throw new ConfigurationError("At least one filter must be specified.");
-      return transformations;
+      return transformations.join("/");
     },
   },
 };
