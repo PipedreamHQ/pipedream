@@ -60,8 +60,11 @@ export default {
       return `Image resized successfully to ${this.width}x${this.height}`;
     },
     getTransformations() {
-      let transformations = `resize=height:${this.height},width:${this.width}`;
-      if (this.mode) transformations += `,fit:${this.mode}`;
+      const transformations = [
+        `resize=height:${this.height}`,
+        `width:${this.width}`,
+      ];
+      if (this.mode) transformations.push(`,fit:${this.mode}`);
       return transformations;
     },
   },
