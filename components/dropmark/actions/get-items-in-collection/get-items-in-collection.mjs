@@ -4,36 +4,25 @@ export default {
   key: "dropmark-get-items-in-collection",
   name: "Get Items in Collection",
   description: "Retrieves a list of items in a specific collection. [See the documentation](https://support.dropmark.com/article/96-api)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     dropmark,
-    username: {
-      propDefinition: [
-        dropmark,
-        "username",
-      ],
-    },
     collectionId: {
       propDefinition: [
         dropmark,
         "collectionId",
       ],
     },
-    personalKey: {
-      propDefinition: [
-        dropmark,
-        "personalKey",
-      ],
-    },
   },
   async run({ $ }) {
-    const response = await this.dropmark.getCollectionItems({
-      username: this.username,
+    const { items } = await this.dropmark.getCollectionItems({
+      $,
       collectionId: this.collectionId,
-      personalKey: this.personalKey,
     });
-    $.export("$summary", `Successfully retrieved items in collection ${this.collectionId}`);
-    return response;
+    $.export("$summary", `Successfully retrieved ${items.length} item${items.length === 1
+      ? ""
+      : "s"} in collection ${this.collectionId}`);
+    return items;
   },
 };

@@ -4,82 +4,44 @@ export default {
   type: "app",
   app: "dropmark",
   propDefinitions: {
-    username: {
-      type: "string",
-      label: "Username",
-      description: "Your Dropmark username",
-    },
     collectionId: {
       type: "string",
       label: "Collection ID",
       description: "The ID of the collection you want to retrieve",
     },
-    personalKey: {
-      type: "string",
-      label: "Personal Key",
-      description: "Your personal read-only token",
-      secret: true,
-    },
   },
   methods: {
     _baseUrl() {
-      return "https://";
+      return `https://${this.$auth.username}.dropmark.com`;
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
+        url: `${this._baseUrl()}${path}`,
+        auth: {
+          username: this.$auth.username,
+          password: this.$auth.password,
         },
       });
     },
-    async getCollectionItems({
-      username, collectionId, personalKey,
+    getCollectionItems({
+      collectionId, ...opts
     }) {
       return this._makeRequest({
-        path: `${username}.dropmark.com/${collectionId}.json`,
-        params: {
-          key: personalKey,
-        },
+        path: `/${collectionId}.json`,
+        ...opts,
       });
     },
-    async getActivityFeed({
-      username, personalKey,
-    }) {
+    getActivityFeed(opts = {}) {
       return this._makeRequest({
-        path: `${username}.dropmark.com/activity.json`,
-        params: {
-          key: personalKey,
-        },
+        path: "/activity.json",
+        ...opts,
       });
-    },
-    async checkNewItemInCollection({
-      username, collectionId, personalKey,
-    }) {
-      const items = await this.getCollectionItems({
-        username,
-        collectionId,
-        personalKey,
-      });
-      // Logic to check and emit new items
-    },
-    async checkNewActivity({
-      username, personalKey,
-    }) {
-      const activities = await this.getActivityFeed({
-        username,
-        personalKey,
-      });
-      // Logic to check and emit new activities
     },
   },
 };
