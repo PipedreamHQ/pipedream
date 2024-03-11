@@ -2,6 +2,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "filestack-filter-image",
   name: "Filter Image",
   description: "Applies filters such as sharpening, blurring, sepia, monochrome, and more, to an uploaded image. [See the documentation](https://www.filestack.com/docs/api/processing/#image-filters)",
@@ -75,8 +76,8 @@ export default {
     getTransformations() {
       const transformations = [];
       if (this.negative) transformations.push("negative");
-      else if (this.monochrome) transformations.push("monochrome");
       else {
+        if (this.monochrome) transformations.push("monochrome");
         if (this.sharpenAmount) transformations.push(`sharpen=amount:${this.sharpenAmount}`);
         if (this.blurAmount) transformations.push(`blur=amount:${this.blurAmount}`);
         if (this.blackAndWhite) transformations.push(`blackwhite=threshold:${this.blackAndWhite}`);
