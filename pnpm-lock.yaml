@@ -619,6 +619,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/azure_ai_vision:
+    specifiers: {}
+
   components/azure_devops:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -2003,6 +2006,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/docupost:
+    specifiers: {}
+
   components/docusign:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2550,6 +2556,9 @@ importers:
       lodash: 4.17.21
 
   components/florm:
+    specifiers: {}
+
+  components/flowiseai:
     specifiers: {}
 
   components/fluent_support:
@@ -3165,6 +3174,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/google_vertex_ai:
+    specifiers: {}
+
   components/google_workspace:
     specifiers:
       '@googleapis/admin': ^6.0.2
@@ -3546,6 +3558,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/ikigai:
+    specifiers: {}
 
   components/illumidesk:
     specifiers:
@@ -4549,6 +4564,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/microsoft_advertising:
+    specifiers: {}
 
   components/microsoft_entra_id:
     specifiers:
@@ -5931,6 +5949,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/qntrl:
+    specifiers: {}
+
   components/qstash:
     specifiers: {}
 
@@ -6771,6 +6792,9 @@ importers:
       ssh2-sftp-client: ^8.1.0
     dependencies:
       ssh2-sftp-client: 8.1.0
+
+  components/shadertoy:
+    specifiers: {}
 
   components/sharepoint:
     specifiers:
@@ -8224,6 +8248,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/vext:
+    specifiers: {}
+
   components/vies_api:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -8457,6 +8484,9 @@ importers:
     specifiers: {}
 
   components/wicked_reports:
+    specifiers: {}
+
+  components/wildapricot:
     specifiers: {}
 
   components/wildberries:
