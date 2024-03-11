@@ -1501,7 +1501,10 @@ importers:
       lodash: 4.17.21
 
   components/content_snare:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/contentgroove:
     specifiers:
