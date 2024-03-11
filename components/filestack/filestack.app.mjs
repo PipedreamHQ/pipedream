@@ -16,60 +16,10 @@ export default {
       description:
         "The URL of an image uploaded to FileStack (you can use the **Upload Image** action). Example: `https://cdn.filestackcontent.com/pdn7PhZdT02GoYZCVYeF`",
     },
-    transformationType: {
+    outputFilename: {
       type: "string",
-      label: "Transformation Type",
-      description: "The type of transformation to apply to the image.",
-      options: [
-        {
-          label: "Resize",
-          value: "resize",
-        },
-        {
-          label: "Rotate",
-          value: "rotate",
-        },
-        {
-          label: "Blur",
-          value: "blur",
-        },
-        {
-          label: "Sharpen",
-          value: "sharpen",
-        },
-        {
-          label: "Flip",
-          value: "flip",
-        },
-        {
-          label: "Sepia",
-          value: "sepia",
-        },
-        {
-          label: "Monochrome",
-          value: "monochrome",
-        },
-      ],
-    },
-    rotationDegree: {
-      type: "integer",
-      label: "Rotation Degree",
-      description:
-        "The degree to rotate the image. Required for rotate transformation.",
-      optional: true,
-    },
-    blurAmount: {
-      type: "integer",
-      label: "Blur Amount",
-      description:
-        "The amount to blur the image. Required for blur transformation.",
-      optional: true,
-    },
-    sharpenAmount: {
-      type: "integer",
-      label: "Sharpen Amount",
-      description:
-        "The amount to sharpen the image. Required for sharpen transformation.",
+      label: "Output File Name",
+      description: "If specified, the resulting image will be written to this filename in the `tmp` folder; otherwise, the raw data will be returned",
       optional: true,
     },
   },

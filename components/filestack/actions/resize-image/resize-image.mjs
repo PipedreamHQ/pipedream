@@ -1,4 +1,5 @@
 import filestack from "../../filestack.app.mjs";
+import fs from "fs";
 
 export default {
   key: "filestack-resize-image",
@@ -13,6 +14,12 @@ export default {
       propDefinition: [
         filestack,
         "uploadedImageUrl",
+      ],
+    },
+    outputFilename: {
+      propDefinition: [
+        filestack,
+        "outputFilename",
       ],
     },
     width: {
@@ -61,10 +68,11 @@ export default {
   },
   async run({ $ }) {
     const {
-      uploadedImageUrl, width, height, mode,
+      uploadedImageUrl, outputFilename, width, height, mode,
     } = this;
     let transformations = `resize=height:${height},width:${width}`;
     if (mode) transformations += `,fit:${mode}`;
+
     const response = await this.filestack.transformImage({
       $,
       uploadedImageUrl,
@@ -75,6 +83,15 @@ export default {
       "$summary",
       `Image resized successfully to ${width}x${height}`,
     );
-    return response;
+
+    if (outputFilename) {
+      const filePath = outputFilename?.includes?.("tmp/")
+        ? outputFilename
+        : `/tmp/${outputFilename}`;
+
+      await fs.promises.writeFile(filePath, Buffer.from(response));
+      return filePath;
+    }
+    else return response;
   },
 };
