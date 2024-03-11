@@ -10,10 +10,12 @@ export default {
   type: "action",
   props: {
     filestack,
-    propDefinition: [
-      filestack,
-      "fileOrUrl",
-    ],
+    fileOrUrl: {
+      propDefinition: [
+        filestack,
+        "fileOrUrl",
+      ],
+    },
   },
   methods: {
     getImageMimeType(path) {
