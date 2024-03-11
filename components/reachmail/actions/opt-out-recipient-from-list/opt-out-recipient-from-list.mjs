@@ -3,7 +3,7 @@ import reachmail from "../../reachmail.app.mjs";
 export default {
   key: "reachmail-opt-out-recipient-from-list",
   name: "Opt Out Recipient From List",
-  description: "Opt out a recipient from a given list. The user needs to provide the recipient's email address and the ID of the list as props. The action will remove the recipient from the specified list. [See the documentation](https://services.reachmail.net/)",
+  description: "The action will remove the recipient from the specified list. [See the documentation](https://services.reachmail.net/)",
   version: "0.0.1",
   type: "action",
   props: {
