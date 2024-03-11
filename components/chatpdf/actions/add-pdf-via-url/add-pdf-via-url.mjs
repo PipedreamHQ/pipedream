@@ -1,29 +1,41 @@
-import chatpdf from "../../chatpdf.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../chatpdf.app.mjs";
 
 export default {
   key: "chatpdf-add-pdf-via-url",
-  name: "Add PDF via URL",
+  name: "Add PDF Via URL",
   description: "Adds a PDF from a publicly accessible URL to ChatPDF, returning a source ID for interactions. [See the documentation](https://www.chatpdf.com/docs/api/backend)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    chatpdf,
+    app,
     url: {
-      propDefinition: [
-        chatpdf,
-        "url",
-      ],
+      type: "string",
+      label: "PDF URL",
+      description: "The URL of the publicly accessible PDF",
+    },
+  },
+  methods: {
+    addPdfByUrl(args = {}) {
+      return this.app.post({
+        path: "/sources/add-url",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const response = await this.chatpdf.addPdfByUrl({
-      url: this.url,
+    const {
+      addPdfByUrl,
+      url,
+    } = this;
+
+    const response = await addPdfByUrl({
+      $,
+      data: {
+        url,
+      },
     });
-    const sourceId = response.sourceId;
-    $.export("$summary", `Added PDF via URL and received source ID: ${sourceId}`);
-    return {
-      sourceId,
-    };
+
+    $.export("$summary", `Successfully added PDF with source ID \`${response.sourceId}\``);
+    return response;
   },
 };

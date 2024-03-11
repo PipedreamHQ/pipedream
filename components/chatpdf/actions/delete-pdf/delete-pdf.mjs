@@ -1,26 +1,44 @@
-import chatpdf from "../../chatpdf.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../chatpdf.app.mjs";
 
 export default {
   key: "chatpdf-delete-pdf",
   name: "Delete PDF",
   description: "Deletes one or more PDFs from ChatPDF using their source IDs. [See the documentation](https://www.chatpdf.com/docs/api/backend)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    chatpdf,
-    sourceIds: {
-      propDefinition: [
-        chatpdf,
-        "sourceIds",
-      ],
+    app,
+    sources: {
+      type: "string[]",
+      label: "Source IDs",
+      description: "An array of source IDs of the PDFs to delete",
+    },
+  },
+  methods: {
+    deletePdfs(args = {}) {
+      return this.app.post({
+        path: "/sources/delete",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const response = await this.chatpdf.deletePdfs({
-      sourceIds: this.sourceIds,
+    const {
+      deletePdfs,
+      sources,
+    } = this;
+
+    const response = await deletePdfs({
+      $,
+      data: {
+        sources,
+      },
     });
-    $.export("$summary", `Deleted PDFs with source IDs: ${this.sourceIds.join(", ")}`);
-    return response;
+
+    $.export("$summary", "Successfully deleted PDFs");
+
+    return response || {
+      success: true,
+    };
   },
 };

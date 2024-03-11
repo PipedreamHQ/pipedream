@@ -3,87 +3,32 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "chatpdf",
-  propDefinitions: {
-    url: {
-      type: "string",
-      label: "PDF URL",
-      description: "The URL of the publicly accessible PDF",
-    },
-    sourceId: {
-      type: "string",
-      label: "Source ID",
-      description: "The source ID of the PDF in chatpdf",
-    },
-    messages: {
-      type: "string[]",
-      label: "Messages",
-      description: "An array of messages to interact with the PDF",
-    },
-    sourceIds: {
-      type: "string[]",
-      label: "Source IDs",
-      description: "An array of source IDs of the PDFs to delete",
-    },
-  },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getUrl(path) {
+      return `https://api.chatpdf.com/v1${path}`;
     },
-    _baseUrl() {
-      return "https://api.chatpdf.com/v1";
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Content-Type": "application/json",
+        "x-api-key": this.$auth.api_key,
+      };
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      const config = {
+        ...args,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
+      };
+      return axios($, config);
     },
-    async addPdfByUrl({ url }) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/sources/add-url",
-        data: {
-          url,
-        },
-      });
-    },
-    async sendMessageToPdf({
-      sourceId, messages,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/chats/message",
-        data: {
-          sourceId,
-          messages: messages.map((content) => ({
-            role: "user",
-            content,
-          })),
-        },
-      });
-    },
-    async deletePdfs({ sourceIds }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/sources/delete",
-        data: {
-          sources: sourceIds,
-        },
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };
