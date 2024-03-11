@@ -8,13 +8,16 @@ import {
 } from "../../actions/list-followers/list-followers";
 import { User } from "../../common/types/responseSchemas";
 import cacheUserId from "../common/cacheUserId";
+import {
+  getObjIncludes, getUserIncludeIds,
+} from "../../common/addObjIncludes";
 
 export default defineSource({
   ...common,
   key: "twitter-new-follower-of-user",
   name: "New Follower Received by User",
   description: `Emit new event when the specified User receives a Follower [See the documentation](${DOCS_LINK})`,
-  version: "2.0.7",
+  version: "2.1.0",
   type: "source",
   props: {
     ...common.props,
@@ -43,7 +46,10 @@ export default defineSource({
         userId,
       };
 
-      const { data } = await this.app.getUserFollowers(params);
+      const {
+        data, includes,
+      } = await this.app.getUserFollowers(params);
+      data.forEach((user) => user.includes = getObjIncludes(user, includes, getUserIncludeIds));
       return data;
     },
   },

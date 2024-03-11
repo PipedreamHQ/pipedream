@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/amazon_polly",
+  "version": "0.0.1",
+  "description": "Pipedream Amazon Polly Components",
+  "main": "amazon_polly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "amazon_polly"
+  ],
+  "homepage": "https://pipedream.com/apps/amazon_polly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

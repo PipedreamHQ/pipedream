@@ -61,7 +61,7 @@ Puppeteer can take a full screenshot of a webpage rendered with Chromium. For fu
 Save a screenshot within the local `/tmp` directory:
 
 ```javascript
-import { puppeteer } from '@pipedreamhq/platform';
+import { puppeteer } from '@pipedream/browsers';
 
 export default defineComponent({
   async run({ $ }) {
@@ -107,7 +107,7 @@ Puppeteer can render a PDF of a webpage. For full options [see the Puppeteer Scr
 Save the PDF locally to `/tmp`:
 
 ```javascript
-import { puppeteer } from '@pipedreamhq/platform';
+import { puppeteer } from '@pipedream/browsers';
 
 export default defineComponent({
   async run({ $ }) {
@@ -302,7 +302,7 @@ Playwright can take a full screenshot of a webpage rendered with Chromium. For f
 Save a screenshot within the local `/tmp` directory:
 
 ```javascript
-import { playwright } from '@pipedreamhq/platform';
+import { playwright } from '@pipedream/browsers';
 
 export default defineComponent({
   async run({ $ }) {
@@ -355,7 +355,7 @@ Playwright can render a PDF of a webpage. For full options [see the Playwright S
 Save a PDF locally to `/tmp`:
 
 ```javascript
-import { playwright } from '@pipedreamhq/platform';
+import { playwright } from '@pipedream/browsers';
 
 export default defineComponent({
   async run({ $ }) {

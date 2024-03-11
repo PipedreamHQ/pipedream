@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/dynamics_365_business_central_api",
+  "version": "0.0.1",
+  "description": "Pipedream Dynamics 365 Business Central API Components",
+  "main": "dynamics_365_business_central_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dynamics_365_business_central_api"
+  ],
+  "homepage": "https://pipedream.com/apps/dropcontact",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}
