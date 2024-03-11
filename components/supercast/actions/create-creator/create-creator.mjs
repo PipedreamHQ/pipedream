@@ -1,48 +1,65 @@
-import supercast from "../../supercast.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../supercast.app.mjs";
 
 export default {
   key: "supercast-create-creator",
   name: "Create a Channel Creator",
   description: "Creates a new channel creator on Supercast. [See the documentation](https://supercast.readme.io/reference/postcreators)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    supercast,
+    app,
     email: {
-      propDefinition: [
-        supercast,
-        "email",
-      ],
+      type: "string",
+      label: "Email",
+      description: "Email of the creator",
     },
     firstName: {
-      propDefinition: [
-        supercast,
-        "firstName",
-      ],
+      type: "string",
+      label: "First Name",
+      description: "First name of the creator",
+      optional: true,
     },
     lastName: {
-      propDefinition: [
-        supercast,
-        "lastName",
-      ],
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the creator",
+      optional: true,
     },
     password: {
-      propDefinition: [
-        supercast,
-        "password",
-      ],
+      type: "string",
+      label: "Password",
+      description: "Password for the creator account. On creation, if left unset Creator must be managed entirely through API.",
+      optional: true,
+    },
+  },
+  methods: {
+    createChannelCreator(args = {}) {
+      return this.app.post({
+        path: "/creators",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const response = await this.supercast.createChannelCreator({
-      email: this.email,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      password: this.password,
+    const {
+      createChannelCreator,
+      email,
+      firstName,
+      lastName,
+      password,
+    } = this;
+
+    const response = await createChannelCreator({
+      $,
+      data: {
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        password,
+      },
     });
 
-    $.export("$summary", `Successfully created channel creator with email: ${this.email}`);
+    $.export("$summary", `Successfully created channel creator with ID ${response.id}`);
     return response;
   },
 };
