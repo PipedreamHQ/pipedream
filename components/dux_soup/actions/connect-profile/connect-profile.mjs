@@ -1,7 +1,7 @@
 import duxSoup from "../../dux_soup.app.mjs";
 
 export default {
-  key: "dux-soup-connect-profile",
+  key: "dux_soup-connect-profile",
   name: "Connect Profile",
   description: "Queues a connection request to actively connect with a targeted LinkedIn profile. [See the documentation](https://support.dux-soup.com/article/115-remote-control-by-example)",
   version: "0.0.1",

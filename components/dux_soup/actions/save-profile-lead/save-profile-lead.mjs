@@ -1,7 +1,7 @@
 import duxSoup from "../../dux_soup.app.mjs";
 
 export default {
-  key: "dux-soup-save-profile-lead",
+  key: "dux_soup-save-profile-lead",
   name: "Save Profile as Lead",
   description: "Queues a profile save action to store the targeted profile as a lead. [See the documentation](https://support.dux-soup.com/article/115-remote-control-by-example)",
   version: "0.0.1",
