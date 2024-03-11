@@ -3,29 +3,78 @@ import filestack from "../../filestack.app.mjs";
 export default {
   key: "filestack-resize-image",
   name: "Resize Image",
-  description: "Resizes an input image to specified width and height. [See the documentation](https://www.filestack.com/docs/api/processing/#resize)",
+  description:
+    "Resizes an uploaded image to specified width and height. [See the documentation](https://www.filestack.com/docs/api/processing/#resize)",
   version: "0.0.1",
   type: "action",
   props: {
     filestack,
-    imageSource: filestack.propDefinitions.imageSource,
-    width: filestack.propDefinitions.width,
-    height: filestack.propDefinitions.height,
+    uploadedImageUrl: {
+      propDefinition: [
+        filestack,
+        "uploadedImageUrl",
+      ],
+    },
+    width: {
+      type: "integer",
+      label: "Width",
+      description: "The width to resize the image to, in pixels.",
+      min: 1,
+      max: 10000,
+    },
+    height: {
+      type: "integer",
+      label: "Height",
+      description: "The height to resize the image to, in pixels.",
+      min: 1,
+      max: 10000,
+    },
+    mode: {
+      type: "string",
+      label: "Mode",
+      description:
+        "The possible methods by which the image should fit the specified dimensions.",
+      optional: true,
+      options: [
+        {
+          value: "clip",
+          label:
+            "Preserving the aspect ratio, resize the image to be as large as possible while ensuring its dimensions are less than or equal to both those specified",
+        },
+        {
+          value: "crop",
+          label:
+            "Preserving the aspect ratio, ensure the image covers both provided dimensions by clipping/cropping to fit",
+        },
+        {
+          value: "max",
+          label:
+            "Do not enlarge if the dimensions of the provided image are already less than the specified width or height",
+        },
+        {
+          value: "scale",
+          label:
+            "Ignore the aspect ratio of the provided image and stretch to both provided dimensions",
+        },
+      ],
+    },
   },
   async run({ $ }) {
-    if (!this.width || !this.height) {
-      throw new Error("Width and Height are required for resizing the image.");
-    }
-
-    const transformationType = "resize";
+    const {
+      uploadedImageUrl, width, height, mode,
+    } = this;
+    let transformations = `resize=height:${height},width:${width}`;
+    if (mode) transformations += `,fit:${mode}`;
     const response = await this.filestack.transformImage({
-      imageSource: this.imageSource,
-      transformationType,
-      width: this.width,
-      height: this.height,
+      $,
+      uploadedImageUrl,
+      transformations,
     });
 
-    $.export("$summary", `Image resized successfully to ${this.width}x${this.height}`);
+    $.export(
+      "$summary",
+      `Image resized successfully to ${width}x${height}`,
+    );
     return response;
   },
 };

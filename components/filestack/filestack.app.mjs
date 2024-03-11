@@ -7,12 +7,14 @@ export default {
     fileOrUrl: {
       type: "string",
       label: "Image Path or URL",
-      description: "The path to an image file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). Alternatively, you can pass the direct URL to an image file.",
+      description:
+        "The path to an image file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). Alternatively, you can pass the direct URL to an image file.",
     },
-    imageSource: {
+    uploadedImageUrl: {
       type: "string",
-      label: "Image Source URL",
-      description: "The source URL of the image to be transformed.",
+      label: "Uploaded Image URL",
+      description:
+        "The URL of an image uploaded to FileStack (you can use the **Upload Image** action). Example: `https://cdn.filestackcontent.com/pdn7PhZdT02GoYZCVYeF`",
     },
     transformationType: {
       type: "string",
@@ -49,94 +51,60 @@ export default {
         },
       ],
     },
-    width: {
-      type: "integer",
-      label: "Width",
-      description: "The width to resize the image to, in pixels. Required for resize transformation.",
-      optional: true,
-    },
-    height: {
-      type: "integer",
-      label: "Height",
-      description: "The height to resize the image to, in pixels. Required for resize transformation.",
-      optional: true,
-    },
     rotationDegree: {
       type: "integer",
       label: "Rotation Degree",
-      description: "The degree to rotate the image. Required for rotate transformation.",
+      description:
+        "The degree to rotate the image. Required for rotate transformation.",
       optional: true,
     },
     blurAmount: {
       type: "integer",
       label: "Blur Amount",
-      description: "The amount to blur the image. Required for blur transformation.",
+      description:
+        "The amount to blur the image. Required for blur transformation.",
       optional: true,
     },
     sharpenAmount: {
       type: "integer",
       label: "Sharpen Amount",
-      description: "The amount to sharpen the image. Required for sharpen transformation.",
+      description:
+        "The amount to sharpen the image. Required for sharpen transformation.",
       optional: true,
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://www.filestackapi.com/api";
+    _getAuth() {
+      return this.$auth.api_key;
     },
     async _makeRequest({
-      $ = this,
-      params,
-      ...otherOpts
+      $ = this, ...otherOpts
     }) {
-      return axios($, {
-        ...otherOpts,
-        baseURL: this._baseUrl(),
-        params: {
-          ...params,
-          key: this.$auth.api_key,
-        },
-      });
+      return axios($, otherOpts);
     },
     async uploadImage(args) {
       return this._makeRequest({
-        url: "store/S3",
+        url: "https://www.filestackapi.com/api/store/S3",
         method: "POST",
+        params: {
+          key: this._getAuth(),
+        },
         ...args,
       });
     },
     async transformImage({
-      imageSource, transformationType, rotationDegree, width, height, blurAmount, sharpenAmount,
+      transformations, uploadedImageUrl, ...args
     }) {
-      let transformationPath = "";
-      switch (transformationType) {
-      case "resize":
-        transformationPath = `resize=width:${width},height:${height}`;
-        break;
-      case "rotate":
-        transformationPath = `rotate=deg:${rotationDegree}`;
-        break;
-      case "blur":
-        transformationPath = `blur=amount:${blurAmount}`;
-        break;
-      case "sharpen":
-        transformationPath = `sharpen=amount:${sharpenAmount}`;
-        break;
-      case "flip":
-        transformationPath = "flip";
-        break;
-      case "sepia":
-        transformationPath = "sepia";
-        break;
-      case "monochrome":
-        transformationPath = "monochrome";
-        break;
-      default:
-        throw new Error("Unsupported transformation type");
-      }
-
+      const handle = uploadedImageUrl.split("/").pop();
       return this._makeRequest({
-        path: `/file/${transformationPath}?key=${this.$auth.api_key}&url=${encodeURIComponent(imageSource)}`,
+        url: [
+          "https://cdn.filestackcontent.com",
+          this._getAuth(),
+          transformations,
+          handle,
+        ].join("/"),
+        responseType: "arraybuffer",
+        ...args,
       });
     },
   },
