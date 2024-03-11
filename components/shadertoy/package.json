@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/shadertoy",
+  "version": "0.0.1",
+  "description": "Pipedream Shadertoy Components",
+  "main": "shadertoy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shadertoy"
+  ],
+  "homepage": "https://pipedream.com/apps/shadertoy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

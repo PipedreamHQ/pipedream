@@ -416,7 +416,10 @@ importers:
     specifiers: {}
 
   components/anonyflow:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/anthropic:
     specifiers: {}
@@ -1504,7 +1507,10 @@ importers:
       lodash: 4.17.21
 
   components/content_snare:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/contentgroove:
     specifiers:
@@ -3430,7 +3436,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/howuku:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/hr_partner:
     specifiers: {}

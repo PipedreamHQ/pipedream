@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/docupost",
+  "version": "0.0.1",
+  "description": "Pipedream DocuPost Components",
+  "main": "docupost.app.mjs",
+  "keywords": [
+    "pipedream",
+    "docupost"
+  ],
+  "homepage": "https://pipedream.com/apps/docupost",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,13 +4,16 @@ export interface TwitterEntity {
 
 export type TwitterEntityMap = Record<string, object>;
 
-export interface DirectMessage extends TwitterEntity {
+export interface DirectMessage extends TwitterEntity, HasMediaAttachments, HasReferencedTweets {
   event_type: "MessageCreate";
   text: string;
+  sender_id?: string;
+  participant_ids?: string[];
 }
 
 export interface List extends TwitterEntity {
   name: string;
+  owner_id?: string;
 }
 
 interface MetricsFields {
@@ -20,10 +23,32 @@ interface MetricsFields {
   promoted_metrics?: string;
 }
 
-export interface Tweet extends TwitterEntity, MetricsFields {
-  text: string;
-  edit_history_tweet_ids: string[];
+interface HasReferencedTweets {
   referenced_tweets?: ReferencedTweet[];
+}
+interface HasMediaAttachments {
+  attachments?: {
+    media_keys?: string[];
+  };
+}
+
+export interface Tweet
+  extends TwitterEntity,
+    MetricsFields,
+    HasReferencedTweets {
+  text: string;
+  author_id?: string;
+  edit_history_tweet_ids?: string[];
+  in_reply_to_user_id?: string;
+  attachments?: HasMediaAttachments["attachments"] & {
+    poll_ids: string[];
+  };
+  geo?: {
+    place_id: string;
+  };
+  entities?: {
+    mentions?: User[];
+  };
   includes?: {
     tweets?: Tweet[];
   };
@@ -37,11 +62,18 @@ export interface ReferencedTweet {
 export interface User extends TwitterEntity {
   name: string;
   username: string;
+  pinned_tweet_id?: string;
 }
 
-interface ResponseIncludes {
+type Poll = TwitterEntity;
+type Place = TwitterEntity;
+
+export interface ResponseIncludes {
+  places?: Place[];
+  polls?: Poll[];
   users?: User[];
   tweets?: Tweet[];
+  media?: MediaItem[];
 }
 
 interface ResponseBase {
@@ -60,3 +92,7 @@ export type PaginatedResponseObject<T extends TwitterEntity> = ResponseBase & {
     result_count: number;
   };
 };
+
+interface MediaItem {
+  media_key: string;
+}

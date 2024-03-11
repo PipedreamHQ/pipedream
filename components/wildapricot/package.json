@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/wildapricot",
+  "version": "0.0.1",
+  "description": "Pipedream WildApricot Components",
+  "main": "wildapricot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wildapricot"
+  ],
+  "homepage": "https://pipedream.com/apps/wildapricot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
