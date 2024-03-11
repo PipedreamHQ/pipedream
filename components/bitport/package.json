@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bitport",
+  "version": "0.0.1",
+  "description": "Pipedream Bitport Components",
+  "main": "bitport.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bitport"
+  ],
+  "homepage": "https://pipedream.com/apps/bitport",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
