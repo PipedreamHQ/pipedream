@@ -99,7 +99,16 @@ export default {
     customerId: {
       type: "string",
       label: "Customer ID",
-      description: "The unique identifier for the customer",
+      description: "Select a customer to update, or provide a customer ID.",
+      async options() {
+        const customers = await this.listCustomers();
+        return customers?.map(({
+          name, id,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
     },
     personalInformation: {
       type: "object",
@@ -146,6 +155,11 @@ export default {
           ...headers,
           "Authorization": `Splynx-EA (access_token=${this.$auth.oauth_access_token})`,
         },
+      });
+    },
+    async listCustomers() {
+      return this._makeRequest({
+        url: "/customers/customer",
       });
     },
     async createCustomer(args) {
