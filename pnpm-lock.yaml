@@ -619,6 +619,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/azure_ai_vision:
+    specifiers: {}
+
   components/azure_devops:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1793,7 +1796,10 @@ importers:
     specifiers: {}
 
   components/desktime:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/detectify:
     specifiers: {}
@@ -2119,7 +2125,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dropmark:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/droxy:
     specifiers: {}
@@ -2487,7 +2496,10 @@ importers:
     specifiers: {}
 
   components/filestack:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/filter:
     specifiers:
@@ -2553,6 +2565,9 @@ importers:
       lodash: 4.17.21
 
   components/florm:
+    specifiers: {}
+
+  components/flowiseai:
     specifiers: {}
 
   components/fluent_support:
@@ -4562,6 +4577,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/microsoft_advertising:
+    specifiers: {}
+
   components/microsoft_entra_id:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5942,6 +5960,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/qntrl:
+    specifiers: {}
 
   components/qstash:
     specifiers: {}
