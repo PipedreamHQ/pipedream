@@ -3,27 +3,44 @@ import sendloop from "../../sendloop.app.mjs";
 export default {
   key: "sendloop-remove-subscriber",
   name: "Remove Subscriber",
-  description: "Removes an email address from a specified list.",
-  version: "0.0.{{ts}}",
+  description: "Unsubscribe an email address from your lists.",
+  version: "0.0.1",
   type: "action",
   props: {
     sendloop,
-    emailAddress: {
-      type: "string",
-      label: "Email Address",
-      description: "The email address of the subscriber.",
-      required: true,
-    },
     listId: {
+      propDefinition: [
+        sendloop,
+        "listId",
+      ],
+    },
+    subscriberEmail: {
+      propDefinition: [
+        sendloop,
+        "subscriberEmail",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
+    },
+    unsubscriptionIp: {
       type: "string",
-      label: "List ID",
-      description: "The ID of the list to which the subscriber will be added or removed from.",
-      required: true,
+      label: "Unsubscription IP",
+      description: "IP address of the unsubscription",
     },
   },
   async run({ $ }) {
-    const response = await this.sendloop.removeSubscriber(this.emailAddress, this.listId);
-    $.export("$summary", `Successfully removed subscriber ${this.emailAddress} from list ${this.listId}`);
+    const response = await this.sendloop.removeSubscriber({
+      $,
+      data: {
+        ListID: this.listId,
+        EmailAddress: this.subscriberEmail,
+        UnsubscriptionIP: this.unsubscriptionIp,
+      },
+    });
+    if (response.Success) {
+      $.export("$summary", `Successfully removed subscriber ${this.subscriberEmail}.`);
+    }
     return response;
   },
 };

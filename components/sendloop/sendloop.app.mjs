@@ -1,104 +1,164 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "sendloop",
   propDefinitions: {
-    emailAddress: {
-      type: "string",
-      label: "Email Address",
-      description: "The email address of the subscriber.",
-      required: true,
-    },
     listId: {
       type: "string",
       label: "List ID",
-      description: "The ID of the list to which the subscriber will be added or removed from.",
-      required: true,
+      description: "The ID of the list",
+      async options() {
+        const { Lists: lists } = await this.listLists();
+        return lists?.map(({
+          ListID: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    bounceStatus: {
+    campaignId: {
       type: "string",
-      label: "Bounce Status",
-      description: "The bounce status of the subscriber.",
-      optional: true,
+      label: "List ID",
+      description: "The ID of a campaign",
+      async options() {
+        const { Campaigns: campaigns } = await this.listCampaigns();
+        return campaigns?.map(({
+          CampaignID: value, CampaignName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    addedTime: {
+    subscriberEmail: {
       type: "string",
-      label: "Added Time",
-      description: "The time when the subscriber was added.",
-      optional: true,
-    },
-    emailSubject: {
-      type: "string",
-      label: "Email Subject",
-      description: "The subject of the email opened by the subscriber.",
-      optional: true,
-    },
-    openTime: {
-      type: "string",
-      label: "Open Time",
-      description: "The time when the email was opened by the subscriber.",
-      optional: true,
+      label: "Subscriber Email",
+      description: "The email address of a subscriber",
+      async options({
+        listId, page,
+      }) {
+        const { Subscribers: subscribers } = await this.listSubscribers({
+          data: {
+            ListID: listId,
+            Page: page,
+          },
+        });
+        return subscribers?.map(({ EmailAddress: email }) => email) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.sendloop.com";
+      return `https://${this.$auth.account}.sendloop.com/api/v3`;
     },
-    async _makeRequest(opts = {}) {
+    _authData(data) {
+      return {
+        ...data,
+        "APIKey": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
+        data,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_token}`,
-        },
-      });
-    },
-    async addSubscriber(emailAddress, listId) {
-      return this._makeRequest({
         method: "POST",
-        path: `/lists/${listId}/subscribers`,
-        data: {
-          emailAddress,
+        url: `${this._baseUrl()}/${path}`,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
         },
+        data: this._authData(data),
       });
     },
-    async removeSubscriber(emailAddress, listId) {
+    getSubscriber(opts = {}) {
       return this._makeRequest({
-        method: "DELETE",
-        path: `/lists/${listId}/subscribers/${emailAddress}`,
+        path: "/Subscriber.Get/json",
+        ...opts,
       });
     },
-    async getSubscriber(emailAddress, listId) {
+    listCampaigns({
+      data, ...opts
+    } = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: `/lists/${listId}/subscribers/${emailAddress}`,
+        path: "/Campaign.GetList/json",
+        data: {
+          ...data,
+          IgnoreDrafts: 0,
+          IgnoreSending: 0,
+          IgnorePaused: 0,
+          IgnoreSent: 0,
+          IgnoreFaied: 0,
+          IgnoreApproval: 0,
+        },
+        ...opts,
       });
     },
-    async getSubscribers(listId) {
+    listLists(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: `/lists/${listId}/subscribers`,
+        path: "/List.GetList/json",
+        ...opts,
       });
     },
-    async getSubscriberEvents(emailAddress, listId) {
+    listSubscribers(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: `/lists/${listId}/subscribers/${emailAddress}/events`,
+        path: "/Subscriber.Browse/json",
+        ...opts,
       });
     },
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    listEmailOpens(opts = {}) {
+      return this._makeRequest({
+        path: "/Data.Campaign.EmailOpens/json",
+        ...opts,
+      });
+    },
+    listBounces(opts = {}) {
+      return this._makeRequest({
+        path: "/Data.Campaign.Bounces/json",
+        ...opts,
+      });
+    },
+    addSubscriber(opts = {}) {
+      return this._makeRequest({
+        path: "/Subscriber.Subscribe/json",
+        ...opts,
+      });
+    },
+    removeSubscriber(opts = {}) {
+      return this._makeRequest({
+        path: "/Subscriber.Unsubscribe/json",
+        ...opts,
+      });
+    },
+    async *paginate({
+      resourceFn,
+      resourceType,
+      data,
+    }) {
+      data = {
+        ...data,
+        Limit: constants.DEFAULT_LIMIT,
+        Page: 1,
+      };
+      let total = 0;
+      do {
+        const response = await resourceFn({
+          data,
+        });
+        if (!response.Success) return;
+        const items = response[resourceType];
+        for (const item of items) {
+          yield item;
+        }
+        total = items?.length;
+        data.Page++;
+      } while (total === data.Page);
     },
   },
 };
