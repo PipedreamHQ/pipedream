@@ -1,34 +1,48 @@
 import flowiseai from "../../flowiseai.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "flowiseai-make-prediction",
   name: "Make Prediction",
-  description: "Calculates an output based on your created flow in Flowise. [See the documentation](https://docs.flowiseai.com/configuration)",
-  version: "0.0.{{ts}}",
+  description: "Calculates an output based on your created flow in Flowise. [See the documentation](https://docs.flowiseai.com/using-flowise/api#prediction-api)",
+  version: "0.0.1",
   type: "action",
   props: {
     flowiseai,
-    flow: {
+    flowId: {
       propDefinition: [
         flowiseai,
-        "flow",
+        "flowId",
       ],
     },
-    variables: {
+    question: {
       propDefinition: [
         flowiseai,
-        "variables",
+        "question",
+      ],
+    },
+    history: {
+      propDefinition: [
+        flowiseai,
+        "history",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.flowiseai.calculateOutput({
-      flowId: this.flow,
-      variables: this.variables,
+    const history = typeof this.history === "string"
+      ? JSON.parse(this.history)
+      : this.history;
+
+    const response = await this.flowiseai.makePrediction({
+      $,
+      flowId: this.flowId,
+      data: {
+        question: this.question,
+        history,
+      },
     });
 
-    $.export("$summary", `Output calculated for flow ID ${this.flow}`);
+    $.export("$summary", `Prediction calculated for flow ID ${this.flow}`);
+
     return response;
   },
 };
