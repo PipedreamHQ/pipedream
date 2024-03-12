@@ -1,4 +1,3 @@
-import splynx from "../../splynx.app.mjs";
 import common from "../common/common-create-update.mjs";
 
 export default {
@@ -9,10 +8,6 @@ export default {
     "Creates a new customer with the provided details. [See the documentation](https://splynx.docs.apiary.io/#reference/customers/customers-collection/create-a-customer)",
   version: "0.0.1",
   type: "action",
-  props: {
-    splynx,
-    ...common.props,
-  },
   async run({ $ }) {
     const response = await this.splynx.createCustomer({
       $,

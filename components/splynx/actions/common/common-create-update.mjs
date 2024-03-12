@@ -1,5 +1,8 @@
+import splynx from "../../splynx.app.mjs";
+
 export default {
   props: {
+    splynx,
     name: {
       type: "string",
       label: "Name",

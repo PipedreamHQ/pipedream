@@ -1,5 +1,8 @@
-import splynx from "../../splynx.app.mjs";
 import common from "../common/common-create-update.mjs";
+
+const {
+  splynx, ...props
+} = common.props;
 
 export default {
   ...common,
@@ -18,7 +21,7 @@ export default {
       ],
     },
     ...Object.fromEntries(
-      Object.entries(common.props).map(([
+      Object.entries(props).map(([
         key,
         value,
       ]) => [
