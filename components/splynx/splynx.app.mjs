@@ -45,55 +45,41 @@ export default {
     _baseUrl() {
       return "https://api.splynx.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      const authMethod = this.$auth.api_key
-        ? `Bearer ${this.$auth.api_key}`
-        : `Bearer ${this.$auth.oauth_access_token}`;
+    async _makeRequest({
+      $ = this, headers, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          "Authorization": authMethod,
+          "Authorization": `Splynx-EA (access_token=${this.$auth.oauth_access_token})`,
         },
       });
     },
-    async createCustomer({
-      personalInformation, contactDetails,
-    }) {
+    async createCustomer(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/customers",
-        data: {
-          personalInformation,
-          contactDetails,
-        },
+        url: "/customers",
+        ...args,
       });
     },
     async createInternetService({
-      customerId, serviceDetails, specialConditions,
+      customerId, ...args
     }) {
-      const data = {
-        ...serviceDetails,
-        specialConditions,
-      };
       return this._makeRequest({
         method: "POST",
-        path: `/customers/${customerId}/services/internet`,
-        data,
+        url: `/customers/${customerId}/services/internet`,
+        ...args,
       });
     },
     async updateCustomer({
-      customerId, updatedFields,
+      customerId, ...args
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/customers/${customerId}`,
-        data: updatedFields,
+        url: `/customers/${customerId}`,
+        ...args,
       });
     },
   },
