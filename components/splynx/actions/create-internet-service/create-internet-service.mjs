@@ -70,7 +70,7 @@ export default {
         },
         {
           label: "Dynamic IP (from IP Pools)",
-          valie: 2,
+          value: 2,
         },
       ],
     },
