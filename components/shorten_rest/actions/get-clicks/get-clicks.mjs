@@ -1,26 +1,29 @@
-import shortenRest from "../../shorten_rest.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../shorten_rest.app.mjs";
 
 export default {
   key: "shorten_rest-get-clicks",
-  name: "Get Click Data for a URL",
-  description: "Gets the click data for a specific URL. [See the documentation](https://docs.shorten.rest/)",
-  version: "0.0.{{ts}}",
+  name: "Get Clicks",
+  description: "Gets the click data. [See the documentation](https://docs.shorten.rest/#tag/Click/operation/GetClicks)",
+  version: "0.0.1",
   type: "action",
   props: {
-    shortenRest,
-    url: {
-      propDefinition: [
-        shortenRest,
-        "url",
-      ],
+    app,
+  },
+  methods: {
+    getClicks(args = {}) {
+      return this.app._makeRequest({
+        path: "/clicks",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const response = await this.shortenRest.getClickData({
-      url: this.url,
+    const { getClicks } = this;
+
+    const response = await getClicks({
+      $,
     });
-    $.export("$summary", `Retrieved click data for URL: ${this.url}`);
+    $.export("$summary", `Successfully retrieved \`${response.clicks.length}\` click(s).`);
     return response;
   },
 };

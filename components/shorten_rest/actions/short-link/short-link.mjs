@@ -1,45 +1,60 @@
-import shortenRest from "../../shorten_rest.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../shorten_rest.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "shorten_rest-short-link",
   name: "Shorten Link",
-  description: "Shortens a given long URL into an alias. If the alias name is not provided, the system generates one. If the domain input is not provided, it defaults to short.fyi. [See the documentation](https://docs.shorten.rest/)",
-  version: "0.0.{{ts}}",
+  description: "Shortens a given long URL into an alias. If the alias name is not provided, the system generates one. If the domain input is not provided, it defaults to short.fyi. [See the documentation](https://docs.shorten.rest/#tag/Alias/operation/CreateAlias)",
+  version: "0.0.1",
   type: "action",
   props: {
-    shortenRest,
-    longUrl: {
-      propDefinition: [
-        shortenRest,
-        "longUrl",
-      ],
+    app,
+    domainName: {
+      type: "string",
+      label: "Domain Name",
+      description: "The domain which alias will belong to (string without `http/https` or `/`). Eg. `your.domain.com`. Defaults to `short.fyi`",
+      optional: true,
     },
     aliasName: {
-      propDefinition: [
-        shortenRest,
-        "aliasName",
-      ],
+      type: "string",
+      label: "Alias Name",
+      description: "Alias (without `/` at the beginning). Eg. `aBcDe012`. Defaults to `@rnd`",
       optional: true,
     },
-    domainName: {
-      propDefinition: [
-        shortenRest,
-        "domainName",
-      ],
-      optional: true,
+    destinations: {
+      type: "string[]",
+      label: "Destinations",
+      description: "Array of objects (**DestinationModel**). Where each row should be a JSON object like this: `{\"url\": \"mydomain.com\"}`. Please read [the docs here](https://docs.shorten.rest/#section/Introduction)",
+    },
+  },
+  methods: {
+    createAlias(args = {}) {
+      return this.app.post({
+        path: "/aliases",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const aliasName = this.aliasName || "@rnd";
-    const domainName = this.domainName || "short.fyi";
-    const response = await this.shortenRest.createAlias({
-      longUrl: this.longUrl,
-      aliasName,
+    const {
+      createAlias,
       domainName,
+      aliasName,
+      destinations,
+    } = this;
+
+    const response = await createAlias({
+      $,
+      params: {
+        aliasName,
+        domainName,
+      },
+      data: {
+        destinations: utils.parseArray(destinations),
+      },
     });
 
-    $.export("$summary", `Shortened URL ${this.longUrl} to ${response.aliasName} under domain ${domainName}`);
+    $.export("$summary", `Successfully shortened the link to \`${response.shortUrl}\``);
     return response;
   },
 };
