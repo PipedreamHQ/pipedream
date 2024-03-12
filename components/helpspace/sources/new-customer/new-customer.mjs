@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "helpspace-new-customer",
   name: "New Customer (Instant)",
-  description: "Emit new event when a new customer signs up on Helpspace. [See the documentation](https://documentation.helpspace.com/article/340/webhook)",
+  description: "Emit new event when a new customer signs up on Helpspace. Note: Users may only have one active Helpspace webhook at a time. [See the documentation](https://documentation.helpspace.com/article/340/webhook)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
