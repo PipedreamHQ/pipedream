@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "nocodb-list-records-matching-criteria",
   name: "List Records in Table Matching Criteria",
-  description: "This action lists all rows in a table. [See the docs here](https://all-apis.nocodb.com/#tag/DB-table-row/operation/db-table-row-list)",
-  version: "0.0.3",
+  description: "This action lists all rows in a table. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-list)",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
@@ -14,7 +14,7 @@ export default {
         common.props.nocodb,
         "fields",
         (c) => ({
-          tableId: c.tableName.value,
+          tableId: c.tableId.value,
         }),
       ],
       optional: true,
@@ -24,7 +24,7 @@ export default {
         common.props.nocodb,
         "sort",
         (c) => ({
-          tableId: c.tableName.value,
+          tableId: c.tableId.value,
         }),
       ],
       optional: true,
@@ -45,31 +45,20 @@ export default {
     },
   },
   methods: {
-    async processEvent() {
-      const {
-        projectId,
-        tableName,
-        fields,
-        sort,
-        where,
-        limit,
-      } = this;
-
-      const params = {
-        projectId,
-        tableName: tableName.value,
-        query: {
-          fields,
-          sort,
-          where,
-          limit,
-        },
-      };
-
+    async processEvent($) {
       const rows = [];
       const paginator = this.nocodb.paginate({
         fn: this.nocodb.listTableRow,
-        params,
+        args: {
+          tableId: this.tableId.value,
+          params: {
+            fields: this.fields,
+            sort: this.sort,
+            where: this.where,
+          },
+        },
+        max: this.limit,
+        $,
       });
       for await (const row of paginator) {
         rows.push(row);
@@ -81,7 +70,7 @@ export default {
         ? ""
         : "s";
 
-      return `Returned ${response.length} row${suffix} from ${this.tableName.label} table`;
+      return `Returned ${response.length} row${suffix} from ${this.tableId.label} table`;
     },
   },
 };
