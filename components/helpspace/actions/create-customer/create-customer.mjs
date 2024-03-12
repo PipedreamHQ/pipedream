@@ -59,6 +59,7 @@ export default {
   },
   async run({ $ }) {
     const { data } = await this.helpspace.createCustomer({
+      $,
       data: {
         name: this.name,
         email: this.email,

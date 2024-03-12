@@ -68,6 +68,7 @@ export default {
   },
   async run({ $ }) {
     const { data } = await this.helpspace.updateCustomer({
+      $,
       customerId: this.customerId,
       data: utils.cleanObject({
         name: this.name,
