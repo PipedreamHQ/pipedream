@@ -159,6 +159,15 @@ export default {
         ...opts,
       });
     },
+    removeContactFromList({
+      listId, ...otps
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/lists/${listId}/remove_contacts`,
+        ...otps,
+      });
+    },
     upsertContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
