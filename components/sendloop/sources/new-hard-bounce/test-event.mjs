@@ -1,4 +1,4 @@
-export default export default {
+export default {
   "SubscriberID": "1",
   "EmailAddress": "test@example.com",
   "BounceType": "Hard",
