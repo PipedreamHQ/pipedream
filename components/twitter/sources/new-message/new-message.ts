@@ -4,6 +4,9 @@ import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
 import { getMessageFields } from "../../common/methods";
 import { GetDirectMessagesParams } from "../../common/types/requestParams";
 import { DirectMessage } from "../../common/types/responseSchemas";
+import {
+  getDirectMessageIncludeIds, getObjIncludes,
+} from "../../common/addObjIncludes";
 
 const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/direct-messages/lookup/api-reference/get-dm_events";
 const MAX_RESULTS_PER_PAGE = 100;
@@ -13,7 +16,7 @@ export default defineSource({
   key: "twitter-new-message",
   name: "New Message Received",
   description: `Emit new event when a new Direct Message (DM) is received [See the documentation](${DOCS_LINK})`,
-  version: "1.0.5",
+  version: "1.1.0",
   type: "source",
   methods: {
     ...common.methods,
@@ -33,7 +36,10 @@ export default defineSource({
         },
       };
 
-      const { data } = await this.app.getDirectMessages(params);
+      const {
+        data, includes,
+      } = await this.app.getDirectMessages(params);
+      data.forEach((msg) => msg.includes = getObjIncludes(msg, includes, getDirectMessageIncludeIds));
       return data;
     },
   },

@@ -8,13 +8,16 @@ import {
 } from "../../actions/list-mentions/list-mentions";
 import { Tweet } from "../../common/types/responseSchemas";
 import cacheUserId from "../common/cacheUserId";
+import {
+  getObjIncludes, getTweetIncludeIds,
+} from "../../common/addObjIncludes";
 
 export default defineSource({
   ...common,
   key: "twitter-new-mention-received-by-user",
   name: "New Mention Received by User",
   description: `Emit new event when the specified User is mentioned in a Tweet [See the documentation](${DOCS_LINK})`,
-  version: "0.0.5",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
@@ -43,7 +46,10 @@ export default defineSource({
         userId,
       };
 
-      const { data } = await this.app.getUserMentions(params);
+      const {
+        data, includes,
+      } = await this.app.getUserMentions(params);
+      data.forEach((tweet) => tweet.includes = getObjIncludes(tweet, includes, getTweetIncludeIds));
       return data;
     },
   },

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/postgresql_test",
+  "version": "0.0.1",
+  "description": "Pipedream PostgreSQL - TEST Components",
+  "main": "postgresql_test.app.mjs",
+  "keywords": [
+    "pipedream",
+    "postgresql_test"
+  ],
+  "homepage": "https://pipedream.com/apps/postgresql_test",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
