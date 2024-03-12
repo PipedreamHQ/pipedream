@@ -3,7 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "splynx",
-  version: "0.0.1",
   propDefinitions: {
     customerId: {
       type: "integer",
@@ -22,7 +21,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://${this.splynx.$auth.subdomain}.splynx.app/api/2.0/admin`;
+      return `https://${this.$auth.subdomain}.splynx.app/api/2.0/admin`;
     },
     async _makeRequest({
       $ = this, headers, ...otherOpts
