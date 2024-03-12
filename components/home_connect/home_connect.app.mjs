@@ -8,6 +8,16 @@ export default {
       type: "string",
       label: "Home Appliance ID",
       description: "The unique identifier of the home appliance.",
+      async options() {
+        const { data: { homeappliances: resources } } = await this.getAppliances();
+
+        return resources.map(({
+          haId, name,
+        }) => ({
+          value: haId,
+          label: name,
+        }));
+      },
     },
   },
   methods: {
