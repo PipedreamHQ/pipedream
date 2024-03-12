@@ -6,7 +6,7 @@ export default {
   version: "0.0.1",
   propDefinitions: {
     customerId: {
-      type: "string",
+      type: "integer",
       label: "Customer ID",
       description: "Select a customer to update, or provide a customer ID.",
       async options() {
@@ -18,36 +18,6 @@ export default {
           value: id,
         }));
       },
-    },
-    personalInformation: {
-      type: "object",
-      label: "Personal Information",
-      description: "Personal information of the customer, including unique identification details",
-      optional: false,
-    },
-    contactDetails: {
-      type: "object",
-      label: "Contact Details",
-      description: "Contact details of the customer",
-      optional: false,
-    },
-    serviceDetails: {
-      type: "object",
-      label: "Service Details",
-      description: "Details of the internet service including speed, plan period, and pricing",
-      optional: false,
-    },
-    specialConditions: {
-      type: "string[]",
-      label: "Special Conditions",
-      description: "Any special conditions or offers attached to the service",
-      optional: true,
-    },
-    updatedFields: {
-      type: "object",
-      label: "Updated Fields",
-      description: "Fields to update for an existing customer",
-      optional: false,
     },
   },
   methods: {
@@ -83,7 +53,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        url: `/customers/${customerId}/services/internet`,
+        url: `/customers/customer/${customerId}/internet-services`,
         ...args,
       });
     },
