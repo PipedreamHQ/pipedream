@@ -39,7 +39,7 @@ jobs:
       - name: Set up Snyk CLI to check for security issues
         # Snyk can be used to break the build when it detects security issues.
         # In this case we want to upload the SAST issues to GitHub Code Scanning
-        uses: snyk/actions/setup@1d672a455ab3339ef0a0021e1ec809165ee12fad
+        uses: snyk/actions/setup@8349f9043a8b7f0f3ee8885bf28f0b388d2446e8
 
         # For Snyk Open Source you must first set up the development environment for your application's dependencies
         # For example for Node
