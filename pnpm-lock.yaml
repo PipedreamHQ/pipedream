@@ -95,6 +95,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/abstract:
+    specifiers: {}
+
   components/abuselpdb:
     specifiers: {}
 
@@ -1677,6 +1680,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/damstra_forms:
+    specifiers: {}
+
   components/danny_test_app:
     specifiers: {}
 
@@ -2241,6 +2247,9 @@ importers:
   components/elopage:
     specifiers: {}
 
+  components/email_verifier_api:
+    specifiers: {}
+
   components/emailable:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2509,6 +2518,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/finage:
+    specifiers: {}
 
   components/findymail:
     specifiers:
@@ -3469,6 +3481,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/hr_partner:
+    specifiers: {}
+
+  components/html_2_pdf:
     specifiers: {}
 
   components/html_css_to_image:
@@ -4956,6 +4971,9 @@ importers:
   components/nextdns:
     specifiers: {}
 
+  components/nexudus:
+    specifiers: {}
+
   components/nexweave:
     specifiers:
       '@pipedream/platform': 1.5.1
@@ -5910,6 +5928,9 @@ importers:
   components/propeller:
     specifiers: {}
 
+  components/proprofs_quiz_maker:
+    specifiers: {}
+
   components/proworkflow:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -6823,6 +6844,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/shift4:
+    specifiers: {}
 
   components/shipcloud:
     specifiers:
@@ -8688,6 +8712,9 @@ importers:
       qs: 6.11.2
 
   components/xata:
+    specifiers: {}
+
+  components/xeggex:
     specifiers: {}
 
   components/xendit:
