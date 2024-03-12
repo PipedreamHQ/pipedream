@@ -4,7 +4,7 @@ export default {
   key: "reachmail-opt-out-recipient-from-list",
   name: "Opt Out Recipient From List",
   description: "The action will remove the recipient from the specified list. [See the documentation](https://services.reachmail.net/)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     reachmail,
@@ -27,7 +27,7 @@ export default {
       $,
       listId: this.listId,
       data: {
-        recipient: this.recipient,
+        Email: this.recipient,
       },
     });
     $.export("$summary", `Successfully opted out ${this.recipient} from list ${this.listId}`);
