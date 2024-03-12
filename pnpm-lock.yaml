@@ -95,6 +95,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/abstract:
+    specifiers: {}
+
   components/abuselpdb:
     specifiers: {}
 
@@ -483,6 +486,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/arcgis_online:
+    specifiers: {}
 
   components/arxiv:
     specifiers: {}
@@ -1674,6 +1680,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/damstra_forms:
+    specifiers: {}
+
   components/danny_test_app:
     specifiers: {}
 
@@ -2238,6 +2247,9 @@ importers:
   components/elopage:
     specifiers: {}
 
+  components/email_verifier_api:
+    specifiers: {}
+
   components/emailable:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2507,6 +2519,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/finage:
+    specifiers: {}
+
   components/findymail:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -2694,7 +2709,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/freshmarketer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/freshsales:
     specifiers: {}
@@ -3317,6 +3335,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/harmonic:
+    specifiers: {}
+
   components/harvest:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -3463,6 +3484,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/hr_partner:
+    specifiers: {}
+
+  components/html_2_pdf:
     specifiers: {}
 
   components/html_css_to_image:
@@ -4040,6 +4064,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/lattice:
+    specifiers: {}
 
   components/leadboxer:
     specifiers: {}
@@ -4947,6 +4974,9 @@ importers:
   components/nextdns:
     specifiers: {}
 
+  components/nexudus:
+    specifiers: {}
+
   components/nexweave:
     specifiers:
       '@pipedream/platform': 1.5.1
@@ -5809,6 +5839,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/prismic:
+    specifiers: {}
+
   components/proabono:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -5896,6 +5929,9 @@ importers:
     specifiers: {}
 
   components/propeller:
+    specifiers: {}
+
+  components/proprofs_quiz_maker:
     specifiers: {}
 
   components/proworkflow:
@@ -6808,6 +6844,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/shift4:
+    specifiers: {}
 
   components/shipcloud:
     specifiers:
@@ -8673,6 +8712,9 @@ importers:
       qs: 6.11.2
 
   components/xata:
+    specifiers: {}
+
+  components/xeggex:
     specifiers: {}
 
   components/xendit:
