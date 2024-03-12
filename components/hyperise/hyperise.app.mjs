@@ -4,67 +4,66 @@ export default {
   type: "app",
   app: "hyperise",
   propDefinitions: {
-    originalUrl: {
+    imageTemplateHash: {
       type: "string",
-      label: "Original URL",
-      description: "The original URL to create a personalised short URL for",
-    },
-    personalisationTags: {
-      type: "string[]",
-      label: "Personalisation Tags",
-      description: "The personalisation tags to use for creating the personalised short URL",
-    },
-    customShortUrl: {
-      type: "string",
-      label: "Custom Short URL",
-      description: "An optional custom short URL to use",
-      optional: true,
+      label: "Image Template Hash",
+      description: "The image hash of the template to use",
+      async options() {
+        const templates = await this.listTemplates();
+        return templates?.map(({
+          image_hash: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.hyperise.io/v1";
+      return "https://app.hyperise.io/api/v1/regular";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
+    _authParams(params) {
+      return {
+        ...params,
+        api_token: `${this.$auth.api_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this,
+      path,
+      params,
+      data,
+      ...otherOpts
+    }) {
+      const config = {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_token}`,
-        },
-      });
+        url: `${this._baseUrl()}${path}`,
+      };
+      if (data) {
+        config.data = this._authParams(data);
+      } else {
+        config.params = this._authParams(params);
+      }
+      return axios($, config);
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    async getImageViews() {
+    listTemplates(opts = {}) {
       return this._makeRequest({
-        path: "/image_views",
+        path: "/image-templates",
+        ...opts,
       });
     },
-    async createPersonalisedShortUrl(originalUrl, personalisationTags, customShortUrl) {
+    getImageViews(opts = {}) {
+      return this._makeRequest({
+        path: "/image-impressions",
+        ...opts,
+      });
+    },
+    createPersonalisedShortUrl(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/short_links",
-        data: {
-          original_url: originalUrl,
-          personalisation_tags: personalisationTags,
-          custom_short_url: customShortUrl,
-        },
-      });
-    },
-    async emitImageViewEvent() {
-      return this.$emit({
-        event: "New Image Viewed",
+        path: "/short-links",
+        ...opts,
       });
     },
   },

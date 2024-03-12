@@ -1,10 +1,12 @@
 import hyperise from "../../hyperise.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "hyperise-new-image-impression",
   name: "New Image Impression",
-  description: "Emit new event when a new personalized image is viewed",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new personalised image is viewed. [See the documentation](https://support.hyperise.com/en/api/Image-Views-API)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -13,41 +15,60 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-  },
-  hooks: {
-    async deploy() {
-      const data = await this.hyperise.getImageViews();
-      if (Array.isArray(data) && data.length > 0) {
-        this.db.set("lastImageId", data[0].id);
-      }
+    imageTemplateHash: {
+      propDefinition: [
+        hyperise,
+        "imageTemplateHash",
+      ],
     },
   },
   methods: {
+    _getLastDate() {
+      return this.db.get("lastDate") || this.oneDayAgo();
+    },
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
+    },
+    oneDayAgo() {
+      return new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+        .slice(0, 19) + "Z";
+    },
+    emitEvent(data) {
+      const meta = this.generateMeta(data);
+      this.$emit(data, meta);
+    },
     generateMeta(data) {
-      const ts = Date.parse(data.created_at);
       return {
         id: data.id,
-        summary: `New Image Viewed: ${data.id}`,
-        ts,
+        summary: `New View of Image: ${data.image_name}`,
+        ts: Date.parse(data.processed_at),
       };
     },
   },
   async run() {
-    const lastImageId = this.db.get("lastImageId");
-    const data = await this.hyperise.getImageViews();
-
-    if (Array.isArray(data)) {
-      for (const image of data) {
-        if (lastImageId && image.id <= lastImageId) {
-          break;
+    const lastDate = this._getLastDate();
+    let maxDate = lastDate;
+    const impressions = [];
+    const results = await this.hyperise.getImageViews({
+      params: {
+        image_hash: this.imageTemplateHash,
+        date_from: lastDate,
+      },
+    });
+    for (const impression of results) {
+      const ts = Date.parse(impression.processed_at);
+      if (ts > Date.parse(lastDate)) {
+        impressions.push(impression);
+        if (ts > Date.parse(maxDate)) {
+          maxDate = impression.processed_at;
         }
-        const meta = this.generateMeta(image);
-        this.$emit(image, meta);
       }
-      this.db.set("lastImageId", data[0].id);
     }
+    impressions.reverse().forEach((impression) => this.emitEvent(impression));
+    this._setLastDate(maxDate);
   },
+  sampleEmit,
 };
