@@ -3,8 +3,8 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "sendloop-new-email-open",
-  name: "New Email Open",
+  key: "sendloop-new-email-opened",
+  name: "New Email Opened",
   description: "Emit new event when a subscriber opens an email.",
   version: "0.0.1",
   type: "source",
