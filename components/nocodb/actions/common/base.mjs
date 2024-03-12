@@ -4,16 +4,25 @@ export default {
   type: "action",
   props: {
     nocodb,
+    workspaceId: {
+      propDefinition: [
+        nocodb,
+        "workspaceId",
+      ],
+    },
     projectId: {
       propDefinition: [
         nocodb,
         "projectId",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
     },
-    tableName: {
+    tableId: {
       propDefinition: [
         nocodb,
-        "tableName",
+        "tableId",
         (c) => ({
           projectId: c.projectId,
         }),
@@ -21,7 +30,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.processEvent();
+    const response = await this.processEvent($);
     $.export("$summary", this.getSummary(response));
     return response;
   },

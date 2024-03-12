@@ -1,4 +1,5 @@
-import { Api } from "nocodb-sdk";
+import { axios } from "@pipedream/platform";
+const DEFAULT_LIMIT = 50;
 
 export default {
   type: "app",
@@ -6,20 +7,22 @@ export default {
   propDefinitions: {
     projectId: {
       type: "string",
-      label: "Project Id",
-      description: "The id of the project",
-      async options() {
-        const { list } = await this.listProjects();
+      label: "Project ID",
+      description: "The ID of the project",
+      async options({ workspaceId }) {
+        const { list } = await this.listProjects({
+          workspaceId,
+        });
         return list.map((project) => ({
           label: project.title,
           value: project.id,
         }));
       },
     },
-    tableName: {
+    tableId: {
       type: "string",
-      label: "Table Name",
-      description: "The name of the table",
+      label: "Table ID",
+      description: "The ID of the table",
       withLabel: true,
       async options({ projectId }) {
         const { list } = await this.listTables({
@@ -31,10 +34,40 @@ export default {
         }));
       },
     },
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "The ID of a workspace",
+      async options() {
+        const { list } = await this.listWorkspaces();
+        return list.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     rowId: {
       type: "string",
       label: "Row Id",
       description: "Id of the row",
+      async options({
+        tableId, page,
+      }) {
+        const { list } = await this.listTableRow({
+          tableId,
+          params: {
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
+        const rows = Array.isArray(list)
+          ? list
+          : [
+            list,
+          ];
+        return rows?.map(({ Id }) => `${Id}` ) || [];
+      },
     },
     data: {
       type: "any",
@@ -69,52 +102,73 @@ export default {
     },
   },
   methods: {
-    sdk() {
-      return new Api({
-        baseURL: `https://${this.$auth.domain}`,
+    _makeRequest({
+      $ = this,
+      path,
+      apiVersion = "v2",
+      ...opts
+    }) {
+      return axios($, {
+        url: `https://${this.$auth.domain}/api/${apiVersion}${path}`,
         headers: {
           "xc-token": this.$auth.api_key,
         },
+        ...opts,
       });
     },
     async *paginate({
-      fn, params = {}, offset = 0,
+      fn, args = {}, max,
     }) {
-      let lastPage = false;
-      const { query } = params;
-      const limit = query.limit || null;
-      let count = 0;
-
+      let lastPage, count = 0;
+      args.params = {
+        ...args.params,
+        page: 1,
+      };
       do {
-        params.query.offset = offset;
         const {
-          list,
-          pageInfo: {
-            pageSize,
-            page,
-            isLastPage,
-          },
-        } = await fn(params);
-        for (const d of list) {
-          yield d;
-
-          if (limit && ++count === limit) {
-            return count;
+          list, pageInfo,
+        } = await fn(args);
+        for (const item of list) {
+          yield item;
+          if (max && ++count === max) {
+            return;
           }
         }
-
-        offset = pageSize * page;
-        lastPage = !isLastPage;
+        args.params.page++;
+        lastPage = !pageInfo.isLastPage;
       } while (lastPage);
     },
-    async listProjects() {
-      return this.sdk().project.list();
+    listWorkspaces(opts = {}) {
+      return this._makeRequest({
+        path: "/workspaces",
+        apiVersion: "v1",
+        ...opts,
+      });
     },
-    async listTables({ projectId }) {
-      return this.sdk().dbTable.list(projectId);
+    listProjects({
+      workspaceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/bases`,
+        apiVersion: "v1",
+        ...opts,
+      });
     },
-    async readTable({ tableId }) {
-      return this.sdk().dbTable.read(tableId);
+    listTables({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/meta/bases/${projectId}/tables`,
+        ...opts,
+      });
+    },
+    readTable({
+      tableId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/meta/tables/${tableId}`,
+        ...opts,
+      });
     },
     async listTableFields(tableId) {
       const { columns } = await this.readTable({
@@ -134,41 +188,48 @@ export default {
         ]);
       }, []);
     },
-    async createTableRow({
-      projectId,
-      tableName,
-      data,
+    createTableRow({
+      tableId, ...opts
     }) {
-      return this.sdk().dbTableRow.create("v1", projectId, tableName, data);
+      return this._makeRequest({
+        method: "POST",
+        path: `/tables/${tableId}/records`,
+        ...opts,
+      });
     },
-    async updateTableRow({
-      projectId,
-      tableName,
-      rowId,
-      data,
+    updateTableRow({
+      tableId, ...opts
     }) {
-      return this.sdk().dbTableRow.update("v1", projectId, tableName, rowId, data);
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/tables/${tableId}/records`,
+        ...opts,
+      });
     },
-    async deleteTableRow({
-      projectId,
-      tableName,
-      rowId,
+    deleteTableRow({
+      tableId, ...opts
     }) {
-      return this.sdk().dbTableRow.delete("v1", projectId, tableName, rowId);
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/tables/${tableId}/records`,
+        ...opts,
+      });
     },
-    async getTableRow({
-      projectId,
-      tableName,
-      rowId,
+    getTableRow({
+      tableId, rowId, ...opts
     }) {
-      return this.sdk().dbTableRow.read("v1", projectId, tableName, rowId);
+      return this._makeRequest({
+        path: `/tables/${tableId}/records/${rowId}`,
+        ...opts,
+      });
     },
-    async listTableRow({
-      projectId,
-      tableName,
-      query,
+    listTableRow({
+      tableId, ...opts
     }) {
-      return this.sdk().dbTableRow.list("v1", projectId, tableName, query);
+      return this._makeRequest({
+        path: `/tables/${tableId}/records`,
+        ...opts,
+      });
     },
   },
 };
