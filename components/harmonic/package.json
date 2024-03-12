@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/harmonic",
+  "version": "0.0.1",
+  "description": "Pipedream Harmonic Components",
+  "main": "harmonic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "harmonic"
+  ],
+  "homepage": "https://pipedream.com/apps/harmonic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

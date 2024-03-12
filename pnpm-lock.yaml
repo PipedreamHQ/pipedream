@@ -1796,7 +1796,10 @@ importers:
     specifiers: {}
 
   components/desktime:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/detectify:
     specifiers: {}
@@ -2122,7 +2125,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dropmark:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/droxy:
     specifiers: {}
@@ -2490,7 +2496,10 @@ importers:
     specifiers: {}
 
   components/filestack:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/filter:
     specifiers:
@@ -7203,10 +7212,7 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/splynx:
-    specifiers:
-      '@pipedream/platform': ^1.6.0
-    dependencies:
-      '@pipedream/platform': 1.6.0
+    specifiers: {}
 
   components/spoke_phone:
     specifiers: {}
