@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "nocodb-delete-record",
   name: "Delete Record",
-  description: "This action deletes a row in a table. [See the docs here](https://all-apis.nocodb.com/#tag/DB-table-row/operation/db-table-row-delete)",
-  version: "0.0.2",
+  description: "This action deletes a row in a table. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-delete)",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -13,24 +13,24 @@ export default {
       propDefinition: [
         common.props.nocodb,
         "rowId",
+        (c) => ({
+          tableId: c.tableId.value,
+        }),
       ],
     },
   },
   methods: {
-    async processEvent() {
-      const {
-        projectId,
-        tableName,
-        rowId,
-      } = this;
+    async processEvent($) {
       return this.nocodb.deleteTableRow({
-        projectId,
-        tableName: tableName.value,
-        rowId,
+        tableId: this.tableId.value,
+        data: {
+          Id: this.rowId,
+        },
+        $,
       });
     },
     getSummary() {
-      return `Record Successfully deleted in ${this.tableName.label} table!`;
+      return `Record Successfully deleted in ${this.tableId.label} table!`;
     },
   },
 };
