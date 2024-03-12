@@ -1,6 +1,8 @@
 import splynx from "../../splynx.app.mjs";
+import common from "../common/common-create-update.mjs";
 
 export default {
+  ...common,
   key: "splynx-create-customer",
   name: "Create Customer",
   description:
@@ -9,101 +11,12 @@ export default {
   type: "action",
   props: {
     splynx,
-    name: {
-      propDefinition: [
-        splynx,
-        "name",
-      ],
-    },
-    partnerId: {
-      propDefinition: [
-        splynx,
-        "partnerId",
-      ],
-    },
-    locationId: {
-      propDefinition: [
-        splynx,
-        "locationId",
-      ],
-    },
-    category: {
-      propDefinition: [
-        splynx,
-        "category",
-      ],
-    },
-    login: {
-      propDefinition: [
-        splynx,
-        "login",
-      ],
-    },
-    status: {
-      propDefinition: [
-        splynx,
-        "status",
-      ],
-    },
-    email: {
-      propDefinition: [
-        splynx,
-        "email",
-      ],
-    },
-    billingEmail: {
-      propDefinition: [
-        splynx,
-        "billingEmail",
-      ],
-    },
-    phone: {
-      propDefinition: [
-        splynx,
-        "phone",
-      ],
-    },
-    street: {
-      propDefinition: [
-        splynx,
-        "street",
-      ],
-    },
-    zipCode: {
-      propDefinition: [
-        splynx,
-        "zipCode",
-      ],
-    },
-    city: {
-      propDefinition: [
-        splynx,
-        "city",
-      ],
-    },
-    dateAdd: {
-      propDefinition: [
-        splynx,
-        "dateAdd",
-      ],
-    },
+    ...common.props,
   },
   async run({ $ }) {
-    const {
-      splynx, partnerId, locationId, billingEmail, street, zipCode, dateAdd, ...data
-    } = this;
-
-    const response = await splynx.createCustomer({
+    const response = await this.splynx.createCustomer({
       $,
-      data: {
-        ...data,
-        partner_id: partnerId,
-        location_id: locationId,
-        billing_email: billingEmail,
-        street_1: street,
-        zip_code: zipCode,
-        date_add: dateAdd,
-      },
+      data: this.getData(),
     });
     $.export(
       "$summary",

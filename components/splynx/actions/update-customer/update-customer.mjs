@@ -1,33 +1,42 @@
 import splynx from "../../splynx.app.mjs";
+import common from "../common/common-create-update.mjs";
 
 export default {
+  ...common,
   key: "splynx-update-customer",
   name: "Update Customer",
-  description: "Updates information of an existing customer. The updated fields are sent as props. It requires the specific customer ID to successfully carry out this action. [See the documentation](https://splynx.docs.apiary.io/)",
+  description:
+    "Updates information of an existing customer. [See the documentation](https://splynx.docs.apiary.io/#reference/customers/customer/update-a-customer)",
   version: "0.0.1",
   type: "action",
   props: {
     splynx,
-    customerId: splynx.propDefinitions.customerId,
-    personalInformation: splynx.propDefinitions.personalInformation,
-    contactDetails: splynx.propDefinitions.contactDetails,
-    serviceDetails: splynx.propDefinitions.serviceDetails,
-    specialConditions: splynx.propDefinitions.specialConditions,
+    customerId: {
+      propDefinition: [
+        splynx,
+        "customerId",
+      ],
+    },
+    ...Object.fromEntries(
+      Object.entries(common.props).map(([
+        key,
+        value,
+      ]) => [
+        key,
+        {
+          ...value,
+          optional: true,
+        },
+      ]),
+    ),
   },
   async run({ $ }) {
-    const updatedFields = {
-      personalInformation: this.personalInformation,
-      contactDetails: this.contactDetails,
-      serviceDetails: this.serviceDetails,
-      specialConditions: this.specialConditions,
-    };
-
     const response = await this.splynx.updateCustomer({
+      $,
       customerId: this.customerId,
-      updatedFields,
+      data: this.getData(),
     });
-
-    $.export("$summary", `Successfully updated customer with ID ${this.customerId}`);
+    $.export("$summary", `Successfully updated customer ${this.customerId}`);
     return response;
   },
 };
