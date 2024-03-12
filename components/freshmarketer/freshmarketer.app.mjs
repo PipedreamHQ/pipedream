@@ -4,128 +4,192 @@ export default {
   type: "app",
   app: "freshmarketer",
   propDefinitions: {
-    listId: {
-      type: "string",
-      label: "List ID",
-      description: "The ID of the list",
-    },
     contactId: {
       type: "string",
       label: "Contact ID",
       description: "The ID of the contact",
-      optional: true,
+      async options({
+        page, listId,
+      }) {
+        const { contacts } = await this.listContacts({
+          listId,
+          params: {
+            page,
+          },
+        });
+
+        return contacts.map(({
+          id: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    leadSourceId: {
+      type: "string",
+      label: "Lead Source ID",
+      description: "ID of the source where contact came from.",
+      async options({ page }) {
+        const { lead_sources: data } = await this.listSelectors({
+          selector: "lead_sources",
+          params: {
+            page,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    listId: {
+      type: "string",
+      label: "List ID",
+      description: "The ID of the list",
+      async options({ page }) {
+        const { lists } = await this.listLists({
+          params: {
+            page,
+          },
+        });
+
+        return lists.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    ownerId: {
+      type: "string",
+      label: "Owner ID",
+      description: "ID of the user to whom the contact has been assigned.",
+      async options({ page }) {
+        const { users } = await this.listSelectors({
+          selector: "owners",
+          params: {
+            page,
+          },
+        });
+
+        return users.map(({
+          id: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    territoryId: {
+      type: "string",
+      label: "Territory ID",
+      description: "ID of the territory that the contact belongs to.",
+      async options({ page }) {
+        const { territories } = await this.listSelectors({
+          selector: "territories",
+          params: {
+            page,
+          },
+        });
+
+        return territories.map(({
+          id: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     contactEmail: {
       type: "string",
       label: "Contact Email",
       description: "The email of the contact",
-      optional: true,
-    },
-    contactDetails: {
-      type: "object",
-      label: "Contact Details",
-      description: "The details of the contact including first name, last name, phone, etc.",
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://domain.myfreshworks.com/crm/sales/api";
+      return `https://${this.$auth.domain}.myfreshworks.com/crm/sales/api`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Token token=${this.$auth.api_key}`,
+        "Content-Type": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Token token=${this.$auth.token}`,
-          "Content-Type": "application/json",
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async addContactToList({
-      listId, contactDetails,
+    listContacts({
+      listId, ...opts
     }) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/lists/${listId}/add_contacts`,
-        data: contactDetails,
+        path: `/contacts/lists/${listId}`,
+        ...opts,
       });
     },
-    async removeContactFromList({
-      listId, contactId, contactEmail,
+    listLists(opts = {}) {
+      return this._makeRequest({
+        path: "/lists",
+        ...opts,
+      });
+    },
+    listSelectors({
+      selector, ...opts
     }) {
-      const data = contactId
-        ? {
-          ids: [
-            contactId,
-          ],
+      return this._makeRequest({
+        path: `/selector/${selector}`,
+        ...opts,
+      });
+    },
+    searchContactByEmail(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/filtered_search/contact",
+        ...opts,
+      });
+    },
+    upsertContact(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/contacts/upsert",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const { contacts } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of contacts) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
         }
-        : {
-          email: contactEmail,
-        };
-      return this._makeRequest({
-        method: "PUT",
-        path: `/lists/${listId}/remove_contacts`,
-        data,
-      });
-    },
-    async searchContactByEmail({ email }) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/contacts?email=${email}`,
-      });
-    },
-    async updateContact({ contactDetails }) {
-      return this._makeRequest({
-        method: "PUT",
-        path: "/contacts",
-        data: contactDetails,
-      });
-    },
-    async addOrUpdateContact({
-      listId, contactDetails,
-    }) {
-      const contactSearchResult = await this.searchContactByEmail({
-        email: contactDetails.email,
-      });
-      if (contactSearchResult && contactSearchResult.contact && contactSearchResult.contact.id) {
-        return this.updateContact({
-          contactDetails,
-        });
-      } else {
-        return this.addContactToList({
-          listId,
-          contactDetails,
-        });
-      }
-    },
-    async removeContactByEmailOrId({
-      email, contactId, listId,
-    }) {
-      if (email) {
-        const contactSearchResult = await this.searchContactByEmail({
-          email,
-        });
-        if (contactSearchResult && contactSearchResult.contact && contactSearchResult.contact.id) {
-          contactId = contactSearchResult.contact.id;
-        } else {
-          throw new Error("Contact not found");
-        }
-      }
-      if (!contactId) {
-        throw new Error("Contact ID is required");
-      }
-      return this.removeContactFromList({
-        listId,
-        contactId,
-      });
+
+        hasMore = contacts.length;
+
+      } while (hasMore);
     },
   },
 };

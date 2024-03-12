@@ -1,64 +1,55 @@
-import freshmarketer from "../../freshmarketer.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "freshmarketer-new-contact-removed-from-list",
   name: "New Contact Removed From List",
-  description: "Emits a new event as soon as a contact is removed from a list. [See the documentation](https://developers.freshworks.com/crm/api/)",
+  description: "Emit new event as soon as a contact is removed from a list.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    freshmarketer,
-    db: "$.service.db",
-    list: {
-      propDefinition: [
-        freshmarketer,
-        "listId",
-      ],
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-  },
   methods: {
-    ...freshmarketer.methods,
-    async fetchRemovedContacts(listId, lastRun) {
-      const contacts = await this.freshmarketer.removeContactByEmailOrId({
-        listId,
-        since: lastRun,
-      });
-      return contacts;
+    ...common.methods,
+    getSummary(contact) {
+      return `Contact ${contact.email} removed from list`;
     },
-    generateMeta(contact) {
-      return {
-        id: `${contact.id}-${contact.removed_at}`,
-        summary: `Contact ${contact.email} removed from list`,
-        ts: Date.parse(contact.removed_at),
-      };
+    _getContacts() {
+      return this.db.get("contacts") || [];
+    },
+    _setContacts(contacts) {
+      this.db.set("contacts", contacts);
+    },
+    async prepareData({ data }) {
+      const contacts = this._getContacts();
+
+      let newData = [];
+      for await (const {
+        id, email,
+      } of data) {
+        newData.push({
+          id,
+          email,
+        });
+      }
+
+      this._setContacts(newData);
+
+      let idsArray = [];
+      for (const { id } of newData) {
+        idsArray.push(id);
+      }
+
+      const filteredIds = contacts.filter((item) => !idsArray.includes(item.id));
+
+      const responseArray = [];
+      if (filteredIds.length) {
+        for (const item of filteredIds) {
+          responseArray.push(item);
+        }
+      }
+      return responseArray;
     },
   },
-  hooks: {
-    async deploy() {
-      const lastRun = this.db.get("lastRun") || new Date().toISOString();
-      const contacts = await this.fetchRemovedContacts(this.list, lastRun);
-      contacts.forEach((contact) => {
-        const meta = this.generateMeta(contact);
-        this.$emit(contact, meta);
-      });
-      this.db.set("lastRun", new Date().toISOString());
-    },
-  },
-  async run() {
-    const lastRun = this.db.get("lastRun") || new Date().toISOString();
-    const contacts = await this.fetchRemovedContacts(this.list, lastRun);
-    contacts.forEach((contact) => {
-      const meta = this.generateMeta(contact);
-      this.$emit(contact, meta);
-    });
-    this.db.set("lastRun", new Date().toISOString());
-  },
+  sampleEmit,
 };
