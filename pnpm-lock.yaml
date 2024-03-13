@@ -3317,6 +3317,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/harmonic:
+    specifiers: {}
+
   components/harvest:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4040,6 +4043,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/lattice:
+    specifiers: {}
 
   components/leadboxer:
     specifiers: {}
@@ -5809,6 +5815,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/prismic:
+    specifiers: {}
+
   components/proabono:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -6403,7 +6412,10 @@ importers:
       moment: 2.29.4
 
   components/rollbar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/route4me:
     specifiers: {}

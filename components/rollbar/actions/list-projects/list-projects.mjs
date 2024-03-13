@@ -1,18 +1,21 @@
-import rollbarApp from "../../rollbar.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../rollbar.app.mjs";
 
 export default {
   key: "rollbar-list-projects",
   name: "List Projects",
   description: "Lists all projects in Rollbar. [See the documentation](https://docs.rollbar.com/reference/list-all-projects)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    rollbar: rollbarApp,
+    app,
   },
   async run({ $ }) {
-    const response = await this.rollbar.listProjects();
+    const response = await this.app.listProjects({
+      $,
+    });
+
     $.export("$summary", "Successfully listed all projects");
+
     return response;
   },
 };
