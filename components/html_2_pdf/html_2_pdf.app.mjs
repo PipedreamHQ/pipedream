@@ -32,33 +32,29 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.html2pdf.co.uk/";
+      return "https://api.html2pdf.co.uk";
     },
-    async createPdf({
-      source, content, licenseKey,
+    _params(params) {
+      return {
+        ...params,
+        "license": `${this.$auth.license_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, params, ...opts
     }) {
-      const urlEncodedContent = encodeURIComponent(content);
-      const parameter = source === "url"
-        ? "url"
-        : "html";
-      const response = await axios(this, {
-        method: "POST",
+      return axios($, {
         url: this._baseUrl(),
-        params: {
-          license: licenseKey,
-          [parameter]: urlEncodedContent,
-        },
-        responseType: "arraybuffer",
+        params: this._params(params),
+        ...opts,
       });
-
-      const path = `/tmp/${Date.now()}.pdf`;
-      require("fs").writeFileSync(path, response, "binary");
-      return path;
+    },
+    async createPdf(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        ...opts,
+      });
     },
   },
-  version: "0.0.1",
 };
