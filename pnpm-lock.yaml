@@ -2027,7 +2027,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/docupost:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/docusign:
     specifiers:
@@ -2200,6 +2203,9 @@ importers:
       uuid: 9.0.1
 
   components/easypost:
+    specifiers: {}
+
+  components/easysendy:
     specifiers: {}
 
   components/easyship:
@@ -2542,6 +2548,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/finmo:
+    specifiers: {}
+
+  components/finnhub:
     specifiers: {}
 
   components/firebase_admin_sdk:
@@ -5339,6 +5348,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/outscraper:
+    specifiers: {}
+
   components/outseta:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7315,6 +7327,9 @@ importers:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
 
+  components/sproutgigs:
+    specifiers: {}
+
   components/spydra:
     specifiers: {}
 
@@ -7596,6 +7611,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/taggun:
+    specifiers: {}
 
   components/talend:
     specifiers: {}
