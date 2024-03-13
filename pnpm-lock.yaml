@@ -95,6 +95,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/abstract:
+    specifiers: {}
+
   components/abuselpdb:
     specifiers: {}
 
@@ -483,6 +486,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/arcgis_online:
+    specifiers: {}
 
   components/arxiv:
     specifiers: {}
@@ -1674,6 +1680,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/damstra_forms:
+    specifiers: {}
+
   components/danny_test_app:
     specifiers: {}
 
@@ -2140,7 +2149,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dux_soup:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      jssha: ^3.3.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      jssha: 3.3.1
 
   components/dynamics_365_business_central_api:
     specifiers:
@@ -2236,6 +2250,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/elopage:
+    specifiers: {}
+
+  components/email_verifier_api:
     specifiers: {}
 
   components/emailable:
@@ -2506,6 +2523,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/finage:
+    specifiers: {}
 
   components/findymail:
     specifiers:
@@ -3468,6 +3488,9 @@ importers:
   components/hr_partner:
     specifiers: {}
 
+  components/html_2_pdf:
+    specifiers: {}
+
   components/html_css_to_image:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -3799,6 +3822,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
       moment-timezone: 0.5.45
+
+  components/jobber_developer_app:
+    specifiers: {}
 
   components/jobnimbus:
     specifiers:
@@ -4953,6 +4979,9 @@ importers:
   components/nextdns:
     specifiers: {}
 
+  components/nexudus:
+    specifiers: {}
+
   components/nexweave:
     specifiers:
       '@pipedream/platform': 1.5.1
@@ -5907,6 +5936,9 @@ importers:
   components/propeller:
     specifiers: {}
 
+  components/proprofs_quiz_maker:
+    specifiers: {}
+
   components/proworkflow:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -6821,6 +6853,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/shift4:
+    specifiers: {}
+
   components/shipcloud:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -7573,7 +7608,10 @@ importers:
     specifiers: {}
 
   components/tawk_to:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/taxjar:
     specifiers: {}
@@ -8685,6 +8723,9 @@ importers:
       qs: 6.11.2
 
   components/xata:
+    specifiers: {}
+
+  components/xeggex:
     specifiers: {}
 
   components/xendit:
@@ -22866,6 +22907,10 @@ packages:
       extsprintf: 1.3.0
       json-schema: 0.4.0
       verror: 1.10.0
+
+  /jssha/3.3.1:
+    resolution: {integrity: sha512-VCMZj12FCFMQYcFLPRm/0lOBbLi8uM2BhXPTqw3U4YAfs4AZfiApOoBLoN8cQE60Z50m1MYMTQVCfgF/KaCVhQ==}
+    dev: false
 
   /junk/3.1.0:
     resolution: {integrity: sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==}
