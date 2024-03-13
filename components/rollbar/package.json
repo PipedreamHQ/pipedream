@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rollbar",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Rollbar Components",
   "main": "rollbar.app.mjs",
   "keywords": [
