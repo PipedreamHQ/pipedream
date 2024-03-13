@@ -2149,7 +2149,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dux_soup:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      jssha: ^3.3.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      jssha: 3.3.1
 
   components/dynamics_365_business_central_api:
     specifiers:
@@ -22899,6 +22904,10 @@ packages:
       extsprintf: 1.3.0
       json-schema: 0.4.0
       verror: 1.10.0
+
+  /jssha/3.3.1:
+    resolution: {integrity: sha512-VCMZj12FCFMQYcFLPRm/0lOBbLi8uM2BhXPTqw3U4YAfs4AZfiApOoBLoN8cQE60Z50m1MYMTQVCfgF/KaCVhQ==}
+    dev: false
 
   /junk/3.1.0:
     resolution: {integrity: sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==}
