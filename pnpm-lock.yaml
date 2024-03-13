@@ -3500,7 +3500,10 @@ importers:
     specifiers: {}
 
   components/html_2_pdf:
-    specifiers: {}
+    specifiers:
+      fs: ^0.0.1-security
+    dependencies:
+      fs: 0.0.1-security
 
   components/html_css_to_image:
     specifiers:
