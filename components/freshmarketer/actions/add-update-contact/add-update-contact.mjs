@@ -3,10 +3,10 @@ import { SUBSCRIPTION_STATUS_OPTIONS } from "../../common/constants.mjs";
 import freshmarketer from "../../freshmarketer.app.mjs";
 
 export default {
-  key: "freshmarketer-add-update-contact-to-list",
-  name: "Add or Update Contact to List",
-  description: "Adds a new contact or updates an existing one on a specific list. Requires contact details and list ID as props.",
-  version: "0.0.1",
+  key: "freshmarketer-add-update-contact",
+  name: "Add or Update Contact",
+  description: "Create a new contact or updates an existing one.",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     freshmarketer,
@@ -111,35 +111,6 @@ export default {
       ],
       optional: true,
     },
-    subscriptionTypes: {
-      type: "integer",
-      label: "Subscription Types",
-      description: "Type of subscription that the contact is in.",
-      optional: true,
-      options: [
-        {
-          label: "Non-marketing emails from our company.",
-          value: 1,
-        },
-        {
-          label: "Newsletter.",
-          value: 2,
-        },
-        {
-          label: "Promotional.",
-          value: 3,
-        },
-        {
-          label: "Product Uppdates.",
-          value: 4,
-        },
-        {
-          label: "Conferences & Events.",
-          value: 5,
-        },
-      ],
-    },
-
   },
   async run({ $ }) {
     if (!this.email && !this.mobileNumber && ! this.externalId) {
@@ -168,7 +139,6 @@ export default {
           territory_id: this.territoryId,
           lead_source_id: this.leadSourceId && this.leadSourceId.toString(),
           owner_id: this.ownerId && this.ownerId.toString(),
-          subscription_types: this.subscriptionTypes,
         },
       },
     });
