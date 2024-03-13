@@ -3391,7 +3391,10 @@ importers:
       xml-js: 1.6.11
 
   components/helpspace:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/helpwise:
     specifiers: {}
