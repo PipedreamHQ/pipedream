@@ -7463,7 +7463,10 @@ importers:
       '@supabase/supabase-js': 2.39.0
 
   components/supercast:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/superdocu:
     specifiers:
