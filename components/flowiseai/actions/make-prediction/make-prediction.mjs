@@ -41,7 +41,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Prediction calculated for flow ID ${this.flow}`);
+    $.export("$summary", `Prediction calculated for flow ID ${this.flowId}`);
 
     return response;
   },
