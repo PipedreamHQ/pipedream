@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/melissa_data",
+  "version": "0.0.1",
+  "description": "Pipedream Melissa Data Components",
+  "main": "melissa_data.app.mjs",
+  "keywords": [
+    "pipedream",
+    "melissa_data"
+  ],
+  "homepage": "https://pipedream.com/apps/melissa_data",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
