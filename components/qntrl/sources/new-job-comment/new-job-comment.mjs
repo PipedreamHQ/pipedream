@@ -6,7 +6,7 @@ export default {
   key: "qntrl-new-job-comment",
   name: "New Comment Posted",
   description: "Emit new event when a comment is posted to a job. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=jobs&action=GetAllComments)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {
@@ -32,10 +32,13 @@ export default {
       const {
         orgId, jobId,
       } = this;
-      return this.qntrl.listJobComments({
+      return this.app.listJobComments({
         orgId,
         jobId,
       });
+    },
+    getItemId(item) {
+      return item.comment_id;
     },
   },
 };
