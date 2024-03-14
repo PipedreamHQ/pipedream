@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -8,13 +9,14 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  sampleEmit,
   methods: {
     ...common.methods,
     getSummary(job) {
       return `New Job: "${job.title}"`;
     },
     getItems() {
-      return this.qntrl.listJobs(this.orgId);
+      return this.app.listJobs(this.orgId);
     },
   },
 };

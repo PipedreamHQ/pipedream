@@ -30,12 +30,15 @@ export default {
     _setSavedIds(value) {
       this.db.set("savedIds", value);
     },
+    getItemId(item) {
+      return item.id;
+    },
     async getAndProcessData(emit = true) {
-      const savedIds = this.getSavedIds();
+      const savedIds = this._getSavedIds();
       const items = await this.getItems();
       const ts = Date.now();
-      items?.filter(({ id }) => !savedIds.includes(id)).forEach((item) => {
-        const { id } = item;
+      items?.filter((item) => !savedIds.includes(this.getItemId(item))).forEach((item) => {
+        const id = this.getItemId(item);
         if (emit) {
           this.$emit(item, {
             id,
