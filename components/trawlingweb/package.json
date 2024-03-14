@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/trawlingweb",
+  "version": "0.0.1",
+  "description": "Pipedream Trawlingweb Components",
+  "main": "trawlingweb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "trawlingweb"
+  ],
+  "homepage": "https://pipedream.com/apps/trawlingweb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

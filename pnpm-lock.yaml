@@ -2656,7 +2656,10 @@ importers:
     specifiers: {}
 
   components/fogbugz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/follow_up_boss:
     specifiers: {}
@@ -2764,7 +2767,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/freshmarketer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/freshsales:
     specifiers: {}
@@ -3619,7 +3625,10 @@ importers:
     specifiers: {}
 
   components/hyperise:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/hyros:
     specifiers:
@@ -6854,7 +6863,10 @@ importers:
     specifiers: {}
 
   components/sendloop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/sendoso:
     specifiers:
