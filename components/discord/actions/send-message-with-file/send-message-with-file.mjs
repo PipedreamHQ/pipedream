@@ -8,7 +8,7 @@ export default {
   key: "discord-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "1.1.1",
+  version: "1.1.3",
   type: "action",
   props: {
     ...common.props,
@@ -61,9 +61,7 @@ export default {
         avatar_url: avatarURL,
         username,
         file,
-        flags: suppressNotifications
-          ? 4096
-          : 0,
+        flags: this.getMessageFlags(suppressNotifications),
         content: includeSentViaPipedream
           ? this.appendPipedreamText(message ?? "")
           : message,

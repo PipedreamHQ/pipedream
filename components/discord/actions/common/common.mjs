@@ -67,5 +67,13 @@ export default {
       const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
       return `Sent via [Pipedream](<https://pipedream.com/@/${workflowId}?o=a&a=discord>)`;
     },
+    getMessageFlags(suppressNotifications) {
+      const SUPPRESS_NOTIFICATIONS = 4096;
+
+      var flags = 0;
+      if (suppressNotifications) flags += SUPPRESS_NOTIFICATIONS;
+
+      return flags;
+    },
   },
 };

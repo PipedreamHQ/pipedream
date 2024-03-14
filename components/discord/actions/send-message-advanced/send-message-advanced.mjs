@@ -6,7 +6,7 @@ export default {
   key: "discord-send-message-advanced",
   name: "Send Message (Advanced)",
   description: "Send a simple or structured message (using embeds) to a Discord channel",
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -56,9 +56,7 @@ export default {
       const resp = await this.discord.sendMessage(this.channel, {
         avatar_url: avatarURL,
         username,
-        flags: suppressNotifications
-          ? 4096
-          : 0,
+        flags: this.getMessageFlags(suppressNotifications),
         embeds,
         content,
       }, {
