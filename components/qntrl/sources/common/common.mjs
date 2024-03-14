@@ -11,6 +11,12 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    orgId: {
+      propDefinition: [
+        app,
+        "orgId",
+      ],
+    },
   },
   hooks: {
     async deploy() {
