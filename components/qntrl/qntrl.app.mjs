@@ -92,66 +92,42 @@ export default {
     _baseUrl() {
       return "https://coreapi.qntrl.com/blueprint/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async createJob({
-      title, description, jobType, priority,
-    }) {
+    async createJob(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/jobs",
-        data: {
-          title,
-          description,
-          jobType,
-          priority,
-        },
+        url: "/jobs",
+        ...args,
       });
     },
-    async addUser({
-      username, email, firstName, lastName, password, userRole,
-    }) {
+    async addUser(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/users",
-        data: {
-          username,
-          email,
-          firstName,
-          lastName,
-          password,
-          userRole,
-        },
+        url: "/users",
+        ...args,
       });
     },
     async postComment({
-      jobId, comment, attachment,
+      jobId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/jobs/${jobId}/comments`,
-        data: {
-          comment,
-          attachment,
-        },
+        url: `/jobs/${jobId}/comments`,
+        ...args,
       });
     },
   },
-  version: "0.0.1",
 };
