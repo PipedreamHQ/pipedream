@@ -15,6 +15,9 @@ export default {
       propDefinition: [
         qntrl,
         "jobId",
+        (({ orgId }) => ({
+          orgId,
+        })),
       ],
     },
   },

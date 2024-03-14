@@ -78,9 +78,10 @@ export default {
     async listJobComments({
       orgId, jobId,
     }) {
-      return this._makeRequest({
+      const { data } = await this._makeRequest({
         url: `/${orgId}/job/${jobId}/comment`,
       });
+      return data;
     },
     async getFormDetails({
       orgId, formId,
