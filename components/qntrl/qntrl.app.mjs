@@ -74,6 +74,13 @@ export default {
         url: `/${orgId}/job`,
       });
     },
+    async listJobComments({
+      orgId, jobId,
+    }) {
+      return this._makeRequest({
+        url: `/${orgId}/job/${jobId}/comment`,
+      });
+    },
     async createJob({
       orgId, ...args
     }) {

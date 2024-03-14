@@ -1,70 +1,38 @@
 import qntrl from "../../qntrl.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "qntrl-new-job-comment",
-  name: "New Job Comment",
-  description: "Emit new event when a fresh comment is posted in a job. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=org)",
+  name: "New Comment Posted",
+  description: "Emit new event when a comment is posted to a job. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=jobs&action=GetAllComments)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    qntrl,
-    db: "$.service.db",
+    ...common.props,
     jobId: {
       propDefinition: [
         qntrl,
         "jobId",
       ],
     },
-    commentAuthor: {
-      type: "string",
-      label: "Comment Author",
-      description: "The author of the comment.",
-      optional: true,
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
   },
-  hooks: {
-    async deploy() {
-      // Emit 50 most recent comments (if available) upon first deployment
-      const { comments } = await this.qntrl._makeRequest({
-        method: "GET",
-        path: `/jobs/${this.jobId}/comments`,
-      });
-
-      comments.slice(0, 50).forEach((comment) => {
-        this.$emit(comment, {
-          id: comment.id,
-          summary: `New comment by ${comment.author}: ${comment.text.substring(0, 100)}...`,
-          ts: Date.parse(comment.created_time),
-        });
+  methods: {
+    ...common.methods,
+    getSummary({ comment }) {
+      return `New Comment: "${comment.length > 40
+        ? `${comment.slice(0, 40)}...`
+        : comment}"`;
+    },
+    getItems() {
+      const {
+        orgId, jobId,
+      } = this;
+      return this.qntrl.listJobComments({
+        orgId,
+        jobId,
       });
     },
-  },
-  async run() {
-    const lastEmittedTimestamp = this.db.get("lastEmittedTimestamp") || 0;
-    const { comments } = await this.qntrl._makeRequest({
-      method: "GET",
-      path: `/jobs/${this.jobId}/comments`,
-    });
-    const newComments = comments.filter((c) => Date.parse(c.created_time) > lastEmittedTimestamp);
-
-    newComments.forEach((comment) => {
-      this.$emit(comment, {
-        id: comment.id,
-        summary: `New comment by ${comment.author}: ${comment.text.substring(0, 100)}...`,
-        ts: Date.parse(comment.created_time),
-      });
-    });
-
-    if (newComments.length > 0) {
-      const latestTimestamp = Math.max(...newComments.map((c) => Date.parse(c.created_time)));
-      this.db.set("lastEmittedTimestamp", latestTimestamp);
-    }
   },
 };
