@@ -6,7 +6,7 @@ Slack messages can contain interactive elements like buttons, dropdowns, radio b
 
 Then this source will be triggered when you or another Slack user in your workspace clicks a button, selects an option or fills out a form.
 
-![Example feed of interaction events coming from Slack]([screenshots/CleanShot_2022-11-10_at_10.19.152x.png](https://res.cloudinary.com/pipedreamin/image/upload/v1668443818/docs/components/CleanShot_2022-11-10_at_10.19.152x_eyiims.png))
+![Example feed of interaction events coming from Slack](https://res.cloudinary.com/pipedreamin/image/upload/v1668443818/docs/components/CleanShot_2022-11-10_at_10.19.152x_eyiims.png)
 
 With this trigger, you can build workflows that perform some work with other APIs or services, and then reply back to the original message.
 
@@ -16,7 +16,7 @@ With this trigger, you can build workflows that perform some work with other API
 
 What this short video to learn how to use this in a workflow, or follow the guide below.
 
-First, if you haven’t already - send yourself a message containing one or more interactive elements. Use the ******************Sending the message with an interactive element****************** guide below to send a messsage containing a button.
+First, if you haven’t already - send yourself a message containing one or more interactive elements. Use the ******************Sending the message with an interactive element****************** guide below to send a message containing a button.
 
 If you have already sent a message containing an element, skip to **********************************************Configuring the source.**********************************************
 
@@ -54,7 +54,7 @@ Your ******************Slack - Send Message Using Block Kit****************** sh
 
 ## Configuring the source
 
-By default, this source will listen to ******all****** interactive events from your Slack workspace that your connected Slack account has authorization to view.
+By default, this source will listen to ******all****** interactive events from your Slack workspace that your connected Slack account has authorization to view. Please note that only messages created via [Slack - Send Block Kit Message](https://pipedream.com/apps/slack/actions/send-block-kit-message) Action, or via API call from the Pipedream app will emit an interaction event with this trigger. Block kit messages sent directly via the Slack's block kit builder will not trigger an interaction event.
 
 You can filter these events by selecting a specific **************channel************** and/or a specific **********action_id.**********
 
@@ -72,12 +72,14 @@ For example, in the section above using the Block Kit to create a message, we de
 
 If you pass `button_click` as a required `action_id` to this source, then only interactivity events with the `action_id` of `"button_click"` will trigger this source.
 
-# Troubleshooting
+## Troubleshooting
 
-## I’m clicking buttons, but no events are being received
+### I’m clicking buttons, but no events are being received
 
 Follow these steps to make sure your source is configured correctly:
 
 1. Make sure that your `action_id` or ****************channels**************** filters apply to that message, remove the filters to make sure that’s not the case.
 
 1. Make sure that the message comes from the same Slack account that this source is configured with.
+
+1. Make sure that the message was sent via Pipedream action (e.g. [Slack - Send Block Kit Message](https://pipedream.com/apps/slack/actions/send-block-kit-message) Action) or via API call from the Pipedream app.

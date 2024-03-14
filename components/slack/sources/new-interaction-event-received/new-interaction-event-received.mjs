@@ -2,18 +2,23 @@ import common from "../common/base.mjs";
 
 export default {
   name: "New Interaction Events",
-  version: "0.0.9",
+  version: "0.0.11",
   key: "slack-new-interaction-event-received",
   description:
     "Emit new events on new Slack [interactivity events](https://api.slack.com/interactivity) sourced from [Block Kit interactive elements](https://api.slack.com/interactivity/components), [Slash commands](https://api.slack.com/interactivity/slash-commands), or [Shortcuts](https://api.slack.com/interactivity/shortcuts).",
   type: "source",
   props: {
     ...common.props,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Please note that only messages created via Pipedream's [Send Block Kit Message](https://pipedream.com/apps/slack/actions/send-block-kit-message) Action, or via API call from the Pipedream app will emit an interaction event with this trigger. \n\nBlock kit messages sent directly via the Slack's block kit builder will not trigger an interaction event. \n\nSee the [documentation](https://pipedream.com/apps/slack/triggers/new-interaction-event-received) for more details.",
+    },
     action_ids: {
       type: "string[]",
       label: "Action IDs",
       description:
-        "Filter interaction events by specific `action_id`'s to subscribe for new interaction events. If none selected, all `action_ids` will emit new events.",
+        "Filter interaction events by specific `action_id`'s to subscribe for new interaction events. If none are specified, all `action_ids` created via Pipedream will emit new events.",
       optional: true,
       default: [],
     },
