@@ -503,6 +503,9 @@ importers:
       axios: 0.21.4
       lodash: 4.17.21
 
+  components/asin_data_api:
+    specifiers: {}
+
   components/asknicely:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -625,6 +628,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/aylien_news_api:
+    specifiers: {}
+
   components/azure_ai_vision:
     specifiers: {}
 
@@ -720,6 +726,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/better_stack:
+    specifiers: {}
+
   components/better_uptime:
     specifiers: {}
 
@@ -735,6 +744,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/bigbox:
+    specifiers: {}
+
   components/bigmailer:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -746,6 +758,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/bigpicture_io:
+    specifiers: {}
 
   components/bilionis:
     specifiers:
@@ -799,6 +814,9 @@ importers:
   components/blockchain_exchange:
     specifiers: {}
 
+  components/blocknative:
+    specifiers: {}
+
   components/blogger:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -812,6 +830,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/blue:
+    specifiers: {}
+
+  components/bluecart_api:
     specifiers: {}
 
   components/bluesky_by_unshape:
@@ -869,6 +890,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/brainshop:
+    specifiers: {}
 
   components/braintree:
     specifiers: {}
@@ -1183,6 +1207,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/cheddar:
+    specifiers: {}
+
+  components/chimp_rewriter:
     specifiers: {}
 
   components/chmeetings:
@@ -1571,6 +1598,9 @@ importers:
   components/corrently:
     specifiers: {}
 
+  components/countdown_api:
+    specifiers: {}
+
   components/coupontools:
     specifiers: {}
 
@@ -1584,6 +1614,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/craftmypdf:
+    specifiers: {}
+
+  components/crawlbase:
     specifiers: {}
 
   components/credit_repair_cloud:
@@ -1733,6 +1766,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       uuid: 8.3.2
+
+  components/dataforseo:
+    specifiers: {}
 
   components/datagma:
     specifiers: {}
@@ -2202,6 +2238,9 @@ importers:
   components/easypost:
     specifiers: {}
 
+  components/easysendy:
+    specifiers: {}
+
   components/easyship:
     specifiers: {}
 
@@ -2544,6 +2583,9 @@ importers:
   components/finmo:
     specifiers: {}
 
+  components/finnhub:
+    specifiers: {}
+
   components/firebase_admin_sdk:
     specifiers:
       '@firebase/app-compat': ^0.1.25
@@ -2614,7 +2656,10 @@ importers:
     specifiers: {}
 
   components/fogbugz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/follow_up_boss:
     specifiers: {}
@@ -2800,6 +2845,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
+
+  components/geoapify:
+    specifiers: {}
 
   components/geodb_cities:
     specifiers:
@@ -3361,6 +3409,9 @@ importers:
       async-retry: 1.3.3
       moment: 2.29.4
 
+  components/hashnode:
+    specifiers: {}
+
   components/heartbeat:
     specifiers: {}
 
@@ -3589,6 +3640,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash.pickby: 4.6.0
+
+  components/ibm_x_force_exchange:
+    specifiers: {}
 
   components/icontact:
     specifiers: {}
@@ -4507,6 +4561,12 @@ importers:
   components/mav:
     specifiers: {}
 
+  components/maxmind_geoip2:
+    specifiers: {}
+
+  components/maxmind_minfraud:
+    specifiers: {}
+
   components/mctime:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -4542,6 +4602,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/melissa_data:
+    specifiers: {}
 
   components/melo:
     specifiers:
@@ -4887,6 +4950,9 @@ importers:
   components/n8n_io:
     specifiers: {}
 
+  components/namecheap:
+    specifiers: {}
+
   components/namely:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4905,6 +4971,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/nano_nets:
+    specifiers: {}
+
+  components/nasa:
     specifiers: {}
 
   components/nasdaq_data_link_time_series_and_table_data_:
@@ -4981,7 +5050,13 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/new_sloth:
+    specifiers: {}
+
   components/new_york_times:
+    specifiers: {}
+
+  components/newscatcher:
     specifiers: {}
 
   components/newsletter:
@@ -5342,6 +5417,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/outscraper:
+    specifiers: {}
+
   components/outseta:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5369,6 +5447,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/paddle:
+    specifiers: {}
 
   components/pagerduty:
     specifiers:
@@ -5407,6 +5488,9 @@ importers:
       '@pipedream/platform': ^1.3.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/parsio_io:
+    specifiers: {}
 
   components/passcreator:
     specifiers:
@@ -5513,6 +5597,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/persona:
+    specifiers: {}
 
   components/personio:
     specifiers:
@@ -5962,6 +6049,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/proxy_spider:
+    specifiers: {}
+
   components/proxycurl:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6205,6 +6295,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       recurly: 3.29.0
+
+  components/redcircle_api:
+    specifiers: {}
 
   components/reddit:
     specifiers:
@@ -6464,6 +6557,9 @@ importers:
       moment: 2.29.4
 
   components/rollbar:
+    specifiers: {}
+
+  components/rosette_text_analytics:
     specifiers: {}
 
   components/route4me:
@@ -6795,6 +6891,9 @@ importers:
       slugify: 1.6.6
 
   components/seqera:
+    specifiers: {}
+
+  components/serphouse:
     specifiers: {}
 
   components/serply:
@@ -7239,6 +7338,9 @@ importers:
   components/solarwinds_service_desk:
     specifiers: {}
 
+  components/solcast:
+    specifiers: {}
+
   components/solve_crm:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -7317,6 +7419,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
+
+  components/sproutgigs:
+    specifiers: {}
 
   components/spydra:
     specifiers: {}
@@ -7599,6 +7704,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/taggun:
+    specifiers: {}
 
   components/talend:
     specifiers: {}
@@ -7926,6 +8034,9 @@ importers:
   components/tomba:
     specifiers: {}
 
+  components/tomtom:
+    specifiers: {}
+
   components/toneden:
     specifiers: {}
 
@@ -8153,6 +8264,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/updown_io:
+    specifiers: {}
 
   components/upkeep:
     specifiers:
@@ -8475,6 +8589,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/weaviate:
+    specifiers: {}
+
   components/webflow:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -8547,6 +8664,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
       md5: 2.3.0
+
+  components/whoisfreaks:
+    specifiers: {}
 
   components/whop:
     specifiers:
@@ -8895,6 +9015,9 @@ importers:
   components/zenscrape:
     specifiers: {}
 
+  components/zenserp:
+    specifiers: {}
+
   components/zerobounce:
     specifiers: {}
 
@@ -9125,6 +9248,9 @@ importers:
     specifiers: {}
 
   components/zuora:
+    specifiers: {}
+
+  components/zyte_api:
     specifiers: {}
 
   helpers:
