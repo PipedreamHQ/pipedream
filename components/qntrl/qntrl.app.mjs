@@ -11,8 +11,8 @@ export default {
       async options() {
         const orgs = await this.listOrganizations();
         return orgs?.map((org) => ({
-          label: org.ORG_DOMAIN,
-          value: org.ID,
+          label: org.org_domain,
+          value: org.org_id,
         }));
       },
     },
@@ -70,9 +70,10 @@ export default {
       });
     },
     async listJobs(orgId) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         url: `/${orgId}/job`,
       });
+      return response.job_list;
     },
     async listJobComments({
       orgId, jobId,
@@ -81,12 +82,19 @@ export default {
         url: `/${orgId}/job/${jobId}/comment`,
       });
     },
+    async getFormDetails({
+      orgId, formId,
+    }) {
+      return this._makeRequest({
+        url: `/${orgId}/layout/${formId}`,
+      });
+    },
     async createJob({
       orgId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        url: `${orgId}/job`,
+        url: `/${orgId}/job`,
         ...args,
       });
     },

@@ -3,7 +3,8 @@ import qntrl from "../../qntrl.app.mjs";
 export default {
   key: "qntrl-create-job",
   name: "Create Job",
-  description: "Creates a new job (card) in Qntrl. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=jobs&action=CreateJob)",
+  description:
+    "Creates a new job (card) in Qntrl. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=jobs&action=CreateJob)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -22,6 +23,7 @@ export default {
           orgId,
         }),
       ],
+      reloadProps: true,
     },
     title: {
       type: "string",
@@ -37,15 +39,63 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "The due date of the job as a valid date string, e.g. `2024-03-13T09:30:00Z` or `2024-05-20`.",
+      description:
+        "The due date of the job as a valid date string, e.g. `2024-03-13T09:30:00Z` or `2024-05-20`.",
       optional: true,
     },
     additionalOptions: {
       type: "object",
       label: "Additional Options",
-      description: "Additional parameters to send in this request. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=jobs&action=CreateJob) for all available parameters.",
+      description:
+        "Additional parameters to send in this request. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=jobs&action=CreateJob) for all available parameters.",
       optional: true,
     },
+  },
+  methods: {
+    fieldToProp(field) {
+      const result = {};
+      /* eslint-disable no-fallthrough */
+      switch (field.field_type_value) {
+      case "PICKLIST":
+        result.options = field.picklist_details?.map?.((option) => ({
+          label: option.value,
+          value: option.picklist_id,
+        }));
+      case "TEXT":
+      case "MLTEXT":
+      case "DATETIME":
+      default:
+        result.type = "string";
+        break;
+      }
+      return result;
+    },
+  },
+  async additionalProps() {
+    const result = {};
+    const {
+      orgId, formId,
+    } = this;
+    const formDetails = await this.qntrl.getFormDetails({
+      orgId,
+      formId,
+    });
+    formDetails?.section_details?.forEach?.((section) => {
+      section.sectionfieldmap_details?.forEach?.((fieldmap) => {
+        fieldmap.customfield_details?.forEach?.((field) => {
+          const columnName = field.column_name;
+          if (columnName.startsWith("customfield")) {
+            result[columnName] = {
+              label: field.alias_name,
+              description: `${field.alias_name} (\`${columnName}\`)`,
+              optional: !fieldmap.is_mandatory,
+              ...this.fieldToProp(field),
+            };
+          }
+        });
+      });
+    });
+    return result;
   },
   async run({ $ }) {
     const {
