@@ -5,7 +5,7 @@ export default {
   app: "splynx",
   propDefinitions: {
     customerId: {
-      type: "integer",
+      type: "string",
       label: "Customer ID",
       description: "Select a customer to update, or provide a customer ID.",
       async options() {
@@ -14,6 +14,20 @@ export default {
           name, id,
         }) => ({
           label: name,
+          value: id,
+        }));
+      },
+    },
+    tariffId: {
+      type: "string",
+      label: "Tariff ID",
+      description: "Select a tariff, or provide a tariff ID.",
+      async options() {
+        const tariffs = await this.listTariffs();
+        return tariffs?.map(({
+          title, id,
+        }) => ({
+          label: title,
           value: id,
         }));
       },
@@ -31,13 +45,18 @@ export default {
         baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          "Authorization": `Splynx-EA (access_token=${this.$auth.oauth_access_token})`,
+          Authorization: `Splynx-EA (access_token=${this.$auth.oauth_access_token})`,
         },
       });
     },
     async listCustomers() {
       return this._makeRequest({
         url: "/customers/customer",
+      });
+    },
+    async listTariffs() {
+      return this._makeRequest({
+        url: "/tariffs/internet",
       });
     },
     async createCustomer(args) {

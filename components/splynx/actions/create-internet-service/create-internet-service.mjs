@@ -15,9 +15,10 @@ export default {
       ],
     },
     tariffId: {
-      type: "integer",
-      label: "Tariff ID",
-      description: "Tariff ID to use for the service",
+      propDefinition: [
+        splynx,
+        "tariffId",
+      ],
     },
     status: {
       type: "string",
