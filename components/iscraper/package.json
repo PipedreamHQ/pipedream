@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/iscraper",
+  "version": "0.0.1",
+  "description": "Pipedream iScraper Components",
+  "main": "iscraper.app.mjs",
+  "keywords": [
+    "pipedream",
+    "iscraper"
+  ],
+  "homepage": "https://pipedream.com/apps/iscraper",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

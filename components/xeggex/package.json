@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/xeggex",
+  "version": "0.0.1",
+  "description": "Pipedream XeggeX Components",
+  "main": "xeggex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "xeggex"
+  ],
+  "homepage": "https://pipedream.com/apps/xeggex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

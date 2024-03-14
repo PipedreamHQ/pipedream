@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/shift4",
+  "version": "0.0.1",
+  "description": "Pipedream Shift4 Components",
+  "main": "shift4.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shift4"
+  ],
+  "homepage": "https://pipedream.com/apps/shift4",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

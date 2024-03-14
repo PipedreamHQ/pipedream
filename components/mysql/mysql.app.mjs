@@ -102,16 +102,25 @@ export default {
         username,
         password,
         database,
+        ca,
+        key,
+        cert,
       } = this.$auth;
+
       return {
         host,
         port,
         user: username,
         password,
         database,
-        ssl: {
-          rejectUnauthorized: false,
-        },
+        ...(ca && cert && key && {
+          ssl: {
+            rejectUnauthorized: true,
+            ca,
+            cert,
+            key,
+          },
+        }),
       };
     },
     async closeConnection(connection) {
