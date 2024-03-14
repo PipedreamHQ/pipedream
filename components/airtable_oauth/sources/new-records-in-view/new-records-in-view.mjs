@@ -6,7 +6,7 @@ export default {
   name: "New Records in View",
   description: "Emit new event for each new record in a view",
   key: "airtable_oauth-new-records-in-view",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   props: {
     ...base.props,
@@ -54,13 +54,13 @@ export default {
       returnFieldsByFieldId: this.returnFieldsByFieldId,
     };
 
-    const data = await this.airtable.listRecords({
+    const records = await this.airtable.listRecords({
       baseId,
       tableId,
       params,
     });
 
-    if (!data.records.length) {
+    if (!records.length) {
       console.log("No new records.");
       return;
     }
@@ -73,7 +73,7 @@ export default {
 
     let maxTimestamp;
     let recordCount = 0;
-    for (const record of data.records) {
+    for (const record of records) {
       record.metadata = metadata;
 
       this.$emit(record, {

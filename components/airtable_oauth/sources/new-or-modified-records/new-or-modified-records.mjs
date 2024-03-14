@@ -7,7 +7,7 @@ export default {
   name: "New or Modified Records",
   key: "airtable_oauth-new-or-modified-records",
   description: "Emit new event for each new or modified record in a table",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     ...base.props,
@@ -99,13 +99,13 @@ export default {
       params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`;
     }
 
-    const data = await this.airtable.listRecords({
+    const records = await this.airtable.listRecords({
       baseId,
       tableId,
       params,
     });
 
-    if (!data.records.length) {
+    if (!records.length) {
       console.log("No new or modified records.");
       return;
     }
@@ -120,7 +120,7 @@ export default {
     let newFieldValues = {
       ...fieldValues,
     };
-    for (const record of data.records) {
+    for (const record of records) {
       if (this.fieldIds) {
         newFieldValues = this.updateFieldValues(newFieldValues, record);
       }
