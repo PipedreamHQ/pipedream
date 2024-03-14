@@ -3,42 +3,65 @@ import qntrl from "../../qntrl.app.mjs";
 export default {
   key: "qntrl-create-job",
   name: "Create Job",
-  description: "Creates a new job in Qntrl. Requires 'title' and 'description' props for job definition. Optional props include 'job type' and 'priority'.",
+  description: "Creates a new job (card) in Qntrl. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=jobs&action=CreateJob)",
   version: "0.0.1",
   type: "action",
   props: {
     qntrl,
+    orgId: {
+      propDefinition: [
+        qntrl,
+        "orgId",
+      ],
+    },
+    formId: {
+      propDefinition: [
+        qntrl,
+        "formId",
+        ({ orgId }) => ({
+          orgId,
+        }),
+      ],
+    },
     title: {
       type: "string",
       label: "Title",
-      description: "The title of the job.",
+      description: "Title of the job.",
     },
     description: {
       type: "string",
       label: "Description",
-      description: "The description of the job.",
-    },
-    jobType: {
-      type: "string",
-      label: "Job Type",
-      description: "The type of the job. This is optional.",
+      description: "Description of the job.",
       optional: true,
     },
-    priority: {
+    dueDate: {
       type: "string",
-      label: "Priority",
-      description: "The priority of the job. This is optional.",
+      label: "Due Date",
+      description: "The due date of the job as a valid date string, e.g. `2024-03-13T09:30:00Z` or `2024-05-20`.",
+      optional: true,
+    },
+    additionalOptions: {
+      type: "object",
+      label: "Additional Options",
+      description: "Additional parameters to send in this request. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=jobs&action=CreateJob) for all available parameters.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.qntrl.createJob({
-      title: this.title,
-      description: this.description,
-      jobType: this.jobType,
-      priority: this.priority,
+    const {
+      qntrl, orgId, formId, dueDate, additionalOptions, ...data
+    } = this;
+    const response = await qntrl.createJob({
+      $,
+      orgId,
+      data: {
+        layout_id: formId,
+        duedate: dueDate,
+        ...data,
+        ...additionalOptions,
+      },
     });
-    $.export("$summary", `Successfully created job with title "${this.title}"`);
+    $.export("$summary", `Successfully created job (ID: ${response.id})`);
     return response;
   },
 };

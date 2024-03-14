@@ -10,10 +10,10 @@ export default {
   props: {
     qntrl,
     db: "$.service.db",
-    organizationId: {
+    orgId: {
       propDefinition: [
         qntrl,
-        "organizationId",
+        "orgId",
       ],
     },
     userRole: {
@@ -21,7 +21,7 @@ export default {
         qntrl,
         "userRole",
         (c) => ({
-          organizationId: c.organizationId,
+          orgId: c.orgId,
         }),
       ],
       optional: true,
@@ -37,7 +37,7 @@ export default {
     async deploy() {
       // Fetch users initially on deploy to avoid emitting events for all existing users
       const users = await this.qntrl.getUsers({
-        organizationId: this.organizationId,
+        orgId: this.orgId,
       });
       for (const user of users) {
         this.db.set(user.id, user);
@@ -48,7 +48,7 @@ export default {
     async getUsers() {
       // Fetch users, assuming such a method exists in the qntrl app file
       return this.qntrl.getUsers({
-        organizationId: this.organizationId,
+        orgId: this.orgId,
       });
     },
     isNewUser(user) {

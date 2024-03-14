@@ -9,10 +9,29 @@ export default {
       label: "Job ID",
       description: "The unique identifier for the job.",
     },
-    organizationId: {
+    orgId: {
       type: "string",
       label: "Organization ID",
-      description: "The unique identifier for the organization.",
+      description: "Select an organization, or provide a custom organization ID.",
+      async options() {
+        const orgs = await this.listOrganizations();
+        return orgs?.map((org) => ({
+          label: org.ORG_DOMAIN,
+          value: org.ID,
+        }));
+      },
+    },
+    formId: {
+      type: "string",
+      label: "Form ID",
+      description: "Select a form (layout), or provide a custom form ID.",
+      async options({ orgId }) {
+        const forms = await this.listForms(orgId);
+        return forms?.map((form) => ({
+          label: form.layout_name,
+          value: form.layout_id,
+        }));
+      },
     },
     jobCreatorId: {
       type: "string",
@@ -106,10 +125,22 @@ export default {
         },
       });
     },
-    async createJob(args) {
+    async listOrganizations() {
+      return this._makeRequest({
+        url: "/org",
+      });
+    },
+    async listForms(orgId) {
+      return this._makeRequest({
+        url: `/${orgId}/layout`,
+      });
+    },
+    async createJob({
+      orgId, ...args
+    }) {
       return this._makeRequest({
         method: "POST",
-        url: "/jobs",
+        url: `${orgId}/job`,
         ...args,
       });
     },
