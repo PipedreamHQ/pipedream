@@ -50,5 +50,12 @@ export default {
       description: "The path to the file, e.g. `/tmp/myFile.csv`. Must specify either **File URL** or **File Path**.",
       optional: true,
     },
+    suppressNotifications: {
+      type: "boolean",
+      optional: true,
+      default: false,
+      label: "Suppress notifications",
+      description: "Defaults to `false`, sends the message as silent, triggers no notifications to clients.",
+    },
   },
 };
