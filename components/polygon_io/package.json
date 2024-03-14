@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/polygon_io",
+  "version": "0.0.1",
+  "description": "Pipedream Polygon.io Components",
+  "main": "polygon_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "polygon_io"
+  ],
+  "homepage": "https://pipedream.com/apps/polygon_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
