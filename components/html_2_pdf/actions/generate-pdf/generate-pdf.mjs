@@ -19,7 +19,7 @@ export default {
       description: "The URL you want to convert to PDF.",
       optional: true,
     },
-    hmtl: {
+    html: {
       type: "string",
       label: "HTML",
       description: "The HTML you want to convert to PDF.",
@@ -144,13 +144,14 @@ export default {
     }
     const response = await this.html2Pdf.createPdf({
       $,
+      responseType: "arraybuffer",
       params: {
         url: this.url,
-        hmtl: this.hmtl,
+        html: this.html,
         header: this.header,
         footer: this.footer,
-        pageOffset: this.pageOffset,
-        pageSize: this.pageSize,
+        page_offset: this.pageOffset,
+        page_size: this.pageSize,
         orientation: this.orientation,
         width: this.width,
         height: this.height,
@@ -159,10 +160,10 @@ export default {
         left: this.left,
         right: this.right,
         unit: this.unit,
-        cssMediaType: this.cssMediaType,
-        optimizeLayout: this.optimizeLayout,
-        lazyLoad: this.lazyLoad,
-        waitTime: this.waitTime,
+        css_media_type: this.cssMediaType,
+        optimize_layout: this.optimizeLayout,
+        lazy_load: this.lazyLoad,
+        wait_time: this.waitTime,
         css: this.css,
       },
     });
