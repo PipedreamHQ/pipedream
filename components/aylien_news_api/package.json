@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/aylien_news_api",
+  "version": "0.0.1",
+  "description": "Pipedream Aylien News API Components",
+  "main": "aylien_news_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "aylien_news_api"
+  ],
+  "homepage": "https://pipedream.com/apps/aylien_news_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -503,6 +503,9 @@ importers:
       axios: 0.21.4
       lodash: 4.17.21
 
+  components/asin_data_api:
+    specifiers: {}
+
   components/asknicely:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -625,6 +628,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/aylien_news_api:
+    specifiers: {}
+
   components/azure_ai_vision:
     specifiers: {}
 
@@ -720,6 +726,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/better_stack:
+    specifiers: {}
+
   components/better_uptime:
     specifiers: {}
 
@@ -735,6 +744,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/bigbox:
+    specifiers: {}
+
   components/bigmailer:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -746,6 +758,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/bigpicture_io:
+    specifiers: {}
 
   components/bilionis:
     specifiers:
@@ -799,6 +814,9 @@ importers:
   components/blockchain_exchange:
     specifiers: {}
 
+  components/blocknative:
+    specifiers: {}
+
   components/blogger:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -812,6 +830,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/blue:
+    specifiers: {}
+
+  components/bluecart_api:
     specifiers: {}
 
   components/bluesky_by_unshape:
@@ -869,6 +890,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/brainshop:
+    specifiers: {}
 
   components/braintree:
     specifiers: {}
@@ -1137,7 +1161,12 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/chatbot_builder:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+      qs: ^6.12.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      qs: 6.12.0
 
   components/chatbotic:
     specifiers: {}
@@ -1160,7 +1189,10 @@ importers:
     specifiers: {}
 
   components/chatpdf:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/chatrace:
     specifiers: {}
@@ -1175,6 +1207,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/cheddar:
+    specifiers: {}
+
+  components/chimp_rewriter:
     specifiers: {}
 
   components/chmeetings:
@@ -1563,6 +1598,9 @@ importers:
   components/corrently:
     specifiers: {}
 
+  components/countdown_api:
+    specifiers: {}
+
   components/coupontools:
     specifiers: {}
 
@@ -1576,6 +1614,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/craftmypdf:
+    specifiers: {}
+
+  components/crawlbase:
     specifiers: {}
 
   components/credit_repair_cloud:
@@ -1725,6 +1766,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       uuid: 8.3.2
+
+  components/dataforseo:
+    specifiers: {}
 
   components/datagma:
     specifiers: {}
@@ -2194,6 +2238,9 @@ importers:
   components/easypost:
     specifiers: {}
 
+  components/easysendy:
+    specifiers: {}
+
   components/easyship:
     specifiers: {}
 
@@ -2536,6 +2583,9 @@ importers:
   components/finmo:
     specifiers: {}
 
+  components/finnhub:
+    specifiers: {}
+
   components/firebase_admin_sdk:
     specifiers:
       '@firebase/app-compat': ^0.1.25
@@ -2606,7 +2656,10 @@ importers:
     specifiers: {}
 
   components/fogbugz:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/follow_up_boss:
     specifiers: {}
@@ -2714,7 +2767,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/freshmarketer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/freshsales:
     specifiers: {}
@@ -2789,6 +2845,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
+
+  components/geoapify:
+    specifiers: {}
 
   components/geodb_cities:
     specifiers:
@@ -3350,6 +3409,9 @@ importers:
       async-retry: 1.3.3
       moment: 2.29.4
 
+  components/hashnode:
+    specifiers: {}
+
   components/heartbeat:
     specifiers: {}
 
@@ -3391,7 +3453,10 @@ importers:
       xml-js: 1.6.11
 
   components/helpspace:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/helpwise:
     specifiers: {}
@@ -3443,7 +3508,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/home_connect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/hookdeck:
     specifiers:
@@ -3557,7 +3625,10 @@ importers:
     specifiers: {}
 
   components/hyperise:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/hyros:
     specifiers:
@@ -3572,6 +3643,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash.pickby: 4.6.0
+
+  components/ibm_x_force_exchange:
+    specifiers: {}
 
   components/icontact:
     specifiers: {}
@@ -4490,6 +4564,12 @@ importers:
   components/mav:
     specifiers: {}
 
+  components/maxmind_geoip2:
+    specifiers: {}
+
+  components/maxmind_minfraud:
+    specifiers: {}
+
   components/mctime:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -4525,6 +4605,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/melissa_data:
+    specifiers: {}
 
   components/melo:
     specifiers:
@@ -4870,6 +4953,9 @@ importers:
   components/n8n_io:
     specifiers: {}
 
+  components/namecheap:
+    specifiers: {}
+
   components/namely:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4888,6 +4974,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/nano_nets:
+    specifiers: {}
+
+  components/nasa:
     specifiers: {}
 
   components/nasdaq_data_link_time_series_and_table_data_:
@@ -4964,7 +5053,13 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/new_sloth:
+    specifiers: {}
+
   components/new_york_times:
+    specifiers: {}
+
+  components/newscatcher:
     specifiers: {}
 
   components/newsletter:
@@ -5325,6 +5420,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/outscraper:
+    specifiers: {}
+
   components/outseta:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5352,6 +5450,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/paddle:
+    specifiers: {}
 
   components/pagerduty:
     specifiers:
@@ -5390,6 +5491,9 @@ importers:
       '@pipedream/platform': ^1.3.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/parsio_io:
+    specifiers: {}
 
   components/passcreator:
     specifiers:
@@ -5496,6 +5600,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/persona:
+    specifiers: {}
 
   components/personio:
     specifiers:
@@ -5945,6 +6052,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/proxy_spider:
+    specifiers: {}
+
   components/proxycurl:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6131,7 +6241,10 @@ importers:
     specifiers: {}
 
   components/reachmail:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/readwise:
     specifiers:
@@ -6185,6 +6298,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       recurly: 3.29.0
+
+  components/redcircle_api:
+    specifiers: {}
 
   components/reddit:
     specifiers:
@@ -6444,6 +6560,9 @@ importers:
       moment: 2.29.4
 
   components/rollbar:
+    specifiers: {}
+
+  components/rosette_text_analytics:
     specifiers: {}
 
   components/route4me:
@@ -6741,7 +6860,10 @@ importers:
     specifiers: {}
 
   components/sendloop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/sendoso:
     specifiers:
@@ -6775,6 +6897,9 @@ importers:
       slugify: 1.6.6
 
   components/seqera:
+    specifiers: {}
+
+  components/serphouse:
     specifiers: {}
 
   components/serply:
@@ -7219,6 +7344,9 @@ importers:
   components/solarwinds_service_desk:
     specifiers: {}
 
+  components/solcast:
+    specifiers: {}
+
   components/solve_crm:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -7297,6 +7425,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
+
+  components/sproutgigs:
+    specifiers: {}
 
   components/spydra:
     specifiers: {}
@@ -7449,7 +7580,10 @@ importers:
       '@supabase/supabase-js': 2.39.0
 
   components/supercast:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/superdocu:
     specifiers:
@@ -7576,6 +7710,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/taggun:
+    specifiers: {}
 
   components/talend:
     specifiers: {}
@@ -7903,6 +8040,9 @@ importers:
   components/tomba:
     specifiers: {}
 
+  components/tomtom:
+    specifiers: {}
+
   components/toneden:
     specifiers: {}
 
@@ -8130,6 +8270,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/updown_io:
+    specifiers: {}
 
   components/upkeep:
     specifiers:
@@ -8452,6 +8595,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/weaviate:
+    specifiers: {}
+
   components/webflow:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -8524,6 +8670,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
       md5: 2.3.0
+
+  components/whoisfreaks:
+    specifiers: {}
 
   components/whop:
     specifiers:
@@ -8872,6 +9021,9 @@ importers:
   components/zenscrape:
     specifiers: {}
 
+  components/zenserp:
+    specifiers: {}
+
   components/zerobounce:
     specifiers: {}
 
@@ -9102,6 +9254,9 @@ importers:
     specifiers: {}
 
   components/zuora:
+    specifiers: {}
+
+  components/zyte_api:
     specifiers: {}
 
   helpers:
@@ -17521,6 +17676,17 @@ packages:
       function-bind: 1.1.1
       get-intrinsic: 1.2.1
 
+  /call-bind/1.0.7:
+    resolution: {integrity: sha512-GHTSNSYICQ7scH7sZ+M2rFopRoLh8t2bLSW6BbgrtLsahOIB5iyAVJf9GjWK3cYTDaMj4XdBpM1cA6pIS0Kv2w==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      es-define-property: 1.0.0
+      es-errors: 1.3.0
+      function-bind: 1.1.2
+      get-intrinsic: 1.2.4
+      set-function-length: 1.2.1
+    dev: false
+
   /call-me-maybe/1.0.2:
     resolution: {integrity: sha512-HpX65o1Hnr9HH25ojC1YGs7HCQLq0GCOibSaWER0eNpgJ/Z1MZv2mTc7+xh6WOPxbRVcmgbv4hGU+uSQ/2xFZQ==}
     dev: false
@@ -18621,6 +18787,15 @@ packages:
       gopd: 1.0.1
       has-property-descriptors: 1.0.0
 
+  /define-data-property/1.1.4:
+    resolution: {integrity: sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      es-define-property: 1.0.0
+      es-errors: 1.3.0
+      gopd: 1.0.1
+    dev: false
+
   /define-lazy-prop/2.0.0:
     resolution: {integrity: sha512-Ds09qNh8yw3khSjiJjiUInaGX9xlqZDY7JVryGxdxV7NPeuqQfplOpQ66yJFZut3jLa5zOwkXw1g9EI2uKh4Og==}
     engines: {node: '>=8'}
@@ -19215,6 +19390,17 @@ packages:
   /es-class/2.1.1:
     resolution: {integrity: sha512-loFNtCIGY81XvaHMzsxPocOgwZW71p+d/iES+zDSWeK9D4JaxrR/AoO0sZnWbV39D/ESppKbHrApxMi+Vbl8rg==}
     dev: false
+
+  /es-define-property/1.0.0:
+    resolution: {integrity: sha512-jxayLKShrEqqzJ0eumQbVhTYQM27CfT1T35+gCgDFoL82JLsXqTJ76zv6A0YLOgEnLUMvLzsDsGIrl8NFpT2gQ==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      get-intrinsic: 1.2.4
+    dev: false
+
+  /es-errors/1.3.0:
+    resolution: {integrity: sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==}
+    engines: {node: '>= 0.4'}
 
   /es-get-iterator/1.1.3:
     resolution: {integrity: sha512-sPZmqHBe6JIiTfN5q2pEi//TwxmAFHwj/XEuYjTuse78i8KxaqMTTzxPoFKuzRpDpTJ+0NAbpfenkmH2rePtuw==}
@@ -20214,7 +20400,7 @@ packages:
       dezalgo: 1.0.4
       hexoid: 1.0.0
       once: 1.4.0
-      qs: 6.11.2
+      qs: 6.12.0
     dev: false
 
   /fp-ts/2.16.1:
@@ -20312,6 +20498,9 @@ packages:
 
   /function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
+
+  /function-bind/1.1.2:
+    resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
 
   /function.prototype.name/1.1.6:
     resolution: {integrity: sha512-Z5kx79swU5P27WEayXM1tBi5Ze/lbIyiNgU3qyXUOf9b2rgXYyF9Dy9Cx+IQv/Lc8WCG6L82zwUPpSS9hGehIg==}
@@ -20469,6 +20658,16 @@ packages:
       has: 1.0.3
       has-proto: 1.0.1
       has-symbols: 1.0.3
+
+  /get-intrinsic/1.2.4:
+    resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      es-errors: 1.3.0
+      function-bind: 1.1.2
+      has-proto: 1.0.1
+      has-symbols: 1.0.3
+      hasown: 2.0.1
 
   /get-package-type/0.1.0:
     resolution: {integrity: sha512-pjzuKtY64GYfWizNAJ0fr9VqttZkNiK2iS430LtIHzjBEr6bX8Am2zm4sW4Ro5wjWW5cAlRL1qAMTcXbjNAO2Q==}
@@ -20814,7 +21013,7 @@ packages:
       extend: 3.0.2
       gaxios: 4.3.3
       google-auth-library: 7.14.1
-      qs: 6.11.2
+      qs: 6.12.0
       url-template: 2.0.8
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -20829,7 +21028,7 @@ packages:
       extend: 3.0.2
       gaxios: 5.1.3
       google-auth-library: 8.9.0
-      qs: 6.11.2
+      qs: 6.12.0
       url-template: 2.0.8
       uuid: 9.0.1
     transitivePeerDependencies:
@@ -20844,7 +21043,7 @@ packages:
       extend: 3.0.2
       gaxios: 6.1.1
       google-auth-library: 9.1.0
-      qs: 6.11.2
+      qs: 6.12.0
       url-template: 2.0.8
       uuid: 9.0.1
     transitivePeerDependencies:
@@ -20910,7 +21109,7 @@ packages:
   /gopd/1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
     dependencies:
-      get-intrinsic: 1.2.1
+      get-intrinsic: 1.2.4
 
   /got/11.8.6:
     resolution: {integrity: sha512-6tfZ91bOr7bOXnK7PRDCGBLa1H4U080YHNaAQ2KsMGlLEzRbk44nsZF2E1IeRc3vtJHPVbKCYgdFbaGO2ljd8g==}
@@ -21150,6 +21349,12 @@ packages:
     dependencies:
       get-intrinsic: 1.2.1
 
+  /has-property-descriptors/1.0.2:
+    resolution: {integrity: sha512-55JNKuIW+vq4Ke1BjOTjM2YctQIvCT7GFzHwmfZPGo5wnrgkid0YQtnAleFSqumZm4az3n2BS+erby5ipJdgrg==}
+    dependencies:
+      es-define-property: 1.0.0
+    dev: false
+
   /has-proto/1.0.1:
     resolution: {integrity: sha512-7qE+iP+O+bgF9clE5+UoBFzE65mlBiVj3tKCrlNQ0Ogwm0BjpT/gK4SlLYDMybDh5I3TCTKnPPa0oMG7JDYrhg==}
     engines: {node: '>= 0.4'}
@@ -21196,6 +21401,12 @@ packages:
       is-stream: 2.0.1
       type-fest: 0.8.1
     dev: false
+
+  /hasown/2.0.1:
+    resolution: {integrity: sha512-1/th4MHjnwncwXsIW6QMzlvYL9kG5e/CpVvLRZe4XPa8TOUNbCELqmvhDmnkNsAjwaG4+I8gJJL0JBvTTLO9qA==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      function-bind: 1.1.2
 
   /hasurl/1.0.0:
     resolution: {integrity: sha512-43ypUd3DbwyCT01UYpA99AEZxZ4aKtRxWGBHEIbjcOsUghd9YUON0C+JF6isNjaiwC/UF5neaUudy6JS9jZPZQ==}
@@ -23556,7 +23767,7 @@ packages:
     dependencies:
       gaxios: 5.1.3
       isomorphic-unfetch: 3.1.0
-      qs: 6.11.2
+      qs: 6.12.0
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -24816,7 +25027,7 @@ packages:
       p-wait-for: 3.2.0
       parallel-transform: 1.2.0
       pump: 3.0.0
-      qs: 6.11.2
+      qs: 6.12.0
       rimraf: 3.0.2
       tempy: 0.3.0
       through2-filter: 3.0.0
@@ -24933,7 +25144,7 @@ packages:
     resolution: {integrity: sha512-m+msgBJYgwFbIZBIPOnsGOtBt9xP03UqmkmuEcgTcLlr/U1GUJQrVI7cDFRgujybb9Cl1wl4thIGyM3wt6X+zQ==}
     dependencies:
       json-bigint: 1.0.0
-      qs: 6.11.2
+      qs: 6.12.0
       superagent: 7.1.5
       superagent-proxy: 3.0.0_superagent@7.1.5
     transitivePeerDependencies:
@@ -25191,6 +25402,10 @@ packages:
   /object-inspect/1.12.3:
     resolution: {integrity: sha512-geUvdk7c+eizMNUDkRpW1wJwgfOiOeHbxBR/hLXK1aT6zmVSO0jsQcs7fj6MGw89jC/cjGfLcNOrtMYtGqm81g==}
 
+  /object-inspect/1.13.1:
+    resolution: {integrity: sha512-5qoj1RUiKOMsCCNLV1CBiPYE10sziTsnmNxkAI/rZhiD63CF7IqdFGC/XzjWjpSgLf0LxXX3bDFIh0E18f6UhQ==}
+    dev: false
+
   /object-is/1.1.5:
     resolution: {integrity: sha512-3cyDsyHgtmi7I7DfSSI2LDp6SK2lwvtbg0p0R1e0RvTqF5ceGx+K2dfSjm1bKDMVCFEDAQvy+o8c6a7VujOddw==}
     engines: {node: '>= 0.4'}
@@ -25252,7 +25467,7 @@ packages:
     dependencies:
       lodash: 4.17.21
       node-fetch: 2.7.0
-      qs: 6.11.2
+      qs: 6.12.0
     dev: false
 
   /open/7.4.2:
@@ -26489,6 +26704,13 @@ packages:
       side-channel: 1.0.4
     dev: false
 
+  /qs/6.12.0:
+    resolution: {integrity: sha512-trVZiI6RMOkO476zLGaBIzszOdFPnCCXHPG9kn0yuS1uz6xdVxPfZdB3vUig9pxPFDM9BRAgz/YUIVQ1/vuiUg==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.6
+    dev: false
+
   /qs/6.5.3:
     resolution: {integrity: sha512-qxXIEh4pCGfHICj1mAJQ2/2XVZkjCDTcEgfoSQxc/fYivUZxTkk7L3bDBJSoNrEzXI17oUO5Dp07ktqE5KzczA==}
     engines: {node: '>=0.6'}
@@ -27444,6 +27666,18 @@ packages:
   /set-blocking/2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
+  /set-function-length/1.2.1:
+    resolution: {integrity: sha512-j4t6ccc+VsKwYHso+kElc5neZpjtq9EnRICFZtWyBsLojhmeF/ZBd/elqm22WJh/BziDe/SBiOeAt0m2mfLD0g==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      define-data-property: 1.1.4
+      es-errors: 1.3.0
+      function-bind: 1.1.2
+      get-intrinsic: 1.2.4
+      gopd: 1.0.1
+      has-property-descriptors: 1.0.2
+    dev: false
+
   /set-function-name/2.0.1:
     resolution: {integrity: sha512-tMNCiqYVkXIZgc2Hnoy2IvC/f8ezc5koaRFkCjrpWzGpCd3qbZXPzVy9MAZzK1ch/X0jvSkojys3oqJN0qCmdA==}
     engines: {node: '>= 0.4'}
@@ -27506,7 +27740,7 @@ packages:
     dependencies:
       got: 11.8.6
       lodash: 4.17.21
-      qs: 6.11.2
+      qs: 6.12.0
       stopcock: 1.1.0
     dev: false
 
@@ -27565,6 +27799,16 @@ packages:
       call-bind: 1.0.2
       get-intrinsic: 1.2.1
       object-inspect: 1.12.3
+    dev: false
+
+  /side-channel/1.0.6:
+    resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      call-bind: 1.0.7
+      es-errors: 1.3.0
+      get-intrinsic: 1.2.4
+      object-inspect: 1.13.1
     dev: false
 
   /signal-exit/3.0.7:
@@ -28237,7 +28481,7 @@ packages:
       formidable: 1.2.6
       methods: 1.1.2
       mime: 1.6.0
-      qs: 6.11.2
+      qs: 6.12.0
       readable-stream: 2.3.8
     transitivePeerDependencies:
       - supports-color
@@ -28255,7 +28499,7 @@ packages:
       formidable: 1.2.6
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.11.2
+      qs: 6.12.0
       readable-stream: 3.6.2
     transitivePeerDependencies:
       - supports-color
@@ -28274,7 +28518,7 @@ packages:
       formidable: 1.2.6
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.11.2
+      qs: 6.12.0
       readable-stream: 3.6.2
       semver: 7.5.4
     transitivePeerDependencies:
@@ -28293,7 +28537,7 @@ packages:
       formidable: 2.1.2
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.11.2
+      qs: 6.12.0
       readable-stream: 3.6.2
       semver: 7.5.4
     transitivePeerDependencies:
@@ -28914,7 +29158,7 @@ packages:
       jsonwebtoken: 8.5.1
       lodash: 4.17.21
       q: 2.0.3
-      qs: 6.11.2
+      qs: 6.12.0
       rootpath: 0.1.2
       scmp: 2.1.0
       url-parse: 1.5.10
@@ -29903,7 +30147,7 @@ packages:
     dependencies:
       li: 1.3.0
       parse-link-header: 1.0.1
-      qs: 6.11.2
+      qs: 6.12.0
       superagent: 4.1.0
     transitivePeerDependencies:
       - supports-color
