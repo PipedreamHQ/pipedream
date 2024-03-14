@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,78 +10,80 @@ export default {
       label: "Parcel ID",
       description: "The unique identifier of the parcel",
     },
-    parcelData: {
-      type: "object",
-      label: "Parcel Data",
-      description: "The data for creating or updating a parcel",
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of the recipient",
+    },
+    address: {
+      type: "string",
+      label: "Address",
+      description: "Address of the recipient",
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "City of the recipient",
+    },
+    houseNumber: {
+      type: "string",
+      label: "House Number",
+      description: "House number of the recipient",
+    },
+    postalCode: {
+      type: "string",
+      label: "Postal Code",
+      description: "Zip code of the recipient",
+    },
+    country: {
+      type: "string",
+      label: "country",
+      description: "Country of the recipient",
+      options: constants.COUNTRIES,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.sendcloud.dev";
+      return "https://panel.sendcloud.sc/api/v2";
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        data,
-        params,
-        headers,
+        auth,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
+        auth: {
+          ...auth,
+          username: `${this.$auth.public_key}`,
+          password: `${this.$auth.secret_key}`,
         },
-        data,
-        params,
       });
     },
-    async createParcel(parcelData) {
+    async createParcel(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/parcels",
-        data: parcelData,
+        ...args,
       });
     },
-    async updateParcel(parcelId, parcelData) {
+    async updateParcel({
+      id, ...args
+    }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/parcels/${parcelId}`,
-        data: parcelData,
+        path: `/parcels/${id}`,
+        ...args,
       });
     },
-    async listParcels() {
-      return this.paginate(this._makeRequest, {
+    async listParcels(args = {}) {
+      return this._makeRequest, ({
         path: "/parcels",
+        ...args,
       });
-    },
-    async paginate(fn, opts = {}) {
-      const results = [];
-      let response;
-      do {
-        response = await fn({
-          ...opts,
-          params: {
-            ...opts.params,
-            page: opts.params?.page || 1,
-          },
-        });
-        results.push(...response.parcels);
-        opts.params.page = response.next
-          ? response.next
-          : null;
-      } while (opts.params.page);
-      return results;
     },
   },
-  version: "0.0.{{ts}}",
 };
