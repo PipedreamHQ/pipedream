@@ -37,6 +37,12 @@ export default {
         "includeSentViaPipedream",
       ],
     },
+    suppressNotifications: {
+      propDefinition: [
+        discord,
+        "suppressNotifications",
+      ],
+    },
   },
   methods: {
     getUserInputProps(omit = [
