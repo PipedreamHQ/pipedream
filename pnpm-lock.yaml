@@ -415,6 +415,9 @@ importers:
       rhea-promise: 2.1.0
       uuid: 8.3.2
 
+  components/annature:
+    specifiers: {}
+
   components/announcekit:
     specifiers: {}
 
@@ -440,6 +443,9 @@ importers:
     specifiers: {}
 
   components/api_bible:
+    specifiers: {}
+
+  components/api_ninjas:
     specifiers: {}
 
   components/api_sports:
@@ -619,6 +625,9 @@ importers:
       nanoid: 5.0.4
       uuid: 9.0.1
 
+  components/axesso_data_service:
+    specifiers: {}
+
   components/axis_lms:
     specifiers: {}
 
@@ -676,6 +685,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/barcode_lookup:
+    specifiers: {}
 
   components/bart:
     specifiers: {}
@@ -1089,6 +1101,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/carmd:
+    specifiers: {}
+
   components/cartes:
     specifiers: {}
 
@@ -1130,6 +1145,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/changenow:
+    specifiers: {}
 
   components/chaport:
     specifiers: {}
@@ -2615,6 +2633,9 @@ importers:
   components/fivetran:
     specifiers: {}
 
+  components/fixer_io:
+    specifiers: {}
+
   components/flexmail:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3723,6 +3744,9 @@ importers:
   components/imgbb:
     specifiers: {}
 
+  components/imgix:
+    specifiers: {}
+
   components/imgur:
     specifiers: {}
 
@@ -3852,6 +3876,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/iqair_airvisual:
+    specifiers: {}
+
+  components/iscraper:
     specifiers: {}
 
   components/isn:
@@ -4109,6 +4136,9 @@ importers:
       crypto: 1.0.1
 
   components/kucoin_futures:
+    specifiers: {}
+
+  components/kvstore_io:
     specifiers: {}
 
   components/kwtsms:
@@ -4379,6 +4409,9 @@ importers:
   components/luminous:
     specifiers: {}
 
+  components/luno:
+    specifiers: {}
+
   components/lusha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -4568,6 +4601,9 @@ importers:
     specifiers: {}
 
   components/maxmind_minfraud:
+    specifiers: {}
+
+  components/mboum:
     specifiers: {}
 
   components/mctime:
@@ -5382,6 +5418,9 @@ importers:
   components/opsgenie:
     specifiers: {}
 
+  components/optimoroute:
+    specifiers: {}
+
   components/orbisx:
     specifiers: {}
 
@@ -5493,6 +5532,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/parsio_io:
+    specifiers: {}
+
+  components/partnerize:
     specifiers: {}
 
   components/passcreator:
@@ -5831,6 +5873,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/pointerpro:
+    specifiers: {}
+
+  components/polygon_io:
     specifiers: {}
 
   components/polygonscan:
@@ -6804,6 +6849,9 @@ importers:
   components/sellix:
     specifiers: {}
 
+  components/semaphore:
+    specifiers: {}
+
   components/semgrep:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -6897,6 +6945,9 @@ importers:
       slugify: 1.6.6
 
   components/seqera:
+    specifiers: {}
+
+  components/serpdog:
     specifiers: {}
 
   components/serphouse:
@@ -7080,6 +7131,9 @@ importers:
       validate.js: 0.13.1
 
   components/shorten_rest:
+    specifiers: {}
+
+  components/shortpixel:
     specifiers: {}
 
   components/shotstack:
@@ -8094,6 +8148,9 @@ importers:
       form-data: 4.0.0
 
   components/translate_com:
+    specifiers: {}
+
+  components/trawlingweb:
     specifiers: {}
 
   components/trello:
