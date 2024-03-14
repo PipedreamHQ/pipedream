@@ -3501,8 +3501,10 @@ importers:
 
   components/html_2_pdf:
     specifiers:
+      '@pipedream/platform': ^1.5.1
       fs: ^0.0.1-security
     dependencies:
+      '@pipedream/platform': 1.6.0
       fs: 0.0.1-security
 
   components/html_css_to_image:
