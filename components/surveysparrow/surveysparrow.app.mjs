@@ -5,10 +5,11 @@ export default {
   type: "app",
   app: "surveysparrow",
   propDefinitions: {
-    survey: {
+    surveyId: {
       type: "string",
-      label: "Survey",
+      label: "Survey ID",
       description: "Identifier of a survey",
+      required: true,
       async options({ page }) {
         const { data: surveys } = await this.listSurveys({
           params: {
@@ -53,6 +54,60 @@ export default {
       label: "Welcome Text",
       description: "Welcome Text of the survey",
       optional: true,
+    },
+    emailAddress: {
+      type: "string",
+      label: "Email Address",
+      description: "Email address of the contact",
+      required: true,
+    },
+    phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "Phone number of the contact",
+      optional: true,
+    },
+    mobileNumber: {
+      type: "string",
+      label: "Mobile Number",
+      description: "Mobile number of the contact",
+      optional: true,
+    },
+    fullName: {
+      type: "string",
+      label: "Full Name",
+      description: "Full name of the contact",
+      optional: true,
+    },
+    jobTitle: {
+      type: "string",
+      label: "Job Title",
+      description: "Job title of the contact",
+      optional: true,
+    },
+    savedEmailTemplateName: {
+      type: "string",
+      label: "Saved Email Template Name",
+      description: "Name of the saved email share template",
+      required: true,
+    },
+    recipientEmailAddress: {
+      type: "string",
+      label: "Recipient's Email Address",
+      description: "Email address of the recipient",
+      required: true,
+    },
+    savedSmsTemplateName: {
+      type: "string",
+      label: "Saved SMS Template Name",
+      description: "Name of the saved SMS share template",
+      required: true,
+    },
+    recipientMobileNumbers: {
+      type: "string[]",
+      label: "Recipient's Mobile Numbers",
+      description: "Mobile numbers of the recipients",
+      required: true,
     },
   },
   methods: {
@@ -108,27 +163,51 @@ export default {
         ...args,
       });
     },
-    createContact(args = {}) {
+    createContact({
+      emailAddress,
+      phoneNumber,
+      mobileNumber,
+      fullName,
+      jobTitle,
+      contactType,
+    }) {
       return this._makeRequest({
         path: "/contacts",
         method: "POST",
-        ...args,
+        data: {
+          email: emailAddress,
+          phone: phoneNumber,
+          mobile: mobileNumber,
+          name: fullName,
+          job_title: jobTitle,
+          contact_type: contactType,
+        },
       });
     },
-    createSurvey(args = {}) {
-      return this._makeRequest({
-        path: "/surveys",
-        method: "POST",
-        ...args,
-      });
-    },
-    updateSurvey({
-      surveyId, ...args
+    sendEmailShareTemplate({
+      savedEmailTemplateName,
+      recipientEmailAddress,
     }) {
       return this._makeRequest({
-        path: `/surveys/${surveyId}`,
-        method: "PATCH",
-        ...args,
+        path: "/share/email",
+        method: "POST",
+        data: {
+          template_name: savedEmailTemplateName,
+          recipient_email: recipientEmailAddress,
+        },
+      });
+    },
+    sendSmsShareTemplate({
+      savedSmsTemplateName,
+      recipientMobileNumbers,
+    }) {
+      return this._makeRequest({
+        path: "/share/sms",
+        method: "POST",
+        data: {
+          template_name: savedSmsTemplateName,
+          recipient_mobile_numbers: recipientMobileNumbers,
+        },
       });
     },
   },
