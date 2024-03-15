@@ -7151,7 +7151,10 @@ importers:
       validate.js: 0.13.1
 
   components/shorten_rest:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/shortpixel:
     specifiers: {}
@@ -7456,7 +7459,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/splynx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/spoke_phone:
     specifiers: {}
