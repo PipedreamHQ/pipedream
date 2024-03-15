@@ -2084,7 +2084,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/docupost:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/docusign:
     specifiers:
@@ -3590,7 +3593,12 @@ importers:
     specifiers: {}
 
   components/html_2_pdf:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      fs: 0.0.1-security
 
   components/html_css_to_image:
     specifiers:
@@ -7451,7 +7459,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/splynx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/spoke_phone:
     specifiers: {}
