@@ -28,13 +28,13 @@ export default {
         ...args,
         baseURL: this._baseUrl(),
         params: {
-          api_key: this.$auth.api_key,
           ...params,
+          api_key: this.$auth.email_validation_api_key,
         },
       });
     },
     async checkEmailDeliverability(args) {
-      return axios(this, {
+      return this._makeRequest({
         method: "GET",
         url: "/v1",
         ...args,

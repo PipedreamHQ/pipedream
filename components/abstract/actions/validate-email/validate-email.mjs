@@ -30,7 +30,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Checked email "${this.emailAddress}" (${response.deliverability})`);
+    $.export("$summary", `Checked email ${this.emailAddress} (${response.deliverability})`);
     return response;
   },
 };
