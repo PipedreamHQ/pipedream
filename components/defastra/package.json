@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/defastra",
+  "version": "0.0.1",
+  "description": "Pipedream Defastra Components",
+  "main": "defastra.app.mjs",
+  "keywords": [
+    "pipedream",
+    "defastra"
+  ],
+  "homepage": "https://pipedream.com/apps/defastra",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

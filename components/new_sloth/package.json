@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/new_sloth",
+  "version": "0.0.1",
+  "description": "Pipedream New Sloth Components",
+  "main": "new_sloth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "new_sloth"
+  ],
+  "homepage": "https://pipedream.com/apps/new_sloth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/paddle",
+  "version": "0.0.1",
+  "description": "Pipedream Paddle Components",
+  "main": "paddle.app.mjs",
+  "keywords": [
+    "pipedream",
+    "paddle"
+  ],
+  "homepage": "https://pipedream.com/apps/paddle",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/proprofs_quiz_maker",
+  "version": "0.0.1",
+  "description": "Pipedream ProProfs Quiz Maker Components",
+  "main": "proprofs_quiz_maker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "proprofs_quiz_maker"
+  ],
+  "homepage": "https://pipedream.com/apps/proprofs_quiz_maker",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

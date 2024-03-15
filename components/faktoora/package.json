@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/faktoora",
+  "version": "0.0.1",
+  "description": "Pipedream faktoora Components",
+  "main": "faktoora.app.mjs",
+  "keywords": [
+    "pipedream",
+    "faktoora"
+  ],
+  "homepage": "https://pipedream.com/apps/faktoora",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

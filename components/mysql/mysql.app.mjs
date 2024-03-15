@@ -102,16 +102,25 @@ export default {
         username,
         password,
         database,
+        ca,
+        key,
+        cert,
       } = this.$auth;
+
       return {
         host,
         port,
         user: username,
         password,
         database,
-        ssl: {
-          rejectUnauthorized: false,
-        },
+        ...(ca && cert && key && {
+          ssl: {
+            rejectUnauthorized: true,
+            ca,
+            cert,
+            key,
+          },
+        }),
       };
     },
     async closeConnection(connection) {
@@ -329,17 +338,14 @@ export default {
         ...args,
       });
     },
-    async executeStoredProcedure({
+    executeStoredProcedure({
       storedProcedure, values = [], ...args
     } = {}) {
-      const [
-        result,
-      ] = await this.executeQuery({
+      return this.executeQuery({
         sql: `CALL ${storedProcedure}(${values.map(() => "?")})`,
         values,
         ...args,
       });
-      return result;
     },
   },
 };

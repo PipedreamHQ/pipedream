@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/countdown_api",
+  "version": "0.0.1",
+  "description": "Pipedream Countdown API Components",
+  "main": "countdown_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "countdown_api"
+  ],
+  "homepage": "https://pipedream.com/apps/countdown_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

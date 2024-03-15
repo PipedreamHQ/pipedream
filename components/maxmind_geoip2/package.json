@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/maxmind_geoip2",
+  "version": "0.0.1",
+  "description": "Pipedream MaxMind GeoIP2 Components",
+  "main": "maxmind_geoip2.app.mjs",
+  "keywords": [
+    "pipedream",
+    "maxmind_geoip2"
+  ],
+  "homepage": "https://pipedream.com/apps/maxmind_geoip2",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/google_cloud_translate",
+  "version": "0.0.1",
+  "description": "Pipedream Google_cloud_translate Components",
+  "main": "google_cloud_translate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_cloud_translate"
+  ],
+  "homepage": "https://pipedream.com/apps/google_cloud_translate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+  }
+}

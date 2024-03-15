@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/paystack",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Paystack Components",
-  "main": "dist/app/paystack.app.mjs",
+  "main": "paystack.app.mjs",
   "keywords": [
     "pipedream",
     "paystack"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/paystack",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
   }
 }
