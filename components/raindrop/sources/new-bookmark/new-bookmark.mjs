@@ -48,11 +48,13 @@ export default {
   },
   async run() {
     let page = this._getPage();
-
+    const createdDate = `created:>${new Date().toISOString().slice(0, 7)}`
+    
     while (true) {
       const { items: bookmarks } = await this.raindrop.getRaindrops(this, this.collectionId, {
         page,
         perpage: constants.DEFAULT_PER_PAGE,
+        search: createdDate
       });
       this.emitEvents(bookmarks);
 
