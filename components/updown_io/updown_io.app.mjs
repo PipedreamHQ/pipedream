@@ -3,56 +3,44 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "updown_io",
-  propDefinitions: {
-    threshold: {
-      type: "integer",
-      label: "Threshold",
-      description: "Customizable threshold for when alerts should be triggered.",
-      optional: true,
-    },
-  },
+  propDefinitions: {},
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://updown.io/api";
     },
-    async _makeRequest(opts = {}) {
+    _authParams(params) {
+      return {
+        ...params,
+        "api-key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
+        params,
         ...otherOpts
       } = opts;
-
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+        params: this._authParams(params),
       });
     },
-    async checkDown(opts = {}) {
+    createRecipient(opts = {}) {
       return this._makeRequest({
+        method: "POST",
+        path: "/recipients",
         ...opts,
-        path: "/events/check.down",
       });
     },
-    async checkLowBalance(opts = {}) {
+    deleteRecipient({
+      recipientId, ...opts
+    }) {
       return this._makeRequest({
+        method: "DELETE",
+        path: `/recipients/${recipientId}`,
         ...opts,
-        path: "/events/check.low_balance",
-      });
-    },
-    async checkSslExpiration(opts = {}) {
-      return this._makeRequest({
-        ...opts,
-        path: "/events/check.ssl_expiration",
       });
     },
   },

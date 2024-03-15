@@ -1,42 +1,39 @@
-import updown_io from "../../updown_io.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
-  type: "source",
+  ...common,
   key: "updown_io-ssl-expiration-instant",
-  name: "SSL Expiration Instant",
-  description: "Emits an event when an SSL certificate expiration is detected",
-  version: "0.0.{{ts}}",
+  name: "SSL Expiration (Instant)",
+  description: "Emit new event when an SSL certificate expiration is detected [See the documentation](https://updown.io/api#webhooks)",
+  version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
-    updown_io,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
+    ...common.props,
+    threshold: {
+      type: "integer",
+      label: "Threshold",
+      description: "Days before SSL expiration to emit an event",
+      options: [
+        1,
+        7,
+        14,
+        30,
+      ],
+      optional: true,
     },
   },
-  hooks: {
-    async deploy() {
-      const sslExpirations = await this.updown_io.checkSslExpiration();
-      sslExpirations.forEach((expiration) => {
-        this.$emit(expiration, {
-          id: expiration.check.token,
-          summary: expiration.description,
-          ts: Date.parse(expiration.time),
-        });
-      });
+  methods: {
+    ...common.methods,
+    getEventTypes() {
+      return [
+        "check.ssl_expiration",
+      ];
+    },
+    isRelevant(event) {
+      return !this.threshold || (event?.ssl && event.ssl.days_before_expiration === this.threshold);
     },
   },
-  async run() {
-    const sslExpirations = await this.updown_io.checkSslExpiration();
-    sslExpirations.forEach((expiration) => {
-      this.$emit(expiration, {
-        id: expiration.check.token,
-        summary: expiration.description,
-        ts: Date.parse(expiration.time),
-      });
-    });
-  },
+  sampleEmit,
 };
