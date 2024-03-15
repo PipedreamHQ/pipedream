@@ -12,29 +12,32 @@ export default {
     autoCorrect: {
       type: "boolean",
       label: "Auto Correct",
-      description: "You can choose to disable auto correct. To do so, just input false for the auto_correct param. By default, auto_correct is turned on.",
+      description: "You can choose to disable auto correct. By default, it is turned on.",
       optional: true,
       default: true,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://emailvalidation.abstractapi.com/v1";
+      return "https://emailvalidation.abstractapi.com";
     },
-    async checkEmailDeliverability({
-      emailAddress, autoCorrect,
+    _makeRequest({
+      $, params, ...args
     }) {
-      return axios(this, {
-        method: "GET",
-        url: this._baseUrl(),
+      return axios($, {
+        ...args,
+        baseURL: this._baseUrl(),
         params: {
           api_key: this.$auth.api_key,
-          email: emailAddress,
-          auto_correct: autoCorrect,
+          ...params,
         },
+      });
+    },
+    async checkEmailDeliverability(args) {
+      return axios(this, {
+        method: "GET",
+        url: "/v1",
+        ...args,
       });
     },
   },
