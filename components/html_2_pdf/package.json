@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/html_2_pdf",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream HTML 2 PDF Components",
   "main": "html_2_pdf.app.mjs",
   "keywords": [
@@ -11,5 +11,9 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "@pipedream/platform": "^1.5.1"
   }
 }

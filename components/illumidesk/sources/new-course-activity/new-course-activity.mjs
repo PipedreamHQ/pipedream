@@ -5,9 +5,21 @@ export default {
   key: "illumidesk-new-course-activity",
   name: "New Course Activity",
   description: "Emit new event when a new course activity is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    courseSlug: {
+      propDefinition: [
+        common.props.illumidesk,
+        "courseSlug",
+        (c) => ({
+          campusSlug: c.campusSlug,
+        }),
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     getResourceFn() {
