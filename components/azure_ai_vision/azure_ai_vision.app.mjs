@@ -1,20 +1,10 @@
 import { axios } from "@pipedream/platform";
+import { LANGUAGE_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "azure_ai_vision",
   propDefinitions: {
-    endpoint: {
-      type: "string",
-      label: "Endpoint",
-      description: "The endpoint URL of the Azure Computer Vision service.",
-    },
-    subscriptionKey: {
-      type: "string",
-      label: "Subscription Key",
-      description: "The Ocp-Apim-Subscription-Key for accessing the Azure Computer Vision service.",
-      secret: true,
-    },
     image: {
       type: "string",
       label: "Image URL",
@@ -24,65 +14,38 @@ export default {
       type: "string",
       label: "Language",
       description: "The language code of the text to be detected in the image.",
-      options: [
-        {
-          label: "Auto Detect",
-          value: "unk",
-        },
-        {
-          label: "English",
-          value: "en",
-        },
-        {
-          label: "Spanish",
-          value: "es",
-        },
-        {
-          label: "French",
-          value: "fr",
-        },
-        // Add more languages as needed
-      ],
+      options: LANGUAGE_OPTIONS,
       optional: true,
-      default: "unk",
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return this.endpoint;
+      return this.$auth.endpoint;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "POST", path, headers, data, params, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Ocp-Apim-Subscription-Key": this.$auth.subscription_key,
+        "Content-Type": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, params, ...opts
+    }) {
       return axios($, {
-        method,
-        url: `${this._baseUrl()}${path}?api-version=2023-02-01-preview`,
-        headers: {
-          ...headers,
-          "Ocp-Apim-Subscription-Key": this.subscriptionKey,
-          "Content-Type": "application/json",
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
+        params: {
+          ...params,
+          "api-version": "2023-02-01-preview",
         },
-        data,
-        params,
-        ...otherOpts,
+        ...opts,
       });
     },
-    async analyzeImage({
-      image, language,
-    }) {
+    analyzeImage(opts = {}) {
       return this._makeRequest({
-        path: "/vision/v3.2/ocr",
-        data: {
-          url: image,
-        },
-        params: {
-          language,
-          detectOrientation: "true",
-        },
+        method: "POST",
+        path: "computervision/imageanalysis:analyze",
+        ...opts,
       });
     },
   },
