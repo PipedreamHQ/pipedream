@@ -51,7 +51,7 @@ export default {
     const params = {
       view: viewId,
       filterByFormula: `CREATED_TIME() > "${lastTimestamp}"`,
-      returnFieldsByFieldId: this.returnFieldsByFieldId,
+      returnFieldsByFieldId: this.returnFieldsByFieldId || false,
     };
 
     const records = await this.airtable.listRecords({

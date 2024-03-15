@@ -93,7 +93,7 @@ export default {
     const fieldValues = this._getFieldValues();
     const isFirstRunWithFields = this.fieldIds && Object.keys(fieldValues).length === 0;
     const params = {
-      returnFieldsByFieldId: this.returnFieldsByFieldId,
+      returnFieldsByFieldId: this.returnFieldsByFieldId || false,
     };
     if (!isFirstRunWithFields) {
       params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`;

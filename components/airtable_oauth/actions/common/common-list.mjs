@@ -2,7 +2,7 @@ import airtable from "../../airtable_oauth.app.mjs";
 
 export default {
   props: {
-    sortField: {
+    sortFieldId: {
       propDefinition: [
         airtable,
         "sortFieldId",
@@ -52,7 +52,7 @@ export default {
     if (viewId) { config.view = viewId; }
     if (this.filterByFormula) { config.filterByFormula = this.filterByFormula; }
     if (this.maxRecords) { config.maxRecords = this.maxRecords; }
-    if (this.sortField && this.sortDirection) {
+    if (this.sortFieldId && this.sortDirection) {
       config.sort = [
         {
           field: this.sortFieldId,
