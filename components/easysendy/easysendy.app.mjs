@@ -4,80 +4,64 @@ export default {
   type: "app",
   app: "easysendy",
   propDefinitions: {
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The subscriber's email address.",
-    },
     listId: {
       type: "string",
       label: "List ID",
       description: "The unique identifier of the list to which the subscriber is being added.",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The subscriber's name.",
-      optional: true,
-    },
-    customFields: {
-      type: "string[]",
-      label: "Custom Fields",
-      description: "An array of custom fields for the subscriber, in the format 'key:value'.",
-      optional: true,
+      async options({ page }) {
+        const { listsData } = await this.listLists({
+          params: {
+            pageNumber: page + 1,
+          },
+        });
+
+        return listsData.map(({
+          list_uid: value,
+          name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.easysendy.com";
+      return "http://api.easysendy.com/ver1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, data, params, ...otherOpts
-      } = opts;
+    _data(data) {
+      return {
+        ...data,
+        "api_key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, data, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
+        data: this._data(data),
         headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        data,
-        params,
+        ...opts,
       });
     },
-    async addSubscriber({
-      listId, email, name, customFields,
-    }) {
-      const subscriberData = {
-        EMAIL: email,
-        ...(name && {
-          FNAME: name.split(" ")[0],
-          LNAME: name.split(" ").slice(1)
-            .join(" "),
-        }),
-        ...(customFields && customFields.reduce((acc, field) => {
-          const [
-            key,
-            value,
-          ] = field.split(":");
-          acc[key.trim()] = value.trim();
-          return acc;
-        }, {})),
-      };
+    addSubscriber(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/lists/${listId}/subscribers/bulk`,
+        path: "/subscribeAPI",
+        ...opts,
+      });
+    },
+    listLists(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/listAPI",
         data: {
-          array: [
-            subscriberData,
-          ],
+          "req_type": "allLists",
         },
+        ...opts,
       });
     },
   },

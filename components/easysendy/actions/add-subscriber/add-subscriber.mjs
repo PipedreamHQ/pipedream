@@ -1,5 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
 import easysendy from "../../easysendy.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "easysendy-add-subscriber",
@@ -9,24 +9,45 @@ export default {
   type: "action",
   props: {
     easysendy,
-    email: easysendy.propDefinitions.email,
-    listId: easysendy.propDefinitions.listId,
-    name: {
-      ...easysendy.propDefinitions.name,
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The subscriber's email address.",
+    },
+    listId: {
+      propDefinition: [
+        easysendy,
+        "listId",
+      ],
+    },
+    fname: {
+      type: "string",
+      label: "First Name",
+      description: "The subscriber's first name.",
       optional: true,
     },
-    customFields: {
-      ...easysendy.propDefinitions.customFields,
+    lname: {
+      type: "string",
+      label: "Last Name",
+      description: "The subscriber's last name.",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.easysendy.addSubscriber({
-      listId: this.listId,
-      email: this.email,
-      name: this.name,
-      customFields: this.customFields,
+      $,
+      data: {
+        req_type: "subscribe",
+        listUID: this.listId,
+        EMAIL: this.email,
+        FNAME: this.fname,
+        LNAME: this.lname,
+      },
     });
+
+    if (response.status === "error") {
+      throw new ConfigurationError(response.message);
+    }
 
     $.export("$summary", `Successfully added subscriber ${this.email} to list ${this.listId}`);
     return response;
