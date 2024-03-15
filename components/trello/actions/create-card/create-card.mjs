@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "trello-create-card",
   name: "Create Card",
-  description: "Creates a new card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post)",
-  version: "0.0.2",
+  description: "Creates a new card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post)",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -151,6 +151,57 @@ export default {
         "coordinates",
       ],
     },
+    customFieldIds: {
+      propDefinition: [
+        common.props.trello,
+        "customFieldIds",
+        (c) => ({
+          boardId: c.board,
+        }),
+      ],
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (!this.customFieldIds?.length) {
+      return props;
+    }
+    for (const customFieldId of this.customFieldIds) {
+      const customField = await this.trello.getCustomField(customFieldId);
+      props[customFieldId] = {
+        type: "string",
+        label: `Value for Custom Field - ${customField.name}`,
+      };
+      if (customField.type === "list") {
+        props[customFieldId].options = customField.options?.map((option) => ({
+          value: option.id,
+          label: option.value.text,
+        })) || [];
+      }
+    }
+    return props;
+  },
+  methods: {
+    ...common.methods,
+    async getCustomFieldItems($) {
+      const customFieldItems = [];
+      for (const customFieldId of this.customFieldIds) {
+        const customField = await this.trello.getCustomField(customFieldId, $);
+        const customFieldItem = {
+          idCustomField: customFieldId,
+        };
+        if (customField.type === "list") {
+          customFieldItem.idValue = this[customFieldId];
+        } else {
+          customFieldItem.value = {
+            [customField.type]: this[customFieldId],
+          };
+        }
+        customFieldItems.push(customFieldItem);
+      }
+      return customFieldItems;
+    },
   },
   async run({ $ }) {
     const {
@@ -170,6 +221,7 @@ export default {
       address,
       locationName,
       coordinates,
+      customFieldIds,
     } = this;
     const res = await this.trello.createCard({
       name,
@@ -189,6 +241,15 @@ export default {
       locationName,
       coordinates,
     }, $);
+
+    if (customFieldIds) {
+      const customFieldItems = await this.getCustomFieldItems($);
+      const customFields = await this.trello.updateCustomFields(res.id, {
+        customFieldItems,
+      }, $);
+      res.customFields = customFields;
+    }
+
     $.export("$summary", `Successfully created card ${res.id}`);
     return res;
   },

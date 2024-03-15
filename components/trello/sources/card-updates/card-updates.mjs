@@ -5,7 +5,7 @@ export default {
   key: "trello-card-updates",
   name: "Card Updates (Instant)",
   description: "Emit new event for each update to a Trello card.",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "source",
   props: {
     ...common.props,
@@ -24,6 +24,12 @@ export default {
         }),
       ],
     },
+    customFieldItems: {
+      propDefinition: [
+        common.props.trello,
+        "customFieldItems",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -31,11 +37,15 @@ export default {
       let cards = [];
       if (this.cards && this.cards.length > 0) {
         for (const cardId of this.cards) {
-          const card = await this.trello.getCard(cardId);
+          const card = await this.trello.getCard(cardId, {
+            customFieldItems: this.customFieldItems,
+          });
           cards.push(card);
         }
       } else {
-        cards = await this.trello.getCards(this.board);
+        cards = await this.trello.getCards(this.board, {
+          customFieldItems: this.customFieldItems,
+        });
       }
       return {
         sampleEvents: cards,
@@ -48,7 +58,9 @@ export default {
     },
     async getResult(event) {
       const cardId = event.body?.action?.data?.card?.id;
-      return this.trello.getCard(cardId);
+      return this.trello.getCard(cardId, {
+        customFieldItems: this.customFieldItems,
+      });
     },
     isRelevant({ result: card }) {
       return (
