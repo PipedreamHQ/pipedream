@@ -126,6 +126,15 @@ export default {
         ...args,
       });
     },
+    createLesson({
+      courseSlug, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/courses/${courseSlug}/lessons/`,
+        ...args,
+      });
+    },
     async *paginate({
       resourceFn, args,
     }) {
