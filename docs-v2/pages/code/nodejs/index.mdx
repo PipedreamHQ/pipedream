@@ -146,7 +146,7 @@ export default defineComponent({
 
 The workflow builder now can accept text input to populate the `firstName` to this particular step only:
 
-![Workflow builder displaying the input visually as a text input field](/images/code/nodejs/user-input-props-example.png)
+![Workflow builder displaying the input visually as a text input field](pages/code/nodejs/images/v3/code/nodejs/first-name-prop-example.png)
 
 Accepting a single string is just one example, you can build a step to accept arrays of strings through a dropdown presented in the workflow builder.
 
@@ -354,7 +354,7 @@ You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/t
 
 ## Ending a workflow early
 
-<VideoPlayer title="Conditionally run Workflows" url="https://www.youtube.com/embed/sajgIH3dG58" startAt="205" />
+<VideoPlayer title="Conditionally run Workflows" src="https://www.youtube.com/embed/sajgIH3dG58" startAt="205" />
 
 Sometimes you want to end your workflow early, or otherwise stop or cancel the execution or a workflow under certain conditions. For example:
 
@@ -415,7 +415,7 @@ Throwing a `ConfigurationError` in a Node.js step will display the error message
 
 This is useful for providing feedback during validation of `props`. In the example below, a required Header value is missing from the Google Sheets action:
 
-![Example of an ConfigurationError](https://res.cloudinary.com/pipedreamin/image/upload/v1651680315/docs/components/CleanShot_2022-05-04_at_12.04.38_2x_vf8jny.png)
+![Example of an ConfigurationError](pages/code/nodejs/images/v3/code/nodejs/configuration-error-example.png)
 
 Or you can use it for validating the format of a given `email` prop:
 
