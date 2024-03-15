@@ -60,7 +60,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created parcel with ID: ${response.id}`);
+    $.export("$summary", `Successfully created parcel with ID: ${response.parcel.id}`);
 
     return response;
   },
