@@ -2263,7 +2263,10 @@ importers:
     specifiers: {}
 
   components/easysendy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/easyship:
     specifiers: {}
@@ -6590,6 +6593,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/roam_research:
+    specifiers: {}
+
+  components/robocorp:
     specifiers: {}
 
   components/roboflow:
