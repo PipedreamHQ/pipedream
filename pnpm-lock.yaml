@@ -6600,6 +6600,9 @@ importers:
   components/roam_research:
     specifiers: {}
 
+  components/robocorp:
+    specifiers: {}
+
   components/roboflow:
     specifiers:
       '@pipedream/platform': ^1.5.1
