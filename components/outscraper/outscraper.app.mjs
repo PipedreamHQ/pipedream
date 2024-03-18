@@ -93,12 +93,10 @@ export default {
         },
       });
     },
-    async translateLocation({ location }) {
+    async translateLocation(args) {
       return this._makeRequest({
-        url: "/reverse-geocode",
-        params: {
-          location,
-        },
+        url: "/reverse-geocoding",
+        ...args,
       });
     },
   },
