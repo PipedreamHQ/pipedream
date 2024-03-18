@@ -1,41 +1,37 @@
-import countdownApi from "../../countdown_api.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../countdown_api.app.mjs";
 
 export default {
   key: "countdown_api-get-search-results",
   name: "Get Search Results from eBay",
-  description: "Retrieves search results from eBay based on the provided search term, eBay domain, and type. [See the documentation](https://www.countdownapi.com/docs/ebay-product-data-api/parameters/search)",
-  version: "0.0.{{ts}}",
+  description: "Retrieves search results from eBay. [See the documentation](https://www.countdownapi.com/docs/ebay-product-data-api/parameters/search)",
+  version: "0.0.1",
   type: "action",
   props: {
-    countdownApi,
-    search_term: {
+    app,
+    searchTerm: {
       propDefinition: [
-        countdownApi,
-        "search_term",
+        app,
+        "searchTerm",
       ],
     },
-    ebay_domain: {
+    ebayDomain: {
       propDefinition: [
-        countdownApi,
-        "ebay_domain",
-      ],
-    },
-    type: {
-      propDefinition: [
-        countdownApi,
-        "type",
+        app,
+        "ebayDomain",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.countdownApi.searchProducts({
-      search_term: this.search_term,
-      ebay_domain: this.ebay_domain,
-      type: this.type,
+    const response = await this.app.searchProducts({
+      $,
+      params: {
+        search_term: this.searchTerm,
+        ebay_domain: this.ebayDomain,
+        type: "search",
+      },
     });
 
-    $.export("$summary", `Successfully retrieved search results for ${this.search_term}`);
+    $.export("$summary", `Successfully retrieved search results for ${this.searchTerm}`);
     return response;
   },
 };
