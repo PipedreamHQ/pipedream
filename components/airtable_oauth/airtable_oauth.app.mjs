@@ -1,3 +1,4 @@
+import Airtable from "airtable";
 import { ConfigurationError } from "@pipedream/platform";
 import { fieldTypeToPropType } from "./common/utils.mjs";
 import { axios } from "@pipedream/platform";
@@ -134,29 +135,16 @@ export default {
       label: "Record ID",
       description: "Identifier of a record",
       async options({
-        baseId, tableId, prevContext,
+        baseId, tableId,
       }) {
-        const params = {};
-        if (prevContext?.newOffset) {
-          params.offset = prevContext.newOffset;
-        }
-        const {
-          records, offset,
-        } = await this.listRecords({
+        const records = await this.listRecords({
           baseId,
           tableId,
-          params,
         });
-        const options = (records ?? []).map((record) => ({
+        return (records ?? []).map((record) => ({
           label: record.fields?.Name || record.id,
           value: record.id,
         }));
-        return {
-          options,
-          context: {
-            newOffset: offset,
-          },
-        };
       },
     },
     commentId: {
@@ -234,6 +222,11 @@ export default {
     },
   },
   methods: {
+    base(baseId) {
+      return new Airtable({
+        apiKey: this.$auth.oauth_access_token,
+      }).base(baseId);
+    },
     _baseUrl() {
       return "https://api.airtable.com/v0";
     },
@@ -258,12 +251,10 @@ export default {
         : axios($, config);
     },
     getRecord({
-      baseId, tableId, recordId, ...args
+      baseId, tableId, recordId,
     }) {
-      return this._makeRequest({
-        path: `/${baseId}/${tableId}/${recordId}`,
-        ...args,
-      });
+      const base = this.base(baseId);
+      return base(tableId).find(recordId);
     },
     listBases(args = {}) {
       return this._makeRequest({
@@ -279,13 +270,21 @@ export default {
         ...args,
       });
     },
-    listRecords({
-      baseId, tableId, ...args
+    async listRecords({
+      baseId, tableId, params = {},
     }) {
-      return this._makeRequest({
-        path: `/${baseId}/${tableId}`,
-        ...args,
-      });
+      const base = this.base(baseId);
+      const data = [];
+      await base(tableId).select({
+        ...params,
+      })
+        .eachPage(function page(records, fetchNextPage) {
+          records.forEach(function(record) {
+            data.push(record._rawJson);
+          });
+          fetchNextPage();
+        });
+      return data;
     },
     listComments({
       baseId, tableId, recordId, ...args
@@ -296,13 +295,10 @@ export default {
       });
     },
     createRecord({
-      baseId, tableId, ...args
+      baseId, tableId, data, opts,
     }) {
-      return this._makeRequest({
-        path: `/${baseId}/${tableId}`,
-        method: "POST",
-        ...args,
-      });
+      const base = this.base(baseId);
+      return base(tableId).create(data, opts);
     },
     createTable({
       baseId, ...args
@@ -332,13 +328,10 @@ export default {
       });
     },
     updateRecord({
-      baseId, tableId, recordId, ...args
+      baseId, tableId, recordId, data, opts,
     }) {
-      return this._makeRequest({
-        path: `/${baseId}/${tableId}/${recordId}`,
-        method: "PATCH",
-        ...args,
-      });
+      const base = this.base(baseId);
+      return base(tableId).update(recordId, data, opts);
     },
     updateTable({
       baseId, tableId, ...args
@@ -368,13 +361,10 @@ export default {
       });
     },
     deleteRecord({
-      baseId, tableId, recordId, ...args
+      baseId, tableId, recordId,
     }) {
-      return this._makeRequest({
-        path: `/${baseId}/${tableId}/${recordId}`,
-        method: "DELETE",
-        ...args,
-      });
+      const base = this.base(baseId);
+      return base(tableId).destroy(recordId);
     },
     throwFormattedError(err) {
       throw Error(`${err.error} - ${err.statusCode} - ${err.message}`);
@@ -397,6 +387,31 @@ export default {
       if (!recordID.startsWith("rec")) {
         throw new Error("Invalid Record ID. See documentation about Finding Airtable record IDs - https://support.airtable.com/docs/finding-airtable-record-ids.");
       }
+    },
+    createWebhook({
+      baseId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/bases/${baseId}/webhooks`,
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      baseId, webhookId,
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/bases/${baseId}/webhooks/${webhookId}`,
+      });
+    },
+    listWebhookPayloads({
+      baseId, webhookId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/bases/${baseId}/webhooks/${webhookId}/payloads`,
+        ...opts,
+      });
     },
   },
 };
