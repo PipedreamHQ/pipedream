@@ -9,6 +9,29 @@ export default {
       type: "string",
       label: "Parcel ID",
       description: "The unique identifier of the parcel",
+      async options({ prevContext }) {
+        const params = {};
+
+        if (prevContext?.cursor) params.cursor = prevContext.cursor;
+
+        const {
+          parcels: resources, next,
+        } = await this.listParcels({
+          params,
+        });
+
+        return {
+          context: {
+            cursor: next,
+          },
+          options: resources.map(({
+            id, name,
+          }) => ({
+            value: id,
+            label: name,
+          })),
+        };
+      },
     },
     name: {
       type: "string",
@@ -80,7 +103,7 @@ export default {
       });
     },
     async listParcels(args = {}) {
-      return this._makeRequest, ({
+      return this._makeRequest({
         path: "/parcels",
         ...args,
       });
