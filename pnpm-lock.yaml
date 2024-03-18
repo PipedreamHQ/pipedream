@@ -641,7 +641,10 @@ importers:
     specifiers: {}
 
   components/azure_ai_vision:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/azure_devops:
     specifiers:
@@ -2263,7 +2266,10 @@ importers:
     specifiers: {}
 
   components/easysendy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/easyship:
     specifiers: {}
@@ -9264,6 +9270,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zoho_notebook:
+    specifiers: {}
 
   components/zoho_people:
     specifiers: {}

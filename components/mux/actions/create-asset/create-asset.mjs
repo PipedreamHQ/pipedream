@@ -4,7 +4,7 @@ export default {
   key: "mux-create-asset",
   name: "Create Asset",
   description: "Create a new asset with a track. [See the documentation](https://docs.mux.com/api-reference#video/operation/create-asset)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mux,
