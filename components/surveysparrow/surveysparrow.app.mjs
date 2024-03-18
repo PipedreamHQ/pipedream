@@ -5,15 +5,17 @@ export default {
   type: "app",
   app: "surveysparrow",
   propDefinitions: {
-    surveyId: {
+    survey: {
       type: "string",
-      label: "Survey ID",
+      label: "Survey",
       description: "Identifier of a survey",
-      required: true,
-      async options({ page }) {
+      async options({
+        page, surveyType,
+      }) {
         const { data: surveys } = await this.listSurveys({
           params: {
             page: page + 1,
+            survey_type: surveyType,
           },
         });
         return surveys?.map(({
@@ -55,59 +57,24 @@ export default {
       description: "Welcome Text of the survey",
       optional: true,
     },
-    emailAddress: {
+    themeId: {
       type: "string",
-      label: "Email Address",
-      description: "Email address of the contact",
-      required: true,
-    },
-    phoneNumber: {
-      type: "string",
-      label: "Phone Number",
-      description: "Phone number of the contact",
-      optional: true,
-    },
-    mobileNumber: {
-      type: "string",
-      label: "Mobile Number",
-      description: "Mobile number of the contact",
-      optional: true,
-    },
-    fullName: {
-      type: "string",
-      label: "Full Name",
-      description: "Full name of the contact",
-      optional: true,
-    },
-    jobTitle: {
-      type: "string",
-      label: "Job Title",
-      description: "Job title of the contact",
-      optional: true,
-    },
-    savedEmailTemplateName: {
-      type: "string",
-      label: "Saved Email Template Name",
-      description: "Name of the saved email share template",
-      required: true,
-    },
-    recipientEmailAddress: {
-      type: "string",
-      label: "Recipient's Email Address",
-      description: "Email address of the recipient",
-      required: true,
-    },
-    savedSmsTemplateName: {
-      type: "string",
-      label: "Saved SMS Template Name",
-      description: "Name of the saved SMS share template",
-      required: true,
-    },
-    recipientMobileNumbers: {
-      type: "string[]",
-      label: "Recipient's Mobile Numbers",
-      description: "Mobile numbers of the recipients",
-      required: true,
+      label: "Theme Id",
+      description: "Id of the email theme.",
+      async options({ page }) {
+        const { data } = await this.listThemes({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
@@ -157,31 +124,39 @@ export default {
         ...args,
       });
     },
+    listThemes(args = {}) {
+      return this._makeRequest({
+        path: "/email_themes",
+        ...args,
+      });
+    },
     listResponses(args = {}) {
       return this._makeRequest({
         path: "/responses",
         ...args,
       });
     },
-    createContact({
-      emailAddress,
-      phoneNumber,
-      mobileNumber,
-      fullName,
-      jobTitle,
-      contactType,
-    }) {
+    createContact(args = {}) {
       return this._makeRequest({
         path: "/contacts",
         method: "POST",
-        data: {
-          email: emailAddress,
-          phone: phoneNumber,
-          mobile: mobileNumber,
-          name: fullName,
-          job_title: jobTitle,
-          contact_type: contactType,
-        },
+        ...args,
+      });
+    },
+    createSurvey(args = {}) {
+      return this._makeRequest({
+        path: "/surveys",
+        method: "POST",
+        ...args,
+      });
+    },
+    updateSurvey({
+      surveyId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/surveys/${surveyId}`,
+        method: "PATCH",
+        ...args,
       });
     },
     sendEmailShareTemplate({
@@ -197,18 +172,40 @@ export default {
         },
       });
     },
-    sendSmsShareTemplate({
-      savedSmsTemplateName,
-      recipientMobileNumbers,
-    }) {
+    createChannel(opts = {}) {
       return this._makeRequest({
-        path: "/share/sms",
         method: "POST",
-        data: {
-          template_name: savedSmsTemplateName,
-          recipient_mobile_numbers: recipientMobileNumbers,
-        },
+        path: "/channels",
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          data,
+          has_next_page: hasNext,
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = hasNext;
+
+      } while (hasMore);
     },
   },
 };

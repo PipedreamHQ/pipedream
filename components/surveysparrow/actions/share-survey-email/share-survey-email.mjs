@@ -1,33 +1,43 @@
-import surveysparrow from "../../surveysparrow.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/share-base.mjs";
 
 export default {
+  ...common,
   key: "surveysparrow-share-survey-email",
   name: "Share Survey via Email",
   description: "Sends a saved email share template to a provided email address. Configure the saved template's name and the recipient's email address. [See the documentation](https://developers.surveysparrow.com/rest-apis)",
   version: "0.0.1",
   type: "action",
   props: {
-    surveysparrow,
-    savedEmailTemplateName: {
-      propDefinition: [
-        surveysparrow,
-        "savedEmailTemplateName",
-      ],
-    },
-    recipientEmailAddress: {
+    ...common.props,
+    subject: {
       type: "string",
-      label: "Recipient's Email Address",
-      description: "Email address of the recipient",
-      required: true,
+      label: "Subject",
+      description: "Subject of the email.",
+    },
+    themeId: {
+      propDefinition: [
+        common.props.surveysparrow,
+        "themeId",
+      ],
+      optional: true,
     },
   },
-  async run({ $ }) {
-    const response = await this.surveysparrow.sendEmailShareTemplate({
-      savedEmailTemplateName: this.savedEmailTemplateName,
-      recipientEmailAddress: this.recipientEmailAddress,
-    });
-    $.export("$summary", `Successfully sent email share template to ${this.recipientEmailAddress}`);
-    return response;
+  methods: {
+    ...common.methods,
+    getChannelType() {
+      return "EMAIL";
+    },
+    getSummary() {
+      return "Successfully sent NPS survey via Email";
+    },
+    getData() {
+      return {
+        email: {
+          subject: this.subject,
+          theme_id: this.themeId,
+        },
+      };
+    },
   },
 };
+

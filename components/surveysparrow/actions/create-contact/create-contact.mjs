@@ -1,36 +1,28 @@
-import surveysparrow from "../../surveysparrow.app.mjs";
-import { axios } from "@pipedream/platform";
+import surveySparrow from "../../surveysparrow.app.mjs";
 
 export default {
   key: "surveysparrow-create-contact",
   name: "Create Contact",
-  description: "Creates a new contact in your active list. [See the documentation](https://developers.surveysparrow.com/rest-apis/contacts)",
+  description: "Creates a new contact. [See the documentation](https://developers.surveysparrow.com/rest-apis/contacts#postV3Contacts)",
   version: "0.0.1",
   type: "action",
   props: {
-    surveysparrow,
-    emailAddress: {
+    surveySparrow,
+    email: {
       type: "string",
-      label: "Email Address",
+      label: "Email",
       description: "Email address of the contact",
-      required: true,
-    },
-    phoneNumber: {
-      type: "string",
-      label: "Phone Number",
-      description: "Phone number of the contact",
-      optional: true,
-    },
-    mobileNumber: {
-      type: "string",
-      label: "Mobile Number",
-      description: "Mobile number of the contact",
-      optional: true,
     },
     fullName: {
       type: "string",
       label: "Full Name",
       description: "Full name of the contact",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Phone number of the contact",
       optional: true,
     },
     jobTitle: {
@@ -40,24 +32,28 @@ export default {
       optional: true,
     },
     contactType: {
-      type: "string",
-      label: "Contact Type",
-      description: "The type of contact",
-      options: surveysparrow.propDefinitions.contactType.options,
-      optional: true,
+      propDefinition: [
+        surveySparrow,
+        "contactType",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.surveysparrow.createContact({
-      emailAddress: this.emailAddress,
-      phoneNumber: this.phoneNumber,
-      mobileNumber: this.mobileNumber,
-      fullName: this.fullName,
-      jobTitle: this.jobTitle,
-      contactType: this.contactType,
+    const { data: response } = await this.surveySparrow.createContact({
+      $,
+      data: {
+        email: this.email,
+        full_name: this.fullName,
+        phone: this.phone,
+        job_title: this.jobTitle,
+        contact_type: this.contactType,
+      },
     });
 
-    $.export("$summary", `Successfully created contact with email address ${this.emailAddress}`);
+    if (response) {
+      $.export("$summary", `Successfully created contact with ID ${response.id}`);
+    }
+
     return response;
   },
 };
