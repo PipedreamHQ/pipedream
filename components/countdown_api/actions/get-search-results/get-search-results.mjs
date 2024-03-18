@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.searchProducts({
+    const response = await this.app.getData({
       $,
       params: {
         search_term: this.searchTerm,

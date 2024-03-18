@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -13,6 +14,7 @@ export default {
       type: "string",
       label: "eBay Domain",
       description: "The eBay domain to use for the search (e.g., ebay.com, ebay.co.uk).",
+      options: constants.EBAY_DOMAINS,
     },
     epid: {
       type: "string",
@@ -40,19 +42,7 @@ export default {
         ...otherOpts,
       });
     },
-    async searchProducts(args = {}) {
-      return this._makeRequest({
-        path: "/request",
-        ...args,
-      });
-    },
-    async getProductData(args = {}) {
-      return this._makeRequest({
-        path: "/request",
-        ...args,
-      });
-    },
-    async getProductReviews(args = {}) {
+    async getData(args = {}) {
       return this._makeRequest({
         path: "/request",
         ...args,

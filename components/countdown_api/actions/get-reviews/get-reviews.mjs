@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.getProductReviews({
+    const response = await this.app.getData({
       $,
       params: {
         epid: this.epid,
