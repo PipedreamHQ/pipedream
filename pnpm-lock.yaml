@@ -641,7 +641,10 @@ importers:
     specifiers: {}
 
   components/azure_ai_vision:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/azure_devops:
     specifiers:
@@ -2081,7 +2084,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/docupost:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/docusign:
     specifiers:
@@ -2260,7 +2266,10 @@ importers:
     specifiers: {}
 
   components/easysendy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/easyship:
     specifiers: {}
@@ -2668,7 +2677,10 @@ importers:
     specifiers: {}
 
   components/flowiseai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/fluent_support:
     specifiers: {}
@@ -3587,7 +3599,12 @@ importers:
     specifiers: {}
 
   components/html_2_pdf:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      fs: 0.0.1-security
 
   components/html_css_to_image:
     specifiers:
@@ -6589,6 +6606,9 @@ importers:
   components/roam_research:
     specifiers: {}
 
+  components/robocorp:
+    specifiers: {}
+
   components/roboflow:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7143,6 +7163,12 @@ importers:
       validate.js: 0.13.1
 
   components/shorten_rest:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
+  components/shortpixel:
     specifiers: {}
 
   components/shortpixel:
@@ -7448,7 +7474,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/splynx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/spoke_phone:
     specifiers: {}
@@ -9244,6 +9273,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zoho_notebook:
+    specifiers: {}
 
   components/zoho_people:
     specifiers: {}
