@@ -6,7 +6,7 @@ export default {
   key: "surveysparrow-new-survey-response",
   name: "New Survey Response (Instant)",
   description: "Emit new event each time a the specified survey receives a response.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   sampleEmit,
