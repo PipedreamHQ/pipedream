@@ -1,5 +1,5 @@
 import discord from "../../discord.app.mjs";
-import constants from "constants.mjs";
+import constants from "./constants.mjs";
 
 export default {
   props: {
@@ -69,10 +69,8 @@ export default {
       return `Sent via [Pipedream](<https://pipedream.com/@/${workflowId}?o=a&a=discord>)`;
     },
     getMessageFlags(suppressNotifications) {
-
-      var flags = 0;
+      let flags = 0;
       if (suppressNotifications) flags += constants.SUPPRESS_NOTIFICATIONS;
-
       return flags;
     },
   },
