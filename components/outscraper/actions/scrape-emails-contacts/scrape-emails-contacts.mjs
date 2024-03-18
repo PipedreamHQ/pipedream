@@ -9,7 +9,7 @@ export default {
   type: "action",
   props: {
     outscraper,
-    domain: {
+    query: {
       type: "string",
       label: "Domain",
       description: "Domain or link, e.g. `pipedream.com`",

@@ -58,7 +58,7 @@ export default {
         baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          "X-API-KEY": this.$auth.api_key,
+          "X-API-KEY": this.$auth.api_token,
         },
       });
     },
@@ -78,12 +78,10 @@ export default {
         ...args,
       });
     },
-    async findDomainData({ domain }) {
+    async findDomainData(args) {
       return this._makeRequest({
-        url: "/domains-contacts",
-        params: {
-          domain,
-        },
+        url: "/emails-and-contacts",
+        ...args,
       });
     },
     async translateLocation(args) {
