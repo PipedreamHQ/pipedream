@@ -13,6 +13,16 @@ export default {
       type: "string",
       label: "Project ID",
       description: "The ID of the project",
+      async options() {
+        const { result: resources } = await this.listProjects();
+
+        return resources.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
+        }));
+      },
     },
   },
   methods: {
