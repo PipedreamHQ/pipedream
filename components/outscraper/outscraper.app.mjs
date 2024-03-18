@@ -46,23 +46,19 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.outscraper.com";
+      return "https://api.app.outscraper.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
+          "X-API-KEY": this.$auth.api_key,
         },
       });
     },
@@ -70,7 +66,7 @@ export default {
       taskId, timeInterval,
     }) {
       return this._makeRequest({
-        path: `/tasks/${taskId}`,
+        url: `/tasks/${taskId}`,
         params: {
           interval: timeInterval,
         },
@@ -81,7 +77,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/google-maps-places",
+        url: "/google-maps-places",
         data: {
           query,
           links,
@@ -91,7 +87,7 @@ export default {
     },
     async findDomainData({ domain }) {
       return this._makeRequest({
-        path: "/domains-contacts",
+        url: "/domains-contacts",
         params: {
           domain,
         },
@@ -99,7 +95,7 @@ export default {
     },
     async translateLocation({ location }) {
       return this._makeRequest({
-        path: "/reverse-geocode",
+        url: "/reverse-geocode",
         params: {
           location,
         },
