@@ -7,7 +7,7 @@ export default {
   name: "New Bookmark",
   description: "Emit new event when a bookmark is added",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
     raindrop,
