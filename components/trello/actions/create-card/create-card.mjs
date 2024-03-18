@@ -193,6 +193,10 @@ export default {
         };
         if (customField.type === "list") {
           customFieldItem.idValue = this[customFieldId];
+        } else if (customField.type === "checkbox") {
+          customFieldItem.value = {
+            checked: this[customFieldId],
+          };
         } else {
           customFieldItem.value = {
             [customField.type]: this[customFieldId],
