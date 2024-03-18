@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/finnhub",
+  "version": "0.0.1",
+  "description": "Pipedream Finnhub Components",
+  "main": "finnhub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "finnhub"
+  ],
+  "homepage": "https://pipedream.com/apps/finnhub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

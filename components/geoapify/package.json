@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/geoapify",
+  "version": "0.0.1",
+  "description": "Pipedream Geoapify Components",
+  "main": "geoapify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "geoapify"
+  ],
+  "homepage": "https://pipedream.com/apps/geoapify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/semaphore",
+  "version": "0.0.1",
+  "description": "Pipedream Semaphore Components",
+  "main": "semaphore.app.mjs",
+  "keywords": [
+    "pipedream",
+    "semaphore"
+  ],
+  "homepage": "https://pipedream.com/apps/semaphore",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
