@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/solcast",
+  "version": "0.0.1",
+  "description": "Pipedream Solcast Components",
+  "main": "solcast.app.mjs",
+  "keywords": [
+    "pipedream",
+    "solcast"
+  ],
+  "homepage": "https://pipedream.com/apps/solcast",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

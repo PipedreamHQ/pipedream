@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/email_verifier_api",
+  "version": "0.0.1",
+  "description": "Pipedream Email Verifier Api Components",
+  "main": "email_verifier_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "email_verifier_api"
+  ],
+  "homepage": "https://pipedream.com/apps/email_verifier_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

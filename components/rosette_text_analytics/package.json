@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rosette_text_analytics",
+  "version": "0.0.1",
+  "description": "Pipedream Rosette Text Analytics Components",
+  "main": "rosette_text_analytics.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rosette_text_analytics"
+  ],
+  "homepage": "https://pipedream.com/apps/rosette_text_analytics",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

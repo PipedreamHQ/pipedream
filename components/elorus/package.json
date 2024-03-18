@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/elorus",
+  "version": "0.0.1",
+  "description": "Pipedream Elorus Components",
+  "main": "elorus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "elorus"
+  ],
+  "homepage": "https://pipedream.com/apps/elorus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
