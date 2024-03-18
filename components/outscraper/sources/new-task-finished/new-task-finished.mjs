@@ -34,7 +34,7 @@ export default {
       const ts = Date.now();
       const promises = idsToEmit.map((id) => async () => {
         if (emit) {
-          const data = await this.outscraper.getRequestData(id);
+          const { data } = await this.outscraper.getRequestData(id);
           this.$emit(data, {
             id,
             summary: `New task: ${id}`,
