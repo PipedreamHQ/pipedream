@@ -29,15 +29,6 @@ export default {
       const {
         $ = this, method = "GET", path, headers, ...otherOpts
       } = opts;
-      console.log({
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
-      });
       return axios($, {
         ...otherOpts,
         method,
