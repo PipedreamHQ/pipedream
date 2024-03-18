@@ -2677,7 +2677,10 @@ importers:
     specifiers: {}
 
   components/flowiseai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/fluent_support:
     specifiers: {}
