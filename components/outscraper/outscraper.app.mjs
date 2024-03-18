@@ -62,16 +62,6 @@ export default {
         },
       });
     },
-    async checkTaskStatus({
-      taskId, timeInterval,
-    }) {
-      return this._makeRequest({
-        url: `/tasks/${taskId}`,
-        params: {
-          interval: timeInterval,
-        },
-      });
-    },
     async searchPlaces(args) {
       return this._makeRequest({
         url: "/maps/search-v3",
@@ -88,6 +78,19 @@ export default {
       return this._makeRequest({
         url: "/reverse-geocoding",
         ...args,
+      });
+    },
+    async getRequests() {
+      return this._makeRequest({
+        url: "/requests",
+        params: {
+          type: "finished",
+        },
+      });
+    },
+    async getRequestData(requestId) {
+      return this._makeRequest({
+        url: `/requests/${requestId}`,
       });
     },
   },
