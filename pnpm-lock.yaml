@@ -6597,6 +6597,9 @@ importers:
   components/roam_research:
     specifiers: {}
 
+  components/robocorp:
+    specifiers: {}
+
   components/roboflow:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -9258,6 +9261,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zoho_notebook:
+    specifiers: {}
 
   components/zoho_people:
     specifiers: {}
