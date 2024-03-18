@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { truncate } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -7,86 +8,85 @@ export default {
     documentId: {
       type: "string",
       label: "Document ID",
-      description: "The ID of the document",
+      description: "The ID of the document.",
+      async options() {
+        const { files } = await this.listDocuments();
+
+        return files
+          .filter((file) => file.type === "document")
+          .map(({
+            id: value, title: label,
+          }) => ({
+            label,
+            value,
+          }));
+      },
     },
-    newTitle: {
+    parentId: {
       type: "string",
-      label: "New Title",
-      description: "The new title for the document or content",
-    },
-    oldTitle: {
-      type: "string",
-      label: "Old Title",
-      description: "The old title of the document (for error checking)",
-      optional: true,
-    },
-    contentToInsert: {
-      type: "string",
-      label: "Content to Insert",
-      description: "The content to insert into the document",
+      label: "Parent ID",
+      description: "The ID of the parent item to insert under.",
+      async options({ documentId }) {
+        const { nodes } = await this.fetchDocumentContent({
+          data: {
+            file_id: documentId,
+          },
+        });
+
+        return nodes.map(({
+          id: value, content,
+        }) => ({
+          label: truncate(content),
+          value,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://dynalist.io/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "POST", path, data, headers, ...otherOpts
-      } = opts;
+    _data(data = {}) {
+      return {
+        "token": `${this.$auth.api_token}`,
+        ...data,
+      };
+    },
+    _makeRequest({
+      $ = this, path, data, ...opts
+    }) {
       return axios($, {
-        method,
         url: this._baseUrl() + path,
-        data,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          ...headers,
-        },
-        ...otherOpts,
+        data: this._data(data),
+        ...opts,
       });
     },
-    async editDocumentTitle({
-      documentId, newTitle,
-    }) {
+    editDocumentTitle(opts = {}) {
       return this._makeRequest({
-        path: "/doc/edit",
-        data: {
-          token: this.$auth.oauth_access_token,
-          file_id: documentId,
-          title: newTitle,
-        },
+        method: "POST",
+        path: "/file/edit",
+        ...opts,
       });
     },
-    async fetchDocumentContent({ documentId }) {
+    fetchDocumentContent(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/doc/read",
-        data: {
-          token: this.$auth.oauth_access_token,
-          file_id: documentId,
-        },
+        ...opts,
       });
     },
-    async insertContentToDocument({
-      documentId, contentToInsert,
-    }) {
+    listDocuments(opts = {}) {
       return this._makeRequest({
+        method: "POST",
+        path: "/file/list",
+        ...opts,
+      });
+    },
+    insertContentToDocument(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
         path: "/doc/edit",
-        data: {
-          token: this.$auth.oauth_access_token,
-          file_id: documentId,
-          changes: [
-            {
-              action: "insert",
-              parent_id: documentId,
-              index: -1, // Append to the end
-              content: contentToInsert,
-            },
-          ],
-        },
+        ...opts,
       });
     },
   },

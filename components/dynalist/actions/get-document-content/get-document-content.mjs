@@ -1,10 +1,10 @@
+import { ConfigurationError } from "@pipedream/platform";
 import dynalist from "../../dynalist.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "dynalist-get-document-content",
   name: "Get Document Content",
-  description: "Fetches the content of a specific document. [See the documentation](https://apidocs.dynalist.io/)",
+  description: "Fetches the content of a specific document. [See the documentation](https://apidocs.dynalist.io/#get-content-of-a-document)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -18,8 +18,16 @@ export default {
   },
   async run({ $ }) {
     const response = await this.dynalist.fetchDocumentContent({
-      documentId: this.documentId,
+      $,
+      data: {
+        file_id: this.documentId,
+      },
     });
+
+    if (response._code != "Ok") {
+      throw new ConfigurationError(response._msg);
+    }
+
     $.export("$summary", `Successfully fetched content for document ID ${this.documentId}`);
     return response;
   },

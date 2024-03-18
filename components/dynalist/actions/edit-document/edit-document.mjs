@@ -1,5 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
 import dynalist from "../../dynalist.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "dynalist-edit-document",
@@ -16,41 +16,28 @@ export default {
       ],
     },
     newTitle: {
-      propDefinition: [
-        dynalist,
-        "newTitle",
-      ],
-    },
-    oldTitle: {
-      propDefinition: [
-        dynalist,
-        "oldTitle",
-        (c) => ({
-          optional: true,
-        }),
-      ],
+      type: "string",
+      label: "New Title",
+      description: "The new title for the document or content",
     },
   },
   async run({ $ }) {
-    // Fetch the current document content to check the old title if provided
-    if (this.oldTitle) {
-      const currentDocument = await this.dynalist.fetchDocumentContent({
-        documentId: this.documentId,
-      });
-      if (currentDocument.title !== this.oldTitle) {
-        throw new Error("The old title does not match the current document title.");
-      }
-    }
-
-    // Edit the document title
     const response = await this.dynalist.editDocumentTitle({
-      documentId: this.documentId,
-      newTitle: this.newTitle,
+      $,
+      data: {
+        changes: [
+          {
+            action: "edit",
+            type: "document",
+            file_id: this.documentId,
+            title: this.newTitle,
+          },
+        ],
+      },
     });
 
-    // Verify if the request was successful
-    if (response._code !== "OK") {
-      throw new Error(`Failed to edit document title: ${response._msg}`);
+    if (response._code != "Ok") {
+      throw new ConfigurationError(response._msg);
     }
 
     $.export("$summary", `Successfully updated the document title to "${this.newTitle}"`);
