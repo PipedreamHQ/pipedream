@@ -16,7 +16,7 @@ export default {
     emitEvent(event) {
       this.$emit(event, {
         id: event.id,
-        summary: `New event ${event.type} with ID ${event.data.id}`,
+        summary: `New event ${event.type} with ID ${event.data.object?.id ?? event.data.id}`,
         ts: Date.parse(event.created),
       });
     },
