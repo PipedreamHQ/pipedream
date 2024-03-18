@@ -38,10 +38,10 @@ export default {
       label: "Domain",
       description: "The domain to find email addresses, social links, and phone numbers for.",
     },
-    location: {
+    coordinates: {
       type: "string",
-      label: "Location",
-      description: "The geographic location to translate into a human-readable address, as a pair of latitude and longitude values.",
+      label: "Coordinates",
+      description: "The latitude and longitude of the location to translate into a human-readable address, e.g. `37.427074,-122.1439166`",
     },
   },
   methods: {
@@ -72,17 +72,10 @@ export default {
         },
       });
     },
-    async searchPlaces({
-      query, links, placeIds,
-    }) {
+    async searchPlaces(args) {
       return this._makeRequest({
-        method: "POST",
-        url: "/google-maps-places",
-        data: {
-          query,
-          links,
-          placeIds,
-        },
+        url: "/maps/search-v3",
+        ...args,
       });
     },
     async findDomainData({ domain }) {

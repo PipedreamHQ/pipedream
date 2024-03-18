@@ -8,25 +8,20 @@ export default {
   type: "action",
   props: {
     outscraper,
-    latitude: {
-      type: "string",
-      label: "Latitude",
-      description: "The latitude of the location to translate into a human-readable address, e.g. `37.427074`",
-    },
-    longitude: {
-      type: "string",
-      label: "Longitude",
-      description: "The longitude of the location to translate into a human-readable address, e.g. `-122.1439166`",
+    coordinates: {
+      propDefinition: [
+        outscraper,
+        "coordinates",
+      ],
     },
   },
   async run({ $ }) {
-    const query = [
-      this.latitude,
-      this.longitude,
-    ].join();
+    const query = this.coordinates;
     const response = await this.outscraper.translateLocation({
       $,
-      query,
+      params: {
+        query,
+      },
     });
     $.export("$summary", `Successfully obtained location for ${query}`);
     return response;
