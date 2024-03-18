@@ -12,14 +12,14 @@ export default {
   props: {
     ...common.props,
     threshold: {
-      type: "integer",
+      type: "string",
       label: "Threshold",
       description: "Days before SSL expiration to emit an event",
       options: [
-        1,
-        7,
-        14,
-        30,
+        "1",
+        "7",
+        "14",
+        "30",
       ],
       optional: true,
     },
@@ -32,7 +32,8 @@ export default {
       ];
     },
     isRelevant(event) {
-      return !this.threshold || (event?.ssl && event.ssl.days_before_expiration === this.threshold);
+      return !this.threshold
+        || (event?.ssl && event.ssl.days_before_expiration === +this.threshold);
     },
   },
   sampleEmit,
