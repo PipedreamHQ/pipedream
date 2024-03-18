@@ -4432,6 +4432,9 @@ importers:
   components/loyjoy:
     specifiers: {}
 
+  components/loyverse:
+    specifiers: {}
+
   components/luminous:
     specifiers: {}
 
