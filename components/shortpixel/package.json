@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/shortpixel",
+  "version": "0.0.1",
+  "description": "Pipedream ShortPixel Components",
+  "main": "shortpixel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shortpixel"
+  ],
+  "homepage": "https://pipedream.com/apps/shortpixel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

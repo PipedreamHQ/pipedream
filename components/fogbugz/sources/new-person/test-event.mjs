@@ -1,0 +1,21 @@
+export default {
+  "ixPerson": 0,
+  "sFullName": "Full Name",
+  "sEmail": "email@test.com",
+  "sPhone": "123456789",
+  "fAdministrator": true,
+  "fCommunity": false,
+  "fVirtual": false,
+  "fDeleted": false,
+  "fNotify": true,
+  "sHomepage": "",
+  "sLocale": "*",
+  "sLanguage": "*",
+  "sTimeZoneKey": "*",
+  "sLDAPUid": "",
+  "dtLastActivity": "",
+  "fRecurseBugChildren": true,
+  "fPaletteExpanded": false,
+  "ixBugWorkingOn": 0,
+  "sFrom": ""
+}
