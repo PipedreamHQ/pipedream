@@ -89,7 +89,7 @@ export default {
 
       this.connection = snowflake.createConnection({
         ...this.$auth,
-        application: "PIPEDREAM_PIPEDEAM",
+        application: "PIPEDREAM_PIPEDREAM",
       });
       await promisify(this.connection.connect).bind(this.connection)();
       return this.connection;

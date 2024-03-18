@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/brainshop",
+  "version": "0.0.1",
+  "description": "Pipedream BrainShop Components",
+  "main": "brainshop.app.mjs",
+  "keywords": [
+    "pipedream",
+    "brainshop"
+  ],
+  "homepage": "https://pipedream.com/apps/brainshop",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

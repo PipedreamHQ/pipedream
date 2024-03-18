@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sensibo",
+  "version": "0.0.1",
+  "description": "Pipedream Sensibo Components",
+  "main": "sensibo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sensibo"
+  ],
+  "homepage": "https://pipedream.com/apps/sensibo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

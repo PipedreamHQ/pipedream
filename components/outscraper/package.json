@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/outscraper",
+  "version": "0.0.1",
+  "description": "Pipedream Outscraper Components",
+  "main": "outscraper.app.mjs",
+  "keywords": [
+    "pipedream",
+    "outscraper"
+  ],
+  "homepage": "https://pipedream.com/apps/outscraper",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

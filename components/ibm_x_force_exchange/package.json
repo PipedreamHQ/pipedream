@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ibm_x_force_exchange",
+  "version": "0.0.1",
+  "description": "Pipedream IBM X-Force Exchange Components",
+  "main": "ibm_x_force_exchange.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ibm_x_force_exchange"
+  ],
+  "homepage": "https://pipedream.com/apps/ibm_x_force_exchange",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

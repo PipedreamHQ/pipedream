@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/asin_data_api",
+  "version": "0.0.1",
+  "description": "Pipedream ASIN Data API Components",
+  "main": "asin_data_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "asin_data_api"
+  ],
+  "homepage": "https://pipedream.com/apps/asin_data_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

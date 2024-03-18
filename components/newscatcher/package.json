@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/newscatcher",
+  "version": "0.0.1",
+  "description": "Pipedream NewsCatcher Components",
+  "main": "newscatcher.app.mjs",
+  "keywords": [
+    "pipedream",
+    "newscatcher"
+  ],
+  "homepage": "https://pipedream.com/apps/newscatcher",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
