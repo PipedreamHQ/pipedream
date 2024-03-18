@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   name: "New Response (Instant)",
-  version: "0.0.4",
+  version: "0.0.5",
   key: "tally-new-response",
   description: "Emit new event on each form message. [See the documentation](https://tallyso.notion.site/Tally-OAuth-2-reference-d0442c679a464664823628f675f43454)",
   type: "source",
@@ -35,6 +35,18 @@ export default {
       return (field.options.filter(({ id }) => field.value.includes(id)).map(({ text }) => text))
         .join();
     },
+    getSortedOptionsText(field) {
+      const idToTextMap = new Map(
+        field?.options.map(({
+          id, text,
+        }) => [
+          id,
+          text,
+        ]),
+      );
+      const orderedTexts = field?.value.map((id) => idToTextMap.get(id));
+      return orderedTexts?.join();
+    },
     getUrlResponse(field) {
       return (field.value.map(({ url }) => url)).join();
     },
@@ -58,11 +70,14 @@ export default {
       if (field.type === "MULTIPLE_CHOICE") {
         parsedAnswer = this.getSingleResponse(field);
       }
-      if (field.type === "CHECKBOXES" || field.type === "DROPDOWN" || field.type === "MULTI_SELECT" || field.type === "RANKING") {
+      if (field.type === "CHECKBOXES" || field.type === "DROPDOWN" || field.type === "MULTI_SELECT") {
         if (!field.options) {
           continue;
         }
         parsedAnswer = this.getMultipeResponses(field);
+      }
+      if (field.type === "RANKING") {
+        parsedAnswer = this.getSortedOptionsText(field);
       }
       if (field.type === "FILE_UPLOAD" || field.type === "SIGNATURE") {
         parsedAnswer = this.getUrlResponse(field);
