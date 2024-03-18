@@ -14,11 +14,6 @@ export default {
       label: "eBay Domain",
       description: "The eBay domain to use for the search (e.g., ebay.com, ebay.co.uk).",
     },
-    type: {
-      type: "string",
-      label: "Type",
-      description: "The type of data to retrieve (e.g., 'search', 'product', 'reviews')",
-    },
     epid: {
       type: "string",
       label: "EPID",
