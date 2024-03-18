@@ -8628,6 +8628,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/vybit:
+    specifiers: {}
+
   components/wachete:
     specifiers:
       '@pipedream/platform': ^1.6.0
