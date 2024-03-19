@@ -4432,6 +4432,9 @@ importers:
   components/loyjoy:
     specifiers: {}
 
+  components/loyverse:
+    specifiers: {}
+
   components/luminous:
     specifiers: {}
 
@@ -6693,6 +6696,9 @@ importers:
   components/sakari_sms:
     specifiers: {}
 
+  components/saleor:
+    specifiers: {}
+
   components/sales_simplify:
     specifiers: {}
 
@@ -6740,6 +6746,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/salespype:
+    specifiers: {}
 
   components/salestown:
     specifiers: {}
@@ -21485,7 +21494,7 @@ packages:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
     engines: {node: '>= 0.4.0'}
     dependencies:
-      function-bind: 1.1.1
+      function-bind: 1.1.2
 
   /hash-base/3.1.0:
     resolution: {integrity: sha512-1nmYp/rhMDiE7AYkDw+lLwlAzz0AntGIe51F3RfFfEqyQ3feY2eI/NcwC6umIQVOASPMsWJLJScWKSSvzL9IVA==}
