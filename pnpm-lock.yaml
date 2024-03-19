@@ -736,6 +736,9 @@ importers:
   components/beebole:
     specifiers: {}
 
+  components/beebole_app:
+    specifiers: {}
+
   components/beehiiv:
     specifiers:
       '@pipedream/platform': ^1.1.1
