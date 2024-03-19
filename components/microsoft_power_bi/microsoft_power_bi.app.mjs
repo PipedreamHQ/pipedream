@@ -60,10 +60,10 @@ export default {
         }));
       },
     },
-    top: {
-      type: "integer",
-      label: "Top",
-      description: "The number of refresh history items to retrieve.",
+    customDatasetId: {
+      type: "string",
+      label: "Custom Dataset ID",
+      description: "You may enter a Dataset ID directly. Either Dataset ID or Custom Dataset ID must be entered.",
       optional: true,
     },
   },
@@ -71,7 +71,7 @@ export default {
     _baseUrl() {
       return "https://api.powerbi.com/v1.0/myorg";
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this, path, headers, ...otherOpts
     }) {
       return axios($, {
@@ -84,7 +84,7 @@ export default {
         },
       });
     },
-    async addRowsToTable({
+    addRowsToTable({
       datasetId, tableName, ...args
     }) {
       return this._makeRequest({
@@ -93,7 +93,7 @@ export default {
         ...args,
       });
     },
-    async refreshDataset({
+    refreshDataset({
       datasetId, ...args
     }) {
       return this._makeRequest({
@@ -102,7 +102,7 @@ export default {
         ...args,
       });
     },
-    async cancelRefresh({
+    cancelRefresh({
       datasetId, refreshId, ...args
     }) {
       return this._makeRequest({
@@ -143,12 +143,6 @@ export default {
         method: "POST",
         path: "/datasets",
         ...args,
-      });
-    },
-    async emitEvent(eventName, data) {
-      this.$emit(data, {
-        summary: eventName,
-        id: data.id,
       });
     },
   },
