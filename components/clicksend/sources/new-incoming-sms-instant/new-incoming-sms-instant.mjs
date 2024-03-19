@@ -1,78 +1,94 @@
-import clicksend from "../../clicksend.app.mjs";
-import { axios } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
+import common from "../common/webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "clicksend-new-incoming-sms-instant",
   name: "New Incoming SMS (Instant)",
-  description: "Emits an event for each new incoming SMS message received. [See the documentation](https://developers.clicksend.com/docs/rest/v3/)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event for each new incoming SMS message received. [See the documentation](https://developers.clicksend.com/docs/rest/v3/#view-inbound-sms)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    clicksend: {
-      type: "app",
-      app: "clicksend",
-    },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: "$.service.db",
-    receiverPhoneNumber: {
+    ...common.props,
+    dedicatedNumber: {
       propDefinition: [
-        clicksend,
-        "receiverPhoneNumber",
+        common.props.app,
+        "dedicatedNumber",
       ],
     },
-    messageContent: {
-      propDefinition: [
-        clicksend,
-        "messageContent",
-      ],
+    messageSearchTerm: {
+      type: "string",
+      label: "Message Search Term",
+      description: "Search for a specific message. Eg `hello world`",
     },
   },
   hooks: {
     async activate() {
-      // No webhook activation is required for this component
+      const {
+        http: { endpoint: actionAddress },
+        dedicatedNumber,
+        messageSearchTerm,
+        createSMSInboundAutomation,
+        setWebhookId,
+      } = this;
+
+      const response =
+        await createSMSInboundAutomation({
+          data: {
+            dedicated_number: dedicatedNumber,
+            rule_name: "PD Inbound SMS",
+            message_search_type: constants.MSG_SEARCH_TYPE.ANY_MSG,
+            message_search_term: messageSearchTerm,
+            action: constants.ACTION.URL,
+            action_address: actionAddress,
+            enabled: constants.ENABLED,
+            webhook_type: constants.WEBHOOK_TYPE.JSON,
+          },
+        });
+
+      setWebhookId(response.data.inbound_rule_id);
     },
     async deactivate() {
-      // No webhook deactivation is required for this component
+      const {
+        getWebhookId,
+        deleteSMSInboundAutomation,
+      } = this;
+
+      const inboundRuleId = getWebhookId();
+      if (inboundRuleId) {
+        await deleteSMSInboundAutomation({
+          inboundRuleId,
+        });
+      }
     },
   },
-  async run(event) {
-    const { body } = event;
-
-    // Validate the incoming data (perform any necessary checks)
-    if (!body || !body.to || !body.body) {
-      this.http.respond({
-        status: 400,
-        body: "Bad Request: Missing required fields",
+  methods: {
+    ...common.methods,
+    createSMSInboundAutomation(args = {}) {
+      return this.app.post({
+        debug: true,
+        path: "/automations/sms/inbound",
+        ...args,
       });
-      return;
-    }
-
-    // Validate that the incoming message is from the expected phone number
-    if (body.to !== this.receiverPhoneNumber) {
-      this.http.respond({
-        status: 403,
-        body: "Forbidden: Received message from unexpected phone number",
+    },
+    deleteSMSInboundAutomation({
+      inboundRuleId, ...args
+    } = {}) {
+      return this.app.delete({
+        debug: true,
+        path: `/automations/sms/inbound/${inboundRuleId}`,
+        ...args,
       });
-      return;
-    }
-
-    // Emit the event with the message content
-    this.$emit(body, {
-      id: body.message_id || `${body.date}-${body.to}`,
-      summary: `New SMS from ${body.from}: ${body.body}`,
-      ts: body.date
-        ? Date.parse(body.date)
-        : new Date().getTime(),
-    });
-
-    // Respond to the HTTP request to acknowledge receipt
-    this.http.respond({
-      status: 200,
-      body: "Received",
-    });
+    },
+    generateMeta(resource) {
+      return {
+        id: resource.message_id,
+        summary: `New SMS: ${resource.message_id}`,
+        ts: Date.parse(resource.timestamp),
+      };
+    },
   },
+  sampleEmit,
 };

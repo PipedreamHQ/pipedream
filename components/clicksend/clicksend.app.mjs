@@ -1,154 +1,185 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "clicksend",
   propDefinitions: {
-    receiverPhoneNumber: {
-      type: "string",
-      label: "Receiver's Phone Number",
-      description: "The phone number that received the SMS, in E.164 format.",
-    },
-    messageContent: {
-      type: "string",
-      label: "Message Content",
-      description: "The content of the received SMS message.",
-    },
-    recipientNumber: {
-      type: "string",
-      label: "Recipient's Number",
-      description: "The recipient's phone number, in E.164 format.",
-    },
-    lengthOfVoiceMessage: {
-      type: "integer",
-      label: "Length of Voice Message",
-      description: "The length of the voice message in seconds.",
-    },
-    audioMessageFile: {
-      type: "string",
-      label: "Audio Message File",
-      description: "The URL to the audio file for the voice message.",
-    },
     listId: {
       type: "integer",
       label: "List ID",
       description: "The ID of the list to add the contact to.",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the contact.",
-      optional: true,
+      async options({
+        page, prevContext: { hasMore },
+      }) {
+        if (hasMore === false) {
+          return [];
+        }
+        const {
+          data: { data },
+          next_page_url: nextPageUrl,
+        } = await this.getLists({
+          params: {
+            page: page + 1,
+            limit: constants.DEFAULT_LIMIT,
+          },
+        });
+        const options = data?.map(({
+          list_id: value, list_name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+        return {
+          options,
+          context: {
+            hasMore: !!nextPageUrl,
+          },
+        };
+      },
     },
     phoneNumber: {
       type: "string",
       label: "Phone Number",
-      description: "The phone number of the contact, in E.164 format.",
+      description: "The phone number of the contact, in [E.164](https://en.wikipedia.org/wiki/E.164) format. Must be provided if no **Fax Number** or **Email**.",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
-      description: "The email address of the contact.",
+      description: "The email address of the contact. Must be provided if no **Phone Number** or **Fax Number**.",
       optional: true,
     },
-    message: {
+    faxNumber: {
+      type: "string",
+      label: "Fax Number",
+      description: "The fax number of the contact. Must be provided if no **Phone Number** or **Email**.",
+      optional: true,
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the contact.",
+      optional: true,
+    },
+    from: {
+      type: "string",
+      label: "Sender ID",
+      description: "The sender ID to use when sending the SMS or MMS message.",
+      async options() {
+        const { data } = await this.getAccount();
+        return [
+          {
+            label: data.username,
+            value: data.user_id,
+          },
+        ];
+      },
+    },
+    body: {
       type: "string",
       label: "Message",
       description: "The SMS or MMS message to send.",
+    },
+    to: {
+      type: "string",
+      label: "Recipient Phone Number",
+      description: "The phone number of the recipient, in [E.164](https://en.wikipedia.org/wiki/E.164) format.",
       optional: true,
     },
-    fileUrl: {
+    dedicatedNumber: {
       type: "string",
-      label: "File URL",
-      description: "The URL to the media file you want to send via MMS.",
+      label: "Dedicated Number",
+      description: "",
+      async options({
+        page, prevContext: { hasMore },
+      }) {
+        if (hasMore === false) {
+          return [
+            {
+              label: "All Numbers",
+              value: "*",
+            },
+          ];
+        }
+        const {
+          data: { data },
+          next_page_url: nextPageUrl,
+        } = await this.getNumbers({
+          params: {
+            page: page + 1,
+            limit: constants.DEFAULT_LIMIT,
+          },
+        });
+        const options = data?.map(({ dedicated_number: value }) => value) || [];
+        return {
+          options,
+          context: {
+            hasMore: !!nextPageUrl,
+          },
+        };
+      },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://rest.clicksend.com/v3";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Content-Type": "application/json",
+      };
+    },
+    getAuth() {
       const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+        username,
+        api_key: password,
+      } = this.$auth;
+      return {
+        username,
+        password,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Basic ${Buffer.from(`${this.$auth.username}:${this.$auth.password}`).toString("base64")}`,
-        },
+        ...args,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
+        auth: this.getAuth(),
       });
     },
-    async createContact({
-      listId, name, phoneNumber, email,
-    }) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/lists/" + listId + "/contacts",
-        data: {
-          name,
-          phone_number: phoneNumber,
-          email,
-        },
+        ...args,
       });
     },
-    async sendSms({
-      recipientNumber, message,
-    }) {
+    delete(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/sms/send",
-        data: {
-          messages: [
-            {
-              to: recipientNumber,
-              body: message,
-            },
-          ],
-        },
+        method: "DELETE",
+        ...args,
       });
     },
-    async sendMms({
-      recipientNumber, fileUrl, message,
-    }) {
+    getAccount(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/mms/send",
-        data: {
-          messages: [
-            {
-              to: recipientNumber,
-              media_file: fileUrl,
-              body: message,
-            },
-          ],
-        },
+        path: "/account",
+        ...args,
       });
     },
-    async sendVoiceMessage({
-      recipientNumber, lengthOfVoiceMessage, audioMessageFile,
-    }) {
+    getLists(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/voice/send",
-        data: {
-          messages: [
-            {
-              to: recipientNumber,
-              length: lengthOfVoiceMessage,
-              audio_message_file: audioMessageFile,
-            },
-          ],
-        },
+        path: "/lists",
+        ...args,
+      });
+    },
+    getNumbers(args = {}) {
+      return this._makeRequest({
+        path: "/numbers",
+        ...args,
       });
     },
   },
-  version: "0.0.1",
 };

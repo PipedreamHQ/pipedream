@@ -1,37 +1,71 @@
-import clicksend from "../../clicksend.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../clicksend.app.mjs";
 
 export default {
   key: "clicksend-send-sms",
   name: "Send SMS",
   description: "Sends a new SMS to one or several recipients. [See the documentation](https://developers.clicksend.com/docs/rest/v3/#send-sms-message-s)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    clicksend,
-    recipientNumber: {
+    app,
+    from: {
       propDefinition: [
-        clicksend,
-        "recipientNumber",
+        app,
+        "from",
       ],
     },
-    message: {
+    to: {
       propDefinition: [
-        clicksend,
-        "message",
-        (c) => ({
-          optional: true,
-        }),
+        app,
+        "to",
+      ],
+    },
+    listId: {
+      optional: true,
+      propDefinition: [
+        app,
+        "listId",
+      ],
+    },
+    body: {
+      propDefinition: [
+        app,
+        "body",
       ],
     },
   },
+  methods: {
+    sendSms(args = {}) {
+      return this.app.post({
+        path: "/sms/send",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.clicksend.sendSms({
-      recipientNumber: this.recipientNumber,
-      message: this.message || "This is a test message from Pipedream ClickSend action.",
+    const {
+      sendSms,
+      from,
+      body,
+      to,
+      listId,
+    } = this;
+
+    const response = await sendSms({
+      $,
+      data: {
+        messages: [
+          {
+            from,
+            body,
+            to,
+            list_id: listId,
+          },
+        ],
+      },
     });
 
-    $.export("$summary", `Sent SMS to ${this.recipientNumber}`);
+    $.export("$summary", `Successfully sent SMS with ID \`${response.data.messages[0].message_id}\``);
     return response;
   },
 };

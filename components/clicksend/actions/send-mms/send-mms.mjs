@@ -1,42 +1,77 @@
-import clicksend from "../../clicksend.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../clicksend.app.mjs";
 
 export default {
   key: "clicksend-send-mms",
   name: "Send MMS",
   description: "Sends a new MMS to one or multiple recipients. [See the documentation](https://developers.clicksend.com/docs/rest/v3/#send-mms)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    clicksend,
-    recipientNumber: {
+    app,
+    from: {
       propDefinition: [
-        clicksend,
-        "recipientNumber",
+        app,
+        "from",
       ],
     },
-    fileUrl: {
+    to: {
+      optional: false,
       propDefinition: [
-        clicksend,
-        "fileUrl",
+        app,
+        "to",
       ],
     },
-    message: {
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "The subject of the MMS.",
+    },
+    body: {
       propDefinition: [
-        clicksend,
-        "message",
+        app,
+        "body",
       ],
-      optional: true,
+    },
+    mediaFile: {
+      type: "string",
+      label: "Media File URL",
+      description: "The URL to the media file you want to send via MMS. Eg `http://yourdomain.com/tpLaX6A.gif`",
+    },
+  },
+  methods: {
+    sendMms(args = {}) {
+      return this.app.post({
+        path: "/mms/send",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const response = await this.clicksend.sendMms({
-      recipientNumber: this.recipientNumber,
-      fileUrl: this.fileUrl,
-      message: this.message || "",
+    const {
+      sendMms,
+      from,
+      body,
+      to,
+      mediaFile,
+      subject,
+    } = this;
+
+    const response = await sendMms({
+      $,
+      data: {
+        media_file: mediaFile,
+        messages: [
+          {
+            from,
+            to,
+            subject,
+            body,
+          },
+        ],
+      },
     });
 
-    $.export("$summary", `Sent MMS to ${this.recipientNumber}`);
+    $.export("$summary", `Successfully sent MMS with ID \`${response.data.messages[0].message_id}\``);
     return response;
   },
 };
