@@ -6747,6 +6747,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/salespype:
+    specifiers: {}
+
   components/salestown:
     specifiers: {}
 
