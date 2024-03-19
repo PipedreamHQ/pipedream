@@ -96,7 +96,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/abstract:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/abuselpdb:
     specifiers: {}
@@ -1620,7 +1623,10 @@ importers:
     specifiers: {}
 
   components/countdown_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/coupontools:
     specifiers: {}

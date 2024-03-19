@@ -222,6 +222,26 @@ export default {
         }));
       },
     },
+    botId: {
+      type: "string",
+      label: "Chat Bot ID",
+      description: "The ID of the chatbot to send message from",
+      async options({
+        accountId, projectId, campfireId,
+      }) {
+        const bots = await this.listChatbots({
+          accountId,
+          projectId,
+          campfireId,
+        });
+        return bots?.map(({
+          id: value, service_name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     async getAccounts({ $ = this }) {
@@ -389,6 +409,24 @@ export default {
         cardTableId: cardTable.id,
       });
       return lists;
+    },
+    getChatbot({
+      accountId, projectId, campfireId, botId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/buckets/${projectId}/chats/${campfireId}/integrations/${botId}.json`,
+        accountId,
+        ...args,
+      });
+    },
+    listChatbots({
+      accountId, projectId, campfireId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/buckets/${projectId}/chats/${campfireId}/integrations.json`,
+        accountId,
+        ...args,
+      });
     },
   },
 };

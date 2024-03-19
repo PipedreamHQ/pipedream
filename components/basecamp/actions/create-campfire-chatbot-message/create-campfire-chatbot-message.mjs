@@ -1,11 +1,11 @@
 import app from "../../basecamp.app.mjs";
 
 export default {
-  key: "basecamp-create-campfire-message",
-  name: "Create Campfire Message",
-  description: "Creates a line in the Campfire for the selected project. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/campfires.md#create-a-campfire-line)",
+  key: "basecamp-create-campfire-chatbot-message",
+  name: "Create Campfire Chatbot Message",
+  description: "Creates a line in the Campfire for a Basecamp Chatbot. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/chatbots.md#create-a-line)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.1",
   props: {
     app,
     accountId: {
@@ -36,6 +36,21 @@ export default {
         }),
       ],
     },
+    botId: {
+      propDefinition: [
+        app,
+        "botId",
+        ({
+          accountId,
+          projectId,
+          campfireId,
+        }) => ({
+          accountId,
+          projectId,
+          campfireId,
+        }),
+      ],
+    },
     content: {
       type: "string",
       label: "Content",
@@ -47,20 +62,29 @@ export default {
       accountId,
       projectId,
       campfireId,
+      botId,
       content,
     } = this;
 
-    const message = await this.app.createCampfireMessage({
+    const { lines_url: url } = await this.app.getChatbot({
       $,
       accountId,
       projectId,
       campfireId,
+      botId,
+    });
+
+    const message = await this.app.makeRequest({
+      $,
+      accountId,
+      url,
+      method: "POST",
       data: {
         content,
       },
     });
 
-    $.export("$summary", `Successfully posted campfire message with ID ${message.id}`);
+    $.export("$summary", "Successfully posted campfire chatbot message.");
     return message;
   },
 };
