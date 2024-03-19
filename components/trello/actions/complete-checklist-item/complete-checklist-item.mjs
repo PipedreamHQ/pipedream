@@ -5,7 +5,7 @@ export default {
   key: "trello-complete-checklist-item",
   name: "Complete a Checklist Item",
   description: "Completes an existing checklist item in a card.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     trello: {

@@ -5,7 +5,7 @@ export default {
   key: "trello-create-board",
   name: "Create a Board",
   description: "Creates a new Trello board.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     trello: {
