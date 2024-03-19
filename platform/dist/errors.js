@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConfigurationError = void 0;
+exports.NonexistentDataPropertyError = exports.ConfigurationError = void 0;
 class ConfigurationError extends Error {
     constructor(message, exposeStack = false) {
         super(message);
@@ -9,3 +9,10 @@ class ConfigurationError extends Error {
     }
 }
 exports.ConfigurationError = ConfigurationError;
+class NonexistentDataPropertyError extends Error {
+    constructor() {
+        super("The Pipedream version of axios returns the data directly");
+        this.name = "Nonexistent Data Property Error";
+    }
+}
+exports.NonexistentDataPropertyError = NonexistentDataPropertyError;

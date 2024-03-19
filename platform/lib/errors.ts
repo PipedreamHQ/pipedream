@@ -6,3 +6,11 @@ export class ConfigurationError extends Error {
     this.exposeStack = exposeStack;
   }
 }
+
+export class NonexistentDataPropertyError extends Error {
+  exposeStack: boolean;
+  constructor() {
+    super("The Pipedream version of axios returns the data directly");
+    this.name = "Nonexistent Data Property Error";
+  }
+}

@@ -2,7 +2,10 @@ import axios from "axios";
 import { AxiosRequestConfig } from "./index";
 import * as querystring from "querystring";
 import { cloneSafe } from "./utils";
-import { ConfigurationError } from "./errors";
+import {
+  ConfigurationError,
+  NonexistentDataPropertyError,
+} from "./errors";
 
 function cleanObject(o = {}) {
   for (const k in o) {
@@ -10,6 +13,29 @@ function cleanObject(o = {}) {
       delete o[k];
     }
   }
+}
+
+function returnDataObject(response, returnFullResponse) {
+  if (returnFullResponse) {
+    return response;
+  }
+
+  // axios will always have a data property in the response
+  // if there is a data property inside response.data, do nothing
+  if (response.data.data) {
+    return response.data;
+  }
+
+  // proxy the response data to prevent access to the `data` property
+  // users aware with how axios works were accessing response.data but were getting undefined
+  return new Proxy(response.data, {
+    get(target, prop) {
+      if (prop === "data") {
+        throw new NonexistentDataPropertyError();
+      }
+      return target[prop];
+    },
+  });
 }
 
 // remove query params from url and put into config.params
@@ -116,9 +142,7 @@ async function callAxios(step: any, config: AxiosRequestConfig, signConfig?: any
       stepExport(step, response.data, "debug_response");
     }
 
-    return config.returnFullResponse
-      ? response
-      : response.data;
+    return returnDataObject(response, config.returnFullResponse);
   } catch (err) {
     if (err.response) {
       convertAxiosError(err);
@@ -185,9 +209,7 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
       stepExport(this, response.data, "debug_response");
     }
 
-    return config.returnFullResponse
-      ? response
-      : response.data;
+    return returnDataObject(response, config.returnFullResponse);
   }, (error) => {
     if (error.response) {
       convertAxiosError(error);
