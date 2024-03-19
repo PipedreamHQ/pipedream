@@ -14,9 +14,12 @@ export default {
       throw new Error("getEvent method is not implemented");
     },
     emitEvent(event) {
+      const idText = event.data.object?.id ?
+        `object ID ${event.data.object.id}` :
+        `event ID ${event.id}`;
       this.$emit(event, {
         id: event.id,
-        summary: `New event ${event.type} with ID ${event.data.id}`,
+        summary: `New event ${event.type} (${idText})`,
         ts: Date.parse(event.created),
       });
     },

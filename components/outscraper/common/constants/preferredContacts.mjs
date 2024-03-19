@@ -1,0 +1,15 @@
+export default [
+  "decision makers",
+  "influencers",
+  "procurement/purchasing",
+  "technical",
+  "finance",
+  "operations",
+  "marketing",
+  "sales",
+  "maintenance",
+  "human resources",
+  "legal and compliance",
+  "supply chain/logistics",
+  "education/training",
+];
