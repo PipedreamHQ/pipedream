@@ -2,7 +2,7 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "zoho_notebook-new-note-card-in-notebook",
+  key: "zoho_notebook-new-notecard-in-notebook",
   name: "New Note Card in Notebook",
   description: "Emit new event when a new notecard is created in a specific notebook in Zoho Notebook.",
   version: "0.0.1",
