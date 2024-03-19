@@ -7183,9 +7183,6 @@ importers:
   components/shortpixel:
     specifiers: {}
 
-  components/shortpixel:
-    specifiers: {}
-
   components/shotstack:
     specifiers:
       '@pipedream/platform': ^1.4.1
