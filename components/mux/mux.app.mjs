@@ -18,6 +18,32 @@ export default {
         return data?.map(({ id }) => id) || [];
       },
     },
+    playbackId: {
+      type: "string",
+      label: "Playback ID",
+      description: "A live stream's playback ID",
+      async options({
+        assetId, page,
+      }) {
+        if (assetId) {
+          const { data } = await this.getAsset({
+            assetId,
+          });
+          return data.playback_ids?.map(({ id }) => id ) || [];
+        }
+        const { data } = await this.listAssets({
+          params: {
+            page: page + 1,
+          },
+        });
+        const playbackIds = [];
+        for (const asset of data) {
+          const assetPlaybackIds = asset.playback_ids?.map(({ id }) => id);
+          playbackIds.push(...assetPlaybackIds);
+        }
+        return playbackIds;
+      },
+    },
     playbackPolicy: {
       type: "string",
       label: "Playback Policy",
@@ -88,6 +114,22 @@ export default {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         auth: this._auth(),
+        ...args,
+      });
+    },
+    getAsset({
+      assetId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/assets/${assetId}`,
+        ...args,
+      });
+    },
+    getAssetOrLivestreamId({
+      playbackId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/playback-ids/${playbackId}`,
         ...args,
       });
     },

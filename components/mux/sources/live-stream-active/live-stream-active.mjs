@@ -6,7 +6,7 @@ export default {
   key: "mux-live-stream-active",
   name: "New Live Stream Active",
   description: "Emit new event when a live-stream is set to active status.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     mux,
