@@ -98,8 +98,8 @@ export default {
     return result;
   },
   async run({ $ }) {
-    const {
-      qntrl, orgId, formId, dueDate, additionalOptions, ...data
+    const { // eslint-disable-next-line no-unused-vars
+      qntrl, fieldToProp, orgId, formId, dueDate, additionalOptions, ...data
     } = this;
     const response = await qntrl.createJob({
       $,

@@ -96,13 +96,9 @@ export default {
       return this._makeRequest({
         method: "POST",
         url: `/${orgId}/job`,
-        ...args,
-      });
-    },
-    async addUser(args) {
-      return this._makeRequest({
-        method: "POST",
-        url: "/users",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
         ...args,
       });
     },
@@ -112,6 +108,9 @@ export default {
       return this._makeRequest({
         method: "POST",
         url: `/${orgId}/job/${jobId}/comment`,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
         ...args,
       });
     },
