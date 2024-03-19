@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zoho_notebook",
+  "version": "0.0.1",
+  "description": "Pipedream Zoho Notebook Components",
+  "main": "zoho_notebook.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_notebook"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_notebook",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

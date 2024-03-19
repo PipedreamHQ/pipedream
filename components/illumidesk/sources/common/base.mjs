@@ -17,15 +17,6 @@ export default {
         "campusSlug",
       ],
     },
-    courseSlug: {
-      propDefinition: [
-        illumidesk,
-        "courseSlug",
-        (c) => ({
-          campusSlug: c.campusSlug,
-        }),
-      ],
-    },
   },
   hooks: {
     async deploy() {

@@ -5,7 +5,7 @@ export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
   description: "Searches for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -90,21 +90,17 @@ export default {
 
     const params = {
       filterByFormula,
-      returnFieldsByFieldId: this.returnFieldsByFieldId,
+      returnFieldsByFieldId: this.returnFieldsByFieldId || false,
     };
-    const results = [];
-    do {
-      const {
-        records, offset,
-      } = await this.airtable.listRecords({
-        baseId: this.baseId.value,
-        tableId: this.tableId.value,
-        params,
-        $,
-      });
-      results.push(...records);
-      params.offset = offset;
-    } while (params.offset);
+
+    const baseId = this.baseId?.value ?? this.baseId;
+    const tableId = this.tableId?.value ?? this.tableId;
+
+    const results = await this.airtable.listRecords({
+      baseId,
+      tableId,
+      params,
+    });
 
     $.export("$summary", `Found ${results.length} record${results.length === 1
       ? ""

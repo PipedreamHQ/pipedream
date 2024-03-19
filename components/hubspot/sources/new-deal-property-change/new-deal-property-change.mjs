@@ -6,7 +6,7 @@ export default {
   key: "hubspot-new-deal-property-change",
   name: "New Deal Property Change",
   description: "Emit new event when a specified property is provided or updated on a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals)",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   type: "source",
   props: {
@@ -21,7 +21,6 @@ export default {
       },
     },
   },
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(deal) {
@@ -104,24 +103,12 @@ export default {
         return;
       }
 
-      const inputs = updatedDeals.map(({ id }) => ({
-        id,
-      }));
-      // get deals w/ `propertiesWithHistory`
-      const { results } = await this.batchGetDeals(inputs);
+      const results = await this.processChunks({
+        batchRequestFn: this.batchGetDeals,
+        chunks: this.getChunks(updatedDeals),
+      });
 
-      let maxTs = after;
-      for (const result of results) {
-        if (this.isRelevant(result, after)) {
-          this.emitEvent(result);
-          const ts = this.getTs(result);
-          if (ts > maxTs) {
-            maxTs = ts;
-          }
-        }
-      }
-
-      this._setAfter(maxTs);
+      this.processEvents(results, after);
     },
   },
 };
