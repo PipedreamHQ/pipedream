@@ -11,7 +11,7 @@ export default {
     _apiUrl() {
       return "https://api.anthropic.com/v1";
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this, path, ...args
     }) {
       return axios($, {
@@ -23,9 +23,9 @@ export default {
         ...args,
       });
     },
-    async createChatCompletion(args = {}) {
+    createMessage(args = {}) {
       return this._makeRequest({
-        path: "/complete",
+        path: "/messages",
         method: "post",
         ...args,
       });
