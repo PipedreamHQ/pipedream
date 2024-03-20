@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/slack",
-  "version": "0.4.32",
+  "version": "0.4.33",
   "description": "Pipedream Slack Components",
   "main": "slack.app.mjs",
   "keywords": [
