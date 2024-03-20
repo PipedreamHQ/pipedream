@@ -146,6 +146,21 @@ export default {
         }));
       },
     },
+    customFieldIds: {
+      type: "string[]",
+      label: "Custom Field Ids",
+      description: "An array of custom field Ids to create/update",
+      optional: true,
+      async options({ boardId }) {
+        const customFields = await this.listCustomFields(boardId);
+        return customFields?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     mimeType: {
       type: "string",
       label: "File Attachment Type",
@@ -236,6 +251,13 @@ export default {
         "open",
       ],
       default: "all",
+    },
+    customFieldItems: {
+      type: "boolean",
+      label: "Custom Field Items",
+      description: "Whether to include the customFieldItems",
+      default: false,
+      optional: true,
     },
   },
   methods: {
@@ -525,15 +547,17 @@ export default {
      * @returns  {object} a card object. See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
      */
-    async getCard(id) {
+    async getCard(id, params = {}, $) {
       return this._makeRequest({
         path: `cards/${id}`,
-      });
+        params,
+      }, $);
     },
-    async getCards(id) {
+    async getCards(id, params = {}, $) {
       return this._makeRequest({
         path: `boards/${id}/cards`,
-      });
+        params,
+      }, $);
     },
     async getFilteredCards(boardId, filter) {
       return this._makeRequest({
@@ -543,10 +567,11 @@ export default {
         },
       });
     },
-    async getCardsInList(listId) {
+    async getCardsInList(listId, params = {}, $) {
       return this._makeRequest({
         path: `lists/${listId}/cards`,
-      });
+        params,
+      }, $);
     },
     async getMemberCards(userId) {
       return this._makeRequest({
@@ -735,6 +760,23 @@ export default {
       return this._makeRequest({
         path: `members/${id}/organizations?fields="id,name"`,
       });
+    },
+    getCustomField(customFieldId, $) {
+      return this._makeRequest({
+        path: `customFields/${customFieldId}`,
+      }, $);
+    },
+    listCustomFields(boardId, $) {
+      return this._makeRequest({
+        path: `boards/${boardId}/customFields`,
+      }, $);
+    },
+    updateCustomFields(cardId, data, $) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `cards/${cardId}/customFields`,
+        data,
+      }, $);
     },
   },
 };

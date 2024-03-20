@@ -5,7 +5,7 @@ export default {
   key: "jotform-new-submission",
   name: "New Submission (Instant)",
   description: "Emit new event when a form is submitted",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -17,20 +17,6 @@ export default {
         "formId",
       ],
     },
-    encrypted: {
-      propDefinition: [
-        jotform,
-        "encrypted",
-      ],
-      reloadProps: true,
-    },
-  },
-  async additionalProps() {
-    const props = {};
-    if (this.encrypted) {
-      props.privateKey = jotform.propDefinitions.privateKey;
-    }
-    return props;
   },
   hooks: {
     async deploy() {
@@ -43,9 +29,6 @@ export default {
         },
       });
       for (let submission of submissions.reverse()) {
-        if (this.encrypted) {
-          submission = this.jotform.decryptSubmission(submission, this.privateKey);
-        }
         const meta = {
           id: submission.id,
           summary: form.title,
@@ -81,10 +64,6 @@ export default {
       if (match && match[1]) {
         submission.answers[match[1]].answer = rawRequest[key];
       }
-    }
-
-    if (this.encrypted) {
-      submission = this.jotform.decryptSubmission(submission, this.privateKey);
     }
 
     this.$emit(submission, {

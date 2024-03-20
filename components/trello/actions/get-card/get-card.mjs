@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "trello-get-card",
   name: "Get Card",
-  description: "Gets a card by its ID. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-get)",
-  version: "0.1.6",
+  description: "Gets a card by its ID. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-get)",
+  version: "0.1.7",
   type: "action",
   props: {
     ...common.props,
@@ -28,9 +28,17 @@ export default {
       description: "The ID of the card to get details of",
       optional: false,
     },
+    customFieldItems: {
+      propDefinition: [
+        common.props.trello,
+        "customFieldItems",
+      ],
+    },
   },
   async run({ $ }) {
-    const res = await this.trello.getCard(this.cardId, $);
+    const res = await this.trello.getCard(this.cardId, {
+      customFieldItems: this.customFieldItems,
+    }, $);
     $.export("$summary", `Successfully retrieved card ${this.cardId}`);
     return res;
   },
