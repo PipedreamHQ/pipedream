@@ -21,9 +21,9 @@ export default {
     });
 
     const permalinkPublic = file.permalink_public;
-    const permalink = file.permalink;
+    const urlPrivate = file.url_private;
 
-    const link = `${permalink}?pub_secret=${(permalinkPublic).split("-").pop()}`;
+    const link = `${urlPrivate}?pub_secret=${(permalinkPublic).split("-").pop()}`;
     $.export("$summary", `Successfully retrieved direct file link: ${link}`);
     return link;
   },
