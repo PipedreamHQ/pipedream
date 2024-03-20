@@ -5,7 +5,7 @@ export default {
   key: "trello-card-archived",
   name: "Card Archived (Instant)",
   description: "Emit new event for each card archived.",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "source",
   props: {
     ...common.props,

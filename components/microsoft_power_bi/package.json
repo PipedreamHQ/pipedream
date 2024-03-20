@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_power_bi",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Pipedream Microsoft Power BI Components",
   "main": "microsoft_power_bi.app.mjs",
   "keywords": [

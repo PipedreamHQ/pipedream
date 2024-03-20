@@ -5,7 +5,7 @@ export default {
   key: "trello-add-comment",
   name: "Create a Comment",
   description: "Create a new comment on a specific card.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     trello: {

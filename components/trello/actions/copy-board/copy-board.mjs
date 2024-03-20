@@ -5,7 +5,7 @@ export default {
   key: "trello-copy-board",
   name: "Copy a Board",
   description: "Creates a copy of an existing board.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     trello: {
