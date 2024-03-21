@@ -1,4 +1,4 @@
-import Client from "pg";
+import pg from "pg";
 import format from "pg-format";
 
 export default {
@@ -74,26 +74,32 @@ export default {
   methods: {
     getClientConfiguration() {
       const {
-        database,
-        host,
+        user,
         password,
+        host,
+        database,
         port,
         reject_unauthorized: rejectUnauthorized = "true",
-        user,
       } = this.$auth;
-      const connectionString = `postgresql://${user}:${password}@${host}:${port}/${database}`;
       const ssl = rejectUnauthorized === "true"
         ? null
         : {
           rejectUnauthorized: false,
         };
 
+      // See the node-postgres docs for more information:
+      // https://node-postgres.com/apis/client#new-client
       return {
-        connectionString,
+        user,
+        password,
+        host,
+        database,
+        port,
         ssl,
       };
     },
     async getClient() {
+      const { Client } = pg;
       const config = this.getClientConfiguration();
       const client = new Client(config);
       try {
