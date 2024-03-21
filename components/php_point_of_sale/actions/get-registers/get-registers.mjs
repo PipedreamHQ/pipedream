@@ -1,24 +1,30 @@
-import phpPointOfSale from "../../php_point_of_sale.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../php_point_of_sale.app.mjs";
 
 export default {
   key: "php_point_of_sale-get-registers",
   name: "Get Registers",
-  description: "Search/list registers in PHP Point Of Sale. [See the documentation](https://phppointofsale.com/api.php#/registers/searchregisters)",
-  version: "0.0.{{ts}}",
+  description: "Search for registers in PHP Point Of Sale. [See the documentation](https://phppointofsale.com/api.php#/registers/searchregisters)",
+  version: "0.0.1",
   type: "action",
   props: {
-    phpPointOfSale,
-    searchParams: {
+    app,
+    search: {
       propDefinition: [
-        phpPointOfSale,
-        "searchParams",
+        app,
+        "search",
       ],
     },
   },
   async run({ $ }) {
-    const results = await this.phpPointOfSale.paginate(this.phpPointOfSale.searchRegisters, this.searchParams);
+    const results = await this.app.searchRegisters({
+      $,
+      params: {
+        search: this.search,
+      },
+    });
+
     $.export("$summary", "Successfully retrieved registers");
+
     return results;
   },
 };

@@ -8,80 +8,89 @@ export default {
       type: "string",
       label: "Register ID",
       description: "The ID of the register to delete or update",
+      async options({ page }) {
+        const resources = await this.searchRegisters({
+          params: {
+            offset: page * 100,
+            limit: 100,
+          },
+        });
+
+        return resources.map(({
+          register_id, name,
+        }) => ({
+          value: register_id,
+          label: name,
+        }));
+      },
     },
-    registerData: {
-      type: "object",
-      label: "Register Data",
-      description: "The data for the new register",
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the register",
     },
-    searchParams: {
-      type: "object",
-      label: "Search Parameters",
-      description: "The search parameters to list registers",
+    iptranDeviceId: {
+      type: "string",
+      label: "IP Tran Device ID",
+      description: "The ID of the IP Tran Device",
       optional: true,
+    },
+    emvTerminalId: {
+      type: "string",
+      label: "EMV Terminal ID",
+      description: "The ID of the EMV Terminal",
+      optional: true,
+    },
+    search: {
+      type: "string",
+      label: "Search Term",
+      description: "The term to search within the registers",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://phppointofsale.com/api.php";
+      return `https://${this.$auth.domain}/index.php/api/v1`;
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
+        params,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "x-api-key": `${this.$auth.api_key}`,
         },
+        params,
       });
     },
-    async addRegister({ registerData }) {
+    async createRegister(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/registers",
-        data: registerData,
+        ...args,
       });
     },
-    async searchRegisters({ searchParams }) {
+    async searchRegisters(args = {}) {
       return this._makeRequest({
         method: "GET",
         path: "/registers",
-        params: searchParams,
+        ...args,
       });
     },
-    async deleteRegister({ registerId }) {
+    async deleteRegister({
+      register_id, ...args
+    }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/registers/${registerId}`,
+        path: `/registers/${register_id}`,
+        ...args,
       });
     },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let moreData = true;
-      let page = 1;
-
-      while (moreData) {
-        const response = await fn({
-          params: {
-            page,
-            ...opts,
-          },
-        });
-        results = results.concat(response);
-        moreData = response.length > 0;
-        page++;
-      }
-
-      return results;
-    },
   },
-  version: "0.0.{{ts}}",
 };

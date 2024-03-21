@@ -5712,7 +5712,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/php_point_of_sale:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/phrase:
     specifiers:
