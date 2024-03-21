@@ -1,27 +1,52 @@
-import betterStackApp from "../../better_stack.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../better_stack.app.mjs";
 
 export default {
   key: "better_stack-acknowledge-incident",
   name: "Acknowledge Incident",
   description: "Acknowledges an incident, marking it as acknowledged in Better Stack. [See the documentation](https://betterstack.com/docs/uptime/api/acknowledge-an-ongoing-incident/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    betterStackApp,
+    app,
     incidentId: {
       propDefinition: [
-        betterStackApp,
+        app,
         "incidentId",
       ],
     },
+    acknowledgedBy: {
+      type: "string",
+      label: "Acknowledged By",
+      description: "User e-mail or a custom identifier of the entity that acknowledged the incident",
+      optional: true,
+    },
+  },
+  methods: {
+    acknowledgeIncident({
+      incidentId, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/incidents/${incidentId}/acknowledge`,
+        ...args,
+      });
+    },
   },
   async run({ $ }) {
-    const response = await this.betterStackApp.acknowledgeIncident({
-      incidentId: this.incidentId,
+    const {
+      acknowledgeIncident,
+      incidentId,
+      acknowledgedBy,
+    } = this;
+
+    const response = await acknowledgeIncident({
+      $,
+      incidentId,
+      data: {
+        acknowledged_by: acknowledgedBy,
+      },
     });
 
-    $.export("$summary", `Acknowledged incident with ID: ${this.incidentId}`);
+    $.export("$summary", `Successfully acknowledged incident with ID \`${response.data.id}\``);
     return response;
   },
 };

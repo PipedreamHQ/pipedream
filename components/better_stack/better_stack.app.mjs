@@ -1,128 +1,111 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "better_stack",
   propDefinitions: {
+    policyId: {
+      type: "string",
+      label: "Policy ID",
+      description: "The ID of the escalation policy with which you'd like to escalate this incident",
+      optional: true,
+      async options({
+        page, prevContext: { hasNext },
+      }) {
+        if (hasNext === false) {
+          return [];
+        }
+        const {
+          data,
+          pagination: { next },
+        } = await this.listPolicies({
+          params: {
+            page: page + 1,
+          },
+        });
+        return {
+          options: data.map(({
+            id: value, attributes: { name: label },
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            hasNext: !!next,
+          },
+        };
+      },
+    },
     incidentId: {
       type: "string",
       label: "Incident ID",
       description: "The unique identifier for the incident.",
-      required: true,
-    },
-    incidentStatus: {
-      type: "string",
-      label: "Incident Status",
-      description: "The status of the incident (optional).",
-      optional: true,
-    },
-    timeOfIncident: {
-      type: "string",
-      label: "Time of Incident",
-      description: "The time when the incident occurred (optional).",
-      optional: true,
-    },
-    oldContactId: {
-      type: "string",
-      label: "Old Contact ID",
-      description: "The ID of the old on-call contact.",
-      required: true,
-    },
-    newContactId: {
-      type: "string",
-      label: "New Contact ID",
-      description: "The ID of the new on-call contact.",
-      required: true,
-    },
-    changeTime: {
-      type: "string",
-      label: "Change Time",
-      description: "The time when the on-call contact changed (optional).",
-      optional: true,
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "A description of the incident.",
-      required: true,
-    },
-    priority: {
-      type: "string",
-      label: "Priority",
-      description: "The priority of the incident.",
-      required: true,
-    },
-    notificationSettings: {
-      type: "object",
-      label: "Notification Settings",
-      description: "Additional notification settings (optional).",
-      optional: true,
-    },
-    additionalDetails: {
-      type: "object",
-      label: "Additional Incident Details",
-      description: "Additional details about the incident (optional).",
-      optional: true,
-    },
-    resolutionDetails: {
-      type: "object",
-      label: "Resolution Details",
-      description: "Details about the resolution of the incident (optional).",
-      optional: true,
+      async options({
+        page, prevContext: { hasNext },
+      }) {
+        if (hasNext === false) {
+          return [];
+        }
+        const {
+          data,
+          pagination: { next },
+        } = await this.listIncidents({
+          params: {
+            page: page + 1,
+          },
+        });
+        return {
+          options: data.map(({
+            id: value, attributes: { name: label },
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            hasNext: !!next,
+          },
+        };
+      },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://uptime.betterstack.com/api/v2";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Authorization": `Bearer ${this.$auth.uptime_token}`,
+        "Content-Type": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.team_token}`,
-          "Content-Type": "application/json",
-        },
+        ...args,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
       });
     },
-    async createIncident({
-      description, priority, notificationSettings, additionalDetails,
-    }) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
+        ...args,
+      });
+    },
+    listPolicies(args = {}) {
+      return this._makeRequest({
+        path: "/policies",
+        ...args,
+      });
+    },
+    listIncidents(args = {}) {
+      return this._makeRequest({
         path: "/incidents",
-        data: {
-          description,
-          priority,
-          ...notificationSettings,
-          ...additionalDetails,
-        },
-      });
-    },
-    async acknowledgeIncident({ incidentId }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/incidents/${incidentId}/acknowledge`,
-      });
-    },
-    async resolveIncident({
-      incidentId, resolutionDetails,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/incidents/${incidentId}/resolve`,
-        data: resolutionDetails,
+        ...args,
       });
     },
   },
-  version: "0.0.1",
 };

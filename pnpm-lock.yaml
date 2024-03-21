@@ -754,7 +754,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/better_stack:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/better_uptime:
     specifiers: {}
