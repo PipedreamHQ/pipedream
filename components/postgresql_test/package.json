@@ -1,15 +1,22 @@
 {
   "name": "@pipedream/postgresql_test",
-  "version": "0.0.1",
-  "description": "Pipedream PostgreSQL - TEST Components",
+  "version": "1.0.0",
+  "description": "Pipedream PostgreSQL Components",
   "main": "postgresql_test.app.mjs",
   "keywords": [
     "pipedream",
-    "postgresql_test"
+    "postgresql"
   ],
-  "homepage": "https://pipedream.com/apps/postgresql_test",
+  "homepage": "https://pipedream.com/apps/postgresql",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "pg": "^8.7.1",
+    "pg-format": "^1.0.4"
+  },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "dtslint": "^4.2.1"
   }
 }
