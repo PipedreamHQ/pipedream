@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/rollbar",
-  "version": "0.1.0",
-  "description": "Pipedream Rollbar Components",
-  "main": "rollbar.app.mjs",
+  "name": "@pipedream/clicksend",
+  "version": "0.0.1",
+  "description": "Pipedream ClickSend Components",
+  "main": "clicksend.app.mjs",
   "keywords": [
     "pipedream",
-    "rollbar"
+    "clicksend"
   ],
-  "homepage": "https://pipedream.com/apps/rollbar",
+  "homepage": "https://pipedream.com/apps/clicksend",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
