@@ -103,7 +103,7 @@ export default {
       qntrl, fieldToProp, orgId, formId, dueDate, additionalOptions, ...data
     } = this;
     const validDate = new Date(dueDate);
-    if (isNaN(validDate.valueOf())) {
+    if (dueDate && isNaN(validDate.valueOf())) {
       throw new ConfigurationError("Invalid date string for `Due Date`");
     }
 
@@ -112,7 +112,7 @@ export default {
       orgId,
       data: {
         layout_id: formId,
-        duedate: validDate.toISOString().slice(0, -5) + "+0000",
+        duedate: validDate?.toISOString().slice(0, -5) + "+0000",
         ...data,
         ...additionalOptions,
       },
