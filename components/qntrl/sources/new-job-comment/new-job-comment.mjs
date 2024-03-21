@@ -29,7 +29,7 @@ export default {
         : comment}"`;
     },
     sortItems(a, b) {
-      return new Date(b.created_time).valueOf() - new Date(a.created_time).valueOf();
+      return new Date(a.created_time).valueOf() - new Date(b.created_time).valueOf();
     },
     getItems() {
       const {

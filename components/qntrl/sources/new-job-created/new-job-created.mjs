@@ -16,7 +16,7 @@ export default {
       return `New Job: "${job.title}"`;
     },
     sortItems(a, b) {
-      return new Date(b.created_date_utc).valueOf() - new Date(a.created_date_utc).valueOf();
+      return new Date(a.created_date_utc).valueOf() - new Date(b.created_date_utc).valueOf();
     },
     getItems() {
       return this.app.listJobs(this.orgId);

@@ -112,7 +112,7 @@ export default {
       orgId,
       data: {
         layout_id: formId,
-        duedate: dueDate.toISOString().slice(0, -5) + "+0000",
+        duedate: validDate.toISOString().slice(0, -5) + "+0000",
         ...data,
         ...additionalOptions,
       },
