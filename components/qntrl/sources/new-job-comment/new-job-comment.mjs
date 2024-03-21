@@ -31,7 +31,8 @@ export default {
         : comment}"`;
     },
     sortItems(a, b) {
-      return new Date(a.created_time).valueOf() - new Date(b.created_time).valueOf();
+      // eslint-disable-next-line max-len
+      return new Date(Number(a.created_time)).valueOf() - new Date(Number(b.created_time)).valueOf();
     },
     getItems() {
       const {
