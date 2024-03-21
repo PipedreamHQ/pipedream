@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nyckel",
+  "version": "0.0.1",
+  "description": "Pipedream Nyckel Components",
+  "main": "nyckel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nyckel"
+  ],
+  "homepage": "https://pipedream.com/apps/nyckel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

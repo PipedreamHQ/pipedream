@@ -5287,6 +5287,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/nyckel:
+    specifiers: {}
+
   components/oauth_app_demo:
     specifiers: {}
 
@@ -7902,6 +7905,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
+
+  components/teamioo:
+    specifiers: {}
 
   components/teamleader_focus:
     specifiers:
