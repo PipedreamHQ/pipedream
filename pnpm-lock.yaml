@@ -8602,6 +8602,12 @@ importers:
       '@pipedream/platform': 1.5.1
       viesapi-client: 1.2.5
 
+  components/vimeo:
+    specifiers:
+      '@pipedreamhq/platform': ^0.8.1
+    dependencies:
+      '@pipedreamhq/platform': 0.8.1
+
   components/viral_loops:
     specifiers:
       '@pipedream/platform': ^1.5.1
