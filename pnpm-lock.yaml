@@ -5971,9 +5971,6 @@ importers:
     devDependencies:
       dtslint: 4.2.1_typescript@4.9.5
 
-  components/postgresql_test:
-    specifiers: {}
-
   components/postgrid:
     specifiers:
       '@pipedream/platform': ^1.5.1
