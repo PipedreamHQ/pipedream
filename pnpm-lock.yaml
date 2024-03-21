@@ -6658,7 +6658,10 @@ importers:
       moment: 2.29.4
 
   components/rollbar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/rosette_text_analytics:
     specifiers: {}
