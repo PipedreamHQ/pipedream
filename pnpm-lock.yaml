@@ -77,6 +77,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/__1msg:
+    specifiers: {}
+
   components/_twocaptcha:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -8677,7 +8680,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/vybit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/wachete:
     specifiers:
