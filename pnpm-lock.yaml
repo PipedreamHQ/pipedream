@@ -77,6 +77,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/__1msg:
+    specifiers: {}
+
   components/_twocaptcha:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -431,7 +434,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/anthropic:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/anyflow:
     specifiers: {}
@@ -1333,6 +1339,12 @@ importers:
 
   components/clickmeeting:
     specifiers: {}
+
+  components/clicksend:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/clicktime:
     specifiers: {}
@@ -6652,7 +6664,10 @@ importers:
       moment: 2.29.4
 
   components/rollbar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/rosette_text_analytics:
     specifiers: {}
@@ -6925,7 +6940,10 @@ importers:
     specifiers: {}
 
   components/sendcloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/sender:
     specifiers: {}
@@ -8659,7 +8677,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/vybit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/wachete:
     specifiers:
