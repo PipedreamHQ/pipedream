@@ -1,118 +1,145 @@
 import { axios } from "@pipedreamhq/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "vimeo",
   propDefinitions: {
-    searchTerm: {
-      type: "string",
-      label: "Search Term",
-      description: "The term to search for new videos",
-      required: true,
-    },
-    videoName: {
-      type: "string",
-      label: "Video Name",
-      description: "The name of the new video",
-      optional: true,
-    },
-    category: {
-      type: "string",
-      label: "Category",
-      description: "The category of the new video",
-      optional: true,
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "The description of the new video",
-      optional: true,
-    },
-    videoFile: {
-      type: "string",
-      label: "Video File",
-      description: "The video file to upload",
-      required: true,
-    },
     videoId: {
       type: "string",
       label: "Video ID",
       description: "The ID of the video",
-      required: true,
+      async options({ page }) {
+        const { data } = await this.listVideos({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          uri, name: label,
+        }) => ({
+          value: uri.split("/").pop(),
+          label,
+        })) || [];
+      },
     },
-    albumId: {
+    albumUri: {
       type: "string",
-      label: "Album ID",
-      description: "The ID of the album to add the video to",
-      required: true,
+      label: "Album URI",
+      description: "The URI of the album to add the video to",
+      async options({ page }) {
+        const { data } = await this.listAlbums({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          uri: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.vimeo.com";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "application/json",
         },
       });
     },
-    async likeVideo(videoId) {
+    listVideos(opts = {}) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/me/likes/${videoId}`,
+        path: "/me/videos",
+        ...opts,
       });
     },
-    async searchVideos(searchTerm) {
+    listAlbums(opts = {}) {
+      return this._makeRequest({
+        path: "/me/albums",
+        ...opts,
+      });
+    },
+    listLikedVideos(opts = {}) {
+      return this._makeRequest({
+        path: "/me/likes",
+        ...opts,
+      });
+    },
+    searchVideos(opts = {}) {
       return this._makeRequest({
         path: "/videos",
-        params: {
-          query: searchTerm,
-        },
+        ...opts,
       });
     },
-    async addVideo(videoDetails) {
+    uploadVideo(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/me/videos",
-        data: videoDetails,
-      });
-    },
-    async uploadVideo(videoFile) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/me/videos",
-        data: {
-          upload: {
-            approach: "post",
-            size: videoFile.size,
-          },
+        headers: {
+          Accept: "application/vnd.vimeo.*+json;version=3.4",
         },
+        ...opts,
       });
     },
-    async addVideoToAlbum(videoId, albumId) {
+    addVideoToAlbum({
+      videoId, ...opts
+    }) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/me/albums/${albumId}/videos/${videoId}`,
+        method: "PATCH",
+        path: `/videos/${videoId}/albums`,
+        ...opts,
       });
     },
-    async deleteVideo(videoId) {
+    deleteVideo({
+      videoId, ...opts
+    }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/videos/${videoId}`,
+        ...opts,
       });
+    },
+    async *paginate({
+      resourceFn,
+      params = {},
+      max,
+    }) {
+      params = {
+        ...params,
+        page: 1,
+        per_page: constants.DEFAULT_LIMIT,
+      };
+      let total, count = 0;
+      do {
+        const { data } = await resourceFn({
+          params,
+        });
+        for (const item of data) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        total = data?.length;
+        params.page++;
+      } while (total === params.per_page);
     },
   },
 };
