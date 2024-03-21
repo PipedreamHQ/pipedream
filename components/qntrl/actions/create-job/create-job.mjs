@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import qntrl from "../../qntrl.app.mjs";
 
 export default {
@@ -40,7 +41,7 @@ export default {
       type: "string",
       label: "Due Date",
       description:
-        "The due date of the job as a valid date string, e.g. `2024-03-13T09:30:00Z` or `2024-05-20`.",
+        "The due date of the job as a valid date string, e.g. `2016-02-29T12:12:12+0530` or `2016-02-29`.",
       optional: true,
     },
     additionalOptions: {
@@ -101,12 +102,17 @@ export default {
     const { // eslint-disable-next-line no-unused-vars
       qntrl, fieldToProp, orgId, formId, dueDate, additionalOptions, ...data
     } = this;
+    const validDate = new Date(dueDate);
+    if (isNaN(validDate.valueOf())) {
+      throw new ConfigurationError("Invalid date string for `Due Date`");
+    }
+
     const response = await qntrl.createJob({
       $,
       orgId,
       data: {
         layout_id: formId,
-        duedate: dueDate,
+        duedate: dueDate.toISOString().slice(0, -5) + "+0000",
         ...data,
         ...additionalOptions,
       },
