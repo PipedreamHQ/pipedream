@@ -28,6 +28,9 @@ export default {
         ? `${comment.slice(0, 40)}...`
         : comment}"`;
     },
+    sortItems(a, b) {
+      return new Date(b.created_time).valueOf() - new Date(a.created_time).valueOf();
+    },
     getItems() {
       const {
         orgId, jobId,
