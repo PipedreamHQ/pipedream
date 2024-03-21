@@ -5,7 +5,7 @@ export default {
   key: "trello-find-list",
   name: "Find a List",
   description: "Finds a list on a specific board by name. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-lists-get)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     ...common.props,

@@ -5,7 +5,7 @@ export default {
   key: "trello-add-file-as-attachment-via-url",
   name: "Add Attachment to Card via URL",
   description: "Create a file attachment on a card by referencing a public URL",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     trello: {
