@@ -1,4 +1,4 @@
-import pg from "pg";
+import Client from "pg";
 import format from "pg-format";
 
 export default {
@@ -9,18 +9,16 @@ export default {
       type: "string",
       label: "Schema",
       description: "Database schema",
-      async options({ rejectUnauthorized }) {
-        return this.getSchemas(rejectUnauthorized);
+      async options() {
+        return this.getSchemas();
       },
     },
     table: {
       type: "string",
       label: "Table",
       description: "Database table",
-      async options({
-        schema, rejectUnauthorized,
-      }) {
-        return this.getTables(this.getNormalizedSchema(schema), rejectUnauthorized);
+      async options({ schema }) {
+        return this.getTables(this.getNormalizedSchema(schema));
       },
     },
     column: {
@@ -30,9 +28,8 @@ export default {
       async options({
         table,
         schema,
-        rejectUnauthorized,
       }) {
-        return this.getColumns(table, this.getNormalizedSchema(schema), rejectUnauthorized);
+        return this.getColumns(table, this.getNormalizedSchema(schema));
       },
     },
     query: {
@@ -51,14 +48,17 @@ export default {
       label: "Lookup Value",
       description: "Value to search for",
       async options({
-        table, column, prevContext, schema, rejectUnauthorized,
+        table,
+        column,
+        prevContext,
+        schema,
       }) {
         const limit = 20;
         const normalizedSchema = this.getNormalizedSchema(schema);
         const { offset = 0 } = prevContext;
         return {
           options: await this
-            .getColumnValues(table, column, limit, offset, normalizedSchema, rejectUnauthorized),
+            .getColumnValues(table, column, limit, offset, normalizedSchema),
           context: {
             offset: limit + offset,
           },
@@ -70,48 +70,58 @@ export default {
       label: "Row Values",
       description: "Enter the column names and respective values as key/value pairs, or with structured mode off as `{{{columnName:\"columnValue\"}}}`",
     },
-    rejectUnauthorized: {
-      type: "boolean",
-      label: "Reject Unauthorized",
-      description: "If `true`, the server certificate is verified against the list of supplied CAs. If you encounter the error `Connection terminated unexpectedly`, try setting this prop to `false`.",
-      default: true,
-    },
   },
   methods: {
-    async getClient(rejectUnauthorized = true) {
-      const { Client } = pg;
+    getClientConfiguration() {
       const {
-        user,
-        password,
-        host,
-        port,
         database,
+        host,
+        password,
+        port,
+        reject_unauthorized: rejectUnauthorized = "true",
+        user,
       } = this.$auth;
-      const config = {
-        connectionString: `postgresql://${user}:${password}@${host}:${port}/${database}`,
-      };
-      if (rejectUnauthorized === false) {
-        config.ssl = {
-          rejectUnauthorized,
+      const connectionString = `postgresql://${user}:${password}@${host}:${port}/${database}`;
+      const ssl = rejectUnauthorized === "true"
+        ? null
+        : {
+          rejectUnauthorized: false,
         };
-      }
+
+      return {
+        connectionString,
+        ssl,
+      };
+    },
+    async getClient() {
+      const config = this.getClientConfiguration();
       const client = new Client(config);
-      await client
-        .connect()
-        .catch((err) => console.error("Connection error", err.stack));
+      try {
+        await client.connect();
+      } catch (err) {
+        console.error("Connection error", err.stack);
+        throw err;
+      }
+
       return client;
     },
     async endClient(client) {
       return client.end();
     },
-    /**
-     * Executes SQL query and returns the resulting rows
-     * @param {string} query - SQL query to execute
-     * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
-     * @returns Array of rows returned from the given SQL query
-     */
-    async executeQuery(query, rejectUnauthorized = true) {
-      const client = await this.getClient(rejectUnauthorized);
+    proxyAdapter(query) {
+      if (typeof query === "string") {
+        return {
+          query,
+        };
+      }
+
+      return {
+        query: query.text,
+        params: query.values,
+      };
+    },
+    async executeQuery(query) {
+      const client = await this.getClient();
 
       try {
         const { rows } = await client.query(query);
@@ -124,18 +134,18 @@ export default {
      * Gets an array of table names in a database
      * @returns Array of table names
      */
-    async getTables(schema = "public", rejectUnauthorized = true) {
+    async getTables(schema = "public") {
       const query = format("SELECT table_name FROM information_schema.tables WHERE table_schema = %L", schema);
-      const rows = await this.executeQuery(query, rejectUnauthorized);
+      const rows = await this.executeQuery(query);
       return rows.map((row) => row.table_name);
     },
     /**
      * Gets an array of schemas in a database
      * @returns Array of schemas
      */
-    async getSchemas(rejectUnauthorized = true) {
+    async getSchemas() {
       const query = format("select schema_name FROM information_schema.schemata");
-      const rows = await this.executeQuery(query, rejectUnauthorized);
+      const rows = await this.executeQuery(query);
       return rows.map((row) => row.schema_name);
     },
     /**
@@ -143,12 +153,17 @@ export default {
      * @param {string} table - Name of the table to get columns in
      * @returns Array of column names
      */
-    async getColumns(table, schema = "public", rejectUnauthorized = true) {
+    async getColumns(table, schema = "public") {
       if (!table) {
         return [];
       }
-      const query = format("SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %L AND TABLE_NAME = %L", schema, table);
-      const rows = await this.executeQuery(query, rejectUnauthorized);
+
+      const query = format(`
+        SELECT column_name
+        FROM INFORMATION_SCHEMA.COLUMNS
+        WHERE TABLE_SCHEMA = %L AND TABLE_NAME = %L
+      `, schema, table);
+      const rows = await this.executeQuery(query);
       return rows.map((row) => row.column_name);
     },
     /**
@@ -156,7 +171,7 @@ export default {
      * @param {string} table - Name of the table to get the primary key for
      * @returns Name of the primary key column
      */
-    async getPrimaryKey(table, schema = "public", rejectUnauthorize = true) {
+    async getPrimaryKey(table, schema = "public") {
       const rows = await this.executeQuery({
         text: format(`
           SELECT c.column_name, c.ordinal_position
@@ -165,7 +180,7 @@ export default {
           ON t.constraint_name = c.constraint_name
           WHERE t.table_name = %L and t.table_schema = %L AND t.constraint_type = 'PRIMARY KEY';
         `, table, schema),
-      }, rejectUnauthorize);
+      });
       return rows[0]?.column_name;
     },
     /**
@@ -176,7 +191,7 @@ export default {
      *  last time the table was queried.
      * @returns Array of rows returned from the query
      */
-    async getRows(table, column, lastResult = null, rejectUnauthorize = true, schema = "public") {
+    async getRows(table, column, lastResult = null, schema = "public") {
       const select = "SELECT * FROM %I.%I";
       const where = "WHERE %I > $1";
       const orderby = "ORDER BY %I DESC";
@@ -188,23 +203,22 @@ export default {
           ],
         }
         : format(`${select} ${orderby}`, schema, table, column);
-      return this.executeQuery(query, rejectUnauthorize);
+      return this.executeQuery(query);
     },
     /**
      * Gets a single row from a table based on a lookup column & value
      * @param {string} table - Name of database table to query
      * @param {string} column - Column to filter by value
      * @param {string} value - A column value to search for
-     * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      * @returns A single database row
      */
-    async findRowByValue(schema, table, column, value, rejectUnauthorized) {
+    async findRowByValue(schema, table, column, value) {
       const rows = await this.executeQuery({
         text: format("SELECT * FROM %I.%I WHERE %I = $1", schema, table, column),
         values: [
           value,
         ],
-      }, rejectUnauthorized);
+      });
       return rows[0];
     },
     /**
@@ -212,25 +226,23 @@ export default {
      * @param {string} table - Name of database table to delete from
      * @param {string} column - Column used to find the row(s) to delete
      * @param {string} value - A column value. Used to find the row(s) to delete
-     * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      */
-    async deleteRows(schema, table, column, value, rejectUnauthorized) {
+    async deleteRows(schema, table, column, value) {
       return this.executeQuery({
         text: format("DELETE FROM %I.%I WHERE %I = $1 RETURNING *", schema, table, column),
         values: [
           value,
         ],
-      }, rejectUnauthorized);
+      });
     },
     /**
      * Inserts a row in a table
      * @param {string} table - Name of database table to insert row into
      * @param {array} columns - Array of column names
      * @param {array} values - Array of values corresponding to the column names provided
-     * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      * @returns The newly created row
      */
-    async insertRow(schema, table, columns, values, rejectUnauthorized) {
+    async insertRow(schema, table, columns, values) {
       const placeholders = this.getPlaceholders({
         values,
       });
@@ -241,11 +253,12 @@ export default {
             RETURNING *
         `, schema, table),
         values,
-      }, rejectUnauthorized);
+      });
     },
     getPlaceholders({
-      values = [], fromIndex = 1,
-    }) {
+      values = [],
+      fromIndex = 1,
+    } = {}) {
       return values.map((_, index) => `$${index + fromIndex}`);
     },
     /**
@@ -255,10 +268,9 @@ export default {
      * @param {string} lookupValue - A column value. Used to find row to update
      * @param {object} rowValues - An object with keys representing column names
      *  and values representing new column values
-     * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      * @returns The newly updated row
      */
-    async updateRow(schema, table, lookupColumn, lookupValue, rowValues, rejectUnauthorized) {
+    async updateRow(schema, table, lookupColumn, lookupValue, rowValues) {
       const columnsPlaceholders = this.getColumnsPlaceholders({
         rowValues,
         fromIndex: 2,
@@ -276,38 +288,41 @@ export default {
           lookupValue,
           ...Object.values(rowValues),
         ],
-      }, rejectUnauthorized);
+      });
       return response[0];
     },
     getColumnsPlaceholders({
-      rowValues = {}, fromIndex = 1,
-    }) {
-      return Object.keys(rowValues)
+      rowValues = {},
+      fromIndex = 1,
+    } = {}) {
+      return Object
+        .keys(rowValues)
         .map((key, index) => `${key} = $${index + fromIndex}`);
     },
     /**
      * Gets all of the values for a single column in a table
      * @param {string} table - Name of database table to query
      * @param {string} column - Name of column to get values from
-     * @params {string} [limit] - maximum number of rows to return
-     * @params {integer} [offset] - number of rows to skip, used for pagination
+     * @param {string} [limit] - maximum number of rows to return
+     * @param {integer} [offset] - number of rows to skip, used for pagination
      * @returns Array of column values
      */
-    async getColumnValues(table, column, limit = "ALL", offset = 0, schema = "public", rejectUnauthorized = true) {
+    async getColumnValues(table, column, limit = "ALL", offset = 0, schema = "public") {
       const rows = await this.executeQuery({
         text: format(`
-          SELECT %I FROM %I.%I
-            LIMIT $1::numeric OFFSET $2::numeric
+          SELECT %I
+          FROM %I.%I
+          LIMIT $1::numeric OFFSET $2::numeric
         `, column, schema, table),
         values: [
           limit,
           offset,
         ],
-      }, rejectUnauthorized);
+      });
       const values = rows.map((row) => row[column]?.toString());
       return values.filter((row) => row);
     },
-    async getInitialRows(schema, table, column, limitNum = 10, rejectUnauthorize = true) {
+    async getInitialRows(schema, table, column, limitNum = 10) {
       const select = "SELECT * FROM %I.%I";
       const orderby = "ORDER BY %I DESC";
       const limit = "LIMIT $1";
@@ -317,14 +332,11 @@ export default {
           limitNum,
         ],
       };
-      return this.executeQuery(query, rejectUnauthorize);
+      return this.executeQuery(query);
     },
     /**Normalize Schema**/
     getNormalizedSchema(schema) {
-      if (!schema) {
-        return "public";
-      }
-      return schema;
+      return schema ?? "public";
     },
   },
 };

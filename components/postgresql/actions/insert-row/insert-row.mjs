@@ -4,23 +4,14 @@ export default {
   name: "Insert Row",
   key: "postgresql-insert-row",
   description: "Adds a new row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.7",
+  version: "1.0.0",
   type: "action",
   props: {
     postgresql,
-    rejectUnauthorized: {
-      propDefinition: [
-        postgresql,
-        "rejectUnauthorized",
-      ],
-    },
     schema: {
       propDefinition: [
         postgresql,
         "schema",
-        (c) => ({
-          rejectUnauthorized: c.rejectUnauthorized,
-        }),
       ],
     },
     table: {
@@ -29,7 +20,6 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -45,7 +35,6 @@ export default {
       schema,
       table,
       rowValues,
-      rejectUnauthorized,
     } = this;
     const columns = Object.keys(rowValues);
     const values = Object.values(rowValues);
@@ -55,7 +44,6 @@ export default {
         table,
         columns,
         values,
-        rejectUnauthorized,
       );
       $.export("$summary", "New row inserted");
       return res;
