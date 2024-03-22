@@ -113,7 +113,9 @@ export default {
       orgId,
       data: {
         layout_id: formId,
-        duedate: !isInvalidDate && (dateObj?.toISOString().slice(0, -5) + "+0000"),
+        duedate: isInvalidDate
+          ? undefined
+          : (dateObj?.toISOString().slice(0, -5) + "+0000"),
         ...data,
         ...additionalOptions,
       },
