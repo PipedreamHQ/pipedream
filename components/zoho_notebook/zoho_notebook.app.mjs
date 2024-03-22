@@ -84,6 +84,9 @@ export default {
       do {
         const results = await resourceFn(args);
         const items = results[resourceType];
+        if (!items) {
+          return;
+        }
         for (const item of items) {
           yield item;
           count++;
