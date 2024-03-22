@@ -1,31 +1,17 @@
-import quickbase from "../../quickbase.app.mjs";
+import common from "../common/record.mjs";
 
 export default {
+  ...common,
   key: "quickbase-delete-record",
   name: "Delete Record",
   description: "Deletes a record in a Quick Base table. [See the documentation](https://developer.quickbase.com/operation/deleteRecords)",
   version: "0.0.1",
   type: "action",
   props: {
-    quickbase,
-    appId: {
-      propDefinition: [
-        quickbase,
-        "appId",
-      ],
-    },
-    tableId: {
-      propDefinition: [
-        quickbase,
-        "tableId",
-        (c) => ({
-          appId: c.appId,
-        }),
-      ],
-    },
+    ...common.props,
     recordId: {
       propDefinition: [
-        quickbase,
+        common.props.quickbase,
         "recordId",
         (c) => ({
           appId: c.appId,
@@ -35,12 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { keyFieldId } = await this.quickbase.getTable({
-      tableId: this.tableId,
-      params: {
-        appId: this.appId,
-      },
-    });
+    const keyFieldId = await this.getKeyFieldId(this.appId, this.tableId);
     const response = await this.quickbase.deleteRecord({
       $,
       data: {
