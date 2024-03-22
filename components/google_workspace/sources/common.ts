@@ -1,6 +1,9 @@
 import admin from "@googleapis/admin";
 import { uuid } from "uuidv4";
-import { ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  ConfigurationError,
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "@pipedream/platform";
 import googleWorkspace from "../app/google_workspace.app";
 import constants from "../common/constants";
 
@@ -123,6 +126,14 @@ export default {
     const expirationTSInMS = this.getExpirationTS();
     const token = this.getToken();
 
+    if (expirationTSInMS && expirationTSInMS < currentTSInMS) {
+      await this.renewWebhook();
+    }
+
+    if (!headers) {
+      return console.log("Timer triggered!");
+    }
+
     if (headers?.["x-goog-channel-token"] !== token) {
       throw new ConfigurationError("Webhook token is not valid!");
     }
@@ -139,10 +150,6 @@ export default {
       };
       this.$emit(data, this.getMetadata(data));
     });
-
-    if (expirationTSInMS && expirationTSInMS < currentTSInMS) {
-      await this.renewWebhook();
-    }
   },
 };
 

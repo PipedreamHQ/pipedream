@@ -1,6 +1,10 @@
 export default {
-  COMPLETION_MODELS: [
-    "claude-2",
-    "claude-instant-1",
+  MESSAGE_MODELS: [
+    "claude-3-opus-20240229",
+    "claude-3-sonnet-20240229",
+    "claude-3-haiku-20240307",
+    "claud-2.1",
+    "claude-2.0",
+    "claude-instant-1.2",
   ],
 };
