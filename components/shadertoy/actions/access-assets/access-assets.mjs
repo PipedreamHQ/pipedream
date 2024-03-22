@@ -1,33 +1,27 @@
-import shadertoy from "../../shadertoy.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../shadertoy.app.mjs";
 
 export default {
   key: "shadertoy-access-assets",
   name: "Access Shader Assets",
-  description: "Accesses an asset from a shader. [See the documentation](https://www.shadertoy.com/howto)",
-  version: "0.0.{{ts}}",
+  description: "Accesses an asset from source. [See the documentation](https://www.shadertoy.com/howto)",
+  version: "0.0.1",
   type: "action",
   props: {
-    shadertoy,
-    shaderId: {
-      propDefinition: [
-        shadertoy,
-        "shaderId",
-      ],
-    },
-    assetPath: {
+    app,
+    assetSource: {
       type: "string",
-      label: "Asset Path",
-      description: "The path to the specific asset of the shader",
+      label: "Asset Source",
+      description: "The source to the specific asset",
     },
   },
   async run({ $ }) {
-    const shaderAsset = await this.shadertoy.getShaderAsset({
-      shaderId: this.shaderId,
-      assetPath: this.assetPath,
+    const response = await this.app.getShaderAsset({
+      $,
+      assetSource: this.assetSource,
     });
 
-    $.export("$summary", `Successfully accessed asset from shader with ID ${this.shaderId}`);
-    return shaderAsset;
+    $.export("$summary", `Successfully accessed asset "${this.assetSource}"`);
+
+    return response;
   },
 };

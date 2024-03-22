@@ -17,50 +17,53 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://www.shadertoy.com/api/v1";
+      return "https://www.shadertoy.com";
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        params,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-        },
-      });
-    },
-    async queryShaders({ query }) {
-      const params = {
-        key: this.$auth.api_key,
-        query: encodeURIComponent(query),
-      };
-      return this._makeRequest({
-        path: `/shaders/query/${encodeURIComponent(query)}`,
-        params,
-      });
-    },
-    async getShaderById({ shaderId }) {
-      return this._makeRequest({
-        path: `/shaders/${encodeURIComponent(shaderId)}`,
         params: {
-          key: this.$auth.api_key,
+          ...params,
+          key: `${this.$auth.app_key}`,
         },
+      });
+    },
+    async searchShaders({
+      query, ...args
+    }) {
+      return this._makeRequest({
+        path: `/api/v1/shaders/query/${query}`,
+        ...args,
+      });
+    },
+    async getShaderById({
+      shaderId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/api/v1/shaders/${shaderId}`,
+        ...args,
+      });
+    },
+    async listShaders(args = {}) {
+      return this._makeRequest({
+        path: "/api/v1/shaders",
+        ...args,
       });
     },
     async getShaderAsset({
-      shaderId, assetPath,
+      assetSource, ...args
     }) {
       return this._makeRequest({
-        path: `/shaders/${encodeURIComponent(shaderId)}/${assetPath}`,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        path: `/media/previz/${assetSource}`,
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };

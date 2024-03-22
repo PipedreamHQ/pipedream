@@ -7068,7 +7068,10 @@ importers:
       ssh2-sftp-client: 8.1.0
 
   components/shadertoy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/sharepoint:
     specifiers:

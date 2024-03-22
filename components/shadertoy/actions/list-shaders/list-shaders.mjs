@@ -1,27 +1,21 @@
-import shadertoy from "../../shadertoy.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../shadertoy.app.mjs";
 
 export default {
   key: "shadertoy-list-shaders",
   name: "List Shaders",
-  description: "Returns an array of shader IDs based on the query string. [See the documentation](https://www.shadertoy.com/howto)",
-  version: "0.0.{{ts}}",
+  description: "Returns a list of all shaders. [See the documentation](https://www.shadertoy.com/howto)",
+  version: "0.0.1",
   type: "action",
   props: {
-    shadertoy,
-    query: {
-      propDefinition: [
-        shadertoy,
-        "query",
-      ],
-    },
+    app,
   },
   async run({ $ }) {
-    const response = await this.shadertoy.queryShaders({
-      query: this.query,
+    const response = await this.app.listShaders({
+      $,
     });
-    const shaderIds = response.map((shader) => shader.id);
-    $.export("$summary", `Found ${shaderIds.length} shaders matching the query "${this.query}"`);
-    return shaderIds;
+
+    $.export("$summary", `Found ${response.Results.length} shaders`);
+
+    return response;
   },
 };
