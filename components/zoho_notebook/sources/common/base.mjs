@@ -68,7 +68,10 @@ export default {
         resourceFn,
         args: {
           ...args,
-          sort_column: "-Notecard.CreatedTime",
+          params: {
+            ...args.params,
+            sort_column: "-Notecard.CreatedTime",
+          },
         },
         resourceType,
         max,
