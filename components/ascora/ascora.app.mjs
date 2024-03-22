@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "__1msg",
+  app: "ascora",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
