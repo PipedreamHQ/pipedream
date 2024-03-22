@@ -38,26 +38,18 @@ export default {
     _baseUrl() {
       return "https://api.loyverse.com/v1.0";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
-        data,
-        params,
       });
     },
     async createReceipt({
@@ -65,7 +57,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/receipts",
+        url: "/receipts",
         data: {
           store_id: storeId,
           line_items: itemIds.map((id) => ({
@@ -83,7 +75,7 @@ export default {
     async batchUpdateInventoryLevels({ variantQuantities }) {
       return this._makeRequest({
         method: "POST",
-        path: "/inventory_levels/batch",
+        url: "/inventory_levels/batch",
         data: {
           inventory_levels: variantQuantities.map(({
             variantId, quantity,
@@ -96,7 +88,7 @@ export default {
     },
     async getCustomerDetails({ customerId }) {
       return this._makeRequest({
-        path: `/customers/${customerId}`,
+        url: `/customers/${customerId}`,
       });
     },
   },
