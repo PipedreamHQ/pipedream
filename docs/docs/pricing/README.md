@@ -43,7 +43,7 @@ Users on the Free Tier have access to community support, on [our forum](https://
 
 All paid plans vary features based on tier, but each paid plan option will:
 
-- Remove the daily {{$site.themeConfig.DAILY_CREDITS_LIMIT}} [credits](#credits) limit
+- Remove the daily credit limit
 - Increase the number of active workflows available
 - Increase the number of connected accounts
 

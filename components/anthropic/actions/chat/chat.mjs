@@ -1,20 +1,20 @@
-import anthropic from "../../app/anthropic.app.mjs";
+import anthropic from "../../anthropic.app.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
   name: "Chat",
-  version: "0.0.4",
+  version: "0.0.5",
   key: "anthropic-chat",
-  description: "The Chat API. [See the documentation](https://docs.anthropic.com/claude/reference/complete_post)",
+  description: "The Chat API. [See the documentation](https://docs.anthropic.com/claude/reference/messages_post)",
   type: "action",
   props: {
     anthropic,
     model: {
       label: "Model",
-      description: "Select the model to use for your query. Defaults to the latest stable `claude-2` model, which Anthropic describes as having \"superior performance on tasks that require complex reasoning\".",
+      description: "Select the model to use for your query. Defaults to the `claude-3-opus-20240229` model, which Anthropic describes as the \"Most powerful model for highly complex tasks\".",
       type: "string",
-      options: constants.COMPLETION_MODELS,
-      default: constants.COMPLETION_MODELS[0],
+      options: constants.MESSAGE_MODELS,
+      default: constants.MESSAGE_MODELS[0],
     },
     userMessage: {
       label: "User Message",
@@ -52,35 +52,38 @@ export default {
     },
   },
   async run({ $ }) {
-    let prompt = "";
+    const messages = [];
 
-    this.messages = typeof this.messages === "string"
+    const priorMessages = typeof this.messages === "string"
       ? JSON.parse(this.messages)
       : this.messages;
 
-    if (this.messages && this.messages.length) {
+    if (priorMessages?.length) {
       let isUserMessage = true;
 
-      for (const message of this.messages) {
-        prompt += `\n\n${isUserMessage
-          ? "Human"
-          : "Assistant"}: ${message}`;
+      for (const message of priorMessages) {
+        messages.push({
+          role: isUserMessage
+            ? "user"
+            : "assistant",
+          content: message,
+        });
 
         isUserMessage = !isUserMessage;
       }
-    } else {
-      this.messages = [];
     }
 
-    prompt = `\n\nHuman: ${this.userMessage}\n\nAssistant:`;
-    this.messages.push(this.userMessage);
+    messages.push({
+      role: "user",
+      content: this.userMessage,
+    });
 
-    const response = await this.anthropic.createChatCompletion({
+    const response = await this.anthropic.createMessage({
       $,
       data: {
-        prompt,
+        messages,
         model: this.model,
-        max_tokens_to_sample: this.maxTokensToSample,
+        max_tokens: this.maxTokensToSample,
         temperature: this.temperature
           ? parseFloat(this.temperature)
           : undefined,
@@ -92,12 +95,13 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully sent chat with ID ${response.log_id}`);
+      $.export("$summary", `Successfully sent message with ID ${response.id}`);
     }
 
+    const originalMessages = messages.map(({ content }) => content);
     return {
-      original_messages: this.messages,
-      original_messages_with_assistant_response: this.messages.concat(response.completion),
+      original_messages: originalMessages,
+      original_messages_with_assistant_response: originalMessages.concat(response.content[0].text),
       ...response,
     };
   },
