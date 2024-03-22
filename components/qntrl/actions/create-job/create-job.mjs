@@ -102,8 +102,9 @@ export default {
     const { // eslint-disable-next-line no-unused-vars
       qntrl, fieldToProp, orgId, formId, dueDate, additionalOptions, ...data
     } = this;
-    const validDate = new Date(dueDate);
-    if (dueDate && isNaN(validDate.valueOf())) {
+    const dateObj = new Date(dueDate);
+    const isInvalidDate = isNaN(dateObj.valueOf());
+    if (dueDate && isInvalidDate) {
       throw new ConfigurationError("Invalid date string for `Due Date`");
     }
 
@@ -112,7 +113,7 @@ export default {
       orgId,
       data: {
         layout_id: formId,
-        duedate: validDate?.toISOString().slice(0, -5) + "+0000",
+        duedate: !isInvalidDate && (dateObj?.toISOString().slice(0, -5) + "+0000"),
         ...data,
         ...additionalOptions,
       },
