@@ -7,7 +7,7 @@ import VideoPlayer from '@/components/VideoPlayer'
 
 Event sources operate primarily as workflow triggers. When you add a new app-based [trigger](/workflows/steps/triggers/) to your workflow, you're creating an event source.
 
-![New app-based trigger](./images/app-based-trigger.png)
+![Adding a new trigger to a workflow](https://res.cloudinary.com/pipedreamin/image/upload/v1710512637/docs/sources/CleanShot_2024-03-15_at_10.23.07_tyjswb.png)
 
 Event sources run as their own resources, separate from workflows, for two reasons:
 
@@ -109,7 +109,7 @@ If there aren't any existing events for the source to fetch, the next best way t
 
 For example, if your workflow is triggered by [New Files in Dropbox](https://pipedream.com/apps/dropbox/triggers/new-file), try adding a file to your Dropbox account.
 
-![Waiting for test event](https://res.cloudinary.com/pipedreamin/image/upload/v1692160381/waiting-for-event_kfdsdv.gif)
+![Waiting for test event](https://res.cloudinary.com/pipedreamin/image/upload/v1710512807/docs/sources/CleanShot_2024-03-15_at_10.26.11_hsreft.gif)
 
 ### Generate a sample test event
 Certain event sources support the ability to generate test events using static sample event data. 
@@ -153,4 +153,3 @@ Event sources are subject to the [same limits as Pipedream workflows](/limits/),
 
 - Sources have a default timeout of 5 min.
 - Memory is fixed at 256MB.
-

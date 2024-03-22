@@ -34,13 +34,17 @@ Name the workflow and click **Create Workflow** to use the default settings. For
 
 ### Add an HTTP / Webhook trigger
 
-Next, Pipedream will launch the workflow builder and prompt you to add a trigger. For this example, select **HTTP / Webhook Requests**. 
+Next, Pipedream will launch the workflow builder and prompt you to add a trigger. 
 
-![Add HTTP trigger](./images/add-trigger.png)
+![Create a new Trigger for the workflow](./images/add-trigger.png)
 
-Click **Save and continue** to accept the default settings.
+Clicking the trigger opens a new menu to select the trigger. For this example, select **New HTTP / Webhook Requests**.
 
-![Save trigger](./images/save-trigger.png)
+![Add HTTP trigger](./images/create-http-trigger.png)
+
+Click **Save and continue** in the step editor on the right to accept the default settings.
+
+![Save trigger](./images/save-http-trigger.png)
 
 Pipedream will generate a unique URL to trigger this workflow. Once your workflow is deployed, your workflow will run on every request to this URL.
 
@@ -91,9 +95,14 @@ That will open the **Add a step** menu. Select **Run custom code**.
 
 ![Add step](./images/step-selector-code.png) 
 
-Pipedream will add a Node.js code step. Rename the step to **sentiment**.
+Pipedream will add a Node.js code step to the workflow.
 
-![Rename step to sentiment](./images/rename-code-step.png) 
+![The new code step is added to the workflow after the HTTP trigger](./images/new-code-step-added.png)
+
+
+Rename the step to **sentiment**.
+
+![Rename step to sentiment](./images/rename-code-step.gif) 
 
 Next, add the following code to the code step:
 
@@ -163,51 +172,51 @@ Learn more about Pipedream's [privacy and security policy](/privacy-and-security
 
 When you complete connecting your Google account, the window should close and you should return to Pipedream. Your connected account should automatically be selected. Next, select your spreadsheet from the dropdown menu:
 
-![Select Spreadsheet](./images/select-spreadsheet.png)
+![Select Spreadsheet](./images/v3/select-spreadsheet.png)
 
 Then select the sheet name (the default sheet name in Google Sheets is **Sheet1**):
 
-![Select Sheet Name](./images/select-sheet-name.png)
+![Select Sheet Name](./images/v3/select-spreadsheet-name.png)
 
 Next, select if the spreadsheet has headers in the first row. When a header row exists, Pipedream will automatically retrieve the header labels to make it easy to enter data (if not, you can manually construct an array of values). Since the sheet for this example contains headers, select **Yes**.
 
-![Has headers](./images/has-headers.png)
+![Has headers](./images/v3/select-headers.png)
 
 Pipedream will retrieve the headers and generate a form to enter data in your sheet:
 
-![Additional props](./images/additional-props.png)
+![Additional props](./images/v3/async-props.png)
 
 First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. 
 
 When you click into the **Timestamp** field, Pipedream will display an object explorer to make it easy to find data. Scroll or search to find the `ts` key under `steps.trigger.context`.
 
-![Add reference to timestamp](./images/add-timestamp.png)
+![Add reference to timestamp](./images/v3/select-ts-export.png)
 
 Click **select path** to insert a reference to <code v-pre>steps.trigger.context.ts</code>:
 
-![Timestamp added](./images/timestamp-added.png)
+![Timestamp added](./images/v3/timestamp.png)
 
 Next, let's use autocomplete to enter a value for the **Message** column. First, add double braces `{{` — Pipedream will automatically add the closing braces `}}`. 
 
 Then, type `steps.trigger.event.body.message` between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press **Tab**  to use a suggestion and then click `.` to get suggestions for the next key. The final value in the **Message** field should be `steps.trigger.event.body.message`.
 
-![Add reference to message](./images/autocomplete-message.png)
+![Add reference to message](./images/v3/autocomplete-export.png)
 
-Finally, let's copy a reference from a previous step. Scroll up to the `sentiment` step and expand the results:
+Finally, let's copy a reference from a previous step. Click on the `sentiment` step to open the results in the editor:
 
-![Expand sentiment results](./images/expand-sentiment-results.png)
+![Expand sentiment results](./images/v3/select-sentiment-step.png)
 
 Next,  click the **Copy Path** link next to the score.
 
-![Copy path to sentiment score](./images/copy-path.png) 
+![Copy path to sentiment score](./images/v3/copy-sentiment-path.png) 
 
-Paste the value into the **Sentiment Score** field — Pipedream will automatically wrap the reference in double braces `{{ }}`.
+Click the Google Steps step or click the open tab in the editor. Then paste the value into the **Sentiment Score** field — Pipedream will automatically wrap the reference in double braces `{{ }}`.
 
-![Paste reference to sentiment score](./images/action-configuration-complete.png)
+![Paste reference to sentiment score](./images/v3/paste-sentiment-score.png)
 
 Now that the configuration is complete, click **Test** to validate the configuration for this step. When the test is complete, you will see a success message and a summary of the action performed:
 
-![Action results](./images/test-successful.png)
+![Action results](./images/v3/successful-test-results.png)
 
 If you load your spreadsheet, you should see the data Pipedream inserted.
 
@@ -215,7 +224,7 @@ If you load your spreadsheet, you should see the data Pipedream inserted.
 
 Next, return to your workflow and click **Deploy** to run your workflow on every trigger event.
 
-![Deploy Workflow](./images/deploy-workflow.png)
+![Deploy Workflow](./images/v3/deploy-workflow.png)
 
 When your workflow deploys, you will be redirected to the **Inspector**. Your workflow is now live. 
 
