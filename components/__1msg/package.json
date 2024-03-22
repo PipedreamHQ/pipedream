@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/__1msg",
+  "version": "0.0.1",
+  "description": "Pipedream __1msg Components",
+  "main": "__1msg.app.mjs",
+  "keywords": [
+    "pipedream",
+    "__1msg"
+  ],
+  "homepage": "https://pipedream.com/apps/__1msg",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -77,6 +77,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/__1msg:
+    specifiers: {}
+
   components/_twocaptcha:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -431,7 +434,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/anthropic:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/anyflow:
     specifiers: {}
@@ -511,6 +517,9 @@ importers:
       '@pipedream/platform': 1.5.1
       axios: 0.21.4
       lodash: 4.17.21
+
+  components/ascora:
+    specifiers: {}
 
   components/asin_data_api:
     specifiers: {}
@@ -748,7 +757,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/better_stack:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/better_uptime:
     specifiers: {}
@@ -1333,6 +1345,12 @@ importers:
 
   components/clickmeeting:
     specifiers: {}
+
+  components/clicksend:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/clicktime:
     specifiers: {}
@@ -2234,7 +2252,10 @@ importers:
       jssha: 3.3.1
 
   components/dynalist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/dynamics_365_business_central_api:
     specifiers:
@@ -2623,6 +2644,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/finerworks:
+    specifiers: {}
+
+  components/finmei:
     specifiers: {}
 
   components/finmo:
@@ -5287,6 +5311,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/nyckel:
+    specifiers: {}
+
   components/oauth_app_demo:
     specifiers: {}
 
@@ -5715,7 +5742,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/php_point_of_sale:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/phrase:
     specifiers:
@@ -6649,7 +6679,10 @@ importers:
       moment: 2.29.4
 
   components/rollbar:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/rosette_text_analytics:
     specifiers: {}
@@ -6922,7 +6955,10 @@ importers:
     specifiers: {}
 
   components/sendcloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/sender:
     specifiers: {}
@@ -7903,6 +7939,9 @@ importers:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
 
+  components/teamioo:
+    specifiers: {}
+
   components/teamleader_focus:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -8653,7 +8692,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/vybit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/wachete:
     specifiers:
