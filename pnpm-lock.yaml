@@ -518,6 +518,9 @@ importers:
       axios: 0.21.4
       lodash: 4.17.21
 
+  components/ascora:
+    specifiers: {}
+
   components/asin_data_api:
     specifiers: {}
 
@@ -2641,6 +2644,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/finerworks:
+    specifiers: {}
+
+  components/finmei:
     specifiers: {}
 
   components/finmo:
