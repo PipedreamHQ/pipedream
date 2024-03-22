@@ -11,8 +11,9 @@ export default {
     inventoryLevels: {
       type: "object[]",
       label: "Inventory Levels",
-      description: "[An array of JSON-stringified objects](https://developer.loyverse.com/docs/#tag/Inventory/paths/~1inventory/post). You can generate each item using the props below, copying them into this array.",
+      description: "[An array of JSON-stringified objects](https://developer.loyverse.com/docs/#tag/Inventory/paths/~1inventory/post). You can use the props below to generate each item and copy it into this array.",
     },
+
   },
   async run({ $ }) {
     const response = await this.loyverse.batchUpdateInventoryLevels({
