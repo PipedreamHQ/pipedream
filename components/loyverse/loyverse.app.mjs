@@ -7,7 +7,30 @@ export default {
     customerId: {
       type: "string",
       label: "Customer ID",
-      description: "The unique identifier for the customer.",
+      description: "Select a customer or provide a customer ID to retrieve information for. You can leave this empty to retrieve a list of customers instead.",
+      optional: true,
+      async options({ page }) {
+        const customers = await this.getCustomers({
+          params: {
+            cursor: page,
+          },
+        });
+        return customers.map(({
+          id, name, email,
+        }) => ({
+          label: `${name} (${email})`,
+          value: id,
+        }));
+      },
+    },
+    customerAmount: {
+      type: "integer",
+      label: "Max Amount",
+      description: "The maximum amount of customers you want to retrieve, starting from the most recent customers. If you provide a `Customer ID`, this will be ignored.",
+      optional: true,
+      default: 50,
+      min: 1,
+      max: 250,
     },
     storeId: {
       type: "string",
@@ -86,10 +109,20 @@ export default {
         },
       });
     },
-    async getCustomerDetails({ customerId }) {
+    async getCustomerDetails({
+      customerId, ...args
+    }) {
       return this._makeRequest({
         url: `/customers/${customerId}`,
+        ...args,
       });
+    },
+    async listCustomers(args) {
+      const response = await this._makeRequest({
+        url: "/customers",
+        ...args,
+      });
+      return response.customers;
     },
   },
 };
