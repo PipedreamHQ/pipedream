@@ -518,6 +518,9 @@ importers:
       axios: 0.21.4
       lodash: 4.17.21
 
+  components/ascora:
+    specifiers: {}
+
   components/asin_data_api:
     specifiers: {}
 
@@ -754,7 +757,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/better_stack:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/better_uptime:
     specifiers: {}
@@ -2246,7 +2252,10 @@ importers:
       jssha: 3.3.1
 
   components/dynalist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/dynamics_365_business_central_api:
     specifiers:
@@ -2635,6 +2644,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/finerworks:
+    specifiers: {}
+
+  components/finmei:
     specifiers: {}
 
   components/finmo:
@@ -5730,7 +5742,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/php_point_of_sale:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/phrase:
     specifiers:

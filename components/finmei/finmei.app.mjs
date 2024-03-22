@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "nyckel",
+  app: "finmei",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
