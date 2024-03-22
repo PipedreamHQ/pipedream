@@ -2249,7 +2249,10 @@ importers:
       jssha: 3.3.1
 
   components/dynalist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/dynamics_365_business_central_api:
     specifiers:
