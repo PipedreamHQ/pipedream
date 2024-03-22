@@ -41,6 +41,25 @@ export default {
         }));
       },
     },
+    employeeId: {
+      type: "string",
+      label: "Employee ID",
+      description: "Select an employee or provide an employee ID.",
+      optional: true,
+      async options({ page }) {
+        const employees = await this.listEmployees({
+          params: {
+            cursor: page,
+          },
+        });
+        return employees.map(({
+          id, name, email,
+        }) => ({
+          label: `${name} (${email})`,
+          value: id,
+        }));
+      },
+    },
     itemVariantId: {
       type: "string",
       label: "Item Variant ID",
@@ -59,6 +78,24 @@ export default {
         }));
       },
     },
+    paymentTypeId: {
+      type: "string",
+      label: "Payment Type ID",
+      description: "Select a payment type or provide a payment type ID.",
+      async options({ page }) {
+        const paymentTypes = await this.listPaymentTypes({
+          params: {
+            cursor: page,
+          },
+        });
+        return paymentTypes.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
     customerAmount: {
       type: "integer",
       label: "Max Amount",
@@ -67,18 +104,6 @@ export default {
       default: 50,
       min: 1,
       max: 250,
-    },
-    itemIds: {
-      type: "string[]",
-      label: "Item IDs",
-      description: "List of item IDs.",
-      optional: true,
-    },
-    paymentDetails: {
-      type: "object",
-      label: "Payment Details",
-      description: "Payment details for the receipt.",
-      optional: true,
     },
   },
   methods: {
@@ -147,6 +172,20 @@ export default {
         ...args,
       });
       return response.stores;
+    },
+    async listEmployees(args) {
+      const response = await this._makeRequest({
+        url: "/employees",
+        ...args,
+      });
+      return response.employees;
+    },
+    async listPaymentTypes(args) {
+      const response = await this._makeRequest({
+        url: "/payment_types",
+        ...args,
+      });
+      return response.payment_types;
     },
     async listItemVariants(args) {
       const response = await this._makeRequest({

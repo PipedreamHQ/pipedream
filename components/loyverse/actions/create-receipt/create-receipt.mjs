@@ -3,31 +3,91 @@ import loyverse from "../../loyverse.app.mjs";
 export default {
   key: "loyverse-create-receipt",
   name: "Create Receipt",
-  description: "Creates a new receipt for a specific store. [See the documentation](https://developer.loyverse.com/docs/)",
+  description: "Creates a new receipt for a specific store. [See the documentation](https://developer.loyverse.com/docs/#tag/Receipts/paths/~1receipts/post)",
   version: "0.0.1",
   type: "action",
   props: {
     loyverse,
-    storeId: loyverse.propDefinitions.storeId,
-    itemIds: {
-      ...loyverse.propDefinitions.itemIds,
-      optional: true,
+    storeId: {
+      propDefinition: [
+        loyverse,
+        "storeId",
+      ],
     },
-    paymentDetails: {
-      ...loyverse.propDefinitions.paymentDetails,
+    lineItems: {
+      type: "string[]",
+      label: "Line Items",
+      description: "The line items included in the receipt, as JSON-stringified objects. [See the documentation](https://developer.loyverse.com/docs/#tag/Receipts/paths/~1receipts/post) for the expected properties.",
+    },
+    paymentTypeId: {
+      propDefinition: [
+        loyverse,
+        "paymentTypeId",
+      ],
+    },
+    employeeId: {
+      propDefinition: [
+        loyverse,
+        "employeeId",
+      ],
+    },
+    order: {
+      type: "string",
+      label: "Order",
+      description: "The order name or number associated with the receipt",
       optional: true,
     },
     customerId: {
-      ...loyverse.propDefinitions.customerId,
+      propDefinition: [
+        loyverse,
+        "customerId",
+      ],
+      description: "Select a customer or provide a customer ID.",
+    },
+    source: {
+      type: "string",
+      label: "Source",
+      description: "The name of the source this receipt comes from. By default it is the name of the application that created the receipt.",
+      optional: true,
+    },
+    receiptDate: {
+      type: "string",
+      label: "Receipt Date",
+      description: "A date/time string such as `2022-03-15T18:30:00Z`. By default, this is the date/time the receipt was created.",
+      optional: true,
+    },
+    totalDiscounts: {
+      type: "string[]",
+      label: "Total Discounts",
+      description: "The list of all discounts applied in the receipt, as JSON-stringified objects. [See the documentation](https://developer.loyverse.com/docs/#tag/Receipts/paths/~1receipts/post) for the expected properties.",
+      optional: true,
+    },
+    note: {
+      type: "string",
+      label: "Note",
+      description: "The receipt's note",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.loyverse.createReceipt({
-      storeId: this.storeId,
-      itemIds: this.itemIds,
-      paymentDetails: this.paymentDetails,
-      customerId: this.customerId,
+      $,
+      data: {
+        store_id: this.storeId,
+        line_items: this.lineItems.map(JSON.parse),
+        payments: [
+          {
+            payment_type_id: this.paymentTypeId,
+          },
+        ],
+        employee_id: this.employeeId,
+        order: this.order,
+        customer_id: this.customerId,
+        source: this.source,
+        receipt_date: this.receiptDate,
+        total_discounts: this.totalDiscounts?.map(JSON.parse),
+        note: this.note,
+      },
     });
     $.export("$summary", `Successfully created receipt with number ${response.receipt_number}`);
     return response;
