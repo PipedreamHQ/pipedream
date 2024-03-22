@@ -5052,7 +5052,16 @@ importers:
       uuid: 8.3.2
 
   components/mysql_test:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+      mysql2: ^3.9.2
+      mysql2-promise: ^0.1.4
+      uuid: ^8.3.2
+    dependencies:
+      '@pipedream/platform': 1.6.0
+      mysql2: 3.9.2
+      mysql2-promise: 0.1.4
+      uuid: 8.3.2
 
   components/n8n_io:
     specifiers: {}
