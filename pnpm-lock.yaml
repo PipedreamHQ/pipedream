@@ -4257,6 +4257,9 @@ importers:
   components/learndash:
     specifiers: {}
 
+  components/leiga:
+    specifiers: {}
+
   components/lemlist:
     specifiers:
       '@pipedream/platform': ^1.1.0
