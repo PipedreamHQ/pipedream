@@ -10,7 +10,7 @@ export default {
       description: "Select a customer or provide a customer ID to retrieve information for. You can leave this empty to retrieve a list of customers instead.",
       optional: true,
       async options({ page }) {
-        const customers = await this.getCustomers({
+        const customers = await this.listCustomers({
           params: {
             cursor: page,
           },
@@ -23,6 +23,42 @@ export default {
         }));
       },
     },
+    storeId: {
+      type: "string",
+      label: "Store ID",
+      description: "Select a store or provide a store ID.",
+      async options({ page }) {
+        const stores = await this.listStores({
+          params: {
+            cursor: page,
+          },
+        });
+        return stores.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+    itemVariantId: {
+      type: "string",
+      label: "Item Variant ID",
+      description: "Select an item variant or provide an item variant ID.",
+      async options({ page }) {
+        const variants = await this.listItemVariants({
+          params: {
+            cursor: page,
+          },
+        });
+        return variants.map(({
+          variant_id: value, sku,
+        }) => ({
+          label: `SKU ${sku}`,
+          value,
+        }));
+      },
+    },
     customerAmount: {
       type: "integer",
       label: "Max Amount",
@@ -31,12 +67,6 @@ export default {
       default: 50,
       min: 1,
       max: 250,
-    },
-    storeId: {
-      type: "string",
-      label: "Store ID",
-      description: "The unique identifier for the store.",
-      optional: false,
     },
     itemIds: {
       type: "string[]",
@@ -49,12 +79,6 @@ export default {
       label: "Payment Details",
       description: "Payment details for the receipt.",
       optional: true,
-    },
-    variantQuantities: {
-      type: "object[]",
-      label: "Variant Quantities",
-      description: "List of variant ids and corresponding quantity information.",
-      optional: false,
     },
   },
   methods: {
@@ -95,18 +119,11 @@ export default {
         },
       });
     },
-    async batchUpdateInventoryLevels({ variantQuantities }) {
+    async batchUpdateInventoryLevels(args) {
       return this._makeRequest({
         method: "POST",
-        url: "/inventory_levels/batch",
-        data: {
-          inventory_levels: variantQuantities.map(({
-            variantId, quantity,
-          }) => ({
-            variant_id: variantId,
-            in_stock: quantity,
-          })),
-        },
+        url: "/inventory",
+        ...args,
       });
     },
     async getCustomerDetails({
@@ -123,6 +140,20 @@ export default {
         ...args,
       });
       return response.customers;
+    },
+    async listStores(args) {
+      const response = await this._makeRequest({
+        url: "/stores",
+        ...args,
+      });
+      return response.stores;
+    },
+    async listItemVariants(args) {
+      const response = await this._makeRequest({
+        url: "/variants",
+        ...args,
+      });
+      return response.variants;
     },
   },
 };
