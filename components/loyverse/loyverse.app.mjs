@@ -4,98 +4,6 @@ export default {
   type: "app",
   app: "loyverse",
   propDefinitions: {
-    customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: "Select a customer or provide a customer ID to retrieve information for. You can leave this empty to retrieve a list of customers instead.",
-      optional: true,
-      async options({ page }) {
-        const customers = await this.listCustomers({
-          params: {
-            cursor: page,
-          },
-        });
-        return customers.map(({
-          id, name, email,
-        }) => ({
-          label: `${name} (${email})`,
-          value: id,
-        }));
-      },
-    },
-    storeId: {
-      type: "string",
-      label: "Store ID",
-      description: "Select a store or provide a store ID.",
-      async options({ page }) {
-        const stores = await this.listStores({
-          params: {
-            cursor: page,
-          },
-        });
-        return stores.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
-    },
-    employeeId: {
-      type: "string",
-      label: "Employee ID",
-      description: "Select an employee or provide an employee ID.",
-      optional: true,
-      async options({ page }) {
-        const employees = await this.listEmployees({
-          params: {
-            cursor: page,
-          },
-        });
-        return employees.map(({
-          id, name, email,
-        }) => ({
-          label: `${name} (${email})`,
-          value: id,
-        }));
-      },
-    },
-    itemVariantId: {
-      type: "string",
-      label: "Item Variant ID",
-      description: "Select an item variant or provide an item variant ID.",
-      async options({ page }) {
-        const variants = await this.listItemVariants({
-          params: {
-            cursor: page,
-          },
-        });
-        return variants.map(({
-          variant_id: value, sku,
-        }) => ({
-          label: `SKU ${sku}`,
-          value,
-        }));
-      },
-    },
-    paymentTypeId: {
-      type: "string",
-      label: "Payment Type ID",
-      description: "Select a payment type or provide a payment type ID.",
-      async options({ page }) {
-        const paymentTypes = await this.listPaymentTypes({
-          params: {
-            cursor: page,
-          },
-        });
-        return paymentTypes.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
-    },
     customerAmount: {
       type: "integer",
       label: "Max Amount",
@@ -105,8 +13,119 @@ export default {
       min: 1,
       max: 250,
     },
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description: "Select a customer or provide a customer ID to retrieve information for. You can leave this empty to retrieve a list of customers instead.",
+      optional: true,
+      async options({ prevContext: { lastCursor } }) {
+        return this._paginatedOptions({
+          fn: "listCustomers",
+          name: "customers",
+          map: ({
+            id, name, email,
+          }) => ({
+            label: `${name} (${email})`,
+            value: id,
+          }),
+          lastCursor,
+        });
+      },
+    },
+    paymentTypeId: {
+      type: "string",
+      label: "Payment Type ID",
+      description: "Select a payment type or provide a payment type ID.",
+      async options({ prevContext: { lastCursor } }) {
+        return this._paginatedOptions({
+          fn: "listPaymentTypes",
+          name: "paymentTypes",
+          map: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+          lastCursor,
+        });
+      },
+    },
+    storeId: {
+      type: "string",
+      label: "Store ID",
+      description: "Select a store or provide a store ID.",
+      async options({ prevContext: { lastCursor } }) {
+        return this._paginatedOptions({
+          fn: "listStores",
+          name: "stores",
+          map: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+          lastCursor,
+        });
+      },
+    },
+    employeeId: {
+      type: "string",
+      label: "Employee ID",
+      description: "Select an employee or provide an employee ID.",
+      optional: true,
+      async options({ prevContext: { lastCursor } }) {
+        return this._paginatedOptions({
+          fn: "listEmployees",
+          name: "employees",
+          map: ({
+            id, name, email,
+          }) => ({
+            label: `${name} (${email})`,
+            value: id,
+          }),
+          lastCursor,
+        });
+      },
+    },
+    itemVariantId: {
+      type: "string",
+      label: "Item Variant ID",
+      description: "Select an item variant or provide an item variant ID.",
+      async options({ prevContext: { lastCursor } }) {
+        return this._paginatedOptions({
+          fn: "listItemVariants",
+          name: "variants",
+          map: ({
+            variant_id: id, sku,
+          }) => ({
+            label: `SKU ${sku}`,
+            value: id,
+          }),
+          lastCursor,
+        });
+      },
+    },
   },
   methods: {
+    async _paginatedOptions({
+      fn, name, map, lastCursor,
+    }) {
+      const {
+        [name]: items, cursor,
+      } = await this[fn]({
+        params: {
+          limit: 1,
+          cursor: lastCursor,
+        },
+      });
+      const options = items.map(map);
+      return {
+        options,
+        context: {
+          lastCursor: cursor,
+        },
+      };
+    },
     _baseUrl() {
       return "https://api.loyverse.com/v1.0";
     },
@@ -160,39 +179,34 @@ export default {
       });
     },
     async listCustomers(args) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
         url: "/customers",
         ...args,
       });
-      return response.customers;
     },
     async listStores(args) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
         url: "/stores",
         ...args,
       });
-      return response.stores;
     },
     async listEmployees(args) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
         url: "/employees",
         ...args,
       });
-      return response.employees;
     },
     async listPaymentTypes(args) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
         url: "/payment_types",
         ...args,
       });
-      return response.payment_types;
     },
     async listItemVariants(args) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
         url: "/variants",
         ...args,
       });
-      return response.variants;
     },
     async createWebhook(args) {
       return this._makeRequest({
