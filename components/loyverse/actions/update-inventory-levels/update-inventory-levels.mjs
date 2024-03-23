@@ -56,7 +56,7 @@ export default {
       output: {
         type: "alert",
         alertType: "info",
-        content: `\`{ "variant_id": "${itemVariantId}", "store_id": "${storeId}", "in_stock": ${inStock}, "updated_at": "${updatedAt}" }\``,
+        content: `\`{ "variant_id": "${itemVariantId}", "store_id": "${storeId}", "stock_after": ${inStock}, "updated_at": "${updatedAt}" }\``,
       },
     };
   },

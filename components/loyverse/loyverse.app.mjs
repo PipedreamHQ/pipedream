@@ -39,7 +39,7 @@ export default {
       async options({ prevContext: { lastCursor } }) {
         return this._paginatedOptions({
           fn: "listPaymentTypes",
-          name: "paymentTypes",
+          name: "payment_types",
           map: ({
             id, name,
           }) => ({
@@ -114,7 +114,6 @@ export default {
         [name]: items, cursor,
       } = await this[fn]({
         params: {
-          limit: 1,
           cursor: lastCursor,
         },
       });
@@ -143,24 +142,11 @@ export default {
         },
       });
     },
-    async createReceipt({
-      storeId, itemIds = [], paymentDetails, customerId,
-    }) {
+    async createReceipt(args) {
       return this._makeRequest({
         method: "POST",
         url: "/receipts",
-        data: {
-          store_id: storeId,
-          line_items: itemIds.map((id) => ({
-            variant_id: id,
-          })),
-          payments: paymentDetails
-            ? [
-              paymentDetails,
-            ]
-            : [],
-          customer_id: customerId,
-        },
+        ...args,
       });
     },
     async batchUpdateInventoryLevels(args) {
