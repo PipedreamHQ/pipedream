@@ -1,4 +1,5 @@
 import mysqlClient from "mysql2/promise";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -99,27 +100,37 @@ export default {
       const {
         host,
         port,
-        username,
+        username: user,
         password,
         database,
         ca,
         key,
         cert,
-      } = this.$auth;
+        reject_unauthorized: rejectUnauthorized,
+        verify_identity: verifyIdentity,
+      } = this.mysql.$auth;
+
+      let ssl = {};
+
+      if (ca) {
+        ssl.ca = ca;
+        ssl.rejectUnauthorized = utils.getTrueIfUndefined(rejectUnauthorized);
+
+        if (key && cert) {
+          ssl.key = key;
+          ssl.cert = cert;
+          ssl.verifyIdentity = utils.getTrueIfUndefined(verifyIdentity);
+        }
+      }
 
       return {
         host,
         port,
-        user: username,
+        user,
         password,
         database,
-        ...(ca && cert && key && {
-          ssl: {
-            rejectUnauthorized: true,
-            ca,
-            cert,
-            key,
-          },
+        ...(Object.keys(ssl).length && {
+          ssl,
         }),
       };
     },
