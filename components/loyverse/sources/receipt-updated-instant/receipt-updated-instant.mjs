@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -8,6 +9,7 @@ export default {
   version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
+  sampleEmit,
   methods: {
     ...common.methods,
     getSummary(body) {
