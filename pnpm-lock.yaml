@@ -1343,6 +1343,9 @@ importers:
   components/clickfunnels:
     specifiers: {}
 
+  components/clickhelp:
+    specifiers: {}
+
   components/clickmeeting:
     specifiers: {}
 
@@ -4252,6 +4255,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/learndash:
+    specifiers: {}
+
+  components/leiga:
     specifiers: {}
 
   components/lemlist:
