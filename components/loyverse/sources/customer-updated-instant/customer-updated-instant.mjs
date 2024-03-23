@@ -10,6 +10,12 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getSummary(body) {
+      const { length } = body.customers;
+      return `${length} customer${length === 1
+        ? ""
+        : "s"} updated`;
+    },
     getHookType() {
       return "customers.update";
     },

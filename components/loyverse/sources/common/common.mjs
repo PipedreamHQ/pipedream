@@ -7,6 +7,9 @@ export default {
     db: "$.service.db",
   },
   methods: {
+    getSummary() {
+      return "New event";
+    },
     _getWebhookId() {
       return this.db.get("webhookId");
     },
@@ -19,6 +22,7 @@ export default {
       const data = {
         type: this.getHookType(),
         url: this.http.endpoint,
+        status: "ENABLED",
       };
 
       const { id } = await this.app.createWebhook({
@@ -34,12 +38,12 @@ export default {
     },
   },
   async run({ body }) {
-    const { data } = body;
-    if (data) {
+    if (body) {
+      const ts = Date.now();
       this.$emit(body, {
-        id: data.id,
-        summary: "New event",
-        ts: Date.now(),
+        id: ts,
+        summary: this.getSummary(body),
+        ts,
       });
     }
   },

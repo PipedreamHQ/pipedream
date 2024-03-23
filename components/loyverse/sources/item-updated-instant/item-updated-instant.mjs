@@ -10,6 +10,12 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getSummary(body) {
+      const { length } = body.items;
+      return `${length} item${length === 1
+        ? ""
+        : "s"} updated`;
+    },
     getHookType() {
       return "items.update";
     },
