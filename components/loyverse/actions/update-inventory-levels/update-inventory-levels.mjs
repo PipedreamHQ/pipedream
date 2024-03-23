@@ -4,7 +4,7 @@ export default {
   key: "loyverse-update-inventory-levels",
   name: "Update Inventory Levels",
   description: "Batch updates the inventory levels for specific item variants. [See the documentation](https://developer.loyverse.com/docs/#tag/Inventory/paths/~1inventory/post)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     loyverse,

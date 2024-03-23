@@ -6,7 +6,7 @@ export default {
   key: "loyverse-item-updated-instant",
   name: "Item Updated (Instant)",
   description: "Emit new event when an item is updated.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   sampleEmit,
