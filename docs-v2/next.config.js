@@ -6,6 +6,7 @@ const withNextra = require("nextra")({
 
 module.exports = withNextra({
   basePath: "/docs",
+  assetPrefix: "v3",
   images: {
     remotePatterns: [
       {
