@@ -557,6 +557,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/autobound:
+    specifiers: {}
+
   components/autoklose:
     specifiers: {}
 
@@ -1552,6 +1555,9 @@ importers:
     specifiers: {}
 
   components/commercehq:
+    specifiers: {}
+
+  components/common_paper:
     specifiers: {}
 
   components/commpeak:
@@ -4004,6 +4010,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/joplin:
+    specifiers: {}
+
   components/jotform:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -4219,6 +4228,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/labs64_netlicensing:
+    specifiers: {}
+
+  components/labsmobile:
     specifiers: {}
 
   components/lahar:
@@ -7023,6 +7035,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/sendx:
+    specifiers: {}
+
   components/sendy:
     specifiers: {}
 
@@ -7534,6 +7549,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sparkpost:
+    specifiers: {}
+
+  components/speechace:
     specifiers: {}
 
   components/splitwise:
