@@ -1,34 +1,39 @@
-import beeboleApp from "../../beebole_app.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../beebole_app.app.mjs";
 
 export default {
   key: "beebole_app-create-company",
   name: "Create Company",
   description: "Creates a new company in Beebole. [See the documentation](https://beebole.com/help/api/#create-a-company)",
-  version: `0.0.${new Date().getTime()}`,
+  version: `0.0.1`,
   type: "action",
   props: {
-    beeboleApp,
+    app,
     companyName: {
       propDefinition: [
-        beeboleApp,
+        app,
         "companyName"
       ]
     },
-    companyCorporate: {
+    companyName: {
       propDefinition: [
-        beeboleApp,
-        "companyCorporate"
+        app,
+        "companyName"
       ]
     },
   },
   async run({ $ }) {
-    const response = await this.beeboleApp.createCompany({
-      companyName: this.companyName,
-      companyCorporate: this.companyCorporate,
+    const response = await this.app.manageCompanies({
+      $,
+      data: {
+        service: "company.create",
+        company: {
+          name: this.companyName,
+        }
+      }
     });
 
-    $.export("$summary", `Successfully created company with ID ${response.id}`);
+    $.export("$summary", `Successfully created company "${this.companyName}"`);
+
     return response;
   },
 };
