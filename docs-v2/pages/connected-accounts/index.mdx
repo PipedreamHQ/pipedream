@@ -133,10 +133,8 @@ If you encounter errors in a step that appear to be related to credentials or au
 
 **New connected accounts are private by default** and can only be used by the person who added it.
 
-<Callout type="info" emoji="ℹ️">
-Accounts connected before August 2023
-
-Prior to this change, all connected accounts were accessible to all workspace members. Accounts connected before 2023 will be accessible to all workspace members by default. You can [make them private](#managing-access) at any time.
+<Callout type="info">
+Connected accounts created prior to August 2023 were accessible to all workspace members by default. You can [restrict access](#managing-access) at any time.
 </Callout>
 
 ### Managing access
@@ -144,7 +142,7 @@ Prior to this change, all connected accounts were accessible to all workspace me
 - Find the account on the Accounts page and click the 3 dots on the far right of the row
 - Select **Manage Access**
 
-![Selecting Manage Access](https://res.cloudinary.com/pipedreamin/image/upload/v1691617725/manage-access-button_bgnebz.png)
+![Selecting Manage Access](https://res.cloudinary.com/pipedreamin/image/upload/v1710869643/connected-account-manage-access_wsn98i.png)
 
 - You may be prompted to reconnect your account first to verify ownership of the account
 - You can enable access to the entire workspace or individual members
@@ -172,8 +170,7 @@ To make changes to steps that are locked in read-only mode, you can:
 - Ask the account owner to [grant access](#managing-access)
 - Click **More Actions** and change the connected account to one that you have access to (note that this may remove some prop configurations)
 
-### Explanation of access
-
+### Access
 Access to connected accounts is enforced at the step-level within workflows and is designed with security and control in mind.
 
 When you connect an account in Pipedream, you are the owner of that connected account, and you always have full access. You can:
@@ -183,27 +180,19 @@ When you connect an account in Pipedream, you are the owner of that connected ac
 - Reconnect
 - Add to any step or trigger
 
-How workspace members can use connected accounts that are **private**:
+For connected accounts that are **not** shared with other workspace members:
 
-<br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/private-auth_ecm7jx.png" width="100px" />
-<br />
-
-| Operations                                         | Workspace Owner & Admin |   Other Members    |
+| Operation                                         | Workspace Owner & Admin |   Other Members    |
 | -------------------------------------------------- | :---------------------: | :----------------: |
 | View on [Accounts](https://pipedream.com/accounts) |   ✅    |        ❌         |
 | Add to a new trigger or step                       |           ❌           |        ❌         |
 | Modify existing steps                              |           ❌           |        ❌         |
 | Test exising steps                                 |   ✅    | ✅ |
-| Manage access                                      |           ❌           |        ❌         |
-| Reconnect                                          |           ❌           |        ❌         |
+| Manage access                                      |           ✅           |        ❌         |
+| Reconnect                                          |           ✅           |        ❌         |
 | Delete                                             |   ✅    |        ❌         |
 
-How workspace members can use connected accounts that are **shared**:
-
-<br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/shared-auth-workspace_usdwod.png" width="240px" />
-<br />
+For connected accounts that **are** shared with other workspace members:
 
 | Operations                                         | Workspace Owner & Admin |   Other Members    |
 | -------------------------------------------------- | :---------------------: | :----------------: |
@@ -211,17 +200,14 @@ How workspace members can use connected accounts that are **shared**:
 | Add to a new trigger or step                       |   ✅    | ✅ |
 | Modify existing steps                              |   ✅    | ✅ |
 | Test exising steps                                 |   ✅    | ✅ |
-| Manage access                                      |           ❌           |        ❌         |
-| Reconnect                                          |           ❌           |        ❌         |
+| Manage access                                      |           ✅           |        ❌         |
+| Reconnect                                          |           ✅           |        ❌         |
 | Delete                                             |   ✅    |        ❌         |
 
 ### Frequently Asked Questions
-
-<Callout type="warning" emoji="⚠">
-Why isn't my connected account showing up in the legacy workflow builder?
+#### Why isn't my connected account showing up in the legacy workflow builder?
 
 In order to use a connected account in the legacy (v1) workflow builder, the account must be shared with the entire workspace. Private accounts are accessible in the latest version of the workflow builder.
-</Callout>
 
 #### What is the "Owner" column?
 

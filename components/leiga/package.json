@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/leiga",
+  "version": "0.0.1",
+  "description": "Pipedream Leiga Components",
+  "main": "leiga.app.mjs",
+  "keywords": [
+    "pipedream",
+    "leiga"
+  ],
+  "homepage": "https://pipedream.com/apps/leiga",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

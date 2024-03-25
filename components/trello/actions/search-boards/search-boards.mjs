@@ -5,7 +5,7 @@ export default {
   key: "trello-search-boards",
   name: "Search Boards",
   description: "Searches for boards matching the specified query. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get)",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   props: {
     ...common.props,
