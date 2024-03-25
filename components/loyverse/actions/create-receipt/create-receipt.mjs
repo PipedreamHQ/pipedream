@@ -1,4 +1,5 @@
 import loyverse from "../../loyverse.app.mjs";
+import { parseAsJSON } from "../../common/utils.mjs";
 
 export default {
   key: "loyverse-create-receipt",
@@ -74,7 +75,7 @@ export default {
       $,
       data: {
         store_id: this.storeId,
-        line_items: this.lineItems.map(JSON.parse),
+        line_items: this.lineItems.map(parseAsJSON),
         payments: [
           {
             payment_type_id: this.paymentTypeId,
@@ -85,7 +86,7 @@ export default {
         customer_id: this.customerId,
         source: this.source,
         receipt_date: this.receiptDate,
-        total_discounts: this.totalDiscounts?.map(JSON.parse),
+        total_discounts: this.totalDiscounts?.map(parseAsJSON),
         note: this.note,
       },
     });

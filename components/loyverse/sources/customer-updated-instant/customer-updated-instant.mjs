@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "loyverse-customer-updated-instant",
   name: "Customer Updated (Instant)",
-  description: "Emit new event when a customer is updated. [See the documentation]",
+  description: "Emit new event when a customer is updated.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

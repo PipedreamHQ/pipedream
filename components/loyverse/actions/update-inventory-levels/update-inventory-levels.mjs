@@ -1,3 +1,4 @@
+import { parseAsJSON } from "../../common/utils.mjs";
 import loyverse from "../../loyverse.app.mjs";
 
 export default {
@@ -64,7 +65,7 @@ export default {
     const response = await this.loyverse.batchUpdateInventoryLevels({
       $,
       data: {
-        inventory_levels: this.inventoryLevels.map(JSON.parse),
+        inventory_levels: this.inventoryLevels.map(parseAsJSON),
       },
     });
     $.export("$summary", "Successfully updated inventory levels");
