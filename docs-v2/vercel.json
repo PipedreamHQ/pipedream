@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/docs/v3",
+      "destination": "/"
+    },
+    {
+      "source": "/docs/v3/(.*)",
+      "destination": "/$1"
+    },
+    {
       "source": "/docs/v2",
       "destination": "/"
     },
