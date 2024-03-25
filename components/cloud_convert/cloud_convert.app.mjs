@@ -1,142 +1,119 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "cloud_convert",
   propDefinitions: {
-    inputFile: {
+    taskId: {
       type: "string",
-      label: "Input File",
-      description: "The input file to be converted.",
+      label: "Task ID",
+      description: "The ID of the input task for the conversion, normally the import task.",
+      async options({
+        page, filters,
+        filter = () => true,
+        mapper = ({
+          id: value,
+          result,
+        }) => ({
+          value,
+          label: result?.files?.map(({ filename }) => filename).join(", ") || value,
+        }),
+      }) {
+        const { data } = await this.listTasks({
+          params: {
+            ...filters,
+            page: page + 1,
+          },
+        });
+        return data.filter(filter).map(mapper);
+      },
     },
-    outputFormat: {
+    conversionType: {
       type: "string",
-      label: "Output Format",
-      description: "The format to convert the input file to.",
+      label: "Converstion Type",
+      description: "The ID of the operation to perform.",
+      async options({
+        page, filters,
+        mapper = ({ id: value }) => value,
+      }) {
+        const { data } = await this.listOperations({
+          params: {
+            ...filters,
+            page: page + 1,
+          },
+        });
+        return data.map(mapper);
+      },
     },
-    filesToArchive: {
+    include: {
       type: "string[]",
-      label: "Files to Archive",
-      description: "The files to be included in the archive.",
+      label: "Include",
+      description: "The properties to include in the response",
+      optional: true,
+      options: [
+        "retries",
+        "depends_on_tasks",
+        "payload",
+        "job",
+      ],
     },
-    archiveFormat: {
+    filename: {
       type: "string",
-      label: "Archive Format",
-      description: "The archive format to create (e.g., zip, rar, 7z, tar).",
-    },
-    inputFiles: {
-      type: "string[]",
-      label: "Input Files",
-      description: "The input files to be combined into a single PDF file.",
-    },
-    jobId: {
-      type: "string",
-      label: "Job ID",
-      description: "The job ID for identifying the job.",
+      label: "Filename",
+      description: "The filename of the input file, including extension. If none provided we will try to detect the filename from the URL.",
       optional: true,
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.cloudconvert.com/v2";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        ...args,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
       });
     },
-    async createJob(opts = {}) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/jobs",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: opts,
+        ...args,
       });
     },
-    async getJobStatus(jobId) {
-      return this._makeRequest({
-        path: `/jobs/${jobId}`,
-      });
-    },
-    async downloadExportedFile(url) {
-      return this._makeRequest({
-        method: "GET",
-        url, // Direct file URL
-        responseType: "stream",
-      });
-    },
-    async createWebhook(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: opts,
-      });
-    },
-    async listWebhooks() {
-      return this._makeRequest({
-        path: "/webhooks",
-      });
-    },
-    async deleteWebhook(webhookId) {
+    delete(args = {}) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/webhooks/${webhookId}`,
+        ...args,
       });
     },
-    async createConvertTask(opts = {}) {
+    createJob(args = {}) {
+      return this.post({
+        path: "/jobs",
+        ...args,
+      });
+    },
+    listTasks(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/convert",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: opts,
+        path: "/tasks",
+        ...args,
       });
     },
-    async createMergeTask(opts = {}) {
+    listOperations(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/merge",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: opts,
+        path: "/operations",
+        ...args,
       });
-    },
-    async createArchiveTask(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/archive",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: opts,
-      });
-    },
-    async emitEvent(eventType, payload) {
-      // This method is a placeholder for event emission logic
-      // The actual implementation will depend on how CloudConvert
-      // events are received and handled within the Pipedream platform
-      console.log(`Emitting event of type: ${eventType}`, payload);
     },
   },
-  version: "0.0.{{ts}}",
 };
