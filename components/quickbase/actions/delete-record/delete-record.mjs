@@ -9,6 +9,15 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    tableId: {
+      propDefinition: [
+        common.props.quickbase,
+        "tableId",
+        (c) => ({
+          appId: c.appId,
+        }),
+      ],
+    },
     recordId: {
       propDefinition: [
         common.props.quickbase,

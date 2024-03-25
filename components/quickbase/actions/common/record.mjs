@@ -10,16 +10,6 @@ export default {
         "appId",
       ],
     },
-    tableId: {
-      propDefinition: [
-        quickbase,
-        "tableId",
-        (c) => ({
-          appId: c.appId,
-        }),
-      ],
-      reloadProps: true,
-    },
   },
   methods: {
     async getKeyFieldId() {
