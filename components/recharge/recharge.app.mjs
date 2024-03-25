@@ -1,11 +1,116 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "recharge",
-  propDefinitions: {},
+  propDefinitions: {
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description: "The unique identifier for the customer.",
+    },
+    customerEmail: {
+      type: "string",
+      label: "Customer Email",
+      description: "The email address of the customer.",
+      optional: true,
+    },
+    orderId: {
+      type: "string",
+      label: "Order ID",
+      description: "The unique identifier for the order.",
+    },
+    productId: {
+      type: "string",
+      label: "Product ID",
+      description: "The unique identifier for the product.",
+      optional: true,
+    },
+    subscriptionId: {
+      type: "string",
+      label: "Subscription ID",
+      description: "The unique identifier for the subscription.",
+    },
+    addressId: {
+      type: "string",
+      label: "Address ID",
+      description: "The unique identifier for the address.",
+      optional: true,
+    },
+    discountId: {
+      type: "string",
+      label: "Discount ID",
+      description: "The unique identifier for the discount.",
+      optional: true,
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the customer.",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email of the customer.",
+      optional: true,
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.rechargeapps.com";
+    },
+    async _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        method = "GET",
+        path,
+        headers,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        method,
+        url: this._baseUrl() + path,
+        headers: {
+          ...headers,
+          "X-Recharge-Version": "2021-11",
+          "X-Recharge-Access-Token": this.$auth.api_token,
+        },
+      });
+    },
+    async createSubscription({
+      customerId, productId, addressId, discountId,
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/subscriptions",
+        data: {
+          customer_id: customerId,
+          product_id: productId,
+          address_id: addressId,
+          discount_id: discountId,
+        },
+      });
+    },
+    async cancelSubscription({ subscriptionId }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/subscriptions/${subscriptionId}/cancel`,
+      });
+    },
+    async updateCustomer({
+      customerId, name, email, addressId,
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/customers/${customerId}`,
+        data: {
+          name,
+          email,
+          address_id: addressId,
+        },
+      });
     },
   },
 };
