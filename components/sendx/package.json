@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sendx",
+  "version": "0.0.1",
+  "description": "Pipedream SendX Components",
+  "main": "sendx.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sendx"
+  ],
+  "homepage": "https://pipedream.com/apps/sendx",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

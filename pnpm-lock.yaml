@@ -7023,6 +7023,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/sendx:
+    specifiers: {}
+
   components/sendy:
     specifiers: {}
 
