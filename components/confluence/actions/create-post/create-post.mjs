@@ -3,15 +3,15 @@ import confluence from "../../confluence.app.mjs";
 export default {
   key: "confluence-create-post",
   name: "Create Post",
-  description: "Creates a new page or blog post on Confluence. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v1/)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new page or blog post on Confluence. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-blog-post/#api-blogposts-post)",
+  version: "0.0.1",
   type: "action",
   props: {
     confluence,
-    postType: {
+    spaceId: {
       propDefinition: [
         confluence,
-        "postType",
+        "spaceId",
       ],
     },
     title: {
@@ -20,47 +20,42 @@ export default {
         "title",
       ],
     },
-    content: {
+    representation: {
       propDefinition: [
         confluence,
-        "content",
+        "representation",
       ],
     },
-    space: {
+    body: {
       propDefinition: [
         confluence,
-        "spaceKey",
+        "body",
       ],
-      optional: true,
     },
-    parentPage: {
+    status: {
       propDefinition: [
         confluence,
-        "parentPage",
+        "status",
       ],
-      optional: true,
-    },
-    labels: {
-      propDefinition: [
-        confluence,
-        "labels",
-      ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      postType, title, content, space, parentPage, labels,
-    } = this;
     const response = await this.confluence.createPost({
-      postType,
-      title,
-      content,
-      space,
-      parentPage,
-      labels,
+      $,
+      cloudId: await this.confluence.getCloudId({
+        $,
+      }),
+      data: {
+        spaceId: this.spaceId,
+        status: this.status,
+        title: this.title,
+        body: {
+          representation: this.representation,
+          value: this.body,
+        },
+      },
     });
-    $.export("$summary", `Successfully created ${postType} with ID: ${response.id}`);
+    $.export("$summary", `Successfully created post with ID: ${response.id}`);
     return response;
   },
 };

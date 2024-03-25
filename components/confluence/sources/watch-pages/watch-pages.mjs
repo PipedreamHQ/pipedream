@@ -1,58 +1,33 @@
-import confluence from "../../confluence.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "confluence-watch-pages",
   name: "Watch Pages",
-  description: "Emits an event when a page is created or updated in Confluence",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a page is created or updated in Confluence",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    confluence,
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    spaceKey: {
-      propDefinition: [
-        confluence,
-        "spaceKey",
-      ],
-    },
-    pageKey: {
-      propDefinition: [
-        confluence,
-        "pageKey",
-      ],
-      optional: true,
-    },
-  },
   methods: {
-    generateMeta(data) {
-      const {
-        id, version, title, type, space, history,
-      } = data;
-      const ts = Date.parse(history.lastUpdated.when);
+    ...common.methods,
+    getResourceFn() {
+      return this.confluence.listPages;
+    },
+    async getArgs() {
       return {
-        id,
-        summary: `${title} ${type} was ${history.lastUpdated.operation}`,
-        ts,
+        cloudId: await this.confluence.getCloudId(),
+        params: {
+          sort: "-modified-date",
+        },
       };
     },
+    getTs(post) {
+      return Date.parse(post.version.createdAt);
+    },
+    getSummary(post) {
+      return `New or updated page with ID ${post.id}`;
+    },
   },
-  async run() {
-    const params = {
-      spaceKey: this.spaceKey,
-      pageKey: this.pageKey,
-    };
-    const results = await this.confluence._makeRequest({
-      path: `/wiki/rest/api/content?spaceKey=${this.spaceKey}&expand=version,history&limit=50&orderBy=history.lastUpdated`,
-    });
-
-    for (const page of results.results) {
-      this.$emit(page, this.generateMeta(page));
-    }
-  },
+  sampleEmit,
 };

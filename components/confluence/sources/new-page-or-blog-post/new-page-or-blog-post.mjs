@@ -1,74 +1,57 @@
-import confluence from "../../confluence.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "confluence-new-page-or-blog-post",
   name: "New Page or Blog Post",
   description: "Emits an event whenever a new page or blog post is created in a specified space",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    confluence,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-    spaceKey: {
+    ...common.props,
+    spaceId: {
       propDefinition: [
-        confluence,
-        "spaceKey",
+        common.props.confluence,
+        "spaceId",
+      ],
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "Whether to watch for new pages or blog posts",
+      options: [
+        "pages",
+        "blogposts",
       ],
     },
   },
   methods: {
-    _getBaseUrl() {
-      return "https://api.atlassian.com";
+    ...common.methods,
+    getResourceFn() {
+      if (this.type === "pages") {
+        return this.confluence.listPagesInSpace;
+      }
+      if (this.type === "blogposts") {
+        return this.confluence.listPostsInSpace;
+      }
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: `${this._getBaseUrl()}${path}`,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.confluence.$auth.oauth_access_token}`,
-        },
-      });
-    },
-    async getNewContent() {
-      return this._makeRequest({
-        path: `/wiki/rest/api/space/${this.spaceKey}/content`,
-      });
-    },
-    generateMeta(data) {
-      const {
-        id, title, type, version, history,
-      } = data;
-      const ts = Date.parse(history.createdDate);
+    async getArgs() {
       return {
-        id,
-        summary: `${title} (${type}) was created`,
-        ts,
+        cloudId: await this.confluence.getCloudId(),
+        spaceId: this.spaceId,
+        params: {
+          sort: "-created-date",
+        },
       };
     },
+    getTs(post) {
+      return Date.parse(post.createdAt);
+    },
+    getSummary(post) {
+      return `New ${this.type} with ID ${post.id}`;
+    },
   },
-  async run() {
-    const results = await this.getNewContent();
-    for (const result of results) {
-      const { id } = result;
-      const previousId = this.db.get("previousId");
-      if (previousId === id) {
-        break;
-      } else {
-        this.$emit(result, this.generateMeta(result));
-        this.db.set("previousId", id);
-      }
-    }
-  },
+  sampleEmit,
 };

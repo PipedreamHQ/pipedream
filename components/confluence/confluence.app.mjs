@@ -4,165 +4,216 @@ export default {
   type: "app",
   app: "confluence",
   propDefinitions: {
-    spaceKey: {
+    postId: {
       type: "string",
-      label: "Space Key",
-      description: "The key of the space",
+      label: "Post ID",
+      description: "The ID of the post",
+      async options({ prevContext }) {
+        const params = prevContext?.cursor
+          ? {
+            cursor: prevContext.cursor,
+          }
+          : {};
+        const cloudId = await this.getCloudId();
+        const {
+          results, _links: links,
+        } = await this.listPosts({
+          cloudId,
+          params,
+        });
+        const options = results?.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+        return {
+          options,
+          context: {
+            cursor: links?.next,
+          },
+        };
+      },
     },
-    blogPostKey: {
+    spaceId: {
       type: "string",
-      label: "Blog Post Key",
-      description: "The key of the specific blog post for filtering",
+      label: "Space Id",
+      description: "The Id of the space",
+      async options({ prevContext }) {
+        const params = prevContext?.cursor
+          ? {
+            cursor: prevContext.cursor,
+          }
+          : {};
+        const cloudId = await this.getCloudId();
+        const {
+          results, _links: links,
+        } = await this.listSpaces({
+          cloudId,
+          params,
+        });
+        const options = results?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+        return {
+          options,
+          context: {
+            cursor: links?.next,
+          },
+        };
+      },
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "The status of the blog post, specifies if the blog post will be created as a new blog post or a draft.",
       optional: true,
-    },
-    pageKey: {
-      type: "string",
-      label: "Page Key",
-      description: "The key of the specific page for filtering",
-      optional: true,
-    },
-    postType: {
-      type: "string",
-      label: "Post Type",
-      description: "The type of the post (page or blog post)",
       options: [
-        "page",
-        "blog",
+        "current",
+        "draft",
       ],
     },
     title: {
       type: "string",
       label: "Title",
-      description: "The title of the post",
+      description: "Title of the blog post, required if creating non-draft.",
     },
-    content: {
+    representation: {
       type: "string",
-      label: "Content",
-      description: "The content of the post",
+      label: "Representation",
+      description: "Type of content representation used for the value field.",
+      options: [
+        "storage",
+        "atlas_doc_format",
+        "wiki",
+      ],
+      default: "storage",
     },
-    parentPage: {
+    body: {
       type: "string",
-      label: "Parent Page",
-      description: "The parent page of the post",
-      optional: true,
-    },
-    labels: {
-      type: "string[]",
-      label: "Labels",
-      description: "The labels of the post",
-      optional: true,
-    },
-    postId: {
-      type: "string",
-      label: "Post ID",
-      description: "The ID of the post",
-    },
-    newContent: {
-      type: "string",
-      label: "New Content",
-      description: "The new content of the post",
-    },
-    newTitle: {
-      type: "string",
-      label: "New Title",
-      description: "The new title of the post",
-      optional: true,
+      label: "Body",
+      description: "Body of the blog post, in the format found in the representation field.",
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.atlassian.com";
+    _baseUrl(cloudId) {
+      return `https://api.atlassian.com/ex/confluence/${cloudId}/wiki/api/v2/`;
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        cloudId,
+        ...otherOpts
       } = opts;
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl(cloudId)}${path}`,
         headers: {
-          ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
+        ...otherOpts,
       });
     },
-    async createPost({
-      postType, title, content, space, parentPage, labels,
+    async getCloudId(opts = {}) {
+      const response = await this._makeRequest({
+        url: "https://api.atlassian.com/oauth/token/accessible-resources",
+        ...opts,
+      });
+      return response[0].id;
+    },
+    getPost({
+      postId, ...opts
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/wiki/rest/api/content",
-        data: {
-          type: postType,
-          title: title,
-          space: {
-            key: space,
-          },
-          ancestors: [
-            {
-              id: parentPage,
-            },
-          ],
-          body: {
-            storage: {
-              value: content,
-              representation: "storage",
-            },
-          },
-          version: {
-            number: 1,
-          },
-          metadata: {
-            labels: labels.map((label) => ({
-              prefix: "global",
-              name: label,
-            })),
-          },
-        },
+        path: `/blogposts/${postId}`,
+        ...opts,
       });
     },
-    async deletePost({
-      postType, postId,
+    listSpaces(opts = {}) {
+      return this._makeRequest({
+        path: "/spaces",
+        ...opts,
+      });
+    },
+    listPosts(opts = {}) {
+      return this._makeRequest({
+        path: "/blogposts",
+        ...opts,
+      });
+    },
+    listPostsInSpace({
+      spaceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/spaces/${spaceId}/blogposts`,
+        ...opts,
+      });
+    },
+    listPages(opts = {}) {
+      return this._makeRequest({
+        path: "/pages",
+        ...opts,
+      });
+    },
+    listPagesInSpace({
+      spaceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/spaces/${spaceId}/pages`,
+        ...opts,
+      });
+    },
+    createPost(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/blogposts",
+        ...opts,
+      });
+    },
+    deletePost({
+      postId, ...opts
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/wiki/rest/api/content/${postId}`,
+        path: `/blogposts/${postId}`,
+        ...opts,
       });
     },
-    async updatePost({
-      postType, postId, newContent, newTitle, space, parentPage,
+    updatePost({
+      postId, ...opts
     }) {
-      const currentPost = await this._makeRequest({
-        path: `/wiki/rest/api/content/${postId}`,
-      });
       return this._makeRequest({
         method: "PUT",
-        path: `/wiki/rest/api/content/${postId}`,
-        data: {
-          version: {
-            number: currentPost.version.number + 1,
-          },
-          title: newTitle || currentPost.title,
-          type: postType,
-          space: {
-            key: space || currentPost.space.key,
-          },
-          ancestors: [
-            {
-              id: parentPage || (currentPost.ancestors.length > 0
-                ? currentPost.ancestors[0].id
-                : null),
-            },
-          ],
-          body: {
-            storage: {
-              value: newContent || currentPost.body.storage.value,
-              representation: "storage",
-            },
-          },
-        },
+        path: `/blogposts/${postId}`,
+        ...opts,
       });
+    },
+    async *paginate({
+      resourceFn,
+      args,
+      max,
+    }) {
+      args.params = {
+        ...args.params,
+      };
+      let hasMore, count = 0;
+      do {
+        const {
+          results, _links: links,
+        } = await resourceFn(args);
+        for (const item of results) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        hasMore = links?.next;
+        args.params.cursor = hasMore;
+      } while (hasMore);
     },
   },
 };

@@ -1,63 +1,33 @@
-import axios from "@pipedream/platform";
-import confluence from "../../confluence.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "confluence-watch-blog-posts",
   name: "Watch Blog Posts",
-  description: "Emits an event when a blog post is created or updated",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a blog post is created or updated",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    confluence,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    spaceKey: confluence.propDefinitions.spaceKey,
-    blogPostKey: {
-      ...confluence.propDefinitions.blogPostKey,
-      optional: true,
-    },
-  },
   methods: {
-    _getBaseURL() {
-      return "https://api.atlassian.com";
+    ...common.methods,
+    getResourceFn() {
+      return this.confluence.listPosts;
     },
-    _getHeaders() {
+    async getArgs() {
       return {
-        Authorization: `Bearer ${this.confluence.$auth.oauth_access_token}`,
-      };
-    },
-    async _getBlogPosts(spaceKey) {
-      return this.confluence._makeRequest({
-        method: "GET",
-        path: "/wiki/rest/api/content",
+        cloudId: await this.confluence.getCloudId(),
         params: {
-          spaceKey,
-          type: "blogpost",
-          expand: "version",
+          sort: "-modified-date",
         },
-      });
-    },
-    generateMeta(data) {
-      const ts = new Date(data.version.when).getTime();
-      return {
-        id: data.id,
-        summary: data.title,
-        ts,
       };
     },
+    getTs(post) {
+      return Date.parse(post.version.createdAt);
+    },
+    getSummary(post) {
+      return `New or updated blogpost with ID ${post.id}`;
+    },
   },
-  async run() {
-    const blogPosts = await this._getBlogPosts(this.spaceKey);
-    blogPosts.forEach((blogPost) => {
-      if (this.blogPostKey && this.blogPostKey !== blogPost.id) return;
-      const meta = this.generateMeta(blogPost);
-      this.$emit(blogPost, meta);
-    });
-  },
+  sampleEmit,
 };
