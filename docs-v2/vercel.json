@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/docs/_next/static/(.*)",
+      "destination": "/docs/v3/_next/static/(.*)"
+    },
+    {
       "source": "/docs/v3",
       "destination": "/"
     },
