@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ascora",
+  "version": "0.0.1",
+  "description": "Pipedream Ascora Components",
+  "main": "ascora.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ascora"
+  ],
+  "homepage": "https://pipedream.com/apps/ascora",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
