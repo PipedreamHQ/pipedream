@@ -7536,6 +7536,9 @@ importers:
   components/sparkpost:
     specifiers: {}
 
+  components/speechace:
+    specifiers: {}
+
   components/splitwise:
     specifiers:
       '@pipedream/platform': ^1.2.0
