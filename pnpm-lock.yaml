@@ -1557,6 +1557,9 @@ importers:
   components/commercehq:
     specifiers: {}
 
+  components/common_paper:
+    specifiers: {}
+
   components/commpeak:
     specifiers:
       '@pipedream/platform': ^1.6.0
