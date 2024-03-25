@@ -1,94 +1,69 @@
-import cloudConvertApp from "../../cloud_convert.app.mjs";
-import { axios } from "@pipedream/platform";
-import fs from "fs";
+import app from "../../cloud_convert.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "cloud_convert-merge-files-to-pdf",
-  name: "Merge Files to PDF",
-  description: "Combines multiple input files into a single PDF file. The input files are automatically converted to PDF before merging.",
-  version: "0.0.{{ts}}",
+  name: "Merge Files To PDF",
+  description: "Combines multiple input files into a single PDF file. [See the documentation](https://cloudconvert.com/api/v2/merge#merge-tasks)",
+  version: "0.0.1",
   type: "action",
   props: {
-    cloudConvertApp,
-    inputFiles: {
+    app,
+    input: {
+      type: "string[]",
+      label: "Task IDs To Merge",
+      description: "The IDs of the input tasks to be merged into a single PDF file, normally the import tasks.",
       propDefinition: [
-        cloudConvertApp,
-        "inputFiles",
+        app,
+        "taskId",
+        () => ({
+          filters: {
+            ["filter[status]"]: constants.TASK_STATUS.FINISHED,
+            ["filter[operation]"]: constants.TASK_OPERATION.IMPORT_URL,
+          },
+        }),
+      ],
+    },
+    outputFormat: {
+      label: "Output Format",
+      description: "The output format of the file to be converted",
+      propDefinition: [
+        app,
+        "conversionType",
+        () => ({
+          mapper: ({ output_format: value }) => value,
+          filters: {
+            ["filter[operation]"]: constants.TASK_OPERATION.MERGE,
+          },
+        }),
       ],
     },
   },
+  methods: {
+    mergeTasks(args = {}) {
+      return this.app.post({
+        path: "/merge",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    // Create an array to hold the tasks for converting files to PDF
-    const convertTasks = this.inputFiles.map((inputFile, index) => ({
-      operation: "convert",
-      input_format: inputFile.split(".").pop(),
-      output_format: "pdf",
-      input: [
-        `import-${index}`,
-      ],
-    }));
+    const {
+      mergeTasks,
+      input,
+      outputFormat,
+    } = this;
 
-    // Create import tasks for each input file
-    const importTasks = this.inputFiles.map((inputFile, index) => ({
-      operation: "import/url",
-      url: inputFile,
-      filename: `input-file-${index}`,
-    }));
-
-    // Create the merge task
-    const mergeTask = {
-      operation: "merge",
-      input: importTasks.map((_, index) => `file-${index}`),
-    };
-
-    // Combine all tasks
-    const tasks = [
-      ...importTasks.map((task, index) => ({
-        [`import-${index}`]: task,
-      })),
-      ...convertTasks.map((task, index) => ({
-        [`convert-${index}`]: task,
-      })),
-      {
-        "merge": mergeTask,
+    const response = await mergeTasks({
+      $,
+      data: {
+        input,
+        output_format: outputFormat,
       },
-    ];
-
-    // Create the job with all tasks
-    const jobResponse = await this.cloudConvertApp.createJob({
-      tasks,
     });
 
-    const jobId = jobResponse.data.id;
+    $.export("$summary", `Successfully merged tasks with ID \`${response.data.id}\``);
 
-    // Wait for job completion
-    let jobStatusResponse;
-    do {
-      jobStatusResponse = await this.cloudConvertApp.getJobStatus(jobId);
-    } while (jobStatusResponse.data.status !== "finished" && jobStatusResponse.data.status !== "error");
-
-    if (jobStatusResponse.data.status === "error") {
-      throw new Error(`Job failed with error: ${jobStatusResponse.data.message}`);
-    }
-
-    // Download the merged PDF file
-    const downloadUrl = jobStatusResponse.data.tasks.find((task) => task.name === "merge" && task.result).result.files[0].url;
-    const pdfFileResponse = await this.cloudConvertApp.downloadExportedFile(downloadUrl);
-
-    // Write the file to the /tmp directory
-    const targetPath = `/tmp/merged-${Date.now()}.pdf`;
-    const writer = fs.createWriteStream(targetPath);
-    pdfFileResponse.data.pipe(writer);
-
-    await new Promise((resolve, reject) => {
-      writer.on("finish", resolve);
-      writer.on("error", reject);
-    });
-
-    $.export("$summary", "Successfully merged files into a single PDF");
-
-    return {
-      merged_pdf: targetPath,
-    };
+    return response;
   },
 };

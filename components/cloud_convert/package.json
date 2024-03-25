@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/cloud_convert",
+  "version": "0.1.0",
+  "description": "Pipedream Cloud Convert Components",
+  "main": "cloud_convert.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cloud_convert"
+  ],
+  "homepage": "https://pipedream.com/apps/cloud_convert",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
