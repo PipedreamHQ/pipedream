@@ -5,10 +5,15 @@ export default {
   key: "figma-new-comment",
   name: "New Comment (Instant)",
   description: "Emit new event when someone comments on a file",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "A Figma Organization Plan or higher is required to use webhooks. See Figma's [pricing page](https://www.figma.com/pricing) for more details.",
+    },
     figma,
     http: "$.interface.http",
     db: "$.service.db",
@@ -21,17 +26,24 @@ export default {
   },
   hooks: {
     async activate() {
-      const passcode = uuid();
-      this.setPasscode(passcode);
+      try {
+        const passcode = uuid();
+        this.setPasscode(passcode);
 
-      const hookId = await this.figma.createHook(
-        "FILE_COMMENT",
-        this.teamId,
-        this.http.endpoint,
-        passcode,
-      );
+        const hookId = await this.figma.createHook(
+          "FILE_COMMENT",
+          this.teamId,
+          this.http.endpoint,
+          passcode,
+        );
 
-      this.setHookId(hookId);
+        this.setHookId(hookId);
+      } catch (error) {
+        if (error.response.status === 400) {
+          throw new Error("A Figma Organization Plan or higher is required to use webhooks. See https://www.figma.com/pricing for more details.");
+        }
+        throw error;
+      }
     },
     async deactivate() {
       await this.figma.deleteHook(this.getHookId());
@@ -57,7 +69,7 @@ export default {
     });
 
     if (event.body.passcode === this.getPasscode()) {
-      this.$emit(event.body,  {
+      this.$emit(event.body, {
         summary: `New comment on a file (${event.body.comment_id})`,
         id: event.body.comment_id,
         ts: event.body.timestamp,
