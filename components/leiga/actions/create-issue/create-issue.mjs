@@ -1,29 +1,91 @@
+import { ConfigurationError } from "@pipedream/platform";
 import leiga from "../../leiga.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "leiga-create-issue",
   name: "Create Issue",
   description: "Creates a new issue within Leiga. [See the documentation](https://apidog.com/apidoc/shared-5a741107-c211-410f-880c-048d1917c984/api-3741813)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     leiga,
-    projectId: leiga.propDefinitions.projectId,
-    issueTitle: leiga.propDefinitions.issueTitle,
-    issueDescription: leiga.propDefinitions.issueDescription,
-    assignedUserId: leiga.propDefinitions.assignedUserId,
-    priorityLevel: leiga.propDefinitions.priorityLevel,
+    projectId: {
+      propDefinition: [
+        leiga,
+        "projectId",
+      ],
+      description: "The project ID in which you wish to create issue.",
+    },
+    issueTypeId: {
+      propDefinition: [
+        leiga,
+        "issueTypeId",
+        ({ projectId }) => ({
+          projectId,
+        }),
+      ],
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.issueTypeId) {
+      const { data: { fields } } = await this.leiga.getIssueSchema({
+        params: {
+          projectId: this.projectId,
+          issueTypeId: this.issueTypeId,
+        },
+      });
+
+      for (const field of fields) {
+        let propType = "string";
+        let optionsField = {};
+
+        if (field.options && field.options.length) {
+          optionsField = {
+            options: field.options.map((item) => ({
+              label: item.name,
+              value: `${item.value}`,
+            })),
+          };
+        }
+
+        if (field.multipleChoice) {
+          propType += "[]";
+        }
+
+        props[field.fieldCode] = {
+          type: propType,
+          label: field.customFieldName,
+          description: field.fieldDescription || `The ${field.fieldCode} of the issue.`,
+          optional: !field.requiredFlag,
+          ...optionsField,
+        };
+      }
+    }
+    return props;
   },
   async run({ $ }) {
-    const response = await this.leiga.createIssue({
-      projectId: this.projectId,
-      issueTitle: this.issueTitle,
-      issueDescription: this.issueDescription,
-      assignedUserId: this.assignedUserId,
-      priorityLevel: this.priorityLevel,
+    const {
+      leiga,
+      projectId,
+      issueTypeId,
+      ...data
+    } = this;
+
+    const response = await leiga.createIssue({
+      $,
+      data: {
+        projectId,
+        data,
+        issueTypeId,
+      },
     });
-    $.export("$summary", `Successfully created issue ${this.issueTitle}`);
+    if (response.code != "0") {
+      throw new ConfigurationError(response.msg);
+    }
+
+    $.export("$summary", `Successfully created issue with Id: ${response.data.id}`);
     return response;
   },
 };
