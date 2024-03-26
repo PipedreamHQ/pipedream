@@ -36,14 +36,12 @@ export default {
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        data,
         auth,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
         url: this._baseUrl(),
-        data,
         auth: {
           ...auth,
           username: `${this.$auth.api_token}`,
