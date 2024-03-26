@@ -1486,6 +1486,9 @@ importers:
   components/code_climate:
     specifiers: {}
 
+  components/codegpt:
+    specifiers: {}
+
   components/codemagic:
     specifiers: {}
 
