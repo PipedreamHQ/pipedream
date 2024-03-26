@@ -29,7 +29,7 @@ Once you save a workflow, we deploy it to our servers. Each event triggers the w
 
 Steps have names, which appear at the top of the step:
 
-![The name of the step is on the top of the step](https://res.cloudinary.com/pipedreamin/image/upload/v1647958883/docs/components/CleanShot_2022-03-22_at_10.20.52_2x_ngo5r5.png)
+![The name of the step is on the top of the step](./images/steps/step-name.png)
 
 When you [share data between steps](#step-exports), you'll use this name to reference that shared data. For example, `steps.trigger.event` contains the event that triggered your workflow. If you exported a property called `myData` from this code step, you'd reference that in other steps using `steps.code.myData`. See the docs on [step exports](#step-exports) to learn more.
 
@@ -70,7 +70,7 @@ For examples of supported data types in your steps language, see the examples be
 
 Pipedream lets you add notes to individual steps in your workflow so you can  include helpful context to other workspace members or even yourself, and you can even write markdown!
 
-![Viewing step notes](/images/steps/step-notes-example.png)
+![Viewing step notes](./images/steps/step-notes.png)
 
 ### Adding or editing a note
 1. Enter build mode on any workflow
@@ -83,12 +83,10 @@ Pipedream lets you add notes to individual steps in your workflow so you can  in
 ![Adding step notes](/images/steps/adding-step-note.gif)
 
 ### Showing notes
-1. Any step that has a note will indicate this with a special icon (shown below)
-2. Click on the icon to hide or show the note
+Any step that has a note will have a **Note** section in the top panel in the editor pane.
 
-![View notes](/images/steps/show-hide-note.gif)
+![Viewing step notes](./images/steps/step-notes.png)
 
 ### Current limitations
 
-- Step notes are only accessible in Build mode, not in the Inspector
-
+- Step notes are only accessible in Build mode, not in the Inspector.

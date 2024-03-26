@@ -12,11 +12,11 @@ Pre-built actions are the fastest way to get started building workflows, but the
 
 For example, to send a message using Slack just search for Slack and use the **Send Message to a Public Channel** action:
 
-![Finding the Slack - Send Message to a Public Channel action](https://res.cloudinary.com/pipedreamin/image/upload/v1684263132/docs/docs/CleanShot_2023-05-16_at_14.36.58_et1kg2.png)
+![Finding the Slack - Send Message to a Public Channel action](pages/images/v3/http/selecting-pre-buillt-actions.png)
 
 Then connect your Slack account, select a channel and write your message:
 
-![Configuring a Slack - Send Message to a Public Channel action](https://res.cloudinary.com/pipedreamin/image/upload/v1684263134/docs/docs/CleanShot_2023-05-16_at_14.37.29_qngd26.png)
+![Configuring a Slack - Send Message to a Public Channel action](pages/images/v3/http/configure-slack-pre-built-action-props.png)
 
 Now with a few clicks and some text you've integrated Slack into a Pipedream workflow.
 
@@ -30,9 +30,27 @@ All pre-built actions are published from the [Pipedream Component Registry](/app
 
 The HTTP request action is the next most convenient option. Use a Postman-like interface to configure an HTTP request - including the headers, body, and even connecting an account.
 
-![Finding the HTTP request builder action](https://res.cloudinary.com/pipedreamin/image/upload/v1684420462/docs/docs/http/CleanShot_2023-05-18_at_10.33.50_vigdf7.png)
+![Finding the HTTP request builder action](pages/images/v3/http/selecting-the-slack-api-http-request-builder.png)
+
+Selecting this action will display an HTTP request builder, with the Slack app slot to connect your account with.
+
+![Connecting a Slack account to the http request action builder](pages/images/v3/http/connect-slack-account-to-http-request-action.png)
 
 Once you connect your account to the step, it will automatically configure the authorization headers to match.
+
+For example, the Slack API expects a Bearer token with the `Authorization` header. So Pipedream automatically configures this HTTP request to pass your token to that specific header:
+
+![Showing how Pipedream passes the managed auth token to the header](pages/images/v3/http/viewing-authorization-configuration.png)
+
+The configuration of the request and management of your token is automatically handled for you. So you can simply modify the request to match the API endpoint you're seeking to interact with.
+
+### Adding apps to an HTTP request builder action
+
+You can also attach apps to the *Send any HTTP Request* action from the action selection menu. After adding a new step to your workflow, select the *Send any HTTP Request* action:
+
+![Selecting the HTTP request builder action from the step selector menu](pages/images/v3/http/selecting-the-http-request-builder-action.png)
+
+Then within the HTTP request builder, click the *Autorization Type* dropdown to select a method, and click **Select an app**:
 
 ![Selecting a connected account for a HTTP request step](https://res.cloudinary.com/pipedreamin/image/upload/v1684259987/docs/docs/event%20histories/CleanShot_2023-05-16_at_13.50.53_fv3caw.png)
 
