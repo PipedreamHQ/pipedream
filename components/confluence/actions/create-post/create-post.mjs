@@ -20,12 +20,6 @@ export default {
         "title",
       ],
     },
-    representation: {
-      propDefinition: [
-        confluence,
-        "representation",
-      ],
-    },
     body: {
       propDefinition: [
         confluence,
@@ -50,7 +44,7 @@ export default {
         status: this.status,
         title: this.title,
         body: {
-          representation: this.representation,
+          representation: "storage",
           value: this.body,
         },
       },

@@ -81,21 +81,10 @@ export default {
       label: "Title",
       description: "Title of the blog post, required if creating non-draft.",
     },
-    representation: {
-      type: "string",
-      label: "Representation",
-      description: "Type of content representation used for the value field.",
-      options: [
-        "storage",
-        "atlas_doc_format",
-        "wiki",
-      ],
-      default: "storage",
-    },
     body: {
       type: "string",
       label: "Body",
-      description: "Body of the blog post, in the format found in the representation field.",
+      description: "Body of the blog post",
     },
   },
   methods: {
@@ -122,6 +111,9 @@ export default {
         url: "https://api.atlassian.com/oauth/token/accessible-resources",
         ...opts,
       });
+      if (!response?.length) {
+        throw new Error("Unable to locate Confluence project site. Please verify that your site is setup correctly. https://www.atlassian.com/software/confluence/resources/guides/get-started/set-up");
+      }
       return response[0].id;
     },
     getPost({

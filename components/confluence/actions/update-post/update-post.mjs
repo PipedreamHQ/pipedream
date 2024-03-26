@@ -35,13 +35,6 @@ export default {
       ],
       optional: true,
     },
-    representation: {
-      propDefinition: [
-        confluence,
-        "representation",
-      ],
-      optional: true,
-    },
     body: {
       propDefinition: [
         confluence,
@@ -59,11 +52,11 @@ export default {
       cloudId,
       postId: this.postId,
       params: {
-        "body-format": this.representation,
+        "body-format": "storage",
       },
     });
-    if (!Object.keys(post.body).length && !(this.representation && this.body)) {
-      throw new ConfigurationError("Must contain Body and Representation");
+    if (!Object.keys(post.body).length && !this.body) {
+      throw new ConfigurationError("Must contain Body");
     }
     const representation = Object.keys(post.body)[0];
     const value = post.body[representation].value;
@@ -77,7 +70,9 @@ export default {
         status: this.status || post.status,
         title: this.title || post.title,
         body: {
-          representation: this.representation || representation,
+          representation: this.body
+            ? "storage"
+            : representation,
           value: this.body || value,
         },
         version: {

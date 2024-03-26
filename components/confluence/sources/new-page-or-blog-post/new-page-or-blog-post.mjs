@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "confluence-new-page-or-blog-post",
   name: "New Page or Blog Post",
-  description: "Emits an event whenever a new page or blog post is created in a specified space",
+  description: "Emit new event whenever a new page or blog post is created in a specified space",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
