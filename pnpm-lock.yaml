@@ -6277,6 +6277,12 @@ importers:
   components/questionpro:
     specifiers: {}
 
+  components/quickbase:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/quickbooks:
     specifiers:
       '@pipedream/platform': ^1.0.0
