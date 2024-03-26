@@ -669,7 +669,6 @@ export default {
       data.append("files[0]", file, {
         header: [
           `Content-Disposition: form-data; name="files[0]"; filename="${filename}"`,
-          `Content-Type: ${utils.getUploadContentType(filename)}`,
         ],
       });
       return await this._makeRequest({

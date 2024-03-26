@@ -2037,11 +2037,13 @@ importers:
 
   components/discord_bot:
     specifiers:
-      '@pipedream/platform': ^1.4.0
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.6.0
+      form-data: ^4.0.0
+      lodash.maxby: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.6.0
+      form-data: 4.0.0
+      lodash.maxby: 4.6.0
 
   components/discord_webhook:
     specifiers:
@@ -23769,6 +23771,10 @@ packages:
 
   /lodash.map/4.6.0:
     resolution: {integrity: sha512-worNHGKLDetmcEYDvh2stPCrrQRkP20E4l0iIS7F8EvzMqBBi7ltvFN5m1HvTf1P7Jk1txKhvFcmYsCr8O2F1Q==}
+    dev: false
+
+  /lodash.maxby/4.6.0:
+    resolution: {integrity: sha512-QfTqQTwzmKxLy7VZlbx2M/ipWv8DCQ2F5BI/MRxLharOQ5V78yMSuB+JE+EuUM22txYfj09R2Q7hUlEYj7KdNg==}
     dev: false
 
   /lodash.memoize/4.1.2:
