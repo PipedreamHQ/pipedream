@@ -6,7 +6,6 @@ const withNextra = require("nextra")({
 
 module.exports = withNextra({
   basePath: "/docs/v3",
-  assetPrefix: "https://pipedream.com/docs/v3",
   images: {
     remotePatterns: [
       {
