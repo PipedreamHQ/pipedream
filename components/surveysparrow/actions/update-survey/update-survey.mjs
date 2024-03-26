@@ -1,12 +1,12 @@
-import surveySparrow from "../../surveysparrow.app.mjs";
-import pickBy from "lodash.pickby";
 import { ConfigurationError } from "@pipedream/platform";
+import pickBy from "lodash.pickby";
+import surveySparrow from "../../surveysparrow.app.mjs";
 
 export default {
   key: "surveysparrow-update-survey",
   name: "Update Survey",
   description: "Updates an existing survey. [See the documentation](https://developers.surveysparrow.com/rest-apis/survey#patchV3SurveysId)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     surveySparrow,

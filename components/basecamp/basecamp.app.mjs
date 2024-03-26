@@ -24,9 +24,14 @@ export default {
       type: "string",
       label: "Project Id",
       description: "The ID of the project.",
-      async options({ accountId }) {
+      async options({
+        accountId, page,
+      }) {
         const projects = await this.getProjects({
           accountId,
+          params: {
+            page: page + 1,
+          },
         });
         return projects.map(({
           id,
@@ -67,14 +72,18 @@ export default {
         accountId,
         projectId,
         recordingType,
+        page,
       }) {
         if (!recordingType) {
           return [];
         }
         const recordings = await this.getRecordings({
           accountId,
-          projectId,
-          recordingType,
+          params: {
+            type: recordingType,
+            bucket: projectId,
+            page: page + 1,
+          },
         });
         return recordings
           .map(({
@@ -99,10 +108,14 @@ export default {
       async options({
         accountId,
         projectId,
+        page,
       }) {
         const people = await this.getPeople({
           accountId,
           projectId,
+          params: {
+            page: page + 1,
+          },
         });
         return people.
           map(({
@@ -166,11 +179,15 @@ export default {
         accountId,
         projectId,
         todoSetId,
+        page,
       }) {
         const todoslists = await this.getTodoLists({
           accountId,
           projectId,
           todoSetId,
+          params: {
+            page: page + 1,
+          },
         });
         return todoslists
           .map(({
@@ -311,10 +328,6 @@ export default {
       return this.makeRequest({
         path: "/projects/recordings.json",
         accountId: args.accountId,
-        params: {
-          type: args.recordingType,
-          bucket: args.projectId,
-        },
         ...args,
       });
     },

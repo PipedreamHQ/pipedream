@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/quickbase",
+  "version": "0.0.1",
+  "description": "Pipedream Quickbase Components",
+  "main": "quickbase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "quickbase"
+  ],
+  "homepage": "https://pipedream.com/apps/qualetics",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}
