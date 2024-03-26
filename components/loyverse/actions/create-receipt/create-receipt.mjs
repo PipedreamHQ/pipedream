@@ -71,11 +71,15 @@ export default {
     },
   },
   async run({ $ }) {
+    const {
+      lineItems, totalDiscounts,
+    } = this;
+    const discounts = totalDiscounts?.map?.(parseAsJSON);
     const response = await this.loyverse.createReceipt({
       $,
       data: {
         store_id: this.storeId,
-        line_items: this.lineItems.map(parseAsJSON),
+        line_items: lineItems.map?.(parseAsJSON) ?? JSON.parse(lineItems),
         payments: [
           {
             payment_type_id: this.paymentTypeId,
@@ -86,7 +90,7 @@ export default {
         customer_id: this.customerId,
         source: this.source,
         receipt_date: this.receiptDate,
-        total_discounts: this.totalDiscounts?.map(parseAsJSON),
+        total_discounts: discounts ?? (totalDiscounts && JSON.parse(totalDiscounts)),
         note: this.note,
       },
     });
