@@ -1,4 +1,4 @@
-import { ConfigurationError } from "@pipedream/platform";
+import { ConfigurationError } from "./errors";
 
 export type ClientConfiguration = object;
 export type ProxyArgs = {
