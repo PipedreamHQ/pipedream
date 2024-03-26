@@ -17,7 +17,7 @@ export default {
         let { content: forms } = await this.getForms({
           offset,
           limit,
-        }, teamId); console.log(forms);
+        }, teamId);
         if (excludeDeleted) {
           forms = forms.filter(({ status }) => status !== "DELETED");
         }
