@@ -20,7 +20,7 @@ export default {
   hooks: {
     async activate() {
       const data = {
-        ...this.getHookType(),
+        ...this.getHookData(),
         address: this.http.endpoint,
       };
 
