@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import constants from "./constants.mjs";
 
 export default {
@@ -155,16 +154,6 @@ export default {
       return JSON.parse(obj);
     } catch (e) {
       return obj;
-    }
-  },
-  getUploadContentType(filename) {
-    const fileExt = filename.split(".").pop();
-    switch (fileExt.toLowerCase()) {
-    case "png": return "image/png";
-    case "jpg": return "image/jpeg";
-    case "jpeg": return "image/jpeg";
-    case "gif": return "image/gif";
-    default: throw ConfigurationError("Only `.jpg`, `.jpeg`, `.png`, and `.gif` may be used at this time. Other file types are not supported.");
     }
   },
 };
