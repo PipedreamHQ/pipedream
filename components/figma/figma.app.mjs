@@ -7,7 +7,7 @@ export default {
     teamId: {
       type: "string",
       label: "Team Id",
-      description: "Your team Id. It is not currently possible to programmatically obtain the team id of a user just from a token. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name.",
+      description: "Navigate to a team page of a team which you are a part of. You can find your Team ID between `/team` and your team name. If your team URL is `https://www.figma.com/files/team/1227693318965186187/Test's-team?fuid=234562`, enter `1227693318965186187` here.",
     },
     projectId: {
       type: "string",
