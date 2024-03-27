@@ -4,7 +4,7 @@ export default {
   key: "webflow-create-collection-item",
   name: "Create Collection Item",
   description: "Create new collection item. [See the docs here](https://developers.webflow.com/#create-new-collection-item)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     webflow,
@@ -22,6 +22,7 @@ export default {
           siteId: c.siteId,
         }),
       ],
+      reloadProps: true,
     },
     live: {
       label: "Live",
@@ -29,33 +30,54 @@ export default {
       type: "boolean",
       default: false,
     },
-    name: {
-      label: "Name",
-      description: "Name given to the Item.",
-      type: "string",
-    },
-    slug: {
-      label: "Slug",
-      description: "URL structure of the Item in your site.",
-      type: "string",
-    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (!this.collectionId) {
+      return props;
+    }
+    const { fields } = await this.webflow.getCollection(this.collectionId);
+    for (const field of fields) {
+      if (field.editable && field.slug !== "_archived" && field.slug !== "_draft") {
+        props[field.slug] = {
+          type: "string",
+          label: field.name,
+          description: field.slug === "name"
+            ? "Name given to the Item."
+            : field.slug === "slug"
+              ? "URL structure of the Item in your site."
+              : "See the documentation for additional information about [Field Types & Item Values](https://developers.webflow.com/reference/field-types-item-values).",
+          optional: !field.required,
+        };
+      }
+    }
+    return props;
   },
   async run({ $ }) {
-    const webflow = this.webflow._createApiClient();
+    const {
+      webflow,
+      // eslint-disable-next-line no-unused-vars
+      siteId,
+      // eslint-disable-next-line no-unused-vars
+      collectionId,
+      live,
+      ...fields
+    } = this;
 
-    const response = await webflow.createItem({
+    const webflowClient = webflow._createApiClient();
+
+    const response = await webflowClient.createItem({
       collectionId: this.collectionId,
       fields: {
-        name: this.name,
-        slug: this.slug,
+        ...fields,
         _archived: false,
         _draft: false,
       },
     }, {
-      live: this.live,
+      live,
     });
 
-    $.export("$summary", `Successfully created collection item ${this.name}`);
+    $.export("$summary", `Successfully created collection item ${fields.name}`);
 
     return response;
   },
