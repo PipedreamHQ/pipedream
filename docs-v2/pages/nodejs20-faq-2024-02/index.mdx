@@ -175,8 +175,9 @@ Below are instructions for updating a workflow that connects to a [**MySQL**](#m
       ```
 
 - Option C: Include your region's certificate bundle
+
   1. Download the [certificate bundle for your AWS region](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.RegionCertificates).
-  2. Import the certificate bundle into your workflow as an [attachment](/workflows/settings/#attachments).
+  2. Import the certificate bundle into your workflow using [the file store](/projects/file-stores).
   3. Include the CA certificates in the database connection options.
 
       Here's an example code step that uses the `pg` npm package:
@@ -275,7 +276,7 @@ Below are instructions for updating a workflow that connects to a [**MySQL**](#m
 
 - Option C: Include your region's certificate bundle
   1. Download the [certificate bundle for your AWS region](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.RegionCertificates).
-  2. Import the certificate bundle into your workflow as an [attachment](/workflows/settings/#attachments).
+  2. Import the certificate bundle into your workflow using [the file store](/projects/file-stores).
   3. Include the certificates in the database connection options.
 
   Here's an example code step that uses the `mssql` npm package:

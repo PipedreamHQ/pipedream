@@ -557,6 +557,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/autobound:
+    specifiers: {}
+
   components/autoklose:
     specifiers: {}
 
@@ -1483,6 +1486,9 @@ importers:
   components/code_climate:
     specifiers: {}
 
+  components/codegpt:
+    specifiers: {}
+
   components/codemagic:
     specifiers: {}
 
@@ -1552,6 +1558,9 @@ importers:
     specifiers: {}
 
   components/commercehq:
+    specifiers: {}
+
+  components/common_paper:
     specifiers: {}
 
   components/commpeak:
@@ -4004,6 +4013,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/joplin:
+    specifiers: {}
+
   components/jotform:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -4219,6 +4231,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/labs64_netlicensing:
+    specifiers: {}
+
+  components/labsmobile:
     specifiers: {}
 
   components/lahar:
@@ -6265,6 +6280,12 @@ importers:
   components/questionpro:
     specifiers: {}
 
+  components/quickbase:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/quickbooks:
     specifiers:
       '@pipedream/platform': ^1.0.0
@@ -7029,6 +7050,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/sendx:
+    specifiers: {}
+
   components/sendy:
     specifiers: {}
 
@@ -7540,6 +7564,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sparkpost:
+    specifiers: {}
+
+  components/speechace:
     specifiers: {}
 
   components/splitwise:
@@ -9368,7 +9395,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/zoho_notebook:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/zoho_people:
     specifiers: {}
