@@ -18,7 +18,7 @@ export default {
     lineItems: {
       type: "string[]",
       label: "Line Items",
-      description: "The line items included in the receipt, as JSON-stringified objects. [See the documentation](https://developer.loyverse.com/docs/#tag/Receipts/paths/~1receipts/post) for the expected properties.",
+      description: "[An array of JSON-stringified objects](https://developer.loyverse.com/docs/#tag/Receipts/paths/~1receipts/post). You can use the **Generate Receipt Items** action to generate these items.",
     },
     paymentTypeId: {
       propDefinition: [
