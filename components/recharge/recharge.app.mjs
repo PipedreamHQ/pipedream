@@ -60,22 +60,17 @@ export default {
     _baseUrl() {
       return "https://api.rechargeapps.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          "X-Recharge-Version": "2021-11",
-          "X-Recharge-Access-Token": this.$auth.api_token,
+          "X-Recharge-Access-Token": this.$auth.api_key,
         },
       });
     },
@@ -84,7 +79,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/subscriptions",
+        url: "/subscriptions",
         data: {
           customer_id: customerId,
           product_id: productId,
@@ -96,7 +91,7 @@ export default {
     async cancelSubscription({ subscriptionId }) {
       return this._makeRequest({
         method: "POST",
-        path: `/subscriptions/${subscriptionId}/cancel`,
+        url: `/subscriptions/${subscriptionId}/cancel`,
       });
     },
     async updateCustomer({
@@ -104,7 +99,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/customers/${customerId}`,
+        url: `/customers/${customerId}`,
         data: {
           name,
           email,
