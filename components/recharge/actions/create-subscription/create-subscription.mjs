@@ -65,7 +65,9 @@ export default {
         order_interval_frequency: this.orderIntervalFrequency,
         order_interval_unit: this.orderIntervalUnit,
         quantity: this.quantity,
-        external_variant_id: this.externalVariantId,
+        external_variant_id: this.externalVariantId && {
+          ecommerce: this.externalVariantId,
+        },
         ...Object.fromEntries(Object.entries(this.additionalOptions).map(([
           key,
           value,

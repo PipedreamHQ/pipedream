@@ -7,24 +7,20 @@ export default {
     customerId: {
       type: "string",
       label: "Customer ID",
-      description: "The unique identifier for the customer.",
-    },
-    customerEmail: {
-      type: "string",
-      label: "Customer Email",
-      description: "The email address of the customer.",
-      optional: true,
-    },
-    orderId: {
-      type: "string",
-      label: "Order ID",
-      description: "The unique identifier for the order.",
-    },
-    productId: {
-      type: "string",
-      label: "Product ID",
-      description: "The unique identifier for the product.",
-      optional: true,
+      description: "Select a customer or provide a custom customer ID.",
+      async options({ page }) {
+        const { customers } = await this.listCustomers({
+          params: {
+            page,
+          },
+        });
+        return customers?.map?.(({
+          email, id,
+        }) => ({
+          label: email,
+          value: id,
+        }));
+      },
     },
     subscriptionId: {
       type: "string",
@@ -67,16 +63,46 @@ export default {
       description: "The unique identifier for the discount.",
       optional: true,
     },
-    name: {
+    firstName: {
       type: "string",
       label: "Name",
-      description: "The name of the customer.",
+      description: "Customer's first name.",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Name",
+      description: "Customer's last name.",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
-      description: "The email of the customer.",
+      description: "Email address of the customer.",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Customer's phone number. Must be in E.164 format, such as `+16175551212`",
+      optional: true,
+    },
+    externalCustomerId: {
+      type: "string",
+      label: "External Customer ID",
+      description: "The customer ID as it appears in the external e-commerce platform.",
+      optional: true,
+    },
+    taxExempt: {
+      type: "boolean",
+      label: "Tax Exempt",
+      description: "Whether or not the customer is tax exempt.",
+      optional: true,
+    },
+    applyCreditToNextRecurringCharge: {
+      type: "boolean",
+      label: "Apply Credit to Next Recurring Charge",
+      description: "A boolean that indicates whether Recharge credits will be applied to the next recurring charge.",
       optional: true,
     },
   },
@@ -104,24 +130,23 @@ export default {
         ...args,
       });
     },
+    async listCustomers(args) {
+      return this._makeRequest({
+        url: "/customers",
+        ...args,
+      });
+    },
     async listSubscriptions(args) {
       return this._makeRequest({
         url: "/subscriptions",
         ...args,
       });
     },
-    async createSubscription({
-      customerId, productId, addressId, discountId,
-    }) {
+    async createSubscription(args) {
       return this._makeRequest({
         method: "POST",
         url: "/subscriptions",
-        data: {
-          customer_id: customerId,
-          product_id: productId,
-          address_id: addressId,
-          discount_id: discountId,
-        },
+        ...args,
       });
     },
     async cancelSubscription({
@@ -134,16 +159,12 @@ export default {
       });
     },
     async updateCustomer({
-      customerId, name, email, addressId,
+      customerId, ...args
     }) {
       return this._makeRequest({
         method: "PUT",
         url: `/customers/${customerId}`,
-        data: {
-          name,
-          email,
-          address_id: addressId,
-        },
+        ...args,
       });
     },
   },
