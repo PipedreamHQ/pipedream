@@ -174,5 +174,18 @@ export default {
         ...args,
       });
     },
+    async createWebhook(args) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/webhooks",
+        ...args,
+      });
+    },
+    async deleteWebhook(id) {
+      return this._makeRequest({
+        method: "DELETE",
+        url: `/webhooks/${id}`,
+      });
+    },
   },
 };
