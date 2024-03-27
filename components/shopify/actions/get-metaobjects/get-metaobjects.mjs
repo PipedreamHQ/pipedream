@@ -8,7 +8,7 @@ export default {
   key: "shopify-get-metaobjects",
   name: "Get Metaobjects",
   description: "Retrieves a list of metaobjects. [See the documentation](https://shopify.dev/docs/api/admin-graphql/2023-04/queries/metaobjects)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     shopify,

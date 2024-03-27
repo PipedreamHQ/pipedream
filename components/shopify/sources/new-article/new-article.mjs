@@ -7,7 +7,7 @@ export default {
   name: "New Article",
   type: "source",
   description: "Emit new event for each new article in a blog.",
-  version: "0.0.17",
+  version: "0.0.18",
   dedupe: "unique",
   props: {
     shopify,

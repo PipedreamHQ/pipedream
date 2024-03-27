@@ -14,7 +14,7 @@ To get started, you will need to create a custom Shopify app in the Shopify Admi
   ![Create an App](https://res.cloudinary.com/dpenc2lit/image/upload/v1688060015/Screenshot_2023-06-29_at_10.11.43_AM_unkom4.png)
 
 ## Configure Admin API scopes
-1. In the new app you have created, under the **Configuration** tab, click **Configure Admin API scopes**
+1. In the new app you have created, under the **API Credentials** tab, click **Configure Admin API scopes**
 2. Select the scopes that you require for your use case. You may modify your scopes at any time by returning to the app configuration page.
 
 ## Generate the Admin API access token

@@ -6,7 +6,7 @@ export default {
   key: "shopify-create-product",
   name: "Create Product",
   description: "Create a new product. [See the documentation](https://shopify.dev/api/admin-rest/2022-01/resources/product#[post]/admin/api/2022-01/products.json)",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     shopify,

@@ -1,3 +1,4 @@
+import fs from "fs";
 import get from "lodash.get";
 import Shopify from "shopify-api-node";
 import toPath from "lodash.topath";
@@ -199,12 +200,7 @@ export default {
     images: {
       type: "string[]",
       label: "Images",
-      description: toSingleLineString(`
-        A list of product base64 encoded image objects.
-        Each one represents an image associated with the product or a link that will be downloaded by Shopify.
-        Example: \`["R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==","http://example.com/rails_logo.gif"]\`.
-        More information at [Shopify Product API](https://shopify.dev/api/admin-rest/2022-01/resources/product#[post]/admin/api/2022-01/products.json)
-      `),
+      description: "A list of [product image](https://shopify.dev/docs/admin-api/rest/reference/products/product-image) objects, each one representing an image associated with the product. For each row you can either specify a Pipedream path like `/tmp/my-image.png` or a URL like `https://example.com/image.png`. More information at [Shopify Product API](https://shopify.dev/api/admin-rest/2022-01/resources/product#[post]/admin/api/2022-01/products.json)",
       optional: true,
     },
     options: {
@@ -514,13 +510,29 @@ export default {
       }
       throw new TypeError("variable should be an array or string");
     },
+    getImageBase64Encoded(path) {
+      if (!fs.existsSync(path)) {
+        throw new Error(`File path does not exist: ${path}`);
+      }
+      const image = fs.readFileSync(path);
+      return image.toString("base64");
+    },
     parseImages(images) {
-      if (!images) return [];
-      return images.map((image) => ({
-        [image.includes("http")
-          ? "src"
-          : "attachment"]: image,
-      }));
+      if (!images) {
+        return [];
+      }
+
+      return images.map((image) => {
+        const key =
+          image.startsWith("http")
+            ? "src"
+            : "attachment";
+        return {
+          [key]: key === "attachment"
+            ? this.getImageBase64Encoded(image)
+            : image,
+        };
+      });
     },
     dayAgo() {
       const dayAgo = new Date();
