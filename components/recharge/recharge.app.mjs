@@ -29,19 +29,30 @@ export default {
     subscriptionId: {
       type: "string",
       label: "Subscription ID",
-      description: "The unique identifier for the subscription.",
+      description: "Select a subscription or provide a custom subscription ID.",
+      async options({ page }) {
+        const { subscriptions } = await this.listSubscriptions({
+          params: {
+            page,
+          },
+        });
+        return subscriptions?.map?.((item) => ({
+          label: `SKU ${item.sku}`,
+          value: item.id,
+        }));
+      },
     },
     addressId: {
       type: "string",
       label: "Address ID",
       description: "Select an address or provide a custom address ID.",
       async options({ page }) {
-        const items = await this.listAddresses({
+        const { addresses } = await this.listAddresses({
           params: {
             page,
           },
         });
-        return items?.map?.((item) => ({
+        return addresses?.map?.((item) => ({
           label: [
             item.address1,
             item.address2,
@@ -93,6 +104,12 @@ export default {
         ...args,
       });
     },
+    async listSubscriptions(args) {
+      return this._makeRequest({
+        url: "/subscriptions",
+        ...args,
+      });
+    },
     async createSubscription({
       customerId, productId, addressId, discountId,
     }) {
@@ -107,10 +124,13 @@ export default {
         },
       });
     },
-    async cancelSubscription({ subscriptionId }) {
+    async cancelSubscription({
+      subscriptionId, ...args
+    }) {
       return this._makeRequest({
         method: "POST",
         url: `/subscriptions/${subscriptionId}/cancel`,
+        ...args,
       });
     },
     async updateCustomer({

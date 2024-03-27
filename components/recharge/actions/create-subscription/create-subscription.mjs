@@ -45,10 +45,9 @@ export default {
       description: "The quantity of the product.",
     },
     externalVariantId: {
-      propDefinition: [
-        recharge,
-        "externalVariantId",
-      ],
+      type: "string",
+      label: "External Variant ID",
+      description: "The variant id as it appears in the external e-commerce platform.",
     },
     additionalOptions: {
       type: "object",
