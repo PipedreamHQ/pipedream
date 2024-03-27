@@ -158,6 +158,13 @@ export default {
         ...args,
       });
     },
+    async createCustomer(args) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/customers",
+        ...args,
+      });
+    },
     async updateCustomer({
       customerId, ...args
     }) {

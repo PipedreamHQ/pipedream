@@ -1,4 +1,7 @@
 import recharge from "../../recharge.app.mjs";
+import {
+  getCustomerData, getCustomerProps,
+} from "../common/common-customer.mjs";
 
 export default {
   key: "recharge-update-customer",
@@ -14,62 +17,19 @@ export default {
         "customerId",
       ],
     },
-    email: {
-      propDefinition: [
-        recharge,
-        "email",
-      ],
-    },
-    firstName: {
-      propDefinition: [
-        recharge,
-        "firstName",
-      ],
-    },
-    lastName: {
-      propDefinition: [
-        recharge,
-        "lastName",
-      ],
-    },
-    phone: {
-      propDefinition: [
-        recharge,
-        "phone",
-      ],
-    },
-    externalCustomerId: {
-      propDefinition: [
-        recharge,
-        "externalCustomerId",
-      ],
-    },
     applyCreditToNextRecurringCharge: {
       propDefinition: [
         recharge,
         "applyCreditToNextRecurringCharge",
       ],
     },
-    taxExempt: {
-      propDefinition: [
-        recharge,
-        "taxExempt",
-      ],
-    },
+    ...getCustomerProps(true),
+  },
+  methods: {
+    getCustomerData,
   },
   async run({ $ }) {
-    const data = {
-      email: this.email,
-      first_name: this.firstName,
-      last_name: this.lastName,
-      phone: this.phone,
-      external_customer_id: this.externalCustomerId && {
-        ecommerce: this.externalCustomerId,
-      },
-      apply_credit_to_next_recurring_charge: this.applyCreditToNextRecurringCharge,
-      tax_exempt: this.taxExempt,
-    };
-
+    const data = this.getCustomerData();
     const response = await this.recharge.updateCustomer({
       $,
       customerId: this.customerId,
