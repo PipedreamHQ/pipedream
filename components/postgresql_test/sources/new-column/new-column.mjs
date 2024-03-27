@@ -3,7 +3,7 @@ import common from "../common.mjs";
 export default {
   ...common,
   name: "New Column",
-  key: "postgresql-new-column",
+  key: "postgresql_test-new-column",
   description: "Emit new event when a new column is added to a table. [See Docs](https://node-postgres.com/features/queries)",
   version: "1.0.0",
   type: "source",

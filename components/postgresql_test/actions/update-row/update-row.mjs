@@ -1,8 +1,8 @@
-import postgresql from "../../postgresql.app.mjs";
+import postgresql from "../../postgresql_test.app.mjs";
 
 export default {
   name: "Update Row",
-  key: "postgresql-update-row",
+  key: "postgresql_test-update-row",
   description: "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
   version: "1.0.0",
   type: "action",

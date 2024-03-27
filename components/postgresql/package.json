@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/postgresql",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Pipedream PostgreSQL Components",
   "main": "postgresql.app.mjs",
   "keywords": [
@@ -11,8 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "pg": "^8.7.1",
-    "pg-format": "^1.0.4",
-    "typescript": "^4.6.4"
+    "pg-format": "^1.0.4"
   },
   "publishConfig": {
     "access": "public"

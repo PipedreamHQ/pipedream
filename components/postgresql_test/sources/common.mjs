@@ -1,4 +1,4 @@
-import postgresql from "../postgresql.app.mjs";
+import postgresql from "../postgresql_test.app.mjs";
 import format from "pg-format";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 

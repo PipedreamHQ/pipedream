@@ -1,9 +1,9 @@
-import postgresql from "../../postgresql.app.mjs";
+import postgresql from "../../postgresql_test.app.mjs";
 
 export default {
-  name: "Update Row",
-  key: "postgresql-update-row",
-  description: "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
+  name: "Find Row",
+  key: "postgresql_test-find-row",
+  description: "Finds a row in a table via a lookup column. [See Docs](https://node-postgres.com/features/queries)",
   version: "1.0.0",
   type: "action",
   props: {
@@ -33,7 +33,7 @@ export default {
         }),
       ],
       label: "Lookup Column",
-      description: "Find row to update by searching for a value in this column. Returns first row found",
+      description: "Find row by searching for a value in this column. Returns first row found",
     },
     value: {
       propDefinition: [
@@ -46,12 +46,6 @@ export default {
         }),
       ],
     },
-    rowValues: {
-      propDefinition: [
-        postgresql,
-        "rowValues",
-      ],
-    },
   },
   async run({ $ }) {
     const {
@@ -59,24 +53,22 @@ export default {
       table,
       column,
       value,
-      rowValues,
     } = this;
     try {
-      const res = await this.postgresql.updateRow(
+      const res = await this.postgresql.findRowByValue(
         schema,
         table,
         column,
         value,
-        rowValues,
       );
       const summary = res
-        ? "Row updated"
+        ? "Row found"
         : "Row not found";
       $.export("$summary", summary);
       return res;
     } catch (error) {
       throw new Error(`
-      Row not updated due to an error. ${error}.
+      Row not retrieved due to an error. ${error}.
       This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
     `);
     }
