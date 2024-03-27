@@ -34,8 +34,21 @@ export default {
     addressId: {
       type: "string",
       label: "Address ID",
-      description: "The unique identifier for the address.",
-      optional: true,
+      description: "Select an address or provide a custom address ID.",
+      async options({ page }) {
+        const items = await this.listAddresses({
+          params: {
+            page,
+          },
+        });
+        return items?.map?.((item) => ({
+          label: [
+            item.address1,
+            item.address2,
+          ].filter((i) => i).join(),
+          value: item.id,
+        }));
+      },
     },
     discountId: {
       type: "string",
@@ -72,6 +85,12 @@ export default {
           ...headers,
           "X-Recharge-Access-Token": this.$auth.api_key,
         },
+      });
+    },
+    async listAddresses(args) {
+      return this._makeRequest({
+        url: "/addresses",
+        ...args,
       });
     },
     async createSubscription({
