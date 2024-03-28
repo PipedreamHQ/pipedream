@@ -2641,9 +2641,9 @@ importers:
 
   components/figma:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.6.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.6.1
 
   components/file_store:
     specifiers: {}
