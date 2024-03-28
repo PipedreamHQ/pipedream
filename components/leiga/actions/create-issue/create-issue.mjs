@@ -54,7 +54,12 @@ export default {
           propType += "[]";
         }
 
-        props[field.fieldCode] = {
+        let dateTimeFlag = "";
+        if (field.controlCode === "datetime-range") {
+          dateTimeFlag = "DateTimeFlag";
+        }
+
+        props[field.fieldCode + dateTimeFlag] = {
           type: propType,
           label: field.customFieldName,
           description: field.fieldDescription || `The ${field.fieldCode} of the issue.`,
@@ -70,15 +75,27 @@ export default {
       leiga,
       projectId,
       issueTypeId,
-      ...data
+      ...props
     } = this;
+
+    const data = {};
+    for (let [
+      key,
+      value,
+    ] of Object.entries(props)) {
+      if (key.endsWith("DateTimeFlag")) {
+        key = key.slice(0, - 12);
+        value = Date.parse(value);
+      }
+      data[key] = value;
+    }
 
     const response = await leiga.createIssue({
       $,
       data: {
         projectId,
-        data,
         issueTypeId,
+        data,
       },
     });
     if (response.code != "0") {

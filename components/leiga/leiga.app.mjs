@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  ConfigurationError, axios,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -58,6 +60,12 @@ export default {
         ...otherOpts,
       });
     },
+    validadeRequest(response) {
+      if (response.msg) {
+        throw new ConfigurationError(response.msg);
+      }
+      return response;
+    },
     getIssueSchema(opts = {}) {
       return this._makeRequest({
         path: "/issue/issue-scheme",
@@ -78,22 +86,25 @@ export default {
         ...opts,
       });
     },
-    listIssueTypes(opts = {}) {
-      return this._makeRequest({
+    async listIssueTypes(opts = {}) {
+      const response = await this._makeRequest({
         path: "/issue/type-list",
         ...opts,
       });
+      return this.validadeRequest(response);
     },
-    listProjects() {
-      return this._makeRequest({
+    async listProjects() {
+      const response = await this._makeRequest({
         path: "/project/list",
       });
+      return this.validadeRequest(response);
     },
-    listWebhookEvents(opts = {}) {
-      return this._makeRequest({
+    async listWebhookEvents(opts = {}) {
+      const response = await this._makeRequest({
         path: "/webhook/list-events",
         ...opts,
       });
+      return this.validadeRequest(response);
     },
     createIssue(opts = {}) {
       return this._makeRequest({
