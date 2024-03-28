@@ -9,7 +9,7 @@ export default {
   },
   methods: {
     getTeamId() {
-      return this.figmaApp.$auth.team_id ?? this.teamId;
+      return this.figmaApp._getTeamId() ?? this.teamId;
     },
   },
   additionalProps() {
