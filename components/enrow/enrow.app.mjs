@@ -3,62 +3,37 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "enrow",
-  propDefinitions: {
-    searchId: {
-      type: "string",
-      label: "Search ID",
-      description: "The identifier for the specific search.",
-    },
-    name: {
-      type: "string",
-      label: "Full Name",
-      description: "The full name of the person you're searching for.",
-    },
-    domain: {
-      type: "string",
-      label: "Domain",
-      description: "The domain of the email you want to find.",
-    },
-  },
+  propDefinitions: {},
   methods: {
     _baseUrl() {
-      return "https://api.enrow.com";
+      return "https://api.enrow.io";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "x-api-key": `${this.$auth.api_key}`,
         },
       });
     },
-    async getResult(searchId) {
+    getResult(opts = {}) {
       return this._makeRequest({
-        path: `/emailFinder/${searchId}`,
+        path: "/email/find/single",
+        ...opts,
       });
     },
-    async executeSearch(name, domain) {
+    executeSearch(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/emailFinder",
-        data: {
-          name,
-          domain,
-        },
+        path: "/email/find/single",
+        ...opts,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
