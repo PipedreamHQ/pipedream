@@ -48,6 +48,12 @@ export default {
       optional: true,
       default: "english",
     },
+    wordCount: {
+      type: "integer",
+      label: "Word Count",
+      description: "The number of words (approx) you'd like the output to be. If word count is not passed in, the system will determine how many words to generate.",
+      optional: true,
+    },
   },
   additionalProps() {
     return this.contentType === "custom"
@@ -61,16 +67,15 @@ export default {
       : {};
   },
   async run({ $ }) {
-    const response = await this.autobound.generateContent({
-      recipientDetails: this.recipientDetails,
-      messageTemplate: this.messageTemplate,
-      customizationFields: this.customizationFields,
-      contentType: this.contentType,
-      customContentType: this.customContentType,
-      language: this.language,
+    const {
+      autobound, ...data
+    } = this;
+    const response = await autobound.generateContent({
+      $,
+      data,
     });
 
-    $.export("$summary", `Successfully generated personalized content for ${this.recipientDetails.email}`);
+    $.export("$summary", "Successfully generated personalized content");
     return response;
   },
 };
