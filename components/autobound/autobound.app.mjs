@@ -74,63 +74,32 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://autobound-api.readme.io/docs";
+      return "https://api.autobound.ai/api/external";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "X-API-KEY": `${this.$auth.api_key}`,
         },
       });
     },
-    async generateContent({
-      recipientDetails,
-      messageTemplate,
-      customizationFields,
-      contentType,
-      customContentType,
-      language,
-    }) {
-      const data = {
-        contactEmail: recipientDetails.email,
-        userEmail: this.$auth.user_email,
-        contentType,
-        customContentType,
-        language,
-      };
-
-      if (messageTemplate) {
-        data.messageTemplate = messageTemplate;
-      }
-
-      if (customizationFields) {
-        data.customizationFields = customizationFields;
-      }
-
+    async generateContent(args) {
       return this._makeRequest({
+        url: "/generate-content/v3.1",
         method: "POST",
-        path: "/v3/content/generate",
         headers: {
           "Content-Type": "application/json",
         },
-        data,
+        ...args,
       });
     },
   },
-  version: "0.0.1",
 };
