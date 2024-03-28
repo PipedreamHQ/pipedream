@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { v4 as uuid } from "uuid";
-import figma from "../../figma.app.mjs";
+import common from "../../common/common.mjs";
+const { figmaApp: figma } = common.props;
 
 export default {
   key: "figma-new-comment",
@@ -51,6 +52,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     getHookId() {
       return this.db.get("hookId");
     },
