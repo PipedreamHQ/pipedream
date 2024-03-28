@@ -1,5 +1,4 @@
 import teamioo from "../../teamioo.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "teamioo-create-bookmark",
@@ -9,18 +8,92 @@ export default {
   type: "action",
   props: {
     teamioo,
-    url: teamioo.propDefinitions.url,
-    bookmarkType: teamioo.propDefinitions.bookmarkType,
-    title: teamioo.propDefinitions.title,
+    bookmarkType: {
+      type: "string",
+      label: "Event Type",
+      description: "The type of the bookmark, either 'personal' or 'group'",
+      options: [
+        "personal",
+        "group",
+      ],
+      reloadProps: true,
+    },
+    url: {
+      type: "string",
+      label: "URL",
+      description: "The URL to bookmark",
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Uses bookmared website's title if omitted.",
+      optional: true,
+    },
+    comment: {
+      type: "string",
+      label: "Comment",
+      description: "Bookmark comment (markdown supported).",
+      optional: true,
+    },
+    taggedUsers: {
+      propDefinition: [
+        teamioo,
+        "userId",
+      ],
+      type: "string[]",
+      label: "Tagged Users",
+      description: "Tagged users.",
+      optional: true,
+    },
+    tags: {
+      propDefinition: [
+        teamioo,
+        "tags",
+      ],
+      optional: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.bookmarkType === "group") {
+      props.groupId = {
+        type: "string",
+        label: "Group ID",
+        description: "The ID of the group.",
+        options: async () => {
+          const groups = await this.teamioo.listGroups();
+
+          return groups.map(({
+            displayName: label, _id: value,
+          }) => ({
+            label,
+            value,
+          }));
+        },
+      };
+    }
+
+    return props;
   },
   async run({ $ }) {
-    const response = await this.teamioo.saveBookmark({
-      url: this.url,
-      bookmarkType: this.bookmarkType,
-      title: this.title,
+    const {
+      teamioo,
+      bookmarkType,
+      groupId,
+      ...data
+    } = this;
+
+    const response = await teamioo.createBookmark({
+      $,
+      data: {
+        groupId: (bookmarkType === "personal")
+          ? "personal"
+          : groupId,
+        ...data,
+      },
     });
 
-    $.export("$summary", `Successfully saved the bookmark "${this.title || this.url}"`);
+    $.export("$summary", `Successfully saved the bookmark with Id: ${response.newDocId}`);
     return response;
   },
 };

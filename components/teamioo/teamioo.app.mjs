@@ -1,158 +1,147 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "teamioo",
   propDefinitions: {
-    groupid: {
+    userId: {
+      type: "string",
+      label: "Assigned User",
+      description: "Id of the user assigned to this task.",
+      async options() {
+        const data = await this.listUsers();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Teamioo tags.",
+      async options() {
+        const data = await this.listTags();
+
+        return data.map(({ value }) => value);
+      },
+    },
+    groupId: {
       type: "string",
       label: "Group ID",
-      description: "The ID of the group",
-    },
-    url: {
-      type: "string",
-      label: "URL",
-      description: "The URL to bookmark",
-    },
-    bookmarkType: {
-      type: "string",
-      label: "Bookmark Type",
-      description: "The type of the bookmark, either 'personal' or 'group'",
-      options: [
-        "personal",
-        "group",
-      ],
-    },
-    title: {
-      type: "string",
-      label: "Title",
-      description: "An optional title for the bookmark",
-      optional: true,
-    },
-    eventTitle: {
-      type: "string",
-      label: "Event Title",
-      description: "The title of the event",
-    },
-    startTime: {
-      type: "string",
-      label: "Start Time",
-      description: "The start time of the event",
-    },
-    endTime: {
-      type: "string",
-      label: "End Time",
-      description: "The end time of the event",
-    },
-    eventType: {
-      type: "string",
-      label: "Event Type",
-      description: "The type of the event, can be 'personal', 'office', or 'group'",
-      options: [
-        "personal",
-        "office",
-        "group",
-      ],
-    },
-    location: {
-      type: "string",
-      label: "Location",
-      description: "The location of the event",
-      optional: true,
-    },
-    taskTitle: {
-      type: "string",
-      label: "Task Title",
-      description: "The title of the task",
-    },
-    taskType: {
-      type: "string",
-      label: "Task Type",
-      description: "The type of the task, either 'personal' or 'group'",
-      options: [
-        "personal",
-        "group",
-      ],
-    },
-    dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "The due date of the task",
-      optional: true,
-    },
-    assignedTo: {
-      type: "string",
-      label: "Assigned To",
-      description: "Whom the task is assigned to",
-      optional: true,
-    },
-    priorityLevel: {
-      type: "string",
-      label: "Priority Level",
-      description: "The urgency of the task",
-      optional: true,
+      description: "The ID of the group.",
+      async options() {
+        const groups = await this.listGroups();
+
+        return groups.map(({
+          displayName: label, _id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://demo.teamioo.com/teamiooapi";
+      return `https://${this.$auth.environment}.teamioo.com/_api`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _params(params = {}) {
+      return {
+        teamiooAPIKey: this.$auth.api_key,
+        ...params,
+      };
+    },
+    _makeRequest({
+      $ = this, path, params, ...otherOpts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        params: this._params(params),
+        ...otherOpts,
       });
     },
-    async saveBookmark({
-      url, bookmarkType, title,
-    }) {
+    listBookmarks(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/bookmarks/save",
-        data: {
-          url,
-          bookmark_type: bookmarkType,
-          title,
-        },
+        path: "/bookmarks",
+        ...opts,
       });
     },
-    async createEvent({
-      eventTitle, startTime, endTime, eventType, location,
-    }) {
+    listClients(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/events/create",
-        data: {
-          event_title: eventTitle,
-          start_time: startTime,
-          end_time: endTime,
-          event_type: eventType,
-          location,
-        },
+        path: "/clients",
+        ...opts,
       });
     },
-    async createTask({
-      taskTitle, taskType, dueDate, assignedTo, priorityLevel,
-    }) {
+    listGroupMembers(opts = {}) {
+      return this._makeRequest({
+        path: "/groupMembers",
+        ...opts,
+      });
+    },
+    listGroups() {
+      return this._makeRequest({
+        path: "/groups",
+      });
+    },
+    listTags() {
+      return this._makeRequest({
+        path: "/tags",
+      });
+    },
+    listUsers() {
+      return this._makeRequest({
+        path: "/users",
+      });
+    },
+    createBookmark(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/tasks/create",
-        data: {
-          task_title: taskTitle,
-          task_type: taskType,
-          due_date: dueDate,
-          assigned_to: assignedTo,
-          priority_level: priorityLevel,
-        },
+        path: "/bookmarks",
+        ...opts,
       });
+    },
+    createEvent(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/calEvents",
+        ...opts,
+      });
+    },
+    createTask(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/tasks",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, lastDate, ...opts
+    }) {
+      let hasMore = false;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.skip = LIMIT * page;
+        page++;
+        const data = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          if (lastDate >= Date.parse(d.addedDate)) break;
+
+          yield d;
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };
