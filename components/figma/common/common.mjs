@@ -9,7 +9,7 @@ export default {
   },
   methods: {
     getTeamId() {
-      return this.figma.$auth.team_id ?? this.teamId;
+      return this.figmaApp.$auth.team_id ?? this.teamId;
     },
   },
   additionalProps() {
@@ -19,7 +19,7 @@ export default {
       : {
         teamId: {
           propDefinition: [
-            this.figma,
+            figma,
             "teamId",
           ],
         },

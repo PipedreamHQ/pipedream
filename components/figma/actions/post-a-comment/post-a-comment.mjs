@@ -10,12 +10,6 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    teamId: {
-      propDefinition: [
-        figmaApp,
-        "teamId",
-      ],
-    },
     projectId: {
       propDefinition: [
         figmaApp,

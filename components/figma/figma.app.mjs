@@ -13,7 +13,7 @@ export default {
       type: "string",
       label: "Project Id",
       description: "Id of the project to list files from",
-      async options({ teamId }) {
+      async options({ teamId = this.$auth.team_id }) {
         const projects = await this.listTeamProjects(teamId);
         return projects.map((item) => ({
           label: item.name,
