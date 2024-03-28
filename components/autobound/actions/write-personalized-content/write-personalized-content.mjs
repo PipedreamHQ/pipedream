@@ -1,4 +1,5 @@
 import autobound from "../../autobound.app.mjs";
+import { CONTENT_TYPE_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "autobound-write-personalized-content",
@@ -8,25 +9,56 @@ export default {
   type: "action",
   props: {
     autobound,
-    recipientDetails: autobound.propDefinitions.recipientDetails,
-    messageTemplate: {
-      ...autobound.propDefinitions.messageTemplate,
-      optional: true,
+    contactEmail: {
+      type: "string",
+      label: "Contact Email",
+      description: "The email address of the contact (prospect) the user (seller) is reaching out to.",
     },
-    customizationFields: {
-      ...autobound.propDefinitions.customizationFields,
-      optional: true,
+    userEmail: {
+      type: "string",
+      label: "User Email",
+      description: "The email address of the user the content is written on behalf of.",
     },
-    contentType: autobound.propDefinitions.contentType,
-    customContentType: {
-      ...autobound.propDefinitions.customContentType,
+    contentType: {
+      type: "string",
+      label: "Content Type",
+      description: "The type of content you want to generate.",
+      options: CONTENT_TYPE_OPTIONS,
+      reloadProps: true,
+    },
+    n: {
+      type: "integer",
+      label: "Number of Content Pieces",
+      description: "The number of unique pieces of content to generate for the given request.",
+      optional: true,
+      default: 1,
+      min: 1,
+      max: 3,
+    },
+    additionalContext: {
+      type: "object",
+      label: "Additional Context",
+      description: "Allows for further customization of the generated content by providing specific guidelines or data to be included in the message. The flexibility here is powerful - you could incorporate intent data, mention past interactions logged in the CRM, or highlight any other relevant information. **Character limit is 10,000.**",
       optional: true,
     },
     language: {
-      ...autobound.propDefinitions.language,
+      type: "string",
+      label: "Language",
+      description: "The desired language for content generation",
       optional: true,
       default: "english",
     },
+  },
+  additionalProps() {
+    return this.contentType === "custom"
+      ? {
+        customContentType: {
+          type: "string",
+          label: "Custom Content Type",
+          description: "Write out your own desired output, like \"describe this prospect's personality based on their social media\".",
+        },
+      }
+      : {};
   },
   async run({ $ }) {
     const response = await this.autobound.generateContent({
