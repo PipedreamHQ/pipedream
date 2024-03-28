@@ -23,7 +23,9 @@ export default {
       },
     });
 
-    $.export("$summary", `Retrieved relationships for domain ${this.domain}`);
+    if (response.Relationships.length) {
+      $.export("$summary", `Retrieved relationships for domain ${this.domain}`);
+    }
 
     return response;
   },
