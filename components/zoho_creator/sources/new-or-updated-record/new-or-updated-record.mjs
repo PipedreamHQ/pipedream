@@ -1,6 +1,7 @@
 import common from "../common.mjs";
 import utils from "../../common/utils.mjs";
 import constants from "../../constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 const { zohoCreator } = common.props;
 const { toSingleLineString } = utils;
@@ -50,7 +51,7 @@ export default {
     },
     validateRecord(record) {
       if (!record[constants.MODIFIED_TIME_FIELD]) {
-        throw new Error("Record is missing the \"Modified Time\" field. Add the \"Modified Time\" Grouping field in the Zoho Creator record properties for the Report.");
+        throw new ConfigurationError("Record is missing the \"Modified Time\" field. Add the \"Modified Time\" Grouping field in the Zoho Creator record properties for the Report.");
       }
     },
     processEvent(record) {
