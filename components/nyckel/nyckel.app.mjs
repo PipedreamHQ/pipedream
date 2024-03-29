@@ -7,18 +7,30 @@ export default {
     functionId: {
       type: "string",
       label: "Function ID",
-      description: "The ID of the Nyckel function",
+      description: "Select a function or provide a custom function ID.",
+      async options({ context: { cursor } }) {
+        const items = await this.listFunctions({
+          params: {
+            cursor,
+          },
+        });
+        return {
+          context: {
+            cursor: items[items.length - 1].id,
+          },
+          options: items.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })),
+        };
+      },
     },
     imageUrl: {
       type: "string",
       label: "Image URL",
       description: "A URL pointing to the image.",
-    },
-    imageData: {
-      type: "string",
-      label: "Image Data",
-      description: "Base64-encoded image data for OCR or classification",
-      optional: true,
     },
     includeRegions: {
       type: "boolean",

@@ -39,7 +39,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully extracted text from the image");
+    $.export("$summary", "Successfully extracted text from image");
     return response;
   },
 };
