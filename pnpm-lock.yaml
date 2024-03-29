@@ -2066,14 +2066,6 @@ importers:
       form-data: 4.0.0
       lodash.maxby: 4.6.0
 
-  components/discord_webhook:
-    specifiers:
-      '@pipedream/platform': ^1.4.0
-      form-data: ^4.0.0
-    dependencies:
-      '@pipedream/platform': 1.5.1
-      form-data: 4.0.0
-
   components/discourse:
     specifiers:
       '@pipedream/platform': ^1.4.0
@@ -5082,16 +5074,6 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
       mysql2: 3.9.2
-      mysql2-promise: 0.1.4
-      uuid: 8.3.2
-
-  components/mysql_ssl:
-    specifiers:
-      '@pipedream/platform': ^1.2.0
-      mysql2-promise: ^0.1.4
-      uuid: ^8.3.2
-    dependencies:
-      '@pipedream/platform': 1.5.1
       mysql2-promise: 0.1.4
       uuid: 8.3.2
 
@@ -8633,14 +8615,11 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
-  components/vercel:
+  components/vercel_token_auth:
     specifiers:
       '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-
-  components/vercel_token_auth:
-    specifiers: {}
+      '@pipedream/platform': 1.6.2
 
   components/verdict_as_a_service:
     specifiers:
