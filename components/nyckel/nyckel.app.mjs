@@ -43,21 +43,17 @@ export default {
     _baseUrl() {
       return "https://www.nyckel.com/v0.9/functions";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", data, headers, params, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, headers, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
           "Content-Type": "application/json",
         },
-        data,
-        params,
       });
     },
     async extractTextFromImageUrl({
@@ -65,7 +61,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/${functionId}/ocr`,
+        url: `/${functionId}/ocr`,
         data: {
           imageUrl,
         },
@@ -79,7 +75,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/${functionId}/ocr`,
+        url: `/${functionId}/ocr`,
         data: {
           imageData,
         },
@@ -96,7 +92,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/${functionId}/classify`,
+        url: `/${functionId}/classify`,
         data: {
           data,
           classifications,
@@ -108,7 +104,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/${functionId}/classify`,
+        url: `/${functionId}/classify`,
         data: {
           imageData,
         },
