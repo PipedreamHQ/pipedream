@@ -12,7 +12,7 @@ export default {
     imageUrl: {
       type: "string",
       label: "Image URL",
-      description: "The URL pointing to the image for OCR or classification",
+      description: "A URL pointing to the image.",
     },
     imageData: {
       type: "string",
@@ -25,7 +25,6 @@ export default {
       label: "Include Regions",
       description: "When set to true, return the regions of the image that contained text",
       optional: true,
-      default: false,
     },
     data: {
       type: "string",
@@ -41,7 +40,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://www.nyckel.com/v0.9/functions";
+      return "https://www.nyckel.com/v0.9";
     },
     async _makeRequest({
       $ = this, headers, ...otherOpts
@@ -52,39 +51,22 @@ export default {
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
         },
+      });
+    },
+    async listFunctions(args) {
+      return this._makeRequest({
+        url: "/functions",
+        ...args,
       });
     },
     async extractTextFromImageUrl({
-      functionId, imageUrl, includeRegions,
+      functionId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        url: `/${functionId}/ocr`,
-        data: {
-          imageUrl,
-        },
-        params: {
-          includeRegions,
-        },
-      });
-    },
-    async extractTextFromImageData({
-      functionId, imageData, includeRegions,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        url: `/${functionId}/ocr`,
-        data: {
-          imageData,
-        },
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        params: {
-          includeRegions,
-        },
+        url: `/functions/${functionId}/ocr`,
+        ...args,
       });
     },
     async classifyTextData({
@@ -92,7 +74,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        url: `/${functionId}/classify`,
+        url: `/functions/${functionId}/classify`,
         data: {
           data,
           classifications,
@@ -104,7 +86,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        url: `/${functionId}/classify`,
+        url: `/functions/${functionId}/classify`,
         data: {
           imageData,
         },

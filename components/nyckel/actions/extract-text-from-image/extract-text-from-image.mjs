@@ -8,15 +8,35 @@ export default {
   type: "action",
   props: {
     nyckel,
-    functionId: nyckel.propDefinitions.functionId,
-    imageUrl: nyckel.propDefinitions.imageUrl,
-    includeRegions: nyckel.propDefinitions.includeRegions,
+    functionId: {
+      propDefinition: [
+        nyckel,
+        "functionId",
+      ],
+    },
+    imageUrl: {
+      propDefinition: [
+        nyckel,
+        "imageUrl",
+      ],
+    },
+    includeRegions: {
+      propDefinition: [
+        nyckel,
+        "includeRegions",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.nyckel.extractTextFromImageUrl({
+      $,
       functionId: this.functionId,
-      imageUrl: this.imageUrl,
-      includeRegions: this.includeRegions,
+      data: {
+        data: this.imageUrl,
+      },
+      params: {
+        includeRegions: this.includeRegions,
+      },
     });
 
     $.export("$summary", "Successfully extracted text from the image");
