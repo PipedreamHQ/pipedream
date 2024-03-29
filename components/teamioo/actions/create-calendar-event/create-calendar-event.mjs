@@ -110,7 +110,7 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (this.taskType === "group") {
+    if (this.eventType === "group") {
       props.groupId = {
         type: "string",
         label: "Group ID",
