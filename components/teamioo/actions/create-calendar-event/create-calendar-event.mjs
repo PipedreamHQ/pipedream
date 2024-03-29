@@ -127,7 +127,7 @@ export default {
         },
       };
     }
-    if (this.taskType === "office") {
+    if (this.eventType === "office") {
       props.calEventType = {
         type: "string[]",
         label: "Cal Event Type",
