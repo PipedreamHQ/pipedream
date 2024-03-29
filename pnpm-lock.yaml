@@ -1418,6 +1418,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/cloud_convert:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/cloudcart:
     specifiers: {}
 
