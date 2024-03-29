@@ -87,7 +87,7 @@ export default {
       ],
       type: "string[]",
       label: "Connected Users",
-      description: "]Users connected to this event. Combines well with calEventType. Only for \"office\" events.",
+      description: "Users connected to this event. Combines well with calEventType. Only for \"office\" events.",
       optional: true,
     },
     taggedUsers: {
