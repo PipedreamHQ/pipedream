@@ -17,8 +17,6 @@ jobs:
   publish:
     name: pnpm publish
     runs-on: ubuntu-latest
-    concurrency:
-      group: publish-packages
     steps:
       - uses: actions/checkout@v4.1.2
       - uses: pnpm/action-setup@v3.0.0
