@@ -1,5 +1,5 @@
 # Overview
-By connecting your personal Gmail account to Pipedream, you'll be able to incorporate email into whatever you're building with any of the 900+ apps that are available on Pipedream.
+By connecting your personal Gmail account to Pipedream, you'll be able to incorporate email into whatever you're building with any of the thousands of apps that are available on Pipedream.
 
 # Getting Started
 
