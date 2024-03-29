@@ -1418,6 +1418,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/cloud_convert:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.2
+
   components/cloudcart:
     specifiers: {}
 
@@ -5069,12 +5075,12 @@ importers:
 
   components/mysql:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.2
       mysql2: ^3.9.2
       mysql2-promise: ^0.1.4
       uuid: ^8.3.2
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.2
       mysql2: 3.9.2
       mysql2-promise: 0.1.4
       uuid: 8.3.2
@@ -5088,9 +5094,6 @@ importers:
       '@pipedream/platform': 1.5.1
       mysql2-promise: 0.1.4
       uuid: 8.3.2
-
-  components/mysql_test:
-    specifiers: {}
 
   components/n8n_io:
     specifiers: {}

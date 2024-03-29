@@ -18,7 +18,7 @@ jobs:
     name: pnpm publish
     runs-on: ubuntu-latest
     concurrency:
-      group: publish-packages
+      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
       - uses: actions/checkout@v4.1.2
       - uses: pnpm/action-setup@v3.0.0
