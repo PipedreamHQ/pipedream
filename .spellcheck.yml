@@ -22,6 +22,7 @@ matrix:
       # ---
       - open: '(?s)^(?P<open> *\-{3})$'
         close: '^(?P=open)$'
+  glob_flags: N|G|B
   sources:
   - '**/*.md'
   default_encoding: utf-8
