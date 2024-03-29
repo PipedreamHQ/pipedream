@@ -10,13 +10,19 @@ export default {
   props: {
     app,
     apiKey: {
-      propDefinition: [app, "apiKey"],
+      propDefinition: [
+        app,
+        "apiKey",
+      ],
       description:
         "Subscribe to [API4AI Furniture and Household Items Recognition](https://rapidapi.com/api4ai-api4ai-default/api/furniture-and-household-items/pricing) on the RapidAPI hub to obtain an API Key.",
     },
     image: {
-      propDefinition: [app, "image"],
-    }
+      propDefinition: [
+        app,
+        "image",
+      ],
+    },
   },
   async run({ $ }) {
     // Initialize output.

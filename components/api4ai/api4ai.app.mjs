@@ -9,13 +9,13 @@ export default {
     apiKey: {
       type: "string",
       label: "API Key",
-      secret: true
+      secret: true,
     },
     image: {
       type: "string",
       label: "Image",
-      description: "Input image. Various types are accepted:\n  * a **path** to a file\n  * a **URL** to a file\n  * a file's content encoded as a **base64** string\n  * a file's content as a **Buffer** encoded in JSON\n  * a file's content as an **Array** of bytes"
-    }
+      description: "Input image. Various types are accepted:\n  * a **path** to a file\n  * a **URL** to a file\n  * a file's content encoded as a **base64** string\n  * a file's content as a **Buffer** encoded in JSON\n  * a file's content as an **Array** of bytes",
+    },
   },
   methods: {
     /**
@@ -24,7 +24,13 @@ export default {
      * @param {Object} $ - Pipedream.
      * @param {string} url - API Endpoint URL.
      * @param {string} apiKey - API Key.
-     * @param {*} image - Input image: path, URL, base64 string, Buffer, Buffer encoded in JSON, Array.
+     * @param {*} image - Input image.
+     *     Various types are accepted:
+     *       - a path to a file
+     *       - a URL to a file
+     *       - a file's content encoded as a base64 string
+     *       - a file's content as a Buffer encoded in JSON
+     *       - a file's content as an Array of bytes
      * @param {Object} params - Query parameters.
      * @returns Axios response.
      */
@@ -34,29 +40,29 @@ export default {
       const urlregex = /^(http|ftp)s?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
       const form = new FormData();
       if (urlregex.test(image)) {
-        console.log('Input image considered as URL');
+        console.log("Input image considered as URL");
         form.append("url", image);
       }
       else {
         let buf;
         if (image instanceof Buffer) {
-          console.log('Input image considered as Buffer');
-          buf = image; 
+          console.log("Input image considered as Buffer");
+          buf = image;
         }
-        else if ((image instanceof Object) && image.type === 'Buffer') {
-          console.log('Input image considered as JSON object with Buffer');
+        else if ((image instanceof Object) && image.type === "Buffer") {
+          console.log("Input image considered as JSON object with Buffer");
           buf = Buffer.from(image);
         }
         else if (image instanceof Array) {
-          console.log('Input image considered as Array');
+          console.log("Input image considered as Array");
           buf = Buffer.from(image);
         }
         else if (base64regex.test(image)) {
-          console.log('Input image considered as base64 string');
+          console.log("Input image considered as base64 string");
           buf = Buffer.from(image, "base64");
         }
         else {
-          console.log('Input image considered as file path');
+          console.log("Input image considered as file path");
           buf = fs.readFileSync(image);
         }
         form.append("image", buf);
@@ -72,14 +78,14 @@ export default {
       // Perfrom POST reqest.
       const response = await axios($, {
         url,
-        method: 'post',
+        method: "post",
         data: form,
         headers,
-        params
+        params,
       });
 
       // Return response.
       return response;
-    }
-  }
+    },
+  },
 };

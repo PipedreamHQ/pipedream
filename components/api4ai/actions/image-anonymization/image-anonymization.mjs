@@ -1,5 +1,7 @@
 import app from "../../api4ai.app.mjs";
-import { retryWithExponentialBackoff, representFile } from "../../common/utils.mjs";
+import {
+  retryWithExponentialBackoff, representFile,
+} from "../../common/utils.mjs";
 
 export default {
   name: "Image Anonymization",
@@ -10,12 +12,18 @@ export default {
   props: {
     app,
     apiKey: {
-      propDefinition: [app, "apiKey"],
+      propDefinition: [
+        app,
+        "apiKey",
+      ],
       description:
         "Subscribe to [API4AI Image Anonymization](https://rapidapi.com/api4ai-api4ai-default/api/image-anonymization/pricing) on the RapidAPI hub to obtain an API Key.",
     },
     image: {
-      propDefinition: [app, "image"],
+      propDefinition: [
+        app,
+        "image",
+      ],
     },
     representation: {
       type: "string",
@@ -29,8 +37,8 @@ export default {
         "URL to file",
         "Base64 string",
         "JSON Buffer",
-        "Array"
-      ]
+        "Array",
+      ],
     },
     mode: {
       type: "string",
@@ -41,9 +49,9 @@ export default {
       options: [
         "Everything",
         "Faces only",
-        "Licence plates only"
-      ]
-    }
+        "Licence plates only",
+      ],
+    },
   },
   async run({ $ }) {
     // Initialize output.
@@ -62,7 +70,9 @@ export default {
     else if (this.mode == "Licence plates only") {
       params.mode = "hide-clp";
     }
-    params.representation = this.representation == "URL to file" ? "url" : "base64";
+    params.representation = this.representation == "URL to file"
+      ? "url"
+      : "base64";
 
     // Perform request and parse results.
     const cb = () =>
@@ -84,10 +94,13 @@ export default {
           x: o.box[0],
           y: o.box[1],
           w: o.box[2],
-          h: o.box[3]
+          h: o.box[3],
         };
         const cls = Object.keys(o.entities[0].classes)[0];
-        objects.push({ class: cls, box: box });
+        objects.push({
+          class: cls,
+          box: box,
+        });
       });
       format = response.results[0].entities[0].format;
       result = representFile(result, format, this.representation);
@@ -104,5 +117,5 @@ export default {
     $.export("objects", objects);
     $.export("width", width);
     $.export("height", height);
-  }
+  },
 };

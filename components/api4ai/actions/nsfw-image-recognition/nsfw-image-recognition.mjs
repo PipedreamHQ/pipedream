@@ -11,12 +11,18 @@ export default {
   props: {
     app,
     apiKey: {
-      propDefinition: [app, "apiKey"],
+      propDefinition: [
+        app,
+        "apiKey",
+      ],
       description:
-        "Subscribe to [API4AI NSFW](https://rapidapi.com/api4ai-api4ai-default/api/nsfw3/pricing) on the RapidAPI hub to obtain an API Key."
+        "Subscribe to [API4AI NSFW](https://rapidapi.com/api4ai-api4ai-default/api/nsfw3/pricing) on the RapidAPI hub to obtain an API Key.",
     },
     image: {
-      propDefinition: [app, "image"]
+      propDefinition: [
+        app,
+        "image",
+      ],
     },
     strictness: {
       type: "string",
@@ -24,8 +30,8 @@ export default {
       description:
         "Algorithm strictness. Use float values in range from 0.0 (less strict) to 1.0 (strict).",
       optional: true,
-      default: "1.0"
-    }
+      default: "1.0",
+    },
   },
   async run({ $ }) {
     // Initialize output.
@@ -39,7 +45,9 @@ export default {
         "https://nsfw3.p.rapidapi.com/v1/results",
         this.apiKey,
         this.image,
-        { strictness: this.strictness },
+        {
+          strictness: this.strictness,
+        },
       );
     const response = await retryWithExponentialBackoff(cb);
     const isOk = response?.results?.[0]?.status?.code === "ok";

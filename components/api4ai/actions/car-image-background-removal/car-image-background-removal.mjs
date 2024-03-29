@@ -1,5 +1,7 @@
 import app from "../../api4ai.app.mjs";
-import { retryWithExponentialBackoff, representFile } from "../../common/utils.mjs";
+import {
+  retryWithExponentialBackoff, representFile,
+} from "../../common/utils.mjs";
 
 export default {
   name: "Car Image Background Removal",
@@ -11,12 +13,18 @@ export default {
   props: {
     app,
     apiKey: {
-      propDefinition: [app, "apiKey"],
+      propDefinition: [
+        app,
+        "apiKey",
+      ],
       description:
-        "Subscribe to [API4AI Cars Image Background Removal](https://rapidapi.com/api4ai-api4ai-default/api/cars-image-background-removal/pricing) on the RapidAPI hub to obtain an API Key."
+        "Subscribe to [API4AI Cars Image Background Removal](https://rapidapi.com/api4ai-api4ai-default/api/cars-image-background-removal/pricing) on the RapidAPI hub to obtain an API Key.",
     },
     image: {
-      propDefinition: [app, "image"]
+      propDefinition: [
+        app,
+        "image",
+      ],
     },
     mask: {
       type: "boolean",
@@ -24,7 +32,7 @@ export default {
       description:
         "Return the foreground object mask instead of the image with the background removed.",
       default: false,
-      optional: true
+      optional: true,
     },
     representation: {
       type: "string",
@@ -38,22 +46,22 @@ export default {
         "URL to file",
         "Base64 string",
         "JSON Buffer",
-        "Array"
-      ]
+        "Array",
+      ],
     },
     shadow: {
       type: "boolean",
       label: "Draw a shadow",
       description: "Draw a shadow underneath the car.",
       default: true,
-      optional: true
+      optional: true,
     },
     hideclp: {
       type: "boolean",
       label: "Hide car license plates",
       description: "Hide car license plates.",
       default: false,
-      optional: true
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -75,7 +83,9 @@ export default {
         mode += "-hideclp";
       }
     }
-    const representation = this.base64 ? "base64" : "url";
+    const representation = this.base64
+      ? "base64"
+      : "url";
 
     // Perform request and parse results.
     const cb = () =>
@@ -84,7 +94,10 @@ export default {
         "https://cars-image-background-removal.p.rapidapi.com/v1/results",
         this.apiKey,
         this.image,
-        { mode, representation },
+        {
+          mode,
+          representation,
+        },
       );
     const response = await retryWithExponentialBackoff(cb);
     const isOk = response?.results?.[0]?.status?.code === "ok";
@@ -97,10 +110,13 @@ export default {
           x: o.box[0],
           y: o.box[1],
           w: o.box[2],
-          h: o.box[3]
+          h: o.box[3],
         };
         const cls = Object.keys(o.entities[0].classes)[0];
-        objects.push({class: cls, box: box});
+        objects.push({
+          class: cls,
+          box: box,
+        });
       });
       const format = response.results[0].entities[0].format;
       result = representFile(result, format, this.representation);
