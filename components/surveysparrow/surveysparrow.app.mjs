@@ -9,10 +9,13 @@ export default {
       type: "string",
       label: "Survey",
       description: "Identifier of a survey",
-      async options({ page }) {
+      async options({
+        page, surveyType,
+      }) {
         const { data: surveys } = await this.listSurveys({
           params: {
             page: page + 1,
+            survey_type: surveyType,
           },
         });
         return surveys?.map(({
@@ -53,6 +56,25 @@ export default {
       label: "Welcome Text",
       description: "Welcome Text of the survey",
       optional: true,
+    },
+    themeId: {
+      type: "string",
+      label: "Theme Id",
+      description: "Id of the email theme.",
+      async options({ page }) {
+        const { data } = await this.listThemes({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
@@ -102,6 +124,12 @@ export default {
         ...args,
       });
     },
+    listThemes(args = {}) {
+      return this._makeRequest({
+        path: "/email_themes",
+        ...args,
+      });
+    },
     listResponses(args = {}) {
       return this._makeRequest({
         path: "/responses",
@@ -130,6 +158,54 @@ export default {
         method: "PATCH",
         ...args,
       });
+    },
+    sendEmailShareTemplate({
+      savedEmailTemplateName,
+      recipientEmailAddress,
+    }) {
+      return this._makeRequest({
+        path: "/share/email",
+        method: "POST",
+        data: {
+          template_name: savedEmailTemplateName,
+          recipient_email: recipientEmailAddress,
+        },
+      });
+    },
+    createChannel(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/channels",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          data,
+          has_next_page: hasNext,
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = hasNext;
+
+      } while (hasMore);
     },
   },
 };
