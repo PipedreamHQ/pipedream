@@ -8,96 +8,64 @@ export default {
       type: "string",
       label: "SKU Code",
       description: "The unique identifier for the product",
+      async options() {
+        const response = await this.getProducts({});
+        const products = response.Items;
+        return products.map(({ SkuCode }) => ({
+          value: SkuCode,
+        }));
+      },
     },
     sendValue: {
-      type: "number",
+      type: "string",
       label: "Send Value",
-      description: "The monetary value to send",
+      description: "The monetary value to send, i.e `10.5`",
     },
-    receiveValue: {
-      type: "number",
-      label: "Receive Value",
-      description: "The expected monetary value to receive",
-    },
-    accountNumber: {
+    batchItemRef: {
       type: "string",
-      label: "Account Number",
-      description: "The account number to check balance for",
-    },
-    productProviderCode: {
-      type: "string",
-      label: "Provider Code",
-      description: "The unique code for the provider.",
-    },
-    regionCode: {
-      type: "string",
-      label: "Region Code",
-      description: "The unique code for the region.",
-      optional: true,
-    },
-    customerReference: {
-      type: "string",
-      label: "Customer Reference",
-      description: "Your customer reference for the transaction.",
-      optional: true,
-    },
-    distributorRef: {
-      type: "string",
-      label: "Distributor Reference",
-      description: "Your distributor reference for the transaction.",
+      label: "Item Reference",
+      description: "A unique reference for an item",
       optional: true,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://www.dingconnect.com/api/V1";
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        headers,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          "api_key": `${this.$auth.api_key}`,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async getProducts(opts = {}) {
+    async getProducts(args = {}) {
       return this._makeRequest({
         path: "/GetProducts",
-        ...opts,
+        ...args,
       });
     },
-    async estimatePrices(opts = {}) {
-      const {
-        productProviderCode, sendValue, receiveValue, customerReference, distributorRef, ...otherOpts
-      } = opts;
+    async estimatePrices(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/EstimatePrices",
-        data: {
-          ProviderCode: productProviderCode,
-          SendValue: sendValue,
-          ReceiveValue: receiveValue,
-          CustomerReference: customerReference,
-          DistributorRef: distributorRef,
-        },
-        ...otherOpts,
+        ...args,
       });
     },
-    async getBalance(opts = {}) {
+    async getBalance(args = {}) {
       return this._makeRequest({
         path: "/GetBalance",
-        ...opts,
+        ...args,
       });
     },
   },
-  version: `0.0.${new Date().getTime()}`,
 };

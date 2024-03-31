@@ -1,18 +1,21 @@
-import dingconnect from "../../dingconnect.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../dingconnect.app.mjs";
 
 export default {
   key: "dingconnect-get-products",
   name: "Get Products",
   description: "Retrieves a list of products from DingConnect. [See the documentation](https://www.dingconnect.com/api#operation/getproducts)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    dingconnect,
+    app,
   },
   async run({ $ }) {
-    const response = await this.dingconnect.getProducts();
-    $.export("$summary", "Successfully retrieved the list of products");
+    const response = await this.app.getProducts({
+      $,
+    });
+
+    $.export("$summary", `Successfully retrieved ${response.Items.length} products`);
+
     return response;
   },
 };

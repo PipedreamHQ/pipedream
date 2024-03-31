@@ -1,76 +1,46 @@
-import dingconnect from "../../dingconnect.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../dingconnect.app.mjs";
 
 export default {
   key: "dingconnect-estimate-prices",
   name: "Estimate Prices",
-  description: "Estimates prices for send or receive values using the DingConnect API. [See the documentation](https://www.dingconnect.com/api#operation/estimateprices)",
-  version: "0.0.{{ts}}",
+  description: "Estimates prices send values using the DingConnect API. [See the documentation](https://www.dingconnect.com/api#operation/estimateprices)",
+  version: "0.0.1",
   type: "action",
   props: {
-    dingconnect,
+    app,
     skuCode: {
       propDefinition: [
-        dingconnect,
+        app,
         "skuCode",
       ],
     },
     sendValue: {
       propDefinition: [
-        dingconnect,
+        app,
         "sendValue",
       ],
     },
-    receiveValue: {
+    batchItemRef: {
       propDefinition: [
-        dingconnect,
-        "receiveValue",
-      ],
-    },
-    accountNumber: {
-      propDefinition: [
-        dingconnect,
-        "accountNumber",
-      ],
-    },
-    productProviderCode: {
-      propDefinition: [
-        dingconnect,
-        "productProviderCode",
-      ],
-    },
-    regionCode: {
-      propDefinition: [
-        dingconnect,
-        "regionCode",
-      ],
-    },
-    customerReference: {
-      propDefinition: [
-        dingconnect,
-        "customerReference",
-      ],
-    },
-    distributorRef: {
-      propDefinition: [
-        dingconnect,
-        "distributorRef",
+        app,
+        "batchItemRef",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.dingconnect.estimatePrices({
-      skuCode: this.skuCode,
-      sendValue: this.sendValue,
-      receiveValue: this.receiveValue,
-      accountNumber: this.accountNumber,
-      productProviderCode: this.productProviderCode,
-      regionCode: this.regionCode,
-      customerReference: this.customerReference,
-      distributorRef: this.distributorRef,
+    const response = await this.app.estimatePrices({
+      $,
+      data: [
+        {
+          sendValue: this.sendValue,
+          skuCode: this.skuCode,
+          BatchItemRef: this.batchItemRef,
+        },
+      ],
     });
 
-    $.export("$summary", `Estimated prices for provider ${this.productProviderCode}`);
+    $.export("$summary", "Successfully retrieved the estimated price");
+
     return response;
   },
 };

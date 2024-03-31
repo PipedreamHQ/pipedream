@@ -2015,7 +2015,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dingconnect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/discogs:
     specifiers:
@@ -13855,7 +13858,7 @@ packages:
     resolution: {integrity: sha512-r0H0A1HsSEDVTPVSvK4XXcExEeUnkpIqLMNVM2aLh1bwdOblTS1sxLZ9mz/7DwAr8wRNCoW6zlXZBEhexIyyAg==}
     dependencies:
       '@googleapis/drive': 2.4.0
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
       cron-parser: 4.9.0
       lodash: 4.17.21
       mime-db: 1.52.0
@@ -13916,6 +13919,17 @@ packages:
 
   /@pipedream/platform/1.6.0:
     resolution: {integrity: sha512-/qP5qEdY+FD0ylBDwfqC+Uz0J9zNWQRKhvQ30M+hAB1VWTcZZkUng+Df+ZMooUqZBT7jnC8t6fk5eHkSSeHukw==}
+    dependencies:
+      axios: 1.6.5
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.6.2:
+    resolution: {integrity: sha512-NESkp7r0znsdvvJTvKX9xw2MKyrnByAIY/ikS/aUuZJb/A8FHVgN4ynkAf7sEz25BjziaG4+8A8w9KDq8ZK1LQ==}
     dependencies:
       axios: 1.6.5
       fp-ts: 2.16.1

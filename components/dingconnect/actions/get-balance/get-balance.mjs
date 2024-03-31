@@ -1,18 +1,21 @@
-import dingconnect from "../../dingconnect.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../dingconnect.app.mjs";
 
 export default {
   key: "dingconnect-get-balance",
   name: "Get Balance",
   description: "Get the current agent balance from DingConnect. [See the documentation](https://www.dingconnect.com/api#operation/getbalance)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    dingconnect,
+    app,
   },
   async run({ $ }) {
-    const response = await this.dingconnect.getBalance();
-    $.export("$summary", "Retrieved the current agent balance successfully");
+    const response = await this.app.getBalance({
+      $,
+    });
+
+    $.export("$summary", "Successfully retrieved the current agent balance");
+
     return response;
   },
 };
