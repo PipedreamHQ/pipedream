@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/mysql",
-  "version": "1.0.0",
-  "description": "Pipedream Mysql Components",
+  "version": "1.0.1",
+  "description": "Pipedream MySQL Components",
   "main": "mysql.app.mjs",
   "keywords": [
     "pipedream",
@@ -12,7 +12,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
+    "@pipedream/platform": "^1.6.2",
     "mysql2": "^3.9.2",
     "mysql2-promise": "^0.1.4",
     "uuid": "^8.3.2"

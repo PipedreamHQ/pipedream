@@ -14,12 +14,6 @@ export default {
       label: "Polling Interval",
       description: "Pipedream will poll the API on this schedule",
     },
-    rejectUnauthorized: {
-      propDefinition: [
-        postgresql,
-        "rejectUnauthorized",
-      ],
-    },
   },
   methods: {
     _getPreviousValues() {
@@ -63,14 +57,12 @@ export default {
         table,
         column,
         lastResult,
-        this.rejectUnauthorized,
         schema,
       );
       this.emitRows(rows, column);
     },
-    async initialRows(schema, table, column, limit, rejectUnauthorized) {
-      const rows = await this.postgresql
-        .getInitialRows(schema, table, column, limit, rejectUnauthorized);
+    async initialRows(schema, table, column, limit) {
+      const rows = await this.postgresql.getInitialRows(schema, table, column, limit);
       this.emitRows(rows, column);
     },
     emitRows(rows, column) {
@@ -82,7 +74,7 @@ export default {
     },
     async isColumnUnique(schema, table, column) {
       const query = format("select count(*) <> count(distinct %I) as duplicate_flag from %I.%I", column, schema, table);
-      const hasDuplicates = await this.postgresql.executeQuery(query, this.rejectUnauthorized);
+      const hasDuplicates = await this.postgresql.executeQuery(query);
       const { duplicate_flag: duplicateFlag } = hasDuplicates[0];
       return !duplicateFlag;
     },
