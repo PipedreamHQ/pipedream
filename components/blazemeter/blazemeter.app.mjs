@@ -4,39 +4,37 @@ export default {
   type: "app",
   app: "blazemeter",
   propDefinitions: {
+    accountId: {
+      type: "string",
+      label: "Account ID",
+      description: "The ID of the account",
+      async options() {
+        const response = await this.listAccounts({});
+        const accountIDs = response.result;
+        return accountIDs.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
+        }));
+      },
+    },
     workspaceId: {
       type: "string",
       label: "Workspace ID",
       description: "The ID of the workspace to retrieve projects from.",
-      async options({ prevContext }) {
-        const {
-          workspaces, next_page,
-        } = await this.listWorkspaces({
-          page: prevContext.page || 1,
+      async options({ accountId }) {
+        const { result: resources } = await this.listWorkspaces({
+          params: {
+            accountId,
+          },
         });
-        return {
-          options: workspaces.map((workspace) => ({
-            label: workspace.name,
-            value: workspace.id.toString(),
-          })),
-          context: {
-            page: next_page,
-          },
-        };
-      },
-    },
-    accountId: {
-      type: "string",
-      label: "Account ID",
-      description: "The ID of the account to retrieve workspaces from.",
-      async options() {
-        const { accountId } = await this.getAccount();
-        return [
-          {
-            label: accountId.toString(),
-            value: accountId.toString(),
-          },
-        ];
+        return resources.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
+        }));
       },
     },
     projectName: {
@@ -57,48 +55,47 @@ export default {
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        auth,
+        params,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Basic ${Buffer.from(`${this.$auth.api_key_id}:${this.$auth.api_key_secret}`).toString("base64")}`,
+        params,
+        auth: {
+          ...auth,
+          username: `${this.$auth.api_key}`,
+          password: `${this.$auth.api_secret}`,
         },
       });
     },
-    async listProjects({ workspaceId }) {
+    async listProjects(args = {}) {
       return this._makeRequest({
-        path: `/projects?workspaceId=${workspaceId}`,
+        path: "/projects",
+        ...args,
       });
     },
-    async listWorkspaces({ accountId }) {
+    async listWorkspaces(args = {}) {
       return this._makeRequest({
-        path: `/workspaces?accountId=${accountId}`,
+        path: "/workspaces",
+        ...args,
       });
     },
-    async createProject({
-      name, description, workspaceId,
-    }) {
+    async createProject(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/projects",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          name,
-          description,
-          workspaceId,
-        },
+        ...args,
       });
     },
-    async getAccount() {
-      // Placeholder method to simulate retrieving account information.
-      // Implement the actual logic to retrieve account ID as required.
+    async listAccounts(args = {}) {
+      return this._makeRequest({
+        path: "/accounts",
+        ...args,
+      });
     },
   },
-  version: "0.0.{{ts}}",
 };
