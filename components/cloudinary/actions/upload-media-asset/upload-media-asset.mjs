@@ -4,7 +4,7 @@ export default {
   key: "cloudinary-upload-media-asset",
   name: "Upload Media Asset",
   description: "Uploads media assets in the cloud such as images or videos, and allows configuration options to be set on the upload. [See the documentation](https://cloudinary.com/documentation/image_upload_api_reference#upload_method)",
-  version: "0.5.2",
+  version: "0.5.3",
   type: "action",
   props: {
     cloudinary,
@@ -319,12 +319,14 @@ export default {
       return_delete_token: this.returnDeleteToken,
     };
 
-    const response = await this.cloudinary.uploadMedia(this.file, options);
-
-    if (response) {
-      $.export("$summary", "Successfully uploaded media asset");
+    try {
+      const response = await this.cloudinary.uploadMedia(this.file, options);
+      if (response) {
+        $.export("$summary", "Successfully uploaded media asset");
+      }
+      return response;
+    } catch (e) {
+      throw new Error(`${e.name} - ${e.http_code} - ${e.message}`);
     }
-
-    return response;
   },
 };

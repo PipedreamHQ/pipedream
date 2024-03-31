@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/speechace",
+  "version": "0.0.1",
+  "description": "Pipedream Speechace Components",
+  "main": "speechace.app.mjs",
+  "keywords": [
+    "pipedream",
+    "speechace"
+  ],
+  "homepage": "https://pipedream.com/apps/speechace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

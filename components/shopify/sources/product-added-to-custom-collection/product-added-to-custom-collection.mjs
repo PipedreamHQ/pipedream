@@ -6,7 +6,7 @@ export default {
   key: "shopify-product-added-to-custom-collection",
   name: "New product added to custom collection",
   description: "Emit new event each time a product is added to a custom collection.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {

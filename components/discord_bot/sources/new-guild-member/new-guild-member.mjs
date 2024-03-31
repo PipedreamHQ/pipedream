@@ -8,7 +8,7 @@ export default {
   description: "Emit new event for every member added to a guild. [See docs here](https://discord.com/developers/docs/resources/guild#list-guild-members)",
   type: "source",
   dedupe: "unique",
-  version: "0.1.3",
+  version: "0.1.4",
   props: {
     ...common.props,
     db: "$.service.db",

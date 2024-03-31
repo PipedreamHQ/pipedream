@@ -229,6 +229,21 @@ export default {
       return await this._makeRequest($, opts);
     },
     /**
+     * Lists formulas in a doc according to parameters
+     * @param {object} $
+     * @param {string} docId
+     * @param {object} [params]
+     * @param {string} [params.sortBy]
+     * @return {object[]} List of formulas
+     */
+    async listFormulas($, docId, params = {}) {
+      let opts = {
+        path: `/docs/${docId}/formulas`,
+        params,
+      };
+      return await this._makeRequest($, opts);
+    },
+    /**
      * Fetch a single row by name or ID
      * @param {object}  $
      * @param {string}  docId

@@ -1,12 +1,12 @@
-import coda from "../../coda.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import coda from "../../coda.app.mjs";
 
 export default {
   key: "coda-row-created",
   name: "New Row Created",
   description: "Emit new event for every created / updated row in a table. [See the documentation.](https://coda.io/developers/apis/v1#tag/Rows/operation/listRows)",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     coda,

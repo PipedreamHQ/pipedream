@@ -193,25 +193,6 @@ Additionally, any change to dedicated worker configuration, (including worklow d
 />
 <br />
 
-## Attachments
-
-Sometimes, you'll need to reference static files in your workflow, like a CSV. Files uploaded in the **Attachments** section can be referenced in your workflow under the `steps.trigger.context.attachments` object.
-
-For example, if you upload a file named `test.csv`, Pipedream will expose the _file path_ of the uploaded file at `steps.trigger.context.attachments["test.csv"]`. You can read the contents of the file using `fs.readFileSync`:
-
-```javascript
-import fs from "fs";
-
-export default defineComponent({
-  async run({ steps, $ }) {
-    const fileData = fs
-      .readFileSync(steps.trigger.context.attachments["test.csv"])
-      .toString();
-    console.log(fileData);
-  },
-});
-```
-
 ### Limits
 
 Each attachment is limited to `25MB` in size. The total size of all attachments within a single workflow cannot exceed `200MB`.
