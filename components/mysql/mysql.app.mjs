@@ -1,4 +1,5 @@
 import mysqlClient from "mysql2/promise";
+import { sqlProxy } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -95,7 +96,15 @@ export default {
     },
   },
   methods: {
-    getConfig() {
+    ...sqlProxy.methods,
+    /**
+     * A helper method to get the configuration object that's directly fed to
+     * the MySQL client constructor. Used by other features (like the SQL proxy)
+     * to initialize their clients in an identical way.
+     *
+     * @returns {object} - Configuration object for the MySQL client
+     */
+    getClientConfiguration() {
       const {
         host,
         port,
@@ -105,6 +114,7 @@ export default {
         ca,
         key,
         cert,
+        reject_unauthorized: rejectUnauthorized = true,
       } = this.$auth;
 
       return {
@@ -113,24 +123,44 @@ export default {
         user: username,
         password,
         database,
-        ...(ca && cert && key && {
-          ssl: {
-            rejectUnauthorized: true,
-            ca,
-            cert,
-            key,
-          },
-        }),
+        ssl: {
+          rejectUnauthorized,
+          ca,
+          cert,
+          key,
+        },
       };
     },
-    async closeConnection(connection) {
-      await connection.end();
-      return new Promise((resolve) => {
-        connection.connection.stream.on("close", resolve);
-      });
+    /**
+     * Adapts the arguments to `executeQuery` so that they can be consumed by
+     * the SQL proxy (when applicable). Note that this method is not intended to
+     * be used by the component directly.
+     * @param {object} preparedStatement The prepared statement to be sent to the DB.
+     * @param {string} preparedStatement.sql The prepared SQL query to be executed.
+     * @param {string[]} preparedStatement.values The values to replace in the SQL query.
+     * @returns {object} - The adapted query and parameters.
+     */
+    proxyAdapter(preparedStatement = {}) {
+      const {
+        sql: query = "",
+        values: params = [],
+      } = preparedStatement;
+      return {
+        query,
+        params,
+      };
     },
+    /**
+     * Executes a query against the MySQL database. This method takes care of
+     * connecting to the database, executing the query, and closing the
+     * connection.
+     * @param {object} preparedStatement - The prepared statement to be sent to the DB.
+     * @param {string} preparedStatement.sql - The prepared SQL query to be executed.
+     * @param {string[]} preparedStatement.values - The values to replace in the SQL query.
+     * @returns {object[]} - The rows returned by the DB as a result of the query.
+     */
     async executeQuery(preparedStatement = {}) {
-      const config = this.getConfig();
+      const config = this.getClientConfiguration();
       let connection;
       try {
         connection = await mysqlClient.createConnection(config);
@@ -148,6 +178,12 @@ export default {
           await this.closeConnection(connection);
         }
       }
+    },
+    async closeConnection(connection) {
+      await connection.end();
+      return new Promise((resolve) => {
+        connection.connection.stream.on("close", resolve);
+      });
     },
     async listStoredProcedures(args = {}) {
       const procedures = await this.executeQuery({
@@ -176,7 +212,7 @@ export default {
     } = {}) {
       return this.executeQuery({
         sql: `
-          SELECT * FROM INFORMATION_SCHEMA.TABLES 
+          SELECT * FROM INFORMATION_SCHEMA.TABLES
             WHERE TABLE_TYPE = 'BASE TABLE'
             AND CREATE_TIME > ?
             ORDER BY CREATE_TIME DESC
@@ -192,7 +228,7 @@ export default {
     } = {}) {
       return this.executeQuery({
         sql: `
-          SELECT * FROM INFORMATION_SCHEMA.TABLES 
+          SELECT * FROM INFORMATION_SCHEMA.TABLES
             WHERE TABLE_TYPE = 'BASE TABLE'
             ORDER BY CREATE_TIME DESC
             LIMIT ${maxCount}
@@ -236,7 +272,7 @@ export default {
       return this.executeQuery({
         sql: `
           SELECT * FROM \`${table}\`
-          WHERE \`${column}\` > ? 
+          WHERE \`${column}\` > ?
           ORDER BY \`${column}\` DESC
         `,
         values: [
