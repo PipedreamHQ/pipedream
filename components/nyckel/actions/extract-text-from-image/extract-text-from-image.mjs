@@ -1,6 +1,8 @@
 import nyckel from "../../nyckel.app.mjs";
+import commonImage from "../common/common-image.mjs";
 
 export default {
+  ...commonImage,
   key: "nyckel-extract-text-from-image",
   name: "Extract Text from Image",
   description: "Extracts text from an image URL. [See the documentation](https://www.nyckel.com/docs#ocr)",
@@ -14,12 +16,7 @@ export default {
         "functionId",
       ],
     },
-    imageUrl: {
-      propDefinition: [
-        nyckel,
-        "imageUrl",
-      ],
-    },
+    ...commonImage.props,
     includeRegions: {
       propDefinition: [
         nyckel,
@@ -31,9 +28,7 @@ export default {
     const response = await this.nyckel.extractTextFromImageUrl({
       $,
       functionId: this.functionId,
-      data: {
-        data: this.imageUrl,
-      },
+      ...this.getImageData(),
       params: {
         includeRegions: this.includeRegions,
       },

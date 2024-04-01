@@ -27,6 +27,11 @@ export default {
         };
       },
     },
+    imageOrUrl: {
+      type: "string",
+      label: "Image Path or URL",
+      description: "The path to an image file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). Alternatively, you can pass the direct URL to a file.",
+    },
     imageUrl: {
       type: "string",
       label: "Image URL",
