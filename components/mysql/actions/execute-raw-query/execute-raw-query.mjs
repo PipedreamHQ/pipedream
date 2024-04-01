@@ -5,7 +5,7 @@ export default {
   name: "Execute Raw Query",
   description: "Find row(s) via a custom raw query. [See the documentation](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "action",
-  version: "2.0.0",
+  version: "1.0.0",
   props: {
     mysql,
     sql: {
