@@ -19,8 +19,8 @@ module.exports = withNextra({
         pathname: "**",
       },
     ],
-    // loader: 'custom',
-    // loaderFile: './utils/imageLoader.js',
+    loader: "custom",
+    loaderFile: "./utils/imageLoader.js",
   },
   env: {
     PIPEDREAM_NODE_VERSION: "20",
