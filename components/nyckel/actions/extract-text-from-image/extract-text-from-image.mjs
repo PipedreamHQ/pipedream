@@ -1,5 +1,5 @@
 import nyckel from "../../nyckel.app.mjs";
-import commonImage from "../common/common-image.mjs";
+import commonImage from "../../common/common-image.mjs";
 
 export default {
   ...commonImage,

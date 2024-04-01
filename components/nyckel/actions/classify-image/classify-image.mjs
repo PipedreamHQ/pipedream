@@ -1,6 +1,8 @@
 import nyckel from "../../nyckel.app.mjs";
+import commonImage from "../../common/common-image.mjs";
 
 export default {
+  ...commonImage,
   key: "nyckel-classify-image",
   name: "Classify Image",
   description: "Classifies image data based on pre-trained classifiers in Nyckel. Requires image data as input, with optional specifications for classifications to focus on. [See the documentation](https://www.nyckel.com/docs)",
@@ -14,12 +16,7 @@ export default {
         "functionId",
       ],
     },
-    imagePathOrUrl: {
-      propDefinition: [
-        nyckel,
-        "imageUrl",
-      ],
-    },
+    ...commonImage.props,
     imageData: {
       ...nyckel.propDefinitions.imageData,
       optional: true,
