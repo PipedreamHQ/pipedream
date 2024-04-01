@@ -12,6 +12,10 @@ module.exports = withNextra({
         protocol: "https",
         hostname: "res.cloudinary.com",
       },
+      {
+        protocol: "https",
+        hostname: "pipedream.com",
+      },
     ],
   },
   env: {
